@@ -18,8 +18,8 @@ import (
 
 type errorTypeEnum string
 
-var serviceErrorCheck = func(err error) (failure oci_common.ServiceErrorRichInfo, ok bool) {
-	return oci_common.IsServiceErrorRichInfo(err)
+var serviceErrorCheck = func(err error) (failure oci_common.ServiceErrorLocalizationMessage, ok bool) {
+	return oci_common.IsServiceErrorLocalizationMessage(err)
 }
 
 const (
@@ -30,19 +30,22 @@ const (
 )
 
 type customError struct {
-	TypeOfError   errorTypeEnum
-	ErrorCode     int
-	ErrorCodeName string
-	Service       string
-	Message       string
-	OpcRequestID  string
-	ResourceOCID  string
-	OperationName string
-	RequestTarget string
-	Suggestion    string
-	VersionError  string
-	ResourceDocs  string
-	SdkApiDocs    string
+	TypeOfError             errorTypeEnum
+	ErrorCode               int
+	ErrorCodeName           string
+	Service                 string
+	Message                 string
+	OriginalMessage         string
+	OriginalMessageTemplate string
+	MessageArgument         map[string]string
+	OpcRequestID            string
+	ResourceOCID            string
+	OperationName           string
+	RequestTarget           string
+	Suggestion              string
+	VersionError            string
+	ResourceDocs            string
+	SdkApiDocs              string
 }
 
 // Create new error format for Terraform output
@@ -53,16 +56,19 @@ func newCustomError(sync interface{}, err error) error {
 	// Service error
 	if failure, isServiceError := serviceErrorCheck(err); isServiceError {
 		tfError = customError{
-			TypeOfError:   ServiceError,
-			ErrorCode:     failure.GetHTTPStatusCode(),
-			ErrorCodeName: failure.GetCode(),
-			Message:       failure.GetMessage(),
-			OpcRequestID:  failure.GetOpcRequestID(),
-			OperationName: failure.GetOperationName(),
-			RequestTarget: failure.GetRequestTarget(),
-			Service:       getServiceName(sync),
-			ResourceDocs:  getResourceDocsURL(sync),
-			SdkApiDocs:    failure.GetOperationReferenceLink(),
+			TypeOfError:             ServiceError,
+			ErrorCode:               failure.GetHTTPStatusCode(),
+			ErrorCodeName:           failure.GetCode(),
+			Message:                 failure.GetMessage(),
+			OriginalMessage:         failure.GetOriginalMessage(),
+			OriginalMessageTemplate: failure.GetOriginalMessageTemplate(),
+			MessageArgument:         failure.GetMessageArgument(),
+			OpcRequestID:            failure.GetOpcRequestID(),
+			OperationName:           failure.GetOperationName(),
+			RequestTarget:           failure.GetRequestTarget(),
+			Service:                 getServiceName(sync),
+			ResourceDocs:            getResourceDocsURL(sync),
+			SdkApiDocs:              failure.GetOperationReferenceLink(),
 		}
 	} else if strings.Contains(errorMessage, "timeout while waiting for state") {
 		// Timeout error
@@ -102,8 +108,10 @@ func newCustomError(sync interface{}, err error) error {
 func (tfE customError) Error() error {
 	switch tfE.TypeOfError {
 	case ServiceError:
-		return fmt.Errorf("%d-%s, %s \n"+
-			"Suggestion: %s\n"+
+		var serviceError string
+
+		shortErrorDescription := fmt.Sprintf("%d-%s, %s\n", tfE.ErrorCode, tfE.ErrorCodeName, tfE.Message)
+		detailedDescription := fmt.Sprintf("Suggestion: %s\n"+
 			"Documentation: %s \n"+
 			"API Reference: %s \n"+
 			"Request Target: %s \n"+
@@ -111,8 +119,17 @@ func (tfE customError) Error() error {
 			"Service: %s \n"+
 			"Operation Name: %s \n"+
 			"OPC request ID: %s \n",
-			tfE.ErrorCode, tfE.ErrorCodeName, tfE.Message, tfE.Suggestion, tfE.ResourceDocs, tfE.SdkApiDocs, tfE.RequestTarget,
+			tfE.Suggestion, tfE.ResourceDocs, tfE.SdkApiDocs, tfE.RequestTarget,
 			tfE.VersionError, tfE.Service, tfE.OperationName, tfE.OpcRequestID)
+		furtherInfo := fmt.Sprintf("Further Information: %s\n", tfE.OriginalMessage)
+
+		if tfE.OriginalMessage == "" {
+			serviceError = shortErrorDescription + detailedDescription
+		} else {
+			// For compute out of host capacity error support
+			serviceError = shortErrorDescription + furtherInfo + detailedDescription
+		}
+		return fmt.Errorf(serviceError)
 	case TimeoutError:
 		return fmt.Errorf("%s \n"+
 			"%s \n"+
