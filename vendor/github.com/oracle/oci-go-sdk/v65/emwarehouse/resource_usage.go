@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// EmdwControlPlane API
+// EM Warehouse API
 //
-// A description of the EmdwControlPlane API
+// Use the EM Warehouse API to manage EM Warehouse data collection.
 //
 
 package emwarehouse
@@ -32,6 +32,9 @@ type ResourceUsage struct {
 
 	// List of emInstances
 	EmInstances []EmInstancesDetails `mandatory:"false" json:"emInstances"`
+
+	// schema name
+	SchemaName *string `mandatory:"false" json:"schemaName"`
 }
 
 func (m ResourceUsage) String() string {

@@ -21,7 +21,7 @@ type UpdateRecommendationRequest struct {
 	// The unique OCID associated with the recommendation.
 	RecommendationId *string `mandatory:"true" contributesTo:"path" name:"recommendationId"`
 
-	// The request object for udpating the recommendation details.
+	// The request object for updating the recommendation details.
 	UpdateRecommendationDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request.

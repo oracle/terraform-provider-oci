@@ -36,6 +36,9 @@ type CreateBitbucketCloudTriggerDetails struct {
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The OCID of the connection resource used to get details for triggered events.
+	ConnectionId *string `mandatory:"false" json:"connectionId"`
 }
 
 //GetDisplayName returns DisplayName
@@ -105,6 +108,7 @@ func (m *CreateBitbucketCloudTriggerDetails) UnmarshalJSON(data []byte) (e error
 		Description  *string                           `json:"description"`
 		FreeformTags map[string]string                 `json:"freeformTags"`
 		DefinedTags  map[string]map[string]interface{} `json:"definedTags"`
+		ConnectionId *string                           `json:"connectionId"`
 		ProjectId    *string                           `json:"projectId"`
 		Actions      []triggeraction                   `json:"actions"`
 	}{}
@@ -121,6 +125,8 @@ func (m *CreateBitbucketCloudTriggerDetails) UnmarshalJSON(data []byte) (e error
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.ConnectionId = model.ConnectionId
 
 	m.ProjectId = model.ProjectId
 

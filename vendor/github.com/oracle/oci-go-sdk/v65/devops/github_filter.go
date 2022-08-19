@@ -20,6 +20,8 @@ import (
 type GithubFilter struct {
 	Include *GithubFilterAttributes `mandatory:"false" json:"include"`
 
+	Exclude *GithubFilterExclusionAttributes `mandatory:"false" json:"exclude"`
+
 	// The events, for example, PUSH, PULL_REQUEST_MERGE.
 	Events []GithubFilterEventsEnum `mandatory:"false" json:"events,omitempty"`
 }
