@@ -59,7 +59,7 @@ func (request ListModelDeploymentShapesRequest) BinaryRequestBody() (*common.OCI
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListModelDeploymentShapesRequest) RetryPolicy() common.OCIRetry {
+func (request ListModelDeploymentShapesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

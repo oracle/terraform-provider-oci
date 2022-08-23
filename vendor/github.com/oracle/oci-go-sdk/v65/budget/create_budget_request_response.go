@@ -54,7 +54,7 @@ func (request CreateBudgetRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateBudgetRequest) RetryPolicy() common.OCIRetry {
+func (request CreateBudgetRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

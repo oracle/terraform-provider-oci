@@ -55,7 +55,7 @@ func (request GetFolderRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetFolderRequest) RetryPolicy() common.OCIRetry {
+func (request GetFolderRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

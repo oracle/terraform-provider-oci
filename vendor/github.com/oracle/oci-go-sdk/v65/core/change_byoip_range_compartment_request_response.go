@@ -58,7 +58,7 @@ func (request ChangeByoipRangeCompartmentRequest) BinaryRequestBody() (*common.O
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ChangeByoipRangeCompartmentRequest) RetryPolicy() common.OCIRetry {
+func (request ChangeByoipRangeCompartmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -91,13 +91,12 @@ func (client *PluginconfigClient) ConfigurationProvider() *common.ConfigurationP
 // ListInstanceagentAvailablePlugins The API to get the list of plugins that are available.
 func (client PluginconfigClient) ListInstanceagentAvailablePlugins(ctx context.Context, request ListInstanceagentAvailablePluginsRequest) (response ListInstanceagentAvailablePluginsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listInstanceagentAvailablePlugins, policy)
 	if err != nil {

@@ -58,7 +58,7 @@ func (request UpdateOutboundConnectorRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateOutboundConnectorRequest) RetryPolicy() common.OCIRetry {
+func (request UpdateOutboundConnectorRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

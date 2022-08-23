@@ -90,13 +90,12 @@ func (client *UsageapiClient) ConfigurationProvider() *common.ConfigurationProvi
 // CreateCustomTable Returns the created custom table.
 func (client UsageapiClient) CreateCustomTable(ctx context.Context, request CreateCustomTableRequest) (response CreateCustomTableResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -149,13 +148,12 @@ func (client UsageapiClient) createCustomTable(ctx context.Context, request comm
 // CreateQuery Returns the created query.
 func (client UsageapiClient) CreateQuery(ctx context.Context, request CreateQueryRequest) (response CreateQueryResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -208,13 +206,12 @@ func (client UsageapiClient) createQuery(ctx context.Context, request common.OCI
 // CreateSchedule Returns the created schedule.
 func (client UsageapiClient) CreateSchedule(ctx context.Context, request CreateScheduleRequest) (response CreateScheduleResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -267,13 +264,12 @@ func (client UsageapiClient) createSchedule(ctx context.Context, request common.
 // DeleteCustomTable Delete a saved custom table by the OCID.
 func (client UsageapiClient) DeleteCustomTable(ctx context.Context, request DeleteCustomTableRequest) (response DeleteCustomTableResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteCustomTable, policy)
 	if err != nil {
@@ -321,13 +317,12 @@ func (client UsageapiClient) deleteCustomTable(ctx context.Context, request comm
 // DeleteQuery Delete a saved query by the OCID.
 func (client UsageapiClient) DeleteQuery(ctx context.Context, request DeleteQueryRequest) (response DeleteQueryResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteQuery, policy)
 	if err != nil {
@@ -375,13 +370,12 @@ func (client UsageapiClient) deleteQuery(ctx context.Context, request common.OCI
 // DeleteSchedule Delete a saved scheduled report by the OCID.
 func (client UsageapiClient) DeleteSchedule(ctx context.Context, request DeleteScheduleRequest) (response DeleteScheduleResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteSchedule, policy)
 	if err != nil {
@@ -429,13 +423,12 @@ func (client UsageapiClient) deleteSchedule(ctx context.Context, request common.
 // GetCustomTable Returns the saved custom table.
 func (client UsageapiClient) GetCustomTable(ctx context.Context, request GetCustomTableRequest) (response GetCustomTableResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getCustomTable, policy)
 	if err != nil {
@@ -483,13 +476,12 @@ func (client UsageapiClient) getCustomTable(ctx context.Context, request common.
 // GetQuery Returns the saved query.
 func (client UsageapiClient) GetQuery(ctx context.Context, request GetQueryRequest) (response GetQueryResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getQuery, policy)
 	if err != nil {
@@ -537,13 +529,12 @@ func (client UsageapiClient) getQuery(ctx context.Context, request common.OCIReq
 // GetSchedule Returns the saved schedule.
 func (client UsageapiClient) GetSchedule(ctx context.Context, request GetScheduleRequest) (response GetScheduleResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getSchedule, policy)
 	if err != nil {
@@ -591,13 +582,12 @@ func (client UsageapiClient) getSchedule(ctx context.Context, request common.OCI
 // GetScheduledRun Returns the saved schedule run.
 func (client UsageapiClient) GetScheduledRun(ctx context.Context, request GetScheduledRunRequest) (response GetScheduledRunResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getScheduledRun, policy)
 	if err != nil {
@@ -645,13 +635,12 @@ func (client UsageapiClient) getScheduledRun(ctx context.Context, request common
 // ListCustomTables Returns the saved custom table list.
 func (client UsageapiClient) ListCustomTables(ctx context.Context, request ListCustomTablesRequest) (response ListCustomTablesResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listCustomTables, policy)
 	if err != nil {
@@ -699,13 +688,12 @@ func (client UsageapiClient) listCustomTables(ctx context.Context, request commo
 // ListQueries Returns the saved query list.
 func (client UsageapiClient) ListQueries(ctx context.Context, request ListQueriesRequest) (response ListQueriesResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listQueries, policy)
 	if err != nil {
@@ -753,13 +741,12 @@ func (client UsageapiClient) listQueries(ctx context.Context, request common.OCI
 // ListScheduledRuns Returns schedule history list.
 func (client UsageapiClient) ListScheduledRuns(ctx context.Context, request ListScheduledRunsRequest) (response ListScheduledRunsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listScheduledRuns, policy)
 	if err != nil {
@@ -807,13 +794,12 @@ func (client UsageapiClient) listScheduledRuns(ctx context.Context, request comm
 // ListSchedules Returns the saved schedule list.
 func (client UsageapiClient) ListSchedules(ctx context.Context, request ListSchedulesRequest) (response ListSchedulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSchedules, policy)
 	if err != nil {
@@ -861,13 +847,12 @@ func (client UsageapiClient) listSchedules(ctx context.Context, request common.O
 // RequestSummarizedConfigurations Returns the configurations list for the UI drop-down list.
 func (client UsageapiClient) RequestSummarizedConfigurations(ctx context.Context, request RequestSummarizedConfigurationsRequest) (response RequestSummarizedConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.requestSummarizedConfigurations, policy)
 	if err != nil {
@@ -915,13 +900,12 @@ func (client UsageapiClient) requestSummarizedConfigurations(ctx context.Context
 // RequestSummarizedUsages Returns usage for the given account.
 func (client UsageapiClient) RequestSummarizedUsages(ctx context.Context, request RequestSummarizedUsagesRequest) (response RequestSummarizedUsagesResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.requestSummarizedUsages, policy)
 	if err != nil {
@@ -969,13 +953,12 @@ func (client UsageapiClient) requestSummarizedUsages(ctx context.Context, reques
 // UpdateCustomTable Update a saved custom table by table id.
 func (client UsageapiClient) UpdateCustomTable(ctx context.Context, request UpdateCustomTableRequest) (response UpdateCustomTableResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateCustomTable, policy)
 	if err != nil {
@@ -1023,13 +1006,12 @@ func (client UsageapiClient) updateCustomTable(ctx context.Context, request comm
 // UpdateQuery Update a saved query by the OCID.
 func (client UsageapiClient) UpdateQuery(ctx context.Context, request UpdateQueryRequest) (response UpdateQueryResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateQuery, policy)
 	if err != nil {
@@ -1077,13 +1059,12 @@ func (client UsageapiClient) updateQuery(ctx context.Context, request common.OCI
 // UpdateSchedule Update a saved schedule
 func (client UsageapiClient) UpdateSchedule(ctx context.Context, request UpdateScheduleRequest) (response UpdateScheduleResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateSchedule, policy)
 	if err != nil {

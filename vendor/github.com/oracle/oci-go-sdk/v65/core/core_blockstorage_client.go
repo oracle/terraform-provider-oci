@@ -96,13 +96,12 @@ func (client *BlockstorageClient) ConfigurationProvider() *common.ConfigurationP
 // see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client BlockstorageClient) ChangeBootVolumeBackupCompartment(ctx context.Context, request ChangeBootVolumeBackupCompartmentRequest) (response ChangeBootVolumeBackupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.changeBootVolumeBackupCompartment, policy)
 	if err != nil {
@@ -152,13 +151,12 @@ func (client BlockstorageClient) changeBootVolumeBackupCompartment(ctx context.C
 // see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client BlockstorageClient) ChangeBootVolumeCompartment(ctx context.Context, request ChangeBootVolumeCompartmentRequest) (response ChangeBootVolumeCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.changeBootVolumeCompartment, policy)
 	if err != nil {
@@ -208,13 +206,12 @@ func (client BlockstorageClient) changeBootVolumeCompartment(ctx context.Context
 // see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client BlockstorageClient) ChangeVolumeBackupCompartment(ctx context.Context, request ChangeVolumeBackupCompartmentRequest) (response ChangeVolumeBackupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.changeVolumeBackupCompartment, policy)
 	if err != nil {
@@ -264,13 +261,12 @@ func (client BlockstorageClient) changeVolumeBackupCompartment(ctx context.Conte
 // see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client BlockstorageClient) ChangeVolumeCompartment(ctx context.Context, request ChangeVolumeCompartmentRequest) (response ChangeVolumeCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.changeVolumeCompartment, policy)
 	if err != nil {
@@ -320,13 +316,12 @@ func (client BlockstorageClient) changeVolumeCompartment(ctx context.Context, re
 // see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client BlockstorageClient) ChangeVolumeGroupBackupCompartment(ctx context.Context, request ChangeVolumeGroupBackupCompartmentRequest) (response ChangeVolumeGroupBackupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.changeVolumeGroupBackupCompartment, policy)
 	if err != nil {
@@ -376,13 +371,12 @@ func (client BlockstorageClient) changeVolumeGroupBackupCompartment(ctx context.
 // see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client BlockstorageClient) ChangeVolumeGroupCompartment(ctx context.Context, request ChangeVolumeGroupCompartmentRequest) (response ChangeVolumeGroupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.changeVolumeGroupCompartment, policy)
 	if err != nil {
@@ -431,13 +425,12 @@ func (client BlockstorageClient) changeVolumeGroupCompartment(ctx context.Contex
 // see Overview of Boot Volume Backups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/bootvolumebackups.htm)
 func (client BlockstorageClient) CopyBootVolumeBackup(ctx context.Context, request CopyBootVolumeBackupRequest) (response CopyBootVolumeBackupResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -491,13 +484,12 @@ func (client BlockstorageClient) copyBootVolumeBackup(ctx context.Context, reque
 // see Overview of Block Volume Service Backups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumebackups.htm)
 func (client BlockstorageClient) CopyVolumeBackup(ctx context.Context, request CopyVolumeBackupRequest) (response CopyVolumeBackupResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -551,13 +543,12 @@ func (client BlockstorageClient) copyVolumeBackup(ctx context.Context, request c
 // see Overview of Block Volume Backups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumebackups.htm).
 func (client BlockstorageClient) CopyVolumeGroupBackup(ctx context.Context, request CopyVolumeGroupBackupRequest) (response CopyVolumeGroupBackupResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -613,13 +604,12 @@ func (client BlockstorageClient) copyVolumeGroupBackup(ctx context.Context, requ
 // description. It does not have to be unique, and you can change it. Avoid entering confidential information.
 func (client BlockstorageClient) CreateBootVolume(ctx context.Context, request CreateBootVolumeRequest) (response CreateBootVolumeResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -676,13 +666,12 @@ func (client BlockstorageClient) createBootVolume(ctx context.Context, request c
 // After the backup is fully uploaded to the cloud, it goes into an AVAILABLE state.
 func (client BlockstorageClient) CreateBootVolumeBackup(ctx context.Context, request CreateBootVolumeBackupRequest) (response CreateBootVolumeBackupResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -748,13 +737,12 @@ func (client BlockstorageClient) createBootVolumeBackup(ctx context.Context, req
 // description. It does not have to be unique, and you can change it. Avoid entering confidential information.
 func (client BlockstorageClient) CreateVolume(ctx context.Context, request CreateVolumeRequest) (response CreateVolumeResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -811,13 +799,12 @@ func (client BlockstorageClient) createVolume(ctx context.Context, request commo
 // After the backup is fully uploaded to the cloud, it goes into an AVAILABLE state.
 func (client BlockstorageClient) CreateVolumeBackup(ctx context.Context, request CreateVolumeBackupRequest) (response CreateVolumeBackupResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -872,13 +859,12 @@ func (client BlockstorageClient) createVolumeBackup(ctx context.Context, request
 // see Policy-Based Backups (https://docs.cloud.oracle.com/iaas/Content/Block/Tasks/schedulingvolumebackups.htm).
 func (client BlockstorageClient) CreateVolumeBackupPolicy(ctx context.Context, request CreateVolumeBackupPolicyRequest) (response CreateVolumeBackupPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -933,13 +919,12 @@ func (client BlockstorageClient) createVolumeBackupPolicy(ctx context.Context, r
 // has a different backup policy assigned, the prior backup policy will be silently unassigned.
 func (client BlockstorageClient) CreateVolumeBackupPolicyAssignment(ctx context.Context, request CreateVolumeBackupPolicyAssignmentRequest) (response CreateVolumeBackupPolicyAssignmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.createVolumeBackupPolicyAssignment, policy)
 	if err != nil {
@@ -992,13 +977,12 @@ func (client BlockstorageClient) createVolumeBackupPolicyAssignment(ctx context.
 // For more information, see Volume Groups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/volumegroups.htm).
 func (client BlockstorageClient) CreateVolumeGroup(ctx context.Context, request CreateVolumeGroupRequest) (response CreateVolumeGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1052,13 +1036,12 @@ func (client BlockstorageClient) createVolumeGroup(ctx context.Context, request 
 // For more information, see Volume Groups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/volumegroups.htm).
 func (client BlockstorageClient) CreateVolumeGroupBackup(ctx context.Context, request CreateVolumeGroupBackupRequest) (response CreateVolumeGroupBackupResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1114,13 +1097,12 @@ func (client BlockstorageClient) createVolumeGroupBackup(ctx context.Context, re
 // **Warning:** All data on the boot volume will be permanently lost when the boot volume is deleted.
 func (client BlockstorageClient) DeleteBootVolume(ctx context.Context, request DeleteBootVolumeRequest) (response DeleteBootVolumeResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteBootVolume, policy)
 	if err != nil {
@@ -1168,13 +1150,12 @@ func (client BlockstorageClient) deleteBootVolume(ctx context.Context, request c
 // DeleteBootVolumeBackup Deletes a boot volume backup.
 func (client BlockstorageClient) DeleteBootVolumeBackup(ctx context.Context, request DeleteBootVolumeBackupRequest) (response DeleteBootVolumeBackupResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteBootVolumeBackup, policy)
 	if err != nil {
@@ -1222,13 +1203,12 @@ func (client BlockstorageClient) deleteBootVolumeBackup(ctx context.Context, req
 // DeleteBootVolumeKmsKey Removes the specified boot volume's assigned Key Management encryption key.
 func (client BlockstorageClient) DeleteBootVolumeKmsKey(ctx context.Context, request DeleteBootVolumeKmsKeyRequest) (response DeleteBootVolumeKmsKeyResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteBootVolumeKmsKey, policy)
 	if err != nil {
@@ -1279,13 +1259,12 @@ func (client BlockstorageClient) deleteBootVolumeKmsKey(ctx context.Context, req
 // **Warning:** All data on the volume will be permanently lost when the volume is deleted.
 func (client BlockstorageClient) DeleteVolume(ctx context.Context, request DeleteVolumeRequest) (response DeleteVolumeResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteVolume, policy)
 	if err != nil {
@@ -1333,13 +1312,12 @@ func (client BlockstorageClient) deleteVolume(ctx context.Context, request commo
 // DeleteVolumeBackup Deletes a volume backup.
 func (client BlockstorageClient) DeleteVolumeBackup(ctx context.Context, request DeleteVolumeBackupRequest) (response DeleteVolumeBackupResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteVolumeBackup, policy)
 	if err != nil {
@@ -1390,13 +1368,12 @@ func (client BlockstorageClient) deleteVolumeBackup(ctx context.Context, request
 //  Avoid entering confidential information.
 func (client BlockstorageClient) DeleteVolumeBackupPolicy(ctx context.Context, request DeleteVolumeBackupPolicyRequest) (response DeleteVolumeBackupPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteVolumeBackupPolicy, policy)
 	if err != nil {
@@ -1444,13 +1421,12 @@ func (client BlockstorageClient) deleteVolumeBackupPolicy(ctx context.Context, r
 // DeleteVolumeBackupPolicyAssignment Deletes a volume backup policy assignment.
 func (client BlockstorageClient) DeleteVolumeBackupPolicyAssignment(ctx context.Context, request DeleteVolumeBackupPolicyAssignmentRequest) (response DeleteVolumeBackupPolicyAssignmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteVolumeBackupPolicyAssignment, policy)
 	if err != nil {
@@ -1499,13 +1475,12 @@ func (client BlockstorageClient) deleteVolumeBackupPolicyAssignment(ctx context.
 // For more information, see Volume Groups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/volumegroups.htm).
 func (client BlockstorageClient) DeleteVolumeGroup(ctx context.Context, request DeleteVolumeGroupRequest) (response DeleteVolumeGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteVolumeGroup, policy)
 	if err != nil {
@@ -1554,13 +1529,12 @@ func (client BlockstorageClient) deleteVolumeGroup(ctx context.Context, request 
 // the volume group. For more information, see Volume Groups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/volumegroups.htm).
 func (client BlockstorageClient) DeleteVolumeGroupBackup(ctx context.Context, request DeleteVolumeGroupBackupRequest) (response DeleteVolumeGroupBackupResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteVolumeGroupBackup, policy)
 	if err != nil {
@@ -1608,13 +1582,12 @@ func (client BlockstorageClient) deleteVolumeGroupBackup(ctx context.Context, re
 // DeleteVolumeKmsKey Removes the specified volume's assigned Key Management encryption key.
 func (client BlockstorageClient) DeleteVolumeKmsKey(ctx context.Context, request DeleteVolumeKmsKeyRequest) (response DeleteVolumeKmsKeyResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteVolumeKmsKey, policy)
 	if err != nil {
@@ -1662,13 +1635,12 @@ func (client BlockstorageClient) deleteVolumeKmsKey(ctx context.Context, request
 // GetBlockVolumeReplica Gets information for the specified block volume replica.
 func (client BlockstorageClient) GetBlockVolumeReplica(ctx context.Context, request GetBlockVolumeReplicaRequest) (response GetBlockVolumeReplicaResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getBlockVolumeReplica, policy)
 	if err != nil {
@@ -1716,13 +1688,12 @@ func (client BlockstorageClient) getBlockVolumeReplica(ctx context.Context, requ
 // GetBootVolume Gets information for the specified boot volume.
 func (client BlockstorageClient) GetBootVolume(ctx context.Context, request GetBootVolumeRequest) (response GetBootVolumeResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getBootVolume, policy)
 	if err != nil {
@@ -1770,13 +1741,12 @@ func (client BlockstorageClient) getBootVolume(ctx context.Context, request comm
 // GetBootVolumeBackup Gets information for the specified boot volume backup.
 func (client BlockstorageClient) GetBootVolumeBackup(ctx context.Context, request GetBootVolumeBackupRequest) (response GetBootVolumeBackupResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getBootVolumeBackup, policy)
 	if err != nil {
@@ -1824,13 +1794,12 @@ func (client BlockstorageClient) getBootVolumeBackup(ctx context.Context, reques
 // GetBootVolumeKmsKey Gets the Key Management encryption key assigned to the specified boot volume.
 func (client BlockstorageClient) GetBootVolumeKmsKey(ctx context.Context, request GetBootVolumeKmsKeyRequest) (response GetBootVolumeKmsKeyResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getBootVolumeKmsKey, policy)
 	if err != nil {
@@ -1878,13 +1847,12 @@ func (client BlockstorageClient) getBootVolumeKmsKey(ctx context.Context, reques
 // GetBootVolumeReplica Gets information for the specified boot volume replica.
 func (client BlockstorageClient) GetBootVolumeReplica(ctx context.Context, request GetBootVolumeReplicaRequest) (response GetBootVolumeReplicaResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getBootVolumeReplica, policy)
 	if err != nil {
@@ -1932,13 +1900,12 @@ func (client BlockstorageClient) getBootVolumeReplica(ctx context.Context, reque
 // GetVolume Gets information for the specified volume.
 func (client BlockstorageClient) GetVolume(ctx context.Context, request GetVolumeRequest) (response GetVolumeResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getVolume, policy)
 	if err != nil {
@@ -1986,13 +1953,12 @@ func (client BlockstorageClient) getVolume(ctx context.Context, request common.O
 // GetVolumeBackup Gets information for the specified volume backup.
 func (client BlockstorageClient) GetVolumeBackup(ctx context.Context, request GetVolumeBackupRequest) (response GetVolumeBackupResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getVolumeBackup, policy)
 	if err != nil {
@@ -2040,13 +2006,12 @@ func (client BlockstorageClient) getVolumeBackup(ctx context.Context, request co
 // GetVolumeBackupPolicy Gets information for the specified volume backup policy.
 func (client BlockstorageClient) GetVolumeBackupPolicy(ctx context.Context, request GetVolumeBackupPolicyRequest) (response GetVolumeBackupPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getVolumeBackupPolicy, policy)
 	if err != nil {
@@ -2096,13 +2061,12 @@ func (client BlockstorageClient) getVolumeBackupPolicy(ctx context.Context, requ
 // one item, since volume can only have one volume backup policy assigned at a time.
 func (client BlockstorageClient) GetVolumeBackupPolicyAssetAssignment(ctx context.Context, request GetVolumeBackupPolicyAssetAssignmentRequest) (response GetVolumeBackupPolicyAssetAssignmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getVolumeBackupPolicyAssetAssignment, policy)
 	if err != nil {
@@ -2150,13 +2114,12 @@ func (client BlockstorageClient) getVolumeBackupPolicyAssetAssignment(ctx contex
 // GetVolumeBackupPolicyAssignment Gets information for the specified volume backup policy assignment.
 func (client BlockstorageClient) GetVolumeBackupPolicyAssignment(ctx context.Context, request GetVolumeBackupPolicyAssignmentRequest) (response GetVolumeBackupPolicyAssignmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getVolumeBackupPolicyAssignment, policy)
 	if err != nil {
@@ -2204,13 +2167,12 @@ func (client BlockstorageClient) getVolumeBackupPolicyAssignment(ctx context.Con
 // GetVolumeGroup Gets information for the specified volume group. For more information, see Volume Groups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/volumegroups.htm).
 func (client BlockstorageClient) GetVolumeGroup(ctx context.Context, request GetVolumeGroupRequest) (response GetVolumeGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getVolumeGroup, policy)
 	if err != nil {
@@ -2258,13 +2220,12 @@ func (client BlockstorageClient) getVolumeGroup(ctx context.Context, request com
 // GetVolumeGroupBackup Gets information for the specified volume group backup. For more information, see Volume Groups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/volumegroups.htm).
 func (client BlockstorageClient) GetVolumeGroupBackup(ctx context.Context, request GetVolumeGroupBackupRequest) (response GetVolumeGroupBackupResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getVolumeGroupBackup, policy)
 	if err != nil {
@@ -2312,13 +2273,12 @@ func (client BlockstorageClient) getVolumeGroupBackup(ctx context.Context, reque
 // GetVolumeGroupReplica Gets information for the specified volume group replica.
 func (client BlockstorageClient) GetVolumeGroupReplica(ctx context.Context, request GetVolumeGroupReplicaRequest) (response GetVolumeGroupReplicaResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getVolumeGroupReplica, policy)
 	if err != nil {
@@ -2366,13 +2326,12 @@ func (client BlockstorageClient) getVolumeGroupReplica(ctx context.Context, requ
 // GetVolumeKmsKey Gets the Key Management encryption key assigned to the specified volume.
 func (client BlockstorageClient) GetVolumeKmsKey(ctx context.Context, request GetVolumeKmsKeyRequest) (response GetVolumeKmsKeyResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getVolumeKmsKey, policy)
 	if err != nil {
@@ -2420,13 +2379,12 @@ func (client BlockstorageClient) getVolumeKmsKey(ctx context.Context, request co
 // ListBlockVolumeReplicas Lists the block volume replicas in the specified compartment and availability domain.
 func (client BlockstorageClient) ListBlockVolumeReplicas(ctx context.Context, request ListBlockVolumeReplicasRequest) (response ListBlockVolumeReplicasResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listBlockVolumeReplicas, policy)
 	if err != nil {
@@ -2474,13 +2432,12 @@ func (client BlockstorageClient) listBlockVolumeReplicas(ctx context.Context, re
 // ListBootVolumeBackups Lists the boot volume backups in the specified compartment. You can filter the results by boot volume.
 func (client BlockstorageClient) ListBootVolumeBackups(ctx context.Context, request ListBootVolumeBackupsRequest) (response ListBootVolumeBackupsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listBootVolumeBackups, policy)
 	if err != nil {
@@ -2528,13 +2485,12 @@ func (client BlockstorageClient) listBootVolumeBackups(ctx context.Context, requ
 // ListBootVolumeReplicas Lists the boot volume replicas in the specified compartment and availability domain.
 func (client BlockstorageClient) ListBootVolumeReplicas(ctx context.Context, request ListBootVolumeReplicasRequest) (response ListBootVolumeReplicasResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listBootVolumeReplicas, policy)
 	if err != nil {
@@ -2582,13 +2538,12 @@ func (client BlockstorageClient) listBootVolumeReplicas(ctx context.Context, req
 // ListBootVolumes Lists the boot volumes in the specified compartment and availability domain.
 func (client BlockstorageClient) ListBootVolumes(ctx context.Context, request ListBootVolumesRequest) (response ListBootVolumesResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listBootVolumes, policy)
 	if err != nil {
@@ -2638,13 +2593,12 @@ func (client BlockstorageClient) listBootVolumes(ctx context.Context, request co
 // see Policy-Based Backups (https://docs.cloud.oracle.com/iaas/Content/Block/Tasks/schedulingvolumebackups.htm).
 func (client BlockstorageClient) ListVolumeBackupPolicies(ctx context.Context, request ListVolumeBackupPoliciesRequest) (response ListVolumeBackupPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listVolumeBackupPolicies, policy)
 	if err != nil {
@@ -2692,13 +2646,12 @@ func (client BlockstorageClient) listVolumeBackupPolicies(ctx context.Context, r
 // ListVolumeBackups Lists the volume backups in the specified compartment. You can filter the results by volume.
 func (client BlockstorageClient) ListVolumeBackups(ctx context.Context, request ListVolumeBackupsRequest) (response ListVolumeBackupsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listVolumeBackups, policy)
 	if err != nil {
@@ -2747,13 +2700,12 @@ func (client BlockstorageClient) listVolumeBackups(ctx context.Context, request 
 // For more information, see Volume Groups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/volumegroups.htm).
 func (client BlockstorageClient) ListVolumeGroupBackups(ctx context.Context, request ListVolumeGroupBackupsRequest) (response ListVolumeGroupBackupsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listVolumeGroupBackups, policy)
 	if err != nil {
@@ -2802,13 +2754,12 @@ func (client BlockstorageClient) listVolumeGroupBackups(ctx context.Context, req
 // For more information, see Volume Group Replication (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/volumegroupreplication.htm).
 func (client BlockstorageClient) ListVolumeGroupReplicas(ctx context.Context, request ListVolumeGroupReplicasRequest) (response ListVolumeGroupReplicasResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listVolumeGroupReplicas, policy)
 	if err != nil {
@@ -2857,13 +2808,12 @@ func (client BlockstorageClient) listVolumeGroupReplicas(ctx context.Context, re
 // For more information, see Volume Groups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/volumegroups.htm).
 func (client BlockstorageClient) ListVolumeGroups(ctx context.Context, request ListVolumeGroupsRequest) (response ListVolumeGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listVolumeGroups, policy)
 	if err != nil {
@@ -2911,13 +2861,12 @@ func (client BlockstorageClient) listVolumeGroups(ctx context.Context, request c
 // ListVolumes Lists the volumes in the specified compartment and availability domain.
 func (client BlockstorageClient) ListVolumes(ctx context.Context, request ListVolumesRequest) (response ListVolumesResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listVolumes, policy)
 	if err != nil {
@@ -2965,13 +2914,12 @@ func (client BlockstorageClient) listVolumes(ctx context.Context, request common
 // UpdateBootVolume Updates the specified boot volume's display name, defined tags, and free-form tags.
 func (client BlockstorageClient) UpdateBootVolume(ctx context.Context, request UpdateBootVolumeRequest) (response UpdateBootVolumeResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateBootVolume, policy)
 	if err != nil {
@@ -3020,13 +2968,12 @@ func (client BlockstorageClient) updateBootVolume(ctx context.Context, request c
 // Avoid entering confidential information.
 func (client BlockstorageClient) UpdateBootVolumeBackup(ctx context.Context, request UpdateBootVolumeBackupRequest) (response UpdateBootVolumeBackupResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateBootVolumeBackup, policy)
 	if err != nil {
@@ -3069,13 +3016,12 @@ func (client BlockstorageClient) updateBootVolumeBackup(ctx context.Context, req
 // UpdateBootVolumeKmsKey Updates the specified volume with a new Key Management master encryption key.
 func (client BlockstorageClient) UpdateBootVolumeKmsKey(ctx context.Context, request UpdateBootVolumeKmsKeyRequest) (response UpdateBootVolumeKmsKeyResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateBootVolumeKmsKey, policy)
 	if err != nil {
@@ -3124,13 +3070,12 @@ func (client BlockstorageClient) updateBootVolumeKmsKey(ctx context.Context, req
 // Avoid entering confidential information.
 func (client BlockstorageClient) UpdateVolume(ctx context.Context, request UpdateVolumeRequest) (response UpdateVolumeResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateVolume, policy)
 	if err != nil {
@@ -3179,13 +3124,12 @@ func (client BlockstorageClient) updateVolume(ctx context.Context, request commo
 // Avoid entering confidential information.
 func (client BlockstorageClient) UpdateVolumeBackup(ctx context.Context, request UpdateVolumeBackupRequest) (response UpdateVolumeBackupResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateVolumeBackup, policy)
 	if err != nil {
@@ -3231,13 +3175,12 @@ func (client BlockstorageClient) updateVolumeBackup(ctx context.Context, request
 //  Avoid entering confidential information.
 func (client BlockstorageClient) UpdateVolumeBackupPolicy(ctx context.Context, request UpdateVolumeBackupPolicyRequest) (response UpdateVolumeBackupPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -3294,13 +3237,12 @@ func (client BlockstorageClient) updateVolumeBackupPolicy(ctx context.Context, r
 // For more information, see Volume Groups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/volumegroups.htm).
 func (client BlockstorageClient) UpdateVolumeGroup(ctx context.Context, request UpdateVolumeGroupRequest) (response UpdateVolumeGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateVolumeGroup, policy)
 	if err != nil {
@@ -3348,13 +3290,12 @@ func (client BlockstorageClient) updateVolumeGroup(ctx context.Context, request 
 // UpdateVolumeGroupBackup Updates the display name for the specified volume group backup. For more information, see Volume Groups (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/volumegroups.htm).
 func (client BlockstorageClient) UpdateVolumeGroupBackup(ctx context.Context, request UpdateVolumeGroupBackupRequest) (response UpdateVolumeGroupBackupResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateVolumeGroupBackup, policy)
 	if err != nil {
@@ -3397,13 +3338,12 @@ func (client BlockstorageClient) updateVolumeGroupBackup(ctx context.Context, re
 // UpdateVolumeKmsKey Updates the specified volume with a new Key Management master encryption key.
 func (client BlockstorageClient) UpdateVolumeKmsKey(ctx context.Context, request UpdateVolumeKmsKeyRequest) (response UpdateVolumeKmsKeyResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateVolumeKmsKey, policy)
 	if err != nil {

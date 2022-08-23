@@ -59,7 +59,7 @@ func (request GetSecretBundleByNameRequest) BinaryRequestBody() (*common.OCIRead
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetSecretBundleByNameRequest) RetryPolicy() common.OCIRetry {
+func (request GetSecretBundleByNameRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

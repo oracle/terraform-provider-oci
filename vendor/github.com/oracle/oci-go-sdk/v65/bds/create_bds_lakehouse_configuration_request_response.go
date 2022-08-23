@@ -57,7 +57,7 @@ func (request CreateBdsLakehouseConfigurationRequest) BinaryRequestBody() (*comm
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateBdsLakehouseConfigurationRequest) RetryPolicy() common.OCIRetry {
+func (request CreateBdsLakehouseConfigurationRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

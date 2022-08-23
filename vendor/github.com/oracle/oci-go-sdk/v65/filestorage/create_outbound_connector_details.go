@@ -90,6 +90,7 @@ func (m *createoutboundconnectordetails) UnmarshalPolymorphicJSON(data []byte) (
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for CreateOutboundConnectorDetails: %s.", m.ConnectorType)
 		return *m, nil
 	}
 }

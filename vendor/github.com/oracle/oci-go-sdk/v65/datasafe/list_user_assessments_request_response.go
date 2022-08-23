@@ -106,7 +106,7 @@ func (request ListUserAssessmentsRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListUserAssessmentsRequest) RetryPolicy() common.OCIRetry {
+func (request ListUserAssessmentsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

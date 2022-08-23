@@ -63,7 +63,7 @@ func (request ChangeAuditArchiveRetrievalCompartmentRequest) BinaryRequestBody()
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ChangeAuditArchiveRetrievalCompartmentRequest) RetryPolicy() common.OCIRetry {
+func (request ChangeAuditArchiveRetrievalCompartmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

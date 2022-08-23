@@ -90,13 +90,12 @@ func (client *OpensearchClusterBackupClient) ConfigurationProvider() *common.Con
 // DeleteOpensearchClusterBackup Deletes a OpensearchClusterBackup resource by identifier
 func (client OpensearchClusterBackupClient) DeleteOpensearchClusterBackup(ctx context.Context, request DeleteOpensearchClusterBackupRequest) (response DeleteOpensearchClusterBackupResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteOpensearchClusterBackup, policy)
 	if err != nil {
@@ -132,7 +131,7 @@ func (client OpensearchClusterBackupClient) deleteOpensearchClusterBackup(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchClusterBackup/DeleteOpensearchClusterBackup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchClusterBackup", "DeleteOpensearchClusterBackup", apiReferenceLink)
 		return response, err
 	}
@@ -144,13 +143,12 @@ func (client OpensearchClusterBackupClient) deleteOpensearchClusterBackup(ctx co
 // GetOpensearchClusterBackup Gets a OpensearchClusterBackup by identifier
 func (client OpensearchClusterBackupClient) GetOpensearchClusterBackup(ctx context.Context, request GetOpensearchClusterBackupRequest) (response GetOpensearchClusterBackupResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getOpensearchClusterBackup, policy)
 	if err != nil {
@@ -186,7 +184,7 @@ func (client OpensearchClusterBackupClient) getOpensearchClusterBackup(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchClusterBackup/GetOpensearchClusterBackup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchClusterBackup", "GetOpensearchClusterBackup", apiReferenceLink)
 		return response, err
 	}
@@ -198,13 +196,12 @@ func (client OpensearchClusterBackupClient) getOpensearchClusterBackup(ctx conte
 // ListOpensearchClusterBackups Returns a list of OpensearchClusterBackups.
 func (client OpensearchClusterBackupClient) ListOpensearchClusterBackups(ctx context.Context, request ListOpensearchClusterBackupsRequest) (response ListOpensearchClusterBackupsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listOpensearchClusterBackups, policy)
 	if err != nil {
@@ -240,7 +237,7 @@ func (client OpensearchClusterBackupClient) listOpensearchClusterBackups(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchClusterBackupCollection/ListOpensearchClusterBackups"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchClusterBackup", "ListOpensearchClusterBackups", apiReferenceLink)
 		return response, err
 	}
@@ -252,13 +249,12 @@ func (client OpensearchClusterBackupClient) listOpensearchClusterBackups(ctx con
 // UpdateOpensearchClusterBackup Updates the OpensearchClusterBackup
 func (client OpensearchClusterBackupClient) UpdateOpensearchClusterBackup(ctx context.Context, request UpdateOpensearchClusterBackupRequest) (response UpdateOpensearchClusterBackupResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateOpensearchClusterBackup, policy)
 	if err != nil {
@@ -294,7 +290,7 @@ func (client OpensearchClusterBackupClient) updateOpensearchClusterBackup(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchClusterBackup/UpdateOpensearchClusterBackup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchClusterBackup", "UpdateOpensearchClusterBackup", apiReferenceLink)
 		return response, err
 	}

@@ -55,7 +55,7 @@ func (request DiscardKerberosKeytabRequest) BinaryRequestBody() (*common.OCIRead
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DiscardKerberosKeytabRequest) RetryPolicy() common.OCIRetry {
+func (request DiscardKerberosKeytabRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

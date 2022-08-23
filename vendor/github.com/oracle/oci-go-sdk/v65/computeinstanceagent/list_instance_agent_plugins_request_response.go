@@ -79,7 +79,7 @@ func (request ListInstanceAgentPluginsRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListInstanceAgentPluginsRequest) RetryPolicy() common.OCIRetry {
+func (request ListInstanceAgentPluginsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

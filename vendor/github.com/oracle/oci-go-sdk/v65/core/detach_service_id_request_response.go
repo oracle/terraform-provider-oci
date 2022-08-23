@@ -56,7 +56,7 @@ func (request DetachServiceIdRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DetachServiceIdRequest) RetryPolicy() common.OCIRetry {
+func (request DetachServiceIdRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

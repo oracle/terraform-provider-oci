@@ -73,7 +73,7 @@ func (request ListApplicationDependencyVulnerabilitiesRequest) BinaryRequestBody
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListApplicationDependencyVulnerabilitiesRequest) RetryPolicy() common.OCIRetry {
+func (request ListApplicationDependencyVulnerabilitiesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

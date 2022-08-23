@@ -56,7 +56,7 @@ func (request DeleteIdpGroupMappingRequest) BinaryRequestBody() (*common.OCIRead
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteIdpGroupMappingRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteIdpGroupMappingRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

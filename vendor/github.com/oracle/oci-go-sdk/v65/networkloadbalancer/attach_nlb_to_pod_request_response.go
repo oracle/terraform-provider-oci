@@ -65,7 +65,7 @@ func (request AttachNlbToPodRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request AttachNlbToPodRequest) RetryPolicy() common.OCIRetry {
+func (request AttachNlbToPodRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

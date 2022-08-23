@@ -59,6 +59,7 @@ func (m *hostdumptransferdetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for HostDumpTransferDetails: %s.", m.Kind)
 		return *m, nil
 	}
 }

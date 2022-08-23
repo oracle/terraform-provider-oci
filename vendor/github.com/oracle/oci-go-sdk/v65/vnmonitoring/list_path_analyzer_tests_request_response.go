@@ -78,7 +78,7 @@ func (request ListPathAnalyzerTestsRequest) BinaryRequestBody() (*common.OCIRead
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListPathAnalyzerTestsRequest) RetryPolicy() common.OCIRetry {
+func (request ListPathAnalyzerTestsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

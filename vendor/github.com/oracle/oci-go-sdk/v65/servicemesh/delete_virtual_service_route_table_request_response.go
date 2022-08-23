@@ -54,7 +54,7 @@ func (request DeleteVirtualServiceRouteTableRequest) BinaryRequestBody() (*commo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteVirtualServiceRouteTableRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteVirtualServiceRouteTableRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

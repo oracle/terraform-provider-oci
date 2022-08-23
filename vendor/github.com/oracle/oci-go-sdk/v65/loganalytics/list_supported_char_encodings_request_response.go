@@ -53,7 +53,7 @@ func (request ListSupportedCharEncodingsRequest) BinaryRequestBody() (*common.OC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListSupportedCharEncodingsRequest) RetryPolicy() common.OCIRetry {
+func (request ListSupportedCharEncodingsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

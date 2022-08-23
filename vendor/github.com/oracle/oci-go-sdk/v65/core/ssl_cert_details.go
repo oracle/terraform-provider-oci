@@ -59,6 +59,7 @@ func (m *sslcertdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for SslCertDetails: %s.", m.ContentType)
 		return *m, nil
 	}
 }

@@ -51,7 +51,7 @@ func (request ConsumerCommitRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ConsumerCommitRequest) RetryPolicy() common.OCIRetry {
+func (request ConsumerCommitRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

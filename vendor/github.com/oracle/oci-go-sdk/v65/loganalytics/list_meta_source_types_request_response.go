@@ -59,7 +59,7 @@ func (request ListMetaSourceTypesRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListMetaSourceTypesRequest) RetryPolicy() common.OCIRetry {
+func (request ListMetaSourceTypesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

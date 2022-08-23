@@ -53,7 +53,7 @@ func (request DrainVnicWorkerRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DrainVnicWorkerRequest) RetryPolicy() common.OCIRetry {
+func (request DrainVnicWorkerRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

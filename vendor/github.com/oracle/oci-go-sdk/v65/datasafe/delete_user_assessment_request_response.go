@@ -54,7 +54,7 @@ func (request DeleteUserAssessmentRequest) BinaryRequestBody() (*common.OCIReadS
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteUserAssessmentRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteUserAssessmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -65,7 +65,7 @@ func (request ChangeNetworkLoadBalancerCompartmentRequest) BinaryRequestBody() (
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ChangeNetworkLoadBalancerCompartmentRequest) RetryPolicy() common.OCIRetry {
+func (request ChangeNetworkLoadBalancerCompartmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

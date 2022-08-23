@@ -47,7 +47,7 @@ func (request HeadJobArtifactRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request HeadJobArtifactRequest) RetryPolicy() common.OCIRetry {
+func (request HeadJobArtifactRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

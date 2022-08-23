@@ -68,7 +68,7 @@ func (request SwitchModuleStreamOnManagedInstanceRequest) BinaryRequestBody() (*
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request SwitchModuleStreamOnManagedInstanceRequest) RetryPolicy() common.OCIRetry {
+func (request SwitchModuleStreamOnManagedInstanceRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

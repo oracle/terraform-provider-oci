@@ -65,7 +65,7 @@ func (request ListTablespacesRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListTablespacesRequest) RetryPolicy() common.OCIRetry {
+func (request ListTablespacesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

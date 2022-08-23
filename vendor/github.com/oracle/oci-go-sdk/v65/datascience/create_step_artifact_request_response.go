@@ -71,7 +71,7 @@ func (request CreateStepArtifactRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateStepArtifactRequest) RetryPolicy() common.OCIRetry {
+func (request CreateStepArtifactRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -52,7 +52,7 @@ func (request CreateKubeconfigRequest) BinaryRequestBody() (*common.OCIReadSeekC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateKubeconfigRequest) RetryPolicy() common.OCIRetry {
+func (request CreateKubeconfigRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

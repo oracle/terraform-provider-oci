@@ -55,7 +55,7 @@ func (request CreateOrResetUIPasswordRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateOrResetUIPasswordRequest) RetryPolicy() common.OCIRetry {
+func (request CreateOrResetUIPasswordRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -67,7 +67,7 @@ func (request CreateVaultReplicaRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateVaultReplicaRequest) RetryPolicy() common.OCIRetry {
+func (request CreateVaultReplicaRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

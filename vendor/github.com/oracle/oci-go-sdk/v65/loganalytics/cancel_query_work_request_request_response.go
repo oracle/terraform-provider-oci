@@ -57,7 +57,7 @@ func (request CancelQueryWorkRequestRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CancelQueryWorkRequestRequest) RetryPolicy() common.OCIRetry {
+func (request CancelQueryWorkRequestRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

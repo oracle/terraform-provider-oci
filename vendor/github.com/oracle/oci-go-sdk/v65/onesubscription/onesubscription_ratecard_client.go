@@ -91,13 +91,12 @@ func (client *RatecardClient) ConfigurationProvider() *common.ConfigurationProvi
 // for a particular date range
 func (client RatecardClient) ListRateCards(ctx context.Context, request ListRateCardsRequest) (response ListRateCardsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listRateCards, policy)
 	if err != nil {

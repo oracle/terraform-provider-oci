@@ -47,7 +47,7 @@ func (request GetSourceSummaryRequest) BinaryRequestBody() (*common.OCIReadSeekC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetSourceSummaryRequest) RetryPolicy() common.OCIRetry {
+func (request GetSourceSummaryRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

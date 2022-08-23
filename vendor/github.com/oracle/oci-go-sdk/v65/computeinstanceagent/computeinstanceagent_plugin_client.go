@@ -91,13 +91,12 @@ func (client *PluginClient) ConfigurationProvider() *common.ConfigurationProvide
 // GetInstanceAgentPlugin The API to get information for a plugin.
 func (client PluginClient) GetInstanceAgentPlugin(ctx context.Context, request GetInstanceAgentPluginRequest) (response GetInstanceAgentPluginResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getInstanceAgentPlugin, policy)
 	if err != nil {
@@ -145,13 +144,12 @@ func (client PluginClient) getInstanceAgentPlugin(ctx context.Context, request c
 // ListInstanceAgentPlugins The API to get one or more plugin information.
 func (client PluginClient) ListInstanceAgentPlugins(ctx context.Context, request ListInstanceAgentPluginsRequest) (response ListInstanceAgentPluginsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listInstanceAgentPlugins, policy)
 	if err != nil {

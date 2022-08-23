@@ -50,7 +50,7 @@ func (request UpdateNamespaceMetadataRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateNamespaceMetadataRequest) RetryPolicy() common.OCIRetry {
+func (request UpdateNamespaceMetadataRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

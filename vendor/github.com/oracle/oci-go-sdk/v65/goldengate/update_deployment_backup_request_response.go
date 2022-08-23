@@ -53,7 +53,7 @@ func (request UpdateDeploymentBackupRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateDeploymentBackupRequest) RetryPolicy() common.OCIRetry {
+func (request UpdateDeploymentBackupRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

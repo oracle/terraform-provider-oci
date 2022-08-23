@@ -53,7 +53,7 @@ func (request DeleteServiceCatalogRequest) BinaryRequestBody() (*common.OCIReadS
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteServiceCatalogRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteServiceCatalogRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

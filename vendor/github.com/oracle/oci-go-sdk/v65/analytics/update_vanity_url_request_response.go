@@ -66,7 +66,7 @@ func (request UpdateVanityUrlRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateVanityUrlRequest) RetryPolicy() common.OCIRetry {
+func (request UpdateVanityUrlRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

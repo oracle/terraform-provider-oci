@@ -48,7 +48,7 @@ func (request GetRouteTableRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetRouteTableRequest) RetryPolicy() common.OCIRetry {
+func (request GetRouteTableRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

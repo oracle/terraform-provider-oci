@@ -61,7 +61,7 @@ func (request ReencryptObjectRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ReencryptObjectRequest) RetryPolicy() common.OCIRetry {
+func (request ReencryptObjectRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -57,7 +57,7 @@ func (request DeleteJobDefinitionRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteJobDefinitionRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteJobDefinitionRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

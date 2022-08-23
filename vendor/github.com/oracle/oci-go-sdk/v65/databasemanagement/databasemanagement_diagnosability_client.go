@@ -92,13 +92,12 @@ func (client *DiagnosabilityClient) ConfigurationProvider() *common.Configuratio
 // ListAlertLogs Lists the alert logs for the specified Managed Database.
 func (client DiagnosabilityClient) ListAlertLogs(ctx context.Context, request ListAlertLogsRequest) (response ListAlertLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listAlertLogs, policy)
 	if err != nil {
@@ -146,13 +145,12 @@ func (client DiagnosabilityClient) listAlertLogs(ctx context.Context, request co
 // ListAttentionLogs Lists the attention logs for the specified Managed Database.
 func (client DiagnosabilityClient) ListAttentionLogs(ctx context.Context, request ListAttentionLogsRequest) (response ListAttentionLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listAttentionLogs, policy)
 	if err != nil {
@@ -200,13 +198,12 @@ func (client DiagnosabilityClient) listAttentionLogs(ctx context.Context, reques
 // SummarizeAlertLogCounts Get the counts of alert logs for the specified Managed Database.
 func (client DiagnosabilityClient) SummarizeAlertLogCounts(ctx context.Context, request SummarizeAlertLogCountsRequest) (response SummarizeAlertLogCountsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeAlertLogCounts, policy)
 	if err != nil {
@@ -254,13 +251,12 @@ func (client DiagnosabilityClient) summarizeAlertLogCounts(ctx context.Context, 
 // SummarizeAttentionLogCounts Get the counts of attention logs for the specified Managed Database.
 func (client DiagnosabilityClient) SummarizeAttentionLogCounts(ctx context.Context, request SummarizeAttentionLogCountsRequest) (response SummarizeAttentionLogCountsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.summarizeAttentionLogCounts, policy)
 	if err != nil {

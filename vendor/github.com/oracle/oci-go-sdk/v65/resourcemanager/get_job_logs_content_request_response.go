@@ -48,7 +48,7 @@ func (request GetJobLogsContentRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetJobLogsContentRequest) RetryPolicy() common.OCIRetry {
+func (request GetJobLogsContentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

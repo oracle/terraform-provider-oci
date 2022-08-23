@@ -63,7 +63,7 @@ func (request DeleteTermRelationshipRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteTermRelationshipRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteTermRelationshipRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

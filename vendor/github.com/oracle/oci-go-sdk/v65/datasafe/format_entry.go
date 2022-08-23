@@ -151,6 +151,7 @@ func (m *formatentry) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for FormatEntry: %s.", m.Type)
 		return *m, nil
 	}
 }

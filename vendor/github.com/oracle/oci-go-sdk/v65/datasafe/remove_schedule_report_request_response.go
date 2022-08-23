@@ -60,7 +60,7 @@ func (request RemoveScheduleReportRequest) BinaryRequestBody() (*common.OCIReadS
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RemoveScheduleReportRequest) RetryPolicy() common.OCIRetry {
+func (request RemoveScheduleReportRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

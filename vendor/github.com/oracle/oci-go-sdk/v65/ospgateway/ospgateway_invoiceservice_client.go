@@ -90,13 +90,12 @@ func (client *InvoiceServiceClient) ConfigurationProvider() *common.Configuratio
 // DownloadPdfContent Returns an invoice in pdf format
 func (client InvoiceServiceClient) DownloadPdfContent(ctx context.Context, request DownloadPdfContentRequest) (response DownloadPdfContentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.downloadPdfContent, policy)
 	if err != nil {
@@ -143,13 +142,12 @@ func (client InvoiceServiceClient) downloadPdfContent(ctx context.Context, reque
 // GetInvoice Returns an invoice by invoice id
 func (client InvoiceServiceClient) GetInvoice(ctx context.Context, request GetInvoiceRequest) (response GetInvoiceResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getInvoice, policy)
 	if err != nil {
@@ -197,13 +195,12 @@ func (client InvoiceServiceClient) getInvoice(ctx context.Context, request commo
 // ListInvoiceLines Returns the invoice product list by invoice id
 func (client InvoiceServiceClient) ListInvoiceLines(ctx context.Context, request ListInvoiceLinesRequest) (response ListInvoiceLinesResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listInvoiceLines, policy)
 	if err != nil {
@@ -251,13 +248,12 @@ func (client InvoiceServiceClient) listInvoiceLines(ctx context.Context, request
 // ListInvoices Returns a list of invoices
 func (client InvoiceServiceClient) ListInvoices(ctx context.Context, request ListInvoicesRequest) (response ListInvoicesResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listInvoices, policy)
 	if err != nil {
@@ -305,13 +301,12 @@ func (client InvoiceServiceClient) listInvoices(ctx context.Context, request com
 // PayInvoice Pay an invoice
 func (client InvoiceServiceClient) PayInvoice(ctx context.Context, request PayInvoiceRequest) (response PayInvoiceResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {

@@ -66,7 +66,7 @@ func (request UpdateEndpointServiceNextHopRequest) BinaryRequestBody() (*common.
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateEndpointServiceNextHopRequest) RetryPolicy() common.OCIRetry {
+func (request UpdateEndpointServiceNextHopRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

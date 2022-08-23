@@ -58,7 +58,7 @@ func (request DeleteAuthenticationProviderRequest) BinaryRequestBody() (*common.
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteAuthenticationProviderRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteAuthenticationProviderRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

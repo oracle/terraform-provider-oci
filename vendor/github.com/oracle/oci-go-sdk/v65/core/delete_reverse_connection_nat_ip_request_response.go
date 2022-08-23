@@ -51,7 +51,7 @@ func (request DeleteReverseConnectionNatIpRequest) BinaryRequestBody() (*common.
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteReverseConnectionNatIpRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteReverseConnectionNatIpRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

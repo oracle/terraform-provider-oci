@@ -92,13 +92,12 @@ func (client *SqlTuningClient) ConfigurationProvider() *common.ConfigurationProv
 // CloneSqlTuningTask Clones and runs a SQL tuning task in the database.
 func (client SqlTuningClient) CloneSqlTuningTask(ctx context.Context, request CloneSqlTuningTaskRequest) (response CloneSqlTuningTaskResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -151,13 +150,12 @@ func (client SqlTuningClient) cloneSqlTuningTask(ctx context.Context, request co
 // DropSqlTuningTask Drops a SQL tuning task and its related results from the database.
 func (client SqlTuningClient) DropSqlTuningTask(ctx context.Context, request DropSqlTuningTaskRequest) (response DropSqlTuningTaskResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -212,13 +210,12 @@ func (client SqlTuningClient) dropSqlTuningTask(ctx context.Context, request com
 // and this API retrieves the comparison report of the statistics of the two plans.
 func (client SqlTuningClient) GetExecutionPlanStatsComparision(ctx context.Context, request GetExecutionPlanStatsComparisionRequest) (response GetExecutionPlanStatsComparisionResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getExecutionPlanStatsComparision, policy)
 	if err != nil {
@@ -266,13 +263,12 @@ func (client SqlTuningClient) getExecutionPlanStatsComparision(ctx context.Conte
 // GetSqlExecutionPlan Retrieves a SQL execution plan for the SQL being tuned.
 func (client SqlTuningClient) GetSqlExecutionPlan(ctx context.Context, request GetSqlExecutionPlanRequest) (response GetSqlExecutionPlanResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getSqlExecutionPlan, policy)
 	if err != nil {
@@ -320,13 +316,12 @@ func (client SqlTuningClient) getSqlExecutionPlan(ctx context.Context, request c
 // GetSqlTuningAdvisorTaskSummaryReport Gets the summary report for the specified SQL Tuning Advisor task.
 func (client SqlTuningClient) GetSqlTuningAdvisorTaskSummaryReport(ctx context.Context, request GetSqlTuningAdvisorTaskSummaryReportRequest) (response GetSqlTuningAdvisorTaskSummaryReportResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getSqlTuningAdvisorTaskSummaryReport, policy)
 	if err != nil {
@@ -374,13 +369,12 @@ func (client SqlTuningClient) getSqlTuningAdvisorTaskSummaryReport(ctx context.C
 // ListSqlTuningAdvisorTaskFindings Gets an array of the details of the findings that match specific filters.
 func (client SqlTuningClient) ListSqlTuningAdvisorTaskFindings(ctx context.Context, request ListSqlTuningAdvisorTaskFindingsRequest) (response ListSqlTuningAdvisorTaskFindingsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSqlTuningAdvisorTaskFindings, policy)
 	if err != nil {
@@ -429,13 +423,12 @@ func (client SqlTuningClient) listSqlTuningAdvisorTaskFindings(ctx context.Conte
 // The task ID and object ID are used to retrieve the findings and recommendations.
 func (client SqlTuningClient) ListSqlTuningAdvisorTaskRecommendations(ctx context.Context, request ListSqlTuningAdvisorTaskRecommendationsRequest) (response ListSqlTuningAdvisorTaskRecommendationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSqlTuningAdvisorTaskRecommendations, policy)
 	if err != nil {
@@ -483,13 +476,12 @@ func (client SqlTuningClient) listSqlTuningAdvisorTaskRecommendations(ctx contex
 // ListSqlTuningAdvisorTasks Lists the SQL Tuning Advisor tasks for the specified Managed Database.
 func (client SqlTuningClient) ListSqlTuningAdvisorTasks(ctx context.Context, request ListSqlTuningAdvisorTasksRequest) (response ListSqlTuningAdvisorTasksResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSqlTuningAdvisorTasks, policy)
 	if err != nil {
@@ -537,13 +529,12 @@ func (client SqlTuningClient) listSqlTuningAdvisorTasks(ctx context.Context, req
 // ListSqlTuningSets Lists the SQL tuning sets for the specified Managed Database.
 func (client SqlTuningClient) ListSqlTuningSets(ctx context.Context, request ListSqlTuningSetsRequest) (response ListSqlTuningSetsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSqlTuningSets, policy)
 	if err != nil {
@@ -591,13 +582,12 @@ func (client SqlTuningClient) listSqlTuningSets(ctx context.Context, request com
 // StartSqlTuningTask Starts a SQL tuning task for a given set of SQL statements from the active session history top SQL statements.
 func (client SqlTuningClient) StartSqlTuningTask(ctx context.Context, request StartSqlTuningTaskRequest) (response StartSqlTuningTaskResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {

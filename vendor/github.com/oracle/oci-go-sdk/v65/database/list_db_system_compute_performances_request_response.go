@@ -47,7 +47,7 @@ func (request ListDbSystemComputePerformancesRequest) BinaryRequestBody() (*comm
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListDbSystemComputePerformancesRequest) RetryPolicy() common.OCIRetry {
+func (request ListDbSystemComputePerformancesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

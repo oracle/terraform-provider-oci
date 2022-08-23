@@ -48,7 +48,7 @@ func (request GetInternalPublicIpRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetInternalPublicIpRequest) RetryPolicy() common.OCIRetry {
+func (request GetInternalPublicIpRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -66,7 +66,7 @@ func (request GetActionGenerateTokenRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetActionGenerateTokenRequest) RetryPolicy() common.OCIRetry {
+func (request GetActionGenerateTokenRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

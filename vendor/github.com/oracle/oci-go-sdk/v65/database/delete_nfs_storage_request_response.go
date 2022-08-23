@@ -52,7 +52,7 @@ func (request DeleteNfsStorageRequest) BinaryRequestBody() (*common.OCIReadSeekC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteNfsStorageRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteNfsStorageRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

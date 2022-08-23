@@ -66,7 +66,7 @@ func (request ListNetworkSecurityGroupVnicsRequest) BinaryRequestBody() (*common
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListNetworkSecurityGroupVnicsRequest) RetryPolicy() common.OCIRetry {
+func (request ListNetworkSecurityGroupVnicsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

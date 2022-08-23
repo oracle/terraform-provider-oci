@@ -62,7 +62,7 @@ func (request AddVirtualMachineToVmClusterRequest) BinaryRequestBody() (*common.
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request AddVirtualMachineToVmClusterRequest) RetryPolicy() common.OCIRetry {
+func (request AddVirtualMachineToVmClusterRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

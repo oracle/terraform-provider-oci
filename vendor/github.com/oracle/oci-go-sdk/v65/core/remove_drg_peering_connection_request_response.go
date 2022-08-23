@@ -48,7 +48,7 @@ func (request RemoveDrgPeeringConnectionRequest) BinaryRequestBody() (*common.OC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RemoveDrgPeeringConnectionRequest) RetryPolicy() common.OCIRetry {
+func (request RemoveDrgPeeringConnectionRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

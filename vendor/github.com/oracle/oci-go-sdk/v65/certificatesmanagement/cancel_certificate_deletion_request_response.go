@@ -56,7 +56,7 @@ func (request CancelCertificateDeletionRequest) BinaryRequestBody() (*common.OCI
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CancelCertificateDeletionRequest) RetryPolicy() common.OCIRetry {
+func (request CancelCertificateDeletionRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

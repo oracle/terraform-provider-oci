@@ -82,7 +82,7 @@ func (request SummarizeSqlResponseTimeDistributionsRequest) BinaryRequestBody() 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request SummarizeSqlResponseTimeDistributionsRequest) RetryPolicy() common.OCIRetry {
+func (request SummarizeSqlResponseTimeDistributionsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

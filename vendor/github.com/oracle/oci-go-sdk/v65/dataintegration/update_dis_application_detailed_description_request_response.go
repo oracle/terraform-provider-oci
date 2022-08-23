@@ -60,7 +60,7 @@ func (request UpdateDisApplicationDetailedDescriptionRequest) BinaryRequestBody(
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateDisApplicationDetailedDescriptionRequest) RetryPolicy() common.OCIRetry {
+func (request UpdateDisApplicationDetailedDescriptionRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

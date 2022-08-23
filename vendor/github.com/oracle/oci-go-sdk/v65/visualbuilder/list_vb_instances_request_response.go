@@ -68,7 +68,7 @@ func (request ListVbInstancesRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListVbInstancesRequest) RetryPolicy() common.OCIRetry {
+func (request ListVbInstancesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -55,7 +55,7 @@ func (request GetEngineConfigurationsRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetEngineConfigurationsRequest) RetryPolicy() common.OCIRetry {
+func (request GetEngineConfigurationsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

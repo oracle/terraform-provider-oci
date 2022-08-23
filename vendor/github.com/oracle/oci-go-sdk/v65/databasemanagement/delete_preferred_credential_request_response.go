@@ -50,7 +50,7 @@ func (request DeletePreferredCredentialRequest) BinaryRequestBody() (*common.OCI
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeletePreferredCredentialRequest) RetryPolicy() common.OCIRetry {
+func (request DeletePreferredCredentialRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

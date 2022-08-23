@@ -68,6 +68,7 @@ func (m *createcertificateconfigdetails) UnmarshalPolymorphicJSON(data []byte) (
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for CreateCertificateConfigDetails: %s.", m.ConfigType)
 		return *m, nil
 	}
 }

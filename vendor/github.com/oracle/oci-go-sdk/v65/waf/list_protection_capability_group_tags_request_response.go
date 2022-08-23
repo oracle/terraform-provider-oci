@@ -68,7 +68,7 @@ func (request ListProtectionCapabilityGroupTagsRequest) BinaryRequestBody() (*co
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListProtectionCapabilityGroupTagsRequest) RetryPolicy() common.OCIRetry {
+func (request ListProtectionCapabilityGroupTagsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

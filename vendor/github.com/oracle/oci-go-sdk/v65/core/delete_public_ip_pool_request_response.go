@@ -53,7 +53,7 @@ func (request DeletePublicIpPoolRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeletePublicIpPoolRequest) RetryPolicy() common.OCIRetry {
+func (request DeletePublicIpPoolRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

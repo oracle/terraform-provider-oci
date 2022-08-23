@@ -70,7 +70,7 @@ func (request ListNetworkSecurityGroupSecurityRulesRequest) BinaryRequestBody() 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListNetworkSecurityGroupSecurityRulesRequest) RetryPolicy() common.OCIRetry {
+func (request ListNetworkSecurityGroupSecurityRulesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

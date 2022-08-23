@@ -48,7 +48,7 @@ func (request ListAvailabilityDomainsRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListAvailabilityDomainsRequest) RetryPolicy() common.OCIRetry {
+func (request ListAvailabilityDomainsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

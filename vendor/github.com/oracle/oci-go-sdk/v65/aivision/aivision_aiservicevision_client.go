@@ -91,13 +91,12 @@ func (client *AIServiceVisionClient) ConfigurationProvider() *common.Configurati
 // A default retry strategy applies to this operation AnalyzeDocument()
 func (client AIServiceVisionClient) AnalyzeDocument(ctx context.Context, request AnalyzeDocumentRequest) (response AnalyzeDocumentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.analyzeDocument, policy)
 	if err != nil {
@@ -133,7 +132,7 @@ func (client AIServiceVisionClient) analyzeDocument(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/AnalyzeDocumentResult/AnalyzeDocument"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "AIServiceVision", "AnalyzeDocument", apiReferenceLink)
 		return response, err
 	}
@@ -146,13 +145,12 @@ func (client AIServiceVisionClient) analyzeDocument(ctx context.Context, request
 // A default retry strategy applies to this operation AnalyzeImage()
 func (client AIServiceVisionClient) AnalyzeImage(ctx context.Context, request AnalyzeImageRequest) (response AnalyzeImageResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.analyzeImage, policy)
 	if err != nil {
@@ -188,7 +186,7 @@ func (client AIServiceVisionClient) analyzeImage(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/AnalyzeImageResult/AnalyzeImage"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "AIServiceVision", "AnalyzeImage", apiReferenceLink)
 		return response, err
 	}
@@ -200,13 +198,12 @@ func (client AIServiceVisionClient) analyzeImage(ctx context.Context, request co
 // CancelDocumentJob Cancel a document batch job.
 func (client AIServiceVisionClient) CancelDocumentJob(ctx context.Context, request CancelDocumentJobRequest) (response CancelDocumentJobResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.cancelDocumentJob, policy)
 	if err != nil {
@@ -242,7 +239,7 @@ func (client AIServiceVisionClient) cancelDocumentJob(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/DocumentJob/CancelDocumentJob"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "AIServiceVision", "CancelDocumentJob", apiReferenceLink)
 		return response, err
 	}
@@ -254,13 +251,12 @@ func (client AIServiceVisionClient) cancelDocumentJob(ctx context.Context, reque
 // CancelImageJob Cancel an image batch job.
 func (client AIServiceVisionClient) CancelImageJob(ctx context.Context, request CancelImageJobRequest) (response CancelImageJobResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.cancelImageJob, policy)
 	if err != nil {
@@ -296,7 +292,7 @@ func (client AIServiceVisionClient) cancelImageJob(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/ImageJob/CancelImageJob"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "AIServiceVision", "CancelImageJob", apiReferenceLink)
 		return response, err
 	}
@@ -308,13 +304,12 @@ func (client AIServiceVisionClient) cancelImageJob(ctx context.Context, request 
 // CancelWorkRequest Cancel the work request with the given ID.
 func (client AIServiceVisionClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.cancelWorkRequest, policy)
 	if err != nil {
@@ -350,7 +345,7 @@ func (client AIServiceVisionClient) cancelWorkRequest(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/WorkRequest/CancelWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "AIServiceVision", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -362,13 +357,12 @@ func (client AIServiceVisionClient) cancelWorkRequest(ctx context.Context, reque
 // ChangeModelCompartment Moves a model from one compartment to another. When provided, If-Match is checked against the ETag values of the resource.
 func (client AIServiceVisionClient) ChangeModelCompartment(ctx context.Context, request ChangeModelCompartmentRequest) (response ChangeModelCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.changeModelCompartment, policy)
 	if err != nil {
@@ -404,7 +398,7 @@ func (client AIServiceVisionClient) changeModelCompartment(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/Model/ChangeModelCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "AIServiceVision", "ChangeModelCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -416,13 +410,12 @@ func (client AIServiceVisionClient) changeModelCompartment(ctx context.Context, 
 // ChangeProjectCompartment Move a project from one compartment to another. When provided, If-Match is checked against the ETag values of the resource.
 func (client AIServiceVisionClient) ChangeProjectCompartment(ctx context.Context, request ChangeProjectCompartmentRequest) (response ChangeProjectCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.changeProjectCompartment, policy)
 	if err != nil {
@@ -458,7 +451,7 @@ func (client AIServiceVisionClient) changeProjectCompartment(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/Project/ChangeProjectCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "AIServiceVision", "ChangeProjectCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -470,13 +463,12 @@ func (client AIServiceVisionClient) changeProjectCompartment(ctx context.Context
 // CreateDocumentJob Create a document analysis batch job.
 func (client AIServiceVisionClient) CreateDocumentJob(ctx context.Context, request CreateDocumentJobRequest) (response CreateDocumentJobResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -517,7 +509,7 @@ func (client AIServiceVisionClient) createDocumentJob(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/DocumentJob/CreateDocumentJob"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "AIServiceVision", "CreateDocumentJob", apiReferenceLink)
 		return response, err
 	}
@@ -529,13 +521,12 @@ func (client AIServiceVisionClient) createDocumentJob(ctx context.Context, reque
 // CreateImageJob Create an image analysis batch job.
 func (client AIServiceVisionClient) CreateImageJob(ctx context.Context, request CreateImageJobRequest) (response CreateImageJobResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -576,7 +567,7 @@ func (client AIServiceVisionClient) createImageJob(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/ImageJob/CreateImageJob"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "AIServiceVision", "CreateImageJob", apiReferenceLink)
 		return response, err
 	}
@@ -588,13 +579,12 @@ func (client AIServiceVisionClient) createImageJob(ctx context.Context, request 
 // CreateModel Create a new model.
 func (client AIServiceVisionClient) CreateModel(ctx context.Context, request CreateModelRequest) (response CreateModelResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -647,13 +637,12 @@ func (client AIServiceVisionClient) createModel(ctx context.Context, request com
 // CreateProject Create a new project.
 func (client AIServiceVisionClient) CreateProject(ctx context.Context, request CreateProjectRequest) (response CreateProjectResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -706,13 +695,12 @@ func (client AIServiceVisionClient) createProject(ctx context.Context, request c
 // DeleteModel Delete a model by identifier.
 func (client AIServiceVisionClient) DeleteModel(ctx context.Context, request DeleteModelRequest) (response DeleteModelResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteModel, policy)
 	if err != nil {
@@ -748,7 +736,7 @@ func (client AIServiceVisionClient) deleteModel(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/Model/DeleteModel"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "AIServiceVision", "DeleteModel", apiReferenceLink)
 		return response, err
 	}
@@ -760,13 +748,12 @@ func (client AIServiceVisionClient) deleteModel(ctx context.Context, request com
 // DeleteProject Delete a project by identifier.
 func (client AIServiceVisionClient) DeleteProject(ctx context.Context, request DeleteProjectRequest) (response DeleteProjectResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteProject, policy)
 	if err != nil {
@@ -802,7 +789,7 @@ func (client AIServiceVisionClient) deleteProject(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/Project/DeleteProject"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "AIServiceVision", "DeleteProject", apiReferenceLink)
 		return response, err
 	}
@@ -814,13 +801,12 @@ func (client AIServiceVisionClient) deleteProject(ctx context.Context, request c
 // GetDocumentJob Get details of a document batch job.
 func (client AIServiceVisionClient) GetDocumentJob(ctx context.Context, request GetDocumentJobRequest) (response GetDocumentJobResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getDocumentJob, policy)
 	if err != nil {
@@ -856,7 +842,7 @@ func (client AIServiceVisionClient) getDocumentJob(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/DocumentJob/GetDocumentJob"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "AIServiceVision", "GetDocumentJob", apiReferenceLink)
 		return response, err
 	}
@@ -868,13 +854,12 @@ func (client AIServiceVisionClient) getDocumentJob(ctx context.Context, request 
 // GetImageJob Get details of an image batch job.
 func (client AIServiceVisionClient) GetImageJob(ctx context.Context, request GetImageJobRequest) (response GetImageJobResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getImageJob, policy)
 	if err != nil {
@@ -910,7 +895,7 @@ func (client AIServiceVisionClient) getImageJob(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/ImageJob/GetImageJob"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "AIServiceVision", "GetImageJob", apiReferenceLink)
 		return response, err
 	}
@@ -922,13 +907,12 @@ func (client AIServiceVisionClient) getImageJob(ctx context.Context, request com
 // GetModel Get a model by identifier.
 func (client AIServiceVisionClient) GetModel(ctx context.Context, request GetModelRequest) (response GetModelResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getModel, policy)
 	if err != nil {
@@ -964,7 +948,7 @@ func (client AIServiceVisionClient) getModel(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/Model/GetModel"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "AIServiceVision", "GetModel", apiReferenceLink)
 		return response, err
 	}
@@ -976,13 +960,12 @@ func (client AIServiceVisionClient) getModel(ctx context.Context, request common
 // GetProject Get a project by identifier.
 func (client AIServiceVisionClient) GetProject(ctx context.Context, request GetProjectRequest) (response GetProjectResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getProject, policy)
 	if err != nil {
@@ -1018,7 +1001,7 @@ func (client AIServiceVisionClient) getProject(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/Project/GetProject"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "AIServiceVision", "GetProject", apiReferenceLink)
 		return response, err
 	}
@@ -1030,13 +1013,12 @@ func (client AIServiceVisionClient) getProject(ctx context.Context, request comm
 // GetWorkRequest Gets the status of the work request with the given ID.
 func (client AIServiceVisionClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
@@ -1072,7 +1054,7 @@ func (client AIServiceVisionClient) getWorkRequest(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "AIServiceVision", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -1084,13 +1066,12 @@ func (client AIServiceVisionClient) getWorkRequest(ctx context.Context, request 
 // ListModels Returns a list of models in a compartment.
 func (client AIServiceVisionClient) ListModels(ctx context.Context, request ListModelsRequest) (response ListModelsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listModels, policy)
 	if err != nil {
@@ -1126,7 +1107,7 @@ func (client AIServiceVisionClient) listModels(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/ModelCollection/ListModels"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "AIServiceVision", "ListModels", apiReferenceLink)
 		return response, err
 	}
@@ -1138,13 +1119,12 @@ func (client AIServiceVisionClient) listModels(ctx context.Context, request comm
 // ListProjects Returns a list of projects.
 func (client AIServiceVisionClient) ListProjects(ctx context.Context, request ListProjectsRequest) (response ListProjectsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listProjects, policy)
 	if err != nil {
@@ -1180,7 +1160,7 @@ func (client AIServiceVisionClient) listProjects(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/ProjectCollection/ListProjects"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "AIServiceVision", "ListProjects", apiReferenceLink)
 		return response, err
 	}
@@ -1192,13 +1172,12 @@ func (client AIServiceVisionClient) listProjects(ctx context.Context, request co
 // ListWorkRequestErrors Returns a (paginated) list of errors for a given work request.
 func (client AIServiceVisionClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
 	if err != nil {
@@ -1234,7 +1213,7 @@ func (client AIServiceVisionClient) listWorkRequestErrors(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/WorkRequestError/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "AIServiceVision", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -1246,13 +1225,12 @@ func (client AIServiceVisionClient) listWorkRequestErrors(ctx context.Context, r
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
 func (client AIServiceVisionClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestLogs, policy)
 	if err != nil {
@@ -1288,7 +1266,7 @@ func (client AIServiceVisionClient) listWorkRequestLogs(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/WorkRequestLogEntry/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "AIServiceVision", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -1300,13 +1278,12 @@ func (client AIServiceVisionClient) listWorkRequestLogs(ctx context.Context, req
 // ListWorkRequests Lists the work requests in a compartment.
 func (client AIServiceVisionClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
@@ -1342,7 +1319,7 @@ func (client AIServiceVisionClient) listWorkRequests(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/WorkRequest/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "AIServiceVision", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -1354,13 +1331,12 @@ func (client AIServiceVisionClient) listWorkRequests(ctx context.Context, reques
 // UpdateModel Updates the model metadata.
 func (client AIServiceVisionClient) UpdateModel(ctx context.Context, request UpdateModelRequest) (response UpdateModelResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateModel, policy)
 	if err != nil {
@@ -1396,7 +1372,7 @@ func (client AIServiceVisionClient) updateModel(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/Model/UpdateModel"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "AIServiceVision", "UpdateModel", apiReferenceLink)
 		return response, err
 	}
@@ -1408,13 +1384,12 @@ func (client AIServiceVisionClient) updateModel(ctx context.Context, request com
 // UpdateProject Update the project metadata.
 func (client AIServiceVisionClient) UpdateProject(ctx context.Context, request UpdateProjectRequest) (response UpdateProjectResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateProject, policy)
 	if err != nil {
@@ -1450,7 +1425,7 @@ func (client AIServiceVisionClient) updateProject(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/Project/UpdateProject"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "AIServiceVision", "UpdateProject", apiReferenceLink)
 		return response, err
 	}

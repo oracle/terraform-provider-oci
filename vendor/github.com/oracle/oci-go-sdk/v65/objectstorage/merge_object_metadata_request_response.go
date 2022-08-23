@@ -77,7 +77,7 @@ func (request MergeObjectMetadataRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request MergeObjectMetadataRequest) RetryPolicy() common.OCIRetry {
+func (request MergeObjectMetadataRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -48,7 +48,7 @@ func (request ResetIdpScimClientRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ResetIdpScimClientRequest) RetryPolicy() common.OCIRetry {
+func (request ResetIdpScimClientRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

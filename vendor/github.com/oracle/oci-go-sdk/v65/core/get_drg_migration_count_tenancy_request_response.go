@@ -48,7 +48,7 @@ func (request GetDrgMigrationCountTenancyRequest) BinaryRequestBody() (*common.O
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetDrgMigrationCountTenancyRequest) RetryPolicy() common.OCIRetry {
+func (request GetDrgMigrationCountTenancyRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

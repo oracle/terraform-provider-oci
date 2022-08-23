@@ -58,7 +58,7 @@ func (request ModifyRootdirAttributesRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ModifyRootdirAttributesRequest) RetryPolicy() common.OCIRetry {
+func (request ModifyRootdirAttributesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

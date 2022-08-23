@@ -55,7 +55,7 @@ func (request DeriveEntitiesRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeriveEntitiesRequest) RetryPolicy() common.OCIRetry {
+func (request DeriveEntitiesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

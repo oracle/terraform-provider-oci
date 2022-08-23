@@ -58,7 +58,7 @@ func (request ChangeInternalGenericGatewayCompartmentRequest) BinaryRequestBody(
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ChangeInternalGenericGatewayCompartmentRequest) RetryPolicy() common.OCIRetry {
+func (request ChangeInternalGenericGatewayCompartmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -90,13 +90,12 @@ func (client *OpensearchClusterClient) ConfigurationProvider() *common.Configura
 // BackupOpensearchCluster Backup the opensearch cluster details.
 func (client OpensearchClusterClient) BackupOpensearchCluster(ctx context.Context, request BackupOpensearchClusterRequest) (response BackupOpensearchClusterResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -137,7 +136,7 @@ func (client OpensearchClusterClient) backupOpensearchCluster(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchCluster/BackupOpensearchCluster"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "BackupOpensearchCluster", apiReferenceLink)
 		return response, err
 	}
@@ -149,13 +148,12 @@ func (client OpensearchClusterClient) backupOpensearchCluster(ctx context.Contex
 // CreateOpensearchCluster Creates a new OpensearchCluster.
 func (client OpensearchClusterClient) CreateOpensearchCluster(ctx context.Context, request CreateOpensearchClusterRequest) (response CreateOpensearchClusterResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -196,7 +194,7 @@ func (client OpensearchClusterClient) createOpensearchCluster(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchCluster/CreateOpensearchCluster"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "CreateOpensearchCluster", apiReferenceLink)
 		return response, err
 	}
@@ -208,13 +206,12 @@ func (client OpensearchClusterClient) createOpensearchCluster(ctx context.Contex
 // DeleteOpensearchCluster Deletes a OpensearchCluster resource by identifier
 func (client OpensearchClusterClient) DeleteOpensearchCluster(ctx context.Context, request DeleteOpensearchClusterRequest) (response DeleteOpensearchClusterResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteOpensearchCluster, policy)
 	if err != nil {
@@ -250,7 +247,7 @@ func (client OpensearchClusterClient) deleteOpensearchCluster(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchCluster/DeleteOpensearchCluster"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "DeleteOpensearchCluster", apiReferenceLink)
 		return response, err
 	}
@@ -262,13 +259,12 @@ func (client OpensearchClusterClient) deleteOpensearchCluster(ctx context.Contex
 // GetOpensearchCluster Gets a OpensearchCluster by identifier
 func (client OpensearchClusterClient) GetOpensearchCluster(ctx context.Context, request GetOpensearchClusterRequest) (response GetOpensearchClusterResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getOpensearchCluster, policy)
 	if err != nil {
@@ -304,7 +300,7 @@ func (client OpensearchClusterClient) getOpensearchCluster(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchCluster/GetOpensearchCluster"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "GetOpensearchCluster", apiReferenceLink)
 		return response, err
 	}
@@ -316,13 +312,12 @@ func (client OpensearchClusterClient) getOpensearchCluster(ctx context.Context, 
 // GetWorkRequest Gets the status of the work request with the given ID.
 func (client OpensearchClusterClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
@@ -358,7 +353,7 @@ func (client OpensearchClusterClient) getWorkRequest(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -370,13 +365,12 @@ func (client OpensearchClusterClient) getWorkRequest(ctx context.Context, reques
 // ListOpensearchClusters Returns a list of OpensearchClusters.
 func (client OpensearchClusterClient) ListOpensearchClusters(ctx context.Context, request ListOpensearchClustersRequest) (response ListOpensearchClustersResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listOpensearchClusters, policy)
 	if err != nil {
@@ -412,7 +406,7 @@ func (client OpensearchClusterClient) listOpensearchClusters(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchClusterCollection/ListOpensearchClusters"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "ListOpensearchClusters", apiReferenceLink)
 		return response, err
 	}
@@ -424,13 +418,12 @@ func (client OpensearchClusterClient) listOpensearchClusters(ctx context.Context
 // ListOpensearchVersions Lists the supported Opensearch versions
 func (client OpensearchClusterClient) ListOpensearchVersions(ctx context.Context, request ListOpensearchVersionsRequest) (response ListOpensearchVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listOpensearchVersions, policy)
 	if err != nil {
@@ -466,7 +459,7 @@ func (client OpensearchClusterClient) listOpensearchVersions(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchVersionsCollection/ListOpensearchVersions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "ListOpensearchVersions", apiReferenceLink)
 		return response, err
 	}
@@ -478,13 +471,12 @@ func (client OpensearchClusterClient) listOpensearchVersions(ctx context.Context
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
 func (client OpensearchClusterClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
 	if err != nil {
@@ -520,7 +512,7 @@ func (client OpensearchClusterClient) listWorkRequestErrors(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/WorkRequestErrorCollection/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -532,13 +524,12 @@ func (client OpensearchClusterClient) listWorkRequestErrors(ctx context.Context,
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
 func (client OpensearchClusterClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestLogs, policy)
 	if err != nil {
@@ -574,7 +565,7 @@ func (client OpensearchClusterClient) listWorkRequestLogs(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/WorkRequestLogEntryCollection/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -586,13 +577,12 @@ func (client OpensearchClusterClient) listWorkRequestLogs(ctx context.Context, r
 // ListWorkRequests Lists the work requests in a compartment.
 func (client OpensearchClusterClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
@@ -628,7 +618,7 @@ func (client OpensearchClusterClient) listWorkRequests(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/WorkRequestCollection/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -640,13 +630,12 @@ func (client OpensearchClusterClient) listWorkRequests(ctx context.Context, requ
 // OpensearchClusterRestore Restore the opensearch cluster details.
 func (client OpensearchClusterClient) OpensearchClusterRestore(ctx context.Context, request OpensearchClusterRestoreRequest) (response OpensearchClusterRestoreResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -687,7 +676,7 @@ func (client OpensearchClusterClient) opensearchClusterRestore(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchCluster/OpensearchClusterRestore"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "OpensearchClusterRestore", apiReferenceLink)
 		return response, err
 	}
@@ -699,13 +688,12 @@ func (client OpensearchClusterClient) opensearchClusterRestore(ctx context.Conte
 // ResizeOpensearchClusterHorizontal Resize the opensearch cluster horizontal details.
 func (client OpensearchClusterClient) ResizeOpensearchClusterHorizontal(ctx context.Context, request ResizeOpensearchClusterHorizontalRequest) (response ResizeOpensearchClusterHorizontalResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -746,7 +734,7 @@ func (client OpensearchClusterClient) resizeOpensearchClusterHorizontal(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchCluster/ResizeOpensearchClusterHorizontal"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "ResizeOpensearchClusterHorizontal", apiReferenceLink)
 		return response, err
 	}
@@ -758,13 +746,12 @@ func (client OpensearchClusterClient) resizeOpensearchClusterHorizontal(ctx cont
 // ResizeOpensearchClusterVertical Resize the opensearch cluster vertical details.
 func (client OpensearchClusterClient) ResizeOpensearchClusterVertical(ctx context.Context, request ResizeOpensearchClusterVerticalRequest) (response ResizeOpensearchClusterVerticalResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -805,7 +792,7 @@ func (client OpensearchClusterClient) resizeOpensearchClusterVertical(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchCluster/ResizeOpensearchClusterVertical"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "ResizeOpensearchClusterVertical", apiReferenceLink)
 		return response, err
 	}
@@ -817,13 +804,12 @@ func (client OpensearchClusterClient) resizeOpensearchClusterVertical(ctx contex
 // UpdateOpensearchCluster Updates the OpensearchCluster
 func (client OpensearchClusterClient) UpdateOpensearchCluster(ctx context.Context, request UpdateOpensearchClusterRequest) (response UpdateOpensearchClusterResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateOpensearchCluster, policy)
 	if err != nil {
@@ -859,7 +845,7 @@ func (client OpensearchClusterClient) updateOpensearchCluster(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchCluster/UpdateOpensearchCluster"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "UpdateOpensearchCluster", apiReferenceLink)
 		return response, err
 	}

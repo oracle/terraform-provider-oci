@@ -91,13 +91,12 @@ func (client *AccountClient) ConfigurationProvider() *common.ConfigurationProvid
 // A default retry strategy applies to this operation GetLaunchEligibility()
 func (client AccountClient) GetLaunchEligibility(ctx context.Context, request GetLaunchEligibilityRequest) (response GetLaunchEligibilityResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getLaunchEligibility, policy)
 	if err != nil {
@@ -146,13 +145,12 @@ func (client AccountClient) getLaunchEligibility(ctx context.Context, request co
 // A default retry strategy applies to this operation GetThirdPartyPaidListingEligibility()
 func (client AccountClient) GetThirdPartyPaidListingEligibility(ctx context.Context, request GetThirdPartyPaidListingEligibilityRequest) (response GetThirdPartyPaidListingEligibilityResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getThirdPartyPaidListingEligibility, policy)
 	if err != nil {

@@ -79,7 +79,7 @@ func (request ListReverseConnectionNatIpsRequest) BinaryRequestBody() (*common.O
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListReverseConnectionNatIpsRequest) RetryPolicy() common.OCIRetry {
+func (request ListReverseConnectionNatIpsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

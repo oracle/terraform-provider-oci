@@ -53,7 +53,7 @@ func (request CreateReportDefinitionRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateReportDefinitionRequest) RetryPolicy() common.OCIRetry {
+func (request CreateReportDefinitionRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

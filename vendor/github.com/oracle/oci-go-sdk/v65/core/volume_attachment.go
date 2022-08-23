@@ -150,6 +150,7 @@ func (m *volumeattachment) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for VolumeAttachment: %s.", m.AttachmentType)
 		return *m, nil
 	}
 }

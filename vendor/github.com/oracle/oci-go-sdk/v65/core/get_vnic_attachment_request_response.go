@@ -48,7 +48,7 @@ func (request GetVnicAttachmentRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetVnicAttachmentRequest) RetryPolicy() common.OCIRetry {
+func (request GetVnicAttachmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

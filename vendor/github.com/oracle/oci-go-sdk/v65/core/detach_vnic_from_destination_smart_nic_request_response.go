@@ -63,7 +63,7 @@ func (request DetachVnicFromDestinationSmartNicRequest) BinaryRequestBody() (*co
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DetachVnicFromDestinationSmartNicRequest) RetryPolicy() common.OCIRetry {
+func (request DetachVnicFromDestinationSmartNicRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -76,6 +76,7 @@ func (m *actiondetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for ActionDetails: %s.", m.ActionType)
 		return *m, nil
 	}
 }

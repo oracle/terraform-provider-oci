@@ -55,7 +55,7 @@ func (request ListZoneTransferServersRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListZoneTransferServersRequest) RetryPolicy() common.OCIRetry {
+func (request ListZoneTransferServersRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

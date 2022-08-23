@@ -72,7 +72,7 @@ func (request ListWebAppFirewallPoliciesRequest) BinaryRequestBody() (*common.OC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListWebAppFirewallPoliciesRequest) RetryPolicy() common.OCIRetry {
+func (request ListWebAppFirewallPoliciesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

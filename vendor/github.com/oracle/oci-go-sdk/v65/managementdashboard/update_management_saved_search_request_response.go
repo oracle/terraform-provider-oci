@@ -64,7 +64,7 @@ func (request UpdateManagementSavedSearchRequest) BinaryRequestBody() (*common.O
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateManagementSavedSearchRequest) RetryPolicy() common.OCIRetry {
+func (request UpdateManagementSavedSearchRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

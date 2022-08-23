@@ -56,7 +56,7 @@ func (request UpdateLocalPeeringConnectionRequest) BinaryRequestBody() (*common.
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateLocalPeeringConnectionRequest) RetryPolicy() common.OCIRetry {
+func (request UpdateLocalPeeringConnectionRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

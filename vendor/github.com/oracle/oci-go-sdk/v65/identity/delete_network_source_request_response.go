@@ -53,7 +53,7 @@ func (request DeleteNetworkSourceRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteNetworkSourceRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteNetworkSourceRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

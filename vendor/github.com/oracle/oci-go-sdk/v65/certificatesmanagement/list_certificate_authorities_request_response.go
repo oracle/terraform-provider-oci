@@ -76,7 +76,7 @@ func (request ListCertificateAuthoritiesRequest) BinaryRequestBody() (*common.OC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListCertificateAuthoritiesRequest) RetryPolicy() common.OCIRetry {
+func (request ListCertificateAuthoritiesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

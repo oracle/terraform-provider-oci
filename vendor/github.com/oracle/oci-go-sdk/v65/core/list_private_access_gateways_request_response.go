@@ -75,7 +75,7 @@ func (request ListPrivateAccessGatewaysRequest) BinaryRequestBody() (*common.OCI
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListPrivateAccessGatewaysRequest) RetryPolicy() common.OCIRetry {
+func (request ListPrivateAccessGatewaysRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

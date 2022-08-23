@@ -58,7 +58,7 @@ func (request UpdateFilesystemSnapshotPolicyRequest) BinaryRequestBody() (*commo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateFilesystemSnapshotPolicyRequest) RetryPolicy() common.OCIRetry {
+func (request UpdateFilesystemSnapshotPolicyRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

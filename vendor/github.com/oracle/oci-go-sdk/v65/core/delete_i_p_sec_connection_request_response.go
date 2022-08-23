@@ -53,7 +53,7 @@ func (request DeleteIPSecConnectionRequest) BinaryRequestBody() (*common.OCIRead
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteIPSecConnectionRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteIPSecConnectionRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

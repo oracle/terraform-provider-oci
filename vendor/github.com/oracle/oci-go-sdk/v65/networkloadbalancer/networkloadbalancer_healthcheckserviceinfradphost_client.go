@@ -89,13 +89,12 @@ func (client *HealthCheckServiceInfraDpHostClient) ConfigurationProvider() *comm
 // A default retry strategy applies to this operation DeleteHealthCheckServiceInfraDpHost()
 func (client HealthCheckServiceInfraDpHostClient) DeleteHealthCheckServiceInfraDpHost(ctx context.Context, request DeleteHealthCheckServiceInfraDpHostRequest) (response DeleteHealthCheckServiceInfraDpHostResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteHealthCheckServiceInfraDpHost, policy)
 	if err != nil {
@@ -144,13 +143,12 @@ func (client HealthCheckServiceInfraDpHostClient) deleteHealthCheckServiceInfraD
 // A default retry strategy applies to this operation GetHealthCheckServiceInfraDpHost()
 func (client HealthCheckServiceInfraDpHostClient) GetHealthCheckServiceInfraDpHost(ctx context.Context, request GetHealthCheckServiceInfraDpHostRequest) (response GetHealthCheckServiceInfraDpHostResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getHealthCheckServiceInfraDpHost, policy)
 	if err != nil {
@@ -199,13 +197,12 @@ func (client HealthCheckServiceInfraDpHostClient) getHealthCheckServiceInfraDpHo
 // A default retry strategy applies to this operation PostHeartBeat()
 func (client HealthCheckServiceInfraDpHostClient) PostHeartBeat(ctx context.Context, request PostHeartBeatRequest) (response PostHeartBeatResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -259,13 +256,12 @@ func (client HealthCheckServiceInfraDpHostClient) postHeartBeat(ctx context.Cont
 // A default retry strategy applies to this operation UpdateHealthCheckServiceInfraDpHost()
 func (client HealthCheckServiceInfraDpHostClient) UpdateHealthCheckServiceInfraDpHost(ctx context.Context, request UpdateHealthCheckServiceInfraDpHostRequest) (response UpdateHealthCheckServiceInfraDpHostResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {

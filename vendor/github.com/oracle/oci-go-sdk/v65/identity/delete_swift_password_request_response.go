@@ -56,7 +56,7 @@ func (request DeleteSwiftPasswordRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteSwiftPasswordRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteSwiftPasswordRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

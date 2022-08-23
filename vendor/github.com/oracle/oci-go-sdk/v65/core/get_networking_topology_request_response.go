@@ -73,7 +73,7 @@ func (request GetNetworkingTopologyRequest) BinaryRequestBody() (*common.OCIRead
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetNetworkingTopologyRequest) RetryPolicy() common.OCIRetry {
+func (request GetNetworkingTopologyRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

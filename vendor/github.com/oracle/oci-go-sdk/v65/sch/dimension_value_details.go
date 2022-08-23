@@ -61,6 +61,7 @@ func (m *dimensionvaluedetails) UnmarshalPolymorphicJSON(data []byte) (interface
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for DimensionValueDetails: %s.", m.Kind)
 		return *m, nil
 	}
 }

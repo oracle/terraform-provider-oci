@@ -57,7 +57,7 @@ func (request DetachChildSoftwareSourceFromManagedInstanceRequest) BinaryRequest
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DetachChildSoftwareSourceFromManagedInstanceRequest) RetryPolicy() common.OCIRetry {
+func (request DetachChildSoftwareSourceFromManagedInstanceRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

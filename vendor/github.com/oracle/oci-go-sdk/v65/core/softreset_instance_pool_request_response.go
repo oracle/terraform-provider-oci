@@ -60,7 +60,7 @@ func (request SoftresetInstancePoolRequest) BinaryRequestBody() (*common.OCIRead
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request SoftresetInstancePoolRequest) RetryPolicy() common.OCIRetry {
+func (request SoftresetInstancePoolRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

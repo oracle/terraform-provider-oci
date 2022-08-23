@@ -47,7 +47,7 @@ func (request GetEmailPrivateEndpointRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetEmailPrivateEndpointRequest) RetryPolicy() common.OCIRetry {
+func (request GetEmailPrivateEndpointRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

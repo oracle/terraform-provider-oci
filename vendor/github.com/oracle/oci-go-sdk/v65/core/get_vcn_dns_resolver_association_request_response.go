@@ -48,7 +48,7 @@ func (request GetVcnDnsResolverAssociationRequest) BinaryRequestBody() (*common.
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetVcnDnsResolverAssociationRequest) RetryPolicy() common.OCIRetry {
+func (request GetVcnDnsResolverAssociationRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -54,7 +54,7 @@ func (request CreateAutonomousVmClusterRequest) BinaryRequestBody() (*common.OCI
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateAutonomousVmClusterRequest) RetryPolicy() common.OCIRetry {
+func (request CreateAutonomousVmClusterRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

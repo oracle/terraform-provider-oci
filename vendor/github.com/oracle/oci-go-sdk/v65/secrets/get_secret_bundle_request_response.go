@@ -56,7 +56,7 @@ func (request GetSecretBundleRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetSecretBundleRequest) RetryPolicy() common.OCIRetry {
+func (request GetSecretBundleRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -78,7 +78,7 @@ func (request ListDiscoveryJobResultsRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListDiscoveryJobResultsRequest) RetryPolicy() common.OCIRetry {
+func (request ListDiscoveryJobResultsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

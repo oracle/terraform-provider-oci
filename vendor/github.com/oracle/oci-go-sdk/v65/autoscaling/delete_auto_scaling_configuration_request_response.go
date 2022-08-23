@@ -51,7 +51,7 @@ func (request DeleteAutoScalingConfigurationRequest) BinaryRequestBody() (*commo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteAutoScalingConfigurationRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteAutoScalingConfigurationRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -60,7 +60,7 @@ func (request AddSourceEventTypesRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request AddSourceEventTypesRequest) RetryPolicy() common.OCIRetry {
+func (request AddSourceEventTypesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -47,7 +47,7 @@ func (request GetLabelSummaryRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetLabelSummaryRequest) RetryPolicy() common.OCIRetry {
+func (request GetLabelSummaryRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -71,6 +71,7 @@ func (m *targettypetablespacedetails) UnmarshalPolymorphicJSON(data []byte) (int
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for TargetTypeTablespaceDetails: %s.", m.TargetType)
 		return *m, nil
 	}
 }

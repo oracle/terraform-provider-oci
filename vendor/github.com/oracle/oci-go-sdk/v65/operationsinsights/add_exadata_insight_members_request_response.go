@@ -63,7 +63,7 @@ func (request AddExadataInsightMembersRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request AddExadataInsightMembersRequest) RetryPolicy() common.OCIRetry {
+func (request AddExadataInsightMembersRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

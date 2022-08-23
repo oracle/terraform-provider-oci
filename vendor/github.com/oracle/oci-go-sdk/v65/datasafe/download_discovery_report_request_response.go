@@ -51,7 +51,7 @@ func (request DownloadDiscoveryReportRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DownloadDiscoveryReportRequest) RetryPolicy() common.OCIRetry {
+func (request DownloadDiscoveryReportRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

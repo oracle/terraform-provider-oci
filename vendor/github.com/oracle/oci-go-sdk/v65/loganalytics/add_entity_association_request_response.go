@@ -67,7 +67,7 @@ func (request AddEntityAssociationRequest) BinaryRequestBody() (*common.OCIReadS
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request AddEntityAssociationRequest) RetryPolicy() common.OCIRetry {
+func (request AddEntityAssociationRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

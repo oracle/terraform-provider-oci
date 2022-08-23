@@ -48,7 +48,7 @@ func (request GetStreamPoolRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetStreamPoolRequest) RetryPolicy() common.OCIRetry {
+func (request GetStreamPoolRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

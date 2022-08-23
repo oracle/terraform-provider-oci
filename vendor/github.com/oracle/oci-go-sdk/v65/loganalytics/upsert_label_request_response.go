@@ -64,7 +64,7 @@ func (request UpsertLabelRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpsertLabelRequest) RetryPolicy() common.OCIRetry {
+func (request UpsertLabelRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

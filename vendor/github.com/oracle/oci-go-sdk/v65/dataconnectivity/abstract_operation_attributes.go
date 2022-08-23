@@ -55,6 +55,7 @@ func (m *abstractoperationattributes) UnmarshalPolymorphicJSON(data []byte) (int
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for AbstractOperationAttributes: %s.", m.ModelType)
 		return *m, nil
 	}
 }

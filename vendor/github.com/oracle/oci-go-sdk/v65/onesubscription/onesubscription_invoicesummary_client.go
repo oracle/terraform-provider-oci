@@ -90,13 +90,12 @@ func (client *InvoiceSummaryClient) ConfigurationProvider() *common.Configuratio
 // ListInvoicelineComputedUsages This is a collection API which returns a list of Invoiced Computed Usages for given Invoiceline id.
 func (client InvoiceSummaryClient) ListInvoicelineComputedUsages(ctx context.Context, request ListInvoicelineComputedUsagesRequest) (response ListInvoicelineComputedUsagesResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listInvoicelineComputedUsages, policy)
 	if err != nil {
@@ -144,13 +143,12 @@ func (client InvoiceSummaryClient) listInvoicelineComputedUsages(ctx context.Con
 // ListInvoices This is a collection API which returns a list of Invoices for given filters.
 func (client InvoiceSummaryClient) ListInvoices(ctx context.Context, request ListInvoicesRequest) (response ListInvoicesResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listInvoices, policy)
 	if err != nil {

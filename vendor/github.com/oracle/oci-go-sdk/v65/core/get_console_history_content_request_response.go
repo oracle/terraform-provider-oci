@@ -54,7 +54,7 @@ func (request GetConsoleHistoryContentRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetConsoleHistoryContentRequest) RetryPolicy() common.OCIRetry {
+func (request GetConsoleHistoryContentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

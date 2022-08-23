@@ -70,7 +70,7 @@ func (request ListAggregatedComputedUsagesRequest) BinaryRequestBody() (*common.
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListAggregatedComputedUsagesRequest) RetryPolicy() common.OCIRetry {
+func (request ListAggregatedComputedUsagesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

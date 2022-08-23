@@ -90,13 +90,12 @@ func (client *DataConnectivityManagementClient) ConfigurationProvider() *common.
 // ChangeEndpointCompartment The endpoint will be moved to the specified compartment.
 func (client DataConnectivityManagementClient) ChangeEndpointCompartment(ctx context.Context, request ChangeEndpointCompartmentRequest) (response ChangeEndpointCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -149,13 +148,12 @@ func (client DataConnectivityManagementClient) changeEndpointCompartment(ctx con
 // ChangeRegistryCompartment The registry will be moved to the specified compartment.
 func (client DataConnectivityManagementClient) ChangeRegistryCompartment(ctx context.Context, request ChangeRegistryCompartmentRequest) (response ChangeRegistryCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -208,13 +206,12 @@ func (client DataConnectivityManagementClient) changeRegistryCompartment(ctx con
 // CreateAttachDataAsset Attaches a list of data assets to the given endpoint.
 func (client DataConnectivityManagementClient) CreateAttachDataAsset(ctx context.Context, request CreateAttachDataAssetRequest) (response CreateAttachDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -268,13 +265,12 @@ func (client DataConnectivityManagementClient) createAttachDataAsset(ctx context
 // A default retry strategy applies to this operation CreateConnection()
 func (client DataConnectivityManagementClient) CreateConnection(ctx context.Context, request CreateConnectionRequest) (response CreateConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -328,13 +324,12 @@ func (client DataConnectivityManagementClient) createConnection(ctx context.Cont
 // A default retry strategy applies to this operation CreateConnectionValidation()
 func (client DataConnectivityManagementClient) CreateConnectionValidation(ctx context.Context, request CreateConnectionValidationRequest) (response CreateConnectionValidationResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -388,13 +383,12 @@ func (client DataConnectivityManagementClient) createConnectionValidation(ctx co
 // A default retry strategy applies to this operation CreateConnectivityValidation()
 func (client DataConnectivityManagementClient) CreateConnectivityValidation(ctx context.Context, request CreateConnectivityValidationRequest) (response CreateConnectivityValidationResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -448,13 +442,12 @@ func (client DataConnectivityManagementClient) createConnectivityValidation(ctx 
 // A default retry strategy applies to this operation CreateDataAsset()
 func (client DataConnectivityManagementClient) CreateDataAsset(ctx context.Context, request CreateDataAssetRequest) (response CreateDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -508,13 +501,12 @@ func (client DataConnectivityManagementClient) createDataAsset(ctx context.Conte
 // A default retry strategy applies to this operation CreateDataPreview()
 func (client DataConnectivityManagementClient) CreateDataPreview(ctx context.Context, request CreateDataPreviewRequest) (response CreateDataPreviewResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -568,13 +560,12 @@ func (client DataConnectivityManagementClient) createDataPreview(ctx context.Con
 // A default retry strategy applies to this operation CreateDataProfile()
 func (client DataConnectivityManagementClient) CreateDataProfile(ctx context.Context, request CreateDataProfileRequest) (response CreateDataProfileResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -628,13 +619,12 @@ func (client DataConnectivityManagementClient) createDataProfile(ctx context.Con
 // A default retry strategy applies to this operation CreateDeReferenceArtifact()
 func (client DataConnectivityManagementClient) CreateDeReferenceArtifact(ctx context.Context, request CreateDeReferenceArtifactRequest) (response CreateDeReferenceArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -687,13 +677,12 @@ func (client DataConnectivityManagementClient) createDeReferenceArtifact(ctx con
 // CreateDetachDataAsset Detaches a list of data assets to the given endpoint.
 func (client DataConnectivityManagementClient) CreateDetachDataAsset(ctx context.Context, request CreateDetachDataAssetRequest) (response CreateDetachDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -746,13 +735,12 @@ func (client DataConnectivityManagementClient) createDetachDataAsset(ctx context
 // CreateEndpoint Creates a new Data Connectivity Management endpoint ready to perform data connectivity.
 func (client DataConnectivityManagementClient) CreateEndpoint(ctx context.Context, request CreateEndpointRequest) (response CreateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -806,13 +794,12 @@ func (client DataConnectivityManagementClient) createEndpoint(ctx context.Contex
 // A default retry strategy applies to this operation CreateEntityShape()
 func (client DataConnectivityManagementClient) CreateEntityShape(ctx context.Context, request CreateEntityShapeRequest) (response CreateEntityShapeResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -865,13 +852,12 @@ func (client DataConnectivityManagementClient) createEntityShape(ctx context.Con
 // CreateExecuteOperationJob Call the operation to execute
 func (client DataConnectivityManagementClient) CreateExecuteOperationJob(ctx context.Context, request CreateExecuteOperationJobRequest) (response CreateExecuteOperationJobResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -925,13 +911,12 @@ func (client DataConnectivityManagementClient) createExecuteOperationJob(ctx con
 // A default retry strategy applies to this operation CreateFolder()
 func (client DataConnectivityManagementClient) CreateFolder(ctx context.Context, request CreateFolderRequest) (response CreateFolderResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -985,13 +970,12 @@ func (client DataConnectivityManagementClient) createFolder(ctx context.Context,
 // A default retry strategy applies to this operation CreateFullPushDownTask()
 func (client DataConnectivityManagementClient) CreateFullPushDownTask(ctx context.Context, request CreateFullPushDownTaskRequest) (response CreateFullPushDownTaskResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1045,13 +1029,12 @@ func (client DataConnectivityManagementClient) createFullPushDownTask(ctx contex
 // A default retry strategy applies to this operation CreateReferenceArtifact()
 func (client DataConnectivityManagementClient) CreateReferenceArtifact(ctx context.Context, request CreateReferenceArtifactRequest) (response CreateReferenceArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1104,13 +1087,12 @@ func (client DataConnectivityManagementClient) createReferenceArtifact(ctx conte
 // CreateRegistry Creates a new Data Connectivity Management registry ready to perform data connectivity management.
 func (client DataConnectivityManagementClient) CreateRegistry(ctx context.Context, request CreateRegistryRequest) (response CreateRegistryResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1163,13 +1145,12 @@ func (client DataConnectivityManagementClient) createRegistry(ctx context.Contex
 // CreateTestNetworkConnectivity Execute network validation on the selected data assets associated with the provided private endpoint.
 func (client DataConnectivityManagementClient) CreateTestNetworkConnectivity(ctx context.Context, request CreateTestNetworkConnectivityRequest) (response CreateTestNetworkConnectivityResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1222,13 +1203,12 @@ func (client DataConnectivityManagementClient) createTestNetworkConnectivity(ctx
 // DeleteConnection Removes a connection using the specified identifier.
 func (client DataConnectivityManagementClient) DeleteConnection(ctx context.Context, request DeleteConnectionRequest) (response DeleteConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteConnection, policy)
 	if err != nil {
@@ -1276,13 +1256,12 @@ func (client DataConnectivityManagementClient) deleteConnection(ctx context.Cont
 // DeleteDataAsset Removes a data asset using the specified identifier.
 func (client DataConnectivityManagementClient) DeleteDataAsset(ctx context.Context, request DeleteDataAssetRequest) (response DeleteDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteDataAsset, policy)
 	if err != nil {
@@ -1330,13 +1309,12 @@ func (client DataConnectivityManagementClient) deleteDataAsset(ctx context.Conte
 // DeleteEndpoint Deletes a Data Connectivity Management endpoint resource by its identifier.
 func (client DataConnectivityManagementClient) DeleteEndpoint(ctx context.Context, request DeleteEndpointRequest) (response DeleteEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteEndpoint, policy)
 	if err != nil {
@@ -1384,13 +1362,12 @@ func (client DataConnectivityManagementClient) deleteEndpoint(ctx context.Contex
 // DeleteFolder Removes a folder using the specified identifier.
 func (client DataConnectivityManagementClient) DeleteFolder(ctx context.Context, request DeleteFolderRequest) (response DeleteFolderResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteFolder, policy)
 	if err != nil {
@@ -1438,13 +1415,12 @@ func (client DataConnectivityManagementClient) deleteFolder(ctx context.Context,
 // DeleteNetworkConnectivityStatus This api is used to delete a persisted NetworkValidationStatus by its key
 func (client DataConnectivityManagementClient) DeleteNetworkConnectivityStatus(ctx context.Context, request DeleteNetworkConnectivityStatusRequest) (response DeleteNetworkConnectivityStatusResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteNetworkConnectivityStatus, policy)
 	if err != nil {
@@ -1492,13 +1468,12 @@ func (client DataConnectivityManagementClient) deleteNetworkConnectivityStatus(c
 // DeleteRegistry Deletes a Data Connectivity Management registry resource by its identifier.
 func (client DataConnectivityManagementClient) DeleteRegistry(ctx context.Context, request DeleteRegistryRequest) (response DeleteRegistryResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteRegistry, policy)
 	if err != nil {
@@ -1546,13 +1521,12 @@ func (client DataConnectivityManagementClient) deleteRegistry(ctx context.Contex
 // DeriveEntities Get the Derived Entities from the EntityFlowMode and reference key of DataObject
 func (client DataConnectivityManagementClient) DeriveEntities(ctx context.Context, request DeriveEntitiesRequest) (response DeriveEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -1606,13 +1580,12 @@ func (client DataConnectivityManagementClient) deriveEntities(ctx context.Contex
 // A default retry strategy applies to this operation GetConnection()
 func (client DataConnectivityManagementClient) GetConnection(ctx context.Context, request GetConnectionRequest) (response GetConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getConnection, policy)
 	if err != nil {
@@ -1661,13 +1634,12 @@ func (client DataConnectivityManagementClient) getConnection(ctx context.Context
 // A default retry strategy applies to this operation GetDataAsset()
 func (client DataConnectivityManagementClient) GetDataAsset(ctx context.Context, request GetDataAssetRequest) (response GetDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getDataAsset, policy)
 	if err != nil {
@@ -1716,13 +1688,12 @@ func (client DataConnectivityManagementClient) getDataAsset(ctx context.Context,
 // A default retry strategy applies to this operation GetDataEntity()
 func (client DataConnectivityManagementClient) GetDataEntity(ctx context.Context, request GetDataEntityRequest) (response GetDataEntityResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getDataEntity, policy)
 	if err != nil {
@@ -1771,13 +1742,12 @@ func (client DataConnectivityManagementClient) getDataEntity(ctx context.Context
 // A default retry strategy applies to this operation GetEndpoint()
 func (client DataConnectivityManagementClient) GetEndpoint(ctx context.Context, request GetEndpointRequest) (response GetEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getEndpoint, policy)
 	if err != nil {
@@ -1825,13 +1795,12 @@ func (client DataConnectivityManagementClient) getEndpoint(ctx context.Context, 
 // GetEngineConfigurations This endpoint is used to fetch connector-specific engine configurations.
 func (client DataConnectivityManagementClient) GetEngineConfigurations(ctx context.Context, request GetEngineConfigurationsRequest) (response GetEngineConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getEngineConfigurations, policy)
 	if err != nil {
@@ -1880,13 +1849,12 @@ func (client DataConnectivityManagementClient) getEngineConfigurations(ctx conte
 // A default retry strategy applies to this operation GetExecuteOperationJob()
 func (client DataConnectivityManagementClient) GetExecuteOperationJob(ctx context.Context, request GetExecuteOperationJobRequest) (response GetExecuteOperationJobResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getExecuteOperationJob, policy)
 	if err != nil {
@@ -1935,13 +1903,12 @@ func (client DataConnectivityManagementClient) getExecuteOperationJob(ctx contex
 // A default retry strategy applies to this operation GetFolder()
 func (client DataConnectivityManagementClient) GetFolder(ctx context.Context, request GetFolderRequest) (response GetFolderResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getFolder, policy)
 	if err != nil {
@@ -1990,13 +1957,12 @@ func (client DataConnectivityManagementClient) getFolder(ctx context.Context, re
 // A default retry strategy applies to this operation GetNetworkConnectivityStatus()
 func (client DataConnectivityManagementClient) GetNetworkConnectivityStatus(ctx context.Context, request GetNetworkConnectivityStatusRequest) (response GetNetworkConnectivityStatusResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -2050,13 +2016,12 @@ func (client DataConnectivityManagementClient) getNetworkConnectivityStatus(ctx 
 // A default retry strategy applies to this operation GetOperation()
 func (client DataConnectivityManagementClient) GetOperation(ctx context.Context, request GetOperationRequest) (response GetOperationResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getOperation, policy)
 	if err != nil {
@@ -2105,13 +2070,12 @@ func (client DataConnectivityManagementClient) getOperation(ctx context.Context,
 // A default retry strategy applies to this operation GetRegistry()
 func (client DataConnectivityManagementClient) GetRegistry(ctx context.Context, request GetRegistryRequest) (response GetRegistryResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getRegistry, policy)
 	if err != nil {
@@ -2160,13 +2124,12 @@ func (client DataConnectivityManagementClient) getRegistry(ctx context.Context, 
 // A default retry strategy applies to this operation GetSchema()
 func (client DataConnectivityManagementClient) GetSchema(ctx context.Context, request GetSchemaRequest) (response GetSchemaResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getSchema, policy)
 	if err != nil {
@@ -2215,13 +2178,12 @@ func (client DataConnectivityManagementClient) getSchema(ctx context.Context, re
 // A default retry strategy applies to this operation GetType()
 func (client DataConnectivityManagementClient) GetType(ctx context.Context, request GetTypeRequest) (response GetTypeResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getType, policy)
 	if err != nil {
@@ -2270,13 +2232,12 @@ func (client DataConnectivityManagementClient) getType(ctx context.Context, requ
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client DataConnectivityManagementClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
@@ -2325,13 +2286,12 @@ func (client DataConnectivityManagementClient) getWorkRequest(ctx context.Contex
 // A default retry strategy applies to this operation ListConnections()
 func (client DataConnectivityManagementClient) ListConnections(ctx context.Context, request ListConnectionsRequest) (response ListConnectionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listConnections, policy)
 	if err != nil {
@@ -2380,13 +2340,12 @@ func (client DataConnectivityManagementClient) listConnections(ctx context.Conte
 // A default retry strategy applies to this operation ListDataAssets()
 func (client DataConnectivityManagementClient) ListDataAssets(ctx context.Context, request ListDataAssetsRequest) (response ListDataAssetsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDataAssets, policy)
 	if err != nil {
@@ -2435,13 +2394,12 @@ func (client DataConnectivityManagementClient) listDataAssets(ctx context.Contex
 // A default retry strategy applies to this operation ListDataEntities()
 func (client DataConnectivityManagementClient) ListDataEntities(ctx context.Context, request ListDataEntitiesRequest) (response ListDataEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDataEntities, policy)
 	if err != nil {
@@ -2490,13 +2448,12 @@ func (client DataConnectivityManagementClient) listDataEntities(ctx context.Cont
 // A default retry strategy applies to this operation ListEndpoints()
 func (client DataConnectivityManagementClient) ListEndpoints(ctx context.Context, request ListEndpointsRequest) (response ListEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listEndpoints, policy)
 	if err != nil {
@@ -2545,13 +2502,12 @@ func (client DataConnectivityManagementClient) listEndpoints(ctx context.Context
 // A default retry strategy applies to this operation ListFolders()
 func (client DataConnectivityManagementClient) ListFolders(ctx context.Context, request ListFoldersRequest) (response ListFoldersResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listFolders, policy)
 	if err != nil {
@@ -2600,13 +2556,12 @@ func (client DataConnectivityManagementClient) listFolders(ctx context.Context, 
 // A default retry strategy applies to this operation ListOperations()
 func (client DataConnectivityManagementClient) ListOperations(ctx context.Context, request ListOperationsRequest) (response ListOperationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listOperations, policy)
 	if err != nil {
@@ -2655,13 +2610,12 @@ func (client DataConnectivityManagementClient) listOperations(ctx context.Contex
 // A default retry strategy applies to this operation ListReferenceArtifacts()
 func (client DataConnectivityManagementClient) ListReferenceArtifacts(ctx context.Context, request ListReferenceArtifactsRequest) (response ListReferenceArtifactsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listReferenceArtifacts, policy)
 	if err != nil {
@@ -2710,13 +2664,12 @@ func (client DataConnectivityManagementClient) listReferenceArtifacts(ctx contex
 // A default retry strategy applies to this operation ListRegistries()
 func (client DataConnectivityManagementClient) ListRegistries(ctx context.Context, request ListRegistriesRequest) (response ListRegistriesResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listRegistries, policy)
 	if err != nil {
@@ -2765,13 +2718,12 @@ func (client DataConnectivityManagementClient) listRegistries(ctx context.Contex
 // A default retry strategy applies to this operation ListSchemas()
 func (client DataConnectivityManagementClient) ListSchemas(ctx context.Context, request ListSchemasRequest) (response ListSchemasResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSchemas, policy)
 	if err != nil {
@@ -2820,13 +2772,12 @@ func (client DataConnectivityManagementClient) listSchemas(ctx context.Context, 
 // A default retry strategy applies to this operation ListTypes()
 func (client DataConnectivityManagementClient) ListTypes(ctx context.Context, request ListTypesRequest) (response ListTypesResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listTypes, policy)
 	if err != nil {
@@ -2875,13 +2826,12 @@ func (client DataConnectivityManagementClient) listTypes(ctx context.Context, re
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client DataConnectivityManagementClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
 	if err != nil {
@@ -2930,13 +2880,12 @@ func (client DataConnectivityManagementClient) listWorkRequestErrors(ctx context
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client DataConnectivityManagementClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestLogs, policy)
 	if err != nil {
@@ -2985,13 +2934,12 @@ func (client DataConnectivityManagementClient) listWorkRequestLogs(ctx context.C
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client DataConnectivityManagementClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
@@ -3039,13 +2987,12 @@ func (client DataConnectivityManagementClient) listWorkRequests(ctx context.Cont
 // UpdateConnection Updates a connection under a data asset.
 func (client DataConnectivityManagementClient) UpdateConnection(ctx context.Context, request UpdateConnectionRequest) (response UpdateConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateConnection, policy)
 	if err != nil {
@@ -3093,13 +3040,12 @@ func (client DataConnectivityManagementClient) updateConnection(ctx context.Cont
 // UpdateDataAsset Updates a specific data asset with default connection.
 func (client DataConnectivityManagementClient) UpdateDataAsset(ctx context.Context, request UpdateDataAssetRequest) (response UpdateDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateDataAsset, policy)
 	if err != nil {
@@ -3147,13 +3093,12 @@ func (client DataConnectivityManagementClient) updateDataAsset(ctx context.Conte
 // UpdateEndpoint Updates the Data Connectivity Management endpoint.
 func (client DataConnectivityManagementClient) UpdateEndpoint(ctx context.Context, request UpdateEndpointRequest) (response UpdateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateEndpoint, policy)
 	if err != nil {
@@ -3201,13 +3146,12 @@ func (client DataConnectivityManagementClient) updateEndpoint(ctx context.Contex
 // UpdateFolder Updates a folder under a specified registry.
 func (client DataConnectivityManagementClient) UpdateFolder(ctx context.Context, request UpdateFolderRequest) (response UpdateFolderResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateFolder, policy)
 	if err != nil {
@@ -3255,13 +3199,12 @@ func (client DataConnectivityManagementClient) updateFolder(ctx context.Context,
 // UpdateRegistry Updates the Data Connectivity Management Registry.
 func (client DataConnectivityManagementClient) UpdateRegistry(ctx context.Context, request UpdateRegistryRequest) (response UpdateRegistryResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateRegistry, policy)
 	if err != nil {
@@ -3309,13 +3252,12 @@ func (client DataConnectivityManagementClient) updateRegistry(ctx context.Contex
 // ValidateDataAssetNetworkReachablity Validates the dataAsset network reachability.
 func (client DataConnectivityManagementClient) ValidateDataAssetNetworkReachablity(ctx context.Context, request ValidateDataAssetNetworkReachablityRequest) (response ValidateDataAssetNetworkReachablityResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {

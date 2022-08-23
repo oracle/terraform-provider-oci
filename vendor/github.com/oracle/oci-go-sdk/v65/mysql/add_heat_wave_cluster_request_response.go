@@ -67,7 +67,7 @@ func (request AddHeatWaveClusterRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request AddHeatWaveClusterRequest) RetryPolicy() common.OCIRetry {
+func (request AddHeatWaveClusterRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

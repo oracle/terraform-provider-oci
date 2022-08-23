@@ -74,7 +74,7 @@ func (request ListBuildRunsRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListBuildRunsRequest) RetryPolicy() common.OCIRetry {
+func (request ListBuildRunsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

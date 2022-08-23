@@ -58,7 +58,7 @@ func (request BulkApplyRecommendationsRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request BulkApplyRecommendationsRequest) RetryPolicy() common.OCIRetry {
+func (request BulkApplyRecommendationsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

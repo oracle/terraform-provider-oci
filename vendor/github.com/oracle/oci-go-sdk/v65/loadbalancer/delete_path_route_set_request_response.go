@@ -61,7 +61,7 @@ func (request DeletePathRouteSetRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeletePathRouteSetRequest) RetryPolicy() common.OCIRetry {
+func (request DeletePathRouteSetRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

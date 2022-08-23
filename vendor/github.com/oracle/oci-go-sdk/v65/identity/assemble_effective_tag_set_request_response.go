@@ -51,7 +51,7 @@ func (request AssembleEffectiveTagSetRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request AssembleEffectiveTagSetRequest) RetryPolicy() common.OCIRetry {
+func (request AssembleEffectiveTagSetRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

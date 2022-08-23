@@ -55,7 +55,7 @@ func (request DeleteServiceConnectorRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteServiceConnectorRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteServiceConnectorRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

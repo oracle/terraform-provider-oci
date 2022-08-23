@@ -56,7 +56,7 @@ func (request GetExecutionPlanStatsComparisionRequest) BinaryRequestBody() (*com
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetExecutionPlanStatsComparisionRequest) RetryPolicy() common.OCIRetry {
+func (request GetExecutionPlanStatsComparisionRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

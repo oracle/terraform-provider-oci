@@ -55,7 +55,7 @@ func (request GetDatabaseHomeMetricsRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetDatabaseHomeMetricsRequest) RetryPolicy() common.OCIRetry {
+func (request GetDatabaseHomeMetricsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

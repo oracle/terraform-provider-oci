@@ -65,7 +65,7 @@ func (request ChangeVbInstanceCompartmentRequest) BinaryRequestBody() (*common.O
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ChangeVbInstanceCompartmentRequest) RetryPolicy() common.OCIRetry {
+func (request ChangeVbInstanceCompartmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

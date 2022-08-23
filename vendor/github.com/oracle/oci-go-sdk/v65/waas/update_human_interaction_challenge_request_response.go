@@ -57,7 +57,7 @@ func (request UpdateHumanInteractionChallengeRequest) BinaryRequestBody() (*comm
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateHumanInteractionChallengeRequest) RetryPolicy() common.OCIRetry {
+func (request UpdateHumanInteractionChallengeRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

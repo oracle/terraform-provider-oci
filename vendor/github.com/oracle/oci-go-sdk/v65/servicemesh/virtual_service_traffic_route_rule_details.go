@@ -68,6 +68,7 @@ func (m *virtualservicetrafficrouteruledetails) UnmarshalPolymorphicJSON(data []
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for VirtualServiceTrafficRouteRuleDetails: %s.", m.Type)
 		return *m, nil
 	}
 }

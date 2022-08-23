@@ -51,7 +51,7 @@ func (request ValidateSpanFilterPatternRequest) BinaryRequestBody() (*common.OCI
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ValidateSpanFilterPatternRequest) RetryPolicy() common.OCIRetry {
+func (request ValidateSpanFilterPatternRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

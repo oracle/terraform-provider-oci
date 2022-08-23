@@ -63,7 +63,7 @@ func (request EnableReplicationToRegionRequest) BinaryRequestBody() (*common.OCI
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request EnableReplicationToRegionRequest) RetryPolicy() common.OCIRetry {
+func (request EnableReplicationToRegionRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

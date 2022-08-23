@@ -63,7 +63,7 @@ func (request IngestHostConfigurationRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request IngestHostConfigurationRequest) RetryPolicy() common.OCIRetry {
+func (request IngestHostConfigurationRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

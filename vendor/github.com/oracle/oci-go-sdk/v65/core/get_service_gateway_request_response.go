@@ -48,7 +48,7 @@ func (request GetServiceGatewayRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetServiceGatewayRequest) RetryPolicy() common.OCIRetry {
+func (request GetServiceGatewayRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

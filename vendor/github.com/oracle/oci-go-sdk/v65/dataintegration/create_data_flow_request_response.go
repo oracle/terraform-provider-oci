@@ -55,7 +55,7 @@ func (request CreateDataFlowRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateDataFlowRequest) RetryPolicy() common.OCIRetry {
+func (request CreateDataFlowRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

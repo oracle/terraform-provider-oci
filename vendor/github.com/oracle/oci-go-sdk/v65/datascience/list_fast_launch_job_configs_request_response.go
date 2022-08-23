@@ -59,7 +59,7 @@ func (request ListFastLaunchJobConfigsRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListFastLaunchJobConfigsRequest) RetryPolicy() common.OCIRetry {
+func (request ListFastLaunchJobConfigsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

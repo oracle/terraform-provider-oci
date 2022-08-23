@@ -157,6 +157,7 @@ func (m *createentityshapedetails) UnmarshalPolymorphicJSON(data []byte) (interf
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for CreateEntityShapeDetails: %s.", m.ModelType)
 		return *m, nil
 	}
 }

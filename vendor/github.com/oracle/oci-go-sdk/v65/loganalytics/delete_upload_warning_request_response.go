@@ -53,7 +53,7 @@ func (request DeleteUploadWarningRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteUploadWarningRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteUploadWarningRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

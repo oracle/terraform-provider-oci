@@ -67,7 +67,7 @@ func (request RemoveDataSelectorPatternsRequest) BinaryRequestBody() (*common.OC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RemoveDataSelectorPatternsRequest) RetryPolicy() common.OCIRetry {
+func (request RemoveDataSelectorPatternsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

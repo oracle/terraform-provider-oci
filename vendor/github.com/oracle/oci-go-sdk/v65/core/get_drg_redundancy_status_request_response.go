@@ -48,7 +48,7 @@ func (request GetDrgRedundancyStatusRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetDrgRedundancyStatusRequest) RetryPolicy() common.OCIRetry {
+func (request GetDrgRedundancyStatusRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

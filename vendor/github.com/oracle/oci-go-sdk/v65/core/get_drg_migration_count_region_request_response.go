@@ -48,7 +48,7 @@ func (request GetDrgMigrationCountRegionRequest) BinaryRequestBody() (*common.OC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetDrgMigrationCountRegionRequest) RetryPolicy() common.OCIRetry {
+func (request GetDrgMigrationCountRegionRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

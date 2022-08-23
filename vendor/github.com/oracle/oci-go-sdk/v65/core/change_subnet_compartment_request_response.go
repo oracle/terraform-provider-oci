@@ -58,7 +58,7 @@ func (request ChangeSubnetCompartmentRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ChangeSubnetCompartmentRequest) RetryPolicy() common.OCIRetry {
+func (request ChangeSubnetCompartmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

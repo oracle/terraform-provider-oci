@@ -90,13 +90,12 @@ func (client *CommitmentClient) ConfigurationProvider() *common.ConfigurationPro
 // GetCommitment This API returns the commitment details corresponding to the id provided
 func (client CommitmentClient) GetCommitment(ctx context.Context, request GetCommitmentRequest) (response GetCommitmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getCommitment, policy)
 	if err != nil {
@@ -144,13 +143,12 @@ func (client CommitmentClient) getCommitment(ctx context.Context, request common
 // ListCommitments This list API returns all commitments for a particular Subscribed Service
 func (client CommitmentClient) ListCommitments(ctx context.Context, request ListCommitmentsRequest) (response ListCommitmentsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listCommitments, policy)
 	if err != nil {

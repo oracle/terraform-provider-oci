@@ -72,7 +72,7 @@ func (request CreateEntityShapeRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateEntityShapeRequest) RetryPolicy() common.OCIRetry {
+func (request CreateEntityShapeRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

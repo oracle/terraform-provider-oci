@@ -55,7 +55,7 @@ func (request RemoveQuotaLockRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RemoveQuotaLockRequest) RetryPolicy() common.OCIRetry {
+func (request RemoveQuotaLockRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

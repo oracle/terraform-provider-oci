@@ -54,7 +54,7 @@ func (request ActivateMonitoringPluginRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ActivateMonitoringPluginRequest) RetryPolicy() common.OCIRetry {
+func (request ActivateMonitoringPluginRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

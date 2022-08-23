@@ -56,7 +56,7 @@ func (request ValidateSourceMappingRequest) BinaryRequestBody() (*common.OCIRead
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ValidateSourceMappingRequest) RetryPolicy() common.OCIRetry {
+func (request ValidateSourceMappingRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -93,6 +93,7 @@ func (m *autoscalingpolicy) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for AutoScalingPolicy: %s.", m.PolicyType)
 		return *m, nil
 	}
 }

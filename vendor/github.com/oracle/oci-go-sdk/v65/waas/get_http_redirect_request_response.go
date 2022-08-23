@@ -47,7 +47,7 @@ func (request GetHttpRedirectRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetHttpRedirectRequest) RetryPolicy() common.OCIRetry {
+func (request GetHttpRedirectRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

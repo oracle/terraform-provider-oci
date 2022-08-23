@@ -53,7 +53,7 @@ func (request ListVirtualCircuitPublicPrefixesRequest) BinaryRequestBody() (*com
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListVirtualCircuitPublicPrefixesRequest) RetryPolicy() common.OCIRetry {
+func (request ListVirtualCircuitPublicPrefixesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

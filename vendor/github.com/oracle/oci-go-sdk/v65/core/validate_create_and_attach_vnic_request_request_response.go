@@ -49,7 +49,7 @@ func (request ValidateCreateAndAttachVnicRequestRequest) BinaryRequestBody() (*c
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ValidateCreateAndAttachVnicRequestRequest) RetryPolicy() common.OCIRetry {
+func (request ValidateCreateAndAttachVnicRequestRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

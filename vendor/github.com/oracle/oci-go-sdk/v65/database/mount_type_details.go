@@ -59,6 +59,7 @@ func (m *mounttypedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for MountTypeDetails: %s.", m.MountType)
 		return *m, nil
 	}
 }

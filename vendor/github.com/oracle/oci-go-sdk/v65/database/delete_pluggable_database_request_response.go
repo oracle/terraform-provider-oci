@@ -52,7 +52,7 @@ func (request DeletePluggableDatabaseRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeletePluggableDatabaseRequest) RetryPolicy() common.OCIRetry {
+func (request DeletePluggableDatabaseRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

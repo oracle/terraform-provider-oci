@@ -59,7 +59,7 @@ func (request ListCrossConnectLocationsRequest) BinaryRequestBody() (*common.OCI
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListCrossConnectLocationsRequest) RetryPolicy() common.OCIRetry {
+func (request ListCrossConnectLocationsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

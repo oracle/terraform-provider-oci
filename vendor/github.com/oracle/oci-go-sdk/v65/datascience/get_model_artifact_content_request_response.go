@@ -52,7 +52,7 @@ func (request GetModelArtifactContentRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetModelArtifactContentRequest) RetryPolicy() common.OCIRetry {
+func (request GetModelArtifactContentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

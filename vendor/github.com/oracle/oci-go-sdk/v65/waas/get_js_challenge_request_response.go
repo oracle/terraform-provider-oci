@@ -47,7 +47,7 @@ func (request GetJsChallengeRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetJsChallengeRequest) RetryPolicy() common.OCIRetry {
+func (request GetJsChallengeRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -57,7 +57,7 @@ func (request DeleteMaskingColumnRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteMaskingColumnRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteMaskingColumnRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

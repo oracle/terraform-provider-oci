@@ -58,7 +58,7 @@ func (request ShareSetJoinDomainRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ShareSetJoinDomainRequest) RetryPolicy() common.OCIRetry {
+func (request ShareSetJoinDomainRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

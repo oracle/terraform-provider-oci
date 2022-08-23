@@ -75,7 +75,7 @@ func (request SummarizeAttentionLogCountsRequest) BinaryRequestBody() (*common.O
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request SummarizeAttentionLogCountsRequest) RetryPolicy() common.OCIRetry {
+func (request SummarizeAttentionLogCountsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

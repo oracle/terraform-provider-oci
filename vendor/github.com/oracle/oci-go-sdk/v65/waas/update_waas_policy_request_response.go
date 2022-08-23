@@ -57,7 +57,7 @@ func (request UpdateWaasPolicyRequest) BinaryRequestBody() (*common.OCIReadSeekC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateWaasPolicyRequest) RetryPolicy() common.OCIRetry {
+func (request UpdateWaasPolicyRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

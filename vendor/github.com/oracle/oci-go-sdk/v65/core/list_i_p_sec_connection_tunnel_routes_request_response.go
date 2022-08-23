@@ -67,7 +67,7 @@ func (request ListIPSecConnectionTunnelRoutesRequest) BinaryRequestBody() (*comm
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListIPSecConnectionTunnelRoutesRequest) RetryPolicy() common.OCIRetry {
+func (request ListIPSecConnectionTunnelRoutesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -65,7 +65,7 @@ func (request BatchGetBasicInfoRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request BatchGetBasicInfoRequest) RetryPolicy() common.OCIRetry {
+func (request BatchGetBasicInfoRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

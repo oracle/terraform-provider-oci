@@ -57,7 +57,7 @@ func (request UpdateOpensearchClusterBackupRequest) BinaryRequestBody() (*common
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateOpensearchClusterBackupRequest) RetryPolicy() common.OCIRetry {
+func (request UpdateOpensearchClusterBackupRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

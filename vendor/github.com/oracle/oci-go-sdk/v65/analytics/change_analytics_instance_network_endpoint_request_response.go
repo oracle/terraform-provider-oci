@@ -63,7 +63,7 @@ func (request ChangeAnalyticsInstanceNetworkEndpointRequest) BinaryRequestBody()
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ChangeAnalyticsInstanceNetworkEndpointRequest) RetryPolicy() common.OCIRetry {
+func (request ChangeAnalyticsInstanceNetworkEndpointRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

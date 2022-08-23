@@ -57,6 +57,7 @@ func (m *resourceaction) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for ResourceAction: %s.", m.ActionType)
 		return *m, nil
 	}
 }

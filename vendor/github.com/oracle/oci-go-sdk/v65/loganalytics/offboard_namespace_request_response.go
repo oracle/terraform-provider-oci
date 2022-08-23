@@ -54,7 +54,7 @@ func (request OffboardNamespaceRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request OffboardNamespaceRequest) RetryPolicy() common.OCIRetry {
+func (request OffboardNamespaceRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

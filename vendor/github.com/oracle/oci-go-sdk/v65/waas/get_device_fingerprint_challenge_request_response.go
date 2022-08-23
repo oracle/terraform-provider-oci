@@ -47,7 +47,7 @@ func (request GetDeviceFingerprintChallengeRequest) BinaryRequestBody() (*common
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetDeviceFingerprintChallengeRequest) RetryPolicy() common.OCIRetry {
+func (request GetDeviceFingerprintChallengeRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

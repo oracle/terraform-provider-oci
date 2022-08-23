@@ -62,7 +62,7 @@ func (request RefreshHcxLicenseStatusRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RefreshHcxLicenseStatusRequest) RetryPolicy() common.OCIRetry {
+func (request RefreshHcxLicenseStatusRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

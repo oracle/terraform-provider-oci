@@ -61,7 +61,7 @@ func (request DeleteBlockchainPlatformRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteBlockchainPlatformRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteBlockchainPlatformRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -79,7 +79,7 @@ func (request ListEmailDomainsRequest) BinaryRequestBody() (*common.OCIReadSeekC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListEmailDomainsRequest) RetryPolicy() common.OCIRetry {
+func (request ListEmailDomainsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

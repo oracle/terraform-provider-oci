@@ -108,7 +108,7 @@ func (request UploadLogFileRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UploadLogFileRequest) RetryPolicy() common.OCIRetry {
+func (request UploadLogFileRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

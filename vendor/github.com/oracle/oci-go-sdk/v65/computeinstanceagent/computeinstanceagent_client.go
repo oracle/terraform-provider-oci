@@ -94,13 +94,12 @@ func (client *ComputeInstanceAgentClient) ConfigurationProvider() *common.Config
 // completed, it will not be canceled.
 func (client ComputeInstanceAgentClient) CancelInstanceAgentCommand(ctx context.Context, request CancelInstanceAgentCommandRequest) (response CancelInstanceAgentCommandResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.cancelInstanceAgentCommand, policy)
 	if err != nil {
@@ -152,13 +151,12 @@ func (client ComputeInstanceAgentClient) cancelInstanceAgentCommand(ctx context.
 // is running with administrator privileges.
 func (client ComputeInstanceAgentClient) CreateInstanceAgentCommand(ctx context.Context, request CreateInstanceAgentCommandRequest) (response CreateInstanceAgentCommandResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -211,13 +209,12 @@ func (client ComputeInstanceAgentClient) createInstanceAgentCommand(ctx context.
 // GetInstanceAgentCommand Gets information about an Oracle Cloud Agent command.
 func (client ComputeInstanceAgentClient) GetInstanceAgentCommand(ctx context.Context, request GetInstanceAgentCommandRequest) (response GetInstanceAgentCommandResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getInstanceAgentCommand, policy)
 	if err != nil {
@@ -265,13 +262,12 @@ func (client ComputeInstanceAgentClient) getInstanceAgentCommand(ctx context.Con
 // GetInstanceAgentCommandExecution Gets information about the status of specified instance agent commandId for the given instanceId.
 func (client ComputeInstanceAgentClient) GetInstanceAgentCommandExecution(ctx context.Context, request GetInstanceAgentCommandExecutionRequest) (response GetInstanceAgentCommandExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getInstanceAgentCommandExecution, policy)
 	if err != nil {
@@ -320,13 +316,12 @@ func (client ComputeInstanceAgentClient) getInstanceAgentCommandExecution(ctx co
 // instance.
 func (client ComputeInstanceAgentClient) ListInstanceAgentCommandExecutions(ctx context.Context, request ListInstanceAgentCommandExecutionsRequest) (response ListInstanceAgentCommandExecutionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listInstanceAgentCommandExecutions, policy)
 	if err != nil {
@@ -374,13 +369,12 @@ func (client ComputeInstanceAgentClient) listInstanceAgentCommandExecutions(ctx 
 // ListInstanceAgentCommands Lists the Oracle Cloud Agent commands issued in a compartment.
 func (client ComputeInstanceAgentClient) ListInstanceAgentCommands(ctx context.Context, request ListInstanceAgentCommandsRequest) (response ListInstanceAgentCommandsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listInstanceAgentCommands, policy)
 	if err != nil {

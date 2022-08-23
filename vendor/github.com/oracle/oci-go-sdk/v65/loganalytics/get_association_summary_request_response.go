@@ -50,7 +50,7 @@ func (request GetAssociationSummaryRequest) BinaryRequestBody() (*common.OCIRead
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetAssociationSummaryRequest) RetryPolicy() common.OCIRetry {
+func (request GetAssociationSummaryRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

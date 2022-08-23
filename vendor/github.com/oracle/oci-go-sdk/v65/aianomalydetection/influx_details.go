@@ -61,6 +61,7 @@ func (m *influxdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for InfluxDetails: %s.", m.InfluxVersion)
 		return *m, nil
 	}
 }

@@ -48,7 +48,7 @@ func (request RetrieveSupportedPhasesRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RetrieveSupportedPhasesRequest) RetryPolicy() common.OCIRetry {
+func (request RetrieveSupportedPhasesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

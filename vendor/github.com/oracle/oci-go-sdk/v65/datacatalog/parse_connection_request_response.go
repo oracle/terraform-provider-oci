@@ -63,7 +63,7 @@ func (request ParseConnectionRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ParseConnectionRequest) RetryPolicy() common.OCIRetry {
+func (request ParseConnectionRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

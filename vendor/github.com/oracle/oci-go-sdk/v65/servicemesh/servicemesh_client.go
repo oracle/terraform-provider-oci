@@ -91,13 +91,12 @@ func (client *ServiceMeshClient) ConfigurationProvider() *common.ConfigurationPr
 // A default retry strategy applies to this operation CancelWorkRequest()
 func (client ServiceMeshClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.cancelWorkRequest, policy)
 	if err != nil {
@@ -133,7 +132,7 @@ func (client ServiceMeshClient) cancelWorkRequest(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/WorkRequest/CancelWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -146,13 +145,12 @@ func (client ServiceMeshClient) cancelWorkRequest(ctx context.Context, request c
 // A default retry strategy applies to this operation ChangeAccessPolicyCompartment()
 func (client ServiceMeshClient) ChangeAccessPolicyCompartment(ctx context.Context, request ChangeAccessPolicyCompartmentRequest) (response ChangeAccessPolicyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -193,7 +191,7 @@ func (client ServiceMeshClient) changeAccessPolicyCompartment(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/AccessPolicy/ChangeAccessPolicyCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ChangeAccessPolicyCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -206,13 +204,12 @@ func (client ServiceMeshClient) changeAccessPolicyCompartment(ctx context.Contex
 // A default retry strategy applies to this operation ChangeIngressGatewayCompartment()
 func (client ServiceMeshClient) ChangeIngressGatewayCompartment(ctx context.Context, request ChangeIngressGatewayCompartmentRequest) (response ChangeIngressGatewayCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -253,7 +250,7 @@ func (client ServiceMeshClient) changeIngressGatewayCompartment(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/IngressGateway/ChangeIngressGatewayCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ChangeIngressGatewayCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -266,13 +263,12 @@ func (client ServiceMeshClient) changeIngressGatewayCompartment(ctx context.Cont
 // A default retry strategy applies to this operation ChangeIngressGatewayRouteTableCompartment()
 func (client ServiceMeshClient) ChangeIngressGatewayRouteTableCompartment(ctx context.Context, request ChangeIngressGatewayRouteTableCompartmentRequest) (response ChangeIngressGatewayRouteTableCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -313,7 +309,7 @@ func (client ServiceMeshClient) changeIngressGatewayRouteTableCompartment(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/IngressGatewayRouteTable/ChangeIngressGatewayRouteTableCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ChangeIngressGatewayRouteTableCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -326,13 +322,12 @@ func (client ServiceMeshClient) changeIngressGatewayRouteTableCompartment(ctx co
 // A default retry strategy applies to this operation ChangeMeshCompartment()
 func (client ServiceMeshClient) ChangeMeshCompartment(ctx context.Context, request ChangeMeshCompartmentRequest) (response ChangeMeshCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -373,7 +368,7 @@ func (client ServiceMeshClient) changeMeshCompartment(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/Mesh/ChangeMeshCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ChangeMeshCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -386,13 +381,12 @@ func (client ServiceMeshClient) changeMeshCompartment(ctx context.Context, reque
 // A default retry strategy applies to this operation ChangeVirtualDeploymentCompartment()
 func (client ServiceMeshClient) ChangeVirtualDeploymentCompartment(ctx context.Context, request ChangeVirtualDeploymentCompartmentRequest) (response ChangeVirtualDeploymentCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -433,7 +427,7 @@ func (client ServiceMeshClient) changeVirtualDeploymentCompartment(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualDeployment/ChangeVirtualDeploymentCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ChangeVirtualDeploymentCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -446,13 +440,12 @@ func (client ServiceMeshClient) changeVirtualDeploymentCompartment(ctx context.C
 // A default retry strategy applies to this operation ChangeVirtualServiceCompartment()
 func (client ServiceMeshClient) ChangeVirtualServiceCompartment(ctx context.Context, request ChangeVirtualServiceCompartmentRequest) (response ChangeVirtualServiceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -493,7 +486,7 @@ func (client ServiceMeshClient) changeVirtualServiceCompartment(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualService/ChangeVirtualServiceCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ChangeVirtualServiceCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -506,13 +499,12 @@ func (client ServiceMeshClient) changeVirtualServiceCompartment(ctx context.Cont
 // A default retry strategy applies to this operation ChangeVirtualServiceRouteTableCompartment()
 func (client ServiceMeshClient) ChangeVirtualServiceRouteTableCompartment(ctx context.Context, request ChangeVirtualServiceRouteTableCompartmentRequest) (response ChangeVirtualServiceRouteTableCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -553,7 +545,7 @@ func (client ServiceMeshClient) changeVirtualServiceRouteTableCompartment(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualServiceRouteTable/ChangeVirtualServiceRouteTableCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ChangeVirtualServiceRouteTableCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -566,13 +558,12 @@ func (client ServiceMeshClient) changeVirtualServiceRouteTableCompartment(ctx co
 // A default retry strategy applies to this operation CreateAccessPolicy()
 func (client ServiceMeshClient) CreateAccessPolicy(ctx context.Context, request CreateAccessPolicyRequest) (response CreateAccessPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -613,7 +604,7 @@ func (client ServiceMeshClient) createAccessPolicy(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/AccessPolicy/CreateAccessPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "CreateAccessPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -626,13 +617,12 @@ func (client ServiceMeshClient) createAccessPolicy(ctx context.Context, request 
 // A default retry strategy applies to this operation CreateIngressGateway()
 func (client ServiceMeshClient) CreateIngressGateway(ctx context.Context, request CreateIngressGatewayRequest) (response CreateIngressGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -673,7 +663,7 @@ func (client ServiceMeshClient) createIngressGateway(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/IngressGateway/CreateIngressGateway"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "CreateIngressGateway", apiReferenceLink)
 		return response, err
 	}
@@ -686,13 +676,12 @@ func (client ServiceMeshClient) createIngressGateway(ctx context.Context, reques
 // A default retry strategy applies to this operation CreateIngressGatewayRouteTable()
 func (client ServiceMeshClient) CreateIngressGatewayRouteTable(ctx context.Context, request CreateIngressGatewayRouteTableRequest) (response CreateIngressGatewayRouteTableResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -733,7 +722,7 @@ func (client ServiceMeshClient) createIngressGatewayRouteTable(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/IngressGatewayRouteTable/CreateIngressGatewayRouteTable"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "CreateIngressGatewayRouteTable", apiReferenceLink)
 		return response, err
 	}
@@ -746,13 +735,12 @@ func (client ServiceMeshClient) createIngressGatewayRouteTable(ctx context.Conte
 // A default retry strategy applies to this operation CreateMesh()
 func (client ServiceMeshClient) CreateMesh(ctx context.Context, request CreateMeshRequest) (response CreateMeshResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -793,7 +781,7 @@ func (client ServiceMeshClient) createMesh(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/Mesh/CreateMesh"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "CreateMesh", apiReferenceLink)
 		return response, err
 	}
@@ -806,13 +794,12 @@ func (client ServiceMeshClient) createMesh(ctx context.Context, request common.O
 // A default retry strategy applies to this operation CreateVirtualDeployment()
 func (client ServiceMeshClient) CreateVirtualDeployment(ctx context.Context, request CreateVirtualDeploymentRequest) (response CreateVirtualDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -853,7 +840,7 @@ func (client ServiceMeshClient) createVirtualDeployment(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualDeployment/CreateVirtualDeployment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "CreateVirtualDeployment", apiReferenceLink)
 		return response, err
 	}
@@ -866,13 +853,12 @@ func (client ServiceMeshClient) createVirtualDeployment(ctx context.Context, req
 // A default retry strategy applies to this operation CreateVirtualService()
 func (client ServiceMeshClient) CreateVirtualService(ctx context.Context, request CreateVirtualServiceRequest) (response CreateVirtualServiceResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -913,7 +899,7 @@ func (client ServiceMeshClient) createVirtualService(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualService/CreateVirtualService"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "CreateVirtualService", apiReferenceLink)
 		return response, err
 	}
@@ -926,13 +912,12 @@ func (client ServiceMeshClient) createVirtualService(ctx context.Context, reques
 // A default retry strategy applies to this operation CreateVirtualServiceRouteTable()
 func (client ServiceMeshClient) CreateVirtualServiceRouteTable(ctx context.Context, request CreateVirtualServiceRouteTableRequest) (response CreateVirtualServiceRouteTableResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -973,7 +958,7 @@ func (client ServiceMeshClient) createVirtualServiceRouteTable(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualServiceRouteTable/CreateVirtualServiceRouteTable"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "CreateVirtualServiceRouteTable", apiReferenceLink)
 		return response, err
 	}
@@ -986,13 +971,12 @@ func (client ServiceMeshClient) createVirtualServiceRouteTable(ctx context.Conte
 // A default retry strategy applies to this operation DeleteAccessPolicy()
 func (client ServiceMeshClient) DeleteAccessPolicy(ctx context.Context, request DeleteAccessPolicyRequest) (response DeleteAccessPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteAccessPolicy, policy)
 	if err != nil {
@@ -1028,7 +1012,7 @@ func (client ServiceMeshClient) deleteAccessPolicy(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/AccessPolicy/DeleteAccessPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "DeleteAccessPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -1041,13 +1025,12 @@ func (client ServiceMeshClient) deleteAccessPolicy(ctx context.Context, request 
 // A default retry strategy applies to this operation DeleteIngressGateway()
 func (client ServiceMeshClient) DeleteIngressGateway(ctx context.Context, request DeleteIngressGatewayRequest) (response DeleteIngressGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteIngressGateway, policy)
 	if err != nil {
@@ -1083,7 +1066,7 @@ func (client ServiceMeshClient) deleteIngressGateway(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/IngressGateway/DeleteIngressGateway"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "DeleteIngressGateway", apiReferenceLink)
 		return response, err
 	}
@@ -1096,13 +1079,12 @@ func (client ServiceMeshClient) deleteIngressGateway(ctx context.Context, reques
 // A default retry strategy applies to this operation DeleteIngressGatewayRouteTable()
 func (client ServiceMeshClient) DeleteIngressGatewayRouteTable(ctx context.Context, request DeleteIngressGatewayRouteTableRequest) (response DeleteIngressGatewayRouteTableResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteIngressGatewayRouteTable, policy)
 	if err != nil {
@@ -1138,7 +1120,7 @@ func (client ServiceMeshClient) deleteIngressGatewayRouteTable(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/IngressGatewayRouteTable/DeleteIngressGatewayRouteTable"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "DeleteIngressGatewayRouteTable", apiReferenceLink)
 		return response, err
 	}
@@ -1151,13 +1133,12 @@ func (client ServiceMeshClient) deleteIngressGatewayRouteTable(ctx context.Conte
 // A default retry strategy applies to this operation DeleteMesh()
 func (client ServiceMeshClient) DeleteMesh(ctx context.Context, request DeleteMeshRequest) (response DeleteMeshResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteMesh, policy)
 	if err != nil {
@@ -1193,7 +1174,7 @@ func (client ServiceMeshClient) deleteMesh(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/Mesh/DeleteMesh"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "DeleteMesh", apiReferenceLink)
 		return response, err
 	}
@@ -1206,13 +1187,12 @@ func (client ServiceMeshClient) deleteMesh(ctx context.Context, request common.O
 // A default retry strategy applies to this operation DeleteVirtualDeployment()
 func (client ServiceMeshClient) DeleteVirtualDeployment(ctx context.Context, request DeleteVirtualDeploymentRequest) (response DeleteVirtualDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteVirtualDeployment, policy)
 	if err != nil {
@@ -1248,7 +1228,7 @@ func (client ServiceMeshClient) deleteVirtualDeployment(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualDeployment/DeleteVirtualDeployment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "DeleteVirtualDeployment", apiReferenceLink)
 		return response, err
 	}
@@ -1261,13 +1241,12 @@ func (client ServiceMeshClient) deleteVirtualDeployment(ctx context.Context, req
 // A default retry strategy applies to this operation DeleteVirtualService()
 func (client ServiceMeshClient) DeleteVirtualService(ctx context.Context, request DeleteVirtualServiceRequest) (response DeleteVirtualServiceResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteVirtualService, policy)
 	if err != nil {
@@ -1303,7 +1282,7 @@ func (client ServiceMeshClient) deleteVirtualService(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualService/DeleteVirtualService"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "DeleteVirtualService", apiReferenceLink)
 		return response, err
 	}
@@ -1316,13 +1295,12 @@ func (client ServiceMeshClient) deleteVirtualService(ctx context.Context, reques
 // A default retry strategy applies to this operation DeleteVirtualServiceRouteTable()
 func (client ServiceMeshClient) DeleteVirtualServiceRouteTable(ctx context.Context, request DeleteVirtualServiceRouteTableRequest) (response DeleteVirtualServiceRouteTableResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteVirtualServiceRouteTable, policy)
 	if err != nil {
@@ -1358,7 +1336,7 @@ func (client ServiceMeshClient) deleteVirtualServiceRouteTable(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualServiceRouteTable/DeleteVirtualServiceRouteTable"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "DeleteVirtualServiceRouteTable", apiReferenceLink)
 		return response, err
 	}
@@ -1371,13 +1349,12 @@ func (client ServiceMeshClient) deleteVirtualServiceRouteTable(ctx context.Conte
 // A default retry strategy applies to this operation GetAccessPolicy()
 func (client ServiceMeshClient) GetAccessPolicy(ctx context.Context, request GetAccessPolicyRequest) (response GetAccessPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getAccessPolicy, policy)
 	if err != nil {
@@ -1413,7 +1390,7 @@ func (client ServiceMeshClient) getAccessPolicy(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/AccessPolicy/GetAccessPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "GetAccessPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -1426,13 +1403,12 @@ func (client ServiceMeshClient) getAccessPolicy(ctx context.Context, request com
 // A default retry strategy applies to this operation GetIngressGateway()
 func (client ServiceMeshClient) GetIngressGateway(ctx context.Context, request GetIngressGatewayRequest) (response GetIngressGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getIngressGateway, policy)
 	if err != nil {
@@ -1468,7 +1444,7 @@ func (client ServiceMeshClient) getIngressGateway(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/IngressGateway/GetIngressGateway"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "GetIngressGateway", apiReferenceLink)
 		return response, err
 	}
@@ -1481,13 +1457,12 @@ func (client ServiceMeshClient) getIngressGateway(ctx context.Context, request c
 // A default retry strategy applies to this operation GetIngressGatewayRouteTable()
 func (client ServiceMeshClient) GetIngressGatewayRouteTable(ctx context.Context, request GetIngressGatewayRouteTableRequest) (response GetIngressGatewayRouteTableResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getIngressGatewayRouteTable, policy)
 	if err != nil {
@@ -1523,7 +1498,7 @@ func (client ServiceMeshClient) getIngressGatewayRouteTable(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/IngressGatewayRouteTable/GetIngressGatewayRouteTable"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "GetIngressGatewayRouteTable", apiReferenceLink)
 		return response, err
 	}
@@ -1536,13 +1511,12 @@ func (client ServiceMeshClient) getIngressGatewayRouteTable(ctx context.Context,
 // A default retry strategy applies to this operation GetMesh()
 func (client ServiceMeshClient) GetMesh(ctx context.Context, request GetMeshRequest) (response GetMeshResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getMesh, policy)
 	if err != nil {
@@ -1578,7 +1552,7 @@ func (client ServiceMeshClient) getMesh(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/Mesh/GetMesh"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "GetMesh", apiReferenceLink)
 		return response, err
 	}
@@ -1591,13 +1565,12 @@ func (client ServiceMeshClient) getMesh(ctx context.Context, request common.OCIR
 // A default retry strategy applies to this operation GetProxyDetails()
 func (client ServiceMeshClient) GetProxyDetails(ctx context.Context, request GetProxyDetailsRequest) (response GetProxyDetailsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getProxyDetails, policy)
 	if err != nil {
@@ -1633,7 +1606,7 @@ func (client ServiceMeshClient) getProxyDetails(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/ProxyDetails/GetProxyDetails"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "GetProxyDetails", apiReferenceLink)
 		return response, err
 	}
@@ -1646,13 +1619,12 @@ func (client ServiceMeshClient) getProxyDetails(ctx context.Context, request com
 // A default retry strategy applies to this operation GetVirtualDeployment()
 func (client ServiceMeshClient) GetVirtualDeployment(ctx context.Context, request GetVirtualDeploymentRequest) (response GetVirtualDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getVirtualDeployment, policy)
 	if err != nil {
@@ -1688,7 +1660,7 @@ func (client ServiceMeshClient) getVirtualDeployment(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualDeployment/GetVirtualDeployment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "GetVirtualDeployment", apiReferenceLink)
 		return response, err
 	}
@@ -1701,13 +1673,12 @@ func (client ServiceMeshClient) getVirtualDeployment(ctx context.Context, reques
 // A default retry strategy applies to this operation GetVirtualService()
 func (client ServiceMeshClient) GetVirtualService(ctx context.Context, request GetVirtualServiceRequest) (response GetVirtualServiceResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getVirtualService, policy)
 	if err != nil {
@@ -1743,7 +1714,7 @@ func (client ServiceMeshClient) getVirtualService(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualService/GetVirtualService"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "GetVirtualService", apiReferenceLink)
 		return response, err
 	}
@@ -1756,13 +1727,12 @@ func (client ServiceMeshClient) getVirtualService(ctx context.Context, request c
 // A default retry strategy applies to this operation GetVirtualServiceRouteTable()
 func (client ServiceMeshClient) GetVirtualServiceRouteTable(ctx context.Context, request GetVirtualServiceRouteTableRequest) (response GetVirtualServiceRouteTableResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getVirtualServiceRouteTable, policy)
 	if err != nil {
@@ -1798,7 +1768,7 @@ func (client ServiceMeshClient) getVirtualServiceRouteTable(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualServiceRouteTable/GetVirtualServiceRouteTable"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "GetVirtualServiceRouteTable", apiReferenceLink)
 		return response, err
 	}
@@ -1811,13 +1781,12 @@ func (client ServiceMeshClient) getVirtualServiceRouteTable(ctx context.Context,
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client ServiceMeshClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
@@ -1853,7 +1822,7 @@ func (client ServiceMeshClient) getWorkRequest(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -1866,13 +1835,12 @@ func (client ServiceMeshClient) getWorkRequest(ctx context.Context, request comm
 // A default retry strategy applies to this operation ListAccessPolicies()
 func (client ServiceMeshClient) ListAccessPolicies(ctx context.Context, request ListAccessPoliciesRequest) (response ListAccessPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listAccessPolicies, policy)
 	if err != nil {
@@ -1908,7 +1876,7 @@ func (client ServiceMeshClient) listAccessPolicies(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/AccessPolicy/ListAccessPolicies"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ListAccessPolicies", apiReferenceLink)
 		return response, err
 	}
@@ -1921,13 +1889,12 @@ func (client ServiceMeshClient) listAccessPolicies(ctx context.Context, request 
 // A default retry strategy applies to this operation ListIngressGatewayRouteTables()
 func (client ServiceMeshClient) ListIngressGatewayRouteTables(ctx context.Context, request ListIngressGatewayRouteTablesRequest) (response ListIngressGatewayRouteTablesResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listIngressGatewayRouteTables, policy)
 	if err != nil {
@@ -1963,7 +1930,7 @@ func (client ServiceMeshClient) listIngressGatewayRouteTables(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/IngressGatewayRouteTable/ListIngressGatewayRouteTables"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ListIngressGatewayRouteTables", apiReferenceLink)
 		return response, err
 	}
@@ -1976,13 +1943,12 @@ func (client ServiceMeshClient) listIngressGatewayRouteTables(ctx context.Contex
 // A default retry strategy applies to this operation ListIngressGateways()
 func (client ServiceMeshClient) ListIngressGateways(ctx context.Context, request ListIngressGatewaysRequest) (response ListIngressGatewaysResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listIngressGateways, policy)
 	if err != nil {
@@ -2018,7 +1984,7 @@ func (client ServiceMeshClient) listIngressGateways(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/IngressGateway/ListIngressGateways"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ListIngressGateways", apiReferenceLink)
 		return response, err
 	}
@@ -2031,13 +1997,12 @@ func (client ServiceMeshClient) listIngressGateways(ctx context.Context, request
 // A default retry strategy applies to this operation ListMeshes()
 func (client ServiceMeshClient) ListMeshes(ctx context.Context, request ListMeshesRequest) (response ListMeshesResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listMeshes, policy)
 	if err != nil {
@@ -2073,7 +2038,7 @@ func (client ServiceMeshClient) listMeshes(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/Mesh/ListMeshes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ListMeshes", apiReferenceLink)
 		return response, err
 	}
@@ -2086,13 +2051,12 @@ func (client ServiceMeshClient) listMeshes(ctx context.Context, request common.O
 // A default retry strategy applies to this operation ListVirtualDeployments()
 func (client ServiceMeshClient) ListVirtualDeployments(ctx context.Context, request ListVirtualDeploymentsRequest) (response ListVirtualDeploymentsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listVirtualDeployments, policy)
 	if err != nil {
@@ -2128,7 +2092,7 @@ func (client ServiceMeshClient) listVirtualDeployments(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualDeployment/ListVirtualDeployments"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ListVirtualDeployments", apiReferenceLink)
 		return response, err
 	}
@@ -2141,13 +2105,12 @@ func (client ServiceMeshClient) listVirtualDeployments(ctx context.Context, requ
 // A default retry strategy applies to this operation ListVirtualServiceRouteTables()
 func (client ServiceMeshClient) ListVirtualServiceRouteTables(ctx context.Context, request ListVirtualServiceRouteTablesRequest) (response ListVirtualServiceRouteTablesResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listVirtualServiceRouteTables, policy)
 	if err != nil {
@@ -2183,7 +2146,7 @@ func (client ServiceMeshClient) listVirtualServiceRouteTables(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualServiceRouteTable/ListVirtualServiceRouteTables"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ListVirtualServiceRouteTables", apiReferenceLink)
 		return response, err
 	}
@@ -2196,13 +2159,12 @@ func (client ServiceMeshClient) listVirtualServiceRouteTables(ctx context.Contex
 // A default retry strategy applies to this operation ListVirtualServices()
 func (client ServiceMeshClient) ListVirtualServices(ctx context.Context, request ListVirtualServicesRequest) (response ListVirtualServicesResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listVirtualServices, policy)
 	if err != nil {
@@ -2238,7 +2200,7 @@ func (client ServiceMeshClient) listVirtualServices(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualService/ListVirtualServices"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ListVirtualServices", apiReferenceLink)
 		return response, err
 	}
@@ -2251,13 +2213,12 @@ func (client ServiceMeshClient) listVirtualServices(ctx context.Context, request
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client ServiceMeshClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
 	if err != nil {
@@ -2293,7 +2254,7 @@ func (client ServiceMeshClient) listWorkRequestErrors(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/WorkRequest/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -2306,13 +2267,12 @@ func (client ServiceMeshClient) listWorkRequestErrors(ctx context.Context, reque
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client ServiceMeshClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestLogs, policy)
 	if err != nil {
@@ -2348,7 +2308,7 @@ func (client ServiceMeshClient) listWorkRequestLogs(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/WorkRequest/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -2361,13 +2321,12 @@ func (client ServiceMeshClient) listWorkRequestLogs(ctx context.Context, request
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client ServiceMeshClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
@@ -2403,7 +2362,7 @@ func (client ServiceMeshClient) listWorkRequests(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/WorkRequest/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -2416,13 +2375,12 @@ func (client ServiceMeshClient) listWorkRequests(ctx context.Context, request co
 // A default retry strategy applies to this operation UpdateAccessPolicy()
 func (client ServiceMeshClient) UpdateAccessPolicy(ctx context.Context, request UpdateAccessPolicyRequest) (response UpdateAccessPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -2463,7 +2421,7 @@ func (client ServiceMeshClient) updateAccessPolicy(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/AccessPolicy/UpdateAccessPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "UpdateAccessPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -2476,13 +2434,12 @@ func (client ServiceMeshClient) updateAccessPolicy(ctx context.Context, request 
 // A default retry strategy applies to this operation UpdateIngressGateway()
 func (client ServiceMeshClient) UpdateIngressGateway(ctx context.Context, request UpdateIngressGatewayRequest) (response UpdateIngressGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -2523,7 +2480,7 @@ func (client ServiceMeshClient) updateIngressGateway(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/IngressGateway/UpdateIngressGateway"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "UpdateIngressGateway", apiReferenceLink)
 		return response, err
 	}
@@ -2536,13 +2493,12 @@ func (client ServiceMeshClient) updateIngressGateway(ctx context.Context, reques
 // A default retry strategy applies to this operation UpdateIngressGatewayRouteTable()
 func (client ServiceMeshClient) UpdateIngressGatewayRouteTable(ctx context.Context, request UpdateIngressGatewayRouteTableRequest) (response UpdateIngressGatewayRouteTableResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -2583,7 +2539,7 @@ func (client ServiceMeshClient) updateIngressGatewayRouteTable(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/IngressGatewayRouteTable/UpdateIngressGatewayRouteTable"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "UpdateIngressGatewayRouteTable", apiReferenceLink)
 		return response, err
 	}
@@ -2596,13 +2552,12 @@ func (client ServiceMeshClient) updateIngressGatewayRouteTable(ctx context.Conte
 // A default retry strategy applies to this operation UpdateMesh()
 func (client ServiceMeshClient) UpdateMesh(ctx context.Context, request UpdateMeshRequest) (response UpdateMeshResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -2643,7 +2598,7 @@ func (client ServiceMeshClient) updateMesh(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/Mesh/UpdateMesh"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "UpdateMesh", apiReferenceLink)
 		return response, err
 	}
@@ -2656,13 +2611,12 @@ func (client ServiceMeshClient) updateMesh(ctx context.Context, request common.O
 // A default retry strategy applies to this operation UpdateVirtualDeployment()
 func (client ServiceMeshClient) UpdateVirtualDeployment(ctx context.Context, request UpdateVirtualDeploymentRequest) (response UpdateVirtualDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -2703,7 +2657,7 @@ func (client ServiceMeshClient) updateVirtualDeployment(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualDeployment/UpdateVirtualDeployment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "UpdateVirtualDeployment", apiReferenceLink)
 		return response, err
 	}
@@ -2716,13 +2670,12 @@ func (client ServiceMeshClient) updateVirtualDeployment(ctx context.Context, req
 // A default retry strategy applies to this operation UpdateVirtualService()
 func (client ServiceMeshClient) UpdateVirtualService(ctx context.Context, request UpdateVirtualServiceRequest) (response UpdateVirtualServiceResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -2763,7 +2716,7 @@ func (client ServiceMeshClient) updateVirtualService(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualService/UpdateVirtualService"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "UpdateVirtualService", apiReferenceLink)
 		return response, err
 	}
@@ -2776,13 +2729,12 @@ func (client ServiceMeshClient) updateVirtualService(ctx context.Context, reques
 // A default retry strategy applies to this operation UpdateVirtualServiceRouteTable()
 func (client ServiceMeshClient) UpdateVirtualServiceRouteTable(ctx context.Context, request UpdateVirtualServiceRouteTableRequest) (response UpdateVirtualServiceRouteTableResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -2823,7 +2775,7 @@ func (client ServiceMeshClient) updateVirtualServiceRouteTable(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualServiceRouteTable/UpdateVirtualServiceRouteTable"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceMesh", "UpdateVirtualServiceRouteTable", apiReferenceLink)
 		return response, err
 	}

@@ -57,7 +57,7 @@ func (request DeleteBlocklistRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteBlocklistRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteBlocklistRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

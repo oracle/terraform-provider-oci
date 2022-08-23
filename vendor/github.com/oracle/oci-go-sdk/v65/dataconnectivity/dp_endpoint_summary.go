@@ -103,6 +103,7 @@ func (m *dpendpointsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for DpEndpointSummary: %s.", m.ModelType)
 		return *m, nil
 	}
 }

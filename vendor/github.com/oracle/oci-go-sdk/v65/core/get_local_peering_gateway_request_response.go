@@ -48,7 +48,7 @@ func (request GetLocalPeeringGatewayRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetLocalPeeringGatewayRequest) RetryPolicy() common.OCIRetry {
+func (request GetLocalPeeringGatewayRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -55,7 +55,7 @@ func (request RollbackIPSecConnectionRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RollbackIPSecConnectionRequest) RetryPolicy() common.OCIRetry {
+func (request RollbackIPSecConnectionRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

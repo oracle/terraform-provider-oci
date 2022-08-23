@@ -66,7 +66,7 @@ func (request DeleteViewRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteViewRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteViewRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

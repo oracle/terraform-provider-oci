@@ -64,7 +64,7 @@ func (request AssignEncryptionKeyRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request AssignEncryptionKeyRequest) RetryPolicy() common.OCIRetry {
+func (request AssignEncryptionKeyRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

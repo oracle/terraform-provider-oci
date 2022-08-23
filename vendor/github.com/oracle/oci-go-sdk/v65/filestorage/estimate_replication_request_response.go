@@ -58,7 +58,7 @@ func (request EstimateReplicationRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request EstimateReplicationRequest) RetryPolicy() common.OCIRetry {
+func (request EstimateReplicationRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

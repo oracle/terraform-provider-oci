@@ -67,7 +67,7 @@ func (request CreateSSLCipherSuiteRequest) BinaryRequestBody() (*common.OCIReadS
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateSSLCipherSuiteRequest) RetryPolicy() common.OCIRetry {
+func (request CreateSSLCipherSuiteRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -61,7 +61,7 @@ func (request GetHostnameRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetHostnameRequest) RetryPolicy() common.OCIRetry {
+func (request GetHostnameRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

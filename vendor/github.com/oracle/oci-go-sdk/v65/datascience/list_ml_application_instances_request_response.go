@@ -74,7 +74,7 @@ func (request ListMlApplicationInstancesRequest) BinaryRequestBody() (*common.OC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListMlApplicationInstancesRequest) RetryPolicy() common.OCIRetry {
+func (request ListMlApplicationInstancesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

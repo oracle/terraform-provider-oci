@@ -53,7 +53,7 @@ func (request RemoveUserFromGroupRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RemoveUserFromGroupRequest) RetryPolicy() common.OCIRetry {
+func (request RemoveUserFromGroupRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

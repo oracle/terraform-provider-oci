@@ -143,7 +143,7 @@ func (request SummarizeSqlStatisticsRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request SummarizeSqlStatisticsRequest) RetryPolicy() common.OCIRetry {
+func (request SummarizeSqlStatisticsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

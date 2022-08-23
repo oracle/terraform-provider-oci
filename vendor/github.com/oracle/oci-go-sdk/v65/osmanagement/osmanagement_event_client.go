@@ -91,13 +91,12 @@ func (client *EventClient) ConfigurationProvider() *common.ConfigurationProvider
 // DeleteEventContent Delete an event content ZIP archive from the service
 func (client EventClient) DeleteEventContent(ctx context.Context, request DeleteEventContentRequest) (response DeleteEventContentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -150,13 +149,12 @@ func (client EventClient) deleteEventContent(ctx context.Context, request common
 // GetEvent Gets an Event by identifier
 func (client EventClient) GetEvent(ctx context.Context, request GetEventRequest) (response GetEventResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getEvent, policy)
 	if err != nil {
@@ -204,13 +202,12 @@ func (client EventClient) getEvent(ctx context.Context, request common.OCIReques
 // GetEventContent Get additional data about a event as a ZIP archive. The archive content depends on the event eventType.
 func (client EventClient) GetEventContent(ctx context.Context, request GetEventContentRequest) (response GetEventContentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getEventContent, policy)
 	if err != nil {
@@ -257,13 +254,12 @@ func (client EventClient) getEventContent(ctx context.Context, request common.OC
 // GetEventReport Get summary information about events on this instance.
 func (client EventClient) GetEventReport(ctx context.Context, request GetEventReportRequest) (response GetEventReportResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getEventReport, policy)
 	if err != nil {
@@ -311,13 +307,12 @@ func (client EventClient) getEventReport(ctx context.Context, request common.OCI
 // ListEvents Returns a list of Events.
 func (client EventClient) ListEvents(ctx context.Context, request ListEventsRequest) (response ListEventsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listEvents, policy)
 	if err != nil {
@@ -365,13 +360,12 @@ func (client EventClient) listEvents(ctx context.Context, request common.OCIRequ
 // ListRelatedEvents Returns a list of related events. For now pagination is not implemented.
 func (client EventClient) ListRelatedEvents(ctx context.Context, request ListRelatedEventsRequest) (response ListRelatedEventsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listRelatedEvents, policy)
 	if err != nil {
@@ -419,13 +413,12 @@ func (client EventClient) listRelatedEvents(ctx context.Context, request common.
 // UpdateEvent Updates an existing event associated to a managed instance
 func (client EventClient) UpdateEvent(ctx context.Context, request UpdateEventRequest) (response UpdateEventResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateEvent, policy)
 	if err != nil {
@@ -473,13 +466,12 @@ func (client EventClient) updateEvent(ctx context.Context, request common.OCIReq
 // UploadEventContent Upload the event content as a ZIP archive from the managed instance to the service
 func (client EventClient) UploadEventContent(ctx context.Context, request UploadEventContentRequest) (response UploadEventContentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {

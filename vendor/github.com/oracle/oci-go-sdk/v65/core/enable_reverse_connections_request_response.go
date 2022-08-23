@@ -67,7 +67,7 @@ func (request EnableReverseConnectionsRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request EnableReverseConnectionsRequest) RetryPolicy() common.OCIRetry {
+func (request EnableReverseConnectionsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

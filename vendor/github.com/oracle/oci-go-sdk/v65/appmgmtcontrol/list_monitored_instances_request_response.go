@@ -62,7 +62,7 @@ func (request ListMonitoredInstancesRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListMonitoredInstancesRequest) RetryPolicy() common.OCIRetry {
+func (request ListMonitoredInstancesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

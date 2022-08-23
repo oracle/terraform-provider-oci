@@ -56,7 +56,7 @@ func (request UpdateConfigurationSourceProviderRequest) BinaryRequestBody() (*co
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateConfigurationSourceProviderRequest) RetryPolicy() common.OCIRetry {
+func (request UpdateConfigurationSourceProviderRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

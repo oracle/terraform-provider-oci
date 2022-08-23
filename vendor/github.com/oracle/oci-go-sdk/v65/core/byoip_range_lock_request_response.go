@@ -48,7 +48,7 @@ func (request ByoipRangeLockRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ByoipRangeLockRequest) RetryPolicy() common.OCIRetry {
+func (request ByoipRangeLockRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

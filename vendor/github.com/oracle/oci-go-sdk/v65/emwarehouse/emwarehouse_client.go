@@ -90,13 +90,12 @@ func (client *EmWarehouseClient) ConfigurationProvider() *common.ConfigurationPr
 // CancelWorkRequest Cancels the work request with the given ID.
 func (client EmWarehouseClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.cancelWorkRequest, policy)
 	if err != nil {
@@ -132,7 +131,7 @@ func (client EmWarehouseClient) cancelWorkRequest(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/em-warehouse/20180828/WorkRequest/CancelWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "EmWarehouse", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -144,13 +143,12 @@ func (client EmWarehouseClient) cancelWorkRequest(ctx context.Context, request c
 // ChangeEmWarehouseCompartment Moves a EmWarehouse resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
 func (client EmWarehouseClient) ChangeEmWarehouseCompartment(ctx context.Context, request ChangeEmWarehouseCompartmentRequest) (response ChangeEmWarehouseCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -191,7 +189,7 @@ func (client EmWarehouseClient) changeEmWarehouseCompartment(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/em-warehouse/20180828/EmWarehouse/ChangeEmWarehouseCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "EmWarehouse", "ChangeEmWarehouseCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -203,13 +201,12 @@ func (client EmWarehouseClient) changeEmWarehouseCompartment(ctx context.Context
 // CreateEmWarehouse Creates a new EmWarehouse.
 func (client EmWarehouseClient) CreateEmWarehouse(ctx context.Context, request CreateEmWarehouseRequest) (response CreateEmWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -250,7 +247,7 @@ func (client EmWarehouseClient) createEmWarehouse(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/em-warehouse/20180828/EmWarehouse/CreateEmWarehouse"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "EmWarehouse", "CreateEmWarehouse", apiReferenceLink)
 		return response, err
 	}
@@ -262,13 +259,12 @@ func (client EmWarehouseClient) createEmWarehouse(ctx context.Context, request c
 // DeleteEmWarehouse Deletes a EmWarehouse resource by identifier
 func (client EmWarehouseClient) DeleteEmWarehouse(ctx context.Context, request DeleteEmWarehouseRequest) (response DeleteEmWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteEmWarehouse, policy)
 	if err != nil {
@@ -304,7 +300,7 @@ func (client EmWarehouseClient) deleteEmWarehouse(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/em-warehouse/20180828/EmWarehouse/DeleteEmWarehouse"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "EmWarehouse", "DeleteEmWarehouse", apiReferenceLink)
 		return response, err
 	}
@@ -316,13 +312,12 @@ func (client EmWarehouseClient) deleteEmWarehouse(ctx context.Context, request c
 // GetEmWarehouse Gets a EmWarehouse by identifier
 func (client EmWarehouseClient) GetEmWarehouse(ctx context.Context, request GetEmWarehouseRequest) (response GetEmWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getEmWarehouse, policy)
 	if err != nil {
@@ -358,7 +353,7 @@ func (client EmWarehouseClient) getEmWarehouse(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/em-warehouse/20180828/EmWarehouse/GetEmWarehouse"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "EmWarehouse", "GetEmWarehouse", apiReferenceLink)
 		return response, err
 	}
@@ -370,13 +365,12 @@ func (client EmWarehouseClient) getEmWarehouse(ctx context.Context, request comm
 // GetEmWarehouseResourceUsage Gets a EmWarehouseResourceUsage by identifier
 func (client EmWarehouseClient) GetEmWarehouseResourceUsage(ctx context.Context, request GetEmWarehouseResourceUsageRequest) (response GetEmWarehouseResourceUsageResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getEmWarehouseResourceUsage, policy)
 	if err != nil {
@@ -412,7 +406,7 @@ func (client EmWarehouseClient) getEmWarehouseResourceUsage(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/em-warehouse/20180828/ResourceUsage/GetEmWarehouseResourceUsage"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "EmWarehouse", "GetEmWarehouseResourceUsage", apiReferenceLink)
 		return response, err
 	}
@@ -424,13 +418,12 @@ func (client EmWarehouseClient) getEmWarehouseResourceUsage(ctx context.Context,
 // GetWorkRequest Gets details of the work request with the given ID.
 func (client EmWarehouseClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
@@ -466,7 +459,7 @@ func (client EmWarehouseClient) getWorkRequest(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/em-warehouse/20180828/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "EmWarehouse", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -478,13 +471,12 @@ func (client EmWarehouseClient) getWorkRequest(ctx context.Context, request comm
 // ListEmWarehouses Returns a list of EmWarehouses.
 func (client EmWarehouseClient) ListEmWarehouses(ctx context.Context, request ListEmWarehousesRequest) (response ListEmWarehousesResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listEmWarehouses, policy)
 	if err != nil {
@@ -520,7 +512,7 @@ func (client EmWarehouseClient) listEmWarehouses(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/em-warehouse/20180828/EmWarehouseCollection/ListEmWarehouses"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "EmWarehouse", "ListEmWarehouses", apiReferenceLink)
 		return response, err
 	}
@@ -532,13 +524,12 @@ func (client EmWarehouseClient) listEmWarehouses(ctx context.Context, request co
 // ListEtlRuns Gets a list of runs of an EmWarehouseResource by identifier
 func (client EmWarehouseClient) ListEtlRuns(ctx context.Context, request ListEtlRunsRequest) (response ListEtlRunsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listEtlRuns, policy)
 	if err != nil {
@@ -574,7 +565,7 @@ func (client EmWarehouseClient) listEtlRuns(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/em-warehouse/20180828/EtlRunCollection/ListEtlRuns"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "EmWarehouse", "ListEtlRuns", apiReferenceLink)
 		return response, err
 	}
@@ -586,13 +577,12 @@ func (client EmWarehouseClient) listEtlRuns(ctx context.Context, request common.
 // ListWorkRequestErrors Returns a (paginated) list of errors for the work request with the given ID.
 func (client EmWarehouseClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
 	if err != nil {
@@ -628,7 +618,7 @@ func (client EmWarehouseClient) listWorkRequestErrors(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/em-warehouse/20180828/WorkRequestError/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "EmWarehouse", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -640,13 +630,12 @@ func (client EmWarehouseClient) listWorkRequestErrors(ctx context.Context, reque
 // ListWorkRequestLogs Returns a (paginated) list of logs for the work request with the given ID.
 func (client EmWarehouseClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestLogs, policy)
 	if err != nil {
@@ -682,7 +671,7 @@ func (client EmWarehouseClient) listWorkRequestLogs(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/em-warehouse/20180828/WorkRequestLogEntry/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "EmWarehouse", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -694,13 +683,12 @@ func (client EmWarehouseClient) listWorkRequestLogs(ctx context.Context, request
 // ListWorkRequests Lists the work requests in a compartment.
 func (client EmWarehouseClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
@@ -736,7 +724,7 @@ func (client EmWarehouseClient) listWorkRequests(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/em-warehouse/20180828/WorkRequest/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "EmWarehouse", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -748,13 +736,12 @@ func (client EmWarehouseClient) listWorkRequests(ctx context.Context, request co
 // UpdateEmWarehouse Updates the EmWarehouse
 func (client EmWarehouseClient) UpdateEmWarehouse(ctx context.Context, request UpdateEmWarehouseRequest) (response UpdateEmWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateEmWarehouse, policy)
 	if err != nil {
@@ -790,7 +777,7 @@ func (client EmWarehouseClient) updateEmWarehouse(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/em-warehouse/20180828/EmWarehouse/UpdateEmWarehouse"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "EmWarehouse", "UpdateEmWarehouse", apiReferenceLink)
 		return response, err
 	}

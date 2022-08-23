@@ -56,7 +56,7 @@ func (request ListEdgeSubnetsRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListEdgeSubnetsRequest) RetryPolicy() common.OCIRetry {
+func (request ListEdgeSubnetsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

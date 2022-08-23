@@ -48,7 +48,7 @@ func (request GetEsxiHostRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetEsxiHostRequest) RetryPolicy() common.OCIRetry {
+func (request GetEsxiHostRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

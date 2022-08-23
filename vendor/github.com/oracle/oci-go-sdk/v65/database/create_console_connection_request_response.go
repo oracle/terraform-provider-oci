@@ -58,7 +58,7 @@ func (request CreateConsoleConnectionRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateConsoleConnectionRequest) RetryPolicy() common.OCIRetry {
+func (request CreateConsoleConnectionRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

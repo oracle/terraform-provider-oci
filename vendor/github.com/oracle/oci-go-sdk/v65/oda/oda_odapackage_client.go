@@ -92,13 +92,12 @@ func (client *OdapackageClient) ConfigurationProvider() *common.ConfigurationPro
 // header value and use it to call `GET /workRequests/{workRequestId}`.
 func (client OdapackageClient) CreateImportedPackage(ctx context.Context, request CreateImportedPackageRequest) (response CreateImportedPackageResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -153,13 +152,12 @@ func (client OdapackageClient) createImportedPackage(ctx context.Context, reques
 // header value and use it to call `GET /workRequests/{workRequestId}`.
 func (client OdapackageClient) DeleteImportedPackage(ctx context.Context, request DeleteImportedPackageRequest) (response DeleteImportedPackageResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -212,13 +210,12 @@ func (client OdapackageClient) deleteImportedPackage(ctx context.Context, reques
 // GetImportedPackage Returns a list of summaries for imported packages in the instance.
 func (client OdapackageClient) GetImportedPackage(ctx context.Context, request GetImportedPackageRequest) (response GetImportedPackageResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getImportedPackage, policy)
 	if err != nil {
@@ -266,13 +263,12 @@ func (client OdapackageClient) getImportedPackage(ctx context.Context, request c
 // GetPackage Returns details about a package, and how to import it.
 func (client OdapackageClient) GetPackage(ctx context.Context, request GetPackageRequest) (response GetPackageResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getPackage, policy)
 	if err != nil {
@@ -320,13 +316,12 @@ func (client OdapackageClient) getPackage(ctx context.Context, request common.OC
 // ListImportedPackages Returns a list of summaries for imported packages in the instance.
 func (client OdapackageClient) ListImportedPackages(ctx context.Context, request ListImportedPackagesRequest) (response ListImportedPackagesResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listImportedPackages, policy)
 	if err != nil {
@@ -386,13 +381,12 @@ func (client OdapackageClient) listImportedPackages(ctx context.Context, request
 // GET request, include the header's value as the `page` query parameter.
 func (client OdapackageClient) ListPackages(ctx context.Context, request ListPackagesRequest) (response ListPackagesResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listPackages, policy)
 	if err != nil {
@@ -442,13 +436,12 @@ func (client OdapackageClient) listPackages(ctx context.Context, request common.
 // header value and use it to call `GET /workRequests/{workRequestId}`.
 func (client OdapackageClient) UpdateImportedPackage(ctx context.Context, request UpdateImportedPackageRequest) (response UpdateImportedPackageResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {

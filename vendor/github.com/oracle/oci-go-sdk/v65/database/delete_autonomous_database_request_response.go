@@ -52,7 +52,7 @@ func (request DeleteAutonomousDatabaseRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteAutonomousDatabaseRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteAutonomousDatabaseRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

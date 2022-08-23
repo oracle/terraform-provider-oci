@@ -50,7 +50,7 @@ func (request CreateNotebookSessionRequest) BinaryRequestBody() (*common.OCIRead
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateNotebookSessionRequest) RetryPolicy() common.OCIRetry {
+func (request CreateNotebookSessionRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

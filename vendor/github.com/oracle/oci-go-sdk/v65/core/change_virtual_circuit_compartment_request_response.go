@@ -58,7 +58,7 @@ func (request ChangeVirtualCircuitCompartmentRequest) BinaryRequestBody() (*comm
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ChangeVirtualCircuitCompartmentRequest) RetryPolicy() common.OCIRetry {
+func (request ChangeVirtualCircuitCompartmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

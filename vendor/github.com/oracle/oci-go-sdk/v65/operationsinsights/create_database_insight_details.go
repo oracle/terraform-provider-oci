@@ -78,6 +78,7 @@ func (m *createdatabaseinsightdetails) UnmarshalPolymorphicJSON(data []byte) (in
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for CreateDatabaseInsightDetails: %s.", m.EntitySource)
 		return *m, nil
 	}
 }

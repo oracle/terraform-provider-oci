@@ -75,6 +75,7 @@ func (m *filter) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for Filter: %s.", m.TriggerSource)
 		return *m, nil
 	}
 }

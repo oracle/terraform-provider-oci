@@ -63,7 +63,7 @@ func (request ListAssociatedDatabasesRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListAssociatedDatabasesRequest) RetryPolicy() common.OCIRetry {
+func (request ListAssociatedDatabasesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -70,7 +70,7 @@ func (request ListProfileLevelsRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListProfileLevelsRequest) RetryPolicy() common.OCIRetry {
+func (request ListProfileLevelsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

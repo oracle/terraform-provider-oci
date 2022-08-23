@@ -59,7 +59,7 @@ func (request GetRepoFileDiffRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetRepoFileDiffRequest) RetryPolicy() common.OCIRetry {
+func (request GetRepoFileDiffRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

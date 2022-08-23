@@ -61,7 +61,7 @@ func (request CreateZoneFromZoneFileRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateZoneFromZoneFileRequest) RetryPolicy() common.OCIRetry {
+func (request CreateZoneFromZoneFileRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -73,7 +73,7 @@ func (request ListModuleStreamProfilesRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListModuleStreamProfilesRequest) RetryPolicy() common.OCIRetry {
+func (request ListModuleStreamProfilesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

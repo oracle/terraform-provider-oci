@@ -56,7 +56,7 @@ func (request UpdateCrossConnectRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateCrossConnectRequest) RetryPolicy() common.OCIRetry {
+func (request UpdateCrossConnectRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

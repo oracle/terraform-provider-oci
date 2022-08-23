@@ -85,7 +85,7 @@ func (request ListBlockVolumeReplicasRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListBlockVolumeReplicasRequest) RetryPolicy() common.OCIRetry {
+func (request ListBlockVolumeReplicasRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

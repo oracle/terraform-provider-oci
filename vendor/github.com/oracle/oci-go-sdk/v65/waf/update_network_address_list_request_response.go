@@ -55,7 +55,7 @@ func (request UpdateNetworkAddressListRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateNetworkAddressListRequest) RetryPolicy() common.OCIRetry {
+func (request UpdateNetworkAddressListRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

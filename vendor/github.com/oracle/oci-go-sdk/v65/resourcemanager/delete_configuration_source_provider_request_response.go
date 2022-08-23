@@ -53,7 +53,7 @@ func (request DeleteConfigurationSourceProviderRequest) BinaryRequestBody() (*co
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteConfigurationSourceProviderRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteConfigurationSourceProviderRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

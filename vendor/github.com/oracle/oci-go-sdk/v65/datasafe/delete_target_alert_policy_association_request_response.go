@@ -54,7 +54,7 @@ func (request DeleteTargetAlertPolicyAssociationRequest) BinaryRequestBody() (*c
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteTargetAlertPolicyAssociationRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteTargetAlertPolicyAssociationRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

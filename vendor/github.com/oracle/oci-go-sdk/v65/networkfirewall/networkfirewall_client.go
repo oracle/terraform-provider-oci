@@ -91,13 +91,12 @@ func (client *NetworkFirewallClient) ConfigurationProvider() *common.Configurati
 // A default retry strategy applies to this operation CancelWorkRequest()
 func (client NetworkFirewallClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.cancelWorkRequest, policy)
 	if err != nil {
@@ -133,7 +132,7 @@ func (client NetworkFirewallClient) cancelWorkRequest(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20211001/WorkRequest/CancelWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -146,13 +145,12 @@ func (client NetworkFirewallClient) cancelWorkRequest(ctx context.Context, reque
 // A default retry strategy applies to this operation ChangeNetworkFirewallCompartment()
 func (client NetworkFirewallClient) ChangeNetworkFirewallCompartment(ctx context.Context, request ChangeNetworkFirewallCompartmentRequest) (response ChangeNetworkFirewallCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.changeNetworkFirewallCompartment, policy)
 	if err != nil {
@@ -188,7 +186,7 @@ func (client NetworkFirewallClient) changeNetworkFirewallCompartment(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20211001/NetworkFirewall/ChangeNetworkFirewallCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "ChangeNetworkFirewallCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -201,13 +199,12 @@ func (client NetworkFirewallClient) changeNetworkFirewallCompartment(ctx context
 // A default retry strategy applies to this operation ChangeNetworkFirewallPolicyCompartment()
 func (client NetworkFirewallClient) ChangeNetworkFirewallPolicyCompartment(ctx context.Context, request ChangeNetworkFirewallPolicyCompartmentRequest) (response ChangeNetworkFirewallPolicyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -248,7 +245,7 @@ func (client NetworkFirewallClient) changeNetworkFirewallPolicyCompartment(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20211001/NetworkFirewallPolicy/ChangeNetworkFirewallPolicyCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "ChangeNetworkFirewallPolicyCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -261,13 +258,12 @@ func (client NetworkFirewallClient) changeNetworkFirewallPolicyCompartment(ctx c
 // A default retry strategy applies to this operation CreateNetworkFirewall()
 func (client NetworkFirewallClient) CreateNetworkFirewall(ctx context.Context, request CreateNetworkFirewallRequest) (response CreateNetworkFirewallResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -308,7 +304,7 @@ func (client NetworkFirewallClient) createNetworkFirewall(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20211001/NetworkFirewall/CreateNetworkFirewall"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "CreateNetworkFirewall", apiReferenceLink)
 		return response, err
 	}
@@ -321,13 +317,12 @@ func (client NetworkFirewallClient) createNetworkFirewall(ctx context.Context, r
 // A default retry strategy applies to this operation CreateNetworkFirewallPolicy()
 func (client NetworkFirewallClient) CreateNetworkFirewallPolicy(ctx context.Context, request CreateNetworkFirewallPolicyRequest) (response CreateNetworkFirewallPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -368,7 +363,7 @@ func (client NetworkFirewallClient) createNetworkFirewallPolicy(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20211001/NetworkFirewallPolicy/CreateNetworkFirewallPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "CreateNetworkFirewallPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -381,13 +376,12 @@ func (client NetworkFirewallClient) createNetworkFirewallPolicy(ctx context.Cont
 // A default retry strategy applies to this operation DeleteNetworkFirewall()
 func (client NetworkFirewallClient) DeleteNetworkFirewall(ctx context.Context, request DeleteNetworkFirewallRequest) (response DeleteNetworkFirewallResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteNetworkFirewall, policy)
 	if err != nil {
@@ -423,7 +417,7 @@ func (client NetworkFirewallClient) deleteNetworkFirewall(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20211001/NetworkFirewall/DeleteNetworkFirewall"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "DeleteNetworkFirewall", apiReferenceLink)
 		return response, err
 	}
@@ -436,13 +430,12 @@ func (client NetworkFirewallClient) deleteNetworkFirewall(ctx context.Context, r
 // A default retry strategy applies to this operation DeleteNetworkFirewallPolicy()
 func (client NetworkFirewallClient) DeleteNetworkFirewallPolicy(ctx context.Context, request DeleteNetworkFirewallPolicyRequest) (response DeleteNetworkFirewallPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteNetworkFirewallPolicy, policy)
 	if err != nil {
@@ -478,7 +471,7 @@ func (client NetworkFirewallClient) deleteNetworkFirewallPolicy(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20211001/NetworkFirewallPolicy/DeleteNetworkFirewallPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "DeleteNetworkFirewallPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -491,13 +484,12 @@ func (client NetworkFirewallClient) deleteNetworkFirewallPolicy(ctx context.Cont
 // A default retry strategy applies to this operation GetNetworkFirewall()
 func (client NetworkFirewallClient) GetNetworkFirewall(ctx context.Context, request GetNetworkFirewallRequest) (response GetNetworkFirewallResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getNetworkFirewall, policy)
 	if err != nil {
@@ -533,7 +525,7 @@ func (client NetworkFirewallClient) getNetworkFirewall(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20211001/NetworkFirewall/GetNetworkFirewall"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "GetNetworkFirewall", apiReferenceLink)
 		return response, err
 	}
@@ -546,13 +538,12 @@ func (client NetworkFirewallClient) getNetworkFirewall(ctx context.Context, requ
 // A default retry strategy applies to this operation GetNetworkFirewallPolicy()
 func (client NetworkFirewallClient) GetNetworkFirewallPolicy(ctx context.Context, request GetNetworkFirewallPolicyRequest) (response GetNetworkFirewallPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getNetworkFirewallPolicy, policy)
 	if err != nil {
@@ -588,7 +579,7 @@ func (client NetworkFirewallClient) getNetworkFirewallPolicy(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20211001/NetworkFirewallPolicy/GetNetworkFirewallPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "GetNetworkFirewallPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -601,13 +592,12 @@ func (client NetworkFirewallClient) getNetworkFirewallPolicy(ctx context.Context
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client NetworkFirewallClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
@@ -643,7 +633,7 @@ func (client NetworkFirewallClient) getWorkRequest(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20211001/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -656,13 +646,12 @@ func (client NetworkFirewallClient) getWorkRequest(ctx context.Context, request 
 // A default retry strategy applies to this operation ListNetworkFirewallPolicies()
 func (client NetworkFirewallClient) ListNetworkFirewallPolicies(ctx context.Context, request ListNetworkFirewallPoliciesRequest) (response ListNetworkFirewallPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listNetworkFirewallPolicies, policy)
 	if err != nil {
@@ -698,7 +687,7 @@ func (client NetworkFirewallClient) listNetworkFirewallPolicies(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20211001/NetworkFirewallPolicy/ListNetworkFirewallPolicies"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "ListNetworkFirewallPolicies", apiReferenceLink)
 		return response, err
 	}
@@ -711,13 +700,12 @@ func (client NetworkFirewallClient) listNetworkFirewallPolicies(ctx context.Cont
 // A default retry strategy applies to this operation ListNetworkFirewalls()
 func (client NetworkFirewallClient) ListNetworkFirewalls(ctx context.Context, request ListNetworkFirewallsRequest) (response ListNetworkFirewallsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listNetworkFirewalls, policy)
 	if err != nil {
@@ -753,7 +741,7 @@ func (client NetworkFirewallClient) listNetworkFirewalls(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20211001/NetworkFirewall/ListNetworkFirewalls"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "ListNetworkFirewalls", apiReferenceLink)
 		return response, err
 	}
@@ -766,13 +754,12 @@ func (client NetworkFirewallClient) listNetworkFirewalls(ctx context.Context, re
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client NetworkFirewallClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
 	if err != nil {
@@ -808,7 +795,7 @@ func (client NetworkFirewallClient) listWorkRequestErrors(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20211001/WorkRequestError/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -821,13 +808,12 @@ func (client NetworkFirewallClient) listWorkRequestErrors(ctx context.Context, r
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client NetworkFirewallClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestLogs, policy)
 	if err != nil {
@@ -863,7 +849,7 @@ func (client NetworkFirewallClient) listWorkRequestLogs(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20211001/WorkRequestLogEntry/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -876,13 +862,12 @@ func (client NetworkFirewallClient) listWorkRequestLogs(ctx context.Context, req
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client NetworkFirewallClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
@@ -918,7 +903,7 @@ func (client NetworkFirewallClient) listWorkRequests(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20211001/WorkRequest/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -931,13 +916,12 @@ func (client NetworkFirewallClient) listWorkRequests(ctx context.Context, reques
 // A default retry strategy applies to this operation UpdateNetworkFirewall()
 func (client NetworkFirewallClient) UpdateNetworkFirewall(ctx context.Context, request UpdateNetworkFirewallRequest) (response UpdateNetworkFirewallResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateNetworkFirewall, policy)
 	if err != nil {
@@ -973,7 +957,7 @@ func (client NetworkFirewallClient) updateNetworkFirewall(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20211001/NetworkFirewall/UpdateNetworkFirewall"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "UpdateNetworkFirewall", apiReferenceLink)
 		return response, err
 	}
@@ -986,13 +970,12 @@ func (client NetworkFirewallClient) updateNetworkFirewall(ctx context.Context, r
 // A default retry strategy applies to this operation UpdateNetworkFirewallPolicy()
 func (client NetworkFirewallClient) UpdateNetworkFirewallPolicy(ctx context.Context, request UpdateNetworkFirewallPolicyRequest) (response UpdateNetworkFirewallPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateNetworkFirewallPolicy, policy)
 	if err != nil {
@@ -1028,7 +1011,7 @@ func (client NetworkFirewallClient) updateNetworkFirewallPolicy(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20211001/NetworkFirewallPolicy/UpdateNetworkFirewallPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "UpdateNetworkFirewallPolicy", apiReferenceLink)
 		return response, err
 	}

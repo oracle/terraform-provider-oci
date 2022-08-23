@@ -97,6 +97,7 @@ func (m *attributeprofileresult) UnmarshalPolymorphicJSON(data []byte) (interfac
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for AttributeProfileResult: %s.", m.Type)
 		return *m, nil
 	}
 }

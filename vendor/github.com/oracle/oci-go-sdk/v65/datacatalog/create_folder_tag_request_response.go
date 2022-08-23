@@ -63,7 +63,7 @@ func (request CreateFolderTagRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateFolderTagRequest) RetryPolicy() common.OCIRetry {
+func (request CreateFolderTagRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

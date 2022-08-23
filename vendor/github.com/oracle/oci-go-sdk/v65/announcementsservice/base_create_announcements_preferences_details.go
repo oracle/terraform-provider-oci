@@ -76,6 +76,7 @@ func (m *basecreateannouncementspreferencesdetails) UnmarshalPolymorphicJSON(dat
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for BaseCreateAnnouncementsPreferencesDetails: %s.", m.Type)
 		return *m, nil
 	}
 }

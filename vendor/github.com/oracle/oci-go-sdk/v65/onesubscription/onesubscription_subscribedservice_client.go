@@ -90,13 +90,12 @@ func (client *SubscribedServiceClient) ConfigurationProvider() *common.Configura
 // GetSubscribedService This API returns the subscribed service details corresponding to the id provided
 func (client SubscribedServiceClient) GetSubscribedService(ctx context.Context, request GetSubscribedServiceRequest) (response GetSubscribedServiceResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getSubscribedService, policy)
 	if err != nil {
@@ -144,13 +143,12 @@ func (client SubscribedServiceClient) getSubscribedService(ctx context.Context, 
 // ListSubscribedServices This list API returns all subscribed services for given Subscription ID
 func (client SubscribedServiceClient) ListSubscribedServices(ctx context.Context, request ListSubscribedServicesRequest) (response ListSubscribedServicesResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSubscribedServices, policy)
 	if err != nil {

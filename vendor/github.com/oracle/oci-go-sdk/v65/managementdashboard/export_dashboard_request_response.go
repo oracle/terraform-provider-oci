@@ -54,7 +54,7 @@ func (request ExportDashboardRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ExportDashboardRequest) RetryPolicy() common.OCIRetry {
+func (request ExportDashboardRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

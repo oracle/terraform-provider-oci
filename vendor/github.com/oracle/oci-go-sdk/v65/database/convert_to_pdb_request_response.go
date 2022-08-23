@@ -55,7 +55,7 @@ func (request ConvertToPdbRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ConvertToPdbRequest) RetryPolicy() common.OCIRetry {
+func (request ConvertToPdbRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

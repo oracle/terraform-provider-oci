@@ -52,7 +52,7 @@ func (request GetInstanceScreenshotContentRequest) BinaryRequestBody() (*common.
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetInstanceScreenshotContentRequest) RetryPolicy() common.OCIRetry {
+func (request GetInstanceScreenshotContentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

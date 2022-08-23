@@ -57,7 +57,7 @@ func (request CreateDigitalAssistantRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateDigitalAssistantRequest) RetryPolicy() common.OCIRetry {
+func (request CreateDigitalAssistantRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

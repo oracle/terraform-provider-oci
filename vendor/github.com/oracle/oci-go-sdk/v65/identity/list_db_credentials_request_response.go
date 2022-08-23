@@ -73,7 +73,7 @@ func (request ListDbCredentialsRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListDbCredentialsRequest) RetryPolicy() common.OCIRetry {
+func (request ListDbCredentialsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

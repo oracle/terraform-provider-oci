@@ -58,7 +58,7 @@ func (request DeleteDbHomeRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteDbHomeRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteDbHomeRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

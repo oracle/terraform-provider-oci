@@ -53,7 +53,7 @@ func (request CreateModelProvenanceRequest) BinaryRequestBody() (*common.OCIRead
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateModelProvenanceRequest) RetryPolicy() common.OCIRetry {
+func (request CreateModelProvenanceRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

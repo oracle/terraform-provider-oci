@@ -56,7 +56,7 @@ func (request UpdateWaasPolicyCustomProtectionRulesRequest) BinaryRequestBody() 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateWaasPolicyCustomProtectionRulesRequest) RetryPolicy() common.OCIRetry {
+func (request UpdateWaasPolicyCustomProtectionRulesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

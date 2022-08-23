@@ -61,7 +61,7 @@ func (request LaunchInstanceConfigurationRequest) BinaryRequestBody() (*common.O
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request LaunchInstanceConfigurationRequest) RetryPolicy() common.OCIRetry {
+func (request LaunchInstanceConfigurationRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

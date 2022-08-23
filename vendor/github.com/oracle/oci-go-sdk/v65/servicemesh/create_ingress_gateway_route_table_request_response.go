@@ -54,7 +54,7 @@ func (request CreateIngressGatewayRouteTableRequest) BinaryRequestBody() (*commo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateIngressGatewayRouteTableRequest) RetryPolicy() common.OCIRetry {
+func (request CreateIngressGatewayRouteTableRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

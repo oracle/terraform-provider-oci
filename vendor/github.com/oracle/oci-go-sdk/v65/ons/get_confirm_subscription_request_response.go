@@ -64,7 +64,7 @@ func (request GetConfirmSubscriptionRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetConfirmSubscriptionRequest) RetryPolicy() common.OCIRetry {
+func (request GetConfirmSubscriptionRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

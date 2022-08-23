@@ -83,6 +83,7 @@ func (m *monitoredresourcecredential) UnmarshalPolymorphicJSON(data []byte) (int
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for MonitoredResourceCredential: %s.", m.CredentialType)
 		return *m, nil
 	}
 }

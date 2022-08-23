@@ -63,7 +63,7 @@ func (request CreateEntityTagRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateEntityTagRequest) RetryPolicy() common.OCIRetry {
+func (request CreateEntityTagRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

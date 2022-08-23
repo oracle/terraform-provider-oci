@@ -50,7 +50,7 @@ func (request DisableHighFrequencyAutomaticSpmEvolveAdvisorTaskRequest) BinaryRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DisableHighFrequencyAutomaticSpmEvolveAdvisorTaskRequest) RetryPolicy() common.OCIRetry {
+func (request DisableHighFrequencyAutomaticSpmEvolveAdvisorTaskRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -61,6 +61,7 @@ func (m *responsecachedetails) UnmarshalPolymorphicJSON(data []byte) (interface{
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for ResponseCacheDetails: %s.", m.Type)
 		return *m, nil
 	}
 }

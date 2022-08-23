@@ -54,7 +54,7 @@ func (request ListVmClusterPatchHistoryEntriesRequest) BinaryRequestBody() (*com
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListVmClusterPatchHistoryEntriesRequest) RetryPolicy() common.OCIRetry {
+func (request ListVmClusterPatchHistoryEntriesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

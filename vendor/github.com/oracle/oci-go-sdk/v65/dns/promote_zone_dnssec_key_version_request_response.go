@@ -77,7 +77,7 @@ func (request PromoteZoneDnssecKeyVersionRequest) BinaryRequestBody() (*common.O
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request PromoteZoneDnssecKeyVersionRequest) RetryPolicy() common.OCIRetry {
+func (request PromoteZoneDnssecKeyVersionRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -54,7 +54,7 @@ func (request CreateManagementDashboardRequest) BinaryRequestBody() (*common.OCI
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateManagementDashboardRequest) RetryPolicy() common.OCIRetry {
+func (request CreateManagementDashboardRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

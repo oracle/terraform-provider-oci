@@ -56,7 +56,7 @@ func (request UpdateCachingRulesRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateCachingRulesRequest) RetryPolicy() common.OCIRetry {
+func (request UpdateCachingRulesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

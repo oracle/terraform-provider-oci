@@ -90,13 +90,12 @@ func (client *TraceClient) ConfigurationProvider() *common.ConfigurationProvider
 // GetAggregatedSnapshot Gets the aggregated snapshot identified by trace ID.
 func (client TraceClient) GetAggregatedSnapshot(ctx context.Context, request GetAggregatedSnapshotRequest) (response GetAggregatedSnapshotResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getAggregatedSnapshot, policy)
 	if err != nil {
@@ -144,13 +143,12 @@ func (client TraceClient) getAggregatedSnapshot(ctx context.Context, request com
 // GetSpan Gets the span details identified by spanId.
 func (client TraceClient) GetSpan(ctx context.Context, request GetSpanRequest) (response GetSpanResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getSpan, policy)
 	if err != nil {
@@ -198,13 +196,12 @@ func (client TraceClient) getSpan(ctx context.Context, request common.OCIRequest
 // GetTrace Gets the trace details identified by traceId.
 func (client TraceClient) GetTrace(ctx context.Context, request GetTraceRequest) (response GetTraceResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getTrace, policy)
 	if err != nil {
@@ -252,13 +249,12 @@ func (client TraceClient) getTrace(ctx context.Context, request common.OCIReques
 // GetTraceSnapshot Gets the trace snapshots data identified by trace ID.
 func (client TraceClient) GetTraceSnapshot(ctx context.Context, request GetTraceSnapshotRequest) (response GetTraceSnapshotResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getTraceSnapshot, policy)
 	if err != nil {

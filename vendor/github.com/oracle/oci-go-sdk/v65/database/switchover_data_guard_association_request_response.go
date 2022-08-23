@@ -59,7 +59,7 @@ func (request SwitchoverDataGuardAssociationRequest) BinaryRequestBody() (*commo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request SwitchoverDataGuardAssociationRequest) RetryPolicy() common.OCIRetry {
+func (request SwitchoverDataGuardAssociationRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

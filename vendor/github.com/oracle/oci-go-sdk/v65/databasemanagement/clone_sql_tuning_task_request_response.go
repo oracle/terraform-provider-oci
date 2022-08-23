@@ -57,7 +57,7 @@ func (request CloneSqlTuningTaskRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CloneSqlTuningTaskRequest) RetryPolicy() common.OCIRetry {
+func (request CloneSqlTuningTaskRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

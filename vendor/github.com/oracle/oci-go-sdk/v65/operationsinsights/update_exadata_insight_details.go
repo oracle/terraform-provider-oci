@@ -69,6 +69,7 @@ func (m *updateexadatainsightdetails) UnmarshalPolymorphicJSON(data []byte) (int
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for UpdateExadataInsightDetails: %s.", m.EntitySource)
 		return *m, nil
 	}
 }

@@ -82,6 +82,7 @@ func (m *createbackupdestinationdetails) UnmarshalPolymorphicJSON(data []byte) (
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for CreateBackupDestinationDetails: %s.", m.Type)
 		return *m, nil
 	}
 }

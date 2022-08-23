@@ -91,13 +91,12 @@ func (client *BillingScheduleClient) ConfigurationProvider() *common.Configurati
 // for a particular Subscribed Service if provided
 func (client BillingScheduleClient) ListBillingSchedules(ctx context.Context, request ListBillingSchedulesRequest) (response ListBillingSchedulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listBillingSchedules, policy)
 	if err != nil {

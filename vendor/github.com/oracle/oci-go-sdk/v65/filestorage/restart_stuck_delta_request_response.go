@@ -55,7 +55,7 @@ func (request RestartStuckDeltaRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RestartStuckDeltaRequest) RetryPolicy() common.OCIRetry {
+func (request RestartStuckDeltaRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

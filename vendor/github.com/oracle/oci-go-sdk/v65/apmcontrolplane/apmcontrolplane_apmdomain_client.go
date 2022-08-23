@@ -92,13 +92,12 @@ func (client *ApmDomainClient) ConfigurationProvider() *common.ConfigurationProv
 // A default retry strategy applies to this operation ChangeApmDomainCompartment()
 func (client ApmDomainClient) ChangeApmDomainCompartment(ctx context.Context, request ChangeApmDomainCompartmentRequest) (response ChangeApmDomainCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -152,13 +151,12 @@ func (client ApmDomainClient) changeApmDomainCompartment(ctx context.Context, re
 // A default retry strategy applies to this operation CreateApmDomain()
 func (client ApmDomainClient) CreateApmDomain(ctx context.Context, request CreateApmDomainRequest) (response CreateApmDomainResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -214,13 +212,12 @@ func (client ApmDomainClient) createApmDomain(ctx context.Context, request commo
 // A default retry strategy applies to this operation DeleteApmDomain()
 func (client ApmDomainClient) DeleteApmDomain(ctx context.Context, request DeleteApmDomainRequest) (response DeleteApmDomainResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteApmDomain, policy)
 	if err != nil {
@@ -270,13 +267,12 @@ func (client ApmDomainClient) deleteApmDomain(ctx context.Context, request commo
 // A default retry strategy applies to this operation GenerateDataKeys()
 func (client ApmDomainClient) GenerateDataKeys(ctx context.Context, request GenerateDataKeysRequest) (response GenerateDataKeysResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.generateDataKeys, policy)
 	if err != nil {
@@ -325,13 +321,12 @@ func (client ApmDomainClient) generateDataKeys(ctx context.Context, request comm
 // A default retry strategy applies to this operation GetApmDomain()
 func (client ApmDomainClient) GetApmDomain(ctx context.Context, request GetApmDomainRequest) (response GetApmDomainResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getApmDomain, policy)
 	if err != nil {
@@ -380,13 +375,12 @@ func (client ApmDomainClient) getApmDomain(ctx context.Context, request common.O
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client ApmDomainClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
@@ -435,13 +429,12 @@ func (client ApmDomainClient) getWorkRequest(ctx context.Context, request common
 // A default retry strategy applies to this operation ListApmDomainWorkRequests()
 func (client ApmDomainClient) ListApmDomainWorkRequests(ctx context.Context, request ListApmDomainWorkRequestsRequest) (response ListApmDomainWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listApmDomainWorkRequests, policy)
 	if err != nil {
@@ -490,13 +483,12 @@ func (client ApmDomainClient) listApmDomainWorkRequests(ctx context.Context, req
 // A default retry strategy applies to this operation ListApmDomains()
 func (client ApmDomainClient) ListApmDomains(ctx context.Context, request ListApmDomainsRequest) (response ListApmDomainsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listApmDomains, policy)
 	if err != nil {
@@ -546,13 +538,12 @@ func (client ApmDomainClient) listApmDomains(ctx context.Context, request common
 // A default retry strategy applies to this operation ListDataKeys()
 func (client ApmDomainClient) ListDataKeys(ctx context.Context, request ListDataKeysRequest) (response ListDataKeysResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDataKeys, policy)
 	if err != nil {
@@ -601,13 +592,12 @@ func (client ApmDomainClient) listDataKeys(ctx context.Context, request common.O
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client ApmDomainClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
 	if err != nil {
@@ -656,13 +646,12 @@ func (client ApmDomainClient) listWorkRequestErrors(ctx context.Context, request
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client ApmDomainClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestLogs, policy)
 	if err != nil {
@@ -711,13 +700,12 @@ func (client ApmDomainClient) listWorkRequestLogs(ctx context.Context, request c
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client ApmDomainClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
@@ -767,13 +755,12 @@ func (client ApmDomainClient) listWorkRequests(ctx context.Context, request comm
 // A default retry strategy applies to this operation RemoveDataKeys()
 func (client ApmDomainClient) RemoveDataKeys(ctx context.Context, request RemoveDataKeysRequest) (response RemoveDataKeysResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.removeDataKeys, policy)
 	if err != nil {
@@ -822,13 +809,12 @@ func (client ApmDomainClient) removeDataKeys(ctx context.Context, request common
 // A default retry strategy applies to this operation UpdateApmDomain()
 func (client ApmDomainClient) UpdateApmDomain(ctx context.Context, request UpdateApmDomainRequest) (response UpdateApmDomainResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateApmDomain, policy)
 	if err != nil {

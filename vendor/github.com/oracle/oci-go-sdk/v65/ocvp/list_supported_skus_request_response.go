@@ -58,7 +58,7 @@ func (request ListSupportedSkusRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListSupportedSkusRequest) RetryPolicy() common.OCIRetry {
+func (request ListSupportedSkusRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

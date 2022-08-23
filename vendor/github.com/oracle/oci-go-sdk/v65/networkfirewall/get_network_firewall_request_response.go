@@ -47,7 +47,7 @@ func (request GetNetworkFirewallRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetNetworkFirewallRequest) RetryPolicy() common.OCIRetry {
+func (request GetNetworkFirewallRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

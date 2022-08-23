@@ -50,7 +50,7 @@ func (request GetDatabaseUpgradeHistoryEntryRequest) BinaryRequestBody() (*commo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetDatabaseUpgradeHistoryEntryRequest) RetryPolicy() common.OCIRetry {
+func (request GetDatabaseUpgradeHistoryEntryRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

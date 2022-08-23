@@ -45,7 +45,7 @@ func (request GetBulkUploadTemplateRequest) BinaryRequestBody() (*common.OCIRead
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetBulkUploadTemplateRequest) RetryPolicy() common.OCIRetry {
+func (request GetBulkUploadTemplateRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

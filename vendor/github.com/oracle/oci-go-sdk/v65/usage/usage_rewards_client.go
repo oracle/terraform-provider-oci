@@ -90,13 +90,12 @@ func (client *RewardsClient) ConfigurationProvider() *common.ConfigurationProvid
 // CreateRedeemableUser Adds the list of redeemable user summary for a subscription ID.
 func (client RewardsClient) CreateRedeemableUser(ctx context.Context, request CreateRedeemableUserRequest) (response CreateRedeemableUserResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -149,13 +148,12 @@ func (client RewardsClient) createRedeemableUser(ctx context.Context, request co
 // DeleteRedeemableUser Deletes the list of redeemable user email ID for a subscription ID.
 func (client RewardsClient) DeleteRedeemableUser(ctx context.Context, request DeleteRedeemableUserRequest) (response DeleteRedeemableUserResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteRedeemableUser, policy)
 	if err != nil {
@@ -203,13 +201,12 @@ func (client RewardsClient) deleteRedeemableUser(ctx context.Context, request co
 // ListProducts Provides product information that is specific to a reward usage period and its usage details.
 func (client RewardsClient) ListProducts(ctx context.Context, request ListProductsRequest) (response ListProductsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listProducts, policy)
 	if err != nil {
@@ -257,13 +254,12 @@ func (client RewardsClient) listProducts(ctx context.Context, request common.OCI
 // ListRedeemableUsers Provides the list of user summary that can redeem rewards for the given subscription ID.
 func (client RewardsClient) ListRedeemableUsers(ctx context.Context, request ListRedeemableUsersRequest) (response ListRedeemableUsersResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listRedeemableUsers, policy)
 	if err != nil {
@@ -311,13 +307,12 @@ func (client RewardsClient) listRedeemableUsers(ctx context.Context, request com
 // ListRedemptions Returns the list of redemption for the subscription ID.
 func (client RewardsClient) ListRedemptions(ctx context.Context, request ListRedemptionsRequest) (response ListRedemptionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listRedemptions, policy)
 	if err != nil {
@@ -365,13 +360,12 @@ func (client RewardsClient) listRedemptions(ctx context.Context, request common.
 // ListRewards Returns the list of rewards for a subscription ID.
 func (client RewardsClient) ListRewards(ctx context.Context, request ListRewardsRequest) (response ListRewardsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listRewards, policy)
 	if err != nil {

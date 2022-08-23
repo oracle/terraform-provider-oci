@@ -59,7 +59,7 @@ func (request GetRepoFileLinesRequest) BinaryRequestBody() (*common.OCIReadSeekC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetRepoFileLinesRequest) RetryPolicy() common.OCIRetry {
+func (request GetRepoFileLinesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

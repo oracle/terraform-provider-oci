@@ -69,7 +69,7 @@ func (request ValidateAssociationParametersRequest) BinaryRequestBody() (*common
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ValidateAssociationParametersRequest) RetryPolicy() common.OCIRetry {
+func (request ValidateAssociationParametersRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

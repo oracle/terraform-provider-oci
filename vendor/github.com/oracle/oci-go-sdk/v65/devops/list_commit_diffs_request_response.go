@@ -62,7 +62,7 @@ func (request ListCommitDiffsRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListCommitDiffsRequest) RetryPolicy() common.OCIRetry {
+func (request ListCommitDiffsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

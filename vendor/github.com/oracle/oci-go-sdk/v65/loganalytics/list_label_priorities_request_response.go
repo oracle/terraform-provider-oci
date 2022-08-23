@@ -53,7 +53,7 @@ func (request ListLabelPrioritiesRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListLabelPrioritiesRequest) RetryPolicy() common.OCIRetry {
+func (request ListLabelPrioritiesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

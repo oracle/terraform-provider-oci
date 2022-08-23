@@ -50,7 +50,7 @@ func (request GetLogAnalyticsObjectCollectionRuleRequest) BinaryRequestBody() (*
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetLogAnalyticsObjectCollectionRuleRequest) RetryPolicy() common.OCIRetry {
+func (request GetLogAnalyticsObjectCollectionRuleRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

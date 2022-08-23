@@ -91,13 +91,12 @@ func (client *VbInstanceClient) ConfigurationProvider() *common.ConfigurationPro
 // ChangeVbInstanceCompartment Change the compartment for an vb instance
 func (client VbInstanceClient) ChangeVbInstanceCompartment(ctx context.Context, request ChangeVbInstanceCompartmentRequest) (response ChangeVbInstanceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -150,13 +149,12 @@ func (client VbInstanceClient) changeVbInstanceCompartment(ctx context.Context, 
 // CreateVbInstance Creates a new Vb Instance.
 func (client VbInstanceClient) CreateVbInstance(ctx context.Context, request CreateVbInstanceRequest) (response CreateVbInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -209,13 +207,12 @@ func (client VbInstanceClient) createVbInstance(ctx context.Context, request com
 // DeleteVbInstance Deletes an Vb Instance resource by identifier.
 func (client VbInstanceClient) DeleteVbInstance(ctx context.Context, request DeleteVbInstanceRequest) (response DeleteVbInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteVbInstance, policy)
 	if err != nil {
@@ -264,13 +261,12 @@ func (client VbInstanceClient) deleteVbInstance(ctx context.Context, request com
 // A default retry strategy applies to this operation GetVbInstance()
 func (client VbInstanceClient) GetVbInstance(ctx context.Context, request GetVbInstanceRequest) (response GetVbInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getVbInstance, policy)
 	if err != nil {
@@ -319,13 +315,12 @@ func (client VbInstanceClient) getVbInstance(ctx context.Context, request common
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client VbInstanceClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
@@ -374,13 +369,12 @@ func (client VbInstanceClient) getWorkRequest(ctx context.Context, request commo
 // A default retry strategy applies to this operation ListVbInstances()
 func (client VbInstanceClient) ListVbInstances(ctx context.Context, request ListVbInstancesRequest) (response ListVbInstancesResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listVbInstances, policy)
 	if err != nil {
@@ -429,13 +423,12 @@ func (client VbInstanceClient) listVbInstances(ctx context.Context, request comm
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client VbInstanceClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
 	if err != nil {
@@ -484,13 +477,12 @@ func (client VbInstanceClient) listWorkRequestErrors(ctx context.Context, reques
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client VbInstanceClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestLogs, policy)
 	if err != nil {
@@ -539,13 +531,12 @@ func (client VbInstanceClient) listWorkRequestLogs(ctx context.Context, request 
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client VbInstanceClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.DefaultComplexRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
@@ -593,13 +584,12 @@ func (client VbInstanceClient) listWorkRequests(ctx context.Context, request com
 // RequestSummarizedApplications Summarizes the applications for a vb instance.
 func (client VbInstanceClient) RequestSummarizedApplications(ctx context.Context, request RequestSummarizedApplicationsRequest) (response RequestSummarizedApplicationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -653,13 +643,12 @@ func (client VbInstanceClient) requestSummarizedApplications(ctx context.Context
 // INACTIVE, then the state of the vbInstance will not be changed and a 409 response returned.
 func (client VbInstanceClient) StartVbInstance(ctx context.Context, request StartVbInstanceRequest) (response StartVbInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -713,13 +702,12 @@ func (client VbInstanceClient) startVbInstance(ctx context.Context, request comm
 // ACTIVE, then the state of the vbInstance will not be changed and a 409 response returned.
 func (client VbInstanceClient) StopVbInstance(ctx context.Context, request StopVbInstanceRequest) (response StopVbInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -772,13 +760,12 @@ func (client VbInstanceClient) stopVbInstance(ctx context.Context, request commo
 // UpdateVbInstance Updates the Vb Instance.
 func (client VbInstanceClient) UpdateVbInstance(ctx context.Context, request UpdateVbInstanceRequest) (response UpdateVbInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateVbInstance, policy)
 	if err != nil {

@@ -62,7 +62,7 @@ func (request EnableExternalPluggableDatabaseStackMonitoringRequest) BinaryReque
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request EnableExternalPluggableDatabaseStackMonitoringRequest) RetryPolicy() common.OCIRetry {
+func (request EnableExternalPluggableDatabaseStackMonitoringRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

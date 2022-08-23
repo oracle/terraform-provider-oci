@@ -68,7 +68,7 @@ func (request ListOptimizerStatisticsCollectionAggregationsRequest) BinaryReques
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListOptimizerStatisticsCollectionAggregationsRequest) RetryPolicy() common.OCIRetry {
+func (request ListOptimizerStatisticsCollectionAggregationsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

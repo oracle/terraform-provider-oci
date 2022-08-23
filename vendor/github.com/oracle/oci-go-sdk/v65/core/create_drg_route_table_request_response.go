@@ -55,7 +55,7 @@ func (request CreateDrgRouteTableRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateDrgRouteTableRequest) RetryPolicy() common.OCIRetry {
+func (request CreateDrgRouteTableRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

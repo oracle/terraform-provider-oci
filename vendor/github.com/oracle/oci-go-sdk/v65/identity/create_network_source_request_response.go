@@ -55,7 +55,7 @@ func (request CreateNetworkSourceRequest) BinaryRequestBody() (*common.OCIReadSe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateNetworkSourceRequest) RetryPolicy() common.OCIRetry {
+func (request CreateNetworkSourceRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

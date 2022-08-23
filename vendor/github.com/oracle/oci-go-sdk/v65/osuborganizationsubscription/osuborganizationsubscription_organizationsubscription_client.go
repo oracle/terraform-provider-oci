@@ -90,13 +90,12 @@ func (client *OrganizationSubscriptionClient) ConfigurationProvider() *common.Co
 // ListOrganizationSubscriptions API that returns data for the list of subscription ids returned from Organizations API
 func (client OrganizationSubscriptionClient) ListOrganizationSubscriptions(ctx context.Context, request ListOrganizationSubscriptionsRequest) (response ListOrganizationSubscriptionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listOrganizationSubscriptions, policy)
 	if err != nil {

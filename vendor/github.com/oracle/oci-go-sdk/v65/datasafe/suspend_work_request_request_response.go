@@ -60,7 +60,7 @@ func (request SuspendWorkRequestRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request SuspendWorkRequestRequest) RetryPolicy() common.OCIRetry {
+func (request SuspendWorkRequestRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

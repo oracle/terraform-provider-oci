@@ -112,7 +112,6 @@ type HTTPRequestDispatcher interface {
 type CustomClientConfiguration struct {
 	RetryPolicy    *RetryPolicy
 	CircuitBreaker *OciCircuitBreaker
-	RetryV2        OCIRetry
 }
 
 // BaseClient struct implements all basic operations to call oci web services.
@@ -146,11 +145,6 @@ func (client *BaseClient) SetCustomClientConfiguration(config CustomClientConfig
 // RetryPolicy returns the retryPolicy configured for client
 func (client *BaseClient) RetryPolicy() *RetryPolicy {
 	return client.Configuration.RetryPolicy
-}
-
-// RetryPolicyV2 returns the retryPolicy configured for client
-func (client *BaseClient) RetryPolicyV2() OCIRetry {
-	return client.Configuration.RetryV2
 }
 
 // Endpoint returns the endpoint configured for client
@@ -192,7 +186,7 @@ func newBaseClient(signer HTTPRequestSigner, dispatcher HTTPRequestDispatcher) B
 	// check the default retry environment variable setting
 	if IsEnvVarTrue(isDefaultRetryEnabled) {
 		defaultRetry := DefaultRetryPolicy()
-		baseClient.Configuration.RetryV2 = defaultRetry
+		baseClient.Configuration.RetryPolicy = &defaultRetry
 	} else if IsEnvVarFalse(isDefaultRetryEnabled) {
 		policy := NoRetryPolicy()
 		baseClient.Configuration.RetryPolicy = &policy
@@ -499,7 +493,7 @@ type OCIRequest interface {
 type RequestMetadata struct {
 	// RetryPolicy is the policy for reissuing the request. If no retry policy is set on the request,
 	// then the request will be issued exactly once.
-	RetryPolicy OCIRetry
+	RetryPolicy *RetryPolicy
 }
 
 // OCIReadSeekCloser is a thread-safe io.ReadSeekCloser to prevent racing with retrying binary requests

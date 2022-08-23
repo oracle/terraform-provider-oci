@@ -79,7 +79,7 @@ func (request ListTermRelationshipsRequest) BinaryRequestBody() (*common.OCIRead
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListTermRelationshipsRequest) RetryPolicy() common.OCIRetry {
+func (request ListTermRelationshipsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

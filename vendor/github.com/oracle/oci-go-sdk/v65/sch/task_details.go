@@ -66,6 +66,7 @@ func (m *taskdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for TaskDetails: %s.", m.Kind)
 		return *m, nil
 	}
 }

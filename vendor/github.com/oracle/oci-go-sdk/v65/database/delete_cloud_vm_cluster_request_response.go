@@ -52,7 +52,7 @@ func (request DeleteCloudVmClusterRequest) BinaryRequestBody() (*common.OCIReadS
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteCloudVmClusterRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteCloudVmClusterRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -53,7 +53,7 @@ func (request ListSupportedTimezonesRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListSupportedTimezonesRequest) RetryPolicy() common.OCIRetry {
+func (request ListSupportedTimezonesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

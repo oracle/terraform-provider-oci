@@ -54,7 +54,7 @@ func (request SetAutoUpgradableConfigRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request SetAutoUpgradableConfigRequest) RetryPolicy() common.OCIRetry {
+func (request SetAutoUpgradableConfigRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

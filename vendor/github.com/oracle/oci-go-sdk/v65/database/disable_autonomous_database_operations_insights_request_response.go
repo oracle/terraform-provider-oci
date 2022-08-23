@@ -47,7 +47,7 @@ func (request DisableAutonomousDatabaseOperationsInsightsRequest) BinaryRequestB
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DisableAutonomousDatabaseOperationsInsightsRequest) RetryPolicy() common.OCIRetry {
+func (request DisableAutonomousDatabaseOperationsInsightsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

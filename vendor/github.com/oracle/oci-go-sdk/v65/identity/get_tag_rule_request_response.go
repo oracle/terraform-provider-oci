@@ -48,7 +48,7 @@ func (request GetTagRuleRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetTagRuleRequest) RetryPolicy() common.OCIRetry {
+func (request GetTagRuleRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

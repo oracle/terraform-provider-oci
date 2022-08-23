@@ -58,7 +58,7 @@ func (request CreatePrivateIpNextHopRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreatePrivateIpNextHopRequest) RetryPolicy() common.OCIRetry {
+func (request CreatePrivateIpNextHopRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -56,7 +56,7 @@ func (request UpdateVlanRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateVlanRequest) RetryPolicy() common.OCIRetry {
+func (request UpdateVlanRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

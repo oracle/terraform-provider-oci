@@ -82,7 +82,7 @@ func (request ListReferenceArtifactsRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListReferenceArtifactsRequest) RetryPolicy() common.OCIRetry {
+func (request ListReferenceArtifactsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

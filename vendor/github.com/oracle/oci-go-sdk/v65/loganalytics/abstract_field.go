@@ -118,6 +118,7 @@ func (m *abstractfield) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for AbstractField: %s.", m.Name)
 		return *m, nil
 	}
 }

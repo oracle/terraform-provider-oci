@@ -59,7 +59,7 @@ func (request AddStorageCapacityExadataInfrastructureRequest) BinaryRequestBody(
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request AddStorageCapacityExadataInfrastructureRequest) RetryPolicy() common.OCIRetry {
+func (request AddStorageCapacityExadataInfrastructureRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

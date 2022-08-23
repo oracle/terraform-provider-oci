@@ -56,7 +56,7 @@ func (request DeleteAnalyticsClusterRequest) BinaryRequestBody() (*common.OCIRea
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteAnalyticsClusterRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteAnalyticsClusterRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

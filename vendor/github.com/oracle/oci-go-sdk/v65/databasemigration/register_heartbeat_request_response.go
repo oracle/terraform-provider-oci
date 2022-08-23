@@ -62,7 +62,7 @@ func (request RegisterHeartbeatRequest) BinaryRequestBody() (*common.OCIReadSeek
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RegisterHeartbeatRequest) RetryPolicy() common.OCIRetry {
+func (request RegisterHeartbeatRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

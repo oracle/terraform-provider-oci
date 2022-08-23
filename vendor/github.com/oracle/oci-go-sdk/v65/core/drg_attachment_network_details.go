@@ -80,6 +80,7 @@ func (m *drgattachmentnetworkdetails) UnmarshalPolymorphicJSON(data []byte) (int
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for DrgAttachmentNetworkDetails: %s.", m.Type)
 		return *m, nil
 	}
 }

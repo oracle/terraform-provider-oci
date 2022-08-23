@@ -58,7 +58,7 @@ func (request DownloadPrivilegeScriptRequest) BinaryRequestBody() (*common.OCIRe
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DownloadPrivilegeScriptRequest) RetryPolicy() common.OCIRetry {
+func (request DownloadPrivilegeScriptRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

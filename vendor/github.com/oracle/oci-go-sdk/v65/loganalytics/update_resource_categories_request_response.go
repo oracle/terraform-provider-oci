@@ -50,7 +50,7 @@ func (request UpdateResourceCategoriesRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateResourceCategoriesRequest) RetryPolicy() common.OCIRetry {
+func (request UpdateResourceCategoriesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

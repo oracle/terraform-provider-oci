@@ -135,6 +135,7 @@ func (m *triggersummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for TriggerSummary: %s.", m.TriggerSource)
 		return *m, nil
 	}
 }

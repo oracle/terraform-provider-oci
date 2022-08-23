@@ -92,13 +92,12 @@ func (client *OperatorControlClient) ConfigurationProvider() *common.Configurati
 // ChangeOperatorControlCompartment Moves the Operator Control resource into a different compartment. When provided, 'If-Match' is checked against 'ETag' values of the resource.
 func (client OperatorControlClient) ChangeOperatorControlCompartment(ctx context.Context, request ChangeOperatorControlCompartmentRequest) (response ChangeOperatorControlCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -151,13 +150,12 @@ func (client OperatorControlClient) changeOperatorControlCompartment(ctx context
 // CreateOperatorControl Creates an Operator Control.
 func (client OperatorControlClient) CreateOperatorControl(ctx context.Context, request CreateOperatorControlRequest) (response CreateOperatorControlResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 
 	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
@@ -214,13 +212,12 @@ func (client OperatorControlClient) createOperatorControl(ctx context.Context, r
 // Operator Control are also deleted. Therefore, you cannot reuse the name of the deleted Operator Control until the system purges the Operator Control.
 func (client OperatorControlClient) DeleteOperatorControl(ctx context.Context, request DeleteOperatorControlRequest) (response DeleteOperatorControlResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteOperatorControl, policy)
 	if err != nil {
@@ -268,13 +265,12 @@ func (client OperatorControlClient) deleteOperatorControl(ctx context.Context, r
 // GetOperatorControl Gets the Operator Control associated with the specified Operator Control ID.
 func (client OperatorControlClient) GetOperatorControl(ctx context.Context, request GetOperatorControlRequest) (response GetOperatorControlResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getOperatorControl, policy)
 	if err != nil {
@@ -322,13 +318,12 @@ func (client OperatorControlClient) getOperatorControl(ctx context.Context, requ
 // ListOperatorControls Lists the operator controls in the compartment.
 func (client OperatorControlClient) ListOperatorControls(ctx context.Context, request ListOperatorControlsRequest) (response ListOperatorControlsResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listOperatorControls, policy)
 	if err != nil {
@@ -376,13 +371,12 @@ func (client OperatorControlClient) listOperatorControls(ctx context.Context, re
 // UpdateOperatorControl Modifies the existing OperatorControl for a given operator control id except the operator control id.
 func (client OperatorControlClient) UpdateOperatorControl(ctx context.Context, request UpdateOperatorControlRequest) (response UpdateOperatorControlResponse, err error) {
 	var ociResponse common.OCIResponse
-	var policy common.OCIRetry
-	policy = common.NoRetryPolicyV2()
-	if client.RetryPolicyV2() != nil {
-		policy = client.RetryPolicyV2()
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
-		policy = request.RetryPolicy()
+		policy = *request.RetryPolicy()
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateOperatorControl, policy)
 	if err != nil {

@@ -55,7 +55,7 @@ func (request GetClusterCacheMetricRequest) BinaryRequestBody() (*common.OCIRead
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetClusterCacheMetricRequest) RetryPolicy() common.OCIRetry {
+func (request GetClusterCacheMetricRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

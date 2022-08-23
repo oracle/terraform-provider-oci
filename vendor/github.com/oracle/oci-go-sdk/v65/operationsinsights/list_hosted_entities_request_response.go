@@ -104,7 +104,7 @@ func (request ListHostedEntitiesRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListHostedEntitiesRequest) RetryPolicy() common.OCIRetry {
+func (request ListHostedEntitiesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

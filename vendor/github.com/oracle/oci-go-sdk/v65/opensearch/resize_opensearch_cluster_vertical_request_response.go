@@ -64,7 +64,7 @@ func (request ResizeOpensearchClusterVerticalRequest) BinaryRequestBody() (*comm
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ResizeOpensearchClusterVerticalRequest) RetryPolicy() common.OCIRetry {
+func (request ResizeOpensearchClusterVerticalRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

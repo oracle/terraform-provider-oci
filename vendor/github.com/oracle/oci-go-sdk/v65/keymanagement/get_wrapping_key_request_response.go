@@ -46,7 +46,7 @@ func (request GetWrappingKeyRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetWrappingKeyRequest) RetryPolicy() common.OCIRetry {
+func (request GetWrappingKeyRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

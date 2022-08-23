@@ -57,6 +57,7 @@ func (m *querydataobjectresultsetrowscollection) UnmarshalPolymorphicJSON(data [
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for QueryDataObjectResultSetRowsCollection: %s.", m.Format)
 		return *m, nil
 	}
 }

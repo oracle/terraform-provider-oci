@@ -60,7 +60,7 @@ func (request UpdateSmtpPortActionUnblockRequest) BinaryRequestBody() (*common.O
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateSmtpPortActionUnblockRequest) RetryPolicy() common.OCIRetry {
+func (request UpdateSmtpPortActionUnblockRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

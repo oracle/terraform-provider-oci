@@ -53,7 +53,7 @@ func (request GetConditionMetadataTypeRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetConditionMetadataTypeRequest) RetryPolicy() common.OCIRetry {
+func (request GetConditionMetadataTypeRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

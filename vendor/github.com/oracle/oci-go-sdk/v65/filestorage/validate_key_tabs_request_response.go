@@ -48,7 +48,7 @@ func (request ValidateKeyTabsRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ValidateKeyTabsRequest) RetryPolicy() common.OCIRetry {
+func (request ValidateKeyTabsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -60,7 +60,7 @@ func (request ListUserGroupMembershipsRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListUserGroupMembershipsRequest) RetryPolicy() common.OCIRetry {
+func (request ListUserGroupMembershipsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

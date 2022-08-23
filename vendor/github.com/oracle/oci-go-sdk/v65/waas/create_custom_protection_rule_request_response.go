@@ -51,7 +51,7 @@ func (request CreateCustomProtectionRuleRequest) BinaryRequestBody() (*common.OC
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateCustomProtectionRuleRequest) RetryPolicy() common.OCIRetry {
+func (request CreateCustomProtectionRuleRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

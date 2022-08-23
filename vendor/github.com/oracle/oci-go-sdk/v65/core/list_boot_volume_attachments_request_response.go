@@ -69,7 +69,7 @@ func (request ListBootVolumeAttachmentsRequest) BinaryRequestBody() (*common.OCI
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListBootVolumeAttachmentsRequest) RetryPolicy() common.OCIRetry {
+func (request ListBootVolumeAttachmentsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

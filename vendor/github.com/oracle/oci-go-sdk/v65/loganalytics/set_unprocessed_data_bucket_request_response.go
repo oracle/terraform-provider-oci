@@ -54,7 +54,7 @@ func (request SetUnprocessedDataBucketRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request SetUnprocessedDataBucketRequest) RetryPolicy() common.OCIRetry {
+func (request SetUnprocessedDataBucketRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

@@ -64,7 +64,7 @@ func (request RecallArchivedDataRequest) BinaryRequestBody() (*common.OCIReadSee
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request RecallArchivedDataRequest) RetryPolicy() common.OCIRetry {
+func (request RecallArchivedDataRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

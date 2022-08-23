@@ -53,7 +53,7 @@ func (request DeleteServiceCatalogAssociationRequest) BinaryRequestBody() (*comm
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteServiceCatalogAssociationRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteServiceCatalogAssociationRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

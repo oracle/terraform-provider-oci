@@ -53,7 +53,7 @@ func (request DeleteConsoleHistoryRequest) BinaryRequestBody() (*common.OCIReadS
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteConsoleHistoryRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteConsoleHistoryRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

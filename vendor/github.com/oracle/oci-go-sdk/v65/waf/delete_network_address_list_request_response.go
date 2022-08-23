@@ -52,7 +52,7 @@ func (request DeleteNetworkAddressListRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteNetworkAddressListRequest) RetryPolicy() common.OCIRetry {
+func (request DeleteNetworkAddressListRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 

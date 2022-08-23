@@ -63,7 +63,7 @@ func (request PutObjectLifecyclePolicyRequest) BinaryRequestBody() (*common.OCIR
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request PutObjectLifecyclePolicyRequest) RetryPolicy() common.OCIRetry {
+func (request PutObjectLifecyclePolicyRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
