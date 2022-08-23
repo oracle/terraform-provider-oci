@@ -401,9 +401,6 @@ func setEnvSetting(s, v string) error {
 	return nil
 }
 
-/*
-
- */
 func CheckJsonStringsEqual(expectedJsonString string, actualJsonString string) error {
 	if expectedJsonString == actualJsonString {
 		return nil

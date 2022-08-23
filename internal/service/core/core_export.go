@@ -2,8 +2,9 @@ package core
 
 import (
 	"fmt"
-	"github.com/oracle/terraform-provider-oci/internal/utils"
 	"strconv"
+
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 

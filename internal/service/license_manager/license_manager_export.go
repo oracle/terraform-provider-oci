@@ -2,6 +2,7 @@ package license_manager
 
 import (
 	"fmt"
+
 	oci_license_manager "github.com/oracle/oci-go-sdk/v65/licensemanager"
 
 	tf_export "github.com/oracle/terraform-provider-oci/internal/commonexport"

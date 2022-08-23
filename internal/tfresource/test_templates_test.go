@@ -118,7 +118,7 @@ func TestUnitSubnet1(t *testing.T) {
 	}
 }
 
-func TestUntVCN1(t *testing.T) {
+func TestUnitVCN1(t *testing.T) {
 	wantedString := `
 	resource "oci_core_virtual_network" "t" {
 		compartment_id = "${var.compartment_id}"

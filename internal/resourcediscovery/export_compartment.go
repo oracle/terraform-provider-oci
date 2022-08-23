@@ -8,7 +8,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/hashicorp/go-multierror"
 	"io/ioutil"
 	"os"
 	"runtime"
@@ -17,6 +16,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/hashicorp/go-multierror"
 
 	tf_export "github.com/oracle/terraform-provider-oci/internal/commonexport"
 
