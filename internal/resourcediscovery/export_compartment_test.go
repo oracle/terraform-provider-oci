@@ -1240,15 +1240,15 @@ func TestUnitFindResources_restrictedOcids(t *testing.T) {
 	restrictedOcidTests := []map[string]interface{}{
 		{
 			"ocids":                map[string]bool{getTestResourceId("parent", 0): false, getTestResourceId("child", 0): false},
-			"numExpectedResources": len(parentResources) + 1,
+			"numExpectedResources": len(parentResources) + 2,
 		},
 		{
 			"ocids":                map[string]bool{getTestResourceId("parent", 0): false, getTestResourceId("child", 3): false},
-			"numExpectedResources": len(parentResources) + 1,
+			"numExpectedResources": len(parentResources) + 3,
 		},
 		{
 			"ocids":                map[string]bool{getTestResourceId("parent", 0): false, getTestResourceId("child", 0): false, "nonexistentID": false},
-			"numExpectedResources": len(parentResources) + 1,
+			"numExpectedResources": len(parentResources) + 2,
 		},
 		{
 			"ocids":                map[string]bool{getTestResourceId("child", 0): false, getTestResourceId("child", 3): false, "nonexistentID": false},
@@ -1280,8 +1280,9 @@ func TestUnitFindResources_restrictedOcids(t *testing.T) {
 				exportResourceCount++
 			}
 		}
+
 		if exportResourceCount != testCase["numExpectedResources"].(int) {
-			t.Logf("expected %d resources to be exported, but got %d", testCase["numExpectedResources"].(int), len(results))
+			t.Logf("expected %d resources to be exported, but got %d", testCase["numExpectedResources"].(int), exportResourceCount)
 			t.Fail()
 		}
 	}
