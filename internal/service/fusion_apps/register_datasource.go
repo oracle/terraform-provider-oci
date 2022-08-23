@@ -1,0 +1,28 @@
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
+
+package fusion_apps
+
+import "github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+func RegisterDatasource() {
+	tfresource.RegisterDatasource("oci_fusion_apps_fusion_environment", FusionAppsFusionEnvironmentDataSource())
+	tfresource.RegisterDatasource("oci_fusion_apps_fusion_environment_admin_user", FusionAppsFusionEnvironmentAdminUserDataSource())
+	tfresource.RegisterDatasource("oci_fusion_apps_fusion_environment_admin_users", FusionAppsFusionEnvironmentAdminUsersDataSource())
+	tfresource.RegisterDatasource("oci_fusion_apps_fusion_environment_data_masking_activities", FusionAppsFusionEnvironmentDataMaskingActivitiesDataSource())
+	tfresource.RegisterDatasource("oci_fusion_apps_fusion_environment_data_masking_activity", FusionAppsFusionEnvironmentDataMaskingActivityDataSource())
+	tfresource.RegisterDatasource("oci_fusion_apps_fusion_environment_families", FusionAppsFusionEnvironmentFamiliesDataSource())
+	tfresource.RegisterDatasource("oci_fusion_apps_fusion_environment_family", FusionAppsFusionEnvironmentFamilyDataSource())
+	tfresource.RegisterDatasource("oci_fusion_apps_fusion_environment_family_limits_and_usage", FusionAppsFusionEnvironmentFamilyLimitsAndUsageDataSource())
+	tfresource.RegisterDatasource("oci_fusion_apps_fusion_environment_family_subscription_detail", FusionAppsFusionEnvironmentFamilySubscriptionDetailDataSource())
+	tfresource.RegisterDatasource("oci_fusion_apps_fusion_environment_refresh_activities", FusionAppsFusionEnvironmentRefreshActivitiesDataSource())
+	tfresource.RegisterDatasource("oci_fusion_apps_fusion_environment_refresh_activity", FusionAppsFusionEnvironmentRefreshActivityDataSource())
+	tfresource.RegisterDatasource("oci_fusion_apps_fusion_environment_scheduled_activities", FusionAppsFusionEnvironmentScheduledActivitiesDataSource())
+	tfresource.RegisterDatasource("oci_fusion_apps_fusion_environment_scheduled_activity", FusionAppsFusionEnvironmentScheduledActivityDataSource())
+	tfresource.RegisterDatasource("oci_fusion_apps_fusion_environment_service_attachment", FusionAppsFusionEnvironmentServiceAttachmentDataSource())
+	tfresource.RegisterDatasource("oci_fusion_apps_fusion_environment_service_attachments", FusionAppsFusionEnvironmentServiceAttachmentsDataSource())
+	tfresource.RegisterDatasource("oci_fusion_apps_fusion_environment_status", FusionAppsFusionEnvironmentStatusDataSource())
+	tfresource.RegisterDatasource("oci_fusion_apps_fusion_environment_time_available_for_refresh", FusionAppsFusionEnvironmentTimeAvailableForRefreshDataSource())
+	tfresource.RegisterDatasource("oci_fusion_apps_fusion_environment_time_available_for_refreshs", FusionAppsFusionEnvironmentTimeAvailableForRefreshsDataSource())
+	tfresource.RegisterDatasource("oci_fusion_apps_fusion_environments", FusionAppsFusionEnvironmentsDataSource())
+}

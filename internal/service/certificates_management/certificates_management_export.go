@@ -1,8 +1,9 @@
 package certificates_management
 
 import (
-	oci_certificates_management "github.com/oracle/oci-go-sdk/v65/certificatesmanagement"
 	"time"
+
+	oci_certificates_management "github.com/oracle/oci-go-sdk/v65/certificatesmanagement"
 
 	tf_export "github.com/oracle/terraform-provider-oci/internal/commonexport"
 )
