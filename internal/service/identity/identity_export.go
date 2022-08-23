@@ -3,8 +3,9 @@ package identity
 import (
 	"context"
 	"fmt"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"strings"
+
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	oci_identity "github.com/oracle/oci-go-sdk/v65/identity"
 
