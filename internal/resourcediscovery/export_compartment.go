@@ -944,8 +944,13 @@ func findResources(ctx *tf_export.ResourceDiscoveryContext, root *tf_export.OCIR
 						ctx.ExpectedResourceIds[resource.Id] = true
 						ctx.CtxLock.Unlock()
 					} else {
-						resource.OmitFromExport = !childType.AlwaysExportable
+						if resource.Parent != nil && ctx.ExpectedResourceIds[resource.Parent.Id] {
+							ctx.ExpectedResourceIds[resource.Id] = true
+						} else {
+							resource.OmitFromExport = !childType.AlwaysExportable
+						}
 					}
+
 				}
 
 				subResources, err := findResources(ctx, resource, resourceGraph)
