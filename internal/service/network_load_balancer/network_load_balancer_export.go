@@ -3,6 +3,7 @@ package network_load_balancer
 import (
 	"context"
 	"fmt"
+
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v65/networkloadbalancer"
