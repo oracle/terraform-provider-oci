@@ -87,7 +87,7 @@ func (client *RewardsClient) ConfigurationProvider() *common.ConfigurationProvid
 	return client.config
 }
 
-// CreateRedeemableUser Adds the list of redeemable user email IDs for a subscription ID.
+// CreateRedeemableUser Adds the list of redeemable user summary for a subscription ID.
 //
 // See also
 //
@@ -149,7 +149,7 @@ func (client RewardsClient) createRedeemableUser(ctx context.Context, request co
 	return response, err
 }
 
-// DeleteRedeemableUser Deletes the list of redeemable user email IDs for a subscription ID.
+// DeleteRedeemableUser Deletes the list of redeemable user email ID for a subscription ID.
 //
 // See also
 //
@@ -263,7 +263,7 @@ func (client RewardsClient) listProducts(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// ListRedeemableUsers Provides the email IDs of users that can redeem rewards for the given subscription ID.
+// ListRedeemableUsers Provides the list of user summary that can redeem rewards for the given subscription ID.
 //
 // See also
 //
@@ -313,6 +313,63 @@ func (client RewardsClient) listRedeemableUsers(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage-proxy/20190111/RedeemableUserSummary/ListRedeemableUsers"
 		err = common.PostProcessServiceError(err, "Rewards", "ListRedeemableUsers", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListRedemptions Returns the list of redemption for the subscription ID.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListRedemptions.go.html to see an example of how to use ListRedemptions API.
+func (client RewardsClient) ListRedemptions(ctx context.Context, request ListRedemptionsRequest) (response ListRedemptionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listRedemptions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListRedemptionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListRedemptionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListRedemptionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListRedemptionsResponse")
+	}
+	return
+}
+
+// listRedemptions implements the OCIOperation interface (enables retrying operations)
+func (client RewardsClient) listRedemptions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subscriptions/{subscriptionId}/redemptions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListRedemptionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage-proxy/20190111/RedemptionSummary/ListRedemptions"
+		err = common.PostProcessServiceError(err, "Rewards", "ListRedemptions", apiReferenceLink)
 		return response, err
 	}
 

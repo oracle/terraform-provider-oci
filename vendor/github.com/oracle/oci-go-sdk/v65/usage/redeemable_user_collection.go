@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// RedeemableUserCollection The email IDs of users that can redeem rewards.
+// RedeemableUserCollection The list of user summary that can redeem rewards.
 type RedeemableUserCollection struct {
 
-	// The list of user email IDs that can redeem rewards.
+	// The list of user summary that can redeem rewards.
 	Items []RedeemableUserSummary `mandatory:"true" json:"items"`
 }
 

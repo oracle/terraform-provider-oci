@@ -514,6 +514,7 @@ func init() {
 	RegisterResource("oci_mysql_channel", tf_mysql.MysqlChannelResource())
 	RegisterResource("oci_mysql_heat_wave_cluster", tf_mysql.MysqlHeatWaveClusterResource())
 	RegisterResource("oci_mysql_mysql_backup", tf_mysql.MysqlMysqlBackupResource())
+	RegisterResource("oci_mysql_mysql_configuration", tf_mysql.MysqlMysqlConfigurationResource())
 	RegisterResource("oci_mysql_mysql_db_system", tf_mysql.MysqlMysqlDbSystemResource())
 	// network_firewall service
 	RegisterResource("oci_network_firewall_network_firewall", tf_network_firewall.NetworkFirewallNetworkFirewallResource())
