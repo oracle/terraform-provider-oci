@@ -1,4 +1,4 @@
-## 4.90.0 (Unreleased)
+## 4.90.0 (August 24, 2022)
 
 ### Added
 - Support for EM Warehouse resourceUsage API Addendum
