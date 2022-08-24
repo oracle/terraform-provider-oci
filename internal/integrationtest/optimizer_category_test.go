@@ -22,8 +22,7 @@ var (
 	OptimizerOptimizerCategoryDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Required, Create: `true`},
-		"name":                      acctest.Representation{RepType: acctest.Optional, Create: `name`},
-		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `CREATED`},
+		"include_organization":      acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: OptimizerOptimizerCategoryDataSourceFilterRepresentation},
 	}
 	OptimizerOptimizerCategoryDataSourceFilterRepresentation = map[string]interface{}{
@@ -44,6 +43,9 @@ func TestOptimizerCategoryResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	childTenancyId := utils.GetEnvSettingWithBlankDefault("child_tenancy_id")
+	childTenancyIdVarStr := fmt.Sprintf("variable \"child_tenancy_id\" { default = \"%s\" }\n", childTenancyId)
+
 	datasourceName := "data.oci_optimizer_categories.test_categories"
 	singularDatasourceName := "data.oci_optimizer_category.test_category"
 
@@ -60,7 +62,31 @@ func TestOptimizerCategoryResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
 				resource.TestCheckResourceAttrSet(datasourceName, "category_collection.0.items.0.name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "category_collection.0.items.0.state"),
-
+				resource.TestCheckResourceAttrSet(datasourceName, "category_collection.#"),
+			),
+		},
+		{
+			Config: config + compartmentIdVariableStr + OptimizerCategoryResourceConfig +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", acctest.Optional, acctest.Create, OptimizerOptimizerCategoryDataSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
+				resource.TestCheckResourceAttrSet(datasourceName, "category_collection.0.items.0.name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "category_collection.0.items.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "category_collection.#"),
+			),
+		},
+		{
+			Config: config + compartmentIdVariableStr + OptimizerCategoryResourceConfig + childTenancyIdVarStr +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", acctest.Required, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(OptimizerOptimizerCategoryDataSourceRepresentation, map[string]interface{}{
+						"child_tenancy_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${var.child_tenancy_id}`}},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
+				resource.TestCheckResourceAttrSet(datasourceName, "category_collection.0.items.0.name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "category_collection.0.items.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "category_collection.#"),
 			),
 		},

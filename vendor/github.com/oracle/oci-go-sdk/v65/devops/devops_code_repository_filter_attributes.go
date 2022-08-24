@@ -20,6 +20,8 @@ type DevopsCodeRepositoryFilterAttributes struct {
 
 	// Branch for push event.
 	HeadRef *string `mandatory:"false" json:"headRef"`
+
+	FileFilter *FileFilter `mandatory:"false" json:"fileFilter"`
 }
 
 func (m DevopsCodeRepositoryFilterAttributes) String() string {

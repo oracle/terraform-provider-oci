@@ -22,6 +22,7 @@ var (
 		"category_id":               acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_optimizer_categories.test_categories.category_collection.0.items[0], "id")}`},
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"include_organization":      acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"name":                      acctest.Representation{RepType: acctest.Optional, Create: `name`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"status":                    acctest.Representation{RepType: acctest.Optional, Create: `PENDING`, Update: `DISMISSED`},
@@ -167,17 +168,20 @@ func TestOptimizerResourceActionResource_basic(t *testing.T) {
 				},
 			),
 		},
+
 		// verify datasource
 		{
 			Config: config + compartmentIdVariableStr + OptimizerResourceActionResourceDependencies,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
+				resource.TestCheckResourceAttrSet(datasourceName, "recommendation_id"),
+
+				resource.TestCheckResourceAttr(datasourceName, "resource_action_collection.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "resource_action_collection.0.items.0.name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "resource_action_collection.0.items.0.recommendation_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "resource_action_collection.0.items.0.resource_type"),
 				resource.TestCheckResourceAttr(datasourceName, "resource_action_collection.0.items.0.state", "ACTIVE"),
-				resource.TestCheckResourceAttr(datasourceName, "resource_action_collection.0.items.0.status", "DISMISSED"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "resource_action_collection.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "resource_action_collection.0.items.#"),
@@ -185,9 +189,8 @@ func TestOptimizerResourceActionResource_basic(t *testing.T) {
 		},
 		// verify singular datasource
 		{
-			Config: config + OptimizerResourceActionResourceDependencies +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", acctest.Required, acctest.Create, OptimizerOptimizerResourceActionSingularDataSourceRepresentation) +
-				compartmentIdVariableStr,
+			Config: config + compartmentIdVariableStr + ResourceActionResourceConfig +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", acctest.Required, acctest.Create, OptimizerOptimizerResourceActionSingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_action_id"),
 
@@ -201,7 +204,7 @@ func TestOptimizerResourceActionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "status", "DISMISSED"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_status_begin"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),

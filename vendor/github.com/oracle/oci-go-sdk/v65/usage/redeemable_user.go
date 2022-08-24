@@ -15,11 +15,17 @@ import (
 	"strings"
 )
 
-// RedeemableUser The email object for a user that can redeem rewards.
+// RedeemableUser The summary of a user that can redeem rewards.
 type RedeemableUser struct {
 
 	// The email ID for a user that can redeem rewards.
 	EmailId *string `mandatory:"true" json:"emailId"`
+
+	// The first name of the user that can redeem rewards.
+	FirstName *string `mandatory:"false" json:"firstName"`
+
+	// The last name of the user that can redeem rewards.
+	LastName *string `mandatory:"false" json:"lastName"`
 }
 
 func (m RedeemableUser) String() string {

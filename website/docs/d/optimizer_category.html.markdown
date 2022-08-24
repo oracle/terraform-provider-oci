@@ -34,6 +34,7 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the tenancy. The tenancy is the root compartment.
+* `compartment_name` - The name associated with the compartment.
 * `description` - Text describing the category.
 * `estimated_cost_saving` - The estimated cost savings, in dollars, for the category.
 * `extended_metadata` - Additional metadata key/value pairs for the category.

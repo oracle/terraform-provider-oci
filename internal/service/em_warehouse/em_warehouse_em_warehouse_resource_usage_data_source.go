@@ -36,6 +36,10 @@ func EmWarehouseEmWarehouseResourceUsageDataSource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"em_discoverer_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"em_host": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -55,6 +59,10 @@ func EmWarehouseEmWarehouseResourceUsageDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"schema_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"targets_count": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -66,14 +74,14 @@ func EmWarehouseEmWarehouseResourceUsageDataSource() *schema.Resource {
 func readSingularEmWarehouseEmWarehouseResourceUsage(d *schema.ResourceData, m interface{}) error {
 	sync := &EmWarehouseEmWarehouseResourceUsageDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).EmDataLakeClient()
+	sync.Client = m.(*client.OracleClients).EmWarehouseClient()
 
 	return tfresource.ReadResource(sync)
 }
 
 type EmWarehouseEmWarehouseResourceUsageDataSourceCrud struct {
 	D      *schema.ResourceData
-	Client *oci_em_warehouse.EmDataLakeClient
+	Client *oci_em_warehouse.EmWarehouseClient
 	Res    *oci_em_warehouse.GetEmWarehouseResourceUsageResponse
 }
 
@@ -121,6 +129,10 @@ func (s *EmWarehouseEmWarehouseResourceUsageDataSourceCrud) SetData() error {
 		s.D.Set("operations_insights_warehouse_id", *s.Res.OperationsInsightsWarehouseId)
 	}
 
+	if s.Res.SchemaName != nil {
+		s.D.Set("schema_name", *s.Res.SchemaName)
+	}
+
 	if s.Res.TargetsCount != nil {
 		s.D.Set("targets_count", *s.Res.TargetsCount)
 	}
@@ -130,6 +142,10 @@ func (s *EmWarehouseEmWarehouseResourceUsageDataSourceCrud) SetData() error {
 
 func EmInstancesDetailsToMap(obj oci_em_warehouse.EmInstancesDetails) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.EmDiscovererUrl != nil {
+		result["em_discoverer_url"] = string(*obj.EmDiscovererUrl)
+	}
 
 	if obj.EmHost != nil {
 		result["em_host"] = string(*obj.EmHost)
