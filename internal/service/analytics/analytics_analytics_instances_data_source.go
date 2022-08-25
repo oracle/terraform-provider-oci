@@ -154,7 +154,7 @@ func (s *AnalyticsAnalyticsInstancesDataSourceCrud) SetData() error {
 
 		if r.NetworkEndpointDetails != nil {
 			networkEndpointDetailsArray := []interface{}{}
-			if networkEndpointDetailsMap := NetworkEndpointDetailsToMap(&r.NetworkEndpointDetails); networkEndpointDetailsMap != nil {
+			if networkEndpointDetailsMap := NetworkEndpointDetailsToMap(&r.NetworkEndpointDetails, true); networkEndpointDetailsMap != nil {
 				networkEndpointDetailsArray = append(networkEndpointDetailsArray, networkEndpointDetailsMap)
 			}
 			analyticsInstance["network_endpoint_details"] = networkEndpointDetailsArray

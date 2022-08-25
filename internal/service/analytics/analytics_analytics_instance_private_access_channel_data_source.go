@@ -89,11 +89,19 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelDataSourceCrud) SetData()
 		s.D.Set("key", *s.Res.Key)
 	}
 
+	s.D.Set("network_security_group_ids", s.Res.NetworkSecurityGroupIds)
+
 	privateSourceDnsZones := []interface{}{}
 	for _, item := range s.Res.PrivateSourceDnsZones {
 		privateSourceDnsZones = append(privateSourceDnsZones, PrivateSourceDnsZoneToMap(item))
 	}
 	s.D.Set("private_source_dns_zones", privateSourceDnsZones)
+
+	privateSourceScanHosts := []interface{}{}
+	for _, item := range s.Res.PrivateSourceScanHosts {
+		privateSourceScanHosts = append(privateSourceScanHosts, PrivateSourceScanHostToMap(item))
+	}
+	s.D.Set("private_source_scan_hosts", privateSourceScanHosts)
 
 	if s.Res.SubnetId != nil {
 		s.D.Set("subnet_id", *s.Res.SubnetId)

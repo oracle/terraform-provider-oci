@@ -75,13 +75,12 @@ var (
 		"capacity_value": acctest.Representation{RepType: acctest.Required, Create: `2`},
 	}
 	analyticsInstanceNetworkEndpointDetailsRepresentation = map[string]interface{}{
-		"network_endpoint_type": acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
-		"subnet_id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
-		"vcn_id":                acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.id}`},
+		"network_endpoint_type":      acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
+		"network_security_group_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"subnet_id":                  acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"vcn_id":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
 	}
 
-	AnalyticsAnalyticsInstanceResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) + acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
-		KeyResourceDependencyConfig
 	analyticsInstanceCapacityUpdateRepresentation = map[string]interface{}{
 		"capacity_type":  acctest.Representation{RepType: acctest.Required, Create: `OLPU_COUNT`},
 		"capacity_value": acctest.Representation{RepType: acctest.Required, Create: `4`},
@@ -92,6 +91,11 @@ var (
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: vaultName},
 		"vault_type":     acctest.Representation{RepType: acctest.Required, Create: `DEFAULT`},
 	}
+
+	AnalyticsAnalyticsInstanceResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		KeyResourceDependencyConfig
 )
 
 // issue-routing-tag: analytics/default
@@ -118,7 +122,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_analytics_analytics_instance.test_analytics_instance"
 
 	var resId, resId2 string
-	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+AnalyticsAnalyticsInstanceResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Optional, acctest.Create, analyticsInstanceRepresentation), "analytics", "analyticsInstance", t)
 
@@ -186,7 +190,8 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify update to the compartment (the compartment will be switched back in the next step)
+
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + idcsAccessTokenVariableStr + AnalyticsAnalyticsInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Optional, acctest.Create,
@@ -198,7 +203,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
 				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "2"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "email_notification", "emailNotification"),
