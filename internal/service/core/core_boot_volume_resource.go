@@ -75,6 +75,36 @@ func CoreBootVolumeResource() *schema.Resource {
 			},
 
 			// Optional
+			"autotune_policies": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"autotune_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"DETACHED_VOLUME",
+								"PERFORMANCE_BASED",
+							}, true),
+						},
+
+						// Optional
+						"max_vpus_per_gb": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"backup_policy_id": {
 				Type:       schema.TypeString,
 				Optional:   true,
@@ -279,6 +309,23 @@ func (s *CoreBootVolumeResourceCrud) UpdatedTarget() []string {
 func (s *CoreBootVolumeResourceCrud) Create() error {
 	request := oci_core.CreateBootVolumeRequest{}
 
+	if autotunePolicies, ok := s.D.GetOkExists("autotune_policies"); ok {
+		interfaces := autotunePolicies.([]interface{})
+		tmp := make([]oci_core.AutotunePolicy, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "autotune_policies", stateDataIndex)
+			converted, err := s.mapToAutotunePolicy(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("autotune_policies") {
+			request.AutotunePolicies = tmp
+		}
+	}
+
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
 		tmp := availabilityDomain.(string)
 		request.AvailabilityDomain = &tmp
@@ -407,6 +454,23 @@ func (s *CoreBootVolumeResourceCrud) Update() error {
 	}
 	request := oci_core.UpdateBootVolumeRequest{}
 
+	if autotunePolicies, ok := s.D.GetOkExists("autotune_policies"); ok {
+		interfaces := autotunePolicies.([]interface{})
+		tmp := make([]oci_core.AutotunePolicy, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "autotune_policies", stateDataIndex)
+			converted, err := s.mapToAutotunePolicy(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("autotune_policies") {
+			request.AutotunePolicies = tmp
+		}
+	}
+
 	tmp := s.D.Id()
 	request.BootVolumeId = &tmp
 
@@ -519,6 +583,12 @@ func (s *CoreBootVolumeResourceCrud) SetData() error {
 		s.D.Set("auto_tuned_vpus_per_gb", strconv.FormatInt(*s.Res.AutoTunedVpusPerGB, 10))
 	}
 
+	autotunePolicies := []interface{}{}
+	for _, item := range s.Res.AutotunePolicies {
+		autotunePolicies = append(autotunePolicies, BootVolumeAutotunePolicyToMap(item))
+	}
+	s.D.Set("autotune_policies", autotunePolicies)
+
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -603,6 +673,56 @@ func (s *CoreBootVolumeResourceCrud) SetData() error {
 		s.D.Set("backup_policy_id", backupPolicyId)
 	}
 	return nil
+}
+
+func (s *CoreBootVolumeResourceCrud) mapToAutotunePolicy(fieldKeyFormat string) (oci_core.AutotunePolicy, error) {
+	var baseObject oci_core.AutotunePolicy
+	//discriminator
+	autotuneTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "autotune_type"))
+	var autotuneType string
+	if ok {
+		autotuneType = autotuneTypeRaw.(string)
+	} else {
+		autotuneType = "" // default value
+	}
+	switch strings.ToLower(autotuneType) {
+	case strings.ToLower("DETACHED_VOLUME"):
+		details := oci_core.DetachedVolumeAutotunePolicy{}
+		baseObject = details
+	case strings.ToLower("PERFORMANCE_BASED"):
+		details := oci_core.PerformanceBasedAutotunePolicy{}
+		if maxVpusPerGB, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_vpus_per_gb")); ok {
+			tmp := maxVpusPerGB.(string)
+			tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+			if err != nil {
+				return details, fmt.Errorf("unable to convert maxVpusPerGB string: %s to an int64 and encountered error: %v", tmp, err)
+			}
+			details.MaxVpusPerGB = &tmpInt64
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown autotune_type '%v' was specified", autotuneType)
+	}
+	return baseObject, nil
+}
+
+func BootVolumeAutotunePolicyToMap(obj oci_core.AutotunePolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (obj).(type) {
+	case oci_core.DetachedVolumeAutotunePolicy:
+		result["autotune_type"] = "DETACHED_VOLUME"
+	case oci_core.PerformanceBasedAutotunePolicy:
+		result["autotune_type"] = "PERFORMANCE_BASED"
+
+		if v.MaxVpusPerGB != nil {
+			result["max_vpus_per_gb"] = strconv.FormatInt(*v.MaxVpusPerGB, 10)
+		}
+	default:
+		log.Printf("[WARN] Received 'autotune_type' of unknown type %v", obj)
+		return nil
+	}
+
+	return result
 }
 
 func (s *CoreBootVolumeResourceCrud) mapToBootVolumeReplicaDetails(fieldKeyFormat string) (oci_core.BootVolumeReplicaDetails, error) {
