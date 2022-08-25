@@ -83,6 +83,16 @@ func DatabaseVmClusterResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"is_health_monitoring_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_incident_logs_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 					},
@@ -658,6 +668,16 @@ func (s *DatabaseVmClusterResourceCrud) mapToDataCollectionOptions(fieldKeyForma
 		result.IsDiagnosticsEventsEnabled = &tmp
 	}
 
+	if isHealthMonitoringEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_health_monitoring_enabled")); ok {
+		tmp := isHealthMonitoringEnabled.(bool)
+		result.IsHealthMonitoringEnabled = &tmp
+	}
+
+	if isIncidentLogsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_incident_logs_enabled")); ok {
+		tmp := isIncidentLogsEnabled.(bool)
+		result.IsIncidentLogsEnabled = &tmp
+	}
+
 	return result, nil
 }
 
@@ -666,6 +686,14 @@ func DataCollectionOptionsToMap(obj *oci_database.DataCollectionOptions) map[str
 
 	if obj.IsDiagnosticsEventsEnabled != nil {
 		result["is_diagnostics_events_enabled"] = bool(*obj.IsDiagnosticsEventsEnabled)
+	}
+
+	if obj.IsHealthMonitoringEnabled != nil {
+		result["is_health_monitoring_enabled"] = bool(*obj.IsHealthMonitoringEnabled)
+	}
+
+	if obj.IsIncidentLogsEnabled != nil {
+		result["is_incident_logs_enabled"] = bool(*obj.IsIncidentLogsEnabled)
 	}
 
 	return result

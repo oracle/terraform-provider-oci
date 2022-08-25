@@ -87,6 +87,11 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 							}
 						}
 					}
+					data_collection_options {
+						is_diagnostics_events_enabled = true
+						is_health_monitoring_enabled = false
+						is_incident_logs_enabled = true
+					}
 					db_system_options {
 						storage_management = "LVM"
 					}
@@ -168,6 +173,10 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_backup_config.0.recovery_window_in_days", "10"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.defined_tags.example-tag-namespace-all.example-tag", "originalValue"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.freeform_tags.Department", "Finance"),
+				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "data_collection_options.#", "1"),
+				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "data_collection_options.0.is_diagnostics_events_enabled", "true"),
+				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "data_collection_options.0.is_health_monitoring_enabled", "false"),
+				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "data_collection_options.0.is_incident_logs_enabled", "true"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_system_options.0.storage_management", "LVM"),
 				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "state"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "freeform_tags.Department", "Finance"),
@@ -191,6 +200,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 				resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.domain", "tfsubnet.tfvcn.oraclevcn.com"),
 				resource.TestCheckResourceAttrSet("data.oci_database_db_systems.t", "db_systems.0.hostname"), // see comment in SetData fn as to why this is removed
 				resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.db_system_options.#", "1"),
+				resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.data_collection_options.#", "1"),
 				resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.data_storage_size_in_gb", "256"),
 				resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.data_storage_percentage", "80"),
@@ -484,6 +494,11 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 							}
 						}
 					}
+					data_collection_options {
+						is_diagnostics_events_enabled = true
+						is_health_monitoring_enabled = false
+						is_incident_logs_enabled = true
+					}
 					db_system_options {
 						storage_management = "LVM"
 					}
@@ -564,6 +579,10 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.pdb_name", "pdbName"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_backup_config.0.auto_backup_enabled", "false"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_backup_config.0.recovery_window_in_days", "10"),
+				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "data_collection_options.#", "1"),
+				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "data_collection_options.0.is_diagnostics_events_enabled", "true"),
+				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "data_collection_options.0.is_health_monitoring_enabled", "false"),
+				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "data_collection_options.0.is_incident_logs_enabled", "true"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "state", string(database.DbSystemLifecycleStateAvailable)),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "freeform_tags.Department", "Admin"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "nsg_ids.#", "2"),

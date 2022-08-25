@@ -119,6 +119,16 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"is_health_monitoring_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_incident_logs_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 					},
@@ -939,6 +949,16 @@ func (s *DatabaseCloudVmClusterResourceCrud) mapToDataCollectionOptions(fieldKey
 	if isDiagnosticsEventsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_diagnostics_events_enabled")); ok {
 		tmp := isDiagnosticsEventsEnabled.(bool)
 		result.IsDiagnosticsEventsEnabled = &tmp
+	}
+
+	if isHealthMonitoringEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_health_monitoring_enabled")); ok {
+		tmp := isHealthMonitoringEnabled.(bool)
+		result.IsHealthMonitoringEnabled = &tmp
+	}
+
+	if isIncidentLogsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_incident_logs_enabled")); ok {
+		tmp := isIncidentLogsEnabled.(bool)
+		result.IsIncidentLogsEnabled = &tmp
 	}
 
 	return result, nil
