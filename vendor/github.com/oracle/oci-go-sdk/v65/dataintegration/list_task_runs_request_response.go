@@ -187,16 +187,19 @@ type ListTaskRunsSortByEnum string
 const (
 	ListTaskRunsSortByTimeCreated ListTaskRunsSortByEnum = "TIME_CREATED"
 	ListTaskRunsSortByDisplayName ListTaskRunsSortByEnum = "DISPLAY_NAME"
+	ListTaskRunsSortByTimeUpdated ListTaskRunsSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListTaskRunsSortByEnum = map[string]ListTaskRunsSortByEnum{
 	"TIME_CREATED": ListTaskRunsSortByTimeCreated,
 	"DISPLAY_NAME": ListTaskRunsSortByDisplayName,
+	"TIME_UPDATED": ListTaskRunsSortByTimeUpdated,
 }
 
 var mappingListTaskRunsSortByEnumLowerCase = map[string]ListTaskRunsSortByEnum{
 	"time_created": ListTaskRunsSortByTimeCreated,
 	"display_name": ListTaskRunsSortByDisplayName,
+	"time_updated": ListTaskRunsSortByTimeUpdated,
 }
 
 // GetListTaskRunsSortByEnumValues Enumerates the set of values for ListTaskRunsSortByEnum
@@ -213,6 +216,7 @@ func GetListTaskRunsSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 

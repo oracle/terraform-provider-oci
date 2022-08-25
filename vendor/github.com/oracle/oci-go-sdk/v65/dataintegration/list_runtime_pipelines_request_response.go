@@ -184,16 +184,19 @@ type ListRuntimePipelinesSortByEnum string
 const (
 	ListRuntimePipelinesSortByTimeCreated ListRuntimePipelinesSortByEnum = "TIME_CREATED"
 	ListRuntimePipelinesSortByDisplayName ListRuntimePipelinesSortByEnum = "DISPLAY_NAME"
+	ListRuntimePipelinesSortByTimeUpdated ListRuntimePipelinesSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListRuntimePipelinesSortByEnum = map[string]ListRuntimePipelinesSortByEnum{
 	"TIME_CREATED": ListRuntimePipelinesSortByTimeCreated,
 	"DISPLAY_NAME": ListRuntimePipelinesSortByDisplayName,
+	"TIME_UPDATED": ListRuntimePipelinesSortByTimeUpdated,
 }
 
 var mappingListRuntimePipelinesSortByEnumLowerCase = map[string]ListRuntimePipelinesSortByEnum{
 	"time_created": ListRuntimePipelinesSortByTimeCreated,
 	"display_name": ListRuntimePipelinesSortByDisplayName,
+	"time_updated": ListRuntimePipelinesSortByTimeUpdated,
 }
 
 // GetListRuntimePipelinesSortByEnumValues Enumerates the set of values for ListRuntimePipelinesSortByEnum
@@ -210,6 +213,7 @@ func GetListRuntimePipelinesSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 

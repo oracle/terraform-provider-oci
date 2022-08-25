@@ -4,9 +4,10 @@
 
 // Logging Management API
 //
-// Use the Logging Management API to create, read, list, update, and delete
-// log groups, log objects, agent configurations, and log data models.
-// For more information, see Logging Overview (https://docs.cloud.oracle.com/iaas/Content/Logging/Concepts/loggingoverview.htm).
+// Use the Logging Management API to create, read, list, update, move and delete
+// log groups, log objects, log saved searches, agent configurations, log data models,
+// continuous queries, and managed continuous queries.
+// For more information, see https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/loggingoverview.htm.
 //
 
 package logging
@@ -22,6 +23,9 @@ import (
 type UpdateContinuousQueryDetails struct {
 
 	// The continuous query expression that is run periodically.
+	// For example,
+	// search "loggroup-id" subject IN (INPUTLOOKUP 'objectstorage://bmc-logging-test/lookups/subjects.json' subject)
+	// summarize count() as eventsCount by type as LogType, source, subject sort by eventsCount
 	Query *string `mandatory:"false" json:"query"`
 
 	// Interval in minutes that query is run periodically.
@@ -34,7 +38,7 @@ type UpdateContinuousQueryDetails struct {
 	// and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The OCID of the custom log for continouous query.
+	// The OCID of the custom log for continuous query.
 	CustomLogId *string `mandatory:"false" json:"customLogId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
@@ -56,6 +60,10 @@ type UpdateContinuousQueryDetails struct {
 	Description *string `mandatory:"false" json:"description"`
 
 	// Recommendations to act in case of a notification produced by the query.
+	// For example,
+	// when this event happens,
+	// . check the logs under <dir> and search for event.
+	// . If you find any occurrences of X open a security event in the queue https://queue
 	RecommendationText *string `mandatory:"false" json:"recommendationText"`
 
 	// The state of the ContinuousQuerySeverity

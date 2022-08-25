@@ -119,6 +119,10 @@ func (m *trigger) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := GitlabTrigger{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "VBS":
+		mm := VbsTrigger{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "BITBUCKET_SERVER":
 		mm := BitbucketServerTrigger{}
 		err = json.Unmarshal(data, &mm)
@@ -277,6 +281,7 @@ const (
 	TriggerTriggerSourceGitlabServer         TriggerTriggerSourceEnum = "GITLAB_SERVER"
 	TriggerTriggerSourceBitbucketCloud       TriggerTriggerSourceEnum = "BITBUCKET_CLOUD"
 	TriggerTriggerSourceBitbucketServer      TriggerTriggerSourceEnum = "BITBUCKET_SERVER"
+	TriggerTriggerSourceVbs                  TriggerTriggerSourceEnum = "VBS"
 	TriggerTriggerSourceDevopsCodeRepository TriggerTriggerSourceEnum = "DEVOPS_CODE_REPOSITORY"
 )
 
@@ -286,6 +291,7 @@ var mappingTriggerTriggerSourceEnum = map[string]TriggerTriggerSourceEnum{
 	"GITLAB_SERVER":          TriggerTriggerSourceGitlabServer,
 	"BITBUCKET_CLOUD":        TriggerTriggerSourceBitbucketCloud,
 	"BITBUCKET_SERVER":       TriggerTriggerSourceBitbucketServer,
+	"VBS":                    TriggerTriggerSourceVbs,
 	"DEVOPS_CODE_REPOSITORY": TriggerTriggerSourceDevopsCodeRepository,
 }
 
@@ -295,6 +301,7 @@ var mappingTriggerTriggerSourceEnumLowerCase = map[string]TriggerTriggerSourceEn
 	"gitlab_server":          TriggerTriggerSourceGitlabServer,
 	"bitbucket_cloud":        TriggerTriggerSourceBitbucketCloud,
 	"bitbucket_server":       TriggerTriggerSourceBitbucketServer,
+	"vbs":                    TriggerTriggerSourceVbs,
 	"devops_code_repository": TriggerTriggerSourceDevopsCodeRepository,
 }
 
@@ -315,6 +322,7 @@ func GetTriggerTriggerSourceEnumStringValues() []string {
 		"GITLAB_SERVER",
 		"BITBUCKET_CLOUD",
 		"BITBUCKET_SERVER",
+		"VBS",
 		"DEVOPS_CODE_REPOSITORY",
 	}
 }

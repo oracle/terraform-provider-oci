@@ -36,6 +36,9 @@ type LongTermBackUpScheduleDetails struct {
 
 	// The timestamp for the one-time and yearly backup
 	TimeOfBackup *common.SDKTime `mandatory:"false" json:"timeOfBackup"`
+
+	// Retention period, in days, for long-term backups
+	RetentionPeriodInDays *int `mandatory:"false" json:"retentionPeriodInDays"`
 }
 
 func (m LongTermBackUpScheduleDetails) String() string {

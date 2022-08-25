@@ -199,27 +199,30 @@ type EntityShapeFromSqlEntityTypeEnum string
 
 // Set of constants representing the allowable values for EntityShapeFromSqlEntityTypeEnum
 const (
-	EntityShapeFromSqlEntityTypeTable   EntityShapeFromSqlEntityTypeEnum = "TABLE"
-	EntityShapeFromSqlEntityTypeView    EntityShapeFromSqlEntityTypeEnum = "VIEW"
-	EntityShapeFromSqlEntityTypeFile    EntityShapeFromSqlEntityTypeEnum = "FILE"
-	EntityShapeFromSqlEntityTypeSql     EntityShapeFromSqlEntityTypeEnum = "SQL"
-	EntityShapeFromSqlEntityTypeMessage EntityShapeFromSqlEntityTypeEnum = "MESSAGE"
+	EntityShapeFromSqlEntityTypeTable     EntityShapeFromSqlEntityTypeEnum = "TABLE"
+	EntityShapeFromSqlEntityTypeView      EntityShapeFromSqlEntityTypeEnum = "VIEW"
+	EntityShapeFromSqlEntityTypeFile      EntityShapeFromSqlEntityTypeEnum = "FILE"
+	EntityShapeFromSqlEntityTypeSql       EntityShapeFromSqlEntityTypeEnum = "SQL"
+	EntityShapeFromSqlEntityTypeDataStore EntityShapeFromSqlEntityTypeEnum = "DATA_STORE"
+	EntityShapeFromSqlEntityTypeMessage   EntityShapeFromSqlEntityTypeEnum = "MESSAGE"
 )
 
 var mappingEntityShapeFromSqlEntityTypeEnum = map[string]EntityShapeFromSqlEntityTypeEnum{
-	"TABLE":   EntityShapeFromSqlEntityTypeTable,
-	"VIEW":    EntityShapeFromSqlEntityTypeView,
-	"FILE":    EntityShapeFromSqlEntityTypeFile,
-	"SQL":     EntityShapeFromSqlEntityTypeSql,
-	"MESSAGE": EntityShapeFromSqlEntityTypeMessage,
+	"TABLE":      EntityShapeFromSqlEntityTypeTable,
+	"VIEW":       EntityShapeFromSqlEntityTypeView,
+	"FILE":       EntityShapeFromSqlEntityTypeFile,
+	"SQL":        EntityShapeFromSqlEntityTypeSql,
+	"DATA_STORE": EntityShapeFromSqlEntityTypeDataStore,
+	"MESSAGE":    EntityShapeFromSqlEntityTypeMessage,
 }
 
 var mappingEntityShapeFromSqlEntityTypeEnumLowerCase = map[string]EntityShapeFromSqlEntityTypeEnum{
-	"table":   EntityShapeFromSqlEntityTypeTable,
-	"view":    EntityShapeFromSqlEntityTypeView,
-	"file":    EntityShapeFromSqlEntityTypeFile,
-	"sql":     EntityShapeFromSqlEntityTypeSql,
-	"message": EntityShapeFromSqlEntityTypeMessage,
+	"table":      EntityShapeFromSqlEntityTypeTable,
+	"view":       EntityShapeFromSqlEntityTypeView,
+	"file":       EntityShapeFromSqlEntityTypeFile,
+	"sql":        EntityShapeFromSqlEntityTypeSql,
+	"data_store": EntityShapeFromSqlEntityTypeDataStore,
+	"message":    EntityShapeFromSqlEntityTypeMessage,
 }
 
 // GetEntityShapeFromSqlEntityTypeEnumValues Enumerates the set of values for EntityShapeFromSqlEntityTypeEnum
@@ -238,6 +241,7 @@ func GetEntityShapeFromSqlEntityTypeEnumStringValues() []string {
 		"VIEW",
 		"FILE",
 		"SQL",
+		"DATA_STORE",
 		"MESSAGE",
 	}
 }

@@ -41,7 +41,7 @@ type MaterializedDynamicField struct {
 	// Reference key value to an object within the document.
 	Scope *string `mandatory:"false" json:"scope"`
 
-	Type *CompositeType `mandatory:"false" json:"type"`
+	Type *MaterializedCompositeType `mandatory:"false" json:"type"`
 }
 
 //GetKey returns Key

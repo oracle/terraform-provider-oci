@@ -4,9 +4,10 @@
 
 // Logging Management API
 //
-// Use the Logging Management API to create, read, list, update, and delete
-// log groups, log objects, agent configurations, and log data models.
-// For more information, see Logging Overview (https://docs.cloud.oracle.com/iaas/Content/Logging/Concepts/loggingoverview.htm).
+// Use the Logging Management API to create, read, list, update, move and delete
+// log groups, log objects, log saved searches, agent configurations, log data models,
+// continuous queries, and managed continuous queries.
+// For more information, see https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/loggingoverview.htm.
 //
 
 package logging
@@ -24,7 +25,7 @@ type UnifiedAgentTailLogSource struct {
 	// unique name for the source
 	Name *string `mandatory:"true" json:"name"`
 
-	Paths []string `mandatory:"false" json:"paths"`
+	Paths []string `mandatory:"true" json:"paths"`
 
 	Parser UnifiedAgentParser `mandatory:"false" json:"parser"`
 }
@@ -67,9 +68,9 @@ func (m UnifiedAgentTailLogSource) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *UnifiedAgentTailLogSource) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Paths  []string           `json:"paths"`
 		Parser unifiedagentparser `json:"parser"`
 		Name   *string            `json:"name"`
+		Paths  []string           `json:"paths"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -77,11 +78,6 @@ func (m *UnifiedAgentTailLogSource) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
-	m.Paths = make([]string, len(model.Paths))
-	for i, n := range model.Paths {
-		m.Paths[i] = n
-	}
-
 	nn, e = model.Parser.UnmarshalPolymorphicJSON(model.Parser.JsonData)
 	if e != nil {
 		return
@@ -93,6 +89,11 @@ func (m *UnifiedAgentTailLogSource) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.Name = model.Name
+
+	m.Paths = make([]string, len(model.Paths))
+	for i, n := range model.Paths {
+		m.Paths[i] = n
+	}
 
 	return
 }

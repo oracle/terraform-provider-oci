@@ -145,16 +145,19 @@ type ListDataEntitiesSortByEnum string
 const (
 	ListDataEntitiesSortByTimeCreated ListDataEntitiesSortByEnum = "TIME_CREATED"
 	ListDataEntitiesSortByDisplayName ListDataEntitiesSortByEnum = "DISPLAY_NAME"
+	ListDataEntitiesSortByTimeUpdated ListDataEntitiesSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListDataEntitiesSortByEnum = map[string]ListDataEntitiesSortByEnum{
 	"TIME_CREATED": ListDataEntitiesSortByTimeCreated,
 	"DISPLAY_NAME": ListDataEntitiesSortByDisplayName,
+	"TIME_UPDATED": ListDataEntitiesSortByTimeUpdated,
 }
 
 var mappingListDataEntitiesSortByEnumLowerCase = map[string]ListDataEntitiesSortByEnum{
 	"time_created": ListDataEntitiesSortByTimeCreated,
 	"display_name": ListDataEntitiesSortByDisplayName,
+	"time_updated": ListDataEntitiesSortByTimeUpdated,
 }
 
 // GetListDataEntitiesSortByEnumValues Enumerates the set of values for ListDataEntitiesSortByEnum
@@ -171,6 +174,7 @@ func GetListDataEntitiesSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 

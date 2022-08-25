@@ -206,27 +206,30 @@ type DataEntityFromSqlEntityTypeEnum string
 
 // Set of constants representing the allowable values for DataEntityFromSqlEntityTypeEnum
 const (
-	DataEntityFromSqlEntityTypeTable   DataEntityFromSqlEntityTypeEnum = "TABLE"
-	DataEntityFromSqlEntityTypeView    DataEntityFromSqlEntityTypeEnum = "VIEW"
-	DataEntityFromSqlEntityTypeFile    DataEntityFromSqlEntityTypeEnum = "FILE"
-	DataEntityFromSqlEntityTypeSql     DataEntityFromSqlEntityTypeEnum = "SQL"
-	DataEntityFromSqlEntityTypeMessage DataEntityFromSqlEntityTypeEnum = "MESSAGE"
+	DataEntityFromSqlEntityTypeTable     DataEntityFromSqlEntityTypeEnum = "TABLE"
+	DataEntityFromSqlEntityTypeView      DataEntityFromSqlEntityTypeEnum = "VIEW"
+	DataEntityFromSqlEntityTypeFile      DataEntityFromSqlEntityTypeEnum = "FILE"
+	DataEntityFromSqlEntityTypeSql       DataEntityFromSqlEntityTypeEnum = "SQL"
+	DataEntityFromSqlEntityTypeDataStore DataEntityFromSqlEntityTypeEnum = "DATA_STORE"
+	DataEntityFromSqlEntityTypeMessage   DataEntityFromSqlEntityTypeEnum = "MESSAGE"
 )
 
 var mappingDataEntityFromSqlEntityTypeEnum = map[string]DataEntityFromSqlEntityTypeEnum{
-	"TABLE":   DataEntityFromSqlEntityTypeTable,
-	"VIEW":    DataEntityFromSqlEntityTypeView,
-	"FILE":    DataEntityFromSqlEntityTypeFile,
-	"SQL":     DataEntityFromSqlEntityTypeSql,
-	"MESSAGE": DataEntityFromSqlEntityTypeMessage,
+	"TABLE":      DataEntityFromSqlEntityTypeTable,
+	"VIEW":       DataEntityFromSqlEntityTypeView,
+	"FILE":       DataEntityFromSqlEntityTypeFile,
+	"SQL":        DataEntityFromSqlEntityTypeSql,
+	"DATA_STORE": DataEntityFromSqlEntityTypeDataStore,
+	"MESSAGE":    DataEntityFromSqlEntityTypeMessage,
 }
 
 var mappingDataEntityFromSqlEntityTypeEnumLowerCase = map[string]DataEntityFromSqlEntityTypeEnum{
-	"table":   DataEntityFromSqlEntityTypeTable,
-	"view":    DataEntityFromSqlEntityTypeView,
-	"file":    DataEntityFromSqlEntityTypeFile,
-	"sql":     DataEntityFromSqlEntityTypeSql,
-	"message": DataEntityFromSqlEntityTypeMessage,
+	"table":      DataEntityFromSqlEntityTypeTable,
+	"view":       DataEntityFromSqlEntityTypeView,
+	"file":       DataEntityFromSqlEntityTypeFile,
+	"sql":        DataEntityFromSqlEntityTypeSql,
+	"data_store": DataEntityFromSqlEntityTypeDataStore,
+	"message":    DataEntityFromSqlEntityTypeMessage,
 }
 
 // GetDataEntityFromSqlEntityTypeEnumValues Enumerates the set of values for DataEntityFromSqlEntityTypeEnum
@@ -245,6 +248,7 @@ func GetDataEntityFromSqlEntityTypeEnumStringValues() []string {
 		"VIEW",
 		"FILE",
 		"SQL",
+		"DATA_STORE",
 		"MESSAGE",
 	}
 }

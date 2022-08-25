@@ -63,6 +63,10 @@ func (m *drgattachmentnetworkcreatedetails) UnmarshalPolymorphicJSON(data []byte
 		mm := IpsecTunnelDrgAttachmentNetworkCreateDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "LOOPBACK":
+		mm := LoopBackDrgAttachmentNetworkCreateDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "VIRTUAL_CIRCUIT":
 		mm := VirtualCircuitDrgAttachmentNetworkCreateDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -115,6 +119,7 @@ const (
 	DrgAttachmentNetworkCreateDetailsTypeVirtualCircuit          DrgAttachmentNetworkCreateDetailsTypeEnum = "VIRTUAL_CIRCUIT"
 	DrgAttachmentNetworkCreateDetailsTypeRemotePeeringConnection DrgAttachmentNetworkCreateDetailsTypeEnum = "REMOTE_PEERING_CONNECTION"
 	DrgAttachmentNetworkCreateDetailsTypeIpsecTunnel             DrgAttachmentNetworkCreateDetailsTypeEnum = "IPSEC_TUNNEL"
+	DrgAttachmentNetworkCreateDetailsTypeLoopback                DrgAttachmentNetworkCreateDetailsTypeEnum = "LOOPBACK"
 	DrgAttachmentNetworkCreateDetailsTypeInternet                DrgAttachmentNetworkCreateDetailsTypeEnum = "INTERNET"
 )
 
@@ -123,6 +128,7 @@ var mappingDrgAttachmentNetworkCreateDetailsTypeEnum = map[string]DrgAttachmentN
 	"VIRTUAL_CIRCUIT":           DrgAttachmentNetworkCreateDetailsTypeVirtualCircuit,
 	"REMOTE_PEERING_CONNECTION": DrgAttachmentNetworkCreateDetailsTypeRemotePeeringConnection,
 	"IPSEC_TUNNEL":              DrgAttachmentNetworkCreateDetailsTypeIpsecTunnel,
+	"LOOPBACK":                  DrgAttachmentNetworkCreateDetailsTypeLoopback,
 	"INTERNET":                  DrgAttachmentNetworkCreateDetailsTypeInternet,
 }
 
@@ -131,6 +137,7 @@ var mappingDrgAttachmentNetworkCreateDetailsTypeEnumLowerCase = map[string]DrgAt
 	"virtual_circuit":           DrgAttachmentNetworkCreateDetailsTypeVirtualCircuit,
 	"remote_peering_connection": DrgAttachmentNetworkCreateDetailsTypeRemotePeeringConnection,
 	"ipsec_tunnel":              DrgAttachmentNetworkCreateDetailsTypeIpsecTunnel,
+	"loopback":                  DrgAttachmentNetworkCreateDetailsTypeLoopback,
 	"internet":                  DrgAttachmentNetworkCreateDetailsTypeInternet,
 }
 
@@ -150,6 +157,7 @@ func GetDrgAttachmentNetworkCreateDetailsTypeEnumStringValues() []string {
 		"VIRTUAL_CIRCUIT",
 		"REMOTE_PEERING_CONNECTION",
 		"IPSEC_TUNNEL",
+		"LOOPBACK",
 		"INTERNET",
 	}
 }

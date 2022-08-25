@@ -71,7 +71,7 @@ type Volume struct {
 	// Specifies whether the cloned volume's data has finished copying from the source volume or backup.
 	IsHydrated *bool `mandatory:"false" json:"isHydrated"`
 
-	// The OCID of the Key Management key which is the master encryption key for the volume.
+	// The OCID of the Vault service key which is the master encryption key for the volume.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
 	// The number of volume performance units (VPUs) that will be applied to this volume per GB,

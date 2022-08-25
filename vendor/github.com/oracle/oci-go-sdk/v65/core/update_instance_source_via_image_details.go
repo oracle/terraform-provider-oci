@@ -29,16 +29,24 @@ type UpdateInstanceSourceViaImageDetails struct {
 	// Whether to preserve the boot volume that was previously attached to the instance after a successful replacement of that boot volume.
 	IsPreserveBootVolumeEnabled *bool `mandatory:"false" json:"isPreserveBootVolumeEnabled"`
 
+	// Whether to stop an instance gracefully or forcefully, during the Boot Volume replacement.
+	IsForceStopEnabled *bool `mandatory:"false" json:"isForceStopEnabled"`
+
 	// The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 32,768 GB (32 TB).
 	BootVolumeSizeInGBs *int64 `mandatory:"false" json:"bootVolumeSizeInGBs"`
 
-	// The OCID of the Key Management key to assign as the master encryption key for the boot volume.
+	// The OCID of the Vault service key to assign as the master encryption key for the boot volume.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 }
 
 //GetIsPreserveBootVolumeEnabled returns IsPreserveBootVolumeEnabled
 func (m UpdateInstanceSourceViaImageDetails) GetIsPreserveBootVolumeEnabled() *bool {
 	return m.IsPreserveBootVolumeEnabled
+}
+
+//GetIsForceStopEnabled returns IsForceStopEnabled
+func (m UpdateInstanceSourceViaImageDetails) GetIsForceStopEnabled() *bool {
+	return m.IsForceStopEnabled
 }
 
 func (m UpdateInstanceSourceViaImageDetails) String() string {

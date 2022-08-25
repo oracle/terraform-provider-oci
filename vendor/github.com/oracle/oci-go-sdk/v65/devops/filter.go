@@ -50,6 +50,10 @@ func (m *filter) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 
 	var err error
 	switch m.TriggerSource {
+	case "VBS":
+		mm := VbsFilter{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DEVOPS_CODE_REPOSITORY":
 		mm := DevopsCodeRepositoryFilter{}
 		err = json.Unmarshal(data, &mm)

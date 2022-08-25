@@ -62,6 +62,14 @@ func (m *drgattachmentnetworkupdatedetails) UnmarshalPolymorphicJSON(data []byte
 		mm := VirtualCircuitDrgAttachmentNetworkUpdateDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "IPSEC_TUNNEL":
+		mm := IpsecTunnelDrgAttachmentNetworkUpdateDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "LOOPBACK":
+		mm := LoopbackDrgAttachmentNetworkUpdateDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "VCN":
 		mm := VcnDrgAttachmentNetworkUpdateDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -95,18 +103,24 @@ type DrgAttachmentNetworkUpdateDetailsTypeEnum string
 const (
 	DrgAttachmentNetworkUpdateDetailsTypeVcn            DrgAttachmentNetworkUpdateDetailsTypeEnum = "VCN"
 	DrgAttachmentNetworkUpdateDetailsTypeVirtualCircuit DrgAttachmentNetworkUpdateDetailsTypeEnum = "VIRTUAL_CIRCUIT"
+	DrgAttachmentNetworkUpdateDetailsTypeIpsecTunnel    DrgAttachmentNetworkUpdateDetailsTypeEnum = "IPSEC_TUNNEL"
+	DrgAttachmentNetworkUpdateDetailsTypeLoopback       DrgAttachmentNetworkUpdateDetailsTypeEnum = "LOOPBACK"
 	DrgAttachmentNetworkUpdateDetailsTypeInternet       DrgAttachmentNetworkUpdateDetailsTypeEnum = "INTERNET"
 )
 
 var mappingDrgAttachmentNetworkUpdateDetailsTypeEnum = map[string]DrgAttachmentNetworkUpdateDetailsTypeEnum{
 	"VCN":             DrgAttachmentNetworkUpdateDetailsTypeVcn,
 	"VIRTUAL_CIRCUIT": DrgAttachmentNetworkUpdateDetailsTypeVirtualCircuit,
+	"IPSEC_TUNNEL":    DrgAttachmentNetworkUpdateDetailsTypeIpsecTunnel,
+	"LOOPBACK":        DrgAttachmentNetworkUpdateDetailsTypeLoopback,
 	"INTERNET":        DrgAttachmentNetworkUpdateDetailsTypeInternet,
 }
 
 var mappingDrgAttachmentNetworkUpdateDetailsTypeEnumLowerCase = map[string]DrgAttachmentNetworkUpdateDetailsTypeEnum{
 	"vcn":             DrgAttachmentNetworkUpdateDetailsTypeVcn,
 	"virtual_circuit": DrgAttachmentNetworkUpdateDetailsTypeVirtualCircuit,
+	"ipsec_tunnel":    DrgAttachmentNetworkUpdateDetailsTypeIpsecTunnel,
+	"loopback":        DrgAttachmentNetworkUpdateDetailsTypeLoopback,
 	"internet":        DrgAttachmentNetworkUpdateDetailsTypeInternet,
 }
 
@@ -124,6 +138,8 @@ func GetDrgAttachmentNetworkUpdateDetailsTypeEnumStringValues() []string {
 	return []string{
 		"VCN",
 		"VIRTUAL_CIRCUIT",
+		"IPSEC_TUNNEL",
+		"LOOPBACK",
 		"INTERNET",
 	}
 }

@@ -131,7 +131,7 @@ func (client EmWarehouseClient) cancelWorkRequest(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/em-warehouse/20180828/WorkRequest/CancelWorkRequest"
 		err = common.PostProcessServiceError(err, "EmWarehouse", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -189,7 +189,7 @@ func (client EmWarehouseClient) changeEmWarehouseCompartment(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/em-warehouse/20180828/EmWarehouse/ChangeEmWarehouseCompartment"
 		err = common.PostProcessServiceError(err, "EmWarehouse", "ChangeEmWarehouseCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -247,7 +247,7 @@ func (client EmWarehouseClient) createEmWarehouse(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/em-warehouse/20180828/EmWarehouse/CreateEmWarehouse"
 		err = common.PostProcessServiceError(err, "EmWarehouse", "CreateEmWarehouse", apiReferenceLink)
 		return response, err
 	}
@@ -300,7 +300,7 @@ func (client EmWarehouseClient) deleteEmWarehouse(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/em-warehouse/20180828/EmWarehouse/DeleteEmWarehouse"
 		err = common.PostProcessServiceError(err, "EmWarehouse", "DeleteEmWarehouse", apiReferenceLink)
 		return response, err
 	}
@@ -353,7 +353,7 @@ func (client EmWarehouseClient) getEmWarehouse(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/em-warehouse/20180828/EmWarehouse/GetEmWarehouse"
 		err = common.PostProcessServiceError(err, "EmWarehouse", "GetEmWarehouse", apiReferenceLink)
 		return response, err
 	}
@@ -406,7 +406,7 @@ func (client EmWarehouseClient) getEmWarehouseResourceUsage(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/em-warehouse/20180828/ResourceUsage/GetEmWarehouseResourceUsage"
 		err = common.PostProcessServiceError(err, "EmWarehouse", "GetEmWarehouseResourceUsage", apiReferenceLink)
 		return response, err
 	}
@@ -459,7 +459,7 @@ func (client EmWarehouseClient) getWorkRequest(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/em-warehouse/20180828/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "EmWarehouse", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -512,7 +512,7 @@ func (client EmWarehouseClient) listEmWarehouses(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/em-warehouse/20180828/EmWarehouseCollection/ListEmWarehouses"
 		err = common.PostProcessServiceError(err, "EmWarehouse", "ListEmWarehouses", apiReferenceLink)
 		return response, err
 	}
@@ -565,7 +565,7 @@ func (client EmWarehouseClient) listEtlRuns(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/em-warehouse/20180828/EtlRunCollection/ListEtlRuns"
 		err = common.PostProcessServiceError(err, "EmWarehouse", "ListEtlRuns", apiReferenceLink)
 		return response, err
 	}
@@ -618,7 +618,7 @@ func (client EmWarehouseClient) listWorkRequestErrors(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/em-warehouse/20180828/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "EmWarehouse", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -671,7 +671,7 @@ func (client EmWarehouseClient) listWorkRequestLogs(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/em-warehouse/20180828/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "EmWarehouse", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -724,7 +724,7 @@ func (client EmWarehouseClient) listWorkRequests(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/em-warehouse/20180828/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "EmWarehouse", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -777,7 +777,7 @@ func (client EmWarehouseClient) updateEmWarehouse(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/em-warehouse/20180828/EmWarehouse/UpdateEmWarehouse"
 		err = common.PostProcessServiceError(err, "EmWarehouse", "UpdateEmWarehouse", apiReferenceLink)
 		return response, err
 	}

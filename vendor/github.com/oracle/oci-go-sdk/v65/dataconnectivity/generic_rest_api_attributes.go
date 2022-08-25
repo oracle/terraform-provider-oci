@@ -19,7 +19,7 @@ import (
 // GenericRestApiAttributes Generic rest api specific attributes.
 type GenericRestApiAttributes struct {
 
-	// The serverUrl serving operation.
+	// The server Url serving operation.
 	ServerUrl *string `mandatory:"false" json:"serverUrl"`
 }
 

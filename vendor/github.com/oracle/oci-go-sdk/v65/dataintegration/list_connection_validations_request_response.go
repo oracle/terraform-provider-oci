@@ -133,16 +133,19 @@ type ListConnectionValidationsSortByEnum string
 const (
 	ListConnectionValidationsSortByTimeCreated ListConnectionValidationsSortByEnum = "TIME_CREATED"
 	ListConnectionValidationsSortByDisplayName ListConnectionValidationsSortByEnum = "DISPLAY_NAME"
+	ListConnectionValidationsSortByTimeUpdated ListConnectionValidationsSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListConnectionValidationsSortByEnum = map[string]ListConnectionValidationsSortByEnum{
 	"TIME_CREATED": ListConnectionValidationsSortByTimeCreated,
 	"DISPLAY_NAME": ListConnectionValidationsSortByDisplayName,
+	"TIME_UPDATED": ListConnectionValidationsSortByTimeUpdated,
 }
 
 var mappingListConnectionValidationsSortByEnumLowerCase = map[string]ListConnectionValidationsSortByEnum{
 	"time_created": ListConnectionValidationsSortByTimeCreated,
 	"display_name": ListConnectionValidationsSortByDisplayName,
+	"time_updated": ListConnectionValidationsSortByTimeUpdated,
 }
 
 // GetListConnectionValidationsSortByEnumValues Enumerates the set of values for ListConnectionValidationsSortByEnum
@@ -159,6 +162,7 @@ func GetListConnectionValidationsSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 

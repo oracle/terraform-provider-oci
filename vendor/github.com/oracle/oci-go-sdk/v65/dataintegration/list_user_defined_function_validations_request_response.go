@@ -133,16 +133,19 @@ type ListUserDefinedFunctionValidationsSortByEnum string
 const (
 	ListUserDefinedFunctionValidationsSortByTimeCreated ListUserDefinedFunctionValidationsSortByEnum = "TIME_CREATED"
 	ListUserDefinedFunctionValidationsSortByDisplayName ListUserDefinedFunctionValidationsSortByEnum = "DISPLAY_NAME"
+	ListUserDefinedFunctionValidationsSortByTimeUpdated ListUserDefinedFunctionValidationsSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListUserDefinedFunctionValidationsSortByEnum = map[string]ListUserDefinedFunctionValidationsSortByEnum{
 	"TIME_CREATED": ListUserDefinedFunctionValidationsSortByTimeCreated,
 	"DISPLAY_NAME": ListUserDefinedFunctionValidationsSortByDisplayName,
+	"TIME_UPDATED": ListUserDefinedFunctionValidationsSortByTimeUpdated,
 }
 
 var mappingListUserDefinedFunctionValidationsSortByEnumLowerCase = map[string]ListUserDefinedFunctionValidationsSortByEnum{
 	"time_created": ListUserDefinedFunctionValidationsSortByTimeCreated,
 	"display_name": ListUserDefinedFunctionValidationsSortByDisplayName,
+	"time_updated": ListUserDefinedFunctionValidationsSortByTimeUpdated,
 }
 
 // GetListUserDefinedFunctionValidationsSortByEnumValues Enumerates the set of values for ListUserDefinedFunctionValidationsSortByEnum
@@ -159,6 +162,7 @@ func GetListUserDefinedFunctionValidationsSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 

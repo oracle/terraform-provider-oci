@@ -34,6 +34,9 @@ type IpsecTunnelDrgAttachmentNetworkCreateDetails struct {
 
 	// The IPSec connection that contains the attached IPSec tunnel.
 	IpsecConnectionId *string `mandatory:"true" json:"ipsecConnectionId"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the virtual-circuit drg attachment.
+	TransportAttachmentId *string `mandatory:"false" json:"transportAttachmentId"`
 }
 
 //GetId returns Id

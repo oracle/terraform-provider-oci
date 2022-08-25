@@ -40,7 +40,7 @@ type CsvFormatAttribute struct {
 	// Format for timestamp information.
 	TimestampFormat *string `mandatory:"false" json:"timestampFormat"`
 
-	// Defines whether the quoote entire content while performing read/write.
+	// Defines whether the quote entire content while performing read/write.
 	IsQuoteAll *bool `mandatory:"false" json:"isQuoteAll"`
 
 	// Defines whether the file has a multiline content

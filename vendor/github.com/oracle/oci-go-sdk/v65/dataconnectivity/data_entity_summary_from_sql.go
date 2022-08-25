@@ -194,27 +194,30 @@ type DataEntitySummaryFromSqlEntityTypeEnum string
 
 // Set of constants representing the allowable values for DataEntitySummaryFromSqlEntityTypeEnum
 const (
-	DataEntitySummaryFromSqlEntityTypeTable   DataEntitySummaryFromSqlEntityTypeEnum = "TABLE"
-	DataEntitySummaryFromSqlEntityTypeView    DataEntitySummaryFromSqlEntityTypeEnum = "VIEW"
-	DataEntitySummaryFromSqlEntityTypeFile    DataEntitySummaryFromSqlEntityTypeEnum = "FILE"
-	DataEntitySummaryFromSqlEntityTypeSql     DataEntitySummaryFromSqlEntityTypeEnum = "SQL"
-	DataEntitySummaryFromSqlEntityTypeMessage DataEntitySummaryFromSqlEntityTypeEnum = "MESSAGE"
+	DataEntitySummaryFromSqlEntityTypeTable     DataEntitySummaryFromSqlEntityTypeEnum = "TABLE"
+	DataEntitySummaryFromSqlEntityTypeView      DataEntitySummaryFromSqlEntityTypeEnum = "VIEW"
+	DataEntitySummaryFromSqlEntityTypeFile      DataEntitySummaryFromSqlEntityTypeEnum = "FILE"
+	DataEntitySummaryFromSqlEntityTypeSql       DataEntitySummaryFromSqlEntityTypeEnum = "SQL"
+	DataEntitySummaryFromSqlEntityTypeDataStore DataEntitySummaryFromSqlEntityTypeEnum = "DATA_STORE"
+	DataEntitySummaryFromSqlEntityTypeMessage   DataEntitySummaryFromSqlEntityTypeEnum = "MESSAGE"
 )
 
 var mappingDataEntitySummaryFromSqlEntityTypeEnum = map[string]DataEntitySummaryFromSqlEntityTypeEnum{
-	"TABLE":   DataEntitySummaryFromSqlEntityTypeTable,
-	"VIEW":    DataEntitySummaryFromSqlEntityTypeView,
-	"FILE":    DataEntitySummaryFromSqlEntityTypeFile,
-	"SQL":     DataEntitySummaryFromSqlEntityTypeSql,
-	"MESSAGE": DataEntitySummaryFromSqlEntityTypeMessage,
+	"TABLE":      DataEntitySummaryFromSqlEntityTypeTable,
+	"VIEW":       DataEntitySummaryFromSqlEntityTypeView,
+	"FILE":       DataEntitySummaryFromSqlEntityTypeFile,
+	"SQL":        DataEntitySummaryFromSqlEntityTypeSql,
+	"DATA_STORE": DataEntitySummaryFromSqlEntityTypeDataStore,
+	"MESSAGE":    DataEntitySummaryFromSqlEntityTypeMessage,
 }
 
 var mappingDataEntitySummaryFromSqlEntityTypeEnumLowerCase = map[string]DataEntitySummaryFromSqlEntityTypeEnum{
-	"table":   DataEntitySummaryFromSqlEntityTypeTable,
-	"view":    DataEntitySummaryFromSqlEntityTypeView,
-	"file":    DataEntitySummaryFromSqlEntityTypeFile,
-	"sql":     DataEntitySummaryFromSqlEntityTypeSql,
-	"message": DataEntitySummaryFromSqlEntityTypeMessage,
+	"table":      DataEntitySummaryFromSqlEntityTypeTable,
+	"view":       DataEntitySummaryFromSqlEntityTypeView,
+	"file":       DataEntitySummaryFromSqlEntityTypeFile,
+	"sql":        DataEntitySummaryFromSqlEntityTypeSql,
+	"data_store": DataEntitySummaryFromSqlEntityTypeDataStore,
+	"message":    DataEntitySummaryFromSqlEntityTypeMessage,
 }
 
 // GetDataEntitySummaryFromSqlEntityTypeEnumValues Enumerates the set of values for DataEntitySummaryFromSqlEntityTypeEnum
@@ -233,6 +236,7 @@ func GetDataEntitySummaryFromSqlEntityTypeEnumStringValues() []string {
 		"VIEW",
 		"FILE",
 		"SQL",
+		"DATA_STORE",
 		"MESSAGE",
 	}
 }

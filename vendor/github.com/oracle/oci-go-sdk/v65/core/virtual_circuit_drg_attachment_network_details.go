@@ -50,6 +50,10 @@ type VirtualCircuitDrgAttachmentNetworkDetails struct {
 
 	// The Oracle Cloud Infrastructure region name.
 	RegionName *string `mandatory:"false" json:"regionName"`
+
+	// Boolean flag that determines wether all traffic over the VCs is encrypted.
+	// Example: `true`
+	TransportOnlyMode *bool `mandatory:"false" json:"transportOnlyMode"`
 }
 
 //GetId returns Id

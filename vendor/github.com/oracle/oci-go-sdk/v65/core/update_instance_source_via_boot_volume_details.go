@@ -28,11 +28,19 @@ type UpdateInstanceSourceViaBootVolumeDetails struct {
 
 	// Whether to preserve the boot volume that was previously attached to the instance after a successful replacement of that boot volume.
 	IsPreserveBootVolumeEnabled *bool `mandatory:"false" json:"isPreserveBootVolumeEnabled"`
+
+	// Whether to stop an instance gracefully or forcefully, during the Boot Volume replacement.
+	IsForceStopEnabled *bool `mandatory:"false" json:"isForceStopEnabled"`
 }
 
 //GetIsPreserveBootVolumeEnabled returns IsPreserveBootVolumeEnabled
 func (m UpdateInstanceSourceViaBootVolumeDetails) GetIsPreserveBootVolumeEnabled() *bool {
 	return m.IsPreserveBootVolumeEnabled
+}
+
+//GetIsForceStopEnabled returns IsForceStopEnabled
+func (m UpdateInstanceSourceViaBootVolumeDetails) GetIsForceStopEnabled() *bool {
+	return m.IsForceStopEnabled
 }
 
 func (m UpdateInstanceSourceViaBootVolumeDetails) String() string {

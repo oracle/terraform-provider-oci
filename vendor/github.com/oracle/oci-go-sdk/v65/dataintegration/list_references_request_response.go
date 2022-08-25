@@ -172,16 +172,19 @@ type ListReferencesSortByEnum string
 const (
 	ListReferencesSortByTimeCreated ListReferencesSortByEnum = "TIME_CREATED"
 	ListReferencesSortByDisplayName ListReferencesSortByEnum = "DISPLAY_NAME"
+	ListReferencesSortByTimeUpdated ListReferencesSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListReferencesSortByEnum = map[string]ListReferencesSortByEnum{
 	"TIME_CREATED": ListReferencesSortByTimeCreated,
 	"DISPLAY_NAME": ListReferencesSortByDisplayName,
+	"TIME_UPDATED": ListReferencesSortByTimeUpdated,
 }
 
 var mappingListReferencesSortByEnumLowerCase = map[string]ListReferencesSortByEnum{
 	"time_created": ListReferencesSortByTimeCreated,
 	"display_name": ListReferencesSortByDisplayName,
+	"time_updated": ListReferencesSortByTimeUpdated,
 }
 
 // GetListReferencesSortByEnumValues Enumerates the set of values for ListReferencesSortByEnum
@@ -198,6 +201,7 @@ func GetListReferencesSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 

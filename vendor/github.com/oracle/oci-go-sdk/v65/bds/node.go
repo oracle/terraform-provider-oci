@@ -110,6 +110,9 @@ const (
 	NodeLifecycleStateDeleting NodeLifecycleStateEnum = "DELETING"
 	NodeLifecycleStateDeleted  NodeLifecycleStateEnum = "DELETED"
 	NodeLifecycleStateFailed   NodeLifecycleStateEnum = "FAILED"
+	NodeLifecycleStateStopped  NodeLifecycleStateEnum = "STOPPED"
+	NodeLifecycleStateStopping NodeLifecycleStateEnum = "STOPPING"
+	NodeLifecycleStateStarting NodeLifecycleStateEnum = "STARTING"
 )
 
 var mappingNodeLifecycleStateEnum = map[string]NodeLifecycleStateEnum{
@@ -120,6 +123,9 @@ var mappingNodeLifecycleStateEnum = map[string]NodeLifecycleStateEnum{
 	"DELETING": NodeLifecycleStateDeleting,
 	"DELETED":  NodeLifecycleStateDeleted,
 	"FAILED":   NodeLifecycleStateFailed,
+	"STOPPED":  NodeLifecycleStateStopped,
+	"STOPPING": NodeLifecycleStateStopping,
+	"STARTING": NodeLifecycleStateStarting,
 }
 
 var mappingNodeLifecycleStateEnumLowerCase = map[string]NodeLifecycleStateEnum{
@@ -130,6 +136,9 @@ var mappingNodeLifecycleStateEnumLowerCase = map[string]NodeLifecycleStateEnum{
 	"deleting": NodeLifecycleStateDeleting,
 	"deleted":  NodeLifecycleStateDeleted,
 	"failed":   NodeLifecycleStateFailed,
+	"stopped":  NodeLifecycleStateStopped,
+	"stopping": NodeLifecycleStateStopping,
+	"starting": NodeLifecycleStateStarting,
 }
 
 // GetNodeLifecycleStateEnumValues Enumerates the set of values for NodeLifecycleStateEnum
@@ -151,6 +160,9 @@ func GetNodeLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"STOPPED",
+		"STOPPING",
+		"STARTING",
 	}
 }
 

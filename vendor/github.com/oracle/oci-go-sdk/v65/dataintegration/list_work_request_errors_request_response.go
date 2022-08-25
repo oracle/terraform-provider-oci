@@ -157,16 +157,19 @@ type ListWorkRequestErrorsSortByEnum string
 const (
 	ListWorkRequestErrorsSortByTimeCreated ListWorkRequestErrorsSortByEnum = "TIME_CREATED"
 	ListWorkRequestErrorsSortByDisplayName ListWorkRequestErrorsSortByEnum = "DISPLAY_NAME"
+	ListWorkRequestErrorsSortByTimeUpdated ListWorkRequestErrorsSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListWorkRequestErrorsSortByEnum = map[string]ListWorkRequestErrorsSortByEnum{
 	"TIME_CREATED": ListWorkRequestErrorsSortByTimeCreated,
 	"DISPLAY_NAME": ListWorkRequestErrorsSortByDisplayName,
+	"TIME_UPDATED": ListWorkRequestErrorsSortByTimeUpdated,
 }
 
 var mappingListWorkRequestErrorsSortByEnumLowerCase = map[string]ListWorkRequestErrorsSortByEnum{
 	"time_created": ListWorkRequestErrorsSortByTimeCreated,
 	"display_name": ListWorkRequestErrorsSortByDisplayName,
+	"time_updated": ListWorkRequestErrorsSortByTimeUpdated,
 }
 
 // GetListWorkRequestErrorsSortByEnumValues Enumerates the set of values for ListWorkRequestErrorsSortByEnum
@@ -183,6 +186,7 @@ func GetListWorkRequestErrorsSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 

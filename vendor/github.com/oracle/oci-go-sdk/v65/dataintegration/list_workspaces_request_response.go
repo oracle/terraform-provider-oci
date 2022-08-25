@@ -166,16 +166,19 @@ type ListWorkspacesSortByEnum string
 const (
 	ListWorkspacesSortByTimeCreated ListWorkspacesSortByEnum = "TIME_CREATED"
 	ListWorkspacesSortByDisplayName ListWorkspacesSortByEnum = "DISPLAY_NAME"
+	ListWorkspacesSortByTimeUpdated ListWorkspacesSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListWorkspacesSortByEnum = map[string]ListWorkspacesSortByEnum{
 	"TIME_CREATED": ListWorkspacesSortByTimeCreated,
 	"DISPLAY_NAME": ListWorkspacesSortByDisplayName,
+	"TIME_UPDATED": ListWorkspacesSortByTimeUpdated,
 }
 
 var mappingListWorkspacesSortByEnumLowerCase = map[string]ListWorkspacesSortByEnum{
 	"time_created": ListWorkspacesSortByTimeCreated,
 	"display_name": ListWorkspacesSortByDisplayName,
+	"time_updated": ListWorkspacesSortByTimeUpdated,
 }
 
 // GetListWorkspacesSortByEnumValues Enumerates the set of values for ListWorkspacesSortByEnum
@@ -192,6 +195,7 @@ func GetListWorkspacesSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 

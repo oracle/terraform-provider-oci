@@ -175,16 +175,19 @@ type ListDataFlowsSortByEnum string
 const (
 	ListDataFlowsSortByTimeCreated ListDataFlowsSortByEnum = "TIME_CREATED"
 	ListDataFlowsSortByDisplayName ListDataFlowsSortByEnum = "DISPLAY_NAME"
+	ListDataFlowsSortByTimeUpdated ListDataFlowsSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListDataFlowsSortByEnum = map[string]ListDataFlowsSortByEnum{
 	"TIME_CREATED": ListDataFlowsSortByTimeCreated,
 	"DISPLAY_NAME": ListDataFlowsSortByDisplayName,
+	"TIME_UPDATED": ListDataFlowsSortByTimeUpdated,
 }
 
 var mappingListDataFlowsSortByEnumLowerCase = map[string]ListDataFlowsSortByEnum{
 	"time_created": ListDataFlowsSortByTimeCreated,
 	"display_name": ListDataFlowsSortByDisplayName,
+	"time_updated": ListDataFlowsSortByTimeUpdated,
 }
 
 // GetListDataFlowsSortByEnumValues Enumerates the set of values for ListDataFlowsSortByEnum
@@ -201,6 +204,7 @@ func GetListDataFlowsSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 

@@ -64,6 +64,15 @@ type CreateAutonomousVmClusterDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The SCAN Listener TLS port number. Default value is 2484.
+	ScanListenerPortTls *int `mandatory:"false" json:"scanListenerPortTls"`
+
+	// The SCAN Listener Non TLS port number. Default value is 1521.
+	ScanListenerPortNonTls *int `mandatory:"false" json:"scanListenerPortNonTls"`
+
+	// Enable mutual TLS(mTLS) authentication for database at time of provisioning a VMCluster.Default is TLS.
+	IsMtlsEnabled *bool `mandatory:"false" json:"isMtlsEnabled"`
 }
 
 func (m CreateAutonomousVmClusterDetails) String() string {

@@ -181,16 +181,19 @@ type ListDisApplicationTaskRunLineagesSortByEnum string
 const (
 	ListDisApplicationTaskRunLineagesSortByTimeCreated ListDisApplicationTaskRunLineagesSortByEnum = "TIME_CREATED"
 	ListDisApplicationTaskRunLineagesSortByDisplayName ListDisApplicationTaskRunLineagesSortByEnum = "DISPLAY_NAME"
+	ListDisApplicationTaskRunLineagesSortByTimeUpdated ListDisApplicationTaskRunLineagesSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListDisApplicationTaskRunLineagesSortByEnum = map[string]ListDisApplicationTaskRunLineagesSortByEnum{
 	"TIME_CREATED": ListDisApplicationTaskRunLineagesSortByTimeCreated,
 	"DISPLAY_NAME": ListDisApplicationTaskRunLineagesSortByDisplayName,
+	"TIME_UPDATED": ListDisApplicationTaskRunLineagesSortByTimeUpdated,
 }
 
 var mappingListDisApplicationTaskRunLineagesSortByEnumLowerCase = map[string]ListDisApplicationTaskRunLineagesSortByEnum{
 	"time_created": ListDisApplicationTaskRunLineagesSortByTimeCreated,
 	"display_name": ListDisApplicationTaskRunLineagesSortByDisplayName,
+	"time_updated": ListDisApplicationTaskRunLineagesSortByTimeUpdated,
 }
 
 // GetListDisApplicationTaskRunLineagesSortByEnumValues Enumerates the set of values for ListDisApplicationTaskRunLineagesSortByEnum
@@ -207,6 +210,7 @@ func GetListDisApplicationTaskRunLineagesSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 

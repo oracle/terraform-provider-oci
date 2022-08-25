@@ -4,9 +4,10 @@
 
 // Logging Management API
 //
-// Use the Logging Management API to create, read, list, update, and delete
-// log groups, log objects, agent configurations, and log data models.
-// For more information, see Logging Overview (https://docs.cloud.oracle.com/iaas/Content/Logging/Concepts/loggingoverview.htm).
+// Use the Logging Management API to create, read, list, update, move and delete
+// log groups, log objects, log saved searches, agent configurations, log data models,
+// continuous queries, and managed continuous queries.
+// For more information, see https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/loggingoverview.htm.
 //
 
 package logging
@@ -32,6 +33,8 @@ const (
 	OperationTypesUpdateConfiguration   OperationTypesEnum = "UPDATE_CONFIGURATION"
 	OperationTypesDeleteConfiguration   OperationTypesEnum = "DELETE_CONFIGURATION"
 	OperationTypesMoveConfiguration     OperationTypesEnum = "MOVE_CONFIGURATION"
+	OperationTypesCreateLogRule         OperationTypesEnum = "CREATE_LOG_RULE"
+	OperationTypesUpdateLogRule         OperationTypesEnum = "UPDATE_LOG_RULE"
 	OperationTypesCreateContinuousQuery OperationTypesEnum = "CREATE_CONTINUOUS_QUERY"
 	OperationTypesUpdateContinuousQuery OperationTypesEnum = "UPDATE_CONTINUOUS_QUERY"
 	OperationTypesCreateLogDataModel    OperationTypesEnum = "CREATE_LOG_DATA_MODEL"
@@ -53,6 +56,8 @@ var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"UPDATE_CONFIGURATION":    OperationTypesUpdateConfiguration,
 	"DELETE_CONFIGURATION":    OperationTypesDeleteConfiguration,
 	"MOVE_CONFIGURATION":      OperationTypesMoveConfiguration,
+	"CREATE_LOG_RULE":         OperationTypesCreateLogRule,
+	"UPDATE_LOG_RULE":         OperationTypesUpdateLogRule,
 	"CREATE_CONTINUOUS_QUERY": OperationTypesCreateContinuousQuery,
 	"UPDATE_CONTINUOUS_QUERY": OperationTypesUpdateContinuousQuery,
 	"CREATE_LOG_DATA_MODEL":   OperationTypesCreateLogDataModel,
@@ -74,6 +79,8 @@ var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
 	"update_configuration":    OperationTypesUpdateConfiguration,
 	"delete_configuration":    OperationTypesDeleteConfiguration,
 	"move_configuration":      OperationTypesMoveConfiguration,
+	"create_log_rule":         OperationTypesCreateLogRule,
+	"update_log_rule":         OperationTypesUpdateLogRule,
 	"create_continuous_query": OperationTypesCreateContinuousQuery,
 	"update_continuous_query": OperationTypesUpdateContinuousQuery,
 	"create_log_data_model":   OperationTypesCreateLogDataModel,
@@ -106,6 +113,8 @@ func GetOperationTypesEnumStringValues() []string {
 		"UPDATE_CONFIGURATION",
 		"DELETE_CONFIGURATION",
 		"MOVE_CONFIGURATION",
+		"CREATE_LOG_RULE",
+		"UPDATE_LOG_RULE",
 		"CREATE_CONTINUOUS_QUERY",
 		"UPDATE_CONTINUOUS_QUERY",
 		"CREATE_LOG_DATA_MODEL",

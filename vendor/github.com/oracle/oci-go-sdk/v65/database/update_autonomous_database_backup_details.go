@@ -21,9 +21,6 @@ type UpdateAutonomousDatabaseBackupDetails struct {
 
 	// Retention period, in days, for long-term backups
 	RetentionPeriodInDays *int `mandatory:"false" json:"retentionPeriodInDays"`
-
-	// Indicates whether the backup is long-term
-	IsLongTermBackup *bool `mandatory:"false" json:"isLongTermBackup"`
 }
 
 func (m UpdateAutonomousDatabaseBackupDetails) String() string {

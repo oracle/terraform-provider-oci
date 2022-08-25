@@ -181,16 +181,19 @@ type ListRuntimeOperatorsSortByEnum string
 const (
 	ListRuntimeOperatorsSortByTimeCreated ListRuntimeOperatorsSortByEnum = "TIME_CREATED"
 	ListRuntimeOperatorsSortByDisplayName ListRuntimeOperatorsSortByEnum = "DISPLAY_NAME"
+	ListRuntimeOperatorsSortByTimeUpdated ListRuntimeOperatorsSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListRuntimeOperatorsSortByEnum = map[string]ListRuntimeOperatorsSortByEnum{
 	"TIME_CREATED": ListRuntimeOperatorsSortByTimeCreated,
 	"DISPLAY_NAME": ListRuntimeOperatorsSortByDisplayName,
+	"TIME_UPDATED": ListRuntimeOperatorsSortByTimeUpdated,
 }
 
 var mappingListRuntimeOperatorsSortByEnumLowerCase = map[string]ListRuntimeOperatorsSortByEnum{
 	"time_created": ListRuntimeOperatorsSortByTimeCreated,
 	"display_name": ListRuntimeOperatorsSortByDisplayName,
+	"time_updated": ListRuntimeOperatorsSortByTimeUpdated,
 }
 
 // GetListRuntimeOperatorsSortByEnumValues Enumerates the set of values for ListRuntimeOperatorsSortByEnum
@@ -207,6 +210,7 @@ func GetListRuntimeOperatorsSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 

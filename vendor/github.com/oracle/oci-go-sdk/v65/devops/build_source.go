@@ -65,6 +65,10 @@ func (m *buildsource) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 
 	var err error
 	switch m.ConnectionType {
+	case "VBS":
+		mm := VbsBuildSource{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "BITBUCKET_SERVER":
 		mm := BitbucketServerBuildSource{}
 		err = json.Unmarshal(data, &mm)
@@ -137,6 +141,7 @@ const (
 	BuildSourceConnectionTypeBitbucketCloud       BuildSourceConnectionTypeEnum = "BITBUCKET_CLOUD"
 	BuildSourceConnectionTypeBitbucketServer      BuildSourceConnectionTypeEnum = "BITBUCKET_SERVER"
 	BuildSourceConnectionTypeDevopsCodeRepository BuildSourceConnectionTypeEnum = "DEVOPS_CODE_REPOSITORY"
+	BuildSourceConnectionTypeVbs                  BuildSourceConnectionTypeEnum = "VBS"
 )
 
 var mappingBuildSourceConnectionTypeEnum = map[string]BuildSourceConnectionTypeEnum{
@@ -146,6 +151,7 @@ var mappingBuildSourceConnectionTypeEnum = map[string]BuildSourceConnectionTypeE
 	"BITBUCKET_CLOUD":        BuildSourceConnectionTypeBitbucketCloud,
 	"BITBUCKET_SERVER":       BuildSourceConnectionTypeBitbucketServer,
 	"DEVOPS_CODE_REPOSITORY": BuildSourceConnectionTypeDevopsCodeRepository,
+	"VBS":                    BuildSourceConnectionTypeVbs,
 }
 
 var mappingBuildSourceConnectionTypeEnumLowerCase = map[string]BuildSourceConnectionTypeEnum{
@@ -155,6 +161,7 @@ var mappingBuildSourceConnectionTypeEnumLowerCase = map[string]BuildSourceConnec
 	"bitbucket_cloud":        BuildSourceConnectionTypeBitbucketCloud,
 	"bitbucket_server":       BuildSourceConnectionTypeBitbucketServer,
 	"devops_code_repository": BuildSourceConnectionTypeDevopsCodeRepository,
+	"vbs":                    BuildSourceConnectionTypeVbs,
 }
 
 // GetBuildSourceConnectionTypeEnumValues Enumerates the set of values for BuildSourceConnectionTypeEnum
@@ -175,6 +182,7 @@ func GetBuildSourceConnectionTypeEnumStringValues() []string {
 		"BITBUCKET_CLOUD",
 		"BITBUCKET_SERVER",
 		"DEVOPS_CODE_REPOSITORY",
+		"VBS",
 	}
 }
 

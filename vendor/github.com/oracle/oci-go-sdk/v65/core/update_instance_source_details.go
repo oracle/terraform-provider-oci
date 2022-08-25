@@ -25,11 +25,15 @@ type UpdateInstanceSourceDetails interface {
 
 	// Whether to preserve the boot volume that was previously attached to the instance after a successful replacement of that boot volume.
 	GetIsPreserveBootVolumeEnabled() *bool
+
+	// Whether to stop an instance gracefully or forcefully, during the Boot Volume replacement.
+	GetIsForceStopEnabled() *bool
 }
 
 type updateinstancesourcedetails struct {
 	JsonData                    []byte
 	IsPreserveBootVolumeEnabled *bool  `mandatory:"false" json:"isPreserveBootVolumeEnabled"`
+	IsForceStopEnabled          *bool  `mandatory:"false" json:"isForceStopEnabled"`
 	SourceType                  string `json:"sourceType"`
 }
 
@@ -45,6 +49,7 @@ func (m *updateinstancesourcedetails) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	m.IsPreserveBootVolumeEnabled = s.Model.IsPreserveBootVolumeEnabled
+	m.IsForceStopEnabled = s.Model.IsForceStopEnabled
 	m.SourceType = s.Model.SourceType
 
 	return err
@@ -76,6 +81,11 @@ func (m *updateinstancesourcedetails) UnmarshalPolymorphicJSON(data []byte) (int
 //GetIsPreserveBootVolumeEnabled returns IsPreserveBootVolumeEnabled
 func (m updateinstancesourcedetails) GetIsPreserveBootVolumeEnabled() *bool {
 	return m.IsPreserveBootVolumeEnabled
+}
+
+//GetIsForceStopEnabled returns IsForceStopEnabled
+func (m updateinstancesourcedetails) GetIsForceStopEnabled() *bool {
+	return m.IsForceStopEnabled
 }
 
 func (m updateinstancesourcedetails) String() string {

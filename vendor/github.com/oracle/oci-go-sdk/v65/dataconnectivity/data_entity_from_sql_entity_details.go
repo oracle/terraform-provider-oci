@@ -185,27 +185,30 @@ type DataEntityFromSqlEntityDetailsEntityTypeEnum string
 
 // Set of constants representing the allowable values for DataEntityFromSqlEntityDetailsEntityTypeEnum
 const (
-	DataEntityFromSqlEntityDetailsEntityTypeTable   DataEntityFromSqlEntityDetailsEntityTypeEnum = "TABLE"
-	DataEntityFromSqlEntityDetailsEntityTypeView    DataEntityFromSqlEntityDetailsEntityTypeEnum = "VIEW"
-	DataEntityFromSqlEntityDetailsEntityTypeFile    DataEntityFromSqlEntityDetailsEntityTypeEnum = "FILE"
-	DataEntityFromSqlEntityDetailsEntityTypeSql     DataEntityFromSqlEntityDetailsEntityTypeEnum = "SQL"
-	DataEntityFromSqlEntityDetailsEntityTypeMessage DataEntityFromSqlEntityDetailsEntityTypeEnum = "MESSAGE"
+	DataEntityFromSqlEntityDetailsEntityTypeTable     DataEntityFromSqlEntityDetailsEntityTypeEnum = "TABLE"
+	DataEntityFromSqlEntityDetailsEntityTypeView      DataEntityFromSqlEntityDetailsEntityTypeEnum = "VIEW"
+	DataEntityFromSqlEntityDetailsEntityTypeFile      DataEntityFromSqlEntityDetailsEntityTypeEnum = "FILE"
+	DataEntityFromSqlEntityDetailsEntityTypeSql       DataEntityFromSqlEntityDetailsEntityTypeEnum = "SQL"
+	DataEntityFromSqlEntityDetailsEntityTypeDataStore DataEntityFromSqlEntityDetailsEntityTypeEnum = "DATA_STORE"
+	DataEntityFromSqlEntityDetailsEntityTypeMessage   DataEntityFromSqlEntityDetailsEntityTypeEnum = "MESSAGE"
 )
 
 var mappingDataEntityFromSqlEntityDetailsEntityTypeEnum = map[string]DataEntityFromSqlEntityDetailsEntityTypeEnum{
-	"TABLE":   DataEntityFromSqlEntityDetailsEntityTypeTable,
-	"VIEW":    DataEntityFromSqlEntityDetailsEntityTypeView,
-	"FILE":    DataEntityFromSqlEntityDetailsEntityTypeFile,
-	"SQL":     DataEntityFromSqlEntityDetailsEntityTypeSql,
-	"MESSAGE": DataEntityFromSqlEntityDetailsEntityTypeMessage,
+	"TABLE":      DataEntityFromSqlEntityDetailsEntityTypeTable,
+	"VIEW":       DataEntityFromSqlEntityDetailsEntityTypeView,
+	"FILE":       DataEntityFromSqlEntityDetailsEntityTypeFile,
+	"SQL":        DataEntityFromSqlEntityDetailsEntityTypeSql,
+	"DATA_STORE": DataEntityFromSqlEntityDetailsEntityTypeDataStore,
+	"MESSAGE":    DataEntityFromSqlEntityDetailsEntityTypeMessage,
 }
 
 var mappingDataEntityFromSqlEntityDetailsEntityTypeEnumLowerCase = map[string]DataEntityFromSqlEntityDetailsEntityTypeEnum{
-	"table":   DataEntityFromSqlEntityDetailsEntityTypeTable,
-	"view":    DataEntityFromSqlEntityDetailsEntityTypeView,
-	"file":    DataEntityFromSqlEntityDetailsEntityTypeFile,
-	"sql":     DataEntityFromSqlEntityDetailsEntityTypeSql,
-	"message": DataEntityFromSqlEntityDetailsEntityTypeMessage,
+	"table":      DataEntityFromSqlEntityDetailsEntityTypeTable,
+	"view":       DataEntityFromSqlEntityDetailsEntityTypeView,
+	"file":       DataEntityFromSqlEntityDetailsEntityTypeFile,
+	"sql":        DataEntityFromSqlEntityDetailsEntityTypeSql,
+	"data_store": DataEntityFromSqlEntityDetailsEntityTypeDataStore,
+	"message":    DataEntityFromSqlEntityDetailsEntityTypeMessage,
 }
 
 // GetDataEntityFromSqlEntityDetailsEntityTypeEnumValues Enumerates the set of values for DataEntityFromSqlEntityDetailsEntityTypeEnum
@@ -224,6 +227,7 @@ func GetDataEntityFromSqlEntityDetailsEntityTypeEnumStringValues() []string {
 		"VIEW",
 		"FILE",
 		"SQL",
+		"DATA_STORE",
 		"MESSAGE",
 	}
 }

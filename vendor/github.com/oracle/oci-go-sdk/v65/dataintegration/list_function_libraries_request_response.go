@@ -175,16 +175,19 @@ type ListFunctionLibrariesSortByEnum string
 const (
 	ListFunctionLibrariesSortByTimeCreated ListFunctionLibrariesSortByEnum = "TIME_CREATED"
 	ListFunctionLibrariesSortByDisplayName ListFunctionLibrariesSortByEnum = "DISPLAY_NAME"
+	ListFunctionLibrariesSortByTimeUpdated ListFunctionLibrariesSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListFunctionLibrariesSortByEnum = map[string]ListFunctionLibrariesSortByEnum{
 	"TIME_CREATED": ListFunctionLibrariesSortByTimeCreated,
 	"DISPLAY_NAME": ListFunctionLibrariesSortByDisplayName,
+	"TIME_UPDATED": ListFunctionLibrariesSortByTimeUpdated,
 }
 
 var mappingListFunctionLibrariesSortByEnumLowerCase = map[string]ListFunctionLibrariesSortByEnum{
 	"time_created": ListFunctionLibrariesSortByTimeCreated,
 	"display_name": ListFunctionLibrariesSortByDisplayName,
+	"time_updated": ListFunctionLibrariesSortByTimeUpdated,
 }
 
 // GetListFunctionLibrariesSortByEnumValues Enumerates the set of values for ListFunctionLibrariesSortByEnum
@@ -201,6 +204,7 @@ func GetListFunctionLibrariesSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 

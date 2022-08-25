@@ -19,10 +19,10 @@ import (
 	"strings"
 )
 
-// BootVolumeKmsKey The Key Management master encryption key associated with this volume.
+// BootVolumeKmsKey The Vault service master encryption key associated with this volume.
 type BootVolumeKmsKey struct {
 
-	// The OCID of the Key Management key assigned to this volume. If the volume is not using Key Management, then the `kmsKeyId` will be a null string.
+	// The OCID of the Vault service key assigned to this volume. If the volume is not using Vault service, then the `kmsKeyId` will be a null string.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 }
 

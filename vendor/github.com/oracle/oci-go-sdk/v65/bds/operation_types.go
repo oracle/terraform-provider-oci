@@ -51,6 +51,8 @@ const (
 	OperationTypesTestLakehouseConfig       OperationTypesEnum = "TEST_LAKEHOUSE_CONFIG"
 	OperationTypesPatchBds                  OperationTypesEnum = "PATCH_BDS"
 	OperationTypesPatchOdh                  OperationTypesEnum = "PATCH_ODH"
+	OperationTypesStopBds                   OperationTypesEnum = "STOP_BDS"
+	OperationTypesStartBds                  OperationTypesEnum = "START_BDS"
 )
 
 var mappingOperationTypesEnum = map[string]OperationTypesEnum{
@@ -87,6 +89,8 @@ var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"TEST_LAKEHOUSE_CONFIG":        OperationTypesTestLakehouseConfig,
 	"PATCH_BDS":                    OperationTypesPatchBds,
 	"PATCH_ODH":                    OperationTypesPatchOdh,
+	"STOP_BDS":                     OperationTypesStopBds,
+	"START_BDS":                    OperationTypesStartBds,
 }
 
 var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
@@ -123,6 +127,8 @@ var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
 	"test_lakehouse_config":        OperationTypesTestLakehouseConfig,
 	"patch_bds":                    OperationTypesPatchBds,
 	"patch_odh":                    OperationTypesPatchOdh,
+	"stop_bds":                     OperationTypesStopBds,
+	"start_bds":                    OperationTypesStartBds,
 }
 
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum
@@ -170,6 +176,8 @@ func GetOperationTypesEnumStringValues() []string {
 		"TEST_LAKEHOUSE_CONFIG",
 		"PATCH_BDS",
 		"PATCH_ODH",
+		"STOP_BDS",
+		"START_BDS",
 	}
 }
 

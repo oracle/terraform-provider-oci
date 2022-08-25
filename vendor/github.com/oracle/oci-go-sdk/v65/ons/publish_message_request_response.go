@@ -25,7 +25,7 @@ type PublishMessageRequest struct {
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// **Deprecated.**
-	// Support for JSON is deprecated.
+	// This attribute is deprecated, as is support for JSON.
 	// You can send a JSON payload even when transmitting the payload as a raw string.
 	// Configure your receiving system to read the raw payload as JSON format.
 	// Type of message body in the request.

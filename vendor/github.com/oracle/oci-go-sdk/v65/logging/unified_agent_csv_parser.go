@@ -4,9 +4,10 @@
 
 // Logging Management API
 //
-// Use the Logging Management API to create, read, list, update, and delete
-// log groups, log objects, agent configurations, and log data models.
-// For more information, see Logging Overview (https://docs.cloud.oracle.com/iaas/Content/Logging/Concepts/loggingoverview.htm).
+// Use the Logging Management API to create, read, list, update, move and delete
+// log groups, log objects, log saved searches, agent configurations, log data models,
+// continuous queries, and managed continuous queries.
+// For more information, see https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/loggingoverview.htm.
 //
 
 package logging
@@ -20,11 +21,29 @@ import (
 
 // UnifiedAgentCsvParser CSV Parser.
 type UnifiedAgentCsvParser struct {
+	Keys []string `mandatory:"true" json:"keys"`
 
 	// Specify time field for the event time. If the event doesn't have this field, the current time is used.
 	FieldTimeKey *string `mandatory:"false" json:"fieldTimeKey"`
 
 	// Specify types for converting a field into another type.
+	// For example,
+	//   With this configuration:
+	//       <parse>
+	//         @type csv
+	//         keys time,host,req_id,user
+	//         time_key time
+	//       </parse>
+	//   This incoming event:
+	//     "2013/02/28 12:00:00,192.168.0.1,111,-"
+	//   is parsed as:
+	//     1362020400 (2013/02/28/ 12:00:00)
+	//     record:
+	//     {
+	//       "host"   : "192.168.0.1",
+	//       "req_id" : "111",
+	//       "user"   : "-"
+	//     }
 	Types map[string]string `mandatory:"false" json:"types"`
 
 	// Specify the null value pattern.
@@ -43,8 +62,6 @@ type UnifiedAgentCsvParser struct {
 	TimeoutInMilliseconds *int `mandatory:"false" json:"timeoutInMilliseconds"`
 
 	Delimiter *string `mandatory:"false" json:"delimiter"`
-
-	Keys []string `mandatory:"false" json:"keys"`
 }
 
 //GetFieldTimeKey returns FieldTimeKey

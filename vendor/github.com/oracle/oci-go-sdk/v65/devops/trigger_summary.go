@@ -134,6 +134,10 @@ func (m *triggersummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		mm := BitbucketServerTriggerSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "VBS":
+		mm := VbsTriggerSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for TriggerSummary: %s.", m.TriggerSource)
 		return *m, nil

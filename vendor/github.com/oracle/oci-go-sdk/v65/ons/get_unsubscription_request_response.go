@@ -30,7 +30,7 @@ type GetUnsubscriptionRequest struct {
 	//   * `SLACK`
 	//   * `SMS`
 	// For information about subscription protocols, see
-	// To create a subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/managingtopicsandsubscriptions.htm#createSub).
+	// To create a subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm#concepts__subscriptionprotocols).
 	Protocol *string `mandatory:"true" contributesTo:"query" name:"protocol"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

@@ -1104,6 +1104,60 @@ func (client NetworkLoadBalancerClient) getListener(ctx context.Context, request
 	return response, err
 }
 
+// GetLiveMigration List history of live migration operation and its status for a particular nlb.
+// A default retry strategy applies to this operation GetLiveMigration()
+func (client NetworkLoadBalancerClient) GetLiveMigration(ctx context.Context, request GetLiveMigrationRequest) (response GetLiveMigrationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getLiveMigration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetLiveMigrationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetLiveMigrationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetLiveMigrationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetLiveMigrationResponse")
+	}
+	return
+}
+
+// getLiveMigration implements the OCIOperation interface (enables retrying operations)
+func (client NetworkLoadBalancerClient) getLiveMigration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/{networkLoadBalancerId}/actions/liveMigrations/{liveMigrationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetLiveMigrationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/LiveMigration/GetLiveMigration"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "GetLiveMigration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetNetworkLoadBalancer Retrieves network load balancer configuration information by identifier.
 // A default retry strategy applies to this operation GetNetworkLoadBalancer()
 func (client NetworkLoadBalancerClient) GetNetworkLoadBalancer(ctx context.Context, request GetNetworkLoadBalancerRequest) (response GetNetworkLoadBalancerResponse, err error) {
@@ -1421,6 +1475,60 @@ func (client NetworkLoadBalancerClient) listListeners(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/ListenerSummary/ListListeners"
 		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "ListListeners", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListLiveMigrations List history of live migration operation and its status for a particular nlb.
+// A default retry strategy applies to this operation ListLiveMigrations()
+func (client NetworkLoadBalancerClient) ListLiveMigrations(ctx context.Context, request ListLiveMigrationsRequest) (response ListLiveMigrationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listLiveMigrations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListLiveMigrationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListLiveMigrationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListLiveMigrationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListLiveMigrationsResponse")
+	}
+	return
+}
+
+// listLiveMigrations implements the OCIOperation interface (enables retrying operations)
+func (client NetworkLoadBalancerClient) listLiveMigrations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/{networkLoadBalancerId}/actions/liveMigrations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListLiveMigrationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/LiveMigrationSummary/ListLiveMigrations"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "ListLiveMigrations", apiReferenceLink)
 		return response, err
 	}
 
@@ -1800,6 +1908,65 @@ func (client NetworkLoadBalancerClient) listWorkRequests(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "ListWorkRequests", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// LiveMigration Perform the live migration operation by interacting with multiple nlb and vnic interfaces.
+// A default retry strategy applies to this operation LiveMigration()
+func (client NetworkLoadBalancerClient) LiveMigration(ctx context.Context, request LiveMigrationRequest) (response LiveMigrationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.liveMigration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = LiveMigrationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = LiveMigrationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(LiveMigrationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into LiveMigrationResponse")
+	}
+	return
+}
+
+// liveMigration implements the OCIOperation interface (enables retrying operations)
+func (client NetworkLoadBalancerClient) liveMigration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/networkLoadBalancers/{networkLoadBalancerId}/actions/liveMigrations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response LiveMigrationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/NetworkLoadBalancer/LiveMigration"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "LiveMigration", apiReferenceLink)
 		return response, err
 	}
 

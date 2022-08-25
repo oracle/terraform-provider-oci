@@ -43,6 +43,9 @@ type DbBackupConfig struct {
 
 	// Backup destination details.
 	BackupDestinationDetails []BackupDestinationDetails `mandatory:"false" json:"backupDestinationDetails"`
+
+	// This defines when the backups will be deleted. - IMMEDIATE option keep the backup for predefined time i.e 72 hours and then delete permanently... - RETAIN will keep the backups as per the policy defined for database backups.
+	BackupDeletionPolicy DbBackupConfigBackupDeletionPolicyEnum `mandatory:"false" json:"backupDeletionPolicy,omitempty"`
 }
 
 func (m DbBackupConfig) String() string {
@@ -57,6 +60,9 @@ func (m DbBackupConfig) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingDbBackupConfigAutoBackupWindowEnum(string(m.AutoBackupWindow)); !ok && m.AutoBackupWindow != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutoBackupWindow: %s. Supported values are: %s.", m.AutoBackupWindow, strings.Join(GetDbBackupConfigAutoBackupWindowEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDbBackupConfigBackupDeletionPolicyEnum(string(m.BackupDeletionPolicy)); !ok && m.BackupDeletionPolicy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackupDeletionPolicy: %s. Supported values are: %s.", m.BackupDeletionPolicy, strings.Join(GetDbBackupConfigBackupDeletionPolicyEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -143,5 +149,47 @@ func GetDbBackupConfigAutoBackupWindowEnumStringValues() []string {
 // GetMappingDbBackupConfigAutoBackupWindowEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDbBackupConfigAutoBackupWindowEnum(val string) (DbBackupConfigAutoBackupWindowEnum, bool) {
 	enum, ok := mappingDbBackupConfigAutoBackupWindowEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DbBackupConfigBackupDeletionPolicyEnum Enum with underlying type: string
+type DbBackupConfigBackupDeletionPolicyEnum string
+
+// Set of constants representing the allowable values for DbBackupConfigBackupDeletionPolicyEnum
+const (
+	DbBackupConfigBackupDeletionPolicyImmediately          DbBackupConfigBackupDeletionPolicyEnum = "DELETE_IMMEDIATELY"
+	DbBackupConfigBackupDeletionPolicyAfterRetentionPeriod DbBackupConfigBackupDeletionPolicyEnum = "DELETE_AFTER_RETENTION_PERIOD"
+)
+
+var mappingDbBackupConfigBackupDeletionPolicyEnum = map[string]DbBackupConfigBackupDeletionPolicyEnum{
+	"DELETE_IMMEDIATELY":            DbBackupConfigBackupDeletionPolicyImmediately,
+	"DELETE_AFTER_RETENTION_PERIOD": DbBackupConfigBackupDeletionPolicyAfterRetentionPeriod,
+}
+
+var mappingDbBackupConfigBackupDeletionPolicyEnumLowerCase = map[string]DbBackupConfigBackupDeletionPolicyEnum{
+	"delete_immediately":            DbBackupConfigBackupDeletionPolicyImmediately,
+	"delete_after_retention_period": DbBackupConfigBackupDeletionPolicyAfterRetentionPeriod,
+}
+
+// GetDbBackupConfigBackupDeletionPolicyEnumValues Enumerates the set of values for DbBackupConfigBackupDeletionPolicyEnum
+func GetDbBackupConfigBackupDeletionPolicyEnumValues() []DbBackupConfigBackupDeletionPolicyEnum {
+	values := make([]DbBackupConfigBackupDeletionPolicyEnum, 0)
+	for _, v := range mappingDbBackupConfigBackupDeletionPolicyEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDbBackupConfigBackupDeletionPolicyEnumStringValues Enumerates the set of values in String for DbBackupConfigBackupDeletionPolicyEnum
+func GetDbBackupConfigBackupDeletionPolicyEnumStringValues() []string {
+	return []string{
+		"DELETE_IMMEDIATELY",
+		"DELETE_AFTER_RETENTION_PERIOD",
+	}
+}
+
+// GetMappingDbBackupConfigBackupDeletionPolicyEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDbBackupConfigBackupDeletionPolicyEnum(val string) (DbBackupConfigBackupDeletionPolicyEnum, bool) {
+	enum, ok := mappingDbBackupConfigBackupDeletionPolicyEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

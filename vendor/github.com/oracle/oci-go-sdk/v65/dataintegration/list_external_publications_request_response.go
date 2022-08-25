@@ -172,16 +172,19 @@ type ListExternalPublicationsSortByEnum string
 const (
 	ListExternalPublicationsSortByTimeCreated ListExternalPublicationsSortByEnum = "TIME_CREATED"
 	ListExternalPublicationsSortByDisplayName ListExternalPublicationsSortByEnum = "DISPLAY_NAME"
+	ListExternalPublicationsSortByTimeUpdated ListExternalPublicationsSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListExternalPublicationsSortByEnum = map[string]ListExternalPublicationsSortByEnum{
 	"TIME_CREATED": ListExternalPublicationsSortByTimeCreated,
 	"DISPLAY_NAME": ListExternalPublicationsSortByDisplayName,
+	"TIME_UPDATED": ListExternalPublicationsSortByTimeUpdated,
 }
 
 var mappingListExternalPublicationsSortByEnumLowerCase = map[string]ListExternalPublicationsSortByEnum{
 	"time_created": ListExternalPublicationsSortByTimeCreated,
 	"display_name": ListExternalPublicationsSortByDisplayName,
+	"time_updated": ListExternalPublicationsSortByTimeUpdated,
 }
 
 // GetListExternalPublicationsSortByEnumValues Enumerates the set of values for ListExternalPublicationsSortByEnum
@@ -198,6 +201,7 @@ func GetListExternalPublicationsSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 

@@ -261,64 +261,6 @@ func (client DataIntegrationClient) createApplication(ctx context.Context, reque
 	return response, err
 }
 
-// CreateApplicationDetailedDescription Creates detailed description for an application.
-func (client DataIntegrationClient) CreateApplicationDetailedDescription(ctx context.Context, request CreateApplicationDetailedDescriptionRequest) (response CreateApplicationDetailedDescriptionResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createApplicationDetailedDescription, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateApplicationDetailedDescriptionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateApplicationDetailedDescriptionResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateApplicationDetailedDescriptionResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateApplicationDetailedDescriptionResponse")
-	}
-	return
-}
-
-// createApplicationDetailedDescription implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) createApplicationDetailedDescription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/applications/{applicationKey}/detailedDescription", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateApplicationDetailedDescriptionResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DetailedDescription/CreateApplicationDetailedDescription"
-		err = common.PostProcessServiceError(err, "DataIntegration", "CreateApplicationDetailedDescription", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // CreateConnection Creates a connection under an existing data asset.
 func (client DataIntegrationClient) CreateConnection(ctx context.Context, request CreateConnectionRequest) (response CreateConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -660,64 +602,6 @@ func (client DataIntegrationClient) createDisApplication(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DisApplication/CreateDisApplication"
 		err = common.PostProcessServiceError(err, "DataIntegration", "CreateDisApplication", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// CreateDisApplicationDetailedDescription Creates detailed description for an application.
-func (client DataIntegrationClient) CreateDisApplicationDetailedDescription(ctx context.Context, request CreateDisApplicationDetailedDescriptionRequest) (response CreateDisApplicationDetailedDescriptionResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createDisApplicationDetailedDescription, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateDisApplicationDetailedDescriptionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateDisApplicationDetailedDescriptionResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateDisApplicationDetailedDescriptionResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateDisApplicationDetailedDescriptionResponse")
-	}
-	return
-}
-
-// createDisApplicationDetailedDescription implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) createDisApplicationDetailedDescription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/disApplications/{applicationKey}/detailedDescription", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateDisApplicationDetailedDescriptionResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DetailedDescription/CreateDisApplicationDetailedDescription"
-		err = common.PostProcessServiceError(err, "DataIntegration", "CreateDisApplicationDetailedDescription", apiReferenceLink)
 		return response, err
 	}
 
@@ -1766,59 +1650,6 @@ func (client DataIntegrationClient) deleteApplication(ctx context.Context, reque
 	return response, err
 }
 
-// DeleteApplicationDetailedDescription Deletes detailed description of an Application.
-func (client DataIntegrationClient) DeleteApplicationDetailedDescription(ctx context.Context, request DeleteApplicationDetailedDescriptionRequest) (response DeleteApplicationDetailedDescriptionResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deleteApplicationDetailedDescription, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteApplicationDetailedDescriptionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteApplicationDetailedDescriptionResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteApplicationDetailedDescriptionResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteApplicationDetailedDescriptionResponse")
-	}
-	return
-}
-
-// deleteApplicationDetailedDescription implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) deleteApplicationDetailedDescription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/applications/{applicationKey}/detailedDescription", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteApplicationDetailedDescriptionResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DetailedDescription/DeleteApplicationDetailedDescription"
-		err = common.PostProcessServiceError(err, "DataIntegration", "DeleteApplicationDetailedDescription", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // DeleteConnection Removes a connection using the specified identifier.
 func (client DataIntegrationClient) DeleteConnection(ctx context.Context, request DeleteConnectionRequest) (response DeleteConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2130,59 +1961,6 @@ func (client DataIntegrationClient) deleteDisApplication(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DisApplication/DeleteDisApplication"
 		err = common.PostProcessServiceError(err, "DataIntegration", "DeleteDisApplication", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// DeleteDisApplicationDetailedDescription Deletes detailed description of an Application.
-func (client DataIntegrationClient) DeleteDisApplicationDetailedDescription(ctx context.Context, request DeleteDisApplicationDetailedDescriptionRequest) (response DeleteDisApplicationDetailedDescriptionResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deleteDisApplicationDetailedDescription, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteDisApplicationDetailedDescriptionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteDisApplicationDetailedDescriptionResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteDisApplicationDetailedDescriptionResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteDisApplicationDetailedDescriptionResponse")
-	}
-	return
-}
-
-// deleteDisApplicationDetailedDescription implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) deleteDisApplicationDetailedDescription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/disApplications/{applicationKey}/detailedDescription", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteDisApplicationDetailedDescriptionResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DetailedDescription/DeleteDisApplicationDetailedDescription"
-		err = common.PostProcessServiceError(err, "DataIntegration", "DeleteDisApplicationDetailedDescription", apiReferenceLink)
 		return response, err
 	}
 
@@ -3091,59 +2869,6 @@ func (client DataIntegrationClient) getApplication(ctx context.Context, request 
 	return response, err
 }
 
-// GetApplicationDetailedDescription Retrieves detailed description of an Application
-func (client DataIntegrationClient) GetApplicationDetailedDescription(ctx context.Context, request GetApplicationDetailedDescriptionRequest) (response GetApplicationDetailedDescriptionResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getApplicationDetailedDescription, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetApplicationDetailedDescriptionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetApplicationDetailedDescriptionResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetApplicationDetailedDescriptionResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetApplicationDetailedDescriptionResponse")
-	}
-	return
-}
-
-// getApplicationDetailedDescription implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) getApplicationDetailedDescription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/detailedDescription", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetApplicationDetailedDescriptionResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DetailedDescription/GetApplicationDetailedDescription"
-		err = common.PostProcessServiceError(err, "DataIntegration", "GetApplicationDetailedDescription", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetConnection Retrieves the connection details using the specified identifier.
 func (client DataIntegrationClient) GetConnection(ctx context.Context, request GetConnectionRequest) (response GetConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3615,59 +3340,6 @@ func (client DataIntegrationClient) getDisApplication(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DisApplication/GetDisApplication"
 		err = common.PostProcessServiceError(err, "DataIntegration", "GetDisApplication", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetDisApplicationDetailedDescription Retrieves detailed description of an Application.
-func (client DataIntegrationClient) GetDisApplicationDetailedDescription(ctx context.Context, request GetDisApplicationDetailedDescriptionRequest) (response GetDisApplicationDetailedDescriptionResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getDisApplicationDetailedDescription, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetDisApplicationDetailedDescriptionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetDisApplicationDetailedDescriptionResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetDisApplicationDetailedDescriptionResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetDisApplicationDetailedDescriptionResponse")
-	}
-	return
-}
-
-// getDisApplicationDetailedDescription implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) getDisApplicationDetailedDescription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/disApplications/{applicationKey}/detailedDescription", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetDisApplicationDetailedDescriptionResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DetailedDescription/GetDisApplicationDetailedDescription"
-		err = common.PostProcessServiceError(err, "DataIntegration", "GetDisApplicationDetailedDescription", apiReferenceLink)
 		return response, err
 	}
 
@@ -4622,59 +4294,6 @@ func (client DataIntegrationClient) getTaskValidation(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/TaskValidation/GetTaskValidation"
 		err = common.PostProcessServiceError(err, "DataIntegration", "GetTaskValidation", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetTemplate This endpoint can be used to get an application template using a key.
-func (client DataIntegrationClient) GetTemplate(ctx context.Context, request GetTemplateRequest) (response GetTemplateResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getTemplate, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetTemplateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetTemplateResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetTemplateResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetTemplateResponse")
-	}
-	return
-}
-
-// getTemplate implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) getTemplate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/templates/{templateId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetTemplateResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Template/GetTemplate"
-		err = common.PostProcessServiceError(err, "DataIntegration", "GetTemplate", apiReferenceLink)
 		return response, err
 	}
 
@@ -6537,59 +6156,6 @@ func (client DataIntegrationClient) listTasks(ctx context.Context, request commo
 	return response, err
 }
 
-// ListTemplates This endpoint can be used to list application templates with filtering options.
-func (client DataIntegrationClient) ListTemplates(ctx context.Context, request ListTemplatesRequest) (response ListTemplatesResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listTemplates, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListTemplatesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListTemplatesResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListTemplatesResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListTemplatesResponse")
-	}
-	return
-}
-
-// listTemplates implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listTemplates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/templates", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListTemplatesResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Template/ListTemplates"
-		err = common.PostProcessServiceError(err, "DataIntegration", "ListTemplates", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListUserDefinedFunctionValidations Retrieves a list of UserDefinedFunctionvalidations within the specified workspace.
 func (client DataIntegrationClient) ListUserDefinedFunctionValidations(ctx context.Context, request ListUserDefinedFunctionValidationsRequest) (response ListUserDefinedFunctionValidationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7077,59 +6643,6 @@ func (client DataIntegrationClient) updateApplication(ctx context.Context, reque
 	return response, err
 }
 
-// UpdateApplicationDetailedDescription Updates the detailed description of an Application.
-func (client DataIntegrationClient) UpdateApplicationDetailedDescription(ctx context.Context, request UpdateApplicationDetailedDescriptionRequest) (response UpdateApplicationDetailedDescriptionResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updateApplicationDetailedDescription, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateApplicationDetailedDescriptionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateApplicationDetailedDescriptionResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateApplicationDetailedDescriptionResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateApplicationDetailedDescriptionResponse")
-	}
-	return
-}
-
-// updateApplicationDetailedDescription implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) updateApplicationDetailedDescription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/workspaces/{workspaceId}/applications/{applicationKey}/detailedDescription", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateApplicationDetailedDescriptionResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DetailedDescription/UpdateApplicationDetailedDescription"
-		err = common.PostProcessServiceError(err, "DataIntegration", "UpdateApplicationDetailedDescription", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // UpdateConnection Updates a connection under a data asset.
 func (client DataIntegrationClient) UpdateConnection(ctx context.Context, request UpdateConnectionRequest) (response UpdateConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7335,59 +6848,6 @@ func (client DataIntegrationClient) updateDisApplication(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DisApplication/UpdateDisApplication"
 		err = common.PostProcessServiceError(err, "DataIntegration", "UpdateDisApplication", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UpdateDisApplicationDetailedDescription Updates the detailed description of an Application.
-func (client DataIntegrationClient) UpdateDisApplicationDetailedDescription(ctx context.Context, request UpdateDisApplicationDetailedDescriptionRequest) (response UpdateDisApplicationDetailedDescriptionResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updateDisApplicationDetailedDescription, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateDisApplicationDetailedDescriptionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateDisApplicationDetailedDescriptionResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateDisApplicationDetailedDescriptionResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateDisApplicationDetailedDescriptionResponse")
-	}
-	return
-}
-
-// updateDisApplicationDetailedDescription implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) updateDisApplicationDetailedDescription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/workspaces/{workspaceId}/disApplications/{applicationKey}/detailedDescription", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateDisApplicationDetailedDescriptionResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DetailedDescription/UpdateDisApplicationDetailedDescription"
-		err = common.PostProcessServiceError(err, "DataIntegration", "UpdateDisApplicationDetailedDescription", apiReferenceLink)
 		return response, err
 	}
 

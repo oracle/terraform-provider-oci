@@ -64,7 +64,7 @@ func newNotificationDataPlaneClientFromBaseClient(baseClient common.BaseClient, 
 
 // SetRegion overrides the region of this client.
 func (client *NotificationDataPlaneClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("notification", "https://notification.{region}.{secondLevelDomain}")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("notification", "https://notification.{region}.oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -91,6 +91,9 @@ func (client *NotificationDataPlaneClient) ConfigurationProvider() *common.Confi
 // ChangeSubscriptionCompartment Moves a subscription into a different compartment within the same tenancy. For information about moving
 // resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// The topic API endpoint is required for this operation.
+// To get the topic API endpoint, use GetTopic
+// and review the `apiEndpoint` value in the response (NotificationTopic).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 func (client NotificationDataPlaneClient) ChangeSubscriptionCompartment(ctx context.Context, request ChangeSubscriptionCompartmentRequest) (response ChangeSubscriptionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -152,6 +155,9 @@ func (client NotificationDataPlaneClient) changeSubscriptionCompartment(ctx cont
 // CreateSubscription Creates a subscription for the specified topic and sends a subscription confirmation URL to the endpoint. The subscription remains in "Pending" status until it has been confirmed.
 // For information about confirming subscriptions, see
 // To confirm a subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/managingtopicsandsubscriptions.htm#confirmSub).
+// The topic API endpoint is required for this operation.
+// To get the topic API endpoint, use GetTopic
+// and review the `apiEndpoint` value in the response (NotificationTopic).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 func (client NotificationDataPlaneClient) CreateSubscription(ctx context.Context, request CreateSubscriptionRequest) (response CreateSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -211,6 +217,9 @@ func (client NotificationDataPlaneClient) createSubscription(ctx context.Context
 }
 
 // DeleteSubscription Deletes the specified subscription.
+// The topic API endpoint is required for this operation.
+// To get the topic API endpoint, use GetTopic
+// and review the `apiEndpoint` value in the response (NotificationTopic).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 func (client NotificationDataPlaneClient) DeleteSubscription(ctx context.Context, request DeleteSubscriptionRequest) (response DeleteSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -265,6 +274,9 @@ func (client NotificationDataPlaneClient) deleteSubscription(ctx context.Context
 }
 
 // GetConfirmSubscription Gets the confirmation details for the specified subscription.
+// The topic API endpoint is required for this operation.
+// To get the topic API endpoint, use GetTopic
+// and review the `apiEndpoint` value in the response (NotificationTopic).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 func (client NotificationDataPlaneClient) GetConfirmSubscription(ctx context.Context, request GetConfirmSubscriptionRequest) (response GetConfirmSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -319,6 +331,9 @@ func (client NotificationDataPlaneClient) getConfirmSubscription(ctx context.Con
 }
 
 // GetSubscription Gets the specified subscription's configuration information.
+// The topic API endpoint is required for this operation.
+// To get the topic API endpoint, use GetTopic
+// and review the `apiEndpoint` value in the response (NotificationTopic).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 func (client NotificationDataPlaneClient) GetSubscription(ctx context.Context, request GetSubscriptionRequest) (response GetSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -373,6 +388,9 @@ func (client NotificationDataPlaneClient) getSubscription(ctx context.Context, r
 }
 
 // GetUnsubscription Unsubscribes the subscription from the topic.
+// The topic API endpoint is required for this operation.
+// To get the topic API endpoint, use GetTopic
+// and review the `apiEndpoint` value in the response (NotificationTopic).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 func (client NotificationDataPlaneClient) GetUnsubscription(ctx context.Context, request GetUnsubscriptionRequest) (response GetUnsubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -427,6 +445,9 @@ func (client NotificationDataPlaneClient) getUnsubscription(ctx context.Context,
 }
 
 // ListSubscriptions Lists the subscriptions in the specified compartment or topic.
+// The topic API endpoint is required for this operation.
+// To get the topic API endpoint, use GetTopic
+// and review the `apiEndpoint` value in the response (NotificationTopic).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 func (client NotificationDataPlaneClient) ListSubscriptions(ctx context.Context, request ListSubscriptionsRequest) (response ListSubscriptionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -481,8 +502,8 @@ func (client NotificationDataPlaneClient) listSubscriptions(ctx context.Context,
 }
 
 // PublishMessage Publishes a message to the specified topic.
-// The topic endpoint is required for this operation.
-// To get the topic endpoint, use GetTopic
+// The topic API endpoint is required for this operation.
+// To get the topic API endpoint, use GetTopic
 // and review the `apiEndpoint` value in the response (NotificationTopic).
 // Limits information follows.
 // Message size limit per request: 64KB.
@@ -544,6 +565,9 @@ func (client NotificationDataPlaneClient) publishMessage(ctx context.Context, re
 }
 
 // ResendSubscriptionConfirmation Resends the confirmation details for the specified subscription.
+// The topic API endpoint is required for this operation.
+// To get the topic API endpoint, use GetTopic
+// and review the `apiEndpoint` value in the response (NotificationTopic).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 func (client NotificationDataPlaneClient) ResendSubscriptionConfirmation(ctx context.Context, request ResendSubscriptionConfirmationRequest) (response ResendSubscriptionConfirmationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -598,6 +622,9 @@ func (client NotificationDataPlaneClient) resendSubscriptionConfirmation(ctx con
 }
 
 // UpdateSubscription Updates the specified subscription's configuration.
+// The topic API endpoint is required for this operation.
+// To get the topic API endpoint, use GetTopic
+// and review the `apiEndpoint` value in the response (NotificationTopic).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 func (client NotificationDataPlaneClient) UpdateSubscription(ctx context.Context, request UpdateSubscriptionRequest) (response UpdateSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse

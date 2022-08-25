@@ -271,27 +271,30 @@ type CreateEntityShapeDetailsEntityTypeEnum string
 
 // Set of constants representing the allowable values for CreateEntityShapeDetailsEntityTypeEnum
 const (
-	CreateEntityShapeDetailsEntityTypeTable   CreateEntityShapeDetailsEntityTypeEnum = "TABLE"
-	CreateEntityShapeDetailsEntityTypeView    CreateEntityShapeDetailsEntityTypeEnum = "VIEW"
-	CreateEntityShapeDetailsEntityTypeFile    CreateEntityShapeDetailsEntityTypeEnum = "FILE"
-	CreateEntityShapeDetailsEntityTypeSql     CreateEntityShapeDetailsEntityTypeEnum = "SQL"
-	CreateEntityShapeDetailsEntityTypeMessage CreateEntityShapeDetailsEntityTypeEnum = "MESSAGE"
+	CreateEntityShapeDetailsEntityTypeTable     CreateEntityShapeDetailsEntityTypeEnum = "TABLE"
+	CreateEntityShapeDetailsEntityTypeView      CreateEntityShapeDetailsEntityTypeEnum = "VIEW"
+	CreateEntityShapeDetailsEntityTypeFile      CreateEntityShapeDetailsEntityTypeEnum = "FILE"
+	CreateEntityShapeDetailsEntityTypeSql       CreateEntityShapeDetailsEntityTypeEnum = "SQL"
+	CreateEntityShapeDetailsEntityTypeDataStore CreateEntityShapeDetailsEntityTypeEnum = "DATA_STORE"
+	CreateEntityShapeDetailsEntityTypeMessage   CreateEntityShapeDetailsEntityTypeEnum = "MESSAGE"
 )
 
 var mappingCreateEntityShapeDetailsEntityTypeEnum = map[string]CreateEntityShapeDetailsEntityTypeEnum{
-	"TABLE":   CreateEntityShapeDetailsEntityTypeTable,
-	"VIEW":    CreateEntityShapeDetailsEntityTypeView,
-	"FILE":    CreateEntityShapeDetailsEntityTypeFile,
-	"SQL":     CreateEntityShapeDetailsEntityTypeSql,
-	"MESSAGE": CreateEntityShapeDetailsEntityTypeMessage,
+	"TABLE":      CreateEntityShapeDetailsEntityTypeTable,
+	"VIEW":       CreateEntityShapeDetailsEntityTypeView,
+	"FILE":       CreateEntityShapeDetailsEntityTypeFile,
+	"SQL":        CreateEntityShapeDetailsEntityTypeSql,
+	"DATA_STORE": CreateEntityShapeDetailsEntityTypeDataStore,
+	"MESSAGE":    CreateEntityShapeDetailsEntityTypeMessage,
 }
 
 var mappingCreateEntityShapeDetailsEntityTypeEnumLowerCase = map[string]CreateEntityShapeDetailsEntityTypeEnum{
-	"table":   CreateEntityShapeDetailsEntityTypeTable,
-	"view":    CreateEntityShapeDetailsEntityTypeView,
-	"file":    CreateEntityShapeDetailsEntityTypeFile,
-	"sql":     CreateEntityShapeDetailsEntityTypeSql,
-	"message": CreateEntityShapeDetailsEntityTypeMessage,
+	"table":      CreateEntityShapeDetailsEntityTypeTable,
+	"view":       CreateEntityShapeDetailsEntityTypeView,
+	"file":       CreateEntityShapeDetailsEntityTypeFile,
+	"sql":        CreateEntityShapeDetailsEntityTypeSql,
+	"data_store": CreateEntityShapeDetailsEntityTypeDataStore,
+	"message":    CreateEntityShapeDetailsEntityTypeMessage,
 }
 
 // GetCreateEntityShapeDetailsEntityTypeEnumValues Enumerates the set of values for CreateEntityShapeDetailsEntityTypeEnum
@@ -310,6 +313,7 @@ func GetCreateEntityShapeDetailsEntityTypeEnumStringValues() []string {
 		"VIEW",
 		"FILE",
 		"SQL",
+		"DATA_STORE",
 		"MESSAGE",
 	}
 }

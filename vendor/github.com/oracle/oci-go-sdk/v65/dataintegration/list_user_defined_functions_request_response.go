@@ -175,16 +175,19 @@ type ListUserDefinedFunctionsSortByEnum string
 const (
 	ListUserDefinedFunctionsSortByTimeCreated ListUserDefinedFunctionsSortByEnum = "TIME_CREATED"
 	ListUserDefinedFunctionsSortByDisplayName ListUserDefinedFunctionsSortByEnum = "DISPLAY_NAME"
+	ListUserDefinedFunctionsSortByTimeUpdated ListUserDefinedFunctionsSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListUserDefinedFunctionsSortByEnum = map[string]ListUserDefinedFunctionsSortByEnum{
 	"TIME_CREATED": ListUserDefinedFunctionsSortByTimeCreated,
 	"DISPLAY_NAME": ListUserDefinedFunctionsSortByDisplayName,
+	"TIME_UPDATED": ListUserDefinedFunctionsSortByTimeUpdated,
 }
 
 var mappingListUserDefinedFunctionsSortByEnumLowerCase = map[string]ListUserDefinedFunctionsSortByEnum{
 	"time_created": ListUserDefinedFunctionsSortByTimeCreated,
 	"display_name": ListUserDefinedFunctionsSortByDisplayName,
+	"time_updated": ListUserDefinedFunctionsSortByTimeUpdated,
 }
 
 // GetListUserDefinedFunctionsSortByEnumValues Enumerates the set of values for ListUserDefinedFunctionsSortByEnum
@@ -201,6 +204,7 @@ func GetListUserDefinedFunctionsSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 

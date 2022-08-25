@@ -37,7 +37,7 @@ type MaterializedCompositeType struct {
 	Description *string `mandatory:"false" json:"description"`
 
 	// An array of elements.
-	Elements []TypedObject `mandatory:"false" json:"elements"`
+	Elements []string `mandatory:"false" json:"elements"`
 
 	// An array of path names corresponding to the elements.  The path names are used when referring to the field in an expression.
 	PathNames []string `mandatory:"false" json:"pathNames"`
@@ -103,58 +103,4 @@ func (m MaterializedCompositeType) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
-}
-
-// UnmarshalJSON unmarshals from json
-func (m *MaterializedCompositeType) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		Key              *string           `json:"key"`
-		ModelVersion     *string           `json:"modelVersion"`
-		ParentRef        *ParentReference  `json:"parentRef"`
-		Name             *string           `json:"name"`
-		ObjectStatus     *int              `json:"objectStatus"`
-		Description      *string           `json:"description"`
-		Elements         []typedobject     `json:"elements"`
-		PathNames        []string          `json:"pathNames"`
-		ConfigDefinition *ConfigDefinition `json:"configDefinition"`
-	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
-	}
-	var nn interface{}
-	m.Key = model.Key
-
-	m.ModelVersion = model.ModelVersion
-
-	m.ParentRef = model.ParentRef
-
-	m.Name = model.Name
-
-	m.ObjectStatus = model.ObjectStatus
-
-	m.Description = model.Description
-
-	m.Elements = make([]TypedObject, len(model.Elements))
-	for i, n := range model.Elements {
-		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
-		if e != nil {
-			return e
-		}
-		if nn != nil {
-			m.Elements[i] = nn.(TypedObject)
-		} else {
-			m.Elements[i] = nil
-		}
-	}
-
-	m.PathNames = make([]string, len(model.PathNames))
-	for i, n := range model.PathNames {
-		m.PathNames[i] = n
-	}
-
-	m.ConfigDefinition = model.ConfigDefinition
-
-	return
 }

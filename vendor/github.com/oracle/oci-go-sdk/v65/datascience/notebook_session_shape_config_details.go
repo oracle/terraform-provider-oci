@@ -18,10 +18,10 @@ import (
 // NotebookSessionShapeConfigDetails Details for the notebook session shape configuration.
 type NotebookSessionShapeConfigDetails struct {
 
-	// A notebook session instance of type VM.Standard.E3.Flex allows the ocpu count to be specified.
+	// The total number of OCPUs available to the notebook session instance.
 	Ocpus *float32 `mandatory:"false" json:"ocpus"`
 
-	// A notebook session instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs.
+	// The total amount of memory available to the notebook session instance, in gigabytes.
 	MemoryInGBs *float32 `mandatory:"false" json:"memoryInGBs"`
 }
 

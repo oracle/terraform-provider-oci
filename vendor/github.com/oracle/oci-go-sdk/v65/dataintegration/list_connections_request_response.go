@@ -133,16 +133,19 @@ type ListConnectionsSortByEnum string
 const (
 	ListConnectionsSortByTimeCreated ListConnectionsSortByEnum = "TIME_CREATED"
 	ListConnectionsSortByDisplayName ListConnectionsSortByEnum = "DISPLAY_NAME"
+	ListConnectionsSortByTimeUpdated ListConnectionsSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListConnectionsSortByEnum = map[string]ListConnectionsSortByEnum{
 	"TIME_CREATED": ListConnectionsSortByTimeCreated,
 	"DISPLAY_NAME": ListConnectionsSortByDisplayName,
+	"TIME_UPDATED": ListConnectionsSortByTimeUpdated,
 }
 
 var mappingListConnectionsSortByEnumLowerCase = map[string]ListConnectionsSortByEnum{
 	"time_created": ListConnectionsSortByTimeCreated,
 	"display_name": ListConnectionsSortByDisplayName,
+	"time_updated": ListConnectionsSortByTimeUpdated,
 }
 
 // GetListConnectionsSortByEnumValues Enumerates the set of values for ListConnectionsSortByEnum
@@ -159,6 +162,7 @@ func GetListConnectionsSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 

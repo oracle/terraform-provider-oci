@@ -93,7 +93,7 @@ type BootVolume struct {
 	// The OCID of the source volume group.
 	VolumeGroupId *string `mandatory:"false" json:"volumeGroupId"`
 
-	// The OCID of the Key Management master encryption key assigned to the boot volume.
+	// The OCID of the Vault service master encryption key assigned to the boot volume.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
 	// Specifies whether the auto-tune performance is enabled for this boot volume. This field is deprecated.

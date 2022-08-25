@@ -17,7 +17,7 @@ type UpdateContinuousQueryRequest struct {
 	// The OCID of the continuous query.
 	ContinuousQueryId *string `mandatory:"true" contributesTo:"path" name:"continuousQueryId"`
 
-	// Continous Query creation object.
+	// Continuous Query creation object.
 	UpdateContinuousQueryDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a

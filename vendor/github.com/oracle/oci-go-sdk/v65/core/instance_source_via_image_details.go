@@ -29,7 +29,7 @@ type InstanceSourceViaImageDetails struct {
 	// The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 32,768 GB (32 TB).
 	BootVolumeSizeInGBs *int64 `mandatory:"false" json:"bootVolumeSizeInGBs"`
 
-	// The OCID of the Key Management key to assign as the master encryption key for the boot volume.
+	// The OCID of the Vault service key to assign as the master encryption key for the boot volume.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
 	// The number of volume performance units (VPUs) that will be applied to this volume per GB,

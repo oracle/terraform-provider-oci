@@ -31,6 +31,9 @@ type SingleDeployStageRedeploymentSummary struct {
 	// The OCID of a compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// Specifies the OCID of the stage to be redeployed.
+	DeployStageId *string `mandatory:"true" json:"deployStageId"`
+
 	// Deployment identifier which can be renamed and is not necessarily unique. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -58,9 +61,6 @@ type SingleDeployStageRedeploymentSummary struct {
 
 	// Specifies the OCID of the previous deployment to be redeployed.
 	PreviousDeploymentId *string `mandatory:"false" json:"previousDeploymentId"`
-
-	// Specifies the OCID of the stage to be redeployed.
-	DeployStageId *string `mandatory:"false" json:"deployStageId"`
 
 	// The current state of the deployment.
 	LifecycleState DeploymentLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
