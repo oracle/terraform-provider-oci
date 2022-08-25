@@ -76,6 +76,14 @@ func DatabaseVmClusterRemoveVirtualMachineResource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"is_health_monitoring_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_incident_logs_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 					},
 				},
 			},

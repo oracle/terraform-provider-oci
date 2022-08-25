@@ -146,6 +146,12 @@ func (s *DatabaseDbSystemsDataSourceCrud) SetData() error {
 			dbSystem["cpu_core_count"] = *r.CpuCoreCount
 		}
 
+		if r.DataCollectionOptions != nil {
+			dbSystem["data_collection_options"] = []interface{}{DataCollectionOptionsToMap(r.DataCollectionOptions)}
+		} else {
+			dbSystem["data_collection_options"] = nil
+		}
+
 		if r.DataStoragePercentage != nil {
 			dbSystem["data_storage_percentage"] = *r.DataStoragePercentage
 		}

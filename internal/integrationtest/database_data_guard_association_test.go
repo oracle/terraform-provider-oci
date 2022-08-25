@@ -46,8 +46,9 @@ var (
 		"protection_mode":                  acctest.Representation{RepType: acctest.Required, Create: `MAXIMUM_PERFORMANCE`},
 		"transport_type":                   acctest.Representation{RepType: acctest.Required, Create: `ASYNC`},
 		"cpu_core_count":                   acctest.Representation{RepType: acctest.Optional, Create: `10`},
-		"storage_volume_performance_mode":  acctest.Representation{RepType: acctest.Optional, Create: `BALANCED`},
+		"data_collection_options":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: dataGuardAssociationDataCollectionOptionsRepresentation},
 		"is_active_data_guard_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"storage_volume_performance_mode":  acctest.Representation{RepType: acctest.Optional, Create: `BALANCED`},
 	}
 
 	dataGuardAssociationRepresentationBaseForExadata = map[string]interface{}{
@@ -66,6 +67,12 @@ var (
 		"peer_db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_system.test_db_system2.id}`},
 		"lifecycle":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDataGuardAssociationRepresentationExistingDbSystem},
 	})
+
+	dataGuardAssociationDataCollectionOptionsRepresentation = map[string]interface{}{
+		"is_diagnostics_events_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_health_monitoring_enabled":  acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_incident_logs_enabled":      acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
 
 	ignoreDataGuardAssociationRepresentationExistingDbSystem = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`database_defined_tags`, `database_freeform_tags`, `db_system_defined_tags`, `db_system_freeform_tags`, `fault_domains`, `license_model`, `node_count`, `private_ip`, `time_zone`}},
@@ -231,6 +238,84 @@ var (
 				}
 			}
 		`
+
+	DataGuardAssociationResourceDependencies = DatabaseDataGuardAssociationResourceDependenciesBase + `
+resource "oci_database_db_system" "test_db_system" {
+	availability_domain = "${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}"
+	compartment_id = "${var.compartment_id}"
+	subnet_id = "${oci_core_subnet.test_subnet.id}"
+	database_edition = "ENTERPRISE_EDITION"
+	disk_redundancy = "NORMAL"
+	shape = "BM.DenseIO2.52"
+	cpu_core_count = "2"
+	ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
+	domain = "${oci_core_subnet.test_subnet.subnet_domain_name}"
+	hostname = "myOracleDB"
+	data_storage_size_in_gb = "256"
+	license_model = "LICENSE_INCLUDED"
+	node_count = "1"
+	display_name = "TFTestDbSystemBM1"
+	db_home {
+		db_version = "12.1.0.2"
+		display_name = "TFTestDbHome1"
+		database {
+			admin_password = "BEstrO0ng_#11"
+			db_name = "tfDbName"
+		}
+	}
+}
+
+resource "oci_database_db_system" "test_db_system2" {
+	availability_domain = "${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}"
+	compartment_id = "${var.compartment_id}"
+	subnet_id = "${oci_core_subnet.test_subnet.id}"
+	database_edition = "ENTERPRISE_EDITION"
+	disk_redundancy = "NORMAL"
+	shape = "BM.DenseIO2.52"
+	cpu_core_count = "2"
+	ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
+	domain = "${oci_core_subnet.test_subnet.subnet_domain_name}"
+	hostname = "myOracleDB"
+	data_storage_size_in_gb = "256"
+	license_model = "LICENSE_INCLUDED"
+	node_count = "1"
+	display_name = "TFTestDbSystemBM2"
+	db_home {
+		db_version = "12.1.0.2"
+		display_name = "TFTestDbHome1"
+		database {
+			admin_password = "BEstrO0ng_#11"
+			db_name = "db2"
+		}
+	}
+}
+`
+	DataGuardAssociationResourceDependenciesNewDbSystem = DatabaseDataGuardAssociationResourceDependenciesBase + `
+resource "oci_database_db_system" "test_db_system" {
+	availability_domain = "${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}"
+	compartment_id = "${var.compartment_id}"
+	subnet_id = "${oci_core_subnet.test_subnet.id}"
+	database_edition = "ENTERPRISE_EDITION"
+	disk_redundancy = "NORMAL"
+	shape = "VM.Standard2.2"
+	cpu_core_count = "2"
+	ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
+	domain = "${oci_core_subnet.test_subnet.subnet_domain_name}"
+	hostname = "myOracleDB"
+	data_storage_size_in_gb = "256"
+	license_model = "LICENSE_INCLUDED"
+	node_count = "1"
+	display_name = "TFTestDbSystemVM"
+	db_home {
+		db_version = "12.1.0.2"
+		display_name = "TFTestDbHome1"
+		database {
+			admin_password = "BEstrO0ng_#11"
+			db_name = "tfDbName"
+		}
+	}
+}
+`
 )
 
 // issue-routing-tag: database/default
@@ -276,6 +361,10 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "node_count", "1"),
 				resource.TestCheckResourceAttr(resourceName, "private_ip", "10.0.2.223"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_diagnostics_events_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_health_monitoring_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_incident_logs_enabled", "false"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")

@@ -404,6 +404,37 @@ func DatabaseDbSystemResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"data_collection_options": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"is_diagnostics_events_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_health_monitoring_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_incident_logs_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"data_storage_percentage": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -1056,6 +1087,17 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 		request.CpuCoreCount = &tmp
 	}
 
+	if dataCollectionOptions, ok := s.D.GetOkExists("data_collection_options"); ok {
+		if tmpList := dataCollectionOptions.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "data_collection_options", 0)
+			tmp, err := s.mapToDataCollectionOptions(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.DataCollectionOptions = &tmp
+		}
+	}
+
 	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok && s.D.HasChange("data_storage_size_in_gb") {
 		tmp := dataStorageSizeInGB.(int)
 		request.DataStorageSizeInGBs = &tmp
@@ -1216,6 +1258,12 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 
 	if s.Res.CpuCoreCount != nil {
 		s.D.Set("cpu_core_count", *s.Res.CpuCoreCount)
+	}
+
+	if s.Res.DataCollectionOptions != nil {
+		s.D.Set("data_collection_options", []interface{}{DataCollectionOptionsToMap(s.Res.DataCollectionOptions)})
+	} else {
+		s.D.Set("data_collection_options", nil)
 	}
 
 	if s.Res.DataStoragePercentage != nil {
@@ -1936,6 +1984,27 @@ func CreateDbHomeFromDatabaseDetailsToMap(obj *oci_database.CreateDbHomeFromData
 	return result
 }
 
+func (s *DatabaseDbSystemResourceCrud) mapToDataCollectionOptions(fieldKeyFormat string) (oci_database.DataCollectionOptions, error) {
+	result := oci_database.DataCollectionOptions{}
+
+	if isDiagnosticsEventsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_diagnostics_events_enabled")); ok {
+		tmp := isDiagnosticsEventsEnabled.(bool)
+		result.IsDiagnosticsEventsEnabled = &tmp
+	}
+
+	if isHealthMonitoringEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_health_monitoring_enabled")); ok {
+		tmp := isHealthMonitoringEnabled.(bool)
+		result.IsHealthMonitoringEnabled = &tmp
+	}
+
+	if isIncidentLogsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_incident_logs_enabled")); ok {
+		tmp := isIncidentLogsEnabled.(bool)
+		result.IsIncidentLogsEnabled = &tmp
+	}
+
+	return result, nil
+}
+
 func (s *DatabaseDbSystemResourceCrud) mapToDayOfWeek(fieldKeyFormat string) (oci_database.DayOfWeek, error) {
 	result := oci_database.DayOfWeek{}
 
@@ -2216,6 +2285,16 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := cpuCoreCount.(int)
 			details.CpuCoreCount = &tmp
 		}
+		if dataCollectionOptions, ok := s.D.GetOkExists("data_collection_options"); ok {
+			if tmpList := dataCollectionOptions.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "data_collection_options", 0)
+				tmp, err := s.mapToDataCollectionOptions(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DataCollectionOptions = &tmp
+			}
+		}
 		if dataStoragePercentage, ok := s.D.GetOkExists("data_storage_percentage"); ok {
 			tmp := dataStoragePercentage.(int)
 			details.DataStoragePercentage = &tmp
@@ -2387,6 +2466,16 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := cpuCoreCount.(int)
 			details.CpuCoreCount = &tmp
 		}
+		if dataCollectionOptions, ok := s.D.GetOkExists("data_collection_options"); ok {
+			if tmpList := dataCollectionOptions.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "data_collection_options", 0)
+				tmp, err := s.mapToDataCollectionOptions(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DataCollectionOptions = &tmp
+			}
+		}
 		if dataStoragePercentage, ok := s.D.GetOkExists("data_storage_percentage"); ok {
 			tmp := dataStoragePercentage.(int)
 			details.DataStoragePercentage = &tmp
@@ -2555,6 +2644,16 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
 			tmp := cpuCoreCount.(int)
 			details.CpuCoreCount = &tmp
+		}
+		if dataCollectionOptions, ok := s.D.GetOkExists("data_collection_options"); ok {
+			if tmpList := dataCollectionOptions.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "data_collection_options", 0)
+				tmp, err := s.mapToDataCollectionOptions(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DataCollectionOptions = &tmp
+			}
 		}
 		if dataStoragePercentage, ok := s.D.GetOkExists("data_storage_percentage"); ok {
 			tmp := dataStoragePercentage.(int)
@@ -2726,6 +2825,16 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
 			tmp := cpuCoreCount.(int)
 			details.CpuCoreCount = &tmp
+		}
+		if dataCollectionOptions, ok := s.D.GetOkExists("data_collection_options"); ok {
+			if tmpList := dataCollectionOptions.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "data_collection_options", 0)
+				tmp, err := s.mapToDataCollectionOptions(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DataCollectionOptions = &tmp
+			}
 		}
 		if dataStoragePercentage, ok := s.D.GetOkExists("data_storage_percentage"); ok {
 			tmp := dataStoragePercentage.(int)
