@@ -69,6 +69,8 @@ var (
 	}
 	DatabaseVmClusterDataCollectionOptionsRepresentation = map[string]interface{}{
 		"is_diagnostics_events_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_health_monitoring_enabled":  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_incident_logs_enabled":      acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
 	DatabaseVmClusterResourceDependencies = VmClusterNetworkValidatedResourceConfig
@@ -131,6 +133,8 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
 				resource.TestCheckResourceAttr(resourceName, "data_collection_options.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_diagnostics_events_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_health_monitoring_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_incident_logs_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "84"),
 				resource.TestCheckResourceAttr(resourceName, "db_node_storage_size_in_gbs", "120"),
 				resource.TestCheckResourceAttr(resourceName, "db_servers.#", "2"),
@@ -170,6 +174,8 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
 				resource.TestCheckResourceAttr(resourceName, "data_collection_options.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_diagnostics_events_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_health_monitoring_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_incident_logs_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "84"),
 				resource.TestCheckResourceAttr(resourceName, "db_node_storage_size_in_gbs", "120"),
 				resource.TestCheckResourceAttr(resourceName, "db_servers.#", "2"),
@@ -204,6 +210,8 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "6"),
 				resource.TestCheckResourceAttr(resourceName, "data_collection_options.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_diagnostics_events_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_health_monitoring_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_incident_logs_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "86"),
 				resource.TestCheckResourceAttr(resourceName, "db_node_storage_size_in_gbs", "160"),
 				resource.TestCheckResourceAttr(resourceName, "db_servers.#", "2"),
@@ -245,6 +253,8 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.cpus_enabled"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.data_collection_options.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.data_collection_options.0.is_diagnostics_events_enabled", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.data_collection_options.0.is_health_monitoring_enabled", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.data_collection_options.0.is_incident_logs_enabled", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.data_storage_size_in_tbs", "86"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.db_node_storage_size_in_gbs", "160"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.db_servers.#", "2"),
@@ -278,6 +288,8 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cpus_enabled"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_collection_options.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_collection_options.0.is_diagnostics_events_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_collection_options.0.is_health_monitoring_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_collection_options.0.is_incident_logs_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_tbs", "86"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "db_node_storage_size_in_gbs", "160"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "db_servers.#", "2"),
