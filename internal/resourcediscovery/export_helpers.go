@@ -10,10 +10,12 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/service/data_safe"
 
 	"github.com/oracle/terraform-provider-oci/internal/service/bds"
+	"github.com/oracle/terraform-provider-oci/internal/service/fusion_apps"
 
 	"github.com/oracle/terraform-provider-oci/internal/service/data_connectivity"
 	tf_datascience "github.com/oracle/terraform-provider-oci/internal/service/datascience"
 	"github.com/oracle/terraform-provider-oci/internal/service/devops"
+
 	tf_identity "github.com/oracle/terraform-provider-oci/internal/service/identity"
 	tf_log_analytics "github.com/oracle/terraform-provider-oci/internal/service/log_analytics"
 
@@ -40,6 +42,7 @@ import (
 	tf_load_balancer "github.com/oracle/terraform-provider-oci/internal/service/load_balancer"
 	network_load_balancer "github.com/oracle/terraform-provider-oci/internal/service/network_load_balancer"
 	tf_objectstorage "github.com/oracle/terraform-provider-oci/internal/service/objectstorage"
+
 	"github.com/oracle/terraform-provider-oci/internal/service/osp_gateway"
 	tf_usage_proxy "github.com/oracle/terraform-provider-oci/internal/service/usage_proxy"
 )
@@ -71,6 +74,9 @@ func init() {
 	exportDatascienceModelProvenanceHints.getIdFn = getDatascienceModelProvenanceId
 	exportDevopsRepositoryRefHints.getIdFn = getDevopsRepositoryRefId
 	exportDnsRrsetHints.getIdFn = getDnsRrsetId
+	exportFusionAppsFusionEnvironmentRefreshActivityHints.getIdFn = getFusionAppsFusionEnvironmentRefreshActivityId
+	exportFusionAppsFusionEnvironmentAdminUserHints.getIdFn = getFusionAppsFusionEnvironmentAdminUserId
+	exportFusionAppsFusionEnvironmentDataMaskingActivityHints.getIdFn = getFusionAppsFusionEnvironmentDataMaskingActivityId
 	exportIdentityApiKeyHints.getIdFn = getIdentityApiKeyId
 	exportIdentityAuthTokenHints.getIdFn = getIdentityAuthTokenId
 	exportIdentityCustomerSecretKeyHints.getIdFn = getIdentityCustomerSecretKeyId
@@ -384,6 +390,36 @@ func getRrsetCompositeId(domain string, rtype string, zoneNameOrId string) strin
 	zoneNameOrId = url.PathEscape(zoneNameOrId)
 	compositeId := "zoneNameOrId/" + zoneNameOrId + "/domain/" + domain + "/rtype/" + rtype
 	return compositeId
+}
+
+func getFusionAppsFusionEnvironmentRefreshActivityId(resource *OCIResource) (string, error) {
+
+	fusionEnvironmentId := resource.parent.id
+	refreshActivityId, ok := resource.sourceAttributes["refresh_activity_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find refreshActivityId for FusionApps FusionEnvironmentRefreshActivity")
+	}
+	return fusion_apps.GetFusionEnvironmentRefreshActivityCompositeId(fusionEnvironmentId, refreshActivityId), nil
+}
+
+func getFusionAppsFusionEnvironmentAdminUserId(resource *OCIResource) (string, error) {
+
+	adminUsername, ok := resource.sourceAttributes["admin_username"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find adminUsername for FusionApps FusionEnvironmentAdminUser")
+	}
+	fusionEnvironmentId := resource.parent.id
+	return fusion_apps.GetFusionEnvironmentAdminUserCompositeId(adminUsername, fusionEnvironmentId), nil
+}
+
+func getFusionAppsFusionEnvironmentDataMaskingActivityId(resource *OCIResource) (string, error) {
+
+	dataMaskingActivityId, ok := resource.sourceAttributes["data_masking_activity_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find dataMaskingActivityId for FusionApps FusionEnvironmentDataMaskingActivity")
+	}
+	fusionEnvironmentId := resource.parent.id
+	return fusion_apps.GetFusionEnvironmentDataMaskingActivityCompositeId(dataMaskingActivityId, fusionEnvironmentId), nil
 }
 
 func getIdentityApiKeyId(resource *OCIResource) (string, error) {

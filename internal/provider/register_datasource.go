@@ -45,6 +45,7 @@ import (
 	tf_events "github.com/oracle/terraform-provider-oci/internal/service/events"
 	tf_file_storage "github.com/oracle/terraform-provider-oci/internal/service/file_storage"
 	tf_functions "github.com/oracle/terraform-provider-oci/internal/service/functions"
+	tf_fusion_apps "github.com/oracle/terraform-provider-oci/internal/service/fusion_apps"
 	tf_generic_artifacts_content "github.com/oracle/terraform-provider-oci/internal/service/generic_artifacts_content"
 	tf_golden_gate "github.com/oracle/terraform-provider-oci/internal/service/golden_gate"
 	tf_health_checks "github.com/oracle/terraform-provider-oci/internal/service/health_checks"
@@ -813,6 +814,26 @@ func init() {
 	RegisterDatasource("oci_functions_applications", tf_functions.FunctionsApplicationsDataSource())
 	RegisterDatasource("oci_functions_function", tf_functions.FunctionsFunctionDataSource())
 	RegisterDatasource("oci_functions_functions", tf_functions.FunctionsFunctionsDataSource())
+	// fusion_apps service
+	RegisterDatasource("oci_fusion_apps_fusion_environment", tf_fusion_apps.FusionAppsFusionEnvironmentDataSource())
+	RegisterDatasource("oci_fusion_apps_fusion_environment_admin_user", tf_fusion_apps.FusionAppsFusionEnvironmentAdminUserDataSource())
+	RegisterDatasource("oci_fusion_apps_fusion_environment_admin_users", tf_fusion_apps.FusionAppsFusionEnvironmentAdminUsersDataSource())
+	RegisterDatasource("oci_fusion_apps_fusion_environment_data_masking_activities", tf_fusion_apps.FusionAppsFusionEnvironmentDataMaskingActivitiesDataSource())
+	RegisterDatasource("oci_fusion_apps_fusion_environment_data_masking_activity", tf_fusion_apps.FusionAppsFusionEnvironmentDataMaskingActivityDataSource())
+	RegisterDatasource("oci_fusion_apps_fusion_environment_families", tf_fusion_apps.FusionAppsFusionEnvironmentFamiliesDataSource())
+	RegisterDatasource("oci_fusion_apps_fusion_environment_family", tf_fusion_apps.FusionAppsFusionEnvironmentFamilyDataSource())
+	RegisterDatasource("oci_fusion_apps_fusion_environment_family_limits_and_usage", tf_fusion_apps.FusionAppsFusionEnvironmentFamilyLimitsAndUsageDataSource())
+	RegisterDatasource("oci_fusion_apps_fusion_environment_family_subscription_detail", tf_fusion_apps.FusionAppsFusionEnvironmentFamilySubscriptionDetailDataSource())
+	RegisterDatasource("oci_fusion_apps_fusion_environment_refresh_activities", tf_fusion_apps.FusionAppsFusionEnvironmentRefreshActivitiesDataSource())
+	RegisterDatasource("oci_fusion_apps_fusion_environment_refresh_activity", tf_fusion_apps.FusionAppsFusionEnvironmentRefreshActivityDataSource())
+	RegisterDatasource("oci_fusion_apps_fusion_environment_scheduled_activities", tf_fusion_apps.FusionAppsFusionEnvironmentScheduledActivitiesDataSource())
+	RegisterDatasource("oci_fusion_apps_fusion_environment_scheduled_activity", tf_fusion_apps.FusionAppsFusionEnvironmentScheduledActivityDataSource())
+	RegisterDatasource("oci_fusion_apps_fusion_environment_service_attachment", tf_fusion_apps.FusionAppsFusionEnvironmentServiceAttachmentDataSource())
+	RegisterDatasource("oci_fusion_apps_fusion_environment_service_attachments", tf_fusion_apps.FusionAppsFusionEnvironmentServiceAttachmentsDataSource())
+	RegisterDatasource("oci_fusion_apps_fusion_environment_status", tf_fusion_apps.FusionAppsFusionEnvironmentStatusDataSource())
+	RegisterDatasource("oci_fusion_apps_fusion_environment_time_available_for_refresh", tf_fusion_apps.FusionAppsFusionEnvironmentTimeAvailableForRefreshDataSource())
+	RegisterDatasource("oci_fusion_apps_fusion_environment_time_available_for_refreshs", tf_fusion_apps.FusionAppsFusionEnvironmentTimeAvailableForRefreshsDataSource())
+	RegisterDatasource("oci_fusion_apps_fusion_environments", tf_fusion_apps.FusionAppsFusionEnvironmentsDataSource())
 	// generic_artifacts_content service
 	RegisterDatasource("oci_generic_artifacts_content_artifact_by_path", tf_generic_artifacts_content.GenericArtifactsContentArtifactByPathDataSource())
 	RegisterDatasource("oci_generic_artifacts_content_generic_artifacts_content", tf_generic_artifacts_content.GenericArtifactsContentGenericArtifactsContentDataSource())
