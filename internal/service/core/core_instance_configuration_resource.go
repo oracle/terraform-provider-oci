@@ -161,6 +161,39 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 												// Required
 
 												// Optional
+												"autotune_policies": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"autotune_type": {
+																Type:             schema.TypeString,
+																Required:         true,
+																ForceNew:         true,
+																DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																ValidateFunc: validation.StringInSlice([]string{
+																	"DETACHED_VOLUME",
+																	"PERFORMANCE_BASED",
+																}, true),
+															},
+
+															// Optional
+															"max_vpus_per_gb": {
+																Type:             schema.TypeString,
+																Optional:         true,
+																Computed:         true,
+																ForceNew:         true,
+																ValidateFunc:     tfresource.ValidateInt64TypeString,
+																DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+															},
+
+															// Computed
+														},
+													},
+												},
 												"availability_domain": {
 													Type:             schema.TypeString,
 													Optional:         true,
@@ -1365,6 +1398,56 @@ func InstanceConfigurationAttachVolumeDetailsToMap(obj *oci_core.InstanceConfigu
 	return result
 }
 
+func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationAutotunePolicy(fieldKeyFormat string) (oci_core.InstanceConfigurationAutotunePolicy, error) {
+	var baseObject oci_core.InstanceConfigurationAutotunePolicy
+	//discriminator
+	autotuneTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "autotune_type"))
+	var autotuneType string
+	if ok {
+		autotuneType = autotuneTypeRaw.(string)
+	} else {
+		autotuneType = "" // default value
+	}
+	switch strings.ToLower(autotuneType) {
+	case strings.ToLower("DETACHED_VOLUME"):
+		details := oci_core.InstanceConfigurationDetachedVolumeAutotunePolicy{}
+		baseObject = details
+	case strings.ToLower("PERFORMANCE_BASED"):
+		details := oci_core.InstanceConfigurationPerformanceBasedAutotunePolicy{}
+		if maxVpusPerGB, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_vpus_per_gb")); ok {
+			tmp := maxVpusPerGB.(string)
+			tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+			if err != nil {
+				return details, fmt.Errorf("unable to convert maxVpusPerGB string: %s to an int64 and encountered error: %v", tmp, err)
+			}
+			details.MaxVpusPerGB = &tmpInt64
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown autotune_type '%v' was specified", autotuneType)
+	}
+	return baseObject, nil
+}
+
+func InstanceConfigurationAutotunePolicyToMap(obj oci_core.InstanceConfigurationAutotunePolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (obj).(type) {
+	case oci_core.InstanceConfigurationDetachedVolumeAutotunePolicy:
+		result["autotune_type"] = "DETACHED_VOLUME"
+	case oci_core.InstanceConfigurationPerformanceBasedAutotunePolicy:
+		result["autotune_type"] = "PERFORMANCE_BASED"
+
+		if v.MaxVpusPerGB != nil {
+			result["max_vpus_per_gb"] = strconv.FormatInt(*v.MaxVpusPerGB, 10)
+		}
+	default:
+		log.Printf("[WARN] Received 'autotune_type' of unknown type %v", obj)
+		return nil
+	}
+
+	return result
+}
+
 func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationAvailabilityConfig(fieldKeyFormat string) (oci_core.InstanceConfigurationAvailabilityConfig, error) {
 	result := oci_core.InstanceConfigurationAvailabilityConfig{}
 
@@ -1560,6 +1643,23 @@ func InstanceConfigurationCreateVnicDetailsToMap(obj *oci_core.InstanceConfigura
 func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreateVolumeDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationCreateVolumeDetails, error) {
 	result := oci_core.InstanceConfigurationCreateVolumeDetails{}
 
+	if autotunePolicies, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "autotune_policies")); ok {
+		interfaces := autotunePolicies.([]interface{})
+		tmp := make([]oci_core.InstanceConfigurationAutotunePolicy, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "autotune_policies"), stateDataIndex)
+			converted, err := s.mapToInstanceConfigurationAutotunePolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "autotune_policies")) {
+			result.AutotunePolicies = tmp
+		}
+	}
+
 	if availabilityDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "availability_domain")); ok {
 		tmp := availabilityDomain.(string)
 		result.AvailabilityDomain = &tmp
@@ -1631,6 +1731,12 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 
 func InstanceConfigurationCreateVolumeDetailsToMap(obj *oci_core.InstanceConfigurationCreateVolumeDetails) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	autotunePolicies := []interface{}{}
+	for _, item := range obj.AutotunePolicies {
+		autotunePolicies = append(autotunePolicies, InstanceConfigurationAutotunePolicyToMap(item))
+	}
+	result["autotune_policies"] = autotunePolicies
 
 	if obj.AvailabilityDomain != nil {
 		result["availability_domain"] = string(*obj.AvailabilityDomain)
