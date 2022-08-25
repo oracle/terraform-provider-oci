@@ -90,10 +90,22 @@ func (s *DataintegrationWorkspaceDataSourceCrud) SetData() error {
 		s.D.Set("dns_server_zone", *s.Res.DnsServerZone)
 	}
 
+	if s.Res.EndpointId != nil {
+		s.D.Set("endpoint_id", *s.Res.EndpointId)
+	}
+
+	if s.Res.EndpointName != nil {
+		s.D.Set("endpoint_name", *s.Res.EndpointName)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsPrivateNetworkEnabled != nil {
 		s.D.Set("is_private_network_enabled", *s.Res.IsPrivateNetworkEnabled)
+	}
+
+	if s.Res.RegistryId != nil {
+		s.D.Set("registry_id", *s.Res.RegistryId)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
