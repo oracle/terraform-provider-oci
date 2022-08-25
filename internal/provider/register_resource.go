@@ -43,6 +43,7 @@ import (
 	tf_events "github.com/oracle/terraform-provider-oci/internal/service/events"
 	tf_file_storage "github.com/oracle/terraform-provider-oci/internal/service/file_storage"
 	tf_functions "github.com/oracle/terraform-provider-oci/internal/service/functions"
+	tf_fusion_apps "github.com/oracle/terraform-provider-oci/internal/service/fusion_apps"
 	tf_generic_artifacts_content "github.com/oracle/terraform-provider-oci/internal/service/generic_artifacts_content"
 	tf_golden_gate "github.com/oracle/terraform-provider-oci/internal/service/golden_gate"
 	tf_health_checks "github.com/oracle/terraform-provider-oci/internal/service/health_checks"
@@ -404,6 +405,12 @@ func init() {
 	RegisterResource("oci_functions_application", tf_functions.FunctionsApplicationResource())
 	RegisterResource("oci_functions_function", tf_functions.FunctionsFunctionResource())
 	RegisterResource("oci_functions_invoke_function", tf_functions.FunctionsInvokeFunctionResource())
+	// fusion_apps service
+	RegisterResource("oci_fusion_apps_fusion_environment", tf_fusion_apps.FusionAppsFusionEnvironmentResource())
+	RegisterResource("oci_fusion_apps_fusion_environment_admin_user", tf_fusion_apps.FusionAppsFusionEnvironmentAdminUserResource())
+	RegisterResource("oci_fusion_apps_fusion_environment_data_masking_activity", tf_fusion_apps.FusionAppsFusionEnvironmentDataMaskingActivityResource())
+	RegisterResource("oci_fusion_apps_fusion_environment_family", tf_fusion_apps.FusionAppsFusionEnvironmentFamilyResource())
+	RegisterResource("oci_fusion_apps_fusion_environment_refresh_activity", tf_fusion_apps.FusionAppsFusionEnvironmentRefreshActivityResource())
 	// generic_artifacts_content service
 	RegisterResource("oci_generic_artifacts_content_artifact_by_path", tf_generic_artifacts_content.GenericArtifactsContentArtifactByPathResource())
 	// golden_gate service

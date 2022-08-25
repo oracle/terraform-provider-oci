@@ -157,6 +157,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `events` - Discovers events resources within the specified compartment
     * `file_storage` - Discovers file_storage resources within the specified compartment
     * `functions` - Discovers functions resources within the specified compartment
+    * `fusion_apps` - Discovers fusion_apps resources within the specified compartment
     * `golden_gate` - Discovers golden_gate resources within the specified compartment
     * `health_checks` - Discovers health_checks resources within the specified compartment
     * `identity` - Discovers identity resources across the entire tenancy
@@ -605,6 +606,14 @@ functions
     
 * oci\_functions\_application
 * oci\_functions\_function
+
+fusion_apps
+    
+* oci\_fusion\_apps\_fusion\_environment\_refresh\_activity
+* oci\_fusion\_apps\_fusion\_environment\_admin\_user
+* oci\_fusion\_apps\_fusion\_environment\_family
+* oci\_fusion\_apps\_fusion\_environment
+* oci\_fusion\_apps\_fusion\_environment\_data\_masking\_activity
 
 golden_gate
     

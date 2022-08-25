@@ -1,0 +1,131 @@
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
+
+package integrationtest
+
+import (
+	"fmt"
+	"strconv"
+	"testing"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+
+	"github.com/oracle/terraform-provider-oci/internal/utils"
+)
+
+var (
+	FusionAppsFusionEnvironmentRefreshActivityResourceConfig = FusionAppsFusionEnvironmentRefreshActivityResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_fusion_apps_fusion_environment_refresh_activity", "test_fusion_environment_refresh_activity", acctest.Optional, acctest.Update, FusionAppsFusionEnvironmentRefreshActivityRepresentation)
+
+	FusionAppsFusionAppsFusionEnvironmentRefreshActivitySingularDataSourceRepresentation = map[string]interface{}{
+		"fusion_environment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_fusion_apps_fusion_environment.test_fusion_environment.id}`},
+		"refresh_activity_id":   acctest.Representation{RepType: acctest.Required, Create: `{}`},
+	}
+
+	FusionAppsFusionAppsFusionEnvironmentRefreshActivityDataSourceRepresentation = map[string]interface{}{
+		"fusion_environment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_fusion_apps_fusion_environment.test_fusion_environment.id}`},
+		"display_name":          acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"state":                 acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"time_expected_finish_less_than_or_equal_to":    acctest.Representation{RepType: acctest.Optional, Create: `timeExpectedFinishLessThanOrEqualTo`},
+		"time_scheduled_start_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `timeScheduledStartGreaterThanOrEqualTo`},
+		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: FusionAppsFusionEnvironmentRefreshActivityDataSourceFilterRepresentation}}
+	FusionAppsFusionEnvironmentRefreshActivityDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
+		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_fusion_apps_fusion_environment_refresh_activity.test_fusion_environment_refresh_activity.id}`}},
+	}
+
+	FusionAppsFusionEnvironmentRefreshActivityRepresentation = map[string]interface{}{
+		"fusion_environment_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_fusion_apps_fusion_environment.test_fusion_environment.id}`},
+		"source_fusion_environment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_fusion_apps_fusion_environment.test_fusion_environment.id}`},
+	}
+
+	FusionAppsFusionEnvironmentRefreshActivityResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_fusion_apps_fusion_environment_family", "test_fusion_environment_family", acctest.Required, acctest.Create, FusionAppsFusionEnvironmentFamilyRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_fusion_apps_fusion_environment", "test_fusion_environment", acctest.Required, acctest.Create, FusionAppsFusionEnvironmentRepresentation)
+)
+
+// issue-routing-tag: fusion_apps/default
+func TestFusionAppsFusionEnvironmentRefreshActivityResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestFusionAppsFusionEnvironmentRefreshActivityResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_fusion_apps_fusion_environment_refresh_activity.test_fusion_environment_refresh_activity"
+	datasourceName := "data.oci_fusion_apps_fusion_environment_refresh_activities.test_fusion_environment_refresh_activities"
+	singularDatasourceName := "data.oci_fusion_apps_fusion_environment_refresh_activity.test_fusion_environment_refresh_activity"
+
+	var resId string
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+FusionAppsFusionEnvironmentRefreshActivityResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_fusion_apps_fusion_environment_refresh_activity", "test_fusion_environment_refresh_activity", acctest.Required, acctest.Create, FusionAppsFusionEnvironmentRefreshActivityRepresentation), "fusionapps", "fusionEnvironmentRefreshActivity", t)
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// verify Create
+		{
+			Config: config + compartmentIdVariableStr + FusionAppsFusionEnvironmentRefreshActivityResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_fusion_apps_fusion_environment_refresh_activity", "test_fusion_environment_refresh_activity", acctest.Required, acctest.Create, FusionAppsFusionEnvironmentRefreshActivityRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "fusion_environment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_fusion_environment_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_fusion_apps_fusion_environment_refresh_activities", "test_fusion_environment_refresh_activities", acctest.Optional, acctest.Update, FusionAppsFusionAppsFusionEnvironmentRefreshActivityDataSourceRepresentation) +
+				compartmentIdVariableStr + FusionAppsFusionEnvironmentRefreshActivityResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_fusion_apps_fusion_environment_refresh_activity", "test_fusion_environment_refresh_activity", acctest.Optional, acctest.Update, FusionAppsFusionEnvironmentRefreshActivityRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(datasourceName, "fusion_environment_id"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "time_expected_finish_less_than_or_equal_to"),
+				resource.TestCheckResourceAttrSet(datasourceName, "time_scheduled_start_greater_than_or_equal_to"),
+
+				resource.TestCheckResourceAttr(datasourceName, "refresh_activity_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "refresh_activity_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_fusion_apps_fusion_environment_refresh_activity", "test_fusion_environment_refresh_activity", acctest.Required, acctest.Create, FusionAppsFusionAppsFusionEnvironmentRefreshActivitySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + FusionAppsFusionEnvironmentRefreshActivityResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "fusion_environment_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "refresh_activity_id"),
+
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "service_availability"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_accepted"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_expected_finish"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_finished"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_of_restoration_point"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_scheduled_start"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+	})
+}
