@@ -118,6 +118,12 @@ func (s *CoreBootVolumesDataSourceCrud) SetData() error {
 			bootVolume["availability_domain"] = *r.AvailabilityDomain
 		}
 
+		autotunePolicies := []interface{}{}
+		for _, item := range r.AutotunePolicies {
+			autotunePolicies = append(autotunePolicies, BootVolumeAutotunePolicyToMap(item))
+		}
+		bootVolume["autotune_policies"] = autotunePolicies
+
 		bootVolumeReplicas := []interface{}{}
 		for _, item := range r.BootVolumeReplicas {
 			bootVolumeReplicas = append(bootVolumeReplicas, BootVolumeReplicaInfoToMap(item))
