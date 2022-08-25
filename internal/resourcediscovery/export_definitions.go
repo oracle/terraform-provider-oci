@@ -37,6 +37,7 @@ import (
 	oci_events "github.com/oracle/oci-go-sdk/v65/events"
 	oci_file_storage "github.com/oracle/oci-go-sdk/v65/filestorage"
 	oci_functions "github.com/oracle/oci-go-sdk/v65/functions"
+	oci_fusion_apps "github.com/oracle/oci-go-sdk/v65/fusionapps"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
 	oci_identity "github.com/oracle/oci-go-sdk/v65/identity"
 	oci_integration "github.com/oracle/oci-go-sdk/v65/integration"
@@ -2183,6 +2184,62 @@ var exportFunctionsFunctionHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_functions.FunctionLifecycleStateActive),
+	},
+}
+
+var exportFusionAppsFusionEnvironmentRefreshActivityHints = &TerraformResourceHints{
+	resourceClass:          "oci_fusion_apps_fusion_environment_refresh_activity",
+	datasourceClass:        "oci_fusion_apps_fusion_environment_refresh_activities",
+	datasourceItemsAttr:    "refresh_activity_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "fusion_environment_refresh_activity",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_fusion_apps.DataMaskingActivityLifecycleStateSucceeded),
+	},
+}
+
+var exportFusionAppsFusionEnvironmentAdminUserHints = &TerraformResourceHints{
+	resourceClass:          "oci_fusion_apps_fusion_environment_admin_user",
+	datasourceClass:        "oci_fusion_apps_fusion_environment_admin_users",
+	datasourceItemsAttr:    "admin_user_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "fusion_environment_admin_user",
+}
+
+var exportFusionAppsFusionEnvironmentFamilyHints = &TerraformResourceHints{
+	resourceClass:          "oci_fusion_apps_fusion_environment_family",
+	datasourceClass:        "oci_fusion_apps_fusion_environment_families",
+	datasourceItemsAttr:    "fusion_environment_family_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "fusion_environment_family",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_fusion_apps.FusionEnvironmentFamilyLifecycleStateActive),
+	},
+}
+
+var exportFusionAppsFusionEnvironmentHints = &TerraformResourceHints{
+	resourceClass:          "oci_fusion_apps_fusion_environment",
+	datasourceClass:        "oci_fusion_apps_fusion_environments",
+	datasourceItemsAttr:    "fusion_environment_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "fusion_environment",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_fusion_apps.FusionEnvironmentLifecycleStateActive),
+	},
+}
+
+var exportFusionAppsFusionEnvironmentDataMaskingActivityHints = &TerraformResourceHints{
+	resourceClass:          "oci_fusion_apps_fusion_environment_data_masking_activity",
+	datasourceClass:        "oci_fusion_apps_fusion_environment_data_masking_activities",
+	datasourceItemsAttr:    "data_masking_activity_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "fusion_environment_data_masking_activity",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_fusion_apps.RefreshActivityLifecycleStateSucceeded),
 	},
 }
 
