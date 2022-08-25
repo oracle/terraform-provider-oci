@@ -131,6 +131,12 @@ func (s *CoreVolumesDataSourceCrud) SetData() error {
 			volume["auto_tuned_vpus_per_gb"] = strconv.FormatInt(*r.AutoTunedVpusPerGB, 10)
 		}
 
+		autotunePolicies := []interface{}{}
+		for _, item := range r.AutotunePolicies {
+			autotunePolicies = append(autotunePolicies, BlockVolumeAutotunePolicyToMap(item))
+		}
+		volume["autotune_policies"] = autotunePolicies
+
 		if r.AvailabilityDomain != nil {
 			volume["availability_domain"] = *r.AvailabilityDomain
 		}

@@ -71,6 +71,12 @@ func (s *CoreBootVolumeDataSourceCrud) SetData() error {
 		s.D.Set("auto_tuned_vpus_per_gb", strconv.FormatInt(*s.Res.AutoTunedVpusPerGB, 10))
 	}
 
+	autotunePolicies := []interface{}{}
+	for _, item := range s.Res.AutotunePolicies {
+		autotunePolicies = append(autotunePolicies, BootVolumeAutotunePolicyToMap(item))
+	}
+	s.D.Set("autotune_policies", autotunePolicies)
+
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
