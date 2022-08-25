@@ -137,6 +137,16 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 						},
 
 						// Optional
+						"network_security_group_ids": {
+							Type:     schema.TypeSet,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Set:      tfresource.LiteralTypeHashCodeForSets,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"subnet_id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -150,6 +160,15 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 							ForceNew: true,
 						},
 						"whitelisted_ips": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"whitelisted_services": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Computed: true,
@@ -689,6 +708,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Delete() error {
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.DeleteAnalyticsInstance(context.Background(), request)
+	time.Sleep(2 * time.Minute) //We add this to prevent 412-PreconditionFailed, NetworkSecurityGroup cannot be deleted since it still has vnics attached to it
 	if err != nil {
 		return err
 	}
@@ -739,7 +759,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) SetData() error {
 
 	if s.Res.NetworkEndpointDetails != nil {
 		networkEndpointDetailsArray := []interface{}{}
-		if networkEndpointDetailsMap := NetworkEndpointDetailsToMap(&s.Res.NetworkEndpointDetails); networkEndpointDetailsMap != nil {
+		if networkEndpointDetailsMap := NetworkEndpointDetailsToMap(&s.Res.NetworkEndpointDetails, false); networkEndpointDetailsMap != nil {
 			networkEndpointDetailsArray = append(networkEndpointDetailsArray, networkEndpointDetailsMap)
 		}
 		s.D.Set("network_endpoint_details", networkEndpointDetailsArray)
@@ -838,6 +858,19 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) mapToNetworkEndpointDetails(fie
 	switch strings.ToLower(networkEndpointType) {
 	case strings.ToLower("PRIVATE"):
 		details := oci_analytics.PrivateEndpointDetails{}
+		if networkSecurityGroupIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_security_group_ids")); ok {
+			set := networkSecurityGroupIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "network_security_group_ids")) {
+				details.NetworkSecurityGroupIds = tmp
+			}
+		}
 		if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -859,6 +892,18 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) mapToNetworkEndpointDetails(fie
 			}
 			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "whitelisted_ips")) {
 				details.WhitelistedIps = tmp
+			}
+		}
+		if whitelistedServices, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "whitelisted_services")); ok {
+			interfaces := whitelistedServices.([]interface{})
+			tmp := make([]oci_analytics.AccessControlServiceTypeEnum, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(oci_analytics.AccessControlServiceTypeEnum)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "whitelisted_services")) {
+				details.WhitelistedServices = tmp
 			}
 		}
 		if whitelistedVcns, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "whitelisted_vcns")); ok {
@@ -884,11 +929,21 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) mapToNetworkEndpointDetails(fie
 	return baseObject, nil
 }
 
-func NetworkEndpointDetailsToMap(obj *oci_analytics.NetworkEndpointDetails) map[string]interface{} {
+func NetworkEndpointDetailsToMap(obj *oci_analytics.NetworkEndpointDetails, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
 	case oci_analytics.PrivateEndpointDetails:
 		result["network_endpoint_type"] = "PRIVATE"
+
+		networkSecurityGroupIds := []interface{}{}
+		for _, item := range v.NetworkSecurityGroupIds {
+			networkSecurityGroupIds = append(networkSecurityGroupIds, item)
+		}
+		if datasource {
+			result["network_security_group_ids"] = networkSecurityGroupIds
+		} else {
+			result["network_security_group_ids"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, networkSecurityGroupIds)
+		}
 
 		if v.SubnetId != nil {
 			result["subnet_id"] = string(*v.SubnetId)
@@ -902,6 +957,8 @@ func NetworkEndpointDetailsToMap(obj *oci_analytics.NetworkEndpointDetails) map[
 
 		result["whitelisted_ips"] = v.WhitelistedIps
 
+		result["whitelisted_services"] = v.WhitelistedServices
+
 		whitelistedVcns := []interface{}{}
 		for _, item := range v.WhitelistedVcns {
 			whitelistedVcns = append(whitelistedVcns, VirtualCloudNetworkToMap(item))
@@ -910,20 +967,6 @@ func NetworkEndpointDetailsToMap(obj *oci_analytics.NetworkEndpointDetails) map[
 	default:
 		log.Printf("[WARN] Received 'network_endpoint_type' of unknown type %v", *obj)
 		return nil
-	}
-
-	return result
-}
-
-func PrivateSourceDnsZoneToMap(obj oci_analytics.PrivateSourceDnsZone) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Description != nil {
-		result["description"] = string(*obj.Description)
-	}
-
-	if obj.DnsZone != nil {
-		result["dns_zone"] = string(*obj.DnsZone)
 	}
 
 	return result
