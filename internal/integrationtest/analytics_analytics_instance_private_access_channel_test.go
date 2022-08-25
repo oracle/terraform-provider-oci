@@ -24,24 +24,35 @@ import (
 )
 
 var (
+	AnalyticsAnalyticsInstancePrivateAccessChannelRequiredOnlyResource = AnalyticsAnalyticsInstancePrivateAccessChannelResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance_private_access_channel", "test_analytics_instance_private_access_channel", acctest.Required, acctest.Create, analyticsInstancePrivateAccessChannelRepresentation)
+
 	AnalyticsAnalyticsInstancePrivateAccessChannelResourceConfig = AnalyticsAnalyticsInstancePrivateAccessChannelResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance_private_access_channel", "test_analytics_instance_private_access_channel", acctest.Optional, acctest.Update, analyticsInstancePrivateAccessChannelRepresentation)
 
-	AnalyticsAnalyticsInstancePrivateAccessChannelRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance_private_access_channel", "test_analytics_instance_private_access_channel", acctest.Required, acctest.Create, analyticsInstancePrivateAccessChannelRepresentation)
-
 	analyticsInstancePrivateAccessChannelRepresentation = map[string]interface{}{
-		"analytics_instance_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_analytics_analytics_instance.test_analytics_instance.id}`},
-		"display_name":             acctest.Representation{RepType: acctest.Required, Create: `example_private_access_channel`, Update: `example_private_access_channel2`},
-		"private_source_dns_zones": acctest.RepresentationGroup{RepType: acctest.Required, Group: analyticsInstancePrivateAccessChannelPrivateSourceDnsZonesRepresentation},
-		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"vcn_id":                   acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"analytics_instance_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_analytics_analytics_instance.test_analytics_instance.id}`},
+		"display_name":               acctest.Representation{RepType: acctest.Required, Create: `example_private_access_channel`, Update: `example_private_access_channel2`},
+		"private_source_dns_zones":   acctest.RepresentationGroup{RepType: acctest.Required, Group: analyticsInstancePrivateAccessChannelPrivateSourceDnsZonesRepresentation},
+		"subnet_id":                  acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"vcn_id":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`, Update: `${oci_core_vcn.test_vcn.id}`},
+		"network_security_group_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
+		"private_source_scan_hosts":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: analyticsInstancePrivateAccessChannelPrivateSourceScanHostsRepresentation},
 	}
 	analyticsInstancePrivateAccessChannelPrivateSourceDnsZonesRepresentation = map[string]interface{}{
 		"dns_zone":    acctest.Representation{RepType: acctest.Required, Create: `terraformtest.oraclevcn.com`, Update: `terraformtest2.oraclevcn.com`},
 		"description": acctest.Representation{RepType: acctest.Optional, Create: `Tenant VCN DNS Zone`, Update: `Tenant VCN DNS Zone 2`},
 	}
+	analyticsInstancePrivateAccessChannelPrivateSourceScanHostsRepresentation = map[string]interface{}{
+		"scan_hostname": acctest.Representation{RepType: acctest.Required, Create: `scanHostname`, Update: `scanHostname2`},
+		"scan_port":     acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
+		"description":   acctest.Representation{RepType: acctest.Optional, Create: `Example OCI SCAN label`, Update: `Example OCI SCAN label 2`},
+	}
 
-	AnalyticsAnalyticsInstancePrivateAccessChannelResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Required, acctest.Create, analyticsInstanceRepresentation) +
+	analyticsinstanceNameForPac = utils.RandomString(15, utils.CharsetWithoutDigits)
+
+	//Please note that for create oci_analytics_analytics_instance we have to change the instance name otherwise tests for analytics will fail with error: Instance name it is still in use even if instance got deleted successful
+	AnalyticsAnalyticsInstancePrivateAccessChannelResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Required, acctest.Create, acctest.GetUpdatedRepresentationCopy("name", acctest.Representation{RepType: acctest.Required, Create: analyticsinstanceNameForPac}, analyticsInstanceRepresentation)) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation)
 )
@@ -62,9 +73,8 @@ func TestAnalyticsAnalyticsInstancePrivateAccessChannelResource_basic(t *testing
 	resourceName := "oci_analytics_analytics_instance_private_access_channel.test_analytics_instance_private_access_channel"
 
 	var resId, resId2 string
-	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+AnalyticsAnalyticsInstancePrivateAccessChannelResourceDependencies+
-
 		acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance_private_access_channel", "test_analytics_instance_private_access_channel", acctest.Required, acctest.Create, analyticsInstancePrivateAccessChannelRepresentation), "analytics", "analyticsInstancePrivateAccessChannel", t)
 
 	acctest.ResourceTest(t, testAccCheckAnalyticsAnalyticsInstancePrivateAccessChannelDestroy, []resource.TestStep{
@@ -82,7 +92,38 @@ func TestAnalyticsAnalyticsInstancePrivateAccessChannelResource_basic(t *testing
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsAnalyticsInstancePrivateAccessChannelResourceDependencies,
+		},
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsAnalyticsInstancePrivateAccessChannelResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance_private_access_channel", "test_analytics_instance_private_access_channel", acctest.Optional, acctest.Create, analyticsInstancePrivateAccessChannelRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "analytics_instance_id"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "example_private_access_channel"),
+				resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
+				resource.TestCheckResourceAttrSet(resourceName, "key"),
+				resource.TestCheckResourceAttr(resourceName, "network_security_group_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "private_source_dns_zones.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "private_source_dns_zones.0.description", "Tenant VCN DNS Zone"),
+				resource.TestCheckResourceAttr(resourceName, "private_source_dns_zones.0.dns_zone", "terraformtest.oraclevcn.com"),
+				resource.TestCheckResourceAttr(resourceName, "private_source_scan_hosts.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "private_source_scan_hosts.0.description", "Example OCI SCAN label"),
+				resource.TestCheckResourceAttr(resourceName, "private_source_scan_hosts.0.scan_hostname", "scanHostname"),
+				resource.TestCheckResourceAttr(resourceName, "private_source_scan_hosts.0.scan_port", "10"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -102,9 +143,14 @@ func TestAnalyticsAnalyticsInstancePrivateAccessChannelResource_basic(t *testing
 				resource.TestCheckResourceAttr(resourceName, "egress_source_ip_addresses.#", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
 				resource.TestCheckResourceAttrSet(resourceName, "key"),
+				resource.TestCheckResourceAttr(resourceName, "network_security_group_ids.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "private_source_dns_zones.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "private_source_dns_zones.0.description", "Tenant VCN DNS Zone 2"),
 				resource.TestCheckResourceAttr(resourceName, "private_source_dns_zones.0.dns_zone", "terraformtest2.oraclevcn.com"),
+				resource.TestCheckResourceAttr(resourceName, "private_source_scan_hosts.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "private_source_scan_hosts.0.description", "Example OCI SCAN label 2"),
+				resource.TestCheckResourceAttr(resourceName, "private_source_scan_hosts.0.scan_hostname", "scanHostname2"),
+				resource.TestCheckResourceAttr(resourceName, "private_source_scan_hosts.0.scan_port", "11"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
