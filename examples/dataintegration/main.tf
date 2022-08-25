@@ -86,8 +86,10 @@ resource "oci_dataintegration_workspace" "test_workspace" {
   dns_server_zone            = var.workspace_dns_server_zone
   freeform_tags              = var.workspace_freeform_tags
   is_private_network_enabled = var.workspace_is_private_network_enabled
-  subnet_id                  = oci_core_subnet.test_subnet.id
-  vcn_id                     = oci_core_vcn.test_vcn.id
+
+  // removed for backward compatibility, got approval from TF team
+#  subnet_id                  = oci_core_subnet.test_subnet.id
+#  vcn_id                     = oci_core_vcn.test_vcn.id
 }
 
 data "oci_dataintegration_workspaces" "test_workspaces" {
