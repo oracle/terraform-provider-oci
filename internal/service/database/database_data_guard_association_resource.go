@@ -108,6 +108,41 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 				ForceNew: true,
 				Elem:     schema.TypeString,
 			},
+			"data_collection_options": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"is_diagnostics_events_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"is_health_monitoring_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"is_incident_logs_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"database_software_image_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -490,6 +525,27 @@ func (s *DatabaseDataGuardAssociationResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *DatabaseDataGuardAssociationResourceCrud) mapToDataCollectionOptions(fieldKeyFormat string) (oci_database.DataCollectionOptions, error) {
+	result := oci_database.DataCollectionOptions{}
+
+	if isDiagnosticsEventsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_diagnostics_events_enabled")); ok {
+		tmp := isDiagnosticsEventsEnabled.(bool)
+		result.IsDiagnosticsEventsEnabled = &tmp
+	}
+
+	if isHealthMonitoringEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_health_monitoring_enabled")); ok {
+		tmp := isHealthMonitoringEnabled.(bool)
+		result.IsHealthMonitoringEnabled = &tmp
+	}
+
+	if isIncidentLogsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_incident_logs_enabled")); ok {
+		tmp := isIncidentLogsEnabled.(bool)
+		result.IsIncidentLogsEnabled = &tmp
+	}
+
+	return result, nil
+}
+
 func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCreateDataGuardAssociationRequest(request *oci_database.CreateDataGuardAssociationRequest) error {
 	//discriminator
 	creationTypeRaw, ok := s.D.GetOkExists("creation_type")
@@ -628,6 +684,16 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 		}
 		if dbSystemFreeformTags, ok := s.D.GetOkExists("db_system_freeform_tags"); ok {
 			details.DbSystemFreeformTags = tfresource.ObjectMapToStringMap(dbSystemFreeformTags.(map[string]interface{}))
+		}
+		if dataCollectionOptions, ok := s.D.GetOkExists("data_collection_options"); ok {
+			if tmpList := dataCollectionOptions.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "data_collection_options", 0)
+				tmp, err := s.mapToDataCollectionOptions(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DataCollectionOptions = &tmp
+			}
 		}
 		if displayName, ok := s.D.GetOkExists("display_name"); ok {
 			tmp := displayName.(string)

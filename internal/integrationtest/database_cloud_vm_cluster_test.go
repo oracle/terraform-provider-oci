@@ -104,6 +104,8 @@ var (
 	}
 	cloudVmClusterDataCollectionOptionsRepresentation = map[string]interface{}{
 		"is_diagnostics_events_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_health_monitoring_enabled":  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_incident_logs_enabled":      acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
 	ad_subnet_security = `
@@ -298,6 +300,8 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
 				resource.TestCheckResourceAttr(resourceName, "data_collection_options.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_diagnostics_events_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_health_monitoring_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_incident_logs_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_percentage", "40"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "cloudVmCluster"),
 				resource.TestCheckResourceAttrSet(resourceName, "domain"),
@@ -343,6 +347,8 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
 				resource.TestCheckResourceAttr(resourceName, "data_collection_options.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_diagnostics_events_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_health_monitoring_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_incident_logs_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_percentage", "40"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "cloudVmCluster"),
 				resource.TestCheckResourceAttrSet(resourceName, "domain"),
@@ -383,6 +389,8 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "data_collection_options.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_diagnostics_events_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_health_monitoring_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_incident_logs_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "6"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_percentage", "40"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -432,6 +440,8 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.data_collection_options.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.data_collection_options.0.is_diagnostics_events_enabled", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.data_collection_options.0.is_health_monitoring_enabled", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.data_collection_options.0.is_incident_logs_enabled", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.cpu_core_count", "6"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.data_storage_percentage", "40"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.disk_redundancy"),
@@ -471,6 +481,8 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_collection_options.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_collection_options.0.is_diagnostics_events_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_collection_options.0.is_health_monitoring_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_collection_options.0.is_incident_logs_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "cpu_core_count", "6"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_percentage", "40"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "disk_redundancy"),

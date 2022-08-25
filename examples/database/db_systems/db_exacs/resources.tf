@@ -33,6 +33,8 @@ resource "oci_database_cloud_vm_cluster" "test_cloud_vm_cluster" {
   data_collection_options {
     #Optional
     is_diagnostics_events_enabled = "true"
+    is_health_monitoring_enabled = "true"
+    is_incident_logs_enabled = "true"
   }
 }
 
