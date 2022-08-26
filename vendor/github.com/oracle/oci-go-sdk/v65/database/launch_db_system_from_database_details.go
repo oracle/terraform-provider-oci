@@ -143,6 +143,8 @@ type LaunchDbSystemFromDatabaseDetails struct {
 	// If you don't specify a value, Oracle automatically assigns a private IP address from the subnet.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
 
+	DataCollectionOptions *DataCollectionOptions `mandatory:"false" json:"dataCollectionOptions"`
+
 	// The Oracle Database Edition that applies to all the databases on the DB system.
 	// Exadata DB systems and 2-node RAC DB systems require ENTERPRISE_EDITION_EXTREME_PERFORMANCE.
 	DatabaseEdition LaunchDbSystemFromDatabaseDetailsDatabaseEditionEnum `mandatory:"true" json:"databaseEdition"`
@@ -287,6 +289,11 @@ func (m LaunchDbSystemFromDatabaseDetails) GetDefinedTags() map[string]map[strin
 //GetPrivateIp returns PrivateIp
 func (m LaunchDbSystemFromDatabaseDetails) GetPrivateIp() *string {
 	return m.PrivateIp
+}
+
+//GetDataCollectionOptions returns DataCollectionOptions
+func (m LaunchDbSystemFromDatabaseDetails) GetDataCollectionOptions() *DataCollectionOptions {
+	return m.DataCollectionOptions
 }
 
 func (m LaunchDbSystemFromDatabaseDetails) String() string {
