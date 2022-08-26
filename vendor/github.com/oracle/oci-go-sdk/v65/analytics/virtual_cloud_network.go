@@ -21,7 +21,7 @@ type VirtualCloudNetwork struct {
 	// The Virtual Cloud Network OCID.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Source IP addresses or IP address ranges igress rules.
+	// Source IP addresses or IP address ranges in ingress rules.
 	WhitelistedIps []string `mandatory:"false" json:"whitelistedIps"`
 }
 

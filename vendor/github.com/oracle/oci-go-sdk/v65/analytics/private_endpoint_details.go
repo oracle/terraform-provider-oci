@@ -24,6 +24,9 @@ type PrivateEndpointDetails struct {
 
 	// The subnet OCID for the private endpoint.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
+
+	// Network Security Group OCIDs for an Analytics instance.
+	NetworkSecurityGroupIds []string `mandatory:"false" json:"networkSecurityGroupIds"`
 }
 
 func (m PrivateEndpointDetails) String() string {
