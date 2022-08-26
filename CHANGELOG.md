@@ -1,3 +1,12 @@
+## 4.91.0 (Unreleased)
+
+### Added
+- Support for FAAAS Service
+changed for per-based autotune for block volumes
+- Changes for Data Plane Events for VM/BM DBCS
+- Capability to Add a SCAN Data Source as a Private DataSource to PAC, Added - Support of Network Security Groups, Added - Support Public ACL to whitelist OCI Services, Added - OAC access to Github
+- Support for In-place Upgrade support
+
 ## 4.90.0 (Unreleased)
 
 ### Added
