@@ -262,7 +262,11 @@ func (ne NonSeekableRequestRetryFailure) Error() string {
 
 // IsNetworkError validates if an error is a net.Error and check if it's temporary or timeout
 func IsNetworkError(err error) bool {
-	if r, ok := err.(net.Error); ok && (r.Temporary() || r.Timeout()) {
+	if err == nil {
+		return false
+	}
+
+	if r, ok := err.(net.Error); ok && (r.Temporary() || r.Timeout()) || strings.Contains(err.Error(), "net/http: HTTP/1.x transport connection broken") {
 		return true
 	}
 	return false
@@ -270,6 +274,10 @@ func IsNetworkError(err error) bool {
 
 // IsCircuitBreakerError validates if an error's text is Open state ErrOpenState or HalfOpen state ErrTooManyRequests
 func IsCircuitBreakerError(err error) bool {
+	if err == nil {
+		return false
+	}
+	
 	if err.Error() == gobreaker.ErrOpenState.Error() || err.Error() == gobreaker.ErrTooManyRequests.Error() {
 		return true
 	}
