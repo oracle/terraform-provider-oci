@@ -171,11 +171,11 @@ func (s *ContainerengineClustersDataSourceCrud) SetData() error {
 			cluster["name"] = *r.Name
 		}
 
-		if r.Options != nil {
-			cluster["options"] = []interface{}{ClusterCreateOptionsToMap(r.Options)}
-		} else {
-			cluster["options"] = nil
-		}
+		//if r.Options != nil {
+		//	cluster["options"] = []interface{}{ClusterCreateOptionsToMap(r.Options)}
+		//} else {
+		//	cluster["options"] = nil
+		//}
 
 		cluster["state"] = r.LifecycleState
 
