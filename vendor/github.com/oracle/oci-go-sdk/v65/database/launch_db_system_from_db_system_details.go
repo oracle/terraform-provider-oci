@@ -146,6 +146,8 @@ type LaunchDbSystemFromDbSystemDetails struct {
 	// If you don't specify a value, Oracle automatically assigns a private IP address from the subnet.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
 
+	DataCollectionOptions *DataCollectionOptions `mandatory:"false" json:"dataCollectionOptions"`
+
 	// The Oracle license model that applies to all the databases on the DB system. The default is LICENSE_INCLUDED.
 	LicenseModel LaunchDbSystemFromDbSystemDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
@@ -281,6 +283,11 @@ func (m LaunchDbSystemFromDbSystemDetails) GetDefinedTags() map[string]map[strin
 //GetPrivateIp returns PrivateIp
 func (m LaunchDbSystemFromDbSystemDetails) GetPrivateIp() *string {
 	return m.PrivateIp
+}
+
+//GetDataCollectionOptions returns DataCollectionOptions
+func (m LaunchDbSystemFromDbSystemDetails) GetDataCollectionOptions() *DataCollectionOptions {
+	return m.DataCollectionOptions
 }
 
 func (m LaunchDbSystemFromDbSystemDetails) String() string {

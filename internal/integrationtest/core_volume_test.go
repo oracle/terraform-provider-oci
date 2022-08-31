@@ -49,16 +49,22 @@ var (
 	}
 
 	CoreVolumeRepresentation = map[string]interface{}{
-		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"backup_policy_id":    acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}`},
-		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"kms_key_id":          acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
-		"size_in_gbs":         acctest.Representation{RepType: acctest.Optional, Create: `51`, Update: `52`},
-		"source_details":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreVolumeSourceDetailsRepresentation},
-		"vpus_per_gb":         acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `20`},
+		"availability_domain":  acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"backup_policy_id":     acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}`},
+		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":         acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"kms_key_id":           acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"size_in_gbs":          acctest.Representation{RepType: acctest.Optional, Create: `51`, Update: `52`},
+		"source_details":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreVolumeSourceDetailsRepresentation},
+		"vpus_per_gb":          acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `10`},
+		"autotune_policies":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: volumeAutotunePoliciesRepresentation},
+		"is_auto_tune_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+	}
+	volumeAutotunePoliciesRepresentation = map[string]interface{}{
+		"autotune_type":   acctest.Representation{RepType: acctest.Required, Create: `PERFORMANCE_BASED`, Update: `PERFORMANCE_BASED`},
+		"max_vpus_per_gb": acctest.Representation{RepType: acctest.Optional, Create: `20`, Update: `30`},
 	}
 	CoreVolumeBlockVolumeReplicasRepresentation = map[string]interface{}{
 		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `KvuH:US-ASHBURN-AD-1`},
@@ -129,6 +135,9 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + CoreVolumeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", acctest.Optional, acctest.Create, CoreVolumeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "autotune_policies.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "autotune_policies.0.autotune_type", "PERFORMANCE_BASED"),
+				resource.TestCheckResourceAttr(resourceName, "autotune_policies.0.max_vpus_per_gb", "20"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -166,6 +175,9 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "autotune_policies.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "autotune_policies.0.autotune_type", "PERFORMANCE_BASED"),
+				resource.TestCheckResourceAttr(resourceName, "autotune_policies.0.max_vpus_per_gb", "20"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -198,6 +210,9 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + CoreVolumeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", acctest.Optional, acctest.Update, CoreVolumeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "autotune_policies.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "autotune_policies.0.autotune_type", "PERFORMANCE_BASED"),
+				resource.TestCheckResourceAttr(resourceName, "autotune_policies.0.max_vpus_per_gb", "30"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -213,7 +228,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckNoResourceAttr(resourceName, "volume_backup_id"),
 				resource.TestCheckNoResourceAttr(resourceName, "volume_group_id"),
-				resource.TestCheckResourceAttr(resourceName, "vpus_per_gb", "20"),
+				resource.TestCheckResourceAttr(resourceName, "vpus_per_gb", "10"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -240,6 +255,9 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 				resource.TestCheckNoResourceAttr(datasourceName, "volume_group_id"),
 
 				resource.TestCheckResourceAttr(datasourceName, "volumes.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "volumes.0.autotune_policies.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "volumes.0.autotune_policies.0.autotune_type", "PERFORMANCE_BASED"),
+				resource.TestCheckResourceAttr(datasourceName, "volumes.0.autotune_policies.0.max_vpus_per_gb", "30"),
 				resource.TestCheckResourceAttrSet(datasourceName, "volumes.0.availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "volumes.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "volumes.0.display_name", "displayName2"),
@@ -250,7 +268,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "volumes.0.size_in_mbs", "53248"),
 				resource.TestCheckResourceAttrSet(datasourceName, "volumes.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "volumes.0.time_created"),
-				resource.TestCheckResourceAttr(datasourceName, "volumes.0.vpus_per_gb", "20"),
+				resource.TestCheckResourceAttr(datasourceName, "volumes.0.vpus_per_gb", "10"),
 			),
 		},
 		// verify singular datasource
@@ -261,6 +279,9 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "volume_id"),
 
+				resource.TestCheckResourceAttr(singularDatasourceName, "autotune_policies.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "autotune_policies.0.autotune_type", "PERFORMANCE_BASED"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "autotune_policies.0.max_vpus_per_gb", "30"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 
@@ -276,7 +297,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "source_details.0.type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "vpus_per_gb", "20"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "vpus_per_gb", "10"),
 			),
 		},
 		// verify resource import

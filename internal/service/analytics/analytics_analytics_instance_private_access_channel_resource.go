@@ -79,6 +79,42 @@ func AnalyticsAnalyticsInstancePrivateAccessChannelResource() *schema.Resource {
 			},
 
 			// Optional
+			"network_security_group_ids": {
+				Type:     schema.TypeSet,
+				Optional: true,
+				Computed: true,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"private_source_scan_hosts": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"scan_hostname": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"scan_port": {
+							Type:     schema.TypeInt,
+							Required: true,
+						},
+
+						// Optional
+						"description": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 
 			// Computed
 			"egress_source_ip_addresses": {
@@ -165,6 +201,20 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) Create() er
 		request.DisplayName = &tmp
 	}
 
+	if networkSecurityGroupIds, ok := s.D.GetOkExists("network_security_group_ids"); ok {
+		set := networkSecurityGroupIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("network_security_group_ids") {
+			request.NetworkSecurityGroupIds = tmp
+		}
+	}
+
 	if privateSourceDnsZones, ok := s.D.GetOkExists("private_source_dns_zones"); ok {
 		interfaces := privateSourceDnsZones.([]interface{})
 		tmp := make([]oci_analytics.PrivateSourceDnsZone, len(interfaces))
@@ -179,6 +229,23 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) Create() er
 		}
 		if len(tmp) != 0 || s.D.HasChange("private_source_dns_zones") {
 			request.PrivateSourceDnsZones = tmp
+		}
+	}
+
+	if privateSourceScanHosts, ok := s.D.GetOkExists("private_source_scan_hosts"); ok {
+		interfaces := privateSourceScanHosts.([]interface{})
+		tmp := make([]oci_analytics.PrivateSourceScanHost, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "private_source_scan_hosts", stateDataIndex)
+			converted, err := s.mapToPrivateSourceScanHost(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("private_source_scan_hosts") {
+			request.PrivateSourceScanHosts = tmp
 		}
 	}
 
@@ -389,6 +456,28 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) Update() er
 		request.AnalyticsInstanceId = &tmp
 	}
 
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		request.DisplayName = &tmp
+	}
+
+	var hasNsgChanged = false
+	if networkSecurityGroupIds, ok := s.D.GetOkExists("network_security_group_ids"); ok {
+		set := networkSecurityGroupIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("network_security_group_ids") {
+			request.NetworkSecurityGroupIds = tmp
+			//var to save wether we have to add vcnId and subnetId in the payload later
+			hasNsgChanged = true
+		}
+	}
+
 	if privateAccessChannelKey, ok := s.D.GetOkExists("key"); ok {
 		tmp := privateAccessChannelKey.(string)
 		request.PrivateAccessChannelKey = &tmp
@@ -430,16 +519,35 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) Update() er
 		}
 	}
 
+	if privateSourceScanHosts, ok := s.D.GetOkExists("private_source_scan_hosts"); ok {
+		interfaces := privateSourceScanHosts.([]interface{})
+		tmp := make([]oci_analytics.PrivateSourceScanHost, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "private_source_scan_hosts", stateDataIndex)
+			converted, err := s.mapToPrivateSourceScanHost(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("private_source_scan_hosts") {
+			request.PrivateSourceScanHosts = tmp
+		}
+	}
+
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 		tmp := subnetId.(string)
-		if tmp != *currentPAC.SubnetId {
+		//We have to add subnetId to payload if NSG has changed also
+		if tmp != *currentPAC.SubnetId || hasNsgChanged {
 			request.SubnetId = &tmp
 		}
 	}
 
 	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
 		tmp := vcnId.(string)
-		if tmp != *currentPAC.VcnId {
+		//We have to add vcnId to payload if NSG has changed also
+		if tmp != *currentPAC.VcnId || hasNsgChanged {
 			request.VcnId = &tmp
 		}
 	}
@@ -471,6 +579,8 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) Delete() er
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.DeletePrivateAccessChannel(context.Background(), request)
+	time.Sleep(2 * time.Minute) //We add this to prevent 412-PreconditionFailed, NetworkSecurityGroup cannot be deleted since it still has vnics attached to it
+
 	if err != nil {
 		return err
 	}
@@ -495,7 +605,9 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) SetData() e
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
-	s.D.Set("egress_source_ip_addresses", s.Res.EgressSourceIpAddresses)
+	if s.Res.EgressSourceIpAddresses != nil {
+		s.D.Set("egress_source_ip_addresses", s.Res.EgressSourceIpAddresses)
+	}
 
 	if s.Res.IpAddress != nil {
 		s.D.Set("ip_address", *s.Res.IpAddress)
@@ -505,11 +617,23 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) SetData() e
 		s.D.Set("key", *s.Res.Key)
 	}
 
+	networkSecurityGroupIds := []interface{}{}
+	for _, item := range s.Res.NetworkSecurityGroupIds {
+		networkSecurityGroupIds = append(networkSecurityGroupIds, item)
+	}
+	s.D.Set("network_security_group_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, networkSecurityGroupIds))
+
 	privateSourceDnsZones := []interface{}{}
 	for _, item := range s.Res.PrivateSourceDnsZones {
 		privateSourceDnsZones = append(privateSourceDnsZones, PrivateSourceDnsZoneToMap(item))
 	}
 	s.D.Set("private_source_dns_zones", privateSourceDnsZones)
+
+	privateSourceScanHosts := []interface{}{}
+	for _, item := range s.Res.PrivateSourceScanHosts {
+		privateSourceScanHosts = append(privateSourceScanHosts, PrivateSourceScanHostToMap(item))
+	}
+	s.D.Set("private_source_scan_hosts", privateSourceScanHosts)
 
 	if s.Res.SubnetId != nil {
 		s.D.Set("subnet_id", *s.Res.SubnetId)
@@ -556,4 +680,57 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) mapToPrivat
 	}
 
 	return result, nil
+}
+
+func PrivateSourceDnsZoneToMap(obj oci_analytics.PrivateSourceDnsZone) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
+	if obj.DnsZone != nil {
+		result["dns_zone"] = string(*obj.DnsZone)
+	}
+
+	return result
+}
+
+func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) mapToPrivateSourceScanHost(fieldKeyFormat string) (oci_analytics.PrivateSourceScanHost, error) {
+	result := oci_analytics.PrivateSourceScanHost{}
+
+	if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
+		tmp := description.(string)
+		result.Description = &tmp
+	}
+
+	if scanHostname, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scan_hostname")); ok {
+		tmp := scanHostname.(string)
+		result.ScanHostname = &tmp
+	}
+
+	if scanPort, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scan_port")); ok {
+		tmp := scanPort.(int)
+		result.ScanPort = &tmp
+	}
+
+	return result, nil
+}
+
+func PrivateSourceScanHostToMap(obj oci_analytics.PrivateSourceScanHost) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
+	if obj.ScanHostname != nil {
+		result["scan_hostname"] = string(*obj.ScanHostname)
+	}
+
+	if obj.ScanPort != nil {
+		result["scan_port"] = int(*obj.ScanPort)
+	}
+
+	return result
 }

@@ -51,6 +51,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"events":                  eventsResourceGraph,
 	"file_storage":            fileStorageResourceGraph,
 	"functions":               functionsResourceGraph,
+	"fusion_apps":             fusionAppsResourceGraph,
 	"golden_gate":             goldenGateResourceGraph,
 	"health_checks":           healthChecksResourceGraph,
 	"identity_data_plane":     identityDataPlaneResourceGraph,
@@ -803,6 +804,33 @@ var functionsResourceGraph = TerraformResourceGraph{
 			TerraformResourceHints: exportFunctionsFunctionHints,
 			datasourceQueryParams: map[string]string{
 				"application_id": "id",
+			},
+		},
+	},
+}
+
+var fusionAppsResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportFusionAppsFusionEnvironmentFamilyHints},
+		{TerraformResourceHints: exportFusionAppsFusionEnvironmentHints},
+	},
+	"oci_fusion_apps_fusion_environment": {
+		{
+			TerraformResourceHints: exportFusionAppsFusionEnvironmentAdminUserHints,
+			datasourceQueryParams: map[string]string{
+				"fusion_environment_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportFusionAppsFusionEnvironmentDataMaskingActivityHints,
+			datasourceQueryParams: map[string]string{
+				"fusion_environment_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportFusionAppsFusionEnvironmentRefreshActivityHints,
+			datasourceQueryParams: map[string]string{
+				"fusion_environment_id": "id",
 			},
 		},
 	},

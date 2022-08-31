@@ -143,6 +143,8 @@ type LaunchDbSystemDetails struct {
 	// If you don't specify a value, Oracle automatically assigns a private IP address from the subnet.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
 
+	DataCollectionOptions *DataCollectionOptions `mandatory:"false" json:"dataCollectionOptions"`
+
 	MaintenanceWindowDetails *MaintenanceWindow `mandatory:"false" json:"maintenanceWindowDetails"`
 
 	// The Oracle Database Edition that applies to all the databases on the DB system.
@@ -289,6 +291,11 @@ func (m LaunchDbSystemDetails) GetDefinedTags() map[string]map[string]interface{
 //GetPrivateIp returns PrivateIp
 func (m LaunchDbSystemDetails) GetPrivateIp() *string {
 	return m.PrivateIp
+}
+
+//GetDataCollectionOptions returns DataCollectionOptions
+func (m LaunchDbSystemDetails) GetDataCollectionOptions() *DataCollectionOptions {
+	return m.DataCollectionOptions
 }
 
 func (m LaunchDbSystemDetails) String() string {

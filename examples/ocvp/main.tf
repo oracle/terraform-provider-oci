@@ -372,7 +372,7 @@ resource "oci_ocvp_sddc" "test_sddc" {
   provisioning_subnet_id      = oci_core_subnet.test_provisioning_subnet.id
   ssh_authorized_keys         = "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"
   vmotion_vlan_id             = oci_core_vlan.test_vmotion_net_vlan.id
-  vmware_software_version     = "7.0 update 2"
+  vmware_software_version     = "7.0 update 3"
   vsan_vlan_id                = oci_core_vlan.test_vsan_net_vlan.id
   vsphere_vlan_id             = oci_core_vlan.test_vsphere_net_vlan.id
   // Optional
@@ -398,10 +398,11 @@ resource "oci_ocvp_esxi_host" "test_esxi_host" {
   sddc_id = oci_ocvp_sddc.test_sddc.id
   #Optional
   compute_availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[0]["name"]
-  current_sku = data.oci_ocvp_supported_skus.test_supported_skus.items[0].name
+  current_sku = "HOUR"
   host_ocpu_count             = "52.0"
   host_shape_name             = "BM.DenseIO2.52"
-  next_sku    = data.oci_ocvp_supported_skus.test_supported_skus.items[0].name
+  next_sku    = "HOUR"
+  #non_upgraded_esxi_host_id = data.oci_ocvp_esxi_hosts.non_upgraded_esxi_hosts.esxi_host_collection[0].id
   #defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.esxihost_defined_tags_value}"}
   #display_name  = var.esxihost_display_name
   #freeform_tags = var.esxihost_freeform_tags

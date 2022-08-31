@@ -40,6 +40,9 @@ type EsxiHostSummary struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	BillingContractEndDate *common.SDKTime `mandatory:"true" json:"billingContractEndDate"`
 
+	// The version of VMware software that the Oracle Cloud VMware Solution installed on the ESXi hosts.
+	VmwareSoftwareVersion *string `mandatory:"true" json:"vmwareSoftwareVersion"`
+
 	// The availability domain of the ESXi host.
 	ComputeAvailabilityDomain *string `mandatory:"true" json:"computeAvailabilityDomain"`
 
@@ -93,6 +96,14 @@ type EsxiHostSummary struct {
 	// RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2021-07-25T21:10:29.600Z`
 	GracePeriodEndDate *common.SDKTime `mandatory:"false" json:"gracePeriodEndDate"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ESXi host that
+	// will be upgraded.
+	NonUpgradedEsxiHostId *string `mandatory:"false" json:"nonUpgradedEsxiHostId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ESXi host that
+	// is newly created to upgrade the original host.
+	UpgradedReplacementEsxiHostId *string `mandatory:"false" json:"upgradedReplacementEsxiHostId"`
 
 	// The OCPU count of the ESXi host.
 	HostOcpuCount *float32 `mandatory:"false" json:"hostOcpuCount"`

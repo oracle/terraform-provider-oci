@@ -38,6 +38,13 @@ resource "oci_database_data_guard_association" "test_data_guard_association" {
 	cpu_core_count = var.data_guard_association_cpu_core_count
 	database_defined_tags = var.data_guard_association_database_defined_tags
 	database_freeform_tags = var.data_guard_association_database_freeform_tags
+	data_collection_options {
+
+		#Optional
+		is_diagnostics_events_enabled = var.data_guard_association_data_collection_options_is_diagnostics_events_enabled
+		is_health_monitoring_enabled = var.data_guard_association_data_collection_options_is_health_monitoring_enabled
+		is_incident_logs_enabled = var.data_guard_association_data_collection_options_is_incident_logs_enabled
+	}
 	database_software_image_id = oci_database_database_software_image.test_database_software_image.id
 	db_system_defined_tags = var.data_guard_association_db_system_defined_tags
 	db_system_freeform_tags = var.data_guard_association_db_system_freeform_tags
@@ -69,6 +76,10 @@ The following arguments are supported:
 * `backup_network_nsg_ids` - (Applicable when creation_type=NewDbSystem) A list of the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that the backup network of this DB system belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). Applicable only to Exadata systems. 
 * `cpu_core_count` - (Applicable when creation_type=NewDbSystem) The number of OCPU cores available for AMD-based virtual machine DB systems.
 * `creation_type` - (Required) Specifies whether to create the peer database in an existing DB system or in a new DB system. 
+* `data_collection_options` - (Applicable when creation_type=NewDbSystem) Indicates user preferences for the various diagnostic collection options for the VM cluster/Cloud VM cluster/VMBM DBCS. 
+	* `is_diagnostics_events_enabled` - (Applicable when creation_type=NewDbSystem) Indicates whether diagnostic collection is enabled for the VM cluster/Cloud VM cluster/VMBM DBCS. Enabling diagnostic collection allows you to receive Events service notifications for guest VM issues. Diagnostic collection also allows Oracle to provide enhanced service and proactive support for your Exadata system. You can enable diagnostic collection during VM cluster/Cloud VM cluster provisioning. You can also disable or enable it at any time using the `UpdateVmCluster` or `updateCloudVmCluster` API. 
+	* `is_health_monitoring_enabled` - (Applicable when creation_type=NewDbSystem) Indicates whether health monitoring is enabled for the VM cluster / Cloud VM cluster / VMBM DBCS. Enabling health monitoring allows Oracle to collect diagnostic data and share it with its operations and support personnel. You may also receive notifications for some events. Collecting health diagnostics enables Oracle to provide proactive support and enhanced service for your system. Optionally enable health monitoring while provisioning a system. You can also disable or enable health monitoring anytime using the `UpdateVmCluster`, `UpdateCloudVmCluster` or `updateDbsystem` API. 
+	* `is_incident_logs_enabled` - (Applicable when creation_type=NewDbSystem) Indicates whether incident logs and trace collection are enabled for the VM cluster / Cloud VM cluster / VMBM DBCS. Enabling incident logs collection allows Oracle to receive Events service notifications for guest VM issues, collect incident logs and traces, and use them to diagnose issues and resolve them. Optionally enable incident logs collection while provisioning a system. You can also disable or enable incident logs collection anytime using the `UpdateVmCluster`, `updateCloudVmCluster` or `updateDbsystem` API. 
 * `database_admin_password` - (Required) (Updatable) A strong password for the `SYS`, `SYSTEM`, and `PDB Admin` users to apply during standby creation.
 
     The password must contain no fewer than nine characters and include:

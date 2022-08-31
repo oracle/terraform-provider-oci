@@ -27,6 +27,10 @@ variable "idcs_access_token" {
 variable "kms_key_id" {
 }
 
+variable "email_notification" {
+
+}
+
 provider "oci" {
   region           = var.region
   tenancy_ocid     = var.tenancy_ocid
@@ -76,6 +80,7 @@ resource "oci_analytics_analytics_instance" "test_oce_instance_public" {
 # Create a private access channel for the instance
 resource "oci_analytics_analytics_instance_private_access_channel" "test_private_access_channel" {
 #Required
+  depends_on = [oci_analytics_analytics_instance.test_oce_instance_public]
   analytics_instance_id = oci_analytics_analytics_instance.test_oce_instance_public.id
   display_name = "ExamplePAC"
   subnet_id = oci_core_subnet.test_subnet.id
@@ -89,6 +94,7 @@ resource "oci_analytics_analytics_instance_private_access_channel" "test_private
 # Create a vanity url for the instance
 resource "oci_analytics_analytics_instance_vanity_url" "test_analytics_instances_vanity_url" {
   #Required
+  depends_on = [oci_analytics_analytics_instance_private_access_channel.test_private_access_channel]
   analytics_instance_id = oci_analytics_analytics_instance.test_oce_instance_public.id
   ca_certificate        = file("/path/to/the/file/RootCA.crt")
   hosts                 = ["analyticsdev.mycompany.com"]
