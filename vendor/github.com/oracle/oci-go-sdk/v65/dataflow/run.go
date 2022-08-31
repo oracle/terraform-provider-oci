@@ -171,6 +171,14 @@ type Run struct {
 	// for BATCH SQL runs.
 	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
 	WarehouseBucketUri *string `mandatory:"false" json:"warehouseBucketUri"`
+
+	// The maximum duration in minutes for which an Application should run. Data Flow Run would be terminated
+	// once it reaches this duration from the time it transitions to `IN_PROGRESS` state.
+	MaxDurationInMinutes *int64 `mandatory:"false" json:"maxDurationInMinutes"`
+
+	// The timeout value in minutes used to manage Runs. A Run would be stopped after inactivity for this amount of time period.
+	// Note: This parameter is currently only applicable for Runs of type `SESSION`. Default value is 2880 minutes (2 days)
+	IdleTimeoutInMinutes *int64 `mandatory:"false" json:"idleTimeoutInMinutes"`
 }
 
 func (m Run) String() string {

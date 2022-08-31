@@ -30,10 +30,6 @@ type CreateApplicationDetails struct {
 	// The VM shape for the executors. Sets the executor cores and memory.
 	ExecutorShape *string `mandatory:"true" json:"executorShape"`
 
-	// An Oracle Cloud Infrastructure URI of the file containing the application to execute.
-	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
-	FileUri *string `mandatory:"true" json:"fileUri"`
-
 	// The Spark language.
 	Language ApplicationLanguageEnum `mandatory:"true" json:"language"`
 
@@ -87,6 +83,10 @@ type CreateApplicationDetails struct {
 
 	ExecutorShapeConfig *ShapeConfig `mandatory:"false" json:"executorShapeConfig"`
 
+	// An Oracle Cloud Infrastructure URI of the file containing the application to execute.
+	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
+	FileUri *string `mandatory:"false" json:"fileUri"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -115,6 +115,14 @@ type CreateApplicationDetails struct {
 	// for BATCH SQL runs.
 	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
 	WarehouseBucketUri *string `mandatory:"false" json:"warehouseBucketUri"`
+
+	// The maximum duration in minutes for which an Application should run. Data Flow Run would be terminated
+	// once it reaches this duration from the time it transitions to `IN_PROGRESS` state.
+	MaxDurationInMinutes *int64 `mandatory:"false" json:"maxDurationInMinutes"`
+
+	// The timeout value in minutes used to manage Runs. A Run would be stopped after inactivity for this amount of time period.
+	// Note: This parameter is currently only applicable for Runs of type `SESSION`. Default value is 2880 minutes (2 days)
+	IdleTimeoutInMinutes *int64 `mandatory:"false" json:"idleTimeoutInMinutes"`
 }
 
 func (m CreateApplicationDetails) String() string {

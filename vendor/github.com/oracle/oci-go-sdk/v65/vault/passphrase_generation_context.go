@@ -16,16 +16,25 @@ import (
 	"strings"
 )
 
-// PassphraseGenerationContext Generates Passphrase type of secrets.
+// PassphraseGenerationContext Generates Passphrase type secrets. By default, passphrase type secrets have no structure. The generated content is stored in Base64 format.
+// The SecretTemplate must have the %GENERATED_PASSPHRASE% keyword, which is later replaced with the generated content, if provided.
 type PassphraseGenerationContext struct {
 
-	// Name of the predefined secret generation template.
-	GenerationTemplate SecretGenerationContextGenerationTemplateEnum `mandatory:"true" json:"generationTemplate"`
+	// SecretTemplate captures structure in which customer wants to store secrets. This is optional and a default structure is available for each secret type.
+	// The template can have any structure with static values that are not generated. Within the template, you can insert predefined placeholders to store secrets.
+	// These placeholders are later replaced with the generated content and saved as a Base64 encoded content.
+	SecretTemplate *string `mandatory:"false" json:"secretTemplate"`
+
+	// Length of the passphrase to be generated
+	PassphraseLength *int `mandatory:"false" json:"passphraseLength"`
+
+	// Name of passphrase generation template to generate passphrase type secret.
+	GenerationTemplate PassphraseGenerationContextGenerationTemplateEnum `mandatory:"true" json:"generationTemplate"`
 }
 
-//GetGenerationTemplate returns GenerationTemplate
-func (m PassphraseGenerationContext) GetGenerationTemplate() SecretGenerationContextGenerationTemplateEnum {
-	return m.GenerationTemplate
+//GetSecretTemplate returns SecretTemplate
+func (m PassphraseGenerationContext) GetSecretTemplate() *string {
+	return m.SecretTemplate
 }
 
 func (m PassphraseGenerationContext) String() string {
@@ -37,10 +46,10 @@ func (m PassphraseGenerationContext) String() string {
 // Not recommended for calling this function directly
 func (m PassphraseGenerationContext) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-
-	if _, ok := GetMappingSecretGenerationContextGenerationTemplateEnum(string(m.GenerationTemplate)); !ok && m.GenerationTemplate != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for GenerationTemplate: %s. Supported values are: %s.", m.GenerationTemplate, strings.Join(GetSecretGenerationContextGenerationTemplateEnumStringValues(), ",")))
+	if _, ok := GetMappingPassphraseGenerationContextGenerationTemplateEnum(string(m.GenerationTemplate)); !ok && m.GenerationTemplate != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for GenerationTemplate: %s. Supported values are: %s.", m.GenerationTemplate, strings.Join(GetPassphraseGenerationContextGenerationTemplateEnumStringValues(), ",")))
 	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -59,4 +68,46 @@ func (m PassphraseGenerationContext) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
+}
+
+// PassphraseGenerationContextGenerationTemplateEnum Enum with underlying type: string
+type PassphraseGenerationContextGenerationTemplateEnum string
+
+// Set of constants representing the allowable values for PassphraseGenerationContextGenerationTemplateEnum
+const (
+	PassphraseGenerationContextGenerationTemplateSecretsDefaultPassword PassphraseGenerationContextGenerationTemplateEnum = "SECRETS_DEFAULT_PASSWORD"
+	PassphraseGenerationContextGenerationTemplateDbaasDefaultPassword   PassphraseGenerationContextGenerationTemplateEnum = "DBAAS_DEFAULT_PASSWORD"
+)
+
+var mappingPassphraseGenerationContextGenerationTemplateEnum = map[string]PassphraseGenerationContextGenerationTemplateEnum{
+	"SECRETS_DEFAULT_PASSWORD": PassphraseGenerationContextGenerationTemplateSecretsDefaultPassword,
+	"DBAAS_DEFAULT_PASSWORD":   PassphraseGenerationContextGenerationTemplateDbaasDefaultPassword,
+}
+
+var mappingPassphraseGenerationContextGenerationTemplateEnumLowerCase = map[string]PassphraseGenerationContextGenerationTemplateEnum{
+	"secrets_default_password": PassphraseGenerationContextGenerationTemplateSecretsDefaultPassword,
+	"dbaas_default_password":   PassphraseGenerationContextGenerationTemplateDbaasDefaultPassword,
+}
+
+// GetPassphraseGenerationContextGenerationTemplateEnumValues Enumerates the set of values for PassphraseGenerationContextGenerationTemplateEnum
+func GetPassphraseGenerationContextGenerationTemplateEnumValues() []PassphraseGenerationContextGenerationTemplateEnum {
+	values := make([]PassphraseGenerationContextGenerationTemplateEnum, 0)
+	for _, v := range mappingPassphraseGenerationContextGenerationTemplateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetPassphraseGenerationContextGenerationTemplateEnumStringValues Enumerates the set of values in String for PassphraseGenerationContextGenerationTemplateEnum
+func GetPassphraseGenerationContextGenerationTemplateEnumStringValues() []string {
+	return []string{
+		"SECRETS_DEFAULT_PASSWORD",
+		"DBAAS_DEFAULT_PASSWORD",
+	}
+}
+
+// GetMappingPassphraseGenerationContextGenerationTemplateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingPassphraseGenerationContextGenerationTemplateEnum(val string) (PassphraseGenerationContextGenerationTemplateEnum, bool) {
+	enum, ok := mappingPassphraseGenerationContextGenerationTemplateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

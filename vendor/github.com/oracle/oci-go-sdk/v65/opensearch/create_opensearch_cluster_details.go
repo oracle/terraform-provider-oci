@@ -81,6 +81,15 @@ type CreateOpensearchClusterDetails struct {
 	// The bare metal shape for the cluster's data nodes.
 	DataNodeHostBareMetalShape *string `mandatory:"false" json:"dataNodeHostBareMetalShape"`
 
+	// The security mode of the cluster.
+	SecurityMode SecurityModeEnum `mandatory:"false" json:"securityMode,omitempty"`
+
+	// The name of the master user that are used to manage security config
+	SecurityMasterUserName *string `mandatory:"false" json:"securityMasterUserName"`
+
+	// The password hash of the master user that are used to manage security config
+	SecurityMasterUserPasswordHash *string `mandatory:"false" json:"securityMasterUserPasswordHash"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -110,6 +119,9 @@ func (m CreateOpensearchClusterDetails) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataNodeHostType: %s. Supported values are: %s.", m.DataNodeHostType, strings.Join(GetDataNodeHostTypeEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingSecurityModeEnum(string(m.SecurityMode)); !ok && m.SecurityMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SecurityMode: %s. Supported values are: %s.", m.SecurityMode, strings.Join(GetSecurityModeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

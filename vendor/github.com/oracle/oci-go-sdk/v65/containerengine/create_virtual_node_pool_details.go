@@ -32,6 +32,9 @@ type CreateVirtualNodePoolDetails struct {
 	// The version of Kubernetes running on the nodes in the node pool.
 	KubernetesVersion *string `mandatory:"true" json:"kubernetesVersion"`
 
+	// The list of placement configurations which determines where Virtual Nodes will be provisioned across as it relates to the subnet and availability domains. The size attribute determines how many we evenly spread across these placement configurations
+	PlacementConfigurations []PlacementConfiguration `mandatory:"true" json:"placementConfigurations"`
+
 	// Initial labels that will be added to the Kubernetes Virtual Node object when it registers.
 	InitialVirtualNodeLabels []InitialVirtualNodeLabel `mandatory:"false" json:"initialVirtualNodeLabels"`
 
@@ -40,9 +43,6 @@ type CreateVirtualNodePoolDetails struct {
 
 	// The number of Virtual Nodes that should be in the Virtual Node Pool. The placement configurations determine where these virtual nodes are placed.
 	Size *int `mandatory:"false" json:"size"`
-
-	// The list of placement configurations which determines where Virtual Nodes will be provisioned across as it relates to the subnet and availability domains. The size attribute determines how many we evenly spread across these placement configurations
-	PlacementConfigurations []PlacementConfiguration `mandatory:"false" json:"placementConfigurations"`
 
 	// List of network security group id's applied to the Virtual Node VNIC.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`

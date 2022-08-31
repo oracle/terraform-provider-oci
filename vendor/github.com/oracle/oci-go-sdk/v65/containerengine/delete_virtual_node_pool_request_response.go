@@ -26,6 +26,13 @@ type DeleteVirtualNodePoolRequest struct {
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Duration after which Sk8s will give up eviction of the pods on the node.
+	// PT0M will indicate you want to delete the virtual node without cordon and drain. Default PT60M, Min PT0M, Max: PT60M. Format ISO 8601 e.g PT30M
+	OverrideEvictionGraceDurationVnp *string `mandatory:"false" contributesTo:"query" name:"overrideEvictionGraceDurationVnp"`
+
+	// If the underlying compute instance should be deleted if you cannot evict all the pods in grace period
+	IsForceDeletionAfterOverrideGraceDurationVnp *bool `mandatory:"false" contributesTo:"query" name:"isForceDeletionAfterOverrideGraceDurationVnp"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

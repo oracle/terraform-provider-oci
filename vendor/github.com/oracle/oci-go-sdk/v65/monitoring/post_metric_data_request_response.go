@@ -21,6 +21,9 @@ type PostMetricDataRequest struct {
 	// request, please provide the complete request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// The optional Content-Encoding header that defines the content encodings that were applied to the payload.
+	ContentEncoding *string `mandatory:"false" contributesTo:"header" name:"content-encoding"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

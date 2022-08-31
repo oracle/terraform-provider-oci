@@ -26,8 +26,8 @@ type ClusterCreateOptions struct {
 	// Network configuration for Kubernetes.
 	KubernetesNetworkConfig *KubernetesNetworkConfig `mandatory:"false" json:"kubernetesNetworkConfig"`
 
-	// Configurable cluster add-ons
-	AddOns *AddOnOptions `mandatory:"false" json:"addOns"`
+	// Configurable cluster addons
+	Addons *AddonOptions `mandatory:"false" json:"addons"`
 
 	// Configurable cluster admission controllers
 	AdmissionControllerOptions *AdmissionControllerOptions `mandatory:"false" json:"admissionControllerOptions"`

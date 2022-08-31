@@ -439,6 +439,9 @@ func (client MonitoringClient) listAlarms(ctx context.Context, request common.OC
 }
 
 // ListAlarmsStatus List the status of each alarm in the specified compartment.
+// Status is collective, across all metric streams in the alarm.
+// To list alarm status for each metric stream, use RetrieveDimensionStates.
+// The alarm attribute `isNotificationsPerMetricDimensionEnabled` must be set to `true`.
 // For important limits information, see Limits on Monitoring (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
 // This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations.
 // Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
@@ -560,7 +563,7 @@ func (client MonitoringClient) listMetrics(ctx context.Context, request common.O
 // * Transactions Per Second (TPS) per-tenancy limit for this operation: 50.
 // *A metric group is the combination of a given metric, metric namespace, and tenancy for the purpose of determining limits.
 // A dimension is a qualifier provided in a metric definition.
-// A metric stream is an individual set of aggregated data for a metric, typically specific to a resource.
+// A metric stream is an individual set of aggregated data for a metric with zero or more dimension values.
 // For more information about metric-related concepts, see Monitoring Concepts (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#concepts).
 // The endpoints for this operation differ from other Monitoring operations. Replace the string `telemetry` with `telemetry-ingestion` in the endpoint, as in the following example:
 // https://telemetry-ingestion.eu-frankfurt-1.oraclecloud.com

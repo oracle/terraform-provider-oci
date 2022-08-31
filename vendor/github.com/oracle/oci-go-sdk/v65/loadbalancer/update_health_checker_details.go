@@ -52,6 +52,13 @@ type UpdateHealthCheckerDetails struct {
 	// The path against which to run the health check.
 	// Example: `/healthcheck`
 	UrlPath *string `mandatory:"false" json:"urlPath"`
+
+	// description: |
+	// Whether SSL Encryption is used for the Health Check.
+	// If "true", health checks will not use SSL Encryption even if the associated backend set is configured to use SSL Encryption.
+	// If "false", health checks will use SSL Encryption if the associated backend set is configured to use SSL Encryption, otherwise not.
+	// Example: `false`
+	IsDisableSslEncryption *bool `mandatory:"false" json:"isDisableSslEncryption"`
 }
 
 func (m UpdateHealthCheckerDetails) String() string {

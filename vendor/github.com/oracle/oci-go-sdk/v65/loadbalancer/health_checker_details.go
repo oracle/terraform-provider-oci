@@ -53,6 +53,12 @@ type HealthCheckerDetails struct {
 	// A regular expression for parsing the response body from the backend server.
 	// Example: `^((?!false).|\s)*$`
 	ResponseBodyRegex *string `mandatory:"false" json:"responseBodyRegex"`
+
+	// Whether SSL Encryption is used for the Health Check.
+	// If "true", health checks will not use SSL Encryption even if the associated backend set is configured to use SSL Encryption.
+	// If "false", health checks will use SSL Encryption if the associated backend set is configured to use SSL Encryption, otherwise not.
+	// Example: `false`
+	IsDisableSslEncryption *bool `mandatory:"false" json:"isDisableSslEncryption"`
 }
 
 func (m HealthCheckerDetails) String() string {

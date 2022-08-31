@@ -42,6 +42,8 @@ type DeployArtifact struct {
 	// Deployment artifact identifier, which can be renamed and is not necessarily unique. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	HelmVerificationKeySource VerificationKeySource `mandatory:"false" json:"helmVerificationKeySource"`
+
 	// Time the deployment artifact was created. Format defined by RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339).
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
@@ -92,21 +94,22 @@ func (m DeployArtifact) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *DeployArtifact) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description              *string                                    `json:"description"`
-		DisplayName              *string                                    `json:"displayName"`
-		TimeCreated              *common.SDKTime                            `json:"timeCreated"`
-		TimeUpdated              *common.SDKTime                            `json:"timeUpdated"`
-		LifecycleState           DeployArtifactLifecycleStateEnum           `json:"lifecycleState"`
-		LifecycleDetails         *string                                    `json:"lifecycleDetails"`
-		FreeformTags             map[string]string                          `json:"freeformTags"`
-		DefinedTags              map[string]map[string]interface{}          `json:"definedTags"`
-		SystemTags               map[string]map[string]interface{}          `json:"systemTags"`
-		Id                       *string                                    `json:"id"`
-		ProjectId                *string                                    `json:"projectId"`
-		CompartmentId            *string                                    `json:"compartmentId"`
-		DeployArtifactType       DeployArtifactDeployArtifactTypeEnum       `json:"deployArtifactType"`
-		ArgumentSubstitutionMode DeployArtifactArgumentSubstitutionModeEnum `json:"argumentSubstitutionMode"`
-		DeployArtifactSource     deployartifactsource                       `json:"deployArtifactSource"`
+		Description               *string                                    `json:"description"`
+		DisplayName               *string                                    `json:"displayName"`
+		HelmVerificationKeySource verificationkeysource                      `json:"helmVerificationKeySource"`
+		TimeCreated               *common.SDKTime                            `json:"timeCreated"`
+		TimeUpdated               *common.SDKTime                            `json:"timeUpdated"`
+		LifecycleState            DeployArtifactLifecycleStateEnum           `json:"lifecycleState"`
+		LifecycleDetails          *string                                    `json:"lifecycleDetails"`
+		FreeformTags              map[string]string                          `json:"freeformTags"`
+		DefinedTags               map[string]map[string]interface{}          `json:"definedTags"`
+		SystemTags                map[string]map[string]interface{}          `json:"systemTags"`
+		Id                        *string                                    `json:"id"`
+		ProjectId                 *string                                    `json:"projectId"`
+		CompartmentId             *string                                    `json:"compartmentId"`
+		DeployArtifactType        DeployArtifactDeployArtifactTypeEnum       `json:"deployArtifactType"`
+		ArgumentSubstitutionMode  DeployArtifactArgumentSubstitutionModeEnum `json:"argumentSubstitutionMode"`
+		DeployArtifactSource      deployartifactsource                       `json:"deployArtifactSource"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -117,6 +120,16 @@ func (m *DeployArtifact) UnmarshalJSON(data []byte) (e error) {
 	m.Description = model.Description
 
 	m.DisplayName = model.DisplayName
+
+	nn, e = model.HelmVerificationKeySource.UnmarshalPolymorphicJSON(model.HelmVerificationKeySource.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.HelmVerificationKeySource = nn.(VerificationKeySource)
+	} else {
+		m.HelmVerificationKeySource = nil
+	}
 
 	m.TimeCreated = model.TimeCreated
 

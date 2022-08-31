@@ -19,14 +19,16 @@ import (
 // SecretGenerationContext Captures a configurable set of secret generation rules such as length, base characters, additional characters, and so on.
 type SecretGenerationContext interface {
 
-	// Name of the predefined secret generation template.
-	GetGenerationTemplate() SecretGenerationContextGenerationTemplateEnum
+	// SecretTemplate captures structure in which customer wants to store secrets. This is optional and a default structure is available for each secret type.
+	// The template can have any structure with static values that are not generated. Within the template, you can insert predefined placeholders to store secrets.
+	// These placeholders are later replaced with the generated content and saved as a Base64 encoded content.
+	GetSecretTemplate() *string
 }
 
 type secretgenerationcontext struct {
-	JsonData           []byte
-	GenerationTemplate SecretGenerationContextGenerationTemplateEnum `mandatory:"true" json:"generationTemplate"`
-	GenerationType     string                                        `json:"generationType"`
+	JsonData       []byte
+	SecretTemplate *string `mandatory:"false" json:"secretTemplate"`
+	GenerationType string  `json:"generationType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -40,7 +42,7 @@ func (m *secretgenerationcontext) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
-	m.GenerationTemplate = s.Model.GenerationTemplate
+	m.SecretTemplate = s.Model.SecretTemplate
 	m.GenerationType = s.Model.GenerationType
 
 	return err
@@ -59,15 +61,23 @@ func (m *secretgenerationcontext) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := PassphraseGenerationContext{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "SSH_KEY":
+		mm := SshKeyGenerationContext{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "BYTES":
+		mm := BytesGenerationContext{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for SecretGenerationContext: %s.", m.GenerationType)
 		return *m, nil
 	}
 }
 
-//GetGenerationTemplate returns GenerationTemplate
-func (m secretgenerationcontext) GetGenerationTemplate() SecretGenerationContextGenerationTemplateEnum {
-	return m.GenerationTemplate
+//GetSecretTemplate returns SecretTemplate
+func (m secretgenerationcontext) GetSecretTemplate() *string {
+	return m.SecretTemplate
 }
 
 func (m secretgenerationcontext) String() string {
@@ -79,56 +89,11 @@ func (m secretgenerationcontext) String() string {
 // Not recommended for calling this function directly
 func (m secretgenerationcontext) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingSecretGenerationContextGenerationTemplateEnum(string(m.GenerationTemplate)); !ok && m.GenerationTemplate != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for GenerationTemplate: %s. Supported values are: %s.", m.GenerationTemplate, strings.Join(GetSecretGenerationContextGenerationTemplateEnumStringValues(), ",")))
-	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// SecretGenerationContextGenerationTemplateEnum Enum with underlying type: string
-type SecretGenerationContextGenerationTemplateEnum string
-
-// Set of constants representing the allowable values for SecretGenerationContextGenerationTemplateEnum
-const (
-	SecretGenerationContextGenerationTemplateSecretsDefaultPassword SecretGenerationContextGenerationTemplateEnum = "SECRETS_DEFAULT_PASSWORD"
-	SecretGenerationContextGenerationTemplateDbaasDefaultPassword   SecretGenerationContextGenerationTemplateEnum = "DBAAS_DEFAULT_PASSWORD"
-)
-
-var mappingSecretGenerationContextGenerationTemplateEnum = map[string]SecretGenerationContextGenerationTemplateEnum{
-	"SECRETS_DEFAULT_PASSWORD": SecretGenerationContextGenerationTemplateSecretsDefaultPassword,
-	"DBAAS_DEFAULT_PASSWORD":   SecretGenerationContextGenerationTemplateDbaasDefaultPassword,
-}
-
-var mappingSecretGenerationContextGenerationTemplateEnumLowerCase = map[string]SecretGenerationContextGenerationTemplateEnum{
-	"secrets_default_password": SecretGenerationContextGenerationTemplateSecretsDefaultPassword,
-	"dbaas_default_password":   SecretGenerationContextGenerationTemplateDbaasDefaultPassword,
-}
-
-// GetSecretGenerationContextGenerationTemplateEnumValues Enumerates the set of values for SecretGenerationContextGenerationTemplateEnum
-func GetSecretGenerationContextGenerationTemplateEnumValues() []SecretGenerationContextGenerationTemplateEnum {
-	values := make([]SecretGenerationContextGenerationTemplateEnum, 0)
-	for _, v := range mappingSecretGenerationContextGenerationTemplateEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetSecretGenerationContextGenerationTemplateEnumStringValues Enumerates the set of values in String for SecretGenerationContextGenerationTemplateEnum
-func GetSecretGenerationContextGenerationTemplateEnumStringValues() []string {
-	return []string{
-		"SECRETS_DEFAULT_PASSWORD",
-		"DBAAS_DEFAULT_PASSWORD",
-	}
-}
-
-// GetMappingSecretGenerationContextGenerationTemplateEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingSecretGenerationContextGenerationTemplateEnum(val string) (SecretGenerationContextGenerationTemplateEnum, bool) {
-	enum, ok := mappingSecretGenerationContextGenerationTemplateEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }
 
 // SecretGenerationContextGenerationTypeEnum Enum with underlying type: string
@@ -137,14 +102,20 @@ type SecretGenerationContextGenerationTypeEnum string
 // Set of constants representing the allowable values for SecretGenerationContextGenerationTypeEnum
 const (
 	SecretGenerationContextGenerationTypePassphrase SecretGenerationContextGenerationTypeEnum = "PASSPHRASE"
+	SecretGenerationContextGenerationTypeSshKey     SecretGenerationContextGenerationTypeEnum = "SSH_KEY"
+	SecretGenerationContextGenerationTypeBytes      SecretGenerationContextGenerationTypeEnum = "BYTES"
 )
 
 var mappingSecretGenerationContextGenerationTypeEnum = map[string]SecretGenerationContextGenerationTypeEnum{
 	"PASSPHRASE": SecretGenerationContextGenerationTypePassphrase,
+	"SSH_KEY":    SecretGenerationContextGenerationTypeSshKey,
+	"BYTES":      SecretGenerationContextGenerationTypeBytes,
 }
 
 var mappingSecretGenerationContextGenerationTypeEnumLowerCase = map[string]SecretGenerationContextGenerationTypeEnum{
 	"passphrase": SecretGenerationContextGenerationTypePassphrase,
+	"ssh_key":    SecretGenerationContextGenerationTypeSshKey,
+	"bytes":      SecretGenerationContextGenerationTypeBytes,
 }
 
 // GetSecretGenerationContextGenerationTypeEnumValues Enumerates the set of values for SecretGenerationContextGenerationTypeEnum
@@ -160,6 +131,8 @@ func GetSecretGenerationContextGenerationTypeEnumValues() []SecretGenerationCont
 func GetSecretGenerationContextGenerationTypeEnumStringValues() []string {
 	return []string{
 		"PASSPHRASE",
+		"SSH_KEY",
+		"BYTES",
 	}
 }
 

@@ -277,7 +277,7 @@ func IsCircuitBreakerError(err error) bool {
 	if err == nil {
 		return false
 	}
-	
+
 	if err.Error() == gobreaker.ErrOpenState.Error() || err.Error() == gobreaker.ErrTooManyRequests.Error() {
 		return true
 	}

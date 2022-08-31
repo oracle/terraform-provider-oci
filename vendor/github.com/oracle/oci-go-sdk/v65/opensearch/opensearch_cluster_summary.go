@@ -61,6 +61,9 @@ type OpensearchClusterSummary struct {
 
 	// The availability domains to distribute the cluser nodes across.
 	AvailabilityDomains []string `mandatory:"false" json:"availabilityDomains"`
+
+	// The security mode of the cluster.
+	SecurityMode SecurityModeEnum `mandatory:"false" json:"securityMode,omitempty"`
 }
 
 func (m OpensearchClusterSummary) String() string {
@@ -75,6 +78,9 @@ func (m OpensearchClusterSummary) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingOpensearchClusterLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetOpensearchClusterLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingSecurityModeEnum(string(m.SecurityMode)); !ok && m.SecurityMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SecurityMode: %s. Supported values are: %s.", m.SecurityMode, strings.Join(GetSecurityModeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

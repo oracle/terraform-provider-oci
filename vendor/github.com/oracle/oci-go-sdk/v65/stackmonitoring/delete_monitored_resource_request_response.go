@@ -28,6 +28,9 @@ type DeleteMonitoredResourceRequest struct {
 	// particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// A filter to delete the associated children or not for given resource.
+	IsDeleteMembers *bool `mandatory:"false" contributesTo:"query" name:"isDeleteMembers"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

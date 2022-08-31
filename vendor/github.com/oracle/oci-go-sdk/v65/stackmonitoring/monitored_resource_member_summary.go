@@ -33,6 +33,12 @@ type MonitoredResourceMemberSummary struct {
 	// Monitored Resource Host
 	HostName *string `mandatory:"false" json:"hostName"`
 
+	// External resource is any OCI resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// which is not a Stack Monitoring service resource.
+	// Currently supports only following resource type identifiers - externalcontainerdatabase,
+	// externalnoncontainerdatabase, externalpluggabledatabase and OCI compute instance.
+	ExternalId *string `mandatory:"false" json:"externalId"`
+
 	// Parent monitored resource identifier
 	ParentId *string `mandatory:"false" json:"parentId"`
 

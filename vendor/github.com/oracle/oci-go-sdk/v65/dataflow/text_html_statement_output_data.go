@@ -10,33 +10,45 @@
 package dataflow
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// Scan Single Client Access Name (SCAN) is the object with a fully-qualified domain name and a port number.
-type Scan struct {
+// TextHtmlStatementOutputData The statement output data in html format.
+type TextHtmlStatementOutputData struct {
 
-	// A fully-qualified domain name (FQDN).
-	Fqdn *string `mandatory:"false" json:"fqdn"`
-
-	// The port number of the FQDN
-	Port *string `mandatory:"false" json:"port"`
+	// The statement code execution output in html format.
+	Value *string `mandatory:"true" json:"value"`
 }
 
-func (m Scan) String() string {
+func (m TextHtmlStatementOutputData) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m Scan) ValidateEnumValue() (bool, error) {
+func (m TextHtmlStatementOutputData) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// MarshalJSON marshals to json representation
+func (m TextHtmlStatementOutputData) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeTextHtmlStatementOutputData TextHtmlStatementOutputData
+	s := struct {
+		DiscriminatorParam string `json:"type"`
+		MarshalTypeTextHtmlStatementOutputData
+	}{
+		"TEXT_HTML",
+		(MarshalTypeTextHtmlStatementOutputData)(m),
+	}
+
+	return json.Marshal(&s)
 }
