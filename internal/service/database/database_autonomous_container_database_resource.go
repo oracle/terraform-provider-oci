@@ -215,6 +215,11 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"is_monthly_patching_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"lead_time_in_weeks": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -488,6 +493,10 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 							},
 						},
 						"is_custom_action_timeout_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_monthly_patching_enabled": {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
@@ -1253,6 +1262,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToMaintenanceWindow
 	if isCustomActionTimeoutEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_custom_action_timeout_enabled")); ok {
 		tmp := isCustomActionTimeoutEnabled.(bool)
 		result.IsCustomActionTimeoutEnabled = &tmp
+	}
+
+	if isMonthlyPatchingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_monthly_patching_enabled")); ok {
+		tmp := isMonthlyPatchingEnabled.(bool)
+		result.IsMonthlyPatchingEnabled = &tmp
 	}
 
 	if leadTimeInWeeks, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lead_time_in_weeks")); ok {

@@ -143,6 +143,11 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"is_monthly_patching_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"lead_time_in_weeks": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -247,6 +252,10 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 							},
 						},
 						"is_custom_action_timeout_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_monthly_patching_enabled": {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
@@ -757,6 +766,11 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) mapToMaintenanceWi
 		result.IsCustomActionTimeoutEnabled = &tmp
 	}
 
+	if isMonthlyPatchingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_monthly_patching_enabled")); ok {
+		tmp := isMonthlyPatchingEnabled.(bool)
+		result.IsMonthlyPatchingEnabled = &tmp
+	}
+
 	if leadTimeInWeeks, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lead_time_in_weeks")); ok {
 		tmp := leadTimeInWeeks.(int)
 		if tmp > 0 {
@@ -822,6 +836,10 @@ func MaintenanceWindowToMap(obj *oci_database.MaintenanceWindow) map[string]inte
 
 	if obj.IsCustomActionTimeoutEnabled != nil {
 		result["is_custom_action_timeout_enabled"] = bool(*obj.IsCustomActionTimeoutEnabled)
+	}
+
+	if obj.IsMonthlyPatchingEnabled != nil {
+		result["is_monthly_patching_enabled"] = bool(*obj.IsMonthlyPatchingEnabled)
 	}
 
 	if obj.LeadTimeInWeeks != nil {
