@@ -397,6 +397,7 @@ cloud_guard
 * oci\_cloud\_guard\_detector\_recipe
 * oci\_cloud\_guard\_security\_recipe
 * oci\_cloud\_guard\_security\_zone
+* oci\_cloud\_guard\_data\_source
 
 containerengine
     

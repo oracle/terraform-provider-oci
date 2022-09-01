@@ -194,6 +194,7 @@ func init() {
 	// cloud_guard service
 	RegisterResource("oci_cloud_guard_cloud_guard_configuration", tf_cloud_guard.CloudGuardCloudGuardConfigurationResource())
 	RegisterResource("oci_cloud_guard_data_mask_rule", tf_cloud_guard.CloudGuardDataMaskRuleResource())
+	RegisterResource("oci_cloud_guard_data_source", tf_cloud_guard.CloudGuardDataSourceResource())
 	RegisterResource("oci_cloud_guard_detector_recipe", tf_cloud_guard.CloudGuardDetectorRecipeResource())
 	RegisterResource("oci_cloud_guard_managed_list", tf_cloud_guard.CloudGuardManagedListResource())
 	RegisterResource("oci_cloud_guard_responder_recipe", tf_cloud_guard.CloudGuardResponderRecipeResource())
