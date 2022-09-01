@@ -58,6 +58,8 @@ var (
 		"is_resume_patching":                    acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"patch_id":                              acctest.Representation{RepType: acctest.Optional, Create: `${var.maintenance_run_patch_id}`},
 		"patching_mode":                         acctest.Representation{RepType: acctest.Optional, Create: `ROLLING`, Update: `NONROLLING`},
+		"target_db_server_version":              acctest.Representation{RepType: acctest.Optional, Create: `targetDbServerVersion`, Update: `targetDbServerVersion2`},
+		"target_storage_server_version":         acctest.Representation{RepType: acctest.Optional, Create: `targetStorageServerVersion`, Update: `targetStorageServerVersion2`},
 		"time_scheduled":                        acctest.Representation{RepType: acctest.Required, Create: mrTimeScheduledCreate.Format(time.RFC3339Nano), Update: mrTimeScheduledUpdate.Format(time.RFC3339Nano)},
 	}
 
@@ -129,6 +131,9 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "patch_id"),
 				resource.TestCheckResourceAttr(resourceName, "patching_mode", "ROLLING"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "target_db_server_version", "targetDbServerVersion"),
+				resource.TestCheckResourceAttr(resourceName, "target_storage_server_version", "targetStorageServerVersion"),
+				resource.TestCheckResourceAttr(resourceName, "time_scheduled", "timeScheduled"),
 				resource.TestCheckResourceAttr(resourceName, "time_scheduled", mrTimeScheduledCreate.Format(time.RFC3339Nano)),
 
 				func(s *terraform.State) (err error) {
@@ -161,6 +166,8 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "patch_id"),
 				resource.TestCheckResourceAttr(resourceName, "patching_mode", "NONROLLING"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "target_db_server_version", "targetDbServerVersion2"),
+				resource.TestCheckResourceAttr(resourceName, "target_storage_server_version", "targetStorageServerVersion2"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_scheduled"),
 
 				func(s *terraform.State) (err error) {
@@ -280,9 +287,7 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "patching_status"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_maintenance_run_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_db_server_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_resource_type"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_storage_server_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_ended"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_scheduled"),
 			),
