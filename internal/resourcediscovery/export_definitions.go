@@ -617,6 +617,18 @@ var exportCloudGuardSecurityZoneHints = &TerraformResourceHints{
 	},
 }
 
+var exportCloudGuardDataSourceHints = &TerraformResourceHints{
+	resourceClass:          "oci_cloud_guard_data_source",
+	datasourceClass:        "oci_cloud_guard_data_sources",
+	datasourceItemsAttr:    "data_source_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "data_source",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_cloud_guard.LifecycleStateActive),
+	},
+}
+
 var exportContainerengineClusterHints = &TerraformResourceHints{
 	resourceClass:          "oci_containerengine_cluster",
 	datasourceClass:        "oci_containerengine_clusters",
