@@ -32,11 +32,11 @@ var (
 	MonitoringAlarmResourceConfig = MonitoringAlarmResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", acctest.Optional, acctest.Update, MonitoringAlarmRepresentation)
 
-	MonitoringMonitoringAlarmSingularDataSourceRepresentation = map[string]interface{}{
+	MonitoringAlarmSingularDataSourceRepresentation = map[string]interface{}{
 		"alarm_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_monitoring_alarm.test_alarm.id}`},
 	}
 
-	MonitoringMonitoringAlarmDataSourceRepresentation = map[string]interface{}{
+	MonitoringAlarmDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `High CPU Utilization`, Update: `displayName2`},
@@ -48,17 +48,18 @@ var (
 	}
 
 	MonitoringAlarmRepresentation = map[string]interface{}{
-		"compartment_id":                   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"destinations":                     acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_ons_notification_topic.test_notification_topic.id}`}, Update: []string{`${oci_ons_notification_topic.test_notification_topic2.id}`}},
-		"display_name":                     acctest.Representation{RepType: acctest.Required, Create: `High CPU Utilization`, Update: `displayName2`},
-		"is_enabled":                       acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
-		"metric_compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"namespace":                        acctest.Representation{RepType: acctest.Required, Create: `oci_computeagent`, Update: `oci_lbaas`},
-		"query":                            acctest.Representation{RepType: acctest.Required, Create: `CpuUtilization[10m].percentile(0.9) < 85`, Update: `AcceptedConnections[10m].count() <= 0`},
-		"severity":                         acctest.Representation{RepType: acctest.Required, Create: `WARNING`, Update: `INFO`},
-		"body":                             acctest.Representation{RepType: acctest.Optional, Create: `CPU utilization has reached high values.`, Update: `body2`},
-		"defined_tags":                     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":                    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"destinations":          acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_ons_notification_topic.test_notification_topic.id}`}, Update: []string{`${oci_ons_notification_topic.test_notification_topic2.id}`}},
+		"display_name":          acctest.Representation{RepType: acctest.Required, Create: `High CPU Utilization`, Update: `displayName2`},
+		"is_enabled":            acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
+		"metric_compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"namespace":             acctest.Representation{RepType: acctest.Required, Create: `oci_computeagent`, Update: `oci_lbaas`},
+		"query":                 acctest.Representation{RepType: acctest.Required, Create: `CpuUtilization[10m].percentile(0.9) < 85`, Update: `AcceptedConnections[10m].count() <= 0`},
+		"severity":              acctest.Representation{RepType: acctest.Required, Create: `WARNING`, Update: `INFO`},
+		"body":                  acctest.Representation{RepType: acctest.Optional, Create: `CPU utilization has reached high values.`, Update: `body2`},
+		"defined_tags":          acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_notifications_per_metric_dimension_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"message_format":                   acctest.Representation{RepType: acctest.Optional, Create: `ONS_OPTIMIZED`, Update: `PRETTY_JSON`},
 		"metric_compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"pending_duration":                 acctest.Representation{RepType: acctest.Optional, Create: `PT5M`, Update: `PT10M`},
@@ -74,9 +75,15 @@ var (
 	}
 
 	MonitoringAlarmResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(10, utils.CharsetWithoutDigits, "talarm1")) +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic2", acctest.Required, acctest.Create, getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(10, utils.CharsetWithoutDigits, "talarm2"))
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, getONSTopicRepresentationCopyWithRandomNameOrHttpReplayValue(10, "talarm1")) +
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic2", acctest.Required, acctest.Create, getONSTopicRepresentationCopyWithRandomNameOrHttpReplayValue(10, "talarm2"))
 )
+
+func getONSTopicRepresentationCopyWithRandomNameOrHttpReplayValue(length int, httpReplayValue string) map[string]interface{} {
+	return acctest.RepresentationCopyWithNewProperties(OnsNotificationTopicRepresentation, map[string]interface{}{
+		"name": acctest.Representation{RepType: acctest.Required, Create: utils.RandomStringOrHttpReplayValue(length, utils.CharsetWithoutDigits, httpReplayValue)},
+	})
+}
 
 // issue-routing-tag: monitoring/default
 func TestMonitoringAlarmResource_basic(t *testing.T) {
@@ -138,6 +145,7 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_notifications_per_metric_dimension_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "message_format", "ONS_OPTIMIZED"),
 				resource.TestCheckResourceAttrSet(resourceName, "metric_compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "metric_compartment_id_in_subtree", "false"),
@@ -183,6 +191,7 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_notifications_per_metric_dimension_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "message_format", "ONS_OPTIMIZED"),
 				resource.TestCheckResourceAttrSet(resourceName, "metric_compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "metric_compartment_id_in_subtree", "false"),
@@ -214,7 +223,8 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + MonitoringAlarmResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", acctest.Optional, acctest.Update, MonitoringAlarmRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", acctest.Optional,
+					acctest.Update, MonitoringAlarmRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "body", "body2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -223,6 +233,7 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_notifications_per_metric_dimension_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "message_format", "PRETTY_JSON"),
 				resource.TestCheckResourceAttrSet(resourceName, "metric_compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "metric_compartment_id_in_subtree", "true"),
@@ -253,7 +264,7 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_monitoring_alarms", "test_alarms", acctest.Optional, acctest.Update, MonitoringMonitoringAlarmDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_monitoring_alarms", "test_alarms", acctest.Optional, acctest.Update, MonitoringAlarmDataSourceRepresentation) +
 				compartmentIdVariableStr + MonitoringAlarmResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", acctest.Optional, acctest.Update, MonitoringAlarmRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -283,7 +294,7 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", acctest.Required, acctest.Create, MonitoringMonitoringAlarmSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", acctest.Required, acctest.Create, MonitoringAlarmSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + MonitoringAlarmResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "alarm_id"),
@@ -296,6 +307,7 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_notifications_per_metric_dimension_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "message_format", "PRETTY_JSON"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "metric_compartment_id_in_subtree", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "namespace", "oci_lbaas"),

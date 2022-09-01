@@ -129,6 +129,10 @@ variable "tag_namespace_name" {
   default = "testexamples-tag-namespace"
 }
 
+variable "is_notifications_per_metric_dimension_enabled" {
+  default = false
+}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -167,6 +171,7 @@ resource "oci_monitoring_alarm" "test_alarm" {
   repeat_notification_duration     = var.alarm_repeat_notification_duration
   resolution                       = var.alarm_resolution
   resource_group                   = var.alarm_resource_group
+  is_notifications_per_metric_dimension_enabled = var.is_notifications_per_metric_dimension_enabled
 
   suppression {
     #Required

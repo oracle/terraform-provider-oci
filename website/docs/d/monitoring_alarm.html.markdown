@@ -50,6 +50,7 @@ The following attributes are exported:
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the alarm. 
 * `is_enabled` - Whether the alarm is enabled.  Example: `true` 
+* `is_notifications_per_metric_dimension_enabled` - When set to `true`, splits notifications per metric stream. When set to `false`, groups notifications across metric streams. Example: `true` 
 * `message_format` - The format to use for notification messages sent from this alarm. The formats are:
 	* `RAW` - Raw JSON blob. Default value.
 	* `PRETTY_JSON`: JSON with new lines and indents.
