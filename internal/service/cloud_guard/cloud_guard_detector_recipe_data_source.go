@@ -110,6 +110,9 @@ func (s *CloudGuardDetectorRecipeDataSourceCrud) SetData() error {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
+	s.D.Set("target_ids", s.Res.TargetIds)
+	s.D.Set("target_ids", s.Res.TargetIds)
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}

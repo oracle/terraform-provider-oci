@@ -107,8 +107,7 @@ var (
 	}
 
 	//Correcting the dependencies
-	CloudGuardTargetResourceDependencies = CloudGuardResponderRecipeResourceDependencies + CloudGuardDetectorRecipeResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", acctest.Required, acctest.Create,
-		CloudGuardDetectorRecipeRepresentation)
+	CloudGuardTargetResourceDependencies = CloudGuardResponderRecipeResourceDependencies + CloudGuardDetectorRecipeResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", acctest.Required, acctest.Create, CloudGuardDetectorRecipeRepresentation)
 )
 
 // issue-routing-tag: cloud_guard/default
@@ -124,7 +123,6 @@ func TestCloudGuardTargetResource_basic(t *testing.T) {
 	resourceName := "oci_cloud_guard_target.test_target"
 	datasourceName := "data.oci_cloud_guard_targets.test_targets"
 	singularDatasourceName := "data.oci_cloud_guard_target.test_target"
-
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+CloudGuardTargetResourceDependencies+
@@ -331,6 +329,7 @@ func TestCloudGuardTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.effective_detector_rules.0.details.0.risk_level"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.detector"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.display_name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.entities_mappings.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.managed_list_types.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.recommendation"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.resource_type"),

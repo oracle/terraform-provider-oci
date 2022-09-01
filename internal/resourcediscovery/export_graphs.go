@@ -308,6 +308,7 @@ var cloudGuardResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportCloudGuardDetectorRecipeHints},
 		{TerraformResourceHints: exportCloudGuardSecurityRecipeHints},
 		{TerraformResourceHints: exportCloudGuardSecurityZoneHints},
+		{TerraformResourceHints: exportCloudGuardDataSourceHints},
 	},
 }
 

@@ -76,4 +76,9 @@ resource "oci_cloud_guard_security_zone" "test_security_zone" {
 
   #Optional
   description   = "${var.security_zone_description}"
+
+  //Added only because we are testing this in a splat-disabled env
+  lifecycle {
+    ignore_changes = [system_tags]
+  }
 }
