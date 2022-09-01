@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_data_connectivity_registry_type
 This data source provides details about a specific Registry Type resource in Oracle Cloud Infrastructure Data Connectivity service.
 
-This endpoint retrieves dataAsset and connection attributes from DataAssetRegistry
+This endpoint retrieves dataAsset and connection attributes from DataAssetRegistry.
 
 
 ## Example Usage
@@ -31,21 +31,21 @@ data "oci_data_connectivity_registry_type" "test_registry_type" {
 The following arguments are supported:
 
 * `fields` - (Optional) Specifies the fields to get for an object.
-* `registry_id` - (Required) The registry Ocid.
-* `type_key` - (Required) key of the a specefic Type.
+* `registry_id` - (Required) The registry OCID.
+* `type_key` - (Required) Key of the a specific type.
 
 
 ## Attributes Reference
 
 The following attributes are exported:
 
-* `connection_attributes` - Map of connectionType as key and List of attributes as value
-* `data_asset_attributes` - list of attributes for the dataAsset
-	* `attribute_type` - Attribute type details
-	* `is_base64encoded` - True if Attribute is encoded.
-	* `is_generated` - True if Attribute is generated.
-	* `is_mandatory` - True if Attribute is mandatory.
-	* `is_sensitive` - True if Attribute is sensitive.
-	* `name` - The name of of the Attribute.
-	* `valid_key_list` - List of valid key list
+* `connection_attributes` - Mapping the connectionType as the key to the list of attributes as the value.
+* `data_asset_attributes` - The list of attributes of the data asset.
+	* `attribute_type` - The attribute type details.
+	* `is_base64encoded` - True if attribute is encoded.
+	* `is_generated` - True if attribute is generated.
+	* `is_mandatory` - True if attribute is mandatory.
+	* `is_sensitive` - True if attribute is sensitive.
+	* `name` - The name of of the attribute.
+	* `valid_key_list` - The list of valid keys.
 
