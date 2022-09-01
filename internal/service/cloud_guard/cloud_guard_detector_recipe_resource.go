@@ -36,11 +36,6 @@ func CloudGuardDetectorRecipeResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"source_detector_recipe_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 
 			// Optional
 			"defined_tags": {
@@ -54,6 +49,12 @@ func CloudGuardDetectorRecipeResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"detector": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"detector_rules": {
 				Type:     schema.TypeList,
@@ -144,6 +145,44 @@ func CloudGuardDetectorRecipeResource() *schema.Resource {
 											},
 										},
 									},
+									"data_source_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"description": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"entities_mappings": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"query_field": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+
+												// Optional
+												"display_name": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"entity_type": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
 									"labels": {
 										Type:     schema.TypeList,
 										Optional: true,
@@ -151,6 +190,11 @@ func CloudGuardDetectorRecipeResource() *schema.Resource {
 										Elem: &schema.Schema{
 											Type: schema.TypeString,
 										},
+									},
+									"recommendation": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
 									},
 
 									// Computed
@@ -194,6 +238,10 @@ func CloudGuardDetectorRecipeResource() *schema.Resource {
 								},
 							},
 						},
+						"data_source_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"description": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -205,6 +253,31 @@ func CloudGuardDetectorRecipeResource() *schema.Resource {
 						"display_name": {
 							Type:     schema.TypeString,
 							Computed: true,
+						},
+						"entities_mappings": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"display_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"entity_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"query_field": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
 						},
 						"lifecycle_details": {
 							Type:     schema.TypeString,
@@ -250,12 +323,14 @@ func CloudGuardDetectorRecipeResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"source_detector_recipe_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
-			"detector": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"effective_detector_rules": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -290,6 +365,10 @@ func CloudGuardDetectorRecipeResource() *schema.Resource {
 									},
 								},
 							},
+						},
+						"data_source_id": {
+							Type:     schema.TypeString,
+							Computed: true,
 						},
 						"description": {
 							Type:     schema.TypeString,
@@ -397,6 +476,31 @@ func CloudGuardDetectorRecipeResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"entities_mappings": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"display_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"entity_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"query_field": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"lifecycle_details": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -447,6 +551,13 @@ func CloudGuardDetectorRecipeResource() *schema.Resource {
 				Type:     schema.TypeMap,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"target_ids": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -547,6 +658,10 @@ func (s *CloudGuardDetectorRecipeResourceCrud) Create() error {
 	if description, ok := s.D.GetOkExists("description"); ok {
 		tmp := description.(string)
 		request.Description = &tmp
+	}
+
+	if detector, ok := s.D.GetOkExists("detector"); ok {
+		request.Detector = oci_cloud_guard.DetectorEnumEnum(detector.(string))
 	}
 
 	if detectorRules, ok := s.D.GetOkExists("detector_rules"); ok {
@@ -730,6 +845,9 @@ func (s *CloudGuardDetectorRecipeResourceCrud) SetData() error {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
+	s.D.Set("target_ids", s.Res.TargetIds)
+	s.D.Set("target_ids", s.Res.TargetIds)
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
@@ -775,7 +893,7 @@ func ConfigValueToMap(obj oci_cloud_guard.ConfigValue) map[string]interface{} {
 	return result
 }
 
-func DetectorConfigurationToMap(obj oci_cloud_guard.DetectorConfiguration) map[string]interface{} {
+/*func DetectorConfigurationToMap(obj oci_cloud_guard.DetectorConfiguration) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.ConfigKey != nil {
@@ -801,7 +919,7 @@ func DetectorConfigurationToMap(obj oci_cloud_guard.DetectorConfiguration) map[s
 	result["values"] = values
 
 	return result
-}
+}*/
 
 func DetectorDetailsToMap(obj *oci_cloud_guard.DetectorDetails) map[string]interface{} {
 	result := map[string]interface{}{}
@@ -841,6 +959,10 @@ func DetectorRecipeDetectorRuleToMap(obj oci_cloud_guard.DetectorRecipeDetectorR
 	}
 	result["candidate_responder_rules"] = candidateResponderRules
 
+	if obj.DataSourceId != nil {
+		result["data_source_id"] = string(*obj.DataSourceId)
+	}
+
 	if obj.Description != nil {
 		result["description"] = string(*obj.Description)
 	}
@@ -858,6 +980,12 @@ func DetectorRecipeDetectorRuleToMap(obj oci_cloud_guard.DetectorRecipeDetectorR
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
+
+	entitiesMappings := []interface{}{}
+	for _, item := range obj.EntitiesMappings {
+		entitiesMappings = append(entitiesMappings, EntitiesMappingToMap(item))
+	}
+	result["entities_mappings"] = entitiesMappings
 
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
@@ -946,6 +1074,22 @@ func DetectorRecipeSummaryToMap(obj oci_cloud_guard.DetectorRecipeSummary) map[s
 	return result
 }
 
+func EntitiesMappingToMap(obj oci_cloud_guard.EntitiesMapping) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	result["entity_type"] = string(obj.EntityType)
+
+	if obj.QueryField != nil {
+		result["query_field"] = string(*obj.QueryField)
+	}
+
+	return result
+}
+
 func (s *CloudGuardDetectorRecipeResourceCrud) mapToUpdateDetectorRecipeDetectorRule(fieldKeyFormat string) (oci_cloud_guard.UpdateDetectorRecipeDetectorRule, error) {
 	result := oci_cloud_guard.UpdateDetectorRecipeDetectorRule{}
 
@@ -999,6 +1143,33 @@ func (s *CloudGuardDetectorRecipeResourceCrud) mapToUpdateDetectorRuleDetails(fi
 		}
 	}
 
+	if dataSourceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "data_source_id")); ok {
+		tmp := dataSourceId.(string)
+		result.DataSourceId = &tmp
+	}
+
+	if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
+		tmp := description.(string)
+		result.Description = &tmp
+	}
+
+	if entitiesMappings, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "entities_mappings")); ok {
+		interfaces := entitiesMappings.([]interface{})
+		tmp := make([]oci_cloud_guard.EntitiesMapping, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "entities_mappings"), stateDataIndex)
+			converted, err := s.mapToEntitiesMapping(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "entities_mappings")) {
+			result.EntitiesMappings = tmp
+		}
+	}
+
 	if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
 		tmp := isEnabled.(bool)
 		result.IsEnabled = &tmp
@@ -1015,6 +1186,11 @@ func (s *CloudGuardDetectorRecipeResourceCrud) mapToUpdateDetectorRuleDetails(fi
 		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "labels")) {
 			result.Labels = tmp
 		}
+	}
+
+	if recommendation, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recommendation")); ok {
+		tmp := recommendation.(string)
+		result.Recommendation = &tmp
 	}
 
 	if riskLevel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "risk_level")); ok {
@@ -1105,6 +1281,12 @@ func (s *CloudGuardDetectorRecipeResourceCrud) mapToConfigValue(fieldKeyFormat s
 		tmp := value.(string)
 		result.Value = &tmp
 	}
+
+	return result, nil
+}
+
+func (s *CloudGuardDetectorRecipeResourceCrud) mapToEntitiesMapping(fieldKeyFormat string) (oci_cloud_guard.EntitiesMapping, error) {
+	result := oci_cloud_guard.EntitiesMapping{}
 
 	return result, nil
 }
