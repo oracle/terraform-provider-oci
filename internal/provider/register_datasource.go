@@ -585,6 +585,7 @@ func init() {
 	RegisterDatasource("oci_database_external_pluggable_databases", tf_database.DatabaseExternalPluggableDatabasesDataSource())
 	RegisterDatasource("oci_database_flex_components", tf_database.DatabaseFlexComponentsDataSource())
 	RegisterDatasource("oci_database_gi_versions", tf_database.DatabaseGiVersionsDataSource())
+	RegisterDatasource("oci_database_infrastructure_target_version", tf_database.DatabaseInfrastructureTargetVersionDataSource())
 	RegisterDatasource("oci_database_key_store", tf_database.DatabaseKeyStoreDataSource())
 	RegisterDatasource("oci_database_key_stores", tf_database.DatabaseKeyStoresDataSource())
 	RegisterDatasource("oci_database_maintenance_run", tf_database.DatabaseMaintenanceRunDataSource())
