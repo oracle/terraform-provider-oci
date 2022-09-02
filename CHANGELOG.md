@@ -1,3 +1,14 @@
+## 4.92.0 (Unreleased)
+
+### Added
+Terraform code changes to fix compilation error for RegistryLifeCycleState.
+- Support for preferred credentials
+- Support for Exacc allow prior versions infra maintenance
+Notification Per Dimension
+Support Message Entity for entity shape Support data preview for derived entity, Deprecated deleteConnectionValidation, listConnectionValidations, getConnectionValidation
+- Support for new Logging integration apis for Cloudguard
+support for resource discovery for private dns resources
+
 ## 4.91.0 (Unreleased)
 
 ### Added
