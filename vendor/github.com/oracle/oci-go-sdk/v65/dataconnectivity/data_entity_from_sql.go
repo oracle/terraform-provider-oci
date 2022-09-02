@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -18,26 +18,30 @@ import (
 
 // DataEntityFromSql The sql entity data entity details.
 type DataEntityFromSql struct {
+
+	// Map<String, String> for entity properties
+	EntityProperties map[string]string `mandatory:"false" json:"entityProperties"`
+
 	Metadata *ObjectMetadata `mandatory:"false" json:"metadata"`
 
 	// The object key.
 	Key *string `mandatory:"false" json:"key"`
 
-	// The object's model version.
+	// The model version of the object.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
+	// Free form text without any restriction on the permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
-	// Detailed description for the object.
+	// Detailed description of the object.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The version of the object that is used to track changes in the object instance.
 	ObjectVersion *int `mandatory:"false" json:"objectVersion"`
 
-	// The external key for the object
+	// The external key of the object.
 	ExternalKey *string `mandatory:"false" json:"externalKey"`
 
 	Shape *Shape `mandatory:"false" json:"shape"`
@@ -60,7 +64,7 @@ type DataEntityFromSql struct {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be modified.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with an upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`
 
 	// sqlQuery
@@ -68,6 +72,11 @@ type DataEntityFromSql struct {
 
 	// The entity type.
 	EntityType DataEntityFromSqlEntityTypeEnum `mandatory:"false" json:"entityType,omitempty"`
+}
+
+//GetEntityProperties returns EntityProperties
+func (m DataEntityFromSql) GetEntityProperties() map[string]string {
+	return m.EntityProperties
 }
 
 //GetMetadata returns Metadata
@@ -111,24 +120,25 @@ func (m DataEntityFromSql) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *DataEntityFromSql) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Metadata       *ObjectMetadata                 `json:"metadata"`
-		Key            *string                         `json:"key"`
-		ModelVersion   *string                         `json:"modelVersion"`
-		ParentRef      *ParentReference                `json:"parentRef"`
-		Name           *string                         `json:"name"`
-		Description    *string                         `json:"description"`
-		ObjectVersion  *int                            `json:"objectVersion"`
-		ExternalKey    *string                         `json:"externalKey"`
-		Shape          *Shape                          `json:"shape"`
-		ShapeId        *string                         `json:"shapeId"`
-		EntityType     DataEntityFromSqlEntityTypeEnum `json:"entityType"`
-		OtherTypeLabel *string                         `json:"otherTypeLabel"`
-		UniqueKeys     []uniquekey                     `json:"uniqueKeys"`
-		ForeignKeys    []ForeignKey                    `json:"foreignKeys"`
-		ResourceName   *string                         `json:"resourceName"`
-		ObjectStatus   *int                            `json:"objectStatus"`
-		Identifier     *string                         `json:"identifier"`
-		SqlQuery       *string                         `json:"sqlQuery"`
+		EntityProperties map[string]string               `json:"entityProperties"`
+		Metadata         *ObjectMetadata                 `json:"metadata"`
+		Key              *string                         `json:"key"`
+		ModelVersion     *string                         `json:"modelVersion"`
+		ParentRef        *ParentReference                `json:"parentRef"`
+		Name             *string                         `json:"name"`
+		Description      *string                         `json:"description"`
+		ObjectVersion    *int                            `json:"objectVersion"`
+		ExternalKey      *string                         `json:"externalKey"`
+		Shape            *Shape                          `json:"shape"`
+		ShapeId          *string                         `json:"shapeId"`
+		EntityType       DataEntityFromSqlEntityTypeEnum `json:"entityType"`
+		OtherTypeLabel   *string                         `json:"otherTypeLabel"`
+		UniqueKeys       []uniquekey                     `json:"uniqueKeys"`
+		ForeignKeys      []ForeignKey                    `json:"foreignKeys"`
+		ResourceName     *string                         `json:"resourceName"`
+		ObjectStatus     *int                            `json:"objectStatus"`
+		Identifier       *string                         `json:"identifier"`
+		SqlQuery         *string                         `json:"sqlQuery"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -136,6 +146,8 @@ func (m *DataEntityFromSql) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.EntityProperties = model.EntityProperties
+
 	m.Metadata = model.Metadata
 
 	m.Key = model.Key
@@ -194,24 +206,30 @@ type DataEntityFromSqlEntityTypeEnum string
 
 // Set of constants representing the allowable values for DataEntityFromSqlEntityTypeEnum
 const (
-	DataEntityFromSqlEntityTypeTable DataEntityFromSqlEntityTypeEnum = "TABLE"
-	DataEntityFromSqlEntityTypeView  DataEntityFromSqlEntityTypeEnum = "VIEW"
-	DataEntityFromSqlEntityTypeFile  DataEntityFromSqlEntityTypeEnum = "FILE"
-	DataEntityFromSqlEntityTypeSql   DataEntityFromSqlEntityTypeEnum = "SQL"
+	DataEntityFromSqlEntityTypeTable     DataEntityFromSqlEntityTypeEnum = "TABLE"
+	DataEntityFromSqlEntityTypeView      DataEntityFromSqlEntityTypeEnum = "VIEW"
+	DataEntityFromSqlEntityTypeFile      DataEntityFromSqlEntityTypeEnum = "FILE"
+	DataEntityFromSqlEntityTypeSql       DataEntityFromSqlEntityTypeEnum = "SQL"
+	DataEntityFromSqlEntityTypeDataStore DataEntityFromSqlEntityTypeEnum = "DATA_STORE"
+	DataEntityFromSqlEntityTypeMessage   DataEntityFromSqlEntityTypeEnum = "MESSAGE"
 )
 
 var mappingDataEntityFromSqlEntityTypeEnum = map[string]DataEntityFromSqlEntityTypeEnum{
-	"TABLE": DataEntityFromSqlEntityTypeTable,
-	"VIEW":  DataEntityFromSqlEntityTypeView,
-	"FILE":  DataEntityFromSqlEntityTypeFile,
-	"SQL":   DataEntityFromSqlEntityTypeSql,
+	"TABLE":      DataEntityFromSqlEntityTypeTable,
+	"VIEW":       DataEntityFromSqlEntityTypeView,
+	"FILE":       DataEntityFromSqlEntityTypeFile,
+	"SQL":        DataEntityFromSqlEntityTypeSql,
+	"DATA_STORE": DataEntityFromSqlEntityTypeDataStore,
+	"MESSAGE":    DataEntityFromSqlEntityTypeMessage,
 }
 
 var mappingDataEntityFromSqlEntityTypeEnumLowerCase = map[string]DataEntityFromSqlEntityTypeEnum{
-	"table": DataEntityFromSqlEntityTypeTable,
-	"view":  DataEntityFromSqlEntityTypeView,
-	"file":  DataEntityFromSqlEntityTypeFile,
-	"sql":   DataEntityFromSqlEntityTypeSql,
+	"table":      DataEntityFromSqlEntityTypeTable,
+	"view":       DataEntityFromSqlEntityTypeView,
+	"file":       DataEntityFromSqlEntityTypeFile,
+	"sql":        DataEntityFromSqlEntityTypeSql,
+	"data_store": DataEntityFromSqlEntityTypeDataStore,
+	"message":    DataEntityFromSqlEntityTypeMessage,
 }
 
 // GetDataEntityFromSqlEntityTypeEnumValues Enumerates the set of values for DataEntityFromSqlEntityTypeEnum
@@ -230,6 +248,8 @@ func GetDataEntityFromSqlEntityTypeEnumStringValues() []string {
 		"VIEW",
 		"FILE",
 		"SQL",
+		"DATA_STORE",
+		"MESSAGE",
 	}
 }
 

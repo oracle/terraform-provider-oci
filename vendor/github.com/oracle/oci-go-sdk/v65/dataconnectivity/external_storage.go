@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -16,25 +16,25 @@ import (
 	"strings"
 )
 
-// ExternalStorage BICC Connector Attribute.Object Storage as External storage where the BICC extracted files are written
+// ExternalStorage BICC Connector Attribute. Object Storage as External storage where the BICC extracted files are written.
 type ExternalStorage struct {
 
-	// Id of the external stoarge configured in BICC console. Usually its numeric.
+	// ID of the external stoarge configured in the BICC console. Usually it's numeric.
 	StorageId *string `mandatory:"false" json:"storageId"`
 
-	// Name of the external storage configured in BICC console
+	// Name of the external storage configured in the BICC console.
 	StorageName *string `mandatory:"false" json:"storageName"`
 
-	// Object Storage host Url. DO not give http/https.
+	// Object Storage host URL. DO not give http/https.
 	Host *string `mandatory:"false" json:"host"`
 
-	// Tenancy OCID for the OOS bucket
+	// Tenancy OCID of the OOS bucket.
 	TenancyId *string `mandatory:"false" json:"tenancyId"`
 
-	// Namespace for the OOS bucket
+	// Namespace of the OOS bucket.
 	Namespace *string `mandatory:"false" json:"namespace"`
 
-	// Bucket Name where BICC extracts stores the files
+	// Bucket name where BICC extracts and stores the files.
 	Bucket *string `mandatory:"false" json:"bucket"`
 }
 

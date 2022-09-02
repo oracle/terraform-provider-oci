@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/CreateDataPreview.go.html to see an example of how to use CreateDataPreviewRequest.
 type CreateDataPreviewRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
-	// Request body parameters to provide data preview
+	// Request body parameters to provide data preview.
 	CreateDataPreviewDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If
@@ -29,7 +29,7 @@ type CreateDataPreviewRequest struct {
 	// please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without risk of executing that same action again.
+	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without the risk of executing that same action again.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match` parameter to the value of the `etag` from a previous GET or POST response for that resource.
@@ -37,7 +37,7 @@ type CreateDataPreviewRequest struct {
 	// When 'if-match' is provided and its value does not exactly match the 'etag' of the resource on the server, the request fails with the 412 response code.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
-	// Endpoint Id used for getDataAssetFullDetails.
+	// Endpoint ID used for getDataAssetFullDetails.
 	EndpointId *string `mandatory:"false" contributesTo:"query" name:"endpointId"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

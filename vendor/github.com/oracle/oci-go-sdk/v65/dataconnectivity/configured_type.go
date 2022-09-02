@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ConfiguredType A `ConfiguredType` represents a type that has built-in configuration to the type itself. An example is a `SSN` type whose basic type is `VARCHAR`, but the type itself also has a built-in configuration like length=10.
+// ConfiguredType A `ConfiguredType` represents a type that has built-in configuration to the type itself. An example is an `SSN` type whose basic type is `VARCHAR`, but the type itself also has a built-in configuration, such as length=10.
 type ConfiguredType struct {
 
 	// The key of the object.
@@ -27,13 +27,13 @@ type ConfiguredType struct {
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
+	// Free form text without any restriction on the permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// A user defined description for the object.
+	// A user-defined description for the object.
 	Description *string `mandatory:"false" json:"description"`
 
 	WrappedType BaseType `mandatory:"false" json:"wrappedType"`

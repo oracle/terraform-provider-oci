@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -18,7 +18,7 @@ import (
 // TestNetworkConnectivity The network validation response.
 type TestNetworkConnectivity struct {
 
-	// True if the data asset is has a valid network path.
+	// True if the data asset has a valid network path.
 	IsReachable *bool `mandatory:"true" json:"isReachable"`
 
 	// Last line from network validation command execution output.

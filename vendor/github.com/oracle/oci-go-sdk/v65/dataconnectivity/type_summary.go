@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -18,13 +18,13 @@ import (
 // TypeSummary The type object for supported connectors.
 type TypeSummary struct {
 
-	// unique id of specefic data asset type.
+	// The unique ID of the specific data asset type.
 	Key *string `mandatory:"true" json:"key"`
 
 	// Name of the specific data asset type.
 	Name *string `mandatory:"true" json:"name"`
 
-	// desctription for the specific data asset type.
+	// Description for the specific data asset type.
 	Description *string `mandatory:"false" json:"description"`
 }
 

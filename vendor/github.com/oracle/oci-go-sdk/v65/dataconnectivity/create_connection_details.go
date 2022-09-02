@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -15,22 +15,22 @@ import (
 	"strings"
 )
 
-// CreateConnectionDetails Properties used in connection create operations.
+// CreateConnectionDetails Properties used in the create connection operations.
 type CreateConnectionDetails struct {
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
+	// Free form text without any restriction on the permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with an upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"true" json:"identifier"`
 
-	// All the properties for the connection in a key-value map format.
+	// All the properties of the connection in a key-value map format.
 	Properties map[string]interface{} `mandatory:"true" json:"properties"`
 
 	// Specific Connection Type
 	Type *string `mandatory:"true" json:"type"`
 
-	// Generated key that can be used in API calls to identify connection. On scenarios where reference to the connection is needed, a value can be passed in create.
+	// Generated key that can be used in API calls to identify the connection. In scenarios where reference to the connection is required, a value can be passed in create.
 	Key *string `mandatory:"false" json:"key"`
 
 	// The model version of an object.
@@ -39,7 +39,7 @@ type CreateConnectionDetails struct {
 	// The type of the object.
 	ModelType *string `mandatory:"false" json:"modelType"`
 
-	// User-defined description for the connection.
+	// User-defined description of the connection.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The version of the object that is used to track changes in the object instance.
@@ -50,10 +50,10 @@ type CreateConnectionDetails struct {
 
 	PrimarySchema *Schema `mandatory:"false" json:"primarySchema"`
 
-	// The properties for the connection.
+	// The properties of the connection.
 	ConnectionProperties []ConnectionProperty `mandatory:"false" json:"connectionProperties"`
 
-	// The default property for the connection.
+	// The default property of the connection.
 	IsDefault *bool `mandatory:"false" json:"isDefault"`
 
 	Metadata *ObjectMetadata `mandatory:"false" json:"metadata"`

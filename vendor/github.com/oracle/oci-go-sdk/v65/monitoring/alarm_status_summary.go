@@ -44,6 +44,9 @@ type AlarmStatusSummary struct {
 	TimestampTriggered *common.SDKTime `mandatory:"true" json:"timestampTriggered"`
 
 	// The status of this alarm.
+	// Status is collective, across all metric streams in the alarm.
+	// To list alarm status for each metric stream, use RetrieveDimensionStates.
+	// The alarm attribute `isNotificationsPerMetricDimensionEnabled` must be set to `true`.
 	// Example: `FIRING`
 	Status AlarmStatusSummaryStatusEnum `mandatory:"true" json:"status"`
 

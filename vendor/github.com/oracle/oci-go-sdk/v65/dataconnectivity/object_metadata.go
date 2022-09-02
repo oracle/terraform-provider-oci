@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ObjectMetadata A summary type containing information about the object including its key, name and when/who created/updated it.
+// ObjectMetadata A summary type containing information about the object including its key, name, the time that it was created or updated, and the user who created or updated it.
 type ObjectMetadata struct {
 
 	// The user that created the object.
@@ -41,7 +41,7 @@ type ObjectMetadata struct {
 
 	Aggregator *AggregatorSummary `mandatory:"false" json:"aggregator"`
 
-	// The full path to identify this object.
+	// The full path to identify the object.
 	IdentifierPath *string `mandatory:"false" json:"identifierPath"`
 
 	// Information property fields.
@@ -50,10 +50,10 @@ type ObjectMetadata struct {
 	// The registry version of the object.
 	RegistryVersion *int `mandatory:"false" json:"registryVersion"`
 
-	// Labels are keywords or tags that you can add to data assets, dataflows and so on. You can define your own labels and use them to categorize content.
+	// Labels are keywords or tags that you can add to data assets, dataflows, and so on. You can define your own labels and use them to categorize content.
 	Labels []string `mandatory:"false" json:"labels"`
 
-	// Specifies whether this object is a favorite or not.
+	// Specifies whether this object is a favorite.
 	IsFavorite *bool `mandatory:"false" json:"isFavorite"`
 }
 

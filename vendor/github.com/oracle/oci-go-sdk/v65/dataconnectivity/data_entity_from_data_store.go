@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -18,26 +18,30 @@ import (
 
 // DataEntityFromDataStore The view entity data entity details.
 type DataEntityFromDataStore struct {
+
+	// Map<String, String> for entity properties
+	EntityProperties map[string]string `mandatory:"false" json:"entityProperties"`
+
 	Metadata *ObjectMetadata `mandatory:"false" json:"metadata"`
 
 	// The object key.
 	Key *string `mandatory:"false" json:"key"`
 
-	// The object's model version.
+	// The model version of the object.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
+	// Free form text without any restriction on the permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
-	// Detailed description for the object.
+	// Detailed description of the object.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The version of the object that is used to track changes in the object instance.
 	ObjectVersion *int `mandatory:"false" json:"objectVersion"`
 
-	// The external key for the object
+	// The external key of the object.
 	ExternalKey *string `mandatory:"false" json:"externalKey"`
 
 	Shape *Shape `mandatory:"false" json:"shape"`
@@ -60,26 +64,31 @@ type DataEntityFromDataStore struct {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be modified.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with an upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`
 
-	// Filters present in the Datastore. It can be Null.
+	// Filters present in the datastore. It can be null.
 	Filters *string `mandatory:"false" json:"filters"`
 
-	// It shows whether or not effective date is disabled
+	// It shows whether the effective date is disabled.
 	IsEffectiveDateDisabled *bool `mandatory:"false" json:"isEffectiveDateDisabled"`
 
-	// It shows whether the datastore is of flex type
+	// It shows whether the datastore is of flex type.
 	IsFlexDataStore *bool `mandatory:"false" json:"isFlexDataStore"`
 
-	// It shows whether the extraction of this datastore will stop on error
+	// It shows whether the extraction of this datastore will stop when an error occurs.
 	IsSilentError *bool `mandatory:"false" json:"isSilentError"`
 
-	// It shows whether the datastore supports Incremental Extract or not.
+	// It shows whether the datastore supports incremental extract.
 	SupportsIncremental *bool `mandatory:"false" json:"supportsIncremental"`
 
 	// The entity type.
 	EntityType DataEntityFromDataStoreEntityTypeEnum `mandatory:"false" json:"entityType,omitempty"`
+}
+
+//GetEntityProperties returns EntityProperties
+func (m DataEntityFromDataStore) GetEntityProperties() map[string]string {
+	return m.EntityProperties
 }
 
 //GetMetadata returns Metadata
@@ -123,6 +132,7 @@ func (m DataEntityFromDataStore) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *DataEntityFromDataStore) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		EntityProperties        map[string]string                     `json:"entityProperties"`
 		Metadata                *ObjectMetadata                       `json:"metadata"`
 		Key                     *string                               `json:"key"`
 		ModelVersion            *string                               `json:"modelVersion"`
@@ -152,6 +162,8 @@ func (m *DataEntityFromDataStore) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.EntityProperties = model.EntityProperties
+
 	m.Metadata = model.Metadata
 
 	m.Key = model.Key
@@ -223,6 +235,7 @@ const (
 	DataEntityFromDataStoreEntityTypeFile      DataEntityFromDataStoreEntityTypeEnum = "FILE"
 	DataEntityFromDataStoreEntityTypeSql       DataEntityFromDataStoreEntityTypeEnum = "SQL"
 	DataEntityFromDataStoreEntityTypeDataStore DataEntityFromDataStoreEntityTypeEnum = "DATA_STORE"
+	DataEntityFromDataStoreEntityTypeMessage   DataEntityFromDataStoreEntityTypeEnum = "MESSAGE"
 )
 
 var mappingDataEntityFromDataStoreEntityTypeEnum = map[string]DataEntityFromDataStoreEntityTypeEnum{
@@ -231,6 +244,7 @@ var mappingDataEntityFromDataStoreEntityTypeEnum = map[string]DataEntityFromData
 	"FILE":       DataEntityFromDataStoreEntityTypeFile,
 	"SQL":        DataEntityFromDataStoreEntityTypeSql,
 	"DATA_STORE": DataEntityFromDataStoreEntityTypeDataStore,
+	"MESSAGE":    DataEntityFromDataStoreEntityTypeMessage,
 }
 
 var mappingDataEntityFromDataStoreEntityTypeEnumLowerCase = map[string]DataEntityFromDataStoreEntityTypeEnum{
@@ -239,6 +253,7 @@ var mappingDataEntityFromDataStoreEntityTypeEnumLowerCase = map[string]DataEntit
 	"file":       DataEntityFromDataStoreEntityTypeFile,
 	"sql":        DataEntityFromDataStoreEntityTypeSql,
 	"data_store": DataEntityFromDataStoreEntityTypeDataStore,
+	"message":    DataEntityFromDataStoreEntityTypeMessage,
 }
 
 // GetDataEntityFromDataStoreEntityTypeEnumValues Enumerates the set of values for DataEntityFromDataStoreEntityTypeEnum
@@ -258,6 +273,7 @@ func GetDataEntityFromDataStoreEntityTypeEnumStringValues() []string {
 		"FILE",
 		"SQL",
 		"DATA_STORE",
+		"MESSAGE",
 	}
 }
 

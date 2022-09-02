@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -24,7 +24,7 @@ type BiccReadAttributes struct {
 
 	ExternalStorage *ExternalStorage `mandatory:"false" json:"externalStorage"`
 
-	// Date from where extract should start
+	// Date from where extract should start.
 	InitialExtractDate *common.SDKTime `mandatory:"false" json:"initialExtractDate"`
 
 	// Date last extracted

@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -15,25 +15,25 @@ import (
 	"strings"
 )
 
-// DeReferenceInfo Represents de-reference details of a dcms artifact.
+// DeReferenceInfo Represents de-reference details of a DCMS artifact.
 type DeReferenceInfo struct {
 
-	// unique id of dcms artifact that is getting referenced.
+	// The unique ID of the DCMS artifact that is getting referenced.
 	DcmsArtifactId *string `mandatory:"true" json:"dcmsArtifactId"`
 
-	// unique id of service which is referencing dcms artifact.
+	// The unique ID of the service that is referencing a DCMS artifact.
 	ServiceArtifactId *string `mandatory:"true" json:"serviceArtifactId"`
 
 	// The type of the ReferenceInfo.
 	ModelType *string `mandatory:"false" json:"modelType"`
 
-	// Generated key that can be used in API calls to identify referenceinfo.
+	// Generated key that can be used in API calls to identify the referenceinfo.
 	Key *string `mandatory:"false" json:"key"`
 
 	// The model version of an object.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
+	// Free form text without any restriction on the permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
 	// User-defined description of the referenceInfo.
@@ -45,10 +45,10 @@ type DeReferenceInfo struct {
 	// The version of the object that is used to track changes in the object instance.
 	ObjectVersion *int `mandatory:"false" json:"objectVersion"`
 
-	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with an upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`
 
-	// count of how many times a dcms artifact has been registered by a service.
+	// The number of times a DCMS artifact has been registered by a service.
 	ReferenceCount *int `mandatory:"false" json:"referenceCount"`
 
 	RegistryMetadata *RegistryMetadata `mandatory:"false" json:"registryMetadata"`

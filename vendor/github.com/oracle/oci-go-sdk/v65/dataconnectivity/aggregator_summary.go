@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// AggregatorSummary A summary type containing information about the object's aggregator including its type, key, name and description.
+// AggregatorSummary A summary type containing information about the object's aggregator including its type, key, name, and description.
 type AggregatorSummary struct {
 
 	// The type of the aggregator.

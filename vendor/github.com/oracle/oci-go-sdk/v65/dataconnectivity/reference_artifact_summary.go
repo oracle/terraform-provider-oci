@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -15,22 +15,22 @@ import (
 	"strings"
 )
 
-// ReferenceArtifactSummary Represents Reference details of a data asset.
+// ReferenceArtifactSummary Represents the reference details of a data asset.
 type ReferenceArtifactSummary struct {
 
-	// The type of the ReferenceInfo.
+	// The type of ReferenceInfo.
 	ModelType *string `mandatory:"true" json:"modelType"`
 
-	// unique id of service which is referencing dcms artifact.
+	// The unique ID of the service that is referencing a DCMS artifact.
 	ServiceArtifactId *string `mandatory:"true" json:"serviceArtifactId"`
 
-	// Generated key that can be used in API calls to identify referenceinfo.
+	// Generated key that can be used in API calls to identify the referenceinfo.
 	Key *string `mandatory:"false" json:"key"`
 
 	// The model version of an object.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
+	// Free form text without any restriction on the permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
 	// User-defined description of the referenceInfo.
@@ -42,13 +42,13 @@ type ReferenceArtifactSummary struct {
 	// The version of the object that is used to track changes in the object instance.
 	ObjectVersion *int `mandatory:"false" json:"objectVersion"`
 
-	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with an upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`
 
-	// unique id of dcms artifact that is getting registered.
+	// The unique ID of the DCMS artifact that is getting registered.
 	DcmsArtifactId *string `mandatory:"false" json:"dcmsArtifactId"`
 
-	// count of how many times a dcms artifact has been registered by a service.
+	// The number of times a DCMS artifact has been registered by a service.
 	ReferenceCount *int `mandatory:"false" json:"referenceCount"`
 
 	RegistryMetadata *RegistryMetadata `mandatory:"false" json:"registryMetadata"`

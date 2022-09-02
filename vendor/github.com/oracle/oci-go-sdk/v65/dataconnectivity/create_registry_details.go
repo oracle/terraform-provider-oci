@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// CreateRegistryDetails The information about new Registry.
+// CreateRegistryDetails The information about a new Registry.
 type CreateRegistryDetails struct {
 
-	// Data Connectivity Management Registry display name, registries can be renamed
+	// The Data Connectivity Management Registry display name; registries can be renamed.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
+	// Simple key-value pair that is applied without any predefined name, type, or scope. Exists only for cross-compatibility.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
