@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -18,7 +18,7 @@ import (
 // Column Data preview column definition.
 type Column struct {
 
-	// Column Name.
+	// Column name.
 	Name *string `mandatory:"false" json:"name"`
 
 	// Data type of the specified column.

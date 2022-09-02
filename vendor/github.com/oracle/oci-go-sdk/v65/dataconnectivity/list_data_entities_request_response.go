@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/ListDataEntities.go.html to see an example of how to use ListDataEntitiesRequest.
 type ListDataEntitiesRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
 	// The connection key.
@@ -42,7 +42,7 @@ type ListDataEntitiesRequest struct {
 	// Specifies the fields to get for an object.
 	Fields []string `contributesTo:"query" name:"fields" collectionFormat:"multi"`
 
-	// Specifies the field to sort by. Accepts only one field. By default, when you sort by time fields, results are shown in descending order. All other fields default to ascending order. Sorting related parameters are ignored when parameter `query` is present (search operation and sorting order is by relevance score in descending order).
+	// Specifies the field to sort by. Accepts only one field. By default, when you sort by time fields, results are shown in descending order. All other fields default to ascending order. Sorting related parameters are ignored when parameter `query` is present (search operation and sorting order are by relevance score in descending order).
 	SortBy ListDataEntitiesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// Specifies sort order to use, either `ASC` (ascending) or `DESC` (descending).
@@ -59,11 +59,14 @@ type ListDataEntitiesRequest struct {
 	// Used to filter by the name of the object.
 	NameList []string `contributesTo:"query" name:"nameList" collectionFormat:"multi"`
 
-	// This parameter can be used to specify whether entity search type is pattern search or not.
+	// This parameter can be used to specify whether entity search type is a pattern search.
 	IsPattern *bool `mandatory:"false" contributesTo:"query" name:"isPattern"`
 
-	// Endpoint Id used for getDataAssetFullDetails.
+	// Endpoint ID used for getDataAssetFullDetails.
 	EndpointId *string `mandatory:"false" contributesTo:"query" name:"endpointId"`
+
+	// Artifact type which needs to be listed while listing Artifacts.
+	IncludeTypes []string `contributesTo:"query" name:"includeTypes" collectionFormat:"multi"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

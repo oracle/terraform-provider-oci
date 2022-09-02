@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -18,7 +18,7 @@ import (
 // UpdateEndpointDetails The information to be updated.
 type UpdateEndpointDetails struct {
 
-	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
+	// Simple key-value pair that is applied without any predefined name, type, or scope. Exists only for cross-compatibility.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
@@ -29,14 +29,18 @@ type UpdateEndpointDetails struct {
 	// Data Connectivity Management Registry description
 	Description *string `mandatory:"false" json:"description"`
 
-	// Data Connectivity Management Registry display name, registries can be renamed
+	// The Data Connectivity Management registry display name; registries can be renamed.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Update Endpoint size for reverse connection capacity.
+	// Update endpoint size for reverse connection capacity.
 	EndpointSize *int `mandatory:"false" json:"endpointSize"`
 
-	// List of NSGs to which the Private Endpoint VNIC must be added.
+	// The list of NSGs to which the Private Endpoint VNIC must be added.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
+	// List of DNS zones to be used by the data assets.
+	// Example: custpvtsubnet.oraclevcn.com for data asset: db.custpvtsubnet.oraclevcn.com
+	DnsZones []string `mandatory:"false" json:"dnsZones"`
 }
 
 func (m UpdateEndpointDetails) String() string {

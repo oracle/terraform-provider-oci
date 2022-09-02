@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ChangeRegistryCompartmentDetails The information about change compartment action.
+// ChangeRegistryCompartmentDetails The information about the change compartment action.
 type ChangeRegistryCompartmentDetails struct {
 
 	// Compartment Identifier

@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-package dataconnectivity
+package databasemanagement
 
 import (
 	"fmt"
@@ -11,38 +11,36 @@ import (
 	"strings"
 )
 
-// GetConnectionValidationRequest wrapper for the GetConnectionValidation operation
+// TestPreferredCredentialRequest wrapper for the TestPreferredCredential operation
 //
 // See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/GetConnectionValidation.go.html to see an example of how to use GetConnectionValidationRequest.
-type GetConnectionValidationRequest struct {
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/TestPreferredCredential.go.html to see an example of how to use TestPreferredCredentialRequest.
+type TestPreferredCredentialRequest struct {
 
-	// The registry Ocid.
-	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
+	ManagedDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseId"`
 
-	// The key of the connection validation.
-	ConnectionValidationKey *string `mandatory:"true" contributesTo:"path" name:"connectionValidationKey"`
+	// The name of the preferred credential.
+	CredentialName *string `mandatory:"true" contributesTo:"path" name:"credentialName"`
 
-	// Unique Oracle-assigned identifier for the request. If
-	// you need to contact Oracle about a particular request,
-	// please provide the request ID.
+	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// Endpoint Id used for getDataAssetFullDetails.
-	EndpointId *string `mandatory:"false" contributesTo:"query" name:"endpointId"`
+	// The details required to test preferred credential.
+	TestPreferredCredentialDetails `contributesTo:"body"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
 }
 
-func (request GetConnectionValidationRequest) String() string {
+func (request TestPreferredCredentialRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request GetConnectionValidationRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request TestPreferredCredentialRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -52,21 +50,21 @@ func (request GetConnectionValidationRequest) HTTPRequest(method, path string, b
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request GetConnectionValidationRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request TestPreferredCredentialRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetConnectionValidationRequest) RetryPolicy() *common.RetryPolicy {
+func (request TestPreferredCredentialRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request GetConnectionValidationRequest) ValidateEnumValue() (bool, error) {
+func (request TestPreferredCredentialRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -74,28 +72,25 @@ func (request GetConnectionValidationRequest) ValidateEnumValue() (bool, error) 
 	return false, nil
 }
 
-// GetConnectionValidationResponse wrapper for the GetConnectionValidation operation
-type GetConnectionValidationResponse struct {
+// TestPreferredCredentialResponse wrapper for the TestPreferredCredential operation
+type TestPreferredCredentialResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The ConnectionValidation instance
-	ConnectionValidation `presentIn:"body"`
-
-	// For optimistic concurrency control. See ETags for Optimistic Concurrency Control (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
-	Etag *string `presentIn:"header" name:"etag"`
+	// The TestPreferredCredentialStatus instance
+	TestPreferredCredentialStatus `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response GetConnectionValidationResponse) String() string {
+func (response TestPreferredCredentialResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response GetConnectionValidationResponse) HTTPResponse() *http.Response {
+func (response TestPreferredCredentialResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

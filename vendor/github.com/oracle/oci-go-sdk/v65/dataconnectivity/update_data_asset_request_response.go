@@ -18,13 +18,13 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/UpdateDataAsset.go.html to see an example of how to use UpdateDataAssetRequest.
 type UpdateDataAssetRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
 	// The data asset key.
 	DataAssetKey *string `mandatory:"true" contributesTo:"path" name:"dataAssetKey"`
 
-	// The information needed to update a data asset.
+	// The information required to update a data asset.
 	UpdateDataAssetDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If

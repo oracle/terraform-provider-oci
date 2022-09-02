@@ -77,16 +77,15 @@ type GetWorkRequestResponse struct {
 	// The WorkRequest instance
 	WorkRequest `presentIn:"body"`
 
-	// For optimistic concurrency control. See `if-match`.
+	// For optimistic concurrency control. See ETags for Optimistic Concurrency Control (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
 	Etag *string `presentIn:"header" name:"etag"`
 
-	// Unique Oracle-assigned identifier for the request. If
-	// you need to contact Oracle about a particular request,
-	// please provide the request ID.
+	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// some decimal number representing the number of seconds the client should wait before polling this endpoint again
-	RetryAfter *float32 `presentIn:"header" name:"retry-after"`
+	// Indicates the waiting time, in seconds, before making a follow-up request.
+	RetryAfter *int `presentIn:"header" name:"retry-after"`
 }
 
 func (response GetWorkRequestResponse) String() string {
