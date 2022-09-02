@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -87,7 +87,7 @@ func (client *DataConnectivityManagementClient) ConfigurationProvider() *common.
 	return client.config
 }
 
-// ChangeEndpointCompartment The Endpoint will be moved to the desired compartment.
+// ChangeEndpointCompartment The endpoint will be moved to the specified compartment.
 //
 // See also
 //
@@ -149,7 +149,7 @@ func (client DataConnectivityManagementClient) changeEndpointCompartment(ctx con
 	return response, err
 }
 
-// ChangeRegistryCompartment The registry will be moved to the desired compartment.
+// ChangeRegistryCompartment The registry will be moved to the specified compartment.
 //
 // See also
 //
@@ -211,7 +211,7 @@ func (client DataConnectivityManagementClient) changeRegistryCompartment(ctx con
 	return response, err
 }
 
-// CreateAttachDataAsset Attaches list of DataAssets to the given endpoint
+// CreateAttachDataAsset Attaches a list of data assets to the given endpoint.
 //
 // See also
 //
@@ -278,9 +278,10 @@ func (client DataConnectivityManagementClient) createAttachDataAsset(ctx context
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/CreateConnection.go.html to see an example of how to use CreateConnection API.
+// A default retry strategy applies to this operation CreateConnection()
 func (client DataConnectivityManagementClient) CreateConnection(ctx context.Context, request CreateConnectionRequest) (response CreateConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -340,9 +341,10 @@ func (client DataConnectivityManagementClient) createConnection(ctx context.Cont
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/CreateConnectionValidation.go.html to see an example of how to use CreateConnectionValidation API.
+// A default retry strategy applies to this operation CreateConnectionValidation()
 func (client DataConnectivityManagementClient) CreateConnectionValidation(ctx context.Context, request CreateConnectionValidationRequest) (response CreateConnectionValidationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -402,9 +404,10 @@ func (client DataConnectivityManagementClient) createConnectionValidation(ctx co
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/CreateConnectivityValidation.go.html to see an example of how to use CreateConnectivityValidation API.
+// A default retry strategy applies to this operation CreateConnectivityValidation()
 func (client DataConnectivityManagementClient) CreateConnectivityValidation(ctx context.Context, request CreateConnectivityValidationRequest) (response CreateConnectivityValidationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -464,9 +467,10 @@ func (client DataConnectivityManagementClient) createConnectivityValidation(ctx 
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/CreateDataAsset.go.html to see an example of how to use CreateDataAsset API.
+// A default retry strategy applies to this operation CreateDataAsset()
 func (client DataConnectivityManagementClient) CreateDataAsset(ctx context.Context, request CreateDataAssetRequest) (response CreateDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -521,14 +525,15 @@ func (client DataConnectivityManagementClient) createDataAsset(ctx context.Conte
 	return response, err
 }
 
-// CreateDataPreview Provide data preview on live schema
+// CreateDataPreview Provide data preview on live schema.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/CreateDataPreview.go.html to see an example of how to use CreateDataPreview API.
+// A default retry strategy applies to this operation CreateDataPreview()
 func (client DataConnectivityManagementClient) CreateDataPreview(ctx context.Context, request CreateDataPreviewRequest) (response CreateDataPreviewResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -583,14 +588,15 @@ func (client DataConnectivityManagementClient) createDataPreview(ctx context.Con
 	return response, err
 }
 
-// CreateDataProfile Execute data profiling on live schema
+// CreateDataProfile Execute data profiling on live schema.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/CreateDataProfile.go.html to see an example of how to use CreateDataProfile API.
+// A default retry strategy applies to this operation CreateDataProfile()
 func (client DataConnectivityManagementClient) CreateDataProfile(ctx context.Context, request CreateDataProfileRequest) (response CreateDataProfileResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -645,14 +651,15 @@ func (client DataConnectivityManagementClient) createDataProfile(ctx context.Con
 	return response, err
 }
 
-// CreateDeReferenceArtifact DeRereferenced a dcms artifact.
+// CreateDeReferenceArtifact Dereferenced a dcms artifact.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/CreateDeReferenceArtifact.go.html to see an example of how to use CreateDeReferenceArtifact API.
+// A default retry strategy applies to this operation CreateDeReferenceArtifact()
 func (client DataConnectivityManagementClient) CreateDeReferenceArtifact(ctx context.Context, request CreateDeReferenceArtifactRequest) (response CreateDeReferenceArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -707,7 +714,7 @@ func (client DataConnectivityManagementClient) createDeReferenceArtifact(ctx con
 	return response, err
 }
 
-// CreateDetachDataAsset Detaches list of DataAssets to the given endpoint
+// CreateDetachDataAsset Detaches a list of data assets to the given endpoint.
 //
 // See also
 //
@@ -769,7 +776,7 @@ func (client DataConnectivityManagementClient) createDetachDataAsset(ctx context
 	return response, err
 }
 
-// CreateEndpoint Creates a new Data Connectivity Management Endpoint ready for performing data Connectivity.
+// CreateEndpoint Creates a new Data Connectivity Management endpoint ready to perform data connectivity.
 //
 // See also
 //
@@ -836,9 +843,10 @@ func (client DataConnectivityManagementClient) createEndpoint(ctx context.Contex
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/CreateEntityShape.go.html to see an example of how to use CreateEntityShape API.
+// A default retry strategy applies to this operation CreateEntityShape()
 func (client DataConnectivityManagementClient) CreateEntityShape(ctx context.Context, request CreateEntityShapeRequest) (response CreateEntityShapeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -955,14 +963,15 @@ func (client DataConnectivityManagementClient) createExecuteOperationJob(ctx con
 	return response, err
 }
 
-// CreateFolder Creates a folder under a specefied registry.
+// CreateFolder Creates a folder under a specified registry.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/CreateFolder.go.html to see an example of how to use CreateFolder API.
+// A default retry strategy applies to this operation CreateFolder()
 func (client DataConnectivityManagementClient) CreateFolder(ctx context.Context, request CreateFolderRequest) (response CreateFolderResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1017,14 +1026,15 @@ func (client DataConnectivityManagementClient) createFolder(ctx context.Context,
 	return response, err
 }
 
-// CreateFullPushDownTask This endpoint is used to create a connectivity task (like PushdownTask).
+// CreateFullPushDownTask This endpoint is used to create a connectivity task (such as PushdownTask).
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/CreateFullPushDownTask.go.html to see an example of how to use CreateFullPushDownTask API.
+// A default retry strategy applies to this operation CreateFullPushDownTask()
 func (client DataConnectivityManagementClient) CreateFullPushDownTask(ctx context.Context, request CreateFullPushDownTaskRequest) (response CreateFullPushDownTaskResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1084,9 +1094,10 @@ func (client DataConnectivityManagementClient) createFullPushDownTask(ctx contex
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/CreateReferenceArtifact.go.html to see an example of how to use CreateReferenceArtifact API.
+// A default retry strategy applies to this operation CreateReferenceArtifact()
 func (client DataConnectivityManagementClient) CreateReferenceArtifact(ctx context.Context, request CreateReferenceArtifactRequest) (response CreateReferenceArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1141,7 +1152,7 @@ func (client DataConnectivityManagementClient) createReferenceArtifact(ctx conte
 	return response, err
 }
 
-// CreateRegistry Creates a new Data Connectivity Management Registry ready for performing data Connectivity Management.
+// CreateRegistry Creates a new Data Connectivity Management registry ready to perform data connectivity management.
 //
 // See also
 //
@@ -1203,7 +1214,7 @@ func (client DataConnectivityManagementClient) createRegistry(ctx context.Contex
 	return response, err
 }
 
-// CreateTestNetworkConnectivity Execute network validation on selected data assets associated with the provided private endpoint
+// CreateTestNetworkConnectivity Execute network validation on the selected data assets associated with the provided private endpoint.
 //
 // See also
 //
@@ -1322,63 +1333,6 @@ func (client DataConnectivityManagementClient) deleteConnection(ctx context.Cont
 	return response, err
 }
 
-// DeleteConnectionValidation Deletes a connection validation.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/DeleteConnectionValidation.go.html to see an example of how to use DeleteConnectionValidation API.
-func (client DataConnectivityManagementClient) DeleteConnectionValidation(ctx context.Context, request DeleteConnectionValidationRequest) (response DeleteConnectionValidationResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deleteConnectionValidation, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteConnectionValidationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteConnectionValidationResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteConnectionValidationResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteConnectionValidationResponse")
-	}
-	return
-}
-
-// deleteConnectionValidation implements the OCIOperation interface (enables retrying operations)
-func (client DataConnectivityManagementClient) deleteConnectionValidation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/registries/{registryId}/connectionValidations/{connectionValidationKey}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteConnectionValidationResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := ""
-		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "DeleteConnectionValidation", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // DeleteDataAsset Removes a data asset using the specified identifier.
 //
 // See also
@@ -1436,7 +1390,7 @@ func (client DataConnectivityManagementClient) deleteDataAsset(ctx context.Conte
 	return response, err
 }
 
-// DeleteEndpoint Deletes a Data Connectivity Management Endpoint resource by identifier
+// DeleteEndpoint Deletes a Data Connectivity Management endpoint resource by its identifier.
 //
 // See also
 //
@@ -1607,7 +1561,7 @@ func (client DataConnectivityManagementClient) deleteNetworkConnectivityStatus(c
 	return response, err
 }
 
-// DeleteRegistry Deletes a Data Connectivity Management Registry resource by identifier
+// DeleteRegistry Deletes a Data Connectivity Management registry resource by its identifier.
 //
 // See also
 //
@@ -1664,14 +1618,77 @@ func (client DataConnectivityManagementClient) deleteRegistry(ctx context.Contex
 	return response, err
 }
 
+// DeriveEntities Get the Derived Entities from the EntityFlowMode and reference key of DataObject
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/DeriveEntities.go.html to see an example of how to use DeriveEntities API.
+func (client DataConnectivityManagementClient) DeriveEntities(ctx context.Context, request DeriveEntitiesRequest) (response DeriveEntitiesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deriveEntities, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeriveEntitiesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeriveEntitiesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeriveEntitiesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeriveEntitiesResponse")
+	}
+	return
+}
+
+// deriveEntities implements the OCIOperation interface (enables retrying operations)
+func (client DataConnectivityManagementClient) deriveEntities(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/registries/{registryId}/actions/deriveEntities", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeriveEntitiesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "DeriveEntities", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetConnection Retrieves the connection details using the specified identifier.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/GetConnection.go.html to see an example of how to use GetConnection API.
+// A default retry strategy applies to this operation GetConnection()
 func (client DataConnectivityManagementClient) GetConnection(ctx context.Context, request GetConnectionRequest) (response GetConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1721,71 +1738,15 @@ func (client DataConnectivityManagementClient) getConnection(ctx context.Context
 	return response, err
 }
 
-// GetConnectionValidation Retrieves a connection validation using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/GetConnectionValidation.go.html to see an example of how to use GetConnectionValidation API.
-func (client DataConnectivityManagementClient) GetConnectionValidation(ctx context.Context, request GetConnectionValidationRequest) (response GetConnectionValidationResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getConnectionValidation, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetConnectionValidationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetConnectionValidationResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetConnectionValidationResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetConnectionValidationResponse")
-	}
-	return
-}
-
-// getConnectionValidation implements the OCIOperation interface (enables retrying operations)
-func (client DataConnectivityManagementClient) getConnectionValidation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/registries/{registryId}/connectionValidations/{connectionValidationKey}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetConnectionValidationResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := ""
-		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "GetConnectionValidation", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetDataAsset Retrieves details of a data asset using the specified identifier.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/GetDataAsset.go.html to see an example of how to use GetDataAsset API.
+// A default retry strategy applies to this operation GetDataAsset()
 func (client DataConnectivityManagementClient) GetDataAsset(ctx context.Context, request GetDataAssetRequest) (response GetDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1840,9 +1801,10 @@ func (client DataConnectivityManagementClient) getDataAsset(ctx context.Context,
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/GetDataEntity.go.html to see an example of how to use GetDataEntity API.
+// A default retry strategy applies to this operation GetDataEntity()
 func (client DataConnectivityManagementClient) GetDataEntity(ctx context.Context, request GetDataEntityRequest) (response GetDataEntityResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1892,14 +1854,15 @@ func (client DataConnectivityManagementClient) getDataEntity(ctx context.Context
 	return response, err
 }
 
-// GetEndpoint Gets a Data Connectivity Management Endpoint by identifier
+// GetEndpoint Gets a Data Connectivity Management endpoint by its identifier.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/GetEndpoint.go.html to see an example of how to use GetEndpoint API.
+// A default retry strategy applies to this operation GetEndpoint()
 func (client DataConnectivityManagementClient) GetEndpoint(ctx context.Context, request GetEndpointRequest) (response GetEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1949,14 +1912,72 @@ func (client DataConnectivityManagementClient) getEndpoint(ctx context.Context, 
 	return response, err
 }
 
-// GetExecuteOperationJob Get the operation status or operation execution result
+// GetEngineConfigurations This endpoint is used to fetch connector-specific engine configurations.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/GetEngineConfigurations.go.html to see an example of how to use GetEngineConfigurations API.
+func (client DataConnectivityManagementClient) GetEngineConfigurations(ctx context.Context, request GetEngineConfigurationsRequest) (response GetEngineConfigurationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getEngineConfigurations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetEngineConfigurationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetEngineConfigurationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetEngineConfigurationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetEngineConfigurationsResponse")
+	}
+	return
+}
+
+// getEngineConfigurations implements the OCIOperation interface (enables retrying operations)
+func (client DataConnectivityManagementClient) getEngineConfigurations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/registries/{registryId}/connections/{connectionKey}/engineConfigurations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetEngineConfigurationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "GetEngineConfigurations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetExecuteOperationJob Get the status or the result of the execution.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/GetExecuteOperationJob.go.html to see an example of how to use GetExecuteOperationJob API.
+// A default retry strategy applies to this operation GetExecuteOperationJob()
 func (client DataConnectivityManagementClient) GetExecuteOperationJob(ctx context.Context, request GetExecuteOperationJobRequest) (response GetExecuteOperationJobResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2011,9 +2032,10 @@ func (client DataConnectivityManagementClient) getExecuteOperationJob(ctx contex
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/GetFolder.go.html to see an example of how to use GetFolder API.
+// A default retry strategy applies to this operation GetFolder()
 func (client DataConnectivityManagementClient) GetFolder(ctx context.Context, request GetFolderRequest) (response GetFolderResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2063,14 +2085,15 @@ func (client DataConnectivityManagementClient) getFolder(ctx context.Context, re
 	return response, err
 }
 
-// GetNetworkConnectivityStatus Get Status of network reachability check, with the timestamp when the status was last checked, for a given PrivateEndpoint-DataAsset pair
+// GetNetworkConnectivityStatus Get the status of network reachability check, with the timestamp of when the status was last checked, for a given PrivateEndpoint-DataAsset pair.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/GetNetworkConnectivityStatus.go.html to see an example of how to use GetNetworkConnectivityStatus API.
+// A default retry strategy applies to this operation GetNetworkConnectivityStatus()
 func (client DataConnectivityManagementClient) GetNetworkConnectivityStatus(ctx context.Context, request GetNetworkConnectivityStatusRequest) (response GetNetworkConnectivityStatusResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2125,14 +2148,15 @@ func (client DataConnectivityManagementClient) getNetworkConnectivityStatus(ctx 
 	return response, err
 }
 
-// GetOperation Retrieves the details of operation with given resource name.
+// GetOperation Retrieves the details of operation with the given resource name.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/GetOperation.go.html to see an example of how to use GetOperation API.
+// A default retry strategy applies to this operation GetOperation()
 func (client DataConnectivityManagementClient) GetOperation(ctx context.Context, request GetOperationRequest) (response GetOperationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2182,14 +2206,15 @@ func (client DataConnectivityManagementClient) getOperation(ctx context.Context,
 	return response, err
 }
 
-// GetRegistry Gets a Data Connectivity Management Registry by identifier
+// GetRegistry Retrieves a Data Connectivity Management registry using the specified identifier.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/GetRegistry.go.html to see an example of how to use GetRegistry API.
+// A default retry strategy applies to this operation GetRegistry()
 func (client DataConnectivityManagementClient) GetRegistry(ctx context.Context, request GetRegistryRequest) (response GetRegistryResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2244,9 +2269,10 @@ func (client DataConnectivityManagementClient) getRegistry(ctx context.Context, 
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/GetSchema.go.html to see an example of how to use GetSchema API.
+// A default retry strategy applies to this operation GetSchema()
 func (client DataConnectivityManagementClient) GetSchema(ctx context.Context, request GetSchemaRequest) (response GetSchemaResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2296,14 +2322,15 @@ func (client DataConnectivityManagementClient) getSchema(ctx context.Context, re
 	return response, err
 }
 
-// GetType This endpoint retrieves dataAsset and connection attributes from DataAssetRegistry
+// GetType This endpoint retrieves dataAsset and connection attributes from DataAssetRegistry.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/GetType.go.html to see an example of how to use GetType API.
+// A default retry strategy applies to this operation GetType()
 func (client DataConnectivityManagementClient) GetType(ctx context.Context, request GetTypeRequest) (response GetTypeResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2358,9 +2385,10 @@ func (client DataConnectivityManagementClient) getType(ctx context.Context, requ
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client DataConnectivityManagementClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2410,71 +2438,15 @@ func (client DataConnectivityManagementClient) getWorkRequest(ctx context.Contex
 	return response, err
 }
 
-// ListConnectionValidations Retrieves a list of connection validations within the specified registry.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/ListConnectionValidations.go.html to see an example of how to use ListConnectionValidations API.
-func (client DataConnectivityManagementClient) ListConnectionValidations(ctx context.Context, request ListConnectionValidationsRequest) (response ListConnectionValidationsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listConnectionValidations, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListConnectionValidationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListConnectionValidationsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListConnectionValidationsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListConnectionValidationsResponse")
-	}
-	return
-}
-
-// listConnectionValidations implements the OCIOperation interface (enables retrying operations)
-func (client DataConnectivityManagementClient) listConnectionValidations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/registries/{registryId}/connectionValidations", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListConnectionValidationsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := ""
-		err = common.PostProcessServiceError(err, "DataConnectivityManagement", "ListConnectionValidations", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListConnections Retrieves a list of all connections.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/ListConnections.go.html to see an example of how to use ListConnections API.
+// A default retry strategy applies to this operation ListConnections()
 func (client DataConnectivityManagementClient) ListConnections(ctx context.Context, request ListConnectionsRequest) (response ListConnectionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2529,9 +2501,10 @@ func (client DataConnectivityManagementClient) listConnections(ctx context.Conte
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/ListDataAssets.go.html to see an example of how to use ListDataAssets API.
+// A default retry strategy applies to this operation ListDataAssets()
 func (client DataConnectivityManagementClient) ListDataAssets(ctx context.Context, request ListDataAssetsRequest) (response ListDataAssetsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2586,9 +2559,10 @@ func (client DataConnectivityManagementClient) listDataAssets(ctx context.Contex
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/ListDataEntities.go.html to see an example of how to use ListDataEntities API.
+// A default retry strategy applies to this operation ListDataEntities()
 func (client DataConnectivityManagementClient) ListDataEntities(ctx context.Context, request ListDataEntitiesRequest) (response ListDataEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2638,14 +2612,15 @@ func (client DataConnectivityManagementClient) listDataEntities(ctx context.Cont
 	return response, err
 }
 
-// ListEndpoints Returns a list of Data Connectivity Management Endpoints.
+// ListEndpoints Returns a list of Data Connectivity Management endpoints.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/ListEndpoints.go.html to see an example of how to use ListEndpoints API.
+// A default retry strategy applies to this operation ListEndpoints()
 func (client DataConnectivityManagementClient) ListEndpoints(ctx context.Context, request ListEndpointsRequest) (response ListEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2695,14 +2670,15 @@ func (client DataConnectivityManagementClient) listEndpoints(ctx context.Context
 	return response, err
 }
 
-// ListFolders Retrieves a list of all folders.
+// ListFolders Retrieves a list of all the folders.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/ListFolders.go.html to see an example of how to use ListFolders API.
+// A default retry strategy applies to this operation ListFolders()
 func (client DataConnectivityManagementClient) ListFolders(ctx context.Context, request ListFoldersRequest) (response ListFoldersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2752,14 +2728,15 @@ func (client DataConnectivityManagementClient) listFolders(ctx context.Context, 
 	return response, err
 }
 
-// ListOperations Lists the summary of operations present in the schema identified by schema name.
+// ListOperations Lists the summary of operations that are present in the schema, identified by the schema name.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/ListOperations.go.html to see an example of how to use ListOperations API.
+// A default retry strategy applies to this operation ListOperations()
 func (client DataConnectivityManagementClient) ListOperations(ctx context.Context, request ListOperationsRequest) (response ListOperationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2814,9 +2791,10 @@ func (client DataConnectivityManagementClient) listOperations(ctx context.Contex
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/ListReferenceArtifacts.go.html to see an example of how to use ListReferenceArtifacts API.
+// A default retry strategy applies to this operation ListReferenceArtifacts()
 func (client DataConnectivityManagementClient) ListReferenceArtifacts(ctx context.Context, request ListReferenceArtifactsRequest) (response ListReferenceArtifactsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2866,14 +2844,15 @@ func (client DataConnectivityManagementClient) listReferenceArtifacts(ctx contex
 	return response, err
 }
 
-// ListRegistries Returns a list of Data Connectivity Management Registries.
+// ListRegistries Retrieves a list of Data Connectivity Management registries.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/ListRegistries.go.html to see an example of how to use ListRegistries API.
+// A default retry strategy applies to this operation ListRegistries()
 func (client DataConnectivityManagementClient) ListRegistries(ctx context.Context, request ListRegistriesRequest) (response ListRegistriesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2928,9 +2907,10 @@ func (client DataConnectivityManagementClient) listRegistries(ctx context.Contex
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/ListSchemas.go.html to see an example of how to use ListSchemas API.
+// A default retry strategy applies to this operation ListSchemas()
 func (client DataConnectivityManagementClient) ListSchemas(ctx context.Context, request ListSchemasRequest) (response ListSchemasResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2980,14 +2960,15 @@ func (client DataConnectivityManagementClient) listSchemas(ctx context.Context, 
 	return response, err
 }
 
-// ListTypes This endpoint retrieves list of all the supported connector types
+// ListTypes This endpoint retrieves a list of all the supported connector types.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/ListTypes.go.html to see an example of how to use ListTypes API.
+// A default retry strategy applies to this operation ListTypes()
 func (client DataConnectivityManagementClient) ListTypes(ctx context.Context, request ListTypesRequest) (response ListTypesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3037,14 +3018,15 @@ func (client DataConnectivityManagementClient) listTypes(ctx context.Context, re
 	return response, err
 }
 
-// ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+// ListWorkRequestErrors Returns a (paginated) list of errors for a given work request.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client DataConnectivityManagementClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3094,14 +3076,15 @@ func (client DataConnectivityManagementClient) listWorkRequestErrors(ctx context
 	return response, err
 }
 
-// ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
+// ListWorkRequestLogs Returns a (paginated) list of logs for a given work request.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client DataConnectivityManagementClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3156,9 +3139,10 @@ func (client DataConnectivityManagementClient) listWorkRequestLogs(ctx context.C
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client DataConnectivityManagementClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3322,7 +3306,7 @@ func (client DataConnectivityManagementClient) updateDataAsset(ctx context.Conte
 	return response, err
 }
 
-// UpdateEndpoint Updates the Data Connectivity Management Endpoint
+// UpdateEndpoint Updates the Data Connectivity Management endpoint.
 //
 // See also
 //
@@ -3379,7 +3363,7 @@ func (client DataConnectivityManagementClient) updateEndpoint(ctx context.Contex
 	return response, err
 }
 
-// UpdateFolder Updates a folder under a specefied registry.
+// UpdateFolder Updates a folder under a specified registry.
 //
 // See also
 //
@@ -3436,7 +3420,7 @@ func (client DataConnectivityManagementClient) updateFolder(ctx context.Context,
 	return response, err
 }
 
-// UpdateRegistry Updates the Data Connectivity Management Registry
+// UpdateRegistry Updates the Data Connectivity Management Registry.
 //
 // See also
 //
@@ -3493,7 +3477,7 @@ func (client DataConnectivityManagementClient) updateRegistry(ctx context.Contex
 	return response, err
 }
 
-// ValidateDataAssetNetworkReachablity Validates the dataAsset network Reachability.
+// ValidateDataAssetNetworkReachablity Validates the dataAsset network reachability.
 //
 // See also
 //

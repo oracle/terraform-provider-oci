@@ -18,13 +18,13 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/UpdateFolder.go.html to see an example of how to use UpdateFolderRequest.
 type UpdateFolderRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
 	// The folder ID.
 	FolderKey *string `mandatory:"true" contributesTo:"path" name:"folderKey"`
 
-	// The information needed to update a folder.
+	// The information required to update a folder.
 	UpdateFolderDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If

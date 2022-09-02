@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// ModelType DataAsset & Connection Registry Attributes
+// ModelType DataAsset and Connection Registry Attributes
 type ModelType struct {
 
-	// list of attributes for the dataAsset
+	// The list of attributes of the data asset.
 	DataAssetAttributes []Attribute `mandatory:"true" json:"dataAssetAttributes"`
 
-	// Map of connectionType as key and List of attributes as value
+	// Mapping the connectionType as the key to the list of attributes as the value.
 	ConnectionAttributes map[string][]Attribute `mandatory:"true" json:"connectionAttributes"`
 }
 

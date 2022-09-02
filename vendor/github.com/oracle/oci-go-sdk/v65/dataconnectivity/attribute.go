@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -15,28 +15,28 @@ import (
 	"strings"
 )
 
-// Attribute Registry Attribute Object, to get connector details
+// Attribute The attribute object fo the registry that can be used to get the connector details.
 type Attribute struct {
 
-	// The name of of the Attribute.
+	// The name of of the attribute.
 	Name *string `mandatory:"true" json:"name"`
 
-	// True if Attribute is sensitive.
+	// True if attribute is sensitive.
 	IsSensitive *bool `mandatory:"false" json:"isSensitive"`
 
-	// True if Attribute is mandatory.
+	// True if attribute is mandatory.
 	IsMandatory *bool `mandatory:"false" json:"isMandatory"`
 
-	// True if Attribute is generated.
+	// True if attribute is generated.
 	IsGenerated *bool `mandatory:"false" json:"isGenerated"`
 
-	// True if Attribute is encoded.
+	// True if attribute is encoded.
 	IsBase64Encoded *bool `mandatory:"false" json:"isBase64Encoded"`
 
-	// List of valid key list
+	// The list of valid keys.
 	ValidKeyList []string `mandatory:"false" json:"validKeyList"`
 
-	// Attribute type details
+	// The attribute type details.
 	AttributeType *string `mandatory:"false" json:"attributeType"`
 }
 

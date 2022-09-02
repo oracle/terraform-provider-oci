@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -15,19 +15,19 @@ import (
 	"strings"
 )
 
-// ConnectivityValidation The information about connectivity validation results
+// ConnectivityValidation The information about connectivity validation results.
 type ConnectivityValidation struct {
 
-	// Total number of validation messages
+	// Total number of validation messages.
 	TotalMessageCount *int `mandatory:"true" json:"totalMessageCount"`
 
-	// Total number of validation error messages
+	// Total number of validation error messages.
 	ErrorMessageCount *int `mandatory:"false" json:"errorMessageCount"`
 
-	// Total number of validation warning messages
+	// Total number of validation warning messages.
 	WarnMessageCount *int `mandatory:"false" json:"warnMessageCount"`
 
-	// Total number of validation information messages
+	// Total number of validation information messages.
 	InfoMessageCount *int `mandatory:"false" json:"infoMessageCount"`
 
 	// Detailed information of the connectivity validation.

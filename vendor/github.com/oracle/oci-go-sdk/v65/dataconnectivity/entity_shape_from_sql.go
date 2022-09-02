@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -23,21 +23,21 @@ type EntityShapeFromSql struct {
 	// The object key.
 	Key *string `mandatory:"false" json:"key"`
 
-	// The object's model version.
+	// The model version of the object.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
+	// Free form text without any restriction on the permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
-	// Detailed description for the object.
+	// Detailed description of the object.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The version of the object that is used to track changes in the object instance.
 	ObjectVersion *int `mandatory:"false" json:"objectVersion"`
 
-	// The external key for the object.
+	// The external key of the object.
 	ExternalKey *string `mandatory:"false" json:"externalKey"`
 
 	Shape *Shape `mandatory:"false" json:"shape"`
@@ -62,7 +62,7 @@ type EntityShapeFromSql struct {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be modified.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with an upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`
 
 	// sqlQuery
@@ -199,24 +199,30 @@ type EntityShapeFromSqlEntityTypeEnum string
 
 // Set of constants representing the allowable values for EntityShapeFromSqlEntityTypeEnum
 const (
-	EntityShapeFromSqlEntityTypeTable EntityShapeFromSqlEntityTypeEnum = "TABLE"
-	EntityShapeFromSqlEntityTypeView  EntityShapeFromSqlEntityTypeEnum = "VIEW"
-	EntityShapeFromSqlEntityTypeFile  EntityShapeFromSqlEntityTypeEnum = "FILE"
-	EntityShapeFromSqlEntityTypeSql   EntityShapeFromSqlEntityTypeEnum = "SQL"
+	EntityShapeFromSqlEntityTypeTable     EntityShapeFromSqlEntityTypeEnum = "TABLE"
+	EntityShapeFromSqlEntityTypeView      EntityShapeFromSqlEntityTypeEnum = "VIEW"
+	EntityShapeFromSqlEntityTypeFile      EntityShapeFromSqlEntityTypeEnum = "FILE"
+	EntityShapeFromSqlEntityTypeSql       EntityShapeFromSqlEntityTypeEnum = "SQL"
+	EntityShapeFromSqlEntityTypeDataStore EntityShapeFromSqlEntityTypeEnum = "DATA_STORE"
+	EntityShapeFromSqlEntityTypeMessage   EntityShapeFromSqlEntityTypeEnum = "MESSAGE"
 )
 
 var mappingEntityShapeFromSqlEntityTypeEnum = map[string]EntityShapeFromSqlEntityTypeEnum{
-	"TABLE": EntityShapeFromSqlEntityTypeTable,
-	"VIEW":  EntityShapeFromSqlEntityTypeView,
-	"FILE":  EntityShapeFromSqlEntityTypeFile,
-	"SQL":   EntityShapeFromSqlEntityTypeSql,
+	"TABLE":      EntityShapeFromSqlEntityTypeTable,
+	"VIEW":       EntityShapeFromSqlEntityTypeView,
+	"FILE":       EntityShapeFromSqlEntityTypeFile,
+	"SQL":        EntityShapeFromSqlEntityTypeSql,
+	"DATA_STORE": EntityShapeFromSqlEntityTypeDataStore,
+	"MESSAGE":    EntityShapeFromSqlEntityTypeMessage,
 }
 
 var mappingEntityShapeFromSqlEntityTypeEnumLowerCase = map[string]EntityShapeFromSqlEntityTypeEnum{
-	"table": EntityShapeFromSqlEntityTypeTable,
-	"view":  EntityShapeFromSqlEntityTypeView,
-	"file":  EntityShapeFromSqlEntityTypeFile,
-	"sql":   EntityShapeFromSqlEntityTypeSql,
+	"table":      EntityShapeFromSqlEntityTypeTable,
+	"view":       EntityShapeFromSqlEntityTypeView,
+	"file":       EntityShapeFromSqlEntityTypeFile,
+	"sql":        EntityShapeFromSqlEntityTypeSql,
+	"data_store": EntityShapeFromSqlEntityTypeDataStore,
+	"message":    EntityShapeFromSqlEntityTypeMessage,
 }
 
 // GetEntityShapeFromSqlEntityTypeEnumValues Enumerates the set of values for EntityShapeFromSqlEntityTypeEnum
@@ -235,6 +241,8 @@ func GetEntityShapeFromSqlEntityTypeEnumStringValues() []string {
 		"VIEW",
 		"FILE",
 		"SQL",
+		"DATA_STORE",
+		"MESSAGE",
 	}
 }
 

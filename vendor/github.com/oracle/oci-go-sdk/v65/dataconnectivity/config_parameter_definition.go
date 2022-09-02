@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -23,7 +23,7 @@ type ConfigParameterDefinition struct {
 	// This object represents the configurable properties for an object type.
 	ParameterName *string `mandatory:"false" json:"parameterName"`
 
-	// A user defined description for the object.
+	// A user-defined description for the object.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The default value for the parameter.
@@ -32,10 +32,10 @@ type ConfigParameterDefinition struct {
 	// The parameter class field name.
 	ClassFieldName *string `mandatory:"false" json:"classFieldName"`
 
-	// Specifies whether the parameter is static or not.
+	// Specifies whether the parameter is static.
 	IsStatic *bool `mandatory:"false" json:"isStatic"`
 
-	// Specifies whether the parameter is a class field or not.
+	// Specifies whether the parameter is a class field.
 	IsClassFieldValue *bool `mandatory:"false" json:"isClassFieldValue"`
 }
 

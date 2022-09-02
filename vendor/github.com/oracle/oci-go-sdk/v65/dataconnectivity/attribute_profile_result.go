@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// AttributeProfileResult A summary of profiling results of a specefic attribute.
+// AttributeProfileResult A summary of profiling results of a specific attribute.
 type AttributeProfileResult interface {
 
-	// Name of attribute
+	// Name of the attribute
 	GetName() *string
 
 	GetMin() *ProfileStat
@@ -34,7 +34,7 @@ type AttributeProfileResult interface {
 
 	GetDuplicateCount() *ProfileStat
 
-	// Top N value frequencies for the column as described already in profile config topNValueFrequency property.
+	// Top N value frequencies for the column as described already in the topNValueFrequency profile config property.
 	GetValueFrequencies() []ObjectFreqStat
 }
 

@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// RegistrySummaryCollection List of Registry summaries.
+// RegistrySummaryCollection The list of registry summaries.
 type RegistrySummaryCollection struct {
 
-	// The array of Registry summariess
+	// The array of registry summaries.
 	Items []RegistrySummary `mandatory:"true" json:"items"`
 }
 

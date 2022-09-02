@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// UpdateDataAssetDetails Properties used in data asset update operations.
+// UpdateDataAssetDetails Properties used in the update data asset operations.
 type UpdateDataAssetDetails struct {
 
-	// All the properties for the data asset in a key-value map format.
+	// All the properties of the data asset in a key-value map format.
 	Properties map[string]interface{} `mandatory:"true" json:"properties"`
 
 	// Specific DataAsset Type
@@ -31,7 +31,7 @@ type UpdateDataAssetDetails struct {
 	// The type of the object.
 	ModelType *string `mandatory:"false" json:"modelType"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
+	// Free form text without any restriction on the permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
 	// User-defined description of the data asset.
@@ -43,13 +43,13 @@ type UpdateDataAssetDetails struct {
 	// The version of the object that is used to track changes in the object instance.
 	ObjectVersion *int `mandatory:"false" json:"objectVersion"`
 
-	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with an upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`
 
-	// The external key for the object.
+	// The external key of the object.
 	ExternalKey *string `mandatory:"false" json:"externalKey"`
 
-	// Additional properties for the data asset.
+	// Additional properties of the data asset.
 	AssetProperties map[string]string `mandatory:"false" json:"assetProperties"`
 
 	NativeTypeSystem *TypeSystem `mandatory:"false" json:"nativeTypeSystem"`

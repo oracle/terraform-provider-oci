@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// CreateFullPushDownTaskDetails The full pushdown task parameter
+// CreateFullPushDownTaskDetails The full pushdown task parameter.
 type CreateFullPushDownTaskDetails struct {
 
-	// The type of of FullPushDownTask.
+	// The type of FullPushDownTask.
 	ModelType *string `mandatory:"true" json:"modelType"`
 
 	Source *Source `mandatory:"false" json:"source"`

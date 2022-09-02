@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -19,7 +19,7 @@ import (
 // StringAttribute A summary of profiling results of a specefic attribute.
 type StringAttribute struct {
 
-	// Name of attribute
+	// Name of the attribute
 	Name *string `mandatory:"false" json:"name"`
 
 	Min *ProfileStat `mandatory:"false" json:"min"`
@@ -34,7 +34,7 @@ type StringAttribute struct {
 
 	DuplicateCount *ProfileStat `mandatory:"false" json:"duplicateCount"`
 
-	// Top N value frequencies for the column as described already in profile config topNValueFrequency property.
+	// Top N value frequencies for the column as described already in the topNValueFrequency profile config property.
 	ValueFrequencies []ObjectFreqStat `mandatory:"false" json:"valueFrequencies"`
 
 	MinLength *ProfileStat `mandatory:"false" json:"minLength"`
@@ -43,7 +43,7 @@ type StringAttribute struct {
 
 	MeanLength *ProfileStat `mandatory:"false" json:"meanLength"`
 
-	// Pattern frequencies for the column as described already in profile config.
+	// Pattern frequencies for the column as described in the profile config.
 	PatternFrequencies []ObjectFreqStat `mandatory:"false" json:"patternFrequencies"`
 
 	// Inferred DataType for the column.

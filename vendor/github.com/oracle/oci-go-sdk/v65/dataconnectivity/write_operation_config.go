@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -19,10 +19,13 @@ import (
 // WriteOperationConfig The information about the write operation.
 type WriteOperationConfig struct {
 
+	// this map is used for passing BIP report/REST parameter values.
+	DerivedAttributes map[string]string `mandatory:"false" json:"derivedAttributes"`
+
 	// The object key.
 	Key *string `mandatory:"false" json:"key"`
 
-	// The object's model version.
+	// The model version of the object.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
@@ -41,11 +44,16 @@ type WriteOperationConfig struct {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// The number of rows are rejected based on which operation will error out.
+	// The number of rows are rejected based on the operation that errors out.
 	RejectLimit *int `mandatory:"false" json:"rejectLimit"`
 
 	// The mode for the write operation.
 	WriteMode WriteOperationConfigWriteModeEnum `mandatory:"false" json:"writeMode,omitempty"`
+}
+
+//GetDerivedAttributes returns DerivedAttributes
+func (m WriteOperationConfig) GetDerivedAttributes() map[string]string {
+	return m.DerivedAttributes
 }
 
 func (m WriteOperationConfig) String() string {
@@ -84,17 +92,18 @@ func (m WriteOperationConfig) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *WriteOperationConfig) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Key             *string                           `json:"key"`
-		ModelVersion    *string                           `json:"modelVersion"`
-		ParentRef       *ParentReference                  `json:"parentRef"`
-		Operations      []pushdownoperation               `json:"operations"`
-		DataFormat      *DataFormat                       `json:"dataFormat"`
-		PartitionConfig partitionconfig                   `json:"partitionConfig"`
-		WriteAttribute  abstractwriteattribute            `json:"writeAttribute"`
-		WriteMode       WriteOperationConfigWriteModeEnum `json:"writeMode"`
-		MergeKey        uniquekey                         `json:"mergeKey"`
-		ObjectStatus    *int                              `json:"objectStatus"`
-		RejectLimit     *int                              `json:"rejectLimit"`
+		DerivedAttributes map[string]string                 `json:"derivedAttributes"`
+		Key               *string                           `json:"key"`
+		ModelVersion      *string                           `json:"modelVersion"`
+		ParentRef         *ParentReference                  `json:"parentRef"`
+		Operations        []pushdownoperation               `json:"operations"`
+		DataFormat        *DataFormat                       `json:"dataFormat"`
+		PartitionConfig   partitionconfig                   `json:"partitionConfig"`
+		WriteAttribute    abstractwriteattribute            `json:"writeAttribute"`
+		WriteMode         WriteOperationConfigWriteModeEnum `json:"writeMode"`
+		MergeKey          uniquekey                         `json:"mergeKey"`
+		ObjectStatus      *int                              `json:"objectStatus"`
+		RejectLimit       *int                              `json:"rejectLimit"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -102,6 +111,8 @@ func (m *WriteOperationConfig) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.DerivedAttributes = model.DerivedAttributes
+
 	m.Key = model.Key
 
 	m.ModelVersion = model.ModelVersion

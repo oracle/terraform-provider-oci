@@ -83,14 +83,12 @@ type ListWorkRequestErrorsResponse struct {
 	// A list of WorkRequestErrorCollection instances
 	WorkRequestErrorCollection `presentIn:"body"`
 
-	// For pagination of a list of items. When paging through a list, if this header appears in the response,
-	// then there might be additional items still to get. Include this value as the `page` parameter for the
-	// subsequent GET request.
-	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
-
-	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
-	// particular request, please provide the request ID.
+	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// Retrieves the next page of results. When this header appears in the response, additional pages of results remain. See List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 
 func (response ListWorkRequestErrorsResponse) String() string {

@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// OperationSummaryCollection This is the collection of operation summaries, it will contain very shallow details of an operation.
+// OperationSummaryCollection This is the collection of operation summaries, with minimal details of an operation.
 type OperationSummaryCollection struct {
 
-	// The array of operation summary
+	// The array of operation summary.
 	Items []OperationSummary `mandatory:"true" json:"items"`
 }
 
