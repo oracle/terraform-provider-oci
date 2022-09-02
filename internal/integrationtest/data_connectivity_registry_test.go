@@ -303,7 +303,7 @@ func getDataConnectivityRegistryIds(compartment string) ([]string, error) {
 
 	listRegistriesRequest := oci_data_connectivity.ListRegistriesRequest{}
 	listRegistriesRequest.CompartmentId = &compartmentId
-	// listRegistriesRequest.LifecycleState = oci_data_connectivity.RegistryLifecycleStateActive
+	listRegistriesRequest.LifecycleState = oci_data_connectivity.ListRegistriesLifecycleStateActive
 	listRegistriesResponse, err := dataConnectivityManagementClient.ListRegistries(context.Background(), listRegistriesRequest)
 
 	if err != nil {
