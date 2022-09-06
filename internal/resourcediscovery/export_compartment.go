@@ -900,13 +900,35 @@ func findResources(ctx *tf_export.ResourceDiscoveryContext, root *tf_export.OCIR
 	utils.Logf("[INFO] resource discovery: visiting %s\n", root.GetTerraformReference())
 	utils.Debugf("[DEBUG] resource discovery: visiting %s\n", root.GetTerraformReference())
 
-	for _, childType := range childResourceTypes {
-		func() {
-			defer handlePanicFindResources(&childType, &err)
+	utils.Logf("[INFO] number of child resource types for %s: %d\n", root.getTerraformReference(), len(childResourceTypes))
+
+	findResourcesStart := time.Now()
+	var findResourcesWg sync.WaitGroup
+	findResourcesWg.Add(len(childResourceTypes))
+
+	ch := make(chan struct{}, len(childResourceTypes))
+
+	for i, childType := range childResourceTypes {
+
+		ch <- struct{}{}
+
+		go func(i int, childType TerraformResourceAssociation) {
+			utils.Debugf("[DEBUG] findResources: finding resources for resource type index: %d", i)
+
+			defer func(tfMeta *tf_export.TerraformResourceAssociation, err *error) {
+				if r := recover(); r != nil {
+					utils.Logf("[WARN] recovered from panic in findResourcesGeneric for resource: %s \n continuing discovery...", tfMeta.ResourceClass)
+					returnErr := fmt.Errorf("panic in findResourcesGeneric for resource %s", tfMeta.ResourceClass)
+					*err = returnErr
+					debug.PrintStack()
+				}
+				utils.Debugf("[DEBUG] findResourcesWg done, resource type index: %d", i)
+				findResourcesWg.Done()
+			}(&childType, &err)
 
 			findResourceFn := tf_export.FindResourcesGeneric
-			if childType.FindResourcesOverrideFn != nil {
-				findResourceFn = childType.FindResourcesOverrideFn
+			if childType.findResourcesOverrideFn != nil {
+				findResourceFn = childType.findResourcesOverrideFn
 			}
 			results, err := findResourceFn(ctx, &childType, root, &resourceGraph)
 			if err != nil {
@@ -957,10 +979,19 @@ func findResources(ctx *tf_export.ResourceDiscoveryContext, root *tf_export.OCIR
 				if err != nil {
 					continue
 				}
+				foundResourcesLock.Lock()
 				foundResources = append(foundResources, subResources...)
+				foundResourcesLock.Unlock()
 			}
-		}()
+			utils.Debugf("[DEBUG] findResources: Completed for resource type index %d", i)
+			<-ch
+		}(i, childType)
 	}
+
+	// Wait for all steps to complete findResources
+	findResourcesWg.Wait()
+	totalFindResourcesTime := time.Since(findResourcesStart)
+	utils.Debugf("finding resources for %s took %v\n", root.getTerraformReference(), totalFindResourcesTime)
 
 	return foundResources, nil
 }
@@ -1271,15 +1302,6 @@ func createTerraformStruct(args *tf_export.ExportCommandArgs) (*tfexec.Terraform
 	tf.SetStdout(os.Stdout)
 
 	return tf, terraformBinPath, nil
-}
-
-func handlePanicFindResources(tfMeta *tf_export.TerraformResourceAssociation, err *error) {
-	if r := recover(); r != nil {
-		utils.Logf("[WARN] recovered from panic in findResourcesGeneric for resource: %s \n continuing discovery...", tfMeta.ResourceClass)
-		returnErr := fmt.Errorf("panic in findResourcesGeneric for resource %s", tfMeta.ResourceClass)
-		*err = returnErr
-		debug.PrintStack()
-	}
 }
 
 func cleanupTempStateFiles(ctx *tf_export.ResourceDiscoveryContext) {

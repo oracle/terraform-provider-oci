@@ -34,12 +34,9 @@ resource "oci_database_vm_cluster_network" "test_vm_cluster_network" {
 	}
 	vm_networks {
 		#Required
-<<<<<<< ours
-=======
 		domain_name = var.vm_cluster_network_vm_networks_domain_name
 		gateway = var.vm_cluster_network_vm_networks_gateway
 		netmask = var.vm_cluster_network_vm_networks_netmask
->>>>>>> theirs
 		network_type = var.vm_cluster_network_vm_networks_network_type
 		nodes {
 			#Required

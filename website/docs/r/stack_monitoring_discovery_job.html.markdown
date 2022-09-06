@@ -21,11 +21,7 @@ resource "oci_stack_monitoring_discovery_job" "test_discovery_job" {
 	compartment_id = var.compartment_id
 	discovery_details {
 		#Required
-<<<<<<< ours
-		agent_id = oci_cloud_bridge_agent.test_agent.id
-=======
 		agent_id = var.management_agent_id
->>>>>>> theirs
 		properties {
 
 			#Optional
