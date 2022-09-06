@@ -21,11 +21,7 @@ data "oci_management_agent_management_agent_plugins" "test_management_agent_plug
 	compartment_id = var.compartment_id
 
 	#Optional
-<<<<<<< ours
-	agent_id = oci_cloud_bridge_agent.test_agent.id
-=======
 	agent_id = var.management_agent_id
->>>>>>> theirs
 	display_name = var.management_agent_plugin_display_name
 	platform_type = var.management_agent_plugin_platform_type
 	state = var.management_agent_plugin_state
