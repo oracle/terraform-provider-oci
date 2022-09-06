@@ -891,6 +891,7 @@ func findResources(ctx *tf_export.ResourceDiscoveryContext, root *tf_export.OCIR
 	// If find resources needs to fail in some scenario, this func needs to be modified to return error instead of continuing discovery
 	// Errors so far are API errors or the errors when service/feature is not available
 	foundResources = []*tf_export.OCIResource{}
+	var foundResourcesLock sync.Mutex
 
 	childResourceTypes, exists := resourceGraph[root.TerraformClass]
 	if !exists {
