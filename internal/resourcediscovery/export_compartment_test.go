@@ -2222,6 +2222,94 @@ func TestUnitGenerateStateParallel(t *testing.T) {
 	assert.NoError(t, err, "")
 }
 
+func TestUnitGenerateStateParallelWhenTfInitFails(t *testing.T) {
+
+	ctx := getTestCtx()
+	nSteps := 80 // number of steps
+	steps := make([]resourceDiscoveryStep, nSteps)
+
+	compartmentId := resourceDiscoveryTestCompartmentOcid
+	if err := os.Setenv("export_tenancy_id", resourceDiscoveryTestTenancyOcid); err != nil {
+		t.Logf("unable to set export_tenancy_id. err: %v", err)
+		t.Fail()
+	}
+	outputDir, err := os.Getwd()
+	outputDir = fmt.Sprintf("%s%sdiscoveryTest-%d", outputDir, string(os.PathSeparator), time.Now().Nanosecond())
+	if err = os.Mkdir(outputDir, os.ModePerm); err != nil {
+		t.Logf("unable to mkdir %s. err: %v", outputDir, err)
+		t.Fail()
+	}
+
+	for i := 0; i < nSteps; i++ {
+		discoveredResources := []*OCIResource{}
+		discoveredResources = append(discoveredResources, &OCIResource{
+			compartmentId: compartmentId,
+			TerraformResource: TerraformResource{
+				id:             "ocid1.a.b.c",
+				terraformClass: "oci_resource_type1",
+				terraformName:  "type1_res1",
+			},
+			parent: &OCIResource{
+				TerraformResource: TerraformResource{terraformName: "tf"},
+			},
+		})
+
+		steps[i] = &resourceDiscoveryWithTargetIds{
+			resourceDiscoveryBaseStep: resourceDiscoveryBaseStep{
+				ctx:                 ctx,
+				name:                "resources" + fmt.Sprint(i),
+				discoveredResources: discoveredResources,
+				omittedResources:    []*OCIResource{},
+			},
+		}
+	}
+
+	type args struct {
+		steps []resourceDiscoveryStep
+		ctx   *resourceDiscoveryContext
+	}
+	t_args := args{
+		steps: steps,
+		ctx:   ctx,
+	}
+	tests := []struct {
+		name      string
+		args      args
+		mock      func()
+		wantError bool
+	}{
+		{
+			name: "If Import failed ,should Return error",
+			args: t_args,
+			mock: func() {
+				t_args.ctx.terraformProviderBinaryPath = "tf"
+				t_args.ctx.OutputDir = &outputDir
+				ctxTerraformImportVar = func(ctx *resourceDiscoveryContext, ctxBackground context.Context, address, id string, importArgs ...tfexec.ImportOption) error {
+					return nil
+				}
+				terraformInitMockVar = func(r *resourceDiscoveryBaseStep, backgroundCtx context.Context, initArgs []tfexec.InitOption) error {
+					return errors.New("Init failed")
+				}
+				sem = make(chan struct{}, 4) // Parallelism=4
+				resourcesMap = mockResourcesMap()
+			},
+			wantError: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tt.mock()
+			err := generateStateParallel(ctx, steps)
+			if tt.wantError {
+				assert.Error(t, err)
+			} else {
+				assert.NoError(t, err, "")
+			}
+		})
+	}
+}
+
 func TestUnitGenerateState(test *testing.T) {
 	defer func() {
 		outputDir := getOutputDir()
