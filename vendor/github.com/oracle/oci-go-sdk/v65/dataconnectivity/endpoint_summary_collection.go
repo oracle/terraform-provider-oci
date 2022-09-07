@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// EndpointSummaryCollection List of endpoint summaries.
+// EndpointSummaryCollection The list of endpoint summaries.
 type EndpointSummaryCollection struct {
 
-	// The array of endpoint summariess
+	// The array of endpoint summaries.
 	Items []EndpointSummary `mandatory:"true" json:"items"`
 }
 

@@ -48,9 +48,11 @@ const (
 var (
 	referenceMap                     map[string]string //	stores references to replace the ocids in config
 	refMapLock                       sync.Mutex
-	referenceResourceNameSet         map[string]bool // this set contains terraform resource names for the references in referenceMap
-	failedResourceReferenceSet       map[string]bool // stores the terraform reference name for failed resources, used to remove InterpolationString type values if a resource failed to import
-	vars                             map[string]string
+	referenceResourceNameSet         map[string]bool     // this set contains terraform resource names for the references in referenceMap
+	failedResourceReferenceSet       map[string]bool     // stores the terraform reference name for failed resources, used to remove InterpolationString type values if a resource failed to import
+	vars                             map[string]string   // store variables to be generated in var file
+	varsExportForResourceLevel       map[string][]string // store resource type and attribute from customer input to be converted in var file for resource level
+	varsExportForGlobalLevel         []string            // store attributes list from customer input to be converted in var file for global level
 	resourceNameCount                map[string]int
 	resourceNameCountLock            sync.Mutex
 	resourcesMap                     map[string]*schema.Resource
@@ -114,6 +116,8 @@ func elapsed(what string, step *resourceDiscoveryBaseStep, stage ResourceDiscove
 func init() {
 	resourceNameCount = map[string]int{}
 	vars = map[string]string{}
+	varsExportForResourceLevel = map[string][]string{}
+	varsExportForGlobalLevel = []string{}
 	referenceMap = map[string]string{}
 
 	compartmentScopeServices = make([]string, len(compartmentResourceGraphs))
@@ -239,6 +243,8 @@ type ExportCommandArgs struct {
 	ExcludeServices              []string
 	IsExportWithRelatedResources bool
 	Parallelism                  int
+	VarsExportResourceLevel      []string
+	VarExportGlobalLevel         []string
 }
 
 func RunExportCommand(args *ExportCommandArgs) (err error, status Status) {
@@ -305,9 +311,6 @@ func RunExportCommand(args *ExportCommandArgs) (err error, status Status) {
 			tenancyOcid = tenancyId
 		}
 
-	}
-	if args.Parallelism < 1 {
-		return fmt.Errorf("[ERROR] invalid value for arument parallelism, specify a value >= 1"), StatusFail
 	}
 
 	sem = make(chan struct{}, args.Parallelism)
@@ -393,6 +396,28 @@ func (args *ExportCommandArgs) validate() error {
 
 	if !path.IsDir() {
 		return fmt.Errorf("[ERROR] output_path %s should be a directory", *args.OutputDir)
+	}
+
+	if args.Parallelism < 1 {
+		return fmt.Errorf("[ERROR] invalid value for arument parallelism, specify a value >= 1")
+	}
+
+	// validate and extract variables_resource_level
+	if args.VarsExportResourceLevel != nil {
+		varsExportForResourceLevel, err = extractVarsExportResourceLevel(args.VarsExportResourceLevel)
+		if err != nil {
+			utils.Logln(err.Error())
+			return err
+		}
+	}
+
+	// validate and extract variables_global_level
+	if args.VarExportGlobalLevel != nil {
+		varsExportForGlobalLevel, err = extractVarsExportGlobalLevel(args.VarExportGlobalLevel)
+		if err != nil {
+			utils.Logln(err.Error())
+			return err
+		}
 	}
 
 	return nil
@@ -1092,6 +1117,7 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 		}
 
 		if attributeVal, exists := sourceAttributes[tfAttribute]; exists {
+			utils.Debugf("Writing attribute %s and value %s", tfAttribute, attributeVal)
 			switch v := attributeVal.(type) {
 			case InterpolationString:
 				if ok := failedResourceReferenceSet[v.resourceReference]; ok {
@@ -1308,6 +1334,11 @@ var getHclStringFromGenericMap = func(builder *strings.Builder, ociRes *OCIResou
 	resourceSchema := resourcesMap[ociRes.terraformClass]
 
 	builder.WriteString(fmt.Sprintf("resource %s %s {\n", ociRes.terraformClass, ociRes.terraformName))
+	// Generate variable file from user input
+	if err := exportAttributeAsVariable(ociRes.sourceAttributes, ociRes.terraformClass, ociRes.terraformName, interpolationMap); err != nil {
+		return err
+	}
+	utils.Debugf("getHCLStringFromMap for resource %s", ociRes.terraformName)
 	if err := getHCLStringFromMap(builder, ociRes.sourceAttributes, resourceSchema, interpolationMap, ociRes, ""); err != nil {
 		return err
 	}

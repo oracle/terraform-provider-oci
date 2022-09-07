@@ -122,6 +122,7 @@ resource "oci_database_db_system" "test_db_system" {
 		}
 		hours_of_day = var.db_system_maintenance_window_details_hours_of_day
 		is_custom_action_timeout_enabled = var.db_system_maintenance_window_details_is_custom_action_timeout_enabled
+		is_monthly_patching_enabled = var.db_system_maintenance_window_details_is_monthly_patching_enabled
 		lead_time_in_weeks = var.db_system_maintenance_window_details_lead_time_in_weeks
 		months {
 
@@ -244,6 +245,7 @@ The following arguments are supported:
 	* `hours_of_day` - (Applicable when source=NONE) (Updatable) The window of hours during the day when maintenance should be performed. The window is a 4 hour slot. Valid values are
 		* 0 - represents time slot 0:00 - 3:59 UTC - 4 - represents time slot 4:00 - 7:59 UTC - 8 - represents time slot 8:00 - 11:59 UTC - 12 - represents time slot 12:00 - 15:59 UTC - 16 - represents time slot 16:00 - 19:59 UTC - 20 - represents time slot 20:00 - 23:59 UTC
 	* `is_custom_action_timeout_enabled` - (Applicable when source=NONE) (Updatable) If true, enables the configuration of a custom action timeout (waiting period) between database server patching operations.
+	* `is_monthly_patching_enabled` - (Applicable when source=NONE) (Updatable) If true, enables the monthly patching option.
 	* `lead_time_in_weeks` - (Applicable when source=NONE) (Updatable) Lead time window allows user to set a lead time to prepare for a down time. The lead time is in weeks and valid value is between 1 to 4. 
 	* `months` - (Applicable when source=NONE) (Updatable) Months during the year when maintenance should be performed.
 		* `name` - (Required when source=NONE) (Updatable) Name of the month of the year.
@@ -329,6 +331,7 @@ The following attributes are exported:
 	* `hours_of_day` - The window of hours during the day when maintenance should be performed. The window is a 4 hour slot. Valid values are
 		* 0 - represents time slot 0:00 - 3:59 UTC - 4 - represents time slot 4:00 - 7:59 UTC - 8 - represents time slot 8:00 - 11:59 UTC - 12 - represents time slot 12:00 - 15:59 UTC - 16 - represents time slot 16:00 - 19:59 UTC - 20 - represents time slot 20:00 - 23:59 UTC
 	* `is_custom_action_timeout_enabled` - If true, enables the configuration of a custom action timeout (waiting period) between database server patching operations.
+	* `is_monthly_patching_enabled` - If true, enables the monthly patching option.
 	* `lead_time_in_weeks` - Lead time window allows user to set a lead time to prepare for a down time. The lead time is in weeks and valid value is between 1 to 4. 
 	* `months` - Months during the year when maintenance should be performed.
 		* `name` - Name of the month of the year.

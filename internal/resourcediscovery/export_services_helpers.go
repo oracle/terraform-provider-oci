@@ -25,6 +25,7 @@ import (
 	oci_objectstorage "github.com/oracle/oci-go-sdk/v65/objectstorage"
 
 	tf_bds "github.com/oracle/terraform-provider-oci/internal/service/bds"
+	tf_dns "github.com/oracle/terraform-provider-oci/internal/service/dns"
 	tf_identity "github.com/oracle/terraform-provider-oci/internal/service/identity"
 	tf_load_balancer "github.com/oracle/terraform-provider-oci/internal/service/load_balancer"
 	tf_log_analytics "github.com/oracle/terraform-provider-oci/internal/service/log_analytics"
@@ -86,34 +87,123 @@ func findDnsRrset(ctx *resourceDiscoveryContext, tfMeta *TerraformResourceAssoci
 		return resources, err
 	}
 
+	request.Page = response.OpcNextPage
+
+	for request.Page != nil {
+		listResponse, err := ctx.clients.DnsClient().GetZoneRecords(context.Background(), request)
+		if err != nil {
+			return resources, err
+		}
+
+		response.Items = append(response.Items, listResponse.Items...)
+		request.Page = listResponse.OpcNextPage
+	}
+
+	rrsetMap := map[string]map[string][]oci_dns.Record{}
+
 	for _, record := range response.Items {
-		recordResource := resourcesMap[tfMeta.resourceClass]
-		d := recordResource.TestResourceData()
-		zoneId := parent.id
-		domain := record.Domain
-		rtype := record.Rtype
-		d.SetId(getRrsetCompositeId(*domain, *rtype, zoneId))
-		if err := recordResource.Read(d, ctx.clients); err != nil {
-			rdError := &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, err, resourceGraph}
-			ctx.addErrorToList(rdError)
-			continue
+		if _, ok := rrsetMap[*record.Domain]; !ok {
+			rrsetMap[*record.Domain] = map[string][]oci_dns.Record{}
 		}
-		resource := &OCIResource{
-			compartmentId:    parent.compartmentId,
-			sourceAttributes: convertResourceDataToMap(recordResource.Schema, d),
-			rawResource:      record,
-			TerraformResource: TerraformResource{
-				id:             d.Id(),
-				terraformClass: tfMeta.resourceClass,
-				terraformName:  fmt.Sprintf("%s_%s", parent.parent.terraformName, *record.RecordHash),
-			},
-			getHclStringFn: getHclStringFromGenericMap,
-			parent:         parent,
+		if _, ok := rrsetMap[*record.Domain][*record.Rtype]; !ok {
+			rrsetMap[*record.Domain][*record.Rtype] = []oci_dns.Record{}
 		}
-		resources = append(resources, resource)
+		rrsetMap[*record.Domain][*record.Rtype] = append(rrsetMap[*record.Domain][*record.Rtype], record)
+	}
+
+	for domain, domainMap := range rrsetMap {
+		for rtype, rrset := range domainMap {
+			recordResource := resourcesMap[tfMeta.resourceClass]
+			d := recordResource.TestResourceData()
+			zoneId := parent.id
+			d.SetId(getRrsetCompositeId(domain, rtype, zoneId))
+			if err := recordResource.Read(d, ctx.clients); err != nil {
+				rdError := &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, err, resourceGraph}
+				ctx.addErrorToList(rdError)
+				continue
+			}
+			resourceHint, err := ctx.getResourceHint(tfMeta.resourceClass)
+			if err != nil {
+				rdError := &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, err, resourceGraph}
+				ctx.addErrorToList(rdError)
+				continue
+			}
+			resource, err := getOciResource(d, recordResource.Schema, parent.compartmentId, resourceHint, d.Id())
+			if err != nil {
+				rdError := &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, err, resourceGraph}
+				ctx.addErrorToList(rdError)
+				continue
+			}
+			resource.terraformName = fmt.Sprintf("%s_%s_%s", parent.parent.terraformName, strings.Replace(domain, ".", "_", -1), rtype)
+			resource.rawResource = rrset
+			resource.parent = parent
+
+			resources = append(resources, resource)
+		}
 	}
 
 	return resources, err
+}
+
+func findDnsZones(ctx *resourceDiscoveryContext, tfMeta *TerraformResourceAssociation, parent *OCIResource, resourceGraph *TerraformResourceGraph) (resources []*OCIResource, err error) {
+	if tfMeta.datasourceQueryParams == nil {
+		tfMeta.datasourceQueryParams = map[string]string{}
+	}
+	// Setting the "scope" field to the special value "ALL" will
+	// result in terraform fetching both global and private zones
+	// when populating the "oci_dns_zones" data source
+	tfMeta.datasourceQueryParams["scope"] = "'ALL'"
+	return findResourcesGeneric(ctx, tfMeta, parent, resourceGraph)
+}
+
+var getHclStringForDnsResolver = func(builder *strings.Builder, ociRes *OCIResource, interpolationMap map[string]string) error {
+
+	// Map endpoint name to endpoint reference
+	resolverEndpointRefsMap := make(map[string]string)
+
+	if resolverEndpoints, ok := ociRes.rawResource.(*schema.ResourceData).Get("endpoints").([]interface{}); ok {
+		for _, resolverEndpoint := range resolverEndpoints {
+			resolverEndpointMap, ok := resolverEndpoint.(map[string]interface{})
+			if !ok {
+				continue
+			}
+			name, ok := resolverEndpointMap["name"].(string)
+			if !ok {
+				continue
+			}
+			resolverId := ociRes.TerraformResource.id
+			resolverEndpointId := tf_dns.GetResolverEndpointCompositeId(name, resolverId)
+			resolverEndpointRef := interpolationMap[resolverEndpointId]
+			resolverEndpointRefsMap[name] = fmt.Sprintf("%s.name", strings.TrimSuffix(resolverEndpointRef, ".id"))
+		}
+
+		// Replace resolver rules endpoint names with references
+		if resolverRules, haveResolverRules := ociRes.sourceAttributes["rules"]; haveResolverRules {
+			if resolverRulesList, ok := resolverRules.([]map[string]interface{}); ok {
+				for _, rule := range resolverRulesList {
+					if sourceEndpointName, haveSourceEndpointName := rule["source_endpoint_name"]; haveSourceEndpointName {
+						if sourceEndpointNameStr, ok := sourceEndpointName.(string); ok {
+							endpointRef := resolverEndpointRefsMap[sourceEndpointNameStr]
+							rule["source_endpoint_name"] = InterpolationString{
+								resourceReference: strings.TrimSuffix(endpointRef, ".name"),
+								interpolation:     endpointRef,
+								value:             sourceEndpointNameStr,
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return getHclStringFromGenericMap(builder, ociRes, interpolationMap)
+}
+
+var getHclStringForDnsResolverEndpoint = func(builder *strings.Builder, ociRes *OCIResource, interpolationMap map[string]string) error {
+
+	delete(interpolationMap, ociRes.parent.id)
+
+	return getHclStringFromGenericMap(builder, ociRes, interpolationMap)
 }
 
 /*
@@ -255,7 +345,8 @@ func processInstances(ctx *resourceDiscoveryContext, resources []*OCIResource) (
 						sourceDetails["source_id"] = imageId
 
 						// The image OCID may be different if it's in a different tenancy or region, add a variable for users to specify
-						imageVarName := fmt.Sprintf("%s_source_image_id", instance.terraformName)
+						// TODO: handle nested attribute better instead of hardcode
+						imageVarName := getVarNameFromAttributeOfResources("source_details.source_id", instance.terraformClass, instance.terraformName)
 						vars[imageVarName] = fmt.Sprintf("\"%s\"", imageId)
 						refMapLock.Lock()
 						referenceMap[imageId] = tfHclVersion.getVarHclString(imageVarName)

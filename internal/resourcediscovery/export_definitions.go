@@ -617,6 +617,18 @@ var exportCloudGuardSecurityZoneHints = &TerraformResourceHints{
 	},
 }
 
+var exportCloudGuardDataSourceHints = &TerraformResourceHints{
+	resourceClass:          "oci_cloud_guard_data_source",
+	datasourceClass:        "oci_cloud_guard_data_sources",
+	datasourceItemsAttr:    "data_source_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "data_source",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_cloud_guard.LifecycleStateActive),
+	},
+}
+
 var exportContainerengineClusterHints = &TerraformResourceHints{
 	resourceClass:          "oci_containerengine_cluster",
 	datasourceClass:        "oci_containerengine_clusters",
@@ -2057,6 +2069,38 @@ var exportDnsRrsetHints = &TerraformResourceHints{
 	resourceClass:        "oci_dns_rrset",
 	datasourceClass:      "oci_dns_rrset",
 	resourceAbbreviation: "rrset",
+}
+
+var exportDnsResolverHints = &TerraformResourceHints{
+	resourceClass:          "oci_dns_resolver",
+	datasourceClass:        "oci_dns_resolvers",
+	datasourceItemsAttr:    "resolvers",
+	resourceAbbreviation:   "resolver",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_dns.ResolverLifecycleStateActive),
+	},
+}
+
+var exportDnsResolverEndpointHints = &TerraformResourceHints{
+	resourceClass:          "oci_dns_resolver_endpoint",
+	datasourceClass:        "oci_dns_resolver_endpoints",
+	datasourceItemsAttr:    "resolver_endpoints",
+	resourceAbbreviation:   "resolver_endpoint",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_dns.ResolverEndpointLifecycleStateActive),
+	},
+}
+
+var exportDnsViewHints = &TerraformResourceHints{
+	resourceClass:        "oci_dns_view",
+	datasourceClass:      "oci_dns_views",
+	datasourceItemsAttr:  "views",
+	resourceAbbreviation: "view",
+	discoverableLifecycleStates: []string{
+		string(oci_dns.ViewLifecycleStateActive),
+	},
 }
 
 var exportEmWarehouseEmWarehouseHints = &TerraformResourceHints{

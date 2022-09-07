@@ -816,8 +816,13 @@ func init() {
 	exportKmsKeyHints.processDiscoveredResourcesFn = processKmsKey
 	exportKmsKeyVersionHints.processDiscoveredResourcesFn = processKmsKeyVersion
 
+	exportDnsResolverHints.getHCLStringOverrideFn = getHclStringForDnsResolver
+	exportDnsResolverEndpointHints.getHCLStringOverrideFn = getHclStringForDnsResolverEndpoint
+
 	exportDnsRrsetHints.findResourcesOverrideFn = findDnsRrset
 	exportDnsRrsetHints.processDiscoveredResourcesFn = processDnsRrset
+
+	exportDnsZoneHints.findResourcesOverrideFn = findDnsZones
 
 	exportMysqlMysqlBackupHints.requireResourceRefresh = true
 	exportMysqlMysqlBackupHints.processDiscoveredResourcesFn = filterMysqlBackups

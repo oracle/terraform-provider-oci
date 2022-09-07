@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// CreateConnectionValidationDetails The properties used in create connection validation operations.
+// CreateConnectionValidationDetails The properties used in the create connection validation operations.
 type CreateConnectionValidationDetails struct {
 	DataAsset *CreateDataAssetDetails `mandatory:"false" json:"dataAsset"`
 

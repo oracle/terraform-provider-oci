@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// UpdateDpEndpointDetails Properties used in endpoint update operations.
+// UpdateDpEndpointDetails Properties used in the update operations of the endpoint.
 type UpdateDpEndpointDetails interface {
 
-	// Generated key that can be used in API calls to identify endpoint. On scenarios where reference to the endpoint is needed, a value can be passed in create.
+	// Generated key that can be used in API calls to identify the endpoint. In scenarios where reference to the endpoint is required, a value can be passed in create.
 	GetKey() *string
 
 	// The version of the object that is used to track changes in the object instance.
@@ -30,19 +30,19 @@ type UpdateDpEndpointDetails interface {
 
 	GetParentRef() *ParentReference
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
+	// Free form text without any restriction on the permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	GetName() *string
 
-	// User-defined description for the endpoint.
+	// User-defined description of the endpoint.
 	GetDescription() *string
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	GetObjectStatus() *int
 
-	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with an upper case letter or underscore. The value can be modified.
 	GetIdentifier() *string
 
-	// List of data assets which belongs to this endpoint
+	// The list of data assets that belong to the endpoint.
 	GetDataAssets() []DataAsset
 }
 

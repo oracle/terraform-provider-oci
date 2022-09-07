@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/DeleteNetworkConnectivityStatus.go.html to see an example of how to use DeleteNetworkConnectivityStatusRequest.
 type DeleteNetworkConnectivityStatusRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
 	// NetworkValidationStatus key.

@@ -308,6 +308,7 @@ var cloudGuardResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportCloudGuardDetectorRecipeHints},
 		{TerraformResourceHints: exportCloudGuardSecurityRecipeHints},
 		{TerraformResourceHints: exportCloudGuardSecurityZoneHints},
+		{TerraformResourceHints: exportCloudGuardDataSourceHints},
 	},
 }
 
@@ -745,12 +746,22 @@ var dnsResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportDnsSteeringPolicyHints},
 		{TerraformResourceHints: exportDnsSteeringPolicyAttachmentHints},
 		{TerraformResourceHints: exportDnsTsigKeyHints},
+		{TerraformResourceHints: exportDnsResolverHints},
+		{TerraformResourceHints: exportDnsViewHints},
 	},
 	"oci_dns_zone": {
 		{
 			TerraformResourceHints: exportDnsRrsetHints,
 			datasourceQueryParams: map[string]string{
 				"zone_name_or_id": "id",
+			},
+		},
+	},
+	"oci_dns_resolver": {
+		{
+			TerraformResourceHints: exportDnsResolverEndpointHints,
+			datasourceQueryParams: map[string]string{
+				"resolver_id": "id",
 			},
 		},
 	},

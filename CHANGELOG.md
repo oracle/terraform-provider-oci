@@ -1,3 +1,14 @@
+## 4.92.0 (September 07, 2022)
+
+### Added
+- Support for preferred credentials
+- Support for Exacc allow prior versions infra maintenance
+- Support for Notification Per Dimension
+- Support Message Entity for entity shape Support data preview for derived entity, Deprecated deleteConnectionValidation, listConnectionValidations, getConnectionValidation
+- Support for new Logging integration apis for Cloudguard
+- Support for resource discovery for private dns resources
+- Support for export attribute as variables in Resource Discovery
+
 ## 4.91.0 (August 31, 2022)
 
 ### Added

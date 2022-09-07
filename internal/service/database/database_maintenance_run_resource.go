@@ -75,6 +75,16 @@ func DatabaseMaintenanceRunResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"target_db_server_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"target_storage_server_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"time_scheduled": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -168,19 +178,11 @@ func DatabaseMaintenanceRunResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"target_db_server_version": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"target_resource_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"target_resource_type": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"target_storage_server_version": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -314,6 +316,16 @@ func (s *DatabaseMaintenanceRunResourceCrud) Create() error {
 		request.PatchingMode = oci_database.UpdateMaintenanceRunDetailsPatchingModeEnum(patchingMode.(string))
 	}
 
+	if targetDbServerVersion, ok := s.D.GetOkExists("target_db_server_version"); ok {
+		tmp := targetDbServerVersion.(string)
+		request.TargetDbServerVersion = &tmp
+	}
+
+	if targetStorageServerVersion, ok := s.D.GetOkExists("target_storage_server_version"); ok {
+		tmp := targetStorageServerVersion.(string)
+		request.TargetStorageServerVersion = &tmp
+	}
+
 	if timeScheduled, ok := s.D.GetOkExists("time_scheduled"); ok {
 		tmp, err := time.Parse(time.RFC3339, timeScheduled.(string))
 		if err != nil {
@@ -399,6 +411,16 @@ func (s *DatabaseMaintenanceRunResourceCrud) Update() error {
 
 	if patchingMode, ok := s.D.GetOkExists("patching_mode"); ok && s.D.HasChange("patching_mode") {
 		request.PatchingMode = oci_database.UpdateMaintenanceRunDetailsPatchingModeEnum(patchingMode.(string))
+	}
+
+	if targetDbServerVersion, ok := s.D.GetOkExists("target_db_server_version"); ok {
+		tmp := targetDbServerVersion.(string)
+		request.TargetDbServerVersion = &tmp
+	}
+
+	if targetStorageServerVersion, ok := s.D.GetOkExists("target_storage_server_version"); ok {
+		tmp := targetStorageServerVersion.(string)
+		request.TargetStorageServerVersion = &tmp
 	}
 
 	if timeScheduled, ok := s.D.GetOkExists("time_scheduled"); ok {

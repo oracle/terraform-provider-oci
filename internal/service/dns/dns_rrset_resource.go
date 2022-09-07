@@ -226,10 +226,6 @@ func (s *DnsRrsetResourceCrud) Create() error {
 	rrSet.Items = response.Items
 	s.Res = &rrSet
 
-	if waitErr := tfresource.WaitForCreatedState(s.D, s); waitErr != nil {
-		return waitErr
-	}
-
 	return nil
 }
 
@@ -353,16 +349,85 @@ func (s *DnsRrsetResourceCrud) Update() error {
 	rrSet.Items = response.Items
 	s.Res = &rrSet
 
-	// This update does not support work-request
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
-		return waitErr
-	}
-
 	return nil
 }
 
 func (s *DnsRrsetResourceCrud) Delete() error {
-	request := oci_dns.DeleteRRSetRequest{}
+	// To ensure terraform does not attempt to delete protected records, which
+	// will fail, determine whether all records in the rrset are protected,
+	// whether some are protected and some are not, or whether none are
+	// protected. If all are protected, return without trying to alter the
+	// rrset. If none are protected, send a DeleteRRSet request. If some are
+	// protected and some are not, send an UpdateRRSet request deleting
+	// only the non-protected records.
+	allProtected := true
+	allNonProtected := true
+	if items, ok := s.D.GetOkExists("items"); ok {
+		set := items.(*schema.Set)
+		interfaces := set.List()
+		for _, rrInterface := range interfaces {
+			rr := rrInterface.(map[string]interface{})
+			if isProtected, ok := rr["is_protected"]; ok {
+				if isProtectedBool, ok := isProtected.(bool); ok && isProtectedBool {
+					allNonProtected = false
+				} else {
+					allProtected = false
+				}
+			} else {
+				allProtected = false
+			}
+		}
+	}
+
+	if allProtected && !allNonProtected {
+		// This entire rrset is protected so don't try to delete it
+		log.Printf("[INFO] Not attempting to delete a protected RRSet: %s", s.D.Id())
+		return nil
+	}
+
+	if allNonProtected {
+		// There are no protected records in the rrset. Delete the rrset.
+		request := oci_dns.DeleteRRSetRequest{}
+
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			request.CompartmentId = &tmp
+		}
+
+		if domain, ok := s.D.GetOkExists("domain"); ok {
+			tmp := domain.(string)
+			request.Domain = &tmp
+		}
+
+		if rtype, ok := s.D.GetOkExists("rtype"); ok {
+			tmp := rtype.(string)
+			request.Rtype = &tmp
+		}
+
+		if scope, ok := s.D.GetOkExists("scope"); ok {
+			request.Scope = oci_dns.DeleteRRSetScopeEnum(scope.(string))
+		}
+
+		if viewId, ok := s.D.GetOkExists("view_id"); ok {
+			tmp := viewId.(string)
+			request.ViewId = &tmp
+		}
+
+		if zoneNameOrId, ok := s.D.GetOkExists("zone_name_or_id"); ok {
+			tmp := zoneNameOrId.(string)
+			request.ZoneNameOrId = &tmp
+		}
+
+		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dns")
+
+		_, err := s.Client.DeleteRRSet(context.Background(), request)
+		return err
+	}
+
+	// There are some protected records and some non-protected records in the
+	// rrset. Send an UpdateRRSet request to delete the non-protected records.
+	log.Printf("[WARN] Only deleting non-protected records in RRSet: %s", s.D.Id())
+	request := oci_dns.UpdateRRSetRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -374,13 +439,40 @@ func (s *DnsRrsetResourceCrud) Delete() error {
 		request.Domain = &tmp
 	}
 
+	request.Items = make([]oci_dns.RecordDetails, 0)
+	if items, ok := s.D.GetOkExists("items"); ok {
+		set := items.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]oci_dns.RecordDetails, 0)
+		for i := range interfaces {
+			rr := interfaces[i].(map[string]interface{})
+			if isProtected, ok := rr["is_protected"]; ok {
+				if isProtectedBool, ok := isProtected.(bool); !ok || !isProtectedBool {
+					continue
+				}
+			} else {
+				continue
+			}
+			stateDataIndex := rrsetItemsHashCodeForSets(interfaces[i])
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "items", stateDataIndex)
+			converted, err := s.mapToRecordDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp = append(tmp, converted)
+		}
+		if len(tmp) != 0 || s.D.HasChange("items") {
+			request.Items = tmp
+		}
+	}
+
 	if rtype, ok := s.D.GetOkExists("rtype"); ok {
 		tmp := rtype.(string)
 		request.Rtype = &tmp
 	}
 
 	if scope, ok := s.D.GetOkExists("scope"); ok {
-		request.Scope = oci_dns.DeleteRRSetScopeEnum(scope.(string))
+		request.Scope = oci_dns.UpdateRRSetScopeEnum(scope.(string))
 	}
 
 	if viewId, ok := s.D.GetOkExists("view_id"); ok {
@@ -395,8 +487,16 @@ func (s *DnsRrsetResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
-	_, err := s.Client.DeleteRRSet(context.Background(), request)
-	return err
+	response, err := s.Client.UpdateRRSet(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	rrSet := oci_dns.RrSet{}
+	rrSet.Items = response.Items
+	s.Res = &rrSet
+
+	return nil
 }
 
 func (s *DnsRrsetResourceCrud) SetData() error {
