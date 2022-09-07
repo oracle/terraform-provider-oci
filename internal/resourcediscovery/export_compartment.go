@@ -19,6 +19,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/hashicorp/go-multierror"
 	"github.com/hashicorp/go-version"
 
 	"github.com/oracle/terraform-provider-oci/internal/globalvar"
@@ -489,6 +490,7 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 			utils.Debugf("[DEBUG] discover: Running step %d", i)
 			defer elapsed(fmt.Sprintf("time taken in discovering resources for step %d", i), step.getBaseStep(), Discovery)()
 			defer func() {
+				<-sem
 				if r := recover(); r != nil {
 					utils.Logf("[ERROR] panic in discover goroutine")
 					utils.Logf("[ERROR] panic in discover goroutine")
@@ -520,7 +522,6 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 
 			utils.Debugf("[DEBUG] discover: Completed step %d", i)
 			utils.Debugf("[DEBUG] discovered %d resources for step %d", len(step.getDiscoveredResources()), i)
-			<-sem
 		}(i, step)
 
 	}
@@ -560,7 +561,13 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 	// Reset discovered resources if already set by writeTmpConfigurationForImport
 	ctx.discoveredResources = make([]*OCIResource, 0)
 
-	errorChannel := make(chan error)
+	/*
+		sem allows number of steps equals to arg.Parallelism to execute in parallel.
+		arg.Parallelism is very less compare to total number of steps
+		So, errorChannel should be atleast equals to number of steps to allow all steps getting chance to execute.
+		in case of multiple steps fails, steps will be blocked to write errors and pending steps will wait to acquire sem which leads to deadlock situation
+	*/
+	errorChannel := make(chan error, len(steps))
 	var configWg sync.WaitGroup
 	configWg.Add(len(steps))
 
@@ -574,6 +581,7 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 		go func(i int, step resourceDiscoveryStep) {
 			utils.Debugf("[DEBUG] writeConfiguration: Running step %d", i)
 			defer func() {
+				<-sem
 				if r := recover(); r != nil {
 					utils.Logf("[ERROR] panic in writeConfiguration goroutine")
 					debug.PrintStack()
@@ -586,7 +594,6 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 			}
 
 			utils.Debugf("[DEBUG] writeConfiguration: Completed step %d", i)
-			<-sem
 		}(i, step)
 	}
 
@@ -603,10 +610,13 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 		utils.Debugf("[DEBUG] ~~~~~~ writeConfiguration steps completed ~~~~~~")
 		utils.Debugf("[DEBUG] writing config took %v\n", time.Since(configStart))
 		break
-	case err := <-errorChannel:
+	case errs := <-errorChannel:
 		close(errorChannel)
-		utils.Logf("[ERROR] error writing final configuration for resources found: %s", err.Error())
-		return err
+		for i := 0; i < len(errorChannel); i++ {
+			errs = multierror.Append(errs, <-errorChannel)
+		}
+		utils.Logf("[ERROR] error writing final configuration for resources found: %s", errs.Error())
+		return errs
 	}
 
 	region, err := exportConfigProvider.Region()
@@ -651,7 +661,13 @@ func generateStateParallel(ctx *resourceDiscoveryContext, steps []resourceDiscov
 	defer cleanupTempStateFiles(ctx)
 	defer elapsed("generating state in parallel", nil, 0)()
 
-	errorChannel := make(chan error)
+	/*
+		sem allows number of steps equals to arg.Parallelism to execute in parallel.
+		arg.Parallelism is very less compare to total number of steps
+		So, errorChannel should be atleast equals to number of steps to allow all steps getting chance to execute.
+		in case of multiple steps fails, steps will be blocked to write errors and pending steps will wait to acquire sem which leads to deadlock situation
+	*/
+	errorChannel := make(chan error, len(steps))
 	var stateWg sync.WaitGroup
 	wgDone := make(chan bool)
 
@@ -669,6 +685,7 @@ func generateStateParallel(ctx *resourceDiscoveryContext, steps []resourceDiscov
 			utils.Debugf("[DEBUG] writing temp config and state: Running step %d", i)
 			defer elapsed(fmt.Sprintf("time taken by step %s to generate state", fmt.Sprint(i)), step.getBaseStep(), GeneratingState)()
 			defer func() {
+				<-sem
 				if r := recover(); r != nil {
 					utils.Logf("[ERROR] panic in writing temp config and state goroutine")
 					debug.PrintStack()
@@ -680,17 +697,20 @@ func generateStateParallel(ctx *resourceDiscoveryContext, steps []resourceDiscov
 			/* Generate temporary HCL configs from all discovered resources to run import
 			   Final configuration will be generated after import so that we can exclude the resources for which import failed
 			   and also remove the references to failed resources from the referenceMap */
-			if err := step.writeTmpConfigurationForImport(); err != nil {
-				errorChannel <- fmt.Errorf("[ERROR] error writing temp config for resources found: %s", err.Error())
+			var err error = nil
+			if err = step.writeTmpConfigurationForImport(); err != nil {
+				errorChannel <- fmt.Errorf("[ERROR] error while writing temp config for resources found in step %d: %s", i, err.Error())
 			}
 
 			// Write temp state file for each service, this step will import resources into a separate state file for each service in parallel
-			if err := step.writeTmpState(); err != nil {
-				errorChannel <- fmt.Errorf("[ERROR] error writing temp state for resources found: %s", err.Error())
+			// If writing temp configuration thrown error, won't attempt to write temp state
+			if err == nil {
+				if err = step.writeTmpState(); err != nil {
+					errorChannel <- fmt.Errorf("[ERROR] error while writing temp state for resources found in step %d: %s", i, err.Error())
+				}
 			}
 
 			utils.Debugf("writing temp config and state: Completed step %d", i)
-			<-sem
 		}(i, step)
 	}
 
@@ -706,9 +726,13 @@ func generateStateParallel(ctx *resourceDiscoveryContext, steps []resourceDiscov
 	case <-wgDone:
 		utils.Debugf("[DEBUG] ~~~~~~ writing temp config and state steps completed ~~~~~~")
 		break
-	case err := <-errorChannel:
+	case errs := <-errorChannel:
 		close(errorChannel)
-		return err
+		for i := 0; i < len(errorChannel); i++ {
+			errs = multierror.Append(errs, <-errorChannel)
+		}
+		utils.Logf("[ERROR] error writing temp config and state: %s", errs.Error())
+		return errs
 	}
 
 	// Generate final state by merging state json generated for all services
