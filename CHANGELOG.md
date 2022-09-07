@@ -1,4 +1,4 @@
-## 4.92.0 (Unreleased)
+## 4.92.0 (September 07, 2022)
 
 ### Added
 - Support for preferred credentials
