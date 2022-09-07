@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/GetSchema.go.html to see an example of how to use GetSchemaRequest.
 type GetSchemaRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
 	// The connection key.
@@ -32,7 +32,7 @@ type GetSchemaRequest struct {
 	// please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// Endpoint Id used for getDataAssetFullDetails.
+	// Endpoint ID used for getDataAssetFullDetails.
 	EndpointId *string `mandatory:"false" contributesTo:"query" name:"endpointId"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

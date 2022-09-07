@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// CreateDeReferenceArtifactDetails Represents the info needed for de-referencing a dcms artifact.
+// CreateDeReferenceArtifactDetails Represents the info required for de-referencing a DCMS artifact.
 type CreateDeReferenceArtifactDetails struct {
 
-	// unique id of service which is referencing data asset.
+	// The unique ID of the service that is referencing a data asset.
 	ServiceArtifactId *string `mandatory:"true" json:"serviceArtifactId"`
 }
 

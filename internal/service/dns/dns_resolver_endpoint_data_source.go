@@ -26,7 +26,7 @@ func DnsResolverEndpointDataSource() *schema.Resource {
 	}
 	fieldMap["scope"] = &schema.Schema{
 		Type:     schema.TypeString,
-		Required: true,
+		Optional: true,
 	}
 	return tfresource.GetSingularDataSourceItemSchema(DnsResolverEndpointResource(), fieldMap, readSingularDnsResolverEndpoint)
 }

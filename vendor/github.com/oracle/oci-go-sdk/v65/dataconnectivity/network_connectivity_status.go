@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -27,7 +27,7 @@ type NetworkConnectivityStatus struct {
 	// Exception or error message encountered while testing network reachability for the data asset.
 	ErrorMessage *string `mandatory:"false" json:"errorMessage"`
 
-	// Instant when the network validation was last done for the given DataAsset-PrivateEndpoint pair..
+	// The timestamp when the network validation was last updated for the given DataAsset-PrivateEndpoint pair.
 	TimeLastUpdated *common.SDKTime `mandatory:"false" json:"timeLastUpdated"`
 
 	// Exception or error message encountered while testing network reachability for the data asset.

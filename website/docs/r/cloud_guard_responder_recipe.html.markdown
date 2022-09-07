@@ -43,10 +43,10 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) Compartment Identifier
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
-* `description` - (Optional) (Updatable) Responder recipe description. 
+* `description` - (Optional) (Updatable) Responder recipe description.
 
 	Avoid entering confidential information. 
-* `display_name` - (Required) (Updatable) Responder recipe display name. 
+* `display_name` - (Required) (Updatable) Responder recipe display name.
 
 	Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`

@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -23,21 +23,21 @@ type DataEntitySummaryFromFile struct {
 	// The object key.
 	Key *string `mandatory:"false" json:"key"`
 
-	// The object's model version.
+	// The model version of the object.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
+	// Free form text without any restriction on the permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
-	// Detailed description for the object.
+	// Detailed description of the object.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The version of the object that is used to track changes in the object instance.
 	ObjectVersion *int `mandatory:"false" json:"objectVersion"`
 
-	// The external key for the object.
+	// The external key of the object.
 	ExternalKey *string `mandatory:"false" json:"externalKey"`
 
 	Shape *Shape `mandatory:"false" json:"shape"`
@@ -62,7 +62,7 @@ type DataEntitySummaryFromFile struct {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be modified.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with an upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`
 
 	// The entity type.
@@ -198,6 +198,7 @@ const (
 	DataEntitySummaryFromFileEntityTypeFile      DataEntitySummaryFromFileEntityTypeEnum = "FILE"
 	DataEntitySummaryFromFileEntityTypeSql       DataEntitySummaryFromFileEntityTypeEnum = "SQL"
 	DataEntitySummaryFromFileEntityTypeDataStore DataEntitySummaryFromFileEntityTypeEnum = "DATA_STORE"
+	DataEntitySummaryFromFileEntityTypeMessage   DataEntitySummaryFromFileEntityTypeEnum = "MESSAGE"
 )
 
 var mappingDataEntitySummaryFromFileEntityTypeEnum = map[string]DataEntitySummaryFromFileEntityTypeEnum{
@@ -206,6 +207,7 @@ var mappingDataEntitySummaryFromFileEntityTypeEnum = map[string]DataEntitySummar
 	"FILE":       DataEntitySummaryFromFileEntityTypeFile,
 	"SQL":        DataEntitySummaryFromFileEntityTypeSql,
 	"DATA_STORE": DataEntitySummaryFromFileEntityTypeDataStore,
+	"MESSAGE":    DataEntitySummaryFromFileEntityTypeMessage,
 }
 
 var mappingDataEntitySummaryFromFileEntityTypeEnumLowerCase = map[string]DataEntitySummaryFromFileEntityTypeEnum{
@@ -214,6 +216,7 @@ var mappingDataEntitySummaryFromFileEntityTypeEnumLowerCase = map[string]DataEnt
 	"file":       DataEntitySummaryFromFileEntityTypeFile,
 	"sql":        DataEntitySummaryFromFileEntityTypeSql,
 	"data_store": DataEntitySummaryFromFileEntityTypeDataStore,
+	"message":    DataEntitySummaryFromFileEntityTypeMessage,
 }
 
 // GetDataEntitySummaryFromFileEntityTypeEnumValues Enumerates the set of values for DataEntitySummaryFromFileEntityTypeEnum
@@ -233,6 +236,7 @@ func GetDataEntitySummaryFromFileEntityTypeEnumStringValues() []string {
 		"FILE",
 		"SQL",
 		"DATA_STORE",
+		"MESSAGE",
 	}
 }
 

@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -18,13 +18,13 @@ import (
 // SchemaDriftConfig The configuration for handling schema drift in a Source or Target operator.
 type SchemaDriftConfig struct {
 
-	// The setting for how to handle extra columns/fields.  NULL_FILLUP means that nulls will be loaded into the target for extra columns.
+	// The setting to handle extra columns/fields.  NULL_FILLUP means that nulls will be loaded into the target for extra columns.
 	ExtraColumnHandling SchemaDriftConfigExtraColumnHandlingEnum `mandatory:"false" json:"extraColumnHandling,omitempty"`
 
-	// The setting for how to handle missing columns/fields.  NULL_SELECT means that null values will be selected from the source for missing columns.
+	// The setting to handle missing columns/fields.  NULL_SELECT means that null values will be selected from the source for missing columns.
 	MissingColumnHandling SchemaDriftConfigMissingColumnHandlingEnum `mandatory:"false" json:"missingColumnHandling,omitempty"`
 
-	// The setting for how to handle columns/fields with changed data types.
+	// The setting to handle columns/fields with changed data types.
 	DataTypeChangeHandling SchemaDriftConfigDataTypeChangeHandlingEnum `mandatory:"false" json:"dataTypeChangeHandling,omitempty"`
 
 	// If true, display a validation warning for schema changes, even if they are allowed.

@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ReferenceArtifactSummaryCollection This is the collection of Reference details summaries, it may be a collection of lightweight details or full definitions.
+// ReferenceArtifactSummaryCollection This is the collection of reference details summaries; it can be a collection of lightweight details or full definitions.
 type ReferenceArtifactSummaryCollection struct {
 
 	// The array of data asset summaries.

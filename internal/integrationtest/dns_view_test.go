@@ -6,11 +6,13 @@ package integrationtest
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"testing"
 	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
@@ -32,14 +34,14 @@ var (
 
 	DnsDnsViewSingularDataSourceRepresentation = map[string]interface{}{
 		"view_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_view.test_view.id}`},
-		"scope":   acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
+		"scope":   acctest.Representation{RepType: acctest.Optional, Create: `PRIVATE`},
 	}
 
 	DnsDnsViewDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_dns_view.test_view.id}`},
-		"scope":          acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
+		"scope":          acctest.Representation{RepType: acctest.Optional, Create: `PRIVATE`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DnsViewDataSourceFilterRepresentation}}
 	DnsViewDataSourceFilterRepresentation = map[string]interface{}{
@@ -52,7 +54,7 @@ var (
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
-		"scope":          acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
+		"scope":          acctest.Representation{RepType: acctest.Optional, Create: `PRIVATE`},
 	}
 	DnsViewRepresentationDefault = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -115,7 +117,6 @@ func TestDnsViewResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
-				resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
 				resource.TestCheckResourceAttrSet(resourceName, "self"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -123,12 +124,11 @@ func TestDnsViewResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					// Resource discovery is disabled for Views
-					//if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-					//	if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-					//		return errExport
-					//	}
-					//}
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
 					return err
 				},
 			),
@@ -147,7 +147,6 @@ func TestDnsViewResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
-				resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
 				resource.TestCheckResourceAttrSet(resourceName, "self"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -173,7 +172,6 @@ func TestDnsViewResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
-				resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
 				resource.TestCheckResourceAttrSet(resourceName, "self"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -197,7 +195,6 @@ func TestDnsViewResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(datasourceName, "scope", "PRIVATE"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttr(datasourceName, "views.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "views.0.compartment_id", compartmentId),
@@ -217,7 +214,6 @@ func TestDnsViewResource_basic(t *testing.T) {
 				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_view", "test_view", acctest.Required, acctest.Create, DnsDnsViewSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DnsViewResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(singularDatasourceName, "scope", "PRIVATE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "view_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
@@ -235,23 +231,12 @@ func TestDnsViewResource_basic(t *testing.T) {
 			Config:            config + DnsViewRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
-			ImportStateIdFunc: getDnsViewImportId(resourceName),
 			ImportStateVerifyIgnore: []string{
 				"scope",
 			},
 			ResourceName: resourceName,
 		},
 	})
-}
-
-func getDnsViewImportId(resourceName string) resource.ImportStateIdFunc {
-	return func(s *terraform.State) (string, error) {
-		rs, ok := s.RootModule().Resources[resourceName]
-		if !ok {
-			return "", fmt.Errorf("not found: %s", resourceName)
-		}
-		return fmt.Sprintf("viewId/" + rs.Primary.Attributes["id"] + "/scope/" + rs.Primary.Attributes["scope"]), nil
-	}
 }
 
 func testAccCheckDnsViewDestroy(s *terraform.State) error {

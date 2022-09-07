@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -18,7 +18,7 @@ import (
 // CreateAttachDataAssetDetails The attach DataAsset payload.
 type CreateAttachDataAssetDetails struct {
 
-	// The array of DataAsset keys
+	// The array of DataAsset keys.
 	DataAssets []DataAsset `mandatory:"true" json:"dataAssets"`
 }
 

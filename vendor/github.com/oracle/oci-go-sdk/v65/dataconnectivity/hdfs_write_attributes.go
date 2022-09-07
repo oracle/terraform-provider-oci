@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -19,7 +19,7 @@ import (
 // HdfsWriteAttributes Properties to configure writing to HDFS.
 type HdfsWriteAttributes struct {
 
-	// Specifies whether to write output to single-file or not.
+	// Specifies whether to write output to a single file.
 	WriteToSingleFile *bool `mandatory:"false" json:"writeToSingleFile"`
 }
 

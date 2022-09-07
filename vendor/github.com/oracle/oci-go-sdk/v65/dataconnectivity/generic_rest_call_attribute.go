@@ -4,36 +4,48 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// ConnectionValidationSummaryCollection A list of connection validation summaries.
-type ConnectionValidationSummaryCollection struct {
-
-	// An array of connection validation summaries.
-	Items []ConnectionValidationSummary `mandatory:"true" json:"items"`
+// GenericRestCallAttribute The generic rest call attributes.
+type GenericRestCallAttribute struct {
 }
 
-func (m ConnectionValidationSummaryCollection) String() string {
+func (m GenericRestCallAttribute) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ConnectionValidationSummaryCollection) ValidateEnumValue() (bool, error) {
+func (m GenericRestCallAttribute) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// MarshalJSON marshals to json representation
+func (m GenericRestCallAttribute) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeGenericRestCallAttribute GenericRestCallAttribute
+	s := struct {
+		DiscriminatorParam string `json:"modelType"`
+		MarshalTypeGenericRestCallAttribute
+	}{
+		"GENERIC_REST_CALL_ATTRIBUTE",
+		(MarshalTypeGenericRestCallAttribute)(m),
+	}
+
+	return json.Marshal(&s)
 }

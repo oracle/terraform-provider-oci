@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/CreateEntityShape.go.html to see an example of how to use CreateEntityShapeRequest.
 type CreateEntityShapeRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
 	// The connection key.
@@ -27,7 +27,7 @@ type CreateEntityShapeRequest struct {
 	// The schema resource name used for retrieving schemas.
 	SchemaResourceName *string `mandatory:"true" contributesTo:"path" name:"schemaResourceName"`
 
-	// The details needed to create the data entity shape.
+	// The details required to create the data entity shape.
 	CreateEntityShapeDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If
@@ -35,7 +35,7 @@ type CreateEntityShapeRequest struct {
 	// please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without risk of executing that same action again.
+	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without the risk of executing that same action again.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match` parameter to the value of the `etag` from a previous GET or POST response for that resource.
@@ -46,7 +46,7 @@ type CreateEntityShapeRequest struct {
 	// Authorization mode for communicating with another OCI service relevant for the API.
 	AuthorizationMode CreateEntityShapeAuthorizationModeEnum `mandatory:"false" contributesTo:"query" name:"authorizationMode" omitEmpty:"true"`
 
-	// Endpoint Id used for getDataAssetFullDetails.
+	// Endpoint ID used for getDataAssetFullDetails.
 	EndpointId *string `mandatory:"false" contributesTo:"query" name:"endpointId"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

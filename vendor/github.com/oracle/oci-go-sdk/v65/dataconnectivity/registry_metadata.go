@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -21,7 +21,7 @@ type RegistryMetadata struct {
 	// The owning object's key for this object.
 	AggregatorKey *string `mandatory:"false" json:"aggregatorKey"`
 
-	// Labels are keywords or labels that you can add to data assets, dataflows etc. You can define your own labels and use them to categorize content.
+	// Labels are keywords or labels that you can add to data assets, dataflows, and so on. You can define your own labels and use them to categorize content.
 	Labels []string `mandatory:"false" json:"labels"`
 
 	// The registry version.
@@ -30,16 +30,16 @@ type RegistryMetadata struct {
 	// The identifying key for the object.
 	Key *string `mandatory:"false" json:"key"`
 
-	// Specifies whether this object is a favorite or not.
+	// Specifies whether the object is a favorite.
 	IsFavorite *bool `mandatory:"false" json:"isFavorite"`
 
-	// The id of the user who created the object.
+	// The ID of the user who created the object.
 	CreatedByUserId *string `mandatory:"false" json:"createdByUserId"`
 
 	// The name of the user who created the object.
 	CreatedByUserName *string `mandatory:"false" json:"createdByUserName"`
 
-	// The id of the user who updated the object.
+	// The ID of the user who updated the object.
 	UpdatedByUserId *string `mandatory:"false" json:"updatedByUserId"`
 
 	// The name of the user who updated the object.

@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -16,13 +16,13 @@ import (
 	"strings"
 )
 
-// CreateExecuteOperationJobDetails Input details to execute operation.
+// CreateExecuteOperationJobDetails Input details to execute an operation.
 type CreateExecuteOperationJobDetails struct {
 	Operation Operation `mandatory:"false" json:"operation"`
 
 	CallOperationConfig *CallOperationConfig `mandatory:"false" json:"callOperationConfig"`
 
-	// Collection of input parameters supplied.
+	// Collection of the input parameters supplied.
 	InputRecords []OperationInputRecord `mandatory:"false" json:"inputRecords"`
 }
 

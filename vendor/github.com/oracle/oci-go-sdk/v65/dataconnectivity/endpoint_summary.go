@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// EndpointSummary Summary of a Endpoint.
+// EndpointSummary Summary of an endpoint.
 type EndpointSummary struct {
 
-	// Unique identifier that is immutable on creation
+	// A unique identifier that is immutable on creation.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Data Connectivity Management Endpoint display name, Endpoints can be renamed
+	// Data Connectivity Management Endpoint display name; endpoints can be renamed.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// Registry description
@@ -30,13 +30,13 @@ type EndpointSummary struct {
 	// Compartment Identifier
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// The time the Data Connectivity Management Registry was created. An RFC3339 formatted datetime string
+	// Time when the Data Connectivity Management registry was created. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The time the Data Connectivity Management Registry was updated. An RFC3339 formatted datetime string
+	// Time when the Data Connectivity Management registry was updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
+	// Simple key-value pair that is applied without any predefined name, type, or scope. Exists only for cross-compatibility.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 

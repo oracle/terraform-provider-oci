@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -18,7 +18,7 @@ import (
 // DetachDataAssetInfo The detach DataAsset response.
 type DetachDataAssetInfo struct {
 
-	// Map of DataAsset name as key and results as value
+	// Mapping the DataAsset name as the key to the results as the value.
 	ReferenceInfo map[string]ValidationResult `mandatory:"true" json:"referenceInfo"`
 }
 

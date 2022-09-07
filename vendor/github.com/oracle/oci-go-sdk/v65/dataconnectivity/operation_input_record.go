@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// OperationInputRecord Holder for IN/INOUT params' values.
+// OperationInputRecord Holder for IN/INOUT parameter values.
 type OperationInputRecord struct {
 
-	// values of IN/INOUT params.
+	// Values of IN/INOUT parameter.
 	FieldValues []interface{} `mandatory:"false" json:"fieldValues"`
 }
 

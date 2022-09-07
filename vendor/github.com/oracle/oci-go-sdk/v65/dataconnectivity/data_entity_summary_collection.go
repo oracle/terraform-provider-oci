@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// DataEntitySummaryCollection This is the collection of data entity summaries, it may be a collection of lightweight details or full definitions.
+// DataEntitySummaryCollection This is the collection of data entity summaries; it can be a collection of lightweight details or full definitions.
 type DataEntitySummaryCollection struct {
 
 	// The array of data entity summaries.

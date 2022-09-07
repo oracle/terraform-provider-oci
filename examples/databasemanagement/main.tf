@@ -188,6 +188,10 @@ variable "managed_database_optimizer_statistics_collection_operation_task_type" 
   default = "ALL"
 }
 
+variable "managed_database_preferred_credential_credential_name" {
+  default = "credentialName"
+}
+
 provider "oci" {
   tenancy_ocid = var.tenancy_ocid
   user_ocid = var.user_ocid
@@ -452,5 +456,16 @@ data "oci_database_management_managed_database_optimizer_statistics_collection_o
 
 data "oci_database_management_managed_database_table_statistics" "test_managed_database_table_statistics" {
   #Required
+  managed_database_id = oci_database_management_managed_database.test_managed_database.id
+}
+
+data "oci_database_management_managed_database_preferred_credentials" "test_managed_database_preferred_credentials" {
+  #Required
+  managed_database_id = oci_database_management_managed_database.test_managed_database.id
+}
+
+data "oci_database_management_managed_database_preferred_credential" "test_managed_database_preferred_credential" {
+  #Required
+  credential_name = var.managed_database_preferred_credential_credential_name
   managed_database_id = oci_database_management_managed_database.test_managed_database.id
 }

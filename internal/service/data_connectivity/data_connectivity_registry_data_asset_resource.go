@@ -1771,7 +1771,7 @@ func DataConnectivityDataAssetSummaryToMap(obj oci_data_connectivity.DataAssetSu
 		result["description"] = string(*obj.Description)
 	}
 
-	if obj.EndPoints != nil {
+	if obj.EndPoints != nil && len(obj.EndPoints) > 0 {
 		tmp, _ := json.Marshal(obj.EndPoints)
 		result["end_points"] = string(tmp)
 	}

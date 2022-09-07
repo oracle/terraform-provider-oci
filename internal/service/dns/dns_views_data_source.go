@@ -32,7 +32,7 @@ func DnsViewsDataSource() *schema.Resource {
 			},
 			"scope": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"state": {
 				Type:     schema.TypeString,

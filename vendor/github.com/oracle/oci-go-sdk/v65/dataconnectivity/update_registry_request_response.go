@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/UpdateRegistry.go.html to see an example of how to use UpdateRegistryRequest.
 type UpdateRegistryRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
 	// The information to be updated.
@@ -85,16 +85,16 @@ type UpdateRegistryResponse struct {
 	// The Registry instance
 	Registry `presentIn:"body"`
 
-	// For optimistic concurrency control. See `if-match`.
+	// For optimistic concurrency control. See ETags for Optimistic Concurrency Control (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
 	Etag *string `presentIn:"header" name:"etag"`
 
-	// Unique Oracle-assigned identifier for the asynchronous request. You can use this to query status of the asynchronous operation.
-	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
-
-	// Unique Oracle-assigned identifier for the request. If
-	// you need to contact Oracle about a particular request,
-	// please provide the request ID.
+	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/identifiers.htm) of the work request. Use GetWorkRequest (https://docs.cloud.oracle.com/api/#/en/workrequests/20160918/WorkRequest/GetWorkRequest)
+	// with this ID to track the status of the request.
+	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 
 func (response UpdateRegistryResponse) String() string {

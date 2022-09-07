@@ -97,6 +97,10 @@ type UpdateAlarmDetails struct {
 	// Example: `High CPU usage alert. Follow runbook instructions for resolution.`
 	Body *string `mandatory:"false" json:"body"`
 
+	// When set to `true`, splits notifications per metric stream. When set to `false`, groups notifications across metric streams.
+	// Example: `true`
+	IsNotificationsPerMetricDimensionEnabled *bool `mandatory:"false" json:"isNotificationsPerMetricDimensionEnabled"`
+
 	// The format to use for notification messages sent from this alarm. The formats are:
 	// * `RAW` - Raw JSON blob. Default value.
 	// * `PRETTY_JSON`: JSON with new lines and indents.

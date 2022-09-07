@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -18,7 +18,7 @@ import (
 // ValidationMessage The level and validation message.
 type ValidationMessage struct {
 
-	// level of validation messages
+	// The level of validation messages.
 	Level *string `mandatory:"false" json:"level"`
 
 	// The message itself.

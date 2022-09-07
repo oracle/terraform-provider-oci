@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -19,16 +19,16 @@ import (
 // CreateDpEndpointFromPrivate The details to create a private endpoint.
 type CreateDpEndpointFromPrivate struct {
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
+	// Free form text without any restriction on the permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with an upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"true" json:"identifier"`
 
 	// The endpoint ID provided by control plane.
 	DcmsEndpointId *string `mandatory:"true" json:"dcmsEndpointId"`
 
-	// Generated key that can be used in API calls to identify endpoint. On scenarios where reference to the endpoint is needed, a value can be passed in create.
+	// Generated key that can be used in API calls to identify the endpoint. In scenarios where reference to the endpoint is required, a value can be passed in create.
 	Key *string `mandatory:"false" json:"key"`
 
 	// The model version of an object.
@@ -36,7 +36,7 @@ type CreateDpEndpointFromPrivate struct {
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
-	// User-defined description for the endpoint.
+	// User-defined description of the endpoint.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
@@ -45,22 +45,22 @@ type CreateDpEndpointFromPrivate struct {
 	// The version of the object that is used to track changes in the object instance.
 	ObjectVersion *int `mandatory:"false" json:"objectVersion"`
 
-	// List of data assets which belongs to this endpoint
+	// The list of data assets that belong to the endpoint.
 	DataAssets []DataAsset `mandatory:"false" json:"dataAssets"`
 
-	// The ocid of private endpoint resource.
+	// The OCID of the private endpoint resource.
 	PeId *string `mandatory:"false" json:"peId"`
 
-	// The compartmentId of private endpoint resource.
+	// The compartmentId of the private endpoint resource.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// The IP address of dns proxy.
+	// The IP address of DNS proxy.
 	DnsProxyIp *string `mandatory:"false" json:"dnsProxyIp"`
 
-	// The ocid of private endpoint resource.
+	// The OCID of the private endpoint resource.
 	PrivateEndpointIp *string `mandatory:"false" json:"privateEndpointIp"`
 
-	// Array of dns zones to be use during private endpoint resolution.
+	// Array of DNS zones to be used during the private endpoint resolution.
 	DnsZones []string `mandatory:"false" json:"dnsZones"`
 
 	// Specifies the private endpoint state.

@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// Row Data preview row calues.
+// Row Data preview row values.
 type Row struct {
 
 	// Array of all the sampled rows.

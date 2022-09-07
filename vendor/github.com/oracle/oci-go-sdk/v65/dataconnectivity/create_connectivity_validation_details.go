@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// CreateConnectivityValidationDetails Input to perform connector validation. If defines some data integration semantics in a data flow. It may be reading/writing data or transforming the data.
+// CreateConnectivityValidationDetails Input to perform connector validation. Defines the data integration semantics in a data flow. It can be about reading, writing, or transforming the data.
 type CreateConnectivityValidationDetails interface {
 
 	// The key of the object.
@@ -27,7 +27,7 @@ type CreateConnectivityValidationDetails interface {
 
 	GetParentRef() *ParentReference
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
+	// Free form text without any restriction on the permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	GetName() *string
 
 	// Details about the operator.
@@ -45,7 +45,7 @@ type CreateConnectivityValidationDetails interface {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	GetObjectStatus() *int
 
-	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with an upper case letter or underscore. The value can be modified.
 	GetIdentifier() *string
 
 	// An array of parameters used in the data flow.

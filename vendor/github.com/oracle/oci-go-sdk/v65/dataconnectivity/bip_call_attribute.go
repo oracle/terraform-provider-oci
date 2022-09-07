@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -16,21 +16,21 @@ import (
 	"strings"
 )
 
-// BipCallAttribute The call attributes impl
+// BipCallAttribute The call attributes impl.
 type BipCallAttribute struct {
 	StagingBucket *Schema `mandatory:"false" json:"stagingBucket"`
 
-	// Parameter to set offset
+	// The parameter to set offset.
 	OffsetParameter *string `mandatory:"false" json:"offsetParameter"`
 
-	// Parameter to fetch next set of rows
+	// The parameter to fetch the next set of rows.
 	FetchNextRowsParameter *string `mandatory:"false" json:"fetchNextRowsParameter"`
 
 	StagingDataAsset *DataAsset `mandatory:"false" json:"stagingDataAsset"`
 
 	StagingConnection *Connection `mandatory:"false" json:"stagingConnection"`
 
-	// Prefix for the staging DataAsset
+	// The prefix for the staging DataAsset.
 	StagingPrefix *string `mandatory:"false" json:"stagingPrefix"`
 }
 

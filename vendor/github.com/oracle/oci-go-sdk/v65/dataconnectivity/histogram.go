@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// Histogram To capture all the histograms data related to profiling
+// Histogram To capture all the histograms data related to profiling.
 type Histogram struct {
 
 	// Range of values

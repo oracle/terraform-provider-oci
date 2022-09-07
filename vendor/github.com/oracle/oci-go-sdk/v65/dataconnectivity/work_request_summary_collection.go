@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// WorkRequestSummaryCollection List of WorkRequest summaries.
+// WorkRequestSummaryCollection The list of work request summaries.
 type WorkRequestSummaryCollection struct {
 
-	// The array of WorkRequest summariess
+	// The array of work request summaries.
 	Items []WorkRequestSummary `mandatory:"true" json:"items"`
 }
 

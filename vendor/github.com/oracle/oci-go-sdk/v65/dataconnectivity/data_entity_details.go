@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -66,6 +66,10 @@ func (m *dataentitydetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := DataEntityFromDataStoreEntityDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "MESSAGE_ENTITY":
+		mm := DataEntityFromMessageEntityDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "TABLE_ENTITY":
 		mm := DataEntityFromTableEntityDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -101,6 +105,8 @@ const (
 	DataEntityDetailsModelTypeFileEntity      DataEntityDetailsModelTypeEnum = "FILE_ENTITY"
 	DataEntityDetailsModelTypeDataStoreEntity DataEntityDetailsModelTypeEnum = "DATA_STORE_ENTITY"
 	DataEntityDetailsModelTypeSqlEntity       DataEntityDetailsModelTypeEnum = "SQL_ENTITY"
+	DataEntityDetailsModelTypeDerivedEntity   DataEntityDetailsModelTypeEnum = "DERIVED_ENTITY"
+	DataEntityDetailsModelTypeMessageEntity   DataEntityDetailsModelTypeEnum = "MESSAGE_ENTITY"
 )
 
 var mappingDataEntityDetailsModelTypeEnum = map[string]DataEntityDetailsModelTypeEnum{
@@ -109,6 +115,8 @@ var mappingDataEntityDetailsModelTypeEnum = map[string]DataEntityDetailsModelTyp
 	"FILE_ENTITY":       DataEntityDetailsModelTypeFileEntity,
 	"DATA_STORE_ENTITY": DataEntityDetailsModelTypeDataStoreEntity,
 	"SQL_ENTITY":        DataEntityDetailsModelTypeSqlEntity,
+	"DERIVED_ENTITY":    DataEntityDetailsModelTypeDerivedEntity,
+	"MESSAGE_ENTITY":    DataEntityDetailsModelTypeMessageEntity,
 }
 
 var mappingDataEntityDetailsModelTypeEnumLowerCase = map[string]DataEntityDetailsModelTypeEnum{
@@ -117,6 +125,8 @@ var mappingDataEntityDetailsModelTypeEnumLowerCase = map[string]DataEntityDetail
 	"file_entity":       DataEntityDetailsModelTypeFileEntity,
 	"data_store_entity": DataEntityDetailsModelTypeDataStoreEntity,
 	"sql_entity":        DataEntityDetailsModelTypeSqlEntity,
+	"derived_entity":    DataEntityDetailsModelTypeDerivedEntity,
+	"message_entity":    DataEntityDetailsModelTypeMessageEntity,
 }
 
 // GetDataEntityDetailsModelTypeEnumValues Enumerates the set of values for DataEntityDetailsModelTypeEnum
@@ -136,6 +146,8 @@ func GetDataEntityDetailsModelTypeEnumStringValues() []string {
 		"FILE_ENTITY",
 		"DATA_STORE_ENTITY",
 		"SQL_ENTITY",
+		"DERIVED_ENTITY",
+		"MESSAGE_ENTITY",
 	}
 }
 

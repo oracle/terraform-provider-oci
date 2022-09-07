@@ -37,11 +37,6 @@ func DnsResolverResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"scope": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 
 			// Optional
 			"attached_views": {
@@ -131,6 +126,11 @@ func DnsResolverResource() *schema.Resource {
 						// Computed
 					},
 				},
+			},
+			"scope": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
 			},
 
 			// Computed
@@ -596,6 +596,10 @@ func (s *DnsResolverResourceCrud) Delete() error {
 }
 
 func (s *DnsResolverResourceCrud) SetData() error {
+	if s.Res.Id != nil {
+		s.D.Set("resolver_id", *s.Res.Id)
+	}
+
 	if s.Res.AttachedVcnId != nil {
 		s.D.Set("attached_vcn_id", *s.Res.AttachedVcnId)
 	}

@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -64,6 +64,10 @@ func (m *abstractformatattribute) UnmarshalPolymorphicJSON(data []byte) (interfa
 		return mm, err
 	case "PARQUET_FORMAT":
 		mm := ParquetFormatAttribute{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "EXCEL_FORMAT":
+		mm := ExcelFormatAttribute{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

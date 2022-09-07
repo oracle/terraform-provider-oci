@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// ProfileStat To capture all the statistical data related to profiling
+// ProfileStat To capture all the statistical data related to profiling.
 type ProfileStat struct {
 
 	// Placeholder for now, in future we will return the confidence of the profile result (because we are using sampled data and not whole data)
 	Confidence *int `mandatory:"false" json:"confidence"`
 
-	// Value of the confidence of the profile result
+	// Value of the confidence of the profile result.
 	Value *string `mandatory:"false" json:"value"`
 }
 

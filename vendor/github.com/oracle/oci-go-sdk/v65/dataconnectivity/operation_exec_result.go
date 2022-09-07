@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -18,19 +18,19 @@ import (
 // OperationExecResult Operation execution result for a single input set.
 type OperationExecResult struct {
 
-	// Status of the operation job for particular set of input.
+	// Status of the operation job for a particular set of input.
 	ExecutionStatus OperationExecResultExecutionStatusEnum `mandatory:"false" json:"executionStatus,omitempty"`
 
-	// Error message if execution of operation is failed.
+	// Error message when the execution of operation fails.
 	ErrorMessage *string `mandatory:"false" json:"errorMessage"`
 
 	// Metrics of operation execution job.
 	Metrics *interface{} `mandatory:"false" json:"metrics"`
 
-	// List of emitted rows for each OUT/INOUT param.
+	// The list of emitted rows for each OUT/INOUT parameter.
 	OutputValues [][]interface{} `mandatory:"false" json:"outputValues"`
 
-	// True, if error message should be displayed on UI.
+	// True, if the error message must be displayed in the UI.
 	IsWhitelistedErrorMessage *bool `mandatory:"false" json:"isWhitelistedErrorMessage"`
 }
 

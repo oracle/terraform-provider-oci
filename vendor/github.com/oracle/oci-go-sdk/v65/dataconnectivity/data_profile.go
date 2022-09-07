@@ -4,7 +4,7 @@
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -19,12 +19,12 @@ import (
 // DataProfile The data profile response.
 type DataProfile struct {
 
-	// Entity name for which prodilig is requested.
+	// Entity name for which profiling is requested.
 	EntityName *string `mandatory:"true" json:"entityName"`
 
 	EntityProfileResult *EntityProfileResult `mandatory:"false" json:"entityProfileResult"`
 
-	// Array of profiling results
+	// Array of profiling results.
 	AttributeProfileResults []AttributeProfileResult `mandatory:"false" json:"attributeProfileResults"`
 }
 
