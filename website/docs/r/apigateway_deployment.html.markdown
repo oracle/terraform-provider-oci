@@ -237,6 +237,43 @@ resource "oci_apigateway_deployment" "test_deployment" {
 				}
 				is_ssl_verify_disabled = var.deployment_specification_routes_backend_is_ssl_verify_disabled
 				read_timeout_in_seconds = var.deployment_specification_routes_backend_read_timeout_in_seconds
+				routing_backends {
+					backend {
+						#Required
+						type = var.deployment_specification_routes_backend_routing_backends_backend_type
+
+						#Optional
+						body = var.deployment_specification_routes_backend_routing_backends_backend_body
+						connect_timeout_in_seconds = var.deployment_specification_routes_backend_routing_backends_backend_connect_timeout_in_seconds
+						function_id = oci_functions_function.test_function.id
+						headers {
+
+							#Optional
+							name = var.deployment_specification_routes_backend_routing_backends_backend_headers_name
+							value = var.deployment_specification_routes_backend_routing_backends_backend_headers_value
+						}
+						is_ssl_verify_disabled = var.deployment_specification_routes_backend_routing_backends_backend_is_ssl_verify_disabled
+						read_timeout_in_seconds = var.deployment_specification_routes_backend_routing_backends_backend_read_timeout_in_seconds
+						send_timeout_in_seconds = var.deployment_specification_routes_backend_routing_backends_backend_send_timeout_in_seconds
+						status = var.deployment_specification_routes_backend_routing_backends_backend_status
+						url = var.deployment_specification_routes_backend_routing_backends_backend_url
+					}
+					key {
+						#Required
+						name = var.deployment_specification_routes_backend_routing_backends_key_name
+						type = var.deployment_specification_request_policies_dynamic_authentication_authentication_servers_key_type
+		
+						#Optional
+						expression = var.deployment_specification_request_policies_dynamic_authentication_authentication_servers_key_expression
+						is_default = var.deployment_specification_request_policies_dynamic_authentication_authentication_servers_key_is_default
+						values = var.deployment_specification_request_policies_dynamic_authentication_authentication_servers_key_values
+					}
+				}
+				selection_source {
+					#Required
+					selector = var.deployment_specification_routes_backend_selection_source_selector
+					type = var.deployment_specification_routes_backend_selection_source_type
+				}
 				send_timeout_in_seconds = var.deployment_specification_routes_backend_send_timeout_in_seconds
 				status = var.deployment_specification_routes_backend_status
 				url = var.deployment_specification_routes_backend_url
@@ -582,6 +619,29 @@ The following arguments are supported:
 				* `value` - (Applicable when type=STOCK_RESPONSE_BACKEND) (Updatable) Value of the header.
 			* `is_ssl_verify_disabled` - (Applicable when type=HTTP_BACKEND) (Updatable) Defines whether or not to uphold SSL verification. 
 			* `read_timeout_in_seconds` - (Applicable when type=HTTP_BACKEND) (Updatable) Defines a timeout for reading a response from the proxied server. 
+			* `routing_backends` - (Required when type=DYNAMIC_ROUTING_BACKEND) (Updatable) List of backends to chose from for Dynamic Routing.
+			    * `backend` - (Required) (Updatable) The backend to forward requests to.
+			  		* `body` - (Applicable when type=STOCK_RESPONSE_BACKEND) (Updatable) The body of the stock response from the mock backend.
+					* `connect_timeout_in_seconds` - (Applicable when type=HTTP_BACKEND) (Updatable) Defines a timeout for establishing a connection with a proxied server.
+					* `function_id` - (Required when type=ORACLE_FUNCTIONS_BACKEND) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Functions function resource.
+					* `headers` - (Applicable when type=STOCK_RESPONSE_BACKEND) (Updatable) The headers of the stock response from the mock backend.
+						* `name` - (Applicable when type=STOCK_RESPONSE_BACKEND) (Updatable) Name of the header.
+						* `value` - (Applicable when type=STOCK_RESPONSE_BACKEND) (Updatable) Value of the header.
+					* `is_ssl_verify_disabled` - (Applicable when type=HTTP_BACKEND) (Updatable) Defines whether or not to uphold SSL verification.
+					* `read_timeout_in_seconds` - (Applicable when type=HTTP_BACKEND) (Updatable) Defines a timeout for reading a response from the proxied server.
+					* `send_timeout_in_seconds` - (Applicable when type=HTTP_BACKEND) (Updatable) Defines a timeout for transmitting a request to the proxied server.
+					* `status` - (Required when type=STOCK_RESPONSE_BACKEND) (Updatable) The status code of the stock response from the mock backend.
+					* `type` - (Required) (Updatable) Type of the API backend.
+					* `url` - (Required when type=HTTP_BACKEND) (Updatable) The url of the proxied server.
+				* `key` - (Required) (Updatable) Information around the values for selector of an authentication/ routing branch.
+					* `expression` - (Required when type=WILDCARD) (Updatable) String describing the expression with wildcards.
+					* `is_default` - (Optional) (Updatable) Information regarding whether this is the default branch.
+					* `name` - (Required) (Updatable) Name assigned to the branch.
+					* `type` - (Required) (Updatable) Information regarding type of the selection key.
+					* `values` - (Applicable when type=ANY_OF) (Updatable) Information regarding the set of values of selector for which this branch should be selected.
+			* `selection_source` - (Required when type=DYNAMIC_ROUTING_BACKEND) (Updatable) Information around selector used for branching among routes/ authentication servers while dynamic routing/ authentication.
+				* `selector` - (Required) (Updatable) String describing the context variable used as selector.
+				* `type` - (Required) (Updatable) Type of the Selection source to use.
 			* `send_timeout_in_seconds` - (Applicable when type=HTTP_BACKEND) (Updatable) Defines a timeout for transmitting a request to the proxied server. 
 			* `status` - (Required when type=STOCK_RESPONSE_BACKEND) (Updatable) The status code of the stock response from the mock backend.
 			* `type` - (Required) (Updatable) Type of the API backend.
@@ -860,6 +920,29 @@ The following attributes are exported:
 				* `value` - Value of the header.
 			* `is_ssl_verify_disabled` - Defines whether or not to uphold SSL verification. 
 			* `read_timeout_in_seconds` - Defines a timeout for reading a response from the proxied server. 
+			* `routing_backends` - List of backends to chose from for Dynamic Routing.
+				* `backend` - The backend to forward requests to.
+					* `body` - The body of the stock response from the mock backend.
+					* `connect_timeout_in_seconds` - Defines a timeout for establishing a connection with a proxied server.
+					* `function_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Functions function resource.
+					* `headers` - The headers of the stock response from the mock backend.
+						* `name` - Name of the header.
+						* `value` - Value of the header.
+					* `is_ssl_verify_disabled` - Defines whether or not to uphold SSL verification.
+					* `read_timeout_in_seconds` - Defines a timeout for reading a response from the proxied server.
+					* `send_timeout_in_seconds` - Defines a timeout for transmitting a request to the proxied server.
+					* `status` - The status code of the stock response from the mock backend.
+					* `type` - Type of the API backend.
+					* `url` - The url of the proxied server.
+				* `key` - Information around the values for selector of an authentication/ routing branch.
+					* `expression` - String describing the expression with wildcards.
+					* `is_default` - Information regarding whether this is the default branch.
+					* `name` - Name assigned to the branch.
+					* `type` - Information regarding type of the selection key.
+					* `values` - Information regarding the set of values of selector for which this branch should be selected.
+			* `selection_source` - Information around selector used for branching among routes/ authentication servers while dynamic routing/ authentication.
+				* `selector` - String describing the context variable used as selector.
+				* `type` - Type of the Selection source to use.
 			* `send_timeout_in_seconds` - Defines a timeout for transmitting a request to the proxied server. 
 			* `status` - The status code of the stock response from the mock backend.
 			* `type` - Type of the API backend.

@@ -834,6 +834,127 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 										Type:     schema.TypeFloat,
 										Computed: true,
 									},
+									"routing_backends": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"key": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															"type": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"name": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"expression": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"values": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Elem: &schema.Schema{
+																	Type: schema.TypeString,
+																},
+															},
+														},
+													},
+												},
+												"backend": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															"body": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"connect_timeout_in_seconds": {
+																Type:     schema.TypeFloat,
+																Computed: true,
+															},
+															"function_id": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"headers": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+
+																		// Optional
+
+																		// Computed
+																		"name": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"value": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																	},
+																},
+															},
+															"is_ssl_verify_disabled": {
+																Type:     schema.TypeBool,
+																Computed: true,
+															},
+															"read_timeout_in_seconds": {
+																Type:     schema.TypeFloat,
+																Computed: true,
+															},
+															"send_timeout_in_seconds": {
+																Type:     schema.TypeFloat,
+																Computed: true,
+															},
+															"status": {
+																Type:     schema.TypeInt,
+																Computed: true,
+															},
+															"type": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"url": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+														},
+													},
+												},
+											},
+										},
+									},
+									"selection_source": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"selector": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
 									"send_timeout_in_seconds": {
 										Type:     schema.TypeFloat,
 										Computed: true,
@@ -1617,7 +1738,6 @@ func (s *ApigatewayApiDeploymentSpecificationDataSourceCrud) SetData() error {
 
 	return nil
 }
-
 func (s *ApigatewayApiDeploymentSpecificationDataSourceCrud) mapToHeaderFieldSpecification(fieldKeyFormat string) (oci_apigateway.HeaderFieldSpecification, error) {
 	result := oci_apigateway.HeaderFieldSpecification{}
 
@@ -1706,6 +1826,30 @@ func (s *ApigatewayApiDeploymentSpecificationDataSourceCrud) mapToPublicKeySet(f
 			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "keys")) {
 				details.Keys = tmp
 			}
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func (s *ApigatewayApiDeploymentSpecificationDataSourceCrud) mapToSelectionSourcePolicy(fieldKeyFormat string) (oci_apigateway.SelectionSourcePolicy, error) {
+	var baseObject oci_apigateway.SelectionSourcePolicy
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "SINGLE" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("SINGLE"):
+		details := oci_apigateway.SingleSelectionSourcePolicy{}
+		if selector, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "selector")); ok {
+			tmp := selector.(string)
+			details.Selector = &tmp
 		}
 		baseObject = details
 	default:

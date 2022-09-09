@@ -993,6 +993,7 @@ func ApigatewayDeploymentResource() *schema.Resource {
 													Required:         true,
 													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 													ValidateFunc: validation.StringInSlice([]string{
+														"DYNAMIC_ROUTING_BACKEND",
 														"HTTP_BACKEND",
 														"ORACLE_FUNCTIONS_BACKEND",
 														"STOCK_RESPONSE_BACKEND",
@@ -1048,6 +1049,152 @@ func ApigatewayDeploymentResource() *schema.Resource {
 													Type:     schema.TypeFloat,
 													Optional: true,
 													Computed: true,
+												},
+												"routing_backends": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Optional: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															"key": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Optional: true,
+																MaxItems: 1,
+																MinItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		"type": {
+																			Type:     schema.TypeString,
+																			Required: true,
+																		},
+																		"name": {
+																			Type:     schema.TypeString,
+																			Required: true,
+																		},
+																		"expression": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																			Optional: true,
+																		},
+																		"values": {
+																			Type:     schema.TypeList,
+																			Computed: true,
+																			Optional: true,
+																			Elem: &schema.Schema{
+																				Type: schema.TypeString,
+																			},
+																		},
+																	},
+																},
+															},
+															"backend": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Optional: true,
+																MaxItems: 1,
+																MinItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		"body": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																			Optional: true,
+																		},
+																		"connect_timeout_in_seconds": {
+																			Type:     schema.TypeFloat,
+																			Computed: true,
+																			Optional: true,
+																		},
+																		"function_id": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																			Optional: true,
+																		},
+																		"headers": {
+																			Type:     schema.TypeList,
+																			Computed: true,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+
+																					// Optional
+
+																					// Computed
+																					"name": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																						Optional: true,
+																					},
+																					"value": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																						Optional: true,
+																					},
+																				},
+																			},
+																		},
+																		"is_ssl_verify_disabled": {
+																			Type:     schema.TypeBool,
+																			Computed: true,
+																			Optional: true,
+																		},
+																		"read_timeout_in_seconds": {
+																			Type:     schema.TypeFloat,
+																			Computed: true,
+																			Optional: true,
+																		},
+																		"send_timeout_in_seconds": {
+																			Type:     schema.TypeFloat,
+																			Computed: true,
+																		},
+																		"status": {
+																			Type:     schema.TypeInt,
+																			Computed: true,
+																			Optional: true,
+																		},
+																		"type": {
+																			Type:     schema.TypeString,
+																			Required: true,
+																		},
+																		"url": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																			Optional: true,
+																		},
+																	},
+																},
+															},
+														},
+													},
+												},
+												"selection_source": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"selector": {
+																Type:     schema.TypeString,
+																Required: true,
+															},
+															"type": {
+																Type:             schema.TypeString,
+																Required:         true,
+																DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																ValidateFunc: validation.StringInSlice([]string{
+																	"SINGLE",
+																}, true),
+															},
+
+															// Optional
+
+															// Computed
+														},
+													},
 												},
 												"send_timeout_in_seconds": {
 													Type:     schema.TypeFloat,
@@ -2686,6 +2833,35 @@ func (s *ApigatewayDeploymentResourceCrud) mapToApiSpecificationRouteBackend(fie
 		type_ = "" // default value
 	}
 	switch strings.ToLower(type_) {
+	case strings.ToLower("DYNAMIC_ROUTING_BACKEND"):
+		details := oci_apigateway.DynamicRoutingBackend{}
+		if routingBackends, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "routing_backends")); ok {
+			interfaces := routingBackends.([]interface{})
+			tmp := make([]oci_apigateway.DynamicRoutingTypeRoutingBackend, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "routing_backends"), stateDataIndex)
+				converted, err := s.mapToDynamicRoutingTypeRoutingBackend(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "routing_backends")) {
+				details.RoutingBackends = tmp
+			}
+		}
+		if selectionSource, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "selection_source")); ok {
+			if tmpList := selectionSource.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "selection_source"), 0)
+				tmp, err := s.mapToSelectionSourcePolicy(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert selection_source, encountered error: %v", err)
+				}
+				details.SelectionSource = tmp
+			}
+		}
+		baseObject = details
 	case strings.ToLower("HTTP_BACKEND"):
 		details := oci_apigateway.HttpBackend{}
 		if connectTimeoutInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connect_timeout_in_seconds")); ok {
@@ -2752,6 +2928,22 @@ func (s *ApigatewayDeploymentResourceCrud) mapToApiSpecificationRouteBackend(fie
 func ApiSpecificationRouteBackendToMap(obj *oci_apigateway.ApiSpecificationRouteBackend) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
+	case oci_apigateway.DynamicRoutingBackend:
+		result["type"] = "DYNAMIC_ROUTING_BACKEND"
+
+		routingBackends := []interface{}{}
+		for _, item := range v.RoutingBackends {
+			routingBackends = append(routingBackends, DynamicRoutingTypeRoutingBackendToMap(item))
+		}
+		result["routing_backends"] = routingBackends
+
+		if v.SelectionSource != nil {
+			selectionSourceArray := []interface{}{}
+			if selectionSourceMap := SelectionSourcePolicyToMap(&v.SelectionSource); selectionSourceMap != nil {
+				selectionSourceArray = append(selectionSourceArray, selectionSourceMap)
+			}
+			result["selection_source"] = selectionSourceArray
+		}
 	case oci_apigateway.HttpBackend:
 		result["type"] = "HTTP_BACKEND"
 
@@ -2801,6 +2993,146 @@ func ApiSpecificationRouteBackendToMap(obj *oci_apigateway.ApiSpecificationRoute
 		return nil
 	}
 
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToDynamicRoutingTypeRoutingBackend(fieldKeyFormat string) (oci_apigateway.DynamicRoutingTypeRoutingBackend, error) {
+	result := oci_apigateway.DynamicRoutingTypeRoutingBackend{}
+	if backend, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backend")); ok {
+		if tmpList := backend.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "backend"), 0)
+			tmp, err := s.mapToApiSpecificationRouteBackend(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert backend, encountered error: %v", err)
+			}
+			result.Backend = tmp
+		}
+	}
+
+	if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key")); ok {
+		if tmpList := key.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "key"), 0)
+			tmp, err := s.mapToDynamicSelectionKey(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert key, encountered error: %v", err)
+			}
+			result.Key = tmp
+		}
+	}
+	return result, nil
+}
+
+func DynamicRoutingTypeRoutingBackendToMap(obj oci_apigateway.DynamicRoutingTypeRoutingBackend) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Backend != nil {
+		backendArray := []interface{}{}
+		if backendMap := ApiSpecificationRouteBackendToMap(&obj.Backend); backendMap != nil {
+			backendArray = append(backendArray, backendMap)
+		}
+		result["backend"] = backendArray
+	}
+
+	if obj.Key != nil {
+		keyArray := []interface{}{}
+		if keyMap := DynamicSelectionKeyToMap(&obj.Key); keyMap != nil {
+			keyArray = append(keyArray, keyMap)
+		}
+		result["key"] = keyArray
+	}
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToDynamicSelectionKey(fieldKeyFormat string) (oci_apigateway.DynamicSelectionKey, error) {
+	var baseObject oci_apigateway.DynamicSelectionKey
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "ANY_OF" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("ANY_OF"):
+		details := oci_apigateway.AnyOfSelectionKey{}
+		if values, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "values")); ok {
+			interfaces := values.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "values")) {
+				details.Values = tmp
+			}
+		}
+		if isDefault, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_default")); ok {
+			tmp := isDefault.(bool)
+			details.IsDefault = &tmp
+		}
+		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+			tmp := name.(string)
+			details.Name = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("WILDCARD"):
+		details := oci_apigateway.WildcardSelectionKey{}
+		if expression, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "expression")); ok {
+			tmp := expression.(string)
+			details.Expression = &tmp
+		}
+		if isDefault, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_default")); ok {
+			tmp := isDefault.(bool)
+			details.IsDefault = &tmp
+		}
+		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+			tmp := name.(string)
+			details.Name = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func DynamicSelectionKeyToMap(obj *oci_apigateway.DynamicSelectionKey) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_apigateway.AnyOfSelectionKey:
+		result["type"] = "ANY_OF"
+
+		result["values"] = v.Values
+		result["values"] = v.Values
+
+		if v.IsDefault != nil {
+			result["is_default"] = bool(*v.IsDefault)
+		}
+
+		if v.Name != nil {
+			result["name"] = string(*v.Name)
+		}
+	case oci_apigateway.WildcardSelectionKey:
+		result["type"] = "WILDCARD"
+
+		if v.Expression != nil {
+			result["expression"] = string(*v.Expression)
+		}
+
+		if v.IsDefault != nil {
+			result["is_default"] = bool(*v.IsDefault)
+		}
+
+		if v.Name != nil {
+			result["name"] = string(*v.Name)
+		}
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		return nil
+	}
 	return result
 }
 
@@ -3563,99 +3895,6 @@ func DynamicAuthenticationPolicyToMap(obj *oci_apigateway.DynamicAuthenticationP
 			selectionSourceArray = append(selectionSourceArray, selectionSourceMap)
 		}
 		result["selection_source"] = selectionSourceArray
-	}
-
-	return result
-}
-
-func (s *ApigatewayDeploymentResourceCrud) mapToDynamicSelectionKey(fieldKeyFormat string) (oci_apigateway.DynamicSelectionKey, error) {
-	var baseObject oci_apigateway.DynamicSelectionKey
-	//discriminator
-	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
-	var type_ string
-	if ok {
-		type_ = typeRaw.(string)
-	} else {
-		type_ = "ANY_OF" // default value
-	}
-	switch strings.ToLower(type_) {
-	case strings.ToLower("ANY_OF"):
-		details := oci_apigateway.AnyOfSelectionKey{}
-		if values, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "values")); ok {
-			interfaces := values.([]interface{})
-			tmp := make([]string, len(interfaces))
-			for i := range interfaces {
-				if interfaces[i] != nil {
-					tmp[i] = interfaces[i].(string)
-				}
-			}
-			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "values")) {
-				details.Values = tmp
-			}
-		}
-		if isDefault, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_default")); ok {
-			tmp := isDefault.(bool)
-			details.IsDefault = &tmp
-		}
-		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
-			tmp := name.(string)
-			details.Name = &tmp
-		}
-		baseObject = details
-	case strings.ToLower("WILDCARD"):
-		details := oci_apigateway.WildcardSelectionKey{}
-		if expression, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "expression")); ok {
-			tmp := expression.(string)
-			details.Expression = &tmp
-		}
-		if isDefault, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_default")); ok {
-			tmp := isDefault.(bool)
-			details.IsDefault = &tmp
-		}
-		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
-			tmp := name.(string)
-			details.Name = &tmp
-		}
-		baseObject = details
-	default:
-		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
-	}
-	return baseObject, nil
-}
-
-func DynamicSelectionKeyToMap(obj *oci_apigateway.DynamicSelectionKey) map[string]interface{} {
-	result := map[string]interface{}{}
-	switch v := (*obj).(type) {
-	case oci_apigateway.AnyOfSelectionKey:
-		result["type"] = "ANY_OF"
-
-		result["values"] = v.Values
-		result["values"] = v.Values
-
-		if v.IsDefault != nil {
-			result["is_default"] = bool(*v.IsDefault)
-		}
-
-		if v.Name != nil {
-			result["name"] = string(*v.Name)
-		}
-	case oci_apigateway.WildcardSelectionKey:
-		result["type"] = "WILDCARD"
-
-		if v.Expression != nil {
-			result["expression"] = string(*v.Expression)
-		}
-
-		if v.IsDefault != nil {
-			result["is_default"] = bool(*v.IsDefault)
-		}
-
-		if v.Name != nil {
-			result["name"] = string(*v.Name)
-		}
-	default:
-		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
-		return nil
 	}
 
 	return result
