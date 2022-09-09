@@ -41,7 +41,9 @@ var (
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"gateway_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_apigateway_gateway.test_gateway.id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentDataSourceFilterRepresentation}}
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentDataSourceFilterRepresentation},
+	}
+
 	ApigatewayDeploymentDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_apigateway_deployment.test_deployment.id}`}},
@@ -102,6 +104,9 @@ var (
 		"token_auth_scheme":           acctest.Representation{RepType: acctest.Optional, Create: `Bearer`, Update: `Bearer`},
 		"token_header":                acctest.Representation{RepType: acctest.Optional, Create: `Authorization`, Update: `Authorization`},
 		"verify_claims":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationVerifyClaimsRepresentation},
+		"cache_key":                   acctest.Representation{RepType: acctest.Optional, Create: []string{`foo`}, Update: nil},
+		"parameters":                  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"foo": "request.headers[abc]"}, Update: map[string]string{"foo": "request.headers[abc]", "bar": "request.query[def]"}},
+		"validation_failure_policy":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationValidationFailurePolicyRepresentation},
 	}
 	ApigatewayDeploymentSpecificationRequestPoliciesAuthorizeScopeRepresentation = map[string]interface{}{
 		"allowed_scope": acctest.Representation{RepType: acctest.Optional, Create: []string{`cors`}},
@@ -159,6 +164,12 @@ var (
 		"key":         acctest.Representation{RepType: acctest.Optional, Create: `key`, Update: `key2`},
 		"values":      acctest.Representation{RepType: acctest.Optional, Create: []string{`values`}, Update: []string{`values2`}},
 	}
+	ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationValidationFailurePolicyRepresentation = map[string]interface{}{
+		"type":                            acctest.Representation{RepType: acctest.Required, Create: `MODIFY_RESPONSE`},
+		"response_code":                   acctest.Representation{RepType: acctest.Optional, Create: `210`, Update: `220`},
+		"response_header_transformations": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationValidationFailurePolicyResponseHeaderTransformationsRepresentation},
+		"response_message":                acctest.Representation{RepType: acctest.Optional, Create: `responseMessage`, Update: `responseMessage2`},
+	}
 	ApigatewayDeploymentSpecificationRoutesLoggingPoliciesAccessLogRepresentation = map[string]interface{}{
 		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
@@ -213,6 +224,11 @@ var (
 		"time_to_live_in_seconds": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"type":                    acctest.Representation{RepType: acctest.Required, Create: `FIXED_TTL_STORE_POLICY`},
 	}
+	ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationValidationFailurePolicyResponseHeaderTransformationsRepresentation = map[string]interface{}{
+		"filter_headers": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationValidationFailurePolicyResponseHeaderTransformationsFilterHeadersRepresentation},
+		"rename_headers": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationValidationFailurePolicyResponseHeaderTransformationsRenameHeadersRepresentation},
+		"set_headers":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationValidationFailurePolicyResponseHeaderTransformationsSetHeadersRepresentation},
+	}
 	ApigatewayDeploymentSpecificationRoutesRequestPoliciesBodyValidationContentRepresentation = map[string]interface{}{
 		"media_type":      acctest.Representation{RepType: acctest.Required, Create: `*/*`, Update: `application/json`},
 		"validation_type": acctest.Representation{RepType: acctest.Required, Create: `NONE`},
@@ -246,6 +262,16 @@ var (
 	ApigatewayDeploymentSpecificationRoutesResponsePoliciesHeaderTransformationsSetHeadersRepresentation = map[string]interface{}{
 		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRoutesResponsePoliciesHeaderTransformationsSetHeadersItemsRepresentation},
 	}
+	ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationValidationFailurePolicyResponseHeaderTransformationsFilterHeadersRepresentation = map[string]interface{}{
+		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationValidationFailurePolicyResponseHeaderTransformationsFilterHeadersItemsRepresentation},
+		"type":  acctest.Representation{RepType: acctest.Required, Create: `BLOCK`},
+	}
+	ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationValidationFailurePolicyResponseHeaderTransformationsRenameHeadersRepresentation = map[string]interface{}{
+		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationValidationFailurePolicyResponseHeaderTransformationsRenameHeadersItemsRepresentation},
+	}
+	ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationValidationFailurePolicyResponseHeaderTransformationsSetHeadersRepresentation = map[string]interface{}{
+		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationValidationFailurePolicyResponseHeaderTransformationsSetHeadersItemsRepresentation},
+	}
 	ApigatewayDeploymentSpecificationRoutesRequestPoliciesHeaderTransformationsFilterHeadersItemsRepresentation = map[string]interface{}{
 		"name": acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 	}
@@ -269,6 +295,18 @@ var (
 		"name":      acctest.Representation{RepType: acctest.Required, Create: `nameE`, Update: `nameE2`},
 		"values":    acctest.Representation{RepType: acctest.Required, Create: []string{`values`}, Update: []string{`values2`}},
 		"if_exists": acctest.Representation{RepType: acctest.Optional, Create: `OVERWRITE`, Update: `SKIP`},
+	}
+	ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationValidationFailurePolicyResponseHeaderTransformationsFilterHeadersItemsRepresentation = map[string]interface{}{
+		"name": acctest.Representation{RepType: acctest.Required, Create: `namefilter`, Update: `namefilter2`},
+	}
+	ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationValidationFailurePolicyResponseHeaderTransformationsRenameHeadersItemsRepresentation = map[string]interface{}{
+		"from": acctest.Representation{RepType: acctest.Required, Create: `from`, Update: `from2`},
+		"to":   acctest.Representation{RepType: acctest.Required, Create: `to`, Update: `to2`},
+	}
+	ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationValidationFailurePolicyResponseHeaderTransformationsSetHeadersItemsRepresentation = map[string]interface{}{
+		"name":      acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
+		"values":    acctest.Representation{RepType: acctest.Required, Create: []string{`values`}, Update: []string{`values2`}},
+		"if_exists": acctest.Representation{RepType: acctest.Optional, Create: `OVERWRITE`, Update: `APPEND`},
 	}
 	ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationPublicKeysKeysRepresentation = map[string]interface{}{
 		"format":  acctest.Representation{RepType: acctest.Required, Create: `PEM`, Update: `JSON_WEB_KEY`},
@@ -308,7 +346,25 @@ var (
 		"specification.request_policies.authentication.public_keys",
 		"specification.request_policies.authentication.token_auth_scheme",
 		"specification.request_policies.authentication.verify_claims",
+		"specification.request_policies.authentication.validation_failure_policy",
+		"specification.request_policies.authentication.parameters",
+		"specification.request_policies.authentication.cache_key",
 	}, ApigatewayDeploymentRepresentation)
+
+	deploymentRepresentationWithoutTokenHeaderCustomAuth = acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{
+		"specification.request_policies.authentication.audiences",
+		"specification.request_policies.authentication.issuers",
+		"specification.request_policies.authentication.max_clock_skew_in_seconds",
+		"specification.request_policies.authentication.public_keys",
+		"specification.request_policies.authentication.token_auth_scheme",
+		"specification.request_policies.authentication.verify_claims",
+		"specification.request_policies.authentication.token_header",
+	}, ApigatewayDeploymentRepresentation)
+
+	deploymentRepresentationRequestBasedAuthCustomAuth = acctest.GetUpdatedRepresentationCopy(
+		"path_prefix",
+		acctest.Representation{RepType: acctest.Required, Create: `/v2`},
+		deploymentRepresentationWithoutTokenHeaderCustomAuth)
 )
 
 // issue-routing-tag: apigateway/default
@@ -328,24 +384,31 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 	imageVariableStr := fmt.Sprintf("variable \"image\" { default = \"%s\" }\n", image)
 
 	resourceName := "oci_apigateway_deployment.test_deployment"
+	resourceNameRba := "oci_apigateway_deployment.test_deployment_rba"
 	datasourceName := "data.oci_apigateway_deployments.test_deployments"
 	singularDatasourceName := "data.oci_apigateway_deployment.test_deployment"
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+imageVariableStr+DeploymentResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Create, deploymentRepresentationCustomAuth), "apigateway", "deployment", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Create, deploymentRepresentationCustomAuth)+acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_rba", acctest.Optional, acctest.Create, deploymentRepresentationRequestBasedAuthCustomAuth), "apigateway", "deployment", t)
 
 	acctest.ResourceTest(t, testAccCheckApigatewayDeploymentDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DeploymentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Required, acctest.Create, deploymentRepresentationCustomAuth),
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Required, acctest.Create, deploymentRepresentationCustomAuth) +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_rba", acctest.Required, acctest.Create, deploymentRepresentationRequestBasedAuthCustomAuth),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
 				resource.TestCheckResourceAttr(resourceName, "path_prefix", "/v1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.#", "1"),
+
+				resource.TestCheckResourceAttr(resourceNameRba, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceNameRba, "gateway_id"),
+				resource.TestCheckResourceAttr(resourceNameRba, "path_prefix", "/v2"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.#", "1"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -363,7 +426,8 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + imageVariableStr + DeploymentResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsApplicationRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Create, deploymentRepresentationCustomAuth),
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Create, deploymentRepresentationCustomAuth) +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_rba", acctest.Optional, acctest.Create, deploymentRepresentationRequestBasedAuthCustomAuth),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -382,6 +446,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.authentication.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "specification.0.request_policies.0.authentication.0.function_id"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.authentication.0.is_anonymous_access_allowed", "false"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.authentication.0.token_header", "Authorization"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.authentication.0.type", "CUSTOM_AUTHENTICATION"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.cors.#", "1"),
@@ -482,6 +547,34 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.response_policies.0.response_cache_store.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.response_policies.0.response_cache_store.0.time_to_live_in_seconds", "10"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.response_policies.0.response_cache_store.0.type", "FIXED_TTL_STORE_POLICY"),
+
+				// Test the auth part for request based auth
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.cache_key.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.cache_key.0", "foo"),
+				resource.TestCheckResourceAttrSet(resourceNameRba, "specification.0.request_policies.0.authentication.0.function_id"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.is_anonymous_access_allowed", "false"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.parameters.%", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.type", "CUSTOM_AUTHENTICATION"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_code", "210"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.filter_headers.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.filter_headers.0.items.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.filter_headers.0.items.0.name", "namefilter"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.filter_headers.0.type", "BLOCK"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.rename_headers.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.rename_headers.0.items.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.rename_headers.0.items.0.from", "from"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.rename_headers.0.items.0.to", "to"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.set_headers.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.set_headers.0.items.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.set_headers.0.items.0.if_exists", "OVERWRITE"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.set_headers.0.items.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.set_headers.0.items.0.values.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_message", "responseMessage"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.type", "MODIFY_RESPONSE"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -503,6 +596,11 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(deploymentRepresentationCustomAuth, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+						"specification.request_policies.authentication.parameters": acctest.Representation{RepType: acctest.Optional, Create: nil},
+					})) +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_rba", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(deploymentRepresentationRequestBasedAuthCustomAuth, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -522,6 +620,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.authentication.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "specification.0.request_policies.0.authentication.0.function_id"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.authentication.0.is_anonymous_access_allowed", "false"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.authentication.0.token_header", "Authorization"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.authentication.0.type", "CUSTOM_AUTHENTICATION"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.cors.#", "1"),
@@ -623,6 +722,35 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.response_policies.0.response_cache_store.0.time_to_live_in_seconds", "10"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.response_policies.0.response_cache_store.0.type", "FIXED_TTL_STORE_POLICY"),
 
+				// Test the auth part for request based auth
+				resource.TestCheckResourceAttr(resourceNameRba, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceNameRba, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.cache_key.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.cache_key.0", "foo"),
+				resource.TestCheckResourceAttrSet(resourceNameRba, "specification.0.request_policies.0.authentication.0.function_id"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.is_anonymous_access_allowed", "false"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.parameters.%", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.type", "CUSTOM_AUTHENTICATION"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_code", "210"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.filter_headers.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.filter_headers.0.items.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.filter_headers.0.items.0.name", "namefilter"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.filter_headers.0.type", "BLOCK"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.rename_headers.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.rename_headers.0.items.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.rename_headers.0.items.0.from", "from"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.rename_headers.0.items.0.to", "to"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.set_headers.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.set_headers.0.items.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.set_headers.0.items.0.if_exists", "OVERWRITE"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.set_headers.0.items.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.set_headers.0.items.0.values.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_message", "responseMessage"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.type", "MODIFY_RESPONSE"),
+
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
@@ -638,7 +766,8 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + imageVariableStr + DeploymentResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsApplicationRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Update, deploymentRepresentationCustomAuth),
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Update, deploymentRepresentationCustomAuth) +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_rba", acctest.Optional, acctest.Update, deploymentRepresentationRequestBasedAuthCustomAuth),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -657,6 +786,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.authentication.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "specification.0.request_policies.0.authentication.0.function_id"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.authentication.0.is_anonymous_access_allowed", "true"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.authentication.0.token_header", "Authorization"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.authentication.0.type", "CUSTOM_AUTHENTICATION"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.cors.#", "1"),
@@ -755,6 +885,31 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.response_policies.0.response_cache_store.0.time_to_live_in_seconds", "11"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.response_policies.0.response_cache_store.0.type", "FIXED_TTL_STORE_POLICY"),
 
+				// Test the auth part for request based auth
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceNameRba, "specification.0.request_policies.0.authentication.0.function_id"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.is_anonymous_access_allowed", "true"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.parameters.%", "2"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.type", "CUSTOM_AUTHENTICATION"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_code", "220"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.filter_headers.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.filter_headers.0.items.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.filter_headers.0.items.0.name", "namefilter2"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.filter_headers.0.type", "BLOCK"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.rename_headers.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.rename_headers.0.items.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.rename_headers.0.items.0.from", "from2"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.rename_headers.0.items.0.to", "to2"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.set_headers.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.set_headers.0.items.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.set_headers.0.items.0.if_exists", "APPEND"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.set_headers.0.items.0.name", "name2"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_header_transformations.0.set_headers.0.items.0.values.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_message", "responseMessage2"),
+				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.type", "MODIFY_RESPONSE"),
+
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
@@ -809,6 +964,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.logging_policies.0.execution_log.0.log_level", "WARN"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.request_policies.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.request_policies.0.authentication.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.request_policies.0.authentication.0.is_anonymous_access_allowed", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.request_policies.0.authentication.0.token_header", "Authorization"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.request_policies.0.authentication.0.type", "CUSTOM_AUTHENTICATION"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.request_policies.0.cors.#", "1"),
