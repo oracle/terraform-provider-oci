@@ -27,13 +27,18 @@ import (
 
 var (
 	ApigatewayDeploymentRequiredOnlyResource = DeploymentResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Required, acctest.Create, deploymentRepresentationCustomAuth)
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Required, acctest.Create, deploymentRepresentationCustomAuth) +
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_dynamic_auth", acctest.Required, acctest.Create, deploymentRepresentationDynamicAuth)
 
 	ApigatewayDeploymentResourceConfig = DeploymentResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Update, deploymentRepresentationCustomAuth)
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Update, deploymentRepresentationCustomAuth) +
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_dynamic_auth", acctest.Optional, acctest.Update, deploymentRepresentationDynamicAuth)
 
 	ApigatewayDeploymentSingularDataSourceRepresentation = map[string]interface{}{
 		"deployment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apigateway_deployment.test_deployment.id}`},
+	}
+	ApigatewayDeploymentWithDynamicAuthenticationSingularDataSourceRepresentation = map[string]interface{}{
+		"deployment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apigateway_deployment.test_deployment_with_dynamic_auth.id}`},
 	}
 
 	ApigatewayDeploymentDataSourceRepresentation = map[string]interface{}{
@@ -72,11 +77,12 @@ var (
 		"execution_log": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationLoggingPoliciesExecutionLogRepresentation},
 	}
 	ApigatewayDeploymentSpecificationRequestPoliciesRepresentation = map[string]interface{}{
-		"authentication": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationRepresentation},
-		"cors":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesCorsRepresentation},
-		"mutual_tls":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesMutualTlsRepresentation},
-		"rate_limiting":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesRateLimitingRepresentation},
-		"usage_plans":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesUsagePlansRepresentation},
+		"authentication":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationRepresentation},
+		"cors":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesCorsRepresentation},
+		"dynamic_authentication": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesDynamicAuthenticationRepresentation},
+		"mutual_tls":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesMutualTlsRepresentation},
+		"rate_limiting":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesRateLimitingRepresentation},
+		"usage_plans":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesUsagePlansRepresentation},
 	}
 	ApigatewayDeploymentSpecificationRoutesRepresentation = map[string]interface{}{
 		"backend":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRoutesBackendRepresentation},
@@ -118,6 +124,10 @@ var (
 		"exposed_headers":              acctest.Representation{RepType: acctest.Optional, Create: []string{`*`}, Update: []string{`*`, `Content-Type`}},
 		"is_allow_credentials_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"max_age_in_seconds":           acctest.Representation{RepType: acctest.Optional, Create: `600`, Update: `500`},
+	}
+	ApigatewayDeploymentSpecificationRequestPoliciesDynamicAuthenticationRepresentation = map[string]interface{}{
+		"authentication_servers": acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRequestPoliciesDynamicAuthenticationAuthenticationServersRepresentation},
+		"selection_source":       acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRequestPoliciesDynamicAuthenticationSelectionSourceRepresentation},
 	}
 	ApigatewayDeploymentSpecificationRequestPoliciesMutualTlsRepresentation = map[string]interface{}{
 		"allowed_sans":                     acctest.Representation{RepType: acctest.Optional, Create: []string{`allowedSans`}, Update: []string{`allowedSans2`}},
@@ -169,6 +179,14 @@ var (
 		"response_code":                   acctest.Representation{RepType: acctest.Optional, Create: `210`, Update: `220`},
 		"response_header_transformations": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationValidationFailurePolicyResponseHeaderTransformationsRepresentation},
 		"response_message":                acctest.Representation{RepType: acctest.Optional, Create: `responseMessage`, Update: `responseMessage2`},
+	}
+	ApigatewayDeploymentSpecificationRequestPoliciesDynamicAuthenticationAuthenticationServersRepresentation = map[string]interface{}{
+		"authentication_server_detail": acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRequestPoliciesDynamicAuthenticationAuthenticationServersAuthenticationServerDetailRepresentation},
+		"key":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRequestPoliciesDynamicAuthenticationAuthenticationServersKeyRepresentation},
+	}
+	ApigatewayDeploymentSpecificationRequestPoliciesDynamicAuthenticationSelectionSourceRepresentation = map[string]interface{}{
+		"selector": acctest.Representation{RepType: acctest.Required, Create: `request.headers[tenant]`, Update: `request.subdomain[oracle.com]`},
+		"type":     acctest.Representation{RepType: acctest.Required, Create: `SINGLE`},
 	}
 	ApigatewayDeploymentSpecificationRoutesLoggingPoliciesAccessLogRepresentation = map[string]interface{}{
 		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
@@ -229,6 +247,25 @@ var (
 		"rename_headers": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationValidationFailurePolicyResponseHeaderTransformationsRenameHeadersRepresentation},
 		"set_headers":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationValidationFailurePolicyResponseHeaderTransformationsSetHeadersRepresentation},
 	}
+	ApigatewayDeploymentSpecificationRequestPoliciesDynamicAuthenticationAuthenticationServersAuthenticationServerDetailRepresentation = map[string]interface{}{
+		"type":                        acctest.Representation{RepType: acctest.Required, Create: `CUSTOM_AUTHENTICATION`, Update: `CUSTOM_AUTHENTICATION`},
+		"audiences":                   acctest.Representation{RepType: acctest.Optional, Create: []string{`audiences`}, Update: []string{`audiences2`}},
+		"function_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_functions_function.test_function.id}`},
+		"is_anonymous_access_allowed": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"issuers":                     acctest.Representation{RepType: acctest.Optional, Create: []string{`issuers`}, Update: []string{`issuers2`}},
+		"max_clock_skew_in_seconds":   acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `1.1`},
+		"public_keys":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesDynamicAuthenticationAuthenticationServersAuthenticationServerDetailPublicKeysRepresentation},
+		"token_auth_scheme":           acctest.Representation{RepType: acctest.Optional, Create: `tokenAuthScheme`, Update: `tokenAuthScheme2`},
+		"token_header":                acctest.Representation{RepType: acctest.Optional, Create: `tokenHeader`, Update: `tokenHeader2`},
+		"token_query_param":           acctest.Representation{RepType: acctest.Optional, Create: `tokenQueryParam`, Update: `tokenQueryParam2`},
+		"verify_claims":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesDynamicAuthenticationAuthenticationServersAuthenticationServerDetailVerifyClaimsRepresentation},
+	}
+	ApigatewayDeploymentSpecificationRequestPoliciesDynamicAuthenticationAuthenticationServersKeyRepresentation = map[string]interface{}{
+		"name":       acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
+		"is_default": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"type":       acctest.Representation{RepType: acctest.Optional, Create: `ANY_OF`},
+		"values":     acctest.Representation{RepType: acctest.Optional, Create: []string{`values`}, Update: []string{`values2`}},
+	}
 	ApigatewayDeploymentSpecificationRoutesRequestPoliciesBodyValidationContentRepresentation = map[string]interface{}{
 		"media_type":      acctest.Representation{RepType: acctest.Required, Create: `*/*`, Update: `application/json`},
 		"validation_type": acctest.Representation{RepType: acctest.Required, Create: `NONE`},
@@ -272,6 +309,18 @@ var (
 	ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationValidationFailurePolicyResponseHeaderTransformationsSetHeadersRepresentation = map[string]interface{}{
 		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationValidationFailurePolicyResponseHeaderTransformationsSetHeadersItemsRepresentation},
 	}
+	ApigatewayDeploymentSpecificationRequestPoliciesDynamicAuthenticationAuthenticationServersAuthenticationServerDetailPublicKeysRepresentation = map[string]interface{}{
+		"type":                        acctest.Representation{RepType: acctest.Required, Create: `STATIC_KEYS`, Update: `REMOTE_JWKS`},
+		"is_ssl_verify_disabled":      acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"keys":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesDynamicAuthenticationAuthenticationServersAuthenticationServerDetailPublicKeysKeysRepresentation},
+		"max_cache_duration_in_hours": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"uri":                         acctest.Representation{RepType: acctest.Optional, Create: `uri`, Update: `uri2`},
+	}
+	ApigatewayDeploymentSpecificationRequestPoliciesDynamicAuthenticationAuthenticationServersAuthenticationServerDetailVerifyClaimsRepresentation = map[string]interface{}{
+		"is_required": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"key":         acctest.Representation{RepType: acctest.Optional, Create: `key`, Update: `key2`},
+		"values":      acctest.Representation{RepType: acctest.Optional, Create: []string{`values`}, Update: []string{`values2`}},
+	}
 	ApigatewayDeploymentSpecificationRoutesRequestPoliciesHeaderTransformationsFilterHeadersItemsRepresentation = map[string]interface{}{
 		"name": acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 	}
@@ -308,6 +357,17 @@ var (
 		"values":    acctest.Representation{RepType: acctest.Required, Create: []string{`values`}, Update: []string{`values2`}},
 		"if_exists": acctest.Representation{RepType: acctest.Optional, Create: `OVERWRITE`, Update: `APPEND`},
 	}
+	ApigatewayDeploymentSpecificationRequestPoliciesDynamicAuthenticationAuthenticationServersAuthenticationServerDetailPublicKeysKeysRepresentation = map[string]interface{}{
+		"format":  acctest.Representation{RepType: acctest.Required, Create: `JSON_WEB_KEY`, Update: `PEM`},
+		"alg":     acctest.Representation{RepType: acctest.Optional, Create: `alg`, Update: `alg2`},
+		"e":       acctest.Representation{RepType: acctest.Optional, Create: `e`, Update: `e2`},
+		"key":     acctest.Representation{RepType: acctest.Optional, Create: `key`, Update: `key2`},
+		"key_ops": acctest.Representation{RepType: acctest.Optional, Create: []string{`keyOps`}, Update: []string{`keyOps2`}},
+		"kid":     acctest.Representation{RepType: acctest.Optional, Create: `kid`, Update: `kid2`},
+		"kty":     acctest.Representation{RepType: acctest.Optional, Create: `RSA`},
+		"n":       acctest.Representation{RepType: acctest.Optional, Create: `n`, Update: `n2`},
+		"use":     acctest.Representation{RepType: acctest.Optional, Create: `sig`},
+	}
 	ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationPublicKeysKeysRepresentation = map[string]interface{}{
 		"format":  acctest.Representation{RepType: acctest.Required, Create: `PEM`, Update: `JSON_WEB_KEY`},
 		"alg":     acctest.Representation{RepType: acctest.Optional, Create: `alg`, Update: `RS256`},
@@ -340,6 +400,7 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_certificates_management_ca_bundle", "test_ca_bundle_dep", acctest.Optional, acctest.Create, caBundleRepresentation)
 
 	deploymentRepresentationCustomAuth = acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{
+		"specification.request_policies.dynamic_authentication",
 		"specification.request_policies.authentication.audiences",
 		"specification.request_policies.authentication.issuers",
 		"specification.request_policies.authentication.max_clock_skew_in_seconds",
@@ -365,6 +426,22 @@ var (
 		"path_prefix",
 		acctest.Representation{RepType: acctest.Required, Create: `/v2`},
 		deploymentRepresentationWithoutTokenHeaderCustomAuth)
+	// Creating a new deployment for dynamic authentication as same deployment cant have both authentication and
+	// dynamic authentication policies
+	deploymentRepresentationWithNewPathPrefix = acctest.GetUpdatedRepresentationCopy(
+		"path_prefix",
+		acctest.Representation{RepType: acctest.Required, Create: `/v2`},
+		ApigatewayDeploymentRepresentation)
+	deploymentRepresentationDynamicAuth = acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{
+		"specification.request_policies.authentication",
+		"specification.request_policies.dynamic_authentication.authentication_servers.authentication_server_detail.audiences",
+		"specification.request_policies.dynamic_authentication.authentication_servers.authentication_server_detail.issuers",
+		"specification.request_policies.dynamic_authentication.authentication_servers.authentication_server_detail.max_clock_skew_in_seconds",
+		"specification.request_policies.dynamic_authentication.authentication_servers.authentication_server_detail.public_keys",
+		"specification.request_policies.dynamic_authentication.authentication_servers.authentication_server_detail.token_auth_scheme",
+		"specification.request_policies.dynamic_authentication.authentication_servers.authentication_server_detail.verify_claims",
+		"specification.request_policies.dynamic_authentication.authentication_servers.authentication_server_detail.token_query_param",
+	}, deploymentRepresentationWithNewPathPrefix)
 )
 
 // issue-routing-tag: apigateway/default
@@ -373,7 +450,6 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()
-
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
@@ -388,22 +464,32 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 	datasourceName := "data.oci_apigateway_deployments.test_deployments"
 	singularDatasourceName := "data.oci_apigateway_deployment.test_deployment"
 
+	resourceNameWithDynamicAuth := "oci_apigateway_deployment.test_deployment_with_dynamic_auth"
+	singularDatasourceNameWithDynamicAuth := "data.oci_apigateway_deployment.test_deployment_with_dynamic_auth"
+
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+imageVariableStr+DeploymentResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Create, deploymentRepresentationCustomAuth)+acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_rba", acctest.Optional, acctest.Create, deploymentRepresentationRequestBasedAuthCustomAuth), "apigateway", "deployment", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Create, deploymentRepresentationCustomAuth)+
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_rba", acctest.Optional, acctest.Create, deploymentRepresentationRequestBasedAuthCustomAuth)+
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_dynamic_auth", acctest.Optional, acctest.Create, deploymentRepresentationDynamicAuth), "apigateway", "deployment", t)
 
 	acctest.ResourceTest(t, testAccCheckApigatewayDeploymentDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DeploymentResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Required, acctest.Create, deploymentRepresentationCustomAuth) +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_rba", acctest.Required, acctest.Create, deploymentRepresentationRequestBasedAuthCustomAuth),
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_rba", acctest.Required, acctest.Create, deploymentRepresentationRequestBasedAuthCustomAuth) +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_dynamic_auth", acctest.Required, acctest.Create, deploymentRepresentationDynamicAuth),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
 				resource.TestCheckResourceAttr(resourceName, "path_prefix", "/v1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceNameWithDynamicAuth, "gateway_id"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "path_prefix", "/v2"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.#", "1"),
 
 				resource.TestCheckResourceAttr(resourceNameRba, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceNameRba, "gateway_id"),
@@ -427,7 +513,8 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsApplicationRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Create, deploymentRepresentationCustomAuth) +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_rba", acctest.Optional, acctest.Create, deploymentRepresentationRequestBasedAuthCustomAuth),
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_rba", acctest.Optional, acctest.Create, deploymentRepresentationRequestBasedAuthCustomAuth) +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_dynamic_auth", acctest.Optional, acctest.Create, deploymentRepresentationDynamicAuth),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -547,6 +634,28 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.response_policies.0.response_cache_store.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.response_policies.0.response_cache_store.0.time_to_live_in_seconds", "10"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.response_policies.0.response_cache_store.0.type", "FIXED_TTL_STORE_POLICY"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceNameWithDynamicAuth, "endpoint"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceNameWithDynamicAuth, "gateway_id"),
+				resource.TestCheckResourceAttrSet(resourceNameWithDynamicAuth, "id"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "path_prefix", "/v2"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.authentication_server_detail.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.authentication_server_detail.0.function_id"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.authentication_server_detail.0.token_header", "tokenHeader"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.authentication_server_detail.0.type", "CUSTOM_AUTHENTICATION"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.key.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.key.0.is_default", "false"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.key.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.key.0.type", "ANY_OF"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.key.0.values.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.selection_source.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.selection_source.0.selector", "request.headers[tenant]"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.selection_source.0.type", "SINGLE"),
 
 				// Test the auth part for request based auth
 				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.#", "1"),
@@ -599,7 +708,9 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 						"specification.request_policies.authentication.parameters": acctest.Representation{RepType: acctest.Optional, Create: nil},
 					})) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_rba", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(deploymentRepresentationRequestBasedAuthCustomAuth, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(deploymentRepresentationRequestBasedAuthCustomAuth, map[string]interface{}{})) +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_dynamic_auth", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(deploymentRepresentationDynamicAuth, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -721,6 +832,28 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.response_policies.0.response_cache_store.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.response_policies.0.response_cache_store.0.time_to_live_in_seconds", "10"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.response_policies.0.response_cache_store.0.type", "FIXED_TTL_STORE_POLICY"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceNameWithDynamicAuth, "endpoint"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceNameWithDynamicAuth, "gateway_id"),
+				resource.TestCheckResourceAttrSet(resourceNameWithDynamicAuth, "id"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "path_prefix", "/v2"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.authentication_server_detail.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.authentication_server_detail.0.function_id"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.authentication_server_detail.0.token_header", "tokenHeader"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.authentication_server_detail.0.type", "CUSTOM_AUTHENTICATION"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.key.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.key.0.is_default", "false"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.key.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.key.0.type", "ANY_OF"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.key.0.values.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.selection_source.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.selection_source.0.selector", "request.headers[tenant]"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.selection_source.0.type", "SINGLE"),
 
 				// Test the auth part for request based auth
 				resource.TestCheckResourceAttr(resourceNameRba, "compartment_id", compartmentIdU),
@@ -767,7 +900,9 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsApplicationRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Update, deploymentRepresentationCustomAuth) +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_rba", acctest.Optional, acctest.Update, deploymentRepresentationRequestBasedAuthCustomAuth),
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_rba", acctest.Optional, acctest.Update, deploymentRepresentationRequestBasedAuthCustomAuth) +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_dynamic_auth", acctest.Optional, acctest.Update, deploymentRepresentationDynamicAuth),
+
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -884,6 +1019,28 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.response_policies.0.response_cache_store.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.response_policies.0.response_cache_store.0.time_to_live_in_seconds", "11"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.response_policies.0.response_cache_store.0.type", "FIXED_TTL_STORE_POLICY"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(resourceNameWithDynamicAuth, "endpoint"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceNameWithDynamicAuth, "gateway_id"),
+				resource.TestCheckResourceAttrSet(resourceNameWithDynamicAuth, "id"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "path_prefix", "/v2"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.authentication_server_detail.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.authentication_server_detail.0.function_id"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.authentication_server_detail.0.token_header", "tokenHeader2"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.authentication_server_detail.0.type", "CUSTOM_AUTHENTICATION"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.key.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.key.0.is_default", "true"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.key.0.name", "name2"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.key.0.type", "ANY_OF"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.key.0.values.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.selection_source.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.selection_source.0.selector", "request.subdomain[oracle.com]"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.selection_source.0.type", "SINGLE"),
 
 				// Test the auth part for request based auth
 				resource.TestCheckResourceAttr(resourceNameRba, "specification.0.request_policies.0.authentication.#", "1"),
@@ -945,6 +1102,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsApplicationRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionRepresentation) +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Required, acctest.Create, ApigatewayDeploymentSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_dynamic_auth", acctest.Required, acctest.Create, ApigatewayDeploymentWithDynamicAuthenticationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ApigatewayDeploymentResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_id"),
@@ -1064,6 +1222,28 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithDynamicAuth, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithDynamicAuth, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceNameWithDynamicAuth, "endpoint"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithDynamicAuth, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceNameWithDynamicAuth, "gateway_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceNameWithDynamicAuth, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithDynamicAuth, "path_prefix", "/v2"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithDynamicAuth, "specification.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.authentication_server_detail.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.authentication_server_detail.0.function_id"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.authentication_server_detail.0.token_header", "tokenHeader2"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.authentication_server_detail.0.type", "CUSTOM_AUTHENTICATION"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.key.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.key.0.is_default", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.key.0.name", "name2"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.key.0.type", "ANY_OF"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.0.key.0.values.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.selection_source.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.selection_source.0.selector", "request.subdomain[oracle.com]"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.selection_source.0.type", "SINGLE"),
 			),
 		},
 		// verify resource import
