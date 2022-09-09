@@ -161,6 +161,14 @@ func ApigatewayDeploymentResource() *schema.Resource {
 														Type: schema.TypeString,
 													},
 												},
+												"cache_key": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
 												"function_id": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -183,6 +191,12 @@ func ApigatewayDeploymentResource() *schema.Resource {
 													Type:     schema.TypeFloat,
 													Optional: true,
 													Computed: true,
+												},
+												"parameters": {
+													Type:     schema.TypeMap,
+													Optional: true,
+													Computed: true,
+													Elem:     schema.TypeString,
 												},
 												"public_keys": {
 													Type:     schema.TypeList,
@@ -304,6 +318,175 @@ func ApigatewayDeploymentResource() *schema.Resource {
 													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
+												},
+												"validation_failure_policy": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"type": {
+																Type:             schema.TypeString,
+																Required:         true,
+																DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																ValidateFunc: validation.StringInSlice([]string{
+																	"MODIFY_RESPONSE",
+																}, true),
+															},
+
+															// Optional
+															"response_code": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+															"response_header_transformations": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																MaxItems: 1,
+																MinItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+
+																		// Optional
+																		"filter_headers": {
+																			Type:     schema.TypeList,
+																			Optional: true,
+																			Computed: true,
+																			MaxItems: 1,
+																			MinItems: 1,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+																					"items": {
+																						Type:     schema.TypeList,
+																						Required: true,
+																						Elem: &schema.Resource{
+																							Schema: map[string]*schema.Schema{
+																								// Required
+																								"name": {
+																									Type:     schema.TypeString,
+																									Required: true,
+																								},
+
+																								// Optional
+
+																								// Computed
+																							},
+																						},
+																					},
+																					"type": {
+																						Type:     schema.TypeString,
+																						Required: true,
+																					},
+
+																					// Optional
+
+																					// Computed
+																				},
+																			},
+																		},
+																		"rename_headers": {
+																			Type:     schema.TypeList,
+																			Optional: true,
+																			Computed: true,
+																			MaxItems: 1,
+																			MinItems: 1,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+																					"items": {
+																						Type:     schema.TypeList,
+																						Required: true,
+																						Elem: &schema.Resource{
+																							Schema: map[string]*schema.Schema{
+																								// Required
+																								"from": {
+																									Type:     schema.TypeString,
+																									Required: true,
+																								},
+																								"to": {
+																									Type:     schema.TypeString,
+																									Required: true,
+																								},
+
+																								// Optional
+
+																								// Computed
+																							},
+																						},
+																					},
+
+																					// Optional
+
+																					// Computed
+																				},
+																			},
+																		},
+																		"set_headers": {
+																			Type:     schema.TypeList,
+																			Optional: true,
+																			Computed: true,
+																			MaxItems: 1,
+																			MinItems: 1,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+																					"items": {
+																						Type:     schema.TypeList,
+																						Required: true,
+																						Elem: &schema.Resource{
+																							Schema: map[string]*schema.Schema{
+																								// Required
+																								"name": {
+																									Type:     schema.TypeString,
+																									Required: true,
+																								},
+																								"values": {
+																									Type:     schema.TypeList,
+																									Required: true,
+																									Elem: &schema.Schema{
+																										Type: schema.TypeString,
+																									},
+																								},
+
+																								// Optional
+																								"if_exists": {
+																									Type:     schema.TypeString,
+																									Optional: true,
+																									Computed: true,
+																								},
+
+																								// Computed
+																							},
+																						},
+																					},
+
+																					// Optional
+
+																					// Computed
+																				},
+																			},
+																		},
+
+																		// Computed
+																	},
+																},
+															},
+															"response_message": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+
+															// Computed
+														},
+													},
 												},
 												"verify_claims": {
 													Type:     schema.TypeList,
@@ -2494,9 +2677,24 @@ func (s *ApigatewayDeploymentResourceCrud) mapToAuthenticationPolicy(fieldKeyFor
 	switch strings.ToLower(type_) {
 	case strings.ToLower("CUSTOM_AUTHENTICATION"):
 		details := oci_apigateway.CustomAuthenticationPolicy{}
+		if cacheKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cache_key")); ok {
+			interfaces := cacheKey.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "cache_key")) {
+				details.CacheKey = tmp
+			}
+		}
 		if functionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "function_id")); ok {
 			tmp := functionId.(string)
 			details.FunctionId = &tmp
+		}
+		if parameters, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "parameters")); ok {
+			details.Parameters = tfresource.ObjectMapToStringMap(parameters.(map[string]interface{}))
 		}
 		if tokenHeader, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "token_header")); ok {
 			tmp := tokenHeader.(string)
@@ -2508,6 +2706,16 @@ func (s *ApigatewayDeploymentResourceCrud) mapToAuthenticationPolicy(fieldKeyFor
 			tmp := tokenQueryParam.(string)
 			if len(tmp) > 0 {
 				details.TokenQueryParam = &tmp
+			}
+		}
+		if validationFailurePolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "validation_failure_policy")); ok {
+			if tmpList := validationFailurePolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "validation_failure_policy"), 0)
+				tmp, err := s.mapToValidationFailurePolicy(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert validation_failure_policy, encountered error: %v", err)
+				}
+				details.ValidationFailurePolicy = tmp
 			}
 		}
 		if isAnonymousAccessAllowed, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_anonymous_access_allowed")); ok {
@@ -2602,9 +2810,15 @@ func AuthenticationPolicyToMap(obj *oci_apigateway.AuthenticationPolicy) map[str
 	case oci_apigateway.CustomAuthenticationPolicy:
 		result["type"] = "CUSTOM_AUTHENTICATION"
 
+		result["cache_key"] = v.CacheKey
+		result["cache_key"] = v.CacheKey
+
 		if v.FunctionId != nil {
 			result["function_id"] = string(*v.FunctionId)
 		}
+
+		result["parameters"] = v.Parameters
+		result["parameters"] = v.Parameters
 
 		if v.TokenHeader != nil {
 			result["token_header"] = string(*v.TokenHeader)
@@ -2612,6 +2826,14 @@ func AuthenticationPolicyToMap(obj *oci_apigateway.AuthenticationPolicy) map[str
 
 		if v.TokenQueryParam != nil {
 			result["token_query_param"] = string(*v.TokenQueryParam)
+		}
+
+		if v.ValidationFailurePolicy != nil {
+			validationFailurePolicyArray := []interface{}{}
+			if validationFailurePolicyMap := ValidationFailurePolicyToMap(&v.ValidationFailurePolicy); validationFailurePolicyMap != nil {
+				validationFailurePolicyArray = append(validationFailurePolicyArray, validationFailurePolicyMap)
+			}
+			result["validation_failure_policy"] = validationFailurePolicyArray
 		}
 
 		if v.IsAnonymousAccessAllowed != nil {
@@ -4121,6 +4343,69 @@ func UsagePlansPolicyToMap(obj *oci_apigateway.UsagePlansPolicy) map[string]inte
 	result := map[string]interface{}{}
 
 	result["token_locations"] = obj.TokenLocations
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToValidationFailurePolicy(fieldKeyFormat string) (oci_apigateway.ValidationFailurePolicy, error) {
+	var baseObject oci_apigateway.ValidationFailurePolicy
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("MODIFY_RESPONSE"):
+		details := oci_apigateway.ModifyResponseValidationFailurePolicy{}
+		if responseCode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "response_code")); ok {
+			tmp := responseCode.(string)
+			details.ResponseCode = &tmp
+		}
+		if responseHeaderTransformations, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "response_header_transformations")); ok {
+			if tmpList := responseHeaderTransformations.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "response_header_transformations"), 0)
+				tmp, err := s.mapToHeaderTransformationPolicy(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert response_header_transformations, encountered error: %v", err)
+				}
+				details.ResponseHeaderTransformations = &tmp
+			}
+		}
+		if responseMessage, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "response_message")); ok {
+			tmp := responseMessage.(string)
+			details.ResponseMessage = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func ValidationFailurePolicyToMap(obj *oci_apigateway.ValidationFailurePolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_apigateway.ModifyResponseValidationFailurePolicy:
+		result["type"] = "MODIFY_RESPONSE"
+
+		if v.ResponseCode != nil {
+			result["response_code"] = string(*v.ResponseCode)
+		}
+
+		if v.ResponseHeaderTransformations != nil {
+			result["response_header_transformations"] = []interface{}{HeaderTransformationPolicyToMap(v.ResponseHeaderTransformations)}
+		}
+
+		if v.ResponseMessage != nil {
+			result["response_message"] = string(*v.ResponseMessage)
+		}
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		return nil
+	}
 
 	return result
 }
