@@ -458,6 +458,253 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 								},
 							},
 						},
+						"dynamic_authentication": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"authentication_servers": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"authentication_server_detail": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+
+															// Computed
+															"audiences": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Elem: &schema.Schema{
+																	Type: schema.TypeString,
+																},
+															},
+															"function_id": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"is_anonymous_access_allowed": {
+																Type:     schema.TypeBool,
+																Computed: true,
+															},
+															"issuers": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Elem: &schema.Schema{
+																	Type: schema.TypeString,
+																},
+															},
+															"max_clock_skew_in_seconds": {
+																Type:     schema.TypeFloat,
+																Computed: true,
+															},
+															"public_keys": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+
+																		// Optional
+
+																		// Computed
+																		"is_ssl_verify_disabled": {
+																			Type:     schema.TypeBool,
+																			Computed: true,
+																		},
+																		"keys": {
+																			Type:     schema.TypeList,
+																			Computed: true,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+
+																					// Optional
+
+																					// Computed
+																					"alg": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																					"e": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																					"format": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																					"key": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																					"key_ops": {
+																						Type:     schema.TypeList,
+																						Computed: true,
+																						Elem: &schema.Schema{
+																							Type: schema.TypeString,
+																						},
+																					},
+																					"kid": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																					"kty": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																					"n": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																					"use": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																				},
+																			},
+																		},
+																		"max_cache_duration_in_hours": {
+																			Type:     schema.TypeInt,
+																			Computed: true,
+																		},
+																		"type": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"uri": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																	},
+																},
+															},
+															"token_auth_scheme": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"token_header": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"token_query_param": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"type": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"verify_claims": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+
+																		// Optional
+
+																		// Computed
+																		"is_required": {
+																			Type:     schema.TypeBool,
+																			Computed: true,
+																		},
+																		"key": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"values": {
+																			Type:     schema.TypeList,
+																			Computed: true,
+																			Elem: &schema.Schema{
+																				Type: schema.TypeString,
+																			},
+																		},
+																	},
+																},
+															},
+														},
+													},
+												},
+												"key": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+
+															// Computed
+															"expression": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"is_default": {
+																Type:     schema.TypeBool,
+																Computed: true,
+															},
+															"name": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"type": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"values": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Elem: &schema.Schema{
+																	Type: schema.TypeString,
+																},
+															},
+														},
+													},
+												},
+											},
+										},
+									},
+									"selection_source": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"selector": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
+								},
+							},
+						},
 						"mutual_tls": {
 							Type:     schema.TypeList,
 							Computed: true,

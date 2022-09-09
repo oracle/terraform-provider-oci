@@ -582,6 +582,317 @@ func ApigatewayDeploymentResource() *schema.Resource {
 											},
 										},
 									},
+									"dynamic_authentication": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"authentication_servers": {
+													Type:     schema.TypeList,
+													Required: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"authentication_server_detail": {
+																Type:     schema.TypeList,
+																Required: true,
+																MaxItems: 1,
+																MinItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+																		"type": {
+																			Type:             schema.TypeString,
+																			Required:         true,
+																			DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																			ValidateFunc: validation.StringInSlice([]string{
+																				"CUSTOM_AUTHENTICATION",
+																				"JWT_AUTHENTICATION",
+																			}, true),
+																		},
+
+																		// Optional
+																		"audiences": {
+																			Type:     schema.TypeList,
+																			Optional: true,
+																			Computed: true,
+																			Elem: &schema.Schema{
+																				Type: schema.TypeString,
+																			},
+																		},
+																		"function_id": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+																		"is_anonymous_access_allowed": {
+																			Type:     schema.TypeBool,
+																			Optional: true,
+																			Computed: true,
+																		},
+																		"issuers": {
+																			Type:     schema.TypeList,
+																			Optional: true,
+																			Computed: true,
+																			Elem: &schema.Schema{
+																				Type: schema.TypeString,
+																			},
+																		},
+																		"max_clock_skew_in_seconds": {
+																			Type:     schema.TypeFloat,
+																			Optional: true,
+																			Computed: true,
+																		},
+																		"public_keys": {
+																			Type:     schema.TypeList,
+																			Optional: true,
+																			Computed: true,
+																			MaxItems: 1,
+																			MinItems: 1,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+																					"type": {
+																						Type:             schema.TypeString,
+																						Required:         true,
+																						DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																						ValidateFunc: validation.StringInSlice([]string{
+																							"REMOTE_JWKS",
+																							"STATIC_KEYS",
+																						}, true),
+																					},
+
+																					// Optional
+																					"is_ssl_verify_disabled": {
+																						Type:     schema.TypeBool,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"keys": {
+																						Type:     schema.TypeList,
+																						Optional: true,
+																						Computed: true,
+																						Elem: &schema.Resource{
+																							Schema: map[string]*schema.Schema{
+																								// Required
+																								"format": {
+																									Type:             schema.TypeString,
+																									Required:         true,
+																									DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																									ValidateFunc: validation.StringInSlice([]string{
+																										"JSON_WEB_KEY",
+																										"PEM",
+																									}, true),
+																								},
+
+																								// Optional
+																								"alg": {
+																									Type:     schema.TypeString,
+																									Optional: true,
+																									Computed: true,
+																								},
+																								"e": {
+																									Type:     schema.TypeString,
+																									Optional: true,
+																									Computed: true,
+																								},
+																								"key": {
+																									Type:     schema.TypeString,
+																									Optional: true,
+																									Computed: true,
+																								},
+																								"key_ops": {
+																									Type:     schema.TypeList,
+																									Optional: true,
+																									Computed: true,
+																									Elem: &schema.Schema{
+																										Type: schema.TypeString,
+																									},
+																								},
+																								"kid": {
+																									Type:     schema.TypeString,
+																									Optional: true,
+																									Computed: true,
+																								},
+																								"kty": {
+																									Type:     schema.TypeString,
+																									Optional: true,
+																									Computed: true,
+																								},
+																								"n": {
+																									Type:     schema.TypeString,
+																									Optional: true,
+																									Computed: true,
+																								},
+																								"use": {
+																									Type:     schema.TypeString,
+																									Optional: true,
+																									Computed: true,
+																								},
+
+																								// Computed
+																							},
+																						},
+																					},
+																					"max_cache_duration_in_hours": {
+																						Type:     schema.TypeInt,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"uri": {
+																						Type:     schema.TypeString,
+																						Optional: true,
+																						Computed: true,
+																					},
+
+																					// Computed
+																				},
+																			},
+																		},
+																		"token_auth_scheme": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+																		"token_header": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+																		"token_query_param": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+																		"verify_claims": {
+																			Type:     schema.TypeList,
+																			Optional: true,
+																			Computed: true,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+
+																					// Optional
+																					"is_required": {
+																						Type:     schema.TypeBool,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"key": {
+																						Type:     schema.TypeString,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"values": {
+																						Type:     schema.TypeList,
+																						Optional: true,
+																						Computed: true,
+																						Elem: &schema.Schema{
+																							Type: schema.TypeString,
+																						},
+																					},
+
+																					// Computed
+																				},
+																			},
+																		},
+
+																		// Computed
+																	},
+																},
+															},
+															"key": {
+																Type:     schema.TypeList,
+																Required: true,
+																MaxItems: 1,
+																MinItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+																		"name": {
+																			Type:     schema.TypeString,
+																			Required: true,
+																		},
+
+																		// Optional
+																		"expression": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+																		"is_default": {
+																			Type:     schema.TypeBool,
+																			Optional: true,
+																			Computed: true,
+																		},
+																		"type": {
+																			Type:             schema.TypeString,
+																			Optional:         true,
+																			Computed:         true,
+																			DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																			ValidateFunc: validation.StringInSlice([]string{
+																				"ANY_OF",
+																				"WILDCARD",
+																			}, true),
+																		},
+																		"values": {
+																			Type:     schema.TypeList,
+																			Optional: true,
+																			Computed: true,
+																			Elem: &schema.Schema{
+																				Type: schema.TypeString,
+																			},
+																		},
+
+																		// Computed
+																	},
+																},
+															},
+
+															// Optional
+
+															// Computed
+														},
+													},
+												},
+												"selection_source": {
+													Type:     schema.TypeList,
+													Required: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"selector": {
+																Type:     schema.TypeString,
+																Required: true,
+															},
+															"type": {
+																Type:             schema.TypeString,
+																Required:         true,
+																DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																ValidateFunc: validation.StringInSlice([]string{
+																	"SINGLE",
+																}, true),
+															},
+
+															// Optional
+
+															// Computed
+														},
+													},
+												},
+
+												// Optional
+
+												// Computed
+											},
+										},
+									},
 									"mutual_tls": {
 										Type:     schema.TypeList,
 										Optional: true,
@@ -2183,6 +2494,17 @@ func (s *ApigatewayDeploymentResourceCrud) mapToApiSpecificationRequestPolicies(
 		}
 	}
 
+	if dynamicAuthentication, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dynamic_authentication")); ok {
+		if tmpList := dynamicAuthentication.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "dynamic_authentication"), 0)
+			tmp, err := s.mapToDynamicAuthenticationPolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert dynamic_authentication, encountered error: %v", err)
+			}
+			result.DynamicAuthentication = &tmp
+		}
+	}
+
 	if mutualTls, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mutual_tls")); ok {
 		if tmpList := mutualTls.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "mutual_tls"), 0)
@@ -2232,6 +2554,10 @@ func ApiSpecificationRequestPoliciesToMap(obj *oci_apigateway.ApiSpecificationRe
 
 	if obj.Cors != nil {
 		result["cors"] = []interface{}{CorsPolicyToMap(obj.Cors)}
+	}
+
+	if obj.DynamicAuthentication != nil {
+		result["dynamic_authentication"] = []interface{}{DynamicAuthenticationPolicyToMap(obj.DynamicAuthentication)}
 	}
 
 	if obj.MutualTls != nil {
@@ -2887,6 +3213,56 @@ func AuthenticationPolicyToMap(obj *oci_apigateway.AuthenticationPolicy) map[str
 	return result
 }
 
+func (s *ApigatewayDeploymentResourceCrud) mapToAuthenticationServerPolicy(fieldKeyFormat string) (oci_apigateway.AuthenticationServerPolicy, error) {
+	result := oci_apigateway.AuthenticationServerPolicy{}
+
+	if authenticationServerDetail, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "authentication_server_detail")); ok {
+		if tmpList := authenticationServerDetail.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "authentication_server_detail"), 0)
+			tmp, err := s.mapToAuthenticationPolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert authentication_server_detail, encountered error: %v", err)
+			}
+			result.AuthenticationServerDetail = tmp
+		}
+	}
+
+	if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key")); ok {
+		if tmpList := key.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "key"), 0)
+			tmp, err := s.mapToDynamicSelectionKey(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert key, encountered error: %v", err)
+			}
+			result.Key = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func AuthenticationServerPolicyToMap(obj oci_apigateway.AuthenticationServerPolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AuthenticationServerDetail != nil {
+		authenticationServerDetailArray := []interface{}{}
+		if authenticationServerDetailMap := AuthenticationPolicyToMap(&obj.AuthenticationServerDetail); authenticationServerDetailMap != nil {
+			authenticationServerDetailArray = append(authenticationServerDetailArray, authenticationServerDetailMap)
+		}
+		result["authentication_server_detail"] = authenticationServerDetailArray
+	}
+
+	if obj.Key != nil {
+		keyArray := []interface{}{}
+		if keyMap := DynamicSelectionKeyToMap(&obj.Key); keyMap != nil {
+			keyArray = append(keyArray, keyMap)
+		}
+		result["key"] = keyArray
+	}
+
+	return result
+}
+
 func (s *ApigatewayDeploymentResourceCrud) mapToContentValidation(fieldKeyFormat string) (oci_apigateway.ContentValidation, error) {
 	var baseObject oci_apigateway.ContentValidation
 
@@ -3133,6 +3509,153 @@ func DeploymentSummaryToMap(obj oci_apigateway.DeploymentSummary) map[string]int
 
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
+	}
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToDynamicAuthenticationPolicy(fieldKeyFormat string) (oci_apigateway.DynamicAuthenticationPolicy, error) {
+	result := oci_apigateway.DynamicAuthenticationPolicy{}
+
+	if authenticationServers, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "authentication_servers")); ok {
+		interfaces := authenticationServers.([]interface{})
+		tmp := make([]oci_apigateway.AuthenticationServerPolicy, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "authentication_servers"), stateDataIndex)
+			converted, err := s.mapToAuthenticationServerPolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "authentication_servers")) {
+			result.AuthenticationServers = tmp
+		}
+	}
+
+	if selectionSource, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "selection_source")); ok {
+		if tmpList := selectionSource.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "selection_source"), 0)
+			tmp, err := s.mapToSelectionSourcePolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert selection_source, encountered error: %v", err)
+			}
+			result.SelectionSource = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func DynamicAuthenticationPolicyToMap(obj *oci_apigateway.DynamicAuthenticationPolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	authenticationServers := []interface{}{}
+	for _, item := range obj.AuthenticationServers {
+		authenticationServers = append(authenticationServers, AuthenticationServerPolicyToMap(item))
+	}
+	result["authentication_servers"] = authenticationServers
+
+	if obj.SelectionSource != nil {
+		selectionSourceArray := []interface{}{}
+		if selectionSourceMap := SelectionSourcePolicyToMap(&obj.SelectionSource); selectionSourceMap != nil {
+			selectionSourceArray = append(selectionSourceArray, selectionSourceMap)
+		}
+		result["selection_source"] = selectionSourceArray
+	}
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToDynamicSelectionKey(fieldKeyFormat string) (oci_apigateway.DynamicSelectionKey, error) {
+	var baseObject oci_apigateway.DynamicSelectionKey
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "ANY_OF" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("ANY_OF"):
+		details := oci_apigateway.AnyOfSelectionKey{}
+		if values, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "values")); ok {
+			interfaces := values.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "values")) {
+				details.Values = tmp
+			}
+		}
+		if isDefault, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_default")); ok {
+			tmp := isDefault.(bool)
+			details.IsDefault = &tmp
+		}
+		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+			tmp := name.(string)
+			details.Name = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("WILDCARD"):
+		details := oci_apigateway.WildcardSelectionKey{}
+		if expression, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "expression")); ok {
+			tmp := expression.(string)
+			details.Expression = &tmp
+		}
+		if isDefault, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_default")); ok {
+			tmp := isDefault.(bool)
+			details.IsDefault = &tmp
+		}
+		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+			tmp := name.(string)
+			details.Name = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func DynamicSelectionKeyToMap(obj *oci_apigateway.DynamicSelectionKey) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_apigateway.AnyOfSelectionKey:
+		result["type"] = "ANY_OF"
+
+		result["values"] = v.Values
+		result["values"] = v.Values
+
+		if v.IsDefault != nil {
+			result["is_default"] = bool(*v.IsDefault)
+		}
+
+		if v.Name != nil {
+			result["name"] = string(*v.Name)
+		}
+	case oci_apigateway.WildcardSelectionKey:
+		result["type"] = "WILDCARD"
+
+		if v.Expression != nil {
+			result["expression"] = string(*v.Expression)
+		}
+
+		if v.IsDefault != nil {
+			result["is_default"] = bool(*v.IsDefault)
+		}
+
+		if v.Name != nil {
+			result["name"] = string(*v.Name)
+		}
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		return nil
 	}
 
 	return result
@@ -4050,6 +4573,47 @@ func RouteAuthorizationPolicyToMap(obj *oci_apigateway.RouteAuthorizationPolicy)
 		result["allowed_scope"] = v.AllowedScope
 	case oci_apigateway.AuthenticationOnlyRouteAuthorizationPolicy:
 		result["type"] = "AUTHENTICATION_ONLY"
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToSelectionSourcePolicy(fieldKeyFormat string) (oci_apigateway.SelectionSourcePolicy, error) {
+	var baseObject oci_apigateway.SelectionSourcePolicy
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "SINGLE" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("SINGLE"):
+		details := oci_apigateway.SingleSelectionSourcePolicy{}
+		if selector, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "selector")); ok {
+			tmp := selector.(string)
+			details.Selector = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func SelectionSourcePolicyToMap(obj *oci_apigateway.SelectionSourcePolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_apigateway.SingleSelectionSourcePolicy:
+		result["type"] = "SINGLE"
+
+		if v.Selector != nil {
+			result["selector"] = string(*v.Selector)
+		}
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
 		return nil

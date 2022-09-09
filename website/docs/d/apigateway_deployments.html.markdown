@@ -128,6 +128,46 @@ The following attributes are exported:
 			* `exposed_headers` - The list of headers that the client will be allowed to see from the response as indicated by the Access-Control-Expose-Headers header. '*' will expose all headers. 
 			* `is_allow_credentials_enabled` - Whether to send the Access-Control-Allow-Credentials header to allow CORS requests with cookies. 
 			* `max_age_in_seconds` - The time in seconds for the client to cache preflight responses. This is sent as the Access-Control-Max-Age if greater than 0. 
+		* `dynamic_authentication` - Information on how to authenticate requests when multiple authentication options are configured for a deployment.
+			* `authentication_servers` - List of authentication servers to choose from during dynamic authentication.
+				* `authentication_server_detail` - Information on how to authenticate incoming requests.
+					* `audiences` - The list of intended recipients for the token.
+					* `function_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Functions function resource. 
+					* `is_anonymous_access_allowed` - Whether an unauthenticated user may access the API. Must be "true" to enable ANONYMOUS route authorization. 
+					* `issuers` - A list of parties that could have issued the token.
+					* `max_clock_skew_in_seconds` - The maximum expected time difference between the system clocks of the token issuer and the API Gateway. 
+					* `public_keys` - A set of Public Keys that will be used to verify the JWT signature.
+						* `is_ssl_verify_disabled` - Defines whether or not to uphold SSL verification. 
+						* `keys` - The set of static public keys.
+							* `alg` - The algorithm intended for use with this key.
+							* `e` - The base64 url encoded exponent of the RSA public key represented by this key. 
+							* `format` - The format of the public key.
+							* `key` - The content of the PEM-encoded public key.
+							* `key_ops` - The operations for which this key is to be used.
+							* `kid` - A unique key ID. This key will be used to verify the signature of a JWT with matching "kid". 
+							* `kty` - The key type.
+							* `n` - The base64 url encoded modulus of the RSA public key represented by this key. 
+							* `use` - The intended use of the public key.
+						* `max_cache_duration_in_hours` - The duration for which the JWKS should be cached before it is fetched again. 
+						* `type` - Type of the public key set.
+						* `uri` - The uri from which to retrieve the key. It must be accessible without authentication. 
+					* `token_auth_scheme` - The authentication scheme that is to be used when authenticating the token. This must to be provided if "tokenHeader" is specified. 
+					* `token_header` - The name of the header containing the authentication token.
+					* `token_query_param` - The name of the query parameter containing the authentication token.
+					* `type` - Type of the authentication policy to use.
+					* `verify_claims` - A list of claims which should be validated to consider the token valid.
+						* `is_required` - Whether the claim is required to be present in the JWT or not. If set to "false", the claim values will be matched only if the claim is present in the JWT. 
+						* `key` - Name of the claim.
+						* `values` - The list of acceptable values for a given claim. If this value is "null" or empty and "isRequired" set to "true", then the presence of this claim in the JWT is validated. 
+				* `key` - Information around the values for selector of an authentication/ routing branch.
+					* `expression` - String describing the expression with wildcards.
+					* `is_default` - Information regarding whether this is the default branch.
+					* `name` - Name assigned to the branch.
+					* `type` - Information regarding type of the selection key.
+					* `values` - Information regarding the set of values of selector for which this branch should be selected.
+			* `selection_source` - Information around selector used for branching among routes/ authentication servers while dynamic routing/ authentication.
+				* `selector` - String describing the context variable used as selector.
+				* `type` - Type of the Selection source to use.
 		* `mutual_tls` - Properties used to configure client mTLS verification when API Consumer makes connection to the gateway. 
 			* `allowed_sans` - Allowed list of CN or SAN which will be used for verification of certificate.
 			* `is_verified_certificate_required` - Determines whether to enable client verification when API Consumer makes connection to the gateway.
