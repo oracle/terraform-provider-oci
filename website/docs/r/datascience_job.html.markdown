@@ -79,8 +79,8 @@ The following arguments are supported:
 	* `block_storage_size_in_gbs` - (Required) (Updatable) The size of the block storage volume to attach to the instance running the job 
 	* `job_infrastructure_type` - (Required) (Updatable) The infrastructure type used for job run.
 	* `job_shape_config_details` - (Optional) (Updatable) Details for the job run shape configuration. Specify only when a flex shape is selected.
-		* `memory_in_gbs` - (Applicable when job_infrastructure_type=ME_STANDALONE | STANDALONE) (Updatable) A job run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
-		* `ocpus` - (Applicable when job_infrastructure_type=ME_STANDALONE | STANDALONE) (Updatable) A job run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+		* `memory_in_gbs` - (Applicable when job_infrastructure_type=ME_STANDALONE | STANDALONE) (Updatable) The total amount of memory available to the job run instance, in gigabytes. 
+		* `ocpus` - (Applicable when job_infrastructure_type=ME_STANDALONE | STANDALONE) (Updatable) The total number of OCPUs available to the job run instance. 
 	* `shape_name` - (Required) (Updatable) The shape used to launch the job run instances.
 	* `subnet_id` - (Required when job_infrastructure_type=STANDALONE) (Updatable) The subnet to create a secondary vnic in to attach to the instance running the job 
 * `job_log_configuration_details` - (Optional) Logging configuration for resource. 
@@ -117,8 +117,8 @@ The following attributes are exported:
 	* `block_storage_size_in_gbs` - The size of the block storage volume to attach to the instance running the job 
 	* `job_infrastructure_type` - The infrastructure type used for job run.
 	* `job_shape_config_details` - Details for the job run shape configuration. Specify only when a flex shape is selected.
-		* `memory_in_gbs` - A job run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
-		* `ocpus` - A job run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+		* `memory_in_gbs` - The total amount of memory available to the job run instance, in gigabytes. 
+		* `ocpus` - The total number of OCPUs available to the job run instance. 
 	* `shape_name` - The shape used to launch the job run instances.
 	* `subnet_id` - The subnet to create a secondary vnic in to attach to the instance running the job 
 * `job_log_configuration_details` - Logging configuration for resource. 

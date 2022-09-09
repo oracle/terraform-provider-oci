@@ -360,6 +360,8 @@ func init() {
 	RegisterResource("oci_datascience_model", tf_datascience.DatascienceModelResource())
 	RegisterResource("oci_datascience_model_deployment", tf_datascience.DatascienceModelDeploymentResource())
 	RegisterResource("oci_datascience_model_provenance", tf_datascience.DatascienceModelProvenanceResource())
+	RegisterResource("oci_datascience_model_artifact_export", tf_datascience.DatascienceModelArtifactExportResource())
+	RegisterResource("oci_datascience_model_artifact_import", tf_datascience.DatascienceModelArtifactImportResource())
 	RegisterResource("oci_datascience_notebook_session", tf_datascience.DatascienceNotebookSessionResource())
 	RegisterResource("oci_datascience_project", tf_datascience.DatascienceProjectResource())
 	// devops service
