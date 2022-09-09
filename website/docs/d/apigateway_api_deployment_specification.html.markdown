@@ -49,10 +49,12 @@ The following attributes are exported:
 * `request_policies` - Global behavior applied to all requests received by the API.
 	* `authentication` - Information on how to authenticate incoming requests.
 		* `audiences` - The list of intended recipients for the token.
+		* `cache_key` - A list of keys from "parameters" attribute value whose values will be added to the cache key. 
 		* `function_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Functions function resource. 
 		* `is_anonymous_access_allowed` - Whether an unauthenticated user may access the API. Must be "true" to enable ANONYMOUS route authorization. 
 		* `issuers` - A list of parties that could have issued the token.
 		* `max_clock_skew_in_seconds` - The maximum expected time difference between the system clocks of the token issuer and the API Gateway. 
+		* `parameters` - A map where key is a user defined string and value is a context expressions whose values will be sent to the custom auth function. Values should contain an expression. Example: `{"foo": "request.header[abc]"}` 
 		* `public_keys` - A set of Public Keys that will be used to verify the JWT signature.
 			* `is_ssl_verify_disabled` - Defines whether or not to uphold SSL verification. 
 			* `keys` - The set of static public keys.
@@ -72,6 +74,24 @@ The following attributes are exported:
 		* `token_header` - The name of the header containing the authentication token.
 		* `token_query_param` - The name of the query parameter containing the authentication token.
 		* `type` - Type of the authentication policy to use.
+		* `validation_failure_policy` - Policy for defining behaviour on validation failure.
+			* `response_code` - HTTP response code, can include context variables.
+			* `response_header_transformations` - A set of transformations to apply to HTTP headers that pass through the gateway. 
+				* `filter_headers` - Filter HTTP headers as they pass through the gateway.  The gateway applies filters after other transformations, so any headers set or renamed must also be listed here when using an ALLOW type policy. 
+					* `items` - The list of headers. 
+						* `name` - The case-insensitive name of the header.  This name must be unique across transformation policies. 
+					* `type` - BLOCK drops any headers that are in the list of items, so it acts as an exclusion list.  ALLOW permits only the headers in the list and removes all others, so it acts as an inclusion list. 
+				* `rename_headers` - Rename HTTP headers as they pass through the gateway. 
+					* `items` - The list of headers.
+						* `from` - The original case-insensitive name of the header.  This name must be unique across transformation policies. 
+						* `to` - The new name of the header.  This name must be unique across transformation policies. 
+				* `set_headers` - Set HTTP headers as they pass through the gateway. 
+					* `items` - The list of headers.
+						* `if_exists` - If a header with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value. 
+						* `name` - The case-insensitive name of the header.  This name must be unique across transformation policies. 
+						* `values` - A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
+			* `response_message` - HTTP response message.
+			* `type` - Type of the Validation failure Policy.
 		* `verify_claims` - A list of claims which should be validated to consider the token valid.
 			* `is_required` - Whether the claim is required to be present in the JWT or not. If set to "false", the claim values will be matched only if the claim is present in the JWT. 
 			* `key` - Name of the claim.

@@ -48,10 +48,12 @@ resource "oci_apigateway_deployment" "test_deployment" {
 
 				#Optional
 				audiences = var.deployment_specification_request_policies_authentication_audiences
+				cache_key = var.deployment_specification_request_policies_authentication_cache_key
 				function_id = oci_functions_function.test_function.id
 				is_anonymous_access_allowed = var.deployment_specification_request_policies_authentication_is_anonymous_access_allowed
 				issuers = var.deployment_specification_request_policies_authentication_issuers
 				max_clock_skew_in_seconds = var.deployment_specification_request_policies_authentication_max_clock_skew_in_seconds
+				parameters = var.deployment_specification_request_policies_authentication_parameters
 				public_keys {
 					#Required
 					type = var.deployment_specification_request_policies_authentication_public_keys_type
@@ -78,6 +80,45 @@ resource "oci_apigateway_deployment" "test_deployment" {
 				token_auth_scheme = var.deployment_specification_request_policies_authentication_token_auth_scheme
 				token_header = var.deployment_specification_request_policies_authentication_token_header
 				token_query_param = var.deployment_specification_request_policies_authentication_token_query_param
+				validation_failure_policy {
+					#Required
+					type = var.deployment_specification_request_policies_authentication_validation_failure_policy_type
+
+					#Optional
+					response_code = var.deployment_specification_request_policies_authentication_validation_failure_policy_response_code
+					response_header_transformations {
+
+						#Optional
+						filter_headers {
+							#Required
+							items {
+								#Required
+								name = var.deployment_specification_request_policies_authentication_validation_failure_policy_response_header_transformations_filter_headers_items_name
+							}
+							type = var.deployment_specification_request_policies_authentication_validation_failure_policy_response_header_transformations_filter_headers_type
+						}
+						rename_headers {
+							#Required
+							items {
+								#Required
+								from = var.deployment_specification_request_policies_authentication_validation_failure_policy_response_header_transformations_rename_headers_items_from
+								to = var.deployment_specification_request_policies_authentication_validation_failure_policy_response_header_transformations_rename_headers_items_to
+							}
+						}
+						set_headers {
+							#Required
+							items {
+								#Required
+								name = var.deployment_specification_request_policies_authentication_validation_failure_policy_response_header_transformations_set_headers_items_name
+								values = var.deployment_specification_request_policies_authentication_validation_failure_policy_response_header_transformations_set_headers_items_values
+
+								#Optional
+								if_exists = var.deployment_specification_request_policies_authentication_validation_failure_policy_response_header_transformations_set_headers_items_if_exists
+							}
+						}
+					}
+					response_message = var.deployment_specification_request_policies_authentication_validation_failure_policy_response_message
+				}
 				verify_claims {
 
 					#Optional
@@ -360,10 +401,12 @@ The following arguments are supported:
 	* `request_policies` - (Optional) (Updatable) Global behavior applied to all requests received by the API.
 		* `authentication` - (Optional) (Updatable) Information on how to authenticate incoming requests.
 			* `audiences` - (Required when type=JWT_AUTHENTICATION) (Updatable) The list of intended recipients for the token.
+			* `cache_key` - (Applicable when type=CUSTOM_AUTHENTICATION) (Updatable) A list of keys from "parameters" attribute value whose values will be added to the cache key. 
 			* `function_id` - (Required when type=CUSTOM_AUTHENTICATION) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Functions function resource. 
 			* `is_anonymous_access_allowed` - (Optional) (Updatable) Whether an unauthenticated user may access the API. Must be "true" to enable ANONYMOUS route authorization. 
 			* `issuers` - (Required when type=JWT_AUTHENTICATION) (Updatable) A list of parties that could have issued the token.
 			* `max_clock_skew_in_seconds` - (Applicable when type=JWT_AUTHENTICATION) (Updatable) The maximum expected time difference between the system clocks of the token issuer and the API Gateway. 
+			* `parameters` - (Applicable when type=CUSTOM_AUTHENTICATION) (Updatable) A map where key is a user defined string and value is a context expressions whose values will be sent to the custom auth function. Values should contain an expression. Example: `{"foo": "request.header[abc]"}` 
 			* `public_keys` - (Required when type=JWT_AUTHENTICATION) (Updatable) A set of Public Keys that will be used to verify the JWT signature.
 				* `is_ssl_verify_disabled` - (Applicable when type=REMOTE_JWKS) (Updatable) Defines whether or not to uphold SSL verification. 
 				* `keys` - (Applicable when type=STATIC_KEYS) (Updatable) The set of static public keys.
@@ -383,6 +426,24 @@ The following arguments are supported:
 			* `token_header` - (Optional) (Updatable) The name of the header containing the authentication token.
 			* `token_query_param` - (Optional) (Updatable) The name of the query parameter containing the authentication token.
 			* `type` - (Required) (Updatable) Type of the authentication policy to use.
+			* `validation_failure_policy` - (Applicable when type=CUSTOM_AUTHENTICATION) (Updatable) Policy for defining behaviour on validation failure.
+				* `response_code` - (Optional) (Updatable) HTTP response code, can include context variables.
+				* `response_header_transformations` - (Optional) (Updatable) A set of transformations to apply to HTTP headers that pass through the gateway. 
+					* `filter_headers` - (Optional) (Updatable) Filter HTTP headers as they pass through the gateway.  The gateway applies filters after other transformations, so any headers set or renamed must also be listed here when using an ALLOW type policy. 
+						* `items` - (Required) (Updatable) The list of headers. 
+							* `name` - (Required) (Updatable) The case-insensitive name of the header.  This name must be unique across transformation policies. 
+						* `type` - (Required) (Updatable) BLOCK drops any headers that are in the list of items, so it acts as an exclusion list.  ALLOW permits only the headers in the list and removes all others, so it acts as an inclusion list. 
+					* `rename_headers` - (Optional) (Updatable) Rename HTTP headers as they pass through the gateway. 
+						* `items` - (Required) (Updatable) The list of headers.
+							* `from` - (Required) (Updatable) The original case-insensitive name of the header.  This name must be unique across transformation policies. 
+							* `to` - (Required) (Updatable) The new name of the header.  This name must be unique across transformation policies. 
+					* `set_headers` - (Optional) (Updatable) Set HTTP headers as they pass through the gateway. 
+						* `items` - (Required) (Updatable) The list of headers.
+							* `if_exists` - (Optional) (Updatable) If a header with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value. 
+							* `name` - (Required) (Updatable) The case-insensitive name of the header.  This name must be unique across transformation policies. 
+							* `values` - (Required) (Updatable) A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
+				* `response_message` - (Optional) (Updatable) HTTP response message.
+				* `type` - (Required) (Updatable) Type of the Validation failure Policy.
 			* `verify_claims` - (Applicable when type=JWT_AUTHENTICATION) (Updatable) A list of claims which should be validated to consider the token valid.
 				* `is_required` - (Applicable when type=JWT_AUTHENTICATION) (Updatable) Whether the claim is required to be present in the JWT or not. If set to "false", the claim values will be matched only if the claim is present in the JWT. 
 				* `key` - (Required when type=JWT_AUTHENTICATION) (Updatable) Name of the claim.
@@ -578,10 +639,12 @@ The following attributes are exported:
 	* `request_policies` - Global behavior applied to all requests received by the API.
 		* `authentication` - Information on how to authenticate incoming requests.
 			* `audiences` - The list of intended recipients for the token.
+			* `cache_key` - A list of keys from "parameters" attribute value whose values will be added to the cache key. 
 			* `function_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Functions function resource. 
 			* `is_anonymous_access_allowed` - Whether an unauthenticated user may access the API. Must be "true" to enable ANONYMOUS route authorization. 
 			* `issuers` - A list of parties that could have issued the token.
 			* `max_clock_skew_in_seconds` - The maximum expected time difference between the system clocks of the token issuer and the API Gateway. 
+			* `parameters` - A map where key is a user defined string and value is a context expressions whose values will be sent to the custom auth function. Values should contain an expression. Example: `{"foo": "request.header[abc]"}` 
 			* `public_keys` - A set of Public Keys that will be used to verify the JWT signature.
 				* `is_ssl_verify_disabled` - Defines whether or not to uphold SSL verification. 
 				* `keys` - The set of static public keys.
@@ -601,6 +664,24 @@ The following attributes are exported:
 			* `token_header` - The name of the header containing the authentication token.
 			* `token_query_param` - The name of the query parameter containing the authentication token.
 			* `type` - Type of the authentication policy to use.
+			* `validation_failure_policy` - Policy for defining behaviour on validation failure.
+				* `response_code` - HTTP response code, can include context variables.
+				* `response_header_transformations` - A set of transformations to apply to HTTP headers that pass through the gateway. 
+					* `filter_headers` - Filter HTTP headers as they pass through the gateway.  The gateway applies filters after other transformations, so any headers set or renamed must also be listed here when using an ALLOW type policy. 
+						* `items` - The list of headers. 
+							* `name` - The case-insensitive name of the header.  This name must be unique across transformation policies. 
+						* `type` - BLOCK drops any headers that are in the list of items, so it acts as an exclusion list.  ALLOW permits only the headers in the list and removes all others, so it acts as an inclusion list. 
+					* `rename_headers` - Rename HTTP headers as they pass through the gateway. 
+						* `items` - The list of headers.
+							* `from` - The original case-insensitive name of the header.  This name must be unique across transformation policies. 
+							* `to` - The new name of the header.  This name must be unique across transformation policies. 
+					* `set_headers` - Set HTTP headers as they pass through the gateway. 
+						* `items` - The list of headers.
+							* `if_exists` - If a header with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value. 
+							* `name` - The case-insensitive name of the header.  This name must be unique across transformation policies. 
+							* `values` - A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
+				* `response_message` - HTTP response message.
+				* `type` - Type of the Validation failure Policy.
 			* `verify_claims` - A list of claims which should be validated to consider the token valid.
 				* `is_required` - Whether the claim is required to be present in the JWT or not. If set to "false", the claim values will be matched only if the claim is present in the JWT. 
 				* `key` - Name of the claim.
