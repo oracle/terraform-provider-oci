@@ -190,6 +190,29 @@ The following attributes are exported:
 				* `value` - Value of the header.
 			* `is_ssl_verify_disabled` - Defines whether or not to uphold SSL verification. 
 			* `read_timeout_in_seconds` - Defines a timeout for reading a response from the proxied server. 
+			* `routing_backends` - List of backends to chose from for Dynamic Routing.
+				* `backend` - The backend to forward requests to.
+					* `body` - The body of the stock response from the mock backend.
+					* `connect_timeout_in_seconds` - Defines a timeout for establishing a connection with a proxied server.
+					* `function_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Functions function resource.
+					* `headers` - The headers of the stock response from the mock backend.
+						* `name` - Name of the header.
+						* `value` - Value of the header.
+					* `is_ssl_verify_disabled` - Defines whether or not to uphold SSL verification.
+					* `read_timeout_in_seconds` - Defines a timeout for reading a response from the proxied server.
+					* `send_timeout_in_seconds` - Defines a timeout for transmitting a request to the proxied server.
+					* `status` - The status code of the stock response from the mock backend.
+					* `type` - Type of the API backend.
+					* `url` - The url of the proxied server.
+				* `key` - Information around the values for selector of an authentication/ routing branch.
+					* `expression` - String describing the expression with wildcards.
+					* `is_default` - Information regarding whether this is the default branch.
+					* `name` - Name assigned to the branch.
+					* `type` - Information regarding type of the selection key.
+					* `values` - Information regarding the set of values of selector for which this branch should be selected.
+			* `selection_source` - Information around selector used for branching among routes/ authentication servers while dynamic routing/ authentication.
+				* `selector` - String describing the context variable used as selector.
+				* `type` - Type of the Selection source to use.
 			* `send_timeout_in_seconds` - Defines a timeout for transmitting a request to the proxied server. 
 			* `status` - The status code of the stock response from the mock backend.
 			* `type` - Type of the API backend.
