@@ -10,33 +10,53 @@
 package datascience
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// NotebookSessionShapeConfigDetails Details for the notebook session shape configuration.
-type NotebookSessionShapeConfigDetails struct {
-
-	// The total number of OCPUs available to the notebook session instance.
-	Ocpus *float32 `mandatory:"false" json:"ocpus"`
-
-	// The total amount of memory available to the notebook session instance, in gigabytes.
-	MemoryInGBs *float32 `mandatory:"false" json:"memoryInGBs"`
+// ImportModelArtifactDetails Details required for importing the artifact from service bucket
+type ImportModelArtifactDetails struct {
+	ArtifactImportDetails ArtifactImportDetails `mandatory:"true" json:"artifactImportDetails"`
 }
 
-func (m NotebookSessionShapeConfigDetails) String() string {
+func (m ImportModelArtifactDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m NotebookSessionShapeConfigDetails) ValidateEnumValue() (bool, error) {
+func (m ImportModelArtifactDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *ImportModelArtifactDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		ArtifactImportDetails artifactimportdetails `json:"artifactImportDetails"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	nn, e = model.ArtifactImportDetails.UnmarshalPolymorphicJSON(model.ArtifactImportDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ArtifactImportDetails = nn.(ArtifactImportDetails)
+	} else {
+		m.ArtifactImportDetails = nil
+	}
+
+	return
 }
