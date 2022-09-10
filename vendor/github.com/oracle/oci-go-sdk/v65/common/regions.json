@@ -256,5 +256,11 @@
         "realmDomainComponent": "oraclecloud.com", 
         "regionIdentifier": "mx-queretaro-1", 
         "realmKey": "oc1"
+    }, 
+    {
+        "regionKey": "mad", 
+        "realmDomainComponent": "oraclecloud.com", 
+        "regionIdentifier": "eu-madrid-1", 
+        "realmKey": "oc1"
     }
 ]
