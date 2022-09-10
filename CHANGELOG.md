@@ -1,3 +1,14 @@
+## 4.93.0 (Unreleased)
+
+### Added
+- Support for API Gateway Dynamic Routing
+- Support for API Gateway Dynamic Authentication
+- Support for API Gateway Request Based Authorization
+- Import Export Artifact Datascience
+- Resource discovery support export attribute as variables
+### Bug Fix
+- resource discovery deadlocks and improve error handling
+
 ## 4.92.0 (Unreleased)
 
 ### Added
