@@ -1842,6 +1842,69 @@ func (client DataScienceClient) deleteProject(ctx context.Context, request commo
 	return response, err
 }
 
+// ExportModelArtifact Export model artifact from source to the service bucket
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ExportModelArtifact.go.html to see an example of how to use ExportModelArtifact API.
+// A default retry strategy applies to this operation ExportModelArtifact()
+func (client DataScienceClient) ExportModelArtifact(ctx context.Context, request ExportModelArtifactRequest) (response ExportModelArtifactResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.exportModelArtifact, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ExportModelArtifactResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ExportModelArtifactResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ExportModelArtifactResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ExportModelArtifactResponse")
+	}
+	return
+}
+
+// exportModelArtifact implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) exportModelArtifact(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/models/{modelId}/actions/exportArtifact", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ExportModelArtifactResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/ExportModelArtifact"
+		err = common.PostProcessServiceError(err, "DataScience", "ExportModelArtifact", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetJob Gets a job.
 //
 // See also
@@ -2367,9 +2430,10 @@ func (client DataScienceClient) getProject(ctx context.Context, request common.O
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client DataScienceClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2528,6 +2592,63 @@ func (client DataScienceClient) headModelArtifact(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/HeadModelArtifact"
 		err = common.PostProcessServiceError(err, "DataScience", "HeadModelArtifact", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ImportModelArtifact Import model artifact from service bucket
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ImportModelArtifact.go.html to see an example of how to use ImportModelArtifact API.
+func (client DataScienceClient) ImportModelArtifact(ctx context.Context, request ImportModelArtifactRequest) (response ImportModelArtifactResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.importModelArtifact, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ImportModelArtifactResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ImportModelArtifactResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ImportModelArtifactResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ImportModelArtifactResponse")
+	}
+	return
+}
+
+// importModelArtifact implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) importModelArtifact(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/models/{modelId}/actions/importArtifact", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ImportModelArtifactResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/ImportModelArtifact"
+		err = common.PostProcessServiceError(err, "DataScience", "ImportModelArtifact", apiReferenceLink)
 		return response, err
 	}
 
@@ -3120,9 +3241,10 @@ func (client DataScienceClient) listProjects(ctx context.Context, request common
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client DataScienceClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3177,9 +3299,10 @@ func (client DataScienceClient) listWorkRequestErrors(ctx context.Context, reque
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client DataScienceClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3234,9 +3357,10 @@ func (client DataScienceClient) listWorkRequestLogs(ctx context.Context, request
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client DataScienceClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

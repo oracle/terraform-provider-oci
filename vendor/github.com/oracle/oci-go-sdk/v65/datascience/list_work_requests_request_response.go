@@ -143,6 +143,8 @@ const (
 	ListWorkRequestsOperationTypeNotebookSessionDelete     ListWorkRequestsOperationTypeEnum = "NOTEBOOK_SESSION_DELETE"
 	ListWorkRequestsOperationTypeNotebookSessionActivate   ListWorkRequestsOperationTypeEnum = "NOTEBOOK_SESSION_ACTIVATE"
 	ListWorkRequestsOperationTypeNotebookSessionDeactivate ListWorkRequestsOperationTypeEnum = "NOTEBOOK_SESSION_DEACTIVATE"
+	ListWorkRequestsOperationTypeExportModelArtifact       ListWorkRequestsOperationTypeEnum = "EXPORT_MODEL_ARTIFACT"
+	ListWorkRequestsOperationTypeImportModelArtifact       ListWorkRequestsOperationTypeEnum = "IMPORT_MODEL_ARTIFACT"
 	ListWorkRequestsOperationTypeModelDeploymentCreate     ListWorkRequestsOperationTypeEnum = "MODEL_DEPLOYMENT_CREATE"
 	ListWorkRequestsOperationTypeModelDeploymentDelete     ListWorkRequestsOperationTypeEnum = "MODEL_DEPLOYMENT_DELETE"
 	ListWorkRequestsOperationTypeModelDeploymentActivate   ListWorkRequestsOperationTypeEnum = "MODEL_DEPLOYMENT_ACTIVATE"
@@ -158,6 +160,8 @@ var mappingListWorkRequestsOperationTypeEnum = map[string]ListWorkRequestsOperat
 	"NOTEBOOK_SESSION_DELETE":     ListWorkRequestsOperationTypeNotebookSessionDelete,
 	"NOTEBOOK_SESSION_ACTIVATE":   ListWorkRequestsOperationTypeNotebookSessionActivate,
 	"NOTEBOOK_SESSION_DEACTIVATE": ListWorkRequestsOperationTypeNotebookSessionDeactivate,
+	"EXPORT_MODEL_ARTIFACT":       ListWorkRequestsOperationTypeExportModelArtifact,
+	"IMPORT_MODEL_ARTIFACT":       ListWorkRequestsOperationTypeImportModelArtifact,
 	"MODEL_DEPLOYMENT_CREATE":     ListWorkRequestsOperationTypeModelDeploymentCreate,
 	"MODEL_DEPLOYMENT_DELETE":     ListWorkRequestsOperationTypeModelDeploymentDelete,
 	"MODEL_DEPLOYMENT_ACTIVATE":   ListWorkRequestsOperationTypeModelDeploymentActivate,
@@ -173,6 +177,8 @@ var mappingListWorkRequestsOperationTypeEnumLowerCase = map[string]ListWorkReque
 	"notebook_session_delete":     ListWorkRequestsOperationTypeNotebookSessionDelete,
 	"notebook_session_activate":   ListWorkRequestsOperationTypeNotebookSessionActivate,
 	"notebook_session_deactivate": ListWorkRequestsOperationTypeNotebookSessionDeactivate,
+	"export_model_artifact":       ListWorkRequestsOperationTypeExportModelArtifact,
+	"import_model_artifact":       ListWorkRequestsOperationTypeImportModelArtifact,
 	"model_deployment_create":     ListWorkRequestsOperationTypeModelDeploymentCreate,
 	"model_deployment_delete":     ListWorkRequestsOperationTypeModelDeploymentDelete,
 	"model_deployment_activate":   ListWorkRequestsOperationTypeModelDeploymentActivate,
@@ -199,6 +205,8 @@ func GetListWorkRequestsOperationTypeEnumStringValues() []string {
 		"NOTEBOOK_SESSION_DELETE",
 		"NOTEBOOK_SESSION_ACTIVATE",
 		"NOTEBOOK_SESSION_DEACTIVATE",
+		"EXPORT_MODEL_ARTIFACT",
+		"IMPORT_MODEL_ARTIFACT",
 		"MODEL_DEPLOYMENT_CREATE",
 		"MODEL_DEPLOYMENT_DELETE",
 		"MODEL_DEPLOYMENT_ACTIVATE",

@@ -10,33 +10,53 @@
 package datascience
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// NotebookSessionShapeConfigDetails Details for the notebook session shape configuration.
-type NotebookSessionShapeConfigDetails struct {
-
-	// The total number of OCPUs available to the notebook session instance.
-	Ocpus *float32 `mandatory:"false" json:"ocpus"`
-
-	// The total amount of memory available to the notebook session instance, in gigabytes.
-	MemoryInGBs *float32 `mandatory:"false" json:"memoryInGBs"`
+// ExportModelArtifactDetails Details required for exporting the model artifact from source to service bucket
+type ExportModelArtifactDetails struct {
+	ArtifactExportDetails ArtifactExportDetails `mandatory:"true" json:"artifactExportDetails"`
 }
 
-func (m NotebookSessionShapeConfigDetails) String() string {
+func (m ExportModelArtifactDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m NotebookSessionShapeConfigDetails) ValidateEnumValue() (bool, error) {
+func (m ExportModelArtifactDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *ExportModelArtifactDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		ArtifactExportDetails artifactexportdetails `json:"artifactExportDetails"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	nn, e = model.ArtifactExportDetails.UnmarshalPolymorphicJSON(model.ArtifactExportDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ArtifactExportDetails = nn.(ArtifactExportDetails)
+	} else {
+		m.ArtifactExportDetails = nil
+	}
+
+	return
 }
