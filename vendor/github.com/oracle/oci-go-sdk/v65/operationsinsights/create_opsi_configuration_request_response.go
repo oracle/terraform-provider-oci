@@ -28,6 +28,19 @@ type CreateOpsiConfigurationRequest struct {
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Optional fields to return as part of OpsiConfiguration object. Unless requested, these fields will not be returned by default.
+	OpsiConfigField []CreateOpsiConfigurationOpsiConfigFieldEnum `contributesTo:"query" name:"opsiConfigField" omitEmpty:"true" collectionFormat:"multi"`
+
+	// Specifies whether only customized configuration items or only non-customized configuration items or both have to be returned.
+	// By default only customized configuration items are returned.
+	ConfigItemCustomStatus []CreateOpsiConfigurationConfigItemCustomStatusEnum `contributesTo:"query" name:"configItemCustomStatus" omitEmpty:"true" collectionFormat:"multi"`
+
+	// Returns the configuration items filtered by applicable contexts sent in this param. By default configuration items of all applicable contexts are returned.
+	ConfigItemsApplicableContext []string `contributesTo:"query" name:"configItemsApplicableContext" collectionFormat:"multi"`
+
+	// Specifies the fields to return in a config item summary.
+	ConfigItemField []CreateOpsiConfigurationConfigItemFieldEnum `contributesTo:"query" name:"configItemField" omitEmpty:"true" collectionFormat:"multi"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -64,6 +77,24 @@ func (request CreateOpsiConfigurationRequest) RetryPolicy() *common.RetryPolicy 
 // Not recommended for calling this function directly
 func (request CreateOpsiConfigurationRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	for _, val := range request.OpsiConfigField {
+		if _, ok := GetMappingCreateOpsiConfigurationOpsiConfigFieldEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OpsiConfigField: %s. Supported values are: %s.", val, strings.Join(GetCreateOpsiConfigurationOpsiConfigFieldEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.ConfigItemCustomStatus {
+		if _, ok := GetMappingCreateOpsiConfigurationConfigItemCustomStatusEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConfigItemCustomStatus: %s. Supported values are: %s.", val, strings.Join(GetCreateOpsiConfigurationConfigItemCustomStatusEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.ConfigItemField {
+		if _, ok := GetMappingCreateOpsiConfigurationConfigItemFieldEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConfigItemField: %s. Supported values are: %s.", val, strings.Join(GetCreateOpsiConfigurationConfigItemFieldEnumStringValues(), ",")))
+		}
+	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -97,4 +128,138 @@ func (response CreateOpsiConfigurationResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response CreateOpsiConfigurationResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// CreateOpsiConfigurationOpsiConfigFieldEnum Enum with underlying type: string
+type CreateOpsiConfigurationOpsiConfigFieldEnum string
+
+// Set of constants representing the allowable values for CreateOpsiConfigurationOpsiConfigFieldEnum
+const (
+	CreateOpsiConfigurationOpsiConfigFieldConfigitems CreateOpsiConfigurationOpsiConfigFieldEnum = "configItems"
+)
+
+var mappingCreateOpsiConfigurationOpsiConfigFieldEnum = map[string]CreateOpsiConfigurationOpsiConfigFieldEnum{
+	"configItems": CreateOpsiConfigurationOpsiConfigFieldConfigitems,
+}
+
+var mappingCreateOpsiConfigurationOpsiConfigFieldEnumLowerCase = map[string]CreateOpsiConfigurationOpsiConfigFieldEnum{
+	"configitems": CreateOpsiConfigurationOpsiConfigFieldConfigitems,
+}
+
+// GetCreateOpsiConfigurationOpsiConfigFieldEnumValues Enumerates the set of values for CreateOpsiConfigurationOpsiConfigFieldEnum
+func GetCreateOpsiConfigurationOpsiConfigFieldEnumValues() []CreateOpsiConfigurationOpsiConfigFieldEnum {
+	values := make([]CreateOpsiConfigurationOpsiConfigFieldEnum, 0)
+	for _, v := range mappingCreateOpsiConfigurationOpsiConfigFieldEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateOpsiConfigurationOpsiConfigFieldEnumStringValues Enumerates the set of values in String for CreateOpsiConfigurationOpsiConfigFieldEnum
+func GetCreateOpsiConfigurationOpsiConfigFieldEnumStringValues() []string {
+	return []string{
+		"configItems",
+	}
+}
+
+// GetMappingCreateOpsiConfigurationOpsiConfigFieldEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateOpsiConfigurationOpsiConfigFieldEnum(val string) (CreateOpsiConfigurationOpsiConfigFieldEnum, bool) {
+	enum, ok := mappingCreateOpsiConfigurationOpsiConfigFieldEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CreateOpsiConfigurationConfigItemCustomStatusEnum Enum with underlying type: string
+type CreateOpsiConfigurationConfigItemCustomStatusEnum string
+
+// Set of constants representing the allowable values for CreateOpsiConfigurationConfigItemCustomStatusEnum
+const (
+	CreateOpsiConfigurationConfigItemCustomStatusCustomized    CreateOpsiConfigurationConfigItemCustomStatusEnum = "customized"
+	CreateOpsiConfigurationConfigItemCustomStatusNoncustomized CreateOpsiConfigurationConfigItemCustomStatusEnum = "nonCustomized"
+)
+
+var mappingCreateOpsiConfigurationConfigItemCustomStatusEnum = map[string]CreateOpsiConfigurationConfigItemCustomStatusEnum{
+	"customized":    CreateOpsiConfigurationConfigItemCustomStatusCustomized,
+	"nonCustomized": CreateOpsiConfigurationConfigItemCustomStatusNoncustomized,
+}
+
+var mappingCreateOpsiConfigurationConfigItemCustomStatusEnumLowerCase = map[string]CreateOpsiConfigurationConfigItemCustomStatusEnum{
+	"customized":    CreateOpsiConfigurationConfigItemCustomStatusCustomized,
+	"noncustomized": CreateOpsiConfigurationConfigItemCustomStatusNoncustomized,
+}
+
+// GetCreateOpsiConfigurationConfigItemCustomStatusEnumValues Enumerates the set of values for CreateOpsiConfigurationConfigItemCustomStatusEnum
+func GetCreateOpsiConfigurationConfigItemCustomStatusEnumValues() []CreateOpsiConfigurationConfigItemCustomStatusEnum {
+	values := make([]CreateOpsiConfigurationConfigItemCustomStatusEnum, 0)
+	for _, v := range mappingCreateOpsiConfigurationConfigItemCustomStatusEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateOpsiConfigurationConfigItemCustomStatusEnumStringValues Enumerates the set of values in String for CreateOpsiConfigurationConfigItemCustomStatusEnum
+func GetCreateOpsiConfigurationConfigItemCustomStatusEnumStringValues() []string {
+	return []string{
+		"customized",
+		"nonCustomized",
+	}
+}
+
+// GetMappingCreateOpsiConfigurationConfigItemCustomStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateOpsiConfigurationConfigItemCustomStatusEnum(val string) (CreateOpsiConfigurationConfigItemCustomStatusEnum, bool) {
+	enum, ok := mappingCreateOpsiConfigurationConfigItemCustomStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CreateOpsiConfigurationConfigItemFieldEnum Enum with underlying type: string
+type CreateOpsiConfigurationConfigItemFieldEnum string
+
+// Set of constants representing the allowable values for CreateOpsiConfigurationConfigItemFieldEnum
+const (
+	CreateOpsiConfigurationConfigItemFieldName               CreateOpsiConfigurationConfigItemFieldEnum = "name"
+	CreateOpsiConfigurationConfigItemFieldValue              CreateOpsiConfigurationConfigItemFieldEnum = "value"
+	CreateOpsiConfigurationConfigItemFieldDefaultvalue       CreateOpsiConfigurationConfigItemFieldEnum = "defaultValue"
+	CreateOpsiConfigurationConfigItemFieldMetadata           CreateOpsiConfigurationConfigItemFieldEnum = "metadata"
+	CreateOpsiConfigurationConfigItemFieldApplicablecontexts CreateOpsiConfigurationConfigItemFieldEnum = "applicableContexts"
+)
+
+var mappingCreateOpsiConfigurationConfigItemFieldEnum = map[string]CreateOpsiConfigurationConfigItemFieldEnum{
+	"name":               CreateOpsiConfigurationConfigItemFieldName,
+	"value":              CreateOpsiConfigurationConfigItemFieldValue,
+	"defaultValue":       CreateOpsiConfigurationConfigItemFieldDefaultvalue,
+	"metadata":           CreateOpsiConfigurationConfigItemFieldMetadata,
+	"applicableContexts": CreateOpsiConfigurationConfigItemFieldApplicablecontexts,
+}
+
+var mappingCreateOpsiConfigurationConfigItemFieldEnumLowerCase = map[string]CreateOpsiConfigurationConfigItemFieldEnum{
+	"name":               CreateOpsiConfigurationConfigItemFieldName,
+	"value":              CreateOpsiConfigurationConfigItemFieldValue,
+	"defaultvalue":       CreateOpsiConfigurationConfigItemFieldDefaultvalue,
+	"metadata":           CreateOpsiConfigurationConfigItemFieldMetadata,
+	"applicablecontexts": CreateOpsiConfigurationConfigItemFieldApplicablecontexts,
+}
+
+// GetCreateOpsiConfigurationConfigItemFieldEnumValues Enumerates the set of values for CreateOpsiConfigurationConfigItemFieldEnum
+func GetCreateOpsiConfigurationConfigItemFieldEnumValues() []CreateOpsiConfigurationConfigItemFieldEnum {
+	values := make([]CreateOpsiConfigurationConfigItemFieldEnum, 0)
+	for _, v := range mappingCreateOpsiConfigurationConfigItemFieldEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateOpsiConfigurationConfigItemFieldEnumStringValues Enumerates the set of values in String for CreateOpsiConfigurationConfigItemFieldEnum
+func GetCreateOpsiConfigurationConfigItemFieldEnumStringValues() []string {
+	return []string{
+		"name",
+		"value",
+		"defaultValue",
+		"metadata",
+		"applicableContexts",
+	}
+}
+
+// GetMappingCreateOpsiConfigurationConfigItemFieldEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateOpsiConfigurationConfigItemFieldEnum(val string) (CreateOpsiConfigurationConfigItemFieldEnum, bool) {
+	enum, ok := mappingCreateOpsiConfigurationConfigItemFieldEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

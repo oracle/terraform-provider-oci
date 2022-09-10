@@ -22,6 +22,9 @@ type PipelineMlJobStepDetails struct {
 	// The name of the step. It must be unique within the pipeline. This is used to create the pipeline DAG.
 	StepName *string `mandatory:"true" json:"stepName"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job to be used as a step.
+	JobId *string `mandatory:"true" json:"jobId"`
+
 	// A short description of the step.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -29,9 +32,6 @@ type PipelineMlJobStepDetails struct {
 	DependsOn []string `mandatory:"false" json:"dependsOn"`
 
 	StepConfigurationDetails *PipelineStepConfigurationDetails `mandatory:"false" json:"stepConfigurationDetails"`
-
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job to be used as a step.
-	JobId *string `mandatory:"false" json:"jobId"`
 }
 
 //GetStepName returns StepName

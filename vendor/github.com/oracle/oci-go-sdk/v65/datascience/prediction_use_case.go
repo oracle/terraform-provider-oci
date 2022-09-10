@@ -55,6 +55,10 @@ func (m *predictionusecase) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 
 	var err error
 	switch m.PredictionType {
+	case "BATCH":
+		mm := BatchPredictionUseCase{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ONLINE":
 		mm := OnlinePredictionUseCase{}
 		err = json.Unmarshal(data, &mm)

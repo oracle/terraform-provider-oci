@@ -11,6 +11,7 @@
 package cloudguard
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -31,6 +32,8 @@ type UpdateTargetDetails struct {
 
 	// The details of target responder recipes to be updated.
 	TargetResponderRecipes []UpdateTargetResponderRecipe `mandatory:"false" json:"targetResponderRecipes"`
+
+	TargetDetails UpdateTargetAdditionalDetails `mandatory:"false" json:"targetDetails"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -59,4 +62,52 @@ func (m UpdateTargetDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *UpdateTargetDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DisplayName            *string                           `json:"displayName"`
+		LifecycleState         LifecycleStateEnum                `json:"lifecycleState"`
+		TargetDetectorRecipes  []UpdateTargetDetectorRecipe      `json:"targetDetectorRecipes"`
+		TargetResponderRecipes []UpdateTargetResponderRecipe     `json:"targetResponderRecipes"`
+		TargetDetails          updatetargetadditionaldetails     `json:"targetDetails"`
+		FreeformTags           map[string]string                 `json:"freeformTags"`
+		DefinedTags            map[string]map[string]interface{} `json:"definedTags"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DisplayName = model.DisplayName
+
+	m.LifecycleState = model.LifecycleState
+
+	m.TargetDetectorRecipes = make([]UpdateTargetDetectorRecipe, len(model.TargetDetectorRecipes))
+	for i, n := range model.TargetDetectorRecipes {
+		m.TargetDetectorRecipes[i] = n
+	}
+
+	m.TargetResponderRecipes = make([]UpdateTargetResponderRecipe, len(model.TargetResponderRecipes))
+	for i, n := range model.TargetResponderRecipes {
+		m.TargetResponderRecipes[i] = n
+	}
+
+	nn, e = model.TargetDetails.UnmarshalPolymorphicJSON(model.TargetDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.TargetDetails = nn.(UpdateTargetAdditionalDetails)
+	} else {
+		m.TargetDetails = nil
+	}
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	return
 }

@@ -11,6 +11,7 @@
 package cloudguard
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -45,6 +46,8 @@ type CreateTargetDetails struct {
 	// The current state of the DetectorRule.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
+	TargetDetails CreateTargetAdditionalDetails `mandatory:"false" json:"targetDetails"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	// Avoid entering confidential information.
@@ -75,4 +78,64 @@ func (m CreateTargetDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateTargetDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Description            *string                              `json:"description"`
+		TargetDetectorRecipes  []CreateTargetDetectorRecipeDetails  `json:"targetDetectorRecipes"`
+		TargetResponderRecipes []CreateTargetResponderRecipeDetails `json:"targetResponderRecipes"`
+		LifecycleState         LifecycleStateEnum                   `json:"lifecycleState"`
+		TargetDetails          createtargetadditionaldetails        `json:"targetDetails"`
+		FreeformTags           map[string]string                    `json:"freeformTags"`
+		DefinedTags            map[string]map[string]interface{}    `json:"definedTags"`
+		DisplayName            *string                              `json:"displayName"`
+		CompartmentId          *string                              `json:"compartmentId"`
+		TargetResourceType     TargetResourceTypeEnum               `json:"targetResourceType"`
+		TargetResourceId       *string                              `json:"targetResourceId"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Description = model.Description
+
+	m.TargetDetectorRecipes = make([]CreateTargetDetectorRecipeDetails, len(model.TargetDetectorRecipes))
+	for i, n := range model.TargetDetectorRecipes {
+		m.TargetDetectorRecipes[i] = n
+	}
+
+	m.TargetResponderRecipes = make([]CreateTargetResponderRecipeDetails, len(model.TargetResponderRecipes))
+	for i, n := range model.TargetResponderRecipes {
+		m.TargetResponderRecipes[i] = n
+	}
+
+	m.LifecycleState = model.LifecycleState
+
+	nn, e = model.TargetDetails.UnmarshalPolymorphicJSON(model.TargetDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.TargetDetails = nn.(CreateTargetAdditionalDetails)
+	} else {
+		m.TargetDetails = nil
+	}
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.DisplayName = model.DisplayName
+
+	m.CompartmentId = model.CompartmentId
+
+	m.TargetResourceType = model.TargetResourceType
+
+	m.TargetResourceId = model.TargetResourceId
+
+	return
 }

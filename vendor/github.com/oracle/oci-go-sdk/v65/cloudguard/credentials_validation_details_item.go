@@ -11,69 +11,39 @@
 package cloudguard
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// TargetDetails Details specific to the target type.
-type TargetDetails interface {
+// CredentialsValidationDetailsItem Credentials validation response
+type CredentialsValidationDetailsItem struct {
+
+	// Type of service (e.g. FA, OAM etc)
+	ServiceType ServiceTypeEnum `mandatory:"true" json:"serviceType"`
+
+	// URL of a service
+	Url *string `mandatory:"false" json:"url"`
+
+	// Credetial validation response code
+	ResponseCode *int `mandatory:"false" json:"responseCode"`
+
+	// Credetial validation response status
+	ResponseStatus *string `mandatory:"false" json:"responseStatus"`
 }
 
-type targetdetails struct {
-	JsonData           []byte
-	TargetResourceType string `json:"targetResourceType"`
-}
-
-// UnmarshalJSON unmarshals json
-func (m *targetdetails) UnmarshalJSON(data []byte) error {
-	m.JsonData = data
-	type Unmarshalertargetdetails targetdetails
-	s := struct {
-		Model Unmarshalertargetdetails
-	}{}
-	err := json.Unmarshal(data, &s.Model)
-	if err != nil {
-		return err
-	}
-	m.TargetResourceType = s.Model.TargetResourceType
-
-	return err
-}
-
-// UnmarshalPolymorphicJSON unmarshals polymorphic json
-func (m *targetdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
-
-	if data == nil || string(data) == "null" {
-		return nil, nil
-	}
-
-	var err error
-	switch m.TargetResourceType {
-	case "SECURITY_ZONE":
-		mm := SecurityZoneTargetDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "FACLOUD":
-		mm := FaTargetDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	default:
-		common.Logf("Recieved unsupported enum value for TargetDetails: %s.", m.TargetResourceType)
-		return *m, nil
-	}
-}
-
-func (m targetdetails) String() string {
+func (m CredentialsValidationDetailsItem) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m targetdetails) ValidateEnumValue() (bool, error) {
+func (m CredentialsValidationDetailsItem) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingServiceTypeEnum(string(m.ServiceType)); !ok && m.ServiceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ServiceType: %s. Supported values are: %s.", m.ServiceType, strings.Join(GetServiceTypeEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

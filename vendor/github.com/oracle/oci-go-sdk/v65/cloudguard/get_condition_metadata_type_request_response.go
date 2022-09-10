@@ -106,6 +106,7 @@ const (
 	GetConditionMetadataTypeConditionMetadataTypeIdSecuritycondition   GetConditionMetadataTypeConditionMetadataTypeIdEnum = "SecurityCondition"
 	GetConditionMetadataTypeConditionMetadataTypeIdCloudguardcondition GetConditionMetadataTypeConditionMetadataTypeIdEnum = "CloudGuardCondition"
 	GetConditionMetadataTypeConditionMetadataTypeIdThreatcondition     GetConditionMetadataTypeConditionMetadataTypeIdEnum = "ThreatCondition"
+	GetConditionMetadataTypeConditionMetadataTypeIdFaactivitycondition GetConditionMetadataTypeConditionMetadataTypeIdEnum = "FaActivityCondition"
 )
 
 var mappingGetConditionMetadataTypeConditionMetadataTypeIdEnum = map[string]GetConditionMetadataTypeConditionMetadataTypeIdEnum{
@@ -113,6 +114,7 @@ var mappingGetConditionMetadataTypeConditionMetadataTypeIdEnum = map[string]GetC
 	"SecurityCondition":   GetConditionMetadataTypeConditionMetadataTypeIdSecuritycondition,
 	"CloudGuardCondition": GetConditionMetadataTypeConditionMetadataTypeIdCloudguardcondition,
 	"ThreatCondition":     GetConditionMetadataTypeConditionMetadataTypeIdThreatcondition,
+	"FaActivityCondition": GetConditionMetadataTypeConditionMetadataTypeIdFaactivitycondition,
 }
 
 var mappingGetConditionMetadataTypeConditionMetadataTypeIdEnumLowerCase = map[string]GetConditionMetadataTypeConditionMetadataTypeIdEnum{
@@ -120,6 +122,7 @@ var mappingGetConditionMetadataTypeConditionMetadataTypeIdEnumLowerCase = map[st
 	"securitycondition":   GetConditionMetadataTypeConditionMetadataTypeIdSecuritycondition,
 	"cloudguardcondition": GetConditionMetadataTypeConditionMetadataTypeIdCloudguardcondition,
 	"threatcondition":     GetConditionMetadataTypeConditionMetadataTypeIdThreatcondition,
+	"faactivitycondition": GetConditionMetadataTypeConditionMetadataTypeIdFaactivitycondition,
 }
 
 // GetGetConditionMetadataTypeConditionMetadataTypeIdEnumValues Enumerates the set of values for GetConditionMetadataTypeConditionMetadataTypeIdEnum
@@ -138,6 +141,7 @@ func GetGetConditionMetadataTypeConditionMetadataTypeIdEnumStringValues() []stri
 		"SecurityCondition",
 		"CloudGuardCondition",
 		"ThreatCondition",
+		"FaActivityCondition",
 	}
 }
 

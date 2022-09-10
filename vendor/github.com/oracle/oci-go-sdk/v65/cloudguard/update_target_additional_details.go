@@ -17,21 +17,21 @@ import (
 	"strings"
 )
 
-// TargetDetails Details specific to the target type.
-type TargetDetails interface {
+// UpdateTargetAdditionalDetails Additional details of a target.
+type UpdateTargetAdditionalDetails interface {
 }
 
-type targetdetails struct {
+type updatetargetadditionaldetails struct {
 	JsonData           []byte
 	TargetResourceType string `json:"targetResourceType"`
 }
 
 // UnmarshalJSON unmarshals json
-func (m *targetdetails) UnmarshalJSON(data []byte) error {
+func (m *updatetargetadditionaldetails) UnmarshalJSON(data []byte) error {
 	m.JsonData = data
-	type Unmarshalertargetdetails targetdetails
+	type Unmarshalerupdatetargetadditionaldetails updatetargetadditionaldetails
 	s := struct {
-		Model Unmarshalertargetdetails
+		Model Unmarshalerupdatetargetadditionaldetails
 	}{}
 	err := json.Unmarshal(data, &s.Model)
 	if err != nil {
@@ -43,7 +43,7 @@ func (m *targetdetails) UnmarshalJSON(data []byte) error {
 }
 
 // UnmarshalPolymorphicJSON unmarshals polymorphic json
-func (m *targetdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
+func (m *updatetargetadditionaldetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 
 	if data == nil || string(data) == "null" {
 		return nil, nil
@@ -51,28 +51,24 @@ func (m *targetdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 
 	var err error
 	switch m.TargetResourceType {
-	case "SECURITY_ZONE":
-		mm := SecurityZoneTargetDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "FACLOUD":
-		mm := FaTargetDetails{}
+		mm := UpdateFusionAppsTargetAdditionalDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for TargetDetails: %s.", m.TargetResourceType)
+		common.Logf("Recieved unsupported enum value for UpdateTargetAdditionalDetails: %s.", m.TargetResourceType)
 		return *m, nil
 	}
 }
 
-func (m targetdetails) String() string {
+func (m updatetargetadditionaldetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m targetdetails) ValidateEnumValue() (bool, error) {
+func (m updatetargetadditionaldetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

@@ -37,6 +37,12 @@ type UpdateMountTargetDetails struct {
 
 	Kerberos *UpdateKerberosDetails `mandatory:"false" json:"kerberos"`
 
+	// Immediately available IOPS performance for associated Mount Target.
+	BaselineIops *int64 `mandatory:"false" json:"baselineIops"`
+
+	// Maximum IOPS performance that associated Mount Target can scale to in response to load.
+	MaximumIops *int64 `mandatory:"false" json:"maximumIops"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	//  with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).

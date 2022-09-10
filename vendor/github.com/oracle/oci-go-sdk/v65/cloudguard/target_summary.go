@@ -11,6 +11,7 @@
 package cloudguard
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -36,6 +37,8 @@ type TargetSummary struct {
 
 	// DetectorTemplate Identifier, can be renamed
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	TargetSummaryAdditionalDetails TargetSummaryAdditionalDetails `mandatory:"false" json:"targetSummaryAdditionalDetails"`
 
 	// The date and time the target was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
@@ -85,4 +88,67 @@ func (m TargetSummary) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *TargetSummary) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DisplayName                    *string                           `json:"displayName"`
+		TargetSummaryAdditionalDetails targetsummaryadditionaldetails    `json:"targetSummaryAdditionalDetails"`
+		TimeCreated                    *common.SDKTime                   `json:"timeCreated"`
+		TimeUpdated                    *common.SDKTime                   `json:"timeUpdated"`
+		LifecycleState                 LifecycleStateEnum                `json:"lifecycleState"`
+		LifecyleDetails                *string                           `json:"lifecyleDetails"`
+		FreeformTags                   map[string]string                 `json:"freeformTags"`
+		DefinedTags                    map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags                     map[string]map[string]interface{} `json:"systemTags"`
+		Id                             *string                           `json:"id"`
+		CompartmentId                  *string                           `json:"compartmentId"`
+		TargetResourceType             TargetResourceTypeEnum            `json:"targetResourceType"`
+		TargetResourceId               *string                           `json:"targetResourceId"`
+		RecipeCount                    *int                              `json:"recipeCount"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DisplayName = model.DisplayName
+
+	nn, e = model.TargetSummaryAdditionalDetails.UnmarshalPolymorphicJSON(model.TargetSummaryAdditionalDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.TargetSummaryAdditionalDetails = nn.(TargetSummaryAdditionalDetails)
+	} else {
+		m.TargetSummaryAdditionalDetails = nil
+	}
+
+	m.TimeCreated = model.TimeCreated
+
+	m.TimeUpdated = model.TimeUpdated
+
+	m.LifecycleState = model.LifecycleState
+
+	m.LifecyleDetails = model.LifecyleDetails
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
+
+	m.Id = model.Id
+
+	m.CompartmentId = model.CompartmentId
+
+	m.TargetResourceType = model.TargetResourceType
+
+	m.TargetResourceId = model.TargetResourceId
+
+	m.RecipeCount = model.RecipeCount
+
+	return
 }

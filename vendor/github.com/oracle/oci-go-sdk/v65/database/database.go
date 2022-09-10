@@ -63,6 +63,12 @@ type Database struct {
 	// The date and time when the latest database backup was created.
 	LastBackupTimestamp *common.SDKTime `mandatory:"false" json:"lastBackupTimestamp"`
 
+	// The duration when the latest database backup created.
+	LastBackupDurationInSeconds *int `mandatory:"false" json:"lastBackupDurationInSeconds"`
+
+	// The date and time when the latest database backup failed.
+	LastFailedBackupTimestamp *common.SDKTime `mandatory:"false" json:"lastFailedBackupTimestamp"`
+
 	DbBackupConfig *DbBackupConfig `mandatory:"false" json:"dbBackupConfig"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

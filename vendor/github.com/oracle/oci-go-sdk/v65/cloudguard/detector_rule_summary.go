@@ -25,6 +25,9 @@ type DetectorRuleSummary struct {
 	// possible type of detectors
 	Detector DetectorEnumEnum `mandatory:"true" json:"detector"`
 
+	// The id of source detector rule
+	SourceDetectorRuleId *string `mandatory:"false" json:"sourceDetectorRuleId"`
+
 	// DetectorTemplate Identifier, can be renamed
 	DisplayName *string `mandatory:"false" json:"displayName"`
 

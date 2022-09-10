@@ -31,6 +31,9 @@ type DetectorRecipeDetectorRule struct {
 	// resource type of the configuration to which the rule is applied
 	ResourceType *string `mandatory:"true" json:"resourceType"`
 
+	// The id of source detector rule
+	SourceDetectorRuleId *string `mandatory:"false" json:"sourceDetectorRuleId"`
+
 	// Display name for DetectorRecipeDetectorRule.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 

@@ -11,68 +11,32 @@
 package cloudguard
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// TargetDetails Details specific to the target type.
-type TargetDetails interface {
+// MonitoringResourceSummary Monitoring resource details
+type MonitoringResourceSummary struct {
+
+	// Monitoring resource id
+	Id *string `mandatory:"false" json:"id"`
+
+	// Monitoring resource display name
+	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// List of monitoring resources
+	Items []MonitoringResourceSummary `mandatory:"false" json:"items"`
 }
 
-type targetdetails struct {
-	JsonData           []byte
-	TargetResourceType string `json:"targetResourceType"`
-}
-
-// UnmarshalJSON unmarshals json
-func (m *targetdetails) UnmarshalJSON(data []byte) error {
-	m.JsonData = data
-	type Unmarshalertargetdetails targetdetails
-	s := struct {
-		Model Unmarshalertargetdetails
-	}{}
-	err := json.Unmarshal(data, &s.Model)
-	if err != nil {
-		return err
-	}
-	m.TargetResourceType = s.Model.TargetResourceType
-
-	return err
-}
-
-// UnmarshalPolymorphicJSON unmarshals polymorphic json
-func (m *targetdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
-
-	if data == nil || string(data) == "null" {
-		return nil, nil
-	}
-
-	var err error
-	switch m.TargetResourceType {
-	case "SECURITY_ZONE":
-		mm := SecurityZoneTargetDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "FACLOUD":
-		mm := FaTargetDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	default:
-		common.Logf("Recieved unsupported enum value for TargetDetails: %s.", m.TargetResourceType)
-		return *m, nil
-	}
-}
-
-func (m targetdetails) String() string {
+func (m MonitoringResourceSummary) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m targetdetails) ValidateEnumValue() (bool, error) {
+func (m MonitoringResourceSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
