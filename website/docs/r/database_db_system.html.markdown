@@ -47,9 +47,11 @@ resource "oci_database_db_system" "test_db_system" {
 				#Optional
 				auto_backup_enabled = var.db_system_db_home_database_db_backup_config_auto_backup_enabled
 				auto_backup_window = var.db_system_db_home_database_db_backup_config_auto_backup_window
+				backup_deletion_policy = var.db_system_db_home_database_db_backup_config_backup_deletion_policy
 				backup_destination_details {
 
 					#Optional
+					dbrs_policy_id = oci_identity_policy.test_policy.id
 					id = var.db_system_db_home_database_db_backup_config_backup_destination_details_id
 					type = var.db_system_db_home_database_db_backup_config_backup_destination_details_type
 				}
@@ -192,7 +194,9 @@ The following arguments are supported:
 		* `db_backup_config` - (Applicable when source=DB_SYSTEM | NONE) (Updatable) Backup Options To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see [Getting Started with Policies](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm). 
 			* `auto_backup_enabled` - (Applicable when source=DB_SYSTEM | NONE) (Updatable) If set to true, configures automatic backups. If you previously used RMAN or dbcli to configure backups and then you switch to using the Console or the API for backups, a new backup configuration is created and associated with your database. This means that you can no longer rely on your previously configured unmanaged backups to work.
 			* `auto_backup_window` - (Applicable when source=DB_SYSTEM | NONE) (Updatable) Time window selected for initiating automatic backup for the database system. There are twelve available two-hour time windows. If no option is selected, a start time between 12:00 AM to 7:00 AM in the region of the database is automatically chosen. For example, if the user selects SLOT_TWO from the enum list, the automatic backup job will start in between 2:00 AM (inclusive) to 4:00 AM (exclusive).  Example: `SLOT_TWO` 
+			* `backup_deletion_policy` - (Applicable when source=DB_SYSTEM | NONE) This defines when the backups will be deleted. - IMMEDIATE option keep the backup for predefined time i.e 72 hours and then delete permanently... - RETAIN will keep the backups as per the policy defined for database backups.
 			* `backup_destination_details` - (Applicable when source=DB_SYSTEM | NONE) (Updatable) Backup destination details.
+				* `dbrs_policy_id` - (Applicable when source=DB_SYSTEM | NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DBRS policy used for backup.
 				* `id` - (Applicable when source=DB_SYSTEM | NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
 				* `type` - (Required when source=DB_SYSTEM | NONE) Type of the database backup destination.
 			* `recovery_window_in_days` - (Applicable when source=DB_SYSTEM | NONE) (Updatable) Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups only. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. 
