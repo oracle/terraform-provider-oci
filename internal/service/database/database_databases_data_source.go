@@ -196,8 +196,16 @@ func (s *DatabaseDatabasesDataSourceCrud) SetData() error {
 			database["kms_key_version_id"] = *r.KmsKeyVersionId
 		}
 
+		if r.LastBackupDurationInSeconds != nil {
+			database["last_backup_duration_in_seconds"] = *r.LastBackupDurationInSeconds
+		}
+
 		if r.LastBackupTimestamp != nil {
 			database["last_backup_timestamp"] = r.LastBackupTimestamp.String()
+		}
+
+		if r.LastFailedBackupTimestamp != nil {
+			database["last_failed_backup_timestamp"] = r.LastFailedBackupTimestamp.String()
 		}
 
 		if r.LifecycleDetails != nil {

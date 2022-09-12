@@ -144,6 +144,10 @@ func DatabaseDatabaseUpgradeResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"backup_deletion_policy": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"backup_destination_details": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -154,6 +158,10 @@ func DatabaseDatabaseUpgradeResource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"dbrs_policy_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"id": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -226,7 +234,15 @@ func DatabaseDatabaseUpgradeResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"last_backup_duration_in_seconds": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"last_backup_timestamp": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"last_failed_backup_timestamp": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -428,8 +444,16 @@ func (s *DatabaseDatabaseUpgradeResourceCrud) SetData() error {
 		s.D.Set("kms_key_version_id", *s.Res.KmsKeyVersionId)
 	}
 
+	if s.Res.LastBackupDurationInSeconds != nil {
+		s.D.Set("last_backup_duration_in_seconds", *s.Res.LastBackupDurationInSeconds)
+	}
+
 	if s.Res.LastBackupTimestamp != nil {
 		s.D.Set("last_backup_timestamp", s.Res.LastBackupTimestamp.String())
+	}
+
+	if s.Res.LastFailedBackupTimestamp != nil {
+		s.D.Set("last_failed_backup_timestamp", s.Res.LastFailedBackupTimestamp.String())
 	}
 
 	if s.Res.LifecycleDetails != nil {

@@ -32,6 +32,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 			type = var.autonomous_container_database_backup_config_backup_destination_details_type
 
 			#Optional
+			dbrs_policy_id = oci_identity_policy.test_policy.id
 			id = var.autonomous_container_database_backup_config_backup_destination_details_id
 			internet_proxy = var.autonomous_container_database_backup_config_backup_destination_details_internet_proxy
 			vpc_password = var.autonomous_container_database_backup_config_backup_destination_details_vpc_password
@@ -79,6 +80,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 			type = var.autonomous_container_database_peer_autonomous_container_database_backup_config_backup_destination_details_type
 
 			#Optional
+			dbrs_policy_id = oci_identity_policy.test_policy.id
 			id = var.autonomous_container_database_peer_autonomous_container_database_backup_config_backup_destination_details_id
 			internet_proxy = var.autonomous_container_database_peer_autonomous_container_database_backup_config_backup_destination_details_internet_proxy
 			vpc_password = var.autonomous_container_database_peer_autonomous_container_database_backup_config_backup_destination_details_vpc_password
@@ -107,6 +109,7 @@ The following arguments are supported:
 * `cloud_autonomous_vm_cluster_id` - (Optional) The OCID of the Cloud Autonomous VM Cluster.
 * `backup_config` - (Optional) (Updatable) Backup options for the Autonomous Container Database. 
 	* `backup_destination_details` - (Optional) (Updatable) Backup destination details.
+		* `dbrs_policy_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DBRS policy used for backup.
 		* `id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
 		* `internet_proxy` - (Optional) (Updatable) Proxy URL to connect to object store.
 		* `type` - (Required) (Updatable) Type of the database backup destination.
@@ -146,6 +149,7 @@ The following arguments are supported:
 * `protection_mode` - (Optional) The protection mode of this Data Guard association. For more information, see [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000) in the Oracle Data Guard documentation. 
 * `peer_autonomous_container_database_backup_config` - (Optional) 
 	* `backup_destination_details` - (Optional) Backup destination details.
+		* `dbrs_policy_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DBRS policy used for backup.
 		* `id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
 		* `internet_proxy` - (Optional) Proxy URL to connect to object store.
 		* `type` - (Required) Type of the database backup destination.
@@ -180,6 +184,7 @@ The following attributes are exported:
 * `available_cpus` - Sum of OCPUs available on the Autonomous VM Cluster + Sum of reclaimable OCPUs available in the Autonomous Container Database.
 * `backup_config` - Backup options for the Autonomous Container Database. 
 	* `backup_destination_details` - Backup destination details.
+		* `dbrs_policy_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DBRS policy used for backup.
 		* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
 		* `internet_proxy` - Proxy URL to connect to object store.
 		* `type` - Type of the database backup destination.

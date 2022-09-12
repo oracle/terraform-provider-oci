@@ -106,6 +106,12 @@ func DatabaseDbHomeResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"backup_deletion_policy": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"backup_destination_details": {
 										Type:     schema.TypeList,
 										Optional: true,
@@ -116,6 +122,12 @@ func DatabaseDbHomeResource() *schema.Resource {
 												// Required
 
 												// Optional
+												"dbrs_policy_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
 												"id": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -729,6 +741,11 @@ func (s *DatabaseDbHomeResourceCrud) SetData() error {
 func (s *DatabaseDbHomeResourceCrud) mapToBackupDestinationDetails(fieldKeyFormat string) (oci_database.BackupDestinationDetails, error) {
 	result := oci_database.BackupDestinationDetails{}
 
+	if dbrsPolicyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dbrs_policy_id")); ok {
+		tmp := dbrsPolicyId.(string)
+		result.DbrsPolicyId = &tmp
+	}
+
 	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
 		tmp := id.(string)
 		result.Id = &tmp
@@ -901,6 +918,10 @@ func (s *DatabaseDbHomeResourceCrud) mapToDbBackupConfig(fieldKeyFormat string) 
 		if result.AutoBackupEnabled != nil && *result.AutoBackupEnabled == true {
 			result.AutoBackupWindow = oci_database.DbBackupConfigAutoBackupWindowEnum(autoBackupWindow.(string))
 		}
+	}
+
+	if backupDeletionPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_deletion_policy")); ok {
+		result.BackupDeletionPolicy = oci_database.DbBackupConfigBackupDeletionPolicyEnum(backupDeletionPolicy.(string))
 	}
 
 	if backupDestinationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_destination_details")); ok {
