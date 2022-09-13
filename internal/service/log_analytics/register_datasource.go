@@ -27,5 +27,6 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_log_analytics_namespace_rules", LogAnalyticsNamespaceRulesDataSource())
 	tfresource.RegisterDatasource("oci_log_analytics_namespace_scheduled_task", LogAnalyticsNamespaceScheduledTaskDataSource())
 	tfresource.RegisterDatasource("oci_log_analytics_namespace_scheduled_tasks", LogAnalyticsNamespaceScheduledTasksDataSource())
+	tfresource.RegisterDatasource("oci_log_analytics_namespace_storage_encryption_key_info", LogAnalyticsNamespaceStorageEncryptionKeyInfoDataSource())
 	tfresource.RegisterDatasource("oci_log_analytics_namespaces", LogAnalyticsNamespacesDataSource())
 }
