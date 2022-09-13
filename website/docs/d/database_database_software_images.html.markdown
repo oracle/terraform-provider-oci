@@ -61,7 +61,7 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database software image.
 * `image_shape_family` - To what shape the image is meant for.
 * `image_type` - The type of software image. Can be grid or database.
-* `included_patches_summary` - The patches included in the image and the version of the image
+* `included_patches_summary` - The patches included in the image and the version of the image.
 * `is_upgrade_supported` - True if this Database software image is supported for Upgrade.
 * `lifecycle_details` - Detailed message for the lifecycle state.
 * `ls_inventory` - The output from the OPatch lsInventory command, which is passed as a string.
