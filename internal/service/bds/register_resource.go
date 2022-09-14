@@ -1,0 +1,14 @@
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
+
+package bds
+
+import "github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+func RegisterResource() {
+	tfresource.RegisterResource("oci_bds_auto_scaling_configuration", BdsAutoScalingConfigurationResource())
+	tfresource.RegisterResource("oci_bds_bds_instance", BdsBdsInstanceResource())
+	tfresource.RegisterResource("oci_bds_bds_instance_api_key", BdsBdsInstanceApiKeyResource())
+	tfresource.RegisterResource("oci_bds_bds_instance_metastore_config", BdsBdsInstanceMetastoreConfigResource())
+	tfresource.RegisterResource("oci_bds_bds_instance_patch_action", BdsBdsInstancePatchActionResource())
+}

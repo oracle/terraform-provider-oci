@@ -3,8 +3,12 @@ package acctest
 import (
 	"encoding/base64"
 	"encoding/json"
+	"os"
+	"path"
 	"reflect"
 	"testing"
+
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
 
@@ -927,6 +931,16 @@ func TestUnitProviderTestCopy(t *testing.T) {
 }
 
 func TestUnitRepresentationCopyWithNewProperties(t *testing.T) {
+	auditEventResourceRepresentation := map[string]interface{}{
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"end_time":       Representation{RepType: Required, Create: `${timestamp()}`},
+	}
+	updatedAuditEventResourceRepresentation := map[string]interface{}{
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"end_time":       Representation{RepType: Required, Create: `${timestamp()}`},
+		"dns_label":      Representation{RepType: Required, Create: `dnslabel`},
+	}
+	newProperties := map[string]interface{}{"dns_label": Representation{RepType: Required, Create: `dnslabel`}}
 	type args struct {
 		representations map[string]interface{}
 		newProperties   map[string]interface{}
@@ -936,7 +950,14 @@ func TestUnitRepresentationCopyWithNewProperties(t *testing.T) {
 		args args
 		want map[string]interface{}
 	}{
-		// TODO: Add test cases.
+		{
+			name: "Positive test",
+			args: args{
+				representations: auditEventResourceRepresentation,
+				newProperties:   newProperties,
+			},
+			want: updatedAuditEventResourceRepresentation,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -969,6 +990,16 @@ func TestUnitRepresentationCopyWithRemovedNestedProperties(t *testing.T) {
 }
 
 func TestUnitRepresentationCopyWithRemovedProperties(t *testing.T) {
+	auditEventResourceRepresentation := map[string]interface{}{
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"end_time":       Representation{RepType: Required, Create: `${timestamp()}`},
+		"start_time":     Representation{RepType: Required, Create: `${timeadd(timestamp(), "-1m")}`},
+	}
+	updatedAuditEventResourceRepresentation := map[string]interface{}{
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"end_time":       Representation{RepType: Required, Create: `${timestamp()}`},
+	}
+	removedProperties := []string{"start_time"}
 	type args struct {
 		representations   map[string]interface{}
 		removedProperties []string
@@ -978,7 +1009,14 @@ func TestUnitRepresentationCopyWithRemovedProperties(t *testing.T) {
 		args args
 		want map[string]interface{}
 	}{
-		// TODO: Add test cases.
+		{
+			name: "Positive test",
+			args: args{
+				representations:   auditEventResourceRepresentation,
+				removedProperties: removedProperties,
+			},
+			want: updatedAuditEventResourceRepresentation,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -1204,4 +1242,37 @@ func TestUnit_updateNestedRepresentationRemoveProperty(t *testing.T) {
 			}
 		})
 	}
+}
+
+// issue-routing-tag: terraform/default
+func TestUnitProviderConfig(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip ProviderConfigTest in HttpReplay mode.")
+	}
+	if os.Getenv("TF_HOME_OVERRIDE") == "" {
+		t.Skip("This run requires you to set TF_HOME_OVERRIDE")
+	}
+	ProviderConfigTest(t, true, true, globalvar.AuthAPIKeySetting, "", nil)              // ApiKey with required fields + disable auto-retries
+	ProviderConfigTest(t, false, true, globalvar.AuthAPIKeySetting, "", nil)             // ApiKey without required fields
+	ProviderConfigTest(t, false, false, globalvar.AuthInstancePrincipalSetting, "", nil) // InstancePrincipal
+	ProviderConfigTest(t, true, false, "invalid-auth-setting", "", nil)                  // Invalid auth + disable auto-retries
+	configFile, keyFile, err := WriteConfigFile()
+	assert.Nil(t, err)
+	ProviderConfigTest(t, true, true, globalvar.AuthAPIKeySetting, "DEFAULT", nil)              // ApiKey with required fields + disable auto-retries
+	ProviderConfigTest(t, false, true, globalvar.AuthAPIKeySetting, "DEFAULT", nil)             // ApiKey without required fields
+	ProviderConfigTest(t, false, false, globalvar.AuthInstancePrincipalSetting, "DEFAULT", nil) // InstancePrincipal
+	ProviderConfigTest(t, true, false, "invalid-auth-setting", "DEFAULT", nil)                  // Invalid auth + disable auto-retries
+	ProviderConfigTest(t, false, false, globalvar.AuthAPIKeySetting, "PROFILE1", nil)           // correct profileName
+	ProviderConfigTest(t, false, false, globalvar.AuthAPIKeySetting, "wrongProfile", nil)       // Invalid profileName
+	//acctest.ProviderConfigTest(t, false, false, globalvar.AuthAPIKeySetting, "PROFILE2", nil)           // correct profileName with mix and match
+	ProviderConfigTest(t, false, false, globalvar.AuthAPIKeySetting, "PROFILE3", nil) // correct profileName with mix and match & env
+	defer func() {
+		_ = utils.RemoveFile(configFile)
+	}()
+	defer func() {
+		_ = utils.RemoveFile(keyFile)
+	}()
+	defer func() {
+		_ = os.RemoveAll(path.Join(utils.GetHomeFolder(), globalvar.DefaultConfigDirName))
+	}()
 }

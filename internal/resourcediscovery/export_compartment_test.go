@@ -19,9 +19,12 @@ import (
 	"testing"
 	"time"
 
+	"github.com/hashicorp/go-version"
+
+	tf_export "github.com/oracle/terraform-provider-oci/internal/commonexport"
+
 	"github.com/hashicorp/terraform-exec/tfinstall"
 
-	"github.com/hashicorp/go-version"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
 	"github.com/hashicorp/terraform-exec/tfexec"
@@ -48,60 +51,60 @@ const (
 	resourceIdFor404ErrorResource          = "ocid1.child.abcdefghiklmnop.1"
 )
 
-var exportParentDefinition = &TerraformResourceHints{
-	resourceClass:               "oci_test_parent",
-	datasourceClass:             "oci_test_parents",
-	resourceAbbreviation:        "parent",
-	datasourceItemsAttr:         "items",
-	discoverableLifecycleStates: []string{resourceDiscoveryTestActiveLifecycle},
-	alwaysExportable:            true,
+var exportParentDefinition = &tf_export.TerraformResourceHints{
+	ResourceClass:               "oci_test_parent",
+	DatasourceClass:             "oci_test_parents",
+	ResourceAbbreviation:        "parent",
+	DatasourceItemsAttr:         "items",
+	DiscoverableLifecycleStates: []string{resourceDiscoveryTestActiveLifecycle},
+	AlwaysExportable:            true,
 }
 
-var exportChildDefinition = &TerraformResourceHints{
-	resourceClass:               "oci_test_child",
-	datasourceClass:             "oci_test_children",
-	resourceAbbreviation:        "child",
-	datasourceItemsAttr:         "item_summaries",
-	discoverableLifecycleStates: []string{resourceDiscoveryTestActiveLifecycle},
-	requireResourceRefresh:      true,
+var exportChildDefinition = &tf_export.TerraformResourceHints{
+	ResourceClass:               "oci_test_child",
+	DatasourceClass:             "oci_test_children",
+	ResourceAbbreviation:        "child",
+	DatasourceItemsAttr:         "item_summaries",
+	DiscoverableLifecycleStates: []string{resourceDiscoveryTestActiveLifecycle},
+	RequireResourceRefresh:      true,
 }
 
-var exportParentDefinitionWithFaultyDatasource = &TerraformResourceHints{
-	resourceClass:               "oci_test_parent",
-	datasourceClass:             "oci_test_error_parents",
-	resourceAbbreviation:        "parent",
-	datasourceItemsAttr:         "items",
-	discoverableLifecycleStates: []string{resourceDiscoveryTestActiveLifecycle},
-	alwaysExportable:            true,
+var exportParentDefinitionWithFaultyDatasource = &tf_export.TerraformResourceHints{
+	ResourceClass:               "oci_test_parent",
+	DatasourceClass:             "oci_test_error_parents",
+	ResourceAbbreviation:        "parent",
+	DatasourceItemsAttr:         "items",
+	DiscoverableLifecycleStates: []string{resourceDiscoveryTestActiveLifecycle},
+	AlwaysExportable:            true,
 }
 
-var exportChildDefinitionWithFaultyDatasource = &TerraformResourceHints{
-	resourceClass:               "oci_test_error_child",
-	datasourceClass:             "oci_test_children",
-	resourceAbbreviation:        "child",
-	datasourceItemsAttr:         "item_summaries",
-	discoverableLifecycleStates: []string{resourceDiscoveryTestActiveLifecycle},
-	requireResourceRefresh:      true,
+var exportChildDefinitionWithFaultyDatasource = &tf_export.TerraformResourceHints{
+	ResourceClass:               "oci_test_error_child",
+	DatasourceClass:             "oci_test_children",
+	ResourceAbbreviation:        "child",
+	DatasourceItemsAttr:         "item_summaries",
+	DiscoverableLifecycleStates: []string{resourceDiscoveryTestActiveLifecycle},
+	RequireResourceRefresh:      true,
 }
 
-var exportResourceDefinitionWith404Error = &TerraformResourceHints{
-	resourceClass:               "oci_test_404_error_child",
-	datasourceClass:             "oci_test_children",
-	resourceAbbreviation:        "child",
-	datasourceItemsAttr:         "item_summaries",
-	discoverableLifecycleStates: []string{resourceDiscoveryTestActiveLifecycle},
-	requireResourceRefresh:      true,
+var exportResourceDefinitionWith404Error = &tf_export.TerraformResourceHints{
+	ResourceClass:               "oci_test_404_error_child",
+	DatasourceClass:             "oci_test_children",
+	ResourceAbbreviation:        "child",
+	DatasourceItemsAttr:         "item_summaries",
+	DiscoverableLifecycleStates: []string{resourceDiscoveryTestActiveLifecycle},
+	RequireResourceRefresh:      true,
 }
 
-var exportResourceDefinitionWithPanic = &TerraformResourceHints{
-	resourceClass:               "oci_test_child",
-	datasourceClass:             "oci_test_panic_children",
-	resourceAbbreviation:        "child",
-	datasourceItemsAttr:         "item_summaries",
-	discoverableLifecycleStates: []string{resourceDiscoveryTestActiveLifecycle},
+var exportResourceDefinitionWithPanic = &tf_export.TerraformResourceHints{
+	ResourceClass:               "oci_test_child",
+	DatasourceClass:             "oci_test_panic_children",
+	ResourceAbbreviation:        "child",
+	DatasourceItemsAttr:         "item_summaries",
+	DiscoverableLifecycleStates: []string{resourceDiscoveryTestActiveLifecycle},
 }
 
-var tenancyTestingResourceGraph = TerraformResourceGraph{
+var tenancyTestingResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_tenancy": {
 		{
 			TerraformResourceHints: exportParentDefinition,
@@ -110,12 +113,12 @@ var tenancyTestingResourceGraph = TerraformResourceGraph{
 	"oci_test_parent": {
 		{
 			TerraformResourceHints: exportChildDefinition,
-			datasourceQueryParams:  map[string]string{"parent_id": "id"},
+			DatasourceQueryParams:  map[string]string{"parent_id": "id"},
 		},
 	},
 }
 
-var compartmentTestingResourceGraph = TerraformResourceGraph{
+var compartmentTestingResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{
 			TerraformResourceHints: exportParentDefinition,
@@ -124,12 +127,12 @@ var compartmentTestingResourceGraph = TerraformResourceGraph{
 	"oci_test_parent": {
 		{
 			TerraformResourceHints: exportChildDefinition,
-			datasourceQueryParams:  map[string]string{"parent_id": "id"},
+			DatasourceQueryParams:  map[string]string{"parent_id": "id"},
 		},
 	},
 }
 
-var compartmentTestingResourceGraphWithFaultyParentResource = TerraformResourceGraph{
+var compartmentTestingResourceGraphWithFaultyParentResource = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{
 			TerraformResourceHints: exportParentDefinitionWithFaultyDatasource,
@@ -137,7 +140,7 @@ var compartmentTestingResourceGraphWithFaultyParentResource = TerraformResourceG
 	},
 }
 
-var compartmentTestingResourceGraphWithFaultyChildResource = TerraformResourceGraph{
+var compartmentTestingResourceGraphWithFaultyChildResource = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{
 			TerraformResourceHints: exportParentDefinition,
@@ -146,12 +149,12 @@ var compartmentTestingResourceGraphWithFaultyChildResource = TerraformResourceGr
 	"oci_test_parent": {
 		{
 			TerraformResourceHints: exportChildDefinitionWithFaultyDatasource,
-			datasourceQueryParams:  map[string]string{"parent_id": "id"},
+			DatasourceQueryParams:  map[string]string{"parent_id": "id"},
 		},
 	},
 }
 
-var compartmentTestingResourceGraphWith404ErrorResource = TerraformResourceGraph{
+var compartmentTestingResourceGraphWith404ErrorResource = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{
 			TerraformResourceHints: exportParentDefinition,
@@ -160,12 +163,12 @@ var compartmentTestingResourceGraphWith404ErrorResource = TerraformResourceGraph
 	"oci_test_parent": {
 		{
 			TerraformResourceHints: exportResourceDefinitionWith404Error,
-			datasourceQueryParams:  map[string]string{"parent_id": "id"},
+			DatasourceQueryParams:  map[string]string{"parent_id": "id"},
 		},
 	},
 }
 
-var compartmentTestingResourceGraphWithPanicResource = TerraformResourceGraph{
+var compartmentTestingResourceGraphWithPanicResource = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{
 			TerraformResourceHints: exportParentDefinition,
@@ -174,11 +177,11 @@ var compartmentTestingResourceGraphWithPanicResource = TerraformResourceGraph{
 	"oci_test_parent": {
 		{
 			TerraformResourceHints: exportResourceDefinitionWithPanic,
-			datasourceQueryParams:  map[string]string{"parent_id": "id"},
+			DatasourceQueryParams:  map[string]string{"parent_id": "id"},
 		},
 		{
 			TerraformResourceHints: exportChildDefinition,
-			datasourceQueryParams:  map[string]string{"parent_id": "id"},
+			DatasourceQueryParams:  map[string]string{"parent_id": "id"},
 		},
 	},
 }
@@ -202,30 +205,30 @@ func createOutputDir() (string, error) {
 	os.Mkdir(outputDir, os.ModePerm)
 	return outputDir, nil
 }
-func getTestCtx() *resourceDiscoveryContext {
+func getTestCtx() *tf_export.ResourceDiscoveryContext {
 	clients := getTestClients()
 	compartmentId := "dummy_compartment_id"
 	outputDir, _ := createOutputDir()
-	args := &ExportCommandArgs{
+	args := &tf_export.ExportCommandArgs{
 		CompartmentId: &compartmentId,
 		Services:      []string{"compartment_testing", "tenancy_testing"},
 		OutputDir:     &outputDir,
 		GenerateState: false,
-		TFVersion:     &tfHclVersion,
+		TFVersion:     &tf_export.TfHclVersionvar,
 		Parallelism:   1,
 	}
 
-	ctx := &resourceDiscoveryContext{
-		clients:             clients,
+	ctx := &tf_export.ResourceDiscoveryContext{
+		Clients:             clients,
 		ExportCommandArgs:   args,
-		tenancyOcid:         "tenancyOcid",
-		discoveredResources: []*OCIResource{},
-		summaryStatements:   []string{},
-		errorList: ErrorList{
-			errors: []*ResourceDiscoveryError{},
+		TenancyOcid:         "tenancyOcid",
+		DiscoveredResources: []*tf_export.OCIResource{},
+		SummaryStatements:   []string{},
+		ErrorList: tf_export.ErrorList{
+			Errors: []*tf_export.ResourceDiscoveryError{},
 		},
-		targetSpecificResources: false,
-		resourceHintsLookup:     createResourceHintsLookupMap(),
+		TargetSpecificResources: false,
+		ResourceHintsLookup:     createResourceHintsLookupMap(),
 	}
 	return ctx
 }
@@ -638,38 +641,38 @@ func (s TestChildWith404ErrorResourceCrud) SetData() error {
 }
 
 func initResourceDiscoveryTests() {
-	resourceNameCount = map[string]int{}
-	resourcesMap = tf_provider.ResourcesMap()
-	datasourcesMap = tf_provider.DataSourcesMap()
-	tfHclVersion = &TfHclVersion12{}
+	tf_export.ResourceNameCount = map[string]int{}
+	tf_export.ResourcesMap = tf_provider.ResourcesMap()
+	tf_export.DatasourcesMap = tf_provider.DataSourcesMap()
+	tf_export.TfHclVersionvar = &tf_export.TfHclVersion12{}
 
-	resourcesMap["oci_test_parent"] = testParentResource()
-	resourcesMap["oci_test_child"] = testChildResource()
-	resourcesMap["oci_test_error_child"] = testChildResourceWithError()
-	resourcesMap["oci_test_404_error_child"] = testChildResourceWith404Error()
+	tf_export.ResourcesMap["oci_test_parent"] = testParentResource()
+	tf_export.ResourcesMap["oci_test_child"] = testChildResource()
+	tf_export.ResourcesMap["oci_test_error_child"] = testChildResourceWithError()
+	tf_export.ResourcesMap["oci_test_404_error_child"] = testChildResourceWith404Error()
 
-	datasourcesMap["oci_test_parents"] = testParentsDatasource()
-	datasourcesMap["oci_test_children"] = testChildrenDatasource()
-	datasourcesMap["oci_test_error_parents"] = testParentsDatasourceWithError()
+	tf_export.DatasourcesMap["oci_test_parents"] = testParentsDatasource()
+	tf_export.DatasourcesMap["oci_test_children"] = testChildrenDatasource()
+	tf_export.DatasourcesMap["oci_test_error_parents"] = testParentsDatasourceWithError()
 
-	datasourcesMap["oci_test_panic_children"] = testParentsDatasourceWithPanic()
+	tf_export.DatasourcesMap["oci_test_panic_children"] = testParentsDatasourceWithPanic()
 
-	tenancyResourceGraphs["tenancy_testing"] = tenancyTestingResourceGraph
-	compartmentResourceGraphs["compartment_testing"] = compartmentTestingResourceGraph
+	tf_export.TenancyResourceGraphs["tenancy_testing"] = tenancyTestingResourceGraph
+	tf_export.CompartmentResourceGraphs["compartment_testing"] = compartmentTestingResourceGraph
 
 	initTestResources()
 }
 
 func cleanupResourceDiscoveryTests() {
-	delete(resourcesMap, "oci_test_parent")
-	delete(resourcesMap, "oci_test_child")
-	delete(resourcesMap, "oci_test_error_child")
-	delete(datasourcesMap, "oci_test_parents")
-	delete(datasourcesMap, "oci_test_children")
-	delete(datasourcesMap, "oci_test_error_children")
-	delete(datasourcesMap, "oci_test_panic_children")
-	delete(tenancyResourceGraphs, "tenancy_testing")
-	delete(compartmentResourceGraphs, "compartment_testing")
+	delete(tf_export.ResourcesMap, "oci_test_parent")
+	delete(tf_export.ResourcesMap, "oci_test_child")
+	delete(tf_export.ResourcesMap, "oci_test_error_child")
+	delete(tf_export.DatasourcesMap, "oci_test_parents")
+	delete(tf_export.DatasourcesMap, "oci_test_children")
+	delete(tf_export.DatasourcesMap, "oci_test_error_children")
+	delete(tf_export.DatasourcesMap, "oci_test_panic_children")
+	delete(tf_export.TenancyResourceGraphs, "tenancy_testing")
+	delete(tf_export.CompartmentResourceGraphs, "compartment_testing")
 }
 
 func initTestResources() {
@@ -677,7 +680,7 @@ func initTestResources() {
 	if parentResources == nil || len(parentResources) != numParentResources {
 		parentResources = make(map[string]map[string]interface{}, numParentResources)
 		for i := 0; i < numParentResources; i++ {
-			parentResources[getTestResourceId("parent", i)] = generateTestResourceFromSchema(i, resourcesMap["oci_test_parent"].Schema)
+			parentResources[getTestResourceId("parent", i)] = generateTestResourceFromSchema(i, tf_export.ResourcesMap["oci_test_parent"].Schema)
 		}
 	}
 
@@ -689,7 +692,7 @@ func initTestResources() {
 		for i := 0; i < len(parentResources); i++ {
 			parentId := getTestResourceId("parent", i)
 			for j := 0; j < numChildrenResourcesPerParent; j++ {
-				childResource := generateTestResourceFromSchema(i, resourcesMap["oci_test_child"].Schema)
+				childResource := generateTestResourceFromSchema(i, tf_export.ResourcesMap["oci_test_child"].Schema)
 				childResource["parent_id"] = parentId
 
 				childrenResources[getTestResourceId("child", childCount)] = childResource
@@ -699,13 +702,13 @@ func initTestResources() {
 	}
 }
 
-func getRootCompartmentResource() *OCIResource {
-	return &OCIResource{
-		compartmentId: resourceDiscoveryTestCompartmentOcid,
-		TerraformResource: TerraformResource{
-			id:             resourceDiscoveryTestCompartmentOcid,
-			terraformClass: "oci_identity_compartment",
-			terraformName:  "export",
+func getRootCompartmentResource() *tf_export.OCIResource {
+	return &tf_export.OCIResource{
+		CompartmentId: resourceDiscoveryTestCompartmentOcid,
+		TerraformResource: tf_export.TerraformResource{
+			Id:             resourceDiscoveryTestCompartmentOcid,
+			TerraformClass: "oci_identity_compartment",
+			TerraformName:  "export",
 		},
 	}
 }
@@ -788,15 +791,15 @@ func TestUnitRunExportCommand_basic(t *testing.T) {
 		t.Fail()
 	}
 
-	tfHclVersions := []TfHclVersion{&TfHclVersion11{}, &TfHclVersion12{}}
+	tfHclVersions := []tf_export.TfHclVersion{&tf_export.TfHclVersion11{}, &tf_export.TfHclVersion12{}}
 	for _, tfVersion := range tfHclVersions {
-		tfHclVersion = tfVersion
-		args := &ExportCommandArgs{
+		tf_export.TfHclVersionvar = tfVersion
+		args := &tf_export.ExportCommandArgs{
 			CompartmentId: &compartmentId,
 			Services:      []string{"compartment_testing", "tenancy_testing"},
 			OutputDir:     &outputDir,
 			GenerateState: false,
-			TFVersion:     &tfHclVersion,
+			TFVersion:     &tf_export.TfHclVersionvar,
 			Parallelism:   1,
 		}
 		getProviderEnvSettingWithDefaultVar = func(varName string, defaultValue string) string {
@@ -810,22 +813,22 @@ func TestUnitRunExportCommand_basic(t *testing.T) {
 		}
 		exportConfigProvider = acctest.MockConfigurationProvider{}
 		if err, _ = RunExportCommand(args); err != nil {
-			t.Logf("(TF version %s) export command failed due to err: %v", tfHclVersion.toString(), err)
+			t.Logf("(TF version %s) export command failed due to err: %v", tf_export.TfHclVersionvar.ToString(), err)
 			t.Fail()
 		}
 
 		if _, err = os.Stat(fmt.Sprintf("%s%stenancy_testing.tf", outputDir, string(os.PathSeparator))); !os.IsNotExist(err) {
-			t.Logf("(TF version %s) tenancy_testing.tf file generated even though it wasn't expected", tfHclVersion.toString())
+			t.Logf("(TF version %s) tenancy_testing.tf file generated even though it wasn't expected", tf_export.TfHclVersionvar.ToString())
 			t.Fail()
 		}
 
 		if _, err = os.Stat(fmt.Sprintf("%s%scompartment_testing.tf", outputDir, string(os.PathSeparator))); os.IsNotExist(err) {
-			t.Logf("(TF version %s) no compartment_testing.tf file generated", tfHclVersion.toString())
+			t.Logf("(TF version %s) no compartment_testing.tf file generated", tf_export.TfHclVersionvar.ToString())
 			t.Fail()
 		}
 
 		if _, err = os.Stat(fmt.Sprintf("%s%sterraform.tfstate", outputDir, string(os.PathSeparator))); !os.IsNotExist(err) {
-			t.Logf("(TF version %s) found terraform.tfstate even though it wasn't expected", tfHclVersion.toString())
+			t.Logf("(TF version %s) found terraform.tfstate even though it wasn't expected", tf_export.TfHclVersionvar.ToString())
 		}
 	}
 
@@ -836,12 +839,12 @@ func TestUnitRunExportCommand_basic(t *testing.T) {
 func TestUnitRunExportCommand_Parallel(t *testing.T) {
 	initResourceDiscoveryTests()
 	// add more services to compartment graphs
-	compartmentResourceGraphs["compartment_testing_1"] = compartmentTestingResourceGraph
-	compartmentResourceGraphs["compartment_testing_2"] = compartmentTestingResourceGraph
-	compartmentResourceGraphs["compartment_testing_3"] = compartmentTestingResourceGraph
-	compartmentResourceGraphs["compartment_testing_4"] = compartmentTestingResourceGraph
-	compartmentResourceGraphs["compartment_testing_5"] = compartmentTestingResourceGraph
-	compartmentResourceGraphs["compartment_testing_6"] = compartmentTestingResourceGraph
+	tf_export.CompartmentResourceGraphs["compartment_testing_1"] = compartmentTestingResourceGraph
+	tf_export.CompartmentResourceGraphs["compartment_testing_2"] = compartmentTestingResourceGraph
+	tf_export.CompartmentResourceGraphs["compartment_testing_3"] = compartmentTestingResourceGraph
+	tf_export.CompartmentResourceGraphs["compartment_testing_4"] = compartmentTestingResourceGraph
+	tf_export.CompartmentResourceGraphs["compartment_testing_5"] = compartmentTestingResourceGraph
+	tf_export.CompartmentResourceGraphs["compartment_testing_6"] = compartmentTestingResourceGraph
 	defer func() {
 		if r := recover(); r != nil {
 			debug.PrintStack()
@@ -862,15 +865,15 @@ func TestUnitRunExportCommand_Parallel(t *testing.T) {
 		t.Fail()
 	}
 
-	tfHclVersions := []TfHclVersion{&TfHclVersion11{}, &TfHclVersion12{}}
+	tfHclVersions := []tf_export.TfHclVersion{&tf_export.TfHclVersion11{}, &tf_export.TfHclVersion12{}}
 	for _, tfVersion := range tfHclVersions {
-		tfHclVersion = tfVersion
-		args := &ExportCommandArgs{
+		tf_export.TfHclVersionvar = tfVersion
+		args := &tf_export.ExportCommandArgs{
 			CompartmentId: &compartmentId,
 			Services:      []string{"compartment_testing", "compartment_testing_1", "compartment_testing_2", "compartment_testing_3", "compartment_testing_4", "compartment_testing_5", "compartment_testing_6", "tenancy_testing"},
 			OutputDir:     &outputDir,
 			GenerateState: false,
-			TFVersion:     &tfHclVersion,
+			TFVersion:     &tf_export.TfHclVersionvar,
 			Parallelism:   4,
 		}
 
@@ -885,22 +888,22 @@ func TestUnitRunExportCommand_Parallel(t *testing.T) {
 		}
 		exportConfigProvider = acctest.MockConfigurationProvider{}
 		if err, _ = RunExportCommand(args); err != nil {
-			t.Logf("(TF version %s) export command failed due to err: %v", tfHclVersion.toString(), err)
+			t.Logf("(TF version %s) export command failed due to err: %v", tf_export.TfHclVersionvar.ToString(), err)
 			t.Fail()
 		}
 
 		if _, err = os.Stat(fmt.Sprintf("%s%stenancy_testing.tf", outputDir, string(os.PathSeparator))); !os.IsNotExist(err) {
-			t.Logf("(TF version %s) tenancy_testing.tf file generated even though it wasn't expected", tfHclVersion.toString())
+			t.Logf("(TF version %s) tenancy_testing.tf file generated even though it wasn't expected", tf_export.TfHclVersionvar.ToString())
 			t.Fail()
 		}
 
 		if _, err = os.Stat(fmt.Sprintf("%s%scompartment_testing.tf", outputDir, string(os.PathSeparator))); os.IsNotExist(err) {
-			t.Logf("(TF version %s) no compartment_testing.tf file generated", tfHclVersion.toString())
+			t.Logf("(TF version %s) no compartment_testing.tf file generated", tf_export.TfHclVersionvar.ToString())
 			t.Fail()
 		}
 
 		if _, err = os.Stat(fmt.Sprintf("%s%sterraform.tfstate", outputDir, string(os.PathSeparator))); !os.IsNotExist(err) {
-			t.Logf("(TF version %s) found terraform.tfstate even though it wasn't expected", tfHclVersion.toString())
+			t.Logf("(TF version %s) found terraform.tfstate even though it wasn't expected", tf_export.TfHclVersionvar.ToString())
 		}
 	}
 
@@ -924,15 +927,15 @@ func TestUnitRunExportCommand_ParallelNegative(t *testing.T) {
 		t.Fail()
 	}
 
-	tfHclVersions := []TfHclVersion{&TfHclVersion11{}, &TfHclVersion12{}}
+	tfHclVersions := []tf_export.TfHclVersion{&tf_export.TfHclVersion11{}, &tf_export.TfHclVersion12{}}
 	for _, tfVersion := range tfHclVersions {
-		tfHclVersion = tfVersion
-		args := &ExportCommandArgs{
+		tf_export.TfHclVersionvar = tfVersion
+		args := &tf_export.ExportCommandArgs{
 			CompartmentId: &compartmentId,
 			Services:      []string{"compartment_testing", "compartment_testing_1", "compartment_testing_2", "compartment_testing_3", "compartment_testing_4", "compartment_testing_5", "compartment_testing_6", "tenancy_testing"},
 			OutputDir:     &outputDir,
 			GenerateState: false,
-			TFVersion:     &tfHclVersion,
+			TFVersion:     &tf_export.TfHclVersionvar,
 			Parallelism:   -1,
 		}
 		getProviderEnvSettingWithDefaultVar = func(varName string, defaultValue string) string {
@@ -969,13 +972,13 @@ func TestUnitRunExportCommand_error(t *testing.T) {
 	}
 
 	nonexistentOutputDir := fmt.Sprintf("%s%s%s", outputDir, string(os.PathSeparator), "baddirectory")
-	tfHclVersion = &TfHclVersion12{}
-	args := &ExportCommandArgs{
+	tf_export.TfHclVersionvar = &tf_export.TfHclVersion12{}
+	args := &tf_export.ExportCommandArgs{
 		CompartmentId: &compartmentId,
 		Services:      []string{"compartment_testing", "tenancy_testing"},
 		OutputDir:     &nonexistentOutputDir,
 		GenerateState: false,
-		TFVersion:     &tfHclVersion,
+		TFVersion:     &tf_export.TfHclVersionvar,
 	}
 	if err, _ = RunExportCommand(args); err == nil {
 		t.Logf("export command expected to fail due to non-existent path, but it succeeded")
@@ -995,7 +998,7 @@ func TestUnitRunExportCommand_panic(t *testing.T) {
 		t.Fail()
 	}
 
-	tfHclVersion = &TfHclVersion12{}
+	tf_export.TfHclVersionvar = &tf_export.TfHclVersion12{}
 
 	// nil args will cause panic and if panic is not handled test will fail else it will pass
 	_, _ = RunExportCommand(nil)
@@ -1007,9 +1010,9 @@ func TestUnitRunExportCommand_panic(t *testing.T) {
 // issue-routing-tag: terraform/default
 func TestUnitRunExportCommand_exitStatusForPartialSuccess(t *testing.T) {
 	initResourceDiscoveryTests()
-	// Replace compartmentResourceGraphs with the one having resource that has error in read
+	// Replace commonexport.CompartmentResourceGraphs with the one having resource that has error in read
 	// Status returned should be StatusPartialSuccess
-	compartmentResourceGraphs["compartment_testing"] = compartmentTestingResourceGraphWithFaultyParentResource
+	tf_export.CompartmentResourceGraphs["compartment_testing"] = compartmentTestingResourceGraphWithFaultyParentResource
 
 	defer cleanupResourceDiscoveryTests()
 	compartmentId := resourceDiscoveryTestCompartmentOcid
@@ -1024,13 +1027,13 @@ func TestUnitRunExportCommand_exitStatusForPartialSuccess(t *testing.T) {
 		t.Fail()
 	}
 
-	tfHclVersion = &TfHclVersion12{}
-	args := &ExportCommandArgs{
+	tf_export.TfHclVersionvar = &tf_export.TfHclVersion12{}
+	args := &tf_export.ExportCommandArgs{
 		CompartmentId: &compartmentId,
 		Services:      []string{"compartment_testing", "tenancy_testing"},
 		OutputDir:     &outputDir,
 		GenerateState: false,
-		TFVersion:     &tfHclVersion,
+		TFVersion:     &tf_export.TfHclVersionvar,
 		Parallelism:   1,
 	}
 	getProviderEnvSettingWithDefaultVar = func(varName string, defaultValue string) string {
@@ -1044,20 +1047,20 @@ func TestUnitRunExportCommand_exitStatusForPartialSuccess(t *testing.T) {
 	}
 	exportConfigProvider = acctest.MockConfigurationProvider{}
 	if err, status := RunExportCommand(args); err != nil {
-		t.Logf("(TF version %s) export command failed due to err: %v", tfHclVersion.toString(), err)
+		t.Logf("(TF version %s) export command failed due to err: %v", tf_export.TfHclVersionvar.ToString(), err)
 		t.Fail()
 	} else if status != StatusPartialSuccess {
-		t.Logf("(TF version %s) export command returned unexpected Exit Status: %v", tfHclVersion.toString(), status)
+		t.Logf("(TF version %s) export command returned unexpected Exit Status: %v", tf_export.TfHclVersionvar.ToString(), status)
 		t.Fail()
 	}
 
 	if _, err = os.Stat(fmt.Sprintf("%s%scompartment_testing.tf", outputDir, string(os.PathSeparator))); os.IsNotExist(err) {
-		t.Logf("(TF version %s) no compartment_testing.tf file generated", tfHclVersion.toString())
+		t.Logf("(TF version %s) no compartment_testing.tf file generated", tf_export.TfHclVersionvar.ToString())
 		t.Fail()
 	}
 
 	if _, err = os.Stat(fmt.Sprintf("%s%sterraform.tfstate", outputDir, string(os.PathSeparator))); !os.IsNotExist(err) {
-		t.Logf("(TF version %s) found terraform.tfstate even though it wasn't expected", tfHclVersion.toString())
+		t.Logf("(TF version %s) found terraform.tfstate even though it wasn't expected", tf_export.TfHclVersionvar.ToString())
 	}
 
 	os.RemoveAll(outputDir)
@@ -1070,8 +1073,8 @@ func TestUnitFindResources_basic(t *testing.T) {
 	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
-	ctx := &resourceDiscoveryContext{
-		errorList: ErrorList{},
+	ctx := &tf_export.ResourceDiscoveryContext{
+		ErrorList: tf_export.ErrorList{},
 	}
 	results, err := findResources(ctx, rootResource, compartmentTestingResourceGraph)
 	if err != nil {
@@ -1085,15 +1088,15 @@ func TestUnitFindResources_basic(t *testing.T) {
 	}
 
 	for _, foundResource := range results {
-		if foundResource.terraformClass == "oci_test_child" {
-			if _, resourceRefreshAttributeExists := foundResource.sourceAttributes["a_nested"]; !resourceRefreshAttributeExists {
+		if foundResource.TerraformClass == "oci_test_child" {
+			if _, resourceRefreshAttributeExists := foundResource.SourceAttributes["a_nested"]; !resourceRefreshAttributeExists {
 				t.Logf("child resource is missing an expected attribute that should have been filled by a resource refresh")
 				t.Fail()
 			}
 
-			expectedTfNamePrefix := fmt.Sprintf("%s_%s", foundResource.parent.terraformName, exportChildDefinition.resourceAbbreviation)
-			if !strings.HasPrefix(foundResource.terraformName, expectedTfNamePrefix) {
-				t.Logf("child resource should have a name with prefix '%s' but name is '%s' instead", expectedTfNamePrefix, foundResource.terraformName)
+			expectedTfNamePrefix := fmt.Sprintf("%s_%s", foundResource.Parent.TerraformName, exportChildDefinition.ResourceAbbreviation)
+			if !strings.HasPrefix(foundResource.TerraformName, expectedTfNamePrefix) {
+				t.Logf("child resource should have a name with prefix '%s' but name is '%s' instead", expectedTfNamePrefix, foundResource.TerraformName)
 				t.Fail()
 			}
 		}
@@ -1104,14 +1107,14 @@ func TestUnitFindResources_basic(t *testing.T) {
 // issue-routing-tag: terraform/default
 func TestUnitFindResources_404Error(t *testing.T) {
 	initResourceDiscoveryTests()
-	// Replace compartmentResourceGraphs with the one having resource that has 404 error in read
+	// Replace commonexport.CompartmentResourceGraphs with the one having resource that has 404 error in read
 	// Resource with 404 error should be skipped
 
 	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
-	ctx := &resourceDiscoveryContext{
-		errorList: ErrorList{},
+	ctx := &tf_export.ResourceDiscoveryContext{
+		ErrorList: tf_export.ErrorList{},
 	}
 	results, err := findResources(ctx, rootResource, compartmentTestingResourceGraphWith404ErrorResource)
 	if err != nil {
@@ -1120,7 +1123,7 @@ func TestUnitFindResources_404Error(t *testing.T) {
 	}
 
 	for _, resource := range results {
-		if resource.sourceAttributes["id"] == "" {
+		if resource.SourceAttributes["id"] == "" {
 			// State is voided but resource still showed up in results
 			t.Logf("got resource with 404 not found error in results when not expected")
 			t.Fail()
@@ -1139,13 +1142,13 @@ func TestUnitFindResources_404Error(t *testing.T) {
 func TestUnitFindResources_panic(t *testing.T) {
 	// env var export_enable_tenancy_lookup=false needed for this test
 	initResourceDiscoveryTests()
-	// Replace compartmentResourceGraphs with the one having resource that will panic
+	// Replace commonexport.CompartmentResourceGraphs with the one having resource that will panic
 
 	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
-	ctx := &resourceDiscoveryContext{
-		errorList: ErrorList{},
+	ctx := &tf_export.ResourceDiscoveryContext{
+		ErrorList: tf_export.ErrorList{},
 	}
 	results, err := findResources(ctx, rootResource, compartmentTestingResourceGraphWithPanicResource)
 	if err != nil {
@@ -1168,16 +1171,16 @@ func TestUnitFindResources_errorList(t *testing.T) {
 	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
-	ctx := &resourceDiscoveryContext{
-		errorList: ErrorList{},
+	ctx := &tf_export.ResourceDiscoveryContext{
+		ErrorList: tf_export.ErrorList{},
 	}
 	_, err := findResources(ctx, rootResource, compartmentTestingResourceGraphWithFaultyChildResource)
 	if err != nil {
 		t.Logf("got error from findResources: %v", err)
 		t.Fail()
 	}
-	if len(ctx.errorList.errors) == 0 {
-		t.Logf("expected errors for failed resources in resourceDiscoveryContext errorList but found none")
+	if len(ctx.ErrorList.Errors) == 0 {
+		t.Logf("expected errors for failed resources in ResourceDiscoveryContext errorList but found none")
 		t.Fail()
 	}
 }
@@ -1189,7 +1192,7 @@ func TestUnitFindResources_restrictedOcids(t *testing.T) {
 	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
-	// Parent resources are defined as alwaysExportable. So even if it's not specified in the ocids, it should be exported.
+	// Parent resources are defined as AlwaysExportable. So even if it's not specified in the ocids, it should be exported.
 	restrictedOcidTests := []map[string]interface{}{
 		{
 			"ocids":                map[string]bool{getTestResourceId("parent", 0): false, getTestResourceId("child", 0): false},
@@ -1216,9 +1219,9 @@ func TestUnitFindResources_restrictedOcids(t *testing.T) {
 			t.Logf(ocid)
 		}
 
-		ctx := &resourceDiscoveryContext{
-			expectedResourceIds: restrictedOcids,
-			errorList:           ErrorList{},
+		ctx := &tf_export.ResourceDiscoveryContext{
+			ExpectedResourceIds: restrictedOcids,
+			ErrorList:           tf_export.ErrorList{},
 		}
 
 		results, err := findResources(ctx, rootResource, compartmentTestingResourceGraph)
@@ -1229,7 +1232,7 @@ func TestUnitFindResources_restrictedOcids(t *testing.T) {
 
 		exportResourceCount := 0
 		for _, resource := range results {
-			if !resource.omitFromExport {
+			if !resource.OmitFromExport {
 				exportResourceCount++
 			}
 		}
@@ -1248,13 +1251,13 @@ func TestUnitFindResources_overrideFn(t *testing.T) {
 	rootResource := getRootCompartmentResource()
 
 	// Create an override function that returns nothing when discovering child test resources
-	exportChildDefinition.findResourcesOverrideFn = func(*resourceDiscoveryContext, *TerraformResourceAssociation, *OCIResource, *TerraformResourceGraph) ([]*OCIResource, error) {
-		return []*OCIResource{}, nil
+	exportChildDefinition.FindResourcesOverrideFn = func(*tf_export.ResourceDiscoveryContext, *tf_export.TerraformResourceAssociation, *tf_export.OCIResource, *tf_export.TerraformResourceGraph) ([]*tf_export.OCIResource, error) {
+		return []*tf_export.OCIResource{}, nil
 	}
-	defer func() { exportChildDefinition.findResourcesOverrideFn = nil }()
+	defer func() { exportChildDefinition.FindResourcesOverrideFn = nil }()
 
-	ctx := &resourceDiscoveryContext{
-		errorList: ErrorList{},
+	ctx := &tf_export.ResourceDiscoveryContext{
+		ErrorList: tf_export.ErrorList{},
 	}
 	results, err := findResources(ctx, rootResource, compartmentTestingResourceGraph)
 	if err != nil {
@@ -1269,7 +1272,7 @@ func TestUnitFindResources_overrideFn(t *testing.T) {
 	}
 
 	for _, foundResource := range results {
-		if foundResource.terraformClass == "oci_test_child" {
+		if foundResource.TerraformClass == "oci_test_child" {
 			t.Logf("oci_test_child resource was returned when not expected")
 			t.Fail()
 		}
@@ -1284,16 +1287,16 @@ func TestUnitFindResources_processResourceFn(t *testing.T) {
 	rootResource := getRootCompartmentResource()
 
 	// Create a processing function that adds a new attribute to every discovered child resource
-	exportChildDefinition.processDiscoveredResourcesFn = func(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+	exportChildDefinition.ProcessDiscoveredResourcesFn = func(ctx *tf_export.ResourceDiscoveryContext, resources []*tf_export.OCIResource) ([]*tf_export.OCIResource, error) {
 		for _, resource := range resources {
-			resource.sourceAttributes["added_by_process_function"] = true
+			resource.SourceAttributes["added_by_process_function"] = true
 		}
 		return resources, nil
 	}
-	defer func() { exportChildDefinition.processDiscoveredResourcesFn = nil }()
+	defer func() { exportChildDefinition.ProcessDiscoveredResourcesFn = nil }()
 
-	ctx := &resourceDiscoveryContext{
-		errorList: ErrorList{},
+	ctx := &tf_export.ResourceDiscoveryContext{
+		ErrorList: tf_export.ErrorList{},
 	}
 
 	results, err := findResources(ctx, rootResource, compartmentTestingResourceGraph)
@@ -1309,8 +1312,8 @@ func TestUnitFindResources_processResourceFn(t *testing.T) {
 	}
 
 	for _, foundResource := range results {
-		if foundResource.terraformClass == "oci_test_child" {
-			if _, ok := foundResource.sourceAttributes["added_by_process_function"]; !ok {
+		if foundResource.TerraformClass == "oci_test_child" {
+			if _, ok := foundResource.SourceAttributes["added_by_process_function"]; !ok {
 				t.Logf("oci_test_child resource was returned when not expected")
 				t.Fail()
 			}
@@ -1362,7 +1365,7 @@ func TestUnitGenerateTerraformNameFromResource_basic(t *testing.T) {
 
 	for idx, test := range testCases {
 		t.Logf("Running test case %d", idx)
-		result, err := generateTerraformNameFromResource(test.resource, test.schema)
+		result, err := tf_export.GenerateTerraformNameFromResource(test.resource, test.schema)
 		if (err != nil) != test.expectError {
 			t.Logf("expect error was '%v' but got err '%v'", test.expectError, err)
 			t.Fail()
@@ -1382,8 +1385,8 @@ func TestUnitGetHCLString_basic(t *testing.T) {
 	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
-	ctx := &resourceDiscoveryContext{
-		errorList: ErrorList{},
+	ctx := &tf_export.ResourceDiscoveryContext{
+		ErrorList: tf_export.ErrorList{},
 	}
 	results, err := findResources(ctx, rootResource, compartmentTestingResourceGraph)
 	if err != nil {
@@ -1393,15 +1396,15 @@ func TestUnitGetHCLString_basic(t *testing.T) {
 
 	targetResourceOcid := getTestResourceId("child", len(childrenResources)-1)
 	testStringBuilder := &strings.Builder{}
-	var targetResource *OCIResource
+	var targetResource *tf_export.OCIResource
 	for _, resource := range results {
-		if resource.id == targetResourceOcid {
+		if resource.Id == targetResourceOcid {
 			targetResource = resource
 			break
 		}
 	}
 
-	if err := targetResource.getHCLString(testStringBuilder, nil); err != nil {
+	if err := targetResource.GetHCLString(testStringBuilder, nil); err != nil {
 		t.Logf("got error '%v' when trying to get HCL string", err)
 		t.Fail()
 	}
@@ -1460,7 +1463,7 @@ func TestUnitGetHCLStringFromMap(t *testing.T) {
 	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
-	ctx := &resourceDiscoveryContext{}
+	ctx := &tf_export.ResourceDiscoveryContext{}
 	results, err := findResources(ctx, rootResource, compartmentTestingResourceGraph)
 	if err != nil {
 		t.Logf("got error from findResources: %v", err)
@@ -1468,18 +1471,18 @@ func TestUnitGetHCLStringFromMap(t *testing.T) {
 	}
 
 	targetResourceOcid := getTestResourceId("child", len(childrenResources)-1)
-	var targetResource *OCIResource
+	var targetResource *tf_export.OCIResource
 	for _, resource := range results {
-		if resource.id == targetResourceOcid {
+		if resource.Id == targetResourceOcid {
 			targetResource = resource
 			break
 		}
 	}
 
 	// Test the syntax version generated
-	tfHclVersion = &TfHclVersion11{}
-	interpolationMap := map[string]string{targetResource.parent.id: targetResource.parent.getHclReferenceIdString()}
-	err = getHCLStringFromMap(&strings.Builder{}, targetResource.parent.sourceAttributes, testParentResource(), interpolationMap, rootResource, "")
+	tf_export.TfHclVersionvar = &tf_export.TfHclVersion11{}
+	interpolationMap := map[string]string{targetResource.Parent.Id: targetResource.Parent.GetHclReferenceIdString()}
+	err = tf_export.GetHCLStringFromMap(&strings.Builder{}, targetResource.Parent.SourceAttributes, testParentResource(), interpolationMap, rootResource, "")
 	assert.NoError(t, err)
 }
 
@@ -1490,8 +1493,8 @@ func TestUnitGetHCLString_missingFields(t *testing.T) {
 	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
-	ctx := &resourceDiscoveryContext{
-		errorList: ErrorList{},
+	ctx := &tf_export.ResourceDiscoveryContext{
+		ErrorList: tf_export.ErrorList{},
 	}
 	results, err := findResources(ctx, rootResource, compartmentTestingResourceGraph)
 	if err != nil {
@@ -1501,18 +1504,18 @@ func TestUnitGetHCLString_missingFields(t *testing.T) {
 
 	targetResourceOcid := getTestResourceId("child", len(childrenResources)-1)
 	testStringBuilder := &strings.Builder{}
-	var targetResource *OCIResource
+	var targetResource *tf_export.OCIResource
 	for _, resource := range results {
-		if resource.id == targetResourceOcid {
+		if resource.Id == targetResourceOcid {
 			targetResource = resource
 			break
 		}
 	}
 
-	delete(targetResource.sourceAttributes, "compartment_id")
-	delete(targetResource.sourceAttributes, "a_string")
-	targetResource.sourceAttributes["a_map"] = nil
-	if err := targetResource.getHCLString(testStringBuilder, nil); err != nil {
+	delete(targetResource.SourceAttributes, "compartment_id")
+	delete(targetResource.SourceAttributes, "a_string")
+	targetResource.SourceAttributes["a_map"] = nil
+	if err := targetResource.GetHCLString(testStringBuilder, nil); err != nil {
 		t.Logf("got error '%v' when trying to get HCL string", err)
 		t.Fail()
 	}
@@ -1536,8 +1539,8 @@ func TestUnitGetHCLString_interpolationMap(t *testing.T) {
 	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
-	ctx := &resourceDiscoveryContext{
-		errorList: ErrorList{},
+	ctx := &tf_export.ResourceDiscoveryContext{
+		ErrorList: tf_export.ErrorList{},
 	}
 	results, err := findResources(ctx, rootResource, compartmentTestingResourceGraph)
 	if err != nil {
@@ -1547,37 +1550,37 @@ func TestUnitGetHCLString_interpolationMap(t *testing.T) {
 
 	targetResourceOcid := getTestResourceId("child", len(childrenResources)-1)
 	testStringBuilder := &strings.Builder{}
-	var targetResource *OCIResource
+	var targetResource *tf_export.OCIResource
 	for _, resource := range results {
-		if resource.id == targetResourceOcid {
+		if resource.Id == targetResourceOcid {
 			targetResource = resource
 			break
 		}
 	}
 
 	// Test that ocids can be replaced with parent ID references
-	interpolationMap := map[string]string{targetResource.parent.id: targetResource.parent.getHclReferenceIdString()}
-	if err := targetResource.getHCLString(testStringBuilder, interpolationMap); err != nil {
+	interpolationMap := map[string]string{targetResource.Parent.Id: targetResource.Parent.GetHclReferenceIdString()}
+	if err := targetResource.GetHCLString(testStringBuilder, interpolationMap); err != nil {
 		t.Logf("got error '%v' when trying to get HCL string", err)
 		t.Fail()
 	}
 	resultHcl := testStringBuilder.String()
 
-	if !strings.Contains(resultHcl, targetResource.parent.getHclReferenceIdString()) || strings.Contains(resultHcl, targetResource.parent.id) {
-		t.Logf("expected hcl to replace parent ocid '%s' with '%s', but it wasn't", targetResource.parent.id, targetResource.parent.getHclReferenceIdString())
+	if !strings.Contains(resultHcl, targetResource.Parent.GetHclReferenceIdString()) || strings.Contains(resultHcl, targetResource.Parent.Id) {
+		t.Logf("expected hcl to replace parent ocid '%s' with '%s', but it wasn't", targetResource.Parent.Id, targetResource.Parent.GetHclReferenceIdString())
 		t.Fail()
 	}
 
 	// Test that self-referencing IDs are ignored and do not show up in result hcl
-	interpolationMap = map[string]string{targetResource.parent.id: targetResource.getHclReferenceIdString()}
-	if err := targetResource.getHCLString(testStringBuilder, interpolationMap); err != nil {
+	interpolationMap = map[string]string{targetResource.Parent.Id: targetResource.GetHclReferenceIdString()}
+	if err := targetResource.GetHCLString(testStringBuilder, interpolationMap); err != nil {
 		t.Logf("got error '%v' when trying to get HCL string", err)
 		t.Fail()
 	}
 	resultHcl = testStringBuilder.String()
 
-	if strings.Contains(resultHcl, targetResource.getHclReferenceIdString()) || !strings.Contains(resultHcl, targetResource.parent.id) {
-		t.Logf("expected hcl to avoid cyclical reference '%s' but found one", targetResource.getHclReferenceIdString())
+	if strings.Contains(resultHcl, targetResource.GetHclReferenceIdString()) || !strings.Contains(resultHcl, targetResource.Parent.Id) {
+		t.Logf("expected hcl to avoid cyclical reference '%s' but found one", targetResource.GetHclReferenceIdString())
 		t.Fail()
 	}
 }
@@ -1588,7 +1591,7 @@ func TestUnitGetHCLString_tfSyntaxVersion(t *testing.T) {
 	defer cleanupResourceDiscoveryTests()
 	rootResource := getRootCompartmentResource()
 
-	ctx := &resourceDiscoveryContext{}
+	ctx := &tf_export.ResourceDiscoveryContext{}
 	results, err := findResources(ctx, rootResource, compartmentTestingResourceGraph)
 	if err != nil {
 		t.Logf("got error from findResources: %v", err)
@@ -1596,28 +1599,28 @@ func TestUnitGetHCLString_tfSyntaxVersion(t *testing.T) {
 	}
 
 	targetResourceOcid := getTestResourceId("child", len(childrenResources)-1)
-	var targetResource *OCIResource
+	var targetResource *tf_export.OCIResource
 	for _, resource := range results {
-		if resource.id == targetResourceOcid {
+		if resource.Id == targetResourceOcid {
 			targetResource = resource
 			break
 		}
 	}
 
 	// Test the syntax version generated
-	tfHclVersion = &TfHclVersion11{}
-	interpolationMap := map[string]string{targetResource.parent.id: targetResource.parent.getHclReferenceIdString()}
+	tf_export.TfHclVersionvar = &tf_export.TfHclVersion11{}
+	interpolationMap := map[string]string{targetResource.Parent.Id: targetResource.Parent.GetHclReferenceIdString()}
 	r, _ := regexp.Compile("\\$\\{.*}")
-	if !r.MatchString(interpolationMap[targetResource.parent.id]) {
-		t.Logf("incorrect syntax generated for version %v", tfHclVersion.toString())
+	if !r.MatchString(interpolationMap[targetResource.Parent.Id]) {
+		t.Logf("incorrect syntax generated for version %v", tf_export.TfHclVersionvar.ToString())
 		t.Fail()
 	}
 
-	tfHclVersion = &TfHclVersion12{}
-	interpolationMap = map[string]string{targetResource.parent.id: targetResource.parent.getHclReferenceIdString()}
+	tf_export.TfHclVersionvar = &tf_export.TfHclVersion12{}
+	interpolationMap = map[string]string{targetResource.Parent.Id: targetResource.Parent.GetHclReferenceIdString()}
 	r, _ = regexp.Compile("[^${}]")
-	if !r.MatchString(interpolationMap[targetResource.parent.id]) {
-		t.Logf("incorrect syntax generated for version %v", tfHclVersion.toString())
+	if !r.MatchString(interpolationMap[targetResource.Parent.Id]) {
+		t.Logf("incorrect syntax generated for version %v", tf_export.TfHclVersionvar.ToString())
 		t.Fail()
 	}
 
@@ -1841,7 +1844,7 @@ func TestUnitGetExportConfigWithFakeProviderClient(t *testing.T) {
    	for serviceName, _ := range tenancyResourceGraphs {
    		exportCommandArgs.Services = append(exportCommandArgs.Services, serviceName)
    	}
-   	for serviceName, _ := range compartmentResourceGraphs {
+   	for serviceName, _ := range commonexport.CompartmentResourceGraphs {
    		exportCommandArgs.Services = append(exportCommandArgs.Services, serviceName)
    	}
    	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
@@ -1852,27 +1855,27 @@ func TestUnitGetExportConfigWithFakeProviderClient(t *testing.T) {
 */
 // issue-routing-tag: terraform/default
 func TestExportCommandArgs_finalizeServices(t *testing.T) {
-	compartmentResourceGraphs["compartment_testing"] = compartmentTestingResourceGraph
-	compartmentResourceGraphs["compartment_testing_2"] = compartmentTestingResourceGraph
-	tenancyResourceGraphs["tenancy_testing"] = tenancyTestingResourceGraph
-	tenancyResourceGraphs["tenancy_testing_2"] = tenancyTestingResourceGraph
+	tf_export.CompartmentResourceGraphs["compartment_testing"] = compartmentTestingResourceGraph
+	tf_export.CompartmentResourceGraphs["compartment_testing_2"] = compartmentTestingResourceGraph
+	tf_export.TenancyResourceGraphs["tenancy_testing"] = tenancyTestingResourceGraph
+	tf_export.TenancyResourceGraphs["tenancy_testing_2"] = tenancyTestingResourceGraph
 
 	defer func() {
-		delete(compartmentResourceGraphs, "compartment_testing")
-		delete(compartmentResourceGraphs, "compartment_testing_2")
-		delete(compartmentResourceGraphs, "tenancy_testing")
-		delete(compartmentResourceGraphs, "tenancy_testing_2")
+		delete(tf_export.CompartmentResourceGraphs, "compartment_testing")
+		delete(tf_export.CompartmentResourceGraphs, "compartment_testing_2")
+		delete(tf_export.CompartmentResourceGraphs, "tenancy_testing")
+		delete(tf_export.CompartmentResourceGraphs, "tenancy_testing_2")
 	}()
 
-	compartmentScopeServices = []string{"compartment_testing", "compartment_testing_2"}
-	tenancyScopeServices = []string{"tenancy_testing", "tenancy_testing_2"}
+	tf_export.CompartmentScopeServices = []string{"compartment_testing", "compartment_testing_2"}
+	tf_export.TenancyScopeServices = []string{"tenancy_testing", "tenancy_testing_2"}
 	tenancyOcid := resourceDiscoveryTestTenancyOcid
 	compartmentId := resourceDiscoveryTestCompartmentOcid
 	type fields struct {
 		FinalizedServices []string
 	}
 	type args struct {
-		ctx *resourceDiscoveryContext
+		ctx *tf_export.ResourceDiscoveryContext
 	}
 	tests := []struct {
 		name   string
@@ -1885,9 +1888,9 @@ func TestExportCommandArgs_finalizeServices(t *testing.T) {
 				FinalizedServices: []string{"compartment_testing", "compartment_testing_2", "tenancy_testing"},
 			},
 			args: args{
-				ctx: &resourceDiscoveryContext{
-					tenancyOcid: tenancyOcid,
-					ExportCommandArgs: &ExportCommandArgs{
+				ctx: &tf_export.ResourceDiscoveryContext{
+					TenancyOcid: tenancyOcid,
+					ExportCommandArgs: &tf_export.ExportCommandArgs{
 						CompartmentId:   &compartmentId,
 						Services:        []string{"compartment_testing", "compartment_testing_2", "tenancy_testing"},
 						ExcludeServices: []string{},
@@ -1901,9 +1904,9 @@ func TestExportCommandArgs_finalizeServices(t *testing.T) {
 				FinalizedServices: []string{"compartment_testing_2", "tenancy_testing"},
 			},
 			args: args{
-				ctx: &resourceDiscoveryContext{
-					tenancyOcid: tenancyOcid,
-					ExportCommandArgs: &ExportCommandArgs{
+				ctx: &tf_export.ResourceDiscoveryContext{
+					TenancyOcid: tenancyOcid,
+					ExportCommandArgs: &tf_export.ExportCommandArgs{
 						CompartmentId:   &compartmentId,
 						Services:        []string{"compartment_testing", "compartment_testing_2", "tenancy_testing"},
 						ExcludeServices: []string{"compartment_testing"},
@@ -1917,9 +1920,9 @@ func TestExportCommandArgs_finalizeServices(t *testing.T) {
 				FinalizedServices: []string{"compartment_testing", "tenancy_testing", "tenancy_testing_2"},
 			},
 			args: args{
-				ctx: &resourceDiscoveryContext{
-					tenancyOcid: tenancyOcid,
-					ExportCommandArgs: &ExportCommandArgs{
+				ctx: &tf_export.ResourceDiscoveryContext{
+					TenancyOcid: tenancyOcid,
+					ExportCommandArgs: &tf_export.ExportCommandArgs{
 						CompartmentId:   &tenancyOcid,
 						ExcludeServices: []string{"compartment_testing_2"},
 					},
@@ -1930,7 +1933,7 @@ func TestExportCommandArgs_finalizeServices(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 
-			tt.args.ctx.ExportCommandArgs.finalizeServices(tt.args.ctx)
+			tt.args.ctx.ExportCommandArgs.FinalizeServices(tt.args.ctx)
 			if !reflect.DeepEqual(tt.args.ctx.ExportCommandArgs.Services, tt.fields.FinalizedServices) {
 				t.Logf("incorrect services list, expected: %v actual: %v", tt.fields.FinalizedServices, tt.args.ctx.ExportCommandArgs.Services)
 				t.Fail()
@@ -1957,8 +1960,8 @@ func TestUnitGetHCLString_logging(t *testing.T) {
 	l, _ := utils.NewTFProviderLogger()
 	utils.SetTFProviderLogger(l)
 
-	ctx := &resourceDiscoveryContext{
-		errorList: ErrorList{},
+	ctx := &tf_export.ResourceDiscoveryContext{
+		ErrorList: tf_export.ErrorList{},
 	}
 	_, err = findResources(ctx, rootResource, compartmentTestingResourceGraph)
 	if err != nil {
@@ -1998,31 +2001,31 @@ func TestUnitRunListExportableServicesCommand(t *testing.T) {
 // deleteInvalidReferences removes invalid reference from referenceMap if import fails for any resource
 // issue-routing-tag: terraform/default
 func TestUnit_deleteInvalidReferences(t *testing.T) {
-	discoveredResources := []*OCIResource{
+	discoveredResources := []*tf_export.OCIResource{
 		{
-			compartmentId: resourceDiscoveryTestCompartmentOcid,
-			TerraformResource: TerraformResource{
-				id:             "ocid1.a.b.c",
-				terraformClass: "oci_resource_type1",
-				terraformName:  "type1_res1",
+			CompartmentId: resourceDiscoveryTestCompartmentOcid,
+			TerraformResource: tf_export.TerraformResource{
+				Id:             "ocid1.a.b.c",
+				TerraformClass: "oci_resource_type1",
+				TerraformName:  "type1_res1",
 			},
 		},
 		{
 			// resource with import failure
-			compartmentId: resourceDiscoveryTestCompartmentOcid,
-			TerraformResource: TerraformResource{
-				id:             "ocid1.d.e.f",
-				terraformClass: "oci_resource_type2",
-				terraformName:  "type2_res1",
+			CompartmentId: resourceDiscoveryTestCompartmentOcid,
+			TerraformResource: tf_export.TerraformResource{
+				Id:             "ocid1.d.e.f",
+				TerraformClass: "oci_resource_type2",
+				TerraformName:  "type2_res1",
 			},
-			isErrorResource: true,
+			IsErrorResource: true,
 		},
 		{
-			compartmentId: resourceDiscoveryTestCompartmentOcid,
-			TerraformResource: TerraformResource{
-				id:             "ocid1.g.h.i",
-				terraformClass: "oci_resource_type2",
-				terraformName:  "type2_res2",
+			CompartmentId: resourceDiscoveryTestCompartmentOcid,
+			TerraformResource: tf_export.TerraformResource{
+				Id:             "ocid1.g.h.i",
+				TerraformClass: "oci_resource_type2",
+				TerraformName:  "type2_res2",
 			},
 		},
 	}
@@ -2057,10 +2060,10 @@ func Test_createTerraformStruct(t *testing.T) {
 		t.Logf("unable to mkdir %s. err: %v", outputDir, err)
 		t.Fail()
 	}
-	args := &ExportCommandArgs{
+	args := &tf_export.ExportCommandArgs{
 		OutputDir: &outputDir,
 	}
-	tfHclVersion = &TfHclVersion12{}
+	tf_export.TfHclVersionvar = &tf_export.TfHclVersion12{}
 	// verify executable from system path
 	if _, _, err := createTerraformStruct(args); err != nil {
 		t.Errorf("createTerraformStruct() error = %v", err)
@@ -2170,10 +2173,10 @@ func TestUnitCreateTerraformStruct(t *testing.T) {
 			errorMsg:  "error  not expected for 1.2.2 version",
 		},
 	}
-	args := &ExportCommandArgs{
+	args := &tf_export.ExportCommandArgs{
 		OutputDir: &outputDir,
 	}
-	tfHclVersion = &TfHclVersion12{}
+	tf_export.TfHclVersionvar = &tf_export.TfHclVersion12{}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(test *testing.T) {
@@ -2190,7 +2193,7 @@ func TestUnitCreateTerraformStruct(t *testing.T) {
 }
 
 func TestUnitPrintResourceGraphResources(t *testing.T) {
-	resourceGraphs := map[string]TerraformResourceGraph{
+	resourceGraphs := map[string]tf_export.TerraformResourceGraph{
 		"tenancyTestingResourceGraph": tenancyTestingResourceGraph,
 	}
 	err := printResourceGraphResources(resourceGraphs, "testing")
@@ -2213,13 +2216,101 @@ func TestUnitGenerateStateParallel(t *testing.T) {
 		resourceDiscoveryBaseStep: resourceDiscoveryBaseStep{
 			ctx:                 ctx,
 			name:                "resources",
-			discoveredResources: []*OCIResource{},
-			omittedResources:    []*OCIResource{},
+			discoveredResources: []*tf_export.OCIResource{},
+			omittedResources:    []*tf_export.OCIResource{},
 		},
 	}
 	t.Logf(fmt.Sprintf("%v", steps))
 	err := generateStateParallel(ctx, steps)
 	assert.NoError(t, err, "")
+}
+
+func TestUnitGenerateStateParallelWhenTfInitFails(t *testing.T) {
+
+	ctx := getTestCtx()
+	nSteps := 80 // number of steps
+	steps := make([]resourceDiscoveryStep, nSteps)
+
+	compartmentId := resourceDiscoveryTestCompartmentOcid
+	if err := os.Setenv("export_tenancy_id", resourceDiscoveryTestTenancyOcid); err != nil {
+		t.Logf("unable to set export_tenancy_id. err: %v", err)
+		t.Fail()
+	}
+	outputDir, err := os.Getwd()
+	outputDir = fmt.Sprintf("%s%sdiscoveryTest-%d", outputDir, string(os.PathSeparator), time.Now().Nanosecond())
+	if err = os.Mkdir(outputDir, os.ModePerm); err != nil {
+		t.Logf("unable to mkdir %s. err: %v", outputDir, err)
+		t.Fail()
+	}
+
+	for i := 0; i < nSteps; i++ {
+		discoveredResources := []*tf_export.OCIResource{}
+		discoveredResources = append(discoveredResources, &tf_export.OCIResource{
+			CompartmentId: compartmentId,
+			TerraformResource: tf_export.TerraformResource{
+				Id:             "ocid1.a.b.c",
+				TerraformClass: "oci_resource_type1",
+				TerraformName:  "type1_res1",
+			},
+			Parent: &tf_export.OCIResource{
+				TerraformResource: tf_export.TerraformResource{TerraformName: "tf"},
+			},
+		})
+
+		steps[i] = &resourceDiscoveryWithTargetIds{
+			resourceDiscoveryBaseStep: resourceDiscoveryBaseStep{
+				ctx:                 ctx,
+				name:                "resources" + fmt.Sprint(i),
+				discoveredResources: discoveredResources,
+				omittedResources:    []*tf_export.OCIResource{},
+			},
+		}
+	}
+
+	type args struct {
+		steps []resourceDiscoveryStep
+		ctx   *tf_export.ResourceDiscoveryContext
+	}
+	t_args := args{
+		steps: steps,
+		ctx:   ctx,
+	}
+	tests := []struct {
+		name      string
+		args      args
+		mock      func()
+		wantError bool
+	}{
+		{
+			name: "If Import failed ,should Return error",
+			args: t_args,
+			mock: func() {
+				t_args.ctx.TerraformProviderBinaryPath = "tf"
+				t_args.ctx.OutputDir = &outputDir
+				ctxTerraformImportVar = func(ctx *tf_export.ResourceDiscoveryContext, ctxBackground context.Context, address, id string, importArgs ...tfexec.ImportOption) error {
+					return nil
+				}
+				terraformInitMockVar = func(r *resourceDiscoveryBaseStep, backgroundCtx context.Context, initArgs []tfexec.InitOption) error {
+					return errors.New("Init failed")
+				}
+				sem = make(chan struct{}, 4) // Parallelism=4
+				tf_export.ResourcesMap = mockResourcesMap()
+			},
+			wantError: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tt.mock()
+			err := generateStateParallel(ctx, steps)
+			if tt.wantError {
+				assert.Error(t, err)
+			} else {
+				assert.NoError(t, err, "")
+			}
+		})
+	}
 }
 
 func TestUnitGenerateState(test *testing.T) {
@@ -2233,13 +2324,13 @@ func TestUnitGenerateState(test *testing.T) {
 		resourceDiscoveryBaseStep: resourceDiscoveryBaseStep{
 			ctx:                 ctx,
 			name:                "resources",
-			discoveredResources: []*OCIResource{},
-			omittedResources:    []*OCIResource{},
+			discoveredResources: []*tf_export.OCIResource{},
+			omittedResources:    []*tf_export.OCIResource{},
 		},
 	}
 	type args struct {
 		steps []resourceDiscoveryStep
-		ctx   *resourceDiscoveryContext
+		ctx   *tf_export.ResourceDiscoveryContext
 	}
 	t_args := args{
 		steps: steps,
@@ -2254,7 +2345,7 @@ func TestUnitGenerateState(test *testing.T) {
 		name: "Run with Default Steps",
 		args: t_args,
 		mock: func() {
-			terraformInitVar = func(ctx *resourceDiscoveryContext, backgroundCtx context.Context, initArgs []tfexec.InitOption) error {
+			terraformInitVar = func(ctx *tf_export.ResourceDiscoveryContext, backgroundCtx context.Context, initArgs []tfexec.InitOption) error {
 				return nil
 			}
 			//err := generateState(ctx, steps)
@@ -2265,8 +2356,8 @@ func TestUnitGenerateState(test *testing.T) {
 			name: "Run with terraformProviderBinaryPath value int context",
 			args: t_args,
 			mock: func() {
-				t_args.ctx.terraformProviderBinaryPath = "tf"
-				terraformInitVar = func(ctx *resourceDiscoveryContext, backgroundCtx context.Context, initArgs []tfexec.InitOption) error {
+				t_args.ctx.TerraformProviderBinaryPath = "tf"
+				terraformInitVar = func(ctx *tf_export.ResourceDiscoveryContext, backgroundCtx context.Context, initArgs []tfexec.InitOption) error {
 					return nil
 				}
 				//err := generateState(ctx, steps)
@@ -2277,8 +2368,8 @@ func TestUnitGenerateState(test *testing.T) {
 			name: "If Init failed ,should Return error",
 			args: t_args,
 			mock: func() {
-				t_args.ctx.terraformProviderBinaryPath = "tf"
-				terraformInitVar = func(ctx *resourceDiscoveryContext, backgroundCtx context.Context, initArgs []tfexec.InitOption) error {
+				t_args.ctx.TerraformProviderBinaryPath = "tf"
+				terraformInitVar = func(ctx *tf_export.ResourceDiscoveryContext, backgroundCtx context.Context, initArgs []tfexec.InitOption) error {
 					return errors.New("init failed")
 				}
 				//err := generateState(ctx, steps)
@@ -2303,11 +2394,11 @@ func TestUnitGenerateState(test *testing.T) {
 func TestUnitGetOciResource(t *testing.T) {
 	childResource := testChildResource()
 	d := childResource.TestResourceData()
-	resource, err := getOciResource(d, childResource.Schema, "dummy", exportChildDefinition, "dummy resource id")
+	resource, err := tf_export.GetOciResource(d, childResource.Schema, "dummy", exportChildDefinition, "dummy resource id")
 	assert.NoError(t, err)
 	assert.NotNil(t, resource, "should return a dummy resource")
-	assert.Equal(t, "dummy", resource.compartmentId)
-	assert.Equal(t, "dummy resource id", resource.id)
+	assert.Equal(t, "dummy", resource.CompartmentId)
+	assert.Equal(t, "dummy resource id", resource.Id)
 }
 func TestUnitConvertDatasourceItemToMap(t *testing.T) {
 	parentResource := testParentResource()
@@ -2321,14 +2412,14 @@ func TestUnitConvertDatasourceItemToMap(t *testing.T) {
 	d.Set("a_nested_set", schema.NewSet(func(interface{}) int {
 		return 1
 	}, dummyData))
-	result, err := convertDatasourceItemToMap(d, "", parentResource.Schema)
+	result, err := tf_export.ConvertDatasourceItemToMap(d, "", parentResource.Schema)
 	assert.NoError(t, err)
 	assert.NotNil(t, result, "should return a map")
 }
 func TestUnitConvertResourceDataToMap(t *testing.T) {
 	parentResource := testParentResource()
 	d := parentResource.TestResourceData()
-	result := convertResourceDataToMap(parentResource.Schema, d)
+	result := tf_export.ConvertResourceDataToMap(parentResource.Schema, d)
 	assert.NotNil(t, result, "should return a map")
 }
 func TestUnitResolveCompartmentId(t *testing.T) {
@@ -2374,15 +2465,15 @@ func TestUnitImportResource(t *testing.T) {
 	compartmentId := "dummy_compartment_id"
 	outputDir := "tmp/"
 
-	resource := &OCIResource{
-		compartmentId: compartmentId,
-		TerraformResource: TerraformResource{
-			id:             "ocid1.a.b.c",
-			terraformClass: "oci_resource_type1",
-			terraformName:  "type1_res1",
+	resource := &tf_export.OCIResource{
+		CompartmentId: compartmentId,
+		TerraformResource: tf_export.TerraformResource{
+			Id:             "ocid1.a.b.c",
+			TerraformClass: "oci_resource_type1",
+			TerraformName:  "type1_res1",
 		},
-		parent: &OCIResource{
-			TerraformResource: TerraformResource{terraformName: "tf"},
+		Parent: &tf_export.OCIResource{
+			TerraformResource: tf_export.TerraformResource{TerraformName: "tf"},
 		},
 	}
 	ctx := getTestCtx()
@@ -2394,30 +2485,30 @@ func TestUnitImportResource(t *testing.T) {
 	}
 
 	//with Unknown Resource
-	resourcesMap = make(map[string]*schema.Resource)
+	tf_export.ResourcesMap = make(map[string]*schema.Resource)
 	importResource(ctx, resource, outputDir)
 
 	//without importer
-	resourcesMap = mockResourcesMap()
-	resourcesMap["oci_resource_type1"].Importer = nil
+	tf_export.ResourcesMap = mockResourcesMap()
+	tf_export.ResourcesMap["oci_resource_type1"].Importer = nil
 	importResource(ctx, resource, outputDir)
 
 	// Without Import Error
-	ctxTerraformImportVar = func(ctx *resourceDiscoveryContext, ctxBackground context.Context, address, id string, importArgs ...tfexec.ImportOption) error {
+	ctxTerraformImportVar = func(ctx *tf_export.ResourceDiscoveryContext, ctxBackground context.Context, address, id string, importArgs ...tfexec.ImportOption) error {
 		return nil
 	}
-	resourcesMap = mockResourcesMap()
+	tf_export.ResourcesMap = mockResourcesMap()
 	importResource(ctx, resource, outputDir)
-	assert.Equal(t, 0, len(ctx.errorList.errors))
+	assert.Equal(t, 0, len(ctx.ErrorList.Errors))
 
 	//With Import Error
-	ctxTerraformImportVar = func(ctx *resourceDiscoveryContext, ctxBackground context.Context, address, id string, importArgs ...tfexec.ImportOption) error {
+	ctxTerraformImportVar = func(ctx *tf_export.ResourceDiscoveryContext, ctxBackground context.Context, address, id string, importArgs ...tfexec.ImportOption) error {
 		return errors.New("dummy error to cover code")
 	}
-	resourcesMap = mockResourcesMap()
+	tf_export.ResourcesMap = mockResourcesMap()
 	importResource(ctx, resource, outputDir)
-	assert.NotNil(t, ctx.errorList)
-	assert.Equal(t, 1, len(ctx.errorList.errors))
+	assert.NotNil(t, ctx.ErrorList)
+	assert.Equal(t, 1, len(ctx.ErrorList.Errors))
 }
 
 func mockResourcesMap() map[string]*schema.Resource {
@@ -2439,7 +2530,7 @@ func TestUnitGetDiscoverResourceSteps(t *testing.T) {
 	//without targetResource
 	t.Run("GetDiscoverResourceSteps without targetResource", func(t *testing.T) {
 		ctx := getTestCtx()
-		ctx.targetSpecificResources = false
+		ctx.TargetSpecificResources = false
 		result, err := getDiscoverResourceSteps(ctx)
 		assert.NoError(t, err)
 		assert.Equal(t, 0, len(result))
@@ -2448,7 +2539,7 @@ func TestUnitGetDiscoverResourceSteps(t *testing.T) {
 	// With targetResource
 	t.Run("GetDiscoverResourceSteps With targetResource", func(t *testing.T) {
 		ctx := getTestCtx()
-		ctx.targetSpecificResources = true
+		ctx.TargetSpecificResources = true
 		result, err := getDiscoverResourceSteps(ctx)
 		assert.NoError(t, err)
 		assert.Equal(t, 1, len(result))
@@ -2461,7 +2552,7 @@ func TestUnitGetDiscoverResourceWithGraphSteps(t *testing.T) {
 	initResourceDiscoveryTests()
 	t.Run("GetDiscoverResourceWithGraphSteps without targetResource", func(t *testing.T) {
 		ctx := getTestCtx()
-		ctx.targetSpecificResources = false
+		ctx.TargetSpecificResources = false
 		ctx.Services = []string{"identity"}
 		result, err := getDiscoverResourceWithGraphSteps(ctx)
 		assert.NoError(t, err)
@@ -2471,7 +2562,7 @@ func TestUnitGetDiscoverResourceWithGraphSteps(t *testing.T) {
 	// With targetResource
 	t.Run("GetDiscoverResourceWithGraphSteps With targetResource", func(t *testing.T) {
 		ctx := getTestCtx()
-		ctx.targetSpecificResources = true
+		ctx.TargetSpecificResources = true
 		ctx.Services = []string{"budget"}
 		result, err := getDiscoverResourceWithGraphSteps(ctx)
 		assert.NoError(t, err)
@@ -2480,8 +2571,8 @@ func TestUnitGetDiscoverResourceWithGraphSteps(t *testing.T) {
 	// With targetResource
 	t.Run("GetDiscoverResourceWithGraphSteps With tanaceyocid = compartment ocid", func(t *testing.T) {
 		ctx := getTestCtx()
-		ctx.targetSpecificResources = true
-		ctx.CompartmentId = &ctx.tenancyOcid
+		ctx.TargetSpecificResources = true
+		ctx.CompartmentId = &ctx.TenancyOcid
 		ctx.Services = []string{"budget"}
 		result, err := getDiscoverResourceWithGraphSteps(ctx)
 		assert.NoError(t, err)
@@ -2497,10 +2588,10 @@ func TestUnitDeleteInvalidReferences(t *testing.T) {
 		referenceMap["2"] = "ocid2.a.b.c"
 		referenceMap["3"] = "ocid3.d.b.c"
 
-		discoveredResources := make([]*OCIResource, 0, 3)
-		resource := OCIResource{
-			isErrorResource:   false,
-			TerraformResource: TerraformResource{id: "1"},
+		discoveredResources := make([]*tf_export.OCIResource, 0, 3)
+		resource := tf_export.OCIResource{
+			IsErrorResource:   false,
+			TerraformResource: tf_export.TerraformResource{Id: "1"},
 		}
 		discoveredResources = append(discoveredResources, &resource)
 		deleteInvalidReferences(referenceMap, discoveredResources)
@@ -2513,10 +2604,10 @@ func TestUnitDeleteInvalidReferences(t *testing.T) {
 		referenceMap["2"] = "ocid2.a.b.c"
 		referenceMap["3"] = "ocid3.d.b.c"
 
-		discoveredResources := make([]*OCIResource, 0, 3)
-		resource := OCIResource{
-			isErrorResource:   true,
-			TerraformResource: TerraformResource{id: "2"},
+		discoveredResources := make([]*tf_export.OCIResource, 0, 3)
+		resource := tf_export.OCIResource{
+			IsErrorResource:   true,
+			TerraformResource: tf_export.TerraformResource{Id: "2"},
 		}
 		discoveredResources = append(discoveredResources, &resource)
 		deleteInvalidReferences(referenceMap, discoveredResources)
@@ -2526,26 +2617,26 @@ func TestUnitDeleteInvalidReferences(t *testing.T) {
 	})
 }
 func TestUnitHasFreeformTag(t *testing.T) {
-	resource := OCIResource{
-		sourceAttributes: map[string]interface{}{
+	resource := tf_export.OCIResource{
+		SourceAttributes: map[string]interface{}{
 			"freeform_tags": map[string]interface{}{
 				"myPresentTag": "present",
 			},
 		},
 	}
-	assert.True(t, resource.hasFreeformTag("myPresentTag"), "should return True for present tag")
-	assert.False(t, resource.hasFreeformTag("myNotPresentTag"), "should return False for not present tag")
+	assert.True(t, resource.HasFreeformTag("myPresentTag"), "should return True for present tag")
+	assert.False(t, resource.HasFreeformTag("myNotPresentTag"), "should return False for not present tag")
 }
 func TestUnitHasDefinedTag(t *testing.T) {
-	resource := OCIResource{
-		sourceAttributes: map[string]interface{}{
+	resource := tf_export.OCIResource{
+		SourceAttributes: map[string]interface{}{
 			"defined_tags": map[string]interface{}{
 				"myDefinedTag": "YES",
 			},
 		},
 	}
-	assert.True(t, resource.hasDefinedTag("myDefinedTag", "YES"), "should return True for defined tag")
-	assert.False(t, resource.hasDefinedTag("myDefinedTag", "NO"), "should return False for Not Defined tag")
+	assert.True(t, resource.HasDefinedTag("myDefinedTag", "YES"), "should return True for defined tag")
+	assert.False(t, resource.HasDefinedTag("myDefinedTag", "NO"), "should return False for Not Defined tag")
 }
 
 func TestUnitParseDeliveryPolicy(t *testing.T) {
@@ -2556,7 +2647,7 @@ func TestUnitParseDeliveryPolicy(t *testing.T) {
 			"policy_type":        "NA",
 		},
 	}
-	assert.NotNil(t, parseDeliveryPolicy(policy))
+	assert.NotNil(t, tf_export.ParseDeliveryPolicy(policy))
 }
 
 /*
@@ -2567,10 +2658,10 @@ func TestUnitParseDeliveryPolicy(t *testing.T) {
    		referenceMap["2"] = "ocid2.a.b.c"
    		referenceMap["3"] = "ocid3.1.b.c"
 
-   		discoveredResources := make([]*OCIResource, 0, 3)
-   		resource := OCIResource{
-   			isErrorResource:   true,
-   			TerraformResource: TerraformResource{id: "1", terraformName: "1"},
+   		discoveredResources := make([]*commonexport.OCIResource, 0, 3)
+   		resource := commonexport.OCIResource{
+   			IsErrorResource:   true,
+   			TerraformResource: commonexport.TerraformResource{Id: "1", TerraformName: "1"},
    		}
    		discoveredResources = append(discoveredResources, &resource)
    		deleteInvalidReferences(referenceMap, discoveredResources)

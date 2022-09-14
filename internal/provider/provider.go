@@ -47,9 +47,6 @@ var ociProvider *schema.Provider
 var TerraformCLIVersion = globalvar.UnknownTerraformCLIVersion
 var AvoidWaitingForDeleteTarget bool
 
-var OciResources map[string]*schema.Resource
-var OciDatasources map[string]*schema.Resource
-
 // creating an interface to aid in unit tests
 type schemaResourceData interface {
 	GetOkExists(string) (interface{}, bool)
@@ -207,41 +204,27 @@ func SchemaMap() map[string]*schema.Schema {
 	}
 }
 
-func RegisterResource(name string, resourceSchema *schema.Resource) {
-	if OciResources == nil {
-		OciResources = make(map[string]*schema.Resource)
-	}
-	OciResources[name] = resourceSchema
-}
-
-func RegisterDatasource(name string, datasourceSchema *schema.Resource) {
-	if OciDatasources == nil {
-		OciDatasources = make(map[string]*schema.Resource)
-	}
-	OciDatasources[name] = datasourceSchema
-}
-
 // This returns a map of all data sources to register with Terraform
 // The OciDatasources map is populated by each datasource's init function being invoked before it gets here
 func DataSourcesMap() map[string]*schema.Resource {
 	// Register some aliases of registered datasources. These are registered for convenience and legacy reasons.
-	RegisterDatasource("oci_core_listing_resource_version", tf_core.CoreAppCatalogListingResourceVersionDataSource())
-	RegisterDatasource("oci_core_listing_resource_versions", tf_core.CoreAppCatalogListingResourceVersionsDataSource())
-	RegisterDatasource("oci_core_shape", tf_core.CoreShapesDataSource())
-	RegisterDatasource("oci_core_virtual_networks", tf_core.CoreVcnsDataSource())
-	RegisterDatasource("oci_load_balancers", tf_load_balancer.LoadBalancerLoadBalancersDataSource())
-	RegisterDatasource("oci_load_balancer_backendsets", tf_load_balancer.LoadBalancerBackendSetsDataSource())
-	return OciDatasources
+	tf_resource.RegisterDatasource("oci_core_listing_resource_version", tf_core.CoreAppCatalogListingResourceVersionDataSource())
+	tf_resource.RegisterDatasource("oci_core_listing_resource_versions", tf_core.CoreAppCatalogListingResourceVersionsDataSource())
+	tf_resource.RegisterDatasource("oci_core_shape", tf_core.CoreShapesDataSource())
+	tf_resource.RegisterDatasource("oci_core_virtual_networks", tf_core.CoreVcnsDataSource())
+	tf_resource.RegisterDatasource("oci_load_balancers", tf_load_balancer.LoadBalancerLoadBalancersDataSource())
+	tf_resource.RegisterDatasource("oci_load_balancer_backendsets", tf_load_balancer.LoadBalancerBackendSetsDataSource())
+	return globalvar.OciDatasources
 }
 
 // This returns a map of all resources to register with Terraform
 // The OciResource map is populated by each resource's init function being invoked before it gets here
 func ResourcesMap() map[string]*schema.Resource {
 	// Register some aliases of registered resources. These are registered for convenience and legacy reasons.
-	RegisterResource("oci_core_virtual_network", tf_core.CoreVcnResource())
-	RegisterResource("oci_load_balancer", tf_load_balancer.LoadBalancerLoadBalancerResource())
-	RegisterResource("oci_load_balancer_backendset", tf_load_balancer.LoadBalancerBackendSetResource())
-	return OciResources
+	tf_resource.RegisterResource("oci_core_virtual_network", tf_core.CoreVcnResource())
+	tf_resource.RegisterResource("oci_load_balancer", tf_load_balancer.LoadBalancerLoadBalancerResource())
+	tf_resource.RegisterResource("oci_load_balancer_backendset", tf_load_balancer.LoadBalancerBackendSetResource())
+	return globalvar.OciResources
 }
 
 func ProviderConfig(d *schema.ResourceData) (interface{}, error) {

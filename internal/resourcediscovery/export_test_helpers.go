@@ -8,6 +8,8 @@ import (
 	"strconv"
 	"strings"
 
+	tf_export "github.com/oracle/terraform-provider-oci/internal/commonexport"
+
 	"github.com/hashicorp/terraform-exec/tfexec"
 	"github.com/hashicorp/terraform-exec/tfinstall"
 
@@ -17,12 +19,11 @@ import (
 )
 
 var (
-	tfinstallVar                     = tfinstall.Find
-	testExportCompartmentVar         = testExportCompartment
-	isResourceSupportImportVar       = isResourceSupportImport
-	getEnvSettingWithBlankDefaultVar = utils.GetEnvSettingWithBlankDefault
-	newTerraformVar                  = tfexec.NewTerraform
-	RunExportCommandVar              = RunExportCommand
+	tfinstallVar               = tfinstall.Find
+	testExportCompartmentVar   = testExportCompartment
+	isResourceSupportImportVar = isResourceSupportImport
+	newTerraformVar            = tfexec.NewTerraform
+	RunExportCommandVar        = RunExportCommand
 )
 
 var tfInitVar = func(tf *tfexec.Terraform, initArgs []tfexec.InitOption) error {
@@ -46,7 +47,7 @@ func TestExportCompartmentWithResourceName(id *string, compartmentId *string, re
 		log.Println()
 	}()
 
-	var exportCommandArgs ExportCommandArgs
+	var exportCommandArgs tf_export.ExportCommandArgs
 	if strings.Contains(resourceName, ".") {
 		resourceName = strings.Split(resourceName, ".")[0]
 	}
@@ -57,10 +58,10 @@ func TestExportCompartmentWithResourceName(id *string, compartmentId *string, re
 		return err
 	}
 
-	for serviceName, resourceGraph := range tenancyResourceGraphs {
+	for serviceName, resourceGraph := range tf_export.TenancyResourceGraphs {
 		for _, association := range resourceGraph {
 			for _, hint := range association {
-				if hint.resourceClass == resourceName {
+				if hint.ResourceClass == resourceName {
 					exportCommandArgs.Services = []string{serviceName}
 					exportCommandArgs.IDs = []string{*id}
 					return testExportCompartmentVar(compartmentId, &exportCommandArgs)
@@ -69,10 +70,10 @@ func TestExportCompartmentWithResourceName(id *string, compartmentId *string, re
 		}
 	}
 
-	for serviceName, resourceGraph := range compartmentResourceGraphs {
+	for serviceName, resourceGraph := range tf_export.CompartmentResourceGraphs {
 		for _, association := range resourceGraph {
 			for _, hint := range association {
-				if hint.resourceClass == resourceName {
+				if hint.ResourceClass == resourceName {
 					exportCommandArgs.Services = []string{serviceName}
 					exportCommandArgs.IDs = []string{*id}
 					return testExportCompartmentVar(compartmentId, &exportCommandArgs)
@@ -85,7 +86,7 @@ func TestExportCompartmentWithResourceName(id *string, compartmentId *string, re
 	log.Printf("[INFO] ===> Compartment export doesn't support this resource %v yet", resourceName)
 	return nil
 }
-func testExportCompartment(compartmentId *string, exportCommandArgs *ExportCommandArgs) error {
+func testExportCompartment(compartmentId *string, exportCommandArgs *tf_export.ExportCommandArgs) error {
 	// checking for provider_bin_path here because parent func will also be
 	// called for resources that do not support RD
 	if providerBinPath := getEnvSettingWithBlankDefaultVar("provider_bin_path"); providerBinPath == "" {
@@ -117,7 +118,7 @@ func testExportCompartment(compartmentId *string, exportCommandArgs *ExportComma
 	exportCommandArgs.Services = append(exportCommandArgs.Services, "availability_domain")
 	exportCommandArgs.CompartmentId = compartmentId
 	exportCommandArgs.OutputDir = &outputDir
-	var tfVersion TfHclVersion = &TfHclVersion12{Value: TfVersion12}
+	var tfVersion tf_export.TfHclVersion = &tf_export.TfHclVersion12{Value: tf_export.TfVersion12}
 	exportCommandArgs.TFVersion = &tfVersion
 
 	var parseErr error

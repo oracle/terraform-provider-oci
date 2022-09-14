@@ -22,6 +22,8 @@ const (
 	WorkRequestOperationTypeNotebookSessionDelete     WorkRequestOperationTypeEnum = "NOTEBOOK_SESSION_DELETE"
 	WorkRequestOperationTypeNotebookSessionActivate   WorkRequestOperationTypeEnum = "NOTEBOOK_SESSION_ACTIVATE"
 	WorkRequestOperationTypeNotebookSessionDeactivate WorkRequestOperationTypeEnum = "NOTEBOOK_SESSION_DEACTIVATE"
+	WorkRequestOperationTypeExportModelArtifact       WorkRequestOperationTypeEnum = "EXPORT_MODEL_ARTIFACT"
+	WorkRequestOperationTypeImportModelArtifact       WorkRequestOperationTypeEnum = "IMPORT_MODEL_ARTIFACT"
 	WorkRequestOperationTypeModelDeploymentCreate     WorkRequestOperationTypeEnum = "MODEL_DEPLOYMENT_CREATE"
 	WorkRequestOperationTypeModelDeploymentDelete     WorkRequestOperationTypeEnum = "MODEL_DEPLOYMENT_DELETE"
 	WorkRequestOperationTypeModelDeploymentActivate   WorkRequestOperationTypeEnum = "MODEL_DEPLOYMENT_ACTIVATE"
@@ -37,6 +39,8 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"NOTEBOOK_SESSION_DELETE":     WorkRequestOperationTypeNotebookSessionDelete,
 	"NOTEBOOK_SESSION_ACTIVATE":   WorkRequestOperationTypeNotebookSessionActivate,
 	"NOTEBOOK_SESSION_DEACTIVATE": WorkRequestOperationTypeNotebookSessionDeactivate,
+	"EXPORT_MODEL_ARTIFACT":       WorkRequestOperationTypeExportModelArtifact,
+	"IMPORT_MODEL_ARTIFACT":       WorkRequestOperationTypeImportModelArtifact,
 	"MODEL_DEPLOYMENT_CREATE":     WorkRequestOperationTypeModelDeploymentCreate,
 	"MODEL_DEPLOYMENT_DELETE":     WorkRequestOperationTypeModelDeploymentDelete,
 	"MODEL_DEPLOYMENT_ACTIVATE":   WorkRequestOperationTypeModelDeploymentActivate,
@@ -52,6 +56,8 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"notebook_session_delete":     WorkRequestOperationTypeNotebookSessionDelete,
 	"notebook_session_activate":   WorkRequestOperationTypeNotebookSessionActivate,
 	"notebook_session_deactivate": WorkRequestOperationTypeNotebookSessionDeactivate,
+	"export_model_artifact":       WorkRequestOperationTypeExportModelArtifact,
+	"import_model_artifact":       WorkRequestOperationTypeImportModelArtifact,
 	"model_deployment_create":     WorkRequestOperationTypeModelDeploymentCreate,
 	"model_deployment_delete":     WorkRequestOperationTypeModelDeploymentDelete,
 	"model_deployment_activate":   WorkRequestOperationTypeModelDeploymentActivate,
@@ -78,6 +84,8 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"NOTEBOOK_SESSION_DELETE",
 		"NOTEBOOK_SESSION_ACTIVATE",
 		"NOTEBOOK_SESSION_DEACTIVATE",
+		"EXPORT_MODEL_ARTIFACT",
+		"IMPORT_MODEL_ARTIFACT",
 		"MODEL_DEPLOYMENT_CREATE",
 		"MODEL_DEPLOYMENT_DELETE",
 		"MODEL_DEPLOYMENT_ACTIVATE",
