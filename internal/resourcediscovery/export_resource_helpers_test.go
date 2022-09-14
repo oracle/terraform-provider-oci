@@ -1,6 +1,6 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
-// Licensed under the Mozilla Public License v2.0
-
+//// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+//// Licensed under the Mozilla Public License v2.0
+//
 package resourcediscovery
 
 import (
@@ -11,6 +11,8 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	tf_export "github.com/oracle/terraform-provider-oci/internal/commonexport"
 
 	"github.com/hashicorp/terraform-exec/tfexec"
 
@@ -54,8 +56,8 @@ func TestUnitgetResourceHint(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Logf("Running %s", test.name)
-		ctx := &resourceDiscoveryContext{resourceHintsLookup: map[string]*TerraformResourceHints{"abc": {}}}
-		if res, err := ctx.getResourceHint(test.args.resourceClass); (err != nil) != test.gotError {
+		ctx := &tf_export.ResourceDiscoveryContext{ResourceHintsLookup: map[string]*tf_export.TerraformResourceHints{"abc": {}}}
+		if res, err := ctx.GetResourceHint(test.args.resourceClass); (err != nil) != test.gotError {
 			t.Logf("%s", fmt.Sprint(res))
 			t.Errorf("Output error - %q which is not equal to expected error - %t", err, test.gotError)
 		}
@@ -72,31 +74,31 @@ func TestUnitdiscover(t *testing.T) {
 	}
 	tenancyOcid := resourceDiscoveryTestTenancyOcid
 	compartmentId := resourceDiscoveryTestCompartmentOcid
-	ctx := &resourceDiscoveryContext{
-		resourceHintsLookup: map[string]*TerraformResourceHints{"oci_test_parent": exportParentDefinition},
-		expectedResourceIds: map[string]bool{"oci_test_parent:ocid1.parent.abcdefghiklmnop.0": true},
-		tenancyOcid:         tenancyOcid,
-		ExportCommandArgs: &ExportCommandArgs{
+	ctx := &tf_export.ResourceDiscoveryContext{
+		ResourceHintsLookup: map[string]*tf_export.TerraformResourceHints{"oci_test_parent": exportParentDefinition},
+		ExpectedResourceIds: map[string]bool{"oci_test_parent:ocid1.parent.abcdefghiklmnop.0": true},
+		TenancyOcid:         tenancyOcid,
+		ExportCommandArgs: &tf_export.ExportCommandArgs{
 			CompartmentId:   &compartmentId,
 			Services:        []string{"compartment_testing", "compartment_testing_2", "tenancy_testing"},
 			ExcludeServices: []string{},
 		},
 	}
 	// Create a processing function that adds a new attribute to every discovered resource
-	exportParentDefinition.processDiscoveredResourcesFn = func(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+	exportParentDefinition.ProcessDiscoveredResourcesFn = func(ctx *tf_export.ResourceDiscoveryContext, resources []*tf_export.OCIResource) ([]*tf_export.OCIResource, error) {
 		for _, resource := range resources {
-			resource.sourceAttributes["added_by_process_function"] = true
+			resource.SourceAttributes["added_by_process_function"] = true
 		}
 		return resources, nil
 	}
-	defer func() { exportChildDefinition.processDiscoveredResourcesFn = nil }()
+	defer func() { exportChildDefinition.ProcessDiscoveredResourcesFn = nil }()
 
 	r := &resourceDiscoveryWithTargetIds{
 		resourceDiscoveryBaseStep: resourceDiscoveryBaseStep{
 			ctx:                 ctx,
 			name:                "oci_test_parent",
-			discoveredResources: []*OCIResource{},
-			omittedResources:    []*OCIResource{},
+			discoveredResources: []*tf_export.OCIResource{},
+			omittedResources:    []*tf_export.OCIResource{},
 		},
 		exportIds: map[string]string{"s": "s"},
 	}
@@ -105,7 +107,7 @@ func TestUnitdiscover(t *testing.T) {
 			name:     "Test no error is returned",
 			gotError: false,
 			mockFunc: func() {
-				generateTerraformNameFromResource = func(resourceAttributes map[string]interface{}, resourceSchema map[string]*schema.Schema) (string, error) {
+				tf_export.GenerateTerraformNameFromResource = func(resourceAttributes map[string]interface{}, resourceSchema map[string]*schema.Schema) (string, error) {
 					return "", errors.New("")
 				}
 			},
@@ -114,7 +116,7 @@ func TestUnitdiscover(t *testing.T) {
 			name:     "Test no error is returned",
 			gotError: false,
 			mockFunc: func() {
-				generateTerraformNameFromResource = func(resourceAttributes map[string]interface{}, resourceSchema map[string]*schema.Schema) (string, error) {
+				tf_export.GenerateTerraformNameFromResource = func(resourceAttributes map[string]interface{}, resourceSchema map[string]*schema.Schema) (string, error) {
 					return "test", nil
 				}
 			},
@@ -145,11 +147,11 @@ func TestUnitwriteConfiguration(t *testing.T) {
 		t.Logf("unable to mkdir %s. err: %v", outputDir, err)
 		t.Fail()
 	}
-	ctx := &resourceDiscoveryContext{
-		resourceHintsLookup: map[string]*TerraformResourceHints{"oci_test_parent": {resourceClass: "oci_test_parent"}},
-		expectedResourceIds: map[string]bool{"oci_test_parent:ocid1.parent.abcdefghiklmnop.0": true},
-		tenancyOcid:         tenancyOcid,
-		ExportCommandArgs: &ExportCommandArgs{
+	ctx := &tf_export.ResourceDiscoveryContext{
+		ResourceHintsLookup: map[string]*tf_export.TerraformResourceHints{"oci_test_parent": {ResourceClass: "oci_test_parent"}},
+		ExpectedResourceIds: map[string]bool{"oci_test_parent:ocid1.parent.abcdefghiklmnop.0": true},
+		TenancyOcid:         tenancyOcid,
+		ExportCommandArgs: &tf_export.ExportCommandArgs{
 			CompartmentId:   &compartmentId,
 			Services:        []string{"compartment_testing", "compartment_testing_2", "tenancy_testing"},
 			ExcludeServices: []string{},
@@ -159,35 +161,35 @@ func TestUnitwriteConfiguration(t *testing.T) {
 	r := resourceDiscoveryBaseStep{
 		ctx:  ctx,
 		name: "oci_test_parent",
-		discoveredResources: []*OCIResource{
+		discoveredResources: []*tf_export.OCIResource{
 			{
-				compartmentId: resourceDiscoveryTestCompartmentOcid,
-				TerraformResource: TerraformResource{
-					id:                "ocid1.a.b.c",
-					terraformClass:    "oci_resource_type1",
-					terraformName:     "type1_res1",
-					terraformTypeInfo: &TerraformResourceHints{resourceClass: "oci_test_parent", ignorableRequiredMissingAttributes: map[string]bool{"test": true}},
+				CompartmentId: resourceDiscoveryTestCompartmentOcid,
+				TerraformResource: tf_export.TerraformResource{
+					Id:                "ocid1.a.b.c",
+					TerraformClass:    "oci_resource_type1",
+					TerraformName:     "type1_res1",
+					TerraformTypeInfo: &tf_export.TerraformResourceHints{ResourceClass: "oci_test_parent", IgnorableRequiredMissingAttributes: map[string]bool{"test": true}},
 				},
 			},
 			{
 				// resource with import failure
-				compartmentId: resourceDiscoveryTestCompartmentOcid,
-				TerraformResource: TerraformResource{
-					id:             "ocid1.d.e.f",
-					terraformClass: "oci_resource_type2",
-					terraformName:  "type2_res1",
+				CompartmentId: resourceDiscoveryTestCompartmentOcid,
+				TerraformResource: tf_export.TerraformResource{
+					Id:             "ocid1.d.e.f",
+					TerraformClass: "oci_resource_type2",
+					TerraformName:  "type2_res1",
 				},
-				isErrorResource: true,
+				IsErrorResource: true,
 			},
 		},
-		omittedResources: []*OCIResource{},
+		omittedResources: []*tf_export.OCIResource{},
 	}
 	tests := []testFormat{
 		{
 			name:     "Test no error is returned",
 			gotError: false,
 			mockFunc: func() {
-				getHclStringFromGenericMap = func(builder *strings.Builder, ociRes *OCIResource, interpolationMap map[string]string) error {
+				tf_export.GetHclStringFromGenericMap = func(builder *strings.Builder, ociRes *tf_export.OCIResource, interpolationMap map[string]string) error {
 					return nil
 				}
 			},
@@ -196,7 +198,7 @@ func TestUnitwriteConfiguration(t *testing.T) {
 			name:     "Test error is returned from getHclStringFromGenericMap()",
 			gotError: true,
 			mockFunc: func() {
-				getHclStringFromGenericMap = func(builder *strings.Builder, ociRes *OCIResource, interpolationMap map[string]string) error {
+				tf_export.GetHclStringFromGenericMap = func(builder *strings.Builder, ociRes *tf_export.OCIResource, interpolationMap map[string]string) error {
 					return errors.New("")
 				}
 			},
@@ -228,23 +230,23 @@ func TestUnitwriteTmpState(t *testing.T) {
 		t.Logf("unable to mkdir %s. err: %v", outputDir, err)
 		t.Fail()
 	}
-	tf, _, _ := createTerraformStruct(&ExportCommandArgs{
+	tf, _, _ := createTerraformStruct(&tf_export.ExportCommandArgs{
 		OutputDir: &outputDir,
 	})
 	terraformInitMockVar = func(r *resourceDiscoveryBaseStep, backgroundCtx context.Context, initArgs []tfexec.InitOption) error {
 		return nil
 	}
-	ctx := &resourceDiscoveryContext{
-		resourceHintsLookup: map[string]*TerraformResourceHints{"oci_test_parent": {resourceClass: "oci_test_parent"}},
-		expectedResourceIds: map[string]bool{"oci_test_parent:ocid1.parent.abcdefghiklmnop.0": true},
-		tenancyOcid:         tenancyOcid,
-		ExportCommandArgs: &ExportCommandArgs{
+	ctx := &tf_export.ResourceDiscoveryContext{
+		ResourceHintsLookup: map[string]*tf_export.TerraformResourceHints{"oci_test_parent": {ResourceClass: "oci_test_parent"}},
+		ExpectedResourceIds: map[string]bool{"oci_test_parent:ocid1.parent.abcdefghiklmnop.0": true},
+		TenancyOcid:         tenancyOcid,
+		ExportCommandArgs: &tf_export.ExportCommandArgs{
 			CompartmentId:   &compartmentId,
 			Services:        []string{"compartment_testing", "compartment_testing_2", "tenancy_testing"},
 			ExcludeServices: []string{},
 			OutputDir:       &outputDir,
 		},
-		terraform: tf,
+		Terraform: tf,
 	}
 	tests := []testFormat{
 		{
@@ -253,18 +255,18 @@ func TestUnitwriteTmpState(t *testing.T) {
 			r: resourceDiscoveryBaseStep{
 				ctx:  ctx,
 				name: "oci_test_parent",
-				discoveredResources: []*OCIResource{
+				discoveredResources: []*tf_export.OCIResource{
 					{
-						compartmentId: resourceDiscoveryTestCompartmentOcid,
-						TerraformResource: TerraformResource{
-							id:                "ocid1.a.b.c",
-							terraformClass:    "oci_resource_type1",
-							terraformName:     "type1_res1",
-							terraformTypeInfo: &TerraformResourceHints{resourceClass: "oci_test_parent", ignorableRequiredMissingAttributes: map[string]bool{"test": true}},
+						CompartmentId: resourceDiscoveryTestCompartmentOcid,
+						TerraformResource: tf_export.TerraformResource{
+							Id:                "ocid1.a.b.c",
+							TerraformClass:    "oci_resource_type1",
+							TerraformName:     "type1_res1",
+							TerraformTypeInfo: &tf_export.TerraformResourceHints{ResourceClass: "oci_test_parent", IgnorableRequiredMissingAttributes: map[string]bool{"test": true}},
 						},
 					},
 				},
-				omittedResources: []*OCIResource{},
+				omittedResources: []*tf_export.OCIResource{},
 			},
 		},
 		{
@@ -273,8 +275,8 @@ func TestUnitwriteTmpState(t *testing.T) {
 			r: resourceDiscoveryBaseStep{
 				ctx:                 ctx,
 				name:                "oci_test_parent",
-				discoveredResources: []*OCIResource{},
-				omittedResources:    []*OCIResource{},
+				discoveredResources: []*tf_export.OCIResource{},
+				omittedResources:    []*tf_export.OCIResource{},
 			},
 		},
 	}
@@ -307,46 +309,46 @@ func TestUnitwriteTmpConfigurationForImport(t *testing.T) {
 		t.Logf("unable to mkdir %s. err: %v", outputDir, err)
 		t.Fail()
 	}
-	tf, _, _ := createTerraformStruct(&ExportCommandArgs{
+	tf, _, _ := createTerraformStruct(&tf_export.ExportCommandArgs{
 		OutputDir: &outputDir,
 	})
-	ctx := &resourceDiscoveryContext{
-		resourceHintsLookup: map[string]*TerraformResourceHints{"oci_test_parent": {resourceClass: "oci_test_parent"}},
-		expectedResourceIds: map[string]bool{"oci_test_parent:ocid1.parent.abcdefghiklmnop.0": true},
-		tenancyOcid:         tenancyOcid,
-		ExportCommandArgs: &ExportCommandArgs{
+	ctx := &tf_export.ResourceDiscoveryContext{
+		ResourceHintsLookup: map[string]*tf_export.TerraformResourceHints{"oci_test_parent": {ResourceClass: "oci_test_parent"}},
+		ExpectedResourceIds: map[string]bool{"oci_test_parent:ocid1.parent.abcdefghiklmnop.0": true},
+		TenancyOcid:         tenancyOcid,
+		ExportCommandArgs: &tf_export.ExportCommandArgs{
 			CompartmentId:   &compartmentId,
 			Services:        []string{"compartment_testing", "compartment_testing_2", "tenancy_testing"},
 			ExcludeServices: []string{},
 			OutputDir:       &outputDir,
 		},
-		terraform: tf,
+		Terraform: tf,
 	}
 	r := resourceDiscoveryBaseStep{
 		ctx:  ctx,
 		name: "oci_test_parent",
-		discoveredResources: []*OCIResource{
+		discoveredResources: []*tf_export.OCIResource{
 			{
-				compartmentId: resourceDiscoveryTestCompartmentOcid,
-				TerraformResource: TerraformResource{
-					id:                "ocid1.a.b.c",
-					terraformClass:    "oci_resource_type1",
-					terraformName:     "type1_res1",
-					terraformTypeInfo: &TerraformResourceHints{resourceClass: "oci_test_parent", ignorableRequiredMissingAttributes: map[string]bool{"test": true}},
+				CompartmentId: resourceDiscoveryTestCompartmentOcid,
+				TerraformResource: tf_export.TerraformResource{
+					Id:                "ocid1.a.b.c",
+					TerraformClass:    "oci_resource_type1",
+					TerraformName:     "type1_res1",
+					TerraformTypeInfo: &tf_export.TerraformResourceHints{ResourceClass: "oci_test_parent", IgnorableRequiredMissingAttributes: map[string]bool{"test": true}},
 				},
 			},
 			{
 				// resource with import failure
-				compartmentId: resourceDiscoveryTestCompartmentOcid,
-				TerraformResource: TerraformResource{
-					id:             "ocid1.d.e.f",
-					terraformClass: "oci_resource_type2",
-					terraformName:  "type2_res1",
+				CompartmentId: resourceDiscoveryTestCompartmentOcid,
+				TerraformResource: tf_export.TerraformResource{
+					Id:             "ocid1.d.e.f",
+					TerraformClass: "oci_resource_type2",
+					TerraformName:  "type2_res1",
 				},
-				isErrorResource: true,
+				IsErrorResource: true,
 			},
 		},
-		omittedResources: []*OCIResource{},
+		omittedResources: []*tf_export.OCIResource{},
 	}
 	tests := []testFormat{
 		{
@@ -384,11 +386,11 @@ func TestUnitmergeTempStateFiles(t *testing.T) {
 		t.Logf("unable to mkdir %s. err: %v", outputDir, err)
 		t.Fail()
 	}
-	ctx := &resourceDiscoveryContext{
-		resourceHintsLookup: map[string]*TerraformResourceHints{"oci_test_parent": {resourceClass: "oci_test_parent"}},
-		expectedResourceIds: map[string]bool{"oci_test_parent:ocid1.parent.abcdefghiklmnop.0": true},
-		tenancyOcid:         tenancyOcid,
-		ExportCommandArgs: &ExportCommandArgs{
+	ctx := &tf_export.ResourceDiscoveryContext{
+		ResourceHintsLookup: map[string]*tf_export.TerraformResourceHints{"oci_test_parent": {ResourceClass: "oci_test_parent"}},
+		ExpectedResourceIds: map[string]bool{"oci_test_parent:ocid1.parent.abcdefghiklmnop.0": true},
+		TenancyOcid:         tenancyOcid,
+		ExportCommandArgs: &tf_export.ExportCommandArgs{
 			CompartmentId:   &compartmentId,
 			Services:        []string{"compartment_testing", "compartment_testing_2", "tenancy_testing"},
 			ExcludeServices: []string{},
@@ -398,8 +400,8 @@ func TestUnitmergeTempStateFiles(t *testing.T) {
 	r := resourceDiscoveryBaseStep{
 		ctx:                 ctx,
 		name:                "oci_test_parent",
-		discoveredResources: []*OCIResource{},
-		omittedResources:    []*OCIResource{},
+		discoveredResources: []*tf_export.OCIResource{},
+		omittedResources:    []*tf_export.OCIResource{},
 	}
 	tests := []testFormat{
 		{
@@ -456,7 +458,7 @@ func TestUnitmergeGeneratedStateFile(t *testing.T) {
 	type testFormat struct {
 		name     string
 		gotError bool
-		ctx      *resourceDiscoveryContext
+		ctx      *tf_export.ResourceDiscoveryContext
 		r        resourceDiscoveryBaseStep
 	}
 	tests := []testFormat{
@@ -464,8 +466,8 @@ func TestUnitmergeGeneratedStateFile(t *testing.T) {
 			name:     "Test ctx state is not nil",
 			gotError: false,
 			r: resourceDiscoveryBaseStep{
-				ctx: &resourceDiscoveryContext{
-					state: newTerraformStateWithValue("name", "key", "value1"),
+				ctx: &tf_export.ResourceDiscoveryContext{
+					State: newTerraformStateWithValue("name", "key", "value1"),
 				},
 				tempState: newTerraformStateWithValue("name", "key", "value1"),
 			},
@@ -474,7 +476,7 @@ func TestUnitmergeGeneratedStateFile(t *testing.T) {
 			name:     "Test ctx state is nil",
 			gotError: false,
 			r: resourceDiscoveryBaseStep{
-				ctx:       &resourceDiscoveryContext{},
+				ctx:       &tf_export.ResourceDiscoveryContext{},
 				tempState: newTerraformStateWithValue("name", "key", "value1"),
 			},
 		},
@@ -494,9 +496,9 @@ func TestUnitpostValidate(t *testing.T) {
 		name        string
 		errorLength int
 	}
-	ctx := &resourceDiscoveryContext{
-		resourceHintsLookup: map[string]*TerraformResourceHints{"oci_test_parent": exportParentDefinition},
-		expectedResourceIds: map[string]bool{"oci_test_parent:ocid1.parent.abcdefghiklmnop.0": false},
+	ctx := &tf_export.ResourceDiscoveryContext{
+		ResourceHintsLookup: map[string]*tf_export.TerraformResourceHints{"oci_test_parent": exportParentDefinition},
+		ExpectedResourceIds: map[string]bool{"oci_test_parent:ocid1.parent.abcdefghiklmnop.0": false},
 	}
 	tests := []testFormat{
 		{
@@ -506,9 +508,9 @@ func TestUnitpostValidate(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Logf("Running %s", test.name)
-		ctx.postValidate()
-		if len(ctx.errorList.errors) != test.errorLength {
-			t.Errorf("Output error length - %d which is not equal to expected error - %d", len(ctx.errorList.errors), test.errorLength)
+		ctx.PostValidate()
+		if len(ctx.ErrorList.Errors) != test.errorLength {
+			t.Errorf("Output error length - %d which is not equal to expected error - %d", len(ctx.ErrorList.Errors), test.errorLength)
 		}
 	}
 }

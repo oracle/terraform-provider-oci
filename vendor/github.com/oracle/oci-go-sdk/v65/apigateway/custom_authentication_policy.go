@@ -34,6 +34,15 @@ type CustomAuthenticationPolicy struct {
 
 	// The name of the query parameter containing the authentication token.
 	TokenQueryParam *string `mandatory:"false" json:"tokenQueryParam"`
+
+	// A map where key is a user defined string and value is a context expressions whose values will be sent to the custom auth function. Values should contain an expression.
+	// Example: `{"foo": "request.header[abc]"}`
+	Parameters map[string]string `mandatory:"false" json:"parameters"`
+
+	// A list of keys from "parameters" attribute value whose values will be added to the cache key.
+	CacheKey []string `mandatory:"false" json:"cacheKey"`
+
+	ValidationFailurePolicy ValidationFailurePolicy `mandatory:"false" json:"validationFailurePolicy"`
 }
 
 //GetIsAnonymousAccessAllowed returns IsAnonymousAccessAllowed
@@ -69,4 +78,49 @@ func (m CustomAuthenticationPolicy) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CustomAuthenticationPolicy) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		IsAnonymousAccessAllowed *bool                   `json:"isAnonymousAccessAllowed"`
+		TokenHeader              *string                 `json:"tokenHeader"`
+		TokenQueryParam          *string                 `json:"tokenQueryParam"`
+		Parameters               map[string]string       `json:"parameters"`
+		CacheKey                 []string                `json:"cacheKey"`
+		ValidationFailurePolicy  validationfailurepolicy `json:"validationFailurePolicy"`
+		FunctionId               *string                 `json:"functionId"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.IsAnonymousAccessAllowed = model.IsAnonymousAccessAllowed
+
+	m.TokenHeader = model.TokenHeader
+
+	m.TokenQueryParam = model.TokenQueryParam
+
+	m.Parameters = model.Parameters
+
+	m.CacheKey = make([]string, len(model.CacheKey))
+	for i, n := range model.CacheKey {
+		m.CacheKey[i] = n
+	}
+
+	nn, e = model.ValidationFailurePolicy.UnmarshalPolymorphicJSON(model.ValidationFailurePolicy.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ValidationFailurePolicy = nn.(ValidationFailurePolicy)
+	} else {
+		m.ValidationFailurePolicy = nil
+	}
+
+	m.FunctionId = model.FunctionId
+
+	return
 }

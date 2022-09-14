@@ -64,6 +64,10 @@ func (m *apispecificationroutebackend) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := StockResponseBackend{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DYNAMIC_ROUTING_BACKEND":
+		mm := DynamicRoutingBackend{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}
@@ -93,18 +97,21 @@ const (
 	ApiSpecificationRouteBackendTypeOracleFunctionsBackend ApiSpecificationRouteBackendTypeEnum = "ORACLE_FUNCTIONS_BACKEND"
 	ApiSpecificationRouteBackendTypeHttpBackend            ApiSpecificationRouteBackendTypeEnum = "HTTP_BACKEND"
 	ApiSpecificationRouteBackendTypeStockResponseBackend   ApiSpecificationRouteBackendTypeEnum = "STOCK_RESPONSE_BACKEND"
+	ApiSpecificationRouteBackendTypeDynamicRoutingBackend  ApiSpecificationRouteBackendTypeEnum = "DYNAMIC_ROUTING_BACKEND"
 )
 
 var mappingApiSpecificationRouteBackendTypeEnum = map[string]ApiSpecificationRouteBackendTypeEnum{
 	"ORACLE_FUNCTIONS_BACKEND": ApiSpecificationRouteBackendTypeOracleFunctionsBackend,
 	"HTTP_BACKEND":             ApiSpecificationRouteBackendTypeHttpBackend,
 	"STOCK_RESPONSE_BACKEND":   ApiSpecificationRouteBackendTypeStockResponseBackend,
+	"DYNAMIC_ROUTING_BACKEND":  ApiSpecificationRouteBackendTypeDynamicRoutingBackend,
 }
 
 var mappingApiSpecificationRouteBackendTypeEnumLowerCase = map[string]ApiSpecificationRouteBackendTypeEnum{
 	"oracle_functions_backend": ApiSpecificationRouteBackendTypeOracleFunctionsBackend,
 	"http_backend":             ApiSpecificationRouteBackendTypeHttpBackend,
 	"stock_response_backend":   ApiSpecificationRouteBackendTypeStockResponseBackend,
+	"dynamic_routing_backend":  ApiSpecificationRouteBackendTypeDynamicRoutingBackend,
 }
 
 // GetApiSpecificationRouteBackendTypeEnumValues Enumerates the set of values for ApiSpecificationRouteBackendTypeEnum
@@ -122,6 +129,7 @@ func GetApiSpecificationRouteBackendTypeEnumStringValues() []string {
 		"ORACLE_FUNCTIONS_BACKEND",
 		"HTTP_BACKEND",
 		"STOCK_RESPONSE_BACKEND",
+		"DYNAMIC_ROUTING_BACKEND",
 	}
 }
 

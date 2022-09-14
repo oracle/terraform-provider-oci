@@ -49,8 +49,8 @@ var (
 	}
 
 	DatascienceModelRepresentation = map[string]interface{}{
-		"artifact_content_length":      acctest.Representation{RepType: acctest.Required, Create: `21002`},
-		"model_artifact":               acctest.Representation{RepType: acctest.Required, Create: `datascience_model_resource.go`},
+		"artifact_content_length":      acctest.Representation{RepType: acctest.Required, Create: `6954`},
+		"model_artifact":               acctest.Representation{RepType: acctest.Required, Create: `../../examples/datascience/artifact.zip`},
 		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"project_id":                   acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
 		"artifact_content_disposition": acctest.Representation{RepType: acctest.Optional, Create: `attachment; filename=tfTestArtifact`},
@@ -93,7 +93,6 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 
 	resourceName := "oci_datascience_model.test_model"
 	datasourceName := "data.oci_datascience_models.test_models"
-	singularDatasourceName := "data.oci_datascience_model.test_model"
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
@@ -108,7 +107,7 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
-				resource.TestCheckResourceAttr(resourceName, "artifact_content_length", "21002"),
+				resource.TestCheckResourceAttr(resourceName, "artifact_content_length", "6954"),
 				resource.TestCheckResourceAttrSet(resourceName, "artifact_content_md5"),
 				resource.TestCheckResourceAttrSet(resourceName, "artifact_last_modified"),
 
@@ -128,7 +127,7 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + DatascienceModelResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Optional, acctest.Create, DatascienceModelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "artifact_content_length", "21002"),
+				resource.TestCheckResourceAttr(resourceName, "artifact_content_length", "6954"),
 				resource.TestCheckResourceAttrSet(resourceName, "artifact_content_md5"),
 				resource.TestCheckResourceAttrSet(resourceName, "artifact_last_modified"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -171,7 +170,7 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "artifact_content_length", "21002"),
+				resource.TestCheckResourceAttr(resourceName, "artifact_content_length", "6954"),
 				resource.TestCheckResourceAttrSet(resourceName, "artifact_content_md5"),
 				resource.TestCheckResourceAttrSet(resourceName, "artifact_last_modified"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -259,35 +258,6 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "models.0.project_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "models.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "models.0.time_created"),
-			),
-		},
-		// verify singular datasource
-		{
-			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Required, acctest.Create, DatascienceDatascienceModelSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DatascienceModelResourceConfig,
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "model_id"),
-
-				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "custom_metadata_list.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "custom_metadata_list.0.category", "Performance"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "custom_metadata_list.0.description", "description"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "custom_metadata_list.0.key", "BaseModel1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "custom_metadata_list.0.value", "xgb"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_metadata_list.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_metadata_list.0.key", "UseCaseType"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_metadata_list.0.value", "ner"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "input_schema", "{}"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "output_schema", "{}"),
-				//resource.TestCheckResourceAttr(singularDatasourceName, "state", ACTIVE),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 			),
 		},
 		// verify resource import

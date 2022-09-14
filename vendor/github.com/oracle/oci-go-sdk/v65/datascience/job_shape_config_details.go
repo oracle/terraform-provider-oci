@@ -18,10 +18,10 @@ import (
 // JobShapeConfigDetails Details for the job run shape configuration. Specify only when a flex shape is selected.
 type JobShapeConfigDetails struct {
 
-	// A job run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified.
+	// The total number of OCPUs available to the job run instance.
 	Ocpus *float32 `mandatory:"false" json:"ocpus"`
 
-	// A job run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs.
+	// The total amount of memory available to the job run instance, in gigabytes.
 	MemoryInGBs *float32 `mandatory:"false" json:"memoryInGBs"`
 }
 

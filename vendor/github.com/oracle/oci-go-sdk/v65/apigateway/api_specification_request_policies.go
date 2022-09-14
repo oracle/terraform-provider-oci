@@ -29,6 +29,8 @@ type ApiSpecificationRequestPolicies struct {
 	MutualTls *MutualTlsDetails `mandatory:"false" json:"mutualTls"`
 
 	UsagePlans *UsagePlansPolicy `mandatory:"false" json:"usagePlans"`
+
+	DynamicAuthentication *DynamicAuthenticationPolicy `mandatory:"false" json:"dynamicAuthentication"`
 }
 
 func (m ApiSpecificationRequestPolicies) String() string {
@@ -50,11 +52,12 @@ func (m ApiSpecificationRequestPolicies) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *ApiSpecificationRequestPolicies) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Authentication authenticationpolicy `json:"authentication"`
-		RateLimiting   *RateLimitingPolicy  `json:"rateLimiting"`
-		Cors           *CorsPolicy          `json:"cors"`
-		MutualTls      *MutualTlsDetails    `json:"mutualTls"`
-		UsagePlans     *UsagePlansPolicy    `json:"usagePlans"`
+		Authentication        authenticationpolicy         `json:"authentication"`
+		RateLimiting          *RateLimitingPolicy          `json:"rateLimiting"`
+		Cors                  *CorsPolicy                  `json:"cors"`
+		MutualTls             *MutualTlsDetails            `json:"mutualTls"`
+		UsagePlans            *UsagePlansPolicy            `json:"usagePlans"`
+		DynamicAuthentication *DynamicAuthenticationPolicy `json:"dynamicAuthentication"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -79,6 +82,8 @@ func (m *ApiSpecificationRequestPolicies) UnmarshalJSON(data []byte) (e error) {
 	m.MutualTls = model.MutualTls
 
 	m.UsagePlans = model.UsagePlans
+
+	m.DynamicAuthentication = model.DynamicAuthentication
 
 	return
 }
