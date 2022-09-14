@@ -19,6 +19,10 @@ resource "oci_core_instance" "TFInstance" {
     source_id   = var.instance_image_ocid[var.region]
   }
 
+  instance_options {
+    are_legacy_imds_endpoints_disabled = true
+  }
+
   timeouts {
     create = "60m"
   }
@@ -59,7 +63,7 @@ resource "oci_core_instance_configuration" "TFInstanceConfiguration" {
 resource "oci_core_instance_pool" "TFInstancePool" {
   compartment_id            = var.compartment_ocid
   instance_configuration_id = oci_core_instance_configuration.TFInstanceConfiguration.id
-  size                      = 2
+  size                      = 1
   state                     = "RUNNING"
   display_name              = "TFInstancePool"
 
@@ -72,7 +76,7 @@ resource "oci_core_instance_pool" "TFInstancePool" {
 resource "oci_core_instance_pool" "TFInstancePoolForScheduledPolicy" {
   compartment_id            = var.compartment_ocid
   instance_configuration_id = oci_core_instance_configuration.TFInstanceConfiguration.id
-  size                      = 2
+  size                      = 1
   state                     = "RUNNING"
   display_name              = "TFInstancePoolForScheduledPolicy"
 
@@ -95,6 +99,19 @@ resource "oci_core_instance_pool" "TFInstancePoolForScheduledPolicyResourceActio
   }
 }
 
+resource "oci_core_instance_pool" "TFInstancePoolForCustomMetrics" {
+  compartment_id = var.compartment_ocid
+  instance_configuration_id = oci_core_instance_configuration.TFInstanceConfiguration.id
+  size = 1
+  state = "RUNNING"
+  display_name = "TFInstancePoolForCustomMetrics"
+
+  placement_configurations {
+    availability_domain = data.oci_identity_availability_domain.AD.name
+    primary_subnet_id = oci_core_subnet.ExampleSubnet.id
+  }
+}
+
 resource "oci_autoscaling_auto_scaling_configuration" "TFAutoScalingConfiguration" {
   compartment_id       = var.compartment_ocid
   cool_down_in_seconds = "300"
@@ -103,9 +120,9 @@ resource "oci_autoscaling_auto_scaling_configuration" "TFAutoScalingConfiguratio
 
   policies {
     capacity {
-      initial = "2"
-      max     = "4"
-      min     = "2"
+      initial = "1"
+      max     = "2"
+      min     = "1"
     }
 
     display_name = "TFPolicy"
@@ -206,6 +223,65 @@ resource "oci_autoscaling_auto_scaling_configuration" "TFAutoScalingConfiguratio
 
   auto_scaling_resources {
     id   = oci_core_instance_pool.TFInstancePoolForScheduledPolicyResourceAction.id
+    type = "instancePool"
+  }
+}
+
+resource "oci_autoscaling_auto_scaling_configuration" "TFAutoScalingConfigurationCustomMetrics" {
+  compartment_id = var.compartment_ocid
+  cool_down_in_seconds = "300"
+  display_name = "TFAutoScalingConfigurationCustomMetrics"
+  is_enabled = "true"
+
+  policies {
+    capacity {
+      initial = "1"
+      max = "2"
+      min = "1"
+    }
+
+    display_name = "TFPolicyCustomMetrics"
+    policy_type = "threshold"
+
+    rules {
+      action {
+        type = "CHANGE_COUNT_BY"
+        value = "1"
+      }
+
+      display_name = "TFScaleOutRuleCustomMetrics"
+
+      metric {
+        metric_source = "CUSTOM_QUERY"
+        query = "CpuUtilization[1m]{instancePoolId=oci_core_instance_pool.rana_instance_pool.id}.groupBy(instancePoolId).mean() > 0"
+        namespace = "oci_computeagent"
+        resource_group = "resource_group"
+        metric_compartment_id = var.compartment_ocid
+        pending_duration = "PT5M"
+      }
+    }
+
+    rules {
+      action {
+        type = "CHANGE_COUNT_BY"
+        value = "-1"
+      }
+
+      display_name = "TFScaleInRuleCustomMetrics"
+
+      metric {
+        metric_source = "CUSTOM_QUERY"
+        query = "CpuUtilization[1m]{instancePoolId=oci_core_instance_pool.rana_instance_pool.id}.groupBy(instancePoolId).mean() > 0"
+        namespace = "oci_computeagent"
+        resource_group = "resource_group"
+        metric_compartment_id = var.compartment_ocid
+        pending_duration = "PT5M"
+      }
+    }
+  }
+
+  auto_scaling_resources {
+    id = oci_core_instance_pool.TFInstancePoolForCustomMetrics.id
     type = "instancePool"
   }
 }
