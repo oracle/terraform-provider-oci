@@ -255,6 +255,16 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"state": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(oci_datascience.ModelDeploymentLifecycleStateInactive),
+					string(oci_datascience.ModelDeploymentLifecycleStateActive),
+				}, true),
+			},
 
 			// Computed
 			"created_by": {
@@ -266,10 +276,6 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 				Computed: true,
 			},
 			"model_deployment_url": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -285,8 +291,26 @@ func createDatascienceModelDeployment(d *schema.ResourceData, m interface{}) err
 	sync := &DatascienceModelDeploymentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
+	var powerOff = false
+	if powerState, ok := sync.D.GetOkExists("state"); ok {
+		wantedPowerState := oci_datascience.ModelDeploymentLifecycleStateEnum(strings.ToUpper(powerState.(string)))
+		if wantedPowerState == oci_datascience.ModelDeploymentLifecycleStateInactive {
+			powerOff = true
+		}
+	}
 
-	return tfresource.CreateResource(d, sync)
+	if e := tfresource.CreateResource(d, sync); e != nil {
+		return e
+	}
+
+	if powerOff {
+		if err := sync.StopModelDeployment(); err != nil {
+			return err
+		}
+		sync.D.Set("state", oci_datascience.ModelDeploymentLifecycleStateInactive)
+	}
+	return nil
+
 }
 
 func readDatascienceModelDeployment(d *schema.ResourceData, m interface{}) error {
@@ -302,7 +326,36 @@ func updateDatascienceModelDeployment(d *schema.ResourceData, m interface{}) err
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.UpdateResource(d, sync)
+	powerOn, powerOff := false, false
+
+	if sync.D.HasChange("state") {
+		wantedState := strings.ToUpper(sync.D.Get("state").(string))
+		if oci_datascience.ModelDeploymentLifecycleStateActive == oci_datascience.ModelDeploymentLifecycleStateEnum(wantedState) {
+			powerOn = true
+		} else if oci_datascience.ModelDeploymentLifecycleStateInactive == oci_datascience.ModelDeploymentLifecycleStateEnum(wantedState) {
+			powerOff = true
+		}
+	}
+
+	if powerOn {
+		if err := sync.StartModelDeployment(); err != nil {
+			return err
+		}
+		sync.D.Set("state", oci_datascience.ModelDeploymentLifecycleStateActive)
+	}
+
+	if err := tfresource.UpdateResource(d, sync); err != nil {
+		return err
+	}
+
+	if powerOff {
+		if err := sync.StopModelDeployment(); err != nil {
+			return err
+		}
+		sync.D.Set("state", oci_datascience.ModelDeploymentLifecycleStateInactive)
+	}
+
+	return nil
 }
 
 func deleteDatascienceModelDeployment(d *schema.ResourceData, m interface{}) error {
@@ -728,6 +781,40 @@ func (s *DatascienceModelDeploymentResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *DatascienceModelDeploymentResourceCrud) StartModelDeployment() error {
+	request := oci_datascience.ActivateModelDeploymentRequest{}
+
+	idTmp := s.D.Id()
+	request.ModelDeploymentId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
+
+	_, err := s.Client.ActivateModelDeployment(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_datascience.ModelDeploymentLifecycleStateActive }
+	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *DatascienceModelDeploymentResourceCrud) StopModelDeployment() error {
+	request := oci_datascience.DeactivateModelDeploymentRequest{}
+
+	idTmp := s.D.Id()
+	request.ModelDeploymentId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
+
+	_, err := s.Client.DeactivateModelDeployment(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_datascience.ModelDeploymentLifecycleStateInactive }
+	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+}
+
 func (s *DatascienceModelDeploymentResourceCrud) mapToCategoryLogDetails(fieldKeyFormat string) (oci_datascience.CategoryLogDetails, error) {
 	result := oci_datascience.CategoryLogDetails{}
 
@@ -980,7 +1067,7 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToModelDeploymentInstanceSha
 
 	memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs"))
 	if ok {
-		tmp := memoryInGBs.(float32)
+		tmp := float32(memoryInGBs.(float64))
 		result.MemoryInGBs = &tmp
 	} else {
 		return result, fmt.Errorf("memory_in_gbs is required parameter")
@@ -988,7 +1075,7 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToModelDeploymentInstanceSha
 
 	ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus"))
 	if ok {
-		tmp := ocpus.(float32)
+		tmp := float32(ocpus.(float64))
 		result.Ocpus = &tmp
 	} else {
 		return result, fmt.Errorf("ocpus is required parameter")
