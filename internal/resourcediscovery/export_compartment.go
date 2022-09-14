@@ -314,10 +314,26 @@ func RunExportCommand(args *tf_export.ExportCommandArgs) (err error, status Stat
 	}
 	if len(ctx.ErrorList.Errors) > 0 {
 		// If the errors were from discovery of resources return partial success status
-		ctx.PrintErrors()
-		return nil, StatusPartialSuccess
+		error, status := getListOfNotDiscoveredResources(ctx)
+
+		return error, status
 	}
 	return nil, StatusSuccess
+}
+
+func getListOfNotDiscoveredResources(ctx *tf_export.ResourceDiscoveryContext) (error, Status) {
+	notDiscoveredParentResources, notDiscoveredChildResources := ctx.PrintErrors()
+	var notDiscoveredResources []string
+	var notDiscoveredError tf_export.ResourceDiscoveryCustomError
+
+	notDiscoveredResources = append(notDiscoveredParentResources, notDiscoveredChildResources...) // Not discovered resources eg.Parent resources + Child Resources
+
+	notDiscoveredError = tf_export.ResourceDiscoveryCustomError{
+		TypeOfError: tf_export.PartiallyResourcesDiscoveredError,
+		Message:     errors.New(strings.Join(notDiscoveredResources, ",")),
+	}
+
+	return notDiscoveredError.Error(), StatusPartialSuccess
 }
 
 func getExportConfig(d *schema.ResourceData) (interface{}, error) {
@@ -600,10 +616,15 @@ func generateStateParallel(ctx *tf_export.ResourceDiscoveryContext, steps []reso
 
 			// Write temp state file for each service, this step will import resources into a separate state file for each service in parallel
 			// If writing temp configuration thrown error, won't attempt to write temp state
-			if err == nil {
-				if err = step.writeTmpState(); err != nil {
-					errorChannel <- fmt.Errorf("[ERROR] error while writing temp state for resources found in step %d: %s", i, err.Error())
+			// Write temp state file for each service, this step will import resources into a separate state file for each service in parallel
+			if err := step.writeTmpState(); err != nil {
+				var tfError tf_export.ResourceDiscoveryCustomError
+				tfError = tf_export.ResourceDiscoveryCustomError{
+					TypeOfError: tf_export.WriteTmpStateError,
+					Message:     errors.New(tf_export.WriteTmpStateErrorMessage),
+					Suggestion:  tf_export.WriteTmpStateErrorSuggestion,
 				}
+				errorChannel <- tfError.Error()
 			}
 
 			utils.Debugf("writing temp config and state: Completed step %d", i)
