@@ -133,8 +133,14 @@ func testExportCompartment(compartmentId *string, exportCommandArgs *tf_export.E
 		}
 		// For generated tests, RD will only return this error if one of the `ids` was not found
 		// (which in case of tests is the id for the resource RD is looking for)
-		if status == StatusPartialSuccess {
-			return fmt.Errorf("[ERROR] expected resource was not found")
+		if errExport != nil && status == StatusPartialSuccess {
+			var idsNotFoundError tf_export.ResourceDiscoveryCustomError
+			idsNotFoundError = tf_export.ResourceDiscoveryCustomError{
+				TypeOfError: tf_export.PartiallyResourcesDiscoveredError,
+				Message:     errExport,
+				Suggestion:  tf_export.PartiallyResourcesDiscoveredSuggestion,
+			}
+			return idsNotFoundError.Error()
 		}
 	}
 

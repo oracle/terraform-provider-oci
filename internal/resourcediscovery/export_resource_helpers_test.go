@@ -505,11 +505,23 @@ func TestUnitpostValidate(t *testing.T) {
 			name:        "Test one missing resource",
 			errorLength: 1,
 		},
+		{
+			name:        "Missing resource id check",
+			errorLength: 2,
+		},
 	}
 	for _, test := range tests {
 		t.Logf("Running %s", test.name)
 		ctx.PostValidate()
+		// Validate encapsulated error message: one or more expected resource ids were not found
+		if len(ctx.ErrorList.Errors) == 2 {
+			for _, resourceDiscoveryError := range ctx.ErrorList.Errors {
+				// element is the element from someSlice for where we are
+				fmt.Println("Error", resourceDiscoveryError.Error)
+			}
+		}
 		if len(ctx.ErrorList.Errors) != test.errorLength {
+
 			t.Errorf("Output error length - %d which is not equal to expected error - %d", len(ctx.ErrorList.Errors), test.errorLength)
 		}
 	}
