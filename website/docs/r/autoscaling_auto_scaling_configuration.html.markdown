@@ -46,7 +46,6 @@ resource "oci_autoscaling_auto_scaling_configuration" "test_auto_scaling_configu
 		resource_action {
 			#Required
 			action = var.auto_scaling_configuration_policies_resource_action_action
-
 			#Required
 			action_type = var.auto_scaling_configuration_policies_resource_action_action_type
 		}
@@ -63,7 +62,13 @@ resource "oci_autoscaling_auto_scaling_configuration" "test_auto_scaling_configu
 			metric {
 
 				#Optional
+				metric_compartment_id = oci_identity_compartment.test_compartment.id
+				metric_source = var.auto_scaling_configuration_policies_rules_metric_metric_source
 				metric_type = var.auto_scaling_configuration_policies_rules_metric_metric_type
+				namespace = var.auto_scaling_configuration_policies_rules_metric_namespace
+				pending_duration = var.auto_scaling_configuration_policies_rules_metric_pending_duration
+				query = var.auto_scaling_configuration_policies_rules_metric_query
+				resource_group = var.auto_scaling_configuration_policies_rules_metric_resource_group
 				threshold {
 
 					#Optional
@@ -126,20 +131,39 @@ The following arguments are supported:
 		* `type` - (Required) The type of execution schedule.
 	* `is_enabled` - (Optional) Whether the autoscaling policy is enabled.
 	* `policy_type` - (Required) The type of autoscaling policy.
-	* `resource_action` - (Applicable when policy_type=scheduled) An action that can be executed against a resource.
+	* `resource_action` - (Applicable when policy_type=scheduled) An action to run on a resource, such as stopping or starting an instance pool.
 		* `action` - (Required) 
-		* `action_type` - (Required) The type of resource action.
+		* `action_type` - (Required) The category of action to run on the resource.
 	* `rules` - (Required when policy_type=threshold) 
 		* `action` - (Required when policy_type=threshold) The action to take when autoscaling is triggered. 
 			* `type` - (Required when policy_type=threshold) The type of action to take.
 			* `value` - (Required when policy_type=threshold) To scale out (increase the number of instances), provide a positive value. To scale in (decrease the number of instances), provide a negative value. 
-		* `display_name` - (Required when policy_type=threshold) A user-friendly name. Does not have to be unique. Avoid entering confidential information. This value is not changeable through Terraform. 
-		* `metric` - (Required when policy_type=threshold) Metric and threshold details for triggering an autoscaling action. 
-			* `metric_type` - (Required when policy_type=threshold) 
-			* `threshold` - (Required when policy_type=threshold) 
-				* `operator` - (Required when policy_type=threshold) The comparison operator to use. Options are greater than (`GT`), greater than or equal to (`GTE`), less than (`LT`), and less than or equal to (`LTE`). 
-				* `value` - (Required when policy_type=threshold) 
+		* `display_name` - (Required when policy_type=threshold) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+		* `metric` - (Required when policy_type=threshold) 
+			* `metric_compartment_id` - (Required when metric_source=CUSTOM_QUERY) The OCID of the compartment containing the metrics.
+			* `metric_source` - (Optional) Source of the metric data for creating the alarm used to trigger autoscaling actions.
 
+				The following values are supported:
+				* `COMPUTE_AGENT`: CPU or memory metrics emitted by the Compute Instance Monitoring plugin.
+				* `CUSTOM_QUERY`: A custom Monitoring Query Language (MQL) expression. 
+			* `metric_type` - (Required when metric_source=COMPUTE_AGENT) 
+			* `namespace` - (Required when metric_source=CUSTOM_QUERY) The namespace for the query.
+			* `pending_duration` - (Applicable when policy_type=threshold) The period of time that the condition defined in the alarm must persist before the alarm state changes from "OK" to "FIRING" or vice versa. For example, a value of 5 minutes means that the alarm must persist in breaching the condition for five minutes before the alarm updates its state to "FIRING"; likewise, the alarm must persist in not breaching the condition for five minutes before the alarm updates its state to "OK."
+
+				The duration is specified as a string in ISO 8601 format (`PT10M` for ten minutes or `PT1H` for one hour). Minimum: PT3M. Maximum: PT1H. Default: PT3M. 
+			* `query` - (Required when metric_source=CUSTOM_QUERY) The Monitoring Query Language (MQL) expression to evaluate for the alarm. The Alarms feature of the Monitoring service interprets results for each returned time series as Boolean values, where zero represents false and a non-zero value represents true. A true value means that the trigger rule condition has been met. The query must specify a metric, statistic, interval, and trigger rule (threshold or absence). Supported values for interval: `1m`-`60m` (also `1h`). You can optionally specify dimensions and grouping functions. Supported grouping functions: `grouping()`, `groupBy()`.
+
+				Example of threshold alarm:
+
+				-----
+
+				CpuUtilization[1m]{availabilityDomain="cumS:PHX-AD-1"}.groupBy(availabilityDomain).percentile(0.9) > 85
+
+				----- 
+			* `resource_group` - (Applicable when metric_source=CUSTOM_QUERY) The resource group for the query.
+			* `threshold` - (Required when metric_source=COMPUTE_AGENT) 
+				* `operator` - (Required when metric_source=COMPUTE_AGENT) The comparison operator to use. Options are greater than (`GT`), greater than or equal to (`GTE`), less than (`LT`), and less than or equal to (`LTE`). 
+				* `value` - (Required when metric_source=COMPUTE_AGENT) 
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
@@ -191,17 +215,37 @@ The following attributes are exported:
 	* `id` - The ID of the autoscaling policy that is assigned after creation.
 	* `is_enabled` - Whether the autoscaling policy is enabled.
 	* `policy_type` - The type of autoscaling policy.
-	* `resource_action` - An action that can be executed against a resource.
+	* `resource_action` - An action to run on a resource, such as stopping or starting an instance pool.
 		* `action` - 
-		* `action_type` - The type of resource action.
+		* `action_type` - The category of action to run on the resource.
 	* `rules` - 
 		* `action` - The action to take when autoscaling is triggered. 
 			* `type` - The type of action to take.
 			* `value` - To scale out (increase the number of instances), provide a positive value. To scale in (decrease the number of instances), provide a negative value. 
 		* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 		* `id` - ID of the condition that is assigned after creation.
-		* `metric` - Metric and threshold details for triggering an autoscaling action. 
-			* `metric_type` - 
+		* `metric` - 
+			* `metric_compartment_id` - The OCID of the compartment containing the metrics.
+			* `metric_source` - Source of the metric data for creating the alarm used to trigger autoscaling actions.
+
+				The following values are supported:
+				* `COMPUTE_AGENT`: CPU or memory metrics emitted by the Compute Instance Monitoring plugin.
+				* `CUSTOM_QUERY`: A custom Monitoring Query Language (MQL) expression. 
+			* `metric_type` - Metric type example: CPU_UTILIZATION, MEMORY_UTILIZATION
+			* `namespace` - The namespace for the query.
+			* `pending_duration` - The period of time that the condition defined in the alarm must persist before the alarm state changes from "OK" to "FIRING" or vice versa. For example, a value of 5 minutes means that the alarm must persist in breaching the condition for five minutes before the alarm updates its state to "FIRING"; likewise, the alarm must persist in not breaching the condition for five minutes before the alarm updates its state to "OK."
+
+				The duration is specified as a string in ISO 8601 format (`PT10M` for ten minutes or `PT1H` for one hour). Minimum: PT3M. Maximum: PT1H. Default: PT3M. 
+			* `query` - The Monitoring Query Language (MQL) expression to evaluate for the alarm. The Alarms feature of the Monitoring service interprets results for each returned time series as Boolean values, where zero represents false and a non-zero value represents true. A true value means that the trigger rule condition has been met. The query must specify a metric, statistic, interval, and trigger rule (threshold or absence). Supported values for interval: `1m`-`60m` (also `1h`). You can optionally specify dimensions and grouping functions. Supported grouping functions: `grouping()`, `groupBy()`.
+
+				Example of threshold alarm:
+
+				-----
+
+				CpuUtilization[1m]{availabilityDomain="cumS:PHX-AD-1"}.groupBy(availabilityDomain).percentile(0.9) > 85
+
+				----- 
+			* `resource_group` - The resource group for the query.
 			* `threshold` - 
 				* `operator` - The comparison operator to use. Options are greater than (`GT`), greater than or equal to (`GTE`), less than (`LT`), and less than or equal to (`LTE`). 
 				* `value` - 
