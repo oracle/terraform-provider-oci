@@ -1,4 +1,4 @@
-## 4.93.0 (Unreleased)
+## 4.93.0 (September 14, 2022)
 
 ### Added
 - Support for API Gateway Dynamic Routing
