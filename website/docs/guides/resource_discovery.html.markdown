@@ -139,6 +139,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `blockchain` - Discovers blockchain resources within the specified compartment
     * `budget` - Discovers budget resources across the entire tenancy
     * `certificates_management` - Discovers certificates_management resources within the specified compartment
+    * `cloud_bridge` - Discovers cloud_bridge resources within the specified compartment
     * `cloud_guard` - Discovers cloud guard resources within the specified compartment
     * `cloud_migrations` - Discovers cloud_migrations resources within the specified compartment
     * `containerengine` - Discovers containerengine resources within the specified compartment
@@ -390,6 +391,17 @@ certificates_management
 * oci\_certificates\_management\_ca\_bundle
 * oci\_certificates\_management\_certificate\_authority
 * oci\_certificates\_management\_certificate
+
+cloud_bridge
+    
+* oci\_cloud\_bridge\_agent\_plugin
+* oci\_cloud\_bridge\_agent\_dependency
+* oci\_cloud\_bridge\_environment
+* oci\_cloud\_bridge\_agent
+* oci\_cloud\_bridge\_asset\_source
+* oci\_cloud\_bridge\_discovery\_schedule
+* oci\_cloud\_bridge\_asset
+* oci\_cloud\_bridge\_inventory
 
 cloud_guard
     

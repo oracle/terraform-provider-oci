@@ -35,7 +35,11 @@ resource "oci_database_external_database_connector" "test_external_database_conn
 		protocol = var.external_database_connector_connection_string_protocol
 		service = var.external_database_connector_connection_string_service
 	}
+<<<<<<< ours
+	connector_agent_id = oci_cloud_bridge_agent.test_agent.id
+=======
 	connector_agent_id = oci_database_connector_agent.test_connector_agent.id
+>>>>>>> theirs
 	display_name = var.external_database_connector_display_name
 	external_database_id = oci_database_database.test_database.id
 
