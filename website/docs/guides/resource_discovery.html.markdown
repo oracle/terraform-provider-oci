@@ -716,6 +716,7 @@ log_analytics
 * oci\_log\_analytics\_log\_analytics\_preferences\_management
 * oci\_log\_analytics\_log\_analytics\_unprocessed\_data\_bucket\_management
 * oci\_log\_analytics\_log\_analytics\_resource\_categories\_management
+* oci\_log\_analytics\_namespace\_ingest\_time\_rule
 
 logging
     
