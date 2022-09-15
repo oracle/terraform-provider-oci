@@ -61,7 +61,7 @@ The following arguments are supported:
 		* `name` - (Required when deployment_type=PIPELINE_DEPLOYMENT | SINGLE_STAGE_DEPLOYMENT) Name of the parameter (case-sensitive).
 		* `value` - (Required when deployment_type=PIPELINE_DEPLOYMENT | SINGLE_STAGE_DEPLOYMENT) Value of the parameter.
 * `deploy_pipeline_id` - (Required) The OCID of a pipeline.
-* `deploy_stage_id` - (Applicable when deployment_type=SINGLE_STAGE_DEPLOYMENT | SINGLE_STAGE_REDEPLOYMENT) Specifies the OCID of the stage to be redeployed.
+* `deploy_stage_id` - (Required when deployment_type=SINGLE_STAGE_DEPLOYMENT | SINGLE_STAGE_REDEPLOYMENT) Specifies the OCID of the stage to be redeployed.
 * `deployment_arguments` - (Applicable when deployment_type=PIPELINE_DEPLOYMENT | SINGLE_STAGE_DEPLOYMENT) Specifies list of arguments passed along with the deployment.
 	* `items` - (Required when deployment_type=PIPELINE_DEPLOYMENT | SINGLE_STAGE_DEPLOYMENT) List of arguments provided at the time of deployment.
 		* `name` - (Required when deployment_type=PIPELINE_DEPLOYMENT | SINGLE_STAGE_DEPLOYMENT) Name of the parameter (case-sensitive).
@@ -69,7 +69,7 @@ The following arguments are supported:
 * `deployment_type` - (Required) (Updatable) Specifies type for this deployment.
 * `display_name` - (Optional) (Updatable) Deployment display name. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`
-* `previous_deployment_id` - (Applicable when deployment_type=PIPELINE_REDEPLOYMENT | SINGLE_STAGE_REDEPLOYMENT) Specifies the OCID of the previous deployment to be redeployed.
+* `previous_deployment_id` - (Required when deployment_type=PIPELINE_REDEPLOYMENT | SINGLE_STAGE_REDEPLOYMENT) Specifies the OCID of the previous deployment to be redeployed.
 
 
 ** IMPORTANT **
