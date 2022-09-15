@@ -107,6 +107,16 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleDataSourceCrud) SetData() e
 		s.D.Set("log_group_id", *s.Res.LogGroupId)
 	}
 
+	if s.Res.LogSet != nil {
+		s.D.Set("log_set", *s.Res.LogSet)
+	}
+
+	if s.Res.LogSetExtRegex != nil {
+		s.D.Set("log_set_ext_regex", *s.Res.LogSetExtRegex)
+	}
+
+	s.D.Set("log_set_key", s.Res.LogSetKey)
+
 	if s.Res.LogSourceName != nil {
 		s.D.Set("log_source_name", *s.Res.LogSourceName)
 	}
@@ -147,6 +157,10 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleDataSourceCrud) SetData() e
 
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	}
+
+	if s.Res.Timezone != nil {
+		s.D.Set("timezone", *s.Res.Timezone)
 	}
 
 	return nil
