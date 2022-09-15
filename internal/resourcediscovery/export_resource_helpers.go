@@ -298,9 +298,13 @@ func (r *resourceDiscoveryBaseStep) writeTmpConfigurationForImport() error {
 
 func (r *resourceDiscoveryBaseStep) writeConfiguration() error {
 	defer elapsed(fmt.Sprintf("writing actual configuration for %d %s resources", len(r.getDiscoveredResources()), r.name), nil, 0)()
+
+	//Do not generate empty terraform configuration file
+	if len(r.getDiscoveredResources()) == 0 {
+		return nil
+	}
 	configOutputFile := fmt.Sprintf("%s%s%s.tf", *r.ctx.OutputDir, string(os.PathSeparator), r.name)
 	tmpConfigOutputFile := fmt.Sprintf("%s%s%s.tf.tmp", *r.ctx.OutputDir, string(os.PathSeparator), r.name)
-
 	file, err := os.OpenFile(tmpConfigOutputFile, os.O_CREATE|os.O_RDWR, 0666)
 	if err != nil {
 		return err

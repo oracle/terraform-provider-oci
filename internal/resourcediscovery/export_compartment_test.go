@@ -1030,7 +1030,7 @@ func TestUnitRunExportCommand_exitStatusForPartialSuccess(t *testing.T) {
 	tf_export.TfHclVersionvar = &tf_export.TfHclVersion12{}
 	args := &tf_export.ExportCommandArgs{
 		CompartmentId: &compartmentId,
-		Services:      []string{"compartment_testing", "tenancy_testing"},
+		Services:      []string{"compartment_testing", "core"},
 		OutputDir:     &outputDir,
 		GenerateState: false,
 		TFVersion:     &tf_export.TfHclVersionvar,
@@ -1046,21 +1046,25 @@ func TestUnitRunExportCommand_exitStatusForPartialSuccess(t *testing.T) {
 		return getTestClients(), nil
 	}
 	exportConfigProvider = acctest.MockConfigurationProvider{}
-	if err, status := RunExportCommand(args); err != nil && status == StatusFail {
+	err, status := RunExportCommand(args)
+	if err != nil && status == StatusFail {
 		t.Logf("(TF version %s) export command failed due to err: %v", tf_export.TfHclVersionvar.ToString(), err)
 		t.Fail()
-	} else if status != StatusPartialSuccess {
-		t.Logf("(TF version %s) export command returned unexpected Exit Status: %v", tf_export.TfHclVersionvar.ToString(), status)
-		t.Fail()
 	}
 
-	if _, err = os.Stat(fmt.Sprintf("%s%scompartment_testing.tf", outputDir, string(os.PathSeparator))); os.IsNotExist(err) {
-		t.Logf("(TF version %s) no compartment_testing.tf file generated", tf_export.TfHclVersionvar.ToString())
-		t.Fail()
-	}
+	if err == nil && status == StatusPartialSuccess {
+		if _, err = os.Stat(fmt.Sprintf("%s%score.tf", outputDir, string(os.PathSeparator))); os.IsNotExist(err) {
+			t.Logf("(TF version %s) no core.tf file generated", tf_export.TfHclVersionvar.ToString())
+			t.Fail()
+		}
+		if _, err = os.Stat(fmt.Sprintf("%s%scompartment_testing.tf", outputDir, string(os.PathSeparator))); !os.IsNotExist(err) {
+			t.Logf("(TF version %s) no compartment_testing.tf file generated", tf_export.TfHclVersionvar.ToString())
+			t.Fail()
+		}
 
-	if _, err = os.Stat(fmt.Sprintf("%s%sterraform.tfstate", outputDir, string(os.PathSeparator))); !os.IsNotExist(err) {
-		t.Logf("(TF version %s) found terraform.tfstate even though it wasn't expected", tf_export.TfHclVersionvar.ToString())
+		if _, err = os.Stat(fmt.Sprintf("%s%sterraform.tfstate", outputDir, string(os.PathSeparator))); os.IsNotExist(err) {
+			t.Logf("(TF version %s) found terraform.tfstate even though it wasn't expected", tf_export.TfHclVersionvar.ToString())
+		}
 	}
 
 	os.RemoveAll(outputDir)
