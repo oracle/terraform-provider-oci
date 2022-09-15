@@ -53,7 +53,7 @@ The following attributes are exported:
 * `cpu_core_count` - The Minimum number of OCPUs to be made available for this Deployment. 
 * `defined_tags` - Tags defined for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `deployment_backup_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup being referenced. 
-* `deployment_type` - The deployment type. 
+* `deployment_type` - The type of deployment, the value determines the exact 'type' of service executed in the Deployment. NOTE: Use of the value OGG is maintained for backward compatibility purposes.  Its use is discouraged in favor of the equivalent DATABASE_ORACLE value. 
 * `deployment_url` - The URL of a resource. 
 * `description` - Metadata about this specific object. 
 * `display_name` - An object's Display Name. 
