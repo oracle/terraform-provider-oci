@@ -143,7 +143,7 @@ func findDnsZones(ctx *tf_export.ResourceDiscoveryContext, tfMeta *tf_export.Ter
 	// Setting the "scope" field to the special value "ALL" will
 	// result in terraform fetching both global and private zones
 	// when populating the "oci_dns_zones" data source
-	tfMeta.DatasourceQueryParams["scope"] = "'ALL'"
+	//tfMeta.DatasourceQueryParams["scope"] = "'ALL'"
 	return tf_export.FindResourcesGeneric(ctx, tfMeta, parent, resourceGraph)
 }
 
