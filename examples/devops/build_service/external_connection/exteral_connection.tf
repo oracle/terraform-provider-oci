@@ -114,3 +114,17 @@ resource "oci_devops_connection" "test_bitbucket_server_connection" {
   display_name  = "bitbucket_server_access_token"
   depends_on = [oci_devops_connection.test_gitlab_server_connection]
 }
+
+# VBS external connection
+resource "oci_devops_connection" "test_vbs_connection" {
+  #Required
+  access_token    = var.access_token_vault_secret_id
+  connection_type = "VBS_ACCESS_TOKEN"
+  project_id      = oci_devops_project.test_project.id
+  base_url        = var.base_url
+
+  #Optional
+  description   = "VBS access token"
+  display_name  = "vbs_access_token"
+  depends_on = [oci_devops_connection.test_bitbucket_server_connection]
+}

@@ -134,6 +134,11 @@ func (s *DevopsConnectionDataSourceCrud) SetData() error {
 		} else {
 			s.D.Set("tls_verify_config", nil)
 		}
+
+	case oci_devops.VbsAccessTokenConnection:
+		s.D.Set("connection_type", "VBS_ACCESS_TOKEN")
+		s.D.Set("base_url", v.BaseUrl)
+
 	default:
 		log.Printf("[WARN] Received 'connection_type' of unknown type %v", v)
 		return nil
