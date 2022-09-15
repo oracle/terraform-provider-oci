@@ -779,6 +779,64 @@ func (client CloudGuardClient) createDetectorRecipeDetectorRule(ctx context.Cont
 	return response, err
 }
 
+// CreateDetectorRecipeDetectorRuleSightingType Adds a sighting type to a detector rule
+func (client CloudGuardClient) CreateDetectorRecipeDetectorRuleSightingType(ctx context.Context, request CreateDetectorRecipeDetectorRuleSightingTypeRequest) (response CreateDetectorRecipeDetectorRuleSightingTypeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createDetectorRecipeDetectorRuleSightingType, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateDetectorRecipeDetectorRuleSightingTypeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateDetectorRecipeDetectorRuleSightingTypeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateDetectorRecipeDetectorRuleSightingTypeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateDetectorRecipeDetectorRuleSightingTypeResponse")
+	}
+	return
+}
+
+// createDetectorRecipeDetectorRuleSightingType implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) createDetectorRecipeDetectorRuleSightingType(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/detectorRecipes/{detectorRecipeId}/detectorRules/{detectorRuleId}/sightingTypes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateDetectorRecipeDetectorRuleSightingTypeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRecipeDetectorRuleSightingType/CreateDetectorRecipeDetectorRuleSightingType"
+		err = common.PostProcessServiceError(err, "CloudGuard", "CreateDetectorRecipeDetectorRuleSightingType", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateManagedList Creates a new ManagedList.
 func (client CloudGuardClient) CreateManagedList(ctx context.Context, request CreateManagedListRequest) (response CreateManagedListResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1460,6 +1518,59 @@ func (client CloudGuardClient) deleteDetectorRecipeDetectorRuleDataSource(ctx co
 	return response, err
 }
 
+// DeleteDetectorRecipeDetectorRuleSightingType Deletes a SightingType associated with a detector rule
+func (client CloudGuardClient) DeleteDetectorRecipeDetectorRuleSightingType(ctx context.Context, request DeleteDetectorRecipeDetectorRuleSightingTypeRequest) (response DeleteDetectorRecipeDetectorRuleSightingTypeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteDetectorRecipeDetectorRuleSightingType, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteDetectorRecipeDetectorRuleSightingTypeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteDetectorRecipeDetectorRuleSightingTypeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteDetectorRecipeDetectorRuleSightingTypeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteDetectorRecipeDetectorRuleSightingTypeResponse")
+	}
+	return
+}
+
+// deleteDetectorRecipeDetectorRuleSightingType implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) deleteDetectorRecipeDetectorRuleSightingType(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/detectorRecipes/{detectorRecipeId}/detectorRules/{detectorRuleId}/sightingTypes/{sightingTypeId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteDetectorRecipeDetectorRuleSightingTypeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRecipeDetectorRuleSightingType/DeleteDetectorRecipeDetectorRuleSightingType"
+		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteDetectorRecipeDetectorRuleSightingType", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteManagedList Deletes a managed list identified by managedListId
 func (client CloudGuardClient) DeleteManagedList(ctx context.Context, request DeleteManagedListRequest) (response DeleteManagedListResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1829,6 +1940,59 @@ func (client CloudGuardClient) deleteTargetResponderRecipe(ctx context.Context, 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetResponderRecipe/DeleteTargetResponderRecipe"
 		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteTargetResponderRecipe", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DetachDetectorRecipeDetectorRuleSightingTypeDataSource Detach the DetectorRecipeDetectorRuleSightingTypeDataSource resource by identifier
+func (client CloudGuardClient) DetachDetectorRecipeDetectorRuleSightingTypeDataSource(ctx context.Context, request DetachDetectorRecipeDetectorRuleSightingTypeDataSourceRequest) (response DetachDetectorRecipeDetectorRuleSightingTypeDataSourceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.detachDetectorRecipeDetectorRuleSightingTypeDataSource, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DetachDetectorRecipeDetectorRuleSightingTypeDataSourceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DetachDetectorRecipeDetectorRuleSightingTypeDataSourceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DetachDetectorRecipeDetectorRuleSightingTypeDataSourceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DetachDetectorRecipeDetectorRuleSightingTypeDataSourceResponse")
+	}
+	return
+}
+
+// detachDetectorRecipeDetectorRuleSightingTypeDataSource implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) detachDetectorRecipeDetectorRuleSightingTypeDataSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/detectorRecipes/{detectorRecipeId}/detectorRules/{detectorRuleId}/sightingTypes/{sightingTypeId}/dataSources/{dataSourceId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DetachDetectorRecipeDetectorRuleSightingTypeDataSourceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRecipeDetectorRuleSightingType/DetachDetectorRecipeDetectorRuleSightingTypeDataSource"
+		err = common.PostProcessServiceError(err, "CloudGuard", "DetachDetectorRecipeDetectorRuleSightingTypeDataSource", apiReferenceLink)
 		return response, err
 	}
 
@@ -3442,6 +3606,60 @@ func (client CloudGuardClient) listDataSources(ctx context.Context, request comm
 	return response, err
 }
 
+// ListDetectorRecipeDetectorRuleSightingTypes Returns a list of all SightingTypes identified by the DetectorRuleId
+// The ListSightingTypes operation returns only sightingTypes that match the passed filters.
+func (client CloudGuardClient) ListDetectorRecipeDetectorRuleSightingTypes(ctx context.Context, request ListDetectorRecipeDetectorRuleSightingTypesRequest) (response ListDetectorRecipeDetectorRuleSightingTypesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDetectorRecipeDetectorRuleSightingTypes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDetectorRecipeDetectorRuleSightingTypesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDetectorRecipeDetectorRuleSightingTypesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDetectorRecipeDetectorRuleSightingTypesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDetectorRecipeDetectorRuleSightingTypesResponse")
+	}
+	return
+}
+
+// listDetectorRecipeDetectorRuleSightingTypes implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) listDetectorRecipeDetectorRuleSightingTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/detectorRecipes/{detectorRecipeId}/detectorRules/{detectorRuleId}/sightingTypes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDetectorRecipeDetectorRuleSightingTypesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRecipeDetectorRuleSightingTypeSummary/ListDetectorRecipeDetectorRuleSightingTypes"
+		err = common.PostProcessServiceError(err, "CloudGuard", "ListDetectorRecipeDetectorRuleSightingTypes", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListDetectorRecipeDetectorRules Returns a list of DetectorRule associated with DetectorRecipe.
 func (client CloudGuardClient) ListDetectorRecipeDetectorRules(ctx context.Context, request ListDetectorRecipeDetectorRulesRequest) (response ListDetectorRecipeDetectorRulesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3828,6 +4046,112 @@ func (client CloudGuardClient) listManagedLists(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ManagedList/ListManagedLists"
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListManagedLists", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListMitreTactics Returns a list of cloudguard supported mitre tactics
+func (client CloudGuardClient) ListMitreTactics(ctx context.Context, request ListMitreTacticsRequest) (response ListMitreTacticsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listMitreTactics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListMitreTacticsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListMitreTacticsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListMitreTacticsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListMitreTacticsResponse")
+	}
+	return
+}
+
+// listMitreTactics implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) listMitreTactics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mitreTactics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListMitreTacticsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/MitreTacticSummary/ListMitreTactics"
+		err = common.PostProcessServiceError(err, "CloudGuard", "ListMitreTactics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListMitreTechniques Returns a list of mitre techniques associated with a tactic.
+func (client CloudGuardClient) ListMitreTechniques(ctx context.Context, request ListMitreTechniquesRequest) (response ListMitreTechniquesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listMitreTechniques, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListMitreTechniquesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListMitreTechniquesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListMitreTechniquesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListMitreTechniquesResponse")
+	}
+	return
+}
+
+// listMitreTechniques implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) listMitreTechniques(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mitreTactics/{mitreTacticId}/mitreTechniques", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListMitreTechniquesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/MitreTechniqueSummary/ListMitreTechniques"
+		err = common.PostProcessServiceError(err, "CloudGuard", "ListMitreTechniques", apiReferenceLink)
 		return response, err
 	}
 
@@ -4868,6 +5192,59 @@ func (client CloudGuardClient) listSecurityZones(ctx context.Context, request co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SecurityZoneCollection/ListSecurityZones"
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListSecurityZones", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSightingAdditionalEntities Return a list of associated Additional Entities for a CloudGuard Sighting
+func (client CloudGuardClient) ListSightingAdditionalEntities(ctx context.Context, request ListSightingAdditionalEntitiesRequest) (response ListSightingAdditionalEntitiesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSightingAdditionalEntities, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSightingAdditionalEntitiesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSightingAdditionalEntitiesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSightingAdditionalEntitiesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSightingAdditionalEntitiesResponse")
+	}
+	return
+}
+
+// listSightingAdditionalEntities implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) listSightingAdditionalEntities(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sightings/{sightingId}/additionalEntities", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSightingAdditionalEntitiesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Sighting/ListSightingAdditionalEntities"
+		err = common.PostProcessServiceError(err, "CloudGuard", "ListSightingAdditionalEntities", apiReferenceLink)
 		return response, err
 	}
 

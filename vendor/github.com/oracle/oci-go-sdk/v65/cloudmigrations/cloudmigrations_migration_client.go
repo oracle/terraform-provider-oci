@@ -63,7 +63,7 @@ func newMigrationClientFromBaseClient(baseClient common.BaseClient, configProvid
 
 // SetRegion overrides the region of this client.
 func (client *MigrationClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("cloudmigrations", "https://cloudmigration.{region}.oci.oc-test.com")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("cloudmigrations", "https://cloudmigration.{region}.oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid

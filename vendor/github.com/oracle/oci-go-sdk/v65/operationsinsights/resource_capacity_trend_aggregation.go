@@ -28,6 +28,9 @@ type ResourceCapacityTrendAggregation struct {
 
 	// The base allocated amount of the resource metric type  (CPU, STORAGE) for a set of databases.
 	BaseCapacity *float64 `mandatory:"true" json:"baseCapacity"`
+
+	// The maximum host CPUs (cores x threads/core) on the underlying infrastructure. This only applies to CPU and does not not apply for Autonomous Databases.
+	TotalHostCapacity *float64 `mandatory:"false" json:"totalHostCapacity"`
 }
 
 func (m ResourceCapacityTrendAggregation) String() string {

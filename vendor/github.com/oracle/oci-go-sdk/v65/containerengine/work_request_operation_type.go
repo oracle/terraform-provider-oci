@@ -31,6 +31,9 @@ const (
 	WorkRequestOperationTypeVirtualnodepoolCreate WorkRequestOperationTypeEnum = "VIRTUALNODEPOOL_CREATE"
 	WorkRequestOperationTypeVirtualnodepoolUpdate WorkRequestOperationTypeEnum = "VIRTUALNODEPOOL_UPDATE"
 	WorkRequestOperationTypeVirtualnodepoolDelete WorkRequestOperationTypeEnum = "VIRTUALNODEPOOL_DELETE"
+	WorkRequestOperationTypeEnableAddon           WorkRequestOperationTypeEnum = "ENABLE_ADDON"
+	WorkRequestOperationTypeUpdateAddon           WorkRequestOperationTypeEnum = "UPDATE_ADDON"
+	WorkRequestOperationTypeDisableAddon          WorkRequestOperationTypeEnum = "DISABLE_ADDON"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -45,6 +48,9 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"VIRTUALNODEPOOL_CREATE": WorkRequestOperationTypeVirtualnodepoolCreate,
 	"VIRTUALNODEPOOL_UPDATE": WorkRequestOperationTypeVirtualnodepoolUpdate,
 	"VIRTUALNODEPOOL_DELETE": WorkRequestOperationTypeVirtualnodepoolDelete,
+	"ENABLE_ADDON":           WorkRequestOperationTypeEnableAddon,
+	"UPDATE_ADDON":           WorkRequestOperationTypeUpdateAddon,
+	"DISABLE_ADDON":          WorkRequestOperationTypeDisableAddon,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -59,6 +65,9 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"virtualnodepool_create": WorkRequestOperationTypeVirtualnodepoolCreate,
 	"virtualnodepool_update": WorkRequestOperationTypeVirtualnodepoolUpdate,
 	"virtualnodepool_delete": WorkRequestOperationTypeVirtualnodepoolDelete,
+	"enable_addon":           WorkRequestOperationTypeEnableAddon,
+	"update_addon":           WorkRequestOperationTypeUpdateAddon,
+	"disable_addon":          WorkRequestOperationTypeDisableAddon,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -84,6 +93,9 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"VIRTUALNODEPOOL_CREATE",
 		"VIRTUALNODEPOOL_UPDATE",
 		"VIRTUALNODEPOOL_DELETE",
+		"ENABLE_ADDON",
+		"UPDATE_ADDON",
+		"DISABLE_ADDON",
 	}
 }
 

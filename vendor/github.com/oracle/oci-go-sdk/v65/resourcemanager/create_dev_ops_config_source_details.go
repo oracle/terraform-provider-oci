@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// CreateDevOpsConfigSourceDetails Details for creating the DevOps (https://docs.cloud.oracle.com/iaas/Content/devops/using/home.htm) configuration source.
+// CreateDevOpsConfigSourceDetails Creation details for a DevOps (https://docs.cloud.oracle.com/iaas/Content/devops/using/home.htm) configuration source.
 type CreateDevOpsConfigSourceDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Project.

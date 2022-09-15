@@ -9,6 +9,8 @@
 // documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
 // Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
+// The required permissions are documented in the
+// Details for the Core Services (https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
 //
 
 package core
@@ -52,6 +54,9 @@ type FlowLogConfigAttachment struct {
 	// The date and time the flow log configuration attachment was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of captureFilter.
+	CaptureFilterId *string `mandatory:"false" json:"captureFilterId"`
 }
 
 func (m FlowLogConfigAttachment) String() string {
@@ -132,14 +137,20 @@ type FlowLogConfigAttachmentTargetEntityTypeEnum string
 // Set of constants representing the allowable values for FlowLogConfigAttachmentTargetEntityTypeEnum
 const (
 	FlowLogConfigAttachmentTargetEntityTypeSubnet FlowLogConfigAttachmentTargetEntityTypeEnum = "SUBNET"
+	FlowLogConfigAttachmentTargetEntityTypeVcn    FlowLogConfigAttachmentTargetEntityTypeEnum = "VCN"
+	FlowLogConfigAttachmentTargetEntityTypeVnic   FlowLogConfigAttachmentTargetEntityTypeEnum = "VNIC"
 )
 
 var mappingFlowLogConfigAttachmentTargetEntityTypeEnum = map[string]FlowLogConfigAttachmentTargetEntityTypeEnum{
 	"SUBNET": FlowLogConfigAttachmentTargetEntityTypeSubnet,
+	"VCN":    FlowLogConfigAttachmentTargetEntityTypeVcn,
+	"VNIC":   FlowLogConfigAttachmentTargetEntityTypeVnic,
 }
 
 var mappingFlowLogConfigAttachmentTargetEntityTypeEnumLowerCase = map[string]FlowLogConfigAttachmentTargetEntityTypeEnum{
 	"subnet": FlowLogConfigAttachmentTargetEntityTypeSubnet,
+	"vcn":    FlowLogConfigAttachmentTargetEntityTypeVcn,
+	"vnic":   FlowLogConfigAttachmentTargetEntityTypeVnic,
 }
 
 // GetFlowLogConfigAttachmentTargetEntityTypeEnumValues Enumerates the set of values for FlowLogConfigAttachmentTargetEntityTypeEnum
@@ -155,6 +166,8 @@ func GetFlowLogConfigAttachmentTargetEntityTypeEnumValues() []FlowLogConfigAttac
 func GetFlowLogConfigAttachmentTargetEntityTypeEnumStringValues() []string {
 	return []string{
 		"SUBNET",
+		"VCN",
+		"VNIC",
 	}
 }
 

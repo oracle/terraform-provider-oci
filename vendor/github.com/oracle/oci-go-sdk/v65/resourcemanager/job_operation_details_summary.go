@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// JobOperationDetailsSummary Job details that are specific to the operation type.
+// JobOperationDetailsSummary A summary of job details that is specific to the operation type.
 type JobOperationDetailsSummary interface {
 }
 

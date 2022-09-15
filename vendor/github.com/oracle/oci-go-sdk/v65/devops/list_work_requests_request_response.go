@@ -122,30 +122,36 @@ type ListWorkRequestsStatusEnum string
 
 // Set of constants representing the allowable values for ListWorkRequestsStatusEnum
 const (
-	ListWorkRequestsStatusAccepted   ListWorkRequestsStatusEnum = "ACCEPTED"
-	ListWorkRequestsStatusInProgress ListWorkRequestsStatusEnum = "IN_PROGRESS"
-	ListWorkRequestsStatusFailed     ListWorkRequestsStatusEnum = "FAILED"
-	ListWorkRequestsStatusSucceeded  ListWorkRequestsStatusEnum = "SUCCEEDED"
-	ListWorkRequestsStatusCanceling  ListWorkRequestsStatusEnum = "CANCELING"
-	ListWorkRequestsStatusCanceled   ListWorkRequestsStatusEnum = "CANCELED"
+	ListWorkRequestsStatusAccepted       ListWorkRequestsStatusEnum = "ACCEPTED"
+	ListWorkRequestsStatusInProgress     ListWorkRequestsStatusEnum = "IN_PROGRESS"
+	ListWorkRequestsStatusFailed         ListWorkRequestsStatusEnum = "FAILED"
+	ListWorkRequestsStatusSucceeded      ListWorkRequestsStatusEnum = "SUCCEEDED"
+	ListWorkRequestsStatusCanceling      ListWorkRequestsStatusEnum = "CANCELING"
+	ListWorkRequestsStatusCanceled       ListWorkRequestsStatusEnum = "CANCELED"
+	ListWorkRequestsStatusWaiting        ListWorkRequestsStatusEnum = "WAITING"
+	ListWorkRequestsStatusNeedsAttention ListWorkRequestsStatusEnum = "NEEDS_ATTENTION"
 )
 
 var mappingListWorkRequestsStatusEnum = map[string]ListWorkRequestsStatusEnum{
-	"ACCEPTED":    ListWorkRequestsStatusAccepted,
-	"IN_PROGRESS": ListWorkRequestsStatusInProgress,
-	"FAILED":      ListWorkRequestsStatusFailed,
-	"SUCCEEDED":   ListWorkRequestsStatusSucceeded,
-	"CANCELING":   ListWorkRequestsStatusCanceling,
-	"CANCELED":    ListWorkRequestsStatusCanceled,
+	"ACCEPTED":        ListWorkRequestsStatusAccepted,
+	"IN_PROGRESS":     ListWorkRequestsStatusInProgress,
+	"FAILED":          ListWorkRequestsStatusFailed,
+	"SUCCEEDED":       ListWorkRequestsStatusSucceeded,
+	"CANCELING":       ListWorkRequestsStatusCanceling,
+	"CANCELED":        ListWorkRequestsStatusCanceled,
+	"WAITING":         ListWorkRequestsStatusWaiting,
+	"NEEDS_ATTENTION": ListWorkRequestsStatusNeedsAttention,
 }
 
 var mappingListWorkRequestsStatusEnumLowerCase = map[string]ListWorkRequestsStatusEnum{
-	"accepted":    ListWorkRequestsStatusAccepted,
-	"in_progress": ListWorkRequestsStatusInProgress,
-	"failed":      ListWorkRequestsStatusFailed,
-	"succeeded":   ListWorkRequestsStatusSucceeded,
-	"canceling":   ListWorkRequestsStatusCanceling,
-	"canceled":    ListWorkRequestsStatusCanceled,
+	"accepted":        ListWorkRequestsStatusAccepted,
+	"in_progress":     ListWorkRequestsStatusInProgress,
+	"failed":          ListWorkRequestsStatusFailed,
+	"succeeded":       ListWorkRequestsStatusSucceeded,
+	"canceling":       ListWorkRequestsStatusCanceling,
+	"canceled":        ListWorkRequestsStatusCanceled,
+	"waiting":         ListWorkRequestsStatusWaiting,
+	"needs_attention": ListWorkRequestsStatusNeedsAttention,
 }
 
 // GetListWorkRequestsStatusEnumValues Enumerates the set of values for ListWorkRequestsStatusEnum
@@ -166,6 +172,8 @@ func GetListWorkRequestsStatusEnumStringValues() []string {
 		"SUCCEEDED",
 		"CANCELING",
 		"CANCELED",
+		"WAITING",
+		"NEEDS_ATTENTION",
 	}
 }
 

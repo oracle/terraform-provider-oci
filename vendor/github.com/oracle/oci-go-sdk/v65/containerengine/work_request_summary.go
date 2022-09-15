@@ -86,6 +86,9 @@ const (
 	WorkRequestSummaryOperationTypeVirtualnodepoolCreate WorkRequestOperationTypeEnum = "VIRTUALNODEPOOL_CREATE"
 	WorkRequestSummaryOperationTypeVirtualnodepoolUpdate WorkRequestOperationTypeEnum = "VIRTUALNODEPOOL_UPDATE"
 	WorkRequestSummaryOperationTypeVirtualnodepoolDelete WorkRequestOperationTypeEnum = "VIRTUALNODEPOOL_DELETE"
+	WorkRequestSummaryOperationTypeEnableAddon           WorkRequestOperationTypeEnum = "ENABLE_ADDON"
+	WorkRequestSummaryOperationTypeUpdateAddon           WorkRequestOperationTypeEnum = "UPDATE_ADDON"
+	WorkRequestSummaryOperationTypeDisableAddon          WorkRequestOperationTypeEnum = "DISABLE_ADDON"
 )
 
 // GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum

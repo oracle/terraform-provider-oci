@@ -9,6 +9,8 @@
 // documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
 // Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
+// The required permissions are documented in the
+// Details for the Core Services (https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
 //
 
 package core
@@ -24,6 +26,13 @@ import (
 // For more information about VNICs, see
 // Virtual Network Interface Cards (VNICs) (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm).
 type CreateVnicDetails struct {
+
+	// Whether to allocate an IPv6 address at instance/Vnic creation from an IPv6 Enabled
+	// Subnet. Default: False. When provided customer may optionally provide an IPv6 prefix
+	// (ipv6SubnetCidr) of their choice to assign the IPv6 address from. If ipv6SubnetCidr
+	// is not provided then IPv6 Prefix is chosen based on the logic described in "IPv6 Assignment
+	// logic in IPv6BL logic" section.
+	AssignIpv6Ip *bool `mandatory:"false" json:"assignIpv6Ip"`
 
 	// Whether the VNIC should be assigned a public IP address. Defaults to whether
 	// the subnet is public or private. If not set and the VNIC is being created
@@ -86,6 +95,12 @@ type CreateVnicDetails struct {
 	// If you specify a `vlanId`, the `hostnameLabel` cannot be specified. VNICs on a VLAN
 	// can not be assigned a hostname. See Vlan.
 	HostnameLabel *string `mandatory:"false" json:"hostnameLabel"`
+
+	// A list of IPv6 CIDR ranges from which the Vnic should be assigned an IPv6 address.
+	// The caller can provide only the CIDR ranges, in which case, OCI will select an available
+	// address from the range.  The caller can optionally choose to leave the CIDR range empty
+	// and instead provide the specific IPv6 address that should be used from within that range.
+	Ipv6AddressIpv6SubnetCidrPairDetails []Ipv6AddressIpv6SubnetCidrPairDetails `mandatory:"false" json:"ipv6AddressIpv6SubnetCidrPairDetails"`
 
 	// A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more
 	// information about NSGs, see

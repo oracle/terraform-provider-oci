@@ -164,6 +164,10 @@ func (m *hostconfigurationsummary) UnmarshalPolymorphicJSON(data []byte) (interf
 		mm := EmManagedExternalHostConfigurationSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "MACS_MANAGED_CLOUD_HOST":
+		mm := MacsManagedCloudHostConfigurationSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for HostConfigurationSummary: %s.", m.EntitySource)
 		return *m, nil

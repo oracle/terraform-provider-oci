@@ -99,6 +99,9 @@ type SummarizeHostInsightResourceUtilizationInsightRequest struct {
 	// Optional OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host (Compute Id)
 	HostId *string `mandatory:"false" contributesTo:"query" name:"hostId"`
 
+	// Optional list of Exadata Insight VM cluster name.
+	VmclusterName []string `contributesTo:"query" name:"vmclusterName" collectionFormat:"multi"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

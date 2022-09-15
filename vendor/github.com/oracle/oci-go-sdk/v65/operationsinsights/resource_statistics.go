@@ -40,6 +40,9 @@ type ResourceStatistics struct {
 
 	// Array of instance metrics
 	InstanceMetrics []InstanceMetrics `mandatory:"false" json:"instanceMetrics"`
+
+	// The maximum host CPUs (cores x threads/core) on the underlying infrastructure. This only applies to CPU and does not not apply for Autonomous Databases.
+	TotalHostCapacity *float64 `mandatory:"false" json:"totalHostCapacity"`
 }
 
 func (m ResourceStatistics) String() string {

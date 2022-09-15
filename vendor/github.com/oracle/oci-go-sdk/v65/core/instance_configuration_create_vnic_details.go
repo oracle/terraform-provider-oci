@@ -9,6 +9,8 @@
 // documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
 // Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
+// The required permissions are documented in the
+// Details for the Core Services (https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
 //
 
 package core
@@ -22,6 +24,13 @@ import (
 // InstanceConfigurationCreateVnicDetails Contains the properties of the VNIC for an instance configuration. See CreateVnicDetails
 // and Instance Configurations (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/instancemanagement.htm#config) for more information.
 type InstanceConfigurationCreateVnicDetails struct {
+
+	// Whether to allocate an IPv6 address at instance/Vnic creation from an IPv6 Enabled
+	// Subnet. Default: False. When provided customer may optionally provide an IPv6 prefix
+	// (ipv6SubnetCidr) of their choice to assign the IPv6 address from. If ipv6SubnetCidr
+	// is not provided then IPv6 Prefix is chosen based on the logic described in "IPv6 Assignment
+	// logic in IPv6BL logic" section.
+	AssignIpv6Ip *bool `mandatory:"false" json:"assignIpv6Ip"`
 
 	// Whether the VNIC should be assigned a public IP address. See the `assignPublicIp` attribute of CreateVnicDetails
 	// for more information.
@@ -44,6 +53,12 @@ type InstanceConfigurationCreateVnicDetails struct {
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// A list of IPv6 CIDR ranges from which the Vnic should be assigned an IPv6 address.
+	// The caller can provide only the CIDR ranges, in which case, OCI will select an available
+	// address from the range.  The caller can optionally choose to leave the CIDR range empty
+	// and instead provide the specific IPv6 address that should be used from within that range.
+	Ipv6AddressIpv6SubnetCidrPairDetails []InstanceConfigurationIpv6AddressIpv6SubnetCidrPairDetails `mandatory:"false" json:"ipv6AddressIpv6SubnetCidrPairDetails"`
 
 	// The hostname for the VNIC's primary private IP.
 	// See the `hostnameLabel` attribute of CreateVnicDetails for more information.

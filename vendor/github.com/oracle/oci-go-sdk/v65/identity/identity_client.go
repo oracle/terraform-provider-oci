@@ -1126,6 +1126,66 @@ func (client IdentityClient) createCompartment(ctx context.Context, request comm
 	return response, err
 }
 
+// CreateCompartmentsServiceSetting Creates an onboarded resource to compartment delete
+// A default retry strategy applies to this operation CreateCompartmentsServiceSetting()
+func (client IdentityClient) CreateCompartmentsServiceSetting(ctx context.Context, request CreateCompartmentsServiceSettingRequest) (response CreateCompartmentsServiceSettingResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createCompartmentsServiceSetting, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateCompartmentsServiceSettingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateCompartmentsServiceSettingResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateCompartmentsServiceSettingResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateCompartmentsServiceSettingResponse")
+	}
+	return
+}
+
+// createCompartmentsServiceSetting implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) createCompartmentsServiceSetting(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/compartmentsServiceSetting/{serviceName}/{resourceName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateCompartmentsServiceSettingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/CompartmentsServiceSetting/CreateCompartmentsServiceSetting"
+		err = common.PostProcessServiceError(err, "Identity", "CreateCompartmentsServiceSetting", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateCustomerSecretKey Creates a new secret key for the specified user. Secret keys are used for authentication with the Object Storage Service's Amazon S3
 // compatible API. The secret key consists of an Access Key/Secret Key pair. For information, see
 // Managing User Credentials (https://docs.cloud.oracle.com/Content/Identity/access/managing-user-credentials.htm).
@@ -2795,6 +2855,60 @@ func (client IdentityClient) deleteCompartment(ctx context.Context, request comm
 	return response, err
 }
 
+// DeleteCompartmentsServiceSetting Delete a resource onboarded to compartment delete
+// A default retry strategy applies to this operation DeleteCompartmentsServiceSetting()
+func (client IdentityClient) DeleteCompartmentsServiceSetting(ctx context.Context, request DeleteCompartmentsServiceSettingRequest) (response DeleteCompartmentsServiceSettingResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteCompartmentsServiceSetting, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteCompartmentsServiceSettingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteCompartmentsServiceSettingResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteCompartmentsServiceSettingResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteCompartmentsServiceSettingResponse")
+	}
+	return
+}
+
+// deleteCompartmentsServiceSetting implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) deleteCompartmentsServiceSetting(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/compartmentsServiceSetting/{compartmentsServiceSettingId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteCompartmentsServiceSettingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/CompartmentsServiceSetting/DeleteCompartmentsServiceSetting"
+		err = common.PostProcessServiceError(err, "Identity", "DeleteCompartmentsServiceSetting", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteCustomerSecretKey Deletes the specified secret key for the specified user.
 // A default retry strategy applies to this operation DeleteCustomerSecretKey()
 func (client IdentityClient) DeleteCustomerSecretKey(ctx context.Context, request DeleteCustomerSecretKeyRequest) (response DeleteCustomerSecretKeyResponse, err error) {
@@ -4079,6 +4193,60 @@ func (client IdentityClient) getCompartment(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Compartment/GetCompartment"
 		err = common.PostProcessServiceError(err, "Identity", "GetCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetCompartmentsServiceSetting List a resource onboarded to compartment delete
+// A default retry strategy applies to this operation GetCompartmentsServiceSetting()
+func (client IdentityClient) GetCompartmentsServiceSetting(ctx context.Context, request GetCompartmentsServiceSettingRequest) (response GetCompartmentsServiceSettingResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCompartmentsServiceSetting, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCompartmentsServiceSettingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCompartmentsServiceSettingResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCompartmentsServiceSettingResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCompartmentsServiceSettingResponse")
+	}
+	return
+}
+
+// getCompartmentsServiceSetting implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) getCompartmentsServiceSetting(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/compartmentsServiceSetting", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCompartmentsServiceSettingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/CompartmentsServiceSetting/GetCompartmentsServiceSetting"
+		err = common.PostProcessServiceError(err, "Identity", "GetCompartmentsServiceSetting", apiReferenceLink)
 		return response, err
 	}
 
@@ -5635,6 +5803,60 @@ func (client IdentityClient) listCompartments(ctx context.Context, request commo
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Compartment/ListCompartments"
 		err = common.PostProcessServiceError(err, "Identity", "ListCompartments", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCompartmentsServiceSetting Fetch all resources onboarded to compartment delete in current region
+// A default retry strategy applies to this operation ListCompartmentsServiceSetting()
+func (client IdentityClient) ListCompartmentsServiceSetting(ctx context.Context, request ListCompartmentsServiceSettingRequest) (response ListCompartmentsServiceSettingResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCompartmentsServiceSetting, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCompartmentsServiceSettingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCompartmentsServiceSettingResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCompartmentsServiceSettingResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCompartmentsServiceSettingResponse")
+	}
+	return
+}
+
+// listCompartmentsServiceSetting implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) listCompartmentsServiceSetting(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/compartmentsServiceSetting/all", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCompartmentsServiceSettingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/CompartmentsServiceSetting/ListCompartmentsServiceSetting"
+		err = common.PostProcessServiceError(err, "Identity", "ListCompartmentsServiceSetting", apiReferenceLink)
 		return response, err
 	}
 
@@ -8250,6 +8472,61 @@ func (client IdentityClient) updateCompartment(ctx context.Context, request comm
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Compartment/UpdateCompartment"
 		err = common.PostProcessServiceError(err, "Identity", "UpdateCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateCompartmentsServiceSetting Update a resource onboarded to compartment delete
+// A default retry strategy applies to this operation UpdateCompartmentsServiceSetting()
+func (client IdentityClient) UpdateCompartmentsServiceSetting(ctx context.Context, request UpdateCompartmentsServiceSettingRequest) (response UpdateCompartmentsServiceSettingResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateCompartmentsServiceSetting, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCompartmentsServiceSettingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCompartmentsServiceSettingResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateCompartmentsServiceSettingResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateCompartmentsServiceSettingResponse")
+	}
+	return
+}
+
+// updateCompartmentsServiceSetting implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) updateCompartmentsServiceSetting(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/compartmentsServiceSetting/{compartmentsServiceSettingId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateCompartmentsServiceSettingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/CompartmentsServiceSetting/UpdateCompartmentsServiceSetting"
+		err = common.PostProcessServiceError(err, "Identity", "UpdateCompartmentsServiceSetting", apiReferenceLink)
 		return response, err
 	}
 

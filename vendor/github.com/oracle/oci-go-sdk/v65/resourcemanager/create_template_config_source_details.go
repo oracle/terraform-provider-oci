@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// CreateTemplateConfigSourceDetails Property details for the configuration source used for the template.
+// CreateTemplateConfigSourceDetails Creation details for a configuration source used for a template.
 type CreateTemplateConfigSourceDetails interface {
 }
 

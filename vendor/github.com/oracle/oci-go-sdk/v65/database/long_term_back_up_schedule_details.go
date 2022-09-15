@@ -21,20 +21,7 @@ type LongTermBackUpScheduleDetails struct {
 	// The frequency of the long-term backup schedule
 	RepeatCadence LongTermBackUpScheduleDetailsRepeatCadenceEnum `mandatory:"false" json:"repeatCadence,omitempty"`
 
-	DayOfTheWeek *DayOfWeek `mandatory:"false" json:"dayOfTheWeek"`
-
-	// Day of the month
-	DayOfTheMonth *int `mandatory:"false" json:"dayOfTheMonth"`
-
-	FirstMonthOfQuarter *Month `mandatory:"false" json:"firstMonthOfQuarter"`
-
-	// Day of the quarter
-	DayOfQuarter *int `mandatory:"false" json:"dayOfQuarter"`
-
-	// the hour in the day when long-term backup will be performed. value must be of ISO-8601 format "HH:mm"
-	TimeOfTheDay *string `mandatory:"false" json:"timeOfTheDay"`
-
-	// The timestamp for the one-time and yearly backup
+	// The timestamp for the long-term backup schedule
 	TimeOfBackup *common.SDKTime `mandatory:"false" json:"timeOfBackup"`
 
 	// Retention period, in days, for long-term backups

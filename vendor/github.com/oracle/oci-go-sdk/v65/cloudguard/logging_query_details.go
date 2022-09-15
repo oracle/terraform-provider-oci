@@ -51,6 +51,10 @@ func (m *loggingquerydetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 
 	var err error
 	switch m.LoggingQueryType {
+	case "SIGHTING":
+		mm := SightingTypeLoggingQueryDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "INSIGHT":
 		mm := InsightTypeLoggingQueryDetails{}
 		err = json.Unmarshal(data, &mm)

@@ -18,60 +18,63 @@ type OperationTypeEnum string
 
 // Set of constants representing the allowable values for OperationTypeEnum
 const (
-	OperationTypeGoldengateDatabaseRegistrationCreate OperationTypeEnum = "GOLDENGATE_DATABASE_REGISTRATION_CREATE"
-	OperationTypeGoldengateDatabaseRegistrationUpdate OperationTypeEnum = "GOLDENGATE_DATABASE_REGISTRATION_UPDATE"
-	OperationTypeGoldengateDatabaseRegistrationDelete OperationTypeEnum = "GOLDENGATE_DATABASE_REGISTRATION_DELETE"
-	OperationTypeGoldengateDatabaseRegistrationMove   OperationTypeEnum = "GOLDENGATE_DATABASE_REGISTRATION_MOVE"
-	OperationTypeGoldengateDeploymentCreate           OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_CREATE"
-	OperationTypeGoldengateDeploymentUpdate           OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_UPDATE"
-	OperationTypeGoldengateDeploymentDelete           OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_DELETE"
-	OperationTypeGoldengateDeploymentMove             OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_MOVE"
-	OperationTypeGoldengateDeploymentRestore          OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_RESTORE"
-	OperationTypeGoldengateDeploymentStart            OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_START"
-	OperationTypeGoldengateDeploymentStop             OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_STOP"
-	OperationTypeGoldengateDeploymentPatch            OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_PATCH"
-	OperationTypeGoldengateDeploymentUpgrade          OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_UPGRADE"
-	OperationTypeGoldengateDeploymentBackupCreate     OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_BACKUP_CREATE"
-	OperationTypeGoldengateDeploymentBackupDelete     OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_BACKUP_DELETE"
-	OperationTypeGoldengateDeploymentBackupCancel     OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_BACKUP_CANCEL"
+	OperationTypeGoldengateDatabaseRegistrationCreate  OperationTypeEnum = "GOLDENGATE_DATABASE_REGISTRATION_CREATE"
+	OperationTypeGoldengateDatabaseRegistrationUpdate  OperationTypeEnum = "GOLDENGATE_DATABASE_REGISTRATION_UPDATE"
+	OperationTypeGoldengateDatabaseRegistrationDelete  OperationTypeEnum = "GOLDENGATE_DATABASE_REGISTRATION_DELETE"
+	OperationTypeGoldengateDatabaseRegistrationMove    OperationTypeEnum = "GOLDENGATE_DATABASE_REGISTRATION_MOVE"
+	OperationTypeGoldengateDeploymentCreate            OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_CREATE"
+	OperationTypeGoldengateDeploymentUpdate            OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_UPDATE"
+	OperationTypeGoldengateDeploymentDelete            OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_DELETE"
+	OperationTypeGoldengateDeploymentMove              OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_MOVE"
+	OperationTypeGoldengateDeploymentRestore           OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_RESTORE"
+	OperationTypeGoldengateDeploymentStart             OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_START"
+	OperationTypeGoldengateDeploymentStop              OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_STOP"
+	OperationTypeGoldengateDeploymentPatch             OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_PATCH"
+	OperationTypeGoldengateDeploymentUpgrade           OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_UPGRADE"
+	OperationTypeGoldengateDeploymentBackupCreate      OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_BACKUP_CREATE"
+	OperationTypeGoldengateDeploymentBackupDelete      OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_BACKUP_DELETE"
+	OperationTypeGoldengateDeploymentBackupCancel      OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_BACKUP_CANCEL"
+	OperationTypeGoldengateDeploymentDiagnosticCollect OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_DIAGNOSTIC_COLLECT"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
-	"GOLDENGATE_DATABASE_REGISTRATION_CREATE": OperationTypeGoldengateDatabaseRegistrationCreate,
-	"GOLDENGATE_DATABASE_REGISTRATION_UPDATE": OperationTypeGoldengateDatabaseRegistrationUpdate,
-	"GOLDENGATE_DATABASE_REGISTRATION_DELETE": OperationTypeGoldengateDatabaseRegistrationDelete,
-	"GOLDENGATE_DATABASE_REGISTRATION_MOVE":   OperationTypeGoldengateDatabaseRegistrationMove,
-	"GOLDENGATE_DEPLOYMENT_CREATE":            OperationTypeGoldengateDeploymentCreate,
-	"GOLDENGATE_DEPLOYMENT_UPDATE":            OperationTypeGoldengateDeploymentUpdate,
-	"GOLDENGATE_DEPLOYMENT_DELETE":            OperationTypeGoldengateDeploymentDelete,
-	"GOLDENGATE_DEPLOYMENT_MOVE":              OperationTypeGoldengateDeploymentMove,
-	"GOLDENGATE_DEPLOYMENT_RESTORE":           OperationTypeGoldengateDeploymentRestore,
-	"GOLDENGATE_DEPLOYMENT_START":             OperationTypeGoldengateDeploymentStart,
-	"GOLDENGATE_DEPLOYMENT_STOP":              OperationTypeGoldengateDeploymentStop,
-	"GOLDENGATE_DEPLOYMENT_PATCH":             OperationTypeGoldengateDeploymentPatch,
-	"GOLDENGATE_DEPLOYMENT_UPGRADE":           OperationTypeGoldengateDeploymentUpgrade,
-	"GOLDENGATE_DEPLOYMENT_BACKUP_CREATE":     OperationTypeGoldengateDeploymentBackupCreate,
-	"GOLDENGATE_DEPLOYMENT_BACKUP_DELETE":     OperationTypeGoldengateDeploymentBackupDelete,
-	"GOLDENGATE_DEPLOYMENT_BACKUP_CANCEL":     OperationTypeGoldengateDeploymentBackupCancel,
+	"GOLDENGATE_DATABASE_REGISTRATION_CREATE":  OperationTypeGoldengateDatabaseRegistrationCreate,
+	"GOLDENGATE_DATABASE_REGISTRATION_UPDATE":  OperationTypeGoldengateDatabaseRegistrationUpdate,
+	"GOLDENGATE_DATABASE_REGISTRATION_DELETE":  OperationTypeGoldengateDatabaseRegistrationDelete,
+	"GOLDENGATE_DATABASE_REGISTRATION_MOVE":    OperationTypeGoldengateDatabaseRegistrationMove,
+	"GOLDENGATE_DEPLOYMENT_CREATE":             OperationTypeGoldengateDeploymentCreate,
+	"GOLDENGATE_DEPLOYMENT_UPDATE":             OperationTypeGoldengateDeploymentUpdate,
+	"GOLDENGATE_DEPLOYMENT_DELETE":             OperationTypeGoldengateDeploymentDelete,
+	"GOLDENGATE_DEPLOYMENT_MOVE":               OperationTypeGoldengateDeploymentMove,
+	"GOLDENGATE_DEPLOYMENT_RESTORE":            OperationTypeGoldengateDeploymentRestore,
+	"GOLDENGATE_DEPLOYMENT_START":              OperationTypeGoldengateDeploymentStart,
+	"GOLDENGATE_DEPLOYMENT_STOP":               OperationTypeGoldengateDeploymentStop,
+	"GOLDENGATE_DEPLOYMENT_PATCH":              OperationTypeGoldengateDeploymentPatch,
+	"GOLDENGATE_DEPLOYMENT_UPGRADE":            OperationTypeGoldengateDeploymentUpgrade,
+	"GOLDENGATE_DEPLOYMENT_BACKUP_CREATE":      OperationTypeGoldengateDeploymentBackupCreate,
+	"GOLDENGATE_DEPLOYMENT_BACKUP_DELETE":      OperationTypeGoldengateDeploymentBackupDelete,
+	"GOLDENGATE_DEPLOYMENT_BACKUP_CANCEL":      OperationTypeGoldengateDeploymentBackupCancel,
+	"GOLDENGATE_DEPLOYMENT_DIAGNOSTIC_COLLECT": OperationTypeGoldengateDeploymentDiagnosticCollect,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
-	"goldengate_database_registration_create": OperationTypeGoldengateDatabaseRegistrationCreate,
-	"goldengate_database_registration_update": OperationTypeGoldengateDatabaseRegistrationUpdate,
-	"goldengate_database_registration_delete": OperationTypeGoldengateDatabaseRegistrationDelete,
-	"goldengate_database_registration_move":   OperationTypeGoldengateDatabaseRegistrationMove,
-	"goldengate_deployment_create":            OperationTypeGoldengateDeploymentCreate,
-	"goldengate_deployment_update":            OperationTypeGoldengateDeploymentUpdate,
-	"goldengate_deployment_delete":            OperationTypeGoldengateDeploymentDelete,
-	"goldengate_deployment_move":              OperationTypeGoldengateDeploymentMove,
-	"goldengate_deployment_restore":           OperationTypeGoldengateDeploymentRestore,
-	"goldengate_deployment_start":             OperationTypeGoldengateDeploymentStart,
-	"goldengate_deployment_stop":              OperationTypeGoldengateDeploymentStop,
-	"goldengate_deployment_patch":             OperationTypeGoldengateDeploymentPatch,
-	"goldengate_deployment_upgrade":           OperationTypeGoldengateDeploymentUpgrade,
-	"goldengate_deployment_backup_create":     OperationTypeGoldengateDeploymentBackupCreate,
-	"goldengate_deployment_backup_delete":     OperationTypeGoldengateDeploymentBackupDelete,
-	"goldengate_deployment_backup_cancel":     OperationTypeGoldengateDeploymentBackupCancel,
+	"goldengate_database_registration_create":  OperationTypeGoldengateDatabaseRegistrationCreate,
+	"goldengate_database_registration_update":  OperationTypeGoldengateDatabaseRegistrationUpdate,
+	"goldengate_database_registration_delete":  OperationTypeGoldengateDatabaseRegistrationDelete,
+	"goldengate_database_registration_move":    OperationTypeGoldengateDatabaseRegistrationMove,
+	"goldengate_deployment_create":             OperationTypeGoldengateDeploymentCreate,
+	"goldengate_deployment_update":             OperationTypeGoldengateDeploymentUpdate,
+	"goldengate_deployment_delete":             OperationTypeGoldengateDeploymentDelete,
+	"goldengate_deployment_move":               OperationTypeGoldengateDeploymentMove,
+	"goldengate_deployment_restore":            OperationTypeGoldengateDeploymentRestore,
+	"goldengate_deployment_start":              OperationTypeGoldengateDeploymentStart,
+	"goldengate_deployment_stop":               OperationTypeGoldengateDeploymentStop,
+	"goldengate_deployment_patch":              OperationTypeGoldengateDeploymentPatch,
+	"goldengate_deployment_upgrade":            OperationTypeGoldengateDeploymentUpgrade,
+	"goldengate_deployment_backup_create":      OperationTypeGoldengateDeploymentBackupCreate,
+	"goldengate_deployment_backup_delete":      OperationTypeGoldengateDeploymentBackupDelete,
+	"goldengate_deployment_backup_cancel":      OperationTypeGoldengateDeploymentBackupCancel,
+	"goldengate_deployment_diagnostic_collect": OperationTypeGoldengateDeploymentDiagnosticCollect,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -102,6 +105,7 @@ func GetOperationTypeEnumStringValues() []string {
 		"GOLDENGATE_DEPLOYMENT_BACKUP_CREATE",
 		"GOLDENGATE_DEPLOYMENT_BACKUP_DELETE",
 		"GOLDENGATE_DEPLOYMENT_BACKUP_CANCEL",
+		"GOLDENGATE_DEPLOYMENT_DIAGNOSTIC_COLLECT",
 	}
 }
 

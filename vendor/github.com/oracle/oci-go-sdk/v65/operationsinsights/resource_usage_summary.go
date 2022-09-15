@@ -37,6 +37,9 @@ type ResourceUsageSummary struct {
 
 	// The user-friendly name for the Exadata system. The name does not have to be unique.
 	ExadataDisplayName *string `mandatory:"false" json:"exadataDisplayName"`
+
+	// The maximum host CPUs (cores x threads/core) on the underlying infrastructure. This only applies to CPU and does not not apply for Autonomous Databases.
+	TotalHostCapacity *float64 `mandatory:"false" json:"totalHostCapacity"`
 }
 
 func (m ResourceUsageSummary) String() string {

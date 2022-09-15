@@ -9,6 +9,8 @@
 // documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
 // Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
+// The required permissions are documented in the
+// Details for the Core Services (https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
 //
 
 package core
@@ -103,8 +105,11 @@ type Volume struct {
 	// The list of block volume replicas of this volume.
 	BlockVolumeReplicas []BlockVolumeReplicaInfo `mandatory:"false" json:"blockVolumeReplicas"`
 
-	// The scope of volume
+	// The scope of the volume
 	VolumeScope VolumeVolumeScopeEnum `mandatory:"false" json:"volumeScope,omitempty"`
+
+	// The metering mode of the volume
+	MeteringMode VolumeMeteringModeEnum `mandatory:"false" json:"meteringMode,omitempty"`
 
 	// The list of autotune policies enabled for this volume.
 	AutotunePolicies []AutotunePolicy `mandatory:"false" json:"autotunePolicies"`
@@ -125,6 +130,9 @@ func (m Volume) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingVolumeVolumeScopeEnum(string(m.VolumeScope)); !ok && m.VolumeScope != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VolumeScope: %s. Supported values are: %s.", m.VolumeScope, strings.Join(GetVolumeVolumeScopeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingVolumeMeteringModeEnum(string(m.MeteringMode)); !ok && m.MeteringMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MeteringMode: %s. Supported values are: %s.", m.MeteringMode, strings.Join(GetVolumeMeteringModeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -149,6 +157,7 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 		AutoTunedVpusPerGB  *int64                            `json:"autoTunedVpusPerGB"`
 		BlockVolumeReplicas []BlockVolumeReplicaInfo          `json:"blockVolumeReplicas"`
 		VolumeScope         VolumeVolumeScopeEnum             `json:"volumeScope"`
+		MeteringMode        VolumeMeteringModeEnum            `json:"meteringMode"`
 		AutotunePolicies    []autotunepolicy                  `json:"autotunePolicies"`
 		CompartmentId       *string                           `json:"compartmentId"`
 		DisplayName         *string                           `json:"displayName"`
@@ -201,6 +210,8 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.VolumeScope = model.VolumeScope
+
+	m.MeteringMode = model.MeteringMode
 
 	m.AutotunePolicies = make([]AutotunePolicy, len(model.AutotunePolicies))
 	for i, n := range model.AutotunePolicies {
@@ -327,5 +338,47 @@ func GetVolumeVolumeScopeEnumStringValues() []string {
 // GetMappingVolumeVolumeScopeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingVolumeVolumeScopeEnum(val string) (VolumeVolumeScopeEnum, bool) {
 	enum, ok := mappingVolumeVolumeScopeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// VolumeMeteringModeEnum Enum with underlying type: string
+type VolumeMeteringModeEnum string
+
+// Set of constants representing the allowable values for VolumeMeteringModeEnum
+const (
+	VolumeMeteringModeProvisioned VolumeMeteringModeEnum = "PROVISIONED"
+	VolumeMeteringModePayPerUsage VolumeMeteringModeEnum = "PAY_PER_USAGE"
+)
+
+var mappingVolumeMeteringModeEnum = map[string]VolumeMeteringModeEnum{
+	"PROVISIONED":   VolumeMeteringModeProvisioned,
+	"PAY_PER_USAGE": VolumeMeteringModePayPerUsage,
+}
+
+var mappingVolumeMeteringModeEnumLowerCase = map[string]VolumeMeteringModeEnum{
+	"provisioned":   VolumeMeteringModeProvisioned,
+	"pay_per_usage": VolumeMeteringModePayPerUsage,
+}
+
+// GetVolumeMeteringModeEnumValues Enumerates the set of values for VolumeMeteringModeEnum
+func GetVolumeMeteringModeEnumValues() []VolumeMeteringModeEnum {
+	values := make([]VolumeMeteringModeEnum, 0)
+	for _, v := range mappingVolumeMeteringModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetVolumeMeteringModeEnumStringValues Enumerates the set of values in String for VolumeMeteringModeEnum
+func GetVolumeMeteringModeEnumStringValues() []string {
+	return []string{
+		"PROVISIONED",
+		"PAY_PER_USAGE",
+	}
+}
+
+// GetMappingVolumeMeteringModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingVolumeMeteringModeEnum(val string) (VolumeMeteringModeEnum, bool) {
+	enum, ok := mappingVolumeMeteringModeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

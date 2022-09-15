@@ -32,6 +32,9 @@ type ExadataInsightResourceStatistics struct {
 	// Change in resource utilization in percentage
 	UsageChangePercent *float64 `mandatory:"true" json:"usageChangePercent"`
 
+	// The maximum host CPUs (cores x threads/core) on the underlying infrastructure. This only applies to CPU and does not not apply for Autonomous Databases.
+	TotalHostCapacity *float64 `mandatory:"false" json:"totalHostCapacity"`
+
 	// Array of instance metrics
 	InstanceMetrics []InstanceMetrics `mandatory:"false" json:"instanceMetrics"`
 }

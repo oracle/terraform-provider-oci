@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// DetectStackDriftDetails The details for detecting drift in a stack
+// DetectStackDriftDetails Details for detecting drift in a stack.
 type DetectStackDriftDetails struct {
 
 	// The list of resources in the specified stack to detect drift for. Each resource is identified by a resource address,

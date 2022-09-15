@@ -76,6 +76,9 @@ type BdsInstance struct {
 
 	// The OCID of the Key Management master encryption key.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
+	// Profile of the Big Data Service cluster.
+	ClusterProfile BdsInstanceClusterProfileEnum `mandatory:"false" json:"clusterProfile,omitempty"`
 }
 
 func (m BdsInstance) String() string {
@@ -93,6 +96,9 @@ func (m BdsInstance) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingBdsInstanceClusterVersionEnum(string(m.ClusterVersion)); !ok && m.ClusterVersion != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ClusterVersion: %s. Supported values are: %s.", m.ClusterVersion, strings.Join(GetBdsInstanceClusterVersionEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingBdsInstanceClusterProfileEnum(string(m.ClusterProfile)); !ok && m.ClusterProfile != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ClusterProfile: %s. Supported values are: %s.", m.ClusterProfile, strings.Join(GetBdsInstanceClusterProfileEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -221,5 +227,51 @@ func GetBdsInstanceClusterVersionEnumStringValues() []string {
 // GetMappingBdsInstanceClusterVersionEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingBdsInstanceClusterVersionEnum(val string) (BdsInstanceClusterVersionEnum, bool) {
 	enum, ok := mappingBdsInstanceClusterVersionEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// BdsInstanceClusterProfileEnum Enum with underlying type: string
+type BdsInstanceClusterProfileEnum string
+
+// Set of constants representing the allowable values for BdsInstanceClusterProfileEnum
+const (
+	BdsInstanceClusterProfileHadoop BdsInstanceClusterProfileEnum = "HADOOP"
+	BdsInstanceClusterProfileHive   BdsInstanceClusterProfileEnum = "HIVE"
+	BdsInstanceClusterProfileSpark  BdsInstanceClusterProfileEnum = "SPARK"
+)
+
+var mappingBdsInstanceClusterProfileEnum = map[string]BdsInstanceClusterProfileEnum{
+	"HADOOP": BdsInstanceClusterProfileHadoop,
+	"HIVE":   BdsInstanceClusterProfileHive,
+	"SPARK":  BdsInstanceClusterProfileSpark,
+}
+
+var mappingBdsInstanceClusterProfileEnumLowerCase = map[string]BdsInstanceClusterProfileEnum{
+	"hadoop": BdsInstanceClusterProfileHadoop,
+	"hive":   BdsInstanceClusterProfileHive,
+	"spark":  BdsInstanceClusterProfileSpark,
+}
+
+// GetBdsInstanceClusterProfileEnumValues Enumerates the set of values for BdsInstanceClusterProfileEnum
+func GetBdsInstanceClusterProfileEnumValues() []BdsInstanceClusterProfileEnum {
+	values := make([]BdsInstanceClusterProfileEnum, 0)
+	for _, v := range mappingBdsInstanceClusterProfileEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetBdsInstanceClusterProfileEnumStringValues Enumerates the set of values in String for BdsInstanceClusterProfileEnum
+func GetBdsInstanceClusterProfileEnumStringValues() []string {
+	return []string{
+		"HADOOP",
+		"HIVE",
+		"SPARK",
+	}
+}
+
+// GetMappingBdsInstanceClusterProfileEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingBdsInstanceClusterProfileEnum(val string) (BdsInstanceClusterProfileEnum, bool) {
+	enum, ok := mappingBdsInstanceClusterProfileEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

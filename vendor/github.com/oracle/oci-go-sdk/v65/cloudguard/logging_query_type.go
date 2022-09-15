@@ -19,15 +19,18 @@ type LoggingQueryTypeEnum string
 
 // Set of constants representing the allowable values for LoggingQueryTypeEnum
 const (
-	LoggingQueryTypeInsight LoggingQueryTypeEnum = "INSIGHT"
+	LoggingQueryTypeInsight  LoggingQueryTypeEnum = "INSIGHT"
+	LoggingQueryTypeSighting LoggingQueryTypeEnum = "SIGHTING"
 )
 
 var mappingLoggingQueryTypeEnum = map[string]LoggingQueryTypeEnum{
-	"INSIGHT": LoggingQueryTypeInsight,
+	"INSIGHT":  LoggingQueryTypeInsight,
+	"SIGHTING": LoggingQueryTypeSighting,
 }
 
 var mappingLoggingQueryTypeEnumLowerCase = map[string]LoggingQueryTypeEnum{
-	"insight": LoggingQueryTypeInsight,
+	"insight":  LoggingQueryTypeInsight,
+	"sighting": LoggingQueryTypeSighting,
 }
 
 // GetLoggingQueryTypeEnumValues Enumerates the set of values for LoggingQueryTypeEnum
@@ -43,6 +46,7 @@ func GetLoggingQueryTypeEnumValues() []LoggingQueryTypeEnum {
 func GetLoggingQueryTypeEnumStringValues() []string {
 	return []string{
 		"INSIGHT",
+		"SIGHTING",
 	}
 }
 

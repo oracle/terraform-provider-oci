@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// CreateTemplateZipUploadConfigSourceDetails Property details for uploading the zip file for template.
+// CreateTemplateZipUploadConfigSourceDetails Creation details for a zip file used for a template.
 type CreateTemplateZipUploadConfigSourceDetails struct {
 	ZipFileBase64Encoded *string `mandatory:"true" json:"zipFileBase64Encoded"`
 }

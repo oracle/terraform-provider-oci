@@ -250,15 +250,18 @@ type ListDataSourcesLoggingQueryTypeEnum string
 
 // Set of constants representing the allowable values for ListDataSourcesLoggingQueryTypeEnum
 const (
-	ListDataSourcesLoggingQueryTypeInsight ListDataSourcesLoggingQueryTypeEnum = "INSIGHT"
+	ListDataSourcesLoggingQueryTypeInsight  ListDataSourcesLoggingQueryTypeEnum = "INSIGHT"
+	ListDataSourcesLoggingQueryTypeSighting ListDataSourcesLoggingQueryTypeEnum = "SIGHTING"
 )
 
 var mappingListDataSourcesLoggingQueryTypeEnum = map[string]ListDataSourcesLoggingQueryTypeEnum{
-	"INSIGHT": ListDataSourcesLoggingQueryTypeInsight,
+	"INSIGHT":  ListDataSourcesLoggingQueryTypeInsight,
+	"SIGHTING": ListDataSourcesLoggingQueryTypeSighting,
 }
 
 var mappingListDataSourcesLoggingQueryTypeEnumLowerCase = map[string]ListDataSourcesLoggingQueryTypeEnum{
-	"insight": ListDataSourcesLoggingQueryTypeInsight,
+	"insight":  ListDataSourcesLoggingQueryTypeInsight,
+	"sighting": ListDataSourcesLoggingQueryTypeSighting,
 }
 
 // GetListDataSourcesLoggingQueryTypeEnumValues Enumerates the set of values for ListDataSourcesLoggingQueryTypeEnum
@@ -274,6 +277,7 @@ func GetListDataSourcesLoggingQueryTypeEnumValues() []ListDataSourcesLoggingQuer
 func GetListDataSourcesLoggingQueryTypeEnumStringValues() []string {
 	return []string{
 		"INSIGHT",
+		"SIGHTING",
 	}
 }
 

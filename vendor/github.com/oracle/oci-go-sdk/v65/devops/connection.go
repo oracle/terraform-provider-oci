@@ -214,15 +214,18 @@ type ConnectionLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ConnectionLifecycleStateEnum
 const (
-	ConnectionLifecycleStateActive ConnectionLifecycleStateEnum = "ACTIVE"
+	ConnectionLifecycleStateActive   ConnectionLifecycleStateEnum = "ACTIVE"
+	ConnectionLifecycleStateDeleting ConnectionLifecycleStateEnum = "DELETING"
 )
 
 var mappingConnectionLifecycleStateEnum = map[string]ConnectionLifecycleStateEnum{
-	"ACTIVE": ConnectionLifecycleStateActive,
+	"ACTIVE":   ConnectionLifecycleStateActive,
+	"DELETING": ConnectionLifecycleStateDeleting,
 }
 
 var mappingConnectionLifecycleStateEnumLowerCase = map[string]ConnectionLifecycleStateEnum{
-	"active": ConnectionLifecycleStateActive,
+	"active":   ConnectionLifecycleStateActive,
+	"deleting": ConnectionLifecycleStateDeleting,
 }
 
 // GetConnectionLifecycleStateEnumValues Enumerates the set of values for ConnectionLifecycleStateEnum
@@ -238,6 +241,7 @@ func GetConnectionLifecycleStateEnumValues() []ConnectionLifecycleStateEnum {
 func GetConnectionLifecycleStateEnumStringValues() []string {
 	return []string{
 		"ACTIVE",
+		"DELETING",
 	}
 }
 

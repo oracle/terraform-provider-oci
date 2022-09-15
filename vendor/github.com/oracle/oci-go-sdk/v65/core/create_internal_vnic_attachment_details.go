@@ -9,6 +9,8 @@
 // documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
 // Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
+// The required permissions are documented in the
+// Details for the Core Services (https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
 //
 
 package core
@@ -585,6 +587,8 @@ const (
 	CreateInternalVnicAttachmentDetailsVnicShapeSubcoreVmFixed4900E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "SUBCORE_VM_FIXED4900_E4_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeSubcoreVmFixed4950E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "SUBCORE_VM_FIXED4950_E4_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeSubcoreVmFixed5000E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "SUBCORE_VM_FIXED5000_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeDynamicE550g                    CreateInternalVnicAttachmentDetailsVnicShapeEnum = "DYNAMIC_E5_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeDynamicE5100g                   CreateInternalVnicAttachmentDetailsVnicShapeEnum = "DYNAMIC_E5_100G"
 	CreateInternalVnicAttachmentDetailsVnicShapeSubcoreVmFixed0020A150g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "SUBCORE_VM_FIXED0020_A1_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeSubcoreVmFixed0040A150g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "SUBCORE_VM_FIXED0040_A1_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeSubcoreVmFixed0060A150g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "SUBCORE_VM_FIXED0060_A1_50G"
@@ -986,6 +990,16 @@ const (
 	CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed3800X950g        CreateInternalVnicAttachmentDetailsVnicShapeEnum = "STANDARD_VM_FIXED3800_X9_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed3900X950g        CreateInternalVnicAttachmentDetailsVnicShapeEnum = "STANDARD_VM_FIXED3900_X9_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4000X950g        CreateInternalVnicAttachmentDetailsVnicShapeEnum = "STANDARD_VM_FIXED4000_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4100X950g        CreateInternalVnicAttachmentDetailsVnicShapeEnum = "STANDARD_VM_FIXED4100_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4200X950g        CreateInternalVnicAttachmentDetailsVnicShapeEnum = "STANDARD_VM_FIXED4200_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4300X950g        CreateInternalVnicAttachmentDetailsVnicShapeEnum = "STANDARD_VM_FIXED4300_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4400X950g        CreateInternalVnicAttachmentDetailsVnicShapeEnum = "STANDARD_VM_FIXED4400_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4500X950g        CreateInternalVnicAttachmentDetailsVnicShapeEnum = "STANDARD_VM_FIXED4500_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4600X950g        CreateInternalVnicAttachmentDetailsVnicShapeEnum = "STANDARD_VM_FIXED4600_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4700X950g        CreateInternalVnicAttachmentDetailsVnicShapeEnum = "STANDARD_VM_FIXED4700_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4800X950g        CreateInternalVnicAttachmentDetailsVnicShapeEnum = "STANDARD_VM_FIXED4800_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4900X950g        CreateInternalVnicAttachmentDetailsVnicShapeEnum = "STANDARD_VM_FIXED4900_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed5000X950g        CreateInternalVnicAttachmentDetailsVnicShapeEnum = "STANDARD_VM_FIXED5000_X9_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeSubcoreStandardVmFixed0025X950g CreateInternalVnicAttachmentDetailsVnicShapeEnum = "SUBCORE_STANDARD_VM_FIXED0025_X9_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeSubcoreStandardVmFixed0050X950g CreateInternalVnicAttachmentDetailsVnicShapeEnum = "SUBCORE_STANDARD_VM_FIXED0050_X9_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeSubcoreStandardVmFixed0075X950g CreateInternalVnicAttachmentDetailsVnicShapeEnum = "SUBCORE_STANDARD_VM_FIXED0075_X9_50G"
@@ -1152,6 +1166,9 @@ const (
 	CreateInternalVnicAttachmentDetailsVnicShapeSubcoreStandardVmFixed4950X950g CreateInternalVnicAttachmentDetailsVnicShapeEnum = "SUBCORE_STANDARD_VM_FIXED4950_X9_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeSubcoreStandardVmFixed5000X950g CreateInternalVnicAttachmentDetailsVnicShapeEnum = "SUBCORE_STANDARD_VM_FIXED5000_X9_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeEntirehostX950g                 CreateInternalVnicAttachmentDetailsVnicShapeEnum = "ENTIREHOST_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeDynamicX9100g                   CreateInternalVnicAttachmentDetailsVnicShapeEnum = "DYNAMIC_X9_100G"
+	CreateInternalVnicAttachmentDetailsVnicShapeDynamicX1050g                   CreateInternalVnicAttachmentDetailsVnicShapeEnum = "DYNAMIC_X10_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeDynamicX10100g                  CreateInternalVnicAttachmentDetailsVnicShapeEnum = "DYNAMIC_X10_100G"
 )
 
 var mappingCreateInternalVnicAttachmentDetailsVnicShapeEnum = map[string]CreateInternalVnicAttachmentDetailsVnicShapeEnum{
@@ -1630,6 +1647,8 @@ var mappingCreateInternalVnicAttachmentDetailsVnicShapeEnum = map[string]CreateI
 	"SUBCORE_VM_FIXED4900_E4_50G":          CreateInternalVnicAttachmentDetailsVnicShapeSubcoreVmFixed4900E450g,
 	"SUBCORE_VM_FIXED4950_E4_50G":          CreateInternalVnicAttachmentDetailsVnicShapeSubcoreVmFixed4950E450g,
 	"SUBCORE_VM_FIXED5000_E4_50G":          CreateInternalVnicAttachmentDetailsVnicShapeSubcoreVmFixed5000E450g,
+	"DYNAMIC_E5_50G":                       CreateInternalVnicAttachmentDetailsVnicShapeDynamicE550g,
+	"DYNAMIC_E5_100G":                      CreateInternalVnicAttachmentDetailsVnicShapeDynamicE5100g,
 	"SUBCORE_VM_FIXED0020_A1_50G":          CreateInternalVnicAttachmentDetailsVnicShapeSubcoreVmFixed0020A150g,
 	"SUBCORE_VM_FIXED0040_A1_50G":          CreateInternalVnicAttachmentDetailsVnicShapeSubcoreVmFixed0040A150g,
 	"SUBCORE_VM_FIXED0060_A1_50G":          CreateInternalVnicAttachmentDetailsVnicShapeSubcoreVmFixed0060A150g,
@@ -2031,6 +2050,16 @@ var mappingCreateInternalVnicAttachmentDetailsVnicShapeEnum = map[string]CreateI
 	"STANDARD_VM_FIXED3800_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed3800X950g,
 	"STANDARD_VM_FIXED3900_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed3900X950g,
 	"STANDARD_VM_FIXED4000_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4000X950g,
+	"STANDARD_VM_FIXED4100_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4100X950g,
+	"STANDARD_VM_FIXED4200_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4200X950g,
+	"STANDARD_VM_FIXED4300_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4300X950g,
+	"STANDARD_VM_FIXED4400_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4400X950g,
+	"STANDARD_VM_FIXED4500_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4500X950g,
+	"STANDARD_VM_FIXED4600_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4600X950g,
+	"STANDARD_VM_FIXED4700_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4700X950g,
+	"STANDARD_VM_FIXED4800_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4800X950g,
+	"STANDARD_VM_FIXED4900_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4900X950g,
+	"STANDARD_VM_FIXED5000_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed5000X950g,
 	"SUBCORE_STANDARD_VM_FIXED0025_X9_50G": CreateInternalVnicAttachmentDetailsVnicShapeSubcoreStandardVmFixed0025X950g,
 	"SUBCORE_STANDARD_VM_FIXED0050_X9_50G": CreateInternalVnicAttachmentDetailsVnicShapeSubcoreStandardVmFixed0050X950g,
 	"SUBCORE_STANDARD_VM_FIXED0075_X9_50G": CreateInternalVnicAttachmentDetailsVnicShapeSubcoreStandardVmFixed0075X950g,
@@ -2197,6 +2226,9 @@ var mappingCreateInternalVnicAttachmentDetailsVnicShapeEnum = map[string]CreateI
 	"SUBCORE_STANDARD_VM_FIXED4950_X9_50G": CreateInternalVnicAttachmentDetailsVnicShapeSubcoreStandardVmFixed4950X950g,
 	"SUBCORE_STANDARD_VM_FIXED5000_X9_50G": CreateInternalVnicAttachmentDetailsVnicShapeSubcoreStandardVmFixed5000X950g,
 	"ENTIREHOST_X9_50G":                    CreateInternalVnicAttachmentDetailsVnicShapeEntirehostX950g,
+	"DYNAMIC_X9_100G":                      CreateInternalVnicAttachmentDetailsVnicShapeDynamicX9100g,
+	"DYNAMIC_X10_50G":                      CreateInternalVnicAttachmentDetailsVnicShapeDynamicX1050g,
+	"DYNAMIC_X10_100G":                     CreateInternalVnicAttachmentDetailsVnicShapeDynamicX10100g,
 }
 
 var mappingCreateInternalVnicAttachmentDetailsVnicShapeEnumLowerCase = map[string]CreateInternalVnicAttachmentDetailsVnicShapeEnum{
@@ -2675,6 +2707,8 @@ var mappingCreateInternalVnicAttachmentDetailsVnicShapeEnumLowerCase = map[strin
 	"subcore_vm_fixed4900_e4_50g":          CreateInternalVnicAttachmentDetailsVnicShapeSubcoreVmFixed4900E450g,
 	"subcore_vm_fixed4950_e4_50g":          CreateInternalVnicAttachmentDetailsVnicShapeSubcoreVmFixed4950E450g,
 	"subcore_vm_fixed5000_e4_50g":          CreateInternalVnicAttachmentDetailsVnicShapeSubcoreVmFixed5000E450g,
+	"dynamic_e5_50g":                       CreateInternalVnicAttachmentDetailsVnicShapeDynamicE550g,
+	"dynamic_e5_100g":                      CreateInternalVnicAttachmentDetailsVnicShapeDynamicE5100g,
 	"subcore_vm_fixed0020_a1_50g":          CreateInternalVnicAttachmentDetailsVnicShapeSubcoreVmFixed0020A150g,
 	"subcore_vm_fixed0040_a1_50g":          CreateInternalVnicAttachmentDetailsVnicShapeSubcoreVmFixed0040A150g,
 	"subcore_vm_fixed0060_a1_50g":          CreateInternalVnicAttachmentDetailsVnicShapeSubcoreVmFixed0060A150g,
@@ -3076,6 +3110,16 @@ var mappingCreateInternalVnicAttachmentDetailsVnicShapeEnumLowerCase = map[strin
 	"standard_vm_fixed3800_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed3800X950g,
 	"standard_vm_fixed3900_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed3900X950g,
 	"standard_vm_fixed4000_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4000X950g,
+	"standard_vm_fixed4100_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4100X950g,
+	"standard_vm_fixed4200_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4200X950g,
+	"standard_vm_fixed4300_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4300X950g,
+	"standard_vm_fixed4400_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4400X950g,
+	"standard_vm_fixed4500_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4500X950g,
+	"standard_vm_fixed4600_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4600X950g,
+	"standard_vm_fixed4700_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4700X950g,
+	"standard_vm_fixed4800_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4800X950g,
+	"standard_vm_fixed4900_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed4900X950g,
+	"standard_vm_fixed5000_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed5000X950g,
 	"subcore_standard_vm_fixed0025_x9_50g": CreateInternalVnicAttachmentDetailsVnicShapeSubcoreStandardVmFixed0025X950g,
 	"subcore_standard_vm_fixed0050_x9_50g": CreateInternalVnicAttachmentDetailsVnicShapeSubcoreStandardVmFixed0050X950g,
 	"subcore_standard_vm_fixed0075_x9_50g": CreateInternalVnicAttachmentDetailsVnicShapeSubcoreStandardVmFixed0075X950g,
@@ -3242,6 +3286,9 @@ var mappingCreateInternalVnicAttachmentDetailsVnicShapeEnumLowerCase = map[strin
 	"subcore_standard_vm_fixed4950_x9_50g": CreateInternalVnicAttachmentDetailsVnicShapeSubcoreStandardVmFixed4950X950g,
 	"subcore_standard_vm_fixed5000_x9_50g": CreateInternalVnicAttachmentDetailsVnicShapeSubcoreStandardVmFixed5000X950g,
 	"entirehost_x9_50g":                    CreateInternalVnicAttachmentDetailsVnicShapeEntirehostX950g,
+	"dynamic_x9_100g":                      CreateInternalVnicAttachmentDetailsVnicShapeDynamicX9100g,
+	"dynamic_x10_50g":                      CreateInternalVnicAttachmentDetailsVnicShapeDynamicX1050g,
+	"dynamic_x10_100g":                     CreateInternalVnicAttachmentDetailsVnicShapeDynamicX10100g,
 }
 
 // GetCreateInternalVnicAttachmentDetailsVnicShapeEnumValues Enumerates the set of values for CreateInternalVnicAttachmentDetailsVnicShapeEnum
@@ -3731,6 +3778,8 @@ func GetCreateInternalVnicAttachmentDetailsVnicShapeEnumStringValues() []string 
 		"SUBCORE_VM_FIXED4900_E4_50G",
 		"SUBCORE_VM_FIXED4950_E4_50G",
 		"SUBCORE_VM_FIXED5000_E4_50G",
+		"DYNAMIC_E5_50G",
+		"DYNAMIC_E5_100G",
 		"SUBCORE_VM_FIXED0020_A1_50G",
 		"SUBCORE_VM_FIXED0040_A1_50G",
 		"SUBCORE_VM_FIXED0060_A1_50G",
@@ -4132,6 +4181,16 @@ func GetCreateInternalVnicAttachmentDetailsVnicShapeEnumStringValues() []string 
 		"STANDARD_VM_FIXED3800_X9_50G",
 		"STANDARD_VM_FIXED3900_X9_50G",
 		"STANDARD_VM_FIXED4000_X9_50G",
+		"STANDARD_VM_FIXED4100_X9_50G",
+		"STANDARD_VM_FIXED4200_X9_50G",
+		"STANDARD_VM_FIXED4300_X9_50G",
+		"STANDARD_VM_FIXED4400_X9_50G",
+		"STANDARD_VM_FIXED4500_X9_50G",
+		"STANDARD_VM_FIXED4600_X9_50G",
+		"STANDARD_VM_FIXED4700_X9_50G",
+		"STANDARD_VM_FIXED4800_X9_50G",
+		"STANDARD_VM_FIXED4900_X9_50G",
+		"STANDARD_VM_FIXED5000_X9_50G",
 		"SUBCORE_STANDARD_VM_FIXED0025_X9_50G",
 		"SUBCORE_STANDARD_VM_FIXED0050_X9_50G",
 		"SUBCORE_STANDARD_VM_FIXED0075_X9_50G",
@@ -4298,6 +4357,9 @@ func GetCreateInternalVnicAttachmentDetailsVnicShapeEnumStringValues() []string 
 		"SUBCORE_STANDARD_VM_FIXED4950_X9_50G",
 		"SUBCORE_STANDARD_VM_FIXED5000_X9_50G",
 		"ENTIREHOST_X9_50G",
+		"DYNAMIC_X9_100G",
+		"DYNAMIC_X10_50G",
+		"DYNAMIC_X10_100G",
 	}
 }
 

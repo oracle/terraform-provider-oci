@@ -1328,6 +1328,64 @@ func (client DatabaseClient) changeKeyStoreCompartment(ctx context.Context, requ
 	return response, err
 }
 
+// ChangeKeyStoreType Changes encryption key management type
+func (client DatabaseClient) ChangeKeyStoreType(ctx context.Context, request ChangeKeyStoreTypeRequest) (response ChangeKeyStoreTypeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeKeyStoreType, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeKeyStoreTypeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeKeyStoreTypeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeKeyStoreTypeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeKeyStoreTypeResponse")
+	}
+	return
+}
+
+// changeKeyStoreType implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) changeKeyStoreType(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/actions/changeKeyStoreType", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeKeyStoreTypeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/ChangeKeyStoreType"
+		err = common.PostProcessServiceError(err, "Database", "ChangeKeyStoreType", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeNfsStorageCompartment Move specified NFS Storage resource to a different compartment.
 func (client DatabaseClient) ChangeNfsStorageCompartment(ctx context.Context, request ChangeNfsStorageCompartmentRequest) (response ChangeNfsStorageCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -13806,6 +13864,64 @@ func (client DatabaseClient) rotateOrdsCerts(ctx context.Context, request common
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousExadataInfrastructure/RotateOrdsCerts"
 		err = common.PostProcessServiceError(err, "Database", "RotateOrdsCerts", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RotatePluggableDatabaseEncryptionKey Create a new version of the existing encryption key.
+func (client DatabaseClient) RotatePluggableDatabaseEncryptionKey(ctx context.Context, request RotatePluggableDatabaseEncryptionKeyRequest) (response RotatePluggableDatabaseEncryptionKeyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.rotatePluggableDatabaseEncryptionKey, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RotatePluggableDatabaseEncryptionKeyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RotatePluggableDatabaseEncryptionKeyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RotatePluggableDatabaseEncryptionKeyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RotatePluggableDatabaseEncryptionKeyResponse")
+	}
+	return
+}
+
+// rotatePluggableDatabaseEncryptionKey implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) rotatePluggableDatabaseEncryptionKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pluggableDatabases/{pluggableDatabaseId}/actions/rotateKey", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RotatePluggableDatabaseEncryptionKeyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabase/RotatePluggableDatabaseEncryptionKey"
+		err = common.PostProcessServiceError(err, "Database", "RotatePluggableDatabaseEncryptionKey", apiReferenceLink)
 		return response, err
 	}
 

@@ -111,6 +111,18 @@ func (m *configurationsourceprovidersummary) UnmarshalPolymorphicJSON(data []byt
 		mm := GitlabAccessTokenConfigurationSourceProviderSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "BITBUCKET_CLOUD_USERNAME_APPPASSWORD":
+		mm := BitbucketCloudUsernameAppPasswordConfigurationSourceProviderSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "VBS_ACCESS_TOKEN":
+		mm := VbsAccessTokenConfigurationSourceProviderSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "BITBUCKET_SERVER_ACCESS_TOKEN":
+		mm := BitbucketServerAccessTokenConfigurationSourceProviderSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GITHUB_ACCESS_TOKEN":
 		mm := GithubAccessTokenConfigurationSourceProviderSummary{}
 		err = json.Unmarshal(data, &mm)

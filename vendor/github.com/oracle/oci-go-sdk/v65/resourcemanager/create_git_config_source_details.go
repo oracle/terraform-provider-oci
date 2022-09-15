@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// CreateGitConfigSourceDetails Details for uploading the configuration Git information.
+// CreateGitConfigSourceDetails Creation details for configuration Git information.
 type CreateGitConfigSourceDetails struct {
 
 	// Unique identifier (OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm))

@@ -66,6 +66,9 @@ type SummarizeHostInsightTopProcessesUsageTrendRequest struct {
 	// Optional OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host (Compute Id)
 	HostId *string `mandatory:"false" contributesTo:"query" name:"hostId"`
 
+	// Unique identifier for a process.
+	ProcessHash *string `mandatory:"false" contributesTo:"query" name:"processHash"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

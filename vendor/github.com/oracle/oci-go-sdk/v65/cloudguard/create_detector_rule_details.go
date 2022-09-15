@@ -51,6 +51,12 @@ type CreateDetectorRuleDetails struct {
 
 	// Data Source entities mapping for a Detector Rule
 	EntitiesMappings []EntitiesMapping `mandatory:"false" json:"entitiesMappings"`
+
+	// Resource type for Threat detector rule
+	DetectorRuleResourceType DetectorRuleResourceTypeEnum `mandatory:"false" json:"detectorRuleResourceType,omitempty"`
+
+	// ResourceType name for Threat detector rule
+	DetectorRuleResourceTypeName *string `mandatory:"false" json:"detectorRuleResourceTypeName"`
 }
 
 func (m CreateDetectorRuleDetails) String() string {
@@ -66,6 +72,9 @@ func (m CreateDetectorRuleDetails) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingRiskLevelEnum(string(m.RiskLevel)); !ok && m.RiskLevel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RiskLevel: %s. Supported values are: %s.", m.RiskLevel, strings.Join(GetRiskLevelEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingDetectorRuleResourceTypeEnum(string(m.DetectorRuleResourceType)); !ok && m.DetectorRuleResourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DetectorRuleResourceType: %s. Supported values are: %s.", m.DetectorRuleResourceType, strings.Join(GetDetectorRuleResourceTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -75,17 +84,19 @@ func (m CreateDetectorRuleDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateDetectorRuleDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		SourceDetectorRuleId *string                 `json:"sourceDetectorRuleId"`
-		Description          *string                 `json:"description"`
-		IsEnabled            *bool                   `json:"isEnabled"`
-		RiskLevel            RiskLevelEnum           `json:"riskLevel"`
-		Configurations       []DetectorConfiguration `json:"configurations"`
-		Condition            condition               `json:"condition"`
-		Labels               []string                `json:"labels"`
-		Recommendation       *string                 `json:"recommendation"`
-		DataSourceId         *string                 `json:"dataSourceId"`
-		EntitiesMappings     []EntitiesMapping       `json:"entitiesMappings"`
-		Name                 *string                 `json:"name"`
+		SourceDetectorRuleId         *string                      `json:"sourceDetectorRuleId"`
+		Description                  *string                      `json:"description"`
+		IsEnabled                    *bool                        `json:"isEnabled"`
+		RiskLevel                    RiskLevelEnum                `json:"riskLevel"`
+		Configurations               []DetectorConfiguration      `json:"configurations"`
+		Condition                    condition                    `json:"condition"`
+		Labels                       []string                     `json:"labels"`
+		Recommendation               *string                      `json:"recommendation"`
+		DataSourceId                 *string                      `json:"dataSourceId"`
+		EntitiesMappings             []EntitiesMapping            `json:"entitiesMappings"`
+		DetectorRuleResourceType     DetectorRuleResourceTypeEnum `json:"detectorRuleResourceType"`
+		DetectorRuleResourceTypeName *string                      `json:"detectorRuleResourceTypeName"`
+		Name                         *string                      `json:"name"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -129,6 +140,10 @@ func (m *CreateDetectorRuleDetails) UnmarshalJSON(data []byte) (e error) {
 	for i, n := range model.EntitiesMappings {
 		m.EntitiesMappings[i] = n
 	}
+
+	m.DetectorRuleResourceType = model.DetectorRuleResourceType
+
+	m.DetectorRuleResourceTypeName = model.DetectorRuleResourceTypeName
 
 	m.Name = model.Name
 

@@ -9,6 +9,8 @@
 // documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
 // Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
+// The required permissions are documented in the
+// Details for the Core Services (https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
 //
 
 package core
@@ -7787,6 +7789,59 @@ func (client VirtualNetworkClient) deleteInternalDrgAttachment(ctx context.Conte
 	return response, err
 }
 
+// DeleteInternalDrgRouteTable Deletes current version of DRT Route Table mapping by sending tombstone.
+func (client VirtualNetworkClient) DeleteInternalDrgRouteTable(ctx context.Context, request DeleteInternalDrgRouteTableRequest) (response DeleteInternalDrgRouteTableResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteInternalDrgRouteTable, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteInternalDrgRouteTableResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteInternalDrgRouteTableResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteInternalDrgRouteTableResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteInternalDrgRouteTableResponse")
+	}
+	return
+}
+
+// deleteInternalDrgRouteTable implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) deleteInternalDrgRouteTable(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/internal/drgRouteTable/{drgAttachmentLabel}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteInternalDrgRouteTableResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalDrgRouteTable/DeleteInternalDrgRouteTable"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternalDrgRouteTable", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteInternalGenericGateway Deletes an internal generic gateway.
 func (client VirtualNetworkClient) DeleteInternalGenericGateway(ctx context.Context, request DeleteInternalGenericGatewayRequest) (response DeleteInternalGenericGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -12567,6 +12622,65 @@ func (client VirtualNetworkClient) getInternalDrgAttachment(ctx context.Context,
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalDrgAttachment/GetInternalDrgAttachment"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetInternalDrgAttachment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetInternalDrgRouteTable Gets current version of DRG Route Table mapping for a given DRG_Attachment_Label.
+// A default retry strategy applies to this operation GetInternalDrgRouteTable()
+func (client VirtualNetworkClient) GetInternalDrgRouteTable(ctx context.Context, request GetInternalDrgRouteTableRequest) (response GetInternalDrgRouteTableResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getInternalDrgRouteTable, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetInternalDrgRouteTableResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetInternalDrgRouteTableResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetInternalDrgRouteTableResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetInternalDrgRouteTableResponse")
+	}
+	return
+}
+
+// getInternalDrgRouteTable implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getInternalDrgRouteTable(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internal/drgRouteTable/{drgAttachmentLabel}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetInternalDrgRouteTableResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalDrgRouteTable/GetInternalDrgRouteTable"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetInternalDrgRouteTable", apiReferenceLink)
 		return response, err
 	}
 

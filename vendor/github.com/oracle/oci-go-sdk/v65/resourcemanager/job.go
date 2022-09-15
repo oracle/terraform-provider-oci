@@ -19,15 +19,12 @@ import (
 	"strings"
 )
 
-// Job The properties that define a job. Jobs perform the actions that are defined in your configuration.
-// - **Plan job**. A plan job takes your Terraform configuration, parses it, and creates an execution plan.
-// - **Apply job**. The apply job takes your execution plan, applies it to the associated stack, then executes
-// the configuration's instructions.
-// - **Destroy job**. To clean up the infrastructure controlled by the stack, you run a destroy job.
-// A destroy job does not delete the stack or associated job resources,
-// but instead releases the resources managed by the stack.
-// - **Import_TF_State job**. An import Terraform state job takes a Terraform state file and sets it as the current
-// state of the stack. This is used to migrate local Terraform environments to Resource Manager.
+// Job The properties of a job.
+// A job performs the actions that are defined in your Terraform configuration.
+// For instructions on managing jobs, see
+// Managing Jobs (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/jobs.htm).
+// For more information about jobs, see
+// Key Concepts (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm#concepts__jobdefinition).
 type Job struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job.
@@ -44,6 +41,13 @@ type Job struct {
 
 	// The type of job executing.
 	Operation JobOperationEnum `mandatory:"false" json:"operation,omitempty"`
+
+	// When `true`, the stack sources third-party Terraform providers from
+	// Terraform Registry (https://registry.terraform.io/browse/providers) and allows
+	// CustomTerraformProvider.
+	// For more information about stack sourcing of third-party Terraform providers, see
+	// Third-party Provider Configuration (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/terraformconfigresourcemanager.htm#third-party-providers).
+	IsThirdPartyProviderExperienceEnabled *bool `mandatory:"false" json:"isThirdPartyProviderExperienceEnabled"`
 
 	// Specifies whether or not to upgrade provider versions.
 	// Within the version constraints of your Terraform configuration, use the latest versions available from the source of Terraform providers.
@@ -129,25 +133,26 @@ func (m Job) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *Job) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Id                        *string                           `json:"id"`
-		StackId                   *string                           `json:"stackId"`
-		CompartmentId             *string                           `json:"compartmentId"`
-		DisplayName               *string                           `json:"displayName"`
-		Operation                 JobOperationEnum                  `json:"operation"`
-		IsProviderUpgradeRequired *bool                             `json:"isProviderUpgradeRequired"`
-		JobOperationDetails       joboperationdetails               `json:"jobOperationDetails"`
-		ApplyJobPlanResolution    *ApplyJobPlanResolution           `json:"applyJobPlanResolution"`
-		ResolvedPlanJobId         *string                           `json:"resolvedPlanJobId"`
-		TimeCreated               *common.SDKTime                   `json:"timeCreated"`
-		TimeFinished              *common.SDKTime                   `json:"timeFinished"`
-		LifecycleState            JobLifecycleStateEnum             `json:"lifecycleState"`
-		FailureDetails            *FailureDetails                   `json:"failureDetails"`
-		CancellationDetails       *CancellationDetails              `json:"cancellationDetails"`
-		WorkingDirectory          *string                           `json:"workingDirectory"`
-		Variables                 map[string]string                 `json:"variables"`
-		ConfigSource              configsourcerecord                `json:"configSource"`
-		FreeformTags              map[string]string                 `json:"freeformTags"`
-		DefinedTags               map[string]map[string]interface{} `json:"definedTags"`
+		Id                                    *string                           `json:"id"`
+		StackId                               *string                           `json:"stackId"`
+		CompartmentId                         *string                           `json:"compartmentId"`
+		DisplayName                           *string                           `json:"displayName"`
+		Operation                             JobOperationEnum                  `json:"operation"`
+		IsThirdPartyProviderExperienceEnabled *bool                             `json:"isThirdPartyProviderExperienceEnabled"`
+		IsProviderUpgradeRequired             *bool                             `json:"isProviderUpgradeRequired"`
+		JobOperationDetails                   joboperationdetails               `json:"jobOperationDetails"`
+		ApplyJobPlanResolution                *ApplyJobPlanResolution           `json:"applyJobPlanResolution"`
+		ResolvedPlanJobId                     *string                           `json:"resolvedPlanJobId"`
+		TimeCreated                           *common.SDKTime                   `json:"timeCreated"`
+		TimeFinished                          *common.SDKTime                   `json:"timeFinished"`
+		LifecycleState                        JobLifecycleStateEnum             `json:"lifecycleState"`
+		FailureDetails                        *FailureDetails                   `json:"failureDetails"`
+		CancellationDetails                   *CancellationDetails              `json:"cancellationDetails"`
+		WorkingDirectory                      *string                           `json:"workingDirectory"`
+		Variables                             map[string]string                 `json:"variables"`
+		ConfigSource                          configsourcerecord                `json:"configSource"`
+		FreeformTags                          map[string]string                 `json:"freeformTags"`
+		DefinedTags                           map[string]map[string]interface{} `json:"definedTags"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -164,6 +169,8 @@ func (m *Job) UnmarshalJSON(data []byte) (e error) {
 	m.DisplayName = model.DisplayName
 
 	m.Operation = model.Operation
+
+	m.IsThirdPartyProviderExperienceEnabled = model.IsThirdPartyProviderExperienceEnabled
 
 	m.IsProviderUpgradeRequired = model.IsProviderUpgradeRequired
 

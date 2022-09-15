@@ -116,6 +116,9 @@ type SummarizeSqlStatisticsRequest struct {
 	// A flag to search all resources within a given compartment and all sub-compartments.
 	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
 
+	// Optional list of Exadata Insight VM cluster name.
+	VmclusterName []string `contributesTo:"query" name:"vmclusterName" collectionFormat:"multi"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

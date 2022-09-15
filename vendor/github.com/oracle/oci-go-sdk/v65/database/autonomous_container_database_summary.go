@@ -121,7 +121,7 @@ type AutonomousContainerDatabaseSummary struct {
 	// The amount of memory (in GBs) enabled per each CPU in the Autonomous VM Cluster.
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
 
-	// Sum of CPUs available on the Autonomous VM Cluster + Sum of fractional CPUs available in the Autonomous Container Database.
+	// Sum of CPUs available on the Autonomous VM Cluster + Sum of reclaimable CPUs available in the Autonomous Container Database.
 	AvailableCpus *float32 `mandatory:"false" json:"availableCpus"`
 
 	// The number of CPUs allocated to the Autonomous VM cluster.

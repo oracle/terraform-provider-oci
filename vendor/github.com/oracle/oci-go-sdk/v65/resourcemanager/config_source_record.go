@@ -65,6 +65,14 @@ func (m *configsourcerecord) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		mm := ZipUploadConfigSourceRecord{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "BITBUCKET_CLOUD_CONFIG_SOURCE":
+		mm := BitbucketCloudConfigSourceRecord{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "BITBUCKET_SERVER_CONFIG_SOURCE":
+		mm := BitbucketServerConfigSourceRecord{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "OBJECT_STORAGE_CONFIG_SOURCE":
 		mm := ObjectStorageConfigSourceRecord{}
 		err = json.Unmarshal(data, &mm)
@@ -96,27 +104,33 @@ type ConfigSourceRecordConfigSourceRecordTypeEnum string
 
 // Set of constants representing the allowable values for ConfigSourceRecordConfigSourceRecordTypeEnum
 const (
-	ConfigSourceRecordConfigSourceRecordTypeCompartmentConfigSource   ConfigSourceRecordConfigSourceRecordTypeEnum = "COMPARTMENT_CONFIG_SOURCE"
-	ConfigSourceRecordConfigSourceRecordTypeDevopsConfigSource        ConfigSourceRecordConfigSourceRecordTypeEnum = "DEVOPS_CONFIG_SOURCE"
-	ConfigSourceRecordConfigSourceRecordTypeGitConfigSource           ConfigSourceRecordConfigSourceRecordTypeEnum = "GIT_CONFIG_SOURCE"
-	ConfigSourceRecordConfigSourceRecordTypeObjectStorageConfigSource ConfigSourceRecordConfigSourceRecordTypeEnum = "OBJECT_STORAGE_CONFIG_SOURCE"
-	ConfigSourceRecordConfigSourceRecordTypeZipUpload                 ConfigSourceRecordConfigSourceRecordTypeEnum = "ZIP_UPLOAD"
+	ConfigSourceRecordConfigSourceRecordTypeCompartmentConfigSource     ConfigSourceRecordConfigSourceRecordTypeEnum = "COMPARTMENT_CONFIG_SOURCE"
+	ConfigSourceRecordConfigSourceRecordTypeDevopsConfigSource          ConfigSourceRecordConfigSourceRecordTypeEnum = "DEVOPS_CONFIG_SOURCE"
+	ConfigSourceRecordConfigSourceRecordTypeBitbucketServerConfigSource ConfigSourceRecordConfigSourceRecordTypeEnum = "BITBUCKET_SERVER_CONFIG_SOURCE"
+	ConfigSourceRecordConfigSourceRecordTypeBitbucketCloudConfigSource  ConfigSourceRecordConfigSourceRecordTypeEnum = "BITBUCKET_CLOUD_CONFIG_SOURCE"
+	ConfigSourceRecordConfigSourceRecordTypeGitConfigSource             ConfigSourceRecordConfigSourceRecordTypeEnum = "GIT_CONFIG_SOURCE"
+	ConfigSourceRecordConfigSourceRecordTypeObjectStorageConfigSource   ConfigSourceRecordConfigSourceRecordTypeEnum = "OBJECT_STORAGE_CONFIG_SOURCE"
+	ConfigSourceRecordConfigSourceRecordTypeZipUpload                   ConfigSourceRecordConfigSourceRecordTypeEnum = "ZIP_UPLOAD"
 )
 
 var mappingConfigSourceRecordConfigSourceRecordTypeEnum = map[string]ConfigSourceRecordConfigSourceRecordTypeEnum{
-	"COMPARTMENT_CONFIG_SOURCE":    ConfigSourceRecordConfigSourceRecordTypeCompartmentConfigSource,
-	"DEVOPS_CONFIG_SOURCE":         ConfigSourceRecordConfigSourceRecordTypeDevopsConfigSource,
-	"GIT_CONFIG_SOURCE":            ConfigSourceRecordConfigSourceRecordTypeGitConfigSource,
-	"OBJECT_STORAGE_CONFIG_SOURCE": ConfigSourceRecordConfigSourceRecordTypeObjectStorageConfigSource,
-	"ZIP_UPLOAD":                   ConfigSourceRecordConfigSourceRecordTypeZipUpload,
+	"COMPARTMENT_CONFIG_SOURCE":      ConfigSourceRecordConfigSourceRecordTypeCompartmentConfigSource,
+	"DEVOPS_CONFIG_SOURCE":           ConfigSourceRecordConfigSourceRecordTypeDevopsConfigSource,
+	"BITBUCKET_SERVER_CONFIG_SOURCE": ConfigSourceRecordConfigSourceRecordTypeBitbucketServerConfigSource,
+	"BITBUCKET_CLOUD_CONFIG_SOURCE":  ConfigSourceRecordConfigSourceRecordTypeBitbucketCloudConfigSource,
+	"GIT_CONFIG_SOURCE":              ConfigSourceRecordConfigSourceRecordTypeGitConfigSource,
+	"OBJECT_STORAGE_CONFIG_SOURCE":   ConfigSourceRecordConfigSourceRecordTypeObjectStorageConfigSource,
+	"ZIP_UPLOAD":                     ConfigSourceRecordConfigSourceRecordTypeZipUpload,
 }
 
 var mappingConfigSourceRecordConfigSourceRecordTypeEnumLowerCase = map[string]ConfigSourceRecordConfigSourceRecordTypeEnum{
-	"compartment_config_source":    ConfigSourceRecordConfigSourceRecordTypeCompartmentConfigSource,
-	"devops_config_source":         ConfigSourceRecordConfigSourceRecordTypeDevopsConfigSource,
-	"git_config_source":            ConfigSourceRecordConfigSourceRecordTypeGitConfigSource,
-	"object_storage_config_source": ConfigSourceRecordConfigSourceRecordTypeObjectStorageConfigSource,
-	"zip_upload":                   ConfigSourceRecordConfigSourceRecordTypeZipUpload,
+	"compartment_config_source":      ConfigSourceRecordConfigSourceRecordTypeCompartmentConfigSource,
+	"devops_config_source":           ConfigSourceRecordConfigSourceRecordTypeDevopsConfigSource,
+	"bitbucket_server_config_source": ConfigSourceRecordConfigSourceRecordTypeBitbucketServerConfigSource,
+	"bitbucket_cloud_config_source":  ConfigSourceRecordConfigSourceRecordTypeBitbucketCloudConfigSource,
+	"git_config_source":              ConfigSourceRecordConfigSourceRecordTypeGitConfigSource,
+	"object_storage_config_source":   ConfigSourceRecordConfigSourceRecordTypeObjectStorageConfigSource,
+	"zip_upload":                     ConfigSourceRecordConfigSourceRecordTypeZipUpload,
 }
 
 // GetConfigSourceRecordConfigSourceRecordTypeEnumValues Enumerates the set of values for ConfigSourceRecordConfigSourceRecordTypeEnum
@@ -133,6 +147,8 @@ func GetConfigSourceRecordConfigSourceRecordTypeEnumStringValues() []string {
 	return []string{
 		"COMPARTMENT_CONFIG_SOURCE",
 		"DEVOPS_CONFIG_SOURCE",
+		"BITBUCKET_SERVER_CONFIG_SOURCE",
+		"BITBUCKET_CLOUD_CONFIG_SOURCE",
 		"GIT_CONFIG_SOURCE",
 		"OBJECT_STORAGE_CONFIG_SOURCE",
 		"ZIP_UPLOAD",

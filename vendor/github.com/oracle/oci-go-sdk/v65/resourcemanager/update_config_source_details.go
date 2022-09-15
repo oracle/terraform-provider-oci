@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// UpdateConfigSourceDetails Updates the property details for the configuration source.
+// UpdateConfigSourceDetails Update details for a configuration source.
 type UpdateConfigSourceDetails interface {
 
 	// File path to the directory to use for running Terraform.
@@ -63,6 +63,14 @@ func (m *updateconfigsourcedetails) UnmarshalPolymorphicJSON(data []byte) (inter
 
 	var err error
 	switch m.ConfigSourceType {
+	case "BITBUCKET_CLOUD_CONFIG_SOURCE":
+		mm := UpdateBitbucketCloudConfigSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "BITBUCKET_SERVER_CONFIG_SOURCE":
+		mm := UpdateBitbucketServerConfigSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GIT_CONFIG_SOURCE":
 		mm := UpdateGitConfigSourceDetails{}
 		err = json.Unmarshal(data, &mm)

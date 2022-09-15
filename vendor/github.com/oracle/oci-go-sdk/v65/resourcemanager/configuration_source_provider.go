@@ -48,6 +48,12 @@ type ConfigurationSourceProvider interface {
 
 	GetPrivateServerConfigDetails() *PrivateServerConfigDetails
 
+	// Username which is used to authorize the user.
+	GetUsername() *string
+
+	// Secret ocid which is used to authorize the user.
+	GetSecretId() *string
+
 	// Free-form tags associated with this resource. Each tag is a key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -68,6 +74,8 @@ type configurationsourceprovider struct {
 	TimeCreated                *common.SDKTime                               `mandatory:"false" json:"timeCreated"`
 	LifecycleState             ConfigurationSourceProviderLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 	PrivateServerConfigDetails *PrivateServerConfigDetails                   `mandatory:"false" json:"privateServerConfigDetails"`
+	Username                   *string                                       `mandatory:"false" json:"username"`
+	SecretId                   *string                                       `mandatory:"false" json:"secretId"`
 	FreeformTags               map[string]string                             `mandatory:"false" json:"freeformTags"`
 	DefinedTags                map[string]map[string]interface{}             `mandatory:"false" json:"definedTags"`
 	ConfigSourceProviderType   string                                        `json:"configSourceProviderType"`
@@ -91,6 +99,8 @@ func (m *configurationsourceprovider) UnmarshalJSON(data []byte) error {
 	m.TimeCreated = s.Model.TimeCreated
 	m.LifecycleState = s.Model.LifecycleState
 	m.PrivateServerConfigDetails = s.Model.PrivateServerConfigDetails
+	m.Username = s.Model.Username
+	m.SecretId = s.Model.SecretId
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.ConfigSourceProviderType = s.Model.ConfigSourceProviderType
@@ -107,12 +117,24 @@ func (m *configurationsourceprovider) UnmarshalPolymorphicJSON(data []byte) (int
 
 	var err error
 	switch m.ConfigSourceProviderType {
+	case "VBS_ACCESS_TOKEN":
+		mm := VbsAccessTokenConfigurationSourceProvider{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GITHUB_ACCESS_TOKEN":
 		mm := GithubAccessTokenConfigurationSourceProvider{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "GITLAB_ACCESS_TOKEN":
 		mm := GitlabAccessTokenConfigurationSourceProvider{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "BITBUCKET_SERVER_ACCESS_TOKEN":
+		mm := BitbucketServerAccessTokenConfigurationSourceProvider{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "BITBUCKET_CLOUD_USERNAME_APPPASSWORD":
+		mm := BitbucketCloudUsernameAppPasswordConfigurationSourceProvider{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -154,6 +176,16 @@ func (m configurationsourceprovider) GetLifecycleState() ConfigurationSourceProv
 //GetPrivateServerConfigDetails returns PrivateServerConfigDetails
 func (m configurationsourceprovider) GetPrivateServerConfigDetails() *PrivateServerConfigDetails {
 	return m.PrivateServerConfigDetails
+}
+
+//GetUsername returns Username
+func (m configurationsourceprovider) GetUsername() *string {
+	return m.Username
+}
+
+//GetSecretId returns SecretId
+func (m configurationsourceprovider) GetSecretId() *string {
+	return m.SecretId
 }
 
 //GetFreeformTags returns FreeformTags
@@ -228,18 +260,27 @@ type ConfigurationSourceProviderConfigSourceProviderTypeEnum string
 
 // Set of constants representing the allowable values for ConfigurationSourceProviderConfigSourceProviderTypeEnum
 const (
-	ConfigurationSourceProviderConfigSourceProviderTypeGitlabAccessToken ConfigurationSourceProviderConfigSourceProviderTypeEnum = "GITLAB_ACCESS_TOKEN"
-	ConfigurationSourceProviderConfigSourceProviderTypeGithubAccessToken ConfigurationSourceProviderConfigSourceProviderTypeEnum = "GITHUB_ACCESS_TOKEN"
+	ConfigurationSourceProviderConfigSourceProviderTypeBitbucketCloudUsernameApppassword ConfigurationSourceProviderConfigSourceProviderTypeEnum = "BITBUCKET_CLOUD_USERNAME_APPPASSWORD"
+	ConfigurationSourceProviderConfigSourceProviderTypeBitbucketServerAccessToken        ConfigurationSourceProviderConfigSourceProviderTypeEnum = "BITBUCKET_SERVER_ACCESS_TOKEN"
+	ConfigurationSourceProviderConfigSourceProviderTypeGitlabAccessToken                 ConfigurationSourceProviderConfigSourceProviderTypeEnum = "GITLAB_ACCESS_TOKEN"
+	ConfigurationSourceProviderConfigSourceProviderTypeGithubAccessToken                 ConfigurationSourceProviderConfigSourceProviderTypeEnum = "GITHUB_ACCESS_TOKEN"
+	ConfigurationSourceProviderConfigSourceProviderTypeVbsAccessToken                    ConfigurationSourceProviderConfigSourceProviderTypeEnum = "VBS_ACCESS_TOKEN"
 )
 
 var mappingConfigurationSourceProviderConfigSourceProviderTypeEnum = map[string]ConfigurationSourceProviderConfigSourceProviderTypeEnum{
-	"GITLAB_ACCESS_TOKEN": ConfigurationSourceProviderConfigSourceProviderTypeGitlabAccessToken,
-	"GITHUB_ACCESS_TOKEN": ConfigurationSourceProviderConfigSourceProviderTypeGithubAccessToken,
+	"BITBUCKET_CLOUD_USERNAME_APPPASSWORD": ConfigurationSourceProviderConfigSourceProviderTypeBitbucketCloudUsernameApppassword,
+	"BITBUCKET_SERVER_ACCESS_TOKEN":        ConfigurationSourceProviderConfigSourceProviderTypeBitbucketServerAccessToken,
+	"GITLAB_ACCESS_TOKEN":                  ConfigurationSourceProviderConfigSourceProviderTypeGitlabAccessToken,
+	"GITHUB_ACCESS_TOKEN":                  ConfigurationSourceProviderConfigSourceProviderTypeGithubAccessToken,
+	"VBS_ACCESS_TOKEN":                     ConfigurationSourceProviderConfigSourceProviderTypeVbsAccessToken,
 }
 
 var mappingConfigurationSourceProviderConfigSourceProviderTypeEnumLowerCase = map[string]ConfigurationSourceProviderConfigSourceProviderTypeEnum{
-	"gitlab_access_token": ConfigurationSourceProviderConfigSourceProviderTypeGitlabAccessToken,
-	"github_access_token": ConfigurationSourceProviderConfigSourceProviderTypeGithubAccessToken,
+	"bitbucket_cloud_username_apppassword": ConfigurationSourceProviderConfigSourceProviderTypeBitbucketCloudUsernameApppassword,
+	"bitbucket_server_access_token":        ConfigurationSourceProviderConfigSourceProviderTypeBitbucketServerAccessToken,
+	"gitlab_access_token":                  ConfigurationSourceProviderConfigSourceProviderTypeGitlabAccessToken,
+	"github_access_token":                  ConfigurationSourceProviderConfigSourceProviderTypeGithubAccessToken,
+	"vbs_access_token":                     ConfigurationSourceProviderConfigSourceProviderTypeVbsAccessToken,
 }
 
 // GetConfigurationSourceProviderConfigSourceProviderTypeEnumValues Enumerates the set of values for ConfigurationSourceProviderConfigSourceProviderTypeEnum
@@ -254,8 +295,11 @@ func GetConfigurationSourceProviderConfigSourceProviderTypeEnumValues() []Config
 // GetConfigurationSourceProviderConfigSourceProviderTypeEnumStringValues Enumerates the set of values in String for ConfigurationSourceProviderConfigSourceProviderTypeEnum
 func GetConfigurationSourceProviderConfigSourceProviderTypeEnumStringValues() []string {
 	return []string{
+		"BITBUCKET_CLOUD_USERNAME_APPPASSWORD",
+		"BITBUCKET_SERVER_ACCESS_TOKEN",
 		"GITLAB_ACCESS_TOKEN",
 		"GITHUB_ACCESS_TOKEN",
+		"VBS_ACCESS_TOKEN",
 	}
 }
 

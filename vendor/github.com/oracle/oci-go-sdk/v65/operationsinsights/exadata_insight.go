@@ -134,6 +134,10 @@ func (m *exadatainsight) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		mm := EmManagedExternalExadataInsight{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "PE_COMANAGED_EXADATA":
+		mm := PeComanagedExadataInsight{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for ExadataInsight: %s.", m.EntitySource)
 		return *m, nil

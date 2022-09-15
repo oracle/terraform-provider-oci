@@ -24,6 +24,9 @@ type DataSourceMappingInfo struct {
 
 	// Id of the attached detectorRuleId to the Data Source.
 	DetectorRuleId *string `mandatory:"true" json:"detectorRuleId"`
+
+	// Id of the attached sightingType to the Data Source.
+	SightingTypeId *string `mandatory:"false" json:"sightingTypeId"`
 }
 
 func (m DataSourceMappingInfo) String() string {

@@ -9,6 +9,8 @@
 // documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
 // Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
+// The required permissions are documented in the
+// Details for the Core Services (https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
 //
 
 package core
@@ -528,6 +530,8 @@ const (
 	UpdateVnicShapeDetailsVnicShapeSubcoreVmFixed4900E450g         UpdateVnicShapeDetailsVnicShapeEnum = "SUBCORE_VM_FIXED4900_E4_50G"
 	UpdateVnicShapeDetailsVnicShapeSubcoreVmFixed4950E450g         UpdateVnicShapeDetailsVnicShapeEnum = "SUBCORE_VM_FIXED4950_E4_50G"
 	UpdateVnicShapeDetailsVnicShapeSubcoreVmFixed5000E450g         UpdateVnicShapeDetailsVnicShapeEnum = "SUBCORE_VM_FIXED5000_E4_50G"
+	UpdateVnicShapeDetailsVnicShapeDynamicE550g                    UpdateVnicShapeDetailsVnicShapeEnum = "DYNAMIC_E5_50G"
+	UpdateVnicShapeDetailsVnicShapeDynamicE5100g                   UpdateVnicShapeDetailsVnicShapeEnum = "DYNAMIC_E5_100G"
 	UpdateVnicShapeDetailsVnicShapeSubcoreVmFixed0020A150g         UpdateVnicShapeDetailsVnicShapeEnum = "SUBCORE_VM_FIXED0020_A1_50G"
 	UpdateVnicShapeDetailsVnicShapeSubcoreVmFixed0040A150g         UpdateVnicShapeDetailsVnicShapeEnum = "SUBCORE_VM_FIXED0040_A1_50G"
 	UpdateVnicShapeDetailsVnicShapeSubcoreVmFixed0060A150g         UpdateVnicShapeDetailsVnicShapeEnum = "SUBCORE_VM_FIXED0060_A1_50G"
@@ -929,6 +933,16 @@ const (
 	UpdateVnicShapeDetailsVnicShapeStandardVmFixed3800X950g        UpdateVnicShapeDetailsVnicShapeEnum = "STANDARD_VM_FIXED3800_X9_50G"
 	UpdateVnicShapeDetailsVnicShapeStandardVmFixed3900X950g        UpdateVnicShapeDetailsVnicShapeEnum = "STANDARD_VM_FIXED3900_X9_50G"
 	UpdateVnicShapeDetailsVnicShapeStandardVmFixed4000X950g        UpdateVnicShapeDetailsVnicShapeEnum = "STANDARD_VM_FIXED4000_X9_50G"
+	UpdateVnicShapeDetailsVnicShapeStandardVmFixed4100X950g        UpdateVnicShapeDetailsVnicShapeEnum = "STANDARD_VM_FIXED4100_X9_50G"
+	UpdateVnicShapeDetailsVnicShapeStandardVmFixed4200X950g        UpdateVnicShapeDetailsVnicShapeEnum = "STANDARD_VM_FIXED4200_X9_50G"
+	UpdateVnicShapeDetailsVnicShapeStandardVmFixed4300X950g        UpdateVnicShapeDetailsVnicShapeEnum = "STANDARD_VM_FIXED4300_X9_50G"
+	UpdateVnicShapeDetailsVnicShapeStandardVmFixed4400X950g        UpdateVnicShapeDetailsVnicShapeEnum = "STANDARD_VM_FIXED4400_X9_50G"
+	UpdateVnicShapeDetailsVnicShapeStandardVmFixed4500X950g        UpdateVnicShapeDetailsVnicShapeEnum = "STANDARD_VM_FIXED4500_X9_50G"
+	UpdateVnicShapeDetailsVnicShapeStandardVmFixed4600X950g        UpdateVnicShapeDetailsVnicShapeEnum = "STANDARD_VM_FIXED4600_X9_50G"
+	UpdateVnicShapeDetailsVnicShapeStandardVmFixed4700X950g        UpdateVnicShapeDetailsVnicShapeEnum = "STANDARD_VM_FIXED4700_X9_50G"
+	UpdateVnicShapeDetailsVnicShapeStandardVmFixed4800X950g        UpdateVnicShapeDetailsVnicShapeEnum = "STANDARD_VM_FIXED4800_X9_50G"
+	UpdateVnicShapeDetailsVnicShapeStandardVmFixed4900X950g        UpdateVnicShapeDetailsVnicShapeEnum = "STANDARD_VM_FIXED4900_X9_50G"
+	UpdateVnicShapeDetailsVnicShapeStandardVmFixed5000X950g        UpdateVnicShapeDetailsVnicShapeEnum = "STANDARD_VM_FIXED5000_X9_50G"
 	UpdateVnicShapeDetailsVnicShapeSubcoreStandardVmFixed0025X950g UpdateVnicShapeDetailsVnicShapeEnum = "SUBCORE_STANDARD_VM_FIXED0025_X9_50G"
 	UpdateVnicShapeDetailsVnicShapeSubcoreStandardVmFixed0050X950g UpdateVnicShapeDetailsVnicShapeEnum = "SUBCORE_STANDARD_VM_FIXED0050_X9_50G"
 	UpdateVnicShapeDetailsVnicShapeSubcoreStandardVmFixed0075X950g UpdateVnicShapeDetailsVnicShapeEnum = "SUBCORE_STANDARD_VM_FIXED0075_X9_50G"
@@ -1095,6 +1109,9 @@ const (
 	UpdateVnicShapeDetailsVnicShapeSubcoreStandardVmFixed4950X950g UpdateVnicShapeDetailsVnicShapeEnum = "SUBCORE_STANDARD_VM_FIXED4950_X9_50G"
 	UpdateVnicShapeDetailsVnicShapeSubcoreStandardVmFixed5000X950g UpdateVnicShapeDetailsVnicShapeEnum = "SUBCORE_STANDARD_VM_FIXED5000_X9_50G"
 	UpdateVnicShapeDetailsVnicShapeEntirehostX950g                 UpdateVnicShapeDetailsVnicShapeEnum = "ENTIREHOST_X9_50G"
+	UpdateVnicShapeDetailsVnicShapeDynamicX9100g                   UpdateVnicShapeDetailsVnicShapeEnum = "DYNAMIC_X9_100G"
+	UpdateVnicShapeDetailsVnicShapeDynamicX1050g                   UpdateVnicShapeDetailsVnicShapeEnum = "DYNAMIC_X10_50G"
+	UpdateVnicShapeDetailsVnicShapeDynamicX10100g                  UpdateVnicShapeDetailsVnicShapeEnum = "DYNAMIC_X10_100G"
 )
 
 var mappingUpdateVnicShapeDetailsVnicShapeEnum = map[string]UpdateVnicShapeDetailsVnicShapeEnum{
@@ -1573,6 +1590,8 @@ var mappingUpdateVnicShapeDetailsVnicShapeEnum = map[string]UpdateVnicShapeDetai
 	"SUBCORE_VM_FIXED4900_E4_50G":          UpdateVnicShapeDetailsVnicShapeSubcoreVmFixed4900E450g,
 	"SUBCORE_VM_FIXED4950_E4_50G":          UpdateVnicShapeDetailsVnicShapeSubcoreVmFixed4950E450g,
 	"SUBCORE_VM_FIXED5000_E4_50G":          UpdateVnicShapeDetailsVnicShapeSubcoreVmFixed5000E450g,
+	"DYNAMIC_E5_50G":                       UpdateVnicShapeDetailsVnicShapeDynamicE550g,
+	"DYNAMIC_E5_100G":                      UpdateVnicShapeDetailsVnicShapeDynamicE5100g,
 	"SUBCORE_VM_FIXED0020_A1_50G":          UpdateVnicShapeDetailsVnicShapeSubcoreVmFixed0020A150g,
 	"SUBCORE_VM_FIXED0040_A1_50G":          UpdateVnicShapeDetailsVnicShapeSubcoreVmFixed0040A150g,
 	"SUBCORE_VM_FIXED0060_A1_50G":          UpdateVnicShapeDetailsVnicShapeSubcoreVmFixed0060A150g,
@@ -1974,6 +1993,16 @@ var mappingUpdateVnicShapeDetailsVnicShapeEnum = map[string]UpdateVnicShapeDetai
 	"STANDARD_VM_FIXED3800_X9_50G":         UpdateVnicShapeDetailsVnicShapeStandardVmFixed3800X950g,
 	"STANDARD_VM_FIXED3900_X9_50G":         UpdateVnicShapeDetailsVnicShapeStandardVmFixed3900X950g,
 	"STANDARD_VM_FIXED4000_X9_50G":         UpdateVnicShapeDetailsVnicShapeStandardVmFixed4000X950g,
+	"STANDARD_VM_FIXED4100_X9_50G":         UpdateVnicShapeDetailsVnicShapeStandardVmFixed4100X950g,
+	"STANDARD_VM_FIXED4200_X9_50G":         UpdateVnicShapeDetailsVnicShapeStandardVmFixed4200X950g,
+	"STANDARD_VM_FIXED4300_X9_50G":         UpdateVnicShapeDetailsVnicShapeStandardVmFixed4300X950g,
+	"STANDARD_VM_FIXED4400_X9_50G":         UpdateVnicShapeDetailsVnicShapeStandardVmFixed4400X950g,
+	"STANDARD_VM_FIXED4500_X9_50G":         UpdateVnicShapeDetailsVnicShapeStandardVmFixed4500X950g,
+	"STANDARD_VM_FIXED4600_X9_50G":         UpdateVnicShapeDetailsVnicShapeStandardVmFixed4600X950g,
+	"STANDARD_VM_FIXED4700_X9_50G":         UpdateVnicShapeDetailsVnicShapeStandardVmFixed4700X950g,
+	"STANDARD_VM_FIXED4800_X9_50G":         UpdateVnicShapeDetailsVnicShapeStandardVmFixed4800X950g,
+	"STANDARD_VM_FIXED4900_X9_50G":         UpdateVnicShapeDetailsVnicShapeStandardVmFixed4900X950g,
+	"STANDARD_VM_FIXED5000_X9_50G":         UpdateVnicShapeDetailsVnicShapeStandardVmFixed5000X950g,
 	"SUBCORE_STANDARD_VM_FIXED0025_X9_50G": UpdateVnicShapeDetailsVnicShapeSubcoreStandardVmFixed0025X950g,
 	"SUBCORE_STANDARD_VM_FIXED0050_X9_50G": UpdateVnicShapeDetailsVnicShapeSubcoreStandardVmFixed0050X950g,
 	"SUBCORE_STANDARD_VM_FIXED0075_X9_50G": UpdateVnicShapeDetailsVnicShapeSubcoreStandardVmFixed0075X950g,
@@ -2140,6 +2169,9 @@ var mappingUpdateVnicShapeDetailsVnicShapeEnum = map[string]UpdateVnicShapeDetai
 	"SUBCORE_STANDARD_VM_FIXED4950_X9_50G": UpdateVnicShapeDetailsVnicShapeSubcoreStandardVmFixed4950X950g,
 	"SUBCORE_STANDARD_VM_FIXED5000_X9_50G": UpdateVnicShapeDetailsVnicShapeSubcoreStandardVmFixed5000X950g,
 	"ENTIREHOST_X9_50G":                    UpdateVnicShapeDetailsVnicShapeEntirehostX950g,
+	"DYNAMIC_X9_100G":                      UpdateVnicShapeDetailsVnicShapeDynamicX9100g,
+	"DYNAMIC_X10_50G":                      UpdateVnicShapeDetailsVnicShapeDynamicX1050g,
+	"DYNAMIC_X10_100G":                     UpdateVnicShapeDetailsVnicShapeDynamicX10100g,
 }
 
 var mappingUpdateVnicShapeDetailsVnicShapeEnumLowerCase = map[string]UpdateVnicShapeDetailsVnicShapeEnum{
@@ -2618,6 +2650,8 @@ var mappingUpdateVnicShapeDetailsVnicShapeEnumLowerCase = map[string]UpdateVnicS
 	"subcore_vm_fixed4900_e4_50g":          UpdateVnicShapeDetailsVnicShapeSubcoreVmFixed4900E450g,
 	"subcore_vm_fixed4950_e4_50g":          UpdateVnicShapeDetailsVnicShapeSubcoreVmFixed4950E450g,
 	"subcore_vm_fixed5000_e4_50g":          UpdateVnicShapeDetailsVnicShapeSubcoreVmFixed5000E450g,
+	"dynamic_e5_50g":                       UpdateVnicShapeDetailsVnicShapeDynamicE550g,
+	"dynamic_e5_100g":                      UpdateVnicShapeDetailsVnicShapeDynamicE5100g,
 	"subcore_vm_fixed0020_a1_50g":          UpdateVnicShapeDetailsVnicShapeSubcoreVmFixed0020A150g,
 	"subcore_vm_fixed0040_a1_50g":          UpdateVnicShapeDetailsVnicShapeSubcoreVmFixed0040A150g,
 	"subcore_vm_fixed0060_a1_50g":          UpdateVnicShapeDetailsVnicShapeSubcoreVmFixed0060A150g,
@@ -3019,6 +3053,16 @@ var mappingUpdateVnicShapeDetailsVnicShapeEnumLowerCase = map[string]UpdateVnicS
 	"standard_vm_fixed3800_x9_50g":         UpdateVnicShapeDetailsVnicShapeStandardVmFixed3800X950g,
 	"standard_vm_fixed3900_x9_50g":         UpdateVnicShapeDetailsVnicShapeStandardVmFixed3900X950g,
 	"standard_vm_fixed4000_x9_50g":         UpdateVnicShapeDetailsVnicShapeStandardVmFixed4000X950g,
+	"standard_vm_fixed4100_x9_50g":         UpdateVnicShapeDetailsVnicShapeStandardVmFixed4100X950g,
+	"standard_vm_fixed4200_x9_50g":         UpdateVnicShapeDetailsVnicShapeStandardVmFixed4200X950g,
+	"standard_vm_fixed4300_x9_50g":         UpdateVnicShapeDetailsVnicShapeStandardVmFixed4300X950g,
+	"standard_vm_fixed4400_x9_50g":         UpdateVnicShapeDetailsVnicShapeStandardVmFixed4400X950g,
+	"standard_vm_fixed4500_x9_50g":         UpdateVnicShapeDetailsVnicShapeStandardVmFixed4500X950g,
+	"standard_vm_fixed4600_x9_50g":         UpdateVnicShapeDetailsVnicShapeStandardVmFixed4600X950g,
+	"standard_vm_fixed4700_x9_50g":         UpdateVnicShapeDetailsVnicShapeStandardVmFixed4700X950g,
+	"standard_vm_fixed4800_x9_50g":         UpdateVnicShapeDetailsVnicShapeStandardVmFixed4800X950g,
+	"standard_vm_fixed4900_x9_50g":         UpdateVnicShapeDetailsVnicShapeStandardVmFixed4900X950g,
+	"standard_vm_fixed5000_x9_50g":         UpdateVnicShapeDetailsVnicShapeStandardVmFixed5000X950g,
 	"subcore_standard_vm_fixed0025_x9_50g": UpdateVnicShapeDetailsVnicShapeSubcoreStandardVmFixed0025X950g,
 	"subcore_standard_vm_fixed0050_x9_50g": UpdateVnicShapeDetailsVnicShapeSubcoreStandardVmFixed0050X950g,
 	"subcore_standard_vm_fixed0075_x9_50g": UpdateVnicShapeDetailsVnicShapeSubcoreStandardVmFixed0075X950g,
@@ -3185,6 +3229,9 @@ var mappingUpdateVnicShapeDetailsVnicShapeEnumLowerCase = map[string]UpdateVnicS
 	"subcore_standard_vm_fixed4950_x9_50g": UpdateVnicShapeDetailsVnicShapeSubcoreStandardVmFixed4950X950g,
 	"subcore_standard_vm_fixed5000_x9_50g": UpdateVnicShapeDetailsVnicShapeSubcoreStandardVmFixed5000X950g,
 	"entirehost_x9_50g":                    UpdateVnicShapeDetailsVnicShapeEntirehostX950g,
+	"dynamic_x9_100g":                      UpdateVnicShapeDetailsVnicShapeDynamicX9100g,
+	"dynamic_x10_50g":                      UpdateVnicShapeDetailsVnicShapeDynamicX1050g,
+	"dynamic_x10_100g":                     UpdateVnicShapeDetailsVnicShapeDynamicX10100g,
 }
 
 // GetUpdateVnicShapeDetailsVnicShapeEnumValues Enumerates the set of values for UpdateVnicShapeDetailsVnicShapeEnum
@@ -3674,6 +3721,8 @@ func GetUpdateVnicShapeDetailsVnicShapeEnumStringValues() []string {
 		"SUBCORE_VM_FIXED4900_E4_50G",
 		"SUBCORE_VM_FIXED4950_E4_50G",
 		"SUBCORE_VM_FIXED5000_E4_50G",
+		"DYNAMIC_E5_50G",
+		"DYNAMIC_E5_100G",
 		"SUBCORE_VM_FIXED0020_A1_50G",
 		"SUBCORE_VM_FIXED0040_A1_50G",
 		"SUBCORE_VM_FIXED0060_A1_50G",
@@ -4075,6 +4124,16 @@ func GetUpdateVnicShapeDetailsVnicShapeEnumStringValues() []string {
 		"STANDARD_VM_FIXED3800_X9_50G",
 		"STANDARD_VM_FIXED3900_X9_50G",
 		"STANDARD_VM_FIXED4000_X9_50G",
+		"STANDARD_VM_FIXED4100_X9_50G",
+		"STANDARD_VM_FIXED4200_X9_50G",
+		"STANDARD_VM_FIXED4300_X9_50G",
+		"STANDARD_VM_FIXED4400_X9_50G",
+		"STANDARD_VM_FIXED4500_X9_50G",
+		"STANDARD_VM_FIXED4600_X9_50G",
+		"STANDARD_VM_FIXED4700_X9_50G",
+		"STANDARD_VM_FIXED4800_X9_50G",
+		"STANDARD_VM_FIXED4900_X9_50G",
+		"STANDARD_VM_FIXED5000_X9_50G",
 		"SUBCORE_STANDARD_VM_FIXED0025_X9_50G",
 		"SUBCORE_STANDARD_VM_FIXED0050_X9_50G",
 		"SUBCORE_STANDARD_VM_FIXED0075_X9_50G",
@@ -4241,6 +4300,9 @@ func GetUpdateVnicShapeDetailsVnicShapeEnumStringValues() []string {
 		"SUBCORE_STANDARD_VM_FIXED4950_X9_50G",
 		"SUBCORE_STANDARD_VM_FIXED5000_X9_50G",
 		"ENTIREHOST_X9_50G",
+		"DYNAMIC_X9_100G",
+		"DYNAMIC_X10_50G",
+		"DYNAMIC_X10_100G",
 	}
 }
 

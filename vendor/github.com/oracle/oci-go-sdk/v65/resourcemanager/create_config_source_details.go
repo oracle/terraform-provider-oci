@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// CreateConfigSourceDetails Property details for the configuration source used for the stack.
+// CreateConfigSourceDetails Creation details for a configuration source used with the stack.
 type CreateConfigSourceDetails interface {
 
 	// File path to the directory to use for running Terraform.
@@ -67,8 +67,16 @@ func (m *createconfigsourcedetails) UnmarshalPolymorphicJSON(data []byte) (inter
 		mm := CreateDevOpsConfigSourceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "BITBUCKET_CLOUD_CONFIG_SOURCE":
+		mm := CreateBitbucketCloudConfigSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ZIP_UPLOAD":
 		mm := CreateZipUploadConfigSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "BITBUCKET_SERVER_CONFIG_SOURCE":
+		mm := CreateBitbucketServerConfigSourceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "GIT_CONFIG_SOURCE":

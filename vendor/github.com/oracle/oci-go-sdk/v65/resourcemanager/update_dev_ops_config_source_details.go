@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// UpdateDevOpsConfigSourceDetails Details for updating the DevOps (https://docs.cloud.oracle.com/iaas/Content/devops/using/home.htm) configuration source.
+// UpdateDevOpsConfigSourceDetails Update details for a DevOps (https://docs.cloud.oracle.com/iaas/Content/devops/using/home.htm) configuration source.
 type UpdateDevOpsConfigSourceDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Project.

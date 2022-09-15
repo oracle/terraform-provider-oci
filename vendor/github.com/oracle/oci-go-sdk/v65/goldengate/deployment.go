@@ -110,6 +110,8 @@ type Deployment struct {
 	IsStorageUtilizationLimitExceeded *bool `mandatory:"false" json:"isStorageUtilizationLimitExceeded"`
 
 	OggData *OggDeployment `mandatory:"false" json:"oggData"`
+
+	DeploymentDiagnosticData *DeploymentDiagnosticData `mandatory:"false" json:"deploymentDiagnosticData"`
 }
 
 func (m Deployment) String() string {

@@ -56,6 +56,10 @@ func (m *validationfailurepolicy) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := ModifyResponseValidationFailurePolicy{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OAUTH2":
+		mm := OAuth2ResponseValidationFailurePolicy{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for ValidationFailurePolicy: %s.", m.Type)
 		return *m, nil
@@ -84,14 +88,17 @@ type ValidationFailurePolicyTypeEnum string
 // Set of constants representing the allowable values for ValidationFailurePolicyTypeEnum
 const (
 	ValidationFailurePolicyTypeModifyResponse ValidationFailurePolicyTypeEnum = "MODIFY_RESPONSE"
+	ValidationFailurePolicyTypeOauth2         ValidationFailurePolicyTypeEnum = "OAUTH2"
 )
 
 var mappingValidationFailurePolicyTypeEnum = map[string]ValidationFailurePolicyTypeEnum{
 	"MODIFY_RESPONSE": ValidationFailurePolicyTypeModifyResponse,
+	"OAUTH2":          ValidationFailurePolicyTypeOauth2,
 }
 
 var mappingValidationFailurePolicyTypeEnumLowerCase = map[string]ValidationFailurePolicyTypeEnum{
 	"modify_response": ValidationFailurePolicyTypeModifyResponse,
+	"oauth2":          ValidationFailurePolicyTypeOauth2,
 }
 
 // GetValidationFailurePolicyTypeEnumValues Enumerates the set of values for ValidationFailurePolicyTypeEnum
@@ -107,6 +114,7 @@ func GetValidationFailurePolicyTypeEnumValues() []ValidationFailurePolicyTypeEnu
 func GetValidationFailurePolicyTypeEnumStringValues() []string {
 	return []string{
 		"MODIFY_RESPONSE",
+		"OAUTH2",
 	}
 }
 

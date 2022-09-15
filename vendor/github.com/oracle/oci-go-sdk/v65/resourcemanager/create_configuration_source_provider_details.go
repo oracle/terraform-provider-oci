@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// CreateConfigurationSourceProviderDetails The details for creating a configuration source provider.
+// CreateConfigurationSourceProviderDetails Creation details for a configuration source provider.
 type CreateConfigurationSourceProviderDetails interface {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where
@@ -91,8 +91,20 @@ func (m *createconfigurationsourceproviderdetails) UnmarshalPolymorphicJSON(data
 		mm := CreateGitlabAccessTokenConfigurationSourceProviderDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "BITBUCKET_CLOUD_USERNAME_APPPASSWORD":
+		mm := CreateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GITHUB_ACCESS_TOKEN":
 		mm := CreateGithubAccessTokenConfigurationSourceProviderDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "VBS_ACCESS_TOKEN":
+		mm := CreateVbsAccessTokenConfigurationSourceProviderDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "BITBUCKET_SERVER_ACCESS_TOKEN":
+		mm := CreateBitbucketServerAccessTokenConfigurationSourceProviderDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

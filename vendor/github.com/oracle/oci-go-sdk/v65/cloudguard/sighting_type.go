@@ -36,6 +36,23 @@ type SightingType struct {
 
 	// List of Mitre Att&ck Techniques
 	Techniques []string `mandatory:"false" json:"techniques"`
+
+	// Identifier of the associated DataSource
+	DataSourceId *string `mandatory:"false" json:"dataSourceId"`
+
+	// Data Source additional entities mapping for a Detector Rule
+	AdditionalEntitiesMapping []EntitiesMapping `mandatory:"false" json:"additionalEntitiesMapping"`
+
+	// Owner type for the Sighting Type.
+	Owner OwnerTypeEnum `mandatory:"false" json:"owner,omitempty"`
+
+	MitreDetails *MitreDetails `mandatory:"false" json:"mitreDetails"`
+
+	// The date and time the Sighting Type was created. Format defined by RFC3339.
+	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+
+	// The date and time the Sighting Type was updated. Format defined by RFC3339.
+	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 }
 
 func (m SightingType) String() string {
@@ -48,6 +65,9 @@ func (m SightingType) String() string {
 func (m SightingType) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingOwnerTypeEnum(string(m.Owner)); !ok && m.Owner != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Owner: %s. Supported values are: %s.", m.Owner, strings.Join(GetOwnerTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

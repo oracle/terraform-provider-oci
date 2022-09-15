@@ -238,15 +238,18 @@ type TriggerLifecycleStateEnum string
 
 // Set of constants representing the allowable values for TriggerLifecycleStateEnum
 const (
-	TriggerLifecycleStateActive TriggerLifecycleStateEnum = "ACTIVE"
+	TriggerLifecycleStateActive   TriggerLifecycleStateEnum = "ACTIVE"
+	TriggerLifecycleStateDeleting TriggerLifecycleStateEnum = "DELETING"
 )
 
 var mappingTriggerLifecycleStateEnum = map[string]TriggerLifecycleStateEnum{
-	"ACTIVE": TriggerLifecycleStateActive,
+	"ACTIVE":   TriggerLifecycleStateActive,
+	"DELETING": TriggerLifecycleStateDeleting,
 }
 
 var mappingTriggerLifecycleStateEnumLowerCase = map[string]TriggerLifecycleStateEnum{
-	"active": TriggerLifecycleStateActive,
+	"active":   TriggerLifecycleStateActive,
+	"deleting": TriggerLifecycleStateDeleting,
 }
 
 // GetTriggerLifecycleStateEnumValues Enumerates the set of values for TriggerLifecycleStateEnum
@@ -262,6 +265,7 @@ func GetTriggerLifecycleStateEnumValues() []TriggerLifecycleStateEnum {
 func GetTriggerLifecycleStateEnumStringValues() []string {
 	return []string{
 		"ACTIVE",
+		"DELETING",
 	}
 }
 

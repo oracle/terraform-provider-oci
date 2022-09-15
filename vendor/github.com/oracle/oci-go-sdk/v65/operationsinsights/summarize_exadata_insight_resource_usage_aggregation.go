@@ -43,6 +43,9 @@ type SummarizeExadataInsightResourceUsageAggregation struct {
 
 	// Percentage change in resource usage during the current period calculated using linear regression functions
 	UsageChangePercent *float64 `mandatory:"true" json:"usageChangePercent"`
+
+	// The maximum host CPUs (cores x threads/core) on the underlying infrastructure. This only applies to CPU and does not not apply for Autonomous Databases.
+	TotalHostCapacity *float64 `mandatory:"false" json:"totalHostCapacity"`
 }
 
 func (m SummarizeExadataInsightResourceUsageAggregation) String() string {
