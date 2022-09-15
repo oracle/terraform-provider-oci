@@ -140,6 +140,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `budget` - Discovers budget resources across the entire tenancy
     * `certificates_management` - Discovers certificates_management resources within the specified compartment
     * `cloud_guard` - Discovers cloud guard resources within the specified compartment
+    * `cloud_migrations` - Discovers cloud_migrations resources within the specified compartment
     * `containerengine` - Discovers containerengine resources within the specified compartment
     * `core` - Discovers compute, block storage, and networking resources within the specified compartment
     * `data_connectivity` - Discovers data_connectivity resources within the specified compartment
@@ -400,6 +401,14 @@ cloud_guard
 * oci\_cloud\_guard\_security\_recipe
 * oci\_cloud\_guard\_security\_zone
 * oci\_cloud\_guard\_data\_source
+
+cloud_migrations
+    
+* oci\_cloud\_migrations\_migration\_asset
+* oci\_cloud\_migrations\_migration\_plan
+* oci\_cloud\_migrations\_target\_asset
+* oci\_cloud\_migrations\_migration
+* oci\_cloud\_migrations\_replication\_schedule
 
 containerengine
     
