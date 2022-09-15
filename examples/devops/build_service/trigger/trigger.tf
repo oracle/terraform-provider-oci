@@ -189,3 +189,35 @@ resource "oci_devops_trigger" "test_bitbucket_server_trigger" {
   display_name  = "bitbucket-server-trigger"
   depends_on = [oci_devops_trigger.test_gitlab_server_trigger]
 }
+
+# VBS trigger resource
+resource "oci_devops_trigger" "test_vbs_trigger" {
+  #Required
+  actions {
+    #Required
+    build_pipeline_id = oci_devops_build_pipeline.test_build_pipeline.id
+    type              = "TRIGGER_BUILD_PIPELINE"
+
+    #Optional
+    filter {
+      #Required
+      trigger_source = "VBS"
+
+      #Optional
+      events = ["PUSH"]
+      include {
+
+        #Optional
+        base_ref = "baseRef"
+        head_ref = "headRef"
+      }
+    }
+  }
+  project_id     = oci_devops_project.test_project.id
+  trigger_source = "VBS"
+
+  #Optional
+  description   = "VBS Trigger"
+  display_name  = "vbs-trigger"
+  depends_on = [oci_devops_trigger.test_bitbucket_server_trigger]
+}

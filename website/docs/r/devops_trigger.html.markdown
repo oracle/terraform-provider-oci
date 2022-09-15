@@ -35,6 +35,7 @@ resource "oci_devops_trigger" "test_trigger" {
 				#Optional
 				base_ref = var.trigger_actions_filter_include_base_ref
 				head_ref = var.trigger_actions_filter_include_head_ref
+				repository_name = oci_devops_repository.test_repository.name
 			}
 		}
 	}
@@ -58,18 +59,25 @@ The following arguments are supported:
 	* `build_pipeline_id` - (Required) (Updatable) The OCID of the build pipeline to be triggered.
 	* `filter` - (Optional) (Updatable) The filters for the trigger.
 		* `events` - (Optional) (Updatable) The events, for example, PUSH, PULL_REQUEST_MERGE.
+		* `exclude` - (Applicable when trigger_source=BITBUCKET_CLOUD | DEVOPS_CODE_REPOSITORY | GITHUB | GITLAB | GITLAB_SERVER | VBS) (Updatable) Attributes to filter GitLab self-hosted server events. File filter criteria - Changes only affecting excluded files will not invoke a build. if both include and exclude filter are used then exclusion filter will be applied on the result set of inclusion filter.
+			* `file_filter` - (Applicable when trigger_source=BITBUCKET_CLOUD | DEVOPS_CODE_REPOSITORY | GITHUB | GITLAB | GITLAB_SERVER | VBS) (Updatable) Attributes to support include/exclude files for triggering build runs.
+				* `file_paths` - (Applicable when trigger_source=BITBUCKET_CLOUD | DEVOPS_CODE_REPOSITORY | GITHUB | GITLAB | GITLAB_SERVER | VBS) (Updatable) The file paths/glob pattern for files.
 		* `include` - (Optional) (Updatable) Attributes to filter GitLab self-hosted server events.
-			* `base_ref` - (Applicable when trigger_source=BITBUCKET_CLOUD | BITBUCKET_SERVER | GITHUB | GITLAB | GITLAB_SERVER) (Updatable) The target branch for pull requests; not applicable for push requests.
+			* `base_ref` - (Applicable when trigger_source=BITBUCKET_CLOUD | BITBUCKET_SERVER | GITHUB | GITLAB | GITLAB_SERVER | VBS) (Updatable) The target branch for pull requests; not applicable for push requests.
+			* `file_filter` - (Applicable when trigger_source=BITBUCKET_CLOUD | DEVOPS_CODE_REPOSITORY | GITHUB | GITLAB | GITLAB_SERVER | VBS) (Updatable) Attributes to support include/exclude files for triggering build runs.
+				* `file_paths` - (Applicable when trigger_source=BITBUCKET_CLOUD | DEVOPS_CODE_REPOSITORY | GITHUB | GITLAB | GITLAB_SERVER | VBS) (Updatable) The file paths/glob pattern for files.
 			* `head_ref` - (Optional) (Updatable) Branch for push event; source branch for pull requests.
-		* `trigger_source` - (Required) (Updatable) Source of the trigger. Allowed values are, GITHUB, GITLAB and BITBUCKET_CLOUD.
+			* `repository_name` - (Applicable when trigger_source=VBS) (Updatable) The repository name for trigger events.
+		* `trigger_source` - (Required) (Updatable) Source of the trigger. Allowed values are,  GITHUB, GITLAB, BITBUCKET_CLOUD, VBS and DEVOPS_CODE_REPOSITORY.
 	* `type` - (Required) (Updatable) The type of action that will be taken. Allowed value is TRIGGER_BUILD_PIPELINE.
+* `connection_id` - (Applicable when trigger_source=BITBUCKET_CLOUD | GITHUB | GITLAB | VBS) (Updatable) The OCID of the connection resource used to get details for triggered events.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace.bar-key": "value"}`
 * `description` - (Optional) (Updatable) Optional description about the trigger.
 * `display_name` - (Optional) (Updatable) Trigger display name. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`
 * `project_id` - (Required) The OCID of the DevOps project to which the trigger belongs to.
 * `repository_id` - (Applicable when trigger_source=DEVOPS_CODE_REPOSITORY) (Updatable) The OCID of the DevOps code repository.
-* `trigger_source` - (Required) (Updatable) Source of the trigger. Allowed values are, GITHUB,GITLAB and BITBUCKET_CLOUD.
+* `trigger_source` - (Required) (Updatable) Source of the trigger. Allowed values are,  GITHUB, GITLAB, BITBUCKET_CLOUD, VBS and DEVOPS_CODE_REPOSITORY.
 
 
 ** IMPORTANT **
@@ -86,7 +94,8 @@ The following attributes are exported:
 		* `include` - Attributes to filter GitLab self-hosted server events.
 			* `base_ref` - The target branch for pull requests; not applicable for push requests.
 			* `head_ref` - Branch for push event; source branch for pull requests.
-		* `trigger_source` - Source of the trigger. Allowed values are, GITHUB, GITLAB and BITBUCKET_CLOUD.
+			* `repository_name` - The repository name for trigger events.
+		* `trigger_source` - Source of the trigger. Allowed values are, GITHUB and GITLAB and BITBUCKET_CLOUD.
 	* `type` - The type of action that will be taken. Allowed value is TRIGGER_BUILD_PIPELINE.
 * `compartment_id` - The OCID of the compartment that contains the trigger.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace.bar-key": "value"}`
@@ -101,7 +110,7 @@ The following attributes are exported:
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud.free-tier-retained": "true"}`
 * `time_created` - The time the trigger was created. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
 * `time_updated` - The time the trigger was updated. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
-* `trigger_source` - Source of the trigger. Allowed values are, GITHUB, GITLAB, BITBUCKET_CLOUD and DEVOPS_CODE_REPOSITORY.
+* `trigger_source` - Source of the trigger. Allowed values are, GITHUB, GITLAB, BITBUCKET_CLOUD, VBS and DEVOPS_CODE_REPOSITORY.
 * `trigger_url` - The endpoint that listens to trigger events.
 
 ## Timeouts
