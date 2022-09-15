@@ -476,6 +476,10 @@ func DevopsBuildRunResource() *schema.Resource {
 																			Type:     schema.TypeString,
 																			Computed: true,
 																		},
+																		"repository_name": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
 																	},
 																},
 															},
@@ -1062,6 +1066,16 @@ func BuildRunSourceToMap(obj *oci_devops.BuildRunSource) map[string]interface{} 
 		}
 	case oci_devops.ManualBuildRunSource:
 		result["source_type"] = "MANUAL"
+	case oci_devops.VbsBuildRunSource:
+		result["source_type"] = "VBS"
+
+		if v.TriggerId != nil {
+			result["trigger_id"] = string(*v.TriggerId)
+		}
+
+		if v.TriggerInfo != nil {
+			result["trigger_info"] = []interface{}{TriggerInfoToMap(v.TriggerInfo)}
+		}
 	default:
 		log.Printf("[WARN] Received 'source_type' of unknown type %v", *obj)
 		return nil
@@ -1248,6 +1262,25 @@ func (s *DevopsBuildRunResourceCrud) mapToBuildSource(fieldKeyFormat string) (oc
 		baseObject = details
 	case strings.ToLower("GITLAB_SERVER"):
 		details := oci_devops.GitlabServerBuildSource{}
+		if connectionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connection_id")); ok {
+			tmp := connectionId.(string)
+			details.ConnectionId = &tmp
+		}
+		if branch, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "branch")); ok {
+			tmp := branch.(string)
+			details.Branch = &tmp
+		}
+		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+			tmp := name.(string)
+			details.Name = &tmp
+		}
+		if repositoryUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "repository_url")); ok {
+			tmp := repositoryUrl.(string)
+			details.RepositoryUrl = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("VBS"):
+		details := oci_devops.VbsBuildSource{}
 		if connectionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connection_id")); ok {
 			tmp := connectionId.(string)
 			details.ConnectionId = &tmp
@@ -1930,6 +1963,41 @@ func (s *DevopsBuildRunResourceCrud) mapToFilter(fieldKeyFormat string) (oci_dev
 			}
 		}
 		baseObject = details
+	case strings.ToLower("VBS"):
+		details := oci_devops.VbsFilter{}
+		if events, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "events")); ok {
+			interfaces := events.([]interface{})
+			tmp := make([]oci_devops.VbsFilterEventsEnum, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = oci_devops.VbsFilterEventsEnum(interfaces[i].(string))
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "events")) {
+				details.Events = tmp
+			}
+		}
+		if exclude, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "exclude")); ok {
+			if tmpList := exclude.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "exclude"), 0)
+				tmp, err := s.mapToVbsFilterExclusionAttributes(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert exclude, encountered error: %v", err)
+				}
+				details.Exclude = &tmp
+			}
+		}
+		if include, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "include")); ok {
+			if tmpList := include.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "include"), 0)
+				tmp, err := s.mapToVbsFilterAttributes(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert include, encountered error: %v", err)
+				}
+				details.Include = &tmp
+			}
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown trigger_source '%v' was specified", triggerSource)
 	}
@@ -2002,6 +2070,19 @@ func FilterToMap(obj *oci_devops.Filter) map[string]interface{} {
 
 		if v.Include != nil {
 			result["include"] = []interface{}{GitlabServerFilterAttributesToMap(v.Include)}
+		}
+	case oci_devops.VbsFilter:
+		result["trigger_source"] = "VBS"
+
+		result["events"] = v.Events
+		result["events"] = v.Events
+
+		if v.Exclude != nil {
+			result["exclude"] = []interface{}{VbsFilterExclusionAttributesToMap(v.Exclude)}
+		}
+
+		if v.Include != nil {
+			result["include"] = []interface{}{VbsFilterAttributesToMap(v.Include)}
 		}
 	default:
 		log.Printf("[WARN] Received 'trigger_source' of unknown type %v", *obj)
@@ -2315,6 +2396,87 @@ func TriggerInfoToMap(obj *oci_devops.TriggerInfo) map[string]interface{} {
 
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	return result
+}
+
+func (s *DevopsBuildRunResourceCrud) mapToVbsFilterAttributes(fieldKeyFormat string) (oci_devops.VbsFilterAttributes, error) {
+	result := oci_devops.VbsFilterAttributes{}
+
+	if baseRef, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "base_ref")); ok {
+		tmp := baseRef.(string)
+		result.BaseRef = &tmp
+	}
+
+	if fileFilter, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "file_filter")); ok {
+		if tmpList := fileFilter.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "file_filter"), 0)
+			tmp, err := s.mapToFileFilter(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert file_filter, encountered error: %v", err)
+			}
+			result.FileFilter = &tmp
+		}
+	}
+
+	if headRef, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "head_ref")); ok {
+		tmp := headRef.(string)
+		result.HeadRef = &tmp
+	}
+
+	if repositoryName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "repository_name")); ok {
+		tmp := repositoryName.(string)
+		result.RepositoryName = &tmp
+	}
+
+	return result, nil
+}
+
+func VbsFilterAttributesToMap(obj *oci_devops.VbsFilterAttributes) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.BaseRef != nil {
+		result["base_ref"] = string(*obj.BaseRef)
+	}
+
+	if obj.FileFilter != nil {
+		result["file_filter"] = []interface{}{FileFilterToMap(obj.FileFilter)}
+	}
+
+	if obj.HeadRef != nil {
+		result["head_ref"] = string(*obj.HeadRef)
+	}
+
+	if obj.RepositoryName != nil {
+		result["repository_name"] = string(*obj.RepositoryName)
+	}
+
+	return result
+}
+
+func (s *DevopsBuildRunResourceCrud) mapToVbsFilterExclusionAttributes(fieldKeyFormat string) (oci_devops.VbsFilterExclusionAttributes, error) {
+	result := oci_devops.VbsFilterExclusionAttributes{}
+
+	if fileFilter, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "file_filter")); ok {
+		if tmpList := fileFilter.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "file_filter"), 0)
+			tmp, err := s.mapToFileFilter(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert file_filter, encountered error: %v", err)
+			}
+			result.FileFilter = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+func VbsFilterExclusionAttributesToMap(obj *oci_devops.VbsFilterExclusionAttributes) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.FileFilter != nil {
+		result["file_filter"] = []interface{}{FileFilterToMap(obj.FileFilter)}
 	}
 
 	return result

@@ -5,6 +5,7 @@ package devops
 
 import (
 	"context"
+	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
@@ -158,6 +159,19 @@ func (s *DevopsTriggerDataSourceCrud) SetData() error {
 	case oci_devops.DevopsCodeRepositoryTrigger:
 		s.D.Set("trigger_source", "DEVOPS_CODE_REPOSITORY")
 
+	case oci_devops.VbsTrigger:
+		s.D.Set("trigger_source", "VBS")
+
+		if v.ConnectionId != nil {
+			s.D.Set("connection_id", *v.ConnectionId)
+		}
+
+		if v.TriggerUrl != nil {
+			s.D.Set("trigger_url", *v.TriggerUrl)
+		}
+	default:
+		log.Printf("[WARN] Received 'trigger_source' of unknown type %v", s.Res.Trigger)
+		return nil
 	}
 
 	return nil

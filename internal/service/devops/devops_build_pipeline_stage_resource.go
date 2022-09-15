@@ -112,6 +112,7 @@ func DevopsBuildPipelineStageResource() *schema.Resource {
 											"GITHUB",
 											"GITLAB",
 											"GITLAB_SERVER",
+											"VBS",
 										}, true),
 									},
 
@@ -1140,6 +1141,25 @@ func (s *DevopsBuildPipelineStageResourceCrud) mapToBuildSource(fieldKeyFormat s
 			details.RepositoryUrl = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("VBS"):
+		details := oci_devops.VbsBuildSource{}
+		if connectionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connection_id")); ok {
+			tmp := connectionId.(string)
+			details.ConnectionId = &tmp
+		}
+		if branch, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "branch")); ok {
+			tmp := branch.(string)
+			details.Branch = &tmp
+		}
+		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+			tmp := name.(string)
+			details.Name = &tmp
+		}
+		if repositoryUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "repository_url")); ok {
+			tmp := repositoryUrl.(string)
+			details.RepositoryUrl = &tmp
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown connection_type '%v' was specified", connectionType)
 	}
@@ -1194,6 +1214,12 @@ func BuildSourceToMap(obj oci_devops.BuildSource) map[string]interface{} {
 		}
 	case oci_devops.GitlabServerBuildSource:
 		result["connection_type"] = "GITLAB_SERVER"
+
+		if v.ConnectionId != nil {
+			result["connection_id"] = string(*v.ConnectionId)
+		}
+	case oci_devops.VbsBuildSource:
+		result["connection_type"] = "VBS"
 
 		if v.ConnectionId != nil {
 			result["connection_id"] = string(*v.ConnectionId)
