@@ -806,29 +806,53 @@ func (s *CoreInstancePoolResourceCrud) updateCompartment(compartment interface{}
 	return nil
 }
 
-func (s *CoreInstancePoolResourceCrud) oneEditAway(oldLoadBalancers []oci_core.AttachLoadBalancerDetails, newLoadBalancers []oci_core.AttachLoadBalancerDetails) (bool, string, oci_core.AttachLoadBalancerDetails, oci_core.AttachLoadBalancerDetails) {
-	if Abs(len(newLoadBalancers)-len(oldLoadBalancers)) != 1 {
-		return false, "", oci_core.AttachLoadBalancerDetails{}, oci_core.AttachLoadBalancerDetails{}
+/**
+   	This method decides if load_balancers update/attach/detach should go through.
+	Only one operation can happen in single request
+	1. update/attach should happen from the end of the lb list
+	2. detach can happen from anywhere in the list.
+*/
+func (s *CoreInstancePoolResourceCrud) oneEditAway(oldLoadBalancers []oci_core.AttachLoadBalancerDetails, newLoadBalancers []oci_core.AttachLoadBalancerDetails) (bool, string, oci_core.AttachLoadBalancerDetails, oci_core.AttachLoadBalancerDetails, string) {
+	newLbsLength := len(newLoadBalancers)
+	oldLbsLength := len(oldLoadBalancers)
+
+	// if old and new lb size is > 1 throw error
+	if Abs(newLbsLength-oldLbsLength) > 1 {
+		return false, "", oci_core.AttachLoadBalancerDetails{}, oci_core.AttachLoadBalancerDetails{}, "Error: Failed to update load balancers, only one load balancer can be modified but found more than one"
 	}
-	if len(newLoadBalancers) > len(oldLoadBalancers) {
-		for i := 0; i < len(oldLoadBalancers); i++ {
-			if *oldLoadBalancers[i].LoadBalancerId != *newLoadBalancers[i].LoadBalancerId {
-				return false, "", oci_core.AttachLoadBalancerDetails{}, oci_core.AttachLoadBalancerDetails{}
-			}
+
+	// if old and new lb size is same that means this is an update to lb
+	if Abs(newLbsLength-oldLbsLength) == 0 {
+		deltas, positionToUpdate := s.getLoadBalancerDeltas(oldLoadBalancers, newLoadBalancers)
+		if deltas > 1 {
+			return false, "", oci_core.AttachLoadBalancerDetails{}, oci_core.AttachLoadBalancerDetails{}, "Error: Failed to update load balancers details, only one load balancer can be modified but found more than one"
+		} else if deltas == 1 && positionToUpdate == newLbsLength-1 {
+			return true, "update", oldLoadBalancers[positionToUpdate], newLoadBalancers[positionToUpdate], ""
 		}
-		return true, "attach", oci_core.AttachLoadBalancerDetails{}, newLoadBalancers[len(newLoadBalancers)-1]
+		return false, "", oci_core.AttachLoadBalancerDetails{}, oci_core.AttachLoadBalancerDetails{}, "Error: Failed to update load balancers, only the load balancer which is at the end of the config can be modified"
 	}
-	for i := 0; i < len(newLoadBalancers); i++ {
-		if *oldLoadBalancers[i].LoadBalancerId != *newLoadBalancers[i].LoadBalancerId {
-			for j := i + 1; j < len(newLoadBalancers); j++ {
-				if *oldLoadBalancers[j].LoadBalancerId != *newLoadBalancers[j-1].LoadBalancerId {
-					return false, "", oci_core.AttachLoadBalancerDetails{}, oci_core.AttachLoadBalancerDetails{}
+
+	// If the new lbs length is > old one that means an attach of an lb
+	if newLbsLength > oldLbsLength {
+		deltas, _ := s.getLoadBalancerDeltas(oldLoadBalancers, newLoadBalancers)
+		if deltas != 0 {
+			return false, "", oci_core.AttachLoadBalancerDetails{}, oci_core.AttachLoadBalancerDetails{}, "Error: Failed to attach load balancer, only the load balancer which is at the end of the config can be attached"
+		}
+		return true, "attach", oci_core.AttachLoadBalancerDetails{}, newLoadBalancers[newLbsLength-1], ""
+	}
+
+	// Remaining case does detach
+	for i := 0; i < newLbsLength; i++ {
+		if lbHasChanges(oldLoadBalancers[i], newLoadBalancers[i]) /**oldLoadBalancers[i].LoadBalancerId != *newLoadBalancers[i].LoadBalancerId*/ {
+			for j := i + 1; j < newLbsLength; j++ {
+				if lbHasChanges(oldLoadBalancers[j], newLoadBalancers[j-1]) /**oldLoadBalancers[j].LoadBalancerId != *newLoadBalancers[j-1].LoadBalancerId*/ {
+					return false, "", oci_core.AttachLoadBalancerDetails{}, oci_core.AttachLoadBalancerDetails{}, "Error: Failed to detach load balancer, only one load balancer can be detached but found more than one"
 				}
 			}
-			return true, "detach", oldLoadBalancers[i], oci_core.AttachLoadBalancerDetails{}
+			return true, "detach", oldLoadBalancers[i], oci_core.AttachLoadBalancerDetails{}, ""
 		}
 	}
-	return true, "detach", oldLoadBalancers[len(oldLoadBalancers)-1], oci_core.AttachLoadBalancerDetails{}
+	return true, "detach", oldLoadBalancers[oldLbsLength-1], oci_core.AttachLoadBalancerDetails{}, ""
 }
 
 func (s *CoreInstancePoolResourceCrud) updateLoadBalancers(oldRaw interface{}, newRaw interface{}) error {
@@ -845,31 +869,13 @@ func (s *CoreInstancePoolResourceCrud) updateLoadBalancers(oldRaw interface{}, n
 		converted := mapToAttachLoadBalancerDetails(item.(map[string]interface{}))
 		newBalancers[i] = converted
 	}
-	canEdit, operation, oldLoadbalancer, newLoadBalancer := s.oneEditAway(oldBalancers, newBalancers)
+	canEdit, operation, oldLoadbalancer, newLoadBalancer, errorMsg := s.oneEditAway(oldBalancers, newBalancers)
 	if !canEdit {
-		return fmt.Errorf("only one add/remove is allowed at once, new LoadBalancer must be added at the end of list")
+		return fmt.Errorf(errorMsg)
 	}
 	id := s.D.Id()
 
-	if operation == "attach" {
-		attachLoadBalancerRequest := oci_core.AttachLoadBalancerRequest{}
-		attachLoadBalancerRequest.InstancePoolId = &id
-		attachLoadBalancerRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
-		attachLoadBalancerRequest.AttachLoadBalancerDetails = newLoadBalancer
-		_, err := s.Client.AttachLoadBalancer(context.Background(), attachLoadBalancerRequest)
-
-		if err != nil {
-			return err
-		}
-
-		_, err = s.pollForLbOperationCompletion(&id, &attachLoadBalancerRequest.AttachLoadBalancerDetails)
-
-		if err != nil {
-			return err
-		}
-	}
-
-	if operation == "detach" {
+	if operation == "detach" || operation == "update" {
 		detachLoadBalancerRequest := oci_core.DetachLoadBalancerRequest{}
 		detachLoadBalancerRequest.LoadBalancerId = oldLoadbalancer.LoadBalancerId
 		detachLoadBalancerRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
@@ -887,6 +893,25 @@ func (s *CoreInstancePoolResourceCrud) updateLoadBalancers(oldRaw interface{}, n
 			return err
 		}
 	}
+
+	if operation == "attach" || operation == "update" {
+		attachLoadBalancerRequest := oci_core.AttachLoadBalancerRequest{}
+		attachLoadBalancerRequest.InstancePoolId = &id
+		attachLoadBalancerRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
+		attachLoadBalancerRequest.AttachLoadBalancerDetails = newLoadBalancer
+		_, err := s.Client.AttachLoadBalancer(context.Background(), attachLoadBalancerRequest)
+
+		if err != nil {
+			return err
+		}
+
+		_, err = s.pollForLbOperationCompletion(&id, &attachLoadBalancerRequest.AttachLoadBalancerDetails)
+
+		if err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -945,4 +970,24 @@ func (s *CoreInstancePoolResourceCrud) pollForLbOperationCompletion(poolId *stri
 	}
 
 	return &response.InstancePool, nil
+}
+
+func (s *CoreInstancePoolResourceCrud) getLoadBalancerDeltas(balancers []oci_core.AttachLoadBalancerDetails, balancers2 []oci_core.AttachLoadBalancerDetails) (int, int) {
+	lbLength := len(balancers)
+	deltas := 0
+	positionToUpdate := -1
+	for i := 0; i < lbLength; i++ {
+		if lbHasChanges(balancers[i], balancers2[i]) {
+			deltas++
+			positionToUpdate = i
+		}
+	}
+	return deltas, positionToUpdate
+}
+
+func lbHasChanges(details oci_core.AttachLoadBalancerDetails, details2 oci_core.AttachLoadBalancerDetails) bool {
+	return !(*details.BackendSetName == *details2.BackendSetName &&
+		*details.LoadBalancerId == *details2.LoadBalancerId &&
+		*details.Port == *details2.Port &&
+		*details.VnicSelection == *details2.VnicSelection)
 }
