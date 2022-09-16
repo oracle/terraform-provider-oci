@@ -29,6 +29,12 @@ type RecallArchivedDataDetails struct {
 
 	// This is the type of the log data to be recalled
 	DataType StorageDataTypeEnum `mandatory:"false" json:"dataType,omitempty"`
+
+	// This is a list of comma-separated log sets that recalled data belongs to.
+	LogSets *string `mandatory:"false" json:"logSets"`
+
+	// This is the query that identifies the recalled data.
+	Query *string `mandatory:"false" json:"query"`
 }
 
 func (m RecallArchivedDataDetails) String() string {

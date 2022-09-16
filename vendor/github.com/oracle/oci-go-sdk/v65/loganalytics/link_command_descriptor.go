@@ -34,6 +34,9 @@ type LinkCommandDescriptor struct {
 	// Fields declared in command fragment from user specified query string.
 	DeclaredFields []AbstractField `mandatory:"false" json:"declaredFields"`
 
+	// Field denoting if this is a hidden command that is not shown in the query string.
+	IsHidden *bool `mandatory:"false" json:"isHidden"`
+
 	// Option to return groups with a null value if specified.
 	ShouldIncludeNulls *bool `mandatory:"false" json:"shouldIncludeNulls"`
 
@@ -67,6 +70,11 @@ func (m LinkCommandDescriptor) GetReferencedFields() []AbstractField {
 //GetDeclaredFields returns DeclaredFields
 func (m LinkCommandDescriptor) GetDeclaredFields() []AbstractField {
 	return m.DeclaredFields
+}
+
+//GetIsHidden returns IsHidden
+func (m LinkCommandDescriptor) GetIsHidden() *bool {
+	return m.IsHidden
 }
 
 func (m LinkCommandDescriptor) String() string {
@@ -105,6 +113,7 @@ func (m *LinkCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 		Category            *string         `json:"category"`
 		ReferencedFields    []abstractfield `json:"referencedFields"`
 		DeclaredFields      []abstractfield `json:"declaredFields"`
+		IsHidden            *bool           `json:"isHidden"`
 		ShouldIncludeNulls  *bool           `json:"shouldIncludeNulls"`
 		ShouldIncludeTrends *bool           `json:"shouldIncludeTrends"`
 		Span                *string         `json:"span"`
@@ -144,6 +153,8 @@ func (m *LinkCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 			m.DeclaredFields[i] = nil
 		}
 	}
+
+	m.IsHidden = model.IsHidden
 
 	m.ShouldIncludeNulls = model.ShouldIncludeNulls
 

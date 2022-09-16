@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// DynamicDateRange The saved dynamic date range (Required when staticDateRange is missing).
+// DynamicDateRange The saved dynamic date range (required when the static date range is missing).
 type DynamicDateRange struct {
 	DynamicDateRangeType DynamicDateRangeDynamicDateRangeTypeEnum `mandatory:"true" json:"dynamicDateRangeType"`
 }
@@ -59,33 +59,48 @@ type DynamicDateRangeDynamicDateRangeTypeEnum string
 
 // Set of constants representing the allowable values for DynamicDateRangeDynamicDateRangeTypeEnum
 const (
-	DynamicDateRangeDynamicDateRangeTypeLast7Days         DynamicDateRangeDynamicDateRangeTypeEnum = "LAST_7_DAYS"
-	DynamicDateRangeDynamicDateRangeTypeLastCalendarWeek  DynamicDateRangeDynamicDateRangeTypeEnum = "LAST_CALENDAR_WEEK"
-	DynamicDateRangeDynamicDateRangeTypeLastCalendarMonth DynamicDateRangeDynamicDateRangeTypeEnum = "LAST_CALENDAR_MONTH"
-	DynamicDateRangeDynamicDateRangeTypeLast30Days        DynamicDateRangeDynamicDateRangeTypeEnum = "LAST_30_DAYS"
-	DynamicDateRangeDynamicDateRangeTypeMonthToDate       DynamicDateRangeDynamicDateRangeTypeEnum = "MONTH_TO_DATE"
-	DynamicDateRangeDynamicDateRangeTypeLastYear          DynamicDateRangeDynamicDateRangeTypeEnum = "LAST_YEAR"
-	DynamicDateRangeDynamicDateRangeTypeYearTodate        DynamicDateRangeDynamicDateRangeTypeEnum = "YEAR_TODATE"
+	DynamicDateRangeDynamicDateRangeTypeLast7Days           DynamicDateRangeDynamicDateRangeTypeEnum = "LAST_7_DAYS"
+	DynamicDateRangeDynamicDateRangeTypeLast10Days          DynamicDateRangeDynamicDateRangeTypeEnum = "LAST_10_DAYS"
+	DynamicDateRangeDynamicDateRangeTypeLastCalendarWeek    DynamicDateRangeDynamicDateRangeTypeEnum = "LAST_CALENDAR_WEEK"
+	DynamicDateRangeDynamicDateRangeTypeLastCalendarMonth   DynamicDateRangeDynamicDateRangeTypeEnum = "LAST_CALENDAR_MONTH"
+	DynamicDateRangeDynamicDateRangeTypeLast2CalendarMonths DynamicDateRangeDynamicDateRangeTypeEnum = "LAST_2_CALENDAR_MONTHS"
+	DynamicDateRangeDynamicDateRangeTypeLast3CalendarMonths DynamicDateRangeDynamicDateRangeTypeEnum = "LAST_3_CALENDAR_MONTHS"
+	DynamicDateRangeDynamicDateRangeTypeLast6CalendarMonths DynamicDateRangeDynamicDateRangeTypeEnum = "LAST_6_CALENDAR_MONTHS"
+	DynamicDateRangeDynamicDateRangeTypeLast30Days          DynamicDateRangeDynamicDateRangeTypeEnum = "LAST_30_DAYS"
+	DynamicDateRangeDynamicDateRangeTypeMonthToDate         DynamicDateRangeDynamicDateRangeTypeEnum = "MONTH_TO_DATE"
+	DynamicDateRangeDynamicDateRangeTypeLastYear            DynamicDateRangeDynamicDateRangeTypeEnum = "LAST_YEAR"
+	DynamicDateRangeDynamicDateRangeTypeYearTodate          DynamicDateRangeDynamicDateRangeTypeEnum = "YEAR_TODATE"
+	DynamicDateRangeDynamicDateRangeTypeAll                 DynamicDateRangeDynamicDateRangeTypeEnum = "ALL"
 )
 
 var mappingDynamicDateRangeDynamicDateRangeTypeEnum = map[string]DynamicDateRangeDynamicDateRangeTypeEnum{
-	"LAST_7_DAYS":         DynamicDateRangeDynamicDateRangeTypeLast7Days,
-	"LAST_CALENDAR_WEEK":  DynamicDateRangeDynamicDateRangeTypeLastCalendarWeek,
-	"LAST_CALENDAR_MONTH": DynamicDateRangeDynamicDateRangeTypeLastCalendarMonth,
-	"LAST_30_DAYS":        DynamicDateRangeDynamicDateRangeTypeLast30Days,
-	"MONTH_TO_DATE":       DynamicDateRangeDynamicDateRangeTypeMonthToDate,
-	"LAST_YEAR":           DynamicDateRangeDynamicDateRangeTypeLastYear,
-	"YEAR_TODATE":         DynamicDateRangeDynamicDateRangeTypeYearTodate,
+	"LAST_7_DAYS":            DynamicDateRangeDynamicDateRangeTypeLast7Days,
+	"LAST_10_DAYS":           DynamicDateRangeDynamicDateRangeTypeLast10Days,
+	"LAST_CALENDAR_WEEK":     DynamicDateRangeDynamicDateRangeTypeLastCalendarWeek,
+	"LAST_CALENDAR_MONTH":    DynamicDateRangeDynamicDateRangeTypeLastCalendarMonth,
+	"LAST_2_CALENDAR_MONTHS": DynamicDateRangeDynamicDateRangeTypeLast2CalendarMonths,
+	"LAST_3_CALENDAR_MONTHS": DynamicDateRangeDynamicDateRangeTypeLast3CalendarMonths,
+	"LAST_6_CALENDAR_MONTHS": DynamicDateRangeDynamicDateRangeTypeLast6CalendarMonths,
+	"LAST_30_DAYS":           DynamicDateRangeDynamicDateRangeTypeLast30Days,
+	"MONTH_TO_DATE":          DynamicDateRangeDynamicDateRangeTypeMonthToDate,
+	"LAST_YEAR":              DynamicDateRangeDynamicDateRangeTypeLastYear,
+	"YEAR_TODATE":            DynamicDateRangeDynamicDateRangeTypeYearTodate,
+	"ALL":                    DynamicDateRangeDynamicDateRangeTypeAll,
 }
 
 var mappingDynamicDateRangeDynamicDateRangeTypeEnumLowerCase = map[string]DynamicDateRangeDynamicDateRangeTypeEnum{
-	"last_7_days":         DynamicDateRangeDynamicDateRangeTypeLast7Days,
-	"last_calendar_week":  DynamicDateRangeDynamicDateRangeTypeLastCalendarWeek,
-	"last_calendar_month": DynamicDateRangeDynamicDateRangeTypeLastCalendarMonth,
-	"last_30_days":        DynamicDateRangeDynamicDateRangeTypeLast30Days,
-	"month_to_date":       DynamicDateRangeDynamicDateRangeTypeMonthToDate,
-	"last_year":           DynamicDateRangeDynamicDateRangeTypeLastYear,
-	"year_todate":         DynamicDateRangeDynamicDateRangeTypeYearTodate,
+	"last_7_days":            DynamicDateRangeDynamicDateRangeTypeLast7Days,
+	"last_10_days":           DynamicDateRangeDynamicDateRangeTypeLast10Days,
+	"last_calendar_week":     DynamicDateRangeDynamicDateRangeTypeLastCalendarWeek,
+	"last_calendar_month":    DynamicDateRangeDynamicDateRangeTypeLastCalendarMonth,
+	"last_2_calendar_months": DynamicDateRangeDynamicDateRangeTypeLast2CalendarMonths,
+	"last_3_calendar_months": DynamicDateRangeDynamicDateRangeTypeLast3CalendarMonths,
+	"last_6_calendar_months": DynamicDateRangeDynamicDateRangeTypeLast6CalendarMonths,
+	"last_30_days":           DynamicDateRangeDynamicDateRangeTypeLast30Days,
+	"month_to_date":          DynamicDateRangeDynamicDateRangeTypeMonthToDate,
+	"last_year":              DynamicDateRangeDynamicDateRangeTypeLastYear,
+	"year_todate":            DynamicDateRangeDynamicDateRangeTypeYearTodate,
+	"all":                    DynamicDateRangeDynamicDateRangeTypeAll,
 }
 
 // GetDynamicDateRangeDynamicDateRangeTypeEnumValues Enumerates the set of values for DynamicDateRangeDynamicDateRangeTypeEnum
@@ -101,12 +116,17 @@ func GetDynamicDateRangeDynamicDateRangeTypeEnumValues() []DynamicDateRangeDynam
 func GetDynamicDateRangeDynamicDateRangeTypeEnumStringValues() []string {
 	return []string{
 		"LAST_7_DAYS",
+		"LAST_10_DAYS",
 		"LAST_CALENDAR_WEEK",
 		"LAST_CALENDAR_MONTH",
+		"LAST_2_CALENDAR_MONTHS",
+		"LAST_3_CALENDAR_MONTHS",
+		"LAST_6_CALENDAR_MONTHS",
 		"LAST_30_DAYS",
 		"MONTH_TO_DATE",
 		"LAST_YEAR",
 		"YEAR_TODATE",
+		"ALL",
 	}
 }
 

@@ -123,6 +123,10 @@ func (m *triggercreateresult) UnmarshalPolymorphicJSON(data []byte) (interface{}
 		mm := GithubTriggerCreateResult{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "VBS":
+		mm := VbsTriggerCreateResult{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GITLAB":
 		mm := GitlabTriggerCreateResult{}
 		err = json.Unmarshal(data, &mm)

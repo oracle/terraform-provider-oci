@@ -45,7 +45,7 @@ type QueryProperties struct {
 	//   USAGE_AND_COST
 	QueryType QueryPropertiesQueryTypeEnum `mandatory:"false" json:"queryType,omitempty"`
 
-	// Specifies whether aggregated by time. If isAggregateByTime is true, all usage/cost over the query time period will be added up.
+	// Specifies whether aggregated by time. If isAggregateByTime is true, all usage or cost over the query time period will be added up.
 	IsAggregateByTime *bool `mandatory:"false" json:"isAggregateByTime"`
 }
 

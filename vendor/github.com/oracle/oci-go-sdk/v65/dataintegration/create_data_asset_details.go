@@ -114,8 +114,16 @@ func (m *createdataassetdetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 		mm := CreateDataAssetFromAmazonS3{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "REST_DATA_ASSET":
+		mm := CreateDataAssetFromRest{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "FUSION_APP_DATA_ASSET":
 		mm := CreateDataAssetFromFusionApp{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "LAKE_HOUSE_DATA_ASSET":
+		mm := CreateDataAssetFromLakehouse{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE_ATP_DATA_ASSET":
@@ -205,6 +213,8 @@ const (
 	CreateDataAssetDetailsModelTypeGenericJdbcDataAsset         CreateDataAssetDetailsModelTypeEnum = "GENERIC_JDBC_DATA_ASSET"
 	CreateDataAssetDetailsModelTypeFusionAppDataAsset           CreateDataAssetDetailsModelTypeEnum = "FUSION_APP_DATA_ASSET"
 	CreateDataAssetDetailsModelTypeAmazonS3DataAsset            CreateDataAssetDetailsModelTypeEnum = "AMAZON_S3_DATA_ASSET"
+	CreateDataAssetDetailsModelTypeLakeHouseDataAsset           CreateDataAssetDetailsModelTypeEnum = "LAKE_HOUSE_DATA_ASSET"
+	CreateDataAssetDetailsModelTypeRestDataAsset                CreateDataAssetDetailsModelTypeEnum = "REST_DATA_ASSET"
 )
 
 var mappingCreateDataAssetDetailsModelTypeEnum = map[string]CreateDataAssetDetailsModelTypeEnum{
@@ -216,6 +226,8 @@ var mappingCreateDataAssetDetailsModelTypeEnum = map[string]CreateDataAssetDetai
 	"GENERIC_JDBC_DATA_ASSET":          CreateDataAssetDetailsModelTypeGenericJdbcDataAsset,
 	"FUSION_APP_DATA_ASSET":            CreateDataAssetDetailsModelTypeFusionAppDataAsset,
 	"AMAZON_S3_DATA_ASSET":             CreateDataAssetDetailsModelTypeAmazonS3DataAsset,
+	"LAKE_HOUSE_DATA_ASSET":            CreateDataAssetDetailsModelTypeLakeHouseDataAsset,
+	"REST_DATA_ASSET":                  CreateDataAssetDetailsModelTypeRestDataAsset,
 }
 
 var mappingCreateDataAssetDetailsModelTypeEnumLowerCase = map[string]CreateDataAssetDetailsModelTypeEnum{
@@ -227,6 +239,8 @@ var mappingCreateDataAssetDetailsModelTypeEnumLowerCase = map[string]CreateDataA
 	"generic_jdbc_data_asset":          CreateDataAssetDetailsModelTypeGenericJdbcDataAsset,
 	"fusion_app_data_asset":            CreateDataAssetDetailsModelTypeFusionAppDataAsset,
 	"amazon_s3_data_asset":             CreateDataAssetDetailsModelTypeAmazonS3DataAsset,
+	"lake_house_data_asset":            CreateDataAssetDetailsModelTypeLakeHouseDataAsset,
+	"rest_data_asset":                  CreateDataAssetDetailsModelTypeRestDataAsset,
 }
 
 // GetCreateDataAssetDetailsModelTypeEnumValues Enumerates the set of values for CreateDataAssetDetailsModelTypeEnum
@@ -249,6 +263,8 @@ func GetCreateDataAssetDetailsModelTypeEnumStringValues() []string {
 		"GENERIC_JDBC_DATA_ASSET",
 		"FUSION_APP_DATA_ASSET",
 		"AMAZON_S3_DATA_ASSET",
+		"LAKE_HOUSE_DATA_ASSET",
+		"REST_DATA_ASSET",
 	}
 }
 

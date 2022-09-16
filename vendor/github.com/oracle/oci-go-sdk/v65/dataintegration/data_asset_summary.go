@@ -131,12 +131,20 @@ func (m *dataassetsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 		mm := DataAssetSummaryFromObjectStorage{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "REST_DATA_ASSET":
+		mm := DataAssetSummaryFromRest{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE_DATA_ASSET":
 		mm := DataAssetSummaryFromOracle{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "FUSION_APP_DATA_ASSET":
 		mm := DataAssetSummaryFromFusionApp{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "LAKE_HOUSE_DATA_ASSET":
+		mm := DataAssetSummaryFromLakehouse{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -233,6 +241,8 @@ const (
 	DataAssetSummaryModelTypeGenericJdbcDataAsset         DataAssetSummaryModelTypeEnum = "GENERIC_JDBC_DATA_ASSET"
 	DataAssetSummaryModelTypeFusionAppDataAsset           DataAssetSummaryModelTypeEnum = "FUSION_APP_DATA_ASSET"
 	DataAssetSummaryModelTypeAmazonS3DataAsset            DataAssetSummaryModelTypeEnum = "AMAZON_S3_DATA_ASSET"
+	DataAssetSummaryModelTypeLakeHouseDataAsset           DataAssetSummaryModelTypeEnum = "LAKE_HOUSE_DATA_ASSET"
+	DataAssetSummaryModelTypeRestDataAsset                DataAssetSummaryModelTypeEnum = "REST_DATA_ASSET"
 )
 
 var mappingDataAssetSummaryModelTypeEnum = map[string]DataAssetSummaryModelTypeEnum{
@@ -244,6 +254,8 @@ var mappingDataAssetSummaryModelTypeEnum = map[string]DataAssetSummaryModelTypeE
 	"GENERIC_JDBC_DATA_ASSET":          DataAssetSummaryModelTypeGenericJdbcDataAsset,
 	"FUSION_APP_DATA_ASSET":            DataAssetSummaryModelTypeFusionAppDataAsset,
 	"AMAZON_S3_DATA_ASSET":             DataAssetSummaryModelTypeAmazonS3DataAsset,
+	"LAKE_HOUSE_DATA_ASSET":            DataAssetSummaryModelTypeLakeHouseDataAsset,
+	"REST_DATA_ASSET":                  DataAssetSummaryModelTypeRestDataAsset,
 }
 
 var mappingDataAssetSummaryModelTypeEnumLowerCase = map[string]DataAssetSummaryModelTypeEnum{
@@ -255,6 +267,8 @@ var mappingDataAssetSummaryModelTypeEnumLowerCase = map[string]DataAssetSummaryM
 	"generic_jdbc_data_asset":          DataAssetSummaryModelTypeGenericJdbcDataAsset,
 	"fusion_app_data_asset":            DataAssetSummaryModelTypeFusionAppDataAsset,
 	"amazon_s3_data_asset":             DataAssetSummaryModelTypeAmazonS3DataAsset,
+	"lake_house_data_asset":            DataAssetSummaryModelTypeLakeHouseDataAsset,
+	"rest_data_asset":                  DataAssetSummaryModelTypeRestDataAsset,
 }
 
 // GetDataAssetSummaryModelTypeEnumValues Enumerates the set of values for DataAssetSummaryModelTypeEnum
@@ -277,6 +291,8 @@ func GetDataAssetSummaryModelTypeEnumStringValues() []string {
 		"GENERIC_JDBC_DATA_ASSET",
 		"FUSION_APP_DATA_ASSET",
 		"AMAZON_S3_DATA_ASSET",
+		"LAKE_HOUSE_DATA_ASSET",
+		"REST_DATA_ASSET",
 	}
 }
 
