@@ -46,7 +46,7 @@ type TimeColumn struct {
 	// Internal identifier for the column.
 	InternalName *string `mandatory:"false" json:"internalName"`
 
-	// Time span betwwen each series data point.
+	// Time span between each series data point.
 	Span *string `mandatory:"false" json:"span"`
 
 	// List of timestamps that represent each time stamp in the entire time series even if certain intervals are filtered out of query results.

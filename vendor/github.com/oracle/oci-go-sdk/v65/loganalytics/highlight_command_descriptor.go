@@ -34,6 +34,9 @@ type HighlightCommandDescriptor struct {
 	// Fields declared in command fragment from user specified query string.
 	DeclaredFields []AbstractField `mandatory:"false" json:"declaredFields"`
 
+	// Field denoting if this is a hidden command that is not shown in the query string.
+	IsHidden *bool `mandatory:"false" json:"isHidden"`
+
 	// User specified color to highlight matches with if found.
 	Color *string `mandatory:"false" json:"color"`
 
@@ -67,6 +70,11 @@ func (m HighlightCommandDescriptor) GetReferencedFields() []AbstractField {
 //GetDeclaredFields returns DeclaredFields
 func (m HighlightCommandDescriptor) GetDeclaredFields() []AbstractField {
 	return m.DeclaredFields
+}
+
+//GetIsHidden returns IsHidden
+func (m HighlightCommandDescriptor) GetIsHidden() *bool {
+	return m.IsHidden
 }
 
 func (m HighlightCommandDescriptor) String() string {
@@ -105,6 +113,7 @@ func (m *HighlightCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 		Category            *string         `json:"category"`
 		ReferencedFields    []abstractfield `json:"referencedFields"`
 		DeclaredFields      []abstractfield `json:"declaredFields"`
+		IsHidden            *bool           `json:"isHidden"`
 		Color               *string         `json:"color"`
 		Fields              []string        `json:"fields"`
 		Keywords            []string        `json:"keywords"`
@@ -144,6 +153,8 @@ func (m *HighlightCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 			m.DeclaredFields[i] = nil
 		}
 	}
+
+	m.IsHidden = model.IsHidden
 
 	m.Color = model.Color
 

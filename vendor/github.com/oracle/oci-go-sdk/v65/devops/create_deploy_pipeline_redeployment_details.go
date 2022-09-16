@@ -22,6 +22,9 @@ type CreateDeployPipelineRedeploymentDetails struct {
 	// The OCID of a pipeline.
 	DeployPipelineId *string `mandatory:"true" json:"deployPipelineId"`
 
+	// Specifies the OCID of the previous deployment to be redeployed.
+	PreviousDeploymentId *string `mandatory:"true" json:"previousDeploymentId"`
+
 	// Deployment display name. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -30,9 +33,6 @@ type CreateDeployPipelineRedeploymentDetails struct {
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-
-	// Specifies the OCID of the previous deployment to be redeployed.
-	PreviousDeploymentId *string `mandatory:"false" json:"previousDeploymentId"`
 }
 
 //GetDeployPipelineId returns DeployPipelineId

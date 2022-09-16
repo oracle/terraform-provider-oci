@@ -50,6 +50,10 @@ func (m *dynamictypehandler) UnmarshalPolymorphicJSON(data []byte) (interface{},
 
 	var err error
 	switch m.ModelType {
+	case "FLATTEN_TYPE_HANDLER":
+		mm := FlattenTypeHandler{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "RULE_TYPE_CONFIGS":
 		mm := RuleTypeConfig{}
 		err = json.Unmarshal(data, &mm)
@@ -80,15 +84,18 @@ type DynamicTypeHandlerModelTypeEnum string
 
 // Set of constants representing the allowable values for DynamicTypeHandlerModelTypeEnum
 const (
-	DynamicTypeHandlerModelTypeRuleTypeConfigs DynamicTypeHandlerModelTypeEnum = "RULE_TYPE_CONFIGS"
+	DynamicTypeHandlerModelTypeRuleTypeConfigs    DynamicTypeHandlerModelTypeEnum = "RULE_TYPE_CONFIGS"
+	DynamicTypeHandlerModelTypeFlattenTypeHandler DynamicTypeHandlerModelTypeEnum = "FLATTEN_TYPE_HANDLER"
 )
 
 var mappingDynamicTypeHandlerModelTypeEnum = map[string]DynamicTypeHandlerModelTypeEnum{
-	"RULE_TYPE_CONFIGS": DynamicTypeHandlerModelTypeRuleTypeConfigs,
+	"RULE_TYPE_CONFIGS":    DynamicTypeHandlerModelTypeRuleTypeConfigs,
+	"FLATTEN_TYPE_HANDLER": DynamicTypeHandlerModelTypeFlattenTypeHandler,
 }
 
 var mappingDynamicTypeHandlerModelTypeEnumLowerCase = map[string]DynamicTypeHandlerModelTypeEnum{
-	"rule_type_configs": DynamicTypeHandlerModelTypeRuleTypeConfigs,
+	"rule_type_configs":    DynamicTypeHandlerModelTypeRuleTypeConfigs,
+	"flatten_type_handler": DynamicTypeHandlerModelTypeFlattenTypeHandler,
 }
 
 // GetDynamicTypeHandlerModelTypeEnumValues Enumerates the set of values for DynamicTypeHandlerModelTypeEnum
@@ -104,6 +111,7 @@ func GetDynamicTypeHandlerModelTypeEnumValues() []DynamicTypeHandlerModelTypeEnu
 func GetDynamicTypeHandlerModelTypeEnumStringValues() []string {
 	return []string{
 		"RULE_TYPE_CONFIGS",
+		"FLATTEN_TYPE_HANDLER",
 	}
 }
 

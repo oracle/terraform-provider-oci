@@ -36,6 +36,9 @@ type OkeCanaryDeployStageExecutionProgress struct {
 	// Details about stage execution for all the target environments.
 	DeployStageExecutionProgressDetails []DeployStageExecutionProgressDetails `mandatory:"false" json:"deployStageExecutionProgressDetails"`
 
+	// The namespace of OKE Canary deployment.
+	Namespace *string `mandatory:"false" json:"namespace"`
+
 	// The current state of the stage.
 	Status DeployStageExecutionProgressStatusEnum `mandatory:"false" json:"status,omitempty"`
 }

@@ -18,16 +18,31 @@ import (
 
 // FlattenDetails Details for the flatten operator.
 type FlattenDetails struct {
-	FlattenProjectionPreferences *FlattenProjectionPreferences `mandatory:"true" json:"flattenProjectionPreferences"`
+
+	// The key of the object.
+	Key *string `mandatory:"false" json:"key"`
+
+	// The type of the object.
+	ModelType *string `mandatory:"false" json:"modelType"`
+
+	// The model version of an object.
+	ModelVersion *string `mandatory:"false" json:"modelVersion"`
+
+	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
+
+	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
+	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
+
+	FlattenProjectionPreferences *FlattenProjectionPreferences `mandatory:"false" json:"flattenProjectionPreferences"`
 
 	// The string of flatten attribute column name where the flatten process starts.
-	FlattenAttributeRoot *string `mandatory:"true" json:"flattenAttributeRoot"`
+	FlattenAttributeRoot *string `mandatory:"false" json:"flattenAttributeRoot"`
 
-	// The string of flatten attribute path in flattenAttributeRoot from upper level to leaf/targeted level concatenated with dot(.)
-	FlattenAttributePath *string `mandatory:"true" json:"flattenAttributePath"`
+	// The string of flatten attribute path in flattenAttributeRoot from upper level to leaf/targeted level concatenated with dot(.).
+	FlattenAttributePath *string `mandatory:"false" json:"flattenAttributePath"`
 
 	// The array of flatten columns which are the input to flatten.
-	FlattenColumns []TypedObject `mandatory:"true" json:"flattenColumns"`
+	FlattenColumns []TypedObject `mandatory:"false" json:"flattenColumns"`
 }
 
 func (m FlattenDetails) String() string {
@@ -49,6 +64,11 @@ func (m FlattenDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *FlattenDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		Key                          *string                       `json:"key"`
+		ModelType                    *string                       `json:"modelType"`
+		ModelVersion                 *string                       `json:"modelVersion"`
+		ParentRef                    *ParentReference              `json:"parentRef"`
+		ObjectStatus                 *int                          `json:"objectStatus"`
 		FlattenProjectionPreferences *FlattenProjectionPreferences `json:"flattenProjectionPreferences"`
 		FlattenAttributeRoot         *string                       `json:"flattenAttributeRoot"`
 		FlattenAttributePath         *string                       `json:"flattenAttributePath"`
@@ -60,6 +80,16 @@ func (m *FlattenDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.Key = model.Key
+
+	m.ModelType = model.ModelType
+
+	m.ModelVersion = model.ModelVersion
+
+	m.ParentRef = model.ParentRef
+
+	m.ObjectStatus = model.ObjectStatus
+
 	m.FlattenProjectionPreferences = model.FlattenProjectionPreferences
 
 	m.FlattenAttributeRoot = model.FlattenAttributeRoot

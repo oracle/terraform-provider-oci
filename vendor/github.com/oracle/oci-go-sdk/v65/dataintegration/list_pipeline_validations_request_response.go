@@ -137,16 +137,19 @@ type ListPipelineValidationsSortByEnum string
 const (
 	ListPipelineValidationsSortByTimeCreated ListPipelineValidationsSortByEnum = "TIME_CREATED"
 	ListPipelineValidationsSortByDisplayName ListPipelineValidationsSortByEnum = "DISPLAY_NAME"
+	ListPipelineValidationsSortByTimeUpdated ListPipelineValidationsSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListPipelineValidationsSortByEnum = map[string]ListPipelineValidationsSortByEnum{
 	"TIME_CREATED": ListPipelineValidationsSortByTimeCreated,
 	"DISPLAY_NAME": ListPipelineValidationsSortByDisplayName,
+	"TIME_UPDATED": ListPipelineValidationsSortByTimeUpdated,
 }
 
 var mappingListPipelineValidationsSortByEnumLowerCase = map[string]ListPipelineValidationsSortByEnum{
 	"time_created": ListPipelineValidationsSortByTimeCreated,
 	"display_name": ListPipelineValidationsSortByDisplayName,
+	"time_updated": ListPipelineValidationsSortByTimeUpdated,
 }
 
 // GetListPipelineValidationsSortByEnumValues Enumerates the set of values for ListPipelineValidationsSortByEnum
@@ -163,6 +166,7 @@ func GetListPipelineValidationsSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 

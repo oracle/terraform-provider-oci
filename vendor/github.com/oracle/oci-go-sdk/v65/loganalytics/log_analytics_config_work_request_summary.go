@@ -24,9 +24,7 @@ type LogAnalyticsConfigWorkRequestSummary struct {
 	// The compartment unique identifier.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// The operation type.  There are two classes of operations, association operations and
-	// lookup operations.  Associations may be created or deleted, and lookup operations include
-	// append, update and delete.
+	// The operation type
 	OperationType LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum `mandatory:"false" json:"operationType,omitempty"`
 
 	// The completion percentage.
@@ -70,27 +68,33 @@ type LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum string
 
 // Set of constants representing the allowable values for LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum
 const (
-	LogAnalyticsConfigWorkRequestSummaryOperationTypeCreateAssociations LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum = "CREATE_ASSOCIATIONS"
-	LogAnalyticsConfigWorkRequestSummaryOperationTypeDeleteAssociations LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum = "DELETE_ASSOCIATIONS"
-	LogAnalyticsConfigWorkRequestSummaryOperationTypeAppendLookupData   LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum = "APPEND_LOOKUP_DATA"
-	LogAnalyticsConfigWorkRequestSummaryOperationTypeUpdateLookupData   LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum = "UPDATE_LOOKUP_DATA"
-	LogAnalyticsConfigWorkRequestSummaryOperationTypeDeleteLookup       LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum = "DELETE_LOOKUP"
+	LogAnalyticsConfigWorkRequestSummaryOperationTypeCreateAssociations    LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum = "CREATE_ASSOCIATIONS"
+	LogAnalyticsConfigWorkRequestSummaryOperationTypeDeleteAssociations    LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum = "DELETE_ASSOCIATIONS"
+	LogAnalyticsConfigWorkRequestSummaryOperationTypeAppendLookupData      LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum = "APPEND_LOOKUP_DATA"
+	LogAnalyticsConfigWorkRequestSummaryOperationTypeUpdateLookupData      LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum = "UPDATE_LOOKUP_DATA"
+	LogAnalyticsConfigWorkRequestSummaryOperationTypeDeleteLookup          LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum = "DELETE_LOOKUP"
+	LogAnalyticsConfigWorkRequestSummaryOperationTypeEnableIngestTimeRule  LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum = "ENABLE_INGEST_TIME_RULE"
+	LogAnalyticsConfigWorkRequestSummaryOperationTypeDisableIngestTimeRule LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum = "DISABLE_INGEST_TIME_RULE"
 )
 
 var mappingLogAnalyticsConfigWorkRequestSummaryOperationTypeEnum = map[string]LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum{
-	"CREATE_ASSOCIATIONS": LogAnalyticsConfigWorkRequestSummaryOperationTypeCreateAssociations,
-	"DELETE_ASSOCIATIONS": LogAnalyticsConfigWorkRequestSummaryOperationTypeDeleteAssociations,
-	"APPEND_LOOKUP_DATA":  LogAnalyticsConfigWorkRequestSummaryOperationTypeAppendLookupData,
-	"UPDATE_LOOKUP_DATA":  LogAnalyticsConfigWorkRequestSummaryOperationTypeUpdateLookupData,
-	"DELETE_LOOKUP":       LogAnalyticsConfigWorkRequestSummaryOperationTypeDeleteLookup,
+	"CREATE_ASSOCIATIONS":      LogAnalyticsConfigWorkRequestSummaryOperationTypeCreateAssociations,
+	"DELETE_ASSOCIATIONS":      LogAnalyticsConfigWorkRequestSummaryOperationTypeDeleteAssociations,
+	"APPEND_LOOKUP_DATA":       LogAnalyticsConfigWorkRequestSummaryOperationTypeAppendLookupData,
+	"UPDATE_LOOKUP_DATA":       LogAnalyticsConfigWorkRequestSummaryOperationTypeUpdateLookupData,
+	"DELETE_LOOKUP":            LogAnalyticsConfigWorkRequestSummaryOperationTypeDeleteLookup,
+	"ENABLE_INGEST_TIME_RULE":  LogAnalyticsConfigWorkRequestSummaryOperationTypeEnableIngestTimeRule,
+	"DISABLE_INGEST_TIME_RULE": LogAnalyticsConfigWorkRequestSummaryOperationTypeDisableIngestTimeRule,
 }
 
 var mappingLogAnalyticsConfigWorkRequestSummaryOperationTypeEnumLowerCase = map[string]LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum{
-	"create_associations": LogAnalyticsConfigWorkRequestSummaryOperationTypeCreateAssociations,
-	"delete_associations": LogAnalyticsConfigWorkRequestSummaryOperationTypeDeleteAssociations,
-	"append_lookup_data":  LogAnalyticsConfigWorkRequestSummaryOperationTypeAppendLookupData,
-	"update_lookup_data":  LogAnalyticsConfigWorkRequestSummaryOperationTypeUpdateLookupData,
-	"delete_lookup":       LogAnalyticsConfigWorkRequestSummaryOperationTypeDeleteLookup,
+	"create_associations":      LogAnalyticsConfigWorkRequestSummaryOperationTypeCreateAssociations,
+	"delete_associations":      LogAnalyticsConfigWorkRequestSummaryOperationTypeDeleteAssociations,
+	"append_lookup_data":       LogAnalyticsConfigWorkRequestSummaryOperationTypeAppendLookupData,
+	"update_lookup_data":       LogAnalyticsConfigWorkRequestSummaryOperationTypeUpdateLookupData,
+	"delete_lookup":            LogAnalyticsConfigWorkRequestSummaryOperationTypeDeleteLookup,
+	"enable_ingest_time_rule":  LogAnalyticsConfigWorkRequestSummaryOperationTypeEnableIngestTimeRule,
+	"disable_ingest_time_rule": LogAnalyticsConfigWorkRequestSummaryOperationTypeDisableIngestTimeRule,
 }
 
 // GetLogAnalyticsConfigWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum
@@ -110,6 +114,8 @@ func GetLogAnalyticsConfigWorkRequestSummaryOperationTypeEnumStringValues() []st
 		"APPEND_LOOKUP_DATA",
 		"UPDATE_LOOKUP_DATA",
 		"DELETE_LOOKUP",
+		"ENABLE_INGEST_TIME_RULE",
+		"DISABLE_INGEST_TIME_RULE",
 	}
 }
 

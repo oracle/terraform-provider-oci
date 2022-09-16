@@ -179,16 +179,19 @@ type ListApplicationsSortByEnum string
 const (
 	ListApplicationsSortByTimeCreated ListApplicationsSortByEnum = "TIME_CREATED"
 	ListApplicationsSortByDisplayName ListApplicationsSortByEnum = "DISPLAY_NAME"
+	ListApplicationsSortByTimeUpdated ListApplicationsSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListApplicationsSortByEnum = map[string]ListApplicationsSortByEnum{
 	"TIME_CREATED": ListApplicationsSortByTimeCreated,
 	"DISPLAY_NAME": ListApplicationsSortByDisplayName,
+	"TIME_UPDATED": ListApplicationsSortByTimeUpdated,
 }
 
 var mappingListApplicationsSortByEnumLowerCase = map[string]ListApplicationsSortByEnum{
 	"time_created": ListApplicationsSortByTimeCreated,
 	"display_name": ListApplicationsSortByDisplayName,
+	"time_updated": ListApplicationsSortByTimeUpdated,
 }
 
 // GetListApplicationsSortByEnumValues Enumerates the set of values for ListApplicationsSortByEnum
@@ -205,6 +208,7 @@ func GetListApplicationsSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 

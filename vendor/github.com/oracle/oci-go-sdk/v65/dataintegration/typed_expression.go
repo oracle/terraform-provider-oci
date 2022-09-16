@@ -40,6 +40,9 @@ type TypedExpression struct {
 
 	// The expression string for the object.
 	Expression *string `mandatory:"false" json:"expression"`
+
+	// The object type.
+	Type *string `mandatory:"false" json:"type"`
 }
 
 //GetKey returns Key
