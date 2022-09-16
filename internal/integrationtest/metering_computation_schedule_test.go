@@ -47,7 +47,9 @@ var (
 		"query_properties":     acctest.RepresentationGroup{RepType: acctest.Required, Group: MeteringComputationScheduleQueryPropertiesRepresentation},
 		"result_location":      acctest.RepresentationGroup{RepType: acctest.Required, Group: MeteringComputationScheduleResultLocationRepresentation},
 		"schedule_recurrences": acctest.Representation{RepType: acctest.Required, Create: `DAILY`},
-		"time_scheduled":       acctest.Representation{RepType: acctest.Required, Create: `2022-06-19T00:00:00Z`},
+		"time_scheduled":       acctest.Representation{RepType: acctest.Required, Create: `2022-10-19T00:00:00Z`},
+		"description":          acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"output_file_format":   acctest.Representation{RepType: acctest.Optional, Create: `CSV`, Update: `PDF`},
 	}
 	MeteringComputationScheduleQueryPropertiesRepresentation = map[string]interface{}{
 		"date_range":  acctest.RepresentationGroup{RepType: acctest.Required, Group: MeteringComputationScheduleQueryPropertiesDateRangeRepresentation},
@@ -103,7 +105,7 @@ func TestMeteringComputationScheduleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "result_location.0.namespace", "idy3u7psgoxm"),
 				resource.TestCheckResourceAttr(resourceName, "result_location.0.region", "us-ashburn-1"),
 				resource.TestCheckResourceAttr(resourceName, "schedule_recurrences", "DAILY"),
-				resource.TestCheckResourceAttr(resourceName, "time_scheduled", "2022-06-19T00:00:00Z"),
+				resource.TestCheckResourceAttr(resourceName, "time_scheduled", "2022-10-19T00:00:00Z"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -135,6 +137,8 @@ func TestMeteringComputationScheduleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "result_location.0.namespace", "idy3u7psgoxm"),
 				resource.TestCheckResourceAttr(resourceName, "result_location.0.region", "us-ashburn-1"),
 				resource.TestCheckResourceAttr(resourceName, "schedule_recurrences", "DAILY"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "output_file_format", "CSV"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -167,6 +171,8 @@ func TestMeteringComputationScheduleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "result_location.0.namespace", "idy3u7psgoxm"),
 				resource.TestCheckResourceAttr(resourceName, "result_location.0.region", "us-ashburn-1"),
 				resource.TestCheckResourceAttr(resourceName, "schedule_recurrences", "DAILY"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "output_file_format", "PDF"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
