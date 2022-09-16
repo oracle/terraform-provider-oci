@@ -6,6 +6,7 @@ package database
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterResource() {
+	tfresource.RegisterResource("oci_database_application_vip", DatabaseApplicationVipResource())
 	tfresource.RegisterResource("oci_database_autonomous_container_database", DatabaseAutonomousContainerDatabaseResource())
 	tfresource.RegisterResource("oci_database_autonomous_container_database_dataguard_association", DatabaseAutonomousContainerDatabaseDataguardAssociationResource())
 	tfresource.RegisterResource("oci_database_autonomous_database", DatabaseAutonomousDatabaseResource())

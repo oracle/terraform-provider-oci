@@ -123,3 +123,13 @@ resource "oci_database_cloud_vm_cluster_iorm_config" "test_cloud_vm_cluster_iorm
     share   = 1
   }
 }
+
+resource "oci_database_application_vip" "test_application_vip" {
+    #Required
+    cloud_vm_cluster_id = oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id
+    hostname_label      = "hostnameLabel"
+    subnet_id           = oci_core_subnet.subnet.id
+
+    #Optional
+    db_node_id          = data.oci_database_db_nodes.db_nodes.db_nodes[0]["id"]
+}
