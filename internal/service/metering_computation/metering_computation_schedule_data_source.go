@@ -75,11 +75,17 @@ func (s *MeteringComputationScheduleDataSourceCrud) SetData() error {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
+	if s.Res.Description != nil {
+		s.D.Set("description", *s.Res.Description)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
+
+	s.D.Set("output_file_format", s.Res.OutputFileFormat)
 
 	if s.Res.QueryProperties != nil {
 		s.D.Set("query_properties", []interface{}{QueryPropertiesToMap(s.Res.QueryProperties)})
@@ -97,6 +103,10 @@ func (s *MeteringComputationScheduleDataSourceCrud) SetData() error {
 		s.D.Set("result_location", nil)
 	}
 
+	if s.Res.SavedReportId != nil {
+		s.D.Set("saved_report_id", *s.Res.SavedReportId)
+	}
+
 	if s.Res.ScheduleRecurrences != nil {
 		s.D.Set("schedule_recurrences", *s.Res.ScheduleRecurrences)
 	}
@@ -109,6 +119,10 @@ func (s *MeteringComputationScheduleDataSourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeNextRun != nil {
+		s.D.Set("time_next_run", s.Res.TimeNextRun.String())
 	}
 
 	if s.Res.TimeScheduled != nil {
