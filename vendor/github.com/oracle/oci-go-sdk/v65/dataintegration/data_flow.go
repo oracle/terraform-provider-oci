@@ -56,6 +56,12 @@ type DataFlow struct {
 
 	// A key map. If provided, key is replaced with generated key. This structure provides mapping between user provided key and generated key.
 	KeyMap map[string]string `mandatory:"false" json:"keyMap"`
+
+	// A hash map that maps TypedObject keys to the object itself, for java sdk.
+	TypedObjectMap map[string]TypedObjectWrapper `mandatory:"false" json:"typedObjectMap"`
+
+	// A hash map that maps TypedObject keys to a field map that maps to the typed object as a target, for java sdk.
+	TargetFieldMapSummary map[string]FieldMapWrapper `mandatory:"false" json:"targetFieldMapSummary"`
 }
 
 func (m DataFlow) String() string {

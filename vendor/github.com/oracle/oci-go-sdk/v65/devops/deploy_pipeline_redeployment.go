@@ -31,6 +31,9 @@ type DeployPipelineRedeployment struct {
 	// The OCID of a compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// Specifies the OCID of the previous deployment to be redeployed.
+	PreviousDeploymentId *string `mandatory:"true" json:"previousDeploymentId"`
+
 	DeployPipelineArtifacts *DeployPipelineArtifactCollection `mandatory:"false" json:"deployPipelineArtifacts"`
 
 	DeployPipelineEnvironments *DeployPipelineEnvironmentCollection `mandatory:"false" json:"deployPipelineEnvironments"`
@@ -61,9 +64,6 @@ type DeployPipelineRedeployment struct {
 
 	// Usage of system tag keys. These predefined keys are scoped to namespaces. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-
-	// Specifies the OCID of the previous deployment to be redeployed.
-	PreviousDeploymentId *string `mandatory:"false" json:"previousDeploymentId"`
 
 	// The current state of the deployment.
 	LifecycleState DeploymentLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`

@@ -31,6 +31,9 @@ type SingleDeployStageRedeployment struct {
 	// The OCID of a compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// Specifies the OCID of the stage to be redeployed.
+	DeployStageId *string `mandatory:"true" json:"deployStageId"`
+
 	DeployPipelineArtifacts *DeployPipelineArtifactCollection `mandatory:"false" json:"deployPipelineArtifacts"`
 
 	DeployPipelineEnvironments *DeployPipelineEnvironmentCollection `mandatory:"false" json:"deployPipelineEnvironments"`
@@ -64,9 +67,6 @@ type SingleDeployStageRedeployment struct {
 
 	// Specifies the OCID of the previous deployment to be redeployed.
 	PreviousDeploymentId *string `mandatory:"false" json:"previousDeploymentId"`
-
-	// Specifies the OCID of the stage to be redeployed.
-	DeployStageId *string `mandatory:"false" json:"deployStageId"`
 
 	// The current state of the deployment.
 	LifecycleState DeploymentLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`

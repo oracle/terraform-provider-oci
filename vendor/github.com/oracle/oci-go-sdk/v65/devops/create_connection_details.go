@@ -75,6 +75,10 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 
 	var err error
 	switch m.ConnectionType {
+	case "VBS_ACCESS_TOKEN":
+		mm := CreateVbsAccessTokenConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GITLAB_SERVER_ACCESS_TOKEN":
 		mm := CreateGitlabServerAccessTokenConnectionDetails{}
 		err = json.Unmarshal(data, &mm)

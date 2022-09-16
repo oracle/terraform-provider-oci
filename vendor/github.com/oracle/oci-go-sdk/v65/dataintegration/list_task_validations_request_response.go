@@ -137,16 +137,19 @@ type ListTaskValidationsSortByEnum string
 const (
 	ListTaskValidationsSortByTimeCreated ListTaskValidationsSortByEnum = "TIME_CREATED"
 	ListTaskValidationsSortByDisplayName ListTaskValidationsSortByEnum = "DISPLAY_NAME"
+	ListTaskValidationsSortByTimeUpdated ListTaskValidationsSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListTaskValidationsSortByEnum = map[string]ListTaskValidationsSortByEnum{
 	"TIME_CREATED": ListTaskValidationsSortByTimeCreated,
 	"DISPLAY_NAME": ListTaskValidationsSortByDisplayName,
+	"TIME_UPDATED": ListTaskValidationsSortByTimeUpdated,
 }
 
 var mappingListTaskValidationsSortByEnumLowerCase = map[string]ListTaskValidationsSortByEnum{
 	"time_created": ListTaskValidationsSortByTimeCreated,
 	"display_name": ListTaskValidationsSortByDisplayName,
+	"time_updated": ListTaskValidationsSortByTimeUpdated,
 }
 
 // GetListTaskValidationsSortByEnumValues Enumerates the set of values for ListTaskValidationsSortByEnum
@@ -163,6 +166,7 @@ func GetListTaskValidationsSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 

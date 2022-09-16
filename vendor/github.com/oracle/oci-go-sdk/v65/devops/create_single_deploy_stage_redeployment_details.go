@@ -22,6 +22,9 @@ type CreateSingleDeployStageRedeploymentDetails struct {
 	// The OCID of a pipeline.
 	DeployPipelineId *string `mandatory:"true" json:"deployPipelineId"`
 
+	// Specifies the OCID of the stage to be redeployed.
+	DeployStageId *string `mandatory:"true" json:"deployStageId"`
+
 	// Deployment display name. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -33,9 +36,6 @@ type CreateSingleDeployStageRedeploymentDetails struct {
 
 	// Specifies the OCID of the previous deployment to be redeployed.
 	PreviousDeploymentId *string `mandatory:"false" json:"previousDeploymentId"`
-
-	// Specifies the OCID of the stage to be redeployed.
-	DeployStageId *string `mandatory:"false" json:"deployStageId"`
 }
 
 //GetDeployPipelineId returns DeployPipelineId

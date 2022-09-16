@@ -63,7 +63,7 @@ func newInventoryClientFromBaseClient(baseClient common.BaseClient, configProvid
 
 // SetRegion overrides the region of this client.
 func (client *InventoryClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("cloudbridge", "https://cloudbridge.{region}.oci.oc-test.com")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("cloudbridge", "https://cloudbridge.{region}.oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -89,6 +89,10 @@ func (client *InventoryClient) ConfigurationProvider() *common.ConfigurationProv
 
 // AnalyzeAssets Returns an aggregation of assets. Aggregation groups are sorted by groupBy property.
 // Default sort order is ascending, but can be overridden by the sortOrder parameter.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/AnalyzeAssets.go.html to see an example of how to use AnalyzeAssets API.
 // A default retry strategy applies to this operation AnalyzeAssets()
 func (client InventoryClient) AnalyzeAssets(ctx context.Context, request AnalyzeAssetsRequest) (response AnalyzeAssetsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -143,6 +147,10 @@ func (client InventoryClient) analyzeAssets(ctx context.Context, request common.
 }
 
 // ChangeAssetCompartment Moves an asset resource from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ChangeAssetCompartment.go.html to see an example of how to use ChangeAssetCompartment API.
 // A default retry strategy applies to this operation ChangeAssetCompartment()
 func (client InventoryClient) ChangeAssetCompartment(ctx context.Context, request ChangeAssetCompartmentRequest) (response ChangeAssetCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -202,6 +210,10 @@ func (client InventoryClient) changeAssetCompartment(ctx context.Context, reques
 }
 
 // ChangeAssetTags Change an asset's tag.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ChangeAssetTags.go.html to see an example of how to use ChangeAssetTags API.
 // A default retry strategy applies to this operation ChangeAssetTags()
 func (client InventoryClient) ChangeAssetTags(ctx context.Context, request ChangeAssetTagsRequest) (response ChangeAssetTagsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -261,6 +273,10 @@ func (client InventoryClient) changeAssetTags(ctx context.Context, request commo
 }
 
 // CreateAsset Creates an asset.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/CreateAsset.go.html to see an example of how to use CreateAsset API.
 // A default retry strategy applies to this operation CreateAsset()
 func (client InventoryClient) CreateAsset(ctx context.Context, request CreateAssetRequest) (response CreateAssetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -320,6 +336,10 @@ func (client InventoryClient) createAsset(ctx context.Context, request common.OC
 }
 
 // CreateInventory Creates an inventory.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/CreateInventory.go.html to see an example of how to use CreateInventory API.
 // A default retry strategy applies to this operation CreateInventory()
 func (client InventoryClient) CreateInventory(ctx context.Context, request CreateInventoryRequest) (response CreateInventoryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -379,6 +399,10 @@ func (client InventoryClient) createInventory(ctx context.Context, request commo
 }
 
 // DeleteAsset Deletes an asset resource by identifier.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/DeleteAsset.go.html to see an example of how to use DeleteAsset API.
 // A default retry strategy applies to this operation DeleteAsset()
 func (client InventoryClient) DeleteAsset(ctx context.Context, request DeleteAssetRequest) (response DeleteAssetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -433,6 +457,10 @@ func (client InventoryClient) deleteAsset(ctx context.Context, request common.OC
 }
 
 // DeleteInventory Deletes an inventory resource by identifier.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/DeleteInventory.go.html to see an example of how to use DeleteInventory API.
 // A default retry strategy applies to this operation DeleteInventory()
 func (client InventoryClient) DeleteInventory(ctx context.Context, request DeleteInventoryRequest) (response DeleteInventoryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -487,6 +515,10 @@ func (client InventoryClient) deleteInventory(ctx context.Context, request commo
 }
 
 // GetAsset Gets an asset by identifier.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/GetAsset.go.html to see an example of how to use GetAsset API.
 // A default retry strategy applies to this operation GetAsset()
 func (client InventoryClient) GetAsset(ctx context.Context, request GetAssetRequest) (response GetAssetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -541,6 +573,10 @@ func (client InventoryClient) getAsset(ctx context.Context, request common.OCIRe
 }
 
 // GetInventory Gets an inventory by identifier.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/GetInventory.go.html to see an example of how to use GetInventory API.
 // A default retry strategy applies to this operation GetInventory()
 func (client InventoryClient) GetInventory(ctx context.Context, request GetInventoryRequest) (response GetInventoryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -595,6 +631,10 @@ func (client InventoryClient) getInventory(ctx context.Context, request common.O
 }
 
 // ImportInventory Import resources in inventory.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ImportInventory.go.html to see an example of how to use ImportInventory API.
 // A default retry strategy applies to this operation ImportInventory()
 func (client InventoryClient) ImportInventory(ctx context.Context, request ImportInventoryRequest) (response ImportInventoryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -654,6 +694,10 @@ func (client InventoryClient) importInventory(ctx context.Context, request commo
 }
 
 // ListAssets Returns a list of assets.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ListAssets.go.html to see an example of how to use ListAssets API.
 // A default retry strategy applies to this operation ListAssets()
 func (client InventoryClient) ListAssets(ctx context.Context, request ListAssetsRequest) (response ListAssetsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -708,6 +752,10 @@ func (client InventoryClient) listAssets(ctx context.Context, request common.OCI
 }
 
 // ListHistoricalMetrics List asset historical metrics.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ListHistoricalMetrics.go.html to see an example of how to use ListHistoricalMetrics API.
 // A default retry strategy applies to this operation ListHistoricalMetrics()
 func (client InventoryClient) ListHistoricalMetrics(ctx context.Context, request ListHistoricalMetricsRequest) (response ListHistoricalMetricsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -762,6 +810,10 @@ func (client InventoryClient) listHistoricalMetrics(ctx context.Context, request
 }
 
 // ListInventories Returns a list of inventories.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ListInventories.go.html to see an example of how to use ListInventories API.
 // A default retry strategy applies to this operation ListInventories()
 func (client InventoryClient) ListInventories(ctx context.Context, request ListInventoriesRequest) (response ListInventoriesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -816,6 +868,10 @@ func (client InventoryClient) listInventories(ctx context.Context, request commo
 }
 
 // SubmitHistoricalMetrics Creates or updates all metrics related to the asset.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/SubmitHistoricalMetrics.go.html to see an example of how to use SubmitHistoricalMetrics API.
 // A default retry strategy applies to this operation SubmitHistoricalMetrics()
 func (client InventoryClient) SubmitHistoricalMetrics(ctx context.Context, request SubmitHistoricalMetricsRequest) (response SubmitHistoricalMetricsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -870,6 +926,10 @@ func (client InventoryClient) submitHistoricalMetrics(ctx context.Context, reque
 }
 
 // UpdateAsset Updates the asset.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/UpdateAsset.go.html to see an example of how to use UpdateAsset API.
 // A default retry strategy applies to this operation UpdateAsset()
 func (client InventoryClient) UpdateAsset(ctx context.Context, request UpdateAssetRequest) (response UpdateAssetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -924,6 +984,10 @@ func (client InventoryClient) updateAsset(ctx context.Context, request common.OC
 }
 
 // UpdateInventory Updates an inventory.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/UpdateInventory.go.html to see an example of how to use UpdateInventory API.
 // A default retry strategy applies to this operation UpdateInventory()
 func (client InventoryClient) UpdateInventory(ctx context.Context, request UpdateInventoryRequest) (response UpdateInventoryResponse, err error) {
 	var ociResponse common.OCIResponse

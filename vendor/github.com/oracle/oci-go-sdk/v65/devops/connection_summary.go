@@ -109,6 +109,10 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := BitbucketCloudAppPasswordConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "VBS_ACCESS_TOKEN":
+		mm := VbsAccessTokenConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GITHUB_ACCESS_TOKEN":
 		mm := GithubAccessTokenConnectionSummary{}
 		err = json.Unmarshal(data, &mm)

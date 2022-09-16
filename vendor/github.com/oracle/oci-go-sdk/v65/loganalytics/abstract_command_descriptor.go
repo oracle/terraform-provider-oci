@@ -33,6 +33,9 @@ type AbstractCommandDescriptor interface {
 
 	// Fields declared in command fragment from user specified query string.
 	GetDeclaredFields() []AbstractField
+
+	// Field denoting if this is a hidden command that is not shown in the query string.
+	GetIsHidden() *bool
 }
 
 type abstractcommanddescriptor struct {
@@ -42,6 +45,7 @@ type abstractcommanddescriptor struct {
 	Category            *string         `mandatory:"false" json:"category"`
 	ReferencedFields    json.RawMessage `mandatory:"false" json:"referencedFields"`
 	DeclaredFields      json.RawMessage `mandatory:"false" json:"declaredFields"`
+	IsHidden            *bool           `mandatory:"false" json:"isHidden"`
 	Name                string          `json:"name"`
 }
 
@@ -61,6 +65,7 @@ func (m *abstractcommanddescriptor) UnmarshalJSON(data []byte) error {
 	m.Category = s.Model.Category
 	m.ReferencedFields = s.Model.ReferencedFields
 	m.DeclaredFields = s.Model.DeclaredFields
+	m.IsHidden = s.Model.IsHidden
 	m.Name = s.Model.Name
 
 	return err
@@ -83,36 +88,12 @@ func (m *abstractcommanddescriptor) UnmarshalPolymorphicJSON(data []byte) (inter
 		mm := HighlightCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "MULTI_SEARCH":
-		mm := MultiSearchCommandDescriptor{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "COMPARE":
-		mm := CompareCommandDescriptor{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "STATS":
 		mm := StatsCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "TIME_COMPARE":
-		mm := TimeCompareCommandDescriptor{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "TAIL":
 		mm := TailCommandDescriptor{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "REGEX":
-		mm := RegexCommandDescriptor{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "DELTA":
-		mm := DeltaCommandDescriptor{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "LOOKUP":
-		mm := LookupCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "DEMO_MODE":
@@ -127,28 +108,16 @@ func (m *abstractcommanddescriptor) UnmarshalPolymorphicJSON(data []byte) (inter
 		mm := GeoStatsCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "JSON_EXTRACT":
-		mm := JsonExtractCommandDescriptor{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "MAP":
 		mm := MapCommandDescriptor{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "EVENT_STATS":
-		mm := EventStatsCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "HIGHLIGHT_GROUPS":
 		mm := HighlightGroupsCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "WHERE":
-		mm := WhereCommandDescriptor{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "CLUSTER_SPLIT":
-		mm := ClusterSplitCommandDescriptor{}
+	case "DEDUP":
+		mm := DedupCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "TIME_STATS":
@@ -159,16 +128,8 @@ func (m *abstractcommanddescriptor) UnmarshalPolymorphicJSON(data []byte) (inter
 		mm := ClusterCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "CLUSTER_DETAILS":
-		mm := ClusterDetailsCommandDescriptor{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "DELETE":
 		mm := DeleteCommandDescriptor{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "CLUSTER_COMPARE":
-		mm := ClusterCompareCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "SEARCH":
@@ -179,12 +140,8 @@ func (m *abstractcommanddescriptor) UnmarshalPolymorphicJSON(data []byte) (inter
 		mm := BucketCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "COMMAND":
-		mm := CommandDescriptor{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "DISTINCT":
-		mm := DistinctCommandDescriptor{}
+	case "ADD_INSIGHTS":
+		mm := AddInsightsCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "LINK":
@@ -193,6 +150,86 @@ func (m *abstractcommanddescriptor) UnmarshalPolymorphicJSON(data []byte) (inter
 		return mm, err
 	case "SORT":
 		mm := SortCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "HIGHLIGHT_ROWS":
+		mm := HighlightRowsCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MACRO":
+		mm := MacroCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "EVAL":
+		mm := EvalCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "RENAME":
+		mm := RenameCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "XML_EXTRACT":
+		mm := XmlExtractCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MULTI_SEARCH":
+		mm := MultiSearchCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "COMPARE":
+		mm := CompareCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "TIME_COMPARE":
+		mm := TimeCompareCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MODULE":
+		mm := ModuleCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "REGEX":
+		mm := RegexCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "DELTA":
+		mm := DeltaCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "LOOKUP":
+		mm := LookupCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "JSON_EXTRACT":
+		mm := JsonExtractCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "EVENT_STATS":
+		mm := EventStatsCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "WHERE":
+		mm := WhereCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "CLUSTER_SPLIT":
+		mm := ClusterSplitCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "CLUSTER_DETAILS":
+		mm := ClusterDetailsCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "CLUSTER_COMPARE":
+		mm := ClusterCompareCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "COMMAND":
+		mm := CommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "DISTINCT":
+		mm := DistinctCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "EXTRACT":
@@ -211,12 +248,8 @@ func (m *abstractcommanddescriptor) UnmarshalPolymorphicJSON(data []byte) (inter
 		mm := FieldsCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "HIGHLIGHT_ROWS":
-		mm := HighlightRowsCommandDescriptor{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "MACRO":
-		mm := MacroCommandDescriptor{}
+	case "ANOMALY":
+		mm := AnomalyCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "CLASSIFY":
@@ -239,20 +272,12 @@ func (m *abstractcommanddescriptor) UnmarshalPolymorphicJSON(data []byte) (inter
 		mm := CreateViewCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "TIME_CLUSTER":
+		mm := TimeClusterCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ADD_FIELDS":
 		mm := AddFieldsCommandDescriptor{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "EVAL":
-		mm := EvalCommandDescriptor{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "RENAME":
-		mm := RenameCommandDescriptor{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "XML_EXTRACT":
-		mm := XmlExtractCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -283,6 +308,11 @@ func (m abstractcommanddescriptor) GetReferencedFields() json.RawMessage {
 //GetDeclaredFields returns DeclaredFields
 func (m abstractcommanddescriptor) GetDeclaredFields() json.RawMessage {
 	return m.DeclaredFields
+}
+
+//GetIsHidden returns IsHidden
+func (m abstractcommanddescriptor) GetIsHidden() *bool {
+	return m.IsHidden
 }
 
 func (m abstractcommanddescriptor) String() string {
@@ -343,6 +373,7 @@ const (
 	AbstractCommandDescriptorNameLookup          AbstractCommandDescriptorNameEnum = "LOOKUP"
 	AbstractCommandDescriptorNameDemoMode        AbstractCommandDescriptorNameEnum = "DEMO_MODE"
 	AbstractCommandDescriptorNameMacro           AbstractCommandDescriptorNameEnum = "MACRO"
+	AbstractCommandDescriptorNameModule          AbstractCommandDescriptorNameEnum = "MODULE"
 	AbstractCommandDescriptorNameMultiSearch     AbstractCommandDescriptorNameEnum = "MULTI_SEARCH"
 	AbstractCommandDescriptorNameHighlight       AbstractCommandDescriptorNameEnum = "HIGHLIGHT"
 	AbstractCommandDescriptorNameHighlightRows   AbstractCommandDescriptorNameEnum = "HIGHLIGHT_ROWS"
@@ -351,6 +382,10 @@ const (
 	AbstractCommandDescriptorNameMap             AbstractCommandDescriptorNameEnum = "MAP"
 	AbstractCommandDescriptorNameNlp             AbstractCommandDescriptorNameEnum = "NLP"
 	AbstractCommandDescriptorNameCompare         AbstractCommandDescriptorNameEnum = "COMPARE"
+	AbstractCommandDescriptorNameAddInsights     AbstractCommandDescriptorNameEnum = "ADD_INSIGHTS"
+	AbstractCommandDescriptorNameAnomaly         AbstractCommandDescriptorNameEnum = "ANOMALY"
+	AbstractCommandDescriptorNameDedup           AbstractCommandDescriptorNameEnum = "DEDUP"
+	AbstractCommandDescriptorNameTimeCluster     AbstractCommandDescriptorNameEnum = "TIME_CLUSTER"
 )
 
 var mappingAbstractCommandDescriptorNameEnum = map[string]AbstractCommandDescriptorNameEnum{
@@ -391,6 +426,7 @@ var mappingAbstractCommandDescriptorNameEnum = map[string]AbstractCommandDescrip
 	"LOOKUP":           AbstractCommandDescriptorNameLookup,
 	"DEMO_MODE":        AbstractCommandDescriptorNameDemoMode,
 	"MACRO":            AbstractCommandDescriptorNameMacro,
+	"MODULE":           AbstractCommandDescriptorNameModule,
 	"MULTI_SEARCH":     AbstractCommandDescriptorNameMultiSearch,
 	"HIGHLIGHT":        AbstractCommandDescriptorNameHighlight,
 	"HIGHLIGHT_ROWS":   AbstractCommandDescriptorNameHighlightRows,
@@ -399,6 +435,10 @@ var mappingAbstractCommandDescriptorNameEnum = map[string]AbstractCommandDescrip
 	"MAP":              AbstractCommandDescriptorNameMap,
 	"NLP":              AbstractCommandDescriptorNameNlp,
 	"COMPARE":          AbstractCommandDescriptorNameCompare,
+	"ADD_INSIGHTS":     AbstractCommandDescriptorNameAddInsights,
+	"ANOMALY":          AbstractCommandDescriptorNameAnomaly,
+	"DEDUP":            AbstractCommandDescriptorNameDedup,
+	"TIME_CLUSTER":     AbstractCommandDescriptorNameTimeCluster,
 }
 
 var mappingAbstractCommandDescriptorNameEnumLowerCase = map[string]AbstractCommandDescriptorNameEnum{
@@ -439,6 +479,7 @@ var mappingAbstractCommandDescriptorNameEnumLowerCase = map[string]AbstractComma
 	"lookup":           AbstractCommandDescriptorNameLookup,
 	"demo_mode":        AbstractCommandDescriptorNameDemoMode,
 	"macro":            AbstractCommandDescriptorNameMacro,
+	"module":           AbstractCommandDescriptorNameModule,
 	"multi_search":     AbstractCommandDescriptorNameMultiSearch,
 	"highlight":        AbstractCommandDescriptorNameHighlight,
 	"highlight_rows":   AbstractCommandDescriptorNameHighlightRows,
@@ -447,6 +488,10 @@ var mappingAbstractCommandDescriptorNameEnumLowerCase = map[string]AbstractComma
 	"map":              AbstractCommandDescriptorNameMap,
 	"nlp":              AbstractCommandDescriptorNameNlp,
 	"compare":          AbstractCommandDescriptorNameCompare,
+	"add_insights":     AbstractCommandDescriptorNameAddInsights,
+	"anomaly":          AbstractCommandDescriptorNameAnomaly,
+	"dedup":            AbstractCommandDescriptorNameDedup,
+	"time_cluster":     AbstractCommandDescriptorNameTimeCluster,
 }
 
 // GetAbstractCommandDescriptorNameEnumValues Enumerates the set of values for AbstractCommandDescriptorNameEnum
@@ -498,6 +543,7 @@ func GetAbstractCommandDescriptorNameEnumStringValues() []string {
 		"LOOKUP",
 		"DEMO_MODE",
 		"MACRO",
+		"MODULE",
 		"MULTI_SEARCH",
 		"HIGHLIGHT",
 		"HIGHLIGHT_ROWS",
@@ -506,6 +552,10 @@ func GetAbstractCommandDescriptorNameEnumStringValues() []string {
 		"MAP",
 		"NLP",
 		"COMPARE",
+		"ADD_INSIGHTS",
+		"ANOMALY",
+		"DEDUP",
+		"TIME_CLUSTER",
 	}
 }
 

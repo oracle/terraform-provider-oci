@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// StaticDateRange The saved static date range (Required when dynamicDateRange is missing).
+// StaticDateRange The saved static date range (required when the dynamic date range is missing).
 type StaticDateRange struct {
 
 	// The usage start time.

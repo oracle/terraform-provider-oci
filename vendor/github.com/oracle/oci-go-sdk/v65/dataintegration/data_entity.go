@@ -73,6 +73,10 @@ func (m *dataentity) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := DataEntityFromFile{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DERIVED_ENTITY":
+		mm := DerivedEntity{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}

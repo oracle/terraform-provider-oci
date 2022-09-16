@@ -34,6 +34,9 @@ type DeleteCommandDescriptor struct {
 	// Fields declared in command fragment from user specified query string.
 	DeclaredFields []AbstractField `mandatory:"false" json:"declaredFields"`
 
+	// Field denoting if this is a hidden command that is not shown in the query string.
+	IsHidden *bool `mandatory:"false" json:"isHidden"`
+
 	// Value specified in DELETE command in queryString as to whether the delete is a dry-run (only report number of rows removed) rather than actually remove matching log records.
 	IsDryRun *bool `mandatory:"false" json:"isDryRun"`
 }
@@ -61,6 +64,11 @@ func (m DeleteCommandDescriptor) GetReferencedFields() []AbstractField {
 //GetDeclaredFields returns DeclaredFields
 func (m DeleteCommandDescriptor) GetDeclaredFields() []AbstractField {
 	return m.DeclaredFields
+}
+
+//GetIsHidden returns IsHidden
+func (m DeleteCommandDescriptor) GetIsHidden() *bool {
+	return m.IsHidden
 }
 
 func (m DeleteCommandDescriptor) String() string {
@@ -99,6 +107,7 @@ func (m *DeleteCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 		Category            *string         `json:"category"`
 		ReferencedFields    []abstractfield `json:"referencedFields"`
 		DeclaredFields      []abstractfield `json:"declaredFields"`
+		IsHidden            *bool           `json:"isHidden"`
 		IsDryRun            *bool           `json:"isDryRun"`
 		DisplayQueryString  *string         `json:"displayQueryString"`
 		InternalQueryString *string         `json:"internalQueryString"`
@@ -136,6 +145,8 @@ func (m *DeleteCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 			m.DeclaredFields[i] = nil
 		}
 	}
+
+	m.IsHidden = model.IsHidden
 
 	m.IsDryRun = model.IsDryRun
 

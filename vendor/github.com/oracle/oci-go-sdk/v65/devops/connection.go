@@ -125,6 +125,10 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := GitlabServerAccessTokenConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "VBS_ACCESS_TOKEN":
+		mm := VbsAccessTokenConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}
@@ -252,6 +256,7 @@ const (
 	ConnectionConnectionTypeGitlabServerAccessToken    ConnectionConnectionTypeEnum = "GITLAB_SERVER_ACCESS_TOKEN"
 	ConnectionConnectionTypeBitbucketServerAccessToken ConnectionConnectionTypeEnum = "BITBUCKET_SERVER_ACCESS_TOKEN"
 	ConnectionConnectionTypeBitbucketCloudAppPassword  ConnectionConnectionTypeEnum = "BITBUCKET_CLOUD_APP_PASSWORD"
+	ConnectionConnectionTypeVbsAccessToken             ConnectionConnectionTypeEnum = "VBS_ACCESS_TOKEN"
 )
 
 var mappingConnectionConnectionTypeEnum = map[string]ConnectionConnectionTypeEnum{
@@ -260,6 +265,7 @@ var mappingConnectionConnectionTypeEnum = map[string]ConnectionConnectionTypeEnu
 	"GITLAB_SERVER_ACCESS_TOKEN":    ConnectionConnectionTypeGitlabServerAccessToken,
 	"BITBUCKET_SERVER_ACCESS_TOKEN": ConnectionConnectionTypeBitbucketServerAccessToken,
 	"BITBUCKET_CLOUD_APP_PASSWORD":  ConnectionConnectionTypeBitbucketCloudAppPassword,
+	"VBS_ACCESS_TOKEN":              ConnectionConnectionTypeVbsAccessToken,
 }
 
 var mappingConnectionConnectionTypeEnumLowerCase = map[string]ConnectionConnectionTypeEnum{
@@ -268,6 +274,7 @@ var mappingConnectionConnectionTypeEnumLowerCase = map[string]ConnectionConnecti
 	"gitlab_server_access_token":    ConnectionConnectionTypeGitlabServerAccessToken,
 	"bitbucket_server_access_token": ConnectionConnectionTypeBitbucketServerAccessToken,
 	"bitbucket_cloud_app_password":  ConnectionConnectionTypeBitbucketCloudAppPassword,
+	"vbs_access_token":              ConnectionConnectionTypeVbsAccessToken,
 }
 
 // GetConnectionConnectionTypeEnumValues Enumerates the set of values for ConnectionConnectionTypeEnum
@@ -287,6 +294,7 @@ func GetConnectionConnectionTypeEnumStringValues() []string {
 		"GITLAB_SERVER_ACCESS_TOKEN",
 		"BITBUCKET_SERVER_ACCESS_TOKEN",
 		"BITBUCKET_CLOUD_APP_PASSWORD",
+		"VBS_ACCESS_TOKEN",
 	}
 }
 

@@ -228,16 +228,19 @@ type ListWorkRequestsSortByEnum string
 const (
 	ListWorkRequestsSortByTimeCreated ListWorkRequestsSortByEnum = "TIME_CREATED"
 	ListWorkRequestsSortByDisplayName ListWorkRequestsSortByEnum = "DISPLAY_NAME"
+	ListWorkRequestsSortByTimeUpdated ListWorkRequestsSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListWorkRequestsSortByEnum = map[string]ListWorkRequestsSortByEnum{
 	"TIME_CREATED": ListWorkRequestsSortByTimeCreated,
 	"DISPLAY_NAME": ListWorkRequestsSortByDisplayName,
+	"TIME_UPDATED": ListWorkRequestsSortByTimeUpdated,
 }
 
 var mappingListWorkRequestsSortByEnumLowerCase = map[string]ListWorkRequestsSortByEnum{
 	"time_created": ListWorkRequestsSortByTimeCreated,
 	"display_name": ListWorkRequestsSortByDisplayName,
+	"time_updated": ListWorkRequestsSortByTimeUpdated,
 }
 
 // GetListWorkRequestsSortByEnumValues Enumerates the set of values for ListWorkRequestsSortByEnum
@@ -254,6 +257,7 @@ func GetListWorkRequestsSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 
