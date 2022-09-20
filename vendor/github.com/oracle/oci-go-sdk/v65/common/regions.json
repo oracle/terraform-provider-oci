@@ -346,5 +346,11 @@
         "realmDomainComponent": "oraclecloud.com", 
         "regionIdentifier": "eu-kragujevac-1", 
         "realmKey": "oc1"
+    }, 
+    {
+        "regionKey": "beg", 
+        "realmDomainComponent": "oraclecloud20.com", 
+        "regionIdentifier": "eu-jovanovac-1", 
+        "realmKey": "oc20"
     }
 ]

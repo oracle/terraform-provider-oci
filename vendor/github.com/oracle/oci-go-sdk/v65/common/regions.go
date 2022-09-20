@@ -120,6 +120,8 @@ const (
 	RegionUSDccPhoenix2 Region = "us-dcc-phoenix-2"
 	//RegionUSDccPhoenix3 region Phoenix
 	RegionUSDccPhoenix3 Region = "us-dcc-phoenix-3"
+	//RegionEUJovanovac1 region Jovanovac
+	RegionEUJovanovac1 Region = "eu-jovanovac-1"
 )
 
 var shortNameRegion = map[string]Region{
@@ -181,6 +183,7 @@ var shortNameRegion = map[string]Region{
 	"ifp": RegionUSDccPhoenix1,
 	"gcn": RegionUSDccPhoenix2,
 	"prc": RegionUSDccPhoenix3,
+	"beg": RegionEUJovanovac1,
 }
 
 var realm = map[string]string{
@@ -196,6 +199,7 @@ var realm = map[string]string{
 	"oc16": "oraclecloud16.com",
 	"oc17": "oraclecloud17.com",
 	"oc18": "oraclecloud18.com",
+	"oc20": "oraclecloud20.com",
 }
 
 var regionRealm = map[Region]string{
@@ -268,4 +272,6 @@ var regionRealm = map[Region]string{
 	RegionUSDccPhoenix2: "oc17",
 
 	RegionUSDccPhoenix3: "oc18",
+
+	RegionEUJovanovac1: "oc20",
 }
