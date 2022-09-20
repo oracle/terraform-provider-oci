@@ -273,6 +273,14 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"additional_compute_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"additional_compute_system_model": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"additional_storage_count": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -647,6 +655,15 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Update() error {
 
 	request := oci_database.UpdateExadataInfrastructureRequest{}
 
+	if additionalComputeCount, ok := s.D.GetOkExists("additional_compute_count"); ok {
+		tmp := additionalComputeCount.(int)
+		request.AdditionalComputeCount = &tmp
+	}
+
+	if additionalComputeSystemModel, ok := s.D.GetOkExists("additional_compute_system_model"); ok {
+		request.AdditionalComputeSystemModel = oci_database.UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum(additionalComputeSystemModel.(string))
+	}
+
 	if additionalStorageCount, ok := s.D.GetOkExists("additional_storage_count"); ok {
 		tmp := additionalStorageCount.(int)
 		request.AdditionalStorageCount = &tmp
@@ -814,6 +831,12 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 	if s.Res.ActivatedStorageCount != nil {
 		s.D.Set("activated_storage_count", *s.Res.ActivatedStorageCount)
 	}
+
+	if s.Res.AdditionalComputeCount != nil {
+		s.D.Set("additional_compute_count", *s.Res.AdditionalComputeCount)
+	}
+
+	s.D.Set("additional_compute_system_model", s.Res.AdditionalComputeSystemModel)
 
 	if s.Res.AdditionalStorageCount != nil {
 		s.D.Set("additional_storage_count", *s.Res.AdditionalStorageCount)

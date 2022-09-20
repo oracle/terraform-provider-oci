@@ -19,7 +19,12 @@ var (
 		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":               acctest.Representation{RepType: acctest.Required, Create: `testVmClusterNw`},
 		"exadata_infrastructure_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
+<<<<<<< ours
+		"networks":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: vmClusterRecommendedNetworkNetworksRepresentation},
+		"db_servers":                 acctest.Representation{RepType: acctest.Optional, Create: []string{`dbServers`}},
+=======
 		"networks":                   []acctest.RepresentationGroup{{RepType: acctest.Required, Group: DatabaseVmClusterRecommendedNetworkNetworksSingularDataSourceRepresentation}, {RepType: acctest.Required, Group: DatabaseVmClusterRecommendedNetworkbackupNetworksRepresentation}},
+>>>>>>> theirs
 		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"dns":                        acctest.Representation{RepType: acctest.Optional, Create: []string{`192.168.10.10`}},
 		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
@@ -74,6 +79,7 @@ func TestDatabaseVmClusterRecommendedNetworkResource_basic(t *testing.T) {
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "db_servers.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "testVmClusterNw"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_infrastructure_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),

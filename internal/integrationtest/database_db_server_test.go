@@ -48,6 +48,64 @@ func TestDatabaseDbServerResource_basic(t *testing.T) {
 
 	acctest.SaveConfigContent("", "", "", t)
 
+<<<<<<< ours
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Required, acctest.Create, DatabasedbServerDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseDbServerResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+
+				resource.TestCheckResourceAttrSet(datasourceName, "db_servers.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_servers.0.compartment_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_servers.0.cpu_core_count"),
+				resource.TestCheckResourceAttr(datasourceName, "db_servers.0.db_node_ids.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_servers.0.db_node_storage_size_in_gbs"),
+				resource.TestCheckResourceAttr(datasourceName, "db_servers.0.db_server_patching_details.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_servers.0.display_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_servers.0.exadata_infrastructure_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_servers.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_servers.0.max_cpu_count"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_servers.0.max_db_node_storage_in_gbs"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_servers.0.max_memory_in_gbs"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_servers.0.memory_size_in_gbs"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_servers.0.shape"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_servers.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_servers.0.time_created"),
+				resource.TestCheckResourceAttr(datasourceName, "db_servers.0.vm_cluster_ids.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_server", "test_db_server", acctest.Required, acctest.Create, DatabasedbServerSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseDbServerResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_server_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_infrastructure_id"),
+
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "cpu_core_count"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "db_node_ids.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_node_storage_size_in_gbs"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "db_server_patching_details.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "max_cpu_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "max_db_node_storage_in_gbs"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "max_memory_in_gbs"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "memory_size_in_gbs"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "shape"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "vm_cluster_ids.#", "1"),
+			),
+=======
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { acctest.PreCheck(t) },
 		Providers: map[string]*schema.Provider{
@@ -103,6 +161,7 @@ func TestDatabaseDbServerResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "vm_cluster_ids.#", "0"),
 				),
 			},
+>>>>>>> theirs
 		},
 	})
 }

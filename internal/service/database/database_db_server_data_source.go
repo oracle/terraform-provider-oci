@@ -108,6 +108,10 @@ func DatabaseDbServerDataSource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"shape": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -224,6 +228,10 @@ func (s *DatabaseDbServerDataSourceCrud) SetData() error {
 
 	if s.Res.MemorySizeInGBs != nil {
 		s.D.Set("memory_size_in_gbs", *s.Res.MemorySizeInGBs)
+	}
+
+	if s.Res.Shape != nil {
+		s.D.Set("shape", *s.Res.Shape)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

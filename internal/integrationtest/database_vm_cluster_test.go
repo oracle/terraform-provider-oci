@@ -73,7 +73,13 @@ var (
 		"is_incident_logs_enabled":      acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
+<<<<<<< ours
+	DatabaseVmClusterResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Required, acctest.Create, exadataInfrastructureRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Required, acctest.Create, vmClusterNetworkRepresentation) +
+		DefinedTagsDependencies
+=======
 	DatabaseVmClusterResourceDependencies = VmClusterNetworkValidatedResourceConfig
+>>>>>>> theirs
 )
 
 // issue-routing-tag: database/ExaCC

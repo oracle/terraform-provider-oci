@@ -33,6 +33,7 @@ data "oci_database_vm_cluster_recommended_network" "test_vm_cluster_recommended_
 	}
 
 	#Optional
+	db_servers = var.vm_cluster_recommended_network_db_servers
 	defined_tags = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.vm_cluster_recommended_network_defined_tags_value)
 	dns = var.vm_cluster_recommended_network_dns
 	freeform_tags = var.vm_cluster_recommended_network_freeform_tags
@@ -47,6 +48,7 @@ data "oci_database_vm_cluster_recommended_network" "test_vm_cluster_recommended_
 The following arguments are supported:
 
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `db_servers` - (Optional) The list of Db server Ids to configure network.
 * `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - (Required) The user-friendly name for the VM cluster network. The name does not need to be unique.
 * `dns` - (Optional) The list of DNS server IP addresses. Maximum of 3 allowed.
@@ -87,8 +89,10 @@ The following attributes are exported:
 	* `netmask` - The network netmask.
 	* `network_type` - The network type.
 	* `nodes` - The list of node details.
+		* `db_server_id` - The Db server associated with the node.
 		* `hostname` - The node host name.
 		* `ip` - The node IP address.
+		* `state` - The current state of the VM cluster network nodes. CREATING - The resource is being created REQUIRES_VALIDATION - The resource is created and may not be usable until it is validated. VALIDATING - The resource is being validated and not available to use. VALIDATED - The resource is validated and is available for consumption by VM cluster. VALIDATION_FAILED - The resource validation has failed and might require user input to be corrected. UPDATING - The resource is being updated and not available to use. ALLOCATED - The resource is currently being used by VM cluster. TERMINATING - The resource is being deleted and not available to use. TERMINATED - The resource is deleted and unavailable. FAILED - The resource is in a failed state due to validation or other errors. 
 		* `vip` - The node virtual IP (VIP) address.
 		* `vip_hostname` - The node virtual IP (VIP) host name.
 	* `vlan_id` - The network VLAN ID.
