@@ -10,19 +10,12 @@
 - Support for Oracle Cloud Bridge
 - Support for Ingest Time Rules and new optional attributes in Object Collection Rule
 - Support for Oracle Cloud Migrations
-- Isolate register resource and datasource
-- Isolate register resource and datasource
-- Support for API Gateway Dynamic Routing
-- Support for API Gateway Dynamic Authentication
-- Support for API Gateway Request Based Authorization
-- Import Export Artifact Datascience
 ### Bug Fix
 - update the load balancer ports
 - Resource discovery bug for export drg route distribution
 - Remove Rrset from resource discovery to fix duplicate resource in config
-- resource discovery deadlocks and improve error handling
 
-## 4.93.0 (Unreleased)
+## 4.93.0 (September 14, 2022)
 
 ### Added
 - Support for API Gateway Dynamic Routing
