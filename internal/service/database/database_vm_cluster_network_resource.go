@@ -94,18 +94,6 @@ func DatabaseVmClusterNetworkResource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
-						"domain_name": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
-						"gateway": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
-						"netmask": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
 						"network_type": {
 							Type:     schema.TypeString,
 							Required: true,
@@ -127,6 +115,16 @@ func DatabaseVmClusterNetworkResource() *schema.Resource {
 									},
 
 									// Optional
+									"db_server_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"state": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 									"vip": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -142,12 +140,28 @@ func DatabaseVmClusterNetworkResource() *schema.Resource {
 								},
 							},
 						},
-						"vlan_id": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
 
 						// Optional
+						"domain_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"gateway": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"netmask": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"vlan_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 					},
@@ -266,6 +280,7 @@ func (s *DatabaseVmClusterNetworkResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_database.VmClusterNetworkLifecycleStateRequiresValidation),
 		string(oci_database.VmClusterNetworkLifecycleStateValidated),
+		string(oci_database.VmClusterNetworkLifecycleStateNeedsAttention),
 	}
 }
 
@@ -294,6 +309,7 @@ func (s *DatabaseVmClusterNetworkResourceCrud) UpdatedTarget() []string {
 		string(oci_database.VmClusterNetworkLifecycleStateValidated),
 		string(oci_database.VmClusterNetworkLifecycleStateValidationFailed),
 		string(oci_database.VmClusterNetworkLifecycleStateAllocated),
+		string(oci_database.VmClusterNetworkLifecycleStateNeedsAttention),
 	}
 }
 
@@ -677,6 +693,11 @@ func parseVmClusterNetworkCompositeId(compositeId string) (exadataInfrastructure
 func (s *DatabaseVmClusterNetworkResourceCrud) mapToNodeDetails(fieldKeyFormat string) (oci_database.NodeDetails, error) {
 	result := oci_database.NodeDetails{}
 
+	if dbServerId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_server_id")); ok {
+		tmp := dbServerId.(string)
+		result.DbServerId = &tmp
+	}
+
 	if hostname, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname")); ok {
 		tmp := hostname.(string)
 		result.Hostname = &tmp
@@ -687,7 +708,15 @@ func (s *DatabaseVmClusterNetworkResourceCrud) mapToNodeDetails(fieldKeyFormat s
 		result.Ip = &tmp
 	}
 
+<<<<<<< ours
+	if state, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "state")); ok {
+		result.LifecycleState = oci_database.NodeDetailsLifecycleStateEnum(state.(string))
+	}
+
+	if vip, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vip")); ok {
+=======
 	if vip, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vip")); ok && vip != "" {
+>>>>>>> theirs
 		tmp := vip.(string)
 		result.Vip = &tmp
 	}
@@ -703,6 +732,10 @@ func (s *DatabaseVmClusterNetworkResourceCrud) mapToNodeDetails(fieldKeyFormat s
 func NodeDetailsToMap(obj oci_database.NodeDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.DbServerId != nil {
+		result["db_server_id"] = string(*obj.DbServerId)
+	}
+
 	if obj.Hostname != nil {
 		result["hostname"] = string(*obj.Hostname)
 	}
@@ -710,6 +743,8 @@ func NodeDetailsToMap(obj oci_database.NodeDetails) map[string]interface{} {
 	if obj.Ip != nil {
 		result["ip"] = string(*obj.Ip)
 	}
+
+	result["state"] = string(obj.LifecycleState)
 
 	if obj.Vip != nil {
 		result["vip"] = string(*obj.Vip)
@@ -870,11 +905,17 @@ func VmNetworkDetailsToMap(obj oci_database.VmNetworkDetails, datasource bool) m
 func nodesHashCodeForSets(v interface{}) int {
 	var buf bytes.Buffer
 	m := v.(map[string]interface{})
+	if dbServerId, ok := m["db_server_id"]; ok && dbServerId != "" {
+		buf.WriteString(fmt.Sprintf("%v-", dbServerId))
+	}
 	if hostname, ok := m["hostname"]; ok && hostname != "" {
 		buf.WriteString(fmt.Sprintf("%v-", hostname))
 	}
 	if ip, ok := m["ip"]; ok && ip != "" {
 		buf.WriteString(fmt.Sprintf("%v-", ip))
+	}
+	if state, ok := m["state"]; ok && state != "" {
+		buf.WriteString(fmt.Sprintf("%v-", state))
 	}
 	if vip, ok := m["vip"]; ok && vip != "" {
 		buf.WriteString(fmt.Sprintf("%v-", vip))
