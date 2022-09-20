@@ -350,6 +350,8 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.activated_storage_count"),
+				resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.additional_compute_count"),
+				resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.additional_compute_system_model"),
 				resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.additional_storage_count"),
 				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.admin_network_cidr", "192.168.0.0/20"),
 				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.cloud_control_plane_server1", "10.32.88.2"),
@@ -416,6 +418,8 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_infrastructure_id"),
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "activated_storage_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "additional_compute_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "additional_compute_system_model"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "additional_storage_count"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "admin_network_cidr", "192.168.0.0/20"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "cloud_control_plane_server1", "10.32.88.2"),
