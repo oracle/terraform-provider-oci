@@ -111,6 +111,14 @@ func (m *typedobject) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 		mm := ConditionalOutputPort{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DECISION_OUTPUT_PORT":
+		mm := DecisionOutputPort{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MATERIALIZED_DYNAMIC_FIELD":
+		mm := MaterializedDynamicField{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "PROXY_FIELD":
 		mm := ProxyField{}
 		err = json.Unmarshal(data, &mm)
@@ -121,6 +129,10 @@ func (m *typedobject) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 		return mm, err
 	case "SHAPE_FIELD":
 		mm := ShapeField{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "INPUT_PROXY_FIELD":
+		mm := InputProxyField{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "PARAMETER":
@@ -212,57 +224,66 @@ type TypedObjectModelTypeEnum string
 
 // Set of constants representing the allowable values for TypedObjectModelTypeEnum
 const (
-	TypedObjectModelTypeShape                 TypedObjectModelTypeEnum = "SHAPE"
-	TypedObjectModelTypeInputPort             TypedObjectModelTypeEnum = "INPUT_PORT"
-	TypedObjectModelTypeShapeField            TypedObjectModelTypeEnum = "SHAPE_FIELD"
-	TypedObjectModelTypeInputField            TypedObjectModelTypeEnum = "INPUT_FIELD"
-	TypedObjectModelTypeDerivedField          TypedObjectModelTypeEnum = "DERIVED_FIELD"
-	TypedObjectModelTypeMacroField            TypedObjectModelTypeEnum = "MACRO_FIELD"
-	TypedObjectModelTypeOutputField           TypedObjectModelTypeEnum = "OUTPUT_FIELD"
-	TypedObjectModelTypeDynamicProxyField     TypedObjectModelTypeEnum = "DYNAMIC_PROXY_FIELD"
-	TypedObjectModelTypeOutputPort            TypedObjectModelTypeEnum = "OUTPUT_PORT"
-	TypedObjectModelTypeDynamicInputField     TypedObjectModelTypeEnum = "DYNAMIC_INPUT_FIELD"
-	TypedObjectModelTypeProxyField            TypedObjectModelTypeEnum = "PROXY_FIELD"
-	TypedObjectModelTypeParameter             TypedObjectModelTypeEnum = "PARAMETER"
-	TypedObjectModelTypePivotField            TypedObjectModelTypeEnum = "PIVOT_FIELD"
-	TypedObjectModelTypeMacroPivotField       TypedObjectModelTypeEnum = "MACRO_PIVOT_FIELD"
-	TypedObjectModelTypeConditionalOutputPort TypedObjectModelTypeEnum = "CONDITIONAL_OUTPUT_PORT"
+	TypedObjectModelTypeShape                    TypedObjectModelTypeEnum = "SHAPE"
+	TypedObjectModelTypeInputPort                TypedObjectModelTypeEnum = "INPUT_PORT"
+	TypedObjectModelTypeShapeField               TypedObjectModelTypeEnum = "SHAPE_FIELD"
+	TypedObjectModelTypeInputField               TypedObjectModelTypeEnum = "INPUT_FIELD"
+	TypedObjectModelTypeDerivedField             TypedObjectModelTypeEnum = "DERIVED_FIELD"
+	TypedObjectModelTypeMacroField               TypedObjectModelTypeEnum = "MACRO_FIELD"
+	TypedObjectModelTypeOutputField              TypedObjectModelTypeEnum = "OUTPUT_FIELD"
+	TypedObjectModelTypeDynamicProxyField        TypedObjectModelTypeEnum = "DYNAMIC_PROXY_FIELD"
+	TypedObjectModelTypeOutputPort               TypedObjectModelTypeEnum = "OUTPUT_PORT"
+	TypedObjectModelTypeDynamicInputField        TypedObjectModelTypeEnum = "DYNAMIC_INPUT_FIELD"
+	TypedObjectModelTypeProxyField               TypedObjectModelTypeEnum = "PROXY_FIELD"
+	TypedObjectModelTypeParameter                TypedObjectModelTypeEnum = "PARAMETER"
+	TypedObjectModelTypePivotField               TypedObjectModelTypeEnum = "PIVOT_FIELD"
+	TypedObjectModelTypeMacroPivotField          TypedObjectModelTypeEnum = "MACRO_PIVOT_FIELD"
+	TypedObjectModelTypeConditionalOutputPort    TypedObjectModelTypeEnum = "CONDITIONAL_OUTPUT_PORT"
+	TypedObjectModelTypeInputProxyField          TypedObjectModelTypeEnum = "INPUT_PROXY_FIELD"
+	TypedObjectModelTypeMaterializedDynamicField TypedObjectModelTypeEnum = "MATERIALIZED_DYNAMIC_FIELD"
+	TypedObjectModelTypeDecisionOutputPort       TypedObjectModelTypeEnum = "DECISION_OUTPUT_PORT"
 )
 
 var mappingTypedObjectModelTypeEnum = map[string]TypedObjectModelTypeEnum{
-	"SHAPE":                   TypedObjectModelTypeShape,
-	"INPUT_PORT":              TypedObjectModelTypeInputPort,
-	"SHAPE_FIELD":             TypedObjectModelTypeShapeField,
-	"INPUT_FIELD":             TypedObjectModelTypeInputField,
-	"DERIVED_FIELD":           TypedObjectModelTypeDerivedField,
-	"MACRO_FIELD":             TypedObjectModelTypeMacroField,
-	"OUTPUT_FIELD":            TypedObjectModelTypeOutputField,
-	"DYNAMIC_PROXY_FIELD":     TypedObjectModelTypeDynamicProxyField,
-	"OUTPUT_PORT":             TypedObjectModelTypeOutputPort,
-	"DYNAMIC_INPUT_FIELD":     TypedObjectModelTypeDynamicInputField,
-	"PROXY_FIELD":             TypedObjectModelTypeProxyField,
-	"PARAMETER":               TypedObjectModelTypeParameter,
-	"PIVOT_FIELD":             TypedObjectModelTypePivotField,
-	"MACRO_PIVOT_FIELD":       TypedObjectModelTypeMacroPivotField,
-	"CONDITIONAL_OUTPUT_PORT": TypedObjectModelTypeConditionalOutputPort,
+	"SHAPE":                      TypedObjectModelTypeShape,
+	"INPUT_PORT":                 TypedObjectModelTypeInputPort,
+	"SHAPE_FIELD":                TypedObjectModelTypeShapeField,
+	"INPUT_FIELD":                TypedObjectModelTypeInputField,
+	"DERIVED_FIELD":              TypedObjectModelTypeDerivedField,
+	"MACRO_FIELD":                TypedObjectModelTypeMacroField,
+	"OUTPUT_FIELD":               TypedObjectModelTypeOutputField,
+	"DYNAMIC_PROXY_FIELD":        TypedObjectModelTypeDynamicProxyField,
+	"OUTPUT_PORT":                TypedObjectModelTypeOutputPort,
+	"DYNAMIC_INPUT_FIELD":        TypedObjectModelTypeDynamicInputField,
+	"PROXY_FIELD":                TypedObjectModelTypeProxyField,
+	"PARAMETER":                  TypedObjectModelTypeParameter,
+	"PIVOT_FIELD":                TypedObjectModelTypePivotField,
+	"MACRO_PIVOT_FIELD":          TypedObjectModelTypeMacroPivotField,
+	"CONDITIONAL_OUTPUT_PORT":    TypedObjectModelTypeConditionalOutputPort,
+	"INPUT_PROXY_FIELD":          TypedObjectModelTypeInputProxyField,
+	"MATERIALIZED_DYNAMIC_FIELD": TypedObjectModelTypeMaterializedDynamicField,
+	"DECISION_OUTPUT_PORT":       TypedObjectModelTypeDecisionOutputPort,
 }
 
 var mappingTypedObjectModelTypeEnumLowerCase = map[string]TypedObjectModelTypeEnum{
-	"shape":                   TypedObjectModelTypeShape,
-	"input_port":              TypedObjectModelTypeInputPort,
-	"shape_field":             TypedObjectModelTypeShapeField,
-	"input_field":             TypedObjectModelTypeInputField,
-	"derived_field":           TypedObjectModelTypeDerivedField,
-	"macro_field":             TypedObjectModelTypeMacroField,
-	"output_field":            TypedObjectModelTypeOutputField,
-	"dynamic_proxy_field":     TypedObjectModelTypeDynamicProxyField,
-	"output_port":             TypedObjectModelTypeOutputPort,
-	"dynamic_input_field":     TypedObjectModelTypeDynamicInputField,
-	"proxy_field":             TypedObjectModelTypeProxyField,
-	"parameter":               TypedObjectModelTypeParameter,
-	"pivot_field":             TypedObjectModelTypePivotField,
-	"macro_pivot_field":       TypedObjectModelTypeMacroPivotField,
-	"conditional_output_port": TypedObjectModelTypeConditionalOutputPort,
+	"shape":                      TypedObjectModelTypeShape,
+	"input_port":                 TypedObjectModelTypeInputPort,
+	"shape_field":                TypedObjectModelTypeShapeField,
+	"input_field":                TypedObjectModelTypeInputField,
+	"derived_field":              TypedObjectModelTypeDerivedField,
+	"macro_field":                TypedObjectModelTypeMacroField,
+	"output_field":               TypedObjectModelTypeOutputField,
+	"dynamic_proxy_field":        TypedObjectModelTypeDynamicProxyField,
+	"output_port":                TypedObjectModelTypeOutputPort,
+	"dynamic_input_field":        TypedObjectModelTypeDynamicInputField,
+	"proxy_field":                TypedObjectModelTypeProxyField,
+	"parameter":                  TypedObjectModelTypeParameter,
+	"pivot_field":                TypedObjectModelTypePivotField,
+	"macro_pivot_field":          TypedObjectModelTypeMacroPivotField,
+	"conditional_output_port":    TypedObjectModelTypeConditionalOutputPort,
+	"input_proxy_field":          TypedObjectModelTypeInputProxyField,
+	"materialized_dynamic_field": TypedObjectModelTypeMaterializedDynamicField,
+	"decision_output_port":       TypedObjectModelTypeDecisionOutputPort,
 }
 
 // GetTypedObjectModelTypeEnumValues Enumerates the set of values for TypedObjectModelTypeEnum
@@ -292,6 +313,9 @@ func GetTypedObjectModelTypeEnumStringValues() []string {
 		"PIVOT_FIELD",
 		"MACRO_PIVOT_FIELD",
 		"CONDITIONAL_OUTPUT_PORT",
+		"INPUT_PROXY_FIELD",
+		"MATERIALIZED_DYNAMIC_FIELD",
+		"DECISION_OUTPUT_PORT",
 	}
 }
 

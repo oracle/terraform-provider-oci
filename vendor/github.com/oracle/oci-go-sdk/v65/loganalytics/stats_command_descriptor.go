@@ -34,6 +34,9 @@ type StatsCommandDescriptor struct {
 	// Fields declared in command fragment from user specified query string.
 	DeclaredFields []AbstractField `mandatory:"false" json:"declaredFields"`
 
+	// Field denoting if this is a hidden command that is not shown in the query string.
+	IsHidden *bool `mandatory:"false" json:"isHidden"`
+
 	// Group by fields if specified in the query string.
 	GroupByFields []AbstractField `mandatory:"false" json:"groupByFields"`
 
@@ -64,6 +67,11 @@ func (m StatsCommandDescriptor) GetReferencedFields() []AbstractField {
 //GetDeclaredFields returns DeclaredFields
 func (m StatsCommandDescriptor) GetDeclaredFields() []AbstractField {
 	return m.DeclaredFields
+}
+
+//GetIsHidden returns IsHidden
+func (m StatsCommandDescriptor) GetIsHidden() *bool {
+	return m.IsHidden
 }
 
 func (m StatsCommandDescriptor) String() string {
@@ -102,6 +110,7 @@ func (m *StatsCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 		Category            *string         `json:"category"`
 		ReferencedFields    []abstractfield `json:"referencedFields"`
 		DeclaredFields      []abstractfield `json:"declaredFields"`
+		IsHidden            *bool           `json:"isHidden"`
 		GroupByFields       []abstractfield `json:"groupByFields"`
 		Functions           []FunctionField `json:"functions"`
 		DisplayQueryString  *string         `json:"displayQueryString"`
@@ -140,6 +149,8 @@ func (m *StatsCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 			m.DeclaredFields[i] = nil
 		}
 	}
+
+	m.IsHidden = model.IsHidden
 
 	m.GroupByFields = make([]AbstractField, len(model.GroupByFields))
 	for i, n := range model.GroupByFields {

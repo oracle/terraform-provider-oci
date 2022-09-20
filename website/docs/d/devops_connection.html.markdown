@@ -34,7 +34,7 @@ The following attributes are exported:
 
 * `access_token` - The OCID of personal access token saved in secret store.
 * `app_password` - OCID of personal Bitbucket Cloud AppPassword saved in secret store
-* `base_url` - The Base URL of the hosted BitbucketServer.
+* `base_url` - The Base URL of the hosted BitbucketServer/Visual Builder Studio server.
 * `compartment_id` - The OCID of the compartment containing the connection.
 * `connection_type` - The type of connection.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace.bar-key": "value"}`

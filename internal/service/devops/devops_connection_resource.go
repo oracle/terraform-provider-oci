@@ -43,6 +43,7 @@ func DevopsConnectionResource() *schema.Resource {
 					"GITHUB_ACCESS_TOKEN",
 					"GITLAB_ACCESS_TOKEN",
 					"GITLAB_SERVER_ACCESS_TOKEN",
+					"VBS_ACCESS_TOKEN",
 				}, true),
 			},
 			"project_id": {
@@ -646,6 +647,52 @@ func (s *DevopsConnectionResourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_devops.VbsAccessTokenConnection:
+		s.D.Set("connection_type", "VBS_ACCESS_TOKEN")
+
+		if v.AccessToken != nil {
+			s.D.Set("access_token", *v.AccessToken)
+		}
+
+		if v.BaseUrl != nil {
+			s.D.Set("base_url", *v.BaseUrl)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	default:
 		log.Printf("[WARN] Received 'connection_type' of unknown type %v", *s.Res)
 		return nil
@@ -756,6 +803,16 @@ func devopsConnectionSummaryToMap(obj oci_devops.ConnectionSummary) map[string]i
 				tlsVerifyConfigArray = append(tlsVerifyConfigArray, tlsVerifyConfigMap)
 			}
 			result["tls_verify_config"] = tlsVerifyConfigArray
+		}
+	case oci_devops.VbsAccessTokenConnectionSummary:
+		result["connection_type"] = "VBS_ACCESS_TOKEN"
+
+		if v.AccessToken != nil {
+			result["access_token"] = string(*v.AccessToken)
+		}
+
+		if v.BaseUrl != nil {
+			result["base_url"] = string(*v.BaseUrl)
 		}
 	default:
 		log.Printf("[WARN] Received 'connection_type' of unknown type %v", obj)
@@ -993,6 +1050,39 @@ func (s *DevopsConnectionResourceCrud) populateTopLevelPolymorphicCreateConnecti
 			details.ProjectId = &tmp
 		}
 		request.CreateConnectionDetails = details
+	case strings.ToLower("VBS_ACCESS_TOKEN"):
+		details := oci_devops.CreateVbsAccessTokenConnectionDetails{}
+		if accessToken, ok := s.D.GetOkExists("access_token"); ok {
+			tmp := accessToken.(string)
+			details.AccessToken = &tmp
+		}
+		if baseUrl, ok := s.D.GetOkExists("base_url"); ok {
+			tmp := baseUrl.(string)
+			details.BaseUrl = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if projectId, ok := s.D.GetOkExists("project_id"); ok {
+			tmp := projectId.(string)
+			details.ProjectId = &tmp
+		}
+		request.CreateConnectionDetails = details
 	default:
 		return fmt.Errorf("unknown connection_type '%v' was specified", connectionType)
 	}
@@ -1154,6 +1244,37 @@ func (s *DevopsConnectionResourceCrud) populateTopLevelPolymorphicUpdateConnecti
 				}
 				details.TlsVerifyConfig = tmp
 			}
+		}
+		tmp := s.D.Id()
+		request.ConnectionId = &tmp
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateConnectionDetails = details
+	case strings.ToLower("VBS_ACCESS_TOKEN"):
+		details := oci_devops.UpdateVbsAccessTokenConnectionDetails{}
+		if accessToken, ok := s.D.GetOkExists("access_token"); ok {
+			tmp := accessToken.(string)
+			details.AccessToken = &tmp
+		}
+		if baseUrl, ok := s.D.GetOkExists("base_url"); ok {
+			tmp := baseUrl.(string)
+			details.BaseUrl = &tmp
 		}
 		tmp := s.D.Id()
 		request.ConnectionId = &tmp

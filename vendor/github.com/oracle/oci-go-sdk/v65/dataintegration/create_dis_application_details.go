@@ -24,6 +24,9 @@ type CreateDisApplicationDetails struct {
 	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"true" json:"identifier"`
 
+	// OCID of the compartment that this resource belongs to. Defaults to compartment of the Workspace.
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+
 	// Currently not used on application creation. Reserved for future.
 	Key *string `mandatory:"false" json:"key"`
 

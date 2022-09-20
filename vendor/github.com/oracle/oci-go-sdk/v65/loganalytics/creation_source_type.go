@@ -20,18 +20,21 @@ type CreationSourceTypeEnum string
 const (
 	CreationSourceTypeEmBridge            CreationSourceTypeEnum = "EM_BRIDGE"
 	CreationSourceTypeServiceConnectorHub CreationSourceTypeEnum = "SERVICE_CONNECTOR_HUB"
+	CreationSourceTypeDiscovery           CreationSourceTypeEnum = "DISCOVERY"
 	CreationSourceTypeNone                CreationSourceTypeEnum = "NONE"
 )
 
 var mappingCreationSourceTypeEnum = map[string]CreationSourceTypeEnum{
 	"EM_BRIDGE":             CreationSourceTypeEmBridge,
 	"SERVICE_CONNECTOR_HUB": CreationSourceTypeServiceConnectorHub,
+	"DISCOVERY":             CreationSourceTypeDiscovery,
 	"NONE":                  CreationSourceTypeNone,
 }
 
 var mappingCreationSourceTypeEnumLowerCase = map[string]CreationSourceTypeEnum{
 	"em_bridge":             CreationSourceTypeEmBridge,
 	"service_connector_hub": CreationSourceTypeServiceConnectorHub,
+	"discovery":             CreationSourceTypeDiscovery,
 	"none":                  CreationSourceTypeNone,
 }
 
@@ -49,6 +52,7 @@ func GetCreationSourceTypeEnumStringValues() []string {
 	return []string{
 		"EM_BRIDGE",
 		"SERVICE_CONNECTOR_HUB",
+		"DISCOVERY",
 		"NONE",
 	}
 }

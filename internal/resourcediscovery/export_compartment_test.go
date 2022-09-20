@@ -1046,7 +1046,7 @@ func TestUnitRunExportCommand_exitStatusForPartialSuccess(t *testing.T) {
 		return getTestClients(), nil
 	}
 	exportConfigProvider = acctest.MockConfigurationProvider{}
-	if err, status := RunExportCommand(args); err != nil {
+	if err, status := RunExportCommand(args); err != nil && status == StatusFail {
 		t.Logf("(TF version %s) export command failed due to err: %v", tf_export.TfHclVersionvar.ToString(), err)
 		t.Fail()
 	} else if status != StatusPartialSuccess {
@@ -1064,6 +1064,50 @@ func TestUnitRunExportCommand_exitStatusForPartialSuccess(t *testing.T) {
 	}
 
 	os.RemoveAll(outputDir)
+}
+
+// Test exit status in case of partial success
+// issue-routing-tag: terraform/default
+func TestUnitRunExportCommand_errorSuggestionForPartialSuccess(t *testing.T) {
+	type testFormat struct {
+		name        string
+		errorLength int
+		ctx         *tf_export.ResourceDiscoveryContext
+	}
+	errors := []*tf_export.ResourceDiscoveryError{}
+	parentResource := "oci_test_parent:ocid1.parent.abcdefghiklmnop.0"
+
+	resourceDiscoveryContext := &tf_export.ResourceDiscoveryContext{
+		ResourceHintsLookup: map[string]*tf_export.TerraformResourceHints{"oci_test_parent": exportParentDefinition},
+		ExpectedResourceIds: map[string]bool{"oci_test_parent:ocid1.parent.abcdefghiklmnop.0": false},
+		ErrorList: tf_export.ErrorList{
+			Errors: append(errors, &tf_export.ResourceDiscoveryError{
+				ResourceType:   "load_balancer",
+				ParentResource: "export",
+				Error:          fmt.Errorf("Error Message: [ERROR] Error while discovering below resources:\n" + parentResource),
+				ResourceGraph:  nil,
+			}),
+		},
+		TargetSpecificResources: false,
+	}
+	tests := []testFormat{
+		{
+			name:        "Test error message for partially not discovered resources",
+			ctx:         resourceDiscoveryContext,
+			errorLength: 1,
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running %s", test.name)
+		if error, _ := getListOfNotDiscoveredResources(test.ctx); error != nil {
+			expectedErrorMessage := error.Error()
+			fmt.Println("\n", expectedErrorMessage)
+			if !strings.Contains(expectedErrorMessage, parentResource) {
+				t.Errorf("Output error - %s which is not equal to expected error - %s", expectedErrorMessage, test.ctx.ErrorList.Errors[0].Error.Error())
+			}
+
+		}
+	}
 }
 
 // Test that resources can be found using a resource dependency graph

@@ -18,7 +18,7 @@ import (
 // ScheduleCollection A schedule collection.
 type ScheduleCollection struct {
 
-	// List of schedule summary.
+	// Schedule summary list.
 	Items []ScheduleSummary `mandatory:"true" json:"items"`
 }
 

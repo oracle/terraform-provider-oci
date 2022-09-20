@@ -10,7 +10,7 @@ description: |-
 # oci_dataintegration_workspace
 This resource provides the Workspace resource in Oracle Cloud Infrastructure Data Integration service.
 
-Creates a new Data Integration workspace ready for performing data integration tasks.
+Creates a new Data Integration workspace ready for performing data integration tasks. To retrieve the OCID for the new workspace, use the opc-work-request-id returned by this API and call the [GetWorkRequest](https://docs.cloud.oracle.com/iaas/api/#/en/data-integration/latest/WorkRequest/GetWorkRequest) API.
 
 
 ## Example Usage
@@ -26,8 +26,14 @@ resource "oci_dataintegration_workspace" "test_workspace" {
 	description = var.workspace_description
 	dns_server_ip = var.workspace_dns_server_ip
 	dns_server_zone = var.workspace_dns_server_zone
+	endpoint_compartment_id = oci_identity_compartment.test_compartment.id
+	endpoint_id = oci_dataintegration_endpoint.test_endpoint.id
+	endpoint_name = var.workspace_endpoint_name
 	freeform_tags = {"Department"= "Finance"}
 	is_private_network_enabled = var.workspace_is_private_network_enabled
+	registry_compartment_id = oci_identity_compartment.test_compartment.id
+	registry_id = oci_data_connectivity_registry.test_registry.id
+	registry_name = oci_data_connectivity_registry.test_registry.name
 	subnet_id = oci_core_subnet.test_subnet.id
 	vcn_id = oci_core_vcn.test_vcn.id
 }
@@ -43,8 +49,14 @@ The following arguments are supported:
 * `display_name` - (Required) (Updatable) A user-friendly display name for the workspace. Does not have to be unique, and can be modified. Avoid entering confidential information.
 * `dns_server_ip` - (Optional) The IP of the custom DNS.
 * `dns_server_zone` - (Optional) The DNS zone of the custom DNS to use to resolve names.
+* `endpoint_compartment_id` - (Optional) DCMS PRivate Endpoint Compartment Identifier
+* `endpoint_id` - (Optional) DCMS Private Endpoint ID associated with workspace if the pvt networking is enabled
+* `endpoint_name` - (Optional) DCMS Private Endpoint Name
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `is_private_network_enabled` - (Optional) Specifies whether the private network connection is enabled or disabled.
+* `registry_compartment_id` - (Optional) DCMS Data Asset Registry Compartment Identifier
+* `registry_id` - (Optional) DCMS Data Asset Registry ID to which the workspace is associated
+* `registry_name` - (Optional) DCMS Data Asset Registry display name
 * `subnet_id` - (Optional) The OCID of the subnet for customer connected databases.
 * `vcn_id` - (Optional) The OCID of the VCN the subnet is in.
 
@@ -62,9 +74,12 @@ The following attributes are exported:
 * `display_name` - A user-friendly display name for the workspace. Does not have to be unique, and can be modified. Avoid entering confidential information.
 * `dns_server_ip` - The IP of the custom DNS.
 * `dns_server_zone` - The DNS zone of the custom DNS to use to resolve names.
+* `endpoint_id` - DCMS endpoint associated with the container/workspace. Returns null if there is none.
+* `endpoint_name` - Name of the private endpoint associated with the container/workspace. Returns null if there is none.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - A system-generated and immutable identifier assigned to the workspace upon creation.
 * `is_private_network_enabled` - Specifies whether the private network connection is enabled or disabled.
+* `registry_id` - DCMS registry associated with the container/workspace. Returns null if there is none.
 * `state` - Lifecycle states for workspaces in Data Integration Service CREATING - The resource is being created and may not be usable until the entire metadata is defined UPDATING - The resource is being updated and may not be usable until all changes are commited DELETING - The resource is being deleted and might require deep cleanup of children. ACTIVE   - The resource is valid and available for access INACTIVE - The resource might be incomplete in its definition or might have been made unavailable for administrative reasons DELETED  - The resource has been deleted and isn't available FAILED   - The resource is in a failed state due to validation or other errors STARTING - The resource is being started and may not be usable until becomes ACTIVE again STOPPING - The resource is in the process of Stopping and may not be usable until it Stops or fails STOPPED  - The resource is in Stopped state due to stop operation. 
 * `state_message` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in failed state.
 * `subnet_id` - The OCID of the subnet for customer connected databases.

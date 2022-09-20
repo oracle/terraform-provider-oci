@@ -66,6 +66,10 @@ func (m *buildrunsource) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		mm := DevopsCodeRepositoryBuildRunSource{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "VBS":
+		mm := VbsBuildRunSource{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "MANUAL":
 		mm := ManualBuildRunSource{}
 		err = json.Unmarshal(data, &mm)
@@ -111,6 +115,7 @@ const (
 	BuildRunSourceSourceTypeBitbucketCloud       BuildRunSourceSourceTypeEnum = "BITBUCKET_CLOUD"
 	BuildRunSourceSourceTypeBitbucketServer      BuildRunSourceSourceTypeEnum = "BITBUCKET_SERVER"
 	BuildRunSourceSourceTypeDevopsCodeRepository BuildRunSourceSourceTypeEnum = "DEVOPS_CODE_REPOSITORY"
+	BuildRunSourceSourceTypeVbs                  BuildRunSourceSourceTypeEnum = "VBS"
 )
 
 var mappingBuildRunSourceSourceTypeEnum = map[string]BuildRunSourceSourceTypeEnum{
@@ -121,6 +126,7 @@ var mappingBuildRunSourceSourceTypeEnum = map[string]BuildRunSourceSourceTypeEnu
 	"BITBUCKET_CLOUD":        BuildRunSourceSourceTypeBitbucketCloud,
 	"BITBUCKET_SERVER":       BuildRunSourceSourceTypeBitbucketServer,
 	"DEVOPS_CODE_REPOSITORY": BuildRunSourceSourceTypeDevopsCodeRepository,
+	"VBS":                    BuildRunSourceSourceTypeVbs,
 }
 
 var mappingBuildRunSourceSourceTypeEnumLowerCase = map[string]BuildRunSourceSourceTypeEnum{
@@ -131,6 +137,7 @@ var mappingBuildRunSourceSourceTypeEnumLowerCase = map[string]BuildRunSourceSour
 	"bitbucket_cloud":        BuildRunSourceSourceTypeBitbucketCloud,
 	"bitbucket_server":       BuildRunSourceSourceTypeBitbucketServer,
 	"devops_code_repository": BuildRunSourceSourceTypeDevopsCodeRepository,
+	"vbs":                    BuildRunSourceSourceTypeVbs,
 }
 
 // GetBuildRunSourceSourceTypeEnumValues Enumerates the set of values for BuildRunSourceSourceTypeEnum
@@ -152,6 +159,7 @@ func GetBuildRunSourceSourceTypeEnumStringValues() []string {
 		"BITBUCKET_CLOUD",
 		"BITBUCKET_SERVER",
 		"DEVOPS_CODE_REPOSITORY",
+		"VBS",
 	}
 }
 

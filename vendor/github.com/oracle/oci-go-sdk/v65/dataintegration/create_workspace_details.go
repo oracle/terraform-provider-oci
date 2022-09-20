@@ -49,6 +49,24 @@ type CreateWorkspaceDetails struct {
 
 	// Specifies whether the private network connection is enabled or disabled.
 	IsPrivateNetworkEnabled *bool `mandatory:"false" json:"isPrivateNetworkEnabled"`
+
+	// DCMS Data Asset Registry ID to which the workspace is associated
+	RegistryId *string `mandatory:"false" json:"registryId"`
+
+	// DCMS Private Endpoint ID associated with workspace if the pvt networking is enabled
+	EndpointId *string `mandatory:"false" json:"endpointId"`
+
+	// DCMS Data Asset Registry display name
+	RegistryName *string `mandatory:"false" json:"registryName"`
+
+	// DCMS Data Asset Registry Compartment Identifier
+	RegistryCompartmentId *string `mandatory:"false" json:"registryCompartmentId"`
+
+	// DCMS Private Endpoint Name
+	EndpointName *string `mandatory:"false" json:"endpointName"`
+
+	// DCMS PRivate Endpoint Compartment Identifier
+	EndpointCompartmentId *string `mandatory:"false" json:"endpointCompartmentId"`
 }
 
 func (m CreateWorkspaceDetails) String() string {

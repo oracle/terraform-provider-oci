@@ -122,10 +122,22 @@ func (s *DataintegrationWorkspacesDataSourceCrud) SetData() error {
 			workspace["display_name"] = *r.DisplayName
 		}
 
+		if r.EndpointId != nil {
+			workspace["endpoint_id"] = *r.EndpointId
+		}
+
+		if r.EndpointName != nil {
+			workspace["endpoint_name"] = *r.EndpointName
+		}
+
 		workspace["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			workspace["id"] = *r.Id
+		}
+
+		if r.RegistryId != nil {
+			workspace["registry_id"] = *r.RegistryId
 		}
 
 		workspace["state"] = r.LifecycleState

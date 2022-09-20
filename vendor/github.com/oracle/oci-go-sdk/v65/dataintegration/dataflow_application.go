@@ -23,6 +23,8 @@ type DataflowApplication struct {
 
 	// The compartmentId id under which Oracle Cloud Infrastructure dataflow application lies.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+
+	ConfigValues *ConfigValues `mandatory:"false" json:"configValues"`
 }
 
 func (m DataflowApplication) String() string {

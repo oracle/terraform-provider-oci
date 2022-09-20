@@ -15,6 +15,7 @@ import (
 func init() {
 	exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.GetIdFn = getLogAnalyticsLogAnalyticsObjectCollectionRuleId
 	exportLogAnalyticsNamespaceScheduledTaskHints.GetIdFn = getLogAnalyticsNamespaceScheduledTaskId
+	exportLogAnalyticsNamespaceIngestTimeRuleHints.GetIdFn = getLogAnalyticsNamespaceIngestTimeRuleId
 	exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.FindResourcesOverrideFn = findLogAnalyticsObjectCollectionRules
 	exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.ProcessDiscoveredResourcesFn = processLogAnalyticsObjectCollectionRules
 	tf_export.RegisterCompartmentGraphs("log_analytics", logAnalyticsResourceGraph)
@@ -128,6 +129,19 @@ func getLogAnalyticsNamespaceScheduledTaskId(resource *tf_export.OCIResource) (s
 	return GetNamespaceScheduledTaskCompositeId(namespace, scheduledTaskId), nil
 }
 
+func getLogAnalyticsNamespaceIngestTimeRuleId(resource *tf_export.OCIResource) (string, error) {
+
+	ingestTimeRuleId, ok := resource.SourceAttributes["ingest_time_rule_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find ingestTimeRuleId for LogAnalytics NamespaceIngestTimeRule")
+	}
+	namespace, ok := resource.SourceAttributes["namespace"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find namespace for LogAnalytics NamespaceIngestTimeRule")
+	}
+	return GetNamespaceIngestTimeRuleCompositeId(ingestTimeRuleId, namespace), nil
+}
+
 // Hints for discovering and exporting this resource to configuration and state files
 var exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints = &tf_export.TerraformResourceHints{
 	ResourceClass:          "oci_log_analytics_log_analytics_object_collection_rule",
@@ -171,6 +185,18 @@ var exportLogAnalyticsLogAnalyticsUnprocessedDataBucketManagementHints = &tf_exp
 var exportLogAnalyticsLogAnalyticsResourceCategoriesManagementHints = &tf_export.TerraformResourceHints{
 	ResourceClass:        "oci_log_analytics_log_analytics_resource_categories_management",
 	ResourceAbbreviation: "log_analytics_resource_categories_management",
+}
+
+var exportLogAnalyticsNamespaceIngestTimeRuleHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_log_analytics_namespace_ingest_time_rule",
+	DatasourceClass:        "oci_log_analytics_namespace_ingest_time_rules",
+	DatasourceItemsAttr:    "ingest_time_rule_summary_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "namespace_ingest_time_rule",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_log_analytics.ConfigLifecycleStateActive),
+	},
 }
 
 var logAnalyticsResourceGraph = tf_export.TerraformResourceGraph{
