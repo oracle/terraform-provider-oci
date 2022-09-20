@@ -114,6 +114,12 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 			exadataInfrastructure["activated_storage_count"] = *r.ActivatedStorageCount
 		}
 
+		if r.AdditionalComputeCount != nil {
+			exadataInfrastructure["additional_compute_count"] = *r.AdditionalComputeCount
+		}
+
+		exadataInfrastructure["additional_compute_system_model"] = r.AdditionalComputeSystemModel
+
 		if r.AdditionalStorageCount != nil {
 			exadataInfrastructure["additional_storage_count"] = *r.AdditionalStorageCount
 		}
