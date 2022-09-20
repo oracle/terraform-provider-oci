@@ -101,6 +101,10 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := CreateConnectionFromAmazonS3{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "LAKE_HOUSE_CONNECTION":
+		mm := CreateConnectionFromLakehouse{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GENERIC_JDBC_CONNECTION":
 		mm := CreateConnectionFromJdbc{}
 		err = json.Unmarshal(data, &mm)
@@ -117,8 +121,16 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := CreateConnectionFromBip{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "REST_BASIC_AUTH_CONNECTION":
+		mm := CreateConnectionFromRestBasicAuth{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE_ADWC_CONNECTION":
 		mm := CreateConnectionFromAdwc{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "REST_NO_AUTH_CONNECTION":
+		mm := CreateConnectionFromRestNoAuth{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLEDB_CONNECTION":
@@ -209,6 +221,9 @@ const (
 	CreateConnectionDetailsModelTypeBiccConnection                CreateConnectionDetailsModelTypeEnum = "BICC_CONNECTION"
 	CreateConnectionDetailsModelTypeAmazonS3Connection            CreateConnectionDetailsModelTypeEnum = "AMAZON_S3_CONNECTION"
 	CreateConnectionDetailsModelTypeBipConnection                 CreateConnectionDetailsModelTypeEnum = "BIP_CONNECTION"
+	CreateConnectionDetailsModelTypeLakeHouseConnection           CreateConnectionDetailsModelTypeEnum = "LAKE_HOUSE_CONNECTION"
+	CreateConnectionDetailsModelTypeRestNoAuthConnection          CreateConnectionDetailsModelTypeEnum = "REST_NO_AUTH_CONNECTION"
+	CreateConnectionDetailsModelTypeRestBasicAuthConnection       CreateConnectionDetailsModelTypeEnum = "REST_BASIC_AUTH_CONNECTION"
 )
 
 var mappingCreateConnectionDetailsModelTypeEnum = map[string]CreateConnectionDetailsModelTypeEnum{
@@ -221,6 +236,9 @@ var mappingCreateConnectionDetailsModelTypeEnum = map[string]CreateConnectionDet
 	"BICC_CONNECTION":                  CreateConnectionDetailsModelTypeBiccConnection,
 	"AMAZON_S3_CONNECTION":             CreateConnectionDetailsModelTypeAmazonS3Connection,
 	"BIP_CONNECTION":                   CreateConnectionDetailsModelTypeBipConnection,
+	"LAKE_HOUSE_CONNECTION":            CreateConnectionDetailsModelTypeLakeHouseConnection,
+	"REST_NO_AUTH_CONNECTION":          CreateConnectionDetailsModelTypeRestNoAuthConnection,
+	"REST_BASIC_AUTH_CONNECTION":       CreateConnectionDetailsModelTypeRestBasicAuthConnection,
 }
 
 var mappingCreateConnectionDetailsModelTypeEnumLowerCase = map[string]CreateConnectionDetailsModelTypeEnum{
@@ -233,6 +251,9 @@ var mappingCreateConnectionDetailsModelTypeEnumLowerCase = map[string]CreateConn
 	"bicc_connection":                  CreateConnectionDetailsModelTypeBiccConnection,
 	"amazon_s3_connection":             CreateConnectionDetailsModelTypeAmazonS3Connection,
 	"bip_connection":                   CreateConnectionDetailsModelTypeBipConnection,
+	"lake_house_connection":            CreateConnectionDetailsModelTypeLakeHouseConnection,
+	"rest_no_auth_connection":          CreateConnectionDetailsModelTypeRestNoAuthConnection,
+	"rest_basic_auth_connection":       CreateConnectionDetailsModelTypeRestBasicAuthConnection,
 }
 
 // GetCreateConnectionDetailsModelTypeEnumValues Enumerates the set of values for CreateConnectionDetailsModelTypeEnum
@@ -256,6 +277,9 @@ func GetCreateConnectionDetailsModelTypeEnumStringValues() []string {
 		"BICC_CONNECTION",
 		"AMAZON_S3_CONNECTION",
 		"BIP_CONNECTION",
+		"LAKE_HOUSE_CONNECTION",
+		"REST_NO_AUTH_CONNECTION",
+		"REST_BASIC_AUTH_CONNECTION",
 	}
 }
 

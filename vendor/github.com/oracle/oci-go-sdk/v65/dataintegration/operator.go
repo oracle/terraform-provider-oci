@@ -152,6 +152,10 @@ func (m *operator) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := Function{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DECISION_OPERATOR":
+		mm := DecisionOperator{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "INTERSECT_OPERATOR":
 		mm := Intersect{}
 		err = json.Unmarshal(data, &mm)
@@ -296,6 +300,7 @@ const (
 	OperatorModelTypeStartOperator      OperatorModelTypeEnum = "START_OPERATOR"
 	OperatorModelTypeEndOperator        OperatorModelTypeEnum = "END_OPERATOR"
 	OperatorModelTypePipelineOperator   OperatorModelTypeEnum = "PIPELINE_OPERATOR"
+	OperatorModelTypeDecisionOperator   OperatorModelTypeEnum = "DECISION_OPERATOR"
 	OperatorModelTypeTaskOperator       OperatorModelTypeEnum = "TASK_OPERATOR"
 	OperatorModelTypeExpressionOperator OperatorModelTypeEnum = "EXPRESSION_OPERATOR"
 	OperatorModelTypeLookupOperator     OperatorModelTypeEnum = "LOOKUP_OPERATOR"
@@ -321,6 +326,7 @@ var mappingOperatorModelTypeEnum = map[string]OperatorModelTypeEnum{
 	"START_OPERATOR":      OperatorModelTypeStartOperator,
 	"END_OPERATOR":        OperatorModelTypeEndOperator,
 	"PIPELINE_OPERATOR":   OperatorModelTypePipelineOperator,
+	"DECISION_OPERATOR":   OperatorModelTypeDecisionOperator,
 	"TASK_OPERATOR":       OperatorModelTypeTaskOperator,
 	"EXPRESSION_OPERATOR": OperatorModelTypeExpressionOperator,
 	"LOOKUP_OPERATOR":     OperatorModelTypeLookupOperator,
@@ -346,6 +352,7 @@ var mappingOperatorModelTypeEnumLowerCase = map[string]OperatorModelTypeEnum{
 	"start_operator":      OperatorModelTypeStartOperator,
 	"end_operator":        OperatorModelTypeEndOperator,
 	"pipeline_operator":   OperatorModelTypePipelineOperator,
+	"decision_operator":   OperatorModelTypeDecisionOperator,
 	"task_operator":       OperatorModelTypeTaskOperator,
 	"expression_operator": OperatorModelTypeExpressionOperator,
 	"lookup_operator":     OperatorModelTypeLookupOperator,
@@ -382,6 +389,7 @@ func GetOperatorModelTypeEnumStringValues() []string {
 		"START_OPERATOR",
 		"END_OPERATOR",
 		"PIPELINE_OPERATOR",
+		"DECISION_OPERATOR",
 		"TASK_OPERATOR",
 		"EXPRESSION_OPERATOR",
 		"LOOKUP_OPERATOR",

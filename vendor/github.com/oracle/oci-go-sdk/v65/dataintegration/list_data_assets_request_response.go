@@ -134,16 +134,19 @@ type ListDataAssetsSortByEnum string
 const (
 	ListDataAssetsSortByTimeCreated ListDataAssetsSortByEnum = "TIME_CREATED"
 	ListDataAssetsSortByDisplayName ListDataAssetsSortByEnum = "DISPLAY_NAME"
+	ListDataAssetsSortByTimeUpdated ListDataAssetsSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListDataAssetsSortByEnum = map[string]ListDataAssetsSortByEnum{
 	"TIME_CREATED": ListDataAssetsSortByTimeCreated,
 	"DISPLAY_NAME": ListDataAssetsSortByDisplayName,
+	"TIME_UPDATED": ListDataAssetsSortByTimeUpdated,
 }
 
 var mappingListDataAssetsSortByEnumLowerCase = map[string]ListDataAssetsSortByEnum{
 	"time_created": ListDataAssetsSortByTimeCreated,
 	"display_name": ListDataAssetsSortByDisplayName,
+	"time_updated": ListDataAssetsSortByTimeUpdated,
 }
 
 // GetListDataAssetsSortByEnumValues Enumerates the set of values for ListDataAssetsSortByEnum
@@ -160,6 +163,7 @@ func GetListDataAssetsSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 

@@ -1,3 +1,20 @@
+## 4.94.0 (Unreleased)
+
+### Added
+- Support for Data Integration Service (DIS) Feature/Enhancement Release - 22b removing one check in test
+- Improve Resource discovery error messaging
+- Support for Cost Management: Scheduled Reports 2.0
+- Terraform support for Activate and Deactivate actions of Model Deployment
+- Support for GoldenGate Display Trails and Size
+- Support for VBS integration in CDTS
+- Support for Oracle Cloud Bridge
+- Support for Ingest Time Rules and new optional attributes in Object Collection Rule
+- Support for Oracle Cloud Migrations
+### Bug Fix
+- update the load balancer ports
+- Resource discovery bug for export drg route distribution
+- Remove Rrset from resource discovery to fix duplicate resource in config
+
 ## 4.93.0 (September 14, 2022)
 
 ### Added

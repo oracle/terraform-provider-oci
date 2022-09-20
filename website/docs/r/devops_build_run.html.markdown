@@ -168,6 +168,7 @@ The following attributes are exported:
 				* `include` - Attributes to filter GitLab self-hosted server events.
 					* `base_ref` - The target branch for pull requests; not applicable for push requests.
 					* `head_ref` - Branch for push event; source branch for pull requests.
+					* `repository_name` - The repository name for trigger events.
 				* `trigger_source` - Source of the trigger. Allowed values are, GITHUB and GITLAB.
 			* `type` - The type of action that will be taken. Allowed value is TRIGGER_BUILD_PIPELINE.
 		* `display_name` - Name for Trigger.

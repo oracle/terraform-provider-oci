@@ -114,6 +114,19 @@ resource "oci_devops_connection" "test_bitbucket_server_connection" {
   depends_on = [oci_devops_connection.test_gitlab_server_connection]
 }
 
+# VBS external connection
+resource "oci_devops_connection" "test_vbs_connection" {
+  #Required
+  access_token    = var.access_token_vault_secret_id
+  connection_type = "VBS_ACCESS_TOKEN"
+  project_id      = oci_devops_project.test_project.id
+  base_url        = var.base_url
+
+  #Optional
+  description   = "VBS access token"
+  display_name  = "vbs_access_token"
+  depends_on = [oci_devops_connection.test_bitbucket_server_connection]
+}
 # Build pipeline
 resource "oci_devops_build_pipeline" "test_build_pipeline" {
   #Required
@@ -192,6 +205,13 @@ resource "oci_devops_build_pipeline_stage" "test_build_pipeline_build_github_sta
       connection_id     = oci_devops_connection.test_bitbucket_server_connection.id
       name              = "source2"
       repository_url    = "https://bitbucketserver.com/dlcbld/docktest"
+    }
+     items {
+      connection_type   = "VBS"
+      branch            = "branch"
+      connection_id     = oci_devops_connection.test_vbs_connection.id
+      name              = "source3"
+      repository_url    = "https://vbs.com/dlcbld/docktest"
     }
   }
 }

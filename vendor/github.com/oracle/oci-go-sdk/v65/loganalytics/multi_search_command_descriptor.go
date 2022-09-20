@@ -34,6 +34,9 @@ type MultiSearchCommandDescriptor struct {
 	// Fields declared in command fragment from user specified query string.
 	DeclaredFields []AbstractField `mandatory:"false" json:"declaredFields"`
 
+	// Field denoting if this is a hidden command that is not shown in the query string.
+	IsHidden *bool `mandatory:"false" json:"isHidden"`
+
 	// List of sub-searches specified in query string as multisearch command arguments.
 	SubQueries []ParseQueryOutput `mandatory:"false" json:"subQueries"`
 }
@@ -61,6 +64,11 @@ func (m MultiSearchCommandDescriptor) GetReferencedFields() []AbstractField {
 //GetDeclaredFields returns DeclaredFields
 func (m MultiSearchCommandDescriptor) GetDeclaredFields() []AbstractField {
 	return m.DeclaredFields
+}
+
+//GetIsHidden returns IsHidden
+func (m MultiSearchCommandDescriptor) GetIsHidden() *bool {
+	return m.IsHidden
 }
 
 func (m MultiSearchCommandDescriptor) String() string {
@@ -99,6 +107,7 @@ func (m *MultiSearchCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 		Category            *string            `json:"category"`
 		ReferencedFields    []abstractfield    `json:"referencedFields"`
 		DeclaredFields      []abstractfield    `json:"declaredFields"`
+		IsHidden            *bool              `json:"isHidden"`
 		SubQueries          []ParseQueryOutput `json:"subQueries"`
 		DisplayQueryString  *string            `json:"displayQueryString"`
 		InternalQueryString *string            `json:"internalQueryString"`
@@ -136,6 +145,8 @@ func (m *MultiSearchCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 			m.DeclaredFields[i] = nil
 		}
 	}
+
+	m.IsHidden = model.IsHidden
 
 	m.SubQueries = make([]ParseQueryOutput, len(model.SubQueries))
 	for i, n := range model.SubQueries {

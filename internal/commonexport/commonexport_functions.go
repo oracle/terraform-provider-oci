@@ -399,14 +399,18 @@ func (ctx *ResourceDiscoveryContext) PrintSummary() {
 	utils.Logln(utils.Green(fmt.Sprintf("Total time taken by entire export: %v", ctx.TimeTakenForEntireExport)))
 }
 
-func (ctx *ResourceDiscoveryContext) PrintErrors() {
+func (ctx *ResourceDiscoveryContext) PrintErrors() ([]string, []string) {
 	utils.Logln(utils.Yellow("\n\n[WARN] Resource discovery finished with errors listed below:\n"))
+	var notDiscoveredParentResources []string
+	var notDiscoveredChildResources []string
 	for _, resourceDiscoveryError := range ctx.ErrorList.Errors {
 		if resourceDiscoveryError.ResourceType == "" || ctx.TargetSpecificResources {
 			utils.Logln(utils.Yellow(resourceDiscoveryError.Error.Error()))
 
 		} else if resourceDiscoveryError.ParentResource == "export" {
 			utils.Logln(utils.Yellow(fmt.Sprintf("Error discovering `%s` resources: %s", resourceDiscoveryError.ResourceType, resourceDiscoveryError.Error.Error())))
+			partiallyResourcesDiscovered := "Error discovering " + resourceDiscoveryError.ResourceType + " resources: " + resourceDiscoveryError.Error.Error()
+			notDiscoveredParentResources = append(notDiscoveredParentResources, partiallyResourcesDiscovered)
 
 		} else {
 			utils.Logln(utils.Yellow(fmt.Sprintf("Error discovering `%s` resources for %s: %s", resourceDiscoveryError.ResourceType, resourceDiscoveryError.ParentResource, resourceDiscoveryError.Error.Error())))
@@ -417,9 +421,13 @@ func (ctx *ResourceDiscoveryContext) PrintErrors() {
 			getNotFoundChildren(resourceDiscoveryError.ResourceType, resourceDiscoveryError.ResourceGraph, &notFoundChildren)
 			if len(notFoundChildren) > 0 {
 				utils.Logln(utils.Yellow(fmt.Sprintf("\tFollowing child resources were also not discovered due to parent error: %v", strings.Join(notFoundChildren, ", "))))
+				notFoundChildResources := "\tFollowing child resources were also not discovered due to parent error: " + strings.Join(notFoundChildren, ", ")
+				notDiscoveredChildResources = append(notDiscoveredChildResources, notFoundChildResources)
 			}
 		}
 	}
+
+	return notDiscoveredParentResources, notDiscoveredChildResources
 }
 
 func (h *TerraformResourceHints) DiscoversWithSingularDatasource() bool {

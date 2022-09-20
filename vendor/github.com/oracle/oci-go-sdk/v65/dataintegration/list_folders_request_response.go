@@ -182,16 +182,19 @@ type ListFoldersSortByEnum string
 const (
 	ListFoldersSortByTimeCreated ListFoldersSortByEnum = "TIME_CREATED"
 	ListFoldersSortByDisplayName ListFoldersSortByEnum = "DISPLAY_NAME"
+	ListFoldersSortByTimeUpdated ListFoldersSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListFoldersSortByEnum = map[string]ListFoldersSortByEnum{
 	"TIME_CREATED": ListFoldersSortByTimeCreated,
 	"DISPLAY_NAME": ListFoldersSortByDisplayName,
+	"TIME_UPDATED": ListFoldersSortByTimeUpdated,
 }
 
 var mappingListFoldersSortByEnumLowerCase = map[string]ListFoldersSortByEnum{
 	"time_created": ListFoldersSortByTimeCreated,
 	"display_name": ListFoldersSortByDisplayName,
+	"time_updated": ListFoldersSortByTimeUpdated,
 }
 
 // GetListFoldersSortByEnumValues Enumerates the set of values for ListFoldersSortByEnum
@@ -208,6 +211,7 @@ func GetListFoldersSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 

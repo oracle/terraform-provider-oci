@@ -15,24 +15,31 @@ import (
 	"strings"
 )
 
-// ScheduleSummary Schedule summary for listSchedule.
+// ScheduleSummary Schedule summary for the list schedule.
 type ScheduleSummary struct {
 
 	// The schedule OCID.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The unique name of the schedule created by the user
+	// The unique name of the user-created schedule.
 	Name *string `mandatory:"true" json:"name"`
 
-	// In x-obmcs-recurring-time format shown here: https://datatracker.ietf.org/doc/html/rfc5545#section-3.3.10
-	// Describes the frequency of when the schedule will be run
+	// Specifies the frequency according to when the schedule will be run,
+	// in the x-obmcs-recurring-time format described in RFC 5545 section 3.3.10 (https://datatracker.ietf.org/doc/html/rfc5545#section-3.3.10).
+	// Supported values are : ONE_TIME, DAILY, WEEKLY and MONTHLY.
 	ScheduleRecurrences *string `mandatory:"true" json:"scheduleRecurrences"`
 
-	// The date and time of the first time job execution
+	// The date and time of the first time job execution.
 	TimeScheduled *common.SDKTime `mandatory:"true" json:"timeScheduled"`
 
-	// The lifecycle state of the schedule summary
+	// The schedule summary lifecycle state.
 	LifecycleState ScheduleLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// The description of the schedule.
+	Description *string `mandatory:"false" json:"description"`
+
+	// The date and time of the next job execution.
+	TimeNextRun *common.SDKTime `mandatory:"false" json:"timeNextRun"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`

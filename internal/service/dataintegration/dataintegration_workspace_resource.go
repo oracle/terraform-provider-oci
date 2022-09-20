@@ -71,6 +71,24 @@ func DataintegrationWorkspaceResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"endpoint_compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"endpoint_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"endpoint_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -87,9 +105,29 @@ func DataintegrationWorkspaceResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"registry_compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"registry_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"registry_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"quiesce_timeout": {
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"subnet_id": {
 				Type:     schema.TypeString,
@@ -230,6 +268,21 @@ func (s *DataintegrationWorkspaceResourceCrud) Create() error {
 		request.DnsServerZone = &tmp
 	}
 
+	if endpointCompartmentId, ok := s.D.GetOkExists("endpoint_compartment_id"); ok {
+		tmp := endpointCompartmentId.(string)
+		request.EndpointCompartmentId = &tmp
+	}
+
+	if endpointId, ok := s.D.GetOkExists("endpoint_id"); ok {
+		tmp := endpointId.(string)
+		request.EndpointId = &tmp
+	}
+
+	if endpointName, ok := s.D.GetOkExists("endpoint_name"); ok {
+		tmp := endpointName.(string)
+		request.EndpointName = &tmp
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -237,6 +290,21 @@ func (s *DataintegrationWorkspaceResourceCrud) Create() error {
 	if isPrivateNetworkEnabled, ok := s.D.GetOkExists("is_private_network_enabled"); ok {
 		tmp := isPrivateNetworkEnabled.(bool)
 		request.IsPrivateNetworkEnabled = &tmp
+	}
+
+	if registryCompartmentId, ok := s.D.GetOkExists("registry_compartment_id"); ok {
+		tmp := registryCompartmentId.(string)
+		request.RegistryCompartmentId = &tmp
+	}
+
+	if registryId, ok := s.D.GetOkExists("registry_id"); ok {
+		tmp := registryId.(string)
+		request.RegistryId = &tmp
+	}
+
+	if registryName, ok := s.D.GetOkExists("registry_name"); ok {
+		tmp := registryName.(string)
+		request.RegistryName = &tmp
 	}
 
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
@@ -257,7 +325,7 @@ func (s *DataintegrationWorkspaceResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getWorkspaceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataintegration"), oci_dataintegration.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getWorkspaceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disworkspace"), oci_dataintegration.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *DataintegrationWorkspaceResourceCrud) getWorkspaceFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -439,7 +507,7 @@ func (s *DataintegrationWorkspaceResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getWorkspaceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataintegration"), oci_dataintegration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getWorkspaceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disworkspace"), oci_dataintegration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DataintegrationWorkspaceResourceCrud) Delete() error {
@@ -501,10 +569,22 @@ func (s *DataintegrationWorkspaceResourceCrud) SetData() error {
 		s.D.Set("dns_server_zone", *s.Res.DnsServerZone)
 	}
 
+	if s.Res.EndpointId != nil {
+		s.D.Set("endpoint_id", *s.Res.EndpointId)
+	}
+
+	if s.Res.EndpointName != nil {
+		s.D.Set("endpoint_name", *s.Res.EndpointName)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsPrivateNetworkEnabled != nil {
 		s.D.Set("is_private_network_enabled", *s.Res.IsPrivateNetworkEnabled)
+	}
+
+	if s.Res.RegistryId != nil {
+		s.D.Set("registry_id", *s.Res.RegistryId)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -549,5 +629,5 @@ func (s *DataintegrationWorkspaceResourceCrud) updateCompartment(compartment int
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getWorkspaceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataintegration"), oci_dataintegration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getWorkspaceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disworkspace"), oci_dataintegration.WorkRequestResourceActionTypeMoved, s.D.Timeout(schema.TimeoutUpdate))
 }

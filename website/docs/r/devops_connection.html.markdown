@@ -42,9 +42,9 @@ resource "oci_devops_connection" "test_connection" {
 
 The following arguments are supported:
 
-* `access_token` - (Required when connection_type=BITBUCKET_SERVER_ACCESS_TOKEN | GITHUB_ACCESS_TOKEN | GITLAB_ACCESS_TOKEN | GITLAB_SERVER_ACCESS_TOKEN) (Updatable) The OCID of personal access token saved in secret store.
+* `access_token` - (Required when connection_type=BITBUCKET_SERVER_ACCESS_TOKEN | GITHUB_ACCESS_TOKEN | GITLAB_ACCESS_TOKEN | GITLAB_SERVER_ACCESS_TOKEN | VBS_ACCESS_TOKEN) (Updatable) The OCID of personal access token saved in secret store.
 * `app_password` - (Required when connection_type=BITBUCKET_CLOUD_APP_PASSWORD) (Updatable) OCID of personal Bitbucket Cloud AppPassword saved in secret store
-* `base_url` - (Required when connection_type=BITBUCKET_SERVER_ACCESS_TOKEN | GITLAB_SERVER_ACCESS_TOKEN) (Updatable) The Base URL of the hosted BitbucketServer.
+* `base_url` - (Required when connection_type=BITBUCKET_SERVER_ACCESS_TOKEN | GITLAB_SERVER_ACCESS_TOKEN | VBS_ACCESS_TOKEN) (Updatable) The Base URL of the hosted BitbucketServer.
 * `connection_type` - (Required) (Updatable) The type of connection.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace.bar-key": "value"}`
 * `description` - (Optional) (Updatable) Optional description about the connection.
@@ -66,7 +66,7 @@ The following attributes are exported:
 
 * `access_token` - The OCID of personal access token saved in secret store.
 * `app_password` - OCID of personal Bitbucket Cloud AppPassword saved in secret store
-* `base_url` - The Base URL of the hosted BitbucketServer.
+* `base_url` - The Base URL of the hosted Visual Builder Studio server.
 * `compartment_id` - The OCID of the compartment containing the connection.
 * `connection_type` - The type of connection.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace.bar-key": "value"}`

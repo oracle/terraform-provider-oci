@@ -137,16 +137,19 @@ type ListDataFlowValidationsSortByEnum string
 const (
 	ListDataFlowValidationsSortByTimeCreated ListDataFlowValidationsSortByEnum = "TIME_CREATED"
 	ListDataFlowValidationsSortByDisplayName ListDataFlowValidationsSortByEnum = "DISPLAY_NAME"
+	ListDataFlowValidationsSortByTimeUpdated ListDataFlowValidationsSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListDataFlowValidationsSortByEnum = map[string]ListDataFlowValidationsSortByEnum{
 	"TIME_CREATED": ListDataFlowValidationsSortByTimeCreated,
 	"DISPLAY_NAME": ListDataFlowValidationsSortByDisplayName,
+	"TIME_UPDATED": ListDataFlowValidationsSortByTimeUpdated,
 }
 
 var mappingListDataFlowValidationsSortByEnumLowerCase = map[string]ListDataFlowValidationsSortByEnum{
 	"time_created": ListDataFlowValidationsSortByTimeCreated,
 	"display_name": ListDataFlowValidationsSortByDisplayName,
+	"time_updated": ListDataFlowValidationsSortByTimeUpdated,
 }
 
 // GetListDataFlowValidationsSortByEnumValues Enumerates the set of values for ListDataFlowValidationsSortByEnum
@@ -163,6 +166,7 @@ func GetListDataFlowValidationsSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 
