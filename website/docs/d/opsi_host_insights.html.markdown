@@ -39,7 +39,11 @@ The following arguments are supported:
 * `compartment_id_in_subtree` - (Optional) A flag to search all resources within a given compartment and all sub-compartments. 
 * `enterprise_manager_bridge_id` - (Applicable when entity_source=EM_MANAGED_EXTERNAL_HOST) Unique Enterprise Manager bridge identifier
 * `exadata_insight_id` - (Applicable when entity_source=EM_MANAGED_EXTERNAL_HOST) [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of exadata insight resource. 
+<<<<<<< ours
+* `host_type` - (Optional) Filter by one or more host types. Possible values are CLOUD-HOST, EXTERNAL-HOST 
+=======
 * `host_type` - (Optional) Filter by one or more host types. Possible value is EXTERNAL-HOST.
+>>>>>>> theirs
 * `id` - (Optional) Optional list of host insight resource [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
 * `platform_type` - (Optional) Filter by one or more platform types. Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS]. Supported platformType(s) for MACS-managed cloud host insight: [LINUX]. Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS].
 * `state` - (Optional) Lifecycle states
