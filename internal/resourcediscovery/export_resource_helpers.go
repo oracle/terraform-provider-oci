@@ -124,6 +124,7 @@ type resourceDiscoveryBaseStep struct {
 	discoveredResources         []*tf_export.OCIResource
 	omittedResources            []*tf_export.OCIResource
 	tempState                   interface{}
+	discoveryParallelism        bool
 	timeTakenForDiscovery       time.Duration
 	timeTakenForGeneratingState time.Duration
 }
@@ -408,7 +409,11 @@ func (r *resourceDiscoveryWithGraph) discover() error {
 	var err error
 	var ociResources []*tf_export.OCIResource
 
-	ociResources, err = findResources(r.ctx, r.root, r.resourceGraph)
+	// for root step, setting discovery parallelism on
+	// turn it off for further levels
+	r.discoveryParallelism = true
+
+	ociResources, err = findResources(r.ctx, r.root, r.resourceGraph, r.discoveryParallelism)
 	if err != nil {
 		return err
 	}
@@ -534,7 +539,7 @@ func (r *resourceDiscoveryWithTargetIds) discover() error {
 
 		if _, hasRelatedResources := tf_export.ExportRelatedResourcesGraph[resourceHint.ResourceClass]; hasRelatedResources && r.ctx.IsExportWithRelatedResources {
 			utils.Logf("[INFO] resource discovery: finding related resources for %s\n", resourceHint.ResourceClass)
-			ociResources, err := findResources(r.ctx, ociResource, tf_export.ExportRelatedResourcesGraph)
+			ociResources, err := findResources(r.ctx, ociResource, tf_export.ExportRelatedResourcesGraph, r.discoveryParallelism)
 			if err != nil {
 				return err
 			}
