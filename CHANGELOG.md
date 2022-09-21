@@ -1,4 +1,4 @@
-## 4.94.0 (Unreleased)
+## 4.94.0 (September 21, 2022)
 
 ### Added
 - Support for Data Integration Service (DIS) Feature/Enhancement Release - 22b removing one check in test
