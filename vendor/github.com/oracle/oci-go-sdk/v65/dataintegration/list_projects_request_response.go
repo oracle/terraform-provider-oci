@@ -179,16 +179,19 @@ type ListProjectsSortByEnum string
 const (
 	ListProjectsSortByTimeCreated ListProjectsSortByEnum = "TIME_CREATED"
 	ListProjectsSortByDisplayName ListProjectsSortByEnum = "DISPLAY_NAME"
+	ListProjectsSortByTimeUpdated ListProjectsSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListProjectsSortByEnum = map[string]ListProjectsSortByEnum{
 	"TIME_CREATED": ListProjectsSortByTimeCreated,
 	"DISPLAY_NAME": ListProjectsSortByDisplayName,
+	"TIME_UPDATED": ListProjectsSortByTimeUpdated,
 }
 
 var mappingListProjectsSortByEnumLowerCase = map[string]ListProjectsSortByEnum{
 	"time_created": ListProjectsSortByTimeCreated,
 	"display_name": ListProjectsSortByDisplayName,
+	"time_updated": ListProjectsSortByTimeUpdated,
 }
 
 // GetListProjectsSortByEnumValues Enumerates the set of values for ListProjectsSortByEnum
@@ -205,6 +208,7 @@ func GetListProjectsSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 

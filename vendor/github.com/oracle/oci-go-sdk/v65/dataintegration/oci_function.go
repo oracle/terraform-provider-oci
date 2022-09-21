@@ -29,6 +29,25 @@ type OciFunction struct {
 	InputShape *Shape `mandatory:"false" json:"inputShape"`
 
 	OutputShape *Shape `mandatory:"false" json:"outputShape"`
+
+	// The type of the OCI Function object.
+	ModelType OciFunctionModelTypeEnum `mandatory:"false" json:"modelType,omitempty"`
+
+	// The key identifying the OCI Function operator object, use this to identiy this instance within the dataflow.
+	Key *string `mandatory:"false" json:"key"`
+
+	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
+
+	// The model version of an object.
+	ModelVersion *string `mandatory:"false" json:"modelVersion"`
+
+	// The version of the object that is used to track changes in the object instance.
+	ObjectVersion *int `mandatory:"false" json:"objectVersion"`
+
+	// The OCI Function payload format.
+	PayloadFormat OciFunctionPayloadFormatEnum `mandatory:"false" json:"payloadFormat,omitempty"`
+
+	FnConfigDef *FunctionConfigurationDefinition `mandatory:"false" json:"fnConfigDef"`
 }
 
 func (m OciFunction) String() string {
@@ -41,8 +60,98 @@ func (m OciFunction) String() string {
 func (m OciFunction) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingOciFunctionModelTypeEnum(string(m.ModelType)); !ok && m.ModelType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ModelType: %s. Supported values are: %s.", m.ModelType, strings.Join(GetOciFunctionModelTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingOciFunctionPayloadFormatEnum(string(m.PayloadFormat)); !ok && m.PayloadFormat != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PayloadFormat: %s. Supported values are: %s.", m.PayloadFormat, strings.Join(GetOciFunctionPayloadFormatEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// OciFunctionModelTypeEnum Enum with underlying type: string
+type OciFunctionModelTypeEnum string
+
+// Set of constants representing the allowable values for OciFunctionModelTypeEnum
+const (
+	OciFunctionModelTypeOciFunction OciFunctionModelTypeEnum = "OCI_FUNCTION"
+)
+
+var mappingOciFunctionModelTypeEnum = map[string]OciFunctionModelTypeEnum{
+	"OCI_FUNCTION": OciFunctionModelTypeOciFunction,
+}
+
+var mappingOciFunctionModelTypeEnumLowerCase = map[string]OciFunctionModelTypeEnum{
+	"oci_function": OciFunctionModelTypeOciFunction,
+}
+
+// GetOciFunctionModelTypeEnumValues Enumerates the set of values for OciFunctionModelTypeEnum
+func GetOciFunctionModelTypeEnumValues() []OciFunctionModelTypeEnum {
+	values := make([]OciFunctionModelTypeEnum, 0)
+	for _, v := range mappingOciFunctionModelTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetOciFunctionModelTypeEnumStringValues Enumerates the set of values in String for OciFunctionModelTypeEnum
+func GetOciFunctionModelTypeEnumStringValues() []string {
+	return []string{
+		"OCI_FUNCTION",
+	}
+}
+
+// GetMappingOciFunctionModelTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingOciFunctionModelTypeEnum(val string) (OciFunctionModelTypeEnum, bool) {
+	enum, ok := mappingOciFunctionModelTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// OciFunctionPayloadFormatEnum Enum with underlying type: string
+type OciFunctionPayloadFormatEnum string
+
+// Set of constants representing the allowable values for OciFunctionPayloadFormatEnum
+const (
+	OciFunctionPayloadFormatJson      OciFunctionPayloadFormatEnum = "JSON"
+	OciFunctionPayloadFormatAvro      OciFunctionPayloadFormatEnum = "AVRO"
+	OciFunctionPayloadFormatJsonbytes OciFunctionPayloadFormatEnum = "JSONBYTES"
+)
+
+var mappingOciFunctionPayloadFormatEnum = map[string]OciFunctionPayloadFormatEnum{
+	"JSON":      OciFunctionPayloadFormatJson,
+	"AVRO":      OciFunctionPayloadFormatAvro,
+	"JSONBYTES": OciFunctionPayloadFormatJsonbytes,
+}
+
+var mappingOciFunctionPayloadFormatEnumLowerCase = map[string]OciFunctionPayloadFormatEnum{
+	"json":      OciFunctionPayloadFormatJson,
+	"avro":      OciFunctionPayloadFormatAvro,
+	"jsonbytes": OciFunctionPayloadFormatJsonbytes,
+}
+
+// GetOciFunctionPayloadFormatEnumValues Enumerates the set of values for OciFunctionPayloadFormatEnum
+func GetOciFunctionPayloadFormatEnumValues() []OciFunctionPayloadFormatEnum {
+	values := make([]OciFunctionPayloadFormatEnum, 0)
+	for _, v := range mappingOciFunctionPayloadFormatEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetOciFunctionPayloadFormatEnumStringValues Enumerates the set of values in String for OciFunctionPayloadFormatEnum
+func GetOciFunctionPayloadFormatEnumStringValues() []string {
+	return []string{
+		"JSON",
+		"AVRO",
+		"JSONBYTES",
+	}
+}
+
+// GetMappingOciFunctionPayloadFormatEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingOciFunctionPayloadFormatEnum(val string) (OciFunctionPayloadFormatEnum, bool) {
+	enum, ok := mappingOciFunctionPayloadFormatEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

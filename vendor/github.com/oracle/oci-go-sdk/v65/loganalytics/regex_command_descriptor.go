@@ -33,6 +33,9 @@ type RegexCommandDescriptor struct {
 
 	// Fields declared in command fragment from user specified query string.
 	DeclaredFields []AbstractField `mandatory:"false" json:"declaredFields"`
+
+	// Field denoting if this is a hidden command that is not shown in the query string.
+	IsHidden *bool `mandatory:"false" json:"isHidden"`
 }
 
 //GetDisplayQueryString returns DisplayQueryString
@@ -58,6 +61,11 @@ func (m RegexCommandDescriptor) GetReferencedFields() []AbstractField {
 //GetDeclaredFields returns DeclaredFields
 func (m RegexCommandDescriptor) GetDeclaredFields() []AbstractField {
 	return m.DeclaredFields
+}
+
+//GetIsHidden returns IsHidden
+func (m RegexCommandDescriptor) GetIsHidden() *bool {
+	return m.IsHidden
 }
 
 func (m RegexCommandDescriptor) String() string {
@@ -96,6 +104,7 @@ func (m *RegexCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 		Category            *string         `json:"category"`
 		ReferencedFields    []abstractfield `json:"referencedFields"`
 		DeclaredFields      []abstractfield `json:"declaredFields"`
+		IsHidden            *bool           `json:"isHidden"`
 		DisplayQueryString  *string         `json:"displayQueryString"`
 		InternalQueryString *string         `json:"internalQueryString"`
 	}{}
@@ -132,6 +141,8 @@ func (m *RegexCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 			m.DeclaredFields[i] = nil
 		}
 	}
+
+	m.IsHidden = model.IsHidden
 
 	m.DisplayQueryString = model.DisplayQueryString
 

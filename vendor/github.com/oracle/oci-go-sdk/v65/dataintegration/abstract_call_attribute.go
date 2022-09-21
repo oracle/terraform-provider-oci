@@ -59,6 +59,10 @@ func (m *abstractcallattribute) UnmarshalPolymorphicJSON(data []byte) (interface
 		mm := BipCallAttribute{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "GENERIC_REST_CALL_ATTRIBUTE":
+		mm := GenericRestCallAttribute{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}
@@ -90,15 +94,18 @@ type AbstractCallAttributeModelTypeEnum string
 
 // Set of constants representing the allowable values for AbstractCallAttributeModelTypeEnum
 const (
-	AbstractCallAttributeModelTypeBipCallAttribute AbstractCallAttributeModelTypeEnum = "BIP_CALL_ATTRIBUTE"
+	AbstractCallAttributeModelTypeBipCallAttribute         AbstractCallAttributeModelTypeEnum = "BIP_CALL_ATTRIBUTE"
+	AbstractCallAttributeModelTypeGenericRestCallAttribute AbstractCallAttributeModelTypeEnum = "GENERIC_REST_CALL_ATTRIBUTE"
 )
 
 var mappingAbstractCallAttributeModelTypeEnum = map[string]AbstractCallAttributeModelTypeEnum{
-	"BIP_CALL_ATTRIBUTE": AbstractCallAttributeModelTypeBipCallAttribute,
+	"BIP_CALL_ATTRIBUTE":          AbstractCallAttributeModelTypeBipCallAttribute,
+	"GENERIC_REST_CALL_ATTRIBUTE": AbstractCallAttributeModelTypeGenericRestCallAttribute,
 }
 
 var mappingAbstractCallAttributeModelTypeEnumLowerCase = map[string]AbstractCallAttributeModelTypeEnum{
-	"bip_call_attribute": AbstractCallAttributeModelTypeBipCallAttribute,
+	"bip_call_attribute":          AbstractCallAttributeModelTypeBipCallAttribute,
+	"generic_rest_call_attribute": AbstractCallAttributeModelTypeGenericRestCallAttribute,
 }
 
 // GetAbstractCallAttributeModelTypeEnumValues Enumerates the set of values for AbstractCallAttributeModelTypeEnum
@@ -114,6 +121,7 @@ func GetAbstractCallAttributeModelTypeEnumValues() []AbstractCallAttributeModelT
 func GetAbstractCallAttributeModelTypeEnumStringValues() []string {
 	return []string{
 		"BIP_CALL_ATTRIBUTE",
+		"GENERIC_REST_CALL_ATTRIBUTE",
 	}
 }
 

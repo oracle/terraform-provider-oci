@@ -138,6 +138,52 @@ type ResourceDiscoveryError struct {
 	Error          error
 	ResourceGraph  *TerraformResourceGraph
 }
+type ResourceDiscoveryCustomError struct {
+	TypeOfError ErrorTypeEnum
+	Message     error
+	Suggestion  string
+}
+
+const (
+	// RD Error Message
+	WriteTmpStateError                ErrorTypeEnum = "WriteTmpStateError"
+	IdsNotFoundError                  ErrorTypeEnum = "IdsNotFoundError"
+	PartiallyResourcesDiscoveredError ErrorTypeEnum = "PartiallyResourcesDiscoveredError"
+
+	WriteTmpStateErrorMessage              = "[ERROR] error writing temp state for resources found:"
+	IdsNotFoundErrorMessage                = "[ERROR] one or more expected resource ids were not found"
+	PartiallyResourcesDiscoveredSuggestion = `This error could happen if:
+				1. GET/LIST api failed to get the resource.
+				2. If GET request requires more attributes than the OCID of a resource. If the resource supports composite id, make sure correct composite Id is getting set in resource data using getIdFn resource hint.
+				3. If resource is dependent on another resource(parent), the field for the parent resource should be a required field in API.
+				4. If a resource is tenancy specific i.e. it can only be created in the tenancy then the resource should be present under tenancyResourcesGraphs.`
+	WriteTmpStateErrorSuggestion = "Unsupported Terraform version! Please install supported terraform v.0.12 - https://releases.hashicorp.com/terraform/0.12.31/"
+	IdsNotFoundSuggestion        = "SetData() method should not contains parameters are not supported by schema\""
+)
+
+func (tfE ResourceDiscoveryCustomError) Error() error {
+	switch tfE.TypeOfError {
+	case WriteTmpStateError:
+		return fmt.Errorf(
+			"Error Message: %s \n"+
+				"Suggestion: %s\n",
+			tfE.Message.Error(), tfE.Suggestion)
+	case IdsNotFoundError:
+		return fmt.Errorf(
+			"Error Message: %s \n"+
+				"Suggestion: %s\n",
+			tfE.Message.Error(), tfE.Suggestion)
+	case PartiallyResourcesDiscoveredError:
+		return fmt.Errorf(
+			"Error Message: %s \n"+
+				"Suggestion: %s\n",
+			tfE.Message.Error(), tfE.Suggestion)
+	default:
+		return fmt.Errorf(tfE.Message.Error())
+	}
+}
+
+type ErrorTypeEnum string
 
 var TfHclVersionvar TfHclVersion
 var GetHclStringFromGenericMap = func(builder *strings.Builder, ociRes *OCIResource, interpolationMap map[string]string) error {

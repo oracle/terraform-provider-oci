@@ -195,16 +195,19 @@ type ListPublishedObjectsSortByEnum string
 const (
 	ListPublishedObjectsSortByTimeCreated ListPublishedObjectsSortByEnum = "TIME_CREATED"
 	ListPublishedObjectsSortByDisplayName ListPublishedObjectsSortByEnum = "DISPLAY_NAME"
+	ListPublishedObjectsSortByTimeUpdated ListPublishedObjectsSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListPublishedObjectsSortByEnum = map[string]ListPublishedObjectsSortByEnum{
 	"TIME_CREATED": ListPublishedObjectsSortByTimeCreated,
 	"DISPLAY_NAME": ListPublishedObjectsSortByDisplayName,
+	"TIME_UPDATED": ListPublishedObjectsSortByTimeUpdated,
 }
 
 var mappingListPublishedObjectsSortByEnumLowerCase = map[string]ListPublishedObjectsSortByEnum{
 	"time_created": ListPublishedObjectsSortByTimeCreated,
 	"display_name": ListPublishedObjectsSortByDisplayName,
+	"time_updated": ListPublishedObjectsSortByTimeUpdated,
 }
 
 // GetListPublishedObjectsSortByEnumValues Enumerates the set of values for ListPublishedObjectsSortByEnum
@@ -221,6 +224,7 @@ func GetListPublishedObjectsSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 
