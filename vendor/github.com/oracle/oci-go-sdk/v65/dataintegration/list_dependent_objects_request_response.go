@@ -192,16 +192,19 @@ type ListDependentObjectsSortByEnum string
 const (
 	ListDependentObjectsSortByTimeCreated ListDependentObjectsSortByEnum = "TIME_CREATED"
 	ListDependentObjectsSortByDisplayName ListDependentObjectsSortByEnum = "DISPLAY_NAME"
+	ListDependentObjectsSortByTimeUpdated ListDependentObjectsSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListDependentObjectsSortByEnum = map[string]ListDependentObjectsSortByEnum{
 	"TIME_CREATED": ListDependentObjectsSortByTimeCreated,
 	"DISPLAY_NAME": ListDependentObjectsSortByDisplayName,
+	"TIME_UPDATED": ListDependentObjectsSortByTimeUpdated,
 }
 
 var mappingListDependentObjectsSortByEnumLowerCase = map[string]ListDependentObjectsSortByEnum{
 	"time_created": ListDependentObjectsSortByTimeCreated,
 	"display_name": ListDependentObjectsSortByDisplayName,
+	"time_updated": ListDependentObjectsSortByTimeUpdated,
 }
 
 // GetListDependentObjectsSortByEnumValues Enumerates the set of values for ListDependentObjectsSortByEnum
@@ -218,6 +221,7 @@ func GetListDependentObjectsSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 

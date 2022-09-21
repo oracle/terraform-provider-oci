@@ -894,7 +894,7 @@ func TestUnitloadBalancersSuppressDiff(t *testing.T) {
 		{
 			name:   "Test HasChange() is true and output is true",
 			args:   args{d: changeReqResourceData("4")},
-			output: true,
+			output: false,
 		},
 	}
 	for _, test := range tests {

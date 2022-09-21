@@ -74,6 +74,10 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := UpdateGithubAccessTokenConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "VBS_ACCESS_TOKEN":
+		mm := UpdateVbsAccessTokenConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "BITBUCKET_SERVER_ACCESS_TOKEN":
 		mm := UpdateBitbucketServerAccessTokenConnectionDetails{}
 		err = json.Unmarshal(data, &mm)

@@ -99,6 +99,21 @@ func LogAnalyticsLogAnalyticsObjectCollectionRuleResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"log_set": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"log_set_ext_regex": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"log_set_key": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"object_name_filters": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -152,6 +167,11 @@ func LogAnalyticsLogAnalyticsObjectCollectionRuleResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"timezone": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 
 			// Computed
@@ -283,6 +303,20 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) Create() erro
 		request.LogGroupId = &tmp
 	}
 
+	if logSet, ok := s.D.GetOkExists("log_set"); ok {
+		tmp := logSet.(string)
+		request.LogSet = &tmp
+	}
+
+	if logSetExtRegex, ok := s.D.GetOkExists("log_set_ext_regex"); ok {
+		tmp := logSetExtRegex.(string)
+		request.LogSetExtRegex = &tmp
+	}
+
+	if logSetKey, ok := s.D.GetOkExists("log_set_key"); ok {
+		request.LogSetKey = oci_log_analytics.LogSetKeyTypesEnum(logSetKey.(string))
+	}
+
 	if logSourceName, ok := s.D.GetOkExists("log_source_name"); ok {
 		tmp := logSourceName.(string)
 		request.LogSourceName = &tmp
@@ -346,6 +380,11 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) Create() erro
 	if pollTill, ok := s.D.GetOkExists("poll_till"); ok {
 		tmp := pollTill.(string)
 		request.PollTill = &tmp
+	}
+
+	if timezone, ok := s.D.GetOkExists("timezone"); ok {
+		tmp := timezone.(string)
+		request.Timezone = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
@@ -441,6 +480,20 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) Update() erro
 		request.LogGroupId = &tmp
 	}
 
+	if logSet, ok := s.D.GetOkExists("log_set"); ok {
+		tmp := logSet.(string)
+		request.LogSet = &tmp
+	}
+
+	if logSetExtRegex, ok := s.D.GetOkExists("log_set_ext_regex"); ok {
+		tmp := logSetExtRegex.(string)
+		request.LogSetExtRegex = &tmp
+	}
+
+	if logSetKey, ok := s.D.GetOkExists("log_set_key"); ok {
+		request.LogSetKey = oci_log_analytics.LogSetKeyTypesEnum(logSetKey.(string))
+	}
+
 	if logSourceName, ok := s.D.GetOkExists("log_source_name"); ok {
 		tmp := logSourceName.(string)
 		request.LogSourceName = &tmp
@@ -479,6 +532,11 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) Update() erro
 		if len(tmp) != 0 || s.D.HasChange("overrides") {
 			request.Overrides = map[string][]oci_log_analytics.PropertyOverride{"items": tmp}
 		}
+	}
+
+	if timezone, ok := s.D.GetOkExists("timezone"); ok {
+		tmp := timezone.(string)
+		request.Timezone = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
@@ -551,6 +609,16 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) SetData() err
 		s.D.Set("log_group_id", *s.Res.LogGroupId)
 	}
 
+	if s.Res.LogSet != nil {
+		s.D.Set("log_set", *s.Res.LogSet)
+	}
+
+	if s.Res.LogSetExtRegex != nil {
+		s.D.Set("log_set_ext_regex", *s.Res.LogSetExtRegex)
+	}
+
+	s.D.Set("log_set_key", s.Res.LogSetKey)
+
 	if s.Res.LogSourceName != nil {
 		s.D.Set("log_source_name", *s.Res.LogSourceName)
 	}
@@ -591,6 +659,10 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) SetData() err
 
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	}
+
+	if s.Res.Timezone != nil {
+		s.D.Set("timezone", *s.Res.Timezone)
 	}
 
 	return nil

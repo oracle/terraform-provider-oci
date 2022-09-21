@@ -23,7 +23,9 @@ import (
 	tf_blockchain "github.com/oracle/terraform-provider-oci/internal/service/blockchain"
 	tf_budget "github.com/oracle/terraform-provider-oci/internal/service/budget"
 	tf_certificates_management "github.com/oracle/terraform-provider-oci/internal/service/certificates_management"
+	tf_cloud_bridge "github.com/oracle/terraform-provider-oci/internal/service/cloud_bridge"
 	tf_cloud_guard "github.com/oracle/terraform-provider-oci/internal/service/cloud_guard"
+	tf_cloud_migrations "github.com/oracle/terraform-provider-oci/internal/service/cloud_migrations"
 	tf_computeinstanceagent "github.com/oracle/terraform-provider-oci/internal/service/computeinstanceagent"
 	tf_containerengine "github.com/oracle/terraform-provider-oci/internal/service/containerengine"
 	tf_core "github.com/oracle/terraform-provider-oci/internal/service/core"
@@ -122,7 +124,9 @@ func init() {
 	tf_blockchain.RegisterDatasource()
 	tf_budget.RegisterDatasource()
 	tf_certificates_management.RegisterDatasource()
+	tf_cloud_bridge.RegisterDatasource()
 	tf_cloud_guard.RegisterDatasource()
+	tf_cloud_migrations.RegisterDatasource()
 	tf_computeinstanceagent.RegisterDatasource()
 	tf_containerengine.RegisterDatasource()
 	tf_core.RegisterDatasource()

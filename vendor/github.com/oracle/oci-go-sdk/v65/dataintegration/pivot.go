@@ -55,6 +55,8 @@ type Pivot struct {
 
 	GroupByColumns *DynamicProxyField `mandatory:"false" json:"groupByColumns"`
 
+	MaterializedGroupByColumns *MaterializedDynamicField `mandatory:"false" json:"materializedGroupByColumns"`
+
 	PivotKeys *PivotKeys `mandatory:"false" json:"pivotKeys"`
 }
 
@@ -151,20 +153,21 @@ func (m Pivot) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *Pivot) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Key            *string            `json:"key"`
-		ModelVersion   *string            `json:"modelVersion"`
-		ParentRef      *ParentReference   `json:"parentRef"`
-		Name           *string            `json:"name"`
-		Description    *string            `json:"description"`
-		ObjectVersion  *int               `json:"objectVersion"`
-		InputPorts     []InputPort        `json:"inputPorts"`
-		OutputPorts    []typedobject      `json:"outputPorts"`
-		ObjectStatus   *int               `json:"objectStatus"`
-		Identifier     *string            `json:"identifier"`
-		Parameters     []Parameter        `json:"parameters"`
-		OpConfigValues *ConfigValues      `json:"opConfigValues"`
-		GroupByColumns *DynamicProxyField `json:"groupByColumns"`
-		PivotKeys      *PivotKeys         `json:"pivotKeys"`
+		Key                        *string                   `json:"key"`
+		ModelVersion               *string                   `json:"modelVersion"`
+		ParentRef                  *ParentReference          `json:"parentRef"`
+		Name                       *string                   `json:"name"`
+		Description                *string                   `json:"description"`
+		ObjectVersion              *int                      `json:"objectVersion"`
+		InputPorts                 []InputPort               `json:"inputPorts"`
+		OutputPorts                []typedobject             `json:"outputPorts"`
+		ObjectStatus               *int                      `json:"objectStatus"`
+		Identifier                 *string                   `json:"identifier"`
+		Parameters                 []Parameter               `json:"parameters"`
+		OpConfigValues             *ConfigValues             `json:"opConfigValues"`
+		GroupByColumns             *DynamicProxyField        `json:"groupByColumns"`
+		MaterializedGroupByColumns *MaterializedDynamicField `json:"materializedGroupByColumns"`
+		PivotKeys                  *PivotKeys                `json:"pivotKeys"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -214,6 +217,8 @@ func (m *Pivot) UnmarshalJSON(data []byte) (e error) {
 	m.OpConfigValues = model.OpConfigValues
 
 	m.GroupByColumns = model.GroupByColumns
+
+	m.MaterializedGroupByColumns = model.MaterializedGroupByColumns
 
 	m.PivotKeys = model.PivotKeys
 

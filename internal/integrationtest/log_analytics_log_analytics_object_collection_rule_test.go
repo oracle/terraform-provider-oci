@@ -69,13 +69,15 @@ var (
 		"description":         acctest.Representation{RepType: acctest.Optional, Create: `test terraform rule create`, Update: `test terraform rule update`},
 		"entity_id":           acctest.Representation{RepType: acctest.Optional, Create: `${oci_log_analytics_log_analytics_entity.test_log_analytics_entity.id}`},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"log_set":             acctest.Representation{RepType: acctest.Optional, Create: `logSet`, Update: `logSet2`},
 		"object_name_filters": acctest.Representation{RepType: acctest.Optional, Create: []string{`objectNameFilters`}, Update: []string{`objectNameFilters2`}},
+		"timezone":            acctest.Representation{RepType: acctest.Optional, Create: `Asia/Dhaka`, Update: `America/New_York`},
 		"overrides":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: logAnalyticsObjectCollectionRulePropertyOverridesRepresentation},
 	}
 
 	// Log Analytics Log Group and Log Analytics Entity dependencies are removed and values are provided as environment variables.
 	LogAnalyticsLogAnalyticsObjectCollectionRuleResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsNamespaceSingularDataSourceRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_log_group", "test_log_analytics_log_group", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsLogGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", acctest.Optional, acctest.Create, LogAnalyticsLogAnalyticsEntityRepresentation)
@@ -146,6 +148,8 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
+				resource.TestCheckResourceAttr(resourceName, "log_set", "logSet"),
+				resource.TestCheckResourceAttr(resourceName, "object_name_filters.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "log_source_name", "LinuxSyslogSource"),
 				resource.TestCheckResourceAttr(resourceName, "name", "test_terraform_rule"),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -159,6 +163,7 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "timezone", "Asia/Dhaka"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -188,6 +193,8 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
+				resource.TestCheckResourceAttr(resourceName, "log_set", "logSet"),
+				resource.TestCheckResourceAttr(resourceName, "object_name_filters.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "log_source_name", "LinuxSyslogSource"),
 				resource.TestCheckResourceAttr(resourceName, "name", "test_terraform_rule"),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -201,6 +208,7 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "timezone", "Asia/Dhaka"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -226,6 +234,8 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
+				resource.TestCheckResourceAttr(resourceName, "log_set", "logSet2"),
+				resource.TestCheckResourceAttr(resourceName, "object_name_filters.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "log_source_name", "LinuxSyslogSource"),
 				resource.TestCheckResourceAttr(resourceName, "name", "test_terraform_rule"),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -239,6 +249,7 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "timezone", "America/New_York"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -281,6 +292,8 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "test terraform rule update"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "log_set", "logSet2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "object_name_filters.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "log_source_name", "LinuxSyslogSource"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "test_terraform_rule"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "os_namespace"),
@@ -292,6 +305,7 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "timezone", "America/New_York"),
 			),
 		},
 		// verify resource import

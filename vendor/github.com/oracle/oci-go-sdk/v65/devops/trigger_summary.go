@@ -134,6 +134,10 @@ func (m *triggersummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		mm := BitbucketServerTriggerSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "VBS":
+		mm := VbsTriggerSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}

@@ -38,6 +38,7 @@ func init() {
 	exportCoreDrgRouteTableRouteRuleHints.DatasourceClass = "oci_core_drg_route_table_route_rules"
 	exportCoreDrgRouteTableRouteRuleHints.DatasourceItemsAttr = "drg_route_rules"
 	exportCoreDrgRouteTableRouteRuleHints.ProcessDiscoveredResourcesFn = processDrgRouteTableRouteRules
+	exportCoreDrgRouteDistributionHints.ProcessDiscoveredResourcesFn = processDrgRouteDistributions
 	tf_export.RegisterCompartmentGraphs("core", coreResourceGraph)
 	tf_export.RegisterRelatedResourcesGraph("oci_core_instance", relatedcoreinstance)
 	tf_export.RegisterRelatedResourcesGraph("oci_core_volume_attachment", relatedcorevolumeattachment)
@@ -54,6 +55,23 @@ func processDrgRouteTableRouteRules(ctx *tf_export.ResourceDiscoveryContext, res
 		resource.SourceAttributes["drg_route_table_id"] = resource.Parent.Id
 	}
 	return resources, nil
+}
+
+func processDrgRouteDistributions(ctx *tf_export.ResourceDiscoveryContext, resources []*tf_export.OCIResource) ([]*tf_export.OCIResource, error) {
+
+	// filtering out export drg route distributions, if the drg route distributions is of type "export", we don't consider it.
+	results := []*tf_export.OCIResource{}
+	for _, resource := range resources {
+		if resource == nil {
+			continue
+		}
+
+		if resource.SourceAttributes["distribution_type"] != nil && resource.SourceAttributes["distribution_type"].(string) == "EXPORT" {
+			continue // skip over export drg route distributions
+		}
+		results = append(results, resource)
+	}
+	return results, nil
 }
 
 func processVolumeGroups(ctx *tf_export.ResourceDiscoveryContext, resources []*tf_export.OCIResource) ([]*tf_export.OCIResource, error) {

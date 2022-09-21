@@ -73,6 +73,7 @@ func DevopsTriggerResource() *schema.Resource {
 											"GITHUB",
 											"GITLAB",
 											"GITLAB_SERVER",
+											"VBS",
 										}, true),
 									},
 
@@ -170,6 +171,11 @@ func DevopsTriggerResource() *schema.Resource {
 													Optional: true,
 													Computed: true,
 												},
+												"repository_name": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
 
 												// Computed
 											},
@@ -201,6 +207,7 @@ func DevopsTriggerResource() *schema.Resource {
 					"GITHUB",
 					"GITLAB",
 					"GITLAB_SERVER",
+					"VBS",
 				}, true),
 			},
 
@@ -850,6 +857,62 @@ func (s *DevopsTriggerResourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_devops.VbsTrigger:
+		s.D.Set("trigger_source", "VBS")
+
+		if v.ConnectionId != nil {
+			s.D.Set("connection_id", *v.ConnectionId)
+		}
+
+		if v.TriggerUrl != nil {
+			s.D.Set("trigger_url", *v.TriggerUrl)
+		}
+
+		actions := []interface{}{}
+		for _, item := range v.Actions {
+			actions = append(actions, TriggerActionToMap(item))
+		}
+		s.D.Set("actions", actions)
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	default:
 		log.Printf("[WARN] Received 'trigger_source' of unknown type %v", *s.Res)
 		return nil
@@ -1236,6 +1299,41 @@ func (s *DevopsTriggerResourceCrud) mapToFilter(fieldKeyFormat string) (oci_devo
 			}
 		}
 		baseObject = details
+	case strings.ToLower("VBS"):
+		details := oci_devops.VbsFilter{}
+		if events, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "events")); ok {
+			interfaces := events.([]interface{})
+			tmp := make([]oci_devops.VbsFilterEventsEnum, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = oci_devops.VbsFilterEventsEnum(interfaces[i].(string))
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "events")) {
+				details.Events = tmp
+			}
+		}
+		if exclude, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "exclude")); ok {
+			if tmpList := exclude.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "exclude"), 0)
+				tmp, err := s.mapToVbsFilterExclusionAttributes(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert exclude, encountered error: %v", err)
+				}
+				details.Exclude = &tmp
+			}
+		}
+		if include, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "include")); ok {
+			if tmpList := include.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "include"), 0)
+				tmp, err := s.mapToVbsFilterAttributes(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert include, encountered error: %v", err)
+				}
+				details.Include = &tmp
+			}
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown trigger_source '%v' was specified", triggerSource)
 	}
@@ -1292,6 +1390,19 @@ func TriggerFilterToMap(obj *oci_devops.Filter) map[string]interface{} {
 
 		if v.Include != nil {
 			result["include"] = []interface{}{TriggerGitlabFilterAttributesToMap(v.Include)}
+		}
+	case oci_devops.VbsFilter:
+		result["trigger_source"] = "VBS"
+
+		result["events"] = v.Events
+		result["events"] = v.Events
+
+		if v.Exclude != nil {
+			result["exclude"] = []interface{}{TriggerVbsFilterExclusionAttributesToMap(v.Exclude)}
+		}
+
+		if v.Include != nil {
+			result["include"] = []interface{}{TriggerVbsFilterAttributesToMap(v.Include)}
 		}
 	default:
 		log.Printf("[WARN] Received 'trigger_source' of unknown type %v", *obj)
@@ -1597,9 +1708,96 @@ func TriggerSummaryToMap(obj oci_devops.TriggerSummary) map[string]interface{} {
 		}
 	case oci_devops.GitlabServerTriggerSummary:
 		result["trigger_source"] = "GITLAB_SERVER"
+	case oci_devops.VbsTriggerSummary:
+		result["trigger_source"] = "VBS"
+
+		if v.ConnectionId != nil {
+			result["connection_id"] = string(*v.ConnectionId)
+		}
 	default:
 		log.Printf("[WARN] Received 'trigger_source' of unknown type %v", obj)
 		return nil
+	}
+
+	return result
+}
+
+func (s *DevopsTriggerResourceCrud) mapToVbsFilterAttributes(fieldKeyFormat string) (oci_devops.VbsFilterAttributes, error) {
+	result := oci_devops.VbsFilterAttributes{}
+
+	if baseRef, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "base_ref")); ok {
+		tmp := baseRef.(string)
+		result.BaseRef = &tmp
+	}
+
+	if fileFilter, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "file_filter")); ok {
+		if tmpList := fileFilter.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "file_filter"), 0)
+			tmp, err := s.mapToFileFilter(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert file_filter, encountered error: %v", err)
+			}
+			result.FileFilter = &tmp
+		}
+	}
+
+	if headRef, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "head_ref")); ok {
+		tmp := headRef.(string)
+		result.HeadRef = &tmp
+	}
+
+	if repositoryName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "repository_name")); ok {
+		tmp := repositoryName.(string)
+		result.RepositoryName = &tmp
+	}
+
+	return result, nil
+}
+
+func TriggerVbsFilterAttributesToMap(obj *oci_devops.VbsFilterAttributes) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.BaseRef != nil {
+		result["base_ref"] = string(*obj.BaseRef)
+	}
+
+	if obj.FileFilter != nil {
+		result["file_filter"] = []interface{}{FileFilterToMap(obj.FileFilter)}
+	}
+
+	if obj.HeadRef != nil {
+		result["head_ref"] = string(*obj.HeadRef)
+	}
+
+	if obj.RepositoryName != nil {
+		result["repository_name"] = string(*obj.RepositoryName)
+	}
+
+	return result
+}
+
+func (s *DevopsTriggerResourceCrud) mapToVbsFilterExclusionAttributes(fieldKeyFormat string) (oci_devops.VbsFilterExclusionAttributes, error) {
+	result := oci_devops.VbsFilterExclusionAttributes{}
+
+	if fileFilter, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "file_filter")); ok {
+		if tmpList := fileFilter.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "file_filter"), 0)
+			tmp, err := s.mapToFileFilter(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert file_filter, encountered error: %v", err)
+			}
+			result.FileFilter = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+func TriggerVbsFilterExclusionAttributesToMap(obj *oci_devops.VbsFilterExclusionAttributes) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.FileFilter != nil {
+		result["file_filter"] = []interface{}{FileFilterToMap(obj.FileFilter)}
 	}
 
 	return result
@@ -1877,6 +2075,51 @@ func (s *DevopsTriggerResourceCrud) populateTopLevelPolymorphicCreateTriggerRequ
 			details.ProjectId = &tmp
 		}
 		request.CreateTriggerDetails = details
+	case strings.ToLower("VBS"):
+		details := oci_devops.CreateVbsTriggerDetails{}
+		if connectionId, ok := s.D.GetOkExists("connection_id"); ok {
+			tmp := connectionId.(string)
+			details.ConnectionId = &tmp
+		}
+		if actions, ok := s.D.GetOkExists("actions"); ok {
+			interfaces := actions.([]interface{})
+			tmp := make([]oci_devops.TriggerAction, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "actions", stateDataIndex)
+				converted, err := s.mapToTriggerAction(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("actions") {
+				details.Actions = tmp
+			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if projectId, ok := s.D.GetOkExists("project_id"); ok {
+			tmp := projectId.(string)
+			details.ProjectId = &tmp
+		}
+		request.CreateTriggerDetails = details
 	default:
 		return fmt.Errorf("unknown trigger_source '%v' was specified", triggerSource)
 	}
@@ -2106,6 +2349,49 @@ func (s *DevopsTriggerResourceCrud) populateTopLevelPolymorphicUpdateTriggerRequ
 		request.UpdateTriggerDetails = details
 	case strings.ToLower("GITLAB_SERVER"):
 		details := oci_devops.UpdateGitlabServerTriggerDetails{}
+		if actions, ok := s.D.GetOkExists("actions"); ok {
+			interfaces := actions.([]interface{})
+			tmp := make([]oci_devops.TriggerAction, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "actions", stateDataIndex)
+				converted, err := s.mapToTriggerAction(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("actions") {
+				details.Actions = tmp
+			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		tmp := s.D.Id()
+		request.TriggerId = &tmp
+		request.UpdateTriggerDetails = details
+	case strings.ToLower("VBS"):
+		details := oci_devops.UpdateVbsTriggerDetails{}
+		if connectionId, ok := s.D.GetOkExists("connection_id"); ok {
+			tmp := connectionId.(string)
+			details.ConnectionId = &tmp
+		}
 		if actions, ok := s.D.GetOkExists("actions"); ok {
 			interfaces := actions.([]interface{})
 			tmp := make([]oci_devops.TriggerAction, len(interfaces))

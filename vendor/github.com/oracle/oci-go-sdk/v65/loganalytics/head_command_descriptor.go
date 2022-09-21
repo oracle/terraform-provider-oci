@@ -34,6 +34,9 @@ type HeadCommandDescriptor struct {
 	// Fields declared in command fragment from user specified query string.
 	DeclaredFields []AbstractField `mandatory:"false" json:"declaredFields"`
 
+	// Field denoting if this is a hidden command that is not shown in the query string.
+	IsHidden *bool `mandatory:"false" json:"isHidden"`
+
 	// Value specified as limit argument in queryString
 	Limit *int `mandatory:"false" json:"limit"`
 }
@@ -61,6 +64,11 @@ func (m HeadCommandDescriptor) GetReferencedFields() []AbstractField {
 //GetDeclaredFields returns DeclaredFields
 func (m HeadCommandDescriptor) GetDeclaredFields() []AbstractField {
 	return m.DeclaredFields
+}
+
+//GetIsHidden returns IsHidden
+func (m HeadCommandDescriptor) GetIsHidden() *bool {
+	return m.IsHidden
 }
 
 func (m HeadCommandDescriptor) String() string {
@@ -99,6 +107,7 @@ func (m *HeadCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 		Category            *string         `json:"category"`
 		ReferencedFields    []abstractfield `json:"referencedFields"`
 		DeclaredFields      []abstractfield `json:"declaredFields"`
+		IsHidden            *bool           `json:"isHidden"`
 		Limit               *int            `json:"limit"`
 		DisplayQueryString  *string         `json:"displayQueryString"`
 		InternalQueryString *string         `json:"internalQueryString"`
@@ -136,6 +145,8 @@ func (m *HeadCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 			m.DeclaredFields[i] = nil
 		}
 	}
+
+	m.IsHidden = model.IsHidden
 
 	m.Limit = model.Limit
 

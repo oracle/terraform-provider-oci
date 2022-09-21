@@ -44,6 +44,9 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this rule.
 * `lifecycle_details` - A detailed status of the life cycle state.
 * `log_group_id` - Logging Analytics Log group OCID to associate the processed logs with.
+* `log_set` - The logSet to be associated with the processed logs. The logSet feature can be used by customers with high volume of data  and this feature has to be enabled for a given tenancy prior to its usage. When logSetExtRegex value is provided, it will take precedence over this logSet value and logSet will be computed dynamically  using logSetKey and logSetExtRegex. 
+* `log_set_ext_regex` - The regex to be applied against given logSetKey. Regex has to be in string escaped format. 
+* `log_set_key` - An optional parameter to indicate from where the logSet to be extracted using logSetExtRegex. Default value is OBJECT_PATH (e.g. /n/<namespace>/b/<bucketname>/o/<objectname>). 
 * `log_source_name` - Name of the Logging Analytics Source to use for the processing.
 * `name` - A unique name to the rule. The name must be unique, within the tenancy, and cannot be changed.
 * `object_name_filters` - When the filters are provided, only the objects matching the filters are picked up for processing. The matchType supported is exact match and accommodates wildcard "*". For more information on filters, see [Event Filters](https://docs.oracle.com/en-us/iaas/Content/Events/Concepts/filterevents.htm). 
@@ -55,4 +58,5 @@ The following attributes are exported:
 * `state` - The current state of the rule. 
 * `time_created` - The time when this rule was created. An RFC3339 formatted datetime string.
 * `time_updated` - The time when this rule was last updated. An RFC3339 formatted datetime string.
+* `timezone` - Timezone to be used when processing log entries whose timestamps do not include an explicit timezone.  When this property is not specified, the timezone of the entity specified is used.  If the entity is also not specified or do not have a valid timezone then UTC is used. 
 
