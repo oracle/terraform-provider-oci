@@ -110,10 +110,14 @@ resource "oci_apm_synthetics_monitor" "test_monitor" {
 The following arguments are supported:
 
 * `apm_domain_id` - (Required) (Updatable) The APM domain ID the request is intended for. 
+<<<<<<< ours
+* `batch_interval_in_seconds` - (Optional) (Updatable) Time interval between 2 runs in round robin batch mode (*SchedulingPolicy - BATCHED_ROUND_ROBIN).
+=======
 * `display_name` - (Required) (Updatable) Unique name that can be edited. The name should not contain any confidential information.
 * `monitor_type` - (Required) Type of monitor.
 * `repeat_interval_in_seconds` - (Required) (Updatable) Interval in seconds after the start time when the job should be repeated. Minimum repeatIntervalInSeconds should be 300 seconds.
 * `vantage_points` - (Required) (Updatable) A list of vantage points from which to execute the monitor. Use /publicVantagePoints to fetch public vantage points.
+>>>>>>> theirs
 * `configuration` - (Optional) (Updatable) Details of monitor configuration.
 	* `config_type` - (Optional) (Updatable) Type of configuration.
 	* `dns_configuration` - (Optional) (Updatable) Dns settings.
