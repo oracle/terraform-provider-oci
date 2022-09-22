@@ -32,8 +32,12 @@ resource "oci_stack_monitoring_monitored_resource" "test_monitored_resource" {
 	host_name = var.stack_mon_hostname_resource1
 	management_agent_id = var.stack_mon_management_agent_id_resource1
 	properties {
-		name = "OS"
+		name = "osName"
 		value = "Linux"
+	}
+	properties {
+		name = "osVersion"
+		value = "7.0"
 	}
 	resource_time_zone = "en"
 }

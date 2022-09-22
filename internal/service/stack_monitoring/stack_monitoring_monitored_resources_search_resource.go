@@ -34,6 +34,27 @@ func StackMonitoringMonitoredResourcesSearchResource() *schema.Resource {
 			},
 
 			// Optional
+			"exclude_fields": {
+				Type:     schema.TypeList,
+				Optional: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"external_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+			},
+			"fields": {
+				Type:     schema.TypeList,
+				Optional: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"host_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -125,6 +146,10 @@ func StackMonitoringMonitoredResourcesSearchResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"external_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"freeform_tags": {
 							Type:     schema.TypeMap,
 							Computed: true,
@@ -145,6 +170,27 @@ func StackMonitoringMonitoredResourcesSearchResource() *schema.Resource {
 						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
+						},
+						"properties": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"value": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
 						},
 						"state": {
 							Type:     schema.TypeString,
@@ -231,6 +277,37 @@ func (s *StackMonitoringMonitoredResourcesSearchResourceCrud) Create() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if excludeFields, ok := s.D.GetOkExists("exclude_fields"); ok {
+		interfaces := excludeFields.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("exclude_fields") {
+			request.ExcludeFields = tmp
+		}
+	}
+
+	if externalId, ok := s.D.GetOkExists("external_id"); ok {
+		tmp := externalId.(string)
+		request.ExternalId = &tmp
+	}
+
+	if fields, ok := s.D.GetOkExists("fields"); ok {
+		interfaces := fields.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("fields") {
+			request.Fields = tmp
+		}
 	}
 
 	if hostName, ok := s.D.GetOkExists("host_name"); ok {
@@ -340,6 +417,10 @@ func MonitoredResourceSummaryToMap(obj oci_stack_monitoring.MonitoredResourceSum
 		result["display_name"] = string(*obj.DisplayName)
 	}
 
+	if obj.ExternalId != nil {
+		result["external_id"] = string(*obj.ExternalId)
+	}
+
 	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.HostName != nil {
@@ -357,6 +438,12 @@ func MonitoredResourceSummaryToMap(obj oci_stack_monitoring.MonitoredResourceSum
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
 	}
+
+	properties := []interface{}{}
+	for _, item := range obj.Properties {
+		properties = append(properties, MonitoredResourcePropertyToMap(item))
+	}
+	result["properties"] = properties
 
 	result["state"] = string(obj.LifecycleState)
 

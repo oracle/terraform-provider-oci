@@ -40,6 +40,26 @@ var (
 		"monitored_resource_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_stack_monitoring_monitored_resource.test_monitored_resource.id}`},
 	}
 
+	StackMonitoringMonitoredResourceOSCreateProperty1 = map[string]interface{}{
+		"name":  acctest.Representation{RepType: acctest.Required, Create: `osName`},
+		"value": acctest.Representation{RepType: acctest.Required, Create: `Linux`},
+	}
+
+	StackMonitoringMonitoredResourceOSCreateProperty2 = map[string]interface{}{
+		"name":  acctest.Representation{RepType: acctest.Required, Create: `osVersion`},
+		"value": acctest.Representation{RepType: acctest.Required, Create: `7.0`},
+	}
+
+	StackMonitoringMonitoredResourceOSUpdateProperty1 = map[string]interface{}{
+		"name":  acctest.Representation{RepType: acctest.Required, Update: `osName`},
+		"value": acctest.Representation{RepType: acctest.Required, Update: `Linux`},
+	}
+
+	StackMonitoringMonitoredResourceOSUpdateProperty2 = map[string]interface{}{
+		"name":  acctest.Representation{RepType: acctest.Required, Update: `osVersion`},
+		"value": acctest.Representation{RepType: acctest.Required, Update: `7.0`},
+	}
+
 	StackMonitoringMonitoredResourceRepresentation = map[string]interface{}{
 		"compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":                        acctest.Representation{RepType: acctest.Required, Create: `terraformResource`},
@@ -49,13 +69,13 @@ var (
 		"management_agent_id":         acctest.Representation{RepType: acctest.Optional, Create: `${var.stack_mon_management_agent_id_resource1}`},
 		"credentials":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceCredentialsRepresentation},
 		"database_connection_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceDatabaseConnectionDetailsRepresentation},
-		"properties":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringMonitoredResourcePropertiesRepresentation},
+		"properties":                  []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceOSCreateProperty1}, {RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceOSCreateProperty2}},
 		"resource_time_zone":          acctest.Representation{RepType: acctest.Optional, Create: `en`},
 		"lifecycle":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreSensitiveDataRepresentation},
 	}
 	//Get API does not return sensitive data, it returns null
 	ignoreSensitiveDataRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`credentials`, `database_connection_details`}},
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`credentials`, `database_connection_details`, `properties`, `external_id`}},
 	}
 
 	StackMonitoredResourceRepresentation2 = map[string]interface{}{
@@ -65,7 +85,7 @@ var (
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displaySecondaryNameTerra`, Update: `displaySecondaryNameTerra2`},
 		"host_name":           acctest.Representation{RepType: acctest.Optional, Create: `${var.stack_mon_hostname_resource2}`},
 		"management_agent_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.stack_mon_management_agent_id_resource2}`},
-		"properties":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringMonitoredResourcePropertiesRepresentation},
+		"properties":          []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceOSCreateProperty1}, {RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceOSCreateProperty2}},
 		"resource_time_zone":  acctest.Representation{RepType: acctest.Optional, Create: `en`},
 	}
 
@@ -90,10 +110,7 @@ var (
 		"connector_id":   acctest.Representation{RepType: acctest.Optional, Create: `connector.id`},
 		"db_id":          acctest.Representation{RepType: acctest.Optional, Create: `db_id`},
 		"db_unique_name": acctest.Representation{RepType: acctest.Optional, Create: `dbUniqueName`, Update: `dbUniqueName2`},
-	}
-	StackMonitoringMonitoredResourcePropertiesRepresentation = map[string]interface{}{
-		"name":  acctest.Representation{RepType: acctest.Optional, Create: `OS`, Update: `OS`},
-		"value": acctest.Representation{RepType: acctest.Optional, Create: `Linux`, Update: `Linux`},
+		"ssl_secret_id":  acctest.Representation{RepType: acctest.Optional, Create: `ssl_secret_id`},
 	}
 	StackMonitoringMonitoredResourceAliasesCredentialRepresentation = map[string]interface{}{
 		"name":    acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
@@ -174,9 +191,7 @@ func TestStackMonitoringMonitoredResourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "management_agent_id"),
 				resource.TestCheckResourceAttr(resourceName, "name", "terraformResource"),
-				resource.TestCheckResourceAttr(resourceName, "properties.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "properties.0.name", "OS"),
-				resource.TestCheckResourceAttr(resourceName, "properties.0.value", "Linux"),
+				resource.TestCheckResourceAttr(resourceName, "properties.#", "4"),
 				resource.TestCheckResourceAttr(resourceName, "resource_time_zone", "en"),
 				resource.TestCheckResourceAttr(resourceName, "type", "host"),
 
@@ -205,9 +220,7 @@ func TestStackMonitoringMonitoredResourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "host_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "management_agent_id"),
-				resource.TestCheckResourceAttr(resourceName, "properties.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "properties.0.name", "OS"),
-				resource.TestCheckResourceAttr(resourceName, "properties.0.value", "Linux"),
+				resource.TestCheckResourceAttr(resourceName, "properties.#", "4"),
 				resource.TestCheckResourceAttr(resourceName, "resource_time_zone", "en"),
 				resource.TestCheckResourceAttrSet(resourceName, "tenant_id"),
 				resource.TestCheckResourceAttr(resourceName, "type", "host"),
@@ -233,9 +246,7 @@ func TestStackMonitoringMonitoredResourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "management_agent_id"),
 				resource.TestCheckResourceAttr(resourceName, "name", "terraformResource"),
-				resource.TestCheckResourceAttr(resourceName, "properties.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "properties.0.name", "OS"),
-				resource.TestCheckResourceAttr(resourceName, "properties.0.value", "Linux"),
+				resource.TestCheckResourceAttr(resourceName, "properties.#", "4"),
 				resource.TestCheckResourceAttr(resourceName, "resource_time_zone", "en"),
 				resource.TestCheckResourceAttrSet(resourceName, "tenant_id"),
 				resource.TestCheckResourceAttr(resourceName, "type", "host"),
@@ -262,9 +273,7 @@ func TestStackMonitoringMonitoredResourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "host_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "terraformResource"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "properties.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "properties.0.name", "OS"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "properties.0.value", "Linux"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "properties.#", "4"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "resource_time_zone", "en"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "tenant_id"),

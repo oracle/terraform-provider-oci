@@ -200,6 +200,10 @@ func StackMonitoringMonitoredResourceResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 						},
+						"ssl_secret_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
 
 						// Computed
 					},
@@ -210,6 +214,11 @@ func StackMonitoringMonitoredResourceResource() *schema.Resource {
 				Optional: true,
 			},
 			"external_resource_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+			},
+			"external_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
@@ -402,6 +411,11 @@ func (s *StackMonitoringMonitoredResourceResourceCrud) Create() error {
 	if externalResourceId, ok := s.D.GetOkExists("external_resource_id"); ok {
 		tmp := externalResourceId.(string)
 		request.ExternalResourceId = &tmp
+	}
+
+	if externalId, ok := s.D.GetOkExists("external_id"); ok {
+		tmp := externalId.(string)
+		request.ExternalId = &tmp
 	}
 
 	if hostName, ok := s.D.GetOkExists("host_name"); ok {
@@ -683,6 +697,11 @@ func (s *StackMonitoringMonitoredResourceResourceCrud) Update() error {
 func (s *StackMonitoringMonitoredResourceResourceCrud) Delete() error {
 	request := oci_stack_monitoring.DeleteMonitoredResourceRequest{}
 
+	if isDeleteMembers, ok := s.D.GetOkExists("is_delete_members"); ok {
+		tmp := isDeleteMembers.(bool)
+		request.IsDeleteMembers = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.MonitoredResourceId = &tmp
 
@@ -733,6 +752,10 @@ func (s *StackMonitoringMonitoredResourceResourceCrud) SetData() error {
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.ExternalId != nil {
+		s.D.Set("external_id", *s.Res.ExternalId)
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
@@ -816,6 +839,11 @@ func (s *StackMonitoringMonitoredResourceResourceCrud) mapToConnectionDetails(fi
 		result.ServiceName = &tmp
 	}
 
+	if sslSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ssl_secret_id")); ok {
+		tmp := sslSecretId.(string)
+		result.SslSecretId = &tmp
+	}
+
 	return result, nil
 }
 
@@ -842,6 +870,10 @@ func ConnectionDetailsToMap(obj *oci_stack_monitoring.ConnectionDetails) map[str
 
 	if obj.ServiceName != nil {
 		result["service_name"] = string(*obj.ServiceName)
+	}
+
+	if obj.SslSecretId != nil {
+		result["ssl_secret_id"] = string(*obj.SslSecretId)
 	}
 
 	return result
