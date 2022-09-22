@@ -27,6 +27,7 @@ import (
 	tf_cloud_guard "github.com/oracle/terraform-provider-oci/internal/service/cloud_guard"
 	tf_cloud_migrations "github.com/oracle/terraform-provider-oci/internal/service/cloud_migrations"
 	tf_computeinstanceagent "github.com/oracle/terraform-provider-oci/internal/service/computeinstanceagent"
+	tf_container_instances "github.com/oracle/terraform-provider-oci/internal/service/container_instances"
 	tf_containerengine "github.com/oracle/terraform-provider-oci/internal/service/containerengine"
 	tf_core "github.com/oracle/terraform-provider-oci/internal/service/core"
 	tf_data_connectivity "github.com/oracle/terraform-provider-oci/internal/service/data_connectivity"
@@ -131,6 +132,7 @@ func init() {
 	tf_cloud_guard.RegisterDatasource()
 	tf_cloud_migrations.RegisterDatasource()
 	tf_computeinstanceagent.RegisterDatasource()
+	tf_container_instances.RegisterDatasource()
 	tf_containerengine.RegisterDatasource()
 	tf_core.RegisterDatasource()
 	tf_data_connectivity.RegisterDatasource()
