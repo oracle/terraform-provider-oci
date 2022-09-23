@@ -151,5 +151,6 @@ resource "oci_database_data_guard_association" "test_data_guard_association" {
 
   #required for ExistingDbSystem creation_type
   peer_db_system_id = oci_database_db_system.test_db_system2.id
+  is_active_data_guard_enabled = "false"
 }
 

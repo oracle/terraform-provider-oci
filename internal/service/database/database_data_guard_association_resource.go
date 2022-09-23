@@ -183,7 +183,6 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 			"is_active_data_guard_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
-				Computed: true,
 			},
 			"license_model": {
 				Type:     schema.TypeString,
@@ -714,6 +713,10 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 		if hostname, ok := s.D.GetOkExists("hostname"); ok {
 			tmp := hostname.(string)
 			details.Hostname = &tmp
+		}
+		if isActiveDataGuardEnabled, ok := s.D.GetOkExists("is_active_data_guard_enabled"); ok {
+			tmp := isActiveDataGuardEnabled.(bool)
+			details.IsActiveDataGuardEnabled = &tmp
 		}
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnum(licenseModel.(string))
