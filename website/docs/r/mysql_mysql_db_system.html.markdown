@@ -105,9 +105,9 @@ The following arguments are supported:
 
 		At some point in the window, the system may incur a brief service disruption as the backup is performed. 
 * `compartment_id` - (Required) The OCID of the compartment.
-* `configuration_id` - (Optional) The OCID of the Configuration to be used for this DB System.
+* `configuration_id` - (Optional) (Updatable) The OCID of the Configuration to be used for this DB System.
 * `crash_recovery` - (Optional) (Updatable) Whether to run the DB System with InnoDB Redo Logs and the Double Write Buffer enabled or disabled, and whether to enable or disable syncing of the Binary Logs. 
-* `data_storage_size_in_gb` - (Optional) Initial size of the data volume in GBs that will be created and attached. Keep in mind that this only specifies the size of the database data volume, the log volume for the database will be scaled appropriately with its shape. It is required if you are creating a new database. It cannot be set if you are creating a database from a backup.
+* `data_storage_size_in_gb` - (Optional) (Updatable) Initial size of the data volume in GBs that will be created and attached. Keep in mind that this only specifies the size of the database data volume, the log volume for the database will be scaled appropriately with its shape. It is required if you are creating a new database. It cannot be set if you are creating a database from a backup.
 * `defined_tags` - (Optional) (Updatable) Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "value"}` 
 * `deletion_policy` - (Optional) (Updatable) Policy for how the DB System and related resources should be handled at the time of its deletion. 
 	* `automatic_backup_retention` - (Optional) (Updatable) Specifies if any automatic backups created for a DB System should be retained or deleted when the DB System is deleted. 
@@ -140,7 +140,7 @@ The following arguments are supported:
 		"{time-of-day}" is the "Time" portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero. 
 * `port` - (Optional) The port for primary endpoint of the DB System to listen on.
 * `port_x` - (Optional) The TCP network port on which X Plugin listens for connections. This is the X Plugin equivalent of port. 
-* `shape_name` - (Required) The name of the shape. The shape determines the resources allocated
+* `shape_name` - (Required) (Updatable) The name of the shape. The shape determines the resources allocated
 	* CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes. To get a list of shapes, use the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/mysql/20190415/ShapeSummary/ListShapes) operation. 
 * `source` - (Optional) Parameters detailing how to provision the initial data of the system. 
 	* `backup_id` - (Required when source_type=BACKUP) The OCID of the backup to be used as the source for the new DB System. 

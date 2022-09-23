@@ -50,7 +50,6 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 			"shape_name": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"subnet_id": {
 				Type:     schema.TypeString,
@@ -1028,6 +1027,11 @@ func (s *MysqlMysqlDbSystemResourceCrud) Update() error {
 			}
 			request.Maintenance = &tmp
 		}
+	}
+
+	if shapeName, ok := s.D.GetOkExists("shape_name"); ok && s.D.HasChange("shape_name") {
+		tmp := shapeName.(string)
+		request.ShapeName = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "mysql")

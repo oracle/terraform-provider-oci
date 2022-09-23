@@ -123,8 +123,7 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		AvailabilityDomainConfig +
-		MysqlMysqlVersionResourceConfig +
-		DefinedTagsDependencies
+		MysqlMysqlVersionResourceConfig
 )
 
 // issue-routing-tag: mysql/default

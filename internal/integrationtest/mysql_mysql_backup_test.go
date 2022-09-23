@@ -68,8 +68,7 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		MysqlMysqlConfigurationResourceConfig +
 		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_backup_db_system", acctest.Required, acctest.Create, MysqlMysqlDbSystemRepresentation) +
-		AvailabilityDomainConfig +
-		DefinedTagsDependencies
+		AvailabilityDomainConfig
 )
 
 // issue-routing-tag: mysql/default

@@ -149,6 +149,7 @@ var (
 	}
 
 	MysqlMysqlConfigurationResourceDependencies = utils.MysqlConfigurationIdVariable +
+		utils.MysqlConfigurationIdVariableE3_2_32_OCID +
 		DefinedTagsDependencies
 )
 
