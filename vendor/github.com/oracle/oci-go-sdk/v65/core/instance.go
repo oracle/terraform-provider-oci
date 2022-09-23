@@ -147,6 +147,9 @@ type Instance struct {
 
 	ShapeConfig *InstanceShapeConfig `mandatory:"false" json:"shapeConfig"`
 
+	// Whether the instance’s OCPUs and memory are distributed across multiple NUMA nodes.
+	IsCrossNumaNode *bool `mandatory:"false" json:"isCrossNumaNode"`
+
 	SourceDetails InstanceSourceDetails `mandatory:"false" json:"sourceDetails"`
 
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
@@ -219,6 +222,7 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 		PreemptibleInstanceConfig  *PreemptibleInstanceConfigDetails      `json:"preemptibleInstanceConfig"`
 		Metadata                   map[string]string                      `json:"metadata"`
 		ShapeConfig                *InstanceShapeConfig                   `json:"shapeConfig"`
+		IsCrossNumaNode            *bool                                  `json:"isCrossNumaNode"`
 		SourceDetails              instancesourcedetails                  `json:"sourceDetails"`
 		SystemTags                 map[string]map[string]interface{}      `json:"systemTags"`
 		AgentConfig                *InstanceAgentConfig                   `json:"agentConfig"`
@@ -271,6 +275,8 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 	m.Metadata = model.Metadata
 
 	m.ShapeConfig = model.ShapeConfig
+
+	m.IsCrossNumaNode = model.IsCrossNumaNode
 
 	nn, e = model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
 	if e != nil {

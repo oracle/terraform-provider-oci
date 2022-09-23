@@ -40,6 +40,9 @@ type InstanceReservationConfig struct {
 	// For more information, see Capacity Reservations (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm).
 	FaultDomain *string `mandatory:"false" json:"faultDomain"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the HpcIsland for the compute cluster capacity reservation.
+	HpcIslandId *string `mandatory:"false" json:"hpcIslandId"`
+
 	InstanceShapeConfig *InstanceReservationShapeConfigDetails `mandatory:"false" json:"instanceShapeConfig"`
 }
 

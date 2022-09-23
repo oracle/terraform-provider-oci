@@ -18,22 +18,22 @@ import (
 	"strings"
 )
 
-// OauthLogoutBackend Backend which when called triggers OAuth logout.
-type OauthLogoutBackend struct {
+// OAuth2LogoutBackend Backend which when called triggers OAuth2 logout.
+type OAuth2LogoutBackend struct {
 	AllowedPostLogoutUris []string `mandatory:"false" json:"allowedPostLogoutUris"`
 
 	// Defines a state that should be shared on redirecting to postLogout URL.
 	PostLogoutState *string `mandatory:"false" json:"postLogoutState"`
 }
 
-func (m OauthLogoutBackend) String() string {
+func (m OAuth2LogoutBackend) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m OauthLogoutBackend) ValidateEnumValue() (bool, error) {
+func (m OAuth2LogoutBackend) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -43,14 +43,14 @@ func (m OauthLogoutBackend) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m OauthLogoutBackend) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeOauthLogoutBackend OauthLogoutBackend
+func (m OAuth2LogoutBackend) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeOAuth2LogoutBackend OAuth2LogoutBackend
 	s := struct {
 		DiscriminatorParam string `json:"type"`
-		MarshalTypeOauthLogoutBackend
+		MarshalTypeOAuth2LogoutBackend
 	}{
-		"OAUTH_LOGOUT_BACKEND",
-		(MarshalTypeOauthLogoutBackend)(m),
+		"OAUTH2_LOGOUT_BACKEND",
+		(MarshalTypeOAuth2LogoutBackend)(m),
 	}
 
 	return json.Marshal(&s)

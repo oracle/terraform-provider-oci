@@ -44,6 +44,10 @@ type InstanceReservationConfigDetails struct {
 	// the Identity and Access Management Service API (https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/).
 	// Example: `FAULT-DOMAIN-1`
 	FaultDomain *string `mandatory:"false" json:"faultDomain"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the HpcIsland for the compute cluster.
+	// If a value is provided, then the faultDomain cannot be set.
+	HpcIslandId *string `mandatory:"false" json:"hpcIslandId"`
 }
 
 func (m InstanceReservationConfigDetails) String() string {

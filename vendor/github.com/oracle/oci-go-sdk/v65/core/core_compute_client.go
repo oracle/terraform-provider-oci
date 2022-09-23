@@ -1173,6 +1173,67 @@ func (client ComputeClient) createDedicatedVmHost(ctx context.Context, request c
 	return response, err
 }
 
+// CreateFirmwareReport Creates a firmware report resource matching the passed parameters.
+// The passed parameters will determine the type of report and any
+// filters applied to the results.
+// A default retry strategy applies to this operation CreateFirmwareReport()
+func (client ComputeClient) CreateFirmwareReport(ctx context.Context, request CreateFirmwareReportRequest) (response CreateFirmwareReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createFirmwareReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateFirmwareReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateFirmwareReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateFirmwareReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateFirmwareReportResponse")
+	}
+	return
+}
+
+// createFirmwareReport implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) createFirmwareReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/firmwareReports", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateFirmwareReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/FirmwareReport/CreateFirmwareReport"
+		err = common.PostProcessServiceError(err, "Compute", "CreateFirmwareReport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateImage Creates a boot disk image for the specified instance or imports an exported image from the Oracle Cloud Infrastructure Object Storage service.
 // When creating a new image, you must provide the OCID of the instance you want to use as the basis for the image, and
 // the OCID of the compartment containing that instance. For more information about images,
@@ -1687,6 +1748,60 @@ func (client ComputeClient) deleteDedicatedVmHost(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DedicatedVmHost/DeleteDedicatedVmHost"
 		err = common.PostProcessServiceError(err, "Compute", "DeleteDedicatedVmHost", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteFirmwareReport Deletes a FirmwareReport.
+// A default retry strategy applies to this operation DeleteFirmwareReport()
+func (client ComputeClient) DeleteFirmwareReport(ctx context.Context, request DeleteFirmwareReportRequest) (response DeleteFirmwareReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteFirmwareReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteFirmwareReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteFirmwareReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteFirmwareReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteFirmwareReportResponse")
+	}
+	return
+}
+
+// deleteFirmwareReport implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) deleteFirmwareReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/firmwareReports/{firmwareReportId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteFirmwareReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/FirmwareReport/DeleteFirmwareReport"
+		err = common.PostProcessServiceError(err, "Compute", "DeleteFirmwareReport", apiReferenceLink)
 		return response, err
 	}
 
@@ -2668,6 +2783,60 @@ func (client ComputeClient) getDedicatedVmHost(ctx context.Context, request comm
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DedicatedVmHost/GetDedicatedVmHost"
 		err = common.PostProcessServiceError(err, "Compute", "GetDedicatedVmHost", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetFirmwareReport Gets information about the specified FirmwareReport.
+// A default retry strategy applies to this operation GetFirmwareReport()
+func (client ComputeClient) GetFirmwareReport(ctx context.Context, request GetFirmwareReportRequest) (response GetFirmwareReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getFirmwareReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetFirmwareReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetFirmwareReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetFirmwareReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetFirmwareReportResponse")
+	}
+	return
+}
+
+// getFirmwareReport implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) getFirmwareReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/firmwareReports/{firmwareReportId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetFirmwareReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/FirmwareReport/GetFirmwareReport"
+		err = common.PostProcessServiceError(err, "Compute", "GetFirmwareReport", apiReferenceLink)
 		return response, err
 	}
 
@@ -4294,6 +4463,60 @@ func (client ComputeClient) listDedicatedVmHosts(ctx context.Context, request co
 	return response, err
 }
 
+// ListFirmwareReports Returns a list of FirmwareReport.
+// A default retry strategy applies to this operation ListFirmwareReports()
+func (client ComputeClient) ListFirmwareReports(ctx context.Context, request ListFirmwareReportsRequest) (response ListFirmwareReportsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listFirmwareReports, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListFirmwareReportsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListFirmwareReportsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListFirmwareReportsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListFirmwareReportsResponse")
+	}
+	return
+}
+
+// listFirmwareReports implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) listFirmwareReports(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/firmwareReports", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListFirmwareReportsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/FirmwareReportCollection/ListFirmwareReports"
+		err = common.PostProcessServiceError(err, "Compute", "ListFirmwareReports", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListImageShapeCompatibilityEntries Lists the compatible shapes for the specified image.
 func (client ComputeClient) ListImageShapeCompatibilityEntries(ctx context.Context, request ListImageShapeCompatibilityEntriesRequest) (response ListImageShapeCompatibilityEntriesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4508,6 +4731,114 @@ func (client ComputeClient) listInstanceDevices(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Device/ListInstanceDevices"
 		err = common.PostProcessServiceError(err, "Compute", "ListInstanceDevices", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListInstanceFirmwareHistories List historical information about firmware for a bare metal instance.
+// A default retry strategy applies to this operation ListInstanceFirmwareHistories()
+func (client ComputeClient) ListInstanceFirmwareHistories(ctx context.Context, request ListInstanceFirmwareHistoriesRequest) (response ListInstanceFirmwareHistoriesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listInstanceFirmwareHistories, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListInstanceFirmwareHistoriesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListInstanceFirmwareHistoriesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListInstanceFirmwareHistoriesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListInstanceFirmwareHistoriesResponse")
+	}
+	return
+}
+
+// listInstanceFirmwareHistories implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) listInstanceFirmwareHistories(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instances/{instanceId}/firmwareHistory", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListInstanceFirmwareHistoriesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceFirmwareHistoryCollection/ListInstanceFirmwareHistories"
+		err = common.PostProcessServiceError(err, "Compute", "ListInstanceFirmwareHistories", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListInstanceFirmwares List information about firmware for a bare metal instance.
+// A default retry strategy applies to this operation ListInstanceFirmwares()
+func (client ComputeClient) ListInstanceFirmwares(ctx context.Context, request ListInstanceFirmwaresRequest) (response ListInstanceFirmwaresResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listInstanceFirmwares, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListInstanceFirmwaresResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListInstanceFirmwaresResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListInstanceFirmwaresResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListInstanceFirmwaresResponse")
+	}
+	return
+}
+
+// listInstanceFirmwares implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) listInstanceFirmwares(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instances/{instanceId}/firmware", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListInstanceFirmwaresResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceFirmwareCollection/ListInstanceFirmwares"
+		err = common.PostProcessServiceError(err, "Compute", "ListInstanceFirmwares", apiReferenceLink)
 		return response, err
 	}
 
@@ -5186,6 +5517,60 @@ func (client ComputeClient) updateDedicatedVmHost(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DedicatedVmHost/UpdateDedicatedVmHost"
 		err = common.PostProcessServiceError(err, "Compute", "UpdateDedicatedVmHost", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateFirmwareReport Updates information about the specified FirmwareReport.
+// A default retry strategy applies to this operation UpdateFirmwareReport()
+func (client ComputeClient) UpdateFirmwareReport(ctx context.Context, request UpdateFirmwareReportRequest) (response UpdateFirmwareReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateFirmwareReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateFirmwareReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateFirmwareReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateFirmwareReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateFirmwareReportResponse")
+	}
+	return
+}
+
+// updateFirmwareReport implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) updateFirmwareReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/firmwareReports/{firmwareReportId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateFirmwareReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/FirmwareReport/UpdateFirmwareReport"
+		err = common.PostProcessServiceError(err, "Compute", "UpdateFirmwareReport", apiReferenceLink)
 		return response, err
 	}
 

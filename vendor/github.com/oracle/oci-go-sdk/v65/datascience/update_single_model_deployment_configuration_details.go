@@ -21,6 +21,8 @@ type UpdateSingleModelDeploymentConfigurationDetails struct {
 	ModelConfigurationDetails *UpdateModelConfigurationDetails `mandatory:"false" json:"modelConfigurationDetails"`
 
 	StreamConfigurationDetails *UpdateStreamConfigurationDetails `mandatory:"false" json:"streamConfigurationDetails"`
+
+	EnvironmentConfigurationDetails UpdateModelDeploymentEnvironmentConfigurationDetails `mandatory:"false" json:"environmentConfigurationDetails"`
 }
 
 func (m UpdateSingleModelDeploymentConfigurationDetails) String() string {
@@ -51,4 +53,34 @@ func (m UpdateSingleModelDeploymentConfigurationDetails) MarshalJSON() (buff []b
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *UpdateSingleModelDeploymentConfigurationDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		ModelConfigurationDetails       *UpdateModelConfigurationDetails                     `json:"modelConfigurationDetails"`
+		StreamConfigurationDetails      *UpdateStreamConfigurationDetails                    `json:"streamConfigurationDetails"`
+		EnvironmentConfigurationDetails updatemodeldeploymentenvironmentconfigurationdetails `json:"environmentConfigurationDetails"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.ModelConfigurationDetails = model.ModelConfigurationDetails
+
+	m.StreamConfigurationDetails = model.StreamConfigurationDetails
+
+	nn, e = model.EnvironmentConfigurationDetails.UnmarshalPolymorphicJSON(model.EnvironmentConfigurationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.EnvironmentConfigurationDetails = nn.(UpdateModelDeploymentEnvironmentConfigurationDetails)
+	} else {
+		m.EnvironmentConfigurationDetails = nil
+	}
+
+	return
 }

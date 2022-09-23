@@ -88,9 +88,10 @@ func (client *DatabaseMigrationClient) ConfigurationProvider() *common.Configura
 }
 
 // AbortJob Aborts a Migration Job (either Evaluation or Migration).
+// A default retry strategy applies to this operation AbortJob()
 func (client DatabaseMigrationClient) AbortJob(ctx context.Context, request AbortJobRequest) (response AbortJobResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -146,9 +147,10 @@ func (client DatabaseMigrationClient) abortJob(ctx context.Context, request comm
 }
 
 // AddMigrationObjects Add excluded/included object to the list.
+// A default retry strategy applies to this operation AddMigrationObjects()
 func (client DatabaseMigrationClient) AddMigrationObjects(ctx context.Context, request AddMigrationObjectsRequest) (response AddMigrationObjectsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -199,9 +201,10 @@ func (client DatabaseMigrationClient) addMigrationObjects(ctx context.Context, r
 }
 
 // ChangeAgentCompartment Used to configure an ODMS Agent Compartment ID.
+// A default retry strategy applies to this operation ChangeAgentCompartment()
 func (client DatabaseMigrationClient) ChangeAgentCompartment(ctx context.Context, request ChangeAgentCompartmentRequest) (response ChangeAgentCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -257,9 +260,10 @@ func (client DatabaseMigrationClient) changeAgentCompartment(ctx context.Context
 }
 
 // ChangeConnectionCompartment Used to change the Database Connection compartment.
+// A default retry strategy applies to this operation ChangeConnectionCompartment()
 func (client DatabaseMigrationClient) ChangeConnectionCompartment(ctx context.Context, request ChangeConnectionCompartmentRequest) (response ChangeConnectionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -315,9 +319,10 @@ func (client DatabaseMigrationClient) changeConnectionCompartment(ctx context.Co
 }
 
 // ChangeMigrationCompartment Used to change the Migration compartment.
+// A default retry strategy applies to this operation ChangeMigrationCompartment()
 func (client DatabaseMigrationClient) ChangeMigrationCompartment(ctx context.Context, request ChangeMigrationCompartmentRequest) (response ChangeMigrationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -373,9 +378,10 @@ func (client DatabaseMigrationClient) changeMigrationCompartment(ctx context.Con
 }
 
 // CloneMigration Clone a configuration from an existing Migration.
+// A default retry strategy applies to this operation CloneMigration()
 func (client DatabaseMigrationClient) CloneMigration(ctx context.Context, request CloneMigrationRequest) (response CloneMigrationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -431,9 +437,10 @@ func (client DatabaseMigrationClient) cloneMigration(ctx context.Context, reques
 }
 
 // CreateAgent Used to register an on-premises ODMS Agent with the Database Migration service.
+// A default retry strategy applies to this operation CreateAgent()
 func (client DatabaseMigrationClient) CreateAgent(ctx context.Context, request CreateAgentRequest) (response CreateAgentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -490,9 +497,10 @@ func (client DatabaseMigrationClient) createAgent(ctx context.Context, request c
 
 // CreateConnection Create a Database Connection resource that contains the details to connect to either a Source or Target Database
 // in the migration.
+// A default retry strategy applies to this operation CreateConnection()
 func (client DatabaseMigrationClient) CreateConnection(ctx context.Context, request CreateConnectionRequest) (response CreateConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -550,9 +558,10 @@ func (client DatabaseMigrationClient) createConnection(ctx context.Context, requ
 // CreateMigration Create a Migration resource that contains all the details to perform the
 // database migration operation, such as source and destination database
 // details, credentials, etc.
+// A default retry strategy applies to this operation CreateMigration()
 func (client DatabaseMigrationClient) CreateMigration(ctx context.Context, request CreateMigrationRequest) (response CreateMigrationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -608,9 +617,10 @@ func (client DatabaseMigrationClient) createMigration(ctx context.Context, reque
 }
 
 // DeleteAgent Delete the ODMS Agent represented by the specified ODMS Agent ID.
+// A default retry strategy applies to this operation DeleteAgent()
 func (client DatabaseMigrationClient) DeleteAgent(ctx context.Context, request DeleteAgentRequest) (response DeleteAgentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -661,9 +671,10 @@ func (client DatabaseMigrationClient) deleteAgent(ctx context.Context, request c
 }
 
 // DeleteConnection Deletes the Database Connection represented by the specified connection ID.
+// A default retry strategy applies to this operation DeleteConnection()
 func (client DatabaseMigrationClient) DeleteConnection(ctx context.Context, request DeleteConnectionRequest) (response DeleteConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -714,9 +725,10 @@ func (client DatabaseMigrationClient) deleteConnection(ctx context.Context, requ
 }
 
 // DeleteJob Deletes the migration job represented by the given job ID.
+// A default retry strategy applies to this operation DeleteJob()
 func (client DatabaseMigrationClient) DeleteJob(ctx context.Context, request DeleteJobRequest) (response DeleteJobResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -767,9 +779,10 @@ func (client DatabaseMigrationClient) deleteJob(ctx context.Context, request com
 }
 
 // DeleteMigration Deletes the Migration represented by the specified migration ID.
+// A default retry strategy applies to this operation DeleteMigration()
 func (client DatabaseMigrationClient) DeleteMigration(ctx context.Context, request DeleteMigrationRequest) (response DeleteMigrationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -820,9 +833,10 @@ func (client DatabaseMigrationClient) deleteMigration(ctx context.Context, reque
 }
 
 // EvaluateMigration Start Validate Migration job.
+// A default retry strategy applies to this operation EvaluateMigration()
 func (client DatabaseMigrationClient) EvaluateMigration(ctx context.Context, request EvaluateMigrationRequest) (response EvaluateMigrationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -878,9 +892,10 @@ func (client DatabaseMigrationClient) evaluateMigration(ctx context.Context, req
 }
 
 // GetActionGenerateToken Used to generate token for an ODMS Agent ID.
+// A default retry strategy applies to this operation GetActionGenerateToken()
 func (client DatabaseMigrationClient) GetActionGenerateToken(ctx context.Context, request GetActionGenerateTokenRequest) (response GetActionGenerateTokenResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -936,9 +951,10 @@ func (client DatabaseMigrationClient) getActionGenerateToken(ctx context.Context
 }
 
 // GetAdvisorReport Get the Pre-Migration Advisor report details
+// A default retry strategy applies to this operation GetAdvisorReport()
 func (client DatabaseMigrationClient) GetAdvisorReport(ctx context.Context, request GetAdvisorReportRequest) (response GetAdvisorReportResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -989,9 +1005,10 @@ func (client DatabaseMigrationClient) getAdvisorReport(ctx context.Context, requ
 }
 
 // GetAgent Display the ODMS Agent configuration.
+// A default retry strategy applies to this operation GetAgent()
 func (client DatabaseMigrationClient) GetAgent(ctx context.Context, request GetAgentRequest) (response GetAgentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1042,9 +1059,10 @@ func (client DatabaseMigrationClient) getAgent(ctx context.Context, request comm
 }
 
 // GetConnection Display Database Connection details.
+// A default retry strategy applies to this operation GetConnection()
 func (client DatabaseMigrationClient) GetConnection(ctx context.Context, request GetConnectionRequest) (response GetConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1095,9 +1113,10 @@ func (client DatabaseMigrationClient) getConnection(ctx context.Context, request
 }
 
 // GetJob Get a migration job.
+// A default retry strategy applies to this operation GetJob()
 func (client DatabaseMigrationClient) GetJob(ctx context.Context, request GetJobRequest) (response GetJobResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1148,9 +1167,10 @@ func (client DatabaseMigrationClient) getJob(ctx context.Context, request common
 }
 
 // GetJobOutputContent Get the migration Job Output content as a String.
+// A default retry strategy applies to this operation GetJobOutputContent()
 func (client DatabaseMigrationClient) GetJobOutputContent(ctx context.Context, request GetJobOutputContentRequest) (response GetJobOutputContentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1200,9 +1220,10 @@ func (client DatabaseMigrationClient) getJobOutputContent(ctx context.Context, r
 }
 
 // GetMigration Display Migration details.
+// A default retry strategy applies to this operation GetMigration()
 func (client DatabaseMigrationClient) GetMigration(ctx context.Context, request GetMigrationRequest) (response GetMigrationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1253,9 +1274,10 @@ func (client DatabaseMigrationClient) getMigration(ctx context.Context, request 
 }
 
 // GetWorkRequest Gets the details of a work request.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client DatabaseMigrationClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1306,9 +1328,10 @@ func (client DatabaseMigrationClient) getWorkRequest(ctx context.Context, reques
 }
 
 // ListAgentImages Get details of the ODMS Agent Images available to install on-premises.
+// A default retry strategy applies to this operation ListAgentImages()
 func (client DatabaseMigrationClient) ListAgentImages(ctx context.Context, request ListAgentImagesRequest) (response ListAgentImagesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1359,9 +1382,10 @@ func (client DatabaseMigrationClient) listAgentImages(ctx context.Context, reque
 }
 
 // ListAgents Display the name of all the existing ODMS Agents in the server.
+// A default retry strategy applies to this operation ListAgents()
 func (client DatabaseMigrationClient) ListAgents(ctx context.Context, request ListAgentsRequest) (response ListAgentsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1412,9 +1436,10 @@ func (client DatabaseMigrationClient) listAgents(ctx context.Context, request co
 }
 
 // ListConnections List all Database Connections.
+// A default retry strategy applies to this operation ListConnections()
 func (client DatabaseMigrationClient) ListConnections(ctx context.Context, request ListConnectionsRequest) (response ListConnectionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1465,9 +1490,10 @@ func (client DatabaseMigrationClient) listConnections(ctx context.Context, reque
 }
 
 // ListExcludedObjects List the excluded database objects.
+// A default retry strategy applies to this operation ListExcludedObjects()
 func (client DatabaseMigrationClient) ListExcludedObjects(ctx context.Context, request ListExcludedObjectsRequest) (response ListExcludedObjectsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1518,9 +1544,10 @@ func (client DatabaseMigrationClient) listExcludedObjects(ctx context.Context, r
 }
 
 // ListJobOutputs List the Job Outputs
+// A default retry strategy applies to this operation ListJobOutputs()
 func (client DatabaseMigrationClient) ListJobOutputs(ctx context.Context, request ListJobOutputsRequest) (response ListJobOutputsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1572,9 +1599,10 @@ func (client DatabaseMigrationClient) listJobOutputs(ctx context.Context, reques
 
 // ListJobs List all the names of the Migration jobs associated to the specified
 // migration site.
+// A default retry strategy applies to this operation ListJobs()
 func (client DatabaseMigrationClient) ListJobs(ctx context.Context, request ListJobsRequest) (response ListJobsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1625,9 +1653,10 @@ func (client DatabaseMigrationClient) listJobs(ctx context.Context, request comm
 }
 
 // ListMigrationObjectTypes Display sample object types to exclude or include for a Migration.
+// A default retry strategy applies to this operation ListMigrationObjectTypes()
 func (client DatabaseMigrationClient) ListMigrationObjectTypes(ctx context.Context, request ListMigrationObjectTypesRequest) (response ListMigrationObjectTypesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1678,9 +1707,10 @@ func (client DatabaseMigrationClient) listMigrationObjectTypes(ctx context.Conte
 }
 
 // ListMigrationObjects Display excluded/included objects.
+// A default retry strategy applies to this operation ListMigrationObjects()
 func (client DatabaseMigrationClient) ListMigrationObjects(ctx context.Context, request ListMigrationObjectsRequest) (response ListMigrationObjectsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1731,9 +1761,10 @@ func (client DatabaseMigrationClient) listMigrationObjects(ctx context.Context, 
 }
 
 // ListMigrations List all Migrations.
+// A default retry strategy applies to this operation ListMigrations()
 func (client DatabaseMigrationClient) ListMigrations(ctx context.Context, request ListMigrationsRequest) (response ListMigrationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1784,9 +1815,10 @@ func (client DatabaseMigrationClient) listMigrations(ctx context.Context, reques
 }
 
 // ListWorkRequestErrors Gets the errors for a work request.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client DatabaseMigrationClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1837,9 +1869,10 @@ func (client DatabaseMigrationClient) listWorkRequestErrors(ctx context.Context,
 }
 
 // ListWorkRequestLogs Gets the logs for a work request.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client DatabaseMigrationClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1890,9 +1923,10 @@ func (client DatabaseMigrationClient) listWorkRequestLogs(ctx context.Context, r
 }
 
 // ListWorkRequests Lists the work requests in a compartment or for a specified resource.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client DatabaseMigrationClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1943,9 +1977,10 @@ func (client DatabaseMigrationClient) listWorkRequests(ctx context.Context, requ
 }
 
 // RegisterHeartbeat Register heartbeat call from ODMS Agent
+// A default retry strategy applies to this operation RegisterHeartbeat()
 func (client DatabaseMigrationClient) RegisterHeartbeat(ctx context.Context, request RegisterHeartbeatRequest) (response RegisterHeartbeatResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2001,9 +2036,10 @@ func (client DatabaseMigrationClient) registerHeartbeat(ctx context.Context, req
 }
 
 // RemoveMigrationObjects Remove excluded/included objects.
+// A default retry strategy applies to this operation RemoveMigrationObjects()
 func (client DatabaseMigrationClient) RemoveMigrationObjects(ctx context.Context, request RemoveMigrationObjectsRequest) (response RemoveMigrationObjectsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2054,9 +2090,10 @@ func (client DatabaseMigrationClient) removeMigrationObjects(ctx context.Context
 }
 
 // ResumeJob Resume a migration Job.
+// A default retry strategy applies to this operation ResumeJob()
 func (client DatabaseMigrationClient) ResumeJob(ctx context.Context, request ResumeJobRequest) (response ResumeJobResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2112,9 +2149,10 @@ func (client DatabaseMigrationClient) resumeJob(ctx context.Context, request com
 }
 
 // RetrieveSupportedPhases Display Migration Phases for a specified migration.
+// A default retry strategy applies to this operation RetrieveSupportedPhases()
 func (client DatabaseMigrationClient) RetrieveSupportedPhases(ctx context.Context, request RetrieveSupportedPhasesRequest) (response RetrieveSupportedPhasesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2165,9 +2203,10 @@ func (client DatabaseMigrationClient) retrieveSupportedPhases(ctx context.Contex
 }
 
 // StartMigration Start Migration job.
+// A default retry strategy applies to this operation StartMigration()
 func (client DatabaseMigrationClient) StartMigration(ctx context.Context, request StartMigrationRequest) (response StartMigrationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2223,9 +2262,10 @@ func (client DatabaseMigrationClient) startMigration(ctx context.Context, reques
 }
 
 // UpdateAgent Modifies the ODMS Agent represented by the given ODMS Agent ID.
+// A default retry strategy applies to this operation UpdateAgent()
 func (client DatabaseMigrationClient) UpdateAgent(ctx context.Context, request UpdateAgentRequest) (response UpdateAgentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2281,9 +2321,10 @@ func (client DatabaseMigrationClient) updateAgent(ctx context.Context, request c
 }
 
 // UpdateConnection Update Database Connection resource details.
+// A default retry strategy applies to this operation UpdateConnection()
 func (client DatabaseMigrationClient) UpdateConnection(ctx context.Context, request UpdateConnectionRequest) (response UpdateConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2334,9 +2375,10 @@ func (client DatabaseMigrationClient) updateConnection(ctx context.Context, requ
 }
 
 // UpdateJob Update Migration Job resource details.
+// A default retry strategy applies to this operation UpdateJob()
 func (client DatabaseMigrationClient) UpdateJob(ctx context.Context, request UpdateJobRequest) (response UpdateJobResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2387,9 +2429,10 @@ func (client DatabaseMigrationClient) updateJob(ctx context.Context, request com
 }
 
 // UpdateMigration Update Migration resource details.
+// A default retry strategy applies to this operation UpdateMigration()
 func (client DatabaseMigrationClient) UpdateMigration(ctx context.Context, request UpdateMigrationRequest) (response UpdateMigrationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2440,9 +2483,10 @@ func (client DatabaseMigrationClient) updateMigration(ctx context.Context, reque
 }
 
 // ValidateAgent Used to complete initial ODMS Agent setup.
+// A default retry strategy applies to this operation ValidateAgent()
 func (client DatabaseMigrationClient) ValidateAgent(ctx context.Context, request ValidateAgentRequest) (response ValidateAgentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

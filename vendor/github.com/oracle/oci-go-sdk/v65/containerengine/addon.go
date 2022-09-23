@@ -20,6 +20,9 @@ import (
 // Addon The properties that define a cluster addon.
 type Addon struct {
 
+	// The name of the addon.
+	Name *string `mandatory:"true" json:"name"`
+
 	// selected addon version, or null indicates autoUpdate
 	Version *string `mandatory:"true" json:"version"`
 

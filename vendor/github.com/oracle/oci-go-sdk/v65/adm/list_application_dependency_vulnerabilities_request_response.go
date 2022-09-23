@@ -36,9 +36,20 @@ type ListApplicationDependencyVulnerabilitiesRequest struct {
 	SortOrder ListApplicationDependencyVulnerabilitiesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// The field to sort by. Only one sort order may be provided.
+	// If sort order is dfs, the nodes are returned by going through the application dependency tree in a depth-first manner. Children are sorted based on their GAV property alphabetically (either ascending or descending, depending on the order parameter). Default order is ascending.
+	// If sort order is bfs, the nodes are returned by going through the application dependency tree in a breadth-first manner. Children are sorted based on their GAV property alphabetically (either ascending or descending, depending on the order parameter). Default order is ascending.
 	// Default order for gav is ascending where ascending corresponds to alphanumerical order.
 	// Default order for nodeId is ascending where ascending corresponds to alphanumerical order.
+	// Sorting by DFS or BFS cannot be used in conjunction with the following query parameters: "gav", "cvssV2GreaterThanOrEqual", "cvssV3GreaterThanOrEqual" and "vulnerabilityId".
 	SortBy ListApplicationDependencyVulnerabilitiesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
+
+	// A filter to override the top level root identifier with the new given value. The application dependency tree will only be traversed from the given node.
+	// Query parameters "cvssV2GreaterThanOrEqual", "cvssV3GreaterThanOrEqual", "gav" and "vulnerabilityId" cannot be used in conjunction with this parameter.
+	RootNodeId *string `mandatory:"false" contributesTo:"query" name:"rootNodeId"`
+
+	// A filter to limit depth of the application dependencies tree traversal.
+	// Additionally query parameters such as "cvssV2GreaterThanOrEqual", "cvssV3GreaterThanOrEqual", "gav" and "vulnerabilityId" can't be used in conjunction with this latter.
+	Depth *int `mandatory:"false" contributesTo:"query" name:"depth"`
 
 	// A filter to return only resources that match the entire GAV (Group Artifact Version) identifier given.
 	Gav *string `mandatory:"false" contributesTo:"query" name:"gav"`
@@ -171,16 +182,22 @@ type ListApplicationDependencyVulnerabilitiesSortByEnum string
 const (
 	ListApplicationDependencyVulnerabilitiesSortByGav    ListApplicationDependencyVulnerabilitiesSortByEnum = "gav"
 	ListApplicationDependencyVulnerabilitiesSortByNodeid ListApplicationDependencyVulnerabilitiesSortByEnum = "nodeId"
+	ListApplicationDependencyVulnerabilitiesSortByDfs    ListApplicationDependencyVulnerabilitiesSortByEnum = "dfs"
+	ListApplicationDependencyVulnerabilitiesSortByBfs    ListApplicationDependencyVulnerabilitiesSortByEnum = "bfs"
 )
 
 var mappingListApplicationDependencyVulnerabilitiesSortByEnum = map[string]ListApplicationDependencyVulnerabilitiesSortByEnum{
 	"gav":    ListApplicationDependencyVulnerabilitiesSortByGav,
 	"nodeId": ListApplicationDependencyVulnerabilitiesSortByNodeid,
+	"dfs":    ListApplicationDependencyVulnerabilitiesSortByDfs,
+	"bfs":    ListApplicationDependencyVulnerabilitiesSortByBfs,
 }
 
 var mappingListApplicationDependencyVulnerabilitiesSortByEnumLowerCase = map[string]ListApplicationDependencyVulnerabilitiesSortByEnum{
 	"gav":    ListApplicationDependencyVulnerabilitiesSortByGav,
 	"nodeid": ListApplicationDependencyVulnerabilitiesSortByNodeid,
+	"dfs":    ListApplicationDependencyVulnerabilitiesSortByDfs,
+	"bfs":    ListApplicationDependencyVulnerabilitiesSortByBfs,
 }
 
 // GetListApplicationDependencyVulnerabilitiesSortByEnumValues Enumerates the set of values for ListApplicationDependencyVulnerabilitiesSortByEnum
@@ -197,6 +214,8 @@ func GetListApplicationDependencyVulnerabilitiesSortByEnumStringValues() []strin
 	return []string{
 		"gav",
 		"nodeId",
+		"dfs",
+		"bfs",
 	}
 }
 
