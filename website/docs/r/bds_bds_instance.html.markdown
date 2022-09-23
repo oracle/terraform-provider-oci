@@ -29,13 +29,14 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
 		#Required
 		shape = var.bds_instance_nodes_shape
 		subnet_id = oci_core_subnet.test_subnet.id
-		block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
 		number_of_nodes = var.bds_instance_number_of_nodes
 		#Optional
+                block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
 		shape_config {
 
 			#Optional
 			memory_in_gbs = var.bds_instance_nodes_shape_config_memory_in_gbs
+                        nvmes = var.bds_instance_nodes_shape_config_nvmes
 			ocpus = var.bds_instance_nodes_shape_config_ocpus
 		}
 	}
@@ -43,13 +44,14 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
 		#Required
 		shape = var.bds_instance_nodes_shape
 		subnet_id = oci_core_subnet.test_subnet.id
-		block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
 		number_of_nodes = var.bds_instance_number_of_nodes
 		#Optional
+                block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
 		shape_config {
 
 			#Optional
 			memory_in_gbs = var.bds_instance_nodes_shape_config_memory_in_gbs
+                        nvmes = var.bds_instance_nodes_shape_config_nvmes
 			ocpus = var.bds_instance_nodes_shape_config_ocpus
 		}
 	}
@@ -57,13 +59,14 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
 		#Required
 		shape = var.bds_instance_nodes_shape
 		subnet_id = oci_core_subnet.test_subnet.id
-		block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
 		number_of_nodes = var.bds_instance_number_of_nodes
 		#Optional
+                block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
 		shape_config {
 
 			#Optional
 			memory_in_gbs = var.bds_instance_nodes_shape_config_memory_in_gbs
+                        nvmes = var.bds_instance_nodes_shape_config_nvmes
 			ocpus = var.bds_instance_nodes_shape_config_ocpus
 		}
 	}
@@ -71,13 +74,14 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
 		#Required
 		shape = var.bds_instance_nodes_shape
 		subnet_id = oci_core_subnet.test_subnet.id
-		block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
 		number_of_nodes = var.bds_instance_number_of_nodes
 		#Optional
+                block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
 		shape_config {
 
 			#Optional
 			memory_in_gbs = var.bds_instance_nodes_shape_config_memory_in_gbs
+			nvmes = var.bds_instance_nodes_shape_config_nvmes
 			ocpus = var.bds_instance_nodes_shape_config_ocpus
 		}
 	}
@@ -120,9 +124,15 @@ The following arguments are supported:
 * `network_config` - (Optional) Additional configuration of the user's network.
 	* `cidr_block` - (Optional) The CIDR IP address block of the VCN.
 	* `is_nat_gateway_required` - (Optional) A boolean flag whether to configure a NAT gateway.
-* `network_config` - (Optional) Additional configuration of customer's network.
-    * `cidr_block` - (Required) The CIDR IP address block of the VCN.
-    * `is_nat_gateway_required` - (Required) A boolean flag whether to configure a NAT gateway.
+* `nodes` - (Required) The list of nodes in the Big Data Service cluster.
+	* `block_volume_size_in_gbs` - (Required) The size of block volume in GB to be attached to a given node. All the details needed for attaching the block volume are managed by service itself. 
+	* `node_type` - (Required) The Big Data Service cluster node type.
+	* `shape` - (Required) (Updatable) Shape of the node.
+	* `shape_config` - (Optional) The shape configuration requested for the node.
+		* `memory_in_gbs` - (Optional) The total amount of memory available to the node, in gigabytes.
+		* `nvmes` - (Optional) The number of NVMe drives to be used for storage. A single drive has 6.8 TB available.
+		* `ocpus` - (Optional) The total number of OCPUs available to the node.
+	* `subnet_id` - (Required) The OCID of the subnet in which the node will be created.
 * `master_node` - (Required) The master node in the BDS instance
     * `block_volume_size_in_gbs` - (Optional) The size of block volume in GB that needs to be attached to a given node. All the necessary details needed for attachment are managed by service itself. 
     * `number_of_nodes` - (Required) The amount of master nodes should be created.
@@ -203,6 +213,32 @@ The following attributes are exported:
 * `network_config` - Additional configuration of customer's network.
 	* `cidr_block` - The CIDR IP address block of the VCN.
 	* `is_nat_gateway_required` - A boolean flag whether to configure a NAT gateway.
+* `nodes` - The list of nodes in the cluster.
+	* `attached_block_volumes` - The list of block volumes attached to a given node.
+		* `volume_attachment_id` - The OCID of the volume attachment.
+		* `volume_size_in_gbs` - The size of the volume in GBs.
+	* `availability_domain` - The name of the availability domain in which the node is running.
+	* `display_name` - The name of the node.
+	* `fault_domain` - The name of the fault domain in which the node is running.
+	* `hostname` - The fully-qualified hostname (FQDN) of the node.
+	* `image_id` - The OCID of the image from which the node was created.
+	* `instance_id` - The OCID of the underlying Oracle Cloud Infrastructure Compute instance.
+	* `ip_address` - IP address of the node.
+	* `local_disks_total_size_in_gbs` - The aggregate size of all local disks, in gigabytes. If the instance does not have any local disks, this field is null.
+	* `memory_in_gbs` - The total amount of memory available to the node, in gigabytes.
+	* `node_type` - Cluster node type.
+	* `nvmes` - The number of NVMe drives to be used for storage. A single drive has 6.8 TB available.
+	* `ocpus` - The total number of OCPUs available to the node.
+	* `shape` - Shape of the node.
+	* `ssh_fingerprint` - The fingerprint of the SSH key used for node access.
+	* `state` - The state of the node.
+	* `subnet_id` - The OCID of the subnet in which the node is to be created.
+	* `time_created` - The time the node was created, shown as an RFC 3339 formatted datetime string.
+	* `time_updated` - The time the cluster was updated, shown as an RFC 3339 formatted datetime string.
+* `number_of_nodes` - The number of nodes that form the cluster.
+* `state` - The state of the cluster.
+* `time_created` - The time the cluster was created, shown as an RFC 3339 formatted datetime string.
+* `time_updated` - The time the cluster was updated, shown as an RFC 3339 formatted datetime string.
 * `nodes` - The list of nodes in the BDS instance
     * `attached_block_volumes` - The list of block volumes attached to a given node.
         * `volume_attachment_id` - The OCID of the volume attachment.
