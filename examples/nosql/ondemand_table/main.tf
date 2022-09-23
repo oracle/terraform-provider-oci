@@ -41,7 +41,7 @@ resource "oci_nosql_table" "test_ondemand" {
     #Required
     max_read_units     = "0"
     max_write_units    = "0"
-    max_storage_in_gbs = "1"
+    max_storage_in_gbs = "25"
     capacity_mode      = "ON_DEMAND"
   }
 }
