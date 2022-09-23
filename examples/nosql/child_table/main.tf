@@ -43,9 +43,9 @@ resource "oci_nosql_table" "test_table" {
 
   table_limits {
     #Required
-    max_read_units     = "10"
-    max_write_units    = "10"
-    max_storage_in_gbs = "1"
+    max_read_units     = "50"
+    max_write_units    = "50"
+    max_storage_in_gbs = "25"
   }
 }
 

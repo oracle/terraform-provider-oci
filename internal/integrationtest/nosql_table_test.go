@@ -35,7 +35,7 @@ var (
 		"table_name_or_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_nosql_table.test_table.id}`},
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
-	ddlStatement = "CREATE TABLE IF NOT EXISTS test_table(id INTEGER, name STRING, age STRING, info JSON, PRIMARY KEY(SHARD(id)))"
+	ddlStatement = "CREATE TABLE IF NOT EXISTS test_table(id INTEGER GENERATED ALWAYS AS IDENTITY, name STRING, age STRING, info JSON, guid STRING AS UUID, PRIMARY KEY(SHARD(id)))"
 
 	NosqlNosqlTableDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -229,6 +229,17 @@ func TestNosqlTableResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_auto_reclaimable", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "test_table"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "schema.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "schema.0.identity.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "schema.0.identity.0.column_name", "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "schema.0.identity.0.is_always", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "schema.0.identity.0.is_null", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "schema.0.columns.#", "5"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "schema.0.columns.0.name", "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "schema.0.columns.0.is_as_uuid", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "schema.0.columns.0.is_generated", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "schema.0.columns.4.name", "guid"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "schema.0.columns.4.is_as_uuid", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "schema.0.columns.4.is_generated", "false"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "table_limits.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "table_limits.0.capacity_mode", "PROVISIONED"),
