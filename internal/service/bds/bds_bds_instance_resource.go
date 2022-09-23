@@ -93,7 +93,7 @@ func BdsBdsInstanceResource() *schema.Resource {
 
 						"block_volume_size_in_gbs": {
 							Type:             schema.TypeString,
-							Required:         true,
+							Optional:         true,
 							ForceNew:         true,
 							ValidateFunc:     tfresource.ValidateInt64TypeString,
 							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
@@ -122,6 +122,12 @@ func BdsBdsInstanceResource() *schema.Resource {
 									"ocpus": {
 										Type:     schema.TypeInt,
 										Optional: true,
+									},
+									"nvmes": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
 									},
 								},
 							},
@@ -150,7 +156,7 @@ func BdsBdsInstanceResource() *schema.Resource {
 
 						"block_volume_size_in_gbs": {
 							Type:             schema.TypeString,
-							Required:         true,
+							Optional:         true,
 							ForceNew:         true,
 							ValidateFunc:     tfresource.ValidateInt64TypeString,
 							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
@@ -180,6 +186,12 @@ func BdsBdsInstanceResource() *schema.Resource {
 										Type:     schema.TypeInt,
 										Optional: true,
 									},
+									"nvmes": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 								},
 							},
 						},
@@ -206,7 +218,7 @@ func BdsBdsInstanceResource() *schema.Resource {
 
 						"block_volume_size_in_gbs": {
 							Type:             schema.TypeString,
-							Required:         true,
+							Optional:         true,
 							ValidateFunc:     tfresource.ValidateInt64TypeString,
 							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 						},
@@ -234,6 +246,12 @@ func BdsBdsInstanceResource() *schema.Resource {
 									"ocpus": {
 										Type:     schema.TypeInt,
 										Optional: true,
+									},
+									"nvmes": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
 									},
 
 									// Computed
@@ -263,7 +281,7 @@ func BdsBdsInstanceResource() *schema.Resource {
 
 						"block_volume_size_in_gbs": {
 							Type:             schema.TypeString,
-							Required:         true,
+							Optional:         true,
 							ForceNew:         true,
 							ValidateFunc:     tfresource.ValidateInt64TypeString,
 							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
@@ -293,6 +311,12 @@ func BdsBdsInstanceResource() *schema.Resource {
 										Type:     schema.TypeInt,
 										Optional: true,
 									},
+									"nvmes": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 
 									// Computed
 								},
@@ -317,9 +341,20 @@ func BdsBdsInstanceResource() *schema.Resource {
 						// Required
 						"block_volume_size_in_gbs": {
 							Type:     schema.TypeString,
-							Required: true,
+							Computed: true,
 						},
-
+						"memory_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"nvmes": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"ocpus": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"shape": {
 							Type:     schema.TypeString,
 							Required: true,
@@ -1613,11 +1648,19 @@ func BdsNodeToMap(obj oci_bds.Node) map[string]interface{} {
 		result["ip_address"] = string(*obj.IpAddress)
 	}
 
+	if obj.LocalDisksTotalSizeInGBs != nil {
+		result["local_disks_total_size_in_gbs"] = float64(*obj.LocalDisksTotalSizeInGBs)
+	}
+
 	if obj.MemoryInGBs != nil {
 		result["memory_in_gbs"] = int(*obj.MemoryInGBs)
 	}
 
 	result["node_type"] = string(obj.NodeType)
+
+	if obj.Nvmes != nil {
+		result["nvmes"] = int(*obj.Nvmes)
+	}
 
 	if obj.Ocpus != nil {
 		result["ocpus"] = int(*obj.Ocpus)
@@ -1698,6 +1741,11 @@ func (s *BdsBdsInstanceResourceCrud) mapToShapeConfigDetails(fieldKeyFormat stri
 	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
 		tmp := memoryInGBs.(int)
 		result.MemoryInGBs = &tmp
+	}
+
+	if nvmes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nvmes")); ok {
+		tmp := nvmes.(int)
+		result.Nvmes = &tmp
 	}
 
 	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
