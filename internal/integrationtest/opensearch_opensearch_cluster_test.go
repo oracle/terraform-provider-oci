@@ -41,7 +41,8 @@ var (
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `tf_provider_cluster_updated`, Update: `tf_provider_cluster_updated`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_opensearch_opensearch_cluster.test_opensearch_cluster.id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: OpensearchOpensearchClusterDataSourceFilterRepresentation}}
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: OpensearchOpensearchClusterDataSourceFilterRepresentation},
+	}
 	OpensearchOpensearchClusterDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_opensearch_opensearch_cluster.test_opensearch_cluster.id}`}},
@@ -50,7 +51,7 @@ var (
 	OpensearchOpensearchClusterRepresentation = map[string]interface{}{
 		"compartment_id":                     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"data_node_count":                    acctest.Representation{RepType: acctest.Required, Create: `1`},
-		"data_node_host_memory_gb":           acctest.Representation{RepType: acctest.Required, Create: `10`},
+		"data_node_host_memory_gb":           acctest.Representation{RepType: acctest.Required, Create: `20`},
 		"data_node_host_ocpu_count":          acctest.Representation{RepType: acctest.Required, Create: `2`},
 		"data_node_host_type":                acctest.Representation{RepType: acctest.Required, Create: `FLEX`},
 		"data_node_storage_gb":               acctest.Representation{RepType: acctest.Required, Create: `50`},
@@ -108,7 +109,7 @@ func TestOpensearchOpensearchClusterResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "data_node_count", "1"),
-				resource.TestCheckResourceAttr(resourceName, "data_node_host_memory_gb", "10"),
+				resource.TestCheckResourceAttr(resourceName, "data_node_host_memory_gb", "20"),
 				resource.TestCheckResourceAttr(resourceName, "data_node_host_ocpu_count", "2"),
 				resource.TestCheckResourceAttr(resourceName, "data_node_host_type", "FLEX"),
 				resource.TestCheckResourceAttr(resourceName, "data_node_storage_gb", "50"),
@@ -144,7 +145,7 @@ func TestOpensearchOpensearchClusterResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "data_node_count", "1"),
-				resource.TestCheckResourceAttr(resourceName, "data_node_host_memory_gb", "10"),
+				resource.TestCheckResourceAttr(resourceName, "data_node_host_memory_gb", "20"),
 				resource.TestCheckResourceAttr(resourceName, "data_node_host_ocpu_count", "2"),
 				resource.TestCheckResourceAttr(resourceName, "data_node_host_type", "FLEX"),
 				resource.TestCheckResourceAttr(resourceName, "data_node_storage_gb", "50"),
@@ -192,7 +193,7 @@ func TestOpensearchOpensearchClusterResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "data_node_count", "1"),
-				resource.TestCheckResourceAttr(resourceName, "data_node_host_memory_gb", "10"),
+				resource.TestCheckResourceAttr(resourceName, "data_node_host_memory_gb", "20"),
 				resource.TestCheckResourceAttr(resourceName, "data_node_host_ocpu_count", "2"),
 				resource.TestCheckResourceAttr(resourceName, "data_node_host_type", "FLEX"),
 				resource.TestCheckResourceAttr(resourceName, "data_node_storage_gb", "50"),
@@ -254,7 +255,7 @@ func TestOpensearchOpensearchClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "opensearch_cluster_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_node_count", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "data_node_host_memory_gb", "10"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_node_host_memory_gb", "20"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_node_host_ocpu_count", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_node_host_type", "FLEX"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_node_storage_gb", "50"),
