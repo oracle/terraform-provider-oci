@@ -79,7 +79,16 @@ const (
 		us-phoenix-1 = "ocid1.mysqlconfiguration.oc1..aaaaaaaalwzc2a22xqm56fwjwfymixnulmbq3v77p5v4lcbb6qhkftxf2trq"
 	  }
 	}
-    `
+ 	`
+	MysqlConfigurationIdVariableE3_2_32_OCID = `
+	variable "MysqlConfigurationE3_2_32_OCID" {
+	  type = "map"
+	  default = {
+		us-ashburn-1 = "ocid1.mysqlconfiguration.oc1..aaaaaaaakremacvh2fizcznnja5rdxry2q4nyn27afjblyrimzjmrqblhfwa"
+		us-phoenix-1 = "ocid1.mysqlconfiguration.oc1..aaaaaaaakremacvh2fizcznnja5rdxry2q4nyn27afjblyrimzjmrqblhfwa"
+	  }
+	}
+   `
 	MysqlHAConfigurationIdVariable = `
 	variable "MysqlHAConfigurationOCID" {
 		type = "map"
