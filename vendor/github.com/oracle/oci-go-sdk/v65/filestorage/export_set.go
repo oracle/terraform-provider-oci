@@ -4,7 +4,8 @@
 
 // File Storage API
 //
-// API for the File Storage service. Use this API to manage file systems, mount targets, and snapshots. For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
+// Use the File Storage service API to manage file systems, mount targets, and snapshots.
+// For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
 //
 
 package filestorage
@@ -17,7 +18,6 @@ import (
 
 // ExportSet A set of file systems to export through one or more mount
 // targets. Composed of zero or more export resources.
-// **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type ExportSet struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the export set.

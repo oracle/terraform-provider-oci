@@ -51,10 +51,10 @@ type ListFileSystemsRequest struct {
 	// the resouce type.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the snapshot used to create a cloned file system. See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningafilesystem.htm).
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the snapshot used to create a cloned file system. See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningFS.htm).
 	SourceSnapshotId *string `mandatory:"false" contributesTo:"query" name:"sourceSnapshotId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system that contains the source snapshot of a cloned file system. See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningafilesystem.htm).
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system that contains the source snapshot of a cloned file system. See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningFS.htm).
 	ParentFileSystemId *string `mandatory:"false" contributesTo:"query" name:"parentFileSystemId"`
 
 	// The field to sort by. You can provide either value, but not both.

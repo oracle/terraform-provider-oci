@@ -18,23 +18,23 @@ import (
 // VmNetworkDetails Details of the client or backup networks in an Exadata VM cluster network. Applies to Exadata Cloud@Customer instances only.
 type VmNetworkDetails struct {
 
-	// The network VLAN ID.
-	VlanId *string `mandatory:"true" json:"vlanId"`
-
 	// The network type.
 	NetworkType VmNetworkDetailsNetworkTypeEnum `mandatory:"true" json:"networkType"`
 
-	// The network netmask.
-	Netmask *string `mandatory:"true" json:"netmask"`
-
-	// The network gateway.
-	Gateway *string `mandatory:"true" json:"gateway"`
-
-	// The network domain name.
-	DomainName *string `mandatory:"true" json:"domainName"`
-
 	// The list of node details.
 	Nodes []NodeDetails `mandatory:"true" json:"nodes"`
+
+	// The network VLAN ID.
+	VlanId *string `mandatory:"false" json:"vlanId"`
+
+	// The network netmask.
+	Netmask *string `mandatory:"false" json:"netmask"`
+
+	// The network gateway.
+	Gateway *string `mandatory:"false" json:"gateway"`
+
+	// The network domain name.
+	DomainName *string `mandatory:"false" json:"domainName"`
 }
 
 func (m VmNetworkDetails) String() string {
