@@ -1,3 +1,14 @@
+## 4.95.0 (Unreleased)
+
+### Added
+- Support for NoSQL - Add functionality in OCI console
+- BDS - Support for New Compute Shapes
+- Information about required policy for OpenSearch operations.
+- Support for Stack Monitoring: Home page for OCI compute and Monitoring Support for TCPS
+### Bug Fix
+- [mysql] Terraform support DbSystem change shape without ForceNew
+Removed Computed schema struct from field is_active_data_guard_enabled for database data guard association resource
+
 ## 4.94.0 (Unreleased)
 
 ### Added
