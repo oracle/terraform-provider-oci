@@ -32,6 +32,8 @@ type Schema struct {
 
 	// The default Time-to-Live for the table, in days.
 	Ttl *int `mandatory:"true" json:"ttl"`
+
+	Identity *Identity `mandatory:"false" json:"identity"`
 }
 
 func (m Schema) String() string {

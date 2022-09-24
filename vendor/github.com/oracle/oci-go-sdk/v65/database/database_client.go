@@ -13080,6 +13080,69 @@ func (client DatabaseClient) removeVirtualMachineFromVmCluster(ctx context.Conte
 	return response, err
 }
 
+// ResizeVmClusterNetwork Adds or removes Db server network nodes to extend or shrink the existing VM cluster network. Applies to Exadata
+// Cloud@Customer instances only.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ResizeVmClusterNetwork.go.html to see an example of how to use ResizeVmClusterNetwork API.
+func (client DatabaseClient) ResizeVmClusterNetwork(ctx context.Context, request ResizeVmClusterNetworkRequest) (response ResizeVmClusterNetworkResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.resizeVmClusterNetwork, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ResizeVmClusterNetworkResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ResizeVmClusterNetworkResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ResizeVmClusterNetworkResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ResizeVmClusterNetworkResponse")
+	}
+	return
+}
+
+// resizeVmClusterNetwork implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) resizeVmClusterNetwork(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadataInfrastructures/{exadataInfrastructureId}/vmClusterNetworks/{vmClusterNetworkId}/actions/resize", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ResizeVmClusterNetworkResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/VmClusterNetwork/ResizeVmClusterNetwork"
+		err = common.PostProcessServiceError(err, "Database", "ResizeVmClusterNetwork", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RestartAutonomousContainerDatabase Rolling restarts the specified Autonomous Container Database.
 //
 // See also
