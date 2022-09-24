@@ -78,10 +78,10 @@ type DbSystemShapeSummary struct {
 	// The minimum data storage that need be allocated for this shape.
 	MinDataStorageInTBs *int `mandatory:"false" json:"minDataStorageInTBs"`
 
-	// The minimum number of database nodes available for this shape.
+	// The minimum number of compute servers available for this shape.
 	MinimumNodeCount *int `mandatory:"false" json:"minimumNodeCount"`
 
-	// The maximum number of database nodes available for this shape.
+	// The maximum number of compute servers available for this shape.
 	MaximumNodeCount *int `mandatory:"false" json:"maximumNodeCount"`
 
 	// The maximum number of CPU cores per database node that can be enabled for this shape. Only applicable to the flex Exadata shape and ExaCC Elastic shapes.

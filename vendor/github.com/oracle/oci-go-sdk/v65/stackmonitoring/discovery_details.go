@@ -64,6 +64,7 @@ const (
 	DiscoveryDetailsResourceTypeOciOracleDb    DiscoveryDetailsResourceTypeEnum = "OCI_ORACLE_DB"
 	DiscoveryDetailsResourceTypeOciOracleCdb   DiscoveryDetailsResourceTypeEnum = "OCI_ORACLE_CDB"
 	DiscoveryDetailsResourceTypeOciOraclePdb   DiscoveryDetailsResourceTypeEnum = "OCI_ORACLE_PDB"
+	DiscoveryDetailsResourceTypeHost           DiscoveryDetailsResourceTypeEnum = "HOST"
 )
 
 var mappingDiscoveryDetailsResourceTypeEnum = map[string]DiscoveryDetailsResourceTypeEnum{
@@ -73,6 +74,7 @@ var mappingDiscoveryDetailsResourceTypeEnum = map[string]DiscoveryDetailsResourc
 	"OCI_ORACLE_DB":   DiscoveryDetailsResourceTypeOciOracleDb,
 	"OCI_ORACLE_CDB":  DiscoveryDetailsResourceTypeOciOracleCdb,
 	"OCI_ORACLE_PDB":  DiscoveryDetailsResourceTypeOciOraclePdb,
+	"HOST":            DiscoveryDetailsResourceTypeHost,
 }
 
 var mappingDiscoveryDetailsResourceTypeEnumLowerCase = map[string]DiscoveryDetailsResourceTypeEnum{
@@ -82,6 +84,7 @@ var mappingDiscoveryDetailsResourceTypeEnumLowerCase = map[string]DiscoveryDetai
 	"oci_oracle_db":   DiscoveryDetailsResourceTypeOciOracleDb,
 	"oci_oracle_cdb":  DiscoveryDetailsResourceTypeOciOracleCdb,
 	"oci_oracle_pdb":  DiscoveryDetailsResourceTypeOciOraclePdb,
+	"host":            DiscoveryDetailsResourceTypeHost,
 }
 
 // GetDiscoveryDetailsResourceTypeEnumValues Enumerates the set of values for DiscoveryDetailsResourceTypeEnum
@@ -102,6 +105,7 @@ func GetDiscoveryDetailsResourceTypeEnumStringValues() []string {
 		"OCI_ORACLE_DB",
 		"OCI_ORACLE_CDB",
 		"OCI_ORACLE_PDB",
+		"HOST",
 	}
 }
 

@@ -33,6 +33,12 @@ type MonitoredResourceSummary struct {
 	// Resource Host Name
 	HostName *string `mandatory:"false" json:"hostName"`
 
+	// External resource is any OCI resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// which is not a Stack Monitoring service resource.
+	// Currently supports only following resource type identifiers - externalcontainerdatabase,
+	// externalnoncontainerdatabase, externalpluggabledatabase and OCI compute instance.
+	ExternalId *string `mandatory:"false" json:"externalId"`
+
 	// Management Agent Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	ManagementAgentId *string `mandatory:"false" json:"managementAgentId"`
 
@@ -44,6 +50,9 @@ type MonitoredResourceSummary struct {
 
 	// The current state of the monitored resource.
 	LifecycleState ResourceLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// List of monitored resource properties
+	Properties []MonitoredResourceProperty `mandatory:"false" json:"properties"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`

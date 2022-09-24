@@ -4,7 +4,8 @@
 
 // File Storage API
 //
-// API for the File Storage service. Use this API to manage file systems, mount targets, and snapshots. For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
+// Use the File Storage service API to manage file systems, mount targets, and snapshots.
+// For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
 //
 
 package filestorage
@@ -40,7 +41,6 @@ import (
 // reference the same file system.
 // Use `exportOptions` to control access to an export. For more information, see
 // Export Options (https://docs.cloud.oracle.com/Content/File/Tasks/exportoptions.htm).
-// **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type Export struct {
 
 	// Policies that apply to NFS requests made through this

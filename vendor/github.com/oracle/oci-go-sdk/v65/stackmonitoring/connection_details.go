@@ -35,6 +35,9 @@ type ConnectionDetails struct {
 
 	// dbId of the database
 	DbId *string `mandatory:"false" json:"dbId"`
+
+	// SSL Secret Identifier for TCPS connector in OCI VaultOCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	SslSecretId *string `mandatory:"false" json:"sslSecretId"`
 }
 
 func (m ConnectionDetails) String() string {

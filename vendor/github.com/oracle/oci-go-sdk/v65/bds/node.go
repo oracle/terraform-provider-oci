@@ -68,6 +68,12 @@ type Node struct {
 
 	// The total amount of memory available to the node, in gigabytes.
 	MemoryInGBs *int `mandatory:"false" json:"memoryInGBs"`
+
+	// The number of NVMe drives to be used for storage. A single drive has 6.8 TB available.
+	Nvmes *int `mandatory:"false" json:"nvmes"`
+
+	// The aggregate size of all local disks, in gigabytes. If the instance does not have any local disks, this field is null.
+	LocalDisksTotalSizeInGBs *float64 `mandatory:"false" json:"localDisksTotalSizeInGBs"`
 }
 
 func (m Node) String() string {
@@ -104,6 +110,9 @@ const (
 	NodeLifecycleStateDeleting NodeLifecycleStateEnum = "DELETING"
 	NodeLifecycleStateDeleted  NodeLifecycleStateEnum = "DELETED"
 	NodeLifecycleStateFailed   NodeLifecycleStateEnum = "FAILED"
+	NodeLifecycleStateStopped  NodeLifecycleStateEnum = "STOPPED"
+	NodeLifecycleStateStopping NodeLifecycleStateEnum = "STOPPING"
+	NodeLifecycleStateStarting NodeLifecycleStateEnum = "STARTING"
 )
 
 var mappingNodeLifecycleStateEnum = map[string]NodeLifecycleStateEnum{
@@ -114,6 +123,9 @@ var mappingNodeLifecycleStateEnum = map[string]NodeLifecycleStateEnum{
 	"DELETING": NodeLifecycleStateDeleting,
 	"DELETED":  NodeLifecycleStateDeleted,
 	"FAILED":   NodeLifecycleStateFailed,
+	"STOPPED":  NodeLifecycleStateStopped,
+	"STOPPING": NodeLifecycleStateStopping,
+	"STARTING": NodeLifecycleStateStarting,
 }
 
 var mappingNodeLifecycleStateEnumLowerCase = map[string]NodeLifecycleStateEnum{
@@ -124,6 +136,9 @@ var mappingNodeLifecycleStateEnumLowerCase = map[string]NodeLifecycleStateEnum{
 	"deleting": NodeLifecycleStateDeleting,
 	"deleted":  NodeLifecycleStateDeleted,
 	"failed":   NodeLifecycleStateFailed,
+	"stopped":  NodeLifecycleStateStopped,
+	"stopping": NodeLifecycleStateStopping,
+	"starting": NodeLifecycleStateStarting,
 }
 
 // GetNodeLifecycleStateEnumValues Enumerates the set of values for NodeLifecycleStateEnum
@@ -145,6 +160,9 @@ func GetNodeLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"STOPPED",
+		"STOPPING",
+		"STARTING",
 	}
 }
 

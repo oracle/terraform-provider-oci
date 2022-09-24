@@ -25,6 +25,9 @@ type PreparedStatement struct {
 	// a SQL statement.
 	Statement *string `mandatory:"false" json:"statement"`
 
+	// A representation of the query plan as a schema-less JSON object.
+	QueryPlan *interface{} `mandatory:"false" json:"queryPlan"`
+
 	Usage *RequestUsage `mandatory:"false" json:"usage"`
 }
 

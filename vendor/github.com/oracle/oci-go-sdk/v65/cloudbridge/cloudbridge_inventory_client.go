@@ -137,7 +137,7 @@ func (client InventoryClient) analyzeAssets(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/AssetAggregation/AnalyzeAssets"
 		err = common.PostProcessServiceError(err, "Inventory", "AnalyzeAssets", apiReferenceLink)
 		return response, err
 	}
@@ -200,7 +200,7 @@ func (client InventoryClient) changeAssetCompartment(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Asset/ChangeAssetCompartment"
 		err = common.PostProcessServiceError(err, "Inventory", "ChangeAssetCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -263,7 +263,7 @@ func (client InventoryClient) changeAssetTags(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Asset/ChangeAssetTags"
 		err = common.PostProcessServiceError(err, "Inventory", "ChangeAssetTags", apiReferenceLink)
 		return response, err
 	}
@@ -326,7 +326,7 @@ func (client InventoryClient) createAsset(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Asset/CreateAsset"
 		err = common.PostProcessServiceError(err, "Inventory", "CreateAsset", apiReferenceLink)
 		return response, err
 	}
@@ -389,7 +389,7 @@ func (client InventoryClient) createInventory(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Inventory/CreateInventory"
 		err = common.PostProcessServiceError(err, "Inventory", "CreateInventory", apiReferenceLink)
 		return response, err
 	}
@@ -447,7 +447,7 @@ func (client InventoryClient) deleteAsset(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Asset/DeleteAsset"
 		err = common.PostProcessServiceError(err, "Inventory", "DeleteAsset", apiReferenceLink)
 		return response, err
 	}
@@ -505,7 +505,7 @@ func (client InventoryClient) deleteInventory(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Inventory/DeleteInventory"
 		err = common.PostProcessServiceError(err, "Inventory", "DeleteInventory", apiReferenceLink)
 		return response, err
 	}
@@ -563,7 +563,7 @@ func (client InventoryClient) getAsset(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Asset/GetAsset"
 		err = common.PostProcessServiceError(err, "Inventory", "GetAsset", apiReferenceLink)
 		return response, err
 	}
@@ -621,7 +621,7 @@ func (client InventoryClient) getInventory(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Inventory/GetInventory"
 		err = common.PostProcessServiceError(err, "Inventory", "GetInventory", apiReferenceLink)
 		return response, err
 	}
@@ -684,7 +684,7 @@ func (client InventoryClient) importInventory(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Inventory/ImportInventory"
 		err = common.PostProcessServiceError(err, "Inventory", "ImportInventory", apiReferenceLink)
 		return response, err
 	}
@@ -742,7 +742,7 @@ func (client InventoryClient) listAssets(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/AssetCollection/ListAssets"
 		err = common.PostProcessServiceError(err, "Inventory", "ListAssets", apiReferenceLink)
 		return response, err
 	}
@@ -800,7 +800,7 @@ func (client InventoryClient) listHistoricalMetrics(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/HistoricalMetric/ListHistoricalMetrics"
 		err = common.PostProcessServiceError(err, "Inventory", "ListHistoricalMetrics", apiReferenceLink)
 		return response, err
 	}
@@ -858,7 +858,7 @@ func (client InventoryClient) listInventories(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Inventory/ListInventories"
 		err = common.PostProcessServiceError(err, "Inventory", "ListInventories", apiReferenceLink)
 		return response, err
 	}
@@ -916,7 +916,7 @@ func (client InventoryClient) submitHistoricalMetrics(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/HistoricalMetric/SubmitHistoricalMetrics"
 		err = common.PostProcessServiceError(err, "Inventory", "SubmitHistoricalMetrics", apiReferenceLink)
 		return response, err
 	}
@@ -974,7 +974,7 @@ func (client InventoryClient) updateAsset(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Asset/UpdateAsset"
 		err = common.PostProcessServiceError(err, "Inventory", "UpdateAsset", apiReferenceLink)
 		return response, err
 	}
@@ -1032,7 +1032,7 @@ func (client InventoryClient) updateInventory(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Inventory/UpdateInventory"
 		err = common.PostProcessServiceError(err, "Inventory", "UpdateInventory", apiReferenceLink)
 		return response, err
 	}

@@ -24,6 +24,9 @@ type PrepareStatementRequest struct {
 	// A NoSQL SQL statement.
 	Statement *string `mandatory:"true" contributesTo:"query" name:"statement"`
 
+	// Include a query execution plan in the result.
+	IsGetQueryPlan *bool `mandatory:"false" contributesTo:"query" name:"isGetQueryPlan"`
+
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
