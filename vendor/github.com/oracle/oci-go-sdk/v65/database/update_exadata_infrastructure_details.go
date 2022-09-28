@@ -48,6 +48,14 @@ type UpdateExadataInfrastructureDetails struct {
 	// The requested number of additional storage servers for the Exadata infrastructure.
 	AdditionalStorageCount *int `mandatory:"false" json:"additionalStorageCount"`
 
+	// The requested number of additional compute servers for the Exadata infrastructure.
+	AdditionalComputeCount *int `mandatory:"false" json:"additionalComputeCount"`
+
+	// Oracle Exadata System Model specification. The system model determines the amount of compute or storage
+	// server resources available for use. For more information, please see System and Shape Configuration Options
+	//  (https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-system-config-options.html#GUID-9E090174-5C57-4EB1-9243-B470F9F10D6B)
+	AdditionalComputeSystemModel UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum `mandatory:"false" json:"additionalComputeSystemModel,omitempty"`
+
 	// The list of DNS server IP addresses. Maximum of 3 allowed.
 	DnsServer []string `mandatory:"false" json:"dnsServer"`
 
@@ -82,8 +90,61 @@ func (m UpdateExadataInfrastructureDetails) String() string {
 func (m UpdateExadataInfrastructureDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum(string(m.AdditionalComputeSystemModel)); !ok && m.AdditionalComputeSystemModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AdditionalComputeSystemModel: %s. Supported values are: %s.", m.AdditionalComputeSystemModel, strings.Join(GetUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum Enum with underlying type: string
+type UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum string
+
+// Set of constants representing the allowable values for UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum
+const (
+	UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX7  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum = "X7"
+	UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX8  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum = "X8"
+	UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX8m UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum = "X8M"
+	UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX9m UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum = "X9M"
+)
+
+var mappingUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum = map[string]UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum{
+	"X7":  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX7,
+	"X8":  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX8,
+	"X8M": UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX8m,
+	"X9M": UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX9m,
+}
+
+var mappingUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnumLowerCase = map[string]UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum{
+	"x7":  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX7,
+	"x8":  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX8,
+	"x8m": UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX8m,
+	"x9m": UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX9m,
+}
+
+// GetUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnumValues Enumerates the set of values for UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum
+func GetUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnumValues() []UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum {
+	values := make([]UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum, 0)
+	for _, v := range mappingUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnumStringValues Enumerates the set of values in String for UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum
+func GetUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnumStringValues() []string {
+	return []string{
+		"X7",
+		"X8",
+		"X8M",
+		"X9M",
+	}
+}
+
+// GetMappingUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum(val string) (UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum, bool) {
+	enum, ok := mappingUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

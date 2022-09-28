@@ -57,8 +57,10 @@ The following attributes are exported:
 	* `port` - Listener Port number used for connection requests.
 	* `protocol` - Protocol used in DB connection string when connecting to external database service.
 	* `service_name` - Service name used for connection requests.
+	* `ssl_secret_id` - SSL Secret Identifier for TCPS connector in Oracle Cloud Infrastructure Vault[OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - Monitored resource display name.
+* `external_id` - External resource is any Oracle Cloud Infrastructure resource identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) which is not a Stack Monitoring service resource. Currently supports only following resource type identifiers - externalcontainerdatabase, externalnoncontainerdatabase, externalpluggabledatabase and Oracle Cloud Infrastructure compute instance. 
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `host_name` - Monitored resource host name.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of monitored resource.

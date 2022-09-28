@@ -47,6 +47,9 @@ type TableUsageSummary struct {
 	// The number of times writes were throttled because the table
 	// exceeded its size limit.
 	StorageThrottleCount *int `mandatory:"false" json:"storageThrottleCount"`
+
+	// The percentage of allowed per-shard usage for the table shard with the highest usage.
+	MaxShardSizeUsageInPercent *int `mandatory:"false" json:"maxShardSizeUsageInPercent"`
 }
 
 func (m TableUsageSummary) String() string {

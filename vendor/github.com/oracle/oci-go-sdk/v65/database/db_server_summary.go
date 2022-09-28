@@ -45,6 +45,9 @@ type DbServerSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Db nodes associated with the Db server.
 	DbNodeIds []string `mandatory:"false" json:"dbNodeIds"`
 
+	// The shape of the Db server. The shape determines the amount of CPU, storage, and memory resources available.
+	Shape *string `mandatory:"false" json:"shape"`
+
 	// The current state of the Db server.
 	LifecycleState DbServerSummaryLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
