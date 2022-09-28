@@ -46,8 +46,7 @@ const (
 	StatusPartialSuccess Status = 64
 
 	// parallelism configs
-	ChunkSize         int = 10
-	MaxParallelChunks int = 4
+	ChunkSize int = 10
 )
 
 var isAllDataSourceLock sync.Mutex
