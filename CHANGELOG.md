@@ -1,4 +1,4 @@
-## 4.95.0 (Unreleased)
+## 4.95.0 (September 28, 2022)
 
 ### Added
 - Support for NoSQL - Add functionality in OCI console
