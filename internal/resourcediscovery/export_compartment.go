@@ -45,10 +45,6 @@ type ResourceDiscoveryStage int
 const (
 	Discovery       ResourceDiscoveryStage = 1
 	GeneratingState                        = 2
-	// maximum goroutines for finding resources in a step at base level.
-	// Value of MaxParallelFindResources is decided based on perf analysis and experiments.
-	// Note: SubResources will be discovered sequentially.
-	MaxParallelFindResource = 16
 )
 
 var (
@@ -57,6 +53,8 @@ var (
 	missingAttributesPerResourceLock sync.Mutex
 	sem                              chan struct{}
 	exportConfigProvider             oci_common.ConfigurationProvider
+	MaxParallelFindResource          int
+	MaxParallelChunks                int
 
 	tfexecConfigVar                     = tfexec.Config
 	tfexecStateVar                      = tfexec.State
@@ -291,6 +289,15 @@ func RunExportCommand(args *tf_export.ExportCommandArgs) (err error, status Stat
 	}
 
 	sem = make(chan struct{}, args.Parallelism)
+
+	// maximum goroutines for finding resources in a step at base level.
+	// Value of MaxParallelFindResources is decided based on perf analysis and experiments.
+	// Note: SubResources will be discovered sequentially.
+	numCPU := runtime.NumCPU()
+	MaxParallelFindResource = numCPU * 4
+	// max parallel chunks for state genation that can be executed in parallel
+	MaxParallelChunks = numCPU
+	utils.Debugf("[INFO] Setting MaxParalleFindResources=%d, MaxParallelChunks=%d", MaxParallelFindResource, MaxParallelChunks)
 
 	ctx, err := createResourceDiscoveryContext(clients.(*tf_client.OracleClients), args, tenancyOcid)
 	if err != nil {
