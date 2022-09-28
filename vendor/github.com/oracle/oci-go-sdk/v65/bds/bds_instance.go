@@ -114,6 +114,7 @@ const (
 	BdsInstanceLifecycleStateDeleting   BdsInstanceLifecycleStateEnum = "DELETING"
 	BdsInstanceLifecycleStateDeleted    BdsInstanceLifecycleStateEnum = "DELETED"
 	BdsInstanceLifecycleStateFailed     BdsInstanceLifecycleStateEnum = "FAILED"
+	BdsInstanceLifecycleStateInactive   BdsInstanceLifecycleStateEnum = "INACTIVE"
 )
 
 var mappingBdsInstanceLifecycleStateEnum = map[string]BdsInstanceLifecycleStateEnum{
@@ -126,6 +127,7 @@ var mappingBdsInstanceLifecycleStateEnum = map[string]BdsInstanceLifecycleStateE
 	"DELETING":   BdsInstanceLifecycleStateDeleting,
 	"DELETED":    BdsInstanceLifecycleStateDeleted,
 	"FAILED":     BdsInstanceLifecycleStateFailed,
+	"INACTIVE":   BdsInstanceLifecycleStateInactive,
 }
 
 var mappingBdsInstanceLifecycleStateEnumLowerCase = map[string]BdsInstanceLifecycleStateEnum{
@@ -138,6 +140,7 @@ var mappingBdsInstanceLifecycleStateEnumLowerCase = map[string]BdsInstanceLifecy
 	"deleting":   BdsInstanceLifecycleStateDeleting,
 	"deleted":    BdsInstanceLifecycleStateDeleted,
 	"failed":     BdsInstanceLifecycleStateFailed,
+	"inactive":   BdsInstanceLifecycleStateInactive,
 }
 
 // GetBdsInstanceLifecycleStateEnumValues Enumerates the set of values for BdsInstanceLifecycleStateEnum
@@ -161,6 +164,7 @@ func GetBdsInstanceLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"INACTIVE",
 	}
 }
 

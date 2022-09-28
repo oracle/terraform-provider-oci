@@ -82,8 +82,10 @@ The following attributes are exported:
 	* `image_id` - The OCID of the image from which the node was created.
 	* `instance_id` - The OCID of the underlying Oracle Cloud Infrastructure Compute instance.
 	* `ip_address` - IP address of the node.
+	* `local_disks_total_size_in_gbs` - The aggregate size of all local disks, in gigabytes. If the instance does not have any local disks, this field is null.
 	* `memory_in_gbs` - The total amount of memory available to the node, in gigabytes.
 	* `node_type` - Cluster node type.
+	* `nvmes` - The number of NVMe drives to be used for storage. A single drive has 6.8 TB available.
 	* `ocpus` - The total number of OCPUs available to the node.
 	* `shape` - Shape of the node.
 	* `ssh_fingerprint` - The fingerprint of the SSH key used for node access.

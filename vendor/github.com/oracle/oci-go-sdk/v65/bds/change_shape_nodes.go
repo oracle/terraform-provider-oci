@@ -38,8 +38,10 @@ type ChangeShapeNodes struct {
 
 	UtilityShapeConfig *ShapeConfigDetails `mandatory:"false" json:"utilityShapeConfig"`
 
-	// Change shape of the Cloud SQL node to the desired target shape. Only VM_STANDARD shapes are allowed here.
+	// Change shape of the Cloud SQL node to the desired target shape. Both VM_STANDARD and E4 Flex shapes are allowed here.
 	Cloudsql *string `mandatory:"false" json:"cloudsql"`
+
+	CloudsqlShapeConfig *ShapeConfigDetails `mandatory:"false" json:"cloudsqlShapeConfig"`
 }
 
 func (m ChangeShapeNodes) String() string {

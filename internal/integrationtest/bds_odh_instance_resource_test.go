@@ -66,7 +66,8 @@ var (
 		"kms_key_id":              acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_id}`, Update: `${var.kms_key_id_for_update}`},
 		//"cloud_sql_details":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: bdsInstanceNodesOdhCloudSqlRepresentation}, // capacity issue
 
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		//Uncomment this when running in home region (PHX)
+		//	"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"network_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: bdsInstanceOdhNetworkConfigRepresentation},
 	}
@@ -85,31 +86,32 @@ var (
 		})
 
 	bdsInstanceNodesOdhCloudSqlRepresentation = map[string]interface{}{
-		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.4`},
+		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `BM.Standard.E4.128`},
 		"block_volume_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `1000`},
+		//	"nvmes":         acctest.Representation{RepType: acctest.Optional, Create: `10`}, // Only for VM_DenseIO_E4_Flex. The shape is disabled for now
 	}
 
 	bdsInstanceNodesOdhMasterRepresentation = map[string]interface{}{
 		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.4`},
-		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
 		"block_volume_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `150`},
 		"number_of_nodes":          acctest.Representation{RepType: acctest.Required, Create: `2`},
 	}
 	bdsInstanceNodesOdhUtilRepresentation = map[string]interface{}{
 		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.4`},
-		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
 		"block_volume_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `150`},
 		"number_of_nodes":          acctest.Representation{RepType: acctest.Required, Create: `2`},
 	}
 	bdsInstanceNodesOdhWorkerRepresentation = map[string]interface{}{
-		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
-		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `BM.Standard.E4.128`},
+		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
 		"block_volume_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `150`},
 		"number_of_nodes":          acctest.Representation{RepType: acctest.Required, Create: `3`, Update: `4`},
 	}
 	bdsInstanceNodeFlexShapeRepresentation = map[string]interface{}{
 		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E4.Flex`},
-		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
 		"block_volume_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `150`},
 		"number_of_nodes":          acctest.Representation{RepType: acctest.Required, Create: `2`},
 		"shape_config":             acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesShapeConfigRepresentation},
@@ -132,7 +134,7 @@ var (
 			[]string{"cidr_block", "dns_label"},
 			[]interface{}{acctest.Representation{RepType: acctest.Required, Create: `111.111.0.0/16`}, acctest.Representation{RepType: acctest.Required, Create: `bdsvcn`}},
 			CoreVcnRepresentation)) +
-		DefinedTagsDependencies +
+		//	DefinedTagsDependencies +
 		KeyResourceDependencyConfig
 )
 
@@ -148,6 +150,9 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
+	subnetId := utils.GetEnvSettingWithBlankDefault("subnet_ocid")
+	subnetIdVariableStr := fmt.Sprintf("variable \"subnet_id\" { default = \"%s\" }\n", subnetId)
 
 	kmsKeyId := utils.GetEnvSettingWithBlankDefault("kms_key_ocid")
 	kmsKeyIdVariableStr := fmt.Sprintf("variable \"kms_key_id\" { default = \"%s\" }\n", kmsKeyId)
@@ -170,7 +175,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckBdsBdsInstanceOdhDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + BdsInstanceOdhResourceDependencies + bootstrapScriptUrlVariableStr +
+			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + subnetIdVariableStr + BdsInstanceOdhResourceDependencies + bootstrapScriptUrlVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create, bdsInstanceOdhRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
@@ -197,7 +202,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + BdsInstanceOdhResourceDependencies + bootstrapScriptUrlVariableStr +
+			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + subnetIdVariableStr + BdsInstanceOdhResourceDependencies + bootstrapScriptUrlVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Create, bdsInstanceOdhRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "bootstrap_script_url", bootstrapScriptUrl),
@@ -245,7 +250,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step) and change shapes
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + kmsKeyIdVariableStr + bootstrapScriptUrlVariableStr + BdsInstanceOdhResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + kmsKeyIdVariableStr + subnetIdVariableStr + bootstrapScriptUrlVariableStr + BdsInstanceOdhResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(bdsInstanceOdhWithFlexComputeAndRegularMasterUtilRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -294,7 +299,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 
 		// verify updates to updatable parameters, add a worker, update compute worker flex->regular, update util regular -> flex
 		{
-			Config: config + compartmentIdVariableStr + kmsKeyIdUVariableStr + bootstrapScriptUrlVariableStr + BdsInstanceOdhResourceDependencies +
+			Config: config + compartmentIdVariableStr + kmsKeyIdUVariableStr + bootstrapScriptUrlVariableStr + subnetIdVariableStr + BdsInstanceOdhResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Update, bdsInstanceOdhWithRegularComputeAndFlexMasterUtilRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
@@ -327,10 +332,6 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "util_node.0.shape", "VM.Standard.E4.Flex"),
 				resource.TestCheckResourceAttr(resourceName, "master_node.0.shape", "VM.Standard.E4.Flex"),
 				resource.TestCheckResourceAttr(resourceName, "compute_only_worker_node.0.shape", "VM.Standard2.4"),
-				// Change shape not supported for ODH on GA
-				//resource.TestCheckResourceAttr(resourceName, "master_node.0.shape", "VM.Standard2.8"),
-				//resource.TestCheckResourceAttr(resourceName, "worker_node.0.shape", "VM.Standard2.4"),
-				//resource.TestCheckResourceAttr(resourceName, "util_node.0.shape", "VM.Standard2.8"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -345,7 +346,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_bds_bds_instances", "test_bds_instances", acctest.Optional, acctest.Update, bdsInstanceOdhDataSourceRepresentation) +
-				compartmentIdVariableStr + kmsKeyIdUVariableStr + bootstrapScriptUrlVariableStr + BdsInstanceOdhResourceDependencies +
+				compartmentIdVariableStr + kmsKeyIdUVariableStr + subnetIdVariableStr + bootstrapScriptUrlVariableStr + BdsInstanceOdhResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Update, bdsInstanceOdhWithRegularComputeAndFlexMasterUtilRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -369,7 +370,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create, bdsInstanceOdhSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + kmsKeyIdVariableStr + kmsKeyIdUVariableStr + bootstrapScriptUrlVariableStr + BdsInstanceOdhWithRegularComputeWorkerResourceConfig,
+				compartmentIdVariableStr + kmsKeyIdVariableStr + subnetIdVariableStr + kmsKeyIdUVariableStr + bootstrapScriptUrlVariableStr + BdsInstanceOdhWithRegularComputeWorkerResourceConfig,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "bds_instance_id"),
 

@@ -137,6 +137,7 @@ resource "oci_database_data_guard_association" "test_data_guard_association" {
   node_count                = "1"
   private_ip                = "10.0.2.223"
   time_zone                 = "US/Pacific"
+  is_active_data_guard_enabled = "false"
 }
 
 resource "oci_core_network_security_group" "test_network_security_group" {

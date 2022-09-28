@@ -77,7 +77,7 @@ variable "bds_instance_nodes_shape" {
 }
 
 variable "bds_instance_worker_node_shape" {
-  default = "VM.Standard2.1"
+  default = "BM.Standard.E4.128"
 }
 
 variable "bds_instance_compute_only_worker_node_shape" {
@@ -96,13 +96,15 @@ variable "bds_instance_state" {
   default = "ACTIVE"
 }
 
-variable "tag_namespace_description" {
-  default = "Just a test"
-}
+#Uncomment this when running in home region (PHX)
+#variable "tag_namespace_description" {
+#  default = "Just a test"
+#}
 
-variable "tag_namespace_name" {
-  default = "testexamples-tag-namespace"
-}
+#Uncomment this when running in home region (PHX)
+#variable "tag_namespace_name" {
+#  default = "testexamples-tag-namespace"
+#}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -112,19 +114,21 @@ provider "oci" {
   region           = var.region
 }
 
-resource "oci_identity_tag_namespace" "tag-namespace1" {
-  #Required
-  compartment_id = var.tenancy_ocid
-  description    = var.tag_namespace_description
-  name           = var.tag_namespace_name
-}
+#Uncomment this when running in home region (PHX)
+#resource "oci_identity_tag_namespace" "tag-namespace1" {
+#  #Required
+#  compartment_id = var.tenancy_ocid
+#  description    = var.tag_namespace_description
+#  name           = var.tag_namespace_name
+#}
 
-resource "oci_identity_tag" "tag1" {
-  #Required
-  description      = "tf example tag"
-  name             = "tf-example-tag"
-  tag_namespace_id = oci_identity_tag_namespace.tag-namespace1.id
-}
+#Uncomment this when running in home region (PHX)
+#resource "oci_identity_tag" "tag1" {
+#  #Required
+#  description      = "tf example tag"
+#  name             = "tf-example-tag"
+#  tag_namespace_id = oci_identity_tag_namespace.tag-namespace1.id
+#}
 
 resource "oci_core_vcn" "vcn_bds" {
   cidr_block     = "111.111.0.0/16"
@@ -203,9 +207,10 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
   is_cloud_sql_configured = false
 
   #Optional
-  defined_tags = {
-    "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = var.bds_instance_defined_tags_value
-  }
+#Uncomment this when running in home region (PHX)
+#  defined_tags = {
+#    "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = var.bds_instance_defined_tags_value
+#  }
   freeform_tags = var.bds_instance_freeform_tags
   network_config {
     #Optional

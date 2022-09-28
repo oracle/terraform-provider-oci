@@ -59,6 +59,10 @@ func StackMonitoringMonitoredResourcesListMemberResource() *schema.Resource {
 							Computed: true,
 							Elem:     schema.TypeString,
 						},
+						"external_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"freeform_tags": {
 							Type:     schema.TypeMap,
 							Computed: true,
@@ -186,6 +190,10 @@ func MonitoredResourceMemberSummaryToMap(obj oci_stack_monitoring.MonitoredResou
 
 	if obj.DefinedTags != nil {
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
+	if obj.ExternalId != nil {
+		result["external_id"] = string(*obj.ExternalId)
 	}
 
 	result["freeform_tags"] = obj.FreeformTags

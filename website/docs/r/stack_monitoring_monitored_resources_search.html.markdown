@@ -20,6 +20,9 @@ resource "oci_stack_monitoring_monitored_resources_search" "test_monitored_resou
 	compartment_id = var.compartment_id
 
 	#Optional
+	exclude_fields = var.monitored_resources_search_exclude_fields
+	external_id = oci_stack_monitoring_external.test_external.id
+	fields = var.monitored_resources_search_fields
 	host_name = var.monitored_resources_search_host_name
 	host_name_contains = var.monitored_resources_search_host_name_contains
 	management_agent_id = oci_management_agent_management_agent.test_management_agent.id
@@ -41,6 +44,9 @@ resource "oci_stack_monitoring_monitored_resources_search" "test_monitored_resou
 The following arguments are supported:
 
 * `compartment_id` - (Required) Compartment Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
+* `exclude_fields` - (Optional) Partial response refers to an optimization technique offered by the RESTful web APIs, to return all the information except the fields requested to be excluded (excludeFields) by the client. In this mechanism, the client sends the exclude field names as the query parameters for an API to the server, and the server trims down the default response content by removing the fields that are not required by the client. The parameter controls which fields to exlude and to return and should be a query string parameter called "excludeFields" of an array type, provide the values as enums, and use collectionFormat. 
+* `external_id` - (Optional) External resource is any Oracle Cloud Infrastructure resource identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) which is not a Stack Monitoring service resource. Currently supports only following resource type identifiers - externalcontainerdatabase, externalnoncontainerdatabase, externalpluggabledatabase and Oracle Cloud Infrastructure compute instance. 
+* `fields` - (Optional) Partial response refers to an optimization technique offered by the RESTful web APIs, to return only the information (fields) required by the client. In this mechanism, the client sends the required field names as the query parameters for an API to the server, and the server trims down the default response content by removing the fields that are not required by the client. The parameter controls which fields to return and should be a query string parameter called "fields" of an array type, provide the values as enums, and use collectionFormat. 
 * `host_name` - (Optional) A filter to return resources with host name match
 * `host_name_contains` - (Optional) A filter to return resources with host name pattern
 * `management_agent_id` - (Optional) A filter to return resources with matching management agent id.
@@ -74,11 +80,15 @@ The following attributes are exported:
 * `items` - List of monitored resources.
 	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 	* `display_name` - Monitored resource display name.
+	* `external_id` - External resource is any Oracle Cloud Infrastructure resource identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) which is not a Stack Monitoring service resource. Currently supports only following resource type identifiers - externalcontainerdatabase, externalnoncontainerdatabase, externalpluggabledatabase and Oracle Cloud Infrastructure compute instance. 
 	* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 	* `host_name` - Resource Host Name
 	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of monitored resource.
 	* `management_agent_id` - Management Agent Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	* `name` - Name of the monitored resource
+	* `properties` - List of monitored resource properties
+		* `name` - property name
+		* `value` - property value
 	* `state` - The current state of the monitored resource.
 	* `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 	* `time_created` - Monitored resource creation time. An RFC3339 formatted datetime string

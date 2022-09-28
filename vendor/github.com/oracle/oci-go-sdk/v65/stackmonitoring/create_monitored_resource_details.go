@@ -34,6 +34,11 @@ type CreateMonitoredResourceDetails struct {
 	// Host name of the monitored resource
 	HostName *string `mandatory:"false" json:"hostName"`
 
+	// External resource is any OCI resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// which is not a Stack Monitoring service resource.
+	// Currently supports only OCI compute instance.
+	ExternalId *string `mandatory:"false" json:"externalId"`
+
 	// Management Agent Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	ManagementAgentId *string `mandatory:"false" json:"managementAgentId"`
 
@@ -71,6 +76,7 @@ func (m *CreateMonitoredResourceDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		DisplayName               *string                           `json:"displayName"`
 		HostName                  *string                           `json:"hostName"`
+		ExternalId                *string                           `json:"externalId"`
 		ManagementAgentId         *string                           `json:"managementAgentId"`
 		ResourceTimeZone          *string                           `json:"resourceTimeZone"`
 		Properties                []MonitoredResourceProperty       `json:"properties"`
@@ -90,6 +96,8 @@ func (m *CreateMonitoredResourceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DisplayName = model.DisplayName
 
 	m.HostName = model.HostName
+
+	m.ExternalId = model.ExternalId
 
 	m.ManagementAgentId = model.ManagementAgentId
 

@@ -141,7 +141,7 @@ func (client DiscoveryClient) changeAssetSourceCompartment(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/AssetSource/ChangeAssetSourceCompartment"
 		err = common.PostProcessServiceError(err, "Discovery", "ChangeAssetSourceCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -204,7 +204,7 @@ func (client DiscoveryClient) changeDiscoveryScheduleCompartment(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/DiscoverySchedule/ChangeDiscoveryScheduleCompartment"
 		err = common.PostProcessServiceError(err, "Discovery", "ChangeDiscoveryScheduleCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -267,7 +267,7 @@ func (client DiscoveryClient) createAssetSource(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/AssetSource/CreateAssetSource"
 		err = common.PostProcessServiceError(err, "Discovery", "CreateAssetSource", apiReferenceLink)
 		return response, err
 	}
@@ -330,7 +330,7 @@ func (client DiscoveryClient) createDiscoverySchedule(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/DiscoverySchedule/CreateDiscoverySchedule"
 		err = common.PostProcessServiceError(err, "Discovery", "CreateDiscoverySchedule", apiReferenceLink)
 		return response, err
 	}
@@ -388,7 +388,7 @@ func (client DiscoveryClient) deleteAssetSource(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/AssetSource/DeleteAssetSource"
 		err = common.PostProcessServiceError(err, "Discovery", "DeleteAssetSource", apiReferenceLink)
 		return response, err
 	}
@@ -446,7 +446,7 @@ func (client DiscoveryClient) deleteDiscoverySchedule(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/DiscoverySchedule/DeleteDiscoverySchedule"
 		err = common.PostProcessServiceError(err, "Discovery", "DeleteDiscoverySchedule", apiReferenceLink)
 		return response, err
 	}
@@ -504,7 +504,7 @@ func (client DiscoveryClient) getAssetSource(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/AssetSource/GetAssetSource"
 		err = common.PostProcessServiceError(err, "Discovery", "GetAssetSource", apiReferenceLink)
 		return response, err
 	}
@@ -562,7 +562,7 @@ func (client DiscoveryClient) getDiscoverySchedule(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/DiscoverySchedule/GetDiscoverySchedule"
 		err = common.PostProcessServiceError(err, "Discovery", "GetDiscoverySchedule", apiReferenceLink)
 		return response, err
 	}
@@ -620,7 +620,7 @@ func (client DiscoveryClient) listAssetSourceConnections(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/AssetSource/ListAssetSourceConnections"
 		err = common.PostProcessServiceError(err, "Discovery", "ListAssetSourceConnections", apiReferenceLink)
 		return response, err
 	}
@@ -678,7 +678,7 @@ func (client DiscoveryClient) listAssetSources(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/AssetSource/ListAssetSources"
 		err = common.PostProcessServiceError(err, "Discovery", "ListAssetSources", apiReferenceLink)
 		return response, err
 	}
@@ -736,7 +736,7 @@ func (client DiscoveryClient) listDiscoverySchedules(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/DiscoverySchedule/ListDiscoverySchedules"
 		err = common.PostProcessServiceError(err, "Discovery", "ListDiscoverySchedules", apiReferenceLink)
 		return response, err
 	}
@@ -799,7 +799,7 @@ func (client DiscoveryClient) refreshAssetSource(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/AssetSource/RefreshAssetSource"
 		err = common.PostProcessServiceError(err, "Discovery", "RefreshAssetSource", apiReferenceLink)
 		return response, err
 	}
@@ -857,7 +857,7 @@ func (client DiscoveryClient) updateAssetSource(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/AssetSource/UpdateAssetSource"
 		err = common.PostProcessServiceError(err, "Discovery", "UpdateAssetSource", apiReferenceLink)
 		return response, err
 	}
@@ -915,7 +915,7 @@ func (client DiscoveryClient) updateDiscoverySchedule(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/DiscoverySchedule/UpdateDiscoverySchedule"
 		err = common.PostProcessServiceError(err, "Discovery", "UpdateDiscoverySchedule", apiReferenceLink)
 		return response, err
 	}

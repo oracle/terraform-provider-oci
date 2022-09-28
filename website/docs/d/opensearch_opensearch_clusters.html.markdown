@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_opensearch_opensearch_clusters"
 sidebar_current: "docs-oci-datasource-opensearch-opensearch_clusters"
 description: |-
-Provides the list of Opensearch Clusters in Oracle Cloud Infrastructure Opensearch service
+  Provides the list of Opensearch Clusters in Oracle Cloud Infrastructure Opensearch service
 ---
 
 # Data Source: oci_opensearch_opensearch_clusters
@@ -22,6 +22,9 @@ Allow service opensearch to use subnets in compartment {Compartment-Name}
 Allow service opensearch to use network-security-groups in compartment {Compartment-Name}
 Allow service opensearch to manage vcns in compartment {Compartment-Name}
 ```
+
+For latest documentation on OpenSearch use please refer to https://docs.oracle.com/en-us/iaas/Content/search-opensearch/home.htm  
+Required permissions: https://docs.oracle.com/en-us/iaas/Content/search-opensearch/Concepts/ocisearchpermissions.htm
 
 ## Example Usage
 

@@ -60,9 +60,11 @@ resource "oci_stack_monitoring_monitored_resource" "test_monitored_resource" {
 		connector_id = var.monitored_resource_database_connector_id
 		db_id = var.monitored_resource_database_id
 		db_unique_name = var.monitored_resource_database_connection_details_db_unique_name
+		ssl_secret_id = oci_vault_secret.test_secret.id
 	}
 	display_name = var.monitored_resource_display_name
 	external_resource_id = var.monitored_resource_external_resource_id
+	external_id = oci_stack_monitoring_external.test_external.id
 	host_name = var.monitored_resource_host_name
 	management_agent_id = oci_management_agent_management_agent.test_management_agent.id
 	properties {
@@ -104,8 +106,10 @@ The following arguments are supported:
 	* `port` - (Required) (Updatable) Listener Port number used for connection requests.
 	* `protocol` - (Required) (Updatable) Protocol used in DB connection string when connecting to external database service.
 	* `service_name` - (Required) (Updatable) Service name used for connection requests.
+	* `ssl_secret_id` - (Optional) (Updatable) SSL Secret Identifier for TCPS connector in Oracle Cloud Infrastructure Vault[OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 * `display_name` - (Optional) (Updatable) Monitored resource display name.
 * `external_resource_id` - (Optional) Generally used by DBaaS to send the Database OCID stored on the DBaaS. The same will be passed to resource service to enable Stack Monitoring Service on DBM. This will be stored in Stack Monitoring Resource Service data store as identifier for monitored resource. If this header is not set as part of the request, then an id will be generated and stored for the resource. 
+* `external_id` - (Optional) External resource is any Oracle Cloud Infrastructure resource identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) which is not a Stack Monitoring service resource. Currently supports only Oracle Cloud Infrastructure compute instance. 
 * `host_name` - (Optional) (Updatable) Host name of the monitored resource
 * `management_agent_id` - (Optional) Management Agent Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `name` - (Required) Monitored resource name
@@ -148,8 +152,10 @@ The following attributes are exported:
 	* `port` - Listener Port number used for connection requests.
 	* `protocol` - Protocol used in DB connection string when connecting to external database service.
 	* `service_name` - Service name used for connection requests.
+	* `ssl_secret_id` - SSL Secret Identifier for TCPS connector in Oracle Cloud Infrastructure Vault[OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - Monitored resource display name.
+* `external_id` - External resource is any Oracle Cloud Infrastructure resource identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) which is not a Stack Monitoring service resource. Currently supports only following resource type identifiers - externalcontainerdatabase, externalnoncontainerdatabase, externalpluggabledatabase and Oracle Cloud Infrastructure compute instance. 
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `host_name` - Monitored resource host name.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of monitored resource.

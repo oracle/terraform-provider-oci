@@ -100,6 +100,10 @@ func (s *StackMonitoringMonitoredResourceDataSourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.ExternalId != nil {
+		s.D.Set("external_id", *s.Res.ExternalId)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.HostName != nil {
