@@ -33,11 +33,8 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-<<<<<<< ours
 * `compute_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Compute Instance
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
-=======
->>>>>>> theirs
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}`
 * `enterprise_manager_bridge_id` - OPSI Enterprise Manager Bridge OCID
 * `enterprise_manager_entity_display_name` - Enterprise Manager Entity Display Name
 * `enterprise_manager_entity_identifier` - Enterprise Manager Entity Unique Identifier
