@@ -25,18 +25,20 @@ type CreateFunctionDetails struct {
 	// The OCID of the application this function belongs to.
 	ApplicationId *string `mandatory:"true" json:"applicationId"`
 
+	// Maximum usable memory for the function (MiB).
+	MemoryInMBs *int64 `mandatory:"true" json:"memoryInMBs"`
+
 	// The qualified name of the Docker image to use in the function, including the image tag.
 	// The image should be in the OCI Registry that is in the same region as the function itself.
 	// Example: `phx.ocir.io/ten/functions/function:0.0.1`
-	Image *string `mandatory:"true" json:"image"`
-
-	// Maximum usable memory for the function (MiB).
-	MemoryInMBs *int64 `mandatory:"true" json:"memoryInMBs"`
+	Image *string `mandatory:"false" json:"image"`
 
 	// The image digest for the version of the image that will be pulled when invoking this function.
 	// If no value is specified, the digest currently associated with the image in the OCI Registry will be used.
 	// Example: `sha256:ca0eeb6fb05351dfc8759c20733c91def84cb8007aa89a5bf606bc8b315b9fc7`
 	ImageDigest *string `mandatory:"false" json:"imageDigest"`
+
+	SourceDetails FunctionSourceDetails `mandatory:"false" json:"sourceDetails"`
 
 	// Function configuration. These values are passed on to the function as environment variables, this overrides application configuration values.
 	// Keys must be ASCII strings consisting solely of letters, digits, and the '_' (underscore) character, and must not begin with a digit. Values should be limited to printable unicode characters.
@@ -48,10 +50,6 @@ type CreateFunctionDetails struct {
 	TimeoutInSeconds *int `mandatory:"false" json:"timeoutInSeconds"`
 
 	ProvisionedConcurrencyConfig FunctionProvisionedConcurrencyConfig `mandatory:"false" json:"provisionedConcurrencyConfig"`
-
-	SuccessDestination SuccessDestinationDetails `mandatory:"false" json:"successDestination"`
-
-	FailureDestination FailureDestinationDetails `mandatory:"false" json:"failureDestination"`
 
 	TraceConfig *FunctionTraceConfig `mandatory:"false" json:"traceConfig"`
 
@@ -84,18 +82,17 @@ func (m CreateFunctionDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateFunctionDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		Image                        *string                              `json:"image"`
 		ImageDigest                  *string                              `json:"imageDigest"`
+		SourceDetails                functionsourcedetails                `json:"sourceDetails"`
 		Config                       map[string]string                    `json:"config"`
 		TimeoutInSeconds             *int                                 `json:"timeoutInSeconds"`
 		ProvisionedConcurrencyConfig functionprovisionedconcurrencyconfig `json:"provisionedConcurrencyConfig"`
-		SuccessDestination           successdestinationdetails            `json:"successDestination"`
-		FailureDestination           failuredestinationdetails            `json:"failureDestination"`
 		TraceConfig                  *FunctionTraceConfig                 `json:"traceConfig"`
 		FreeformTags                 map[string]string                    `json:"freeformTags"`
 		DefinedTags                  map[string]map[string]interface{}    `json:"definedTags"`
 		DisplayName                  *string                              `json:"displayName"`
 		ApplicationId                *string                              `json:"applicationId"`
-		Image                        *string                              `json:"image"`
 		MemoryInMBs                  *int64                               `json:"memoryInMBs"`
 	}{}
 
@@ -104,7 +101,19 @@ func (m *CreateFunctionDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.Image = model.Image
+
 	m.ImageDigest = model.ImageDigest
+
+	nn, e = model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.SourceDetails = nn.(FunctionSourceDetails)
+	} else {
+		m.SourceDetails = nil
+	}
 
 	m.Config = model.Config
 
@@ -120,26 +129,6 @@ func (m *CreateFunctionDetails) UnmarshalJSON(data []byte) (e error) {
 		m.ProvisionedConcurrencyConfig = nil
 	}
 
-	nn, e = model.SuccessDestination.UnmarshalPolymorphicJSON(model.SuccessDestination.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.SuccessDestination = nn.(SuccessDestinationDetails)
-	} else {
-		m.SuccessDestination = nil
-	}
-
-	nn, e = model.FailureDestination.UnmarshalPolymorphicJSON(model.FailureDestination.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.FailureDestination = nn.(FailureDestinationDetails)
-	} else {
-		m.FailureDestination = nil
-	}
-
 	m.TraceConfig = model.TraceConfig
 
 	m.FreeformTags = model.FreeformTags
@@ -149,8 +138,6 @@ func (m *CreateFunctionDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DisplayName = model.DisplayName
 
 	m.ApplicationId = model.ApplicationId
-
-	m.Image = model.Image
 
 	m.MemoryInMBs = model.MemoryInMBs
 

@@ -376,18 +376,6 @@ type AutonomousDatabase struct {
 
 	// List of database tools details.
 	DbToolsDetails []DatabaseTool `mandatory:"false" json:"dbToolsDetails"`
-
-	// Specifies the Data Guard tier of the Autonomous Database on shared Exadata infrastructure.
-	// The CRITICAL Autonomous Data Guard tier provides business-critical data recovery with a quicker recovery time objective (RTO) during Failover or Switchover.
-	// The STANDARD Autonomous Data Guard tier provides lower-cost data recovery with a higher recovery time objective (RTO) during Failover or Switchover.
-	// Default value is CRITICAL.
-	LocalAutonomousDataGuardTier AutonomousDatabaseLocalAutonomousDataGuardTierEnum `mandatory:"false" json:"localAutonomousDataGuardTier,omitempty"`
-
-	// Specifies the Data Guard tier of the Autonomous Database on shared Exadata infrastructure.
-	// The CRITICAL Autonomous Data Guard tier provides business-critical data recovery with a quicker recovery time objective (RTO) during Failover or Switchover.
-	// The STANDARD Autonomous Data Guard tier provides lower-cost data recovery with a higher recovery time objective (RTO) during Failover or Switchover.
-	// Default value is CRITICAL.
-	RemoteAutonomousDataGuardTier AutonomousDatabaseRemoteAutonomousDataGuardTierEnum `mandatory:"false" json:"remoteAutonomousDataGuardTier,omitempty"`
 }
 
 func (m AutonomousDatabase) String() string {
@@ -447,12 +435,6 @@ func (m AutonomousDatabase) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingAutonomousDatabaseDatabaseEditionEnum(string(m.DatabaseEdition)); !ok && m.DatabaseEdition != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", m.DatabaseEdition, strings.Join(GetAutonomousDatabaseDatabaseEditionEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingAutonomousDatabaseLocalAutonomousDataGuardTierEnum(string(m.LocalAutonomousDataGuardTier)); !ok && m.LocalAutonomousDataGuardTier != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LocalAutonomousDataGuardTier: %s. Supported values are: %s.", m.LocalAutonomousDataGuardTier, strings.Join(GetAutonomousDatabaseLocalAutonomousDataGuardTierEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingAutonomousDatabaseRemoteAutonomousDataGuardTierEnum(string(m.RemoteAutonomousDataGuardTier)); !ok && m.RemoteAutonomousDataGuardTier != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RemoteAutonomousDataGuardTier: %s. Supported values are: %s.", m.RemoteAutonomousDataGuardTier, strings.Join(GetAutonomousDatabaseRemoteAutonomousDataGuardTierEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -1261,89 +1243,5 @@ func GetAutonomousDatabaseDatabaseEditionEnumStringValues() []string {
 // GetMappingAutonomousDatabaseDatabaseEditionEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingAutonomousDatabaseDatabaseEditionEnum(val string) (AutonomousDatabaseDatabaseEditionEnum, bool) {
 	enum, ok := mappingAutonomousDatabaseDatabaseEditionEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// AutonomousDatabaseLocalAutonomousDataGuardTierEnum Enum with underlying type: string
-type AutonomousDatabaseLocalAutonomousDataGuardTierEnum string
-
-// Set of constants representing the allowable values for AutonomousDatabaseLocalAutonomousDataGuardTierEnum
-const (
-	AutonomousDatabaseLocalAutonomousDataGuardTierCritical AutonomousDatabaseLocalAutonomousDataGuardTierEnum = "CRITICAL"
-	AutonomousDatabaseLocalAutonomousDataGuardTierStandard AutonomousDatabaseLocalAutonomousDataGuardTierEnum = "STANDARD"
-)
-
-var mappingAutonomousDatabaseLocalAutonomousDataGuardTierEnum = map[string]AutonomousDatabaseLocalAutonomousDataGuardTierEnum{
-	"CRITICAL": AutonomousDatabaseLocalAutonomousDataGuardTierCritical,
-	"STANDARD": AutonomousDatabaseLocalAutonomousDataGuardTierStandard,
-}
-
-var mappingAutonomousDatabaseLocalAutonomousDataGuardTierEnumLowerCase = map[string]AutonomousDatabaseLocalAutonomousDataGuardTierEnum{
-	"critical": AutonomousDatabaseLocalAutonomousDataGuardTierCritical,
-	"standard": AutonomousDatabaseLocalAutonomousDataGuardTierStandard,
-}
-
-// GetAutonomousDatabaseLocalAutonomousDataGuardTierEnumValues Enumerates the set of values for AutonomousDatabaseLocalAutonomousDataGuardTierEnum
-func GetAutonomousDatabaseLocalAutonomousDataGuardTierEnumValues() []AutonomousDatabaseLocalAutonomousDataGuardTierEnum {
-	values := make([]AutonomousDatabaseLocalAutonomousDataGuardTierEnum, 0)
-	for _, v := range mappingAutonomousDatabaseLocalAutonomousDataGuardTierEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetAutonomousDatabaseLocalAutonomousDataGuardTierEnumStringValues Enumerates the set of values in String for AutonomousDatabaseLocalAutonomousDataGuardTierEnum
-func GetAutonomousDatabaseLocalAutonomousDataGuardTierEnumStringValues() []string {
-	return []string{
-		"CRITICAL",
-		"STANDARD",
-	}
-}
-
-// GetMappingAutonomousDatabaseLocalAutonomousDataGuardTierEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingAutonomousDatabaseLocalAutonomousDataGuardTierEnum(val string) (AutonomousDatabaseLocalAutonomousDataGuardTierEnum, bool) {
-	enum, ok := mappingAutonomousDatabaseLocalAutonomousDataGuardTierEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// AutonomousDatabaseRemoteAutonomousDataGuardTierEnum Enum with underlying type: string
-type AutonomousDatabaseRemoteAutonomousDataGuardTierEnum string
-
-// Set of constants representing the allowable values for AutonomousDatabaseRemoteAutonomousDataGuardTierEnum
-const (
-	AutonomousDatabaseRemoteAutonomousDataGuardTierCritical AutonomousDatabaseRemoteAutonomousDataGuardTierEnum = "CRITICAL"
-	AutonomousDatabaseRemoteAutonomousDataGuardTierStandard AutonomousDatabaseRemoteAutonomousDataGuardTierEnum = "STANDARD"
-)
-
-var mappingAutonomousDatabaseRemoteAutonomousDataGuardTierEnum = map[string]AutonomousDatabaseRemoteAutonomousDataGuardTierEnum{
-	"CRITICAL": AutonomousDatabaseRemoteAutonomousDataGuardTierCritical,
-	"STANDARD": AutonomousDatabaseRemoteAutonomousDataGuardTierStandard,
-}
-
-var mappingAutonomousDatabaseRemoteAutonomousDataGuardTierEnumLowerCase = map[string]AutonomousDatabaseRemoteAutonomousDataGuardTierEnum{
-	"critical": AutonomousDatabaseRemoteAutonomousDataGuardTierCritical,
-	"standard": AutonomousDatabaseRemoteAutonomousDataGuardTierStandard,
-}
-
-// GetAutonomousDatabaseRemoteAutonomousDataGuardTierEnumValues Enumerates the set of values for AutonomousDatabaseRemoteAutonomousDataGuardTierEnum
-func GetAutonomousDatabaseRemoteAutonomousDataGuardTierEnumValues() []AutonomousDatabaseRemoteAutonomousDataGuardTierEnum {
-	values := make([]AutonomousDatabaseRemoteAutonomousDataGuardTierEnum, 0)
-	for _, v := range mappingAutonomousDatabaseRemoteAutonomousDataGuardTierEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetAutonomousDatabaseRemoteAutonomousDataGuardTierEnumStringValues Enumerates the set of values in String for AutonomousDatabaseRemoteAutonomousDataGuardTierEnum
-func GetAutonomousDatabaseRemoteAutonomousDataGuardTierEnumStringValues() []string {
-	return []string{
-		"CRITICAL",
-		"STANDARD",
-	}
-}
-
-// GetMappingAutonomousDatabaseRemoteAutonomousDataGuardTierEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingAutonomousDatabaseRemoteAutonomousDataGuardTierEnum(val string) (AutonomousDatabaseRemoteAutonomousDataGuardTierEnum, bool) {
-	enum, ok := mappingAutonomousDatabaseRemoteAutonomousDataGuardTierEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

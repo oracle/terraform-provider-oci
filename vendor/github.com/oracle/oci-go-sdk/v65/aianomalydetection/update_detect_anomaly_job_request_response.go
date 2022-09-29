@@ -14,7 +14,7 @@ import (
 // UpdateDetectAnomalyJobRequest wrapper for the UpdateDetectAnomalyJob operation
 type UpdateDetectAnomalyJobRequest struct {
 
-	// Unique Async Job identifier
+	// Unique asynchronous job identifier.
 	DetectAnomalyJobId *string `mandatory:"true" contributesTo:"path" name:"detectAnomalyJobId"`
 
 	// The information to be updated.

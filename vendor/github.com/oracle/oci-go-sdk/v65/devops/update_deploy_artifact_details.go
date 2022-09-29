@@ -33,8 +33,6 @@ type UpdateDeployArtifactDetails struct {
 	// Mode for artifact parameter substitution.
 	ArgumentSubstitutionMode DeployArtifactArgumentSubstitutionModeEnum `mandatory:"false" json:"argumentSubstitutionMode,omitempty"`
 
-	HelmVerificationKeySource VerificationKeySource `mandatory:"false" json:"helmVerificationKeySource"`
-
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
@@ -67,14 +65,13 @@ func (m UpdateDeployArtifactDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateDeployArtifactDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description               *string                                    `json:"description"`
-		DisplayName               *string                                    `json:"displayName"`
-		DeployArtifactType        DeployArtifactDeployArtifactTypeEnum       `json:"deployArtifactType"`
-		DeployArtifactSource      deployartifactsource                       `json:"deployArtifactSource"`
-		ArgumentSubstitutionMode  DeployArtifactArgumentSubstitutionModeEnum `json:"argumentSubstitutionMode"`
-		HelmVerificationKeySource verificationkeysource                      `json:"helmVerificationKeySource"`
-		FreeformTags              map[string]string                          `json:"freeformTags"`
-		DefinedTags               map[string]map[string]interface{}          `json:"definedTags"`
+		Description              *string                                    `json:"description"`
+		DisplayName              *string                                    `json:"displayName"`
+		DeployArtifactType       DeployArtifactDeployArtifactTypeEnum       `json:"deployArtifactType"`
+		DeployArtifactSource     deployartifactsource                       `json:"deployArtifactSource"`
+		ArgumentSubstitutionMode DeployArtifactArgumentSubstitutionModeEnum `json:"argumentSubstitutionMode"`
+		FreeformTags             map[string]string                          `json:"freeformTags"`
+		DefinedTags              map[string]map[string]interface{}          `json:"definedTags"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -99,16 +96,6 @@ func (m *UpdateDeployArtifactDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.ArgumentSubstitutionMode = model.ArgumentSubstitutionMode
-
-	nn, e = model.HelmVerificationKeySource.UnmarshalPolymorphicJSON(model.HelmVerificationKeySource.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.HelmVerificationKeySource = nn.(VerificationKeySource)
-	} else {
-		m.HelmVerificationKeySource = nil
-	}
 
 	m.FreeformTags = model.FreeformTags
 

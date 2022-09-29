@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// EmbeddedInputDetails The request body when the user selects to provide byte data in detect call which is Base64 encoded.
+// EmbeddedInputDetails The request body when byte data is provided in detect call, which is Base64 encoded.
 // The default type of the data is CSV and can be JSON by setting the 'contentType'.
 type EmbeddedInputDetails struct {
 	Content []byte `mandatory:"true" json:"content"`

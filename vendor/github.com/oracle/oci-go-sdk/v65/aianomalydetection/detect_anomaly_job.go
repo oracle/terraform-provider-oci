@@ -24,7 +24,7 @@ type DetectAnomalyJob struct {
 	// Id of the job.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The ocid of the compartment that starts the job.
+	// The OCID of the compartment that starts the job.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The OCID of the trained model.
@@ -45,6 +45,12 @@ type DetectAnomalyJob struct {
 
 	// Detect anomaly job description.
 	Description *string `mandatory:"false" json:"description"`
+
+	// The OCID of the project.
+	ProjectId *string `mandatory:"false" json:"projectId"`
+
+	// The value that customer can adjust to control the sensitivity of anomaly detection
+	Sensitivity *float32 `mandatory:"false" json:"sensitivity"`
 
 	// Job started time
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
@@ -92,6 +98,8 @@ func (m *DetectAnomalyJob) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		DisplayName           *string                            `json:"displayName"`
 		Description           *string                            `json:"description"`
+		ProjectId             *string                            `json:"projectId"`
+		Sensitivity           *float32                           `json:"sensitivity"`
 		TimeStarted           *common.SDKTime                    `json:"timeStarted"`
 		TimeFinished          *common.SDKTime                    `json:"timeFinished"`
 		LifecycleStateDetails *string                            `json:"lifecycleStateDetails"`
@@ -115,6 +123,10 @@ func (m *DetectAnomalyJob) UnmarshalJSON(data []byte) (e error) {
 	m.DisplayName = model.DisplayName
 
 	m.Description = model.Description
+
+	m.ProjectId = model.ProjectId
+
+	m.Sensitivity = model.Sensitivity
 
 	m.TimeStarted = model.TimeStarted
 

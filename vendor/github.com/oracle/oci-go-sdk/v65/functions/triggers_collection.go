@@ -10,43 +10,30 @@
 package functions
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// NoneSuccessDestinationDetails Specifies no success estination
-// Example: `{"kind": "NONE"}`
-type NoneSuccessDestinationDetails struct {
+// TriggersCollection Results of a Trigger search. Contains boh TriggerSummary items and other information, such as metadata.
+type TriggersCollection struct {
+
+	// List of TriggerSummary.
+	Items []TriggerSummary `mandatory:"true" json:"items"`
 }
 
-func (m NoneSuccessDestinationDetails) String() string {
+func (m TriggersCollection) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m NoneSuccessDestinationDetails) ValidateEnumValue() (bool, error) {
+func (m TriggersCollection) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// MarshalJSON marshals to json representation
-func (m NoneSuccessDestinationDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeNoneSuccessDestinationDetails NoneSuccessDestinationDetails
-	s := struct {
-		DiscriminatorParam string `json:"kind"`
-		MarshalTypeNoneSuccessDestinationDetails
-	}{
-		"NONE",
-		(MarshalTypeNoneSuccessDestinationDetails)(m),
-	}
-
-	return json.Marshal(&s)
 }

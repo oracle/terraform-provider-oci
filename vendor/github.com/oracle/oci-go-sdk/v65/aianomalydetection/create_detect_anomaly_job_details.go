@@ -18,11 +18,11 @@ import (
 	"strings"
 )
 
-// CreateDetectAnomalyJobDetails Base class for the DetectAnomalies async call. It contains the identifier that will
-// be used for deciding what type of request this is.
+// CreateDetectAnomalyJobDetails Base class for the DetectAnomalies async call. It contains the identifier that is
+// used for deciding what type of request this is.
 type CreateDetectAnomalyJobDetails struct {
 
-	// The ocid of the compartment that starts the job.
+	// The OCID of the compartment that starts the job.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The OCID of the trained model.
@@ -37,6 +37,9 @@ type CreateDetectAnomalyJobDetails struct {
 
 	// Detect anomaly job display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// The value that customer can adjust to control the sensitivity of anomaly detection
+	Sensitivity *float32 `mandatory:"false" json:"sensitivity"`
 }
 
 func (m CreateDetectAnomalyJobDetails) String() string {
@@ -60,6 +63,7 @@ func (m *CreateDetectAnomalyJobDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Description   *string       `json:"description"`
 		DisplayName   *string       `json:"displayName"`
+		Sensitivity   *float32      `json:"sensitivity"`
 		CompartmentId *string       `json:"compartmentId"`
 		ModelId       *string       `json:"modelId"`
 		InputDetails  inputdetails  `json:"inputDetails"`
@@ -74,6 +78,8 @@ func (m *CreateDetectAnomalyJobDetails) UnmarshalJSON(data []byte) (e error) {
 	m.Description = model.Description
 
 	m.DisplayName = model.DisplayName
+
+	m.Sensitivity = model.Sensitivity
 
 	m.CompartmentId = model.CompartmentId
 

@@ -43,6 +43,9 @@ type HeatWaveCluster struct {
 	// as described by RFC 3339 (https://tools.ietf.org/rfc/rfc3339).
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
+	// Lakehouse enabled status for the HeatWave cluster.
+	IsLakehouseEnabled *bool `mandatory:"false" json:"isLakehouseEnabled"`
+
 	// Datalake enabled status for the HeatWave cluster.
 	IsDatalakeEnabled *bool `mandatory:"false" json:"isDatalakeEnabled"`
 

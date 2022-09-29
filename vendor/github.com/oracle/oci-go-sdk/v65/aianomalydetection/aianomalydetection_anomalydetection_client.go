@@ -258,7 +258,7 @@ func (client AnomalyDetectionClient) changeDataAssetCompartment(ctx context.Cont
 	return response, err
 }
 
-// ChangeDetectAnomalyJobCompartment Moves a async anomaly detect job resource from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
+// ChangeDetectAnomalyJobCompartment Moves a asynchronous anomaly detect job resource from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
 func (client AnomalyDetectionClient) ChangeDetectAnomalyJobCompartment(ctx context.Context, request ChangeDetectAnomalyJobCompartmentRequest) (response ChangeDetectAnomalyJobCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -823,7 +823,7 @@ func (client AnomalyDetectionClient) deleteDataAsset(ctx context.Context, reques
 	return response, err
 }
 
-// DeleteDetectAnomalyJob Deletes an accepted but not not started detect anomaly async job.
+// DeleteDetectAnomalyJob Deletes an accepted, but not not started detect anomaly asynchronous job.
 func (client AnomalyDetectionClient) DeleteDetectAnomalyJob(ctx context.Context, request DeleteDetectAnomalyJobRequest) (response DeleteDetectAnomalyJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1146,7 +1146,7 @@ func (client AnomalyDetectionClient) getDataAsset(ctx context.Context, request c
 	return response, err
 }
 
-// GetDetectAnomalyJob Gets a detect anomaly async job by identifier.
+// GetDetectAnomalyJob Gets a detect anomaly asynchronous job by identifier.
 func (client AnomalyDetectionClient) GetDetectAnomalyJob(ctx context.Context, request GetDetectAnomalyJobRequest) (response GetDetectAnomalyJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1464,7 +1464,7 @@ func (client AnomalyDetectionClient) listDataAssets(ctx context.Context, request
 	return response, err
 }
 
-// ListDetectAnomalyJobs Returns a list of all the AI Service Anomaly Jobs in the specified compartment.
+// ListDetectAnomalyJobs Returns a list of all the Anomaly Detection jobs in the specified compartment.
 func (client AnomalyDetectionClient) ListDetectAnomalyJobs(ctx context.Context, request ListDetectAnomalyJobsRequest) (response ListDetectAnomalyJobsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1888,7 +1888,7 @@ func (client AnomalyDetectionClient) updateDataAsset(ctx context.Context, reques
 	return response, err
 }
 
-// UpdateDetectAnomalyJob Updates the detect anomaly async job by identifier.
+// UpdateDetectAnomalyJob Updates the detect anomaly asynchronous job by identifier.
 func (client AnomalyDetectionClient) UpdateDetectAnomalyJob(ctx context.Context, request UpdateDetectAnomalyJobRequest) (response UpdateDetectAnomalyJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

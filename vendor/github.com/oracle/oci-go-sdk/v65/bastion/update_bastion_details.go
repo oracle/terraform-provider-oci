@@ -27,6 +27,11 @@ type UpdateBastionDetails struct {
 	// A list of address ranges in CIDR notation that you want to allow to connect to sessions hosted by this bastion.
 	ClientCidrBlockAllowList []string `mandatory:"false" json:"clientCidrBlockAllowList"`
 
+	// Define whether to save bastion recordings in custom buckets
+	IsRecordingEnabled *bool `mandatory:"false" json:"isRecordingEnabled"`
+
+	BastionRecordingConfig *BastionRecordingConfig `mandatory:"false" json:"bastionRecordingConfig"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

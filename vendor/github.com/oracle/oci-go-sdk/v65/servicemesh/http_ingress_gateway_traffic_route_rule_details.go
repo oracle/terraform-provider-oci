@@ -37,6 +37,11 @@ type HttpIngressGatewayTrafficRouteRuleDetails struct {
 	// If true, the matched path prefix will be rewritten to '/' before being directed to the target virtual deployment.
 	IsPathRewriteEnabled *bool `mandatory:"false" json:"isPathRewriteEnabled"`
 
+	// It is the maximum duration in milliseconds for the upstream service to respond to a request.
+	// If provided, the timeout value overrides the default timeout of 15 seconds. The value 0 (zero) indicates that the timeout is disabled.
+	// For streaming responses from the upstream service, it is suggested to either keep the timeout disabled or set a sufficiently high value.
+	TimeoutInMs *int64 `mandatory:"false" json:"timeoutInMs"`
+
 	// Match type for the route
 	PathType HttpIngressGatewayTrafficRouteRuleDetailsPathTypeEnum `mandatory:"false" json:"pathType,omitempty"`
 }

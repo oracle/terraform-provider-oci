@@ -4,7 +4,7 @@
 
 // Fusion Applications Environment Management API
 //
-// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.cloud.oracle.com/iaas/Content/Identity/fusion-applications/home.htm).
+// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.cloud.oracle.com/iaas/Content/fusion-applications/home.htm).
 //
 
 package fusionapps
@@ -89,9 +89,10 @@ func (client *FusionApplicationsClient) ConfigurationProvider() *common.Configur
 
 // ChangeFusionEnvironmentCompartment Moves a FusionEnvironment into a different compartment. When provided, If-Match is checked against ETag
 // values of the resource.
+// A default retry strategy applies to this operation ChangeFusionEnvironmentCompartment()
 func (client FusionApplicationsClient) ChangeFusionEnvironmentCompartment(ctx context.Context, request ChangeFusionEnvironmentCompartmentRequest) (response ChangeFusionEnvironmentCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -148,9 +149,10 @@ func (client FusionApplicationsClient) changeFusionEnvironmentCompartment(ctx co
 
 // ChangeFusionEnvironmentFamilyCompartment Moves a FusionEnvironmentFamily into a different compartment. When provided, If-Match is checked against ETag
 // values of the resource.
+// A default retry strategy applies to this operation ChangeFusionEnvironmentFamilyCompartment()
 func (client FusionApplicationsClient) ChangeFusionEnvironmentFamilyCompartment(ctx context.Context, request ChangeFusionEnvironmentFamilyCompartmentRequest) (response ChangeFusionEnvironmentFamilyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -206,9 +208,10 @@ func (client FusionApplicationsClient) changeFusionEnvironmentFamilyCompartment(
 }
 
 // CreateDataMaskingActivity Creates a new DataMaskingActivity.
+// A default retry strategy applies to this operation CreateDataMaskingActivity()
 func (client FusionApplicationsClient) CreateDataMaskingActivity(ctx context.Context, request CreateDataMaskingActivityRequest) (response CreateDataMaskingActivityResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -264,9 +267,10 @@ func (client FusionApplicationsClient) createDataMaskingActivity(ctx context.Con
 }
 
 // CreateFusionEnvironment Creates a new FusionEnvironment.
+// A default retry strategy applies to this operation CreateFusionEnvironment()
 func (client FusionApplicationsClient) CreateFusionEnvironment(ctx context.Context, request CreateFusionEnvironmentRequest) (response CreateFusionEnvironmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -322,9 +326,10 @@ func (client FusionApplicationsClient) createFusionEnvironment(ctx context.Conte
 }
 
 // CreateFusionEnvironmentAdminUser Create a FusionEnvironment admin user
+// A default retry strategy applies to this operation CreateFusionEnvironmentAdminUser()
 func (client FusionApplicationsClient) CreateFusionEnvironmentAdminUser(ctx context.Context, request CreateFusionEnvironmentAdminUserRequest) (response CreateFusionEnvironmentAdminUserResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -380,9 +385,10 @@ func (client FusionApplicationsClient) createFusionEnvironmentAdminUser(ctx cont
 }
 
 // CreateFusionEnvironmentFamily Creates a new FusionEnvironmentFamily.
+// A default retry strategy applies to this operation CreateFusionEnvironmentFamily()
 func (client FusionApplicationsClient) CreateFusionEnvironmentFamily(ctx context.Context, request CreateFusionEnvironmentFamilyRequest) (response CreateFusionEnvironmentFamilyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -438,9 +444,10 @@ func (client FusionApplicationsClient) createFusionEnvironmentFamily(ctx context
 }
 
 // CreateRefreshActivity Creates a new RefreshActivity.
+// A default retry strategy applies to this operation CreateRefreshActivity()
 func (client FusionApplicationsClient) CreateRefreshActivity(ctx context.Context, request CreateRefreshActivityRequest) (response CreateRefreshActivityResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -496,9 +503,10 @@ func (client FusionApplicationsClient) createRefreshActivity(ctx context.Context
 }
 
 // DeleteFusionEnvironment Deletes the Fusion environment identified by it's OCID.
+// A default retry strategy applies to this operation DeleteFusionEnvironment()
 func (client FusionApplicationsClient) DeleteFusionEnvironment(ctx context.Context, request DeleteFusionEnvironmentRequest) (response DeleteFusionEnvironmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -549,9 +557,10 @@ func (client FusionApplicationsClient) deleteFusionEnvironment(ctx context.Conte
 }
 
 // DeleteFusionEnvironmentAdminUser Deletes the FusionEnvironment administrator user identified by the username.
+// A default retry strategy applies to this operation DeleteFusionEnvironmentAdminUser()
 func (client FusionApplicationsClient) DeleteFusionEnvironmentAdminUser(ctx context.Context, request DeleteFusionEnvironmentAdminUserRequest) (response DeleteFusionEnvironmentAdminUserResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -602,9 +611,10 @@ func (client FusionApplicationsClient) deleteFusionEnvironmentAdminUser(ctx cont
 }
 
 // DeleteFusionEnvironmentFamily Deletes a FusionEnvironmentFamily resource by identifier
+// A default retry strategy applies to this operation DeleteFusionEnvironmentFamily()
 func (client FusionApplicationsClient) DeleteFusionEnvironmentFamily(ctx context.Context, request DeleteFusionEnvironmentFamilyRequest) (response DeleteFusionEnvironmentFamilyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -655,9 +665,10 @@ func (client FusionApplicationsClient) deleteFusionEnvironmentFamily(ctx context
 }
 
 // GetDataMaskingActivity Gets a DataMaskingActivity by identifier
+// A default retry strategy applies to this operation GetDataMaskingActivity()
 func (client FusionApplicationsClient) GetDataMaskingActivity(ctx context.Context, request GetDataMaskingActivityRequest) (response GetDataMaskingActivityResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -708,9 +719,10 @@ func (client FusionApplicationsClient) getDataMaskingActivity(ctx context.Contex
 }
 
 // GetFusionEnvironment Gets a FusionEnvironment by identifier
+// A default retry strategy applies to this operation GetFusionEnvironment()
 func (client FusionApplicationsClient) GetFusionEnvironment(ctx context.Context, request GetFusionEnvironmentRequest) (response GetFusionEnvironmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -761,9 +773,10 @@ func (client FusionApplicationsClient) getFusionEnvironment(ctx context.Context,
 }
 
 // GetFusionEnvironmentFamily Retrieves a fusion environment family identified by its OCID.
+// A default retry strategy applies to this operation GetFusionEnvironmentFamily()
 func (client FusionApplicationsClient) GetFusionEnvironmentFamily(ctx context.Context, request GetFusionEnvironmentFamilyRequest) (response GetFusionEnvironmentFamilyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -814,9 +827,10 @@ func (client FusionApplicationsClient) getFusionEnvironmentFamily(ctx context.Co
 }
 
 // GetFusionEnvironmentFamilyLimitsAndUsage Gets the number of environments (usage) of each type in the fusion environment family, as well as the limit that's allowed to be created based on the group's associated subscriptions.
+// A default retry strategy applies to this operation GetFusionEnvironmentFamilyLimitsAndUsage()
 func (client FusionApplicationsClient) GetFusionEnvironmentFamilyLimitsAndUsage(ctx context.Context, request GetFusionEnvironmentFamilyLimitsAndUsageRequest) (response GetFusionEnvironmentFamilyLimitsAndUsageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -867,9 +881,10 @@ func (client FusionApplicationsClient) getFusionEnvironmentFamilyLimitsAndUsage(
 }
 
 // GetFusionEnvironmentFamilySubscriptionDetail Gets the subscription details of an fusion environment family.
+// A default retry strategy applies to this operation GetFusionEnvironmentFamilySubscriptionDetail()
 func (client FusionApplicationsClient) GetFusionEnvironmentFamilySubscriptionDetail(ctx context.Context, request GetFusionEnvironmentFamilySubscriptionDetailRequest) (response GetFusionEnvironmentFamilySubscriptionDetailResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -920,9 +935,10 @@ func (client FusionApplicationsClient) getFusionEnvironmentFamilySubscriptionDet
 }
 
 // GetFusionEnvironmentStatus Gets the status of a Fusion environment identified by its OCID.
+// A default retry strategy applies to this operation GetFusionEnvironmentStatus()
 func (client FusionApplicationsClient) GetFusionEnvironmentStatus(ctx context.Context, request GetFusionEnvironmentStatusRequest) (response GetFusionEnvironmentStatusResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -973,9 +989,10 @@ func (client FusionApplicationsClient) getFusionEnvironmentStatus(ctx context.Co
 }
 
 // GetRefreshActivity Gets a RefreshActivity by identifier
+// A default retry strategy applies to this operation GetRefreshActivity()
 func (client FusionApplicationsClient) GetRefreshActivity(ctx context.Context, request GetRefreshActivityRequest) (response GetRefreshActivityResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1026,9 +1043,10 @@ func (client FusionApplicationsClient) getRefreshActivity(ctx context.Context, r
 }
 
 // GetScheduledActivity Gets a ScheduledActivity by identifier
+// A default retry strategy applies to this operation GetScheduledActivity()
 func (client FusionApplicationsClient) GetScheduledActivity(ctx context.Context, request GetScheduledActivityRequest) (response GetScheduledActivityResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1079,9 +1097,10 @@ func (client FusionApplicationsClient) getScheduledActivity(ctx context.Context,
 }
 
 // GetServiceAttachment Gets a Service Attachment by identifier
+// A default retry strategy applies to this operation GetServiceAttachment()
 func (client FusionApplicationsClient) GetServiceAttachment(ctx context.Context, request GetServiceAttachmentRequest) (response GetServiceAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1132,9 +1151,10 @@ func (client FusionApplicationsClient) getServiceAttachment(ctx context.Context,
 }
 
 // GetWorkRequest Gets the status of the work request with the given ID.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client FusionApplicationsClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1185,9 +1205,10 @@ func (client FusionApplicationsClient) getWorkRequest(ctx context.Context, reque
 }
 
 // ListAdminUsers List all FusionEnvironment admin users
+// A default retry strategy applies to this operation ListAdminUsers()
 func (client FusionApplicationsClient) ListAdminUsers(ctx context.Context, request ListAdminUsersRequest) (response ListAdminUsersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1238,9 +1259,10 @@ func (client FusionApplicationsClient) listAdminUsers(ctx context.Context, reque
 }
 
 // ListDataMaskingActivities Returns a list of DataMaskingActivities.
+// A default retry strategy applies to this operation ListDataMaskingActivities()
 func (client FusionApplicationsClient) ListDataMaskingActivities(ctx context.Context, request ListDataMaskingActivitiesRequest) (response ListDataMaskingActivitiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1291,9 +1313,10 @@ func (client FusionApplicationsClient) listDataMaskingActivities(ctx context.Con
 }
 
 // ListFusionEnvironmentFamilies Returns a list of FusionEnvironmentFamilies.
+// A default retry strategy applies to this operation ListFusionEnvironmentFamilies()
 func (client FusionApplicationsClient) ListFusionEnvironmentFamilies(ctx context.Context, request ListFusionEnvironmentFamiliesRequest) (response ListFusionEnvironmentFamiliesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1344,9 +1367,10 @@ func (client FusionApplicationsClient) listFusionEnvironmentFamilies(ctx context
 }
 
 // ListFusionEnvironments Returns a list of FusionEnvironments.
+// A default retry strategy applies to this operation ListFusionEnvironments()
 func (client FusionApplicationsClient) ListFusionEnvironments(ctx context.Context, request ListFusionEnvironmentsRequest) (response ListFusionEnvironmentsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1397,9 +1421,10 @@ func (client FusionApplicationsClient) listFusionEnvironments(ctx context.Contex
 }
 
 // ListRefreshActivities Returns a list of RefreshActivities.
+// A default retry strategy applies to this operation ListRefreshActivities()
 func (client FusionApplicationsClient) ListRefreshActivities(ctx context.Context, request ListRefreshActivitiesRequest) (response ListRefreshActivitiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1450,9 +1475,10 @@ func (client FusionApplicationsClient) listRefreshActivities(ctx context.Context
 }
 
 // ListScheduledActivities Returns a list of ScheduledActivities.
+// A default retry strategy applies to this operation ListScheduledActivities()
 func (client FusionApplicationsClient) ListScheduledActivities(ctx context.Context, request ListScheduledActivitiesRequest) (response ListScheduledActivitiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1503,9 +1529,10 @@ func (client FusionApplicationsClient) listScheduledActivities(ctx context.Conte
 }
 
 // ListServiceAttachments Returns a list of service attachments.
+// A default retry strategy applies to this operation ListServiceAttachments()
 func (client FusionApplicationsClient) ListServiceAttachments(ctx context.Context, request ListServiceAttachmentsRequest) (response ListServiceAttachmentsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1556,9 +1583,10 @@ func (client FusionApplicationsClient) listServiceAttachments(ctx context.Contex
 }
 
 // ListTimeAvailableForRefreshes Gets available refresh time for this fusion environment
+// A default retry strategy applies to this operation ListTimeAvailableForRefreshes()
 func (client FusionApplicationsClient) ListTimeAvailableForRefreshes(ctx context.Context, request ListTimeAvailableForRefreshesRequest) (response ListTimeAvailableForRefreshesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1609,9 +1637,10 @@ func (client FusionApplicationsClient) listTimeAvailableForRefreshes(ctx context
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client FusionApplicationsClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1662,9 +1691,10 @@ func (client FusionApplicationsClient) listWorkRequestErrors(ctx context.Context
 }
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client FusionApplicationsClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1715,9 +1745,10 @@ func (client FusionApplicationsClient) listWorkRequestLogs(ctx context.Context, 
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client FusionApplicationsClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1768,9 +1799,10 @@ func (client FusionApplicationsClient) listWorkRequests(ctx context.Context, req
 }
 
 // ResetFusionEnvironmentPassword Resets the password of the Fusion Environment Administrator.
+// A default retry strategy applies to this operation ResetFusionEnvironmentPassword()
 func (client FusionApplicationsClient) ResetFusionEnvironmentPassword(ctx context.Context, request ResetFusionEnvironmentPasswordRequest) (response ResetFusionEnvironmentPasswordResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1826,9 +1858,10 @@ func (client FusionApplicationsClient) resetFusionEnvironmentPassword(ctx contex
 }
 
 // UpdateFusionEnvironment Updates the FusionEnvironment
+// A default retry strategy applies to this operation UpdateFusionEnvironment()
 func (client FusionApplicationsClient) UpdateFusionEnvironment(ctx context.Context, request UpdateFusionEnvironmentRequest) (response UpdateFusionEnvironmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1879,9 +1912,10 @@ func (client FusionApplicationsClient) updateFusionEnvironment(ctx context.Conte
 }
 
 // UpdateFusionEnvironmentFamily Updates the FusionEnvironmentFamily
+// A default retry strategy applies to this operation UpdateFusionEnvironmentFamily()
 func (client FusionApplicationsClient) UpdateFusionEnvironmentFamily(ctx context.Context, request UpdateFusionEnvironmentFamilyRequest) (response UpdateFusionEnvironmentFamilyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

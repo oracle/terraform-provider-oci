@@ -44,6 +44,8 @@ type Function struct {
 	// Example: `sha256:ca0eeb6fb05351dfc8759c20733c91def84cb8007aa89a5bf606bc8b315b9fc7`
 	ImageDigest *string `mandatory:"false" json:"imageDigest"`
 
+	SourceDetails FunctionSourceDetails `mandatory:"false" json:"sourceDetails"`
+
 	// Maximum usable memory for the function (MiB).
 	MemoryInMBs *int64 `mandatory:"false" json:"memoryInMBs"`
 
@@ -57,10 +59,6 @@ type Function struct {
 	TimeoutInSeconds *int `mandatory:"false" json:"timeoutInSeconds"`
 
 	ProvisionedConcurrencyConfig FunctionProvisionedConcurrencyConfig `mandatory:"false" json:"provisionedConcurrencyConfig"`
-
-	SuccessDestination SuccessDestinationDetails `mandatory:"false" json:"successDestination"`
-
-	FailureDestination FailureDestinationDetails `mandatory:"false" json:"failureDestination"`
 
 	TraceConfig *FunctionTraceConfig `mandatory:"false" json:"traceConfig"`
 
@@ -115,12 +113,11 @@ func (m *Function) UnmarshalJSON(data []byte) (e error) {
 		CompartmentId                *string                              `json:"compartmentId"`
 		Image                        *string                              `json:"image"`
 		ImageDigest                  *string                              `json:"imageDigest"`
+		SourceDetails                functionsourcedetails                `json:"sourceDetails"`
 		MemoryInMBs                  *int64                               `json:"memoryInMBs"`
 		Config                       map[string]string                    `json:"config"`
 		TimeoutInSeconds             *int                                 `json:"timeoutInSeconds"`
 		ProvisionedConcurrencyConfig functionprovisionedconcurrencyconfig `json:"provisionedConcurrencyConfig"`
-		SuccessDestination           successdestinationdetails            `json:"successDestination"`
-		FailureDestination           failuredestinationdetails            `json:"failureDestination"`
 		TraceConfig                  *FunctionTraceConfig                 `json:"traceConfig"`
 		FreeformTags                 map[string]string                    `json:"freeformTags"`
 		InvokeEndpoint               *string                              `json:"invokeEndpoint"`
@@ -147,6 +144,16 @@ func (m *Function) UnmarshalJSON(data []byte) (e error) {
 
 	m.ImageDigest = model.ImageDigest
 
+	nn, e = model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.SourceDetails = nn.(FunctionSourceDetails)
+	} else {
+		m.SourceDetails = nil
+	}
+
 	m.MemoryInMBs = model.MemoryInMBs
 
 	m.Config = model.Config
@@ -161,26 +168,6 @@ func (m *Function) UnmarshalJSON(data []byte) (e error) {
 		m.ProvisionedConcurrencyConfig = nn.(FunctionProvisionedConcurrencyConfig)
 	} else {
 		m.ProvisionedConcurrencyConfig = nil
-	}
-
-	nn, e = model.SuccessDestination.UnmarshalPolymorphicJSON(model.SuccessDestination.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.SuccessDestination = nn.(SuccessDestinationDetails)
-	} else {
-		m.SuccessDestination = nil
-	}
-
-	nn, e = model.FailureDestination.UnmarshalPolymorphicJSON(model.FailureDestination.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.FailureDestination = nn.(FailureDestinationDetails)
-	} else {
-		m.FailureDestination = nil
 	}
 
 	m.TraceConfig = model.TraceConfig

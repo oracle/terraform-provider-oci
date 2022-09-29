@@ -32,6 +32,9 @@ type UpdateHeatWaveClusterDetails struct {
 	// re-provisioned.
 	ClusterSize *int `mandatory:"false" json:"clusterSize"`
 
+	// Enable/disable Lakehouse for the HeatWave cluster.
+	IsLakehouseEnabled *bool `mandatory:"false" json:"isLakehouseEnabled"`
+
 	// Enable/disable Datalake for the HeatWave cluster.
 	IsDatalakeEnabled *bool `mandatory:"false" json:"isDatalakeEnabled"`
 }

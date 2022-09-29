@@ -16,22 +16,22 @@ import (
 	"strings"
 )
 
-// StreamFailureDestinationDetails The destination stream in the Streaming service to which to send the response of the failed asynchronous function invocation.
-// Example: `{"kind": "STREAM", "streamId": "stream_OCID"}`
-type StreamFailureDestinationDetails struct {
+// PreBuiltFunctionSourceDetails The source of the Function which is based on a Pre-Built Function Listing (PbfListing).
+type PreBuiltFunctionSourceDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream.
-	StreamId *string `mandatory:"true" json:"streamId"`
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the PbfListing this
+	// function is sourced from.
+	PbfListingId *string `mandatory:"true" json:"pbfListingId"`
 }
 
-func (m StreamFailureDestinationDetails) String() string {
+func (m PreBuiltFunctionSourceDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m StreamFailureDestinationDetails) ValidateEnumValue() (bool, error) {
+func (m PreBuiltFunctionSourceDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -41,14 +41,14 @@ func (m StreamFailureDestinationDetails) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m StreamFailureDestinationDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeStreamFailureDestinationDetails StreamFailureDestinationDetails
+func (m PreBuiltFunctionSourceDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypePreBuiltFunctionSourceDetails PreBuiltFunctionSourceDetails
 	s := struct {
-		DiscriminatorParam string `json:"kind"`
-		MarshalTypeStreamFailureDestinationDetails
+		DiscriminatorParam string `json:"sourceType"`
+		MarshalTypePreBuiltFunctionSourceDetails
 	}{
-		"STREAM",
-		(MarshalTypeStreamFailureDestinationDetails)(m),
+		"PRE_BUILT_FUNCTIONS",
+		(MarshalTypePreBuiltFunctionSourceDetails)(m),
 	}
 
 	return json.Marshal(&s)

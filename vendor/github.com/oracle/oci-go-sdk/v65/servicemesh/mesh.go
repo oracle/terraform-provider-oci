@@ -44,7 +44,8 @@ type Mesh struct {
 	Description *string `mandatory:"false" json:"description"`
 
 	// A list of certificate authority resources to use for creating leaf certificates for mTLS authentication.
-	// Currently we only support one certificate authority, but this may expand in future releases.
+	// Currently we only support one certificate authority, but this may expand in future releases. Request with
+	// more than one certificate authority will be rejected.
 	CertificateAuthorities []CertificateAuthority `mandatory:"false" json:"certificateAuthorities"`
 
 	Mtls *MeshMutualTransportLayerSecurity `mandatory:"false" json:"mtls"`

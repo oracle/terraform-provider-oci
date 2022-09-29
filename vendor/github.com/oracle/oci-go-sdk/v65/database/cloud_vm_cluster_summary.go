@@ -170,9 +170,6 @@ type CloudVmClusterSummary struct {
 	// The TCPS Single Client Access Name (SCAN) port. The default port is 2484.
 	ScanListenerPortTcpSsl *int `mandatory:"false" json:"scanListenerPortTcpSsl"`
 
-	// The private zone id in which DNS records needs to be created.
-	PrivateZoneId *string `mandatory:"false" json:"privateZoneId"`
-
 	DataCollectionOptions *DataCollectionOptions `mandatory:"false" json:"dataCollectionOptions"`
 }
 

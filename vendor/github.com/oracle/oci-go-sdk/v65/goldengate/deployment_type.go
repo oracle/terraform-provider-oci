@@ -18,15 +18,18 @@ type DeploymentTypeEnum string
 
 // Set of constants representing the allowable values for DeploymentTypeEnum
 const (
-	DeploymentTypeOgg DeploymentTypeEnum = "OGG"
+	DeploymentTypeOgg  DeploymentTypeEnum = "OGG"
+	DeploymentTypeGgsa DeploymentTypeEnum = "GGSA"
 )
 
 var mappingDeploymentTypeEnum = map[string]DeploymentTypeEnum{
-	"OGG": DeploymentTypeOgg,
+	"OGG":  DeploymentTypeOgg,
+	"GGSA": DeploymentTypeGgsa,
 }
 
 var mappingDeploymentTypeEnumLowerCase = map[string]DeploymentTypeEnum{
-	"ogg": DeploymentTypeOgg,
+	"ogg":  DeploymentTypeOgg,
+	"ggsa": DeploymentTypeGgsa,
 }
 
 // GetDeploymentTypeEnumValues Enumerates the set of values for DeploymentTypeEnum
@@ -42,6 +45,7 @@ func GetDeploymentTypeEnumValues() []DeploymentTypeEnum {
 func GetDeploymentTypeEnumStringValues() []string {
 	return []string{
 		"OGG",
+		"GGSA",
 	}
 }
 

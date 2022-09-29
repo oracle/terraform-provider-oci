@@ -44,7 +44,7 @@ import (
 //       "source": "CROSS_REGION_DATAGUARD",
 //       "adminPassword" : "<var>&lt;password&gt;</var>",
 //     }`
-//  Example II - Creating a cross-region standby that specifies optional parameters in addition to the required parameters, with ECPU:
+// Example II - Creating a cross-region standby that specifies optional parameters in addition to the required parameters, with ECPU:
 //     `{
 //       "compartmentId": "ocid.compartment.oc1..<var>&lt;unique_ID&gt;</var>",
 //       "cpuCoreCount": 0,
@@ -53,10 +53,9 @@ import (
 //       "sourceId": "ocid1.autonomousdatabase.oc1.phx..<var>&lt;unique_ID&gt;</var>",
 //       "dataStorageSizeInTBs": 1,
 //       "source": "CROSS_REGION_DATAGUARD",
-//   "adminPassword" : "<var>&lt;password&gt;</var>",
+//       "adminPassword" : "<var>&lt;password&gt;</var>",
 //       "dbVersion": "19c",
 //       "licenseModel": "LICENSE_INCLUDED",
-//       "remoteAutonomousDataGuardTier": "STANDARD",
 //       "isAutoScalingForStorageEnabled": "true"
 //     }`
 type CreateCrossRegionAutonomousDatabaseDataGuardDetails struct {
@@ -221,12 +220,6 @@ type CreateCrossRegionAutonomousDatabaseDataGuardDetails struct {
 
 	// List of database tools details.
 	DbToolsDetails []DatabaseTool `mandatory:"false" json:"dbToolsDetails"`
-
-	// Specifies the Data Guard tier of the Autonomous Database on shared Exadata infrastructure.
-	// The CRITICAL Autonomous Data Guard tier provides business-critical data recovery with a quicker recovery time objective (RTO) during Failover or Switchover.
-	// The STANDARD Autonomous Data Guard tier provides lower-cost data recovery with a higher recovery time objective (RTO) during Failover or Switchover.
-	// Default value is CRITICAL.
-	RemoteAutonomousDataGuardTier CreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierEnum `mandatory:"false" json:"remoteAutonomousDataGuardTier,omitempty"`
 
 	// The Oracle Database Edition that applies to the Autonomous databases.
 	DatabaseEdition AutonomousDatabaseSummaryDatabaseEditionEnum `mandatory:"false" json:"databaseEdition,omitempty"`
@@ -463,9 +456,6 @@ func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) String() string {
 // Not recommended for calling this function directly
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingCreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierEnum(string(m.RemoteAutonomousDataGuardTier)); !ok && m.RemoteAutonomousDataGuardTier != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RemoteAutonomousDataGuardTier: %s. Supported values are: %s.", m.RemoteAutonomousDataGuardTier, strings.Join(GetCreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierEnumStringValues(), ",")))
-	}
 
 	if _, ok := GetMappingAutonomousDatabaseSummaryDatabaseEditionEnum(string(m.DatabaseEdition)); !ok && m.DatabaseEdition != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", m.DatabaseEdition, strings.Join(GetAutonomousDatabaseSummaryDatabaseEditionEnumStringValues(), ",")))
@@ -497,46 +487,4 @@ func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) MarshalJSON() (buff
 	}
 
 	return json.Marshal(&s)
-}
-
-// CreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierEnum Enum with underlying type: string
-type CreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierEnum string
-
-// Set of constants representing the allowable values for CreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierEnum
-const (
-	CreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierCritical CreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierEnum = "CRITICAL"
-	CreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierStandard CreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierEnum = "STANDARD"
-)
-
-var mappingCreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierEnum = map[string]CreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierEnum{
-	"CRITICAL": CreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierCritical,
-	"STANDARD": CreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierStandard,
-}
-
-var mappingCreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierEnumLowerCase = map[string]CreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierEnum{
-	"critical": CreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierCritical,
-	"standard": CreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierStandard,
-}
-
-// GetCreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierEnumValues Enumerates the set of values for CreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierEnum
-func GetCreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierEnumValues() []CreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierEnum {
-	values := make([]CreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierEnum, 0)
-	for _, v := range mappingCreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetCreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierEnumStringValues Enumerates the set of values in String for CreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierEnum
-func GetCreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierEnumStringValues() []string {
-	return []string{
-		"CRITICAL",
-		"STANDARD",
-	}
-}
-
-// GetMappingCreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingCreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierEnum(val string) (CreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierEnum, bool) {
-	enum, ok := mappingCreateCrossRegionAutonomousDatabaseDataGuardDetailsRemoteAutonomousDataGuardTierEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

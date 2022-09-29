@@ -4,7 +4,7 @@
 
 // Fusion Applications Environment Management API
 //
-// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.cloud.oracle.com/iaas/Content/Identity/fusion-applications/home.htm).
+// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.cloud.oracle.com/iaas/Content/fusion-applications/home.htm).
 //
 
 package fusionapps
@@ -20,7 +20,7 @@ import (
 type AttachExistingInstanceDetails struct {
 
 	// The service instance OCID of the instance being attached
-	InstanceId *string `mandatory:"false" json:"instanceId"`
+	InstanceId *string `mandatory:"true" json:"instanceId"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -31,7 +31,7 @@ type AttachExistingInstanceDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// Type of the ServiceInstance being attached.
-	ServiceInstanceType AttachExistingInstanceDetailsServiceInstanceTypeEnum `mandatory:"false" json:"serviceInstanceType,omitempty"`
+	ServiceInstanceType AttachExistingInstanceDetailsServiceInstanceTypeEnum `mandatory:"true" json:"serviceInstanceType"`
 }
 
 func (m AttachExistingInstanceDetails) String() string {

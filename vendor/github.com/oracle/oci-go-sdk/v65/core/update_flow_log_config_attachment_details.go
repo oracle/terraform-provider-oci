@@ -27,6 +27,9 @@ type UpdateFlowLogConfigAttachmentDetails struct {
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// The ID of capture filter.
+	CaptureFilterId *string `mandatory:"false" json:"captureFilterId"`
 }
 
 func (m UpdateFlowLogConfigAttachmentDetails) String() string {

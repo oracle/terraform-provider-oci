@@ -20,6 +20,9 @@ type ListDetectAnomalyJobsRequest struct {
 	// The ID of the trained model for which to list the resources.
 	ModelId *string `mandatory:"false" contributesTo:"query" name:"modelId"`
 
+	// The ID of the project for which to list the objects.
+	ProjectId *string `mandatory:"false" contributesTo:"query" name:"projectId"`
+
 	// Unique Async Job identifier
 	DetectAnomalyJobId *string `mandatory:"false" contributesTo:"query" name:"detectAnomalyJobId"`
 

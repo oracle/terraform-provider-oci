@@ -117,14 +117,20 @@ type ListFlowLogConfigAttachmentsTargetEntityTypeEnum string
 // Set of constants representing the allowable values for ListFlowLogConfigAttachmentsTargetEntityTypeEnum
 const (
 	ListFlowLogConfigAttachmentsTargetEntityTypeSubnet ListFlowLogConfigAttachmentsTargetEntityTypeEnum = "SUBNET"
+	ListFlowLogConfigAttachmentsTargetEntityTypeVcn    ListFlowLogConfigAttachmentsTargetEntityTypeEnum = "VCN"
+	ListFlowLogConfigAttachmentsTargetEntityTypeVnic   ListFlowLogConfigAttachmentsTargetEntityTypeEnum = "VNIC"
 )
 
 var mappingListFlowLogConfigAttachmentsTargetEntityTypeEnum = map[string]ListFlowLogConfigAttachmentsTargetEntityTypeEnum{
 	"SUBNET": ListFlowLogConfigAttachmentsTargetEntityTypeSubnet,
+	"VCN":    ListFlowLogConfigAttachmentsTargetEntityTypeVcn,
+	"VNIC":   ListFlowLogConfigAttachmentsTargetEntityTypeVnic,
 }
 
 var mappingListFlowLogConfigAttachmentsTargetEntityTypeEnumLowerCase = map[string]ListFlowLogConfigAttachmentsTargetEntityTypeEnum{
 	"subnet": ListFlowLogConfigAttachmentsTargetEntityTypeSubnet,
+	"vcn":    ListFlowLogConfigAttachmentsTargetEntityTypeVcn,
+	"vnic":   ListFlowLogConfigAttachmentsTargetEntityTypeVnic,
 }
 
 // GetListFlowLogConfigAttachmentsTargetEntityTypeEnumValues Enumerates the set of values for ListFlowLogConfigAttachmentsTargetEntityTypeEnum
@@ -140,6 +146,8 @@ func GetListFlowLogConfigAttachmentsTargetEntityTypeEnumValues() []ListFlowLogCo
 func GetListFlowLogConfigAttachmentsTargetEntityTypeEnumStringValues() []string {
 	return []string{
 		"SUBNET",
+		"VCN",
+		"VNIC",
 	}
 }
 

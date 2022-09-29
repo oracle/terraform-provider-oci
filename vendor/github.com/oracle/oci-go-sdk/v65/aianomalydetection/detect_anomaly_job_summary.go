@@ -24,7 +24,7 @@ type DetectAnomalyJobSummary struct {
 	// Id of the job.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The ocid of the compartment that starts the job.
+	// The OCID of the compartment that starts the job.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The OCID of the trained model.
@@ -41,6 +41,9 @@ type DetectAnomalyJobSummary struct {
 
 	// Detect anomaly job description.
 	Description *string `mandatory:"false" json:"description"`
+
+	// The OCID of the project.
+	ProjectId *string `mandatory:"false" json:"projectId"`
 
 	// Job started time
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`

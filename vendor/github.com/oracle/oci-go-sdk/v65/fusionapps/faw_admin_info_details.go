@@ -4,7 +4,7 @@
 
 // Fusion Applications Environment Management API
 //
-// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.cloud.oracle.com/iaas/Content/Identity/fusion-applications/home.htm).
+// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.cloud.oracle.com/iaas/Content/fusion-applications/home.htm).
 //
 
 package fusionapps
@@ -19,13 +19,13 @@ import (
 type FawAdminInfoDetails struct {
 
 	// Password for the ADW to be created in User Tenancy
-	AdwAdminPass *string `mandatory:"false" json:"adwAdminPass"`
+	AdwAdminPass *string `mandatory:"true" json:"adwAdminPass"`
+
+	// Email ID to send notification for Analytics Warehouse updates.
+	NotificationEmail *string `mandatory:"true" json:"notificationEmail"`
 
 	// Password for the auto-created FAWService user
 	FawServicePass *string `mandatory:"false" json:"fawServicePass"`
-
-	// Email ID to send notification for Analytics Warehouse updates.
-	NotificationEmail *string `mandatory:"false" json:"notificationEmail"`
 }
 
 func (m FawAdminInfoDetails) String() string {

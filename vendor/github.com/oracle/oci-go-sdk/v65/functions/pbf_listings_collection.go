@@ -10,43 +10,30 @@
 package functions
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// NoneFailureDestinationDetails Specifies no failure destination
-// Example: `{"kind": "NONE"}`
-type NoneFailureDestinationDetails struct {
+// PbfListingsCollection Results of a PbfListing search. Contains boh PbfListingSummary items and other information, such as metadata.
+type PbfListingsCollection struct {
+
+	// List of PbfListingSummary.
+	Items []PbfListingSummary `mandatory:"true" json:"items"`
 }
 
-func (m NoneFailureDestinationDetails) String() string {
+func (m PbfListingsCollection) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m NoneFailureDestinationDetails) ValidateEnumValue() (bool, error) {
+func (m PbfListingsCollection) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// MarshalJSON marshals to json representation
-func (m NoneFailureDestinationDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeNoneFailureDestinationDetails NoneFailureDestinationDetails
-	s := struct {
-		DiscriminatorParam string `json:"kind"`
-		MarshalTypeNoneFailureDestinationDetails
-	}{
-		"NONE",
-		(MarshalTypeNoneFailureDestinationDetails)(m),
-	}
-
-	return json.Marshal(&s)
 }
