@@ -36,7 +36,7 @@ variable "session_target_resource_details_target_resource_port" {
 resource "time_sleep" "wait_3_minutes_for_bastion_plugin" {
   depends_on = [oci_core_instance.test_instance]
 
-  create_duration = "3m"
+  create_duration = "5m"
 }
 
 resource "oci_bastion_session" "test_session_managed_ssh" {

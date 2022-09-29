@@ -80,6 +80,8 @@ func (s *BastionBastionDataSourceCrud) SetData() error {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
+	s.D.Set("dns_proxy_status", s.Res.DnsProxyStatus)
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.LifecycleDetails != nil {
