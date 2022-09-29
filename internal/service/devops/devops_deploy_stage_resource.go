@@ -633,7 +633,7 @@ func DevopsDeployStageResource() *schema.Resource {
 			"values_artifact_ids": {
 				Type:     schema.TypeList,
 				Optional: true,
-				Computed: true,
+				Computed: false,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -2231,10 +2231,6 @@ func (s *DevopsDeployStageResourceCrud) SetData() error {
 
 		s.D.Set("freeform_tags", v.FreeformTags)
 
-		if v.Id != nil {
-			s.D.Set("id", *v.Id)
-		}
-
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
@@ -3782,6 +3778,10 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 			}
 			details.DefinedTags = convertedDefinedTags
 		}
+		if deployPipelineId, ok := s.D.GetOkExists("deploy_pipeline_id"); ok {
+			tmp := deployPipelineId.(string)
+			details.DeployPipelineId = &tmp
+		}
 		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
 			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
@@ -3888,6 +3888,16 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 				details.DeployStagePredecessorCollection = &tmp
 			}
 		}
+		if canaryStrategy, ok := s.D.GetOkExists("canary_strategy"); ok {
+			if tmpList := canaryStrategy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "canary_strategy", 0)
+				tmp, err := s.mapToOkeCanaryStrategy(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.CanaryStrategy = tmp
+			}
+		}
 		if description, ok := s.D.GetOkExists("description"); ok {
 			tmp := description.(string)
 			details.Description = &tmp
@@ -3926,10 +3936,6 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 				return err
 			}
 			details.DefinedTags = convertedDefinedTags
-		}
-		if deployPipelineId, ok := s.D.GetOkExists("deploy_pipeline_id"); ok {
-			tmp := deployPipelineId.(string)
-			details.DeployPipelineId = &tmp
 		}
 		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
 			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
