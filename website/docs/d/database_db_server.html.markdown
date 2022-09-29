@@ -54,6 +54,7 @@ The following attributes are exported:
 * `max_db_node_storage_in_gbs` - The total local node storage available in GBs.
 * `max_memory_in_gbs` - The total memory available in GBs.
 * `memory_size_in_gbs` - The allocated memory in GBs on the Db server.
+* `shape` - The shape of the Db server. The shape determines the amount of CPU, storage, and memory resources available. 
 * `state` - The current state of the Db server.
 * `time_created` - The date and time that the Db Server was created.
 * `vm_cluster_ids` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM Clusters associated with the Db server. 
