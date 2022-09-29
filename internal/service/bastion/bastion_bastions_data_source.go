@@ -127,6 +127,8 @@ func (s *BastionBastionsDataSourceCrud) SetData() error {
 			bastion["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
 		}
 
+		bastion["dns_proxy_status"] = r.DnsProxyStatus
+
 		bastion["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
