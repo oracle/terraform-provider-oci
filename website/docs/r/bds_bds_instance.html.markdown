@@ -31,12 +31,12 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
 		subnet_id = oci_core_subnet.test_subnet.id
 		number_of_nodes = var.bds_instance_number_of_nodes
 		#Optional
-                block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
+        block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
 		shape_config {
 
 			#Optional
 			memory_in_gbs = var.bds_instance_nodes_shape_config_memory_in_gbs
-                        nvmes = var.bds_instance_nodes_shape_config_nvmes
+            nvmes = var.bds_instance_nodes_shape_config_nvmes
 			ocpus = var.bds_instance_nodes_shape_config_ocpus
 		}
 	}
@@ -46,12 +46,12 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
 		subnet_id = oci_core_subnet.test_subnet.id
 		number_of_nodes = var.bds_instance_number_of_nodes
 		#Optional
-                block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
+        block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
 		shape_config {
 
 			#Optional
 			memory_in_gbs = var.bds_instance_nodes_shape_config_memory_in_gbs
-                        nvmes = var.bds_instance_nodes_shape_config_nvmes
+            nvmes = var.bds_instance_nodes_shape_config_nvmes
 			ocpus = var.bds_instance_nodes_shape_config_ocpus
 		}
 	}
@@ -61,12 +61,12 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
 		subnet_id = oci_core_subnet.test_subnet.id
 		number_of_nodes = var.bds_instance_number_of_nodes
 		#Optional
-                block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
+        block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
 		shape_config {
 
 			#Optional
 			memory_in_gbs = var.bds_instance_nodes_shape_config_memory_in_gbs
-                        nvmes = var.bds_instance_nodes_shape_config_nvmes
+            nvmes = var.bds_instance_nodes_shape_config_nvmes
 			ocpus = var.bds_instance_nodes_shape_config_ocpus
 		}
 	}
@@ -76,7 +76,7 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
 		subnet_id = oci_core_subnet.test_subnet.id
 		number_of_nodes = var.bds_instance_number_of_nodes
 		#Optional
-                block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
+        block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
 		shape_config {
 
 			#Optional
@@ -124,15 +124,11 @@ The following arguments are supported:
 * `network_config` - (Optional) Additional configuration of the user's network.
 	* `cidr_block` - (Optional) The CIDR IP address block of the VCN.
 	* `is_nat_gateway_required` - (Optional) A boolean flag whether to configure a NAT gateway.
-* `nodes` - (Required) The list of nodes in the Big Data Service cluster.
-	* `block_volume_size_in_gbs` - (Required) The size of block volume in GB to be attached to a given node. All the details needed for attaching the block volume are managed by service itself. 
-	* `node_type` - (Required) The Big Data Service cluster node type.
-	* `shape` - (Required) (Updatable) Shape of the node.
-	* `shape_config` - (Optional) The shape configuration requested for the node.
-		* `memory_in_gbs` - (Optional) The total amount of memory available to the node, in gigabytes.
-		* `nvmes` - (Optional) The number of NVMe drives to be used for storage. A single drive has 6.8 TB available.
-		* `ocpus` - (Optional) The total number of OCPUs available to the node.
-	* `subnet_id` - (Required) The OCID of the subnet in which the node will be created.
+* `state` - (Optional) (Updatable) The target state for the Bds Instance. Could be set to `ACTIVE` or `INACTIVE` to start/stop the bds instance.
+* `is_force_stop_jobs` - (Optional) (Updatable) When setting state as `INACTIVE` for stopping a cluster, setting this flag to true forcefully stops the bds instance.
+* `network_config` - (Optional) Additional configuration of customer's network.
+    * `cidr_block` - (Required) The CIDR IP address block of the VCN.
+    * `is_nat_gateway_required` - (Required) A boolean flag whether to configure a NAT gateway.
 * `master_node` - (Required) The master node in the BDS instance
     * `block_volume_size_in_gbs` - (Optional) The size of block volume in GB that needs to be attached to a given node. All the necessary details needed for attachment are managed by service itself. 
     * `number_of_nodes` - (Required) The amount of master nodes should be created.

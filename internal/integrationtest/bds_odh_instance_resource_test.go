@@ -173,10 +173,14 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 		acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Create, bdsInstanceOdhRepresentation), "bds", "bdsInstanceOdh", t)
 
 	acctest.ResourceTest(t, testAccCheckBdsBdsInstanceOdhDestroy, []resource.TestStep{
-		// verify Create
+		// verify Create, cluster will be force stopped after create
 		{
 			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + subnetIdVariableStr + BdsInstanceOdhResourceDependencies + bootstrapScriptUrlVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create, bdsInstanceOdhRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(bdsInstanceOdhRepresentation, map[string]interface{}{
+						"is_force_stop_jobs": acctest.Representation{RepType: acctest.Required, Create: `true`},
+						"state":              acctest.Representation{RepType: acctest.Required, Create: `INACTIVE`},
+					})),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
@@ -188,11 +192,35 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.node_type"),
 				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.shape"),
 				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "state", "INACTIVE"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
 				},
+			),
+		},
+
+		// start the cluster
+		{
+			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + subnetIdVariableStr + BdsInstanceOdhResourceDependencies + bootstrapScriptUrlVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(bdsInstanceOdhRepresentation, map[string]interface{}{
+						"is_force_stop_jobs": acctest.Representation{RepType: acctest.Required, Create: `true`},
+						"state":              acctest.Representation{RepType: acctest.Required, Create: `ACTIVE`},
+					})),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_secure", "true"),
+				resource.TestCheckResourceAttr(resourceName, "nodes.#", "9"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.node_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.shape"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 			),
 		},
 
