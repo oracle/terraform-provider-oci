@@ -12,7 +12,7 @@ resource "oci_core_instance" "test_instance" {
   availability_domain = data.oci_identity_availability_domain.bastion_ad.name
   compartment_id      = var.compartment_ocid
   display_name        = "TestInstance"
-  shape               = "VM.Standard1.1"
+  shape               = "VM.Standard2.1"
 
   agent_config {
     are_all_plugins_disabled  = false
@@ -27,7 +27,7 @@ resource "oci_core_instance" "test_instance" {
   create_vnic_details {
     subnet_id        = oci_core_subnet.test_subnet.id
     display_name     = "Primaryvnic"
-    assign_public_ip = true
+    assign_public_ip = false
     hostname_label   = "testinstance"
   }
 

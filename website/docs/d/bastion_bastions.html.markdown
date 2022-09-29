@@ -51,6 +51,7 @@ The following attributes are exported:
 * `client_cidr_block_allow_list` - A list of address ranges in CIDR notation that you want to allow to connect to sessions hosted by this bastion.
 * `compartment_id` - The unique identifier (OCID) of the compartment where the bastion is located.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
+* `dns_proxy_status` - Flag to enable FQDN and SOCKS5 Proxy Support. Example: `ENABLED`, `DISABLED`
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The unique identifier (OCID) of the bastion, which can't be changed after creation.
 * `lifecycle_details` - A message describing the current state in more detail.

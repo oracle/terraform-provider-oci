@@ -46,8 +46,9 @@ The following attributes are exported:
 * `ssh_metadata` - The connection message for the session.
 * `state` - The current state of the session.
 * `target_resource_details` - Details about a bastion session's target resource.
-	* `session_type` - The Bastion service recognizes two types of sessions, managed SSH sessions and SSH port forwarding sessions. Managed SSH sessions require that the target resource has an OpenSSH server and the Oracle Cloud Agent both running.
+	* `session_type` - The Bastion service recognizes three types of sessions, managed SSH sessions, SSH port forwarding sessions, and Dynamic SSH port forwarding sessions. Managed SSH sessions require that the target resource has an OpenSSH server and the Oracle Cloud Agent both running.
 	* `target_resource_display_name` - The display name of the target Compute instance that the session connects to.
+	* `target_resource_fqdn` - The Fully Qualified Domain Name of the target resource that the session connects to.
 	* `target_resource_id` - The unique identifier (OCID) of the target resource (a Compute instance, for example) that the session connects to.
 	* `target_resource_operating_system_user_name` - The name of the user on the target resource operating system that the session uses for the connection.
 	* `target_resource_port` - The port number to connect to on the target resource.
