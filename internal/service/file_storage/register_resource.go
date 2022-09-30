@@ -10,5 +10,6 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_file_storage_export_set", FileStorageExportSetResource())
 	tfresource.RegisterResource("oci_file_storage_file_system", FileStorageFileSystemResource())
 	tfresource.RegisterResource("oci_file_storage_mount_target", FileStorageMountTargetResource())
+	tfresource.RegisterResource("oci_file_storage_replication", FileStorageReplicationResource())
 	tfresource.RegisterResource("oci_file_storage_snapshot", FileStorageSnapshotResource())
 }
