@@ -276,6 +276,7 @@ github.com/oracle/oci-go-sdk/v65/common
 github.com/oracle/oci-go-sdk/v65/common/auth
 github.com/oracle/oci-go-sdk/v65/computeinstanceagent
 github.com/oracle/oci-go-sdk/v65/containerengine
+github.com/oracle/oci-go-sdk/v65/containerinstances
 github.com/oracle/oci-go-sdk/v65/core
 github.com/oracle/oci-go-sdk/v65/database
 github.com/oracle/oci-go-sdk/v65/databasemanagement
