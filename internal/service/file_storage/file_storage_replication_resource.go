@@ -5,37 +5,42 @@ package file_storage
 
 import (
 	"context"
+	"fmt"
 	"strconv"
-
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_file_storage "github.com/oracle/oci-go-sdk/v65/filestorage"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
-func FileStorageFileSystemResource() *schema.Resource {
+func FileStorageReplicationResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: tfresource.DefaultTimeout,
-		Create:   createFileStorageFileSystem,
-		Read:     readFileStorageFileSystem,
-		Update:   updateFileStorageFileSystem,
-		Delete:   deleteFileStorageFileSystem,
+		Create:   createFileStorageReplication,
+		Read:     readFileStorageReplication,
+		Update:   updateFileStorageReplication,
+		Delete:   deleteFileStorageReplication,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"availability_domain": {
-				Type:             schema.TypeString,
-				Required:         true,
-				ForceNew:         true,
-				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
-			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"source_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"target_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
 			},
 
 			// Optional
@@ -57,62 +62,42 @@ func FileStorageFileSystemResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-			"kms_key_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"source_snapshot_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
+			"replication_interval": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ValidateFunc:     tfresource.ValidateInt64TypeString,
+				DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 			},
 
 			// Computed
-			"is_clone_parent": {
-				Type:     schema.TypeBool,
+			"availability_domain": {
+				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"is_hydrated": {
-				Type:     schema.TypeBool,
+			"delta_progress": {
+				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"is_targetable": {
-				Type:     schema.TypeBool,
+			"delta_status": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"last_snapshot_id": {
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"metered_bytes": {
+			"recovery_point_time": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"replication_target_id": {
 				Type:     schema.TypeString,
 				Computed: true,
-			},
-			"source_details": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"parent_file_system_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"source_snapshot_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -126,32 +111,32 @@ func FileStorageFileSystemResource() *schema.Resource {
 	}
 }
 
-func createFileStorageFileSystem(d *schema.ResourceData, m interface{}) error {
-	sync := &FileStorageFileSystemResourceCrud{}
+func createFileStorageReplication(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageReplicationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FileStorageClient()
 
 	return tfresource.CreateResource(d, sync)
 }
 
-func readFileStorageFileSystem(d *schema.ResourceData, m interface{}) error {
-	sync := &FileStorageFileSystemResourceCrud{}
+func readFileStorageReplication(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageReplicationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FileStorageClient()
 
 	return tfresource.ReadResource(sync)
 }
 
-func updateFileStorageFileSystem(d *schema.ResourceData, m interface{}) error {
-	sync := &FileStorageFileSystemResourceCrud{}
+func updateFileStorageReplication(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageReplicationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FileStorageClient()
 
 	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteFileStorageFileSystem(d *schema.ResourceData, m interface{}) error {
-	sync := &FileStorageFileSystemResourceCrud{}
+func deleteFileStorageReplication(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageReplicationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FileStorageClient()
 	sync.DisableNotFoundRetries = true
@@ -159,48 +144,43 @@ func deleteFileStorageFileSystem(d *schema.ResourceData, m interface{}) error {
 	return tfresource.DeleteResource(d, sync)
 }
 
-type FileStorageFileSystemResourceCrud struct {
+type FileStorageReplicationResourceCrud struct {
 	tfresource.BaseCrud
 	Client                 *oci_file_storage.FileStorageClient
-	Res                    *oci_file_storage.FileSystem
+	Res                    *oci_file_storage.Replication
 	DisableNotFoundRetries bool
 }
 
-func (s *FileStorageFileSystemResourceCrud) ID() string {
+func (s *FileStorageReplicationResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *FileStorageFileSystemResourceCrud) CreatedPending() []string {
+func (s *FileStorageReplicationResourceCrud) CreatedPending() []string {
 	return []string{
-		string(oci_file_storage.FileSystemLifecycleStateCreating),
+		string(oci_file_storage.ReplicationLifecycleStateCreating),
 	}
 }
 
-func (s *FileStorageFileSystemResourceCrud) CreatedTarget() []string {
+func (s *FileStorageReplicationResourceCrud) CreatedTarget() []string {
 	return []string{
-		string(oci_file_storage.FileSystemLifecycleStateActive),
+		string(oci_file_storage.ReplicationLifecycleStateActive),
 	}
 }
 
-func (s *FileStorageFileSystemResourceCrud) DeletedPending() []string {
+func (s *FileStorageReplicationResourceCrud) DeletedPending() []string {
 	return []string{
-		string(oci_file_storage.FileSystemLifecycleStateDeleting),
+		string(oci_file_storage.ReplicationLifecycleStateDeleting),
 	}
 }
 
-func (s *FileStorageFileSystemResourceCrud) DeletedTarget() []string {
+func (s *FileStorageReplicationResourceCrud) DeletedTarget() []string {
 	return []string{
-		string(oci_file_storage.FileSystemLifecycleStateDeleted),
+		string(oci_file_storage.ReplicationLifecycleStateDeleted),
 	}
 }
 
-func (s *FileStorageFileSystemResourceCrud) Create() error {
-	request := oci_file_storage.CreateFileSystemRequest{}
-
-	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
-		tmp := availabilityDomain.(string)
-		request.AvailabilityDomain = &tmp
-	}
+func (s *FileStorageReplicationResourceCrud) Create() error {
+	request := oci_file_storage.CreateReplicationRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -224,49 +204,54 @@ func (s *FileStorageFileSystemResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
-		tmp := kmsKeyId.(string)
-		request.KmsKeyId = &tmp
+	if replicationInterval, ok := s.D.GetOkExists("replication_interval"); ok {
+		tmp := replicationInterval.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert replicationInterval string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		request.ReplicationInterval = &tmpInt64
 	}
 
-	if sourceSnapshotId, ok := s.D.GetOkExists("source_snapshot_id"); ok {
-		tmp := sourceSnapshotId.(string)
-		request.SourceSnapshotId = &tmp
+	if sourceId, ok := s.D.GetOkExists("source_id"); ok {
+		tmp := sourceId.(string)
+		request.SourceId = &tmp
+	}
+
+	if targetId, ok := s.D.GetOkExists("target_id"); ok {
+		tmp := targetId.(string)
+		request.TargetId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
-	response, err := s.Client.CreateFileSystem(context.Background(), request)
+	response, err := s.Client.CreateReplication(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	s.Res = &response.FileSystem
-	if waitErr := tfresource.WaitForCreatedState(s.D, s); waitErr != nil {
-		return waitErr
-	}
-
+	s.Res = &response.Replication
 	return nil
 }
 
-func (s *FileStorageFileSystemResourceCrud) Get() error {
-	request := oci_file_storage.GetFileSystemRequest{}
+func (s *FileStorageReplicationResourceCrud) Get() error {
+	request := oci_file_storage.GetReplicationRequest{}
 
 	tmp := s.D.Id()
-	request.FileSystemId = &tmp
+	request.ReplicationId = &tmp
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
-	response, err := s.Client.GetFileSystem(context.Background(), request)
+	response, err := s.Client.GetReplication(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	s.Res = &response.FileSystem
+	s.Res = &response.Replication
 	return nil
 }
 
-func (s *FileStorageFileSystemResourceCrud) Update() error {
+func (s *FileStorageReplicationResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -276,7 +261,7 @@ func (s *FileStorageFileSystemResourceCrud) Update() error {
 			}
 		}
 	}
-	request := oci_file_storage.UpdateFileSystemRequest{}
+	request := oci_file_storage.UpdateReplicationRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
@@ -291,42 +276,50 @@ func (s *FileStorageFileSystemResourceCrud) Update() error {
 		request.DisplayName = &tmp
 	}
 
-	tmp := s.D.Id()
-	request.FileSystemId = &tmp
-
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
-		tmp := kmsKeyId.(string)
-		request.KmsKeyId = &tmp
+	tmp := s.D.Id()
+	request.ReplicationId = &tmp
+
+	if replicationInterval, ok := s.D.GetOkExists("replication_interval"); ok {
+		tmp := replicationInterval.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert replicationInterval string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		request.ReplicationInterval = &tmpInt64
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
-	response, err := s.Client.UpdateFileSystem(context.Background(), request)
+	response, err := s.Client.UpdateReplication(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	s.Res = &response.FileSystem
+	s.Res = &response.Replication
 	return nil
 }
 
-func (s *FileStorageFileSystemResourceCrud) Delete() error {
-	request := oci_file_storage.DeleteFileSystemRequest{}
+func (s *FileStorageReplicationResourceCrud) Delete() error {
+	request := oci_file_storage.DeleteReplicationRequest{}
+
+	if deleteMode, ok := s.D.GetOkExists("delete_mode"); ok {
+		request.DeleteMode = oci_file_storage.DeleteReplicationDeleteModeEnum(deleteMode.(string))
+	}
 
 	tmp := s.D.Id()
-	request.FileSystemId = &tmp
+	request.ReplicationId = &tmp
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
-	_, err := s.Client.DeleteFileSystem(context.Background(), request)
+	_, err := s.Client.DeleteReplication(context.Background(), request)
 	return err
 }
 
-func (s *FileStorageFileSystemResourceCrud) SetData() error {
+func (s *FileStorageReplicationResourceCrud) SetData() error {
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -339,47 +332,48 @@ func (s *FileStorageFileSystemResourceCrud) SetData() error {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
+	if s.Res.DeltaProgress != nil {
+		s.D.Set("delta_progress", strconv.FormatInt(*s.Res.DeltaProgress, 10))
+	}
+
+	s.D.Set("delta_status", s.Res.DeltaStatus)
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
-	if s.Res.IsCloneParent != nil {
-		s.D.Set("is_clone_parent", *s.Res.IsCloneParent)
-	}
-
-	if s.Res.IsHydrated != nil {
-		s.D.Set("is_hydrated", *s.Res.IsHydrated)
-	}
-
-	if s.Res.IsTargetable != nil {
-		s.D.Set("is_targetable", *s.Res.IsTargetable)
-	}
-
-	if s.Res.KmsKeyId != nil {
-		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
+	if s.Res.LastSnapshotId != nil {
+		s.D.Set("last_snapshot_id", *s.Res.LastSnapshotId)
 	}
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
-	if s.Res.MeteredBytes != nil {
-		s.D.Set("metered_bytes", strconv.FormatInt(*s.Res.MeteredBytes, 10))
+	if s.Res.RecoveryPointTime != nil {
+		s.D.Set("recovery_point_time", s.Res.RecoveryPointTime.String())
+	}
+
+	if s.Res.ReplicationInterval != nil {
+		s.D.Set("replication_interval", strconv.FormatInt(*s.Res.ReplicationInterval, 10))
 	}
 
 	if s.Res.ReplicationTargetId != nil {
 		s.D.Set("replication_target_id", *s.Res.ReplicationTargetId)
 	}
 
-	if s.Res.SourceDetails != nil {
-		s.D.Set("source_details", []interface{}{FileSystemSourceDetailsToMap(s.Res.SourceDetails)})
-	} else {
-		s.D.Set("source_details", nil)
+	if s.Res.SourceId != nil {
+		s.D.Set("source_id", *s.Res.SourceId)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.TargetId != nil {
+		s.D.Set("target_id", *s.Res.TargetId)
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
@@ -388,32 +382,18 @@ func (s *FileStorageFileSystemResourceCrud) SetData() error {
 	return nil
 }
 
-func FileSystemSourceDetailsToMap(obj *oci_file_storage.SourceDetails) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.ParentFileSystemId != nil {
-		result["parent_file_system_id"] = string(*obj.ParentFileSystemId)
-	}
-
-	if obj.SourceSnapshotId != nil {
-		result["source_snapshot_id"] = string(*obj.SourceSnapshotId)
-	}
-
-	return result
-}
-
-func (s *FileStorageFileSystemResourceCrud) updateCompartment(compartment interface{}) error {
-	changeCompartmentRequest := oci_file_storage.ChangeFileSystemCompartmentRequest{}
+func (s *FileStorageReplicationResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_file_storage.ChangeReplicationCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
 	idTmp := s.D.Id()
-	changeCompartmentRequest.FileSystemId = &idTmp
+	changeCompartmentRequest.ReplicationId = &idTmp
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
-	_, err := s.Client.ChangeFileSystemCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeReplicationCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
