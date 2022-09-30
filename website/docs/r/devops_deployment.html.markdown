@@ -47,6 +47,7 @@ resource "oci_devops_deployment" "test_deployment" {
 	display_name = var.deployment_display_name
 	freeform_tags = {"bar-key"= "value"}
 	previous_deployment_id = oci_devops_deployment.test_deployment.id
+	trigger_new_devops_deployment = var.deployment_trigger_new_devops_deployment_bool
 }
 ```
 
@@ -70,10 +71,11 @@ The following arguments are supported:
 * `display_name` - (Optional) (Updatable) Deployment display name. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`
 * `previous_deployment_id` - (Required when deployment_type=PIPELINE_REDEPLOYMENT | SINGLE_STAGE_REDEPLOYMENT) Specifies the OCID of the previous deployment to be redeployed.
-
+* `trigger_new_devops_deployment` - (Optional) A boolean specifying if a new deployment should be created on every apply. As long as this value is set to true in the config, every apply will trigger a new deployment to be created. The existing deployment resource will be replaced with the new one in the state file (deployment resources are never deleted, they persist as a store of records, but your state file will only track the latest one created with this resource block). 
 
 ** IMPORTANT **
-Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values. Additionally, while `trigger_new_devops_deployment`
+is set true each apply will force the destruction and recreation of the resource with the new property values.
 
 ## Attributes Reference
 
