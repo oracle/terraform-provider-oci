@@ -42,13 +42,14 @@ var (
 	}
 
 	DevopsDeploymentRepresentation = map[string]interface{}{
-		"deploy_pipeline_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_deploy_pipeline.test_deploy_pipeline.id}`},
-		"deployment_type":      acctest.Representation{RepType: acctest.Required, Create: `PIPELINE_DEPLOYMENT`},
-		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"deployment_arguments": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DevopsDeploymentDeploymentArgumentsRepresentation},
-		"display_name":         acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
-		"freeform_tags":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}},
-		"lifecycle":            acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreExecutionProgressDifferencesRepresentation},
+		"deploy_pipeline_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_deploy_pipeline.test_deploy_pipeline.id}`},
+		"deployment_type":               acctest.Representation{RepType: acctest.Required, Create: `PIPELINE_DEPLOYMENT`},
+		"defined_tags":                  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"deployment_arguments":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: DevopsDeploymentDeploymentArgumentsRepresentation},
+		"display_name":                  acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"trigger_new_devops_deployment": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"freeform_tags":                 acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}},
+		"lifecycle":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreExecutionProgressDifferencesRepresentation},
 	}
 	DevopsDeploymentDeploymentArgumentsRepresentation = map[string]interface{}{
 		"items": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DevopsDeploymentDeploymentArgumentsItemsRepresentation},

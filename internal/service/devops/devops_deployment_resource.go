@@ -173,6 +173,12 @@ func DevopsDeploymentResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"trigger_new_devops_deployment": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
+				ForceNew: true,
+			},
 
 			// Computed
 			"compartment_id": {
@@ -558,6 +564,8 @@ func (s *DevopsDeploymentResourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+
+		s.D.Set("trigger_new_devops_deployment", false)
 	case oci_devops.DeployPipelineRedeployment:
 		s.D.Set("deployment_type", "PIPELINE_REDEPLOYMENT")
 
@@ -634,6 +642,8 @@ func (s *DevopsDeploymentResourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+
+		s.D.Set("trigger_new_devops_deployment", false)
 	case oci_devops.SingleDeployStageDeployment:
 		s.D.Set("deployment_type", "SINGLE_STAGE_DEPLOYMENT")
 
@@ -710,6 +720,8 @@ func (s *DevopsDeploymentResourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+
+		s.D.Set("trigger_new_devops_deployment", false)
 	case oci_devops.SingleDeployStageRedeployment:
 		s.D.Set("deployment_type", "SINGLE_STAGE_REDEPLOYMENT")
 
@@ -790,10 +802,13 @@ func (s *DevopsDeploymentResourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+
+		s.D.Set("trigger_new_devops_deployment", false)
 	default:
 		log.Printf("[WARN] Received 'deployment_type' of unknown type %v", *s.Res)
 		return nil
 	}
+
 	return nil
 }
 
