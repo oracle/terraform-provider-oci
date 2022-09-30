@@ -49,6 +49,7 @@ var (
 		"name":           acctest.Representation{RepType: acctest.Required, Create: `snapshot-1`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 	}
 
 	FileStorageSnapshotResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", acctest.Required, acctest.Create, FileStorageFileSystemRepresentation) +
@@ -157,6 +158,8 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.is_clone_source"),
 				resource.TestCheckResourceAttr(datasourceName, "snapshots.0.name", "snapshot-1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.provenance_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.snapshot_time"),
+				resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.snapshot_type"),
 				resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.time_created"),
 			),
@@ -174,6 +177,8 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_clone_source"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "snapshot-1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "provenance_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "snapshot_time"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "snapshot_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 			),
