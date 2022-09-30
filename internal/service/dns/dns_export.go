@@ -111,7 +111,7 @@ func findDnsRrset(ctx *tf_export.ResourceDiscoveryContext, tfMeta *tf_export.Ter
 				ctx.AddErrorToList(rdError)
 				continue
 			}
-			resource.TerraformName = fmt.Sprintf("%s_%s_%s", parent.Parent.TerraformName, strings.Replace(domain, ".", "_", -1), rtype)
+			resource.TerraformName = fmt.Sprintf("%s_%s_%s", parent.TerraformName, strings.Replace(strings.Replace(domain, "-", "--", -1), ".", "-", -1), rtype)
 			resource.RawResource = rrset
 			resource.Parent = parent
 
@@ -143,7 +143,7 @@ func findDnsZones(ctx *tf_export.ResourceDiscoveryContext, tfMeta *tf_export.Ter
 	// Setting the "scope" field to the special value "ALL" will
 	// result in terraform fetching both global and private zones
 	// when populating the "oci_dns_zones" data source
-	//tfMeta.DatasourceQueryParams["scope"] = "'ALL'"
+	tfMeta.DatasourceQueryParams["scope"] = "'ALL'"
 	return tf_export.FindResourcesGeneric(ctx, tfMeta, parent, resourceGraph)
 }
 
