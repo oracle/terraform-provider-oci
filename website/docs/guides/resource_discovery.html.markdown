@@ -628,6 +628,7 @@ file_storage
 * oci\_file\_storage\_mount\_target
 * oci\_file\_storage\_export
 * oci\_file\_storage\_snapshot
+* oci\_file\_storage\_replication
 
 functions
     

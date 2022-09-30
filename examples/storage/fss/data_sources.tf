@@ -84,3 +84,26 @@ data "oci_core_private_ips" "ip_mount_target1" {
   }
 }
 
+# Gets a list of replications in a compartment and availability domain
+data "oci_file_storage_replications" "test_replications" {
+  #Required
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id      = var.compartment_ocid
+
+  #Optional
+  #display_name   = var.replication_display_name
+  #file_system_id = oci_file_storage_file_system.test_file_system.id
+  #id             = var.replication_id
+  #state          = var.replication_state
+}
+
+data "oci_file_storage_replication_targets" "test_replication_targets" {
+  #Required
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id      = var.compartment_ocid
+
+  #Optional
+  #display_name = var.replication_target_display_name
+  #id           = var.replication_target_id
+  #state        = var.replication_target_state
+}
