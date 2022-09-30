@@ -18,15 +18,11 @@ import (
 
 // TargetResourceDetails Details about a bastion session's target resource.
 type TargetResourceDetails interface {
-
-	// The port number to connect to on the target resource.
-	GetTargetResourcePort() *int
 }
 
 type targetresourcedetails struct {
-	JsonData           []byte
-	TargetResourcePort *int   `mandatory:"true" json:"targetResourcePort"`
-	SessionType        string `json:"sessionType"`
+	JsonData    []byte
+	SessionType string `json:"sessionType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -40,7 +36,6 @@ func (m *targetresourcedetails) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
-	m.TargetResourcePort = s.Model.TargetResourcePort
 	m.SessionType = s.Model.SessionType
 
 	return err
@@ -55,6 +50,10 @@ func (m *targetresourcedetails) UnmarshalPolymorphicJSON(data []byte) (interface
 
 	var err error
 	switch m.SessionType {
+	case "DYNAMIC_PORT_FORWARDING":
+		mm := DynamicPortForwardingSessionTargetResourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "MANAGED_SSH":
 		mm := ManagedSshSessionTargetResourceDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -66,11 +65,6 @@ func (m *targetresourcedetails) UnmarshalPolymorphicJSON(data []byte) (interface
 	default:
 		return *m, nil
 	}
-}
-
-//GetTargetResourcePort returns TargetResourcePort
-func (m targetresourcedetails) GetTargetResourcePort() *int {
-	return m.TargetResourcePort
 }
 
 func (m targetresourcedetails) String() string {

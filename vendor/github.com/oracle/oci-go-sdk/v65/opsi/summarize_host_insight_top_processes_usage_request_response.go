@@ -11,12 +11,12 @@ import (
 	"strings"
 )
 
-// SummarizeHostInsightTopProcessesUsageTrendRequest wrapper for the SummarizeHostInsightTopProcessesUsageTrend operation
+// SummarizeHostInsightTopProcessesUsageRequest wrapper for the SummarizeHostInsightTopProcessesUsage operation
 //
 // See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeHostInsightTopProcessesUsageTrend.go.html to see an example of how to use SummarizeHostInsightTopProcessesUsageTrendRequest.
-type SummarizeHostInsightTopProcessesUsageTrendRequest struct {
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeHostInsightTopProcessesUsage.go.html to see an example of how to use SummarizeHostInsightTopProcessesUsageRequest.
+type SummarizeHostInsightTopProcessesUsageRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
@@ -28,11 +28,9 @@ type SummarizeHostInsightTopProcessesUsageTrendRequest struct {
 	// Supported values are CPU, MEMORY, VIIRTUAL_MEMORY.
 	ResourceMetric *string `mandatory:"true" contributesTo:"query" name:"resourceMetric"`
 
-	// Specify time period in ISO 8601 format with respect to current time.
-	// Default is last 30 days represented by P30D.
-	// If timeInterval is specified, then timeIntervalStart and timeIntervalEnd will be ignored.
-	// Examples  P90D (last 90 days), P4W (last 4 weeks), P2M (last 2 months), P1Y (last 12 months), . Maximum value allowed is 25 months prior to current time (P25M).
-	AnalysisTimeInterval *string `mandatory:"false" contributesTo:"query" name:"analysisTimeInterval"`
+	// Timestamp at which to gather the top processes.
+	// This will be top processes over the hour or over the day pending the time range passed into the query.
+	Timestamp *common.SDKTime `mandatory:"true" contributesTo:"query" name:"timestamp"`
 
 	// Analysis start time in UTC in ISO 8601 format(inclusive).
 	// Example 2019-10-30T00:00:00Z (yyyy-MM-ddThh:mm:ssZ).
@@ -63,6 +61,12 @@ type SummarizeHostInsightTopProcessesUsageTrendRequest struct {
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Specify time period in ISO 8601 format with respect to current time.
+	// Default is last 30 days represented by P30D.
+	// If timeInterval is specified, then timeIntervalStart and timeIntervalEnd will be ignored.
+	// Examples  P90D (last 90 days), P4W (last 4 weeks), P2M (last 2 months), P1Y (last 12 months), . Maximum value allowed is 25 months prior to current time (P25M).
+	AnalysisTimeInterval *string `mandatory:"false" contributesTo:"query" name:"analysisTimeInterval"`
+
 	// Filter by one or more host types.
 	// Possible values are CLOUD-HOST, EXTERNAL-HOST
 	HostType []string `contributesTo:"query" name:"hostType" collectionFormat:"multi"`
@@ -70,20 +74,17 @@ type SummarizeHostInsightTopProcessesUsageTrendRequest struct {
 	// Optional OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host (Compute Id)
 	HostId *string `mandatory:"false" contributesTo:"query" name:"hostId"`
 
-	// Unique identifier for a process.
-	ProcessHash *string `mandatory:"false" contributesTo:"query" name:"processHash"`
-
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
 }
 
-func (request SummarizeHostInsightTopProcessesUsageTrendRequest) String() string {
+func (request SummarizeHostInsightTopProcessesUsageRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request SummarizeHostInsightTopProcessesUsageTrendRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request SummarizeHostInsightTopProcessesUsageRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -93,21 +94,21 @@ func (request SummarizeHostInsightTopProcessesUsageTrendRequest) HTTPRequest(met
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request SummarizeHostInsightTopProcessesUsageTrendRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request SummarizeHostInsightTopProcessesUsageRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request SummarizeHostInsightTopProcessesUsageTrendRequest) RetryPolicy() *common.RetryPolicy {
+func (request SummarizeHostInsightTopProcessesUsageRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request SummarizeHostInsightTopProcessesUsageTrendRequest) ValidateEnumValue() (bool, error) {
+func (request SummarizeHostInsightTopProcessesUsageRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -115,14 +116,14 @@ func (request SummarizeHostInsightTopProcessesUsageTrendRequest) ValidateEnumVal
 	return false, nil
 }
 
-// SummarizeHostInsightTopProcessesUsageTrendResponse wrapper for the SummarizeHostInsightTopProcessesUsageTrend operation
-type SummarizeHostInsightTopProcessesUsageTrendResponse struct {
+// SummarizeHostInsightTopProcessesUsageResponse wrapper for the SummarizeHostInsightTopProcessesUsage operation
+type SummarizeHostInsightTopProcessesUsageResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// A list of SummarizeHostInsightsTopProcessesUsageTrendCollection instances
-	SummarizeHostInsightsTopProcessesUsageTrendCollection `presentIn:"body"`
+	// A list of SummarizeHostInsightsTopProcessesUsageCollection instances
+	SummarizeHostInsightsTopProcessesUsageCollection `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
@@ -134,11 +135,11 @@ type SummarizeHostInsightTopProcessesUsageTrendResponse struct {
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 
-func (response SummarizeHostInsightTopProcessesUsageTrendResponse) String() string {
+func (response SummarizeHostInsightTopProcessesUsageResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response SummarizeHostInsightTopProcessesUsageTrendResponse) HTTPResponse() *http.Response {
+func (response SummarizeHostInsightTopProcessesUsageResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }
