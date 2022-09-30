@@ -164,7 +164,7 @@ func TestUnitExportCompartment(t *testing.T) {
 	for _, test := range tests {
 		t.Logf("Running %s", test.name)
 		test.mockFunc()
-		res := testExportCompartment(&compartmentId, &exportCommandArgs)
+		res := TestExportCompartment(&compartmentId, &exportCommandArgs)
 		if test.name != "Test response with no resource name, empty go path" && test.name != "Test response with new terraform struct" && res != nil {
 			t.Errorf("Output %v not equal to expected %v", res, test.expected)
 		} else if test.name == "Test response with new terraform struct" {

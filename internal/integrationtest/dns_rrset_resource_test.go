@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_export "github.com/oracle/terraform-provider-oci/internal/commonexport"
 	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
@@ -151,6 +152,15 @@ var (
 		tenancy_id = "${var.tenancy_ocid}"
 	}
 	` + acctest.GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", acctest.Required, acctest.Create, acctest.RepresentationCopyWithRemovedProperties(acctest.GetUpdatedRepresentationCopy("name", acctest.Representation{RepType: acctest.Required, Create: dnsDomainName}, DnsDnsZoneRepresentationPrimary), []string{"scope", "view_id"}))
+
+	RrsetResourceDependenciesMultipleViews = `
+	data "oci_identity_tenancy" "test_tenancy" {
+		tenancy_id = "${var.tenancy_ocid}"
+	}
+	` + acctest.GenerateResourceFromRepresentationMap("oci_dns_view", "test_view_1", acctest.Required, acctest.Create, DnsViewRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_view", "test_view_2", acctest.Required, acctest.Create, DnsViewRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone_1", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(DnsDnsZoneRepresentationPrimary, map[string]interface{}{"view_id": "oci_dns_view.test_view_1.id"})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone_2", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(DnsDnsZoneRepresentationPrimary, map[string]interface{}{"view_id": "oci_dns_view.test_view_2.id"}))
 )
 
 // issue-routing-tag: dns/default
@@ -189,12 +199,11 @@ func TestResourceDnsRrsetResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					// Resource discovery is not supported for Rrset resources created using scope field
-					//if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-					//	if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-					//		return errExport
-					//	}
-					//}
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
 					return err
 				},
 			),
@@ -245,11 +254,11 @@ func TestResourceDnsRrsetResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					//if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-					//	if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-					//		return errExport
-					//	}
-					//}
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
 					return err
 				},
 			),
@@ -267,11 +276,11 @@ func TestResourceDnsRrsetResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					//if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-					//	if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-					//		return errExport
-					//	}
-					//}
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
 					return err
 				},
 			),
@@ -293,11 +302,11 @@ func TestResourceDnsRrsetResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					//if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-					//	if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-					//		return errExport
-					//	}
-					//}
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
 					return err
 				},
 			),
@@ -319,11 +328,11 @@ func TestResourceDnsRrsetResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					//if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-					//	if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-					//		return errExport
-					//	}
-					//}
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
 					return err
 				},
 			),
@@ -355,6 +364,53 @@ func TestResourceDnsRrsetResource_basic(t *testing.T) {
 				},
 			),
 		}, */
+	})
+}
+
+// issue-routing-tag: dns/default
+func TestResourceDnsRrsetResource_multipleViews(t *testing.T) {
+	httpreplay.SetScenario("TestResourceDnsRrsetResource_multipleViews")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName1 := "oci_dns_rrset.test_rrset_1"
+	resourceName2 := "oci_dns_rrset.test_rrset_2"
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// verify Create
+		{
+			Config: config + compartmentIdVariableStr + DnsRrsetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset_1", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(DnsRrsetRepresentation, map[string]interface{}{"zoneId": "${oci_dns_zone.test_zone1}"})) +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset_2", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(DnsRrsetRepresentation, map[string]interface{}{"zoneId": "${oci_dns_zone.test_zone2}"})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName1, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName1, "domain", dnsDomainName),
+				resource.TestCheckResourceAttr(resourceName1, "items.#", "1"),
+				resource.TestCheckResourceAttr(resourceName1, "rtype", "A"),
+				resource.TestCheckResourceAttr(resourceName2, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName2, "domain", dnsDomainName),
+				resource.TestCheckResourceAttr(resourceName2, "items.#", "1"),
+				resource.TestCheckResourceAttr(resourceName2, "rtype", "A"),
+
+				func(s *terraform.State) (err error) {
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						var exportCommandArgs tf_export.ExportCommandArgs
+						exportCommandArgs.GenerateState = true
+						exportCommandArgs.Services = []string{"dns"}
+						if errExport := resourcediscovery.TestExportCompartment(&compartmentId, &exportCommandArgs); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
 	})
 }
 
