@@ -17,30 +17,24 @@ import (
 	"strings"
 )
 
-// ResourceUsageTrendAggregation Aggregate usage samples
-type ResourceUsageTrendAggregation struct {
+// SummarizeHostInsightsTopProcessesUsageCollection Top level response object.
+type SummarizeHostInsightsTopProcessesUsageCollection struct {
 
-	// The timestamp in which the current sampling period ends in RFC 3339 format.
-	EndTimestamp *common.SDKTime `mandatory:"true" json:"endTimestamp"`
+	// The start timestamp that was passed into the request.
+	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
 
-	// Total amount used of the resource metric type (CPU, STORAGE).
-	Usage *float64 `mandatory:"true" json:"usage"`
-
-	// The maximum allocated amount of the resource metric type  (CPU, STORAGE) for a set of databases.
-	Capacity *float64 `mandatory:"true" json:"capacity"`
-
-	// The maximum host CPUs (cores x threads/core) on the underlying infrastructure. This only applies to CPU and does not not apply for Autonomous Databases.
-	TotalHostCapacity *float64 `mandatory:"false" json:"totalHostCapacity"`
+	// List of usage data samples for a top process on a specific date.
+	Items []TopProcessesUsage `mandatory:"true" json:"items"`
 }
 
-func (m ResourceUsageTrendAggregation) String() string {
+func (m SummarizeHostInsightsTopProcessesUsageCollection) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ResourceUsageTrendAggregation) ValidateEnumValue() (bool, error) {
+func (m SummarizeHostInsightsTopProcessesUsageCollection) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

@@ -18,8 +18,8 @@ import (
 	"strings"
 )
 
-// MacsManagedExternalHostConfigurationSummary Configuration Summary of a Macs Managed External host.
-type MacsManagedExternalHostConfigurationSummary struct {
+// MacsManagedCloudHostConfigurationSummary Configuration Summary of a Macs Managed Cloud host.
+type MacsManagedCloudHostConfigurationSummary struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host insight resource.
 	HostInsightId *string `mandatory:"true" json:"hostInsightId"`
@@ -77,6 +77,9 @@ type MacsManagedExternalHostConfigurationSummary struct {
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"true" json:"freeformTags"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Compute Instance
+	ComputeId *string `mandatory:"true" json:"computeId"`
+
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Management Agent
 	ManagementAgentId *string `mandatory:"true" json:"managementAgentId"`
 
@@ -91,108 +94,108 @@ type MacsManagedExternalHostConfigurationSummary struct {
 }
 
 //GetHostInsightId returns HostInsightId
-func (m MacsManagedExternalHostConfigurationSummary) GetHostInsightId() *string {
+func (m MacsManagedCloudHostConfigurationSummary) GetHostInsightId() *string {
 	return m.HostInsightId
 }
 
 //GetCompartmentId returns CompartmentId
-func (m MacsManagedExternalHostConfigurationSummary) GetCompartmentId() *string {
+func (m MacsManagedCloudHostConfigurationSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
 //GetHostName returns HostName
-func (m MacsManagedExternalHostConfigurationSummary) GetHostName() *string {
+func (m MacsManagedCloudHostConfigurationSummary) GetHostName() *string {
 	return m.HostName
 }
 
 //GetPlatformType returns PlatformType
-func (m MacsManagedExternalHostConfigurationSummary) GetPlatformType() HostConfigurationSummaryPlatformTypeEnum {
+func (m MacsManagedCloudHostConfigurationSummary) GetPlatformType() HostConfigurationSummaryPlatformTypeEnum {
 	return m.PlatformType
 }
 
 //GetPlatformVersion returns PlatformVersion
-func (m MacsManagedExternalHostConfigurationSummary) GetPlatformVersion() *string {
+func (m MacsManagedCloudHostConfigurationSummary) GetPlatformVersion() *string {
 	return m.PlatformVersion
 }
 
 //GetPlatformVendor returns PlatformVendor
-func (m MacsManagedExternalHostConfigurationSummary) GetPlatformVendor() *string {
+func (m MacsManagedCloudHostConfigurationSummary) GetPlatformVendor() *string {
 	return m.PlatformVendor
 }
 
 //GetTotalCpus returns TotalCpus
-func (m MacsManagedExternalHostConfigurationSummary) GetTotalCpus() *int {
+func (m MacsManagedCloudHostConfigurationSummary) GetTotalCpus() *int {
 	return m.TotalCpus
 }
 
 //GetTotalMemoryInGBs returns TotalMemoryInGBs
-func (m MacsManagedExternalHostConfigurationSummary) GetTotalMemoryInGBs() *float64 {
+func (m MacsManagedCloudHostConfigurationSummary) GetTotalMemoryInGBs() *float64 {
 	return m.TotalMemoryInGBs
 }
 
 //GetCpuArchitecture returns CpuArchitecture
-func (m MacsManagedExternalHostConfigurationSummary) GetCpuArchitecture() *string {
+func (m MacsManagedCloudHostConfigurationSummary) GetCpuArchitecture() *string {
 	return m.CpuArchitecture
 }
 
 //GetCpuCacheInMBs returns CpuCacheInMBs
-func (m MacsManagedExternalHostConfigurationSummary) GetCpuCacheInMBs() *float64 {
+func (m MacsManagedCloudHostConfigurationSummary) GetCpuCacheInMBs() *float64 {
 	return m.CpuCacheInMBs
 }
 
 //GetCpuVendor returns CpuVendor
-func (m MacsManagedExternalHostConfigurationSummary) GetCpuVendor() *string {
+func (m MacsManagedCloudHostConfigurationSummary) GetCpuVendor() *string {
 	return m.CpuVendor
 }
 
 //GetCpuFrequencyInMhz returns CpuFrequencyInMhz
-func (m MacsManagedExternalHostConfigurationSummary) GetCpuFrequencyInMhz() *float64 {
+func (m MacsManagedCloudHostConfigurationSummary) GetCpuFrequencyInMhz() *float64 {
 	return m.CpuFrequencyInMhz
 }
 
 //GetCpuImplementation returns CpuImplementation
-func (m MacsManagedExternalHostConfigurationSummary) GetCpuImplementation() *string {
+func (m MacsManagedCloudHostConfigurationSummary) GetCpuImplementation() *string {
 	return m.CpuImplementation
 }
 
 //GetCoresPerSocket returns CoresPerSocket
-func (m MacsManagedExternalHostConfigurationSummary) GetCoresPerSocket() *int {
+func (m MacsManagedCloudHostConfigurationSummary) GetCoresPerSocket() *int {
 	return m.CoresPerSocket
 }
 
 //GetTotalSockets returns TotalSockets
-func (m MacsManagedExternalHostConfigurationSummary) GetTotalSockets() *int {
+func (m MacsManagedCloudHostConfigurationSummary) GetTotalSockets() *int {
 	return m.TotalSockets
 }
 
 //GetThreadsPerSocket returns ThreadsPerSocket
-func (m MacsManagedExternalHostConfigurationSummary) GetThreadsPerSocket() *int {
+func (m MacsManagedCloudHostConfigurationSummary) GetThreadsPerSocket() *int {
 	return m.ThreadsPerSocket
 }
 
 //GetIsHyperThreadingEnabled returns IsHyperThreadingEnabled
-func (m MacsManagedExternalHostConfigurationSummary) GetIsHyperThreadingEnabled() *bool {
+func (m MacsManagedCloudHostConfigurationSummary) GetIsHyperThreadingEnabled() *bool {
 	return m.IsHyperThreadingEnabled
 }
 
 //GetDefinedTags returns DefinedTags
-func (m MacsManagedExternalHostConfigurationSummary) GetDefinedTags() map[string]map[string]interface{} {
+func (m MacsManagedCloudHostConfigurationSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
 //GetFreeformTags returns FreeformTags
-func (m MacsManagedExternalHostConfigurationSummary) GetFreeformTags() map[string]string {
+func (m MacsManagedCloudHostConfigurationSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-func (m MacsManagedExternalHostConfigurationSummary) String() string {
+func (m MacsManagedCloudHostConfigurationSummary) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m MacsManagedExternalHostConfigurationSummary) ValidateEnumValue() (bool, error) {
+func (m MacsManagedCloudHostConfigurationSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if _, ok := GetMappingHostConfigurationSummaryPlatformTypeEnum(string(m.PlatformType)); !ok && m.PlatformType != "" {
@@ -205,14 +208,14 @@ func (m MacsManagedExternalHostConfigurationSummary) ValidateEnumValue() (bool, 
 }
 
 // MarshalJSON marshals to json representation
-func (m MacsManagedExternalHostConfigurationSummary) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeMacsManagedExternalHostConfigurationSummary MacsManagedExternalHostConfigurationSummary
+func (m MacsManagedCloudHostConfigurationSummary) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeMacsManagedCloudHostConfigurationSummary MacsManagedCloudHostConfigurationSummary
 	s := struct {
 		DiscriminatorParam string `json:"entitySource"`
-		MarshalTypeMacsManagedExternalHostConfigurationSummary
+		MarshalTypeMacsManagedCloudHostConfigurationSummary
 	}{
-		"MACS_MANAGED_EXTERNAL_HOST",
-		(MarshalTypeMacsManagedExternalHostConfigurationSummary)(m),
+		"MACS_MANAGED_CLOUD_HOST",
+		(MarshalTypeMacsManagedCloudHostConfigurationSummary)(m),
 	}
 
 	return json.Marshal(&s)

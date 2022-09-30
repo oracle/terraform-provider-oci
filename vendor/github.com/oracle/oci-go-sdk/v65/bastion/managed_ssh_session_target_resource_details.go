@@ -19,9 +19,6 @@ import (
 // ManagedSshSessionTargetResourceDetails Details about a managed SSH session for a target resource.
 type ManagedSshSessionTargetResourceDetails struct {
 
-	// The port number to connect to on the target resource.
-	TargetResourcePort *int `mandatory:"true" json:"targetResourcePort"`
-
 	// The name of the user on the target resource operating system that the session uses for the connection.
 	TargetResourceOperatingSystemUserName *string `mandatory:"true" json:"targetResourceOperatingSystemUserName"`
 
@@ -33,11 +30,9 @@ type ManagedSshSessionTargetResourceDetails struct {
 
 	// The private IP address of the target resource that the session connects to.
 	TargetResourcePrivateIpAddress *string `mandatory:"false" json:"targetResourcePrivateIpAddress"`
-}
 
-//GetTargetResourcePort returns TargetResourcePort
-func (m ManagedSshSessionTargetResourceDetails) GetTargetResourcePort() *int {
-	return m.TargetResourcePort
+	// The port number to connect to on the target resource.
+	TargetResourcePort *int `mandatory:"false" json:"targetResourcePort"`
 }
 
 func (m ManagedSshSessionTargetResourceDetails) String() string {
