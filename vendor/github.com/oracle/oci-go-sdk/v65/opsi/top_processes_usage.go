@@ -17,30 +17,42 @@ import (
 	"strings"
 )
 
-// ResourceUsageTrendAggregation Aggregate usage samples
-type ResourceUsageTrendAggregation struct {
+// TopProcessesUsage Aggregated data for top processes on a specific date.
+type TopProcessesUsage struct {
 
-	// The timestamp in which the current sampling period ends in RFC 3339 format.
-	EndTimestamp *common.SDKTime `mandatory:"true" json:"endTimestamp"`
+	// Command line and arguments used to launch process.
+	Command *string `mandatory:"true" json:"command"`
 
-	// Total amount used of the resource metric type (CPU, STORAGE).
-	Usage *float64 `mandatory:"true" json:"usage"`
+	// Unique identifier for a process.
+	ProcessHash *string `mandatory:"true" json:"processHash"`
 
-	// The maximum allocated amount of the resource metric type  (CPU, STORAGE) for a set of databases.
-	Capacity *float64 `mandatory:"true" json:"capacity"`
+	// Process CPU usage.
+	CpuUsage *float64 `mandatory:"true" json:"cpuUsage"`
 
-	// The maximum host CPUs (cores x threads/core) on the underlying infrastructure. This only applies to CPU and does not not apply for Autonomous Databases.
-	TotalHostCapacity *float64 `mandatory:"false" json:"totalHostCapacity"`
+	// Process CPU utilization percentage.
+	CpuUtilization *float64 `mandatory:"true" json:"cpuUtilization"`
+
+	// Process memory utilization percentage.
+	MemoryUtilization *float64 `mandatory:"true" json:"memoryUtilization"`
+
+	// Process virtual memory in Megabytes.
+	VirtualMemoryInMBs *float64 `mandatory:"true" json:"virtualMemoryInMBs"`
+
+	// Procress physical memory in Megabytes.
+	PhysicalMemoryInMBs *float64 `mandatory:"true" json:"physicalMemoryInMBs"`
+
+	// Maximum number of processes running at time of collection.
+	MaxProcessCount *int `mandatory:"true" json:"maxProcessCount"`
 }
 
-func (m ResourceUsageTrendAggregation) String() string {
+func (m TopProcessesUsage) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ResourceUsageTrendAggregation) ValidateEnumValue() (bool, error) {
+func (m TopProcessesUsage) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

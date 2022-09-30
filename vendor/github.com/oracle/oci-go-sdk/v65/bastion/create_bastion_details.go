@@ -42,6 +42,9 @@ type CreateBastionDetails struct {
 	// The maximum amount of time that any session on the bastion can remain active.
 	MaxSessionTtlInSeconds *int `mandatory:"false" json:"maxSessionTtlInSeconds"`
 
+	// The desired dns proxy status of the bastion.
+	DnsProxyStatus BastionDnsProxyStatusEnum `mandatory:"false" json:"dnsProxyStatus,omitempty"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -61,6 +64,9 @@ func (m CreateBastionDetails) String() string {
 func (m CreateBastionDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingBastionDnsProxyStatusEnum(string(m.DnsProxyStatus)); !ok && m.DnsProxyStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DnsProxyStatus: %s. Supported values are: %s.", m.DnsProxyStatus, strings.Join(GetBastionDnsProxyStatusEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

@@ -16,30 +16,18 @@ import (
 	"strings"
 )
 
-// CreatePortForwardingSessionTargetResourceDetails Details about a port forwarding session for a target resource.
-type CreatePortForwardingSessionTargetResourceDetails struct {
-
-	// The unique identifier (OCID) of the target resource (a Compute instance, for example) that the session connects to.
-	TargetResourceId *string `mandatory:"false" json:"targetResourceId"`
-
-	// The private IP address of the target resource that the session connects to.
-	TargetResourcePrivateIpAddress *string `mandatory:"false" json:"targetResourcePrivateIpAddress"`
-
-	// The Fully Qualified Domain Name of the target resource that the session connects to.
-	TargetResourceFqdn *string `mandatory:"false" json:"targetResourceFqdn"`
-
-	// The port number to connect to on the target resource.
-	TargetResourcePort *int `mandatory:"false" json:"targetResourcePort"`
+// DynamicPortForwardingSessionTargetResourceDetails Details about a dynamic port forwarding session for a target subnet.
+type DynamicPortForwardingSessionTargetResourceDetails struct {
 }
 
-func (m CreatePortForwardingSessionTargetResourceDetails) String() string {
+func (m DynamicPortForwardingSessionTargetResourceDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m CreatePortForwardingSessionTargetResourceDetails) ValidateEnumValue() (bool, error) {
+func (m DynamicPortForwardingSessionTargetResourceDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -49,14 +37,14 @@ func (m CreatePortForwardingSessionTargetResourceDetails) ValidateEnumValue() (b
 }
 
 // MarshalJSON marshals to json representation
-func (m CreatePortForwardingSessionTargetResourceDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeCreatePortForwardingSessionTargetResourceDetails CreatePortForwardingSessionTargetResourceDetails
+func (m DynamicPortForwardingSessionTargetResourceDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeDynamicPortForwardingSessionTargetResourceDetails DynamicPortForwardingSessionTargetResourceDetails
 	s := struct {
 		DiscriminatorParam string `json:"sessionType"`
-		MarshalTypeCreatePortForwardingSessionTargetResourceDetails
+		MarshalTypeDynamicPortForwardingSessionTargetResourceDetails
 	}{
-		"PORT_FORWARDING",
-		(MarshalTypeCreatePortForwardingSessionTargetResourceDetails)(m),
+		"DYNAMIC_PORT_FORWARDING",
+		(MarshalTypeDynamicPortForwardingSessionTargetResourceDetails)(m),
 	}
 
 	return json.Marshal(&s)

@@ -262,5 +262,11 @@
         "realmDomainComponent": "oraclecloud.com", 
         "regionIdentifier": "eu-madrid-1", 
         "realmKey": "oc1"
+    }, 
+    {
+        "regionKey": "bgy", 
+        "realmDomainComponent": "oraclecloud14.com", 
+        "regionIdentifier": "eu-dcc-milan-1", 
+        "realmKey": "oc14"
     }
 ]

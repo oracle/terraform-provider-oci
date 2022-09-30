@@ -23,7 +23,7 @@ type ExadataInsightResourceStatistics struct {
 	// Total amount used of the resource metric type (CPU, STORAGE).
 	Usage *float64 `mandatory:"true" json:"usage"`
 
-	// The maximum allocated amount of the resource metric type  (CPU, STORAGE).
+	// The maximum allocated amount of the resource metric type  (CPU, STORAGE) for a set of databases.
 	Capacity *float64 `mandatory:"true" json:"capacity"`
 
 	// Resource utilization in percentage
@@ -31,6 +31,9 @@ type ExadataInsightResourceStatistics struct {
 
 	// Change in resource utilization in percentage
 	UsageChangePercent *float64 `mandatory:"true" json:"usageChangePercent"`
+
+	// The maximum host CPUs (cores x threads/core) on the underlying infrastructure. This only applies to CPU and does not not apply for Autonomous Databases.
+	TotalHostCapacity *float64 `mandatory:"false" json:"totalHostCapacity"`
 
 	// Array of instance metrics
 	InstanceMetrics []InstanceMetrics `mandatory:"false" json:"instanceMetrics"`
