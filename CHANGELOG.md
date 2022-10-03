@@ -1,14 +1,13 @@
 ## 4.96.0 (Unreleased)
 
 ### Added
-- Support for FSS : Support for cross region replication
 - resource discovery for private DNS zones and rrsets
 - Support for BDS - Start/Stop Cluster
 - Support for OPSI Windows/Solaris support
 - Support for OCI Bastions - DNS Support
 - generate terraform config for services with non zero resource only
 - Id based RD without resourceType
-- Support for Terraform Extension Request - [UDX-20336] EXACC Elastic Compute
+- Support for EXACC Elastic Compute
 ### Bug Fix
 - Support for repeated Deployments on each apply
 - canaryStrategy code added to fix the issue
