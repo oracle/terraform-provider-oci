@@ -1,7 +1,6 @@
 ## 4.96.0 (Unreleased)
 
 ### Added
-- Support for FSS : Support for cross region replication
 - resource discovery for private DNS zones and rrsets
 - Support for BDS - Start/Stop Cluster
 - Support for OPSI Windows/Solaris support
