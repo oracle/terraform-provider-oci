@@ -74,17 +74,25 @@ func BastionSessionResource() *schema.Resource {
 							ForceNew:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
+								"DYNAMIC_PORT_FORWARDING",
 								"MANAGED_SSH",
 								"PORT_FORWARDING",
 							}, true),
 						},
+
+						// Optional
+						"target_resource_fqdn": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"target_resource_id": {
 							Type:     schema.TypeString,
 							Optional: true,
+							Computed: true,
 							ForceNew: true,
 						},
-
-						// Optional
 						"target_resource_operating_system_user_name": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -541,6 +549,9 @@ func (s *BastionSessionResourceCrud) mapToCreateSessionTargetResourceDetails(fie
 		sessionType = "" // default value
 	}
 	switch strings.ToLower(sessionType) {
+	case strings.ToLower("DYNAMIC_PORT_FORWARDING"):
+		details := oci_bastion.CreateDynamicPortForwardingSessionTargetResourceDetails{}
+		baseObject = details
 	case strings.ToLower("MANAGED_SSH"):
 		details := oci_bastion.ManagedSshSessionTargetResourceDetails{}
 		if targetResourceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target_resource_id")); ok {
@@ -551,33 +562,32 @@ func (s *BastionSessionResourceCrud) mapToCreateSessionTargetResourceDetails(fie
 			tmp := targetResourceOperatingSystemUserName.(string)
 			details.TargetResourceOperatingSystemUserName = &tmp
 		}
-		if targetResourcePrivateIpAddress, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target_resource_private_ip_address")); ok {
-			tmp := targetResourcePrivateIpAddress.(string)
-			details.TargetResourcePrivateIpAddress = &tmp
-		}
 		if targetResourcePort, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target_resource_port")); ok {
 			tmp := targetResourcePort.(int)
 			details.TargetResourcePort = &tmp
 		}
-
-		if targetResourceDisplayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target_resource_display_name")); ok {
-			tmp := targetResourceDisplayName.(string)
-			details.TargetResourceDisplayName = &tmp
+		if targetResourcePrivateIpAddress, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target_resource_private_ip_address")); ok {
+			tmp := targetResourcePrivateIpAddress.(string)
+			details.TargetResourcePrivateIpAddress = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("PORT_FORWARDING"):
-		details := oci_bastion.PortForwardingSessionTargetResourceDetails{}
+		details := oci_bastion.CreatePortForwardingSessionTargetResourceDetails{}
+		if targetResourceFqdn, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target_resource_fqdn")); ok {
+			tmp := targetResourceFqdn.(string)
+			details.TargetResourceFqdn = &tmp
+		}
 		if targetResourceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target_resource_id")); ok {
 			tmp := targetResourceId.(string)
 			details.TargetResourceId = &tmp
 		}
-		if targetResourcePrivateIpAddress, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target_resource_private_ip_address")); ok {
-			tmp := targetResourcePrivateIpAddress.(string)
-			details.TargetResourcePrivateIpAddress = &tmp
-		}
 		if targetResourcePort, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target_resource_port")); ok {
 			tmp := targetResourcePort.(int)
 			details.TargetResourcePort = &tmp
+		}
+		if targetResourcePrivateIpAddress, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target_resource_private_ip_address")); ok {
+			tmp := targetResourcePrivateIpAddress.(string)
+			details.TargetResourcePrivateIpAddress = &tmp
 		}
 		baseObject = details
 	default:
@@ -589,7 +599,9 @@ func (s *BastionSessionResourceCrud) mapToCreateSessionTargetResourceDetails(fie
 func TargetResourceDetailsToMap(obj *oci_bastion.TargetResourceDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
-	case oci_bastion.ManagedSshSessionTargetResourceDetails:
+	case oci_bastion.CreateDynamicPortForwardingSessionTargetResourceDetails:
+		result["session_type"] = "DYNAMIC_PORT_FORWARDING"
+	case oci_bastion.CreateManagedSshSessionTargetResourceDetails:
 		result["session_type"] = "MANAGED_SSH"
 
 		if v.TargetResourceId != nil {
@@ -600,30 +612,30 @@ func TargetResourceDetailsToMap(obj *oci_bastion.TargetResourceDetails) map[stri
 			result["target_resource_operating_system_user_name"] = string(*v.TargetResourceOperatingSystemUserName)
 		}
 
-		if v.TargetResourcePrivateIpAddress != nil {
-			result["target_resource_private_ip_address"] = string(*v.TargetResourcePrivateIpAddress)
-		}
-
 		if v.TargetResourcePort != nil {
 			result["target_resource_port"] = int(*v.TargetResourcePort)
 		}
 
-		if v.TargetResourceDisplayName != nil {
-			result["target_resource_display_name"] = string(*v.TargetResourceDisplayName)
+		if v.TargetResourcePrivateIpAddress != nil {
+			result["target_resource_private_ip_address"] = string(*v.TargetResourcePrivateIpAddress)
 		}
-	case oci_bastion.PortForwardingSessionTargetResourceDetails:
+	case oci_bastion.CreatePortForwardingSessionTargetResourceDetails:
 		result["session_type"] = "PORT_FORWARDING"
+
+		if v.TargetResourceFqdn != nil {
+			result["target_resource_fqdn"] = string(*v.TargetResourceFqdn)
+		}
 
 		if v.TargetResourceId != nil {
 			result["target_resource_id"] = string(*v.TargetResourceId)
 		}
 
-		if v.TargetResourcePrivateIpAddress != nil {
-			result["target_resource_private_ip_address"] = string(*v.TargetResourcePrivateIpAddress)
-		}
-
 		if v.TargetResourcePort != nil {
 			result["target_resource_port"] = int(*v.TargetResourcePort)
+		}
+
+		if v.TargetResourcePrivateIpAddress != nil {
+			result["target_resource_private_ip_address"] = string(*v.TargetResourcePrivateIpAddress)
 		}
 	default:
 		log.Printf("[WARN] Received 'session_type' of unknown type %v", *obj)

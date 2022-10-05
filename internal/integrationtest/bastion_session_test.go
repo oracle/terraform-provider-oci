@@ -51,15 +51,16 @@ var (
 	BastionsessionRepresentation = map[string]interface{}{
 		"bastion_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_bastion_bastion.test_bastion.id}`},
 		"key_details":             acctest.RepresentationGroup{RepType: acctest.Required, Group: BastionsessionKeyDetailsRepresentation},
-		"target_resource_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: BastionsessionTargetResourceDetailsRepresentation},
+		"target_resource_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: BastionSessionTargetResourceDetailsRepresentation},
 		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `managed_ssh`, Update: `managed_ssh2`},
 		"key_type":                acctest.Representation{RepType: acctest.Optional, Create: `PUB`},
 		"session_ttl_in_seconds":  acctest.Representation{RepType: acctest.Optional, Create: `1800`},
 	}
-	BastionsessionTargetResourceDetailsRepresentation = map[string]interface{}{
-		"session_type":       acctest.Representation{RepType: acctest.Required, Create: `MANAGED_SSH`},
-		"target_resource_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance.test_instance.id}`},
-		"target_resource_operating_system_user_name": acctest.Representation{RepType: acctest.Required, Create: `opc`},
+	BastionSessionTargetResourceDetailsRepresentation = map[string]interface{}{
+		"session_type":                               acctest.Representation{RepType: acctest.Required, Create: `MANAGED_SSH`},
+		"target_resource_fqdn":                       acctest.Representation{RepType: acctest.Optional, Create: `targetResourceFqdn`},
+		"target_resource_id":                         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_instance.test_instance.id}`},
+		"target_resource_operating_system_user_name": acctest.Representation{RepType: acctest.Optional, Create: `opc`},
 		"target_resource_port":                       acctest.Representation{RepType: acctest.Optional, Create: `22`},
 		"target_resource_private_ip_address":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_instance.test_instance.private_ip}`},
 	}
@@ -270,6 +271,7 @@ func TestBastionSessionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "sessions.0.target_resource_details.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "sessions.0.target_resource_details.0.session_type", "MANAGED_SSH"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sessions.0.target_resource_details.0.target_resource_display_name"),
+				resource.TestCheckResourceAttr(datasourceName, "sessions.0.target_resource_details.0.target_resource_fqdn", "targetResourceFqdn"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sessions.0.target_resource_details.0.target_resource_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sessions.0.target_resource_details.0.target_resource_operating_system_user_name"),
 				resource.TestCheckResourceAttr(datasourceName, "sessions.0.target_resource_details.0.target_resource_port", "22"),
@@ -298,6 +300,7 @@ func TestBastionSessionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "target_resource_details.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "target_resource_details.0.session_type", "MANAGED_SSH"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_resource_details.0.target_resource_display_name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_resource_details.0.target_resource_fqdn", "targetResourceFqdn"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "target_resource_details.0.target_resource_port", "22"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_resource_details.0.target_resource_private_ip_address"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

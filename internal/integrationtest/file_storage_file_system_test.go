@@ -51,14 +51,25 @@ var (
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `media-files-1`, Update: `displayName2`},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"source_snapshot_id":  acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_snapshot.test_snapshot.id}`},
-		"kms_key_id":          acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_id_for_create}`, Update: `${var.kms_key_id_for_update}`},
+		"kms_key_id":          acctest.Representation{RepType: acctest.Optional, Create: `${oci_kms_key.kms_key_id_for_create.id}`, Update: `${oci_kms_key.kms_key_id_for_update.id}`},
+		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 	}
 
 	FileStorageFileSystemResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", acctest.Required, acctest.Create, FileStorageFileSystemRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Required, acctest.Create, FileStorageSnapshotRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
-		KeyResourceDependencyConfig + kmsKeyIdCreateVariableStr + kmsKeyIdUpdateVariableStr
+		acctest.GenerateResourceFromRepresentationMap("oci_kms_vault", "test_kms_vault", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(KmsVaultRepresentation, map[string]interface{}{
+			"vault_type": acctest.Representation{RepType: acctest.Required, Create: `DEFAULT`},
+		})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "kms_key_id_for_create", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(KmsKeyRepresentation, map[string]interface{}{
+			"management_endpoint": acctest.Representation{RepType: acctest.Required, Create: `${oci_kms_vault.test_kms_vault.management_endpoint}`},
+			"desired_state":       acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`},
+		})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "kms_key_id_for_update", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(KmsKeyRepresentation, map[string]interface{}{
+			"management_endpoint": acctest.Representation{RepType: acctest.Required, Create: `${oci_kms_vault.test_kms_vault.management_endpoint}`},
+			"desired_state":       acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`},
+		}))
 )
 
 // issue-routing-tag: file_storage/default

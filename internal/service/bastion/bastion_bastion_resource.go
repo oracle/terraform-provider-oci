@@ -62,6 +62,12 @@ func BastionBastionResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
+			"dns_proxy_status": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -233,6 +239,10 @@ func (s *BastionBastionResourceCrud) Create() error {
 			return err
 		}
 		request.DefinedTags = convertedDefinedTags
+	}
+
+	if dnsProxyStatus, ok := s.D.GetOkExists("dns_proxy_status"); ok {
+		request.DnsProxyStatus = oci_bastion.BastionDnsProxyStatusEnum(dnsProxyStatus.(string))
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
@@ -517,6 +527,8 @@ func (s *BastionBastionResourceCrud) SetData() error {
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
+
+	s.D.Set("dns_proxy_status", s.Res.DnsProxyStatus)
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 

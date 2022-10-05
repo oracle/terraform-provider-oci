@@ -136,6 +136,12 @@ func (s *FileStorageSnapshotsDataSourceCrud) SetData() error {
 			snapshot["provenance_id"] = *r.ProvenanceId
 		}
 
+		if r.SnapshotTime != nil {
+			snapshot["snapshot_time"] = r.SnapshotTime.String()
+		}
+
+		snapshot["snapshot_type"] = r.SnapshotType
+
 		snapshot["state"] = r.LifecycleState
 
 		if r.TimeCreated != nil {
