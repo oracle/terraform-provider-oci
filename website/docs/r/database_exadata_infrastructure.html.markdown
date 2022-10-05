@@ -129,6 +129,8 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `activated_storage_count` - The requested number of additional storage servers activated for the Exadata infrastructure.
+* `additional_compute_count` - The requested number of additional compute servers for the Exadata infrastructure.
+* `additional_compute_system_model` - Oracle Exadata System Model specification. The system model determines the amount of compute or storage server resources available for use. For more information, please see [System and Shape Configuration Options] (https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-system-config-options.html#GUID-9E090174-5C57-4EB1-9243-B470F9F10D6B) 
 * `additional_storage_count` - The requested number of additional storage servers for the Exadata infrastructure.
 * `admin_network_cidr` - The CIDR block for the Exadata administration network.
 * `cloud_control_plane_server1` - The IP address for the first control plane server.

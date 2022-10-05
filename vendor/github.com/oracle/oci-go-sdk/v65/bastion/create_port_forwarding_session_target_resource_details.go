@@ -19,19 +19,17 @@ import (
 // CreatePortForwardingSessionTargetResourceDetails Details about a port forwarding session for a target resource.
 type CreatePortForwardingSessionTargetResourceDetails struct {
 
-	// The port number to connect to on the target resource.
-	TargetResourcePort *int `mandatory:"false" json:"targetResourcePort"`
-
 	// The unique identifier (OCID) of the target resource (a Compute instance, for example) that the session connects to.
 	TargetResourceId *string `mandatory:"false" json:"targetResourceId"`
 
 	// The private IP address of the target resource that the session connects to.
 	TargetResourcePrivateIpAddress *string `mandatory:"false" json:"targetResourcePrivateIpAddress"`
-}
 
-//GetTargetResourcePort returns TargetResourcePort
-func (m CreatePortForwardingSessionTargetResourceDetails) GetTargetResourcePort() *int {
-	return m.TargetResourcePort
+	// The Fully Qualified Domain Name of the target resource that the session connects to.
+	TargetResourceFqdn *string `mandatory:"false" json:"targetResourceFqdn"`
+
+	// The port number to connect to on the target resource.
+	TargetResourcePort *int `mandatory:"false" json:"targetResourcePort"`
 }
 
 func (m CreatePortForwardingSessionTargetResourceDetails) String() string {

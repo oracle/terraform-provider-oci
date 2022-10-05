@@ -446,7 +446,20 @@ func BdsBdsInstanceResource() *schema.Resource {
 					},
 				},
 			},
-
+			"state": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(oci_bds.BdsInstanceLifecycleStateInactive),
+					string(oci_bds.BdsInstanceLifecycleStateActive),
+				}, true),
+			},
+			"is_force_stop_jobs": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			// Computed
 			"cluster_details": {
 				Type:     schema.TypeList,
@@ -624,10 +637,6 @@ func BdsBdsInstanceResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -644,6 +653,13 @@ func createBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &BdsBdsInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
+	var powerOff = false
+	if powerState, ok := sync.D.GetOkExists("state"); ok {
+		wantedPowerState := oci_bds.BdsInstanceLifecycleStateEnum(strings.ToUpper(powerState.(string)))
+		if wantedPowerState == oci_bds.BdsInstanceLifecycleStateInactive {
+			powerOff = true
+		}
+	}
 
 	cloudSqlRequest := oci_bds.AddCloudSqlRequest{}
 	cloudSql := false
@@ -688,6 +704,13 @@ func createBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 		}
 		return tfresource.ReadResource(sync)
 	}
+
+	if powerOff {
+		if err := sync.StopBdsInstance(); err != nil {
+			return err
+		}
+		sync.D.Set("state", oci_bds.BdsInstanceLifecycleStateInactive)
+	}
 	return nil
 }
 
@@ -704,7 +727,36 @@ func updateBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.UpdateResource(d, sync)
+	powerOn, powerOff := false, false
+
+	if sync.D.HasChange("state") {
+		wantedState := strings.ToUpper(sync.D.Get("state").(string))
+		if oci_bds.BdsInstanceLifecycleStateActive == oci_bds.BdsInstanceLifecycleStateEnum(wantedState) {
+			powerOn = true
+		} else if oci_bds.BdsInstanceLifecycleStateInactive == oci_bds.BdsInstanceLifecycleStateEnum(wantedState) {
+			powerOff = true
+		}
+	}
+
+	if powerOn {
+		if err := sync.StartBdsInstance(); err != nil {
+			return err
+		}
+		sync.D.Set("state", oci_bds.BdsInstanceLifecycleStateActive)
+	}
+
+	if err := tfresource.UpdateResource(d, sync); err != nil {
+		return err
+	}
+
+	if powerOff {
+		if err := sync.StopBdsInstance(); err != nil {
+			return err
+		}
+		sync.D.Set("state", oci_bds.BdsInstanceLifecycleStateInactive)
+	}
+
+	return nil
 }
 
 func deleteBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
@@ -1467,6 +1519,55 @@ func (s *BdsBdsInstanceResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *BdsBdsInstanceResourceCrud) StartBdsInstance() error {
+	request := oci_bds.StartBdsInstanceRequest{}
+
+	idTmp := s.D.Id()
+	request.BdsInstanceId = &idTmp
+
+	if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+		tmp := clusterAdminPassword.(string)
+		request.ClusterAdminPassword = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
+
+	_, err := s.Client.StartBdsInstance(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_bds.BdsInstanceLifecycleStateActive }
+	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *BdsBdsInstanceResourceCrud) StopBdsInstance() error {
+	request := oci_bds.StopBdsInstanceRequest{}
+
+	idTmp := s.D.Id()
+	request.BdsInstanceId = &idTmp
+
+	if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+		tmp := clusterAdminPassword.(string)
+		request.ClusterAdminPassword = &tmp
+	}
+
+	if isForceStopJobs, ok := s.D.GetOkExists("is_force_stop_jobs"); ok {
+		tmp := isForceStopJobs.(bool)
+		request.IsForceStopJobs = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
+
+	_, err := s.Client.StopBdsInstance(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_bds.BdsInstanceLifecycleStateInactive }
+	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *BdsBdsInstanceResourceCrud) deleteShapeConfigIfMissingInInput(node_type string, node_map map[string]interface{}) {

@@ -70,6 +70,12 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) SetData() error {
 		s.D.Set("activated_storage_count", *s.Res.ActivatedStorageCount)
 	}
 
+	if s.Res.AdditionalComputeCount != nil {
+		s.D.Set("additional_compute_count", *s.Res.AdditionalComputeCount)
+	}
+
+	s.D.Set("additional_compute_system_model", s.Res.AdditionalComputeSystemModel)
+
 	if s.Res.AdditionalStorageCount != nil {
 		s.D.Set("additional_storage_count", *s.Res.AdditionalStorageCount)
 	}

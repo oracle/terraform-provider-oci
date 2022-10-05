@@ -101,7 +101,6 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"contacts": {
 				Type:     schema.TypeList,
@@ -273,6 +272,17 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+
+			"additional_compute_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+
+			"additional_compute_system_model": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+
 			"additional_storage_count": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -814,6 +824,12 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 	if s.Res.ActivatedStorageCount != nil {
 		s.D.Set("activated_storage_count", *s.Res.ActivatedStorageCount)
 	}
+
+	if s.Res.AdditionalComputeCount != nil {
+		s.D.Set("additional_compute_count", *s.Res.AdditionalComputeCount)
+	}
+
+	s.D.Set("additional_compute_system_model", s.Res.AdditionalComputeSystemModel)
 
 	if s.Res.AdditionalStorageCount != nil {
 		s.D.Set("additional_storage_count", *s.Res.AdditionalStorageCount)

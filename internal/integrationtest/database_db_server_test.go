@@ -29,7 +29,7 @@ var (
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 	}
 
-	DatabaseDbServerResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Required, acctest.Create, DatabaseAutonomousExadataInfrastructureRepresentation)
+	DatabaseDbServerResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Required, acctest.Create, DatabaseExadataInfrastructureRepresentation)
 )
 
 // issue-routing-tag: database/default

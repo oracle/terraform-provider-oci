@@ -52,6 +52,7 @@ var (
 		"hostname_label":      acctest.Representation{RepType: acctest.Optional, Create: `hostnamelabel`},
 		"ip_address":          acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.5`},
 		"nsg_ids":             acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
+		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 	}
 
 	FileStorageMountTargetResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +

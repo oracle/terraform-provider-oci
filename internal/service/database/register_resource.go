@@ -56,4 +56,5 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_database_autonomous_container_database_dataguard_association_operation", DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResource())
 	tfresource.RegisterResource("oci_database_db_systems_upgrade", DatabaseDbSystemsUpgradeResource())
 	tfresource.RegisterResource("oci_database_exadata_infrastructure_storage", DatabaseExadataInfrastructureStorageResource())
+	tfresource.RegisterResource("oci_database_exadata_infrastructure_compute", DatabaseExadataInfrastructureComputeManagedResource())
 }

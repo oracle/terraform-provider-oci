@@ -32,6 +32,7 @@ type HostConfigurationSummary interface {
 
 	// Platform type.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
+	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
 	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
 	GetPlatformType() HostConfigurationSummaryPlatformTypeEnum
 
@@ -161,6 +162,10 @@ func (m *hostconfigurationsummary) UnmarshalPolymorphicJSON(data []byte) (interf
 		return mm, err
 	case "EM_MANAGED_EXTERNAL_HOST":
 		mm := EmManagedExternalHostConfigurationSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MACS_MANAGED_CLOUD_HOST":
+		mm := MacsManagedCloudHostConfigurationSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

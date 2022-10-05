@@ -286,6 +286,7 @@ var exportDatabaseVmClusterNetworkHints = &tf_export.TerraformResourceHints{
 	DiscoverableLifecycleStates: []string{
 		string(oci_database.VmClusterNetworkLifecycleStateRequiresValidation),
 		string(oci_database.VmClusterNetworkLifecycleStateValidated),
+		string(oci_database.VmClusterNetworkLifecycleStateNeedsAttention),
 		string(oci_database.VmClusterNetworkLifecycleStateAllocated),
 	},
 }

@@ -20,7 +20,7 @@ import (
 
 var (
 	tfinstallVar               = tfinstall.Find
-	testExportCompartmentVar   = testExportCompartment
+	testExportCompartmentVar   = TestExportCompartment
 	isResourceSupportImportVar = isResourceSupportImport
 	newTerraformVar            = tfexec.NewTerraform
 	RunExportCommandVar        = RunExportCommand
@@ -86,7 +86,8 @@ func TestExportCompartmentWithResourceName(id *string, compartmentId *string, re
 	log.Printf("[INFO] ===> Compartment export doesn't support this resource %v yet", resourceName)
 	return nil
 }
-func testExportCompartment(compartmentId *string, exportCommandArgs *tf_export.ExportCommandArgs) error {
+
+func TestExportCompartment(compartmentId *string, exportCommandArgs *tf_export.ExportCommandArgs) error {
 	// checking for provider_bin_path here because parent func will also be
 	// called for resources that do not support RD
 	if providerBinPath := getEnvSettingWithBlankDefaultVar("provider_bin_path"); providerBinPath == "" {

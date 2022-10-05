@@ -57,6 +57,17 @@ var exportFileStorageSnapshotHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportFileStorageReplicationHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_file_storage_replication",
+	DatasourceClass:        "oci_file_storage_replications",
+	DatasourceItemsAttr:    "replications",
+	ResourceAbbreviation:   "replication",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_file_storage.ReplicationLifecycleStateActive),
+	},
+}
+
 var fileStorageResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportFileStorageExportHints},

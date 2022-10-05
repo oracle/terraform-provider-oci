@@ -10,7 +10,7 @@ resource "oci_core_service_gateway" "test_bastion_service_gateway" {
   display_name   = "sgw"
 
   services {
-    service_id = data.oci_core_services.test_bastion_services.services[1]["id"]
+    service_id = data.oci_core_services.test_bastion_services.services[0]["id"]
   }
 
   vcn_id = oci_core_vcn.test_bastion_vcn.id
@@ -21,7 +21,7 @@ resource "oci_core_default_route_table" "bastion_default_route_table" {
   display_name               = "DefaultRouteTable"
 
   route_rules {
-    destination       = lookup(data.oci_core_services.test_bastion_services.services[1], "cidr_block")
+    destination       = lookup(data.oci_core_services.test_bastion_services.services[0], "cidr_block")
     destination_type  = "SERVICE_CIDR_BLOCK"
     network_entity_id = oci_core_service_gateway.test_bastion_service_gateway.id
   }

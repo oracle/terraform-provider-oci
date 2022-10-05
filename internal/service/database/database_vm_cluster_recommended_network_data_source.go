@@ -24,6 +24,13 @@ func DatabaseVmClusterRecommendedNetworkDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"db_servers": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -185,11 +192,19 @@ func DatabaseVmClusterRecommendedNetworkDataSource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"db_server_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"hostname": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 									"ip": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"state": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -239,6 +254,19 @@ func (s *DatabaseVmClusterRecommendedNetworkDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if dbServers, ok := s.D.GetOkExists("db_servers"); ok {
+		interfaces := dbServers.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("db_servers") {
+			request.DbServers = tmp
+		}
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {

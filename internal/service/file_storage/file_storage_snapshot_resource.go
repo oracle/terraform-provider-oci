@@ -65,6 +65,14 @@ func FileStorageSnapshotResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"snapshot_time": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"snapshot_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -269,6 +277,12 @@ func (s *FileStorageSnapshotResourceCrud) SetData() error {
 	if s.Res.ProvenanceId != nil {
 		s.D.Set("provenance_id", *s.Res.ProvenanceId)
 	}
+
+	if s.Res.SnapshotTime != nil {
+		s.D.Set("snapshot_time", s.Res.SnapshotTime.String())
+	}
+
+	s.D.Set("snapshot_type", s.Res.SnapshotType)
 
 	s.D.Set("state", s.Res.LifecycleState)
 
