@@ -352,5 +352,17 @@
         "realmDomainComponent": "oraclecloud20.com", 
         "regionIdentifier": "eu-jovanovac-1", 
         "realmKey": "oc20"
+    }, 
+    {
+        "regionKey": "mty", 
+        "realmDomainComponent": "oraclecloud.com", 
+        "regionIdentifier": "mx-monterrey-1", 
+        "realmKey": "oc1"
+    }, 
+    {
+        "regionKey": "vap", 
+        "realmDomainComponent": "oraclecloud.com", 
+        "regionIdentifier": "sa-valparaiso-1", 
+        "realmKey": "oc1"
     }
 ]

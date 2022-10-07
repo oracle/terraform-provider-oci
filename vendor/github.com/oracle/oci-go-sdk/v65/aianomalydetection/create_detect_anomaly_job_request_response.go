@@ -15,14 +15,14 @@ import (
 type CreateDetectAnomalyJobRequest struct {
 
 	// The input is either:
-	//   - JSON object in the request. This object is defined, and the SDK generates the
-	//     object for it.
-	//   - Data embedded as Base64 string in format of either:
+	//   - JSON object in the request. This object is defined and SDK will generate the
+	//     object for it
+	//   - Data embedded as Base64 string in format of either
 	//     - CSV
 	//     - JSON
-	//     If this option is used, then you must provide the content of specified
-	//     CSV or JSON in Base64 encoded string. The Embedded JSON has to be
-	//     in the same format as the inline request JSON.
+	//     If this option is chosen then customer has to provide the content of specified
+	//     CSV or JSON in Base64 encoded string. The Embedded JSON will still has to be
+	//     in same format as inline request JSON
 	CreateDetectAnomalyJobDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

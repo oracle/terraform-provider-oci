@@ -18,8 +18,8 @@ import (
 	"strings"
 )
 
-// InlineDetectAnomaliesRequest This is the specialised JSON format that is accepted as training data, with an additional
-// field for 'requestType'. This is a required field used deciding whether it is an inline
+// InlineDetectAnomaliesRequest This is the specialised JSON format that we accept as Training data, with an additional
+// field for 'requestType' which is a required field used deciding whether it is an inline
 // request or contains embedded data.
 type InlineDetectAnomaliesRequest struct {
 
@@ -32,10 +32,10 @@ type InlineDetectAnomaliesRequest struct {
 	// Array containing data.
 	Data []DataItem `mandatory:"true" json:"data"`
 
-	// The value estimated during training is used by default. You can choose to provide a custom value.
+	// The value estimated during training would be used by default. Customer can choose to provide a custom value.
 	Sensitivity *float32 `mandatory:"false" json:"sensitivity"`
 
-	// State of the asset's behaviour calculated based on current and previous inference requests.
+	// State of the asset's behaviour calculated based on current and/or previous inference requests.
 	InferenceState *string `mandatory:"false" json:"inferenceState"`
 }
 

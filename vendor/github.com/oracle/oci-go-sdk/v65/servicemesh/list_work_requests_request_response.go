@@ -20,6 +20,12 @@ type ListWorkRequestsRequest struct {
 	// The ID of the asynchronous work request.
 	WorkRequestId *string `mandatory:"false" contributesTo:"query" name:"workRequestId"`
 
+	// A filter to return work requests that match the given resourceId.
+	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
+
+	// A filter to return only resources that match the operation status given.
+	OperationStatus ListWorkRequestsOperationStatusEnum `mandatory:"false" contributesTo:"query" name:"operationStatus" omitEmpty:"true"`
+
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
@@ -65,6 +71,9 @@ func (request ListWorkRequestsRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListWorkRequestsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingListWorkRequestsOperationStatusEnum(string(request.OperationStatus)); !ok && request.OperationStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OperationStatus: %s. Supported values are: %s.", request.OperationStatus, strings.Join(GetListWorkRequestsOperationStatusEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -97,4 +106,66 @@ func (response ListWorkRequestsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListWorkRequestsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListWorkRequestsOperationStatusEnum Enum with underlying type: string
+type ListWorkRequestsOperationStatusEnum string
+
+// Set of constants representing the allowable values for ListWorkRequestsOperationStatusEnum
+const (
+	ListWorkRequestsOperationStatusAccepted   ListWorkRequestsOperationStatusEnum = "ACCEPTED"
+	ListWorkRequestsOperationStatusInProgress ListWorkRequestsOperationStatusEnum = "IN_PROGRESS"
+	ListWorkRequestsOperationStatusFailed     ListWorkRequestsOperationStatusEnum = "FAILED"
+	ListWorkRequestsOperationStatusSucceeded  ListWorkRequestsOperationStatusEnum = "SUCCEEDED"
+	ListWorkRequestsOperationStatusWaiting    ListWorkRequestsOperationStatusEnum = "WAITING"
+	ListWorkRequestsOperationStatusCanceling  ListWorkRequestsOperationStatusEnum = "CANCELING"
+	ListWorkRequestsOperationStatusCanceled   ListWorkRequestsOperationStatusEnum = "CANCELED"
+)
+
+var mappingListWorkRequestsOperationStatusEnum = map[string]ListWorkRequestsOperationStatusEnum{
+	"ACCEPTED":    ListWorkRequestsOperationStatusAccepted,
+	"IN_PROGRESS": ListWorkRequestsOperationStatusInProgress,
+	"FAILED":      ListWorkRequestsOperationStatusFailed,
+	"SUCCEEDED":   ListWorkRequestsOperationStatusSucceeded,
+	"WAITING":     ListWorkRequestsOperationStatusWaiting,
+	"CANCELING":   ListWorkRequestsOperationStatusCanceling,
+	"CANCELED":    ListWorkRequestsOperationStatusCanceled,
+}
+
+var mappingListWorkRequestsOperationStatusEnumLowerCase = map[string]ListWorkRequestsOperationStatusEnum{
+	"accepted":    ListWorkRequestsOperationStatusAccepted,
+	"in_progress": ListWorkRequestsOperationStatusInProgress,
+	"failed":      ListWorkRequestsOperationStatusFailed,
+	"succeeded":   ListWorkRequestsOperationStatusSucceeded,
+	"waiting":     ListWorkRequestsOperationStatusWaiting,
+	"canceling":   ListWorkRequestsOperationStatusCanceling,
+	"canceled":    ListWorkRequestsOperationStatusCanceled,
+}
+
+// GetListWorkRequestsOperationStatusEnumValues Enumerates the set of values for ListWorkRequestsOperationStatusEnum
+func GetListWorkRequestsOperationStatusEnumValues() []ListWorkRequestsOperationStatusEnum {
+	values := make([]ListWorkRequestsOperationStatusEnum, 0)
+	for _, v := range mappingListWorkRequestsOperationStatusEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListWorkRequestsOperationStatusEnumStringValues Enumerates the set of values in String for ListWorkRequestsOperationStatusEnum
+func GetListWorkRequestsOperationStatusEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"FAILED",
+		"SUCCEEDED",
+		"WAITING",
+		"CANCELING",
+		"CANCELED",
+	}
+}
+
+// GetMappingListWorkRequestsOperationStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListWorkRequestsOperationStatusEnum(val string) (ListWorkRequestsOperationStatusEnum, bool) {
+	enum, ok := mappingListWorkRequestsOperationStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

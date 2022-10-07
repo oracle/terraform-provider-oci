@@ -29,10 +29,10 @@ type Anomaly struct {
 	// The estimated value for the anomaly point at given signal and timestamp/row
 	EstimatedValue *float64 `mandatory:"true" json:"estimatedValue"`
 
-	// A significant score ranged from 0 to 1 to each anomaly point.
+	// A significant score ranged from 0 to 1 to each anomaly point
 	AnomalyScore *float64 `mandatory:"true" json:"anomalyScore"`
 
-	// The value imputed by an IDP step for missing values in origin data.
+	// The value imputed by one of IDP step for missing values in origin data
 	ImputedValue *float64 `mandatory:"false" json:"imputedValue"`
 }
 

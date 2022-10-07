@@ -25,6 +25,9 @@ type BitbucketServerConfigSource struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Bitbucket Server configuration source.
 	ConfigurationSourceProviderId *string `mandatory:"true" json:"configurationSourceProviderId"`
 
+	// The URL of the Bitbucket Server repository for the configuration source.
+	RepositoryUrl *string `mandatory:"true" json:"repositoryUrl"`
+
 	// File path to the directory to use for running Terraform.
 	// If not specified, the root directory is used.
 	// Required when using a zip Terraform configuration (`configSourceType` value of `ZIP_UPLOAD`) that contains folders.
@@ -33,11 +36,17 @@ type BitbucketServerConfigSource struct {
 	// File Structure (Terraform Configurations for Resource Manager) (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/terraformconfigresourcemanager.htm#filestructure).
 	WorkingDirectory *string `mandatory:"false" json:"workingDirectory"`
 
-	// The URL of the Bitbucket Server repository for the configuration source.
-	RepositoryUrl *string `mandatory:"false" json:"repositoryUrl"`
-
 	// The name of the branch in the Bitbucket Server repository for the configuration source.
 	BranchName *string `mandatory:"false" json:"branchName"`
+
+	// Unique identifier for a Bitbucket Server project.
+	ProjectId *string `mandatory:"false" json:"projectId"`
+
+	// Bitbucket Server repository identifier, usually identified as <repository>.git.
+	RepositoryId *string `mandatory:"false" json:"repositoryId"`
+
+	// The clone URL of Bitbucket Server configuration source.
+	CloneUrl *string `mandatory:"false" json:"cloneUrl"`
 }
 
 //GetWorkingDirectory returns WorkingDirectory

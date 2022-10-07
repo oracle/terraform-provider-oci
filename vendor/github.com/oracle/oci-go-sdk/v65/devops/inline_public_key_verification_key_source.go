@@ -19,8 +19,11 @@ import (
 // InlinePublicKeyVerificationKeySource Specifies the Inline public key verification source details
 type InlinePublicKeyVerificationKeySource struct {
 
-	// An array of Base64 encoding of the public keys which was in binary GPG exported format. Array includes the current and previous versions of the key.
-	PublicKeys []string `mandatory:"true" json:"publicKeys"`
+	// Current version of Base64 encoding of the public key which is in binary GPG exported format.
+	CurrentPublicKey *string `mandatory:"true" json:"currentPublicKey"`
+
+	// Previous version of Base64 encoding of the public key which is in binary GPG exported format. This would be used for key rotation scenarios.
+	PreviousPublicKey *string `mandatory:"false" json:"previousPublicKey"`
 }
 
 func (m InlinePublicKeyVerificationKeySource) String() string {

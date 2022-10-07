@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// ObjectLocation A location in Object Storage that is uniquely identified by namespace name, bucket name, and object name.
+// ObjectLocation A location in Object Storage that is uniquely identified by namespace name, bucket name and object name.
 type ObjectLocation struct {
 
 	// Object Storage namespace name.

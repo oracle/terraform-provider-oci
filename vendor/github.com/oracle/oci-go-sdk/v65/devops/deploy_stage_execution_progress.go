@@ -124,6 +124,10 @@ func (m *deploystageexecutionprogress) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := ManualApprovalDeployStageExecutionProgress{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "MANAGED_SHELL":
+		mm := ManagedShellDeployStageExecutionProgress{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "OKE_DEPLOYMENT":
 		mm := OkeDeployStageExecutionProgress{}
 		err = json.Unmarshal(data, &mm)

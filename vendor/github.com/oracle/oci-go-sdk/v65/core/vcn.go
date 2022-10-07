@@ -70,7 +70,7 @@ type Vcn struct {
 
 	// A DNS label for the VCN, used in conjunction with the VNIC's hostname and
 	// subnet's DNS label to form a fully qualified domain name (FQDN) for each VNIC
-	// within this subnet (for example, `bminstance-1.subnet123.vcn1.oraclevcn.com`).
+	// within this subnet (for example, `bminstance1.subnet123.vcn1.oraclevcn.com`).
 	// Must be an alphanumeric string that begins with a letter.
 	// The value cannot be changed.
 	// The absence of this parameter means the Internet and VCN Resolver will

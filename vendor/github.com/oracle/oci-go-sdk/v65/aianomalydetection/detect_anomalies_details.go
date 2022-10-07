@@ -18,17 +18,17 @@ import (
 	"strings"
 )
 
-// DetectAnomaliesDetails Base class for the DetectAnomalies call. It contains the identifier that is
-// used for deciding what type of request this is.
+// DetectAnomaliesDetails Base class for the DetectAnomalies call. It contains the identifier that will
+// be used for deciding what type of request this is.
 type DetectAnomaliesDetails interface {
 
 	// The OCID of the trained model.
 	GetModelId() *string
 
-	// The value estimated during training is used by default. You can choose to provide a custom value.
+	// The value estimated during training would be used by default. Customer can choose to provide a custom value.
 	GetSensitivity() *float32
 
-	// State of the asset's behaviour calculated based on current and previous inference requests.
+	// State of the asset's behaviour calculated based on current and/or previous inference requests.
 	GetInferenceState() *string
 }
 

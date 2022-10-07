@@ -94,6 +94,10 @@ func (m *updatedeploystagedetails) UnmarshalPolymorphicJSON(data []byte) (interf
 		mm := UpdateOkeCanaryApprovalDeployStageDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "MANAGED_SHELL":
+		mm := UpdateManagedShellDeployStageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "OKE_DEPLOYMENT":
 		mm := UpdateOkeDeployStageDetails{}
 		err = json.Unmarshal(data, &mm)

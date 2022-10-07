@@ -39,6 +39,12 @@ type UpdateBitbucketServerConfigSourceDetails struct {
 
 	// The name of the branch within the Bitbucket Server repository.
 	BranchName *string `mandatory:"false" json:"branchName"`
+
+	// Unique identifier for a Bitbucket Server project.
+	ProjectId *string `mandatory:"false" json:"projectId"`
+
+	// Bitbucket Server repository identifier, usually identified as <repository>.git.
+	RepositoryId *string `mandatory:"false" json:"repositoryId"`
 }
 
 //GetWorkingDirectory returns WorkingDirectory

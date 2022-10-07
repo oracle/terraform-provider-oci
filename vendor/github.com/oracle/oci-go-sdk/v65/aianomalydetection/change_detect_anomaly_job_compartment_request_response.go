@@ -14,7 +14,7 @@ import (
 // ChangeDetectAnomalyJobCompartmentRequest wrapper for the ChangeDetectAnomalyJobCompartment operation
 type ChangeDetectAnomalyJobCompartmentRequest struct {
 
-	// Unique asynchronous job identifier.
+	// Unique Async Job identifier
 	DetectAnomalyJobId *string `mandatory:"true" contributesTo:"path" name:"detectAnomalyJobId"`
 
 	// The details to change the compartment of the async anomaly detect job.

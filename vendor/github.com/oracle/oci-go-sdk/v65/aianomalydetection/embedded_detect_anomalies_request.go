@@ -27,10 +27,10 @@ type EmbeddedDetectAnomaliesRequest struct {
 
 	Content []byte `mandatory:"true" json:"content"`
 
-	// The value estimated during training is used by default. You can choose to provide a custom value.
+	// The value estimated during training would be used by default. Customer can choose to provide a custom value.
 	Sensitivity *float32 `mandatory:"false" json:"sensitivity"`
 
-	// State of the asset's behaviour calculated based on current and previous inference requests.
+	// State of the asset's behaviour calculated based on current and/or previous inference requests.
 	InferenceState *string `mandatory:"false" json:"inferenceState"`
 
 	ContentType EmbeddedDetectAnomaliesRequestContentTypeEnum `mandatory:"false" json:"contentType,omitempty"`

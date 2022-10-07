@@ -131,6 +131,10 @@ func (m *createdeploystagedetails) UnmarshalPolymorphicJSON(data []byte) (interf
 		mm := CreateComputeInstanceGroupCanaryApprovalDeployStageDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "MANAGED_SHELL":
+		mm := CreateManagedShellDeployStageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "OKE_HELM_CHART_DEPLOYMENT":
 		mm := CreateOkeHelmChartDeployStageDetails{}
 		err = json.Unmarshal(data, &mm)

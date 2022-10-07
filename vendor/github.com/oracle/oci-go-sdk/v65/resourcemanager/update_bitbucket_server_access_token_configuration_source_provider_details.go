@@ -23,13 +23,6 @@ import (
 // This type corresponds to a configuration source provider in Bitbucket server that is authenticated with a personal access token.
 type UpdateBitbucketServerAccessTokenConfigurationSourceProviderDetails struct {
 
-	// The secret ocid which is used to authorize the user.
-	SecretId *string `mandatory:"true" json:"secretId"`
-
-	// The Bitbucket server service endpoint
-	// Example: `https://bitbucket.org/`
-	ApiEndpoint *string `mandatory:"true" json:"apiEndpoint"`
-
 	// Human-readable name of the configuration source provider. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -47,6 +40,13 @@ type UpdateBitbucketServerAccessTokenConfigurationSourceProviderDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The secret ocid which is used to authorize the user.
+	SecretId *string `mandatory:"false" json:"secretId"`
+
+	// The Bitbucket server service endpoint
+	// Example: `https://bitbucket.org/`
+	ApiEndpoint *string `mandatory:"false" json:"apiEndpoint"`
 }
 
 //GetDisplayName returns DisplayName

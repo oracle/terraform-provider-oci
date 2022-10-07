@@ -42,6 +42,12 @@ type ListMonitorsRequest struct {
 	// Example: `50`
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
+	// A filter to return the monitors whose maintenance window is currently active.
+	IsMaintenanceWindowActive *bool `mandatory:"false" contributesTo:"query" name:"isMaintenanceWindowActive"`
+
+	// A filter to return the monitors whose maintenance window is set.
+	IsMaintenanceWindowSet *bool `mandatory:"false" contributesTo:"query" name:"isMaintenanceWindowSet"`
+
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`). Default sort order is ascending.
 	SortOrder ListMonitorsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
@@ -227,27 +233,30 @@ type ListMonitorsSortByEnum string
 
 // Set of constants representing the allowable values for ListMonitorsSortByEnum
 const (
-	ListMonitorsSortByDisplayname ListMonitorsSortByEnum = "displayName"
-	ListMonitorsSortByTimecreated ListMonitorsSortByEnum = "timeCreated"
-	ListMonitorsSortByTimeupdated ListMonitorsSortByEnum = "timeUpdated"
-	ListMonitorsSortByStatus      ListMonitorsSortByEnum = "status"
-	ListMonitorsSortByMonitortype ListMonitorsSortByEnum = "monitorType"
+	ListMonitorsSortByDisplayname                  ListMonitorsSortByEnum = "displayName"
+	ListMonitorsSortByTimecreated                  ListMonitorsSortByEnum = "timeCreated"
+	ListMonitorsSortByTimeupdated                  ListMonitorsSortByEnum = "timeUpdated"
+	ListMonitorsSortByStatus                       ListMonitorsSortByEnum = "status"
+	ListMonitorsSortByMonitortype                  ListMonitorsSortByEnum = "monitorType"
+	ListMonitorsSortByMaintenancewindowtimestarted ListMonitorsSortByEnum = "maintenanceWindowTimeStarted"
 )
 
 var mappingListMonitorsSortByEnum = map[string]ListMonitorsSortByEnum{
-	"displayName": ListMonitorsSortByDisplayname,
-	"timeCreated": ListMonitorsSortByTimecreated,
-	"timeUpdated": ListMonitorsSortByTimeupdated,
-	"status":      ListMonitorsSortByStatus,
-	"monitorType": ListMonitorsSortByMonitortype,
+	"displayName":                  ListMonitorsSortByDisplayname,
+	"timeCreated":                  ListMonitorsSortByTimecreated,
+	"timeUpdated":                  ListMonitorsSortByTimeupdated,
+	"status":                       ListMonitorsSortByStatus,
+	"monitorType":                  ListMonitorsSortByMonitortype,
+	"maintenanceWindowTimeStarted": ListMonitorsSortByMaintenancewindowtimestarted,
 }
 
 var mappingListMonitorsSortByEnumLowerCase = map[string]ListMonitorsSortByEnum{
-	"displayname": ListMonitorsSortByDisplayname,
-	"timecreated": ListMonitorsSortByTimecreated,
-	"timeupdated": ListMonitorsSortByTimeupdated,
-	"status":      ListMonitorsSortByStatus,
-	"monitortype": ListMonitorsSortByMonitortype,
+	"displayname":                  ListMonitorsSortByDisplayname,
+	"timecreated":                  ListMonitorsSortByTimecreated,
+	"timeupdated":                  ListMonitorsSortByTimeupdated,
+	"status":                       ListMonitorsSortByStatus,
+	"monitortype":                  ListMonitorsSortByMonitortype,
+	"maintenancewindowtimestarted": ListMonitorsSortByMaintenancewindowtimestarted,
 }
 
 // GetListMonitorsSortByEnumValues Enumerates the set of values for ListMonitorsSortByEnum
@@ -267,6 +276,7 @@ func GetListMonitorsSortByEnumStringValues() []string {
 		"timeUpdated",
 		"status",
 		"monitorType",
+		"maintenanceWindowTimeStarted",
 	}
 }
 

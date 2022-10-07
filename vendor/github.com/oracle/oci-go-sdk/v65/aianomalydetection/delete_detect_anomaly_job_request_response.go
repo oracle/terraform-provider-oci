@@ -14,7 +14,7 @@ import (
 // DeleteDetectAnomalyJobRequest wrapper for the DeleteDetectAnomalyJob operation
 type DeleteDetectAnomalyJobRequest struct {
 
-	// Unique asynchronous job identifier.
+	// Unique Async Job identifier
 	DetectAnomalyJobId *string `mandatory:"true" contributesTo:"path" name:"detectAnomalyJobId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

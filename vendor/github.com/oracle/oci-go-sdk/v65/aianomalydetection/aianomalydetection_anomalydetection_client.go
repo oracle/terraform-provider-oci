@@ -258,7 +258,7 @@ func (client AnomalyDetectionClient) changeDataAssetCompartment(ctx context.Cont
 	return response, err
 }
 
-// ChangeDetectAnomalyJobCompartment Moves a asynchronous anomaly detect job resource from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
+// ChangeDetectAnomalyJobCompartment Moves a async anomaly detect job resource from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
 func (client AnomalyDetectionClient) ChangeDetectAnomalyJobCompartment(ctx context.Context, request ChangeDetectAnomalyJobCompartmentRequest) (response ChangeDetectAnomalyJobCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -823,7 +823,7 @@ func (client AnomalyDetectionClient) deleteDataAsset(ctx context.Context, reques
 	return response, err
 }
 
-// DeleteDetectAnomalyJob Deletes an accepted, but not not started detect anomaly asynchronous job.
+// DeleteDetectAnomalyJob Deletes an accepted but not not started detect anomaly async job.
 func (client AnomalyDetectionClient) DeleteDetectAnomalyJob(ctx context.Context, request DeleteDetectAnomalyJobRequest) (response DeleteDetectAnomalyJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1146,7 +1146,7 @@ func (client AnomalyDetectionClient) getDataAsset(ctx context.Context, request c
 	return response, err
 }
 
-// GetDetectAnomalyJob Gets a detect anomaly asynchronous job by identifier.
+// GetDetectAnomalyJob Gets a detect anomaly async job by identifier.
 func (client AnomalyDetectionClient) GetDetectAnomalyJob(ctx context.Context, request GetDetectAnomalyJobRequest) (response GetDetectAnomalyJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1464,7 +1464,7 @@ func (client AnomalyDetectionClient) listDataAssets(ctx context.Context, request
 	return response, err
 }
 
-// ListDetectAnomalyJobs Returns a list of all the Anomaly Detection jobs in the specified compartment.
+// ListDetectAnomalyJobs Returns a list of all the AI Service Anomaly Jobs in the specified compartment.
 func (client AnomalyDetectionClient) ListDetectAnomalyJobs(ctx context.Context, request ListDetectAnomalyJobsRequest) (response ListDetectAnomalyJobsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1782,6 +1782,64 @@ func (client AnomalyDetectionClient) listWorkRequests(ctx context.Context, reque
 	return response, err
 }
 
+// UnivariateInferenceWorkflowRequest Make a univariate detect call with detection data
+func (client AnomalyDetectionClient) UnivariateInferenceWorkflowRequest(ctx context.Context, request UnivariateInferenceWorkflowRequestRequest) (response UnivariateInferenceWorkflowRequestResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.univariateInferenceWorkflowRequest, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UnivariateInferenceWorkflowRequestResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UnivariateInferenceWorkflowRequestResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UnivariateInferenceWorkflowRequestResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UnivariateInferenceWorkflowRequestResponse")
+	}
+	return
+}
+
+// univariateInferenceWorkflowRequest implements the OCIOperation interface (enables retrying operations)
+func (client AnomalyDetectionClient) univariateInferenceWorkflowRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/univariateInferenceWorkflow", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UnivariateInferenceWorkflowRequestResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/UnivariateInferenceWorkflowResult/UnivariateInferenceWorkflowRequest"
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "UnivariateInferenceWorkflowRequest", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateAiPrivateEndpoint Updates the private reverse connection endpoint.
 func (client AnomalyDetectionClient) UpdateAiPrivateEndpoint(ctx context.Context, request UpdateAiPrivateEndpointRequest) (response UpdateAiPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1888,7 +1946,7 @@ func (client AnomalyDetectionClient) updateDataAsset(ctx context.Context, reques
 	return response, err
 }
 
-// UpdateDetectAnomalyJob Updates the detect anomaly asynchronous job by identifier.
+// UpdateDetectAnomalyJob Updates the detect anomaly async job by identifier.
 func (client AnomalyDetectionClient) UpdateDetectAnomalyJob(ctx context.Context, request UpdateDetectAnomalyJobRequest) (response UpdateDetectAnomalyJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

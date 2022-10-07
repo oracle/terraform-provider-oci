@@ -14,8 +14,17 @@ import (
 // ListDeploymentsRequest wrapper for the ListDeployments operation
 type ListDeploymentsRequest struct {
 
-	// The ID of the compartment in which to list resources.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
+
+	// The connection type which the deployment must support.
+	SupportedConnectionType ListDeploymentsSupportedConnectionTypeEnum `mandatory:"false" contributesTo:"query" name:"supportedConnectionType" omitEmpty:"true"`
+
+	// The OCID of the connection which for the deployment must be assigned.
+	AssignedConnectionId *string `mandatory:"false" contributesTo:"query" name:"assignedConnectionId"`
+
+	// Filters for compatible deployments which can be, but currently not assigned to the connection specified by its id.
+	AssignableConnectionId *string `mandatory:"false" contributesTo:"query" name:"assignableConnectionId"`
 
 	// A filter to return only the resources that match the 'lifecycleState' given.
 	LifecycleState ListDeploymentsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
@@ -32,13 +41,16 @@ type ListDeploymentsRequest struct {
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
-	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
+	// The page token representing the page at which to start retrieving results. This is usually
+	// retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// The sort order to use, either 'asc' or 'desc'.
 	SortOrder ListDeploymentsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field to sort by. Only one sort order can be provided. Default order for 'timeCreated' is descending.  Default order for 'displayName' is ascending. If no value is specified timeCreated is the default.
+	// The field to sort by. Only one sort order can be provided. Default order for 'timeCreated' is
+	// descending.  Default order for 'displayName' is ascending. If no value is specified
+	// timeCreated is the default.
 	SortBy ListDeploymentsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The client request ID for tracing.
@@ -80,6 +92,9 @@ func (request ListDeploymentsRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListDeploymentsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingListDeploymentsSupportedConnectionTypeEnum(string(request.SupportedConnectionType)); !ok && request.SupportedConnectionType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SupportedConnectionType: %s. Supported values are: %s.", request.SupportedConnectionType, strings.Join(GetListDeploymentsSupportedConnectionTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingListDeploymentsLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListDeploymentsLifecycleStateEnumStringValues(), ",")))
 	}
@@ -107,10 +122,13 @@ type ListDeploymentsResponse struct {
 	// A list of DeploymentCollection instances
 	DeploymentCollection `presentIn:"body"`
 
-	// A unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please include the request ID.
+	// A unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+	// particular request, please include the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For pagination of a list of items. When paging through a list, if this header appears in the response, then a partial list might have been returned. Include this value as the `page` parameter for the subsequent GET request to get the next batch of items.
+	// For pagination of a list of items. When paging through a list, if this header appears in the
+	// response, then a partial list might have been returned. Include this value as the `page`
+	// parameter for the subsequent GET request to get the next batch of items.
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 
@@ -121,6 +139,60 @@ func (response ListDeploymentsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListDeploymentsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListDeploymentsSupportedConnectionTypeEnum Enum with underlying type: string
+type ListDeploymentsSupportedConnectionTypeEnum string
+
+// Set of constants representing the allowable values for ListDeploymentsSupportedConnectionTypeEnum
+const (
+	ListDeploymentsSupportedConnectionTypeGoldengate       ListDeploymentsSupportedConnectionTypeEnum = "GOLDENGATE"
+	ListDeploymentsSupportedConnectionTypeKafka            ListDeploymentsSupportedConnectionTypeEnum = "KAFKA"
+	ListDeploymentsSupportedConnectionTypeMysql            ListDeploymentsSupportedConnectionTypeEnum = "MYSQL"
+	ListDeploymentsSupportedConnectionTypeOciObjectStorage ListDeploymentsSupportedConnectionTypeEnum = "OCI_OBJECT_STORAGE"
+	ListDeploymentsSupportedConnectionTypeOracle           ListDeploymentsSupportedConnectionTypeEnum = "ORACLE"
+)
+
+var mappingListDeploymentsSupportedConnectionTypeEnum = map[string]ListDeploymentsSupportedConnectionTypeEnum{
+	"GOLDENGATE":         ListDeploymentsSupportedConnectionTypeGoldengate,
+	"KAFKA":              ListDeploymentsSupportedConnectionTypeKafka,
+	"MYSQL":              ListDeploymentsSupportedConnectionTypeMysql,
+	"OCI_OBJECT_STORAGE": ListDeploymentsSupportedConnectionTypeOciObjectStorage,
+	"ORACLE":             ListDeploymentsSupportedConnectionTypeOracle,
+}
+
+var mappingListDeploymentsSupportedConnectionTypeEnumLowerCase = map[string]ListDeploymentsSupportedConnectionTypeEnum{
+	"goldengate":         ListDeploymentsSupportedConnectionTypeGoldengate,
+	"kafka":              ListDeploymentsSupportedConnectionTypeKafka,
+	"mysql":              ListDeploymentsSupportedConnectionTypeMysql,
+	"oci_object_storage": ListDeploymentsSupportedConnectionTypeOciObjectStorage,
+	"oracle":             ListDeploymentsSupportedConnectionTypeOracle,
+}
+
+// GetListDeploymentsSupportedConnectionTypeEnumValues Enumerates the set of values for ListDeploymentsSupportedConnectionTypeEnum
+func GetListDeploymentsSupportedConnectionTypeEnumValues() []ListDeploymentsSupportedConnectionTypeEnum {
+	values := make([]ListDeploymentsSupportedConnectionTypeEnum, 0)
+	for _, v := range mappingListDeploymentsSupportedConnectionTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListDeploymentsSupportedConnectionTypeEnumStringValues Enumerates the set of values in String for ListDeploymentsSupportedConnectionTypeEnum
+func GetListDeploymentsSupportedConnectionTypeEnumStringValues() []string {
+	return []string{
+		"GOLDENGATE",
+		"KAFKA",
+		"MYSQL",
+		"OCI_OBJECT_STORAGE",
+		"ORACLE",
+	}
+}
+
+// GetMappingListDeploymentsSupportedConnectionTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListDeploymentsSupportedConnectionTypeEnum(val string) (ListDeploymentsSupportedConnectionTypeEnum, bool) {
+	enum, ok := mappingListDeploymentsSupportedConnectionTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // ListDeploymentsLifecycleStateEnum Enum with underlying type: string

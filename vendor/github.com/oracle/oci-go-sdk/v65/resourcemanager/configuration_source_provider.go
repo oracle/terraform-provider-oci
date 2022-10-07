@@ -117,10 +117,6 @@ func (m *configurationsourceprovider) UnmarshalPolymorphicJSON(data []byte) (int
 
 	var err error
 	switch m.ConfigSourceProviderType {
-	case "VBS_ACCESS_TOKEN":
-		mm := VbsAccessTokenConfigurationSourceProvider{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "GITHUB_ACCESS_TOKEN":
 		mm := GithubAccessTokenConfigurationSourceProvider{}
 		err = json.Unmarshal(data, &mm)
@@ -264,7 +260,6 @@ const (
 	ConfigurationSourceProviderConfigSourceProviderTypeBitbucketServerAccessToken        ConfigurationSourceProviderConfigSourceProviderTypeEnum = "BITBUCKET_SERVER_ACCESS_TOKEN"
 	ConfigurationSourceProviderConfigSourceProviderTypeGitlabAccessToken                 ConfigurationSourceProviderConfigSourceProviderTypeEnum = "GITLAB_ACCESS_TOKEN"
 	ConfigurationSourceProviderConfigSourceProviderTypeGithubAccessToken                 ConfigurationSourceProviderConfigSourceProviderTypeEnum = "GITHUB_ACCESS_TOKEN"
-	ConfigurationSourceProviderConfigSourceProviderTypeVbsAccessToken                    ConfigurationSourceProviderConfigSourceProviderTypeEnum = "VBS_ACCESS_TOKEN"
 )
 
 var mappingConfigurationSourceProviderConfigSourceProviderTypeEnum = map[string]ConfigurationSourceProviderConfigSourceProviderTypeEnum{
@@ -272,7 +267,6 @@ var mappingConfigurationSourceProviderConfigSourceProviderTypeEnum = map[string]
 	"BITBUCKET_SERVER_ACCESS_TOKEN":        ConfigurationSourceProviderConfigSourceProviderTypeBitbucketServerAccessToken,
 	"GITLAB_ACCESS_TOKEN":                  ConfigurationSourceProviderConfigSourceProviderTypeGitlabAccessToken,
 	"GITHUB_ACCESS_TOKEN":                  ConfigurationSourceProviderConfigSourceProviderTypeGithubAccessToken,
-	"VBS_ACCESS_TOKEN":                     ConfigurationSourceProviderConfigSourceProviderTypeVbsAccessToken,
 }
 
 var mappingConfigurationSourceProviderConfigSourceProviderTypeEnumLowerCase = map[string]ConfigurationSourceProviderConfigSourceProviderTypeEnum{
@@ -280,7 +274,6 @@ var mappingConfigurationSourceProviderConfigSourceProviderTypeEnumLowerCase = ma
 	"bitbucket_server_access_token":        ConfigurationSourceProviderConfigSourceProviderTypeBitbucketServerAccessToken,
 	"gitlab_access_token":                  ConfigurationSourceProviderConfigSourceProviderTypeGitlabAccessToken,
 	"github_access_token":                  ConfigurationSourceProviderConfigSourceProviderTypeGithubAccessToken,
-	"vbs_access_token":                     ConfigurationSourceProviderConfigSourceProviderTypeVbsAccessToken,
 }
 
 // GetConfigurationSourceProviderConfigSourceProviderTypeEnumValues Enumerates the set of values for ConfigurationSourceProviderConfigSourceProviderTypeEnum
@@ -299,7 +292,6 @@ func GetConfigurationSourceProviderConfigSourceProviderTypeEnumStringValues() []
 		"BITBUCKET_SERVER_ACCESS_TOKEN",
 		"GITLAB_ACCESS_TOKEN",
 		"GITHUB_ACCESS_TOKEN",
-		"VBS_ACCESS_TOKEN",
 	}
 }
 

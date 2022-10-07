@@ -70,6 +70,8 @@ type MonitorSummary struct {
 	// If target is not specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script as it is.
 	Target *string `mandatory:"false" json:"target"`
 
+	MaintenanceWindowSchedule *MaintenanceWindowSchedule `mandatory:"false" json:"maintenanceWindowSchedule"`
+
 	// The time the resource was created, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)
 	// timestamp format.
 	// Example: `2020-02-12T22:47:12.613Z`
@@ -87,6 +89,9 @@ type MonitorSummary struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// List of monitor dimension tags.
+	MonitorDimensionTags []MonitorDimensionTag `mandatory:"false" json:"monitorDimensionTags"`
 }
 
 func (m MonitorSummary) String() string {

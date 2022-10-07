@@ -14,7 +14,7 @@ import (
 // GetDetectAnomalyJobRequest wrapper for the GetDetectAnomalyJob operation
 type GetDetectAnomalyJobRequest struct {
 
-	// Unique asynchronous job identifier.
+	// Unique Async Job identifier
 	DetectAnomalyJobId *string `mandatory:"true" contributesTo:"path" name:"detectAnomalyJobId"`
 
 	// The client request ID for tracing.

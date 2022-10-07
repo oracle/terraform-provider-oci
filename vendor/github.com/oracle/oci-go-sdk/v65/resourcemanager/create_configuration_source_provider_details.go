@@ -99,10 +99,6 @@ func (m *createconfigurationsourceproviderdetails) UnmarshalPolymorphicJSON(data
 		mm := CreateGithubAccessTokenConfigurationSourceProviderDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "VBS_ACCESS_TOKEN":
-		mm := CreateVbsAccessTokenConfigurationSourceProviderDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "BITBUCKET_SERVER_ACCESS_TOKEN":
 		mm := CreateBitbucketServerAccessTokenConfigurationSourceProviderDetails{}
 		err = json.Unmarshal(data, &mm)

@@ -27,7 +27,7 @@ type BitbucketServerConfigSourceRecord struct {
 	ConfigurationSourceProviderId *string `mandatory:"true" json:"configurationSourceProviderId"`
 
 	// The URL of the Bitbucket Server repository.
-	RepositoryUrl *string `mandatory:"false" json:"repositoryUrl"`
+	RepositoryUrl *string `mandatory:"true" json:"repositoryUrl"`
 
 	// The name of the branch within the Bitbucket Server repository.
 	BranchName *string `mandatory:"false" json:"branchName"`

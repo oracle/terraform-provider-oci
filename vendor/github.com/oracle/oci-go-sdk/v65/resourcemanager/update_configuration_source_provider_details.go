@@ -85,10 +85,6 @@ func (m *updateconfigurationsourceproviderdetails) UnmarshalPolymorphicJSON(data
 		mm := UpdateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "VBS_ACCESS_TOKEN":
-		mm := UpdateVbsAccessTokenConfigurationSourceProviderDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "BITBUCKET_SERVER_ACCESS_TOKEN":
 		mm := UpdateBitbucketServerAccessTokenConfigurationSourceProviderDetails{}
 		err = json.Unmarshal(data, &mm)

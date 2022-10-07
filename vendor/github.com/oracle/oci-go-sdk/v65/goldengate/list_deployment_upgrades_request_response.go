@@ -14,10 +14,10 @@ import (
 // ListDeploymentUpgradesRequest wrapper for the ListDeploymentUpgrades operation
 type ListDeploymentUpgradesRequest struct {
 
-	// The ID of the compartment in which to list resources.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// The ID of the deployment in which to list resources.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the deployment in which to list resources.
 	DeploymentId *string `mandatory:"false" contributesTo:"query" name:"deploymentId"`
 
 	// A filter to return only the resources that match the 'lifecycleState' given.
@@ -29,13 +29,16 @@ type ListDeploymentUpgradesRequest struct {
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
-	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
+	// The page token representing the page at which to start retrieving results. This is usually
+	// retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// The sort order to use, either 'asc' or 'desc'.
 	SortOrder ListDeploymentUpgradesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field to sort by. Only one sort order can be provided. Default order for 'timeCreated' is descending.  Default order for 'displayName' is ascending. If no value is specified timeCreated is the default.
+	// The field to sort by. Only one sort order can be provided. Default order for 'timeCreated' is
+	// descending.  Default order for 'displayName' is ascending. If no value is specified
+	// timeCreated is the default.
 	SortBy ListDeploymentUpgradesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The client request ID for tracing.
@@ -101,10 +104,13 @@ type ListDeploymentUpgradesResponse struct {
 	// A list of DeploymentUpgradeCollection instances
 	DeploymentUpgradeCollection `presentIn:"body"`
 
-	// A unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please include the request ID.
+	// A unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+	// particular request, please include the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For pagination of a list of items. When paging through a list, if this header appears in the response, then a partial list might have been returned. Include this value as the `page` parameter for the subsequent GET request to get the next batch of items.
+	// For pagination of a list of items. When paging through a list, if this header appears in the
+	// response, then a partial list might have been returned. Include this value as the `page`
+	// parameter for the subsequent GET request to get the next batch of items.
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

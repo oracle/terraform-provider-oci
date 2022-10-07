@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// ObjectStorageLocation This is the specialised JSON format with an additional field for 'locationType'. This is a required field
+// ObjectStorageLocation This is the specialised JSON format with an additional field for 'locationType' which is a required field
 // used for deciding if it is an object-storage location.
 type ObjectStorageLocation struct {
 

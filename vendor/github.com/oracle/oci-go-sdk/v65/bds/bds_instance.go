@@ -189,6 +189,7 @@ const (
 	BdsInstanceClusterVersionCdh6  BdsInstanceClusterVersionEnum = "CDH6"
 	BdsInstanceClusterVersionOdh1  BdsInstanceClusterVersionEnum = "ODH1"
 	BdsInstanceClusterVersionOdh09 BdsInstanceClusterVersionEnum = "ODH0_9"
+	BdsInstanceClusterVersionOdh20 BdsInstanceClusterVersionEnum = "ODH2_0"
 )
 
 var mappingBdsInstanceClusterVersionEnum = map[string]BdsInstanceClusterVersionEnum{
@@ -196,6 +197,7 @@ var mappingBdsInstanceClusterVersionEnum = map[string]BdsInstanceClusterVersionE
 	"CDH6":   BdsInstanceClusterVersionCdh6,
 	"ODH1":   BdsInstanceClusterVersionOdh1,
 	"ODH0_9": BdsInstanceClusterVersionOdh09,
+	"ODH2_0": BdsInstanceClusterVersionOdh20,
 }
 
 var mappingBdsInstanceClusterVersionEnumLowerCase = map[string]BdsInstanceClusterVersionEnum{
@@ -203,6 +205,7 @@ var mappingBdsInstanceClusterVersionEnumLowerCase = map[string]BdsInstanceCluste
 	"cdh6":   BdsInstanceClusterVersionCdh6,
 	"odh1":   BdsInstanceClusterVersionOdh1,
 	"odh0_9": BdsInstanceClusterVersionOdh09,
+	"odh2_0": BdsInstanceClusterVersionOdh20,
 }
 
 // GetBdsInstanceClusterVersionEnumValues Enumerates the set of values for BdsInstanceClusterVersionEnum
@@ -221,6 +224,7 @@ func GetBdsInstanceClusterVersionEnumStringValues() []string {
 		"CDH6",
 		"ODH1",
 		"ODH0_9",
+		"ODH2_0",
 	}
 }
 
@@ -238,18 +242,24 @@ const (
 	BdsInstanceClusterProfileHadoop BdsInstanceClusterProfileEnum = "HADOOP"
 	BdsInstanceClusterProfileHive   BdsInstanceClusterProfileEnum = "HIVE"
 	BdsInstanceClusterProfileSpark  BdsInstanceClusterProfileEnum = "SPARK"
+	BdsInstanceClusterProfileHbase  BdsInstanceClusterProfileEnum = "HBASE"
+	BdsInstanceClusterProfileTrino  BdsInstanceClusterProfileEnum = "TRINO"
 )
 
 var mappingBdsInstanceClusterProfileEnum = map[string]BdsInstanceClusterProfileEnum{
 	"HADOOP": BdsInstanceClusterProfileHadoop,
 	"HIVE":   BdsInstanceClusterProfileHive,
 	"SPARK":  BdsInstanceClusterProfileSpark,
+	"HBASE":  BdsInstanceClusterProfileHbase,
+	"TRINO":  BdsInstanceClusterProfileTrino,
 }
 
 var mappingBdsInstanceClusterProfileEnumLowerCase = map[string]BdsInstanceClusterProfileEnum{
 	"hadoop": BdsInstanceClusterProfileHadoop,
 	"hive":   BdsInstanceClusterProfileHive,
 	"spark":  BdsInstanceClusterProfileSpark,
+	"hbase":  BdsInstanceClusterProfileHbase,
+	"trino":  BdsInstanceClusterProfileTrino,
 }
 
 // GetBdsInstanceClusterProfileEnumValues Enumerates the set of values for BdsInstanceClusterProfileEnum
@@ -267,6 +277,8 @@ func GetBdsInstanceClusterProfileEnumStringValues() []string {
 		"HADOOP",
 		"HIVE",
 		"SPARK",
+		"HBASE",
+		"TRINO",
 	}
 }
 

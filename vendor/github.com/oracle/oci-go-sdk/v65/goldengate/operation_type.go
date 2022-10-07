@@ -29,12 +29,18 @@ const (
 	OperationTypeGoldengateDeploymentRestore           OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_RESTORE"
 	OperationTypeGoldengateDeploymentStart             OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_START"
 	OperationTypeGoldengateDeploymentStop              OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_STOP"
-	OperationTypeGoldengateDeploymentPatch             OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_PATCH"
 	OperationTypeGoldengateDeploymentUpgrade           OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_UPGRADE"
 	OperationTypeGoldengateDeploymentBackupCreate      OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_BACKUP_CREATE"
 	OperationTypeGoldengateDeploymentBackupDelete      OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_BACKUP_DELETE"
 	OperationTypeGoldengateDeploymentBackupCancel      OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_BACKUP_CANCEL"
+	OperationTypeGoldengateConnectionCreate            OperationTypeEnum = "GOLDENGATE_CONNECTION_CREATE"
+	OperationTypeGoldengateConnectionUpdate            OperationTypeEnum = "GOLDENGATE_CONNECTION_UPDATE"
+	OperationTypeGoldengateConnectionDelete            OperationTypeEnum = "GOLDENGATE_CONNECTION_DELETE"
+	OperationTypeGoldengateConnectionMove              OperationTypeEnum = "GOLDENGATE_CONNECTION_MOVE"
+	OperationTypeGoldengateConnectionAssignmentCreate  OperationTypeEnum = "GOLDENGATE_CONNECTION_ASSIGNMENT_CREATE"
+	OperationTypeGoldengateConnectionAssigmnentDelete  OperationTypeEnum = "GOLDENGATE_CONNECTION_ASSIGMNENT_DELETE"
 	OperationTypeGoldengateDeploymentDiagnosticCollect OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_DIAGNOSTIC_COLLECT"
+	OperationTypeGoldengateDeploymentPatch             OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_PATCH"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -49,12 +55,18 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"GOLDENGATE_DEPLOYMENT_RESTORE":            OperationTypeGoldengateDeploymentRestore,
 	"GOLDENGATE_DEPLOYMENT_START":              OperationTypeGoldengateDeploymentStart,
 	"GOLDENGATE_DEPLOYMENT_STOP":               OperationTypeGoldengateDeploymentStop,
-	"GOLDENGATE_DEPLOYMENT_PATCH":              OperationTypeGoldengateDeploymentPatch,
 	"GOLDENGATE_DEPLOYMENT_UPGRADE":            OperationTypeGoldengateDeploymentUpgrade,
 	"GOLDENGATE_DEPLOYMENT_BACKUP_CREATE":      OperationTypeGoldengateDeploymentBackupCreate,
 	"GOLDENGATE_DEPLOYMENT_BACKUP_DELETE":      OperationTypeGoldengateDeploymentBackupDelete,
 	"GOLDENGATE_DEPLOYMENT_BACKUP_CANCEL":      OperationTypeGoldengateDeploymentBackupCancel,
+	"GOLDENGATE_CONNECTION_CREATE":             OperationTypeGoldengateConnectionCreate,
+	"GOLDENGATE_CONNECTION_UPDATE":             OperationTypeGoldengateConnectionUpdate,
+	"GOLDENGATE_CONNECTION_DELETE":             OperationTypeGoldengateConnectionDelete,
+	"GOLDENGATE_CONNECTION_MOVE":               OperationTypeGoldengateConnectionMove,
+	"GOLDENGATE_CONNECTION_ASSIGNMENT_CREATE":  OperationTypeGoldengateConnectionAssignmentCreate,
+	"GOLDENGATE_CONNECTION_ASSIGMNENT_DELETE":  OperationTypeGoldengateConnectionAssigmnentDelete,
 	"GOLDENGATE_DEPLOYMENT_DIAGNOSTIC_COLLECT": OperationTypeGoldengateDeploymentDiagnosticCollect,
+	"GOLDENGATE_DEPLOYMENT_PATCH":              OperationTypeGoldengateDeploymentPatch,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -69,12 +81,18 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"goldengate_deployment_restore":            OperationTypeGoldengateDeploymentRestore,
 	"goldengate_deployment_start":              OperationTypeGoldengateDeploymentStart,
 	"goldengate_deployment_stop":               OperationTypeGoldengateDeploymentStop,
-	"goldengate_deployment_patch":              OperationTypeGoldengateDeploymentPatch,
 	"goldengate_deployment_upgrade":            OperationTypeGoldengateDeploymentUpgrade,
 	"goldengate_deployment_backup_create":      OperationTypeGoldengateDeploymentBackupCreate,
 	"goldengate_deployment_backup_delete":      OperationTypeGoldengateDeploymentBackupDelete,
 	"goldengate_deployment_backup_cancel":      OperationTypeGoldengateDeploymentBackupCancel,
+	"goldengate_connection_create":             OperationTypeGoldengateConnectionCreate,
+	"goldengate_connection_update":             OperationTypeGoldengateConnectionUpdate,
+	"goldengate_connection_delete":             OperationTypeGoldengateConnectionDelete,
+	"goldengate_connection_move":               OperationTypeGoldengateConnectionMove,
+	"goldengate_connection_assignment_create":  OperationTypeGoldengateConnectionAssignmentCreate,
+	"goldengate_connection_assigmnent_delete":  OperationTypeGoldengateConnectionAssigmnentDelete,
 	"goldengate_deployment_diagnostic_collect": OperationTypeGoldengateDeploymentDiagnosticCollect,
+	"goldengate_deployment_patch":              OperationTypeGoldengateDeploymentPatch,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -100,12 +118,18 @@ func GetOperationTypeEnumStringValues() []string {
 		"GOLDENGATE_DEPLOYMENT_RESTORE",
 		"GOLDENGATE_DEPLOYMENT_START",
 		"GOLDENGATE_DEPLOYMENT_STOP",
-		"GOLDENGATE_DEPLOYMENT_PATCH",
 		"GOLDENGATE_DEPLOYMENT_UPGRADE",
 		"GOLDENGATE_DEPLOYMENT_BACKUP_CREATE",
 		"GOLDENGATE_DEPLOYMENT_BACKUP_DELETE",
 		"GOLDENGATE_DEPLOYMENT_BACKUP_CANCEL",
+		"GOLDENGATE_CONNECTION_CREATE",
+		"GOLDENGATE_CONNECTION_UPDATE",
+		"GOLDENGATE_CONNECTION_DELETE",
+		"GOLDENGATE_CONNECTION_MOVE",
+		"GOLDENGATE_CONNECTION_ASSIGNMENT_CREATE",
+		"GOLDENGATE_CONNECTION_ASSIGMNENT_DELETE",
 		"GOLDENGATE_DEPLOYMENT_DIAGNOSTIC_COLLECT",
+		"GOLDENGATE_DEPLOYMENT_PATCH",
 	}
 }
 

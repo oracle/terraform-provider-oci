@@ -80,7 +80,7 @@ type CreateInternalVnicDetails struct {
 
 	// The hostname for the VNIC's primary private IP. Used for DNS. The value is the hostname
 	// portion of the primary private IP's fully qualified domain name (FQDN)
-	// (for example, `bminstance-1` in FQDN `bminstance-1.subnet123.vcn1.oraclevcn.com`).
+	// (for example, `bminstance1` in FQDN `bminstance1.subnet123.vcn1.oraclevcn.com`).
 	// Must be unique across all VNICs in the subnet and comply with
 	// RFC 952 (https://tools.ietf.org/html/rfc952) and
 	// RFC 1123 (https://tools.ietf.org/html/rfc1123).
@@ -94,7 +94,7 @@ type CreateInternalVnicDetails struct {
 	// of the deprecated `hostnameLabel` in
 	// LaunchInstanceDetails.
 	// If you provide both, the values must match.
-	// Example: `bminstance-1`
+	// Example: `bminstance1`
 	HostnameLabel *string `mandatory:"false" json:"hostnameLabel"`
 
 	// Indicates if the VNIC is associated with (and will be attached to) a BM instance.
@@ -374,9 +374,13 @@ const (
 	CreateInternalVnicDetailsVnicShapeEntirehostB125g                 CreateInternalVnicDetailsVnicShapeEnum = "ENTIREHOST_B1_25G"
 	CreateInternalVnicDetailsVnicShapeMicroVmFixed0048E125g           CreateInternalVnicDetailsVnicShapeEnum = "MICRO_VM_FIXED0048_E1_25G"
 	CreateInternalVnicDetailsVnicShapeMicroLbFixed0001E125g           CreateInternalVnicDetailsVnicShapeEnum = "MICRO_LB_FIXED0001_E1_25G"
+	CreateInternalVnicDetailsVnicShapeVnicaasFixed0025                CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_FIXED0025"
 	CreateInternalVnicDetailsVnicShapeVnicaasFixed0200                CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_FIXED0200"
 	CreateInternalVnicDetailsVnicShapeVnicaasFixed0400                CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_FIXED0400"
+	CreateInternalVnicDetailsVnicShapeVnicaasFixed0625                CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_FIXED0625"
 	CreateInternalVnicDetailsVnicShapeVnicaasFixed0700                CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_FIXED0700"
+	CreateInternalVnicDetailsVnicShapeVnicaasFixed1250                CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_FIXED1250"
+	CreateInternalVnicDetailsVnicShapeVnicaasFwaas6g250m              CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_FWAAS_6G_250M"
 	CreateInternalVnicDetailsVnicShapeVnicaasNlbApproved10g           CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_NLB_APPROVED_10G"
 	CreateInternalVnicDetailsVnicShapeVnicaasNlbApproved25g           CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_NLB_APPROVED_25G"
 	CreateInternalVnicDetailsVnicShapeVnicaasTelesis25g               CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_TELESIS_25G"
@@ -1223,6 +1227,8 @@ const (
 	CreateInternalVnicDetailsVnicShapeStandardVmFixed4800X950g        CreateInternalVnicDetailsVnicShapeEnum = "STANDARD_VM_FIXED4800_X9_50G"
 	CreateInternalVnicDetailsVnicShapeStandardVmFixed4900X950g        CreateInternalVnicDetailsVnicShapeEnum = "STANDARD_VM_FIXED4900_X9_50G"
 	CreateInternalVnicDetailsVnicShapeStandardVmFixed5000X950g        CreateInternalVnicDetailsVnicShapeEnum = "STANDARD_VM_FIXED5000_X9_50G"
+	CreateInternalVnicDetailsVnicShapeA10GpuVmFixed2400X950g          CreateInternalVnicDetailsVnicShapeEnum = "A10_GPU_VM_FIXED2400_X9_50G"
+	CreateInternalVnicDetailsVnicShapeA10GpuVmFixed4800X950g          CreateInternalVnicDetailsVnicShapeEnum = "A10_GPU_VM_FIXED4800_X9_50G"
 	CreateInternalVnicDetailsVnicShapeSubcoreStandardVmFixed0025X950g CreateInternalVnicDetailsVnicShapeEnum = "SUBCORE_STANDARD_VM_FIXED0025_X9_50G"
 	CreateInternalVnicDetailsVnicShapeSubcoreStandardVmFixed0050X950g CreateInternalVnicDetailsVnicShapeEnum = "SUBCORE_STANDARD_VM_FIXED0050_X9_50G"
 	CreateInternalVnicDetailsVnicShapeSubcoreStandardVmFixed0075X950g CreateInternalVnicDetailsVnicShapeEnum = "SUBCORE_STANDARD_VM_FIXED0075_X9_50G"
@@ -1434,9 +1440,13 @@ var mappingCreateInternalVnicDetailsVnicShapeEnum = map[string]CreateInternalVni
 	"ENTIREHOST_B1_25G":                    CreateInternalVnicDetailsVnicShapeEntirehostB125g,
 	"MICRO_VM_FIXED0048_E1_25G":            CreateInternalVnicDetailsVnicShapeMicroVmFixed0048E125g,
 	"MICRO_LB_FIXED0001_E1_25G":            CreateInternalVnicDetailsVnicShapeMicroLbFixed0001E125g,
+	"VNICAAS_FIXED0025":                    CreateInternalVnicDetailsVnicShapeVnicaasFixed0025,
 	"VNICAAS_FIXED0200":                    CreateInternalVnicDetailsVnicShapeVnicaasFixed0200,
 	"VNICAAS_FIXED0400":                    CreateInternalVnicDetailsVnicShapeVnicaasFixed0400,
+	"VNICAAS_FIXED0625":                    CreateInternalVnicDetailsVnicShapeVnicaasFixed0625,
 	"VNICAAS_FIXED0700":                    CreateInternalVnicDetailsVnicShapeVnicaasFixed0700,
+	"VNICAAS_FIXED1250":                    CreateInternalVnicDetailsVnicShapeVnicaasFixed1250,
+	"VNICAAS_FWAAS_6G_250M":                CreateInternalVnicDetailsVnicShapeVnicaasFwaas6g250m,
 	"VNICAAS_NLB_APPROVED_10G":             CreateInternalVnicDetailsVnicShapeVnicaasNlbApproved10g,
 	"VNICAAS_NLB_APPROVED_25G":             CreateInternalVnicDetailsVnicShapeVnicaasNlbApproved25g,
 	"VNICAAS_TELESIS_25G":                  CreateInternalVnicDetailsVnicShapeVnicaasTelesis25g,
@@ -2283,6 +2293,8 @@ var mappingCreateInternalVnicDetailsVnicShapeEnum = map[string]CreateInternalVni
 	"STANDARD_VM_FIXED4800_X9_50G":         CreateInternalVnicDetailsVnicShapeStandardVmFixed4800X950g,
 	"STANDARD_VM_FIXED4900_X9_50G":         CreateInternalVnicDetailsVnicShapeStandardVmFixed4900X950g,
 	"STANDARD_VM_FIXED5000_X9_50G":         CreateInternalVnicDetailsVnicShapeStandardVmFixed5000X950g,
+	"A10_GPU_VM_FIXED2400_X9_50G":          CreateInternalVnicDetailsVnicShapeA10GpuVmFixed2400X950g,
+	"A10_GPU_VM_FIXED4800_X9_50G":          CreateInternalVnicDetailsVnicShapeA10GpuVmFixed4800X950g,
 	"SUBCORE_STANDARD_VM_FIXED0025_X9_50G": CreateInternalVnicDetailsVnicShapeSubcoreStandardVmFixed0025X950g,
 	"SUBCORE_STANDARD_VM_FIXED0050_X9_50G": CreateInternalVnicDetailsVnicShapeSubcoreStandardVmFixed0050X950g,
 	"SUBCORE_STANDARD_VM_FIXED0075_X9_50G": CreateInternalVnicDetailsVnicShapeSubcoreStandardVmFixed0075X950g,
@@ -2494,9 +2506,13 @@ var mappingCreateInternalVnicDetailsVnicShapeEnumLowerCase = map[string]CreateIn
 	"entirehost_b1_25g":                    CreateInternalVnicDetailsVnicShapeEntirehostB125g,
 	"micro_vm_fixed0048_e1_25g":            CreateInternalVnicDetailsVnicShapeMicroVmFixed0048E125g,
 	"micro_lb_fixed0001_e1_25g":            CreateInternalVnicDetailsVnicShapeMicroLbFixed0001E125g,
+	"vnicaas_fixed0025":                    CreateInternalVnicDetailsVnicShapeVnicaasFixed0025,
 	"vnicaas_fixed0200":                    CreateInternalVnicDetailsVnicShapeVnicaasFixed0200,
 	"vnicaas_fixed0400":                    CreateInternalVnicDetailsVnicShapeVnicaasFixed0400,
+	"vnicaas_fixed0625":                    CreateInternalVnicDetailsVnicShapeVnicaasFixed0625,
 	"vnicaas_fixed0700":                    CreateInternalVnicDetailsVnicShapeVnicaasFixed0700,
+	"vnicaas_fixed1250":                    CreateInternalVnicDetailsVnicShapeVnicaasFixed1250,
+	"vnicaas_fwaas_6g_250m":                CreateInternalVnicDetailsVnicShapeVnicaasFwaas6g250m,
 	"vnicaas_nlb_approved_10g":             CreateInternalVnicDetailsVnicShapeVnicaasNlbApproved10g,
 	"vnicaas_nlb_approved_25g":             CreateInternalVnicDetailsVnicShapeVnicaasNlbApproved25g,
 	"vnicaas_telesis_25g":                  CreateInternalVnicDetailsVnicShapeVnicaasTelesis25g,
@@ -3343,6 +3359,8 @@ var mappingCreateInternalVnicDetailsVnicShapeEnumLowerCase = map[string]CreateIn
 	"standard_vm_fixed4800_x9_50g":         CreateInternalVnicDetailsVnicShapeStandardVmFixed4800X950g,
 	"standard_vm_fixed4900_x9_50g":         CreateInternalVnicDetailsVnicShapeStandardVmFixed4900X950g,
 	"standard_vm_fixed5000_x9_50g":         CreateInternalVnicDetailsVnicShapeStandardVmFixed5000X950g,
+	"a10_gpu_vm_fixed2400_x9_50g":          CreateInternalVnicDetailsVnicShapeA10GpuVmFixed2400X950g,
+	"a10_gpu_vm_fixed4800_x9_50g":          CreateInternalVnicDetailsVnicShapeA10GpuVmFixed4800X950g,
 	"subcore_standard_vm_fixed0025_x9_50g": CreateInternalVnicDetailsVnicShapeSubcoreStandardVmFixed0025X950g,
 	"subcore_standard_vm_fixed0050_x9_50g": CreateInternalVnicDetailsVnicShapeSubcoreStandardVmFixed0050X950g,
 	"subcore_standard_vm_fixed0075_x9_50g": CreateInternalVnicDetailsVnicShapeSubcoreStandardVmFixed0075X950g,
@@ -3565,9 +3583,13 @@ func GetCreateInternalVnicDetailsVnicShapeEnumStringValues() []string {
 		"ENTIREHOST_B1_25G",
 		"MICRO_VM_FIXED0048_E1_25G",
 		"MICRO_LB_FIXED0001_E1_25G",
+		"VNICAAS_FIXED0025",
 		"VNICAAS_FIXED0200",
 		"VNICAAS_FIXED0400",
+		"VNICAAS_FIXED0625",
 		"VNICAAS_FIXED0700",
+		"VNICAAS_FIXED1250",
+		"VNICAAS_FWAAS_6G_250M",
 		"VNICAAS_NLB_APPROVED_10G",
 		"VNICAAS_NLB_APPROVED_25G",
 		"VNICAAS_TELESIS_25G",
@@ -4414,6 +4436,8 @@ func GetCreateInternalVnicDetailsVnicShapeEnumStringValues() []string {
 		"STANDARD_VM_FIXED4800_X9_50G",
 		"STANDARD_VM_FIXED4900_X9_50G",
 		"STANDARD_VM_FIXED5000_X9_50G",
+		"A10_GPU_VM_FIXED2400_X9_50G",
+		"A10_GPU_VM_FIXED4800_X9_50G",
 		"SUBCORE_STANDARD_VM_FIXED0025_X9_50G",
 		"SUBCORE_STANDARD_VM_FIXED0050_X9_50G",
 		"SUBCORE_STANDARD_VM_FIXED0075_X9_50G",

@@ -27,13 +27,16 @@ type BitbucketCloudConfigSourceRecord struct {
 	ConfigurationSourceProviderId *string `mandatory:"true" json:"configurationSourceProviderId"`
 
 	// The URL of the Bitbucket Cloud repository.
-	RepositoryUrl *string `mandatory:"false" json:"repositoryUrl"`
+	RepositoryUrl *string `mandatory:"true" json:"repositoryUrl"`
+
+	// The id of the workspace in Bitbucket Cloud for the configuration source.
+	WorkspaceId *string `mandatory:"true" json:"workspaceId"`
 
 	// The name of the branch within the Bitbucket Cloud repository.
 	BranchName *string `mandatory:"false" json:"branchName"`
 
-	// The id of the workspace in Bitbucket Cloud for the configuration source.
-	WorkspaceId *string `mandatory:"false" json:"workspaceId"`
+	// The unique identifier (SHA-1 hash) of the individual change to the Bitbucket Cloud repository.
+	CommitId *string `mandatory:"false" json:"commitId"`
 }
 
 func (m BitbucketCloudConfigSourceRecord) String() string {
