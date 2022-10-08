@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_cloud_migrations_migration_plan_available_shapes"
 sidebar_current: "docs-oci-datasource-cloud_migrations-migration_plan_available_shapes"
 description: |-
-Provides the list of Migration Plan Available Shapes in Oracle Cloud Infrastructure Cloud Migrations service
+  Provides the list of Migration Plan Available Shapes in Oracle Cloud Infrastructure Cloud Migrations service
 ---
 
 # Data Source: oci_cloud_migrations_migration_plan_available_shapes

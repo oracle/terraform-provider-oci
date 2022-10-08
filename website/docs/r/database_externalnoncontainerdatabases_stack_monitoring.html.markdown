@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_database_externalnoncontainerdatabases_stack_monitoring"
 sidebar_current: "docs-oci-resource-database-externalnoncontainerdatabases_stack_monitoring"
 description: |-
-Provides the Externalnoncontainerdatabases Stack Monitoring resource in Oracle Cloud Infrastructure Database service
+  Provides the Externalnoncontainerdatabases Stack Monitoring resource in Oracle Cloud Infrastructure Database service
 ---
 
 # oci_database_externalnoncontainerdatabases_stack_monitoring
