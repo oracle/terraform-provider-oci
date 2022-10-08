@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_license_manager_product_license_consumer"
 sidebar_current: "docs-oci-datasource-license_manager-product_license_consumer"
 description: |-
-Provides details about a specific Product License Consumer in Oracle Cloud Infrastructure License Manager service
+  Provides details about a specific Product License Consumer in Oracle Cloud Infrastructure License Manager service
 ---
 
 # Data Source: oci_license_manager_product_license_consumer
