@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_license_manager_top_utilized_product_license"
 sidebar_current: "docs-oci-datasource-license_manager-top_utilized_product_license"
 description: |-
-Provides details about a specific Top Utilized Product License in Oracle Cloud Infrastructure License Manager service
+  Provides details about a specific Top Utilized Product License in Oracle Cloud Infrastructure License Manager service
 ---
 
 # Data Source: oci_license_manager_top_utilized_product_license
