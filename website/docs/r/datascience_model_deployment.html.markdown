@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_datascience_model_deployment"
 sidebar_current: "docs-oci-resource-datascience-model_deployment"
 description: |-
-Provides the Model Deployment resource in Oracle Cloud Infrastructure Data Science service
+  Provides the Model Deployment resource in Oracle Cloud Infrastructure Data Science service
 ---
 
 # oci_datascience_model_deployment
