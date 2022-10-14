@@ -23,7 +23,7 @@ type AnomalyDetectResult struct {
 	// A list to hold anomaly points grouped by timestamp/row.
 	DetectionResults []DetectionResultItem `mandatory:"true" json:"detectionResults"`
 
-	// State of the asset's behaviour calculated based on current and/or previous inference requests.
+	// State of the asset's behavior calculated based on current and previous inference requests.
 	InferenceState *string `mandatory:"false" json:"inferenceState"`
 }
 

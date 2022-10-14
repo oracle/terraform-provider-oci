@@ -24,13 +24,13 @@ import (
 type UpdateAutonomousDatabaseDetails struct {
 
 	// The number of CPUs to be made available to the Autonomous Database.
-	// **Note:** This parameter cannot be used with the `ocpuCount` or `ecpuCount` parameter.
+	// **Note:** This parameter cannot be used with the `ocpuCount` or `computeCount` parameter.
 	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
 
 	LongTermBackupSchedule *LongTermBackUpScheduleDetails `mandatory:"false" json:"longTermBackupSchedule"`
 
-	// The number of ECPU to be made available to the database. If it's autonomous shared database, then the minimum value is 2, if it's autonomous dedicated database, then the minimum value is 0.2.
-	EcpuCount *float32 `mandatory:"false" json:"ecpuCount"`
+	// The compute amount available to the database. Minimum and maximum values depend on the compute model and whether the database is on Shared or Dedicated infrastructure. For an Autonomous Database on Shared infrastructure, the 'ECPU' compute model requires values in multiples of two. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value.@endif
+	ComputeCount *float32 `mandatory:"false" json:"computeCount"`
 
 	// The number of OCPU cores to be made available to the Autonomous Database.
 	// For databases on dedicated Exadata infrastructure, you can specify a fractional value for this parameter. Fractional values are not supported for Autonomous Database on shared Exadata infrastructure.
@@ -205,6 +205,12 @@ type UpdateAutonomousDatabaseDetails struct {
 
 	// List of database tools details.
 	DbToolsDetails []DatabaseTool `mandatory:"false" json:"dbToolsDetails"`
+
+	// The OCI vault secret [/Content/General/Concepts/identifiers.htm]OCID.
+	SecretId *string `mandatory:"false" json:"secretId"`
+
+	// The version of the vault secret. If no version is specified, the latest version will be used.
+	SecretVersionNumber *int `mandatory:"false" json:"secretVersionNumber"`
 }
 
 func (m UpdateAutonomousDatabaseDetails) String() string {

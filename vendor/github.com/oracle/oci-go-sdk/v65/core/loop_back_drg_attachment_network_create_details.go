@@ -25,19 +25,24 @@ import (
 // LoopBackDrgAttachmentNetworkCreateDetails Specifies the Loopback attachment.
 type LoopBackDrgAttachmentNetworkCreateDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
-	Id *string `mandatory:"true" json:"id"`
-
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Ipsec tunnel attachment.
-	FrontEndAttachmentId []string `mandatory:"true" json:"frontEndAttachmentId"`
-
 	// the oracle ip address of the tunnel headend.
 	LoopBackIp *string `mandatory:"true" json:"loopBackIp"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
+	Id *string `mandatory:"false" json:"id"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
+	Ids []string `mandatory:"false" json:"ids"`
 }
 
 //GetId returns Id
 func (m LoopBackDrgAttachmentNetworkCreateDetails) GetId() *string {
 	return m.Id
+}
+
+//GetIds returns Ids
+func (m LoopBackDrgAttachmentNetworkCreateDetails) GetIds() []string {
+	return m.Ids
 }
 
 func (m LoopBackDrgAttachmentNetworkCreateDetails) String() string {

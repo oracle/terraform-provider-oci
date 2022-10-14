@@ -90,9 +90,10 @@ func (client *AnomalyDetectionClient) ConfigurationProvider() *common.Configurat
 }
 
 // CancelWorkRequest Cancel work request with the given ID.
+// A default retry strategy applies to this operation CancelWorkRequest()
 func (client AnomalyDetectionClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -143,9 +144,10 @@ func (client AnomalyDetectionClient) cancelWorkRequest(ctx context.Context, requ
 }
 
 // ChangeAiPrivateEndpointCompartment Moves a resource into a different compartment. When provided, 'If-Match' is checked against 'ETag' values of the resource.
+// A default retry strategy applies to this operation ChangeAiPrivateEndpointCompartment()
 func (client AnomalyDetectionClient) ChangeAiPrivateEndpointCompartment(ctx context.Context, request ChangeAiPrivateEndpointCompartmentRequest) (response ChangeAiPrivateEndpointCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -201,9 +203,10 @@ func (client AnomalyDetectionClient) changeAiPrivateEndpointCompartment(ctx cont
 }
 
 // ChangeDataAssetCompartment Changing the compartment of a data asset.
+// A default retry strategy applies to this operation ChangeDataAssetCompartment()
 func (client AnomalyDetectionClient) ChangeDataAssetCompartment(ctx context.Context, request ChangeDataAssetCompartmentRequest) (response ChangeDataAssetCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -258,10 +261,11 @@ func (client AnomalyDetectionClient) changeDataAssetCompartment(ctx context.Cont
 	return response, err
 }
 
-// ChangeDetectAnomalyJobCompartment Moves a async anomaly detect job resource from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
+// ChangeDetectAnomalyJobCompartment Moves a asynchronous anomaly detect job resource from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeDetectAnomalyJobCompartment()
 func (client AnomalyDetectionClient) ChangeDetectAnomalyJobCompartment(ctx context.Context, request ChangeDetectAnomalyJobCompartmentRequest) (response ChangeDetectAnomalyJobCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -312,9 +316,10 @@ func (client AnomalyDetectionClient) changeDetectAnomalyJobCompartment(ctx conte
 }
 
 // ChangeModelCompartment Moves a Model resource from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeModelCompartment()
 func (client AnomalyDetectionClient) ChangeModelCompartment(ctx context.Context, request ChangeModelCompartmentRequest) (response ChangeModelCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -370,9 +375,10 @@ func (client AnomalyDetectionClient) changeModelCompartment(ctx context.Context,
 }
 
 // ChangeProjectCompartment Moves a Project resource from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeProjectCompartment()
 func (client AnomalyDetectionClient) ChangeProjectCompartment(ctx context.Context, request ChangeProjectCompartmentRequest) (response ChangeProjectCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -428,9 +434,10 @@ func (client AnomalyDetectionClient) changeProjectCompartment(ctx context.Contex
 }
 
 // CreateAiPrivateEndpoint Create a new private reverse connection endpoint.
+// A default retry strategy applies to this operation CreateAiPrivateEndpoint()
 func (client AnomalyDetectionClient) CreateAiPrivateEndpoint(ctx context.Context, request CreateAiPrivateEndpointRequest) (response CreateAiPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -486,9 +493,10 @@ func (client AnomalyDetectionClient) createAiPrivateEndpoint(ctx context.Context
 }
 
 // CreateDataAsset Creates a new DataAsset.
+// A default retry strategy applies to this operation CreateDataAsset()
 func (client AnomalyDetectionClient) CreateDataAsset(ctx context.Context, request CreateDataAssetRequest) (response CreateDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -544,9 +552,10 @@ func (client AnomalyDetectionClient) createDataAsset(ctx context.Context, reques
 }
 
 // CreateDetectAnomalyJob Creates a job to perform anomaly detection.
+// A default retry strategy applies to this operation CreateDetectAnomalyJob()
 func (client AnomalyDetectionClient) CreateDetectAnomalyJob(ctx context.Context, request CreateDetectAnomalyJobRequest) (response CreateDetectAnomalyJobResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -602,9 +611,10 @@ func (client AnomalyDetectionClient) createDetectAnomalyJob(ctx context.Context,
 }
 
 // CreateModel Creates a new Model.
+// A default retry strategy applies to this operation CreateModel()
 func (client AnomalyDetectionClient) CreateModel(ctx context.Context, request CreateModelRequest) (response CreateModelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -660,9 +670,10 @@ func (client AnomalyDetectionClient) createModel(ctx context.Context, request co
 }
 
 // CreateProject Creates a new Project.
+// A default retry strategy applies to this operation CreateProject()
 func (client AnomalyDetectionClient) CreateProject(ctx context.Context, request CreateProjectRequest) (response CreateProjectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -718,9 +729,10 @@ func (client AnomalyDetectionClient) createProject(ctx context.Context, request 
 }
 
 // DeleteAiPrivateEndpoint Deletes a private reverse connection endpoint by identifier.
+// A default retry strategy applies to this operation DeleteAiPrivateEndpoint()
 func (client AnomalyDetectionClient) DeleteAiPrivateEndpoint(ctx context.Context, request DeleteAiPrivateEndpointRequest) (response DeleteAiPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -771,9 +783,10 @@ func (client AnomalyDetectionClient) deleteAiPrivateEndpoint(ctx context.Context
 }
 
 // DeleteDataAsset Deletes a DataAsset resource by identifier
+// A default retry strategy applies to this operation DeleteDataAsset()
 func (client AnomalyDetectionClient) DeleteDataAsset(ctx context.Context, request DeleteDataAssetRequest) (response DeleteDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -823,10 +836,11 @@ func (client AnomalyDetectionClient) deleteDataAsset(ctx context.Context, reques
 	return response, err
 }
 
-// DeleteDetectAnomalyJob Deletes an accepted but not not started detect anomaly async job.
+// DeleteDetectAnomalyJob Deletes an accepted, but not not started detect anomaly asynchronous job.
+// A default retry strategy applies to this operation DeleteDetectAnomalyJob()
 func (client AnomalyDetectionClient) DeleteDetectAnomalyJob(ctx context.Context, request DeleteDetectAnomalyJobRequest) (response DeleteDetectAnomalyJobResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -877,9 +891,10 @@ func (client AnomalyDetectionClient) deleteDetectAnomalyJob(ctx context.Context,
 }
 
 // DeleteModel Deletes an ai model resource by identifier. This operation fails with a 409 error unless all associated resources are in a DELETED state. You must delete all associated resources before deleting a project.
+// A default retry strategy applies to this operation DeleteModel()
 func (client AnomalyDetectionClient) DeleteModel(ctx context.Context, request DeleteModelRequest) (response DeleteModelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -930,9 +945,10 @@ func (client AnomalyDetectionClient) deleteModel(ctx context.Context, request co
 }
 
 // DeleteProject Deletes a Project resource by identifier. This operation fails with a 409 error unless all associated resources (models deployments or data assets) are in a DELETED state. You must delete all associated resources before deleting a project.
+// A default retry strategy applies to this operation DeleteProject()
 func (client AnomalyDetectionClient) DeleteProject(ctx context.Context, request DeleteProjectRequest) (response DeleteProjectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -983,9 +999,10 @@ func (client AnomalyDetectionClient) deleteProject(ctx context.Context, request 
 }
 
 // DetectAnomalies Make a detect call with an anomaly model and detection data
+// A default retry strategy applies to this operation DetectAnomalies()
 func (client AnomalyDetectionClient) DetectAnomalies(ctx context.Context, request DetectAnomaliesRequest) (response DetectAnomaliesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1041,9 +1058,10 @@ func (client AnomalyDetectionClient) detectAnomalies(ctx context.Context, reques
 }
 
 // GetAiPrivateEndpoint Gets a specific private reverse connection by identifier.
+// A default retry strategy applies to this operation GetAiPrivateEndpoint()
 func (client AnomalyDetectionClient) GetAiPrivateEndpoint(ctx context.Context, request GetAiPrivateEndpointRequest) (response GetAiPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1094,9 +1112,10 @@ func (client AnomalyDetectionClient) getAiPrivateEndpoint(ctx context.Context, r
 }
 
 // GetDataAsset Gets a DataAsset by identifier
+// A default retry strategy applies to this operation GetDataAsset()
 func (client AnomalyDetectionClient) GetDataAsset(ctx context.Context, request GetDataAssetRequest) (response GetDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1146,10 +1165,11 @@ func (client AnomalyDetectionClient) getDataAsset(ctx context.Context, request c
 	return response, err
 }
 
-// GetDetectAnomalyJob Gets a detect anomaly async job by identifier.
+// GetDetectAnomalyJob Gets a detect anomaly asynchronous job by identifier.
+// A default retry strategy applies to this operation GetDetectAnomalyJob()
 func (client AnomalyDetectionClient) GetDetectAnomalyJob(ctx context.Context, request GetDetectAnomalyJobRequest) (response GetDetectAnomalyJobResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1200,9 +1220,10 @@ func (client AnomalyDetectionClient) getDetectAnomalyJob(ctx context.Context, re
 }
 
 // GetModel Gets a Model by identifier
+// A default retry strategy applies to this operation GetModel()
 func (client AnomalyDetectionClient) GetModel(ctx context.Context, request GetModelRequest) (response GetModelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1253,9 +1274,10 @@ func (client AnomalyDetectionClient) getModel(ctx context.Context, request commo
 }
 
 // GetProject Gets a Project by identifier
+// A default retry strategy applies to this operation GetProject()
 func (client AnomalyDetectionClient) GetProject(ctx context.Context, request GetProjectRequest) (response GetProjectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1306,9 +1328,10 @@ func (client AnomalyDetectionClient) getProject(ctx context.Context, request com
 }
 
 // GetWorkRequest Gets the status of the work request with the given ID.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client AnomalyDetectionClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1359,9 +1382,10 @@ func (client AnomalyDetectionClient) getWorkRequest(ctx context.Context, request
 }
 
 // ListAiPrivateEndpoints Returns a list of all the AI private endpoints in the specified compartment.
+// A default retry strategy applies to this operation ListAiPrivateEndpoints()
 func (client AnomalyDetectionClient) ListAiPrivateEndpoints(ctx context.Context, request ListAiPrivateEndpointsRequest) (response ListAiPrivateEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1412,9 +1436,10 @@ func (client AnomalyDetectionClient) listAiPrivateEndpoints(ctx context.Context,
 }
 
 // ListDataAssets Returns a list of DataAssets.
+// A default retry strategy applies to this operation ListDataAssets()
 func (client AnomalyDetectionClient) ListDataAssets(ctx context.Context, request ListDataAssetsRequest) (response ListDataAssetsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1464,10 +1489,11 @@ func (client AnomalyDetectionClient) listDataAssets(ctx context.Context, request
 	return response, err
 }
 
-// ListDetectAnomalyJobs Returns a list of all the AI Service Anomaly Jobs in the specified compartment.
+// ListDetectAnomalyJobs Returns a list of all the Anomaly Detection jobs in the specified compartment.
+// A default retry strategy applies to this operation ListDetectAnomalyJobs()
 func (client AnomalyDetectionClient) ListDetectAnomalyJobs(ctx context.Context, request ListDetectAnomalyJobsRequest) (response ListDetectAnomalyJobsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1518,9 +1544,10 @@ func (client AnomalyDetectionClient) listDetectAnomalyJobs(ctx context.Context, 
 }
 
 // ListModels Returns a list of Models.
+// A default retry strategy applies to this operation ListModels()
 func (client AnomalyDetectionClient) ListModels(ctx context.Context, request ListModelsRequest) (response ListModelsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1571,9 +1598,10 @@ func (client AnomalyDetectionClient) listModels(ctx context.Context, request com
 }
 
 // ListProjects Returns a list of  Projects.
+// A default retry strategy applies to this operation ListProjects()
 func (client AnomalyDetectionClient) ListProjects(ctx context.Context, request ListProjectsRequest) (response ListProjectsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1624,9 +1652,10 @@ func (client AnomalyDetectionClient) listProjects(ctx context.Context, request c
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client AnomalyDetectionClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1677,9 +1706,10 @@ func (client AnomalyDetectionClient) listWorkRequestErrors(ctx context.Context, 
 }
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client AnomalyDetectionClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1730,9 +1760,10 @@ func (client AnomalyDetectionClient) listWorkRequestLogs(ctx context.Context, re
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client AnomalyDetectionClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1782,68 +1813,11 @@ func (client AnomalyDetectionClient) listWorkRequests(ctx context.Context, reque
 	return response, err
 }
 
-// UnivariateInferenceWorkflowRequest Make a univariate detect call with detection data
-func (client AnomalyDetectionClient) UnivariateInferenceWorkflowRequest(ctx context.Context, request UnivariateInferenceWorkflowRequestRequest) (response UnivariateInferenceWorkflowRequestResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.univariateInferenceWorkflowRequest, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UnivariateInferenceWorkflowRequestResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UnivariateInferenceWorkflowRequestResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UnivariateInferenceWorkflowRequestResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UnivariateInferenceWorkflowRequestResponse")
-	}
-	return
-}
-
-// univariateInferenceWorkflowRequest implements the OCIOperation interface (enables retrying operations)
-func (client AnomalyDetectionClient) univariateInferenceWorkflowRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/univariateInferenceWorkflow", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UnivariateInferenceWorkflowRequestResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/UnivariateInferenceWorkflowResult/UnivariateInferenceWorkflowRequest"
-		err = common.PostProcessServiceError(err, "AnomalyDetection", "UnivariateInferenceWorkflowRequest", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // UpdateAiPrivateEndpoint Updates the private reverse connection endpoint.
+// A default retry strategy applies to this operation UpdateAiPrivateEndpoint()
 func (client AnomalyDetectionClient) UpdateAiPrivateEndpoint(ctx context.Context, request UpdateAiPrivateEndpointRequest) (response UpdateAiPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1894,9 +1868,10 @@ func (client AnomalyDetectionClient) updateAiPrivateEndpoint(ctx context.Context
 }
 
 // UpdateDataAsset Updates the DataAsset
+// A default retry strategy applies to this operation UpdateDataAsset()
 func (client AnomalyDetectionClient) UpdateDataAsset(ctx context.Context, request UpdateDataAssetRequest) (response UpdateDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1946,10 +1921,11 @@ func (client AnomalyDetectionClient) updateDataAsset(ctx context.Context, reques
 	return response, err
 }
 
-// UpdateDetectAnomalyJob Updates the detect anomaly async job by identifier.
+// UpdateDetectAnomalyJob Updates the detect anomaly asynchronous job by identifier.
+// A default retry strategy applies to this operation UpdateDetectAnomalyJob()
 func (client AnomalyDetectionClient) UpdateDetectAnomalyJob(ctx context.Context, request UpdateDetectAnomalyJobRequest) (response UpdateDetectAnomalyJobResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2000,9 +1976,10 @@ func (client AnomalyDetectionClient) updateDetectAnomalyJob(ctx context.Context,
 }
 
 // UpdateModel Updates the Model
+// A default retry strategy applies to this operation UpdateModel()
 func (client AnomalyDetectionClient) UpdateModel(ctx context.Context, request UpdateModelRequest) (response UpdateModelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2053,9 +2030,10 @@ func (client AnomalyDetectionClient) updateModel(ctx context.Context, request co
 }
 
 // UpdateProject Updates the Project
+// A default retry strategy applies to this operation UpdateProject()
 func (client AnomalyDetectionClient) UpdateProject(ctx context.Context, request UpdateProjectRequest) (response UpdateProjectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

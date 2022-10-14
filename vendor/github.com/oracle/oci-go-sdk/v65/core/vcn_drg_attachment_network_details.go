@@ -26,7 +26,10 @@ import (
 type VcnDrgAttachmentNetworkDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
-	Id *string `mandatory:"true" json:"id"`
+	Id *string `mandatory:"false" json:"id"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Ipsec tunnel attachment.
+	Ids []string `mandatory:"false" json:"ids"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the DRG attachment is using.
 	// For information about why you would associate a route table with a DRG attachment, see:
@@ -42,6 +45,11 @@ type VcnDrgAttachmentNetworkDetails struct {
 //GetId returns Id
 func (m VcnDrgAttachmentNetworkDetails) GetId() *string {
 	return m.Id
+}
+
+//GetIds returns Ids
+func (m VcnDrgAttachmentNetworkDetails) GetIds() []string {
+	return m.Ids
 }
 
 func (m VcnDrgAttachmentNetworkDetails) String() string {

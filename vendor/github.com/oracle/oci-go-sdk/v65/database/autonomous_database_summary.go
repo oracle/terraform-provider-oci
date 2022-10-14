@@ -84,8 +84,11 @@ type AutonomousDatabaseSummary struct {
 	// **Note:** This parameter cannot be used with the `ocpuCount` parameter.
 	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
 
-	// The number of ECPU to be made available to the database.
-	EcpuCount *float32 `mandatory:"false" json:"ecpuCount"`
+	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value.
+	ComputeModel AutonomousDatabaseSummaryComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
+
+	// The compute amount available to the database. Minimum and maximum values depend on the compute model and whether the database is on Shared or Dedicated infrastructure. For an Autonomous Database on Shared infrastructure, the 'ECPU' compute model requires values in multiples of two. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value.
+	ComputeCount *float32 `mandatory:"false" json:"computeCount"`
 
 	// Retention period, in days, for long-term backups
 	BackupRetentionPeriodInDays *int `mandatory:"false" json:"backupRetentionPeriodInDays"`
@@ -377,6 +380,25 @@ type AutonomousDatabaseSummary struct {
 
 	// List of database tools details.
 	DbToolsDetails []DatabaseTool `mandatory:"false" json:"dbToolsDetails"`
+
+	// Indicates the local disaster recovery (DR) type of the Shared Autonomous Database.
+	// Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover.
+	// Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover.
+	LocalDisasterRecoveryType DisasterRecoveryConfigurationDisasterRecoveryTypeEnum `mandatory:"false" json:"localDisasterRecoveryType,omitempty"`
+
+	// The disaster recovery (DR) region type of the Autonomous Database. For Shared Autonomous Databases, DR associations have designated primary and standby regions. These region types do not change when the database changes roles. The standby region in DR associations can be the same region as the primary region, or they can be in a remote regions. Some database administration operations may be available only in the primary region of the DR association, and cannot be performed when the database using the primary role is operating in a remote region.
+	DisasterRecoveryRegionType AutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnum `mandatory:"false" json:"disasterRecoveryRegionType,omitempty"`
+
+	// The date and time the Disaster Recovery role was switched for the standby Autonomous Database.
+	TimeDisasterRecoveryRoleChanged *common.SDKTime `mandatory:"false" json:"timeDisasterRecoveryRoleChanged"`
+
+	RemoteDisasterRecoveryConfiguration *DisasterRecoveryConfiguration `mandatory:"false" json:"remoteDisasterRecoveryConfiguration"`
+
+	// The OCI vault secret [/Content/General/Concepts/identifiers.htm]OCID.
+	SecretId *string `mandatory:"false" json:"secretId"`
+
+	// The version of the vault secret. If no version is specified, the latest version will be used.
+	SecretVersionNumber *int `mandatory:"false" json:"secretVersionNumber"`
 }
 
 func (m AutonomousDatabaseSummary) String() string {
@@ -392,6 +414,9 @@ func (m AutonomousDatabaseSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAutonomousDatabaseSummaryLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingAutonomousDatabaseSummaryComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetAutonomousDatabaseSummaryComputeModelEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingAutonomousDatabaseSummaryInfrastructureTypeEnum(string(m.InfrastructureType)); !ok && m.InfrastructureType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InfrastructureType: %s. Supported values are: %s.", m.InfrastructureType, strings.Join(GetAutonomousDatabaseSummaryInfrastructureTypeEnumStringValues(), ",")))
 	}
@@ -436,6 +461,12 @@ func (m AutonomousDatabaseSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingAutonomousDatabaseSummaryDatabaseEditionEnum(string(m.DatabaseEdition)); !ok && m.DatabaseEdition != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", m.DatabaseEdition, strings.Join(GetAutonomousDatabaseSummaryDatabaseEditionEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDisasterRecoveryConfigurationDisasterRecoveryTypeEnum(string(m.LocalDisasterRecoveryType)); !ok && m.LocalDisasterRecoveryType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LocalDisasterRecoveryType: %s. Supported values are: %s.", m.LocalDisasterRecoveryType, strings.Join(GetDisasterRecoveryConfigurationDisasterRecoveryTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingAutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnum(string(m.DisasterRecoveryRegionType)); !ok && m.DisasterRecoveryRegionType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DisasterRecoveryRegionType: %s. Supported values are: %s.", m.DisasterRecoveryRegionType, strings.Join(GetAutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -558,6 +589,48 @@ func GetAutonomousDatabaseSummaryLifecycleStateEnumStringValues() []string {
 // GetMappingAutonomousDatabaseSummaryLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingAutonomousDatabaseSummaryLifecycleStateEnum(val string) (AutonomousDatabaseSummaryLifecycleStateEnum, bool) {
 	enum, ok := mappingAutonomousDatabaseSummaryLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// AutonomousDatabaseSummaryComputeModelEnum Enum with underlying type: string
+type AutonomousDatabaseSummaryComputeModelEnum string
+
+// Set of constants representing the allowable values for AutonomousDatabaseSummaryComputeModelEnum
+const (
+	AutonomousDatabaseSummaryComputeModelEcpu AutonomousDatabaseSummaryComputeModelEnum = "ECPU"
+	AutonomousDatabaseSummaryComputeModelOcpu AutonomousDatabaseSummaryComputeModelEnum = "OCPU"
+)
+
+var mappingAutonomousDatabaseSummaryComputeModelEnum = map[string]AutonomousDatabaseSummaryComputeModelEnum{
+	"ECPU": AutonomousDatabaseSummaryComputeModelEcpu,
+	"OCPU": AutonomousDatabaseSummaryComputeModelOcpu,
+}
+
+var mappingAutonomousDatabaseSummaryComputeModelEnumLowerCase = map[string]AutonomousDatabaseSummaryComputeModelEnum{
+	"ecpu": AutonomousDatabaseSummaryComputeModelEcpu,
+	"ocpu": AutonomousDatabaseSummaryComputeModelOcpu,
+}
+
+// GetAutonomousDatabaseSummaryComputeModelEnumValues Enumerates the set of values for AutonomousDatabaseSummaryComputeModelEnum
+func GetAutonomousDatabaseSummaryComputeModelEnumValues() []AutonomousDatabaseSummaryComputeModelEnum {
+	values := make([]AutonomousDatabaseSummaryComputeModelEnum, 0)
+	for _, v := range mappingAutonomousDatabaseSummaryComputeModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAutonomousDatabaseSummaryComputeModelEnumStringValues Enumerates the set of values in String for AutonomousDatabaseSummaryComputeModelEnum
+func GetAutonomousDatabaseSummaryComputeModelEnumStringValues() []string {
+	return []string{
+		"ECPU",
+		"OCPU",
+	}
+}
+
+// GetMappingAutonomousDatabaseSummaryComputeModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAutonomousDatabaseSummaryComputeModelEnum(val string) (AutonomousDatabaseSummaryComputeModelEnum, bool) {
+	enum, ok := mappingAutonomousDatabaseSummaryComputeModelEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 
@@ -1041,18 +1114,21 @@ const (
 	AutonomousDatabaseSummaryRolePrimary         AutonomousDatabaseSummaryRoleEnum = "PRIMARY"
 	AutonomousDatabaseSummaryRoleStandby         AutonomousDatabaseSummaryRoleEnum = "STANDBY"
 	AutonomousDatabaseSummaryRoleDisabledStandby AutonomousDatabaseSummaryRoleEnum = "DISABLED_STANDBY"
+	AutonomousDatabaseSummaryRoleBackupCopy      AutonomousDatabaseSummaryRoleEnum = "BACKUP_COPY"
 )
 
 var mappingAutonomousDatabaseSummaryRoleEnum = map[string]AutonomousDatabaseSummaryRoleEnum{
 	"PRIMARY":          AutonomousDatabaseSummaryRolePrimary,
 	"STANDBY":          AutonomousDatabaseSummaryRoleStandby,
 	"DISABLED_STANDBY": AutonomousDatabaseSummaryRoleDisabledStandby,
+	"BACKUP_COPY":      AutonomousDatabaseSummaryRoleBackupCopy,
 }
 
 var mappingAutonomousDatabaseSummaryRoleEnumLowerCase = map[string]AutonomousDatabaseSummaryRoleEnum{
 	"primary":          AutonomousDatabaseSummaryRolePrimary,
 	"standby":          AutonomousDatabaseSummaryRoleStandby,
 	"disabled_standby": AutonomousDatabaseSummaryRoleDisabledStandby,
+	"backup_copy":      AutonomousDatabaseSummaryRoleBackupCopy,
 }
 
 // GetAutonomousDatabaseSummaryRoleEnumValues Enumerates the set of values for AutonomousDatabaseSummaryRoleEnum
@@ -1070,6 +1146,7 @@ func GetAutonomousDatabaseSummaryRoleEnumStringValues() []string {
 		"PRIMARY",
 		"STANDBY",
 		"DISABLED_STANDBY",
+		"BACKUP_COPY",
 	}
 }
 
@@ -1244,5 +1321,47 @@ func GetAutonomousDatabaseSummaryDatabaseEditionEnumStringValues() []string {
 // GetMappingAutonomousDatabaseSummaryDatabaseEditionEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingAutonomousDatabaseSummaryDatabaseEditionEnum(val string) (AutonomousDatabaseSummaryDatabaseEditionEnum, bool) {
 	enum, ok := mappingAutonomousDatabaseSummaryDatabaseEditionEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// AutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnum Enum with underlying type: string
+type AutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnum string
+
+// Set of constants representing the allowable values for AutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnum
+const (
+	AutonomousDatabaseSummaryDisasterRecoveryRegionTypePrimary AutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnum = "PRIMARY"
+	AutonomousDatabaseSummaryDisasterRecoveryRegionTypeRemote  AutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnum = "REMOTE"
+)
+
+var mappingAutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnum = map[string]AutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnum{
+	"PRIMARY": AutonomousDatabaseSummaryDisasterRecoveryRegionTypePrimary,
+	"REMOTE":  AutonomousDatabaseSummaryDisasterRecoveryRegionTypeRemote,
+}
+
+var mappingAutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnumLowerCase = map[string]AutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnum{
+	"primary": AutonomousDatabaseSummaryDisasterRecoveryRegionTypePrimary,
+	"remote":  AutonomousDatabaseSummaryDisasterRecoveryRegionTypeRemote,
+}
+
+// GetAutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnumValues Enumerates the set of values for AutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnum
+func GetAutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnumValues() []AutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnum {
+	values := make([]AutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnum, 0)
+	for _, v := range mappingAutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnumStringValues Enumerates the set of values in String for AutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnum
+func GetAutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnumStringValues() []string {
+	return []string{
+		"PRIMARY",
+		"REMOTE",
+	}
+}
+
+// GetMappingAutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnum(val string) (AutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnum, bool) {
+	enum, ok := mappingAutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

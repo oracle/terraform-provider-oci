@@ -26,7 +26,10 @@ import (
 type IpsecTunnelDrgAttachmentNetworkDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
-	Id *string `mandatory:"true" json:"id"`
+	Id *string `mandatory:"false" json:"id"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Ipsec tunnel attachment.
+	Ids []string `mandatory:"false" json:"ids"`
 
 	// The IPSec connection that contains the attached IPSec tunnel.
 	IpsecConnectionId *string `mandatory:"false" json:"ipsecConnectionId"`
@@ -58,6 +61,11 @@ type IpsecTunnelDrgAttachmentNetworkDetails struct {
 //GetId returns Id
 func (m IpsecTunnelDrgAttachmentNetworkDetails) GetId() *string {
 	return m.Id
+}
+
+//GetIds returns Ids
+func (m IpsecTunnelDrgAttachmentNetworkDetails) GetIds() []string {
+	return m.Ids
 }
 
 func (m IpsecTunnelDrgAttachmentNetworkDetails) String() string {

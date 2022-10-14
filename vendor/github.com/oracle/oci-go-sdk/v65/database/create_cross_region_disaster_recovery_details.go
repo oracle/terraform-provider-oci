@@ -16,13 +16,53 @@ import (
 	"strings"
 )
 
-// CreateRefreshableAutonomousDatabaseCloneDetails Details to create an Oracle Autonomous Database refreshable clone.
-type CreateRefreshableAutonomousDatabaseCloneDetails struct {
+// CreateCrossRegionDisasterRecoveryDetails The following are the details necessary to create a disaster recovery (DR) association for an existing Autonomous Database with a standby in a remote region.
+// *IMPORTANT*
+// For creating a standby databases in a cross-region DR association:
+//   - To create the standby database in a remote region, use the API endpoint in the region where the standby is located. For example, if the primary database is in the IAD region and the standby is in the PHX region, make the API call using the PHX endpoint (https://database.us-phoenix-1.oraclecloud.com). See API Endpoints for the list of Database Service API endpoints.
+//   - To create the request in the standby database, the sourceId value must be the OCID of the primary database.
+// The following parameters are required for the cross-region standby database and must contain the same values as the source Autonomous Database:
+//   - remoteDisasterRecoveryType
+// The following parameters are optional for the cross-region standby database. If included in the request, these parameters must contain the same values as the source Autonomous Database:
+//   - dbName
+//   - dbVersion
+//   - ecpuCount
+//   - dataStorageSizeInTB
+//   - customerContacts
+//   - scheduledOperations
+//   - isAutoScalingForStorageEnabled
+//   - definedTags
+//   - freeformTags
+//   - licenseModel
+//   - whitelistedIps
+//   - isMtlsConnectionRequired
+// Example I - Creating a cross-region standby with required parameters only:
+//     `{
+//       "compartmentId": "ocid.compartment.oc1..<var>&lt;unique_ID&gt;</var>",
+//       "sourceId": "ocid1.autonomousdatabase.oc1.phx..<var>&lt;unique_ID&gt;</var>",
+//       "source": "CROSS_REGION_DISASTER_RECOVERY",
+//       "remoteDisasterRecoveryType": "BACKUP_BASED"
+//     }`
+// Example II - Creating a cross-region standby that specifies optional parameters in addition to the required parameters:
+//     `{
+//       "compartmentId": "ocid.compartment.oc1..<var>&lt;unique_ID&gt;</var>",
+//       "ecpuCount": 2,
+//       "dbName": "adatabasedb1",
+//       "sourceId": "ocid1.autonomousdatabase.oc1.phx..<var>&lt;unique_ID&gt;</var>",
+//       "dataStorageSizeInTBs": 1,
+//       "source": "CROSS_REGION_DISASTER_RECOVERY",
+//       "adminPassword" : "<var>&lt;password&gt;</var>",
+//       "dbVersion": "19c",
+//       "licenseModel": "LICENSE_INCLUDED",
+//       "isAutoScalingForStorageEnabled": "true",
+//       "remoteDisasterRecoveryType": "BACKUP_BASED"
+//     }`
+type CreateCrossRegionDisasterRecoveryDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment of the Autonomous Database.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that you will clone to create a new Autonomous Database.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that will be used to create a new standby database for the DR association.
 	SourceId *string `mandatory:"true" json:"sourceId"`
 
 	// The character set for the autonomous database.  The default is AL32UTF8. Allowed values for an Autonomous Database on shared infrastructure as as returned by List Autonomous Database Character Sets (https://docs.cloud.oracle.com/autonomousDatabaseCharacterSets)
@@ -186,24 +226,6 @@ type CreateRefreshableAutonomousDatabaseCloneDetails struct {
 	// The version of the vault secret. If no version is specified, the latest version will be used.
 	SecretVersionNumber *int `mandatory:"false" json:"secretVersionNumber"`
 
-	// The frequency at which the data is refreshed for a refreshable clone after auto-refresh is enabled. The minimum is 1 minute. The maximum is 1 day. The date and time that auto-refresh is enabled is controlled by the `timeOfAutoRefreshStart` parameter.
-	AutoRefreshFrequencyInSeconds *int `mandatory:"false" json:"autoRefreshFrequencyInSeconds"`
-
-	// The amount of time, in seconds, that the data of the refreshable clone lags the data of the primary database at the point of refresh. The minimum is 1 minute. The maximum is 7 days. The lag time increases after refreshing until the next data refresh happens.
-	AutoRefreshPointInSeconds *int `mandatory:"false" json:"autoRefreshPointInSeconds"`
-
-	// The the date and time that auto-refreshing will begin for an Autonomous Database refreshable clone. This value controls only the start time for the first refresh operation. Subsequent (ongoing) refresh operations have start times controlled by the value of the `autoRefreshFrequencyInSeconds` parameter.
-	TimeOfAutoRefreshStart *common.SDKTime `mandatory:"false" json:"timeOfAutoRefreshStart"`
-
-	// The refresh mode of the clone. AUTOMATIC indicates that the clone is automatically being refreshed with data from the source Autonomous Database.
-	RefreshableMode CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum `mandatory:"false" json:"refreshableMode,omitempty"`
-
-	// The auto-refresh policy for the Autonomous Database refreshable clone. You can specify continuous refreshing or a custom refresh schedule.
-	AutoRefreshPolicy CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum `mandatory:"false" json:"autoRefreshPolicy,omitempty"`
-
-	// The `DATABASE OPEN` mode. You can open the database in `READ_ONLY` or `READ_WRITE` mode.
-	OpenMode CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum `mandatory:"false" json:"openMode,omitempty"`
-
 	// The Oracle Database Edition that applies to the Autonomous databases.
 	DatabaseEdition AutonomousDatabaseSummaryDatabaseEditionEnum `mandatory:"false" json:"databaseEdition,omitempty"`
 
@@ -226,246 +248,242 @@ type CreateRefreshableAutonomousDatabaseCloneDetails struct {
 	// The maintenance schedule type of the Autonomous Database on shared Exadata infrastructure. The EARLY maintenance schedule of this Autonomous Database
 	// follows a schedule that applies patches prior to the REGULAR schedule.The REGULAR maintenance schedule of this Autonomous Database follows the normal cycle.
 	AutonomousMaintenanceScheduleType CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum `mandatory:"false" json:"autonomousMaintenanceScheduleType,omitempty"`
+
+	// Indicates the cross-region disaster recovery (DR) type of the standby Shared Autonomous Database.
+	// Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover.
+	// Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover.
+	RemoteDisasterRecoveryType DisasterRecoveryConfigurationDisasterRecoveryTypeEnum `mandatory:"true" json:"remoteDisasterRecoveryType"`
 }
 
 //GetCompartmentId returns CompartmentId
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetCompartmentId() *string {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
 //GetCharacterSet returns CharacterSet
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetCharacterSet() *string {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetCharacterSet() *string {
 	return m.CharacterSet
 }
 
 //GetNcharacterSet returns NcharacterSet
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetNcharacterSet() *string {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetNcharacterSet() *string {
 	return m.NcharacterSet
 }
 
 //GetDbName returns DbName
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetDbName() *string {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetDbName() *string {
 	return m.DbName
 }
 
 //GetCpuCoreCount returns CpuCoreCount
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetCpuCoreCount() *int {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetCpuCoreCount() *int {
 	return m.CpuCoreCount
 }
 
 //GetComputeModel returns ComputeModel
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetComputeModel() CreateAutonomousDatabaseBaseComputeModelEnum {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetComputeModel() CreateAutonomousDatabaseBaseComputeModelEnum {
 	return m.ComputeModel
 }
 
 //GetComputeCount returns ComputeCount
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetComputeCount() *float32 {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetComputeCount() *float32 {
 	return m.ComputeCount
 }
 
 //GetOcpuCount returns OcpuCount
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetOcpuCount() *float32 {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetOcpuCount() *float32 {
 	return m.OcpuCount
 }
 
 //GetDbWorkload returns DbWorkload
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetDbWorkload() CreateAutonomousDatabaseBaseDbWorkloadEnum {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetDbWorkload() CreateAutonomousDatabaseBaseDbWorkloadEnum {
 	return m.DbWorkload
 }
 
 //GetDataStorageSizeInTBs returns DataStorageSizeInTBs
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetDataStorageSizeInTBs() *int {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetDataStorageSizeInTBs() *int {
 	return m.DataStorageSizeInTBs
 }
 
 //GetDataStorageSizeInGBs returns DataStorageSizeInGBs
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetDataStorageSizeInGBs() *int {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetDataStorageSizeInGBs() *int {
 	return m.DataStorageSizeInGBs
 }
 
 //GetIsFreeTier returns IsFreeTier
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetIsFreeTier() *bool {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetIsFreeTier() *bool {
 	return m.IsFreeTier
 }
 
 //GetKmsKeyId returns KmsKeyId
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetKmsKeyId() *string {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetKmsKeyId() *string {
 	return m.KmsKeyId
 }
 
 //GetVaultId returns VaultId
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetVaultId() *string {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetVaultId() *string {
 	return m.VaultId
 }
 
 //GetAdminPassword returns AdminPassword
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetAdminPassword() *string {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetAdminPassword() *string {
 	return m.AdminPassword
 }
 
 //GetDisplayName returns DisplayName
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetDisplayName() *string {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
 //GetLicenseModel returns LicenseModel
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetLicenseModel() CreateAutonomousDatabaseBaseLicenseModelEnum {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetLicenseModel() CreateAutonomousDatabaseBaseLicenseModelEnum {
 	return m.LicenseModel
 }
 
 //GetIsPreviewVersionWithServiceTermsAccepted returns IsPreviewVersionWithServiceTermsAccepted
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetIsPreviewVersionWithServiceTermsAccepted() *bool {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetIsPreviewVersionWithServiceTermsAccepted() *bool {
 	return m.IsPreviewVersionWithServiceTermsAccepted
 }
 
 //GetIsAutoScalingEnabled returns IsAutoScalingEnabled
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetIsAutoScalingEnabled() *bool {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetIsAutoScalingEnabled() *bool {
 	return m.IsAutoScalingEnabled
 }
 
 //GetIsDedicated returns IsDedicated
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetIsDedicated() *bool {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetIsDedicated() *bool {
 	return m.IsDedicated
 }
 
 //GetAutonomousContainerDatabaseId returns AutonomousContainerDatabaseId
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetAutonomousContainerDatabaseId() *string {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetAutonomousContainerDatabaseId() *string {
 	return m.AutonomousContainerDatabaseId
 }
 
 //GetIsAccessControlEnabled returns IsAccessControlEnabled
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetIsAccessControlEnabled() *bool {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetIsAccessControlEnabled() *bool {
 	return m.IsAccessControlEnabled
 }
 
 //GetWhitelistedIps returns WhitelistedIps
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetWhitelistedIps() []string {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetWhitelistedIps() []string {
 	return m.WhitelistedIps
 }
 
 //GetArePrimaryWhitelistedIpsUsed returns ArePrimaryWhitelistedIpsUsed
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetArePrimaryWhitelistedIpsUsed() *bool {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetArePrimaryWhitelistedIpsUsed() *bool {
 	return m.ArePrimaryWhitelistedIpsUsed
 }
 
 //GetStandbyWhitelistedIps returns StandbyWhitelistedIps
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetStandbyWhitelistedIps() []string {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetStandbyWhitelistedIps() []string {
 	return m.StandbyWhitelistedIps
 }
 
 //GetIsDataGuardEnabled returns IsDataGuardEnabled
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetIsDataGuardEnabled() *bool {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetIsDataGuardEnabled() *bool {
 	return m.IsDataGuardEnabled
 }
 
 //GetIsLocalDataGuardEnabled returns IsLocalDataGuardEnabled
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetIsLocalDataGuardEnabled() *bool {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetIsLocalDataGuardEnabled() *bool {
 	return m.IsLocalDataGuardEnabled
 }
 
 //GetSubnetId returns SubnetId
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetSubnetId() *string {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetSubnetId() *string {
 	return m.SubnetId
 }
 
 //GetNsgIds returns NsgIds
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetNsgIds() []string {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetNsgIds() []string {
 	return m.NsgIds
 }
 
 //GetPrivateEndpointLabel returns PrivateEndpointLabel
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetPrivateEndpointLabel() *string {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetPrivateEndpointLabel() *string {
 	return m.PrivateEndpointLabel
 }
 
 //GetFreeformTags returns FreeformTags
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetFreeformTags() map[string]string {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
 //GetDefinedTags returns DefinedTags
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetDefinedTags() map[string]map[string]interface{} {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
 //GetDbVersion returns DbVersion
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetDbVersion() *string {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetDbVersion() *string {
 	return m.DbVersion
 }
 
 //GetCustomerContacts returns CustomerContacts
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetCustomerContacts() []CustomerContact {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetCustomerContacts() []CustomerContact {
 	return m.CustomerContacts
 }
 
 //GetIsMtlsConnectionRequired returns IsMtlsConnectionRequired
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetIsMtlsConnectionRequired() *bool {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetIsMtlsConnectionRequired() *bool {
 	return m.IsMtlsConnectionRequired
 }
 
 //GetAutonomousMaintenanceScheduleType returns AutonomousMaintenanceScheduleType
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetAutonomousMaintenanceScheduleType() CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetAutonomousMaintenanceScheduleType() CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum {
 	return m.AutonomousMaintenanceScheduleType
 }
 
 //GetIsOracleServiceGatewayAllowed returns IsOracleServiceGatewayAllowed
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetIsOracleServiceGatewayAllowed() *bool {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetIsOracleServiceGatewayAllowed() *bool {
 	return m.IsOracleServiceGatewayAllowed
 }
 
 //GetScheduledOperations returns ScheduledOperations
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetScheduledOperations() []ScheduledOperationDetails {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetScheduledOperations() []ScheduledOperationDetails {
 	return m.ScheduledOperations
 }
 
 //GetIsAutoScalingForStorageEnabled returns IsAutoScalingForStorageEnabled
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetIsAutoScalingForStorageEnabled() *bool {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetIsAutoScalingForStorageEnabled() *bool {
 	return m.IsAutoScalingForStorageEnabled
 }
 
 //GetMaxCpuCoreCount returns MaxCpuCoreCount
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetMaxCpuCoreCount() *int {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetMaxCpuCoreCount() *int {
 	return m.MaxCpuCoreCount
 }
 
 //GetDatabaseEdition returns DatabaseEdition
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetDatabaseEdition() AutonomousDatabaseSummaryDatabaseEditionEnum {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetDatabaseEdition() AutonomousDatabaseSummaryDatabaseEditionEnum {
 	return m.DatabaseEdition
 }
 
 //GetDbToolsDetails returns DbToolsDetails
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetDbToolsDetails() []DatabaseTool {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetDbToolsDetails() []DatabaseTool {
 	return m.DbToolsDetails
 }
 
 //GetSecretId returns SecretId
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetSecretId() *string {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetSecretId() *string {
 	return m.SecretId
 }
 
 //GetSecretVersionNumber returns SecretVersionNumber
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetSecretVersionNumber() *int {
+func (m CreateCrossRegionDisasterRecoveryDetails) GetSecretVersionNumber() *int {
 	return m.SecretVersionNumber
 }
 
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) String() string {
+func (m CreateCrossRegionDisasterRecoveryDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) ValidateEnumValue() (bool, error) {
+func (m CreateCrossRegionDisasterRecoveryDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum(string(m.RefreshableMode)); !ok && m.RefreshableMode != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RefreshableMode: %s. Supported values are: %s.", m.RefreshableMode, strings.Join(GetCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum(string(m.AutoRefreshPolicy)); !ok && m.AutoRefreshPolicy != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutoRefreshPolicy: %s. Supported values are: %s.", m.AutoRefreshPolicy, strings.Join(GetCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum(string(m.OpenMode)); !ok && m.OpenMode != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OpenMode: %s. Supported values are: %s.", m.OpenMode, strings.Join(GetCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnumStringValues(), ",")))
-	}
 
 	if _, ok := GetMappingAutonomousDatabaseSummaryDatabaseEditionEnum(string(m.DatabaseEdition)); !ok && m.DatabaseEdition != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", m.DatabaseEdition, strings.Join(GetAutonomousDatabaseSummaryDatabaseEditionEnumStringValues(), ",")))
@@ -482,6 +500,9 @@ func (m CreateRefreshableAutonomousDatabaseCloneDetails) ValidateEnumValue() (bo
 	if _, ok := GetMappingCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(string(m.AutonomousMaintenanceScheduleType)); !ok && m.AutonomousMaintenanceScheduleType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutonomousMaintenanceScheduleType: %s. Supported values are: %s.", m.AutonomousMaintenanceScheduleType, strings.Join(GetCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingDisasterRecoveryConfigurationDisasterRecoveryTypeEnum(string(m.RemoteDisasterRecoveryType)); !ok && m.RemoteDisasterRecoveryType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RemoteDisasterRecoveryType: %s. Supported values are: %s.", m.RemoteDisasterRecoveryType, strings.Join(GetDisasterRecoveryConfigurationDisasterRecoveryTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -489,141 +510,15 @@ func (m CreateRefreshableAutonomousDatabaseCloneDetails) ValidateEnumValue() (bo
 }
 
 // MarshalJSON marshals to json representation
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeCreateRefreshableAutonomousDatabaseCloneDetails CreateRefreshableAutonomousDatabaseCloneDetails
+func (m CreateCrossRegionDisasterRecoveryDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeCreateCrossRegionDisasterRecoveryDetails CreateCrossRegionDisasterRecoveryDetails
 	s := struct {
 		DiscriminatorParam string `json:"source"`
-		MarshalTypeCreateRefreshableAutonomousDatabaseCloneDetails
+		MarshalTypeCreateCrossRegionDisasterRecoveryDetails
 	}{
-		"CLONE_TO_REFRESHABLE",
-		(MarshalTypeCreateRefreshableAutonomousDatabaseCloneDetails)(m),
+		"CROSS_REGION_DISASTER_RECOVERY",
+		(MarshalTypeCreateCrossRegionDisasterRecoveryDetails)(m),
 	}
 
 	return json.Marshal(&s)
-}
-
-// CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum Enum with underlying type: string
-type CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum string
-
-// Set of constants representing the allowable values for CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum
-const (
-	CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeAutomatic CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum = "AUTOMATIC"
-	CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeManual    CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum = "MANUAL"
-)
-
-var mappingCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum = map[string]CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum{
-	"AUTOMATIC": CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeAutomatic,
-	"MANUAL":    CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeManual,
-}
-
-var mappingCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnumLowerCase = map[string]CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum{
-	"automatic": CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeAutomatic,
-	"manual":    CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeManual,
-}
-
-// GetCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnumValues Enumerates the set of values for CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum
-func GetCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnumValues() []CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum {
-	values := make([]CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum, 0)
-	for _, v := range mappingCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnumStringValues Enumerates the set of values in String for CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum
-func GetCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnumStringValues() []string {
-	return []string{
-		"AUTOMATIC",
-		"MANUAL",
-	}
-}
-
-// GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum(val string) (CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum, bool) {
-	enum, ok := mappingCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum Enum with underlying type: string
-type CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum string
-
-// Set of constants representing the allowable values for CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum
-const (
-	CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyContinuous CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum = "CONTINUOUS"
-	CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyCustom     CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum = "CUSTOM"
-)
-
-var mappingCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum = map[string]CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum{
-	"CONTINUOUS": CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyContinuous,
-	"CUSTOM":     CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyCustom,
-}
-
-var mappingCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnumLowerCase = map[string]CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum{
-	"continuous": CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyContinuous,
-	"custom":     CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyCustom,
-}
-
-// GetCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnumValues Enumerates the set of values for CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum
-func GetCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnumValues() []CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum {
-	values := make([]CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum, 0)
-	for _, v := range mappingCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnumStringValues Enumerates the set of values in String for CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum
-func GetCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnumStringValues() []string {
-	return []string{
-		"CONTINUOUS",
-		"CUSTOM",
-	}
-}
-
-// GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum(val string) (CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum, bool) {
-	enum, ok := mappingCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum Enum with underlying type: string
-type CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum string
-
-// Set of constants representing the allowable values for CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum
-const (
-	CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeOnly  CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum = "READ_ONLY"
-	CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeWrite CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum = "READ_WRITE"
-)
-
-var mappingCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum = map[string]CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum{
-	"READ_ONLY":  CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeOnly,
-	"READ_WRITE": CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeWrite,
-}
-
-var mappingCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnumLowerCase = map[string]CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum{
-	"read_only":  CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeOnly,
-	"read_write": CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeWrite,
-}
-
-// GetCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnumValues Enumerates the set of values for CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum
-func GetCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnumValues() []CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum {
-	values := make([]CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum, 0)
-	for _, v := range mappingCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnumStringValues Enumerates the set of values in String for CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum
-func GetCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnumStringValues() []string {
-	return []string{
-		"READ_ONLY",
-		"READ_WRITE",
-	}
-}
-
-// GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum(val string) (CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum, bool) {
-	enum, ok := mappingCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

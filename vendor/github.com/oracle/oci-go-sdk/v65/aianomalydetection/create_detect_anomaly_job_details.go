@@ -18,11 +18,11 @@ import (
 	"strings"
 )
 
-// CreateDetectAnomalyJobDetails Base class for the DetectAnomalies async call. It contains the identifier that will
-// be used for deciding what type of request this is.
+// CreateDetectAnomalyJobDetails Base class for the DetectAnomalies async call. It contains the identifier that is
+// used for deciding what type of request this is.
 type CreateDetectAnomalyJobDetails struct {
 
-	// The ocid of the compartment that starts the job.
+	// The OCID of the compartment that starts the job.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The OCID of the trained model.

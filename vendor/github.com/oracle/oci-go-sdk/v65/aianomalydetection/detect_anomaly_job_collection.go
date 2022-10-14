@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// DetectAnomalyJobCollection A collection of AI Service Anomaly Jobs. Each item is a AI Service DetectAnomalyJob Summary object.
+// DetectAnomalyJobCollection A collection of anomaly jobs. Each item is a DetectAnomalyJob summary object.
 type DetectAnomalyJobCollection struct {
 
-	// List of AI Service Anomaly Jobs.
+	// List of Anomaly Detection jobs.
 	Items []DetectAnomalyJobSummary `mandatory:"true" json:"items"`
 }
 

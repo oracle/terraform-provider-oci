@@ -24,8 +24,8 @@ type DatabaseTool struct {
 	// Indicates whether tool is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
-	// The number of ECPU used by database tools.
-	EcpuCount *float32 `mandatory:"false" json:"ecpuCount"`
+	// Compute used by database tools.
+	ComputeCount *float32 `mandatory:"false" json:"computeCount"`
 
 	// The max idle time, in minutes, after which the VM used by database tools will be terminated.
 	MaxIdleTimeInMinutes *int `mandatory:"false" json:"maxIdleTimeInMinutes"`

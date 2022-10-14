@@ -98,7 +98,7 @@ type AutonomousContainerDatabase struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The role of the Autonomous Data Guard-enabled Autonomous Container Database.
+	// The Data Guard role of the Autonomous Container Database or Autonomous Database, if Autonomous Data Guard is enabled.
 	Role AutonomousContainerDatabaseRoleEnum `mandatory:"false" json:"role,omitempty"`
 
 	// The availability domain of the Autonomous Container Database.
@@ -395,18 +395,21 @@ const (
 	AutonomousContainerDatabaseRolePrimary         AutonomousContainerDatabaseRoleEnum = "PRIMARY"
 	AutonomousContainerDatabaseRoleStandby         AutonomousContainerDatabaseRoleEnum = "STANDBY"
 	AutonomousContainerDatabaseRoleDisabledStandby AutonomousContainerDatabaseRoleEnum = "DISABLED_STANDBY"
+	AutonomousContainerDatabaseRoleBackupCopy      AutonomousContainerDatabaseRoleEnum = "BACKUP_COPY"
 )
 
 var mappingAutonomousContainerDatabaseRoleEnum = map[string]AutonomousContainerDatabaseRoleEnum{
 	"PRIMARY":          AutonomousContainerDatabaseRolePrimary,
 	"STANDBY":          AutonomousContainerDatabaseRoleStandby,
 	"DISABLED_STANDBY": AutonomousContainerDatabaseRoleDisabledStandby,
+	"BACKUP_COPY":      AutonomousContainerDatabaseRoleBackupCopy,
 }
 
 var mappingAutonomousContainerDatabaseRoleEnumLowerCase = map[string]AutonomousContainerDatabaseRoleEnum{
 	"primary":          AutonomousContainerDatabaseRolePrimary,
 	"standby":          AutonomousContainerDatabaseRoleStandby,
 	"disabled_standby": AutonomousContainerDatabaseRoleDisabledStandby,
+	"backup_copy":      AutonomousContainerDatabaseRoleBackupCopy,
 }
 
 // GetAutonomousContainerDatabaseRoleEnumValues Enumerates the set of values for AutonomousContainerDatabaseRoleEnum
@@ -424,6 +427,7 @@ func GetAutonomousContainerDatabaseRoleEnumStringValues() []string {
 		"PRIMARY",
 		"STANDBY",
 		"DISABLED_STANDBY",
+		"BACKUP_COPY",
 	}
 }
 

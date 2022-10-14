@@ -115,18 +115,21 @@ const (
 	AutonomousDatabaseDataguardAssociationRolePrimary         AutonomousDatabaseDataguardAssociationRoleEnum = "PRIMARY"
 	AutonomousDatabaseDataguardAssociationRoleStandby         AutonomousDatabaseDataguardAssociationRoleEnum = "STANDBY"
 	AutonomousDatabaseDataguardAssociationRoleDisabledStandby AutonomousDatabaseDataguardAssociationRoleEnum = "DISABLED_STANDBY"
+	AutonomousDatabaseDataguardAssociationRoleBackupCopy      AutonomousDatabaseDataguardAssociationRoleEnum = "BACKUP_COPY"
 )
 
 var mappingAutonomousDatabaseDataguardAssociationRoleEnum = map[string]AutonomousDatabaseDataguardAssociationRoleEnum{
 	"PRIMARY":          AutonomousDatabaseDataguardAssociationRolePrimary,
 	"STANDBY":          AutonomousDatabaseDataguardAssociationRoleStandby,
 	"DISABLED_STANDBY": AutonomousDatabaseDataguardAssociationRoleDisabledStandby,
+	"BACKUP_COPY":      AutonomousDatabaseDataguardAssociationRoleBackupCopy,
 }
 
 var mappingAutonomousDatabaseDataguardAssociationRoleEnumLowerCase = map[string]AutonomousDatabaseDataguardAssociationRoleEnum{
 	"primary":          AutonomousDatabaseDataguardAssociationRolePrimary,
 	"standby":          AutonomousDatabaseDataguardAssociationRoleStandby,
 	"disabled_standby": AutonomousDatabaseDataguardAssociationRoleDisabledStandby,
+	"backup_copy":      AutonomousDatabaseDataguardAssociationRoleBackupCopy,
 }
 
 // GetAutonomousDatabaseDataguardAssociationRoleEnumValues Enumerates the set of values for AutonomousDatabaseDataguardAssociationRoleEnum
@@ -144,6 +147,7 @@ func GetAutonomousDatabaseDataguardAssociationRoleEnumStringValues() []string {
 		"PRIMARY",
 		"STANDBY",
 		"DISABLED_STANDBY",
+		"BACKUP_COPY",
 	}
 }
 
@@ -223,18 +227,21 @@ const (
 	AutonomousDatabaseDataguardAssociationPeerRolePrimary         AutonomousDatabaseDataguardAssociationPeerRoleEnum = "PRIMARY"
 	AutonomousDatabaseDataguardAssociationPeerRoleStandby         AutonomousDatabaseDataguardAssociationPeerRoleEnum = "STANDBY"
 	AutonomousDatabaseDataguardAssociationPeerRoleDisabledStandby AutonomousDatabaseDataguardAssociationPeerRoleEnum = "DISABLED_STANDBY"
+	AutonomousDatabaseDataguardAssociationPeerRoleBackupCopy      AutonomousDatabaseDataguardAssociationPeerRoleEnum = "BACKUP_COPY"
 )
 
 var mappingAutonomousDatabaseDataguardAssociationPeerRoleEnum = map[string]AutonomousDatabaseDataguardAssociationPeerRoleEnum{
 	"PRIMARY":          AutonomousDatabaseDataguardAssociationPeerRolePrimary,
 	"STANDBY":          AutonomousDatabaseDataguardAssociationPeerRoleStandby,
 	"DISABLED_STANDBY": AutonomousDatabaseDataguardAssociationPeerRoleDisabledStandby,
+	"BACKUP_COPY":      AutonomousDatabaseDataguardAssociationPeerRoleBackupCopy,
 }
 
 var mappingAutonomousDatabaseDataguardAssociationPeerRoleEnumLowerCase = map[string]AutonomousDatabaseDataguardAssociationPeerRoleEnum{
 	"primary":          AutonomousDatabaseDataguardAssociationPeerRolePrimary,
 	"standby":          AutonomousDatabaseDataguardAssociationPeerRoleStandby,
 	"disabled_standby": AutonomousDatabaseDataguardAssociationPeerRoleDisabledStandby,
+	"backup_copy":      AutonomousDatabaseDataguardAssociationPeerRoleBackupCopy,
 }
 
 // GetAutonomousDatabaseDataguardAssociationPeerRoleEnumValues Enumerates the set of values for AutonomousDatabaseDataguardAssociationPeerRoleEnum
@@ -252,6 +259,7 @@ func GetAutonomousDatabaseDataguardAssociationPeerRoleEnumStringValues() []strin
 		"PRIMARY",
 		"STANDBY",
 		"DISABLED_STANDBY",
+		"BACKUP_COPY",
 	}
 }
 

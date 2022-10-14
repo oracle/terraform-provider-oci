@@ -228,6 +228,8 @@ const (
 	JobOperationApply         JobOperationEnum = "APPLY"
 	JobOperationDestroy       JobOperationEnum = "DESTROY"
 	JobOperationImportTfState JobOperationEnum = "IMPORT_TF_STATE"
+	JobOperationPlanRollback  JobOperationEnum = "PLAN_ROLLBACK"
+	JobOperationApplyRollback JobOperationEnum = "APPLY_ROLLBACK"
 )
 
 var mappingJobOperationEnum = map[string]JobOperationEnum{
@@ -235,6 +237,8 @@ var mappingJobOperationEnum = map[string]JobOperationEnum{
 	"APPLY":           JobOperationApply,
 	"DESTROY":         JobOperationDestroy,
 	"IMPORT_TF_STATE": JobOperationImportTfState,
+	"PLAN_ROLLBACK":   JobOperationPlanRollback,
+	"APPLY_ROLLBACK":  JobOperationApplyRollback,
 }
 
 var mappingJobOperationEnumLowerCase = map[string]JobOperationEnum{
@@ -242,6 +246,8 @@ var mappingJobOperationEnumLowerCase = map[string]JobOperationEnum{
 	"apply":           JobOperationApply,
 	"destroy":         JobOperationDestroy,
 	"import_tf_state": JobOperationImportTfState,
+	"plan_rollback":   JobOperationPlanRollback,
+	"apply_rollback":  JobOperationApplyRollback,
 }
 
 // GetJobOperationEnumValues Enumerates the set of values for JobOperationEnum
@@ -260,6 +266,8 @@ func GetJobOperationEnumStringValues() []string {
 		"APPLY",
 		"DESTROY",
 		"IMPORT_TF_STATE",
+		"PLAN_ROLLBACK",
+		"APPLY_ROLLBACK",
 	}
 }
 

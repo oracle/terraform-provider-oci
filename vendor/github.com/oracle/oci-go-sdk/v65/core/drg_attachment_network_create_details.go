@@ -27,12 +27,16 @@ type DrgAttachmentNetworkCreateDetails interface {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
 	GetId() *string
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
+	GetIds() []string
 }
 
 type drgattachmentnetworkcreatedetails struct {
 	JsonData []byte
-	Id       *string `mandatory:"true" json:"id"`
-	Type     string  `json:"type"`
+	Id       *string  `mandatory:"false" json:"id"`
+	Ids      []string `mandatory:"false" json:"ids"`
+	Type     string   `json:"type"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -47,6 +51,7 @@ func (m *drgattachmentnetworkcreatedetails) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	m.Id = s.Model.Id
+	m.Ids = s.Model.Ids
 	m.Type = s.Model.Type
 
 	return err
@@ -94,6 +99,11 @@ func (m *drgattachmentnetworkcreatedetails) UnmarshalPolymorphicJSON(data []byte
 //GetId returns Id
 func (m drgattachmentnetworkcreatedetails) GetId() *string {
 	return m.Id
+}
+
+//GetIds returns Ids
+func (m drgattachmentnetworkcreatedetails) GetIds() []string {
+	return m.Ids
 }
 
 func (m drgattachmentnetworkcreatedetails) String() string {

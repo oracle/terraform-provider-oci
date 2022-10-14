@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// InlineInputJobDetails This is the specialised JSON format with an additional field for 'locationType' which is a required field
+// InlineInputJobDetails This is the specialized JSON format with an additional field for 'locationType'. This is a required field
 // used for deciding if it is an inline location or contains object-storage location.
 type InlineInputJobDetails struct {
 

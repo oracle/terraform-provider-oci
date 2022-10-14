@@ -26,7 +26,7 @@ import (
 type LoopbackDrgAttachmentNetworkUpdateDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Ipsec tunnel attachment.
-	FrontEndAttachmentId []string `mandatory:"false" json:"frontEndAttachmentId"`
+	AttachedNetworkIds []string `mandatory:"false" json:"attachedNetworkIds"`
 }
 
 func (m LoopbackDrgAttachmentNetworkUpdateDetails) String() string {

@@ -26,7 +26,10 @@ import (
 type InternetDrgAttachmentNetworkCreateDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
-	Id *string `mandatory:"true" json:"id"`
+	Id *string `mandatory:"false" json:"id"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
+	Ids []string `mandatory:"false" json:"ids"`
 
 	// The list of BYOIP Range OCIDs used to be accessible to the internet via this DRG.
 	ByoipRangeIds []string `mandatory:"false" json:"byoipRangeIds"`
@@ -38,6 +41,11 @@ type InternetDrgAttachmentNetworkCreateDetails struct {
 //GetId returns Id
 func (m InternetDrgAttachmentNetworkCreateDetails) GetId() *string {
 	return m.Id
+}
+
+//GetIds returns Ids
+func (m InternetDrgAttachmentNetworkCreateDetails) GetIds() []string {
+	return m.Ids
 }
 
 func (m InternetDrgAttachmentNetworkCreateDetails) String() string {

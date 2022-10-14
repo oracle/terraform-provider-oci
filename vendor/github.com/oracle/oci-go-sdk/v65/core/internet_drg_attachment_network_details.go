@@ -26,7 +26,10 @@ import (
 type InternetDrgAttachmentNetworkDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
-	Id *string `mandatory:"true" json:"id"`
+	Id *string `mandatory:"false" json:"id"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Ipsec tunnel attachment.
+	Ids []string `mandatory:"false" json:"ids"`
 
 	// The list of BYOIP Range OCIDs used to be accessible to the internet via this DRG.
 	ByoipRangeIds []string `mandatory:"false" json:"byoipRangeIds"`
@@ -39,6 +42,11 @@ type InternetDrgAttachmentNetworkDetails struct {
 //GetId returns Id
 func (m InternetDrgAttachmentNetworkDetails) GetId() *string {
 	return m.Id
+}
+
+//GetIds returns Ids
+func (m InternetDrgAttachmentNetworkDetails) GetIds() []string {
+	return m.Ids
 }
 
 func (m InternetDrgAttachmentNetworkDetails) String() string {

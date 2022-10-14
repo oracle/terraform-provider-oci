@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// InputDetails Detect anomaly async job details.
+// InputDetails Detect anomaly asynchronous job details.
 type InputDetails interface {
 }
 

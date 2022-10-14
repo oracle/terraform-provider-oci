@@ -75,6 +75,9 @@ type InternalVnicAttachment struct {
 
 	// Property describing customer facing metrics
 	MetadataList []CfmMetadata `mandatory:"false" json:"metadataList"`
+
+	// The subTopic in the shard that this VNIC would be hashing to
+	SubTopicId *string `mandatory:"false" json:"subTopicId"`
 }
 
 func (m InternalVnicAttachment) String() string {

@@ -98,7 +98,7 @@ type AutonomousContainerDatabaseSummary struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The role of the Autonomous Data Guard-enabled Autonomous Container Database.
+	// The Data Guard role of the Autonomous Container Database or Autonomous Database, if Autonomous Data Guard is enabled.
 	Role AutonomousContainerDatabaseSummaryRoleEnum `mandatory:"false" json:"role,omitempty"`
 
 	// The availability domain of the Autonomous Container Database.
@@ -395,18 +395,21 @@ const (
 	AutonomousContainerDatabaseSummaryRolePrimary         AutonomousContainerDatabaseSummaryRoleEnum = "PRIMARY"
 	AutonomousContainerDatabaseSummaryRoleStandby         AutonomousContainerDatabaseSummaryRoleEnum = "STANDBY"
 	AutonomousContainerDatabaseSummaryRoleDisabledStandby AutonomousContainerDatabaseSummaryRoleEnum = "DISABLED_STANDBY"
+	AutonomousContainerDatabaseSummaryRoleBackupCopy      AutonomousContainerDatabaseSummaryRoleEnum = "BACKUP_COPY"
 )
 
 var mappingAutonomousContainerDatabaseSummaryRoleEnum = map[string]AutonomousContainerDatabaseSummaryRoleEnum{
 	"PRIMARY":          AutonomousContainerDatabaseSummaryRolePrimary,
 	"STANDBY":          AutonomousContainerDatabaseSummaryRoleStandby,
 	"DISABLED_STANDBY": AutonomousContainerDatabaseSummaryRoleDisabledStandby,
+	"BACKUP_COPY":      AutonomousContainerDatabaseSummaryRoleBackupCopy,
 }
 
 var mappingAutonomousContainerDatabaseSummaryRoleEnumLowerCase = map[string]AutonomousContainerDatabaseSummaryRoleEnum{
 	"primary":          AutonomousContainerDatabaseSummaryRolePrimary,
 	"standby":          AutonomousContainerDatabaseSummaryRoleStandby,
 	"disabled_standby": AutonomousContainerDatabaseSummaryRoleDisabledStandby,
+	"backup_copy":      AutonomousContainerDatabaseSummaryRoleBackupCopy,
 }
 
 // GetAutonomousContainerDatabaseSummaryRoleEnumValues Enumerates the set of values for AutonomousContainerDatabaseSummaryRoleEnum
@@ -424,6 +427,7 @@ func GetAutonomousContainerDatabaseSummaryRoleEnumStringValues() []string {
 		"PRIMARY",
 		"STANDBY",
 		"DISABLED_STANDBY",
+		"BACKUP_COPY",
 	}
 }
 

@@ -25,14 +25,17 @@ import (
 // VirtualCircuitDrgAttachmentNetworkCreateDetails The representation of VirtualCircuitDrgAttachmentNetworkCreateDetails
 type VirtualCircuitDrgAttachmentNetworkCreateDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
-	Id *string `mandatory:"true" json:"id"`
-
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of compartment that contains the Virtual Circuit.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The BGP ASN to use for the Virtual Circuit's route target
 	RegionalOciAsn *string `mandatory:"true" json:"regionalOciAsn"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
+	Id *string `mandatory:"false" json:"id"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
+	Ids []string `mandatory:"false" json:"ids"`
 
 	// Whether the Fast Connect exists through an edge pop region.
 	// Example: `true`
@@ -49,6 +52,11 @@ type VirtualCircuitDrgAttachmentNetworkCreateDetails struct {
 //GetId returns Id
 func (m VirtualCircuitDrgAttachmentNetworkCreateDetails) GetId() *string {
 	return m.Id
+}
+
+//GetIds returns Ids
+func (m VirtualCircuitDrgAttachmentNetworkCreateDetails) GetIds() []string {
+	return m.Ids
 }
 
 func (m VirtualCircuitDrgAttachmentNetworkCreateDetails) String() string {

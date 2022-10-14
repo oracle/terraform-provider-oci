@@ -21,7 +21,7 @@ type LongTermBackUpScheduleDetails struct {
 	// The frequency of the long-term backup schedule
 	RepeatCadence LongTermBackUpScheduleDetailsRepeatCadenceEnum `mandatory:"false" json:"repeatCadence,omitempty"`
 
-	// The timestamp for the long-term backup schedule
+	// The timestamp for the long-term backup schedule. For a MONTHLY cadence, months having fewer days than the provided date will have the backup taken on the last day of that month.
 	TimeOfBackup *common.SDKTime `mandatory:"false" json:"timeOfBackup"`
 
 	// Retention period, in days, for long-term backups
@@ -52,27 +52,24 @@ type LongTermBackUpScheduleDetailsRepeatCadenceEnum string
 
 // Set of constants representing the allowable values for LongTermBackUpScheduleDetailsRepeatCadenceEnum
 const (
-	LongTermBackUpScheduleDetailsRepeatCadenceOneTime   LongTermBackUpScheduleDetailsRepeatCadenceEnum = "ONE_TIME"
-	LongTermBackUpScheduleDetailsRepeatCadenceWeekly    LongTermBackUpScheduleDetailsRepeatCadenceEnum = "WEEKLY"
-	LongTermBackUpScheduleDetailsRepeatCadenceMonthly   LongTermBackUpScheduleDetailsRepeatCadenceEnum = "MONTHLY"
-	LongTermBackUpScheduleDetailsRepeatCadenceQuarterly LongTermBackUpScheduleDetailsRepeatCadenceEnum = "QUARTERLY"
-	LongTermBackUpScheduleDetailsRepeatCadenceYearly    LongTermBackUpScheduleDetailsRepeatCadenceEnum = "YEARLY"
+	LongTermBackUpScheduleDetailsRepeatCadenceOneTime LongTermBackUpScheduleDetailsRepeatCadenceEnum = "ONE_TIME"
+	LongTermBackUpScheduleDetailsRepeatCadenceWeekly  LongTermBackUpScheduleDetailsRepeatCadenceEnum = "WEEKLY"
+	LongTermBackUpScheduleDetailsRepeatCadenceMonthly LongTermBackUpScheduleDetailsRepeatCadenceEnum = "MONTHLY"
+	LongTermBackUpScheduleDetailsRepeatCadenceYearly  LongTermBackUpScheduleDetailsRepeatCadenceEnum = "YEARLY"
 )
 
 var mappingLongTermBackUpScheduleDetailsRepeatCadenceEnum = map[string]LongTermBackUpScheduleDetailsRepeatCadenceEnum{
-	"ONE_TIME":  LongTermBackUpScheduleDetailsRepeatCadenceOneTime,
-	"WEEKLY":    LongTermBackUpScheduleDetailsRepeatCadenceWeekly,
-	"MONTHLY":   LongTermBackUpScheduleDetailsRepeatCadenceMonthly,
-	"QUARTERLY": LongTermBackUpScheduleDetailsRepeatCadenceQuarterly,
-	"YEARLY":    LongTermBackUpScheduleDetailsRepeatCadenceYearly,
+	"ONE_TIME": LongTermBackUpScheduleDetailsRepeatCadenceOneTime,
+	"WEEKLY":   LongTermBackUpScheduleDetailsRepeatCadenceWeekly,
+	"MONTHLY":  LongTermBackUpScheduleDetailsRepeatCadenceMonthly,
+	"YEARLY":   LongTermBackUpScheduleDetailsRepeatCadenceYearly,
 }
 
 var mappingLongTermBackUpScheduleDetailsRepeatCadenceEnumLowerCase = map[string]LongTermBackUpScheduleDetailsRepeatCadenceEnum{
-	"one_time":  LongTermBackUpScheduleDetailsRepeatCadenceOneTime,
-	"weekly":    LongTermBackUpScheduleDetailsRepeatCadenceWeekly,
-	"monthly":   LongTermBackUpScheduleDetailsRepeatCadenceMonthly,
-	"quarterly": LongTermBackUpScheduleDetailsRepeatCadenceQuarterly,
-	"yearly":    LongTermBackUpScheduleDetailsRepeatCadenceYearly,
+	"one_time": LongTermBackUpScheduleDetailsRepeatCadenceOneTime,
+	"weekly":   LongTermBackUpScheduleDetailsRepeatCadenceWeekly,
+	"monthly":  LongTermBackUpScheduleDetailsRepeatCadenceMonthly,
+	"yearly":   LongTermBackUpScheduleDetailsRepeatCadenceYearly,
 }
 
 // GetLongTermBackUpScheduleDetailsRepeatCadenceEnumValues Enumerates the set of values for LongTermBackUpScheduleDetailsRepeatCadenceEnum
@@ -90,7 +87,6 @@ func GetLongTermBackUpScheduleDetailsRepeatCadenceEnumStringValues() []string {
 		"ONE_TIME",
 		"WEEKLY",
 		"MONTHLY",
-		"QUARTERLY",
 		"YEARLY",
 	}
 }
