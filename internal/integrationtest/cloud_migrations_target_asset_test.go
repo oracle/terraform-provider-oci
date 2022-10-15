@@ -25,7 +25,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
-//fake
+// fake
 var (
 	CloudMigrationsKmsKeyId        = `${var.vaultId}`
 	CloudMigrationsImageId         = `${var.imageId}`

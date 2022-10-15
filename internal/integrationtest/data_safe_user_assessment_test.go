@@ -73,7 +73,7 @@ var (
 	DataSafeUserAssessmentResourceDependencies = DefinedTagsDependencies
 )
 
-//issue-routing-tag: data_safe/default
+// issue-routing-tag: data_safe/default
 func TestDataSafeUserAssessmentResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDataSafeUserAssessmentResource_basic")
 	defer httpreplay.SaveScenario()

@@ -25,7 +25,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
-//fake
+// fake
 var (
 	CloudMigrationsBucketName = "test_bucket"
 	CloudMigrationsAssetId    = `${var.inventoryAssetId}`

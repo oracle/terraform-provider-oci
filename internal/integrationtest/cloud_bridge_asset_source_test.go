@@ -25,7 +25,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
-//fake
+// fake
 var (
 	vcenterEndpoint = `https://11.0.11.130/sdk`
 	vaultSecretId   = `${var.vaultId}`

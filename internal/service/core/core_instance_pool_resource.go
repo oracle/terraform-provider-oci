@@ -806,11 +806,13 @@ func (s *CoreInstancePoolResourceCrud) updateCompartment(compartment interface{}
 	return nil
 }
 
-/**
-   	This method decides if load_balancers update/attach/detach should go through.
-	Only one operation can happen in single request
-	1. update/attach should happen from the end of the lb list
-	2. detach can happen from anywhere in the list.
+/*
+*
+
+	   	This method decides if load_balancers update/attach/detach should go through.
+		Only one operation can happen in single request
+		1. update/attach should happen from the end of the lb list
+		2. detach can happen from anywhere in the list.
 */
 func (s *CoreInstancePoolResourceCrud) oneEditAway(oldLoadBalancers []oci_core.AttachLoadBalancerDetails, newLoadBalancers []oci_core.AttachLoadBalancerDetails) (bool, string, oci_core.AttachLoadBalancerDetails, oci_core.AttachLoadBalancerDetails, string) {
 	newLbsLength := len(newLoadBalancers)

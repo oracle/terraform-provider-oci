@@ -1119,16 +1119,17 @@ func MonetaryDiffSuppress(key string, old string, new string, d *schema.Resource
 
 // Diff suppression function to make sure that any change in ordering of attributes in JSON objects don't result in diffs.
 // For example, the config may have created this:
-//  extended_metadata = {
-//    nested_object       = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"
-//  }
+//
+//	extended_metadata = {
+//	  nested_object       = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"
+//	}
 //
 // But we use json.Marshal to convert the service value to string before storing in state.
 // The marshalling doesn't guarantee the same ordering as our config, and so the value in state may look like:
 //
-//  extended_metadata = {
-//    nested_object       = "{\"object\": {\"some_string\": \"stringC\"}, \"some_string\": \"stringB\"}"
-//  }
+//	extended_metadata = {
+//	  nested_object       = "{\"object\": {\"some_string\": \"stringC\"}, \"some_string\": \"stringB\"}"
+//	}
 //
 // These are the same JSON objects and should be treated as such.
 func JsonStringDiffSuppressFunction(key, old, new string, d *schema.ResourceData) bool {

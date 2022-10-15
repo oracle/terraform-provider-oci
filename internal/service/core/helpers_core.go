@@ -141,7 +141,7 @@ func (s *CoreBootVolumeBackupResourceCrud) createBlockStorageSourceRegionClient(
 }
 
 // This before suppression is required because
-//`fd00:aaaa:0123::/48` in request comes back as `fd00:aaaa:123::/48` in response
+// `fd00:aaaa:0123::/48` in request comes back as `fd00:aaaa:123::/48` in response
 func ipv6CompressionDiffSuppressFunction(key string, old string, new string, d *schema.ResourceData) bool {
 	if old == "" || new == "" {
 		return false

@@ -23,7 +23,7 @@ var (
 	Green  = color.New(color.FgGreen).SprintFunc()
 )
 
-//TFProviderLogger interface for logging in the Terraform Provider
+// TFProviderLogger interface for logging in the Terraform Provider
 type TFProviderLogger interface {
 	//LogLevel returns the log level of TFProviderLogger
 	LogLevel() int
@@ -32,16 +32,16 @@ type TFProviderLogger interface {
 	Log(logLevel int, format string, v ...interface{}) error
 }
 
-//NONE no logging messages
+// NONE no logging messages
 const NONE = 0
 
-//INFO minimal logging messages
+// INFO minimal logging messages
 const INFO = 1
 
-//DEBUG debug logging messages
+// DEBUG debug logging messages
 const DEBUG = 2
 
-//defaultTFProviderLogger the default implementation of the TFProviderLogger
+// defaultTFProviderLogger the default implementation of the TFProviderLogger
 type defaultTFProviderLogger struct {
 	currentLoggingLevel int
 	debugLogger         *log.Logger
@@ -52,13 +52,13 @@ type defaultTFProviderLogger struct {
 var defaultTFLogger TFProviderLogger
 var loggerLock sync.Mutex
 
-//initializes the defaultTFProviderLogger as default Logger
+// initializes the defaultTFProviderLogger as default Logger
 func init() {
 	l, _ := NewTFProviderLogger()
 	SetTFProviderLogger(l)
 }
 
-//SetTFProviderLogger sets the defaultTFLogger to logger
+// SetTFProviderLogger sets the defaultTFLogger to logger
 func SetTFProviderLogger(logger TFProviderLogger) {
 	loggerLock.Lock()
 	defaultTFLogger = logger
@@ -117,7 +117,7 @@ func (l defaultTFProviderLogger) getLoggerForLevel(logLevel int) *log.Logger {
 	}
 }
 
-//LogLevel returns the current debug level
+// LogLevel returns the current debug level
 func (l defaultTFProviderLogger) LogLevel() int {
 	return l.currentLoggingLevel
 }

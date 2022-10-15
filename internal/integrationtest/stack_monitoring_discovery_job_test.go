@@ -25,9 +25,11 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
-/**
-  Dependency variables:
-    management_agent_id = var.stack_mon_management_agent_id_discovery
+/*
+*
+
+	Dependency variables:
+	  management_agent_id = var.stack_mon_management_agent_id_discovery
 */
 var (
 	StackMonitoringDiscoveryJobRequiredOnlyResource = StackMonitoringDiscoveryJobResourceDependencies +

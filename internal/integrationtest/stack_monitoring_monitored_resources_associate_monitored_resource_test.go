@@ -19,12 +19,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
-/**
-  Dependency variables:
-      hostname = var.stack_mon_hostname_resource1
-      management_agent_id = var.stack_mon_management_agent_id_resource1
-      hostname2 = var.stack_mon_hostname_resource2
-      management_agent_id2 = var.stack_mon_management_agent_id_resource2
+/*
+*
+
+	Dependency variables:
+	    hostname = var.stack_mon_hostname_resource1
+	    management_agent_id = var.stack_mon_management_agent_id_resource1
+	    hostname2 = var.stack_mon_hostname_resource2
+	    management_agent_id2 = var.stack_mon_management_agent_id_resource2
 */
 var (
 	StackMonitoredResourcesAssociateMonitoredResourceConfig = StackMonitoringMonitoredResourcesAssociateMonitoredResourceResourceDependencies +
