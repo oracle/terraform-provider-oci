@@ -115,8 +115,7 @@ Make sure the `output_path` is empty before running resource discovery
 * `compartment_name` - The name of a compartment to export. Use this instead of `compartment_id` to provide a compartment name
 * `exclude_services` - Comma-separated list of service resources to exclude from export. If a service is present in both 'services' and 'exclude_services' argument, it will be excluded
 * `generate_state` - Provide this flag to import the discovered resources into a state file along with the Terraform configuration
-* `ids` - Comma-separated list of tuples <resource Type:resource ID> e.g. `oci_core_instance:ocid.....`for resources to export. The ID could either be an OCID or a Terraform import ID. By default, all resources are exported
-* `list_export_services_path` - Path to output list of supported services in json format, must include json file name
+* `ids` - Comma-separated list of tuples `resource ID` or `resource Type:resource ID` e.g. `ocid.....` or `oci_core_instance:ocid.....`for resources to export. The ID could either be an OCID or a Terraform import ID. If `resource ID` format is used then sub-resources are also discovered and if `resource Type:resource ID` format is used, only resource id's given are discovered. By default, all resources are exported if ids is not added.
 * `output_path` - Absolute path to output generated configurations and state files of the exported compartment
 * `parallelism` - The number of threads to use for resource discovery. By default the value is 1
 * `variables_resource_level` - List of resource-level attributes to export as variables, following the format `resourceType.attribute`. Top-level attributes (see `variables_global_level`) are excluded from this list.
