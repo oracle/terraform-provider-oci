@@ -77,6 +77,7 @@ import (
 	tf_oda "github.com/oracle/terraform-provider-oci/internal/service/oda"
 	tf_onesubscription "github.com/oracle/terraform-provider-oci/internal/service/onesubscription"
 	tf_ons "github.com/oracle/terraform-provider-oci/internal/service/ons"
+	tf_opa "github.com/oracle/terraform-provider-oci/internal/service/opa"
 	tf_opensearch "github.com/oracle/terraform-provider-oci/internal/service/opensearch"
 	tf_operator_access_control "github.com/oracle/terraform-provider-oci/internal/service/operator_access_control"
 	tf_opsi "github.com/oracle/terraform-provider-oci/internal/service/opsi"
@@ -179,6 +180,7 @@ func init() {
 	tf_oda.RegisterDatasource()
 	tf_onesubscription.RegisterDatasource()
 	tf_ons.RegisterDatasource()
+	tf_opa.RegisterDatasource()
 	tf_opensearch.RegisterDatasource()
 	tf_operator_access_control.RegisterDatasource()
 	tf_opsi.RegisterDatasource()
