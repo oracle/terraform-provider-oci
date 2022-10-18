@@ -188,6 +188,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `ocvp` - Discovers ocvp resources within the specified compartment
     * `oda` - Discovers oda resources within the specified compartment
     * `ons` - Discovers ons resources within the specified compartment
+    * `opa` - Discovers opa resources within the specified compartment
     * `opensearch` - Discovers opensearch resources within the specified compartment
     * `operator_access_control` - Discovers operator_access_control resources within the specified compartment
     * `opsi` - Discovers opsi resources within the specified compartment
@@ -846,6 +847,10 @@ ons
     
 * oci\_ons\_notification\_topic
 * oci\_ons\_subscription
+
+opa
+    
+* oci\_opa\_opa\_instance
 
 opensearch
 
