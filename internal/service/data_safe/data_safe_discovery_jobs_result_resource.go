@@ -32,9 +32,10 @@ func DataSafeDiscoveryJobsResultResource() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			// Required
 			"discovery_job_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+				Type:       schema.TypeString,
+				Required:   true,
+				ForceNew:   true,
+				Deprecated: tfresource.ResourceDeprecated("oci_data_safe_discovery_jobs_result"),
 			},
 			// Optional
 
@@ -66,8 +67,9 @@ func DataSafeDiscoveryJobsResultResource() *schema.Resource {
 				},
 			},
 			"discovery_type": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:       schema.TypeString,
+				Computed:   true,
+				Deprecated: tfresource.ResourceDeprecated("oci_data_safe_discovery_jobs_result"),
 			},
 			"estimated_data_value_count": {
 				Type:     schema.TypeString,
@@ -78,8 +80,9 @@ func DataSafeDiscoveryJobsResultResource() *schema.Resource {
 				Computed: true,
 			},
 			"key": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:       schema.TypeString,
+				Computed:   true,
+				Deprecated: tfresource.ResourceDeprecated("oci_data_safe_discovery_jobs_result"),
 			},
 			"modified_attributes": {
 				Type:     schema.TypeList,
