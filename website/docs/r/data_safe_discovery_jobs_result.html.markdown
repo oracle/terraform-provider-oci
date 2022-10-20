@@ -8,6 +8,9 @@ description: |-
 ---
 
 # oci_data_safe_discovery_jobs_result
+
+**Deprecated. This resource does not support create and update operations.**
+
 This resource provides the Discovery Jobs Result resource in Oracle Cloud Infrastructure Data Safe service.
 
 
