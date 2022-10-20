@@ -7,6 +7,8 @@ import (
 )
 
 func init() {
+	exportMysqlMysqlConfigurationHints.RequireResourceRefresh = true
+	exportMysqlMysqlConfigurationHints.ProcessDiscoveredResourcesFn = filterMysqlConfigurations
 	exportMysqlMysqlBackupHints.RequireResourceRefresh = true
 	exportMysqlMysqlBackupHints.ProcessDiscoveredResourcesFn = filterMysqlBackups
 	exportMysqlMysqlDbSystemHints.ProcessDiscoveredResourcesFn = processMysqlDbSystem
@@ -49,7 +51,37 @@ func processMysqlDbSystem(ctx *tf_export.ResourceDiscoveryContext, resources []*
 	return resources, nil
 }
 
+// exclude default configurations
+func filterMysqlConfigurations(ctx *tf_export.ResourceDiscoveryContext, resources []*tf_export.OCIResource) ([]*tf_export.OCIResource, error) {
+	results := []*tf_export.OCIResource{}
+
+	// Filter out Mysql Backups that are automatically created. We cannot operate on "Automatic" backups.
+	for _, configuration := range resources {
+		configurationType, exists := configuration.SourceAttributes["type"]
+
+		if exists && configurationType.(string) == "DEFAULT" {
+			continue
+		}
+
+		results = append(results, configuration)
+	}
+
+	return results, nil
+}
+
 // Hints for discovering and exporting this resource to configuration and state files
+
+var exportMysqlMysqlConfigurationHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_mysql_mysql_configuration",
+	DatasourceClass:        "oci_mysql_mysql_configurations",
+	DatasourceItemsAttr:    "configurations",
+	ResourceAbbreviation:   "mysql_configuration",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_mysql.ConfigurationLifecycleStateActive),
+	},
+}
+
 var exportMysqlHeatWaveClusterHints = &tf_export.TerraformResourceHints{
 	ResourceClass:        "oci_mysql_heat_wave_cluster",
 	DatasourceClass:      "oci_mysql_heat_wave_cluster",
@@ -94,6 +126,7 @@ var exportMysqlChannelHints = &tf_export.TerraformResourceHints{
 
 var mysqlResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
+		{TerraformResourceHints: exportMysqlMysqlConfigurationHints},
 		{TerraformResourceHints: exportMysqlMysqlBackupHints},
 		{TerraformResourceHints: exportMysqlMysqlDbSystemHints},
 		{TerraformResourceHints: exportMysqlChannelHints},
