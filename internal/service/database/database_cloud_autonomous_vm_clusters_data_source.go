@@ -156,6 +156,8 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 			cloudAutonomousVmCluster["cluster_time_zone"] = *r.ClusterTimeZone
 		}
 
+		cloudAutonomousVmCluster["compute_model"] = r.ComputeModel
+
 		if r.CpuCoreCount != nil {
 			cloudAutonomousVmCluster["cpu_core_count"] = *r.CpuCoreCount
 		}

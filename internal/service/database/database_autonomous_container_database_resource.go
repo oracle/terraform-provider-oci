@@ -405,6 +405,10 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Type:     schema.TypeFloat,
 				Computed: true,
 			},
+			"compute_model": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"infrastructure_type": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -996,6 +1000,8 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
+
+	s.D.Set("compute_model", s.Res.ComputeModel)
 
 	if s.Res.DbVersion != nil {
 		s.D.Set("db_version", *s.Res.DbVersion)
