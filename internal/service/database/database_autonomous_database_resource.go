@@ -94,6 +94,17 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"compute_count": {
+				Type:     schema.TypeFloat,
+				Optional: true,
+				Computed: true,
+			},
+			"compute_model": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"cpu_core_count": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -1270,6 +1281,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.AutonomousDatabaseId = &tmp
 
+	if computeCount, ok := s.D.GetOkExists("compute_count"); ok {
+		tmp := float32(computeCount.(float64))
+		request.ComputeCount = &tmp
+	}
+
 	if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok && s.D.HasChange("cpu_core_count") {
 		tmp := cpuCoreCount.(int)
 		request.CpuCoreCount = &tmp
@@ -1588,6 +1604,12 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
+
+	if s.Res.ComputeCount != nil {
+		s.D.Set("compute_count", *s.Res.ComputeCount)
+	}
+
+	s.D.Set("compute_model", s.Res.ComputeModel)
 
 	if s.Res.ConnectionStrings != nil {
 		s.D.Set("connection_strings", []interface{}{AutonomousDatabaseConnectionStringsToMap(s.Res.ConnectionStrings)})
@@ -2215,6 +2237,13 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
 		}
+		if computeCount, ok := s.D.GetOkExists("compute_count"); ok {
+			tmp := float32(computeCount.(float64))
+			details.ComputeCount = &tmp
+		}
+		if computeModel, ok := s.D.GetOkExists("compute_model"); ok {
+			details.ComputeModel = oci_database.CreateAutonomousDatabaseBaseComputeModelEnum(computeModel.(string))
+		}
 		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
 			tmp := cpuCoreCount.(int)
 			details.CpuCoreCount = &tmp
@@ -2461,6 +2490,13 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
 		}
+		if computeCount, ok := s.D.GetOkExists("compute_count"); ok {
+			tmp := float32(computeCount.(float64))
+			details.ComputeCount = &tmp
+		}
+		if computeModel, ok := s.D.GetOkExists("compute_model"); ok {
+			details.ComputeModel = oci_database.CreateAutonomousDatabaseBaseComputeModelEnum(computeModel.(string))
+		}
 		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
 			tmp := cpuCoreCount.(int)
 			details.CpuCoreCount = &tmp
@@ -2696,6 +2732,13 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
 		}
+		if computeCount, ok := s.D.GetOkExists("compute_count"); ok {
+			tmp := float32(computeCount.(float64))
+			details.ComputeCount = &tmp
+		}
+		if computeModel, ok := s.D.GetOkExists("compute_model"); ok {
+			details.ComputeModel = oci_database.CreateAutonomousDatabaseBaseComputeModelEnum(computeModel.(string))
+		}
 		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
 			tmp := cpuCoreCount.(int)
 			details.CpuCoreCount = &tmp
@@ -2927,6 +2970,13 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
 		}
+		if computeCount, ok := s.D.GetOkExists("compute_count"); ok {
+			tmp := float32(computeCount.(float64))
+			details.ComputeCount = &tmp
+		}
+		if computeModel, ok := s.D.GetOkExists("compute_model"); ok {
+			details.ComputeModel = oci_database.CreateAutonomousDatabaseBaseComputeModelEnum(computeModel.(string))
+		}
 		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
 			tmp := cpuCoreCount.(int)
 			details.CpuCoreCount = &tmp
@@ -3150,6 +3200,13 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
 		}
+		if computeCount, ok := s.D.GetOkExists("compute_count"); ok {
+			tmp := float32(computeCount.(float64))
+			details.ComputeCount = &tmp
+		}
+		if computeModel, ok := s.D.GetOkExists("compute_model"); ok {
+			details.ComputeModel = oci_database.CreateAutonomousDatabaseBaseComputeModelEnum(computeModel.(string))
+		}
 		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
 			tmp := cpuCoreCount.(int)
 			details.CpuCoreCount = &tmp
@@ -3371,6 +3428,13 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
+		}
+		if computeCount, ok := s.D.GetOkExists("compute_count"); ok {
+			tmp := float32(computeCount.(float64))
+			details.ComputeCount = &tmp
+		}
+		if computeModel, ok := s.D.GetOkExists("compute_model"); ok {
+			details.ComputeModel = oci_database.CreateAutonomousDatabaseBaseComputeModelEnum(computeModel.(string))
 		}
 		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
 			tmp := cpuCoreCount.(int)

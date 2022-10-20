@@ -74,6 +74,12 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"compute_model": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -554,6 +560,10 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Create() error {
 		}
 	}
 
+	if computeModel, ok := s.D.GetOkExists("compute_model"); ok {
+		request.ComputeModel = oci_database.CreateCloudAutonomousVmClusterDetailsComputeModelEnum(computeModel.(string))
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -801,6 +811,8 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
+
+	s.D.Set("compute_model", s.Res.ComputeModel)
 
 	if s.Res.CpuCoreCount != nil {
 		s.D.Set("cpu_core_count", *s.Res.CpuCoreCount)

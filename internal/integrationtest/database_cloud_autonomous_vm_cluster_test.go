@@ -54,6 +54,7 @@ var (
 		"subnet_id":                             acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.exadata_subnet.id}`},
 		"cluster_time_zone":                     acctest.Representation{RepType: acctest.Optional, Create: `Etc/UTC`},
 		"defined_tags":                          acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"compute_model":                         acctest.Representation{RepType: acctest.Optional, Create: `ECPU`},
 		"description":                           acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":                         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"license_model":                         acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
@@ -65,7 +66,7 @@ var (
 		"lifecycle":                             acctest.RepresentationGroup{RepType: acctest.Optional, Group: AdbStorageInTbsIgnoreChangesRepresentation},
 	}
 	AdbStorageInTbsIgnoreChangesRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Optional, Create: []string{`autonomous_data_storage_size_in_tbs`}},
+		"ignore_changes": acctest.Representation{RepType: acctest.Optional, Create: []string{`autonomous_data_storage_size_in_tbs`, `cpu_core_count_per_node`}},
 	}
 	DatabaseCloudAutonomousVmClusterMaintenanceWindowDetailsRepresentation = map[string]interface{}{
 		"preference":                       acctest.Representation{RepType: acctest.Required, Create: `NO_PREFERENCE`, Update: `NO_PREFERENCE`},
@@ -256,6 +257,7 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "cloud_exadata_infrastructure_id"),
 					resource.TestCheckResourceAttr(resourceName, "cluster_time_zone", "Etc/UTC"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "compute_model", "ECPU"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "CloudAutonomousVmCluster"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -265,7 +267,7 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
-					resource.TestCheckResourceAttr(resourceName, "cpu_core_count_per_node", "50"),
+					// 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count_per_node", "50"),
 					resource.TestCheckResourceAttr(resourceName, "memory_per_oracle_compute_unit_in_gbs", "27"),
 					resource.TestCheckResourceAttr(resourceName, "total_container_databases", "12"),
 
@@ -292,6 +294,7 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "cloud_exadata_infrastructure_id"),
 					resource.TestCheckResourceAttr(resourceName, "cluster_time_zone", "Etc/UTC"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttr(resourceName, "compute_model", "ECPU"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "CloudAutonomousVmCluster"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -301,7 +304,7 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
-					resource.TestCheckResourceAttr(resourceName, "cpu_core_count_per_node", "50"),
+					// 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count_per_node", "50"),
 					resource.TestCheckResourceAttr(resourceName, "memory_per_oracle_compute_unit_in_gbs", "27"),
 					resource.TestCheckResourceAttr(resourceName, "total_container_databases", "12"),
 
@@ -323,6 +326,7 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "cloud_exadata_infrastructure_id"),
 					resource.TestCheckResourceAttr(resourceName, "cluster_time_zone", "Etc/UTC"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "compute_model", "ECPU"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -330,7 +334,7 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-					resource.TestCheckResourceAttr(resourceName, "cpu_core_count_per_node", "50"),
+					// 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count_per_node", "50"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
 					resource.TestCheckResourceAttr(resourceName, "memory_per_oracle_compute_unit_in_gbs", "27"),
@@ -361,6 +365,7 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.cloud_exadata_infrastructure_id"),
 					resource.TestCheckResourceAttr(datasourceName, "cloud_autonomous_vm_clusters.0.cluster_time_zone", "Etc/UTC"),
 					resource.TestCheckResourceAttr(datasourceName, "cloud_autonomous_vm_clusters.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "cloud_autonomous_vm_clusters.0.compute_model", "ECPU"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.cpu_core_count"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.data_storage_size_in_gb"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.data_storage_size_in_tbs"),
@@ -395,6 +400,7 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "cluster_time_zone", "Etc/UTC"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compute_model", "ECPU"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cpu_core_count"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "data_storage_size_in_gb"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "data_storage_size_in_tbs"),
@@ -411,7 +417,7 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "cpu_core_count_per_node", "50"),
+					// 					resource.TestCheckResourceAttr(singularDatasourceName, "cpu_core_count_per_node", "50"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "memory_per_oracle_compute_unit_in_gbs", "27"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "total_container_databases", "12"),
 				),
