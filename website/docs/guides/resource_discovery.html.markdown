@@ -758,7 +758,8 @@ monitoring
 * oci\_monitoring\_alarm
 
 mysql
-    
+
+* oci\_mysql\_mysql\_configuration
 * oci\_mysql\_heat\_wave\_cluster
 * oci\_mysql\_mysql\_backup
 * oci\_mysql\_mysql\_db\_system
