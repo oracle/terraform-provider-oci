@@ -139,6 +139,8 @@ func (s *DatabaseAutonomousVmClustersDataSourceCrud) SetData() error {
 			autonomousVmCluster["available_data_storage_size_in_tbs"] = *r.AvailableDataStorageSizeInTBs
 		}
 
+		autonomousVmCluster["compute_model"] = r.ComputeModel
+
 		if r.CpuCoreCountPerNode != nil {
 			autonomousVmCluster["cpu_core_count_per_node"] = *r.CpuCoreCountPerNode
 		}

@@ -25,6 +25,7 @@ resource "oci_database_autonomous_vm_cluster" "test_autonomous_vm_cluster" {
 
 	#Optional
 	autonomous_data_storage_size_in_tbs = var.autonomous_vm_cluster_autonomous_data_storage_size_in_tbs
+	compute_model = var.autonomous_vm_cluster_compute_model
 	cpu_core_count_per_node = var.autonomous_vm_cluster_cpu_core_count_per_node
 	defined_tags = var.autonomous_vm_cluster_defined_tags
 	freeform_tags = {"Department"= "Finance"}
@@ -62,6 +63,7 @@ The following arguments are supported:
 
 * `autonomous_data_storage_size_in_tbs` - (Optional) The data disk group size to be allocated for Autonomous Databases, in TBs.
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `compute_model` - (Optional) The compute model of the Autonomous VM Cluster.
 * `cpu_core_count_per_node` - (Optional) The number of CPU cores to enable per VM cluster node.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - (Required) The user-friendly name for the Autonomous VM cluster. The name does not need to be unique.
@@ -101,6 +103,7 @@ The following attributes are exported:
 * `available_cpus` - The numnber of CPU cores available.
 * `available_data_storage_size_in_tbs` - **Deprecated.** Use `availableAutonomousDataStorageSizeInTBs` for Autonomous Databases' data storage availability in TBs. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `compute_model` - The compute model of the Autonomous VM Cluster.
 * `cpu_core_count_per_node` - The number of CPU cores enabled per VM cluster node.
 * `cpus_enabled` - The number of enabled CPU cores.
 * `data_storage_size_in_tbs` - The total data storage allocated in TBs

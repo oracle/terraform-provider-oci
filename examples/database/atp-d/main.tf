@@ -67,7 +67,7 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
   #Required
   admin_password           = random_string.autonomous_database_admin_password.result
   compartment_id           = var.compartment_ocid
-  cpu_core_count           = "1"
+  compute_count            = "1"
   data_storage_size_in_tbs = "1"
   db_name                  = "atpdb1"
 
@@ -77,14 +77,15 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
   display_name                     = "example_autonomous_database-007"
   freeform_tags                    = var.autonomous_database_freeform_tags
   is_dedicated                     = "true"
-  rotate_key_trigger = "true"
+  rotate_key_trigger               = "true"
+  compute_model                    = "ECPU"
 }
 
 resource "oci_database_autonomous_database" "test_autonomous_database_character_set_support" {
   #Required
   admin_password           = random_string.autonomous_database_admin_password.result
   compartment_id           = var.compartment_ocid
-  cpu_core_count           = "1"
+  compute_count            = "1"
   data_storage_size_in_tbs = "1"
   db_name                  = "atpdb2"
 

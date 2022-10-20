@@ -189,6 +189,8 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 			autonomousContainerDatabase["cloud_autonomous_vm_cluster_id"] = *r.CloudAutonomousVmClusterId
 		}
 
+		autonomousContainerDatabase["compute_model"] = r.ComputeModel
+
 		if r.DbUniqueName != nil {
 			autonomousContainerDatabase["db_unique_name"] = *r.DbUniqueName
 		}
