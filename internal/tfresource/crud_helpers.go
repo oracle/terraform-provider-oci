@@ -557,6 +557,10 @@ func ResourceDeprecatedForAnother(deprecatedResourceName string, newResourceName
 	return fmt.Sprintf("The '%s' resource has been deprecated. Please use '%s' instead.", deprecatedResourceName, newResourceName)
 }
 
+func ResourceDeprecated(deprecatedResourceName string) string {
+	return fmt.Sprintf("The '%s' resource has been deprecated. It is no longer supported.", deprecatedResourceName)
+}
+
 func ResourceNotFoundErrorMessage(resourceName string, reason string) error {
 	// Use this function to generate an error message for any resource that is not found.  The message is specially
 	// formatted so that it is detected by the handleMissingResourceError function correctly.  Do not change the message format.
