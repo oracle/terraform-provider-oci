@@ -77,6 +77,9 @@ type SummarizeApplicationUsageRequest struct {
 	// Filter the list with displayName contains the given value.
 	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
 
+	// The library key.
+	LibraryKey *string `mandatory:"false" contributesTo:"query" name:"libraryKey"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

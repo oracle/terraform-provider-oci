@@ -47,6 +47,9 @@ type BitbucketCloudAppPasswordConnectionSummary struct {
 	// The time the connection was updated. Format defined by RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339).
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
+	// A detailed message describing the current state. For example, can be used to provide actionable information for a resource in Failed state.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
@@ -93,6 +96,11 @@ func (m BitbucketCloudAppPasswordConnectionSummary) GetTimeCreated() *common.SDK
 //GetTimeUpdated returns TimeUpdated
 func (m BitbucketCloudAppPasswordConnectionSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
+}
+
+//GetLifecycleDetails returns LifecycleDetails
+func (m BitbucketCloudAppPasswordConnectionSummary) GetLifecycleDetails() *string {
+	return m.LifecycleDetails
 }
 
 //GetLifecycleState returns LifecycleState

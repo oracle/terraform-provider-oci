@@ -31,6 +31,14 @@ type CreateVmwareVmAssetDetails struct {
 	// The key of the asset from the external environment.
 	ExternalAssetKey *string `mandatory:"true" json:"externalAssetKey"`
 
+	Compute *ComputeProperties `mandatory:"true" json:"compute"`
+
+	Vm *VmProperties `mandatory:"true" json:"vm"`
+
+	VmwareVm *VmwareVmProperties `mandatory:"true" json:"vmwareVm"`
+
+	VmwareVCenter *VmwareVCenterProperties `mandatory:"true" json:"vmwareVCenter"`
+
 	// Asset display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -46,14 +54,6 @@ type CreateVmwareVmAssetDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-
-	Compute *ComputeProperties `mandatory:"false" json:"compute"`
-
-	Vm *VmProperties `mandatory:"false" json:"vm"`
-
-	VmwareVm *VmwareVmProperties `mandatory:"false" json:"vmwareVm"`
-
-	VmwareVCenter *VmwareVCenterProperties `mandatory:"false" json:"vmwareVCenter"`
 }
 
 //GetDisplayName returns DisplayName

@@ -47,6 +47,10 @@ type FleetSummary struct {
 	// This metric is provided on a best-effort manner, and is not taken into account when computing the resource ETag.
 	ApproximateManagedInstanceCount *int `mandatory:"true" json:"approximateManagedInstanceCount"`
 
+	// The approximate count of all unique Java servers in the Fleet in the past seven days.
+	// This metric is provided on a best-effort manner, and is not taken into account when computing the resource ETag.
+	ApproximateJavaServerCount *int `mandatory:"true" json:"approximateJavaServerCount"`
+
 	// The creation date and time of the Fleet (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
@@ -57,7 +61,8 @@ type FleetSummary struct {
 
 	OperationLog *CustomLog `mandatory:"false" json:"operationLog"`
 
-	// Whether or not advanced features are enabled in this fleet.  By default, this is set to false.
+	// Whether or not advanced features are enabled in this fleet.
+	// This flag is true if any one of the advanced features is turned on.
 	IsAdvancedFeaturesEnabled *bool `mandatory:"false" json:"isAdvancedFeaturesEnabled"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.

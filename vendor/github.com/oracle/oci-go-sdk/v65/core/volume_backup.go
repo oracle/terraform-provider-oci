@@ -79,7 +79,7 @@ type VolumeBackup struct {
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
 	// The size (in Bytes) of the blocks for this block volume, between 512B to 32KB.
-	IoAlignmentSizeInBytes *int64 `mandatory:"false" json:"ioAlignmentSizeInBytes"`
+	IoAlignmentSizeInBytes *int `mandatory:"false" json:"ioAlignmentSizeInBytes"`
 
 	// The size of the volume, in GBs.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`

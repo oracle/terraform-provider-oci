@@ -3666,6 +3666,60 @@ func (client DataScienceClient) headModelArtifact(ctx context.Context, request c
 	return response, err
 }
 
+// HeadStepArtifact Get the artifact metadata for a step in the pipeline.
+// A default retry strategy applies to this operation HeadStepArtifact()
+func (client DataScienceClient) HeadStepArtifact(ctx context.Context, request HeadStepArtifactRequest) (response HeadStepArtifactResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.headStepArtifact, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = HeadStepArtifactResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = HeadStepArtifactResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(HeadStepArtifactResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into HeadStepArtifactResponse")
+	}
+	return
+}
+
+// headStepArtifact implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) headStepArtifact(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodHead, "/pipelines/{pipelineId}/steps/{stepName}/artifact/content", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response HeadStepArtifactResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Pipeline/HeadStepArtifact"
+		err = common.PostProcessServiceError(err, "DataScience", "HeadStepArtifact", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ImportModelArtifact Import model artifact from service bucket
 func (client DataScienceClient) ImportModelArtifact(ctx context.Context, request ImportModelArtifactRequest) (response ImportModelArtifactResponse, err error) {
 	var ociResponse common.OCIResponse

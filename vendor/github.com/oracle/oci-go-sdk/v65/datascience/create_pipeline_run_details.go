@@ -19,14 +19,14 @@ import (
 // CreatePipelineRunDetails The information about new PipelineRun.
 type CreatePipelineRunDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the pipeline run with.
-	ProjectId *string `mandatory:"true" json:"projectId"`
-
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the pipeline run.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline for which pipeline run is created.
 	PipelineId *string `mandatory:"true" json:"pipelineId"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the pipeline run with.
+	ProjectId *string `mandatory:"false" json:"projectId"`
 
 	// A user-friendly display name for the resource.
 	DisplayName *string `mandatory:"false" json:"displayName"`
@@ -70,6 +70,7 @@ func (m CreatePipelineRunDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreatePipelineRunDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		ProjectId                       *string                           `json:"projectId"`
 		DisplayName                     *string                           `json:"displayName"`
 		ConfigurationOverrideDetails    pipelineconfigurationdetails      `json:"configurationOverrideDetails"`
 		LogConfigurationOverrideDetails *PipelineLogConfigurationDetails  `json:"logConfigurationOverrideDetails"`
@@ -77,7 +78,6 @@ func (m *CreatePipelineRunDetails) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags                    map[string]string                 `json:"freeformTags"`
 		DefinedTags                     map[string]map[string]interface{} `json:"definedTags"`
 		SystemTags                      map[string]map[string]interface{} `json:"systemTags"`
-		ProjectId                       *string                           `json:"projectId"`
 		CompartmentId                   *string                           `json:"compartmentId"`
 		PipelineId                      *string                           `json:"pipelineId"`
 	}{}
@@ -87,6 +87,8 @@ func (m *CreatePipelineRunDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.ProjectId = model.ProjectId
+
 	m.DisplayName = model.DisplayName
 
 	nn, e = model.ConfigurationOverrideDetails.UnmarshalPolymorphicJSON(model.ConfigurationOverrideDetails.JsonData)
@@ -111,8 +113,6 @@ func (m *CreatePipelineRunDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.SystemTags = model.SystemTags
-
-	m.ProjectId = model.ProjectId
 
 	m.CompartmentId = model.CompartmentId
 

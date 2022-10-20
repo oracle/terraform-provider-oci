@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// JavaReleaseCollection Collection of information about the Java releases.
+// JavaReleaseCollection Collection of Java releases information.
 type JavaReleaseCollection struct {
 
 	// A list of the Java release information.

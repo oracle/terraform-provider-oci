@@ -136,16 +136,19 @@ type AnalyzeAssetsAssetTypeEnum string
 const (
 	AnalyzeAssetsAssetTypeVmwareVm AnalyzeAssetsAssetTypeEnum = "VMWARE_VM"
 	AnalyzeAssetsAssetTypeVm       AnalyzeAssetsAssetTypeEnum = "VM"
+	AnalyzeAssetsAssetTypeOracleDb AnalyzeAssetsAssetTypeEnum = "ORACLE_DB"
 )
 
 var mappingAnalyzeAssetsAssetTypeEnum = map[string]AnalyzeAssetsAssetTypeEnum{
 	"VMWARE_VM": AnalyzeAssetsAssetTypeVmwareVm,
 	"VM":        AnalyzeAssetsAssetTypeVm,
+	"ORACLE_DB": AnalyzeAssetsAssetTypeOracleDb,
 }
 
 var mappingAnalyzeAssetsAssetTypeEnumLowerCase = map[string]AnalyzeAssetsAssetTypeEnum{
 	"vmware_vm": AnalyzeAssetsAssetTypeVmwareVm,
 	"vm":        AnalyzeAssetsAssetTypeVm,
+	"oracle_db": AnalyzeAssetsAssetTypeOracleDb,
 }
 
 // GetAnalyzeAssetsAssetTypeEnumValues Enumerates the set of values for AnalyzeAssetsAssetTypeEnum
@@ -162,6 +165,7 @@ func GetAnalyzeAssetsAssetTypeEnumStringValues() []string {
 	return []string{
 		"VMWARE_VM",
 		"VM",
+		"ORACLE_DB",
 	}
 }
 

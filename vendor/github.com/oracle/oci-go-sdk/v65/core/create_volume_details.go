@@ -76,7 +76,7 @@ type CreateVolumeDetails struct {
 	//       * `8192` : 8 KB
 	//       * `16384`: 16 KB
 	//       * `32768`: 32 KB
-	IoAlignmentSizeInBytes *int64 `mandatory:"false" json:"ioAlignmentSizeInBytes"`
+	IoAlignmentSizeInBytes *int `mandatory:"false" json:"ioAlignmentSizeInBytes"`
 
 	// The size of the volume in GBs.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
@@ -138,7 +138,7 @@ func (m *CreateVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags           map[string]string                 `json:"freeformTags"`
 		KmsKeyId               *string                           `json:"kmsKeyId"`
 		VpusPerGB              *int64                            `json:"vpusPerGB"`
-		IoAlignmentSizeInBytes *int64                            `json:"ioAlignmentSizeInBytes"`
+		IoAlignmentSizeInBytes *int                              `json:"ioAlignmentSizeInBytes"`
 		SizeInGBs              *int64                            `json:"sizeInGBs"`
 		SizeInMBs              *int64                            `json:"sizeInMBs"`
 		SourceDetails          volumesourcedetails               `json:"sourceDetails"`

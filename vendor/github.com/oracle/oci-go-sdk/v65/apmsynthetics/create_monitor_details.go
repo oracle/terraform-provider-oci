@@ -61,7 +61,7 @@ type CreateMonitorDetails struct {
 
 	Configuration MonitorConfiguration `mandatory:"false" json:"configuration"`
 
-	SlaConfiguration *SlaConfiguration `mandatory:"false" json:"slaConfiguration"`
+	AvailabilityConfiguration *AvailabilityConfiguration `mandatory:"false" json:"availabilityConfiguration"`
 
 	MaintenanceWindowSchedule *MaintenanceWindowSchedule `mandatory:"false" json:"maintenanceWindowSchedule"`
 
@@ -121,7 +121,7 @@ func (m *CreateMonitorDetails) UnmarshalJSON(data []byte) (e error) {
 		Target                    *string                           `json:"target"`
 		ScriptParameters          []MonitorScriptParameter          `json:"scriptParameters"`
 		Configuration             monitorconfiguration              `json:"configuration"`
-		SlaConfiguration          *SlaConfiguration                 `json:"slaConfiguration"`
+		AvailabilityConfiguration *AvailabilityConfiguration        `json:"availabilityConfiguration"`
 		MaintenanceWindowSchedule *MaintenanceWindowSchedule        `json:"maintenanceWindowSchedule"`
 		FreeformTags              map[string]string                 `json:"freeformTags"`
 		DefinedTags               map[string]map[string]interface{} `json:"definedTags"`
@@ -165,7 +165,7 @@ func (m *CreateMonitorDetails) UnmarshalJSON(data []byte) (e error) {
 		m.Configuration = nil
 	}
 
-	m.SlaConfiguration = model.SlaConfiguration
+	m.AvailabilityConfiguration = model.AvailabilityConfiguration
 
 	m.MaintenanceWindowSchedule = model.MaintenanceWindowSchedule
 

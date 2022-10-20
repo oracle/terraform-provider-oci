@@ -30,12 +30,6 @@ type PhaseStatus struct {
 	// True if a Pre-Migration Advisor report is available for this phase. False or null if no report is available.
 	IsAdvisorReportAvailable *bool `mandatory:"false" json:"isAdvisorReportAvailable"`
 
-	// The text describing the root cause of the reported issue
-	Issue *string `mandatory:"false" json:"issue"`
-
-	// The text describing the action required to fix the issue
-	Action *string `mandatory:"false" json:"action"`
-
 	// Summary of phase status results.
 	Extract []PhaseExtractEntry `mandatory:"false" json:"extract"`
 

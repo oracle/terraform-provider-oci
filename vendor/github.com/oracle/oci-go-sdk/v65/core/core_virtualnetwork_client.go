@@ -5047,6 +5047,65 @@ func (client VirtualNetworkClient) createInternetGateway(ctx context.Context, re
 	return response, err
 }
 
+// CreateIpsecConnectionTunnel Creates one new private IPSec connection tunnel for private cpe and enable encryption for fast connect
+// A default retry strategy applies to this operation CreateIpsecConnectionTunnel()
+func (client VirtualNetworkClient) CreateIpsecConnectionTunnel(ctx context.Context, request CreateIpsecConnectionTunnelRequest) (response CreateIpsecConnectionTunnelResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createIpsecConnectionTunnel, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateIpsecConnectionTunnelResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateIpsecConnectionTunnelResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateIpsecConnectionTunnelResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateIpsecConnectionTunnelResponse")
+	}
+	return
+}
+
+// createIpsecConnectionTunnel implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) createIpsecConnectionTunnel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/ipsecConnections/{ipscId}/tunnels", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateIpsecConnectionTunnelResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnectionTunnel/CreateIpsecConnectionTunnel"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateIpsecConnectionTunnel", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateIpv6 Creates an IPv6 for the specified VNIC.
 func (client VirtualNetworkClient) CreateIpv6(ctx context.Context, request CreateIpv6Request) (response CreateIpv6Response, err error) {
 	var ociResponse common.OCIResponse
@@ -8110,6 +8169,62 @@ func (client VirtualNetworkClient) deleteInternetGateway(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternetGateway", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteIpsecConnectionTunnel Deletes the specified IPSec connection tunnel.
+// This is an asynchronous operation. The connection's `lifecycleState` will change to TERMINATING temporarily
+// until the connection is completely removed.
+// A default retry strategy applies to this operation DeleteIpsecConnectionTunnel()
+func (client VirtualNetworkClient) DeleteIpsecConnectionTunnel(ctx context.Context, request DeleteIpsecConnectionTunnelRequest) (response DeleteIpsecConnectionTunnelResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteIpsecConnectionTunnel, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteIpsecConnectionTunnelResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteIpsecConnectionTunnelResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteIpsecConnectionTunnelResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteIpsecConnectionTunnelResponse")
+	}
+	return
+}
+
+// deleteIpsecConnectionTunnel implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) deleteIpsecConnectionTunnel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/ipsecConnections/{ipscId}/tunnels/{tunnelId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteIpsecConnectionTunnelResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/IpsecConnectionTunnel/DeleteIpsecConnectionTunnel"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteIpsecConnectionTunnel", apiReferenceLink)
 		return response, err
 	}
 
@@ -18932,6 +19047,60 @@ func (client VirtualNetworkClient) listVcns(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vcn/ListVcns"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListVcns", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListVirtualCircuitAssociatedTunnels Gets the specified virtual circuit's associatedTunnelsInfo.
+// A default retry strategy applies to this operation ListVirtualCircuitAssociatedTunnels()
+func (client VirtualNetworkClient) ListVirtualCircuitAssociatedTunnels(ctx context.Context, request ListVirtualCircuitAssociatedTunnelsRequest) (response ListVirtualCircuitAssociatedTunnelsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listVirtualCircuitAssociatedTunnels, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListVirtualCircuitAssociatedTunnelsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListVirtualCircuitAssociatedTunnelsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListVirtualCircuitAssociatedTunnelsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListVirtualCircuitAssociatedTunnelsResponse")
+	}
+	return
+}
+
+// listVirtualCircuitAssociatedTunnels implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listVirtualCircuitAssociatedTunnels(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/virtualCircuits/{virtualCircuitId}/associatedTunnels", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListVirtualCircuitAssociatedTunnelsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VirtualCircuitAssociatedTunnelDetails/ListVirtualCircuitAssociatedTunnels"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListVirtualCircuitAssociatedTunnels", apiReferenceLink)
 		return response, err
 	}
 

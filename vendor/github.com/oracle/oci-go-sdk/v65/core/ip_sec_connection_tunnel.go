@@ -92,6 +92,13 @@ type IpSecConnectionTunnel struct {
 	PhaseOneDetails *TunnelPhaseOneDetails `mandatory:"false" json:"phaseOneDetails"`
 
 	PhaseTwoDetails *TunnelPhaseTwoDetails `mandatory:"false" json:"phaseTwoDetails"`
+
+	// The list of VirtualCircuit OCID over which the customer can reach this tunnel.
+	AssociatedVirtualCircuits []string `mandatory:"false" json:"associatedVirtualCircuits"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table that is assigned to this attachment.
+	// The DRG route table manages traffic inside the DRG.
+	DrgRouteTableId *string `mandatory:"false" json:"drgRouteTableId"`
 }
 
 func (m IpSecConnectionTunnel) String() string {

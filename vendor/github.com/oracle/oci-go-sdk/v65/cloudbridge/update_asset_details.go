@@ -74,6 +74,10 @@ func (m *updateassetdetails) UnmarshalPolymorphicJSON(data []byte) (interface{},
 
 	var err error
 	switch m.AssetType {
+	case "ORACLE_DB":
+		mm := UpdateOracleDbAssetDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "VM":
 		mm := UpdateVmAssetDetails{}
 		err = json.Unmarshal(data, &mm)

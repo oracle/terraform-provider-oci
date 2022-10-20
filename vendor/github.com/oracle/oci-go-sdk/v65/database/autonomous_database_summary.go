@@ -393,12 +393,6 @@ type AutonomousDatabaseSummary struct {
 	TimeDisasterRecoveryRoleChanged *common.SDKTime `mandatory:"false" json:"timeDisasterRecoveryRoleChanged"`
 
 	RemoteDisasterRecoveryConfiguration *DisasterRecoveryConfiguration `mandatory:"false" json:"remoteDisasterRecoveryConfiguration"`
-
-	// The OCI vault secret [/Content/General/Concepts/identifiers.htm]OCID.
-	SecretId *string `mandatory:"false" json:"secretId"`
-
-	// The version of the vault secret. If no version is specified, the latest version will be used.
-	SecretVersionNumber *int `mandatory:"false" json:"secretVersionNumber"`
 }
 
 func (m AutonomousDatabaseSummary) String() string {

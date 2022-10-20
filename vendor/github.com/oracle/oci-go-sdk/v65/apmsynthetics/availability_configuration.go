@@ -15,24 +15,24 @@ import (
 	"strings"
 )
 
-// SlaConfiguration Details of the SLA for availability.
-type SlaConfiguration struct {
+// AvailabilityConfiguration Monitor availability details.
+type AvailabilityConfiguration struct {
 
 	// Intervals with failed runs more than this value will be classified as UNAVAILABLE.
 	MaxAllowedFailuresPerInterval *int `mandatory:"false" json:"maxAllowedFailuresPerInterval"`
 
-	// Intervals with runs less than this value will be classified as UNKNOWN and excluded from the SLA calculations.
+	// Intervals with runs less than this value will be classified as UNKNOWN and excluded from the availability calculations.
 	MinAllowedRunsPerInterval *int `mandatory:"false" json:"minAllowedRunsPerInterval"`
 }
 
-func (m SlaConfiguration) String() string {
+func (m AvailabilityConfiguration) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m SlaConfiguration) ValidateEnumValue() (bool, error) {
+func (m AvailabilityConfiguration) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

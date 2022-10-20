@@ -30,6 +30,7 @@ import (
 //   - freeformTags
 //   - logsBucketUri
 //   - metastoreId
+//   - lakehouseId
 //   - numExecutors
 //   - parameters
 //   - sparkVersion
@@ -113,6 +114,9 @@ type CreateRunDetails struct {
 
 	// The OCID of OCI Hive Metastore.
 	MetastoreId *string `mandatory:"false" json:"metastoreId"`
+
+	// The OCID of OCI LakeHouse.
+	LakehouseId *string `mandatory:"false" json:"lakehouseId"`
 
 	// The number of executor VMs requested.
 	NumExecutors *int `mandatory:"false" json:"numExecutors"`

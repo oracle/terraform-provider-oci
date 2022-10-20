@@ -19,13 +19,13 @@ import (
 type FawAdminInfoDetails struct {
 
 	// Password for the ADW to be created in User Tenancy
-	AdwAdminPass *string `mandatory:"true" json:"adwAdminPass"`
-
-	// Email ID to send notification for Analytics Warehouse updates.
-	NotificationEmail *string `mandatory:"true" json:"notificationEmail"`
+	AdwAdminPass *string `mandatory:"false" json:"adwAdminPass"`
 
 	// Password for the auto-created FAWService user
 	FawServicePass *string `mandatory:"false" json:"fawServicePass"`
+
+	// Email ID to send notification for Analytics Warehouse updates.
+	NotificationEmail *string `mandatory:"false" json:"notificationEmail"`
 }
 
 func (m FawAdminInfoDetails) String() string {

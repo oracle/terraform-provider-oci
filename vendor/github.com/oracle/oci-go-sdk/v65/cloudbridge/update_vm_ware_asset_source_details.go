@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UpdateVmWareAssetSourceDetails Asset source update details.
+// UpdateVmWareAssetSourceDetails VMware asset source update request.
 type UpdateVmWareAssetSourceDetails struct {
 
 	// A user-friendly name for the asset source. Does not have to be unique, and it's mutable.
@@ -25,6 +25,9 @@ type UpdateVmWareAssetSourceDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that is going to be used to create assets.
 	AssetsCompartmentId *string `mandatory:"false" json:"assetsCompartmentId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the discovery schedule that is going to be assigned to an asset source.
+	DiscoveryScheduleId *string `mandatory:"false" json:"discoveryScheduleId"`
 
 	// The freeform tags associated with this resource, if any. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace/scope. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -53,9 +56,6 @@ type UpdateVmWareAssetSourceDetails struct {
 
 	// Flag indicating whether real-time metrics are collected for assets, originating from this asset source.
 	AreRealtimeMetricsCollected *bool `mandatory:"false" json:"areRealtimeMetricsCollected"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the discovery schedule that is going to be assigned to an asset source.
-	DiscoveryScheduleId *string `mandatory:"false" json:"discoveryScheduleId"`
 }
 
 //GetDisplayName returns DisplayName
@@ -66,6 +66,11 @@ func (m UpdateVmWareAssetSourceDetails) GetDisplayName() *string {
 //GetAssetsCompartmentId returns AssetsCompartmentId
 func (m UpdateVmWareAssetSourceDetails) GetAssetsCompartmentId() *string {
 	return m.AssetsCompartmentId
+}
+
+//GetDiscoveryScheduleId returns DiscoveryScheduleId
+func (m UpdateVmWareAssetSourceDetails) GetDiscoveryScheduleId() *string {
+	return m.DiscoveryScheduleId
 }
 
 //GetFreeformTags returns FreeformTags

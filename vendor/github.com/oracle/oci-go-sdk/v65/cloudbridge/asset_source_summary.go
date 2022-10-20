@@ -126,6 +126,10 @@ func (m *assetsourcesummary) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		mm := VmWareAssetSourceSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ORACLE_DB":
+		mm := OracleDbAssetSourceSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for AssetSourceSummary: %s.", m.Type)
 		return *m, nil

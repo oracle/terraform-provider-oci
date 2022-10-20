@@ -116,6 +116,9 @@ type Application struct {
 	// The OCID of OCI Hive Metastore.
 	MetastoreId *string `mandatory:"false" json:"metastoreId"`
 
+	// The OCID of OCI LakeHouse.
+	LakehouseId *string `mandatory:"false" json:"lakehouseId"`
+
 	// The username of the user who created the resource.  If the username of the owner does not exist,
 	// `null` will be returned and the caller should refer to the ownerPrincipalId value instead.
 	OwnerUserName *string `mandatory:"false" json:"ownerUserName"`

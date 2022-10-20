@@ -50,6 +50,9 @@ type UpdateConnectionDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// An array of Network Security Group OCIDs used to define network access for Connections.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
 }
 
 func (m UpdateConnectionDetails) String() string {

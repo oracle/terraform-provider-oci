@@ -88,7 +88,7 @@ type Volume struct {
 	VpusPerGB *int64 `mandatory:"false" json:"vpusPerGB"`
 
 	// The size (in Bytes) of the blocks for this block volume, between 512B to 32KB.
-	IoAlignmentSizeInBytes *int64 `mandatory:"false" json:"ioAlignmentSizeInBytes"`
+	IoAlignmentSizeInBytes *int `mandatory:"false" json:"ioAlignmentSizeInBytes"`
 
 	// The size of the volume in GBs.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
@@ -153,7 +153,7 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 		IsHydrated             *bool                             `json:"isHydrated"`
 		KmsKeyId               *string                           `json:"kmsKeyId"`
 		VpusPerGB              *int64                            `json:"vpusPerGB"`
-		IoAlignmentSizeInBytes *int64                            `json:"ioAlignmentSizeInBytes"`
+		IoAlignmentSizeInBytes *int                              `json:"ioAlignmentSizeInBytes"`
 		SizeInGBs              *int64                            `json:"sizeInGBs"`
 		SourceDetails          volumesourcedetails               `json:"sourceDetails"`
 		VolumeGroupId          *string                           `json:"volumeGroupId"`

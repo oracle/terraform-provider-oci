@@ -74,7 +74,7 @@ type BlockVolumeReplica struct {
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// The size (in Bytes) of the blocks for this block volume, between 512B to 32KB.
-	IoAlignmentSizeInBytes *int64 `mandatory:"false" json:"ioAlignmentSizeInBytes"`
+	IoAlignmentSizeInBytes *int `mandatory:"false" json:"ioAlignmentSizeInBytes"`
 
 	// The total size of the data transferred from the source block volume to the block volume replica, in GBs.
 	TotalDataTransferredInGBs *int64 `mandatory:"false" json:"totalDataTransferredInGBs"`

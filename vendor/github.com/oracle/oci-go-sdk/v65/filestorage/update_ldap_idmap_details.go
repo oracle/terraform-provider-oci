@@ -37,6 +37,14 @@ type UpdateLdapIdmapDetails struct {
 	// All LDAP searches are recursive starting at this Base Distinguished group name.
 	BaseDistinguishedGroupName *string `mandatory:"false" json:"baseDistinguishedGroupName"`
 
+	// All LDAP searches are recursive starting at this user.
+	// Example: `CN=User,DC=domain,DC=com`
+	UserSearchBase *string `mandatory:"false" json:"userSearchBase"`
+
+	// All LDAP searches are recursive starting at this group.
+	// Example: `CN=Group,DC=domain,DC=com`
+	GroupSearchBase *string `mandatory:"false" json:"groupSearchBase"`
+
 	// OCID of the first LDAP Account
 	OutboundConnector1Id *string `mandatory:"false" json:"outboundConnector1Id"`
 

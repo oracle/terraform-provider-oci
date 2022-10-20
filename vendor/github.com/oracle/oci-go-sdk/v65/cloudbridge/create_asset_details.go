@@ -98,6 +98,10 @@ func (m *createassetdetails) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		mm := CreateVmwareVmAssetDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ORACLE_DB":
+		mm := CreateOracleDbAssetDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for CreateAssetDetails: %s.", m.AssetType)
 		return *m, nil
