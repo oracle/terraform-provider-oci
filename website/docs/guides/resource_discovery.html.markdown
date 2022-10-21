@@ -155,6 +155,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `dataintegration` - Discovers dataintegration resources within the specified compartment
     * `datascience` - Discovers datascience resources within the specified compartment
     * `devops` - Discovers devops resources within the specified compartment
+    * `disaster_recovery` - Discovers disaster_recovery resources within the specified compartment
     * `dns` - Discovers dns resources (except record) within the specified compartment
     * `em_warehouse` - Discovers em_warehouse resources within the specified compartment
     * `email` - Discovers email_sender resources within the specified compartment
@@ -596,6 +597,12 @@ devops
 * oci\_devops\_build\_pipeline\_stage
 * oci\_devops\_trigger
 * oci\_devops\_repository\_mirror
+
+disaster_recovery
+    
+* oci\_disaster\_recovery\_dr\_protection\_group
+* oci\_disaster\_recovery\_dr\_plan\_execution
+* oci\_disaster\_recovery\_dr\_plan
 
 dns
     
