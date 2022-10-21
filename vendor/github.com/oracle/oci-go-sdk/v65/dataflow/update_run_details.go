@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// UpdateRunDetails The update run details. Only the tags of a run can be updated.
+// UpdateRunDetails The update run details. Only a limited set of properties of a run can be updated.
 type UpdateRunDetails struct {
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -26,6 +26,14 @@ type UpdateRunDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// The maximum duration in minutes for which an Application should run. Data Flow Run would be terminated
+	// once it reaches this duration from the time it transitions to `IN_PROGRESS` state.
+	MaxDurationInMinutes *int64 `mandatory:"false" json:"maxDurationInMinutes"`
+
+	// The timeout value in minutes used to manage Runs. A Run would be stopped after inactivity for this amount of time period.
+	// Note: This parameter is currently only applicable for Runs of type `SESSION`. Default value is 2880 minutes (2 days)
+	IdleTimeoutInMinutes *int64 `mandatory:"false" json:"idleTimeoutInMinutes"`
 }
 
 func (m UpdateRunDetails) String() string {

@@ -12,6 +12,10 @@ import (
 )
 
 // CreateDrProtectionGroupRequest wrapper for the CreateDrProtectionGroup operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/CreateDrProtectionGroup.go.html to see an example of how to use CreateDrProtectionGroupRequest.
 type CreateDrProtectionGroupRequest struct {
 
 	// Details for the new DR Protection Group.

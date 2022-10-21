@@ -12,6 +12,10 @@ import (
 )
 
 // ListDrPlanExecutionsRequest wrapper for the ListDrPlanExecutions operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/ListDrPlanExecutions.go.html to see an example of how to use ListDrPlanExecutionsRequest.
 type ListDrPlanExecutionsRequest struct {
 
 	// The OCID of the DR Protection Group. Mandatory query param.
