@@ -469,10 +469,6 @@ func (s *OpaOpaInstanceResourceCrud) Delete() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	// Wait until it finishes
-	// _, delWorkRequestErr := opaInstanceWaitForWorkRequest(workId, "opa",
-	// oci_opa.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
-	// return delWorkRequestErr
 
 	opaInstanceWaitForWorkRequest(workId, "opainstance",
 		oci_opa.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
