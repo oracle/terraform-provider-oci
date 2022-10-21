@@ -1,3 +1,20 @@
+## 4.97.0 (Unreleased)
+
+### Added
+- Support for Data Flow Studio support
+- Support for Dev and Deployment of Site Guard as Service in OCI
+- Support for OCI Digital Media Services
+maxparallel variables based on number of available cores
+concurrecy control for discovery
+FoundResource variable declaration
+- Resource discovery find resources for individual step in parallel
+### Bug Fix
+- oci_mysql_mysql_configuration is missing resource discovery
+- Documentaion fix for datascience modeldeployment
+- Deprecate resource file for discoveryJobResults resource as it should not have been there
+- removed unused/duplicate resource files
+Document Category Fix
+
 ## 4.96.0 (Unreleased)
 
 ### Added
