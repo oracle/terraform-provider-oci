@@ -14,4 +14,6 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_dataflow_private_endpoints", DataflowPrivateEndpointsDataSource())
 	tfresource.RegisterDatasource("oci_dataflow_run_log", DataflowRunLogDataSource())
 	tfresource.RegisterDatasource("oci_dataflow_run_logs", DataflowRunLogsDataSource())
+	tfresource.RegisterDatasource("oci_dataflow_run_statement", DataflowRunStatementDataSource())
+	tfresource.RegisterDatasource("oci_dataflow_run_statements", DataflowRunStatementsDataSource())
 }
