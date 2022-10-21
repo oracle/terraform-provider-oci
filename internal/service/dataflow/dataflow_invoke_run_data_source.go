@@ -139,6 +139,10 @@ func (s *DataflowInvokeRunDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IdleTimeoutInMinutes != nil {
+		s.D.Set("idle_timeout_in_minutes", strconv.FormatInt(*s.Res.IdleTimeoutInMinutes, 10))
+	}
+
 	s.D.Set("language", s.Res.Language)
 
 	if s.Res.LifecycleDetails != nil {
@@ -147,6 +151,10 @@ func (s *DataflowInvokeRunDataSourceCrud) SetData() error {
 
 	if s.Res.LogsBucketUri != nil {
 		s.D.Set("logs_bucket_uri", *s.Res.LogsBucketUri)
+	}
+
+	if s.Res.MaxDurationInMinutes != nil {
+		s.D.Set("max_duration_in_minutes", strconv.FormatInt(*s.Res.MaxDurationInMinutes, 10))
 	}
 
 	if s.Res.MetastoreId != nil {
