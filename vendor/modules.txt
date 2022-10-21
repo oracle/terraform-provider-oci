@@ -342,6 +342,7 @@ github.com/oracle/oci-go-sdk/v65/logging
 github.com/oracle/oci-go-sdk/v65/managementagent
 github.com/oracle/oci-go-sdk/v65/managementdashboard
 github.com/oracle/oci-go-sdk/v65/marketplace
+github.com/oracle/oci-go-sdk/v65/mediaservices
 github.com/oracle/oci-go-sdk/v65/monitoring
 github.com/oracle/oci-go-sdk/v65/mysql
 github.com/oracle/oci-go-sdk/v65/networkfirewall
