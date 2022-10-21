@@ -731,7 +731,9 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) DisassociateDrProtection
 	}
 
 	workId := response.OpcWorkRequestId
-	s.getDrProtectionGroupFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery"), oci_disaster_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	if err := s.getDrProtectionGroupFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery"), oci_disaster_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate)); err !=nil{
+		return err
+	}
 
 	val := s.D.Get("disassociate_trigger")
 	s.D.Set("disassociate_trigger", val)
