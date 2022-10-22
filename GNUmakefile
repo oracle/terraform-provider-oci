@@ -22,7 +22,7 @@ gomodenv:
 default: build
 
 ## IMPORTANT: Do not modify the following `build` target. The following steps are a requirement of the provider release process.
-build: fmtcheck gomodenv
+build: fmtcheck errcheck gomodenv
 	go install
 
 ### TODO: Fix this so that only unit tests are running
