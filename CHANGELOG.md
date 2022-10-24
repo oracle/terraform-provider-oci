@@ -16,7 +16,7 @@
 - Documentaion fix for datascience modeldeployment
 - oci_mysql_mysql_configuration is missing resource discovery
 
-## 4.96.0 (Unreleased)
+## 4.96.0 (October 05, 2022)
 
 ### Added
 - resource discovery for private DNS zones and rrsets
