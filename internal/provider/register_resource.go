@@ -64,6 +64,7 @@ import (
 	tf_management_agent "github.com/oracle/terraform-provider-oci/internal/service/management_agent"
 	tf_management_dashboard "github.com/oracle/terraform-provider-oci/internal/service/management_dashboard"
 	tf_marketplace "github.com/oracle/terraform-provider-oci/internal/service/marketplace"
+	tf_media_services "github.com/oracle/terraform-provider-oci/internal/service/media_services"
 	tf_metering_computation "github.com/oracle/terraform-provider-oci/internal/service/metering_computation"
 	tf_monitoring "github.com/oracle/terraform-provider-oci/internal/service/monitoring"
 	tf_mysql "github.com/oracle/terraform-provider-oci/internal/service/mysql"
@@ -165,6 +166,7 @@ func init() {
 	tf_management_agent.RegisterResource()
 	tf_management_dashboard.RegisterResource()
 	tf_marketplace.RegisterResource()
+	tf_media_services.RegisterResource()
 	tf_metering_computation.RegisterResource()
 	tf_monitoring.RegisterResource()
 	tf_mysql.RegisterResource()
