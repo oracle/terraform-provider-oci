@@ -31,7 +31,6 @@ type CreateOaxServiceInstanceDetails struct {
 	// This is the description for Analytics Warehouse Service.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Admin information to provision Analytics Warehouse Servcie
 	FawAdminInfo *FawAdminInfoDetails `mandatory:"false" json:"FawAdminInfo"`
 }
 

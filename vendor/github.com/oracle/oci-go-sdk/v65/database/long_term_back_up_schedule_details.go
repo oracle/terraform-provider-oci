@@ -26,6 +26,9 @@ type LongTermBackUpScheduleDetails struct {
 
 	// Retention period, in days, for long-term backups
 	RetentionPeriodInDays *int `mandatory:"false" json:"retentionPeriodInDays"`
+
+	// Indicates if the long-term backup schedule should be deleted. The default value is `FALSE`.
+	IsDisabled *bool `mandatory:"false" json:"isDisabled"`
 }
 
 func (m LongTermBackUpScheduleDetails) String() string {

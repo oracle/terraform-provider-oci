@@ -370,5 +370,11 @@
         "realmDomainComponent": "oraclecloud.com", 
         "regionIdentifier": "sa-bogota-1", 
         "realmKey": "oc1"
+    }, 
+    {
+        "regionKey": "yum", 
+        "realmDomainComponent": "oraclecloud17.com", 
+        "regionIdentifier": "us-dcc-phoenix-4", 
+        "realmKey": "oc17"
     }
 ]

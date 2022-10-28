@@ -160,6 +160,7 @@ const (
 	AutonomousDatabaseBackupLifecycleStateDeleting AutonomousDatabaseBackupLifecycleStateEnum = "DELETING"
 	AutonomousDatabaseBackupLifecycleStateDeleted  AutonomousDatabaseBackupLifecycleStateEnum = "DELETED"
 	AutonomousDatabaseBackupLifecycleStateFailed   AutonomousDatabaseBackupLifecycleStateEnum = "FAILED"
+	AutonomousDatabaseBackupLifecycleStateUpdating AutonomousDatabaseBackupLifecycleStateEnum = "UPDATING"
 )
 
 var mappingAutonomousDatabaseBackupLifecycleStateEnum = map[string]AutonomousDatabaseBackupLifecycleStateEnum{
@@ -168,6 +169,7 @@ var mappingAutonomousDatabaseBackupLifecycleStateEnum = map[string]AutonomousDat
 	"DELETING": AutonomousDatabaseBackupLifecycleStateDeleting,
 	"DELETED":  AutonomousDatabaseBackupLifecycleStateDeleted,
 	"FAILED":   AutonomousDatabaseBackupLifecycleStateFailed,
+	"UPDATING": AutonomousDatabaseBackupLifecycleStateUpdating,
 }
 
 var mappingAutonomousDatabaseBackupLifecycleStateEnumLowerCase = map[string]AutonomousDatabaseBackupLifecycleStateEnum{
@@ -176,6 +178,7 @@ var mappingAutonomousDatabaseBackupLifecycleStateEnumLowerCase = map[string]Auto
 	"deleting": AutonomousDatabaseBackupLifecycleStateDeleting,
 	"deleted":  AutonomousDatabaseBackupLifecycleStateDeleted,
 	"failed":   AutonomousDatabaseBackupLifecycleStateFailed,
+	"updating": AutonomousDatabaseBackupLifecycleStateUpdating,
 }
 
 // GetAutonomousDatabaseBackupLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseBackupLifecycleStateEnum
@@ -195,6 +198,7 @@ func GetAutonomousDatabaseBackupLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"UPDATING",
 	}
 }
 
