@@ -176,6 +176,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `logging` - Discovers logging resources within the specified compartment
     * `management_agent` - Discovers management_agent resources within the specified compartment
     * `marketplace` - Discovers marketplace resources within the specified compartment
+    * `media_services` - Discovers media_services resources within the specified compartment
     * `metering_computation` - Discovers metering_computation resources across the entire tenancy
     * `monitoring` - Discovers monitoring resources within the specified compartment
     * `mysql` - Discovers mysql resources within the specified compartment
@@ -564,6 +565,7 @@ dataflow
     
 * oci\_dataflow\_application
 * oci\_dataflow\_private\_endpoint
+* oci\_dataflow\_run\_statement
 
 dataintegration
     
@@ -747,6 +749,16 @@ marketplace
 * oci\_marketplace\_accepted\_agreement
 * oci\_marketplace\_publication
 
+media_services
+    
+* oci\_media\_services\_stream\_packaging\_config
+* oci\_media\_services\_media\_workflow
+* oci\_media\_services\_stream\_distribution\_channel
+* oci\_media\_services\_media\_workflow\_job
+* oci\_media\_services\_stream\_cdn\_config
+* oci\_media\_services\_media\_asset
+* oci\_media\_services\_media\_workflow\_configuration
+
 metering_computation
     
 * oci\_metering\_computation\_query
@@ -758,7 +770,8 @@ monitoring
 * oci\_monitoring\_alarm
 
 mysql
-    
+
+* oci\_mysql\_mysql\_configuration
 * oci\_mysql\_heat\_wave\_cluster
 * oci\_mysql\_mysql\_backup
 * oci\_mysql\_mysql\_db\_system

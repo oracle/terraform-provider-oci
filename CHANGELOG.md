@@ -1,3 +1,20 @@
+## 4.97.0 (October 28, 2022)
+
+### Added
+- Resource discovery find resources for individual step in parallel
+- FoundResource variable declaration
+- Concurrecy control for discovery
+- maxparallel variables based on number of available cores
+- Support for OCI Digital Media Services
+- Support for Data Flow Studio support
+
+### Bug Fix
+- Document Category Fix
+- removed unused/duplicate resource files
+- Deprecate resource file for discoveryJobResults resource as it should not have been there
+- Documentaion fix for datascience modeldeployment
+- oci_mysql_mysql_configuration is missing resource discovery
+
 ## 4.96.0 (October 05, 2022)
 
 ### Added
