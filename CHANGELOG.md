@@ -1,4 +1,4 @@
-## 4.97.0 (Unreleased)
+## 4.97.0 (October 28, 2022)
 
 ### Added
 - Resource discovery find resources for individual step in parallel
