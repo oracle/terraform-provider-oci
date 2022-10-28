@@ -1,9 +1,9 @@
 # Contributing to the Terraform provider for Oracle Cloud Infrastructure
 
-*Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.*
+*Copyright (c) 2017, 2022, Oracle and/or its affiliates. All rights reserved.*
 
 Pull requests can be made under
-[The Oracle Contributor Agreement](https://www.oracle.com/technetwork/community/oca-486395.html)
+[The Oracle Contributor Agreement](https://oca.opensource.oracle.com/)
 (OCA).
 
 For pull requests to be accepted, the bottom of

@@ -9,4 +9,5 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_dataflow_application", DataflowApplicationResource())
 	tfresource.RegisterResource("oci_dataflow_invoke_run", DataflowInvokeRunResource())
 	tfresource.RegisterResource("oci_dataflow_private_endpoint", DataflowPrivateEndpointResource())
+	tfresource.RegisterResource("oci_dataflow_run_statement", DataflowRunStatementResource())
 }

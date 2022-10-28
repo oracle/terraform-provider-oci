@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_datascience_model_deployment_shapes"
 sidebar_current: "docs-oci-datasource-datascience-model_deployment_shapes"
 description: |-
-Provides the list of Model Deployment Shapes in Oracle Cloud Infrastructure Data Science service
+  Provides the list of Model Deployment Shapes in Oracle Cloud Infrastructure Data Science service
 ---
 
 # Data Source: oci_datascience_model_deployment_shapes

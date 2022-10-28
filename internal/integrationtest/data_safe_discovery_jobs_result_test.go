@@ -6,10 +6,7 @@ package integrationtest
 import (
 	"context"
 	"fmt"
-	"strconv"
 	"testing"
-
-	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
@@ -26,39 +23,22 @@ import (
 )
 
 var (
-	DataSafeDiscoveryJobsResultResourceConfig = DataSafeDiscoveryJobsResultResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_discovery_jobs_result", "test_discovery_jobs_result", acctest.Optional, acctest.Update, discoveryJobsResultRepresentation)
-
 	DataSafediscoveryJobsResultSingularDataSourceRepresentation = map[string]interface{}{
-		"discovery_job_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_discovery_job.test_discovery_job.id}`},
-		"result_key":       acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_discovery_jobs_result.test_discovery_jobs_result.key}`},
+		"discovery_job_id": acctest.Representation{RepType: acctest.Required, Create: `${var.discovery_job_id}`},
+		"result_key":       acctest.Representation{RepType: acctest.Required, Create: `${var.discovery_job_result_key}`},
 	}
 
 	DataSafediscoveryJobsResultDataSourceRepresentation = map[string]interface{}{
-		"discovery_job_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_discovery_job.test_discovery_job.id}`},
-		"discovery_type":    acctest.Representation{RepType: acctest.Optional, Create: `ALL`},
+		"discovery_job_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.discovery_job_id}`},
+		"discovery_type":    acctest.Representation{RepType: acctest.Optional, Create: `NEW`},
 		"is_result_applied": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"planned_action":    acctest.Representation{RepType: acctest.Optional, Create: `NONE`},
-		"filter":            acctest.RepresentationGroup{RepType: acctest.Required, Group: discoveryJobsResultDataSourceFilterRepresentation}}
-	discoveryJobsResultDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   acctest.Representation{RepType: acctest.Required, Create: `key`},
-		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_data_safe_discovery_jobs_result.test_discovery_jobs_result.key}`}},
 	}
-
-	discoveryJobsResultRepresentation = map[string]interface{}{
-		"discovery_job_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_discovery_job.test_discovery_job.id}`},
-	}
-
-	discoveryJobsResultRepresentation2 = map[string]interface{}{
-		"discovery_job_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_discovery_job.test_discovery_job.id}`},
-	}
-
-	DataSafeDiscoveryJobsResultResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_discovery_job", "test_discovery_job", acctest.Optional, acctest.Create, discoveryJobRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model", acctest.Required, acctest.Create, sensitiveDataModelRepresentation)
 )
 
 // issue-routing-tag: data_safe/default
 func TestDataSafeDiscoveryJobsResultResource_basic(t *testing.T) {
+	t.Skip("Skipping this test as the discovery job result key is hardcoded and may not exist when the test runs")
 	httpreplay.SetScenario("TestDataSafeDiscoveryJobsResultResource_basic")
 	defer httpreplay.SaveScenario()
 
@@ -70,55 +50,38 @@ func TestDataSafeDiscoveryJobsResultResource_basic(t *testing.T) {
 	targetId := utils.GetEnvSettingWithBlankDefault("data_safe_target_ocid")
 	targetIdVariableStr := fmt.Sprintf("variable \"target_id\" { default = \"%s\" }\n", targetId)
 
-	resourceName := "oci_data_safe_discovery_jobs_result.test_discovery_jobs_result"
+	discoveryJobId := utils.GetEnvSettingWithBlankDefault("data_safe_discovery_job_ocid")
+	discoveryJobIdVariableStr := fmt.Sprintf("variable \"discovery_job_id\" { default = \"%s\" }\n", discoveryJobId)
+
+	discoveryJobKey := utils.GetEnvSettingWithBlankDefault("data_safe_discovery_job_result_key")
+	discoveryJobKeyVariableStr := fmt.Sprintf("variable \"discovery_job_result_key\" { default = \"%s\" }\n", discoveryJobKey)
+
 	datasourceName := "data.oci_data_safe_discovery_jobs_results.test_discovery_jobs_results"
 	singularDatasourceName := "data.oci_data_safe_discovery_jobs_result.test_discovery_jobs_result"
 
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DataSafeDiscoveryJobsResultResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_discovery_jobs_result", "test_discovery_jobs_result", acctest.Required, acctest.Create, discoveryJobsResultRepresentation), "datasafe", "discoveryJobsResult", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr,
+		"datasafe", "discoveryJobsResult", t)
 
-	acctest.ResourceTest(t, testAccCheckDataSafeDiscoveryJobsResultDestroy, []resource.TestStep{
-		// verify Create
-		{
-			Config: config + compartmentIdVariableStr + DataSafeDiscoveryJobsResultResourceDependencies + targetIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_discovery_jobs_result", "test_discovery_jobs_result", acctest.Optional, acctest.Create, discoveryJobsResultRepresentation2),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-
-				func(s *terraform.State) (err error) {
-					var compositeId string
-					compositeId, err = acctest.FromInstanceState(s, resourceName, "id")
-					prefix := "oci_data_safe_discovery_jobs_result:"
-					fullPath := prefix + compositeId
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&fullPath, &compartmentId, resourceName); errExport != nil {
-							return errExport
-						}
-					}
-					return err
-				},
-			),
-		},
-
+	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
-			Config: config + targetIdVariableStr +
+			Config: config + targetIdVariableStr + discoveryJobIdVariableStr + discoveryJobKeyVariableStr +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_discovery_jobs_results", "test_discovery_jobs_results", acctest.Optional, acctest.Update, DataSafediscoveryJobsResultDataSourceRepresentation) +
-				compartmentIdVariableStr + DataSafeDiscoveryJobsResultResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_discovery_jobs_result", "test_discovery_jobs_result", acctest.Optional, acctest.Update, discoveryJobsResultRepresentation2),
+				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "discovery_job_id"),
-				resource.TestCheckResourceAttr(datasourceName, "discovery_type", "ALL"),
+				resource.TestCheckResourceAttr(datasourceName, "discovery_type", "NEW"),
 				resource.TestCheckResourceAttr(datasourceName, "is_result_applied", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "planned_action", "NONE"),
-				resource.TestCheckResourceAttr(datasourceName, "discovery_job_result_collection.#", "1"),
 			),
 		},
+
 		// verify singular datasource
 		{
-			Config: config + targetIdVariableStr +
+			Config: config + discoveryJobIdVariableStr + targetIdVariableStr + discoveryJobKeyVariableStr +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_discovery_jobs_result", "test_discovery_jobs_result", acctest.Required, acctest.Create, DataSafediscoveryJobsResultSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DataSafeDiscoveryJobsResultResourceConfig,
+				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "discovery_job_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_type"),
@@ -134,18 +97,6 @@ func TestDataSafeDiscoveryJobsResultResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "sensitive_columnkey"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "sensitive_type_id"),
 			),
-		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + DataSafeDiscoveryJobsResultResourceConfig + targetIdVariableStr,
-		},
-		// verify resource import
-		{
-			Config:                  config + targetIdVariableStr,
-			ImportState:             true,
-			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
-			ResourceName:            resourceName,
 		},
 	})
 }

@@ -53,6 +53,8 @@ var (
 	missingAttributesPerResourceLock sync.Mutex
 	sem                              chan struct{}
 	exportConfigProvider             oci_common.ConfigurationProvider
+	MaxParallelFindResource          int
+	MaxParallelChunks                int
 
 	tfexecConfigVar                     = tfexec.Config
 	tfexecStateVar                      = tfexec.State
@@ -288,6 +290,15 @@ func RunExportCommand(args *tf_export.ExportCommandArgs) (err error, status Stat
 
 	sem = make(chan struct{}, args.Parallelism)
 
+	// maximum goroutines for finding resources in a step at base level.
+	// Value of MaxParallelFindResources is decided based on perf analysis and experiments.
+	// Note: SubResources will be discovered sequentially.
+	numCPU := runtime.NumCPU()
+	MaxParallelFindResource = numCPU * 4
+	// max parallel chunks for state genation that can be executed in parallel
+	MaxParallelChunks = numCPU
+	utils.Debugf("[INFO] Setting MaxParalleFindResources=%d, MaxParallelChunks=%d", MaxParallelFindResource, MaxParallelChunks)
+
 	ctx, err := createResourceDiscoveryContext(clients.(*tf_client.OracleClients), args, tenancyOcid)
 	if err != nil {
 		utils.Logln(err.Error())
@@ -315,7 +326,6 @@ func RunExportCommand(args *tf_export.ExportCommandArgs) (err error, status Stat
 	if len(ctx.ErrorList.Errors) > 0 {
 		// If the errors were from discovery of resources return partial success status
 		error, status := getListOfNotDiscoveredResources(ctx)
-
 		return error, status
 	}
 	return nil, StatusSuccess
@@ -616,15 +626,15 @@ func generateStateParallel(ctx *tf_export.ResourceDiscoveryContext, steps []reso
 
 			// Write temp state file for each service, this step will import resources into a separate state file for each service in parallel
 			// If writing temp configuration thrown error, won't attempt to write temp state
-			// Write temp state file for each service, this step will import resources into a separate state file for each service in parallel
-			if err := step.writeTmpState(); err != nil {
-				var tfError tf_export.ResourceDiscoveryCustomError
-				tfError = tf_export.ResourceDiscoveryCustomError{
-					TypeOfError: tf_export.WriteTmpStateError,
-					Message:     errors.New(tf_export.WriteTmpStateErrorMessage),
-					Suggestion:  tf_export.WriteTmpStateErrorSuggestion,
+			if err == nil {
+				if err = step.writeTmpState(); err != nil {
+					tfError := tf_export.ResourceDiscoveryCustomError{
+						TypeOfError: tf_export.WriteTmpStateError,
+						Message:     errors.New(tf_export.WriteTmpStateErrorMessage),
+						Suggestion:  tf_export.WriteTmpStateErrorSuggestion}
+
+					errorChannel <- tfError.Error()
 				}
-				errorChannel <- tfError.Error()
 			}
 
 			utils.Debugf("writing temp config and state: Completed step %d", i)
@@ -886,11 +896,12 @@ func getDiscoverResourceWithGraphSteps(ctx *tf_export.ResourceDiscoveryContext) 
 	return result, nil
 }
 
-func findResources(ctx *tf_export.ResourceDiscoveryContext, root *tf_export.OCIResource, resourceGraph tf_export.TerraformResourceGraph) (foundResources []*tf_export.OCIResource, err error) {
+func findResources(ctx *tf_export.ResourceDiscoveryContext, root *tf_export.OCIResource, resourceGraph tf_export.TerraformResourceGraph, discoveryParallelism bool) (foundResources []*tf_export.OCIResource, err error) {
 	// findResources will never return error, it will add the errors encountered to the errorList and print those after the discovery finishes
 	// If find resources needs to fail in some scenario, this func needs to be modified to return error instead of continuing discovery
 	// Errors so far are API errors or the errors when service/feature is not available
 	foundResources = []*tf_export.OCIResource{}
+	var foundResourcesLock sync.Mutex
 
 	childResourceTypes, exists := resourceGraph[root.TerraformClass]
 	if !exists {
@@ -900,9 +911,40 @@ func findResources(ctx *tf_export.ResourceDiscoveryContext, root *tf_export.OCIR
 	utils.Logf("[INFO] resource discovery: visiting %s\n", root.GetTerraformReference())
 	utils.Debugf("[DEBUG] resource discovery: visiting %s\n", root.GetTerraformReference())
 
-	for _, childType := range childResourceTypes {
-		func() {
-			defer handlePanicFindResources(&childType, &err)
+	utils.Logf("[INFO] number of child resource types for %s: %d\n", root.GetTerraformReference(), len(childResourceTypes))
+
+	findResourcesStart := time.Now()
+	var findResourcesWg sync.WaitGroup
+	findResourcesWg.Add(len(childResourceTypes))
+
+	// setting parallelism argument false for subResources to control concurrency and thrashing
+	var ch chan struct{}
+	if discoveryParallelism == true {
+		ch = make(chan struct{}, MaxParallelFindResource)
+		// setting parallelism argument false for subResources to control concurrency and thrashing
+		discoveryParallelism = false
+	} else {
+		ch = make(chan struct{}, 1)
+	}
+
+	for i, childType := range childResourceTypes {
+
+		ch <- struct{}{}
+
+		go func(i int, childType tf_export.TerraformResourceAssociation) {
+			utils.Debugf("[DEBUG] findResources: finding resources for resource type index: %d", i)
+
+			defer func(tfMeta *tf_export.TerraformResourceAssociation, err *error) {
+				<-ch
+				if r := recover(); r != nil {
+					utils.Logf("[WARN] recovered from panic in findResourcesGeneric for resource: %s \n continuing discovery...", tfMeta.ResourceClass)
+					returnErr := fmt.Errorf("panic in findResourcesGeneric for resource %s", tfMeta.ResourceClass)
+					*err = returnErr
+					debug.PrintStack()
+				}
+				utils.Debugf("[DEBUG] findResourcesWg done, resource type index: %d", i)
+				findResourcesWg.Done()
+			}(&childType, &err)
 
 			findResourceFn := tf_export.FindResourcesGeneric
 			if childType.FindResourcesOverrideFn != nil {
@@ -953,14 +995,22 @@ func findResources(ctx *tf_export.ResourceDiscoveryContext, root *tf_export.OCIR
 
 				}
 
-				subResources, err := findResources(ctx, resource, resourceGraph)
+				subResources, err := findResources(ctx, resource, resourceGraph, discoveryParallelism)
 				if err != nil {
 					continue
 				}
+				foundResourcesLock.Lock()
 				foundResources = append(foundResources, subResources...)
+				foundResourcesLock.Unlock()
 			}
-		}()
+			utils.Debugf("[DEBUG] findResources: Completed for resource type index %d", i)
+		}(i, childType)
 	}
+
+	// Wait for all steps to complete findResources
+	findResourcesWg.Wait()
+	totalFindResourcesTime := time.Since(findResourcesStart)
+	utils.Debugf("finding resources for %s took %v\n", root.GetTerraformReference(), totalFindResourcesTime)
 
 	return foundResources, nil
 }
@@ -1271,15 +1321,6 @@ func createTerraformStruct(args *tf_export.ExportCommandArgs) (*tfexec.Terraform
 	tf.SetStdout(os.Stdout)
 
 	return tf, terraformBinPath, nil
-}
-
-func handlePanicFindResources(tfMeta *tf_export.TerraformResourceAssociation, err *error) {
-	if r := recover(); r != nil {
-		utils.Logf("[WARN] recovered from panic in findResourcesGeneric for resource: %s \n continuing discovery...", tfMeta.ResourceClass)
-		returnErr := fmt.Errorf("panic in findResourcesGeneric for resource %s", tfMeta.ResourceClass)
-		*err = returnErr
-		debug.PrintStack()
-	}
 }
 
 func cleanupTempStateFiles(ctx *tf_export.ResourceDiscoveryContext) {

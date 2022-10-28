@@ -20,16 +20,19 @@ type ApplicationTypeEnum string
 const (
 	ApplicationTypeBatch     ApplicationTypeEnum = "BATCH"
 	ApplicationTypeStreaming ApplicationTypeEnum = "STREAMING"
+	ApplicationTypeSession   ApplicationTypeEnum = "SESSION"
 )
 
 var mappingApplicationTypeEnum = map[string]ApplicationTypeEnum{
 	"BATCH":     ApplicationTypeBatch,
 	"STREAMING": ApplicationTypeStreaming,
+	"SESSION":   ApplicationTypeSession,
 }
 
 var mappingApplicationTypeEnumLowerCase = map[string]ApplicationTypeEnum{
 	"batch":     ApplicationTypeBatch,
 	"streaming": ApplicationTypeStreaming,
+	"session":   ApplicationTypeSession,
 }
 
 // GetApplicationTypeEnumValues Enumerates the set of values for ApplicationTypeEnum
@@ -46,6 +49,7 @@ func GetApplicationTypeEnumStringValues() []string {
 	return []string{
 		"BATCH",
 		"STREAMING",
+		"SESSION",
 	}
 }
 

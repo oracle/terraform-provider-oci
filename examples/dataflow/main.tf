@@ -72,6 +72,9 @@ variable "invoke_run_display_name" {
   default = "tf_run"
 }
 
+variable "statement_code" {
+}
+
 resource "oci_dataflow_application" "tf_application" {
   #Required
   compartment_id = var.compartment_id
@@ -224,6 +227,39 @@ resource "oci_dataflow_application" "test_flex_application" {
 
   spark_version        = "2.4"
   warehouse_bucket_uri = var.dataflow_warehouse_bucket_uri
+}
+
+resource "oci_dataflow_application" "test_session_application" {
+  compartment_id  = var.compartment_id
+  description     = "description"
+  display_name    = "test_session_app"
+  driver_shape    = "VM.Standard2.1"
+  executor_shape  = "VM.Standard2.1"
+  type            = "SESSION"
+  language        = "PYTHON"
+  logs_bucket_uri = var.dataflow_logs_bucket_uri
+  num_executors   = "1"
+  spark_version   = "3.2.1"
+  max_duration_in_minutes = 60
+  idle_timeout_in_minutes = 30
+}
+
+resource "oci_dataflow_invoke_run" "test_invoke_session_run" {
+  application_id = oci_dataflow_application.test_session_application.id
+  compartment_id = var.compartment_id
+  display_name   = "test_session_run"
+}
+
+# Statement can only be created once the Session Run (test_invoke_session_run) is in "IN_PROGRESS" state.
+resource "oci_dataflow_run_statement" "test_run_statement" {
+  depends_on = [time_sleep.wait_session_run_active_state]
+  code   = var.statement_code
+  run_id = oci_dataflow_invoke_run.test_invoke_session_run.id
+}
+
+resource "time_sleep" "wait_session_run_active_state" {
+  depends_on = [oci_dataflow_invoke_run.test_invoke_session_run]
+  create_duration = "10m"
 }
 
 resource "oci_dataflow_application" "test_application_logging" {

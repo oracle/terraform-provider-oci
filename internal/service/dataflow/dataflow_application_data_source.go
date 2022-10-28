@@ -5,6 +5,7 @@ package dataflow
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -130,10 +131,18 @@ func (s *DataflowApplicationDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IdleTimeoutInMinutes != nil {
+		s.D.Set("idle_timeout_in_minutes", strconv.FormatInt(*s.Res.IdleTimeoutInMinutes, 10))
+	}
+
 	s.D.Set("language", s.Res.Language)
 
 	if s.Res.LogsBucketUri != nil {
 		s.D.Set("logs_bucket_uri", *s.Res.LogsBucketUri)
+	}
+
+	if s.Res.MaxDurationInMinutes != nil {
+		s.D.Set("max_duration_in_minutes", strconv.FormatInt(*s.Res.MaxDurationInMinutes, 10))
 	}
 
 	if s.Res.MetastoreId != nil {

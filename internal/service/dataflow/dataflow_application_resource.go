@@ -6,6 +6,7 @@ package dataflow
 import (
 	"context"
 	"fmt"
+	"strconv"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -40,10 +41,6 @@ func DataflowApplicationResource() *schema.Resource {
 				Required: true,
 			},
 			"executor_shape": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"file_uri": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
@@ -176,16 +173,35 @@ func DataflowApplicationResource() *schema.Resource {
 					},
 				},
 			},
+			"file_uri": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"idle_timeout_in_minutes": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ValidateFunc:     tfresource.ValidateInt64TypeString,
+				DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+			},
 			"logs_bucket_uri": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"max_duration_in_minutes": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ValidateFunc:     tfresource.ValidateInt64TypeString,
+				DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 			},
 			"metastore_id": {
 				Type:     schema.TypeString,
@@ -430,6 +446,15 @@ func (s *DataflowApplicationResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if idleTimeoutInMinutes, ok := s.D.GetOkExists("idle_timeout_in_minutes"); ok {
+		tmp := idleTimeoutInMinutes.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert idleTimeoutInMinutes string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		request.IdleTimeoutInMinutes = &tmpInt64
+	}
+
 	if language, ok := s.D.GetOkExists("language"); ok {
 		request.Language = oci_dataflow.ApplicationLanguageEnum(language.(string))
 	}
@@ -437,6 +462,15 @@ func (s *DataflowApplicationResourceCrud) Create() error {
 	if logsBucketUri, ok := s.D.GetOkExists("logs_bucket_uri"); ok {
 		tmp := logsBucketUri.(string)
 		request.LogsBucketUri = &tmp
+	}
+
+	if maxDurationInMinutes, ok := s.D.GetOkExists("max_duration_in_minutes"); ok {
+		tmp := maxDurationInMinutes.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert maxDurationInMinutes string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		request.MaxDurationInMinutes = &tmpInt64
 	}
 
 	if metastoreId, ok := s.D.GetOkExists("metastore_id"); ok {
@@ -630,6 +664,15 @@ func (s *DataflowApplicationResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if idleTimeoutInMinutes, ok := s.D.GetOkExists("idle_timeout_in_minutes"); ok {
+		tmp := idleTimeoutInMinutes.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert idleTimeoutInMinutes string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		request.IdleTimeoutInMinutes = &tmpInt64
+	}
+
 	if language, ok := s.D.GetOkExists("language"); ok {
 		request.Language = oci_dataflow.ApplicationLanguageEnum(language.(string))
 	}
@@ -637,6 +680,15 @@ func (s *DataflowApplicationResourceCrud) Update() error {
 	if logsBucketUri, ok := s.D.GetOkExists("logs_bucket_uri"); ok {
 		tmp := logsBucketUri.(string)
 		request.LogsBucketUri = &tmp
+	}
+
+	if maxDurationInMinutes, ok := s.D.GetOkExists("max_duration_in_minutes"); ok {
+		tmp := maxDurationInMinutes.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert maxDurationInMinutes string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		request.MaxDurationInMinutes = &tmpInt64
 	}
 
 	if metastoreId, ok := s.D.GetOkExists("metastore_id"); ok {
@@ -769,10 +821,18 @@ func (s *DataflowApplicationResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IdleTimeoutInMinutes != nil {
+		s.D.Set("idle_timeout_in_minutes", strconv.FormatInt(*s.Res.IdleTimeoutInMinutes, 10))
+	}
+
 	s.D.Set("language", s.Res.Language)
 
 	if s.Res.LogsBucketUri != nil {
 		s.D.Set("logs_bucket_uri", *s.Res.LogsBucketUri)
+	}
+
+	if s.Res.MaxDurationInMinutes != nil {
+		s.D.Set("max_duration_in_minutes", strconv.FormatInt(*s.Res.MaxDurationInMinutes, 10))
 	}
 
 	if s.Res.MetastoreId != nil {

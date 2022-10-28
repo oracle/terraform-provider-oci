@@ -10,8 +10,6 @@ func init() {
 	tf_export.RegisterCompartmentGraphs("dataflow", dataflowResourceGraph)
 }
 
-// Custom overrides for generating composite IDs within the resource discovery framework
-
 // Hints for discovering and exporting this resource to configuration and state files
 var exportDataflowApplicationHints = &tf_export.TerraformResourceHints{
 	ResourceClass:          "oci_dataflow_application",
@@ -34,6 +32,18 @@ var exportDataflowPrivateEndpointHints = &tf_export.TerraformResourceHints{
 	DiscoverableLifecycleStates: []string{
 		string(oci_dataflow.PrivateEndpointLifecycleStateActive),
 		string(oci_dataflow.PrivateEndpointLifecycleStateInactive),
+	},
+}
+
+var exportDataflowRunStatementHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_dataflow_run_statement",
+	DatasourceClass:        "oci_dataflow_run_statements",
+	DatasourceItemsAttr:    "statement_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "run_statement",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_dataflow.StatementLifecycleStateSucceeded),
 	},
 }
 
