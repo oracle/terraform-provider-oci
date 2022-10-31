@@ -97,9 +97,9 @@ The following attributes are exported:
 	* `graph_studio_url` - The URL of the Graph Studio for the Autonomous Database.
 	* `machine_learning_user_management_url` - Oracle Machine Learning user management URL.
 	* `sql_dev_web_url` - Oracle SQL Developer Web URL.
-* `cpu_core_count` - The number of OCPU cores to be made available to the database. For Autonomous Databases on dedicated Exadata infrastructure, the maximum number of cores is determined by the infrastructure shape. See [Characteristics of Infrastructure Shapes](https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details. 
+* `cpu_core_count` - The number of OCPU cores to be made available to the database. When the ECPU is selected, the value for cpuCoreCount is 0. For Autonomous Databases on dedicated Exadata infrastructure, the maximum number of cores is determined by the infrastructure shape. See [Characteristics of Infrastructure Shapes](https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
 
-	**Note:** This parameter cannot be used with the `ocpuCount` parameter. 
+  **Note:** This parameter cannot be used with the `ocpuCount` parameter. 
 * `customer_contacts` - Customer Contacts.
 	* `email` - The email address used by Oracle to send notifications regarding databases and infrastructure.
 * `data_safe_status` - Status of the Data Safe registration for this Autonomous Database. Could be REGISTERED or NOT_REGISTERED.
