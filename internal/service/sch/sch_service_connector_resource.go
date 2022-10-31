@@ -608,7 +608,7 @@ func (s *SchServiceConnectorResourceCrud) Create() error {
 	if target, ok := s.D.GetOkExists("target"); ok {
 		if tmpList := target.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "target", 0)
-			tmp, err := s.mapToTargetDetails(fieldKeyFormat)
+			tmp, err := s.mapToTargetDetails(fieldKeyFormat, "Create")
 			if err != nil {
 				return err
 			}
@@ -829,7 +829,7 @@ func (s *SchServiceConnectorResourceCrud) Update() error {
 	if target, ok := s.D.GetOkExists("target"); ok {
 		if tmpList := target.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "target", 0)
-			tmp, err := s.mapToTargetDetails(fieldKeyFormat)
+			tmp, err := s.mapToTargetDetails(fieldKeyFormat, "Update")
 			if err != nil {
 				return err
 			}
@@ -1449,7 +1449,7 @@ func StreamingCursorDetailsToMap(obj *oci_sch.StreamingCursorDetails) map[string
 	return result
 }
 
-func (s *SchServiceConnectorResourceCrud) mapToTargetDetails(fieldKeyFormat string) (oci_sch.TargetDetails, error) {
+func (s *SchServiceConnectorResourceCrud) mapToTargetDetails(fieldKeyFormat string, operationType string) (oci_sch.TargetDetails, error) {
 	var baseObject oci_sch.TargetDetails
 	//discriminator
 	kindRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kind"))
@@ -1473,7 +1473,8 @@ func (s *SchServiceConnectorResourceCrud) mapToTargetDetails(fieldKeyFormat stri
 			tmp := logGroupId.(string)
 			details.LogGroupId = &tmp
 		}
-		if logSourceIdentifier, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "log_source_identifier")); ok {
+		logSourceIdentifier, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "log_source_identifier"))
+		if ok && (operationType == "Create" || s.D.HasChange("log_source_identifier")) {
 			tmp := logSourceIdentifier.(string)
 			details.LogSourceIdentifier = &tmp
 		}
