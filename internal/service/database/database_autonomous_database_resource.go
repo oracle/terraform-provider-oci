@@ -324,6 +324,16 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 					},
 				},
 			},
+			"secret_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"secret_version_number": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"source": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -1400,6 +1410,22 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		}
 	}
 
+	if secretId, ok := s.D.GetOkExists("secret_id"); ok && s.D.HasChange("secret_version_number") {
+		tmp := secretId.(string)
+		request.SecretId = &tmp
+		if _, ok := s.D.GetOkExists("freeform_tags"); ok && !s.D.HasChange("freeform_tags") {
+			request.FreeformTags = nil
+		}
+		if _, ok := s.D.GetOkExists("defined_tags"); ok && !s.D.HasChange("defined_tags") {
+			request.DefinedTags = nil
+		}
+	}
+
+	if secretVersionNumber, ok := s.D.GetOkExists("secret_version_number"); ok && s.D.HasChange("secret_version_number") {
+		tmp := secretVersionNumber.(int)
+		request.SecretVersionNumber = &tmp
+	}
+
 	if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
 		interfaces := standbyWhitelistedIps.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -2223,6 +2249,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 				details.ScheduledOperations = tmp
 			}
 		}
+		if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+			tmp := secretId.(string)
+			details.SecretId = &tmp
+		}
+		if secretVersionNumber, ok := s.D.GetOkExists("secret_version_number"); ok {
+			tmp := secretVersionNumber.(int)
+			details.SecretVersionNumber = &tmp
+		}
 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
 			interfaces := standbyWhitelistedIps.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -2445,6 +2479,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 				details.ScheduledOperations = tmp
 			}
 		}
+		if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+			tmp := secretId.(string)
+			details.SecretId = &tmp
+		}
+		if secretVersionNumber, ok := s.D.GetOkExists("secret_version_number"); ok {
+			tmp := secretVersionNumber.(int)
+			details.SecretVersionNumber = &tmp
+		}
 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
 			interfaces := standbyWhitelistedIps.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -2659,6 +2701,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 				details.ScheduledOperations = tmp
 			}
 		}
+		if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+			tmp := secretId.(string)
+			details.SecretId = &tmp
+		}
+		if secretVersionNumber, ok := s.D.GetOkExists("secret_version_number"); ok {
+			tmp := secretVersionNumber.(int)
+			details.SecretVersionNumber = &tmp
+		}
 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
 			interfaces := standbyWhitelistedIps.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -2851,6 +2901,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			if len(tmp) != 0 || s.D.HasChange("scheduled_operations") {
 				details.ScheduledOperations = tmp
 			}
+		}
+		if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+			tmp := secretId.(string)
+			details.SecretId = &tmp
+		}
+		if secretVersionNumber, ok := s.D.GetOkExists("secret_version_number"); ok {
+			tmp := secretVersionNumber.(int)
+			details.SecretVersionNumber = &tmp
 		}
 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
 			interfaces := standbyWhitelistedIps.([]interface{})
@@ -3066,6 +3124,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 				details.ScheduledOperations = tmp
 			}
 		}
+		if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+			tmp := secretId.(string)
+			details.SecretId = &tmp
+		}
+		if secretVersionNumber, ok := s.D.GetOkExists("secret_version_number"); ok {
+			tmp := secretVersionNumber.(int)
+			details.SecretVersionNumber = &tmp
+		}
 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
 			interfaces := standbyWhitelistedIps.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -3271,6 +3337,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			if len(tmp) != 0 || s.D.HasChange("scheduled_operations") {
 				details.ScheduledOperations = tmp
 			}
+		}
+		if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+			tmp := secretId.(string)
+			details.SecretId = &tmp
+		}
+		if secretVersionNumber, ok := s.D.GetOkExists("secret_version_number"); ok {
+			tmp := secretVersionNumber.(int)
+			details.SecretVersionNumber = &tmp
 		}
 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
 			interfaces := standbyWhitelistedIps.([]interface{})
