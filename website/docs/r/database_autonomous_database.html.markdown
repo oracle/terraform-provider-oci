@@ -73,6 +73,8 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 		scheduled_start_time = var.autonomous_database_scheduled_operations_scheduled_start_time
 		scheduled_stop_time = var.autonomous_database_scheduled_operations_scheduled_stop_time
 	}
+	secret_id = oci_vault_secret.test_secret.id
+	secret_version_number = var.autonomous_database_secret_version_number
 	source = var.autonomous_database_source
 	source_id = oci_database_source.test_source.id
 	standby_whitelisted_ips = var.autonomous_database_standby_whitelisted_ips
@@ -165,6 +167,8 @@ The following arguments are supported:
 		* `name` - (Required) (Updatable) Name of the day of the week.
 	* `scheduled_start_time` - (Optional) (Updatable) auto start time. value must be of ISO-8601 format "HH:mm"
 	* `scheduled_stop_time` - (Optional) (Updatable) auto stop time. value must be of ISO-8601 format "HH:mm"
+* `secret_id` - (Optional) (Updatable) The Oracle Cloud Infrastructure vault secret [/Content/General/Concepts/identifiers.htm]OCID.
+* `secret_version_number` - (Optional) (Updatable) The version of the vault secret. If no version is specified, the latest version will be used.
 * `source` - (Optional) The source of the database: Use `NONE` for creating a new Autonomous Database. Use `DATABASE` for creating a new Autonomous Database by cloning an existing Autonomous Database. Use `CROSS_REGION_DATAGUARD` to create a standby Data Guard database in another region.
 
   For Autonomous Databases on [shared Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), the following cloning options are available: Use `BACKUP_FROM_ID` for creating a new Autonomous Database from a specified backup. Use `BACKUP_FROM_TIMESTAMP` for creating a point-in-time Autonomous Database clone using backups. For more information, see [Cloning and Moving an Autonomous Database](https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/clone-autonomous-database.html#GUID-D771796F-5081-4CFB-A7FF-0F893EABD7BC).
