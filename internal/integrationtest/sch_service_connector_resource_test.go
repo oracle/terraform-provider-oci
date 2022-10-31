@@ -80,6 +80,30 @@ var (
 		"cursor":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: serviceConnectorStreamingSourceCursorRepresentation},
 		"stream_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_streaming_stream.test_stream.id}`},
 	}
+
+	Schserviceconnectorsourcelogsourcesrepresentation2 = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`, Update: `${var.tenancy_ocid}`},
+		"log_group_id":   acctest.Representation{RepType: acctest.Optional, Create: `_Audit`},
+	}
+
+	Schserviceconnectorsourcerepresentation2 = map[string]interface{}{
+		"kind":        acctest.Representation{RepType: acctest.Required, Create: `logging`},
+		"log_sources": acctest.RepresentationGroup{RepType: acctest.Required, Group: Schserviceconnectorsourcelogsourcesrepresentation2},
+	}
+
+	serviceConnectorRepresentationNoTarget2 = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `My_Service_Connector`, Update: `displayName2`},
+		"source":         acctest.RepresentationGroup{RepType: acctest.Required, Group: Schserviceconnectorsourcerepresentation2},
+		"description":    acctest.Representation{RepType: acctest.Optional, Create: `My service connector description`, Update: `description2`},
+	}
+
+	logAnalyticsTargetRepresentationForLogSource = map[string]interface{}{
+		"kind":         acctest.Representation{RepType: acctest.Required, Create: `loggingAnalytics`},
+		"log_group_id": acctest.Representation{RepType: acctest.Required, Create: `${var.logAn_log_group_ocid}`},
+	}
+
+	serviceConnectorLogAnTargetLoggingSourceRepresentation2 = createServiceConnectorRepresentation(serviceConnectorRepresentationNoTarget2, logAnalyticsTargetRepresentationForLogSource)
 )
 
 // issue-routing-tag: sch/default
@@ -270,6 +294,53 @@ func TestSchServiceConnectorResource_streamingAnalytics(t *testing.T) {
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
 			ResourceName:            resourceName,
+		},
+	})
+}
+
+/*
+Test for validating update operation bug tracked by https://jira.oci.oraclecorp.com/browse/OCH-1877
+TL;DR - 'logSourceIdentifier' attribute must only be supplied in the request if the value was explicitly updated
+*/
+func TestSchServiceConnectorResource_LogSrc_LogAnTarget(t *testing.T) {
+	httpreplay.SetScenario("TestSchServiceConnectorResource_LogSrc_LogAnTarget")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	logAnLogGroupId := utils.GetEnvSettingWithBlankDefault("logAn_log_group_ocid")
+	logAnLogGroupIdVariableStr := fmt.Sprintf("variable \"logAn_log_group_ocid\" { default = \"%s\" }\n", logAnLogGroupId)
+
+	resourceName := "oci_sch_service_connector.test_service_connector"
+	var resId, resId2 string
+
+	acctest.ResourceTest(t, testAccCheckSchServiceConnectorDestroy, []resource.TestStep{
+		{
+			Config: config + compartmentIdVariableStr + logAnLogGroupIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Required, acctest.Create, serviceConnectorLogAnTargetLoggingSourceRepresentation2),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		{
+			Config: config + compartmentIdVariableStr + logAnLogGroupIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Required, acctest.Update, serviceConnectorLogAnTargetLoggingSourceRepresentation2),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
 		},
 	})
 }

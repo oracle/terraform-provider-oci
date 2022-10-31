@@ -140,7 +140,7 @@ resource "oci_sch_service_connector" "test_service_connector" {
   }
 
   // If using streaming source
-  source {
+  /*source {
     kind = "Streaming"
 
     // Optional
@@ -151,7 +151,7 @@ resource "oci_sch_service_connector" "test_service_connector" {
     }
 
     stream_id = oci_streaming_stream.test_stream.id
-  }
+  }*/
 
   target {
     kind      = "streaming"
@@ -170,11 +170,11 @@ resource "oci_sch_service_connector" "test_service_connector" {
   }*/
 
   // If using the log analytics target
-  target {
+  /*target {
     kind            = "loggingAnalytics"
     log_group_id    = var.log_analytics_log_group_id
     log_source_identifier = var.service_connector_target_log_source_identifier
-  }
+  }*/
 
   // If using the notification target
   /*target {
