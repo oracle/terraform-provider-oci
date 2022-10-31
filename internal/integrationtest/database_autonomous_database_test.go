@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -136,6 +136,9 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
+	okvSecret = utils.GetEnvSettingWithBlankDefault("okv_secret")
+	OkvSecretVariableStr = fmt.Sprintf("variable \"okv_secret\" { default = \"%s\" }\n", okvSecret)
+
 	resourceName := "oci_database_autonomous_database.test_autonomous_database"
 	datasourceName := "data.oci_database_autonomous_databases.test_autonomous_databases"
 	singularDatasourceName := "data.oci_database_autonomous_database.test_autonomous_database"
@@ -165,6 +168,56 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 			),
 		},
 
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies,
+		},
+		// verify Create with secretId and secretVersionNumber
+		{
+			Config: config + compartmentIdVariableStr + OkvSecretVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create,
+					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentation, map[string]interface{}{
+						"secret_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.okv_secret}`},
+						"secret_version_number": acctest.Representation{RepType: acctest.Required, Create: `1`},
+					}), []string{"admin_password"})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "secret_id", okvSecret),
+				resource.TestCheckResourceAttr(resourceName, "secret_version_number", "1"),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				// verify computed field db_workload to be defaulted to OLTP
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// verify Update with secretId and secretVersionNumber
+		{
+			Config: config + compartmentIdVariableStr + OkvSecretVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Update,
+					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentation, map[string]interface{}{
+						"secret_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.okv_secret}`, Update: `${var.okv_secret}`},
+						"secret_version_number": acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
+					}), []string{"admin_password"})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "secret_id", okvSecret),
+				resource.TestCheckResourceAttr(resourceName, "secret_version_number", "2"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				// verify computed field db_workload to be defaulted to OLTP
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
 		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies,
@@ -789,6 +842,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_dedicated", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_local_data_guard_enabled", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_remote_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "local_standby_db.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_preview"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
 				// @Codegen:  memory_per_oracle_compute_unit_in_gbs is used only by exacc at the moment
@@ -826,6 +880,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				"autonomous_database_backup_id",
 				"clone_type",
 				"is_preview_version_with_service_terms_accepted",
+				"secret_id",
+				"secret_version_number",
 				"source",
 				"source_id",
 				"lifecycle_details",
