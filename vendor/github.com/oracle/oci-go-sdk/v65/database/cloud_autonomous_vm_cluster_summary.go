@@ -85,10 +85,10 @@ type CloudAutonomousVmClusterSummary struct {
 	// The total data storage allocated, in gigabytes (GB).
 	DataStorageSizeInGBs *float64 `mandatory:"false" json:"dataStorageSizeInGBs"`
 
-	// The number of CPU cores enabled on the cloud Autonomous VM cluster.
+	// The number of CPU cores on the cloud Autonomous VM cluster.
 	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
 
-	// The number of CPU cores enabled on the cloud Autonomous VM cluster. Only 1 decimal place is allowed for the fractional part.
+	// The number of CPU cores on the cloud Autonomous VM cluster. Only 1 decimal place is allowed for the fractional part.
 	OcpuCount *float32 `mandatory:"false" json:"ocpuCount"`
 
 	// The memory allocated in GBs.

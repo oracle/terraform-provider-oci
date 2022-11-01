@@ -63,7 +63,7 @@ type DatabaseSoftwareImageSummary struct {
 	// List of one-off patches for Database Homes.
 	DatabaseSoftwareImageIncludedPatches []string `mandatory:"false" json:"databaseSoftwareImageIncludedPatches"`
 
-	// The patches included in the image and the version of the image
+	// The patches included in the image and the version of the image.
 	IncludedPatchesSummary *string `mandatory:"false" json:"includedPatchesSummary"`
 
 	// List of one-off patches for Database Homes.

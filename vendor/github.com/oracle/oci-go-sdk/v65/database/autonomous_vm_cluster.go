@@ -63,7 +63,7 @@ type AutonomousVmCluster struct {
 	// The amount of memory (in GBs) enabled per each OCPU core.
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
 
-	// The number of OCPU cores enabled per VM cluster node.
+	// The number of CPU cores enabled per VM cluster node.
 	CpuCoreCountPerNode *int `mandatory:"false" json:"cpuCoreCountPerNode"`
 
 	// The data disk group size allocated for Autonomous Databases, in TBs.
