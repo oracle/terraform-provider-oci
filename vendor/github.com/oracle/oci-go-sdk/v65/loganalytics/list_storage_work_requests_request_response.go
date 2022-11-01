@@ -243,6 +243,8 @@ const (
 	ListStorageWorkRequestsOperationTypeReleaseRecalledStorageData ListStorageWorkRequestsOperationTypeEnum = "RELEASE_RECALLED_STORAGE_DATA"
 	ListStorageWorkRequestsOperationTypeArchiveStorageData         ListStorageWorkRequestsOperationTypeEnum = "ARCHIVE_STORAGE_DATA"
 	ListStorageWorkRequestsOperationTypeCleanupArchivalStorageData ListStorageWorkRequestsOperationTypeEnum = "CLEANUP_ARCHIVAL_STORAGE_DATA"
+	ListStorageWorkRequestsOperationTypeEncryptActiveData          ListStorageWorkRequestsOperationTypeEnum = "ENCRYPT_ACTIVE_DATA"
+	ListStorageWorkRequestsOperationTypeEncryptArchivalData        ListStorageWorkRequestsOperationTypeEnum = "ENCRYPT_ARCHIVAL_DATA"
 )
 
 var mappingListStorageWorkRequestsOperationTypeEnum = map[string]ListStorageWorkRequestsOperationTypeEnum{
@@ -252,6 +254,8 @@ var mappingListStorageWorkRequestsOperationTypeEnum = map[string]ListStorageWork
 	"RELEASE_RECALLED_STORAGE_DATA": ListStorageWorkRequestsOperationTypeReleaseRecalledStorageData,
 	"ARCHIVE_STORAGE_DATA":          ListStorageWorkRequestsOperationTypeArchiveStorageData,
 	"CLEANUP_ARCHIVAL_STORAGE_DATA": ListStorageWorkRequestsOperationTypeCleanupArchivalStorageData,
+	"ENCRYPT_ACTIVE_DATA":           ListStorageWorkRequestsOperationTypeEncryptActiveData,
+	"ENCRYPT_ARCHIVAL_DATA":         ListStorageWorkRequestsOperationTypeEncryptArchivalData,
 }
 
 var mappingListStorageWorkRequestsOperationTypeEnumLowerCase = map[string]ListStorageWorkRequestsOperationTypeEnum{
@@ -261,6 +265,8 @@ var mappingListStorageWorkRequestsOperationTypeEnumLowerCase = map[string]ListSt
 	"release_recalled_storage_data": ListStorageWorkRequestsOperationTypeReleaseRecalledStorageData,
 	"archive_storage_data":          ListStorageWorkRequestsOperationTypeArchiveStorageData,
 	"cleanup_archival_storage_data": ListStorageWorkRequestsOperationTypeCleanupArchivalStorageData,
+	"encrypt_active_data":           ListStorageWorkRequestsOperationTypeEncryptActiveData,
+	"encrypt_archival_data":         ListStorageWorkRequestsOperationTypeEncryptArchivalData,
 }
 
 // GetListStorageWorkRequestsOperationTypeEnumValues Enumerates the set of values for ListStorageWorkRequestsOperationTypeEnum
@@ -281,6 +287,8 @@ func GetListStorageWorkRequestsOperationTypeEnumStringValues() []string {
 		"RELEASE_RECALLED_STORAGE_DATA",
 		"ARCHIVE_STORAGE_DATA",
 		"CLEANUP_ARCHIVAL_STORAGE_DATA",
+		"ENCRYPT_ACTIVE_DATA",
+		"ENCRYPT_ARCHIVAL_DATA",
 	}
 }
 

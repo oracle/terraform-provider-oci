@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// DefaultCancelDeploymentBackupDetails Definiton of the additional attributes for default deployment backup cancel.
+// DefaultCancelDeploymentBackupDetails Definition of the additional attributes for default deployment backup cancel.
 type DefaultCancelDeploymentBackupDetails struct {
 }
 

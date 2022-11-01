@@ -39,13 +39,16 @@ type DeploymentBackupSummary struct {
 	// True if this object is automatically created
 	IsAutomatic *bool `mandatory:"false" json:"isAutomatic"`
 
-	// Describes the object's current state in detail. For example, it can be used to provide actionable information for a resource in a Failed state.
+	// Describes the object's current state in detail. For example, it can be used to provide
+	// actionable information for a resource in a Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// The time of the resource backup. The format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+	// The time of the resource backup. The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	TimeOfBackup *common.SDKTime `mandatory:"false" json:"timeOfBackup"`
 
-	// The time of the resource backup finish. The format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+	// The time of the resource backup finish. The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	TimeBackupFinished *common.SDKTime `mandatory:"false" json:"timeBackupFinished"`
 
 	// The size of the backup stored in object storage (in bytes)
@@ -63,13 +66,16 @@ type DeploymentBackupSummary struct {
 	// Name of the object to be uploaded to object storage
 	ObjectName *string `mandatory:"false" json:"objectName"`
 
-	// The time the resource was created. The format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+	// The time the resource was created. The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The time the resource was last updated. The format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+	// The time the resource was last updated. The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.
+	// A simple key-value pair that is applied without any predefined name, type, or scope. Exists
+	// for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
@@ -77,7 +83,9 @@ type DeploymentBackupSummary struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The system tags associated with this resource, if any. The system tags are set by Oracle Cloud Infrastructure services. Each key is predefined and scoped to namespaces.  For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// The system tags associated with this resource, if any. The system tags are set by Oracle
+	// Cloud Infrastructure services. Each key is predefined and scoped to namespaces.  For more
+	// information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{orcl-cloud: {free-tier-retain: true}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }

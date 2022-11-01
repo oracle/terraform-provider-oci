@@ -42,7 +42,7 @@ type CreateAutonomousVmClusterDetails struct {
 	// The total number of Autonomous Container Databases that can be created.
 	TotalContainerDatabases *int `mandatory:"false" json:"totalContainerDatabases"`
 
-	// The number of OCPU cores to enable per VM cluster node.
+	// The number of CPU cores to enable per VM cluster node.
 	CpuCoreCountPerNode *int `mandatory:"false" json:"cpuCoreCountPerNode"`
 
 	// The amount of memory (in GBs) to be enabled per each OCPU core.

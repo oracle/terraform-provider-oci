@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// DefaultRestoreDeploymentDetails Definiton of the additional attributes for default deployment restore.
+// DefaultRestoreDeploymentDetails Definition of the additional attributes for default deployment restore.
 type DefaultRestoreDeploymentDetails struct {
 }
 
