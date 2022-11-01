@@ -1,4 +1,4 @@
-## 4.97.0 (Unreleased)
+## 4.97.0 (October 28, 2022)
 
 ### Added
 - Resource discovery find resources for individual step in parallel
@@ -6,6 +6,7 @@
 - Concurrecy control for discovery
 - maxparallel variables based on number of available cores
 - Support for OCI Digital Media Services
+- Support for Dev and Deployment of Site Guard as Service in OCI
 - Support for Data Flow Studio support
 
 ### Bug Fix
