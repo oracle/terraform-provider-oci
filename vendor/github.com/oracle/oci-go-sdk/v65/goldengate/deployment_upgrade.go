@@ -36,19 +36,23 @@ type DeploymentUpgrade struct {
 	// Metadata about this specific object.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The date and time the request was started. The format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+	// The date and time the request was started. The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
 
-	// The date and time the request was finished. The format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+	// The date and time the request was finished. The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
 
 	// Version of OGG
 	OggVersion *string `mandatory:"false" json:"oggVersion"`
 
-	// The time the resource was created. The format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+	// The time the resource was created. The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The time the resource was last updated. The format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+	// The time the resource was last updated. The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
 	// Possible lifecycle states.
@@ -57,10 +61,12 @@ type DeploymentUpgrade struct {
 	// Possible GGS lifecycle sub-states.
 	LifecycleSubState LifecycleSubStateEnum `mandatory:"false" json:"lifecycleSubState,omitempty"`
 
-	// Describes the object's current state in detail. For example, it can be used to provide actionable information for a resource in a Failed state.
+	// Describes the object's current state in detail. For example, it can be used to provide
+	// actionable information for a resource in a Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.
+	// A simple key-value pair that is applied without any predefined name, type, or scope. Exists
+	// for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
@@ -68,7 +74,9 @@ type DeploymentUpgrade struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The system tags associated with this resource, if any. The system tags are set by Oracle Cloud Infrastructure services. Each key is predefined and scoped to namespaces.  For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// The system tags associated with this resource, if any. The system tags are set by Oracle
+	// Cloud Infrastructure services. Each key is predefined and scoped to namespaces.  For more
+	// information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{orcl-cloud: {free-tier-retain: true}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
