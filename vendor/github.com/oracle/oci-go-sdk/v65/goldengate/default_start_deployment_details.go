@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// DefaultStartDeploymentDetails Definiton of the additional attributes for default deployment start.
+// DefaultStartDeploymentDetails Definition of the additional attributes for default deployment start.
 type DefaultStartDeploymentDetails struct {
 }
 
