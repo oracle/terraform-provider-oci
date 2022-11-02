@@ -474,8 +474,9 @@ func (s *OpaOpaInstanceResourceCrud) Delete() error {
 	// oci_opa.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	// return delWorkRequestErr
 
-	opaInstanceWaitForWorkRequest(workId, "opainstance",
-		oci_opa.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
+	if _, err := opaInstanceWaitForWorkRequest(workId, "opainstance", oci_opa.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client); err != nil {
+		return err
+	}
 	return nil
 }
 
