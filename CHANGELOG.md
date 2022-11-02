@@ -1,12 +1,11 @@
 ## 4.98.0 (Unreleased)
 
 ### Added
-- separating test
+- Support for Oracle Process Automation (OPA) - Customer Facing Release
 - Support for Logging Analytics Customer-Provided Encryption Keys
 - Support for ADB-S: Restore / Clone from backup from last available timestamp
 - Support for third-party scanner
 - Support for filtering in resource discovery
-- Update Oracle Contributor Agreement
 ### Bug Fix
 - Update failures with SCH terraform provider
 
