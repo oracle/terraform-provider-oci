@@ -1,4 +1,4 @@
-## 4.98.0 (Unreleased)
+## 4.98.0 (November 02, 2022)
 
 ### Added
 - Support for Oracle Process Automation (OPA) - Customer Facing Release
@@ -8,6 +8,7 @@
 - Support for filtering in resource discovery
 ### Bug Fix
 - Update failures with SCH terraform provider
+
 ## 4.97.0 (October 28, 2022)
 
 ### Added
