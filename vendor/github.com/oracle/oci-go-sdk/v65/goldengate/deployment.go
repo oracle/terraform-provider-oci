@@ -36,8 +36,9 @@ type Deployment struct {
 	// Indicates if auto scaling is enabled for the Deployment's CPU core count.
 	IsAutoScalingEnabled *bool `mandatory:"true" json:"isAutoScalingEnabled"`
 
-	// The type of deployment, the value determines the exact 'type' of service executed in the Deployment. NOTE: Use of the value OGG is maintained for backward compatibility purposes.  Its use is discouraged
-	//       in favor of the equivalent DATABASE_ORACLE value.
+	// The type of deployment, the value determines the exact 'type' of service executed in the Deployment.
+	// NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.  Its use is discouraged
+	//       in favor of the equivalent 'DATABASE_ORACLE' value.
 	DeploymentType DeploymentTypeEnum `mandatory:"true" json:"deploymentType"`
 
 	// An object's Display Name.
@@ -49,10 +50,12 @@ type Deployment struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the backup being referenced.
 	DeploymentBackupId *string `mandatory:"false" json:"deploymentBackupId"`
 
-	// The time the resource was created. The format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+	// The time the resource was created. The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The time the resource was last updated. The format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+	// The time the resource was last updated. The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
 	// Possible lifecycle states.
@@ -61,10 +64,12 @@ type Deployment struct {
 	// Possible GGS lifecycle sub-states.
 	LifecycleSubState LifecycleSubStateEnum `mandatory:"false" json:"lifecycleSubState,omitempty"`
 
-	// Describes the object's current state in detail. For example, it can be used to provide actionable information for a resource in a Failed state.
+	// Describes the object's current state in detail. For example, it can be used to provide
+	// actionable information for a resource in a Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.
+	// A simple key-value pair that is applied without any predefined name, type, or scope. Exists
+	// for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
@@ -78,7 +83,7 @@ type Deployment struct {
 	// A three-label Fully Qualified Domain Name (FQDN) for a resource.
 	Fqdn *string `mandatory:"false" json:"fqdn"`
 
-	// An array of Network Security Group (https://docs.cloud.oracle.com/Content/Network/Concepts/networksecuritygroups.htm) OCIDs used to define network access for a deployment.
+	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// True if this object is publicly available.
@@ -87,20 +92,26 @@ type Deployment struct {
 	// The public IP address representing the access point for the Deployment.
 	PublicIpAddress *string `mandatory:"false" json:"publicIpAddress"`
 
-	// The private IP address in the customer's VCN representing the access point for the associated endpoint service in the GoldenGate service VCN.
+	// The private IP address in the customer's VCN representing the access point for the
+	// associated endpoint service in the GoldenGate service VCN.
 	PrivateIpAddress *string `mandatory:"false" json:"privateIpAddress"`
 
 	// The URL of a resource.
 	DeploymentUrl *string `mandatory:"false" json:"deploymentUrl"`
 
-	// The system tags associated with this resource, if any. The system tags are set by Oracle Cloud Infrastructure services. Each key is predefined and scoped to namespaces.  For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// The system tags associated with this resource, if any. The system tags are set by Oracle
+	// Cloud Infrastructure services. Each key is predefined and scoped to namespaces.  For more
+	// information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{orcl-cloud: {free-tier-retain: true}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
 	// Indicates if the resource is the the latest available version.
 	IsLatestVersion *bool `mandatory:"false" json:"isLatestVersion"`
 
-	// The date the existing version in use will no longer be considered as usable and an upgrade will be required.  This date is typically 6 months after the version was released for use by GGS.  The format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+	// The date the existing version in use will no longer be considered as usable
+	// and an upgrade will be required.  This date is typically 6 months after the
+	// version was released for use by GGS.  The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	TimeUpgradeRequired *common.SDKTime `mandatory:"false" json:"timeUpgradeRequired"`
 
 	// The amount of storage being utilized (in bytes)

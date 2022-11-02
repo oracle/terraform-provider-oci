@@ -21,20 +21,14 @@ type StorageWorkRequest struct {
 	// This is the OCID of the storage work Request.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Compartment Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-	CompartmentId *string `mandatory:"true" json:"compartmentId"`
-
 	// This is the work request status.
 	Status WorkRequestStatusEnum `mandatory:"true" json:"status"`
 
-	// This is the end of the time interval
-	TimeDataEnded *common.SDKTime `mandatory:"true" json:"timeDataEnded"`
-
-	// Thie is the type of data to be purged
-	DataType StorageDataTypeEnum `mandatory:"true" json:"dataType"`
-
 	// This is the type of the work request.
 	OperationType StorageOperationTypeEnum `mandatory:"true" json:"operationType"`
+
+	// Compartment Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// When the work request started.
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
@@ -54,8 +48,14 @@ type StorageWorkRequest struct {
 	// This is the start of the time interval
 	TimeDataStarted *common.SDKTime `mandatory:"false" json:"timeDataStarted"`
 
+	// This is the end of the time interval
+	TimeDataEnded *common.SDKTime `mandatory:"false" json:"timeDataEnded"`
+
 	// This is the solr query used to filter data for purge, '*' means all
 	PurgeQueryString *string `mandatory:"false" json:"purgeQueryString"`
+
+	// Thie is the type of data to be purged
+	DataType StorageDataTypeEnum `mandatory:"false" json:"dataType,omitempty"`
 
 	// This provides more detailed status if applicable
 	StatusDetails *string `mandatory:"false" json:"statusDetails"`
@@ -74,6 +74,12 @@ type StorageWorkRequest struct {
 
 	// If true, purge child compartments data, only applicable to purge request
 	CompartmentIdInSubtree *bool `mandatory:"false" json:"compartmentIdInSubtree"`
+
+	// This is the key ID for encryption key.
+	KeyId *string `mandatory:"false" json:"keyId"`
+
+	// The type of customer encryption key. It can be archival, active or all.
+	KeyType EncryptionKeyTypeEnum `mandatory:"false" json:"keyType,omitempty"`
 }
 
 func (m StorageWorkRequest) String() string {
@@ -88,13 +94,16 @@ func (m StorageWorkRequest) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingWorkRequestStatusEnum(string(m.Status)); !ok && m.Status != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetWorkRequestStatusEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingStorageDataTypeEnum(string(m.DataType)); !ok && m.DataType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataType: %s. Supported values are: %s.", m.DataType, strings.Join(GetStorageDataTypeEnumStringValues(), ",")))
-	}
 	if _, ok := GetMappingStorageOperationTypeEnum(string(m.OperationType)); !ok && m.OperationType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OperationType: %s. Supported values are: %s.", m.OperationType, strings.Join(GetStorageOperationTypeEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingStorageDataTypeEnum(string(m.DataType)); !ok && m.DataType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataType: %s. Supported values are: %s.", m.DataType, strings.Join(GetStorageDataTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingEncryptionKeyTypeEnum(string(m.KeyType)); !ok && m.KeyType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for KeyType: %s. Supported values are: %s.", m.KeyType, strings.Join(GetEncryptionKeyTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

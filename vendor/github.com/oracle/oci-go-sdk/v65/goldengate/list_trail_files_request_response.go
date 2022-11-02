@@ -33,7 +33,8 @@ type ListTrailFilesRequest struct {
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
-	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
+	// The page token representing the page at which to start retrieving results. This is usually
+	// retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// The field to sort by. Only one sort order can be provided. Default order for 'timeLastUpdated' is
@@ -101,10 +102,13 @@ type ListTrailFilesResponse struct {
 	// A list of TrailFileCollection instances
 	TrailFileCollection `presentIn:"body"`
 
-	// A unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please include the request ID.
+	// A unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+	// particular request, please include the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For pagination of a list of items. When paging through a list, if this header appears in the response, then a partial list might have been returned. Include this value as the `page` parameter for the subsequent GET request to get the next batch of items.
+	// For pagination of a list of items. When paging through a list, if this header appears in the
+	// response, then a partial list might have been returned. Include this value as the `page`
+	// parameter for the subsequent GET request to get the next batch of items.
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

@@ -7,6 +7,8 @@ package common
 import (
 	"bytes"
 	"context"
+	"crypto/tls"
+	"crypto/x509"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -99,6 +101,9 @@ const (
 
 	//circuitBreakerNumberOfHistoryResponseEnv is the number of recorded history responses
 	circuitBreakerNumberOfHistoryResponseEnv = "OCI_SDK_CIRCUITBREAKER_NUM_HISTORY_RESPONSE"
+
+	// ociDefaultCertsPath is the env var for the path to the SSL cert file
+	ociDefaultCertsPath = "OCI_DEFAULT_CERTS_PATH"
 
 	//maxAttemptsForRefreshableRetry is the number of retry when 401 happened on a refreshable auth type
 	maxAttemptsForRefreshableRetry = 3
@@ -206,29 +211,36 @@ func newBaseClient(signer HTTPRequestSigner, dispatcher HTTPRequestDispatcher) B
 
 func defaultHTTPDispatcher() http.Client {
 	var httpClient http.Client
-
+	var tp = http.DefaultTransport.(*http.Transport)
 	if isExpectHeaderDisabled := IsEnvVarFalse(UsingExpectHeaderEnvVar); !isExpectHeaderDisabled {
-		var tp http.RoundTripper = &http.Transport{
-			Proxy: http.ProxyFromEnvironment,
-			DialContext: (&net.Dialer{
-				Timeout:   30 * time.Second,
-				KeepAlive: 30 * time.Second,
-				DualStack: true,
-			}).DialContext,
-			ForceAttemptHTTP2:     true,
-			MaxIdleConns:          100,
-			IdleConnTimeout:       90 * time.Second,
-			TLSHandshakeTimeout:   10 * time.Second,
-			ExpectContinueTimeout: 3 * time.Second,
+		tp.Proxy = http.ProxyFromEnvironment
+		tp.DialContext = (&net.Dialer{
+			Timeout:   30 * time.Second,
+			KeepAlive: 30 * time.Second,
+			DualStack: true,
+		}).DialContext
+		tp.ForceAttemptHTTP2 = true
+		tp.MaxIdleConns = 100
+		tp.IdleConnTimeout = 90 * time.Second
+		tp.TLSHandshakeTimeout = 10 * time.Second
+		tp.ExpectContinueTimeout = 3 * time.Second
+	}
+	if certFile, ok := os.LookupEnv(ociDefaultCertsPath); ok {
+		pool := x509.NewCertPool()
+		pemCert := readCertPem(certFile)
+		cert, err := x509.ParseCertificate(pemCert)
+		if err != nil {
+			Logf("unable to parse content to cert fallback to pem format from env var value: %s", certFile)
+			pool.AppendCertsFromPEM(pemCert)
+		} else {
+			Logf("using custom cert parsed from env var value: %s", certFile)
+			pool.AddCert(cert)
 		}
-		httpClient = http.Client{
-			Transport: tp,
-			Timeout:   defaultTimeout,
-		}
-	} else {
-		httpClient = http.Client{
-			Timeout: defaultTimeout,
-		}
+		tp.TLSClientConfig = &tls.Config{RootCAs: pool}
+	}
+	httpClient = http.Client{
+		Timeout:   defaultTimeout,
+		Transport: tp,
 	}
 	return httpClient
 }
@@ -239,7 +251,7 @@ func defaultBaseClient(provider KeyProvider) BaseClient {
 	return newBaseClient(signer, &dispatcher)
 }
 
-//DefaultBaseClientWithSigner creates a default base client with a given signer
+// DefaultBaseClientWithSigner creates a default base client with a given signer
 func DefaultBaseClientWithSigner(signer HTTPRequestSigner) BaseClient {
 	dispatcher := defaultHTTPDispatcher()
 	return newBaseClient(signer, &dispatcher)
@@ -579,7 +591,7 @@ type OCIResponse interface {
 // OCIOperation is the generalization of a request-response cycle undergone by an OCI service.
 type OCIOperation func(context.Context, OCIRequest, *OCIReadSeekCloser, map[string]string) (OCIResponse, error)
 
-//ClientCallDetails a set of settings used by the a single Call operation of the http Client
+// ClientCallDetails a set of settings used by the a single Call operation of the http Client
 type ClientCallDetails struct {
 	Signer HTTPRequestSigner
 }
@@ -685,7 +697,7 @@ func (client BaseClient) httpDo(request *http.Request) (response *http.Response,
 	return response, err
 }
 
-//CloseBodyIfValid closes the body of an http response if the response and the body are valid
+// CloseBodyIfValid closes the body of an http response if the response and the body are valid
 func CloseBodyIfValid(httpResponse *http.Response) {
 	if httpResponse != nil && httpResponse.Body != nil {
 		httpResponse.Body.Close()

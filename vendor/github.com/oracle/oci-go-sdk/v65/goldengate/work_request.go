@@ -15,7 +15,10 @@ import (
 	"strings"
 )
 
-// WorkRequest The API operations that create and configure GoldenGate resources do not take effect immediately. In these cases, the operation spawns an asynchronous workflow to fulfill teh request. Work requests provide visibility into the status of these in-progress, long-running asynchronous workflows.
+// WorkRequest The API operations that create and configure GoldenGate resources do not take effect
+// immediately. In these cases, the operation spawns an asynchronous workflow to fulfill the
+// request. Work requests provide visibility into the status of these in-progress, long-running
+// asynchronous workflows.
 type WorkRequest struct {
 
 	// The work request's operation type.
@@ -27,7 +30,10 @@ type WorkRequest struct {
 	// The id of the work request.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The ocid of the compartment that contains the work request. Work requests should be scoped to the same compartment as the resource the work request affects. If the work request affects multiple resources, and those resources are not in the same compartment, it is up to the service team to pick the primary resource whose compartment should be used.
+	// The ocid of the compartment that contains the work request. Work requests should be scoped
+	// to the same compartment as the resource the work request affects. If the work request
+	// affects multiple resources, and those resources are not in the same compartment, it is up
+	// to the service team to pick the primary resource whose compartment should be used.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The resources affected by this work request.
@@ -36,13 +42,16 @@ type WorkRequest struct {
 	// Percentage of the request completed.
 	PercentComplete *float32 `mandatory:"true" json:"percentComplete"`
 
-	// The date and time the request was created. The format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+	// The date and time the request was created. The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	TimeAccepted *common.SDKTime `mandatory:"true" json:"timeAccepted"`
 
-	// The date and time the request was started. The format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+	// The date and time the request was started. The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
 
-	// The date and time the request was finished. The format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+	// The date and time the request was finished. The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
 }
 

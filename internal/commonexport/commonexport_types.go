@@ -128,6 +128,7 @@ type ExportCommandArgs struct {
 	Parallelism                  int
 	VarsExportResourceLevel      []string
 	VarExportGlobalLevel         []string
+	Filters                      []ResourceFilter
 }
 type ErrorList struct {
 	Errors []*ResourceDiscoveryError

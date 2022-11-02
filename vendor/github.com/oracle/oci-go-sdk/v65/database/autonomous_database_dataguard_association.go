@@ -44,7 +44,7 @@ type AutonomousDatabaseDataguardAssociation struct {
 	// The current state of Autonomous Data Guard.
 	PeerAutonomousDatabaseLifeCycleState AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum `mandatory:"false" json:"peerAutonomousDatabaseLifeCycleState,omitempty"`
 
-	// The protection mode of this Data Guard association. For more information, see
+	// The protection mode of this Autonomous Data Guard association. For more information, see
 	// Oracle Data Guard Protection Modes (http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000)
 	// in the Oracle Data Guard documentation.
 	ProtectionMode AutonomousDatabaseDataguardAssociationProtectionModeEnum `mandatory:"false" json:"protectionMode,omitempty"`

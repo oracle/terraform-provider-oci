@@ -360,6 +360,12 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				ForceNew:         true,
 				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 			},
+			"use_latest_available_backup_time_stamp": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"vault_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -2257,6 +2263,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 				return err
 			}
 			details.Timestamp = &oci_common.SDKTime{Time: tmp}
+		}
+		if useLatestAvailableBackupTimeStamp, ok := s.D.GetOkExists("use_latest_available_backup_time_stamp"); ok {
+			tmp := useLatestAvailableBackupTimeStamp.(bool)
+			details.UseLatestAvailableBackupTimeStamp = &tmp
 		}
 		if adminPassword, ok := s.D.GetOkExists("admin_password"); ok {
 			tmp := adminPassword.(string)

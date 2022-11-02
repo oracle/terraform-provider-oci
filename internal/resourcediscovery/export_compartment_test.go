@@ -835,6 +835,71 @@ func TestUnitRunExportCommand_basic(t *testing.T) {
 	os.RemoveAll(outputDir)
 }
 
+// Basic test to ensure that RunExportCommand generates TF artifacts when running with filter
+// issue-routing-tag: terraform/default
+func TestUnitRunExportCommandFilterResourceType_basic(t *testing.T) {
+	initResourceDiscoveryTests()
+	defer cleanupResourceDiscoveryTests()
+	compartmentId := resourceDiscoveryTestCompartmentOcid
+	if err := os.Setenv("export_tenancy_id", resourceDiscoveryTestTenancyOcid); err != nil {
+		t.Logf("unable to set export_tenancy_id. err: %v", err)
+		t.Fail()
+	}
+	outputDir, err := os.Getwd()
+	outputDir = fmt.Sprintf("%s%sdiscoveryTest-%d", outputDir, string(os.PathSeparator), time.Now().Nanosecond())
+	if err = os.Mkdir(outputDir, os.ModePerm); err != nil {
+		t.Logf("unable to mkdir %s. err: %v", outputDir, err)
+		t.Fail()
+	}
+
+	tfHclVersions := []tf_export.TfHclVersion{&tf_export.TfHclVersion11{}, &tf_export.TfHclVersion12{}}
+	for _, tfVersion := range tfHclVersions {
+		tf_export.TfHclVersionvar = tfVersion
+		args := &tf_export.ExportCommandArgs{
+			CompartmentId: &compartmentId,
+			Services:      []string{"compartment_testing", "tenancy_testing"},
+			OutputDir:     &outputDir,
+			GenerateState: false,
+			TFVersion:     &tf_export.TfHclVersionvar,
+			Parallelism:   1,
+			Filters: []tf_export.ResourceFilter{&tf_export.ResourceTypeFilter{
+				ResourceType:         map[string]bool{"oci_test_error_child": true},
+				ResourceTypeOperator: tf_export.EXCLUDE,
+			}},
+		}
+		getProviderEnvSettingWithDefaultVar = func(varName string, defaultValue string) string {
+			return defaultValue
+		}
+		getEnvSettingWithBlankDefaultVar = func(varName string) string {
+			return resourceDiscoveryTestTenancyOcid
+		}
+		getExportConfigVar = func(d *schema.ResourceData) (interface{}, error) {
+			return getTestClients(), nil
+		}
+		exportConfigProvider = acctest.MockConfigurationProvider{}
+		if err, _ = RunExportCommand(args); err != nil {
+			t.Logf("(TF version %s) export command failed due to err: %v", tf_export.TfHclVersionvar.ToString(), err)
+			t.Fail()
+		}
+
+		if _, err = os.Stat(fmt.Sprintf("%s%stenancy_testing.tf", outputDir, string(os.PathSeparator))); !os.IsNotExist(err) {
+			t.Logf("(TF version %s) tenancy_testing.tf file generated even though it wasn't expected", tf_export.TfHclVersionvar.ToString())
+			t.Fail()
+		}
+
+		if _, err = os.Stat(fmt.Sprintf("%s%scompartment_testing.tf", outputDir, string(os.PathSeparator))); os.IsNotExist(err) {
+			t.Logf("(TF version %s) no compartment_testing.tf file generated", tf_export.TfHclVersionvar.ToString())
+			t.Fail()
+		}
+
+		if _, err = os.Stat(fmt.Sprintf("%s%sterraform.tfstate", outputDir, string(os.PathSeparator))); !os.IsNotExist(err) {
+			t.Logf("(TF version %s) found terraform.tfstate even though it wasn't expected", tf_export.TfHclVersionvar.ToString())
+		}
+	}
+
+	os.RemoveAll(outputDir)
+}
+
 // issue-routing-tag: terraform/default
 func TestUnitRunExportCommand_Parallel(t *testing.T) {
 	initResourceDiscoveryTests()
@@ -1147,6 +1212,42 @@ func TestUnitFindResources_basic(t *testing.T) {
 				t.Logf("child resource should have a name with prefix '%s' but name is '%s' instead", expectedTfNamePrefix, foundResource.TerraformName)
 				t.Fail()
 			}
+		}
+	}
+}
+
+// Test that resources can be found using a resource dependency graph
+// issue-routing-tag: terraform/default
+func TestUnitFindResources_filter(t *testing.T) {
+	initResourceDiscoveryTests()
+	defer cleanupResourceDiscoveryTests()
+	rootResource := getRootCompartmentResource()
+
+	ctx := &tf_export.ResourceDiscoveryContext{
+		ErrorList: tf_export.ErrorList{},
+		ExportCommandArgs: &tf_export.ExportCommandArgs{
+			Filters: []tf_export.ResourceFilter{&tf_export.ResourceTypeFilter{
+				ResourceType:         map[string]bool{"oci_test_child": true},
+				ResourceTypeOperator: tf_export.EXCLUDE,
+			}},
+		},
+	}
+	results, err := findResources(ctx, rootResource, compartmentTestingResourceGraph, true)
+	if err != nil {
+		t.Logf("got error from findResources: %v", err)
+		t.Fail()
+	}
+
+	if len(results) == len(childrenResources)+len(parentResources) {
+		t.Logf("got %d results but expected %d results", len(results), 4)
+		t.Fail()
+	}
+
+	for _, foundResource := range results {
+		if foundResource.TerraformClass == "oci_test_child" {
+			t.Logf("resource of type oci_test_child should not be discovered as its set to be omitted by the filter")
+			t.Fail()
+
 		}
 	}
 }

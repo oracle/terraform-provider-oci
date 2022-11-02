@@ -36,14 +36,16 @@ type CreateDeploymentDetails struct {
 	// Indicates if auto scaling is enabled for the Deployment's CPU core count.
 	IsAutoScalingEnabled *bool `mandatory:"true" json:"isAutoScalingEnabled"`
 
-	// The type of deployment, the value determines the exact 'type' of service executed in the Deployment. NOTE: Use of the value OGG is maintained for backward compatibility purposes.  Its use is discouraged
-	//       in favor of the equivalent DATABASE_ORACLE value.
+	// The type of deployment, the value determines the exact 'type' of service executed in the Deployment.
+	// NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.  Its use is discouraged
+	//       in favor of the equivalent 'DATABASE_ORACLE' value.
 	DeploymentType DeploymentTypeEnum `mandatory:"true" json:"deploymentType"`
 
 	// Metadata about this specific object.
 	Description *string `mandatory:"false" json:"description"`
 
-	// A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.
+	// A simple key-value pair that is applied without any predefined name, type, or scope. Exists
+	// for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
@@ -57,7 +59,7 @@ type CreateDeploymentDetails struct {
 	// A three-label Fully Qualified Domain Name (FQDN) for a resource.
 	Fqdn *string `mandatory:"false" json:"fqdn"`
 
-	// An array of Network Security Group (https://docs.cloud.oracle.com/Content/Network/Concepts/networksecuritygroups.htm) OCIDs used to define network access for a deployment.
+	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// True if this object is publicly available.

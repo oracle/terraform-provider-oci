@@ -18,15 +18,24 @@ type DeploymentTypeEnum string
 
 // Set of constants representing the allowable values for DeploymentTypeEnum
 const (
-	DeploymentTypeOgg DeploymentTypeEnum = "OGG"
+	DeploymentTypeOgg            DeploymentTypeEnum = "OGG"
+	DeploymentTypeDatabaseOracle DeploymentTypeEnum = "DATABASE_ORACLE"
+	DeploymentTypeBigdata        DeploymentTypeEnum = "BIGDATA"
+	DeploymentTypeDatabaseMysql  DeploymentTypeEnum = "DATABASE_MYSQL"
 )
 
 var mappingDeploymentTypeEnum = map[string]DeploymentTypeEnum{
-	"OGG": DeploymentTypeOgg,
+	"OGG":             DeploymentTypeOgg,
+	"DATABASE_ORACLE": DeploymentTypeDatabaseOracle,
+	"BIGDATA":         DeploymentTypeBigdata,
+	"DATABASE_MYSQL":  DeploymentTypeDatabaseMysql,
 }
 
 var mappingDeploymentTypeEnumLowerCase = map[string]DeploymentTypeEnum{
-	"ogg": DeploymentTypeOgg,
+	"ogg":             DeploymentTypeOgg,
+	"database_oracle": DeploymentTypeDatabaseOracle,
+	"bigdata":         DeploymentTypeBigdata,
+	"database_mysql":  DeploymentTypeDatabaseMysql,
 }
 
 // GetDeploymentTypeEnumValues Enumerates the set of values for DeploymentTypeEnum
@@ -42,6 +51,9 @@ func GetDeploymentTypeEnumValues() []DeploymentTypeEnum {
 func GetDeploymentTypeEnumStringValues() []string {
 	return []string{
 		"OGG",
+		"DATABASE_ORACLE",
+		"BIGDATA",
+		"DATABASE_MYSQL",
 	}
 }
 
