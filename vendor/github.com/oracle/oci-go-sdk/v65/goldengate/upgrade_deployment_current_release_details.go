@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UpgradeDeploymentCurrentReleaseDetails Definiton of the additional attributes for a Current Release upgrade.
+// UpgradeDeploymentCurrentReleaseDetails Definition of the additional attributes for a Current Release upgrade.
 type UpgradeDeploymentCurrentReleaseDetails struct {
 }
 

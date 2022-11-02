@@ -1,3 +1,14 @@
+## 4.98.0 (November 02, 2022)
+
+### Added
+- Support for Oracle Process Automation (OPA) - Customer Facing Release
+- Support for Logging Analytics Customer-Provided Encryption Keys
+- Support for ADB-S: Restore / Clone from backup from last available timestamp
+- Support for third-party scanner
+- Support for filtering in resource discovery
+### Bug Fix
+- Update failures with SCH terraform provider
+
 ## 4.97.0 (October 28, 2022)
 
 ### Added
