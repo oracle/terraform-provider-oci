@@ -11,6 +11,8 @@
 
 ## 4.97.0 (October 28, 2022)
 
+asdsadas
+
 ### Added
 - Resource discovery find resources for individual step in parallel
 - FoundResource variable declaration
