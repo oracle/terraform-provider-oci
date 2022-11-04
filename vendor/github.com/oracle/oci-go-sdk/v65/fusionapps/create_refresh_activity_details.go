@@ -20,6 +20,9 @@ type CreateRefreshActivityDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source environment
 	SourceFusionEnvironmentId *string `mandatory:"true" json:"sourceFusionEnvironmentId"`
+
+	// Current time the refresh activity is scheduled to start. An RFC3339 formatted datetime string.
+	TimeScheduledStart *common.SDKTime `mandatory:"false" json:"timeScheduledStart"`
 }
 
 func (m CreateRefreshActivityDetails) String() string {

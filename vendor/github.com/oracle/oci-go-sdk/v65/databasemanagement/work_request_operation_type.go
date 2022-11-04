@@ -22,16 +22,37 @@ type WorkRequestOperationTypeEnum string
 const (
 	WorkRequestOperationTypeCreateDbManagementPrivateEndpoint WorkRequestOperationTypeEnum = "CREATE_DB_MANAGEMENT_PRIVATE_ENDPOINT"
 	WorkRequestOperationTypeDeleteDbManagementPrivateEndpoint WorkRequestOperationTypeEnum = "DELETE_DB_MANAGEMENT_PRIVATE_ENDPOINT"
+	WorkRequestOperationTypeCreateDbSystemDiscovery           WorkRequestOperationTypeEnum = "CREATE_DB_SYSTEM_DISCOVERY"
+	WorkRequestOperationTypeCreateDbSystem                    WorkRequestOperationTypeEnum = "CREATE_DB_SYSTEM"
+	WorkRequestOperationTypeDbSystemEnableDbmgmt              WorkRequestOperationTypeEnum = "DB_SYSTEM_ENABLE_DBMGMT"
+	WorkRequestOperationTypeDbSystemDisableDbmgmt             WorkRequestOperationTypeEnum = "DB_SYSTEM_DISABLE_DBMGMT"
+	WorkRequestOperationTypeDeleteDbSystem                    WorkRequestOperationTypeEnum = "DELETE_DB_SYSTEM"
+	WorkRequestOperationTypeUpdateExternalDbSystemConnector   WorkRequestOperationTypeEnum = "UPDATE_EXTERNAL_DB_SYSTEM_CONNECTOR"
+	WorkRequestOperationTypeChangeExternalDbSystemCompartment WorkRequestOperationTypeEnum = "CHANGE_EXTERNAL_DB_SYSTEM_COMPARTMENT"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
 	"CREATE_DB_MANAGEMENT_PRIVATE_ENDPOINT": WorkRequestOperationTypeCreateDbManagementPrivateEndpoint,
 	"DELETE_DB_MANAGEMENT_PRIVATE_ENDPOINT": WorkRequestOperationTypeDeleteDbManagementPrivateEndpoint,
+	"CREATE_DB_SYSTEM_DISCOVERY":            WorkRequestOperationTypeCreateDbSystemDiscovery,
+	"CREATE_DB_SYSTEM":                      WorkRequestOperationTypeCreateDbSystem,
+	"DB_SYSTEM_ENABLE_DBMGMT":               WorkRequestOperationTypeDbSystemEnableDbmgmt,
+	"DB_SYSTEM_DISABLE_DBMGMT":              WorkRequestOperationTypeDbSystemDisableDbmgmt,
+	"DELETE_DB_SYSTEM":                      WorkRequestOperationTypeDeleteDbSystem,
+	"UPDATE_EXTERNAL_DB_SYSTEM_CONNECTOR":   WorkRequestOperationTypeUpdateExternalDbSystemConnector,
+	"CHANGE_EXTERNAL_DB_SYSTEM_COMPARTMENT": WorkRequestOperationTypeChangeExternalDbSystemCompartment,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
 	"create_db_management_private_endpoint": WorkRequestOperationTypeCreateDbManagementPrivateEndpoint,
 	"delete_db_management_private_endpoint": WorkRequestOperationTypeDeleteDbManagementPrivateEndpoint,
+	"create_db_system_discovery":            WorkRequestOperationTypeCreateDbSystemDiscovery,
+	"create_db_system":                      WorkRequestOperationTypeCreateDbSystem,
+	"db_system_enable_dbmgmt":               WorkRequestOperationTypeDbSystemEnableDbmgmt,
+	"db_system_disable_dbmgmt":              WorkRequestOperationTypeDbSystemDisableDbmgmt,
+	"delete_db_system":                      WorkRequestOperationTypeDeleteDbSystem,
+	"update_external_db_system_connector":   WorkRequestOperationTypeUpdateExternalDbSystemConnector,
+	"change_external_db_system_compartment": WorkRequestOperationTypeChangeExternalDbSystemCompartment,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -48,6 +69,13 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 	return []string{
 		"CREATE_DB_MANAGEMENT_PRIVATE_ENDPOINT",
 		"DELETE_DB_MANAGEMENT_PRIVATE_ENDPOINT",
+		"CREATE_DB_SYSTEM_DISCOVERY",
+		"CREATE_DB_SYSTEM",
+		"DB_SYSTEM_ENABLE_DBMGMT",
+		"DB_SYSTEM_DISABLE_DBMGMT",
+		"DELETE_DB_SYSTEM",
+		"UPDATE_EXTERNAL_DB_SYSTEM_CONNECTOR",
+		"CHANGE_EXTERNAL_DB_SYSTEM_COMPARTMENT",
 	}
 }
 

@@ -95,6 +95,9 @@ type AutonomousVmClusterSummary struct {
 	// **Deprecated.** Use `availableAutonomousDataStorageSizeInTBs` for Autonomous Databases' data storage availability in TBs.
 	AvailableDataStorageSizeInTBs *float64 `mandatory:"false" json:"availableDataStorageSizeInTBs"`
 
+	// The number of nodes in the Autonomous VM Cluster.
+	NodeCount *int `mandatory:"false" json:"nodeCount"`
+
 	// The Oracle license model that applies to the Autonomous VM cluster. The default is LICENSE_INCLUDED.
 	LicenseModel AutonomousVmClusterSummaryLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 

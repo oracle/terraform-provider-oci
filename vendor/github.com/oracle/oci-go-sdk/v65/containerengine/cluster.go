@@ -77,6 +77,9 @@ type Cluster struct {
 	// The image verification policy for signature validation.
 	ImagePolicyConfig *ImagePolicyConfig `mandatory:"false" json:"imagePolicyConfig"`
 
+	// Governance Policy Config.
+	GovernancePolicyConfig *GovernancePolicyConfig `mandatory:"false" json:"governancePolicyConfig"`
+
 	// Available CNIs and network options for existing and new node pools of the cluster
 	ClusterPodNetworkOptions []ClusterPodNetworkOptionDetails `mandatory:"false" json:"clusterPodNetworkOptions"`
 }
@@ -120,6 +123,7 @@ func (m *Cluster) UnmarshalJSON(data []byte) (e error) {
 		Endpoints                   *ClusterEndpoints                 `json:"endpoints"`
 		AvailableKubernetesUpgrades []string                          `json:"availableKubernetesUpgrades"`
 		ImagePolicyConfig           *ImagePolicyConfig                `json:"imagePolicyConfig"`
+		GovernancePolicyConfig      *GovernancePolicyConfig           `json:"governancePolicyConfig"`
 		ClusterPodNetworkOptions    []clusterpodnetworkoptiondetails  `json:"clusterPodNetworkOptions"`
 	}{}
 
@@ -164,6 +168,8 @@ func (m *Cluster) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.ImagePolicyConfig = model.ImagePolicyConfig
+
+	m.GovernancePolicyConfig = model.GovernancePolicyConfig
 
 	m.ClusterPodNetworkOptions = make([]ClusterPodNetworkOptionDetails, len(model.ClusterPodNetworkOptions))
 	for i, n := range model.ClusterPodNetworkOptions {

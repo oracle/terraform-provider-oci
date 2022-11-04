@@ -33,8 +33,8 @@ type AutonomousVirtualMachine struct {
 	// The display name of the dbServer associated with the Autonomous Virtual Machine.
 	DbServerDisplayName *string `mandatory:"false" json:"dbServerDisplayName"`
 
-	// The number of OCPUs allocated on the Autonomous Virtual Machine.
-	Ocpus *int `mandatory:"false" json:"ocpus"`
+	// The number of CPU cores enabled on the Autonomous Virtual Machine.
+	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
 
 	// The allocated memory in GBs on the Autonomous Virtual Machine.
 	MemorySizeInGBs *int `mandatory:"false" json:"memorySizeInGBs"`

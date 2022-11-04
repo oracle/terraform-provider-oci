@@ -32,6 +32,9 @@ type ClusterNetworkPlacementConfigurationDetails struct {
 	// instances.
 	PrimarySubnetId *string `mandatory:"true" json:"primarySubnetId"`
 
+	// The placement constraint when reserving hosts.
+	PlacementConstraint ClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnum `mandatory:"false" json:"placementConstraint,omitempty"`
+
 	// The set of secondary VNIC data for instances in the pool.
 	SecondaryVnicSubnets []InstancePoolPlacementSecondaryVnicSubnet `mandatory:"false" json:"secondaryVnicSubnets"`
 }
@@ -46,8 +49,57 @@ func (m ClusterNetworkPlacementConfigurationDetails) String() string {
 func (m ClusterNetworkPlacementConfigurationDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnum(string(m.PlacementConstraint)); !ok && m.PlacementConstraint != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PlacementConstraint: %s. Supported values are: %s.", m.PlacementConstraint, strings.Join(GetClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// ClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnum Enum with underlying type: string
+type ClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnum string
+
+// Set of constants representing the allowable values for ClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnum
+const (
+	ClusterNetworkPlacementConfigurationDetailsPlacementConstraintLowLatencySingleBlock        ClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnum = "LOW_LATENCY_SINGLE_BLOCK"
+	ClusterNetworkPlacementConfigurationDetailsPlacementConstraintEvenDistributionMultiBlock   ClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnum = "EVEN_DISTRIBUTION_MULTI_BLOCK"
+	ClusterNetworkPlacementConfigurationDetailsPlacementConstraintPackedDistributionMultiBlock ClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnum = "PACKED_DISTRIBUTION_MULTI_BLOCK"
+)
+
+var mappingClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnum = map[string]ClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnum{
+	"LOW_LATENCY_SINGLE_BLOCK":        ClusterNetworkPlacementConfigurationDetailsPlacementConstraintLowLatencySingleBlock,
+	"EVEN_DISTRIBUTION_MULTI_BLOCK":   ClusterNetworkPlacementConfigurationDetailsPlacementConstraintEvenDistributionMultiBlock,
+	"PACKED_DISTRIBUTION_MULTI_BLOCK": ClusterNetworkPlacementConfigurationDetailsPlacementConstraintPackedDistributionMultiBlock,
+}
+
+var mappingClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnumLowerCase = map[string]ClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnum{
+	"low_latency_single_block":        ClusterNetworkPlacementConfigurationDetailsPlacementConstraintLowLatencySingleBlock,
+	"even_distribution_multi_block":   ClusterNetworkPlacementConfigurationDetailsPlacementConstraintEvenDistributionMultiBlock,
+	"packed_distribution_multi_block": ClusterNetworkPlacementConfigurationDetailsPlacementConstraintPackedDistributionMultiBlock,
+}
+
+// GetClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnumValues Enumerates the set of values for ClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnum
+func GetClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnumValues() []ClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnum {
+	values := make([]ClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnum, 0)
+	for _, v := range mappingClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnumStringValues Enumerates the set of values in String for ClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnum
+func GetClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnumStringValues() []string {
+	return []string{
+		"LOW_LATENCY_SINGLE_BLOCK",
+		"EVEN_DISTRIBUTION_MULTI_BLOCK",
+		"PACKED_DISTRIBUTION_MULTI_BLOCK",
+	}
+}
+
+// GetMappingClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnum(val string) (ClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnum, bool) {
+	enum, ok := mappingClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

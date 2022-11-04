@@ -45,9 +45,7 @@ type InstanceReservationConfigDetails struct {
 	// Example: `FAULT-DOMAIN-1`
 	FaultDomain *string `mandatory:"false" json:"faultDomain"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the HpcIsland for the compute cluster.
-	// If a value is provided, then the faultDomain cannot be set.
-	HpcIslandId *string `mandatory:"false" json:"hpcIslandId"`
+	ClusterConfig *ClusterConfigDetails `mandatory:"false" json:"clusterConfig"`
 }
 
 func (m InstanceReservationConfigDetails) String() string {

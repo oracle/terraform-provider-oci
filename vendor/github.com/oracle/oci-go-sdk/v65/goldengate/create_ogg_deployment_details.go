@@ -28,6 +28,7 @@ type CreateOggDeploymentDetails struct {
 	// The password associated with the GoldenGate deployment console username.
 	// The password must be 8 to 30 characters long and must contain at least 1 uppercase, 1 lowercase, 1 numeric,
 	// and 1 special character. Special characters such as ‘$’, ‘^’, or ‘?’ are not allowed.
+	// This field will be deprecated and replaced by "passwordSecretId".
 	AdminPassword *string `mandatory:"true" json:"adminPassword"`
 
 	// A PEM-encoded SSL certificate.

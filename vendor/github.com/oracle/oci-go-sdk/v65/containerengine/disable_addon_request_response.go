@@ -20,8 +20,8 @@ type DisableAddonRequest struct {
 	// The name of the cluster addon.
 	AddonName *string `mandatory:"true" contributesTo:"path" name:"addonName"`
 
-	// The details of the cluster addon to be updated.
-	DisableAddonDetails `contributesTo:"body"`
+	// Whether existing addon resources should be deleted or not. True would remove the underlying resources completely.
+	IsRemoveExistingAddOn *bool `mandatory:"true" contributesTo:"query" name:"isRemoveExistingAddOn"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
 	// parameter to the value of the etag from a previous GET or POST response for that resource.  The resource

@@ -58,6 +58,13 @@ type ManagedDatabase struct {
 	// A list of Managed Database Groups that the Managed Database belongs to.
 	ManagedDatabaseGroups []ParentGroup `mandatory:"false" json:"managedDatabaseGroups"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external
+	// DB system that this Managed Database is part of.
+	DbSystemId *string `mandatory:"false" json:"dbSystemId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the storage DB system.
+	StorageSystemId *string `mandatory:"false" json:"storageSystemId"`
+
 	// The status of the Oracle Database. Indicates whether the status of the database
 	// is UP, DOWN, or UNKNOWN at the current time.
 	DatabaseStatus DatabaseStatusEnum `mandatory:"false" json:"databaseStatus,omitempty"`

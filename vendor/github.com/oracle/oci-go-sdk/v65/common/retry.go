@@ -81,16 +81,20 @@ var (
 )
 
 // IsErrorRetryableByDefault returns true if the error is retryable by OCI default retry policy
-func IsErrorRetryableByDefault(Error error) bool {
-	if Error == nil {
+func IsErrorRetryableByDefault(err error) bool {
+	if err == nil {
 		return false
 	}
 
-	if IsNetworkError(Error) {
+	if IsNetworkError(err) {
 		return true
 	}
 
-	if err, ok := IsServiceError(Error); ok {
+	if err == io.EOF {
+		return true
+	}
+
+	if err, ok := IsServiceError(err); ok {
 		if shouldRetry, ok := defaultRetryStatusCodeMap[StatErrCode{err.GetHTTPStatusCode(), err.GetCode()}]; ok {
 			return shouldRetry
 		}

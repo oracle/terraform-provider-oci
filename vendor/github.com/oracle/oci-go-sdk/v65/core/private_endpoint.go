@@ -133,6 +133,14 @@ type PrivateEndpoint struct {
 	// NetworkSecurityGroup.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
+	// Custom shape of the VNIC that is used when provisioning private endpoint. If the value is empty
+	// then default shape is used.
+	// Allowed Values:
+	//   - PE_8G: 8G VNIC shape will be used to provision private endpoint.
+	//   - PE_25G: 25G VNIC shape will be used to provision private endpoint.
+	//   - PE_50G: 50G VNIC shape will be used to provision private endpoint.
+	PrivateEndpointVnicShape PrivateEndpointPrivateEndpointVnicShapeEnum `mandatory:"false" json:"privateEndpointVnicShape,omitempty"`
+
 	ReverseConnectionConfiguration *ReverseConnectionConfiguration `mandatory:"false" json:"reverseConnectionConfiguration"`
 }
 
@@ -149,6 +157,9 @@ func (m PrivateEndpoint) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetPrivateEndpointLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingPrivateEndpointPrivateEndpointVnicShapeEnum(string(m.PrivateEndpointVnicShape)); !ok && m.PrivateEndpointVnicShape != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PrivateEndpointVnicShape: %s. Supported values are: %s.", m.PrivateEndpointVnicShape, strings.Join(GetPrivateEndpointPrivateEndpointVnicShapeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -210,5 +221,51 @@ func GetPrivateEndpointLifecycleStateEnumStringValues() []string {
 // GetMappingPrivateEndpointLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingPrivateEndpointLifecycleStateEnum(val string) (PrivateEndpointLifecycleStateEnum, bool) {
 	enum, ok := mappingPrivateEndpointLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// PrivateEndpointPrivateEndpointVnicShapeEnum Enum with underlying type: string
+type PrivateEndpointPrivateEndpointVnicShapeEnum string
+
+// Set of constants representing the allowable values for PrivateEndpointPrivateEndpointVnicShapeEnum
+const (
+	PrivateEndpointPrivateEndpointVnicShape8g  PrivateEndpointPrivateEndpointVnicShapeEnum = "PE_8G"
+	PrivateEndpointPrivateEndpointVnicShape25g PrivateEndpointPrivateEndpointVnicShapeEnum = "PE_25G"
+	PrivateEndpointPrivateEndpointVnicShape50g PrivateEndpointPrivateEndpointVnicShapeEnum = "PE_50G"
+)
+
+var mappingPrivateEndpointPrivateEndpointVnicShapeEnum = map[string]PrivateEndpointPrivateEndpointVnicShapeEnum{
+	"PE_8G":  PrivateEndpointPrivateEndpointVnicShape8g,
+	"PE_25G": PrivateEndpointPrivateEndpointVnicShape25g,
+	"PE_50G": PrivateEndpointPrivateEndpointVnicShape50g,
+}
+
+var mappingPrivateEndpointPrivateEndpointVnicShapeEnumLowerCase = map[string]PrivateEndpointPrivateEndpointVnicShapeEnum{
+	"pe_8g":  PrivateEndpointPrivateEndpointVnicShape8g,
+	"pe_25g": PrivateEndpointPrivateEndpointVnicShape25g,
+	"pe_50g": PrivateEndpointPrivateEndpointVnicShape50g,
+}
+
+// GetPrivateEndpointPrivateEndpointVnicShapeEnumValues Enumerates the set of values for PrivateEndpointPrivateEndpointVnicShapeEnum
+func GetPrivateEndpointPrivateEndpointVnicShapeEnumValues() []PrivateEndpointPrivateEndpointVnicShapeEnum {
+	values := make([]PrivateEndpointPrivateEndpointVnicShapeEnum, 0)
+	for _, v := range mappingPrivateEndpointPrivateEndpointVnicShapeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetPrivateEndpointPrivateEndpointVnicShapeEnumStringValues Enumerates the set of values in String for PrivateEndpointPrivateEndpointVnicShapeEnum
+func GetPrivateEndpointPrivateEndpointVnicShapeEnumStringValues() []string {
+	return []string{
+		"PE_8G",
+		"PE_25G",
+		"PE_50G",
+	}
+}
+
+// GetMappingPrivateEndpointPrivateEndpointVnicShapeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingPrivateEndpointPrivateEndpointVnicShapeEnum(val string) (PrivateEndpointPrivateEndpointVnicShapeEnum, bool) {
+	enum, ok := mappingPrivateEndpointPrivateEndpointVnicShapeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

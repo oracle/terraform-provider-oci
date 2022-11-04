@@ -2,14 +2,14 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Container Engine for Kubernetes API
+// Database Management API
 //
-// API for the Container Engine for Kubernetes service. Use this API to build, deploy,
-// and manage cloud-native applications. For more information, see
-// Overview of Container Engine for Kubernetes (https://docs.cloud.oracle.com/iaas/Content/ContEng/Concepts/contengoverview.htm).
+// Use the Database Management API to perform tasks such as obtaining performance and resource usage metrics
+// for a fleet of Managed Databases or a specific Managed Database, creating Managed Database Groups, and
+// running a SQL job on a Managed Database or Managed Database Group.
 //
 
-package containerengine
+package databasemanagement
 
 import (
 	"fmt"
@@ -17,21 +17,21 @@ import (
 	"strings"
 )
 
-// DisableAddonDetails The properties that define to disable or uninstall addon details.
-type DisableAddonDetails struct {
+// UpdateExternalClusterInstanceDetails The details required to update an external cluster instance.
+type UpdateExternalClusterInstanceDetails struct {
 
-	// Whether existing add on resources should be deleted where default value is false.
-	IsToRemoveExistingResources *bool `mandatory:"false" json:"isToRemoveExistingResources"`
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external connector.
+	ExternalConnectorId *string `mandatory:"false" json:"externalConnectorId"`
 }
 
-func (m DisableAddonDetails) String() string {
+func (m UpdateExternalClusterInstanceDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m DisableAddonDetails) ValidateEnumValue() (bool, error) {
+func (m UpdateExternalClusterInstanceDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

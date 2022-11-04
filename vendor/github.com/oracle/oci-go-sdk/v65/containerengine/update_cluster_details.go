@@ -42,6 +42,9 @@ type UpdateClusterDetails struct {
 	// one or more kms keys, the policy will ensure all images deployed has been signed with the key(s)
 	// attached to the policy.
 	ImagePolicyConfig *UpdateImagePolicyConfigDetails `mandatory:"false" json:"imagePolicyConfig"`
+
+	// Governance Policy Config
+	GovernancePolicyConfig *UpdateGovernancePolicyConfigDetails `mandatory:"false" json:"governancePolicyConfig"`
 }
 
 func (m UpdateClusterDetails) String() string {

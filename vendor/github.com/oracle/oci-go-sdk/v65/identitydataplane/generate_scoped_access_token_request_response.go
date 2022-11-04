@@ -14,7 +14,7 @@ import (
 // GenerateScopedAccessTokenRequest wrapper for the GenerateScopedAccessToken operation
 type GenerateScopedAccessTokenRequest struct {
 
-	// Scoped Access token request
+	// Scoped access token request
 	GenerateScopedAccessTokenDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request.
