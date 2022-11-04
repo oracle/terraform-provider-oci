@@ -61,6 +61,7 @@ var (
 		"worker_node":              acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesOdhWorkerRepresentation},
 		"bootstrap_script_url":     acctest.Representation{RepType: acctest.Optional, Create: `${var.bootstrap_script_url}`},
 		"compute_only_worker_node": acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlexShapeRepresentation},
+		"edge_node":                acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlexShapeRepresentation},
 
 		"is_cloud_sql_configured": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"kms_key_id":              acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_id}`, Update: `${var.kms_key_id_for_update}`},
@@ -78,15 +79,17 @@ var (
 			"master_node":              acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesOdhMasterRepresentation},
 			"util_node":                acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesOdhUtilRepresentation},
 			"compute_only_worker_node": acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlexShapeRepresentation},
+			"edge_node":                acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlexShapeRepresentation},
 		})
 
 	bdsInstanceOdhWithRegularComputeAndFlexMasterUtilRepresentation = acctest.RepresentationCopyWithNewProperties(bdsInstanceOdhRepresentation,
 		map[string]interface{}{
 			"compute_only_worker_node": acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesOdhUtilRepresentation}, // Regular util shape representation usable for compute worker
+			"edge_node":                acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesOdhUtilRepresentation},
 		})
 
 	bdsInstanceNodesOdhCloudSqlRepresentation = map[string]interface{}{
-		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `BM.Standard.E4.128`},
+		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.4`},
 		"block_volume_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `1000`},
 		//	"nvmes":         acctest.Representation{RepType: acctest.Optional, Create: `10`}, // Only for VM_DenseIO_E4_Flex. The shape is disabled for now
 	}
@@ -104,7 +107,7 @@ var (
 		"number_of_nodes":          acctest.Representation{RepType: acctest.Required, Create: `2`},
 	}
 	bdsInstanceNodesOdhWorkerRepresentation = map[string]interface{}{
-		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `BM.Standard.E4.128`},
+		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.4`},
 		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
 		"block_volume_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `150`},
 		"number_of_nodes":          acctest.Representation{RepType: acctest.Required, Create: `3`, Update: `4`},
@@ -188,7 +191,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_secure", "true"),
-				resource.TestCheckResourceAttr(resourceName, "nodes.#", "9"),
+				resource.TestCheckResourceAttr(resourceName, "nodes.#", "11"),
 				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.node_type"),
 				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.shape"),
 				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.subnet_id"),
@@ -216,7 +219,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_secure", "true"),
-				resource.TestCheckResourceAttr(resourceName, "nodes.#", "9"),
+				resource.TestCheckResourceAttr(resourceName, "nodes.#", "11"),
 				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.node_type"),
 				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.shape"),
 				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.subnet_id"),
@@ -258,11 +261,12 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.state"),
 				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.time_created"),
-				resource.TestCheckResourceAttr(resourceName, "number_of_nodes", "9"),
+				resource.TestCheckResourceAttr(resourceName, "number_of_nodes", "11"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "util_node.0.shape", "VM.Standard.E4.Flex"),
 				resource.TestCheckResourceAttr(resourceName, "master_node.0.shape", "VM.Standard.E4.Flex"),
 				resource.TestCheckResourceAttr(resourceName, "compute_only_worker_node.0.shape", "VM.Standard.E4.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "edge_node.0.shape", "VM.Standard.E4.Flex"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -299,7 +303,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "network_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "network_config.0.cidr_block", "111.112.0.0/16"),
 				resource.TestCheckResourceAttr(resourceName, "network_config.0.is_nat_gateway_required", "true"),
-				resource.TestCheckResourceAttr(resourceName, "nodes.#", "9"),
+				resource.TestCheckResourceAttr(resourceName, "nodes.#", "11"),
 				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.display_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.fault_domain"),
@@ -309,11 +313,12 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.state"),
 				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.time_created"),
-				resource.TestCheckResourceAttr(resourceName, "number_of_nodes", "9"),
+				resource.TestCheckResourceAttr(resourceName, "number_of_nodes", "11"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "util_node.0.shape", "VM.Standard2.4"),
 				resource.TestCheckResourceAttr(resourceName, "master_node.0.shape", "VM.Standard2.4"),
 				resource.TestCheckResourceAttr(resourceName, "compute_only_worker_node.0.shape", "VM.Standard.E4.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "edge_node.0.shape", "VM.Standard.E4.Flex"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -345,7 +350,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "network_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "network_config.0.cidr_block", "111.112.0.0/16"),
 				resource.TestCheckResourceAttr(resourceName, "network_config.0.is_nat_gateway_required", "true"),
-				resource.TestCheckResourceAttr(resourceName, "nodes.#", "10"),
+				resource.TestCheckResourceAttr(resourceName, "nodes.#", "12"),
 				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.display_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.fault_domain"),
@@ -355,11 +360,12 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.state"),
 				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.time_created"),
-				resource.TestCheckResourceAttr(resourceName, "number_of_nodes", "10"),
+				resource.TestCheckResourceAttr(resourceName, "number_of_nodes", "12"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "util_node.0.shape", "VM.Standard.E4.Flex"),
 				resource.TestCheckResourceAttr(resourceName, "master_node.0.shape", "VM.Standard.E4.Flex"),
 				resource.TestCheckResourceAttr(resourceName, "compute_only_worker_node.0.shape", "VM.Standard2.4"),
+				resource.TestCheckResourceAttr(resourceName, "edge_node.0.shape", "VM.Standard2.4"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -422,7 +428,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "network_config.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "network_config.0.cidr_block", "111.112.0.0/16"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "network_config.0.is_nat_gateway_required", "true"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "nodes.#", "10"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "nodes.#", "12"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.availability_domain"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.display_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.fault_domain"),
@@ -454,6 +460,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				"util_node.0.shape_config",
 				"worker_node.0.shape_config",
 				"compute_only_worker_node.0.shape_config",
+				"edge_node.0.shape_config",
 			},
 			ResourceName: resourceName,
 		},
