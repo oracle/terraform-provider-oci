@@ -33,7 +33,7 @@ resource "oci_adm_knowledge_base" "example_knowledge_base" {
   compartment_id = var.compartment_ocid
 
   #Optional
-  display_name  = "Example Knowledge Base"
+  display_name  = "Example_Knowledge_Base"
 }
 
 resource "oci_adm_vulnerability_audit" "example_vulnerability_audit" {
@@ -46,9 +46,14 @@ resource "oci_adm_vulnerability_audit" "example_vulnerability_audit" {
   application_dependencies {
     gav = "com.google.guava:guava:29.0-jre"
     node_id = "node_id"
-    application_dependency_node_ids = ["node_id"]
+    #Optional
+    application_dependency_node_ids = []
   }
-  display_name = "Example Vulnerability Audit"
+  source {
+    type = "OCI_RESOURCE"
+    oci_resource_id = "ocid1.example.ocid"
+  }
+  display_name = "Example_Vulnerability_Audit"
 }
 
 data "oci_adm_knowledge_base" "example_knowledge_base" {
@@ -61,4 +66,17 @@ data "oci_adm_knowledge_bases" "example_knowledge_bases" {
 
 data "oci_adm_vulnerability_audit" "example_vulnerability_audit" {
   vulnerability_audit_id = oci_adm_vulnerability_audit.example_vulnerability_audit.id
+}
+
+data "oci_adm_vulnerability_audit_application_dependency_vulnerabilities" "example_application_dependency_vulnerabilities" {
+  vulnerability_audit_id = oci_adm_vulnerability_audit.example_vulnerability_audit.id
+  sort_by = "dfs"
+  root_node_id = "node_id"
+  depth = 0
+}
+
+data "oci_adm_vulnerability_audit_application_dependency_vulnerabilities" "example_application_dependency_vulnerabilities_with_depth" {
+  vulnerability_audit_id = oci_adm_vulnerability_audit.example_vulnerability_audit.id
+  gav = "com.google.guava:guava:29.0-jre"
+  cvss_v2greater_than_or_equal = "1.5"
 }
