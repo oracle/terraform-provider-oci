@@ -104,6 +104,12 @@ func (s *DataflowPrivateEndpointDataSourceCrud) SetData() error {
 		s.D.Set("owner_user_name", *s.Res.OwnerUserName)
 	}
 
+	scanDetails := []interface{}{}
+	for _, item := range s.Res.ScanDetails {
+		scanDetails = append(scanDetails, ScanToMap(item))
+	}
+	s.D.Set("scan_details", scanDetails)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SubnetId != nil {
