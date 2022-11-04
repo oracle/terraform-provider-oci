@@ -110,6 +110,14 @@ func (s *DatabaseCloudExadataInfrastructuresDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.ActivatedStorageCount != nil {
+			cloudExadataInfrastructure["activated_storage_count"] = *r.ActivatedStorageCount
+		}
+
+		if r.AdditionalStorageCount != nil {
+			cloudExadataInfrastructure["additional_storage_count"] = *r.AdditionalStorageCount
+		}
+
 		if r.AvailabilityDomain != nil {
 			cloudExadataInfrastructure["availability_domain"] = *r.AvailabilityDomain
 		}
@@ -122,11 +130,23 @@ func (s *DatabaseCloudExadataInfrastructuresDataSourceCrud) SetData() error {
 			cloudExadataInfrastructure["compute_count"] = *r.ComputeCount
 		}
 
+		if r.CpuCount != nil {
+			cloudExadataInfrastructure["cpu_count"] = *r.CpuCount
+		}
+
 		customerContacts := []interface{}{}
 		for _, item := range r.CustomerContacts {
 			customerContacts = append(customerContacts, CustomerContactToMap(item))
 		}
 		cloudExadataInfrastructure["customer_contacts"] = customerContacts
+
+		if r.DataStorageSizeInTBs != nil {
+			cloudExadataInfrastructure["data_storage_size_in_tbs"] = *r.DataStorageSizeInTBs
+		}
+
+		if r.DbNodeStorageSizeInGBs != nil {
+			cloudExadataInfrastructure["db_node_storage_size_in_gbs"] = *r.DbNodeStorageSizeInGBs
+		}
 
 		if r.DefinedTags != nil {
 			cloudExadataInfrastructure["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
@@ -154,6 +174,26 @@ func (s *DatabaseCloudExadataInfrastructuresDataSourceCrud) SetData() error {
 			cloudExadataInfrastructure["maintenance_window"] = []interface{}{MaintenanceWindowToMap(r.MaintenanceWindow)}
 		} else {
 			cloudExadataInfrastructure["maintenance_window"] = nil
+		}
+
+		if r.MaxCpuCount != nil {
+			cloudExadataInfrastructure["max_cpu_count"] = *r.MaxCpuCount
+		}
+
+		if r.MaxDataStorageInTBs != nil {
+			cloudExadataInfrastructure["max_data_storage_in_tbs"] = *r.MaxDataStorageInTBs
+		}
+
+		if r.MaxDbNodeStorageInGBs != nil {
+			cloudExadataInfrastructure["max_db_node_storage_in_gbs"] = *r.MaxDbNodeStorageInGBs
+		}
+
+		if r.MaxMemoryInGBs != nil {
+			cloudExadataInfrastructure["max_memory_in_gbs"] = *r.MaxMemoryInGBs
+		}
+
+		if r.MemorySizeInGBs != nil {
+			cloudExadataInfrastructure["memory_size_in_gbs"] = *r.MemorySizeInGBs
 		}
 
 		if r.NextMaintenanceRunId != nil {
