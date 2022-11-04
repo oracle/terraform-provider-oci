@@ -136,6 +136,7 @@ func (s *BdsBdsInstanceDataSourceCrud) SetData() error {
 	s.D.Set("util_node", []interface{}{nodeMap["UTILITY"]})
 	s.D.Set("worker_node", []interface{}{nodeMap["WORKER"]})
 	s.D.Set("compute_only_worker_node", []interface{}{nodeMap["COMPUTE_ONLY_WORKER"]})
+	s.D.Set("edge_node", []interface{}{nodeMap["EDGE"]})
 
 	if s.Res.NumberOfNodes != nil {
 		s.D.Set("number_of_nodes", *s.Res.NumberOfNodes)

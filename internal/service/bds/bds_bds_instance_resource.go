@@ -326,6 +326,71 @@ func BdsBdsInstanceResource() *schema.Resource {
 				},
 			},
 
+			"edge_node": {
+				Type:     schema.TypeList,
+				Optional: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"shape": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"subnet_id": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						"block_volume_size_in_gbs": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							ForceNew:         true,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
+
+						"number_of_nodes": {
+							Type:         schema.TypeInt,
+							Required:     true,
+							ValidateFunc: validation.IntAtLeast(1),
+						},
+
+						"shape_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+
+									// Optional
+									"memory_in_gbs": {
+										Type:     schema.TypeInt,
+										Optional: true,
+									},
+									"ocpus": {
+										Type:     schema.TypeInt,
+										Optional: true,
+									},
+									"nvmes": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+					},
+				},
+			},
+
 			// Optional
 			"bootstrap_script_url": {
 				Type:     schema.TypeString,
@@ -989,8 +1054,18 @@ func (s *BdsBdsInstanceResourceCrud) Create() error {
 	if createResultError != nil {
 		return createResultError
 	}
+
 	_, computeWorkerAdditionError := s.updateComputeWorkersIfRequired()
-	return computeWorkerAdditionError
+	if computeWorkerAdditionError != nil {
+		return computeWorkerAdditionError
+	}
+
+	_, edgeAdditionError := s.updateEdgeIfRequired()
+	if edgeAdditionError != nil {
+		return edgeAdditionError
+	}
+
+	return nil
 }
 
 func (s *BdsBdsInstanceResourceCrud) getBdsInstanceFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -1191,6 +1266,7 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 	masterNodeFieldKeyFormat := "master_node.0.%s"
 	utilNodeFieldKeyFormat := "util_node.0.%s"
 	computeOnlyWorkerNodeFieldKeyFormat := "compute_only_worker_node.0.%s"
+	edgeNodeFieldKeyFormat := "edge_node.0.%s"
 	cloudSqlNodeFieldKeyFormat := "cloud_sql_details.0.%s"
 
 	_, blockVolumeSizeInGbsPresent := s.D.GetOkExists(fmt.Sprintf(workerNodeFieldKeyFormat, "block_volume_size_in_gbs"))
@@ -1245,6 +1321,11 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 		return computeWorkerErr
 	}
 
+	isEdgeAdded, edgeErr := s.updateEdgeIfRequired()
+	if edgeErr != nil {
+		return edgeErr
+	}
+
 	result := oci_bds.ChangeShapeNodes{}
 
 	changeShapeRequest := oci_bds.ChangeShapeRequest{}
@@ -1288,6 +1369,17 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 		if nodeConfig, ok := s.D.GetOkExists("compute_only_worker_node.0.shape_config"); ok && len(nodeConfig.([]interface{})) != 0 {
 			computeWorkerShapeConfig, _ := s.mapToShapeConfigDetails("compute_only_worker_node.0.shape_config.0.%s")
 			result.ComputeOnlyWorkerShapeConfig = &computeWorkerShapeConfig
+		}
+	}
+
+	edge, ok := s.D.GetOkExists(fmt.Sprintf(edgeNodeFieldKeyFormat, "shape"))
+	if ok && (!isEdgeAdded) && (s.D.HasChange(fmt.Sprintf(edgeNodeFieldKeyFormat, "shape")) ||
+		s.D.HasChange(fmt.Sprintf(edgeNodeFieldKeyFormat, "shape_config"))) {
+		tmp := edge.(string)
+		result.Edge = &tmp
+		if nodeConfig, ok := s.D.GetOkExists("edge_node.0.shape_config"); ok && len(nodeConfig.([]interface{})) != 0 {
+			edgeShapeConfig, _ := s.mapToShapeConfigDetails("edge_node.0.shape_config.0.%s")
+			result.EdgeShapeConfig = &edgeShapeConfig
 		}
 	}
 
@@ -1400,6 +1492,43 @@ func (s *BdsBdsInstanceResourceCrud) updateComputeWorkersIfRequired() (bool, err
 	return areWorkersAdded, nil
 }
 
+func (s *BdsBdsInstanceResourceCrud) updateEdgeIfRequired() (bool, error) {
+	areEdgeAdded := false
+	edgeNodeFieldKeyFormat := "edge_node.0.%s"
+	var edgeBlockVolumeSizeGBInt int64
+	var edgeBlockVolumeConversionError error
+	if edgeBlockVolumeSizeInGBs, edgeBlockVolumeSizeInGbsPresent := s.D.GetOkExists(fmt.Sprintf(edgeNodeFieldKeyFormat, "block_volume_size_in_gbs")); edgeBlockVolumeSizeInGbsPresent {
+		edgeBlockVolumeSizeGBInt, edgeBlockVolumeConversionError = strconv.ParseInt(edgeBlockVolumeSizeInGBs.(string), 10, 64)
+		if edgeBlockVolumeConversionError != nil {
+			return false, edgeBlockVolumeConversionError
+		}
+	}
+	edge_shape, _ := s.D.GetOkExists("edge_node.0.shape")
+	edge_shape_string := edge_shape.(string)
+	edge_shape_config, _ := s.mapToShapeConfigDetails("edge_node.0.shape_config.0.%s")
+	_, numOfEdgePresent := s.D.GetOkExists(fmt.Sprintf(edgeNodeFieldKeyFormat, "number_of_nodes"))
+	if numOfEdgePresent && s.D.HasChange(fmt.Sprintf(edgeNodeFieldKeyFormat, "number_of_nodes")) {
+		oldRaw, newRaw := s.D.GetChange(fmt.Sprintf(edgeNodeFieldKeyFormat, "number_of_nodes"))
+		var tmpOld = 0
+		if oldRaw != nil {
+			tmpOld = oldRaw.(int)
+		}
+		tmpNew := newRaw.(int)
+		if tmpNew > tmpOld {
+			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+				err := s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeEdge, &edgeBlockVolumeSizeGBInt, &edge_shape_string, &edge_shape_config)
+				if err != nil {
+					return false, err
+				}
+				areEdgeAdded = true
+			}
+		} else {
+			return false, fmt.Errorf("the new number of edge node should be larger than previous one")
+		}
+	}
+	return areEdgeAdded, nil
+}
+
 func (s *BdsBdsInstanceResourceCrud) Delete() error {
 	request := oci_bds.DeleteBdsInstanceRequest{}
 
@@ -1491,10 +1620,12 @@ func (s *BdsBdsInstanceResourceCrud) SetData() error {
 	utilNodeConfig := nodeMap["UTILITY"]
 	workerNodeConfig := nodeMap["WORKER"]
 	computeOnlyWorkerNodeConfig := nodeMap["COMPUTE_ONLY_WORKER"]
+	edgeNodeConfig := nodeMap["EDGE"]
 	s.deleteShapeConfigIfMissingInInput("master_node", masterNodeConfig)
 	s.deleteShapeConfigIfMissingInInput("util_node", utilNodeConfig)
 	s.deleteShapeConfigIfMissingInInput("worker_node", workerNodeConfig)
 	s.deleteShapeConfigIfMissingInInput("compute_only_worker_node", computeOnlyWorkerNodeConfig)
+	s.deleteShapeConfigIfMissingInInput("edge", edgeNodeConfig)
 	s.D.Set("nodes", nodes)
 	s.D.Set("master_node", []interface{}{masterNodeConfig})
 	s.D.Set("util_node", []interface{}{utilNodeConfig})
@@ -1502,6 +1633,10 @@ func (s *BdsBdsInstanceResourceCrud) SetData() error {
 
 	if _, ok := nodeMap["COMPUTE_ONLY_WORKER"]; ok {
 		s.D.Set("compute_only_worker_node", []interface{}{computeOnlyWorkerNodeConfig})
+	}
+
+	if _, ok := nodeMap["EDGE"]; ok {
+		s.D.Set("edge_node", []interface{}{edgeNodeConfig})
 	}
 
 	if s.Res.NumberOfNodes != nil {
@@ -1988,6 +2123,12 @@ func PopulateNodeTemplate(obj oci_bds.Node, nodeMap map[string]map[string]interf
 			node["number_of_nodes"] = node["number_of_nodes"].(int) + 1
 		} else {
 			nodeMap["COMPUTE_ONLY_WORKER"] = BdsNodeToTemplateMap(obj)
+		}
+	case "EDGE":
+		if node, ok := nodeMap["EDGE"]; ok {
+			node["number_of_nodes"] = node["number_of_nodes"].(int) + 1
+		} else {
+			nodeMap["EDGE"] = BdsNodeToTemplateMap(obj)
 		}
 	}
 }
