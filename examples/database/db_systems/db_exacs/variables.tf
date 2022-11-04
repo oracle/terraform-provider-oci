@@ -123,3 +123,19 @@ variable "data_storage_percentage" {
 variable "time_zone" {
   default = "US/Pacific"
 }
+
+variable "cloud_vm_cluster_memory_size_in_gbs" {
+  default = 10
+}
+
+variable "cloud_vm_cluster_data_storage_size_in_tbs" {
+  default = 1.0
+}
+
+variable "cloud_vm_cluster_db_node_storage_size_in_gbs" {
+  default = 10
+}
+
+variable "cloud_vm_cluster_db_servers" {
+  default = []
+}

@@ -19,3 +19,9 @@ data "oci_database_db_system_shapes" "test_db_system_shapes" {
 data "oci_database_cloud_vm_cluster_iorm_config" "test_cloud_vm_cluster_iorm_config" {
   cloud_vm_cluster_id = oci_database_cloud_vm_cluster_iorm_config.test_cloud_vm_cluster_iorm_config.cloud_vm_cluster_id
 }
+
+data "oci_database_db_servers" "test_cloud_db_servers" {
+  #Required
+  compartment_id            = var.compartment_ocid
+  exadata_infrastructure_id = oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id
+}

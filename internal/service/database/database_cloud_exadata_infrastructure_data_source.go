@@ -66,6 +66,14 @@ func (s *DatabaseCloudExadataInfrastructureDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.ActivatedStorageCount != nil {
+		s.D.Set("activated_storage_count", *s.Res.ActivatedStorageCount)
+	}
+
+	if s.Res.AdditionalStorageCount != nil {
+		s.D.Set("additional_storage_count", *s.Res.AdditionalStorageCount)
+	}
+
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -82,11 +90,23 @@ func (s *DatabaseCloudExadataInfrastructureDataSourceCrud) SetData() error {
 		s.D.Set("compute_count", *s.Res.ComputeCount)
 	}
 
+	if s.Res.CpuCount != nil {
+		s.D.Set("cpu_count", *s.Res.CpuCount)
+	}
+
 	customerContacts := []interface{}{}
 	for _, item := range s.Res.CustomerContacts {
 		customerContacts = append(customerContacts, CustomerContactToMap(item))
 	}
 	s.D.Set("customer_contacts", customerContacts)
+
+	if s.Res.DataStorageSizeInTBs != nil {
+		s.D.Set("data_storage_size_in_tbs", *s.Res.DataStorageSizeInTBs)
+	}
+
+	if s.Res.DbNodeStorageSizeInGBs != nil {
+		s.D.Set("db_node_storage_size_in_gbs", *s.Res.DbNodeStorageSizeInGBs)
+	}
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
@@ -110,6 +130,26 @@ func (s *DatabaseCloudExadataInfrastructureDataSourceCrud) SetData() error {
 		s.D.Set("maintenance_window", []interface{}{MaintenanceWindowToMap(s.Res.MaintenanceWindow)})
 	} else {
 		s.D.Set("maintenance_window", nil)
+	}
+
+	if s.Res.MaxCpuCount != nil {
+		s.D.Set("max_cpu_count", *s.Res.MaxCpuCount)
+	}
+
+	if s.Res.MaxDataStorageInTBs != nil {
+		s.D.Set("max_data_storage_in_tbs", *s.Res.MaxDataStorageInTBs)
+	}
+
+	if s.Res.MaxDbNodeStorageInGBs != nil {
+		s.D.Set("max_db_node_storage_in_gbs", *s.Res.MaxDbNodeStorageInGBs)
+	}
+
+	if s.Res.MaxMemoryInGBs != nil {
+		s.D.Set("max_memory_in_gbs", *s.Res.MaxMemoryInGBs)
+	}
+
+	if s.Res.MemorySizeInGBs != nil {
+		s.D.Set("memory_size_in_gbs", *s.Res.MemorySizeInGBs)
 	}
 
 	if s.Res.NextMaintenanceRunId != nil {
