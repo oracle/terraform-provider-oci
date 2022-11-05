@@ -51,6 +51,10 @@ type CreatePrivateEndpointDetails struct {
 
 	// An array of network security group OCIDs.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
+	// An array of fqdn/port pairs used to create private endpoint. Each object is a simple key-value pair with FQDN as key and port number as value.
+	// [ { fqdn: "scan1.oracle.com", port: "1521"}, { fqdn: "scan2.oracle.com", port: "1521" } ]
+	ScanDetails []Scan `mandatory:"false" json:"scanDetails"`
 }
 
 func (m CreatePrivateEndpointDetails) String() string {

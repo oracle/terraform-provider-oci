@@ -25,7 +25,7 @@ type PrivateServerConfigDetails struct {
 	PrivateEndpointId *string `mandatory:"true" json:"privateEndpointId"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a certificate associated with the configuration source provider.
-	CertificateId *string `mandatory:"false" json:"certificateId"`
+	CertificateId *string `mandatory:"true" json:"certificateId"`
 }
 
 func (m PrivateServerConfigDetails) String() string {

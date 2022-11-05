@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// ChangePrivateEndpointCompartmentDetails The details for moving a private endpoint to a different compartment.
+// ChangePrivateEndpointCompartmentDetails Compartment details for moving a private endpoint.
 type ChangePrivateEndpointCompartmentDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment

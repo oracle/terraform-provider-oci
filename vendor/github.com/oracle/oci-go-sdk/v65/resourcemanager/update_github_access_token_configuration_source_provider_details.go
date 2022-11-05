@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// UpdateGithubAccessTokenConfigurationSourceProviderDetails The details for updating a configuration source provider of the type `GITHUB_ACCESS_TOKEN`.
+// UpdateGithubAccessTokenConfigurationSourceProviderDetails Update details for a configuration source provider of the type `GITHUB_ACCESS_TOKEN`.
 // This type corresponds to a configuration source provider in GitHub that is authenticated with a personal access token.
 type UpdateGithubAccessTokenConfigurationSourceProviderDetails struct {
 

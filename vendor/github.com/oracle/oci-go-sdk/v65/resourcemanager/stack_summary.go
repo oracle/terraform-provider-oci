@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// StackSummary Returns a list of properties and the defining property values for the specified stack.
+// StackSummary Summary information for a stack.
 type StackSummary struct {
 
 	// Unique identifier of the specified stack.
