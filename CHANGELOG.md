@@ -1,3 +1,18 @@
+## 4.99.0 (Unreleased)
+
+### Added
+- multi vm support manual updates
+- Support for ADB-S: Cross-Region Refreshable Clones
+- Updated resource discovery document
+- [ADM-Detect] UX/API improvements
+- Support for ScanProxy in Data Flow
+- Edge Node Support for BDS
+- error check validtion in build
+Changelog update
+- Support for Oracle Process Automation (OPA) - Customer Facing Release
+### Bug Fix
+- APMDomainGeneratedTests: replace deprecated map() function with tomap()
+
 ## 4.98.0 (Unreleased)
 
 ### Added
