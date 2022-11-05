@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// CreateConfigSourceDetails Property details for the configuration source used for the stack.
+// CreateConfigSourceDetails Creation details for a configuration source used with the stack.
 type CreateConfigSourceDetails interface {
 
 	// File path to the directory to use for running Terraform.

@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// UpdateTemplateZipUploadConfigSourceDetails Updates property details for the configuration .zip file.
+// UpdateTemplateZipUploadConfigSourceDetails Update details for a configuration zip file.
 type UpdateTemplateZipUploadConfigSourceDetails struct {
 	ZipFileBase64Encoded *string `mandatory:"false" json:"zipFileBase64Encoded"`
 }

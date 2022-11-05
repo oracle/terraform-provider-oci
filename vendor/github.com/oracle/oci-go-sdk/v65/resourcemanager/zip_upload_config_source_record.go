@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// ZipUploadConfigSourceRecord Information about the user-provided file used for the Terraform configuration.
+// ZipUploadConfigSourceRecord Information about the user-provided Terraform configuration zip file.
 type ZipUploadConfigSourceRecord struct {
 }
 

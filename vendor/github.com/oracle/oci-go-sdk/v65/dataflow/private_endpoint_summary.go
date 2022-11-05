@@ -69,6 +69,10 @@ type PrivateEndpointSummary struct {
 	// The username of the user who created the resource.  If the username of the owner does not exist,
 	// `null` will be returned and the caller should refer to the ownerPrincipalId value instead.
 	OwnerUserName *string `mandatory:"false" json:"ownerUserName"`
+
+	// An array of fqdn/port pairs used to create private endpoint. Each object is a simple key-value pair with FQDN as key and port number as value.
+	// [ { fqdn: "scan1.oracle.com", port: "1521"}, { fqdn: "scan2.oracle.com", port: "1521" } ]
+	ScanDetails []Scan `mandatory:"false" json:"scanDetails"`
 }
 
 func (m PrivateEndpointSummary) String() string {

@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// CreateConfigurationSourceProviderDetails The details for creating a configuration source provider.
+// CreateConfigurationSourceProviderDetails Creation details for a configuration source provider.
 type CreateConfigurationSourceProviderDetails interface {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where

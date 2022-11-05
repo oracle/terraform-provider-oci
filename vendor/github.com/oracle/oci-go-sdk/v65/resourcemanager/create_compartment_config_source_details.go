@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// CreateCompartmentConfigSourceDetails Property details for uploading the specified compartment as the configuration source.
+// CreateCompartmentConfigSourceDetails Creation details for a configuration source based on the specified compartment.
 type CreateCompartmentConfigSourceDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to use for creating the stack.

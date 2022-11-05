@@ -64,6 +64,14 @@ func (m *createjoboperationdetails) UnmarshalPolymorphicJSON(data []byte) (inter
 		mm := CreateImportTfStateJobOperationDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "PLAN_ROLLBACK":
+		mm := CreatePlanRollbackJobOperationDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "APPLY_ROLLBACK":
+		mm := CreateApplyRollbackJobOperationDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "APPLY":
 		mm := CreateApplyJobOperationDetails{}
 		err = json.Unmarshal(data, &mm)

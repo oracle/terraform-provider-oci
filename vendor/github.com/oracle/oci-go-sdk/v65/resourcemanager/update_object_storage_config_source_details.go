@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// UpdateObjectStorageConfigSourceDetails Updates property details for the Object Storage bucket that contains Terraform configuration files.
+// UpdateObjectStorageConfigSourceDetails Update details for an Object Storage bucket that contains Terraform configuration files.
 type UpdateObjectStorageConfigSourceDetails struct {
 
 	// File path to the directory to use for running Terraform.

@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// ChangeConfigurationSourceProviderCompartmentDetails The details for moving a configuration source provider to a different compartment.
+// ChangeConfigurationSourceProviderCompartmentDetails Compartment details for moving a configuration source provider.
 type ChangeConfigurationSourceProviderCompartmentDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment

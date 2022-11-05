@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// UpdateJobDetails Updates the display name, free-form tags, and/or defined tag properties of the job.
+// UpdateJobDetails Update details for a job.
 type UpdateJobDetails struct {
 
 	// The new display name to set.

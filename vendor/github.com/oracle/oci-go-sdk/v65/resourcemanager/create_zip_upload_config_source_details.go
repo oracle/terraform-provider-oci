@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// CreateZipUploadConfigSourceDetails Property details for uploading the configuration zip file.
+// CreateZipUploadConfigSourceDetails Creation details for a Terraform configuration zip file.
 type CreateZipUploadConfigSourceDetails struct {
 	ZipFileBase64Encoded *string `mandatory:"true" json:"zipFileBase64Encoded"`
 

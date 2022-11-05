@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// UpdateGitConfigSourceDetails Updates property details for the configuration git information.
+// UpdateGitConfigSourceDetails Update details for a Git configuration source.
 type UpdateGitConfigSourceDetails struct {
 
 	// Unique identifier (OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm))

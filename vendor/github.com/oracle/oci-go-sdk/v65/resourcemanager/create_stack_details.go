@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// CreateStackDetails The configuration details for creating a stack.
+// CreateStackDetails Creation details for a stack.
 type CreateStackDetails struct {
 
 	// Unique identifier (OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the compartment in which the stack resides.

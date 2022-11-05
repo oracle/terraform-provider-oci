@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// JobOperationDetailsSummary Job details that are specific to the operation type.
+// JobOperationDetailsSummary A summary of job details that is specific to the operation type.
 type JobOperationDetailsSummary interface {
 }
 
@@ -53,8 +53,16 @@ func (m *joboperationdetailssummary) UnmarshalPolymorphicJSON(data []byte) (inte
 
 	var err error
 	switch m.Operation {
+	case "APPLY_ROLLBACK":
+		mm := ApplyRollbackJobOperationDetailsSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "IMPORT_TF_STATE":
 		mm := ImportTfStateJobOperationDetailsSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "PLAN_ROLLBACK":
+		mm := PlanRollbackJobOperationDetailsSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "PLAN":
