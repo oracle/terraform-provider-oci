@@ -1,4 +1,4 @@
-## 4.99.0 (Unreleased)
+## 4.99.0 (November 09, 2022)
 
 ### Added
 - Edge Node Support for BDS
