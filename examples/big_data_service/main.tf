@@ -19,6 +19,9 @@ variable "region" {
 variable "compartment_id" {
 }
 
+variable "subnet_id" {
+}
+
 variable "bds_instance_cluster_admin_password" {
   default = "T3JhY2xlVGVhbVVTQSExMjM="
 }
@@ -77,7 +80,7 @@ variable "bds_instance_nodes_shape" {
 }
 
 variable "bds_instance_worker_node_shape" {
-  default = "BM.Standard.E4.128"
+  default = "VM.Standard2.4"
 }
 
 variable "bds_instance_compute_only_worker_node_shape" {
@@ -89,6 +92,18 @@ variable "bds_instance_compute_only_worker_memory_per_node" {
 }
 
 variable "bds_instance_compute_only_worker_ocpu_per_node" {
+  default = 3
+}
+
+variable "bds_instance_edge_node_shape" {
+  default = "VM.Standard.E4.Flex"
+}
+
+variable "bds_instance_edge_memory_per_node" {
+  default = 32
+}
+
+variable "bds_instance_edge_ocpu_per_node" {
   default = 3
 }
 
@@ -163,7 +178,7 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
     #Required
     shape = var.bds_instance_nodes_shape
 
-    subnet_id                = oci_core_subnet.regional_subnet_bds.id
+    subnet_id                = var.subnet_id
     block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
     number_of_nodes          = 1
   }
@@ -172,7 +187,7 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
     #Required
     shape = var.bds_instance_nodes_shape
 
-    subnet_id                = oci_core_subnet.regional_subnet_bds.id
+    subnet_id                = var.subnet_id
     block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
     number_of_nodes          = 1
   }
@@ -181,16 +196,29 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
     #Required
     shape = var.bds_instance_worker_node_shape
 
-    subnet_id                = oci_core_subnet.regional_subnet_bds.id
+    subnet_id                = var.subnet_id
     block_volume_size_in_gbs = var.bds_instance_worker_nodes_block_volume_size_in_gbs
     number_of_nodes          = 4
+  }
+
+  edge_node {
+    #Required
+    shape = var.bds_instance_edge_node_shape
+
+    subnet_id                = var.subnet_id
+    block_volume_size_in_gbs = var.bds_instance_worker_nodes_block_volume_size_in_gbs
+    number_of_nodes          = 1
+    shape_config {
+      memory_in_gbs = var.bds_instance_edge_memory_per_node
+      ocpus         = var.bds_instance_edge_ocpu_per_node
+    }
   }
 
   compute_only_worker_node {
     #Required
     shape = var.bds_instance_compute_only_worker_node_shape
 
-    subnet_id                = oci_core_subnet.regional_subnet_bds.id
+    subnet_id                = var.subnet_id
     block_volume_size_in_gbs = var.bds_instance_worker_nodes_block_volume_size_in_gbs
     number_of_nodes          = 1
     shape_config {
@@ -198,6 +226,9 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
       ocpus         = var.bds_instance_compute_only_worker_ocpu_per_node
     }
   }
+
+
+
 
   #   cloud_sql_details {
   #     shape                    = "VM.Standard2.4"

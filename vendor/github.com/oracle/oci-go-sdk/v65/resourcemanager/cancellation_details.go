@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// CancellationDetails Defines the cancellation details of the job.
+// CancellationDetails Cancellation details for a job.
 type CancellationDetails struct {
 
 	// Indicates whether a forced cancellation was requested for the job while it was running.

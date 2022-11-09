@@ -33,14 +33,13 @@ func DatabaseAutonomousDatabaseBackupResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
-			// Optional
 			"display_name": {
 				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
+				Required: true,
 				ForceNew: true,
 			},
+
+			// Optional
 
 			// Computed
 			"compartment_id": {

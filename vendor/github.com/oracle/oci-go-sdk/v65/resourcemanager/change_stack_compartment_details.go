@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// ChangeStackCompartmentDetails Defines the requirements and properties of changeStackCompartment operation.
+// ChangeStackCompartmentDetails Compartment details for moving a stack.
 type ChangeStackCompartmentDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment

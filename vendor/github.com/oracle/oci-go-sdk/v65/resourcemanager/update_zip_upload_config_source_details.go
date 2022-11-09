@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// UpdateZipUploadConfigSourceDetails Updates property details for the configuration .zip file.
+// UpdateZipUploadConfigSourceDetails Update details for a Terraform configuration zip file.
 type UpdateZipUploadConfigSourceDetails struct {
 
 	// File path to the directory to use for running Terraform.

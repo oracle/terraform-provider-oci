@@ -103,6 +103,17 @@ func (s *DatabaseCloudVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("data_storage_percentage", *s.Res.DataStoragePercentage)
 	}
 
+	if s.Res.DataStorageSizeInTBs != nil {
+		s.D.Set("data_storage_size_in_tbs", *s.Res.DataStorageSizeInTBs)
+	}
+
+	if s.Res.DbNodeStorageSizeInGBs != nil {
+		s.D.Set("db_node_storage_size_in_gbs", *s.Res.DbNodeStorageSizeInGBs)
+	}
+
+	s.D.Set("db_servers", s.Res.DbServers)
+	s.D.Set("db_servers", s.Res.DbServers)
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
@@ -153,6 +164,10 @@ func (s *DatabaseCloudVmClusterDataSourceCrud) SetData() error {
 
 	if s.Res.ListenerPort != nil {
 		s.D.Set("listener_port", strconv.FormatInt(*s.Res.ListenerPort, 10))
+	}
+
+	if s.Res.MemorySizeInGBs != nil {
+		s.D.Set("memory_size_in_gbs", *s.Res.MemorySizeInGBs)
 	}
 
 	if s.Res.NodeCount != nil {

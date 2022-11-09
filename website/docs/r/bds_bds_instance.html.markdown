@@ -85,6 +85,21 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
 			ocpus = var.bds_instance_nodes_shape_config_ocpus
 		}
 	}
+    edge_node {
+    	#Required
+    	shape = var.bds_instance_nodes_shape
+    	subnet_id = oci_core_subnet.test_subnet.id
+    	number_of_nodes = var.bds_instance_number_of_nodes
+    	#Optional
+        block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
+    	shape_config {
+    
+    		#Optional
+    		memory_in_gbs = var.bds_instance_nodes_shape_config_memory_in_gbs
+    		nvmes = var.bds_instance_nodes_shape_config_nvmes
+    		ocpus = var.bds_instance_nodes_shape_config_ocpus
+    	}
+    }
 
 	#Optional
 	bootstrap_script_url = var.bds_instance_bootstrap_script_url

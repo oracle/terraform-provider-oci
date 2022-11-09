@@ -62,16 +62,19 @@ type AddWorkerNodesDetailsNodeTypeEnum string
 const (
 	AddWorkerNodesDetailsNodeTypeWorker            AddWorkerNodesDetailsNodeTypeEnum = "WORKER"
 	AddWorkerNodesDetailsNodeTypeComputeOnlyWorker AddWorkerNodesDetailsNodeTypeEnum = "COMPUTE_ONLY_WORKER"
+	AddWorkerNodesDetailsNodeTypeEdge              AddWorkerNodesDetailsNodeTypeEnum = "EDGE"
 )
 
 var mappingAddWorkerNodesDetailsNodeTypeEnum = map[string]AddWorkerNodesDetailsNodeTypeEnum{
 	"WORKER":              AddWorkerNodesDetailsNodeTypeWorker,
 	"COMPUTE_ONLY_WORKER": AddWorkerNodesDetailsNodeTypeComputeOnlyWorker,
+	"EDGE":                AddWorkerNodesDetailsNodeTypeEdge,
 }
 
 var mappingAddWorkerNodesDetailsNodeTypeEnumLowerCase = map[string]AddWorkerNodesDetailsNodeTypeEnum{
 	"worker":              AddWorkerNodesDetailsNodeTypeWorker,
 	"compute_only_worker": AddWorkerNodesDetailsNodeTypeComputeOnlyWorker,
+	"edge":                AddWorkerNodesDetailsNodeTypeEdge,
 }
 
 // GetAddWorkerNodesDetailsNodeTypeEnumValues Enumerates the set of values for AddWorkerNodesDetailsNodeTypeEnum
@@ -88,6 +91,7 @@ func GetAddWorkerNodesDetailsNodeTypeEnumStringValues() []string {
 	return []string{
 		"WORKER",
 		"COMPUTE_ONLY_WORKER",
+		"EDGE",
 	}
 }
 

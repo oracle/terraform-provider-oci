@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// CreateJobDetails Defines the requirements and properties of a job to create and run against the specified stack.
+// CreateJobDetails Creation details for a job for running inside the specified stack.
 type CreateJobDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stack that is associated with the current job.

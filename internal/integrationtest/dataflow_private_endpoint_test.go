@@ -59,6 +59,11 @@ var (
 		"max_host_count": acctest.Representation{RepType: acctest.Optional, Create: `256`, Update: `512`},
 		"nsg_ids":        acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
 		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForDataFlowResource},
+		"scan_details":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataflowPrivateEndpointScanDetailsRepresentation},
+	}
+	DataflowPrivateEndpointScanDetailsRepresentation = map[string]interface{}{
+		"fqdn": acctest.Representation{RepType: acctest.Optional, Create: `scan.test1.com`, Update: `scan.test2.com`},
+		"port": acctest.Representation{RepType: acctest.Optional, Create: `1521`, Update: `1522`},
 	}
 
 	DataflowPrivateEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
@@ -125,6 +130,9 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "max_host_count", "256"),
 				resource.TestCheckResourceAttrSet(resourceName, "owner_principal_id"),
+				resource.TestCheckResourceAttr(resourceName, "scan_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "scan_details.0.fqdn", "scan.test1.com"),
+				resource.TestCheckResourceAttr(resourceName, "scan_details.0.port", "1521"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -158,6 +166,9 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "max_host_count", "256"),
 				resource.TestCheckResourceAttrSet(resourceName, "owner_principal_id"),
+				resource.TestCheckResourceAttr(resourceName, "scan_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "scan_details.0.fqdn", "scan.test1.com"),
+				resource.TestCheckResourceAttr(resourceName, "scan_details.0.port", "1521"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -186,6 +197,9 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "max_host_count", "512"),
 				resource.TestCheckResourceAttrSet(resourceName, "owner_principal_id"),
+				resource.TestCheckResourceAttr(resourceName, "scan_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "scan_details.0.fqdn", "scan.test2.com"),
+				resource.TestCheckResourceAttr(resourceName, "scan_details.0.port", "1522"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -230,6 +244,9 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "max_host_count", "512"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "owner_user_name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "scan_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "scan_details.0.fqdn", "scan.test2.com"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "scan_details.0.port", "1522"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),

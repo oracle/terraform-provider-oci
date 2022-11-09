@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// UpdateTemplateDetails Updates the specified template.
+// UpdateTemplateDetails Update details for a template.
 type UpdateTemplateDetails struct {
 
 	// The template's display name. Avoid entering confidential information.

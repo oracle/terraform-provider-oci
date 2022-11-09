@@ -96,6 +96,7 @@ resource "oci_dataflow_application" "tf_application" {
   #logs_bucket_uri = var.application_logs_bucket_uri}"
   type             = "BATCH"
   archive_uri = var.application_archive_uri
+  logs_bucket_uri = var.dataflow_logs_bucket_uri
   #parameters {
   #Required
   #name  = var.application_parameters_name}"
@@ -159,7 +160,11 @@ resource "oci_dataflow_private_endpoint" "test_private_endpoint" {
   description    = "description"
   display_name   = "pe_name"
   dns_zones      = ["custpvtsubnet.oraclevcn.com"]
-
+  scan_details {
+    #Optional
+    fqdn = "scan.test.com"
+    port = "1521"
+  }
   freeform_tags = {
     "Department" = "Finance"
   }
@@ -348,6 +353,7 @@ resource "oci_dataflow_application" "test_application_submit" {
   archive_uri    = var.application_archive_uri
   private_endpoint_id = oci_dataflow_private_endpoint.test_private_endpoint.id
   metastore_id = var.metastore_id
+  logs_bucket_uri = var.dataflow_logs_bucket_uri
 }
 
 resource "oci_dataflow_invoke_run" "test_invokey_run_submit" {

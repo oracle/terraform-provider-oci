@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// TemplateZipUploadConfigSource Metadata about the user-provided Terraform configuration.
+// TemplateZipUploadConfigSource Metadata about the zip file containing the Terraform configuration for the template.
 type TemplateZipUploadConfigSource struct {
 }
 

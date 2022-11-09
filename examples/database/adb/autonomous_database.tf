@@ -161,6 +161,11 @@ data "oci_database_autonomous_databases" "autonomous_databases" {
   db_workload  = var.autonomous_database_db_workload
 }
 
+data "oci_database_autonomous_database_refreshable_clones" "autonomous_database_refreshable_clones" {
+  #Required
+  autonomous_database_id = oci_database_autonomous_database.autonomous_database.id
+}
+
 output "autonomous_database_admin_password" {
   value = random_string.autonomous_database_admin_password.result
 }

@@ -61,6 +61,14 @@ func (m *joboperationdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 		mm := PlanJobOperationDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "APPLY_ROLLBACK":
+		mm := ApplyRollbackJobOperationDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "PLAN_ROLLBACK":
+		mm := PlanRollbackJobOperationDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "APPLY":
 		mm := ApplyJobOperationDetails{}
 		err = json.Unmarshal(data, &mm)

@@ -20,9 +20,9 @@ import (
 
 // CustomTerraformProvider Location information about custom Terraform providers for a stack.
 // For more information, see Custom Providers (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm#features__custom-providers).
-// Note: Older stacks that use Terraform version 12.x or 13.x must be explicitly updated to use Terraform Registry (`isThirdPartyProviderExperienceEnabled=true`).
+// Note: Older stacks must be explicitly updated to use Terraform Registry (`isThirdPartyProviderExperienceEnabled=true`).
 // See UpdateStack. For more information, see
-// To use Terraform Registry with an older stack (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/managingstacksandjobs.htm#use-tf-reg).
+// Using Terraform Registry with Older Stacks (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/update-stack-tf-reg.htm).
 type CustomTerraformProvider struct {
 
 	// The name of the region that contains the bucket you want.

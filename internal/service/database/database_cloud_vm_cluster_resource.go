@@ -5,13 +5,13 @@ package database
 
 import (
 	"context"
-	"strconv"
-
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -140,6 +140,25 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"data_storage_size_in_tbs": {
+				Type:     schema.TypeFloat,
+				Optional: true,
+				Computed: true,
+			},
+			"db_node_storage_size_in_gbs": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
+			"db_servers": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -173,6 +192,11 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 			},
 			"license_model": {
 				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"memory_size_in_gbs": {
+				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
@@ -488,6 +512,29 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 		request.DataStoragePercentage = &tmp
 	}
 
+	if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
+		tmp := dataStorageSizeInTBs.(float64)
+		request.DataStorageSizeInTBs = &tmp
+	}
+
+	if dbNodeStorageSizeInGBs, ok := s.D.GetOkExists("db_node_storage_size_in_gbs"); ok {
+		tmp := dbNodeStorageSizeInGBs.(int)
+		request.DbNodeStorageSizeInGBs = &tmp
+	}
+
+	if dbServers, ok := s.D.GetOkExists("db_servers"); ok {
+		interfaces := dbServers.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("db_servers") {
+			request.DbServers = tmp
+		}
+	}
+
 	if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
 		tmp := float32(ocpuCount.(float64))
 		request.OcpuCount = &tmp
@@ -537,6 +584,11 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 		request.LicenseModel = oci_database.CreateCloudVmClusterDetailsLicenseModelEnum(licenseModel.(string))
+	}
+
+	if memorySizeInGBs, ok := s.D.GetOkExists("memory_size_in_gbs"); ok {
+		tmp := memorySizeInGBs.(int)
+		request.MemorySizeInGBs = &tmp
 	}
 
 	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
@@ -659,22 +711,23 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 			}
 		}
 	}
+	if !utils.IsMultiVm(*s.Infra.Shape, s.Infra.MaxDataStorageInTBs) {
+		if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
+			if *s.Infra.ComputeCount != nodeCount {
+				request.ComputeNodes = []string{"ALL"}
+			} else {
+				request.ComputeNodes = []string{}
+				if shape, ok := s.D.GetOkExists("shape"); ok {
+					flexShape := shape.(string) + ".StorageServer"
 
-	if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
-		if *s.Infra.ComputeCount != nodeCount {
-			request.ComputeNodes = []string{"ALL"}
-		} else {
-			request.ComputeNodes = []string{}
-			if shape, ok := s.D.GetOkExists("shape"); ok {
-				flexShape := shape.(string) + ".StorageServer"
+					if compartmentId, compOk := s.D.GetOkExists("compartment_id"); compOk {
+						flex, err := s.flexAvailableDbStorageInGBs(compartmentId.(string), flexShape)
 
-				if compartmentId, compOk := s.D.GetOkExists("compartment_id"); compOk {
-					flex, err := s.flexAvailableDbStorageInGBs(compartmentId.(string), flexShape)
-
-					if err == nil {
-						if storageSizeInGBs, ok := s.D.GetOkExists("storage_size_in_gbs"); ok {
-							tmp := flex**s.Infra.StorageCount - storageSizeInGBs.(int)
-							request.StorageSizeInGBs = &tmp
+						if err == nil {
+							if storageSizeInGBs, ok := s.D.GetOkExists("storage_size_in_gbs"); ok {
+								tmp := flex**s.Infra.StorageCount - storageSizeInGBs.(int)
+								request.StorageSizeInGBs = &tmp
+							}
 						}
 					}
 				}
@@ -698,6 +751,16 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 		}
 	}
 
+	if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
+		tmp := dataStorageSizeInTBs.(float64)
+		request.DataStorageSizeInTBs = &tmp
+	}
+
+	if dbNodeStorageSizeInGBs, ok := s.D.GetOkExists("db_node_storage_size_in_gbs"); ok {
+		tmp := dbNodeStorageSizeInGBs.(int)
+		request.DbNodeStorageSizeInGBs = &tmp
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -717,6 +780,11 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok && s.D.HasChange("license_model") {
 		request.LicenseModel = oci_database.UpdateCloudVmClusterDetailsLicenseModelEnum(licenseModel.(string))
+	}
+
+	if memorySizeInGBs, ok := s.D.GetOkExists("memory_size_in_gbs"); ok {
+		tmp := memorySizeInGBs.(int)
+		request.MemorySizeInGBs = &tmp
 	}
 
 	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
@@ -826,6 +894,17 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 		s.D.Set("data_storage_percentage", *s.Res.DataStoragePercentage)
 	}
 
+	if s.Res.DataStorageSizeInTBs != nil {
+		s.D.Set("data_storage_size_in_tbs", *s.Res.DataStorageSizeInTBs)
+	}
+
+	if s.Res.DbNodeStorageSizeInGBs != nil {
+		s.D.Set("db_node_storage_size_in_gbs", *s.Res.DbNodeStorageSizeInGBs)
+	}
+
+	s.D.Set("db_servers", s.Res.DbServers)
+	s.D.Set("db_servers", s.Res.DbServers)
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
@@ -876,6 +955,10 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 
 	if s.Res.ListenerPort != nil {
 		s.D.Set("listener_port", strconv.FormatInt(*s.Res.ListenerPort, 10))
+	}
+
+	if s.Res.MemorySizeInGBs != nil {
+		s.D.Set("memory_size_in_gbs", *s.Res.MemorySizeInGBs)
 	}
 
 	if s.Res.NodeCount != nil {

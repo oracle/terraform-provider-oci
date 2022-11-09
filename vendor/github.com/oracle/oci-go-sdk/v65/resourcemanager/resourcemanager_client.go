@@ -283,7 +283,9 @@ func (client ResourceManagerClient) changePrivateEndpointCompartment(ctx context
 	return response, err
 }
 
-// ChangeStackCompartment Moves a Stack and it's associated Jobs into a different compartment.
+// ChangeStackCompartment Moves a stack (and its associated jobs) into a different compartment within the same tenancy.
+// For information about moving resources between compartments, see
+// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // See also
 //
@@ -605,10 +607,10 @@ func (client ResourceManagerClient) createPrivateEndpoint(ctx context.Context, r
 // CreateStack Creates a stack in the specified compartment.
 // You can create a stack from a Terraform configuration.
 // The Terraform configuration can be directly uploaded or referenced from a source code control system.
-// You can also create a stack from an existing compartment.
+// You can also create a stack from an existing compartment, which generates a Terraform configuration.
 // You can also upload the Terraform configuration from an Object Storage bucket.
 // For more information, see
-// To create a stack (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/managingstacksandjobs.htm#createstack-all).
+// Creating Stacks (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/create-stack.htm).
 //
 // See also
 //
@@ -850,7 +852,7 @@ func (client ResourceManagerClient) deletePrivateEndpoint(ctx context.Context, r
 	return response, err
 }
 
-// DeleteStack Deletes the specified stack object.
+// DeleteStack Deletes the specified stack.
 //
 // See also
 //
@@ -1087,7 +1089,7 @@ func (client ResourceManagerClient) getConfigurationSourceProvider(ctx context.C
 	return response, err
 }
 
-// GetJob Returns the specified job along with the job details.
+// GetJob Gets the properties of the specified job.
 //
 // See also
 //
@@ -1261,7 +1263,8 @@ func (client ResourceManagerClient) getJobLogs(ctx context.Context, request comm
 	return response, err
 }
 
-// GetJobLogsContent Returns a raw log file for the specified job. The raw log file contains console log entries in text format. The maximum number of entries in a file is 100,000.
+// GetJobLogsContent Returns the raw log file for the specified job in text format.
+// The file includes a maximum of 100,000 log entries.
 //
 // See also
 //
@@ -1319,8 +1322,8 @@ func (client ResourceManagerClient) getJobLogsContent(ctx context.Context, reque
 	return response, err
 }
 
-// GetJobTfConfig Returns the Terraform configuration file for the specified job in .zip format.
-// Returns an error if no zip file is found.
+// GetJobTfConfig Returns the Terraform configuration for the specified job in zip format.
+// If no zip file is found, returns an error.
 //
 // See also
 //
@@ -1379,7 +1382,7 @@ func (client ResourceManagerClient) getJobTfConfig(ctx context.Context, request 
 
 // GetJobTfPlan Returns the output of the specified Terraform plan job in binary or JSON format.
 // For information about running Terraform plan jobs, see
-// To run a plan job (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/managingstacksandjobs.htm#PlanJobRun).
+// Creating Plan Jobs (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/create-job.htm).
 //
 // See also
 //
@@ -1615,7 +1618,7 @@ func (client ResourceManagerClient) getReachableIp(ctx context.Context, request 
 	return response, err
 }
 
-// GetStack Gets a stack using the stack ID.
+// GetStack Gets the specified stack.
 //
 // See also
 //
@@ -1673,7 +1676,7 @@ func (client ResourceManagerClient) getStack(ctx context.Context, request common
 	return response, err
 }
 
-// GetStackTfConfig Returns the Terraform configuration file in .zip format for the specified stack.
+// GetStackTfConfig Returns the Terraform configuration file for the specified stack in zip format.
 // Returns an error if no zip file is found.
 //
 // See also
@@ -1904,7 +1907,7 @@ func (client ResourceManagerClient) getTemplateLogo(ctx context.Context, request
 	return response, err
 }
 
-// GetTemplateTfConfig Returns the Terraform configuration file in .zip format for the specified template.
+// GetTemplateTfConfig Returns the Terraform configuration file in zip format for the specified template.
 // Returns an error if no zip file is found.
 //
 // See also
@@ -1962,7 +1965,7 @@ func (client ResourceManagerClient) getTemplateTfConfig(ctx context.Context, req
 	return response, err
 }
 
-// GetWorkRequest Return the given work request.
+// GetWorkRequest Returns the specified work request.
 //
 // See also
 //
@@ -2080,10 +2083,10 @@ func (client ResourceManagerClient) listConfigurationSourceProviders(ctx context
 	return response, err
 }
 
-// ListJobs Returns a list of jobs in a stack or compartment, ordered by time created.
+// ListJobs Lists jobs according to the specified filter. By default, the list is ordered by time created.
 // - To list all jobs in a stack, provide the stack OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // - To list all jobs in a compartment, provide the compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-// - To return a specific job, provide the job OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// - To return a specific job, provide the job OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). (Equivalent to GetStack.)
 //
 // See also
 //
@@ -2201,7 +2204,8 @@ func (client ResourceManagerClient) listPrivateEndpoints(ctx context.Context, re
 	return response, err
 }
 
-// ListResourceDiscoveryServices Returns a list of supported services for Resource Discovery. For reference on service names, see the Terraform provider documentation (https://www.terraform.io/docs/providers/oci/guides/resource_discovery.html#services).
+// ListResourceDiscoveryServices Returns a list of supported services for Resource Discovery (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resource-discovery.htm).
+// For reference on service names, see the Terraform provider documentation (https://www.terraform.io/docs/providers/oci/guides/resource_discovery.html#services).
 //
 // See also
 //
@@ -2321,9 +2325,9 @@ func (client ResourceManagerClient) listStackResourceDriftDetails(ctx context.Co
 	return response, err
 }
 
-// ListStacks Returns a list of stacks.
+// ListStacks Lists stacks according to the specified filter.
 // - If called using the compartment ID, returns all stacks in the specified compartment.
-// - If called using the stack ID, returns the specified stack.
+// - If called using the stack ID, returns the specified stack. (See also GetStack.)
 //
 // See also
 //
@@ -2556,7 +2560,7 @@ func (client ResourceManagerClient) listTerraformVersions(ctx context.Context, r
 	return response, err
 }
 
-// ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+// ListWorkRequestErrors Returns a paginated list of errors for the specified work request.
 //
 // See also
 //
@@ -2614,7 +2618,7 @@ func (client ResourceManagerClient) listWorkRequestErrors(ctx context.Context, r
 	return response, err
 }
 
-// ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
+// ListWorkRequestLogs Returns a paginated list of logs for the specified work request.
 //
 // See also
 //
@@ -2672,7 +2676,7 @@ func (client ResourceManagerClient) listWorkRequestLogs(ctx context.Context, req
 	return response, err
 }
 
-// ListWorkRequests Lists the work requests in a given compartment or for a given resource.
+// ListWorkRequests Lists the work requests in the specified compartment or for the specified resource.
 //
 // See also
 //
@@ -2906,12 +2910,11 @@ func (client ResourceManagerClient) updatePrivateEndpoint(ctx context.Context, r
 	return response, err
 }
 
-// UpdateStack Updates the specified stack object.
+// UpdateStack Updates the specified stack.
 // Use `UpdateStack` when you update your Terraform configuration
 // and want your changes to be reflected in the execution plan.
 // For more information, see
-// To update a stack (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/managingstacksandjobs.htm#UpdateStack) and
-// To edit a stack (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/managingstacksandjobs.htm#EditStack).
+// Updating Stacks (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/update-stack.htm).
 //
 // See also
 //
