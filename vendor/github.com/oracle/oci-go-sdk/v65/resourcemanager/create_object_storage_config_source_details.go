@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// CreateObjectStorageConfigSourceDetails Details for the Object Storage bucket that contains Terraform configuration files.
+// CreateObjectStorageConfigSourceDetails Creation details for an Object Storage bucket that contains Terraform configuration files.
 type CreateObjectStorageConfigSourceDetails struct {
 
 	// The name of the bucket's region.

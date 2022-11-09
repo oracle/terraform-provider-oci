@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// CreateStackTemplateConfigSourceDetails The template to use as the source of the Terraform configuration.
+// CreateStackTemplateConfigSourceDetails Creation details for a template to use as the source of the Terraform configuration.
 type CreateStackTemplateConfigSourceDetails struct {
 	TemplateId *string `mandatory:"true" json:"templateId"`
 

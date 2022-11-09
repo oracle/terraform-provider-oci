@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// ZipUploadConfigSource Metadata about the user-provided Terraform configuration.
+// ZipUploadConfigSource Metadata about the zip file containing the Terraform configuration.
 type ZipUploadConfigSource struct {
 
 	// File path to the directory to use for running Terraform.

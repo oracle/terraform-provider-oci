@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// ChangeTemplateCompartmentDetails The details for moving a template to a different compartment.
+// ChangeTemplateCompartmentDetails Compartment details for moving a template.
 type ChangeTemplateCompartmentDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment

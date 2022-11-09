@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// UpdateTemplateConfigSourceDetails Updates the property details for the configuration source for the template.
+// UpdateTemplateConfigSourceDetails Update details for a configuration source for a template.
 type UpdateTemplateConfigSourceDetails interface {
 }
 

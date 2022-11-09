@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// CreateTemplateDetails The configuration details for creating a template.
+// CreateTemplateDetails Creation details for a template.
 type CreateTemplateDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing this template.

@@ -42,6 +42,11 @@ type ChangeShapeNodes struct {
 	Cloudsql *string `mandatory:"false" json:"cloudsql"`
 
 	CloudsqlShapeConfig *ShapeConfigDetails `mandatory:"false" json:"cloudsqlShapeConfig"`
+
+	// Change shape of edge nodes to the desired target shape. Both VM_STANDARD and E4 Flex shapes are allowed here.
+	Edge *string `mandatory:"false" json:"edge"`
+
+	EdgeShapeConfig *ShapeConfigDetails `mandatory:"false" json:"edgeShapeConfig"`
 }
 
 func (m ChangeShapeNodes) String() string {

@@ -1299,7 +1299,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.IsAutoScalingEnabled = &tmp
 	}
 
-	if isAutoScalingForStorageEnabled, ok := s.D.GetOkExists("is_auto_scaling_for_storage_enabled"); ok {
+	if isAutoScalingForStorageEnabled, ok := s.D.GetOkExists("is_auto_scaling_for_storage_enabled"); ok && s.D.HasChange("is_auto_scaling_for_storage_enabled") {
 		tmp := isAutoScalingForStorageEnabled.(bool)
 		request.IsAutoScalingForStorageEnabled = &tmp
 	}

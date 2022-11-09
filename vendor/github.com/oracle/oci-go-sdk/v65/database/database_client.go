@@ -149,6 +149,68 @@ func (client DatabaseClient) activateExadataInfrastructure(ctx context.Context, 
 	return response, err
 }
 
+// AddStorageCapacityCloudExadataInfrastructure Makes the storage capacity from additional storage servers available for Cloud VM Cluster consumption. Applies to Exadata Cloud Service instances and Autonomous Database on dedicated Exadata infrastructure only.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/AddStorageCapacityCloudExadataInfrastructure.go.html to see an example of how to use AddStorageCapacityCloudExadataInfrastructure API.
+func (client DatabaseClient) AddStorageCapacityCloudExadataInfrastructure(ctx context.Context, request AddStorageCapacityCloudExadataInfrastructureRequest) (response AddStorageCapacityCloudExadataInfrastructureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addStorageCapacityCloudExadataInfrastructure, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddStorageCapacityCloudExadataInfrastructureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddStorageCapacityCloudExadataInfrastructureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddStorageCapacityCloudExadataInfrastructureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddStorageCapacityCloudExadataInfrastructureResponse")
+	}
+	return
+}
+
+// addStorageCapacityCloudExadataInfrastructure implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) addStorageCapacityCloudExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudExadataInfrastructures/{cloudExadataInfrastructureId}/actions/addStorageCapacity", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddStorageCapacityCloudExadataInfrastructureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudExadataInfrastructure/AddStorageCapacityCloudExadataInfrastructure"
+		err = common.PostProcessServiceError(err, "Database", "AddStorageCapacityCloudExadataInfrastructure", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AddStorageCapacityExadataInfrastructure Makes the storage capacity from additional storage servers available for VM Cluster consumption. Applies to Exadata Cloud@Customer instances only.
 //
 // See also
@@ -204,6 +266,68 @@ func (client DatabaseClient) addStorageCapacityExadataInfrastructure(ctx context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadataInfrastructure/AddStorageCapacityExadataInfrastructure"
 		err = common.PostProcessServiceError(err, "Database", "AddStorageCapacityExadataInfrastructure", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// AddVirtualMachineToCloudVmCluster Add Virtual Machines to the Cloud VM cluster. Applies to Exadata Cloud instances only.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/AddVirtualMachineToCloudVmCluster.go.html to see an example of how to use AddVirtualMachineToCloudVmCluster API.
+func (client DatabaseClient) AddVirtualMachineToCloudVmCluster(ctx context.Context, request AddVirtualMachineToCloudVmClusterRequest) (response AddVirtualMachineToCloudVmClusterResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addVirtualMachineToCloudVmCluster, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddVirtualMachineToCloudVmClusterResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddVirtualMachineToCloudVmClusterResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddVirtualMachineToCloudVmClusterResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddVirtualMachineToCloudVmClusterResponse")
+	}
+	return
+}
+
+// addVirtualMachineToCloudVmCluster implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) addVirtualMachineToCloudVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudVmClusters/{cloudVmClusterId}/actions/addVirtualMachine", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddVirtualMachineToCloudVmClusterResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudVmCluster/AddVirtualMachineToCloudVmCluster"
+		err = common.PostProcessServiceError(err, "Database", "AddVirtualMachineToCloudVmCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -9664,6 +9788,63 @@ func (client DatabaseClient) listAutonomousDatabaseDataguardAssociations(ctx con
 	return response, err
 }
 
+// ListAutonomousDatabaseRefreshableClones Lists the OCIDs of the Autonomous Database local and connected remote refreshable clones with the region where they exist for the specified source database.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListAutonomousDatabaseRefreshableClones.go.html to see an example of how to use ListAutonomousDatabaseRefreshableClones API.
+func (client DatabaseClient) ListAutonomousDatabaseRefreshableClones(ctx context.Context, request ListAutonomousDatabaseRefreshableClonesRequest) (response ListAutonomousDatabaseRefreshableClonesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAutonomousDatabaseRefreshableClones, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAutonomousDatabaseRefreshableClonesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAutonomousDatabaseRefreshableClonesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAutonomousDatabaseRefreshableClonesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAutonomousDatabaseRefreshableClonesResponse")
+	}
+	return
+}
+
+// listAutonomousDatabaseRefreshableClones implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listAutonomousDatabaseRefreshableClones(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabases/{autonomousDatabaseId}/refreshableClones", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAutonomousDatabaseRefreshableClonesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/ListAutonomousDatabaseRefreshableClones"
+		err = common.PostProcessServiceError(err, "Database", "ListAutonomousDatabaseRefreshableClones", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListAutonomousDatabases Gets a list of Autonomous Databases based on the query parameters specified.
 //
 // See also
@@ -13012,6 +13193,68 @@ func (client DatabaseClient) remoteClonePluggableDatabase(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabase/RemoteClonePluggableDatabase"
 		err = common.PostProcessServiceError(err, "Database", "RemoteClonePluggableDatabase", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveVirtualMachineFromCloudVmCluster Remove Virtual Machines from the Cloud VM cluster. Applies to Exadata Cloud instances only.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/RemoveVirtualMachineFromCloudVmCluster.go.html to see an example of how to use RemoveVirtualMachineFromCloudVmCluster API.
+func (client DatabaseClient) RemoveVirtualMachineFromCloudVmCluster(ctx context.Context, request RemoveVirtualMachineFromCloudVmClusterRequest) (response RemoveVirtualMachineFromCloudVmClusterResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeVirtualMachineFromCloudVmCluster, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveVirtualMachineFromCloudVmClusterResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveVirtualMachineFromCloudVmClusterResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveVirtualMachineFromCloudVmClusterResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveVirtualMachineFromCloudVmClusterResponse")
+	}
+	return
+}
+
+// removeVirtualMachineFromCloudVmCluster implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) removeVirtualMachineFromCloudVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudVmClusters/{cloudVmClusterId}/actions/removeVirtualMachine", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveVirtualMachineFromCloudVmClusterResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudVmCluster/RemoveVirtualMachineFromCloudVmCluster"
+		err = common.PostProcessServiceError(err, "Database", "RemoveVirtualMachineFromCloudVmCluster", apiReferenceLink)
 		return response, err
 	}
 

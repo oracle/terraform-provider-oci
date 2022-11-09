@@ -1,3 +1,15 @@
+## 4.99.0 (November 09, 2022)
+
+### Added
+- Edge Node Support for BDS
+- Support for ScanProxy in Data Flow
+- [ADM-Detect] UX/API improvements
+- Updated resource discovery document
+- Support for ADB-S: Cross-Region Refreshable Clones
+- multi vm support manual updates
+### Bug Fix
+- APMDomainGeneratedTests: replace deprecated map() function with tomap()
+
 ## 4.98.0 (November 02, 2022)
 
 ### Added

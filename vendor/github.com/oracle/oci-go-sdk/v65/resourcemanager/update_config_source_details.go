@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// UpdateConfigSourceDetails Updates the property details for the configuration source.
+// UpdateConfigSourceDetails Update details for a configuration source.
 type UpdateConfigSourceDetails interface {
 
 	// File path to the directory to use for running Terraform.

@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// JobSummary Returns a listing of all of the specified job's properties and their values.
+// JobSummary Summary information for a job.
 type JobSummary struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job.
