@@ -55,7 +55,7 @@ resource "oci_database_exadata_infrastructure" "primary_exadata_infrastructure" 
   netmask                  = "255.255.255.0"
   ntp_server = [
   "10.231.225.76"]
-  shape     = "ExadataCC.Quarter3.100"
+  shape     = "ExadataCC.X7"
   time_zone = "US/Pacific"
 }
 
@@ -81,7 +81,7 @@ resource "oci_database_exadata_infrastructure" "standby_exadata_infrastructure" 
   netmask                  = "255.255.255.0"
   ntp_server = [
   "10.231.225.76"]
-  shape     = "ExadataCC.Quarter3.100"
+  shape     = "ExadataCC.X7"
   time_zone = "US/Pacific"
 }
 

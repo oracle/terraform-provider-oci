@@ -128,6 +128,10 @@ func (s *DatabaseAutonomousVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("is_local_backup_enabled", *s.Res.IsLocalBackupEnabled)
 	}
 
+	if s.Res.IsMtlsEnabled != nil {
+		s.D.Set("is_mtls_enabled", *s.Res.IsMtlsEnabled)
+	}
+
 	if s.Res.LastMaintenanceRunId != nil {
 		s.D.Set("last_maintenance_run_id", *s.Res.LastMaintenanceRunId)
 	}
@@ -162,6 +166,14 @@ func (s *DatabaseAutonomousVmClusterDataSourceCrud) SetData() error {
 
 	if s.Res.ReclaimableCpus != nil {
 		s.D.Set("reclaimable_cpus", *s.Res.ReclaimableCpus)
+	}
+
+	if s.Res.ScanListenerPortNonTls != nil {
+		s.D.Set("scan_listener_port_non_tls", *s.Res.ScanListenerPortNonTls)
+	}
+
+	if s.Res.ScanListenerPortTls != nil {
+		s.D.Set("scan_listener_port_tls", *s.Res.ScanListenerPortTls)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

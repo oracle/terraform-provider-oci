@@ -64,9 +64,9 @@ func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_autonomous_database_backup.test_autonomous_database_backup"
 
 	var resId string
-	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseAutonomousDatabaseBackupResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", acctest.Required, acctest.Create, DatabaseAutonomousDatabaseBackupRepresentation), "database", "autonomousDatabaseBackup", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", acctest.Optional, acctest.Create, DatabaseAutonomousDatabaseBackupRepresentation), "database", "autonomousDatabaseBackup", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
@@ -76,6 +76,25 @@ func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Monthly Backup"),
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseBackupResourceDependencies,
+		},
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseBackupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", acctest.Optional, acctest.Create, DatabaseAutonomousDatabaseBackupRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Monthly Backup"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "is_automatic"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "type"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
