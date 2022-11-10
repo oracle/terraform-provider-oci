@@ -19,6 +19,8 @@ Creates a new Autonomous Database backup for the specified database based on the
 resource "oci_database_autonomous_database_backup" "test_autonomous_database_backup" {
 	#Required
 	autonomous_database_id = oci_database_autonomous_database.test_autonomous_database.id
+
+	#Optional
 	display_name = var.autonomous_database_backup_display_name
 }
 ```
@@ -28,7 +30,7 @@ resource "oci_database_autonomous_database_backup" "test_autonomous_database_bac
 The following arguments are supported:
 
 * `autonomous_database_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
-* `display_name` - (Required) The user-friendly name for the backup. The name does not have to be unique.
+* `display_name` - (Optional) The user-friendly name for the backup. The name does not have to be unique.
 
 
 ** IMPORTANT **
