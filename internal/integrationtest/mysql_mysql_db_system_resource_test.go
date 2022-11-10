@@ -25,6 +25,11 @@ var (
 		"db_system_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_mysql_mysql_db_system.test_mysql_pitr_db_system.id}`},
 	}
 
+	mysqlDbSystemSourceImportRepresentation = map[string]interface{}{
+		"source_type": acctest.Representation{RepType: acctest.Required, Create: `IMPORTURL`},
+		"source_url":  acctest.Representation{RepType: acctest.Optional, Create: `https://objectstorage.us-ashburn-1.oraclecloud.com/p/KQQJ9Sip5EmCfLw7htHwY5ZIQbHmI5-GmHeLojK_vT0OtezjV6s0tRFOBtX2ybXh/n/mysql2/b/bucket_for_canary_import_tests_1-DO_NOT_DELETE/o/@.manifest.json`},
+	}
+
 	mysqlHADbSystemRepresentation = map[string]interface{}{
 		"admin_password":          acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 		"admin_username":          acctest.Representation{RepType: acctest.Required, Create: `adminUser`},
@@ -79,6 +84,23 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{"defined_tags"}},
 	}
 
+	mysqlDbSystemRepresentationFromPARUrl = map[string]interface{}{
+		"admin_password":          acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"admin_username":          acctest.Representation{RepType: acctest.Required, Create: `adminUser`},
+		"availability_domain":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"configuration_id":        acctest.Representation{RepType: acctest.Optional, Create: `${var.MysqlConfigurationOCID[var.region]}`},
+		"shape_name":              acctest.Representation{RepType: acctest.Required, Create: `MySQL.VM.Standard.E3.1.8GB`},
+		"subnet_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"data_storage_size_in_gb": acctest.Representation{RepType: acctest.Required, Create: `50`},
+		"source":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemSourceImportRepresentation},
+		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreSourceChangesForMysqlFromPARUrl},
+	}
+
+	ignoreSourceChangesForMysqlFromPARUrl = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{"source"}},
+	}
+
 	mysqlDbSystemRepresentationShapeAndConfigUpdate = map[string]interface{}{
 		"admin_password":          acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 		"admin_username":          acctest.Representation{RepType: acctest.Required, Create: `adminUser`},
@@ -123,6 +145,7 @@ func TestMysqlMysqlDbSystemResource_sourcePitr(t *testing.T) {
 
 	acctest.ResourceTest(t, testAccCheckMysqlMysqlDbSystemDestroy, []resource.TestStep{
 		// Verify PointInTimeRecovery
+
 		{
 			Config: config + compartmentIdVariableStr + MysqlDbSystemSourcePitrResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_sytem_source_pitr", acctest.Optional, acctest.Create, sourcePitrRepresentation),
@@ -342,6 +365,81 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+	})
+}
+
+// issue-routing-tag: mysql/default
+func TestMysqlMysqlDbSystemResource_sourceImport(t *testing.T) {
+	httpreplay.SetScenario("TestMysqlMysqlDbSystemResource_sourceImport")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_mysql_mysql_db_system.test_mysql_db_system_import"
+
+	var resId, resId2 string
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// verify Create DbSystem using import PAR URL
+		{
+			Config: config + compartmentIdVariableStr + MysqlMysqlDbSystemResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system_import", acctest.Optional, acctest.Create, mysqlDbSystemRepresentationFromPARUrl),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "IMPORTURL"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// verify stop
+		{
+			Config: config + compartmentIdVariableStr + MysqlMysqlDbSystemResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system_import", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(mysqlDbSystemRepresentationFromPARUrl, map[string]interface{}{
+					"state":         acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`},
+					"shutdown_type": acctest.Representation{RepType: acctest.Optional, Create: `FAST`},
+				})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "IMPORTURL"),
+				resource.TestCheckResourceAttr(resourceName, "state", "INACTIVE"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify start
+		{
+			Config: config + compartmentIdVariableStr + MysqlMysqlDbSystemResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system_import", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(mysqlDbSystemRepresentationFromPARUrl, map[string]interface{}{
+					"state": acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+				})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "IMPORTURL"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")

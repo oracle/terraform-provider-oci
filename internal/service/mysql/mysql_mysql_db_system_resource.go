@@ -277,6 +277,7 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"BACKUP",
+								"IMPORTURL",
 								"NONE",
 								"PITR",
 							}, true),
@@ -301,6 +302,12 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 							Computed:         true,
 							ForceNew:         true,
 							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+						},
+						"source_url": {
+							Type:      schema.TypeString,
+							Optional:  true,
+							ForceNew:  true,
+							Sensitive: true,
 						},
 
 						// Computed
@@ -1463,6 +1470,13 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateDbSystemSourceDetails(fieldK
 			details.BackupId = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("IMPORTURL"):
+		details := oci_mysql.CreateDbSystemSourceImportFromUrlDetails{}
+		if sourceUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_url")); ok {
+			tmp := sourceUrl.(string)
+			details.SourceUrl = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("NONE"):
 		details := oci_mysql.CreateDbSystemSourceFromNoneDetails{}
 		baseObject = details
@@ -1495,6 +1509,8 @@ func DbSystemSourceToMap(obj *oci_mysql.DbSystemSource) map[string]interface{} {
 		if v.BackupId != nil {
 			result["backup_id"] = string(*v.BackupId)
 		}
+	case oci_mysql.DbSystemSourceImportFromUrl:
+		result["source_type"] = "IMPORTURL"
 	case oci_mysql.DbSystemSourceFromNone:
 		result["source_type"] = "NONE"
 	case oci_mysql.DbSystemSourceFromPitr:
