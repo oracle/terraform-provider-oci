@@ -117,6 +117,7 @@ const (
 	AutonomousContainerDatabaseDataguardAssociationRoleStandby         AutonomousContainerDatabaseDataguardAssociationRoleEnum = "STANDBY"
 	AutonomousContainerDatabaseDataguardAssociationRoleDisabledStandby AutonomousContainerDatabaseDataguardAssociationRoleEnum = "DISABLED_STANDBY"
 	AutonomousContainerDatabaseDataguardAssociationRoleBackupCopy      AutonomousContainerDatabaseDataguardAssociationRoleEnum = "BACKUP_COPY"
+	AutonomousContainerDatabaseDataguardAssociationRoleSnapshotStandby AutonomousContainerDatabaseDataguardAssociationRoleEnum = "SNAPSHOT_STANDBY"
 )
 
 var mappingAutonomousContainerDatabaseDataguardAssociationRoleEnum = map[string]AutonomousContainerDatabaseDataguardAssociationRoleEnum{
@@ -124,6 +125,7 @@ var mappingAutonomousContainerDatabaseDataguardAssociationRoleEnum = map[string]
 	"STANDBY":          AutonomousContainerDatabaseDataguardAssociationRoleStandby,
 	"DISABLED_STANDBY": AutonomousContainerDatabaseDataguardAssociationRoleDisabledStandby,
 	"BACKUP_COPY":      AutonomousContainerDatabaseDataguardAssociationRoleBackupCopy,
+	"SNAPSHOT_STANDBY": AutonomousContainerDatabaseDataguardAssociationRoleSnapshotStandby,
 }
 
 var mappingAutonomousContainerDatabaseDataguardAssociationRoleEnumLowerCase = map[string]AutonomousContainerDatabaseDataguardAssociationRoleEnum{
@@ -131,6 +133,7 @@ var mappingAutonomousContainerDatabaseDataguardAssociationRoleEnumLowerCase = ma
 	"standby":          AutonomousContainerDatabaseDataguardAssociationRoleStandby,
 	"disabled_standby": AutonomousContainerDatabaseDataguardAssociationRoleDisabledStandby,
 	"backup_copy":      AutonomousContainerDatabaseDataguardAssociationRoleBackupCopy,
+	"snapshot_standby": AutonomousContainerDatabaseDataguardAssociationRoleSnapshotStandby,
 }
 
 // GetAutonomousContainerDatabaseDataguardAssociationRoleEnumValues Enumerates the set of values for AutonomousContainerDatabaseDataguardAssociationRoleEnum
@@ -149,6 +152,7 @@ func GetAutonomousContainerDatabaseDataguardAssociationRoleEnumStringValues() []
 		"STANDBY",
 		"DISABLED_STANDBY",
 		"BACKUP_COPY",
+		"SNAPSHOT_STANDBY",
 	}
 }
 
@@ -229,6 +233,7 @@ const (
 	AutonomousContainerDatabaseDataguardAssociationPeerRoleStandby         AutonomousContainerDatabaseDataguardAssociationPeerRoleEnum = "STANDBY"
 	AutonomousContainerDatabaseDataguardAssociationPeerRoleDisabledStandby AutonomousContainerDatabaseDataguardAssociationPeerRoleEnum = "DISABLED_STANDBY"
 	AutonomousContainerDatabaseDataguardAssociationPeerRoleBackupCopy      AutonomousContainerDatabaseDataguardAssociationPeerRoleEnum = "BACKUP_COPY"
+	AutonomousContainerDatabaseDataguardAssociationPeerRoleSnapshotStandby AutonomousContainerDatabaseDataguardAssociationPeerRoleEnum = "SNAPSHOT_STANDBY"
 )
 
 var mappingAutonomousContainerDatabaseDataguardAssociationPeerRoleEnum = map[string]AutonomousContainerDatabaseDataguardAssociationPeerRoleEnum{
@@ -236,6 +241,7 @@ var mappingAutonomousContainerDatabaseDataguardAssociationPeerRoleEnum = map[str
 	"STANDBY":          AutonomousContainerDatabaseDataguardAssociationPeerRoleStandby,
 	"DISABLED_STANDBY": AutonomousContainerDatabaseDataguardAssociationPeerRoleDisabledStandby,
 	"BACKUP_COPY":      AutonomousContainerDatabaseDataguardAssociationPeerRoleBackupCopy,
+	"SNAPSHOT_STANDBY": AutonomousContainerDatabaseDataguardAssociationPeerRoleSnapshotStandby,
 }
 
 var mappingAutonomousContainerDatabaseDataguardAssociationPeerRoleEnumLowerCase = map[string]AutonomousContainerDatabaseDataguardAssociationPeerRoleEnum{
@@ -243,6 +249,7 @@ var mappingAutonomousContainerDatabaseDataguardAssociationPeerRoleEnumLowerCase 
 	"standby":          AutonomousContainerDatabaseDataguardAssociationPeerRoleStandby,
 	"disabled_standby": AutonomousContainerDatabaseDataguardAssociationPeerRoleDisabledStandby,
 	"backup_copy":      AutonomousContainerDatabaseDataguardAssociationPeerRoleBackupCopy,
+	"snapshot_standby": AutonomousContainerDatabaseDataguardAssociationPeerRoleSnapshotStandby,
 }
 
 // GetAutonomousContainerDatabaseDataguardAssociationPeerRoleEnumValues Enumerates the set of values for AutonomousContainerDatabaseDataguardAssociationPeerRoleEnum
@@ -261,6 +268,7 @@ func GetAutonomousContainerDatabaseDataguardAssociationPeerRoleEnumStringValues(
 		"STANDBY",
 		"DISABLED_STANDBY",
 		"BACKUP_COPY",
+		"SNAPSHOT_STANDBY",
 	}
 }
 

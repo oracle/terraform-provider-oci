@@ -17,8 +17,8 @@ import (
 	"strings"
 )
 
-// ExternalDbSystemAnalyticsMetric The details of an external DB system metric.
-type ExternalDbSystemAnalyticsMetric struct {
+// DbManagementAnalyticsMetric The metric details of a Database Management resource.
+type DbManagementAnalyticsMetric struct {
 
 	// The name of the metric.
 	MetricName *string `mandatory:"false" json:"metricName"`
@@ -40,14 +40,14 @@ type ExternalDbSystemAnalyticsMetric struct {
 	Mean *float64 `mandatory:"false" json:"mean"`
 }
 
-func (m ExternalDbSystemAnalyticsMetric) String() string {
+func (m DbManagementAnalyticsMetric) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ExternalDbSystemAnalyticsMetric) ValidateEnumValue() (bool, error) {
+func (m DbManagementAnalyticsMetric) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

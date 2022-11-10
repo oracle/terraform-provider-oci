@@ -17,9 +17,9 @@ import (
 	"strings"
 )
 
-// ExternalDbSystemAggregationRange The set of aggregated data returned for a metric.
-type ExternalDbSystemAggregationRange struct {
-	Header *ExternalDbSystemAnalyticsMetric `mandatory:"false" json:"header"`
+// MetricsAggregationRange The set of aggregated data returned for a metric.
+type MetricsAggregationRange struct {
+	Header *DbManagementAnalyticsMetric `mandatory:"false" json:"header"`
 
 	// The list of metrics returned for the specified request. Each of the metrics
 	// has a `metricName` and additional properties like `metadata`, `dimensions`.
@@ -29,7 +29,7 @@ type ExternalDbSystemAggregationRange struct {
 	// - If `m.durationInSeconds` is not set, use `header.durationInSeconds` instead
 	// - If `m.dimensions` is not set, use `header.dimensions` instead
 	// - If `m.metadata` is not set, use `header.metadata` instead
-	Metrics []ExternalDbSystemAnalyticsMetric `mandatory:"false" json:"metrics"`
+	Metrics []DbManagementAnalyticsMetric `mandatory:"false" json:"metrics"`
 
 	// The beginning of the time range (inclusive) of the returned metric data.
 	RangeStartTimeInEpochSeconds *int64 `mandatory:"false" json:"rangeStartTimeInEpochSeconds"`
@@ -38,14 +38,14 @@ type ExternalDbSystemAggregationRange struct {
 	RangeEndTimeInEpochSeconds *int64 `mandatory:"false" json:"rangeEndTimeInEpochSeconds"`
 }
 
-func (m ExternalDbSystemAggregationRange) String() string {
+func (m MetricsAggregationRange) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ExternalDbSystemAggregationRange) ValidateEnumValue() (bool, error) {
+func (m MetricsAggregationRange) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

@@ -24,8 +24,6 @@ type HelmRepositoryDeployArtifactSource struct {
 
 	// Users can set this as a placeholder value that refers to a pipeline parameter, for example, ${appVersion}.
 	DeployArtifactVersion *string `mandatory:"true" json:"deployArtifactVersion"`
-
-	HelmVerificationKeySource VerificationKeySource `mandatory:"false" json:"helmVerificationKeySource"`
 }
 
 func (m HelmRepositoryDeployArtifactSource) String() string {
@@ -56,34 +54,4 @@ func (m HelmRepositoryDeployArtifactSource) MarshalJSON() (buff []byte, e error)
 	}
 
 	return json.Marshal(&s)
-}
-
-// UnmarshalJSON unmarshals from json
-func (m *HelmRepositoryDeployArtifactSource) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		HelmVerificationKeySource verificationkeysource `json:"helmVerificationKeySource"`
-		ChartUrl                  *string               `json:"chartUrl"`
-		DeployArtifactVersion     *string               `json:"deployArtifactVersion"`
-	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
-	}
-	var nn interface{}
-	nn, e = model.HelmVerificationKeySource.UnmarshalPolymorphicJSON(model.HelmVerificationKeySource.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.HelmVerificationKeySource = nn.(VerificationKeySource)
-	} else {
-		m.HelmVerificationKeySource = nil
-	}
-
-	m.ChartUrl = model.ChartUrl
-
-	m.DeployArtifactVersion = model.DeployArtifactVersion
-
-	return
 }

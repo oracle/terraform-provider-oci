@@ -1109,6 +1109,7 @@ const (
 	AutonomousDatabaseSummaryRoleStandby         AutonomousDatabaseSummaryRoleEnum = "STANDBY"
 	AutonomousDatabaseSummaryRoleDisabledStandby AutonomousDatabaseSummaryRoleEnum = "DISABLED_STANDBY"
 	AutonomousDatabaseSummaryRoleBackupCopy      AutonomousDatabaseSummaryRoleEnum = "BACKUP_COPY"
+	AutonomousDatabaseSummaryRoleSnapshotStandby AutonomousDatabaseSummaryRoleEnum = "SNAPSHOT_STANDBY"
 )
 
 var mappingAutonomousDatabaseSummaryRoleEnum = map[string]AutonomousDatabaseSummaryRoleEnum{
@@ -1116,6 +1117,7 @@ var mappingAutonomousDatabaseSummaryRoleEnum = map[string]AutonomousDatabaseSumm
 	"STANDBY":          AutonomousDatabaseSummaryRoleStandby,
 	"DISABLED_STANDBY": AutonomousDatabaseSummaryRoleDisabledStandby,
 	"BACKUP_COPY":      AutonomousDatabaseSummaryRoleBackupCopy,
+	"SNAPSHOT_STANDBY": AutonomousDatabaseSummaryRoleSnapshotStandby,
 }
 
 var mappingAutonomousDatabaseSummaryRoleEnumLowerCase = map[string]AutonomousDatabaseSummaryRoleEnum{
@@ -1123,6 +1125,7 @@ var mappingAutonomousDatabaseSummaryRoleEnumLowerCase = map[string]AutonomousDat
 	"standby":          AutonomousDatabaseSummaryRoleStandby,
 	"disabled_standby": AutonomousDatabaseSummaryRoleDisabledStandby,
 	"backup_copy":      AutonomousDatabaseSummaryRoleBackupCopy,
+	"snapshot_standby": AutonomousDatabaseSummaryRoleSnapshotStandby,
 }
 
 // GetAutonomousDatabaseSummaryRoleEnumValues Enumerates the set of values for AutonomousDatabaseSummaryRoleEnum
@@ -1141,6 +1144,7 @@ func GetAutonomousDatabaseSummaryRoleEnumStringValues() []string {
 		"STANDBY",
 		"DISABLED_STANDBY",
 		"BACKUP_COPY",
+		"SNAPSHOT_STANDBY",
 	}
 }
 

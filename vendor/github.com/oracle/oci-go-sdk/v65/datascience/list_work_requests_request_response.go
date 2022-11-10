@@ -139,6 +139,7 @@ const (
 	ListWorkRequestsOperationTypeNotebookSessionDelete                     ListWorkRequestsOperationTypeEnum = "NOTEBOOK_SESSION_DELETE"
 	ListWorkRequestsOperationTypeNotebookSessionActivate                   ListWorkRequestsOperationTypeEnum = "NOTEBOOK_SESSION_ACTIVATE"
 	ListWorkRequestsOperationTypeNotebookSessionDeactivate                 ListWorkRequestsOperationTypeEnum = "NOTEBOOK_SESSION_DEACTIVATE"
+	ListWorkRequestsOperationTypeModelversionsetDelete                     ListWorkRequestsOperationTypeEnum = "MODELVERSIONSET_DELETE"
 	ListWorkRequestsOperationTypeExportModelArtifact                       ListWorkRequestsOperationTypeEnum = "EXPORT_MODEL_ARTIFACT"
 	ListWorkRequestsOperationTypeImportModelArtifact                       ListWorkRequestsOperationTypeEnum = "IMPORT_MODEL_ARTIFACT"
 	ListWorkRequestsOperationTypeModelDeploymentCreate                     ListWorkRequestsOperationTypeEnum = "MODEL_DEPLOYMENT_CREATE"
@@ -169,6 +170,7 @@ var mappingListWorkRequestsOperationTypeEnum = map[string]ListWorkRequestsOperat
 	"NOTEBOOK_SESSION_DELETE":                       ListWorkRequestsOperationTypeNotebookSessionDelete,
 	"NOTEBOOK_SESSION_ACTIVATE":                     ListWorkRequestsOperationTypeNotebookSessionActivate,
 	"NOTEBOOK_SESSION_DEACTIVATE":                   ListWorkRequestsOperationTypeNotebookSessionDeactivate,
+	"MODELVERSIONSET_DELETE":                        ListWorkRequestsOperationTypeModelversionsetDelete,
 	"EXPORT_MODEL_ARTIFACT":                         ListWorkRequestsOperationTypeExportModelArtifact,
 	"IMPORT_MODEL_ARTIFACT":                         ListWorkRequestsOperationTypeImportModelArtifact,
 	"MODEL_DEPLOYMENT_CREATE":                       ListWorkRequestsOperationTypeModelDeploymentCreate,
@@ -199,6 +201,7 @@ var mappingListWorkRequestsOperationTypeEnumLowerCase = map[string]ListWorkReque
 	"notebook_session_delete":                       ListWorkRequestsOperationTypeNotebookSessionDelete,
 	"notebook_session_activate":                     ListWorkRequestsOperationTypeNotebookSessionActivate,
 	"notebook_session_deactivate":                   ListWorkRequestsOperationTypeNotebookSessionDeactivate,
+	"modelversionset_delete":                        ListWorkRequestsOperationTypeModelversionsetDelete,
 	"export_model_artifact":                         ListWorkRequestsOperationTypeExportModelArtifact,
 	"import_model_artifact":                         ListWorkRequestsOperationTypeImportModelArtifact,
 	"model_deployment_create":                       ListWorkRequestsOperationTypeModelDeploymentCreate,
@@ -240,6 +243,7 @@ func GetListWorkRequestsOperationTypeEnumStringValues() []string {
 		"NOTEBOOK_SESSION_DELETE",
 		"NOTEBOOK_SESSION_ACTIVATE",
 		"NOTEBOOK_SESSION_DEACTIVATE",
+		"MODELVERSIONSET_DELETE",
 		"EXPORT_MODEL_ARTIFACT",
 		"IMPORT_MODEL_ARTIFACT",
 		"MODEL_DEPLOYMENT_CREATE",

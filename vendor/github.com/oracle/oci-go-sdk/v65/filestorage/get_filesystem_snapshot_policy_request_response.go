@@ -14,7 +14,7 @@ import (
 // GetFilesystemSnapshotPolicyRequest wrapper for the GetFilesystemSnapshotPolicy operation
 type GetFilesystemSnapshotPolicyRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Filesystem Snapshot Policy.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system snapshot policy.
 	FilesystemSnapshotPolicyId *string `mandatory:"true" contributesTo:"path" name:"filesystemSnapshotPolicyId"`
 
 	// Unique identifier for the request.

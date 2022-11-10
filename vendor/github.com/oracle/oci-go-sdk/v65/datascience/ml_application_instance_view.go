@@ -65,6 +65,9 @@ type MlApplicationInstanceView struct {
 	// References (Identifiers) for components dedicated to this instance.
 	InstanceComponents []InstanceComponent `mandatory:"false" json:"instanceComponents"`
 
+	// Array of all prediction URIs per use-case.
+	PredictionUris []PredictionUri `mandatory:"false" json:"predictionUris"`
+
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
@@ -95,6 +98,7 @@ func (m *MlApplicationInstanceView) UnmarshalJSON(data []byte) (e error) {
 		AuthConfiguration       authconfiguration                           `json:"authConfiguration"`
 		Configuration           []ConfigurationProperty                     `json:"configuration"`
 		InstanceComponents      []instancecomponent                         `json:"instanceComponents"`
+		PredictionUris          []PredictionUri                             `json:"predictionUris"`
 		SystemTags              map[string]map[string]interface{}           `json:"systemTags"`
 		Id                      *string                                     `json:"id"`
 		Name                    *string                                     `json:"name"`
@@ -141,6 +145,11 @@ func (m *MlApplicationInstanceView) UnmarshalJSON(data []byte) (e error) {
 		} else {
 			m.InstanceComponents[i] = nil
 		}
+	}
+
+	m.PredictionUris = make([]PredictionUri, len(model.PredictionUris))
+	for i, n := range model.PredictionUris {
+		m.PredictionUris[i] = n
 	}
 
 	m.SystemTags = model.SystemTags

@@ -35,6 +35,9 @@ type CreateAutonomousContainerDatabaseDetails struct {
 	// **No longer used.** This parameter is no longer used for Autonomous Database on dedicated Exadata infrasture. Specify a `cloudAutonomousVmClusterId` instead. Using this parameter will cause the operation to fail.
 	AutonomousExadataInfrastructureId *string `mandatory:"false" json:"autonomousExadataInfrastructureId"`
 
+	// The base version for the Autonomous Container Database.
+	DbVersion *string `mandatory:"false" json:"dbVersion"`
+
 	// *No longer used.* This parameter is no longer used for Autonomous Database on dedicated Exadata infrasture. Specify a `peerCloudAutonomousVmClusterId` instead. Using this parameter will cause the operation to fail.
 	PeerAutonomousExadataInfrastructureId *string `mandatory:"false" json:"peerAutonomousExadataInfrastructureId"`
 
@@ -78,6 +81,9 @@ type CreateAutonomousContainerDatabaseDetails struct {
 	// The scheduling detail for the quarterly maintenance window of the standby Autonomous Container Database.
 	// This value represents the number of days before scheduled maintenance of the primary database.
 	StandbyMaintenanceBufferInDays *int `mandatory:"false" json:"standbyMaintenanceBufferInDays"`
+
+	// The next maintenance version preference.
+	VersionPreference CreateAutonomousContainerDatabaseDetailsVersionPreferenceEnum `mandatory:"false" json:"versionPreference,omitempty"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -126,6 +132,9 @@ func (m CreateAutonomousContainerDatabaseDetails) ValidateEnumValue() (bool, err
 	}
 	if _, ok := GetMappingCreateAutonomousContainerDatabaseDetailsProtectionModeEnum(string(m.ProtectionMode)); !ok && m.ProtectionMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ProtectionMode: %s. Supported values are: %s.", m.ProtectionMode, strings.Join(GetCreateAutonomousContainerDatabaseDetailsProtectionModeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingCreateAutonomousContainerDatabaseDetailsVersionPreferenceEnum(string(m.VersionPreference)); !ok && m.VersionPreference != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VersionPreference: %s. Supported values are: %s.", m.VersionPreference, strings.Join(GetCreateAutonomousContainerDatabaseDetailsVersionPreferenceEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -256,5 +265,47 @@ func GetCreateAutonomousContainerDatabaseDetailsPatchModelEnumStringValues() []s
 // GetMappingCreateAutonomousContainerDatabaseDetailsPatchModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCreateAutonomousContainerDatabaseDetailsPatchModelEnum(val string) (CreateAutonomousContainerDatabaseDetailsPatchModelEnum, bool) {
 	enum, ok := mappingCreateAutonomousContainerDatabaseDetailsPatchModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CreateAutonomousContainerDatabaseDetailsVersionPreferenceEnum Enum with underlying type: string
+type CreateAutonomousContainerDatabaseDetailsVersionPreferenceEnum string
+
+// Set of constants representing the allowable values for CreateAutonomousContainerDatabaseDetailsVersionPreferenceEnum
+const (
+	CreateAutonomousContainerDatabaseDetailsVersionPreferenceNextReleaseUpdate   CreateAutonomousContainerDatabaseDetailsVersionPreferenceEnum = "NEXT_RELEASE_UPDATE"
+	CreateAutonomousContainerDatabaseDetailsVersionPreferenceLatestReleaseUpdate CreateAutonomousContainerDatabaseDetailsVersionPreferenceEnum = "LATEST_RELEASE_UPDATE"
+)
+
+var mappingCreateAutonomousContainerDatabaseDetailsVersionPreferenceEnum = map[string]CreateAutonomousContainerDatabaseDetailsVersionPreferenceEnum{
+	"NEXT_RELEASE_UPDATE":   CreateAutonomousContainerDatabaseDetailsVersionPreferenceNextReleaseUpdate,
+	"LATEST_RELEASE_UPDATE": CreateAutonomousContainerDatabaseDetailsVersionPreferenceLatestReleaseUpdate,
+}
+
+var mappingCreateAutonomousContainerDatabaseDetailsVersionPreferenceEnumLowerCase = map[string]CreateAutonomousContainerDatabaseDetailsVersionPreferenceEnum{
+	"next_release_update":   CreateAutonomousContainerDatabaseDetailsVersionPreferenceNextReleaseUpdate,
+	"latest_release_update": CreateAutonomousContainerDatabaseDetailsVersionPreferenceLatestReleaseUpdate,
+}
+
+// GetCreateAutonomousContainerDatabaseDetailsVersionPreferenceEnumValues Enumerates the set of values for CreateAutonomousContainerDatabaseDetailsVersionPreferenceEnum
+func GetCreateAutonomousContainerDatabaseDetailsVersionPreferenceEnumValues() []CreateAutonomousContainerDatabaseDetailsVersionPreferenceEnum {
+	values := make([]CreateAutonomousContainerDatabaseDetailsVersionPreferenceEnum, 0)
+	for _, v := range mappingCreateAutonomousContainerDatabaseDetailsVersionPreferenceEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateAutonomousContainerDatabaseDetailsVersionPreferenceEnumStringValues Enumerates the set of values in String for CreateAutonomousContainerDatabaseDetailsVersionPreferenceEnum
+func GetCreateAutonomousContainerDatabaseDetailsVersionPreferenceEnumStringValues() []string {
+	return []string{
+		"NEXT_RELEASE_UPDATE",
+		"LATEST_RELEASE_UPDATE",
+	}
+}
+
+// GetMappingCreateAutonomousContainerDatabaseDetailsVersionPreferenceEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateAutonomousContainerDatabaseDetailsVersionPreferenceEnum(val string) (CreateAutonomousContainerDatabaseDetailsVersionPreferenceEnum, bool) {
+	enum, ok := mappingCreateAutonomousContainerDatabaseDetailsVersionPreferenceEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

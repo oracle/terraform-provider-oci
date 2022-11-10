@@ -58,6 +58,9 @@ type ListTaskRunsRequest struct {
 	// This parameter can be used to filter objects by the names starting with the given value.
 	NameStartsWith *string `mandatory:"false" contributesTo:"query" name:"nameStartsWith"`
 
+	// This parameter can be used to filter objects by the names that match partially or fully with the given value.
+	NameContains *string `mandatory:"false" contributesTo:"query" name:"nameContains"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

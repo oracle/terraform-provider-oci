@@ -115,6 +115,8 @@ type CloudAutonomousVmCluster struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the next maintenance run.
 	NextMaintenanceRunId *string `mandatory:"false" json:"nextMaintenanceRunId"`
 
+	MaintenanceWindow *MaintenanceWindow `mandatory:"false" json:"maintenanceWindow"`
+
 	// The SCAN Listenenr TLS port. Default is 2484.
 	ScanListenerPortTls *int `mandatory:"false" json:"scanListenerPortTls"`
 

@@ -48,6 +48,8 @@ type GitlabServerAccessTokenConnection struct {
 	// The time the connection was updated. Format defined by RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339).
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
+	LastConnectionValidationResult *ConnectionValidationResult `mandatory:"false" json:"lastConnectionValidationResult"`
+
 	// A detailed message describing the current state. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
@@ -99,6 +101,11 @@ func (m GitlabServerAccessTokenConnection) GetTimeCreated() *common.SDKTime {
 //GetTimeUpdated returns TimeUpdated
 func (m GitlabServerAccessTokenConnection) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
+}
+
+//GetLastConnectionValidationResult returns LastConnectionValidationResult
+func (m GitlabServerAccessTokenConnection) GetLastConnectionValidationResult() *ConnectionValidationResult {
+	return m.LastConnectionValidationResult
 }
 
 //GetLifecycleDetails returns LifecycleDetails
@@ -162,21 +169,22 @@ func (m GitlabServerAccessTokenConnection) MarshalJSON() (buff []byte, e error) 
 // UnmarshalJSON unmarshals from json
 func (m *GitlabServerAccessTokenConnection) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description      *string                           `json:"description"`
-		DisplayName      *string                           `json:"displayName"`
-		TimeCreated      *common.SDKTime                   `json:"timeCreated"`
-		TimeUpdated      *common.SDKTime                   `json:"timeUpdated"`
-		LifecycleDetails *string                           `json:"lifecycleDetails"`
-		LifecycleState   ConnectionLifecycleStateEnum      `json:"lifecycleState"`
-		FreeformTags     map[string]string                 `json:"freeformTags"`
-		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags       map[string]map[string]interface{} `json:"systemTags"`
-		TlsVerifyConfig  tlsverifyconfig                   `json:"tlsVerifyConfig"`
-		Id               *string                           `json:"id"`
-		CompartmentId    *string                           `json:"compartmentId"`
-		ProjectId        *string                           `json:"projectId"`
-		AccessToken      *string                           `json:"accessToken"`
-		BaseUrl          *string                           `json:"baseUrl"`
+		Description                    *string                           `json:"description"`
+		DisplayName                    *string                           `json:"displayName"`
+		TimeCreated                    *common.SDKTime                   `json:"timeCreated"`
+		TimeUpdated                    *common.SDKTime                   `json:"timeUpdated"`
+		LastConnectionValidationResult *ConnectionValidationResult       `json:"lastConnectionValidationResult"`
+		LifecycleDetails               *string                           `json:"lifecycleDetails"`
+		LifecycleState                 ConnectionLifecycleStateEnum      `json:"lifecycleState"`
+		FreeformTags                   map[string]string                 `json:"freeformTags"`
+		DefinedTags                    map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags                     map[string]map[string]interface{} `json:"systemTags"`
+		TlsVerifyConfig                tlsverifyconfig                   `json:"tlsVerifyConfig"`
+		Id                             *string                           `json:"id"`
+		CompartmentId                  *string                           `json:"compartmentId"`
+		ProjectId                      *string                           `json:"projectId"`
+		AccessToken                    *string                           `json:"accessToken"`
+		BaseUrl                        *string                           `json:"baseUrl"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -191,6 +199,8 @@ func (m *GitlabServerAccessTokenConnection) UnmarshalJSON(data []byte) (e error)
 	m.TimeCreated = model.TimeCreated
 
 	m.TimeUpdated = model.TimeUpdated
+
+	m.LastConnectionValidationResult = model.LastConnectionValidationResult
 
 	m.LifecycleDetails = model.LifecycleDetails
 

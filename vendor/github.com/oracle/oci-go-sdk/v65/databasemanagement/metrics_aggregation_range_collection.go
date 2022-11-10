@@ -17,24 +17,29 @@ import (
 	"strings"
 )
 
-// DbSystemInternal DB System internal.
-type DbSystemInternal struct {
+// MetricsAggregationRangeCollection The collection of metrics.
+type MetricsAggregationRangeCollection struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database system.
-	Id *string `mandatory:"true" json:"id"`
+	// The metric data.
+	Items []MetricsAggregationRange `mandatory:"true" json:"items"`
 
-	// Name of the Database system.
-	Name *string `mandatory:"true" json:"name"`
+	// The beginning of the metric data query time range. Expressed in UTC in
+	// ISO-8601 format, which is `yyyy-MM-dd'T'hh:mm:ss.sss'Z'`.
+	StartTime *string `mandatory:"false" json:"startTime"`
+
+	// The end of the metric data query time range. Expressed in UTC in
+	// ISO-8601 format, which is `yyyy-MM-dd'T'hh:mm:ss.sss'Z'`.
+	EndTime *string `mandatory:"false" json:"endTime"`
 }
 
-func (m DbSystemInternal) String() string {
+func (m MetricsAggregationRangeCollection) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m DbSystemInternal) ValidateEnumValue() (bool, error) {
+func (m MetricsAggregationRangeCollection) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

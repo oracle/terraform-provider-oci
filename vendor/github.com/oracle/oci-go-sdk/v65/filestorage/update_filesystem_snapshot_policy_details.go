@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UpdateFilesystemSnapshotPolicyDetails Details for updating the Filesystem Snapshot Policy.
+// UpdateFilesystemSnapshotPolicyDetails Details for updating the file system snapshot policy.
 type UpdateFilesystemSnapshotPolicyDetails struct {
 
 	// A user-friendly name. It does not have to be unique, and it is changeable.
@@ -25,11 +25,10 @@ type UpdateFilesystemSnapshotPolicyDetails struct {
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// The prefix to apply to all snapshots created by this policy.
-	// Maximum length of 100 characters.
 	// Example: `acme`
 	PolicyPrefix *string `mandatory:"false" json:"policyPrefix"`
 
-	// The list of associated SnapshotSchedule objects. There is a maximum of 10 associated with a policy.
+	// The list of associated snapshot schedules. A maximum of 10 schedules can be associated with a policy.
 	Schedules []SnapshotSchedule `mandatory:"false" json:"schedules"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair

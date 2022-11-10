@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// ChangeFilesystemSnapshotPolicyCompartmentDetails Details for changing the compartment.
+// ChangeFilesystemSnapshotPolicyCompartmentDetails Details for changing the compartment of a file system snapshot policy.
 type ChangeFilesystemSnapshotPolicyCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to move the Filesystem Snapshot Policy to.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to move the file system snapshot policy to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

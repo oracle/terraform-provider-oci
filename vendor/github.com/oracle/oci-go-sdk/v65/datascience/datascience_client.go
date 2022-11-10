@@ -809,6 +809,64 @@ func (client DataScienceClient) changeModelDeploymentCompartment(ctx context.Con
 	return response, err
 }
 
+// ChangeModelVersionSetCompartment Moves a modelVersionSet resource into a different compartment.
+func (client DataScienceClient) ChangeModelVersionSetCompartment(ctx context.Context, request ChangeModelVersionSetCompartmentRequest) (response ChangeModelVersionSetCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeModelVersionSetCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeModelVersionSetCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeModelVersionSetCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeModelVersionSetCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeModelVersionSetCompartmentResponse")
+	}
+	return
+}
+
+// changeModelVersionSetCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) changeModelVersionSetCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/modelVersionSets/{modelVersionSetId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeModelVersionSetCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ModelVersionSet/ChangeModelVersionSetCompartment"
+		err = common.PostProcessServiceError(err, "DataScience", "ChangeModelVersionSetCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeNotebookSessionCompartment Moves a notebook session resource into a different compartment.
 func (client DataScienceClient) ChangeNotebookSessionCompartment(ctx context.Context, request ChangeNotebookSessionCompartmentRequest) (response ChangeNotebookSessionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1572,6 +1630,65 @@ func (client DataScienceClient) createModelProvenance(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/CreateModelProvenance"
 		err = common.PostProcessServiceError(err, "DataScience", "CreateModelProvenance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateModelVersionSet Creates a new modelVersionSet.
+// A default retry strategy applies to this operation CreateModelVersionSet()
+func (client DataScienceClient) CreateModelVersionSet(ctx context.Context, request CreateModelVersionSetRequest) (response CreateModelVersionSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createModelVersionSet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateModelVersionSetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateModelVersionSetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateModelVersionSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateModelVersionSetResponse")
+	}
+	return
+}
+
+// createModelVersionSet implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) createModelVersionSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/modelVersionSets", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateModelVersionSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ModelVersionSet/CreateModelVersionSet"
+		err = common.PostProcessServiceError(err, "DataScience", "CreateModelVersionSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -2358,6 +2475,60 @@ func (client DataScienceClient) deleteModelDeployment(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ModelDeployment/DeleteModelDeployment"
 		err = common.PostProcessServiceError(err, "DataScience", "DeleteModelDeployment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteModelVersionSet Deletes the specified modelVersionSet.
+// A default retry strategy applies to this operation DeleteModelVersionSet()
+func (client DataScienceClient) DeleteModelVersionSet(ctx context.Context, request DeleteModelVersionSetRequest) (response DeleteModelVersionSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteModelVersionSet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteModelVersionSetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteModelVersionSetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteModelVersionSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteModelVersionSetResponse")
+	}
+	return
+}
+
+// deleteModelVersionSet implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) deleteModelVersionSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/modelVersionSets/{modelVersionSetId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteModelVersionSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ModelVersionSet/DeleteModelVersionSet"
+		err = common.PostProcessServiceError(err, "DataScience", "DeleteModelVersionSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -3218,6 +3389,60 @@ func (client DataScienceClient) getModelProvenance(ctx context.Context, request 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/GetModelProvenance"
 		err = common.PostProcessServiceError(err, "DataScience", "GetModelProvenance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetModelVersionSet Gets the specified model version set information.
+// A default retry strategy applies to this operation GetModelVersionSet()
+func (client DataScienceClient) GetModelVersionSet(ctx context.Context, request GetModelVersionSetRequest) (response GetModelVersionSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getModelVersionSet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetModelVersionSetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetModelVersionSetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetModelVersionSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetModelVersionSetResponse")
+	}
+	return
+}
+
+// getModelVersionSet implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) getModelVersionSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/modelVersionSets/{modelVersionSetId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetModelVersionSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ModelVersionSet/GetModelVersionSet"
+		err = common.PostProcessServiceError(err, "DataScience", "GetModelVersionSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -4256,6 +4481,60 @@ func (client DataScienceClient) listModelDeployments(ctx context.Context, reques
 	return response, err
 }
 
+// ListModelVersionSets Lists model version sets in the specified compartment.
+// A default retry strategy applies to this operation ListModelVersionSets()
+func (client DataScienceClient) ListModelVersionSets(ctx context.Context, request ListModelVersionSetsRequest) (response ListModelVersionSetsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listModelVersionSets, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListModelVersionSetsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListModelVersionSetsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListModelVersionSetsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListModelVersionSetsResponse")
+	}
+	return
+}
+
+// listModelVersionSets implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) listModelVersionSets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/modelVersionSets", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListModelVersionSetsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ModelVersionSetSummary/ListModelVersionSets"
+		err = common.PostProcessServiceError(err, "DataScience", "ListModelVersionSets", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListModels Lists models in the specified compartment.
 // A default retry strategy applies to this operation ListModels()
 func (client DataScienceClient) ListModels(ctx context.Context, request ListModelsRequest) (response ListModelsResponse, err error) {
@@ -5225,6 +5504,60 @@ func (client DataScienceClient) updateModelProvenance(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/UpdateModelProvenance"
 		err = common.PostProcessServiceError(err, "DataScience", "UpdateModelProvenance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateModelVersionSet Updates the properties of a model version set. User can update the `description` property.
+// A default retry strategy applies to this operation UpdateModelVersionSet()
+func (client DataScienceClient) UpdateModelVersionSet(ctx context.Context, request UpdateModelVersionSetRequest) (response UpdateModelVersionSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateModelVersionSet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateModelVersionSetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateModelVersionSetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateModelVersionSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateModelVersionSetResponse")
+	}
+	return
+}
+
+// updateModelVersionSet implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) updateModelVersionSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/modelVersionSets/{modelVersionSetId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateModelVersionSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ModelVersionSet/UpdateModelVersionSet"
+		err = common.PostProcessServiceError(err, "DataScience", "UpdateModelVersionSet", apiReferenceLink)
 		return response, err
 	}
 

@@ -40,6 +40,18 @@ type ModelSummary struct {
 	// The state of the model.
 	LifecycleState ModelLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
+	// The OCID of the model version set that the model is associated to.
+	ModelVersionSetId *string `mandatory:"true" json:"modelVersionSetId"`
+
+	// The name of the model version set that the model is associated to.
+	ModelVersionSetName *string `mandatory:"true" json:"modelVersionSetName"`
+
+	// Unique identifier assigned to each version of the model.
+	VersionId *int64 `mandatory:"true" json:"versionId"`
+
+	// The version label can add an additional description of the lifecycle state of the model or the application using and training the model.
+	VersionLabel *string `mandatory:"true" json:"versionLabel"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

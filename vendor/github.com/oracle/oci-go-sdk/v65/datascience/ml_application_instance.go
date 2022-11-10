@@ -59,6 +59,9 @@ type MlApplicationInstance struct {
 	// Data that are used for provisioning of the given MlApplicationInstance. These are validated against configurationSchema defined in referenced MlApplication.
 	Configuration []ConfigurationProperty `mandatory:"false" json:"configuration"`
 
+	// Array of all prediction URIs per use-case.
+	PredictionUris []PredictionUri `mandatory:"false" json:"predictionUris"`
+
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
@@ -88,6 +91,7 @@ func (m *MlApplicationInstance) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		AuthConfiguration authconfiguration                       `json:"authConfiguration"`
 		Configuration     []ConfigurationProperty                 `json:"configuration"`
+		PredictionUris    []PredictionUri                         `json:"predictionUris"`
 		SystemTags        map[string]map[string]interface{}       `json:"systemTags"`
 		Id                *string                                 `json:"id"`
 		Name              *string                                 `json:"name"`
@@ -120,6 +124,11 @@ func (m *MlApplicationInstance) UnmarshalJSON(data []byte) (e error) {
 	m.Configuration = make([]ConfigurationProperty, len(model.Configuration))
 	for i, n := range model.Configuration {
 		m.Configuration[i] = n
+	}
+
+	m.PredictionUris = make([]PredictionUri, len(model.PredictionUris))
+	for i, n := range model.PredictionUris {
+		m.PredictionUris[i] = n
 	}
 
 	m.SystemTags = model.SystemTags

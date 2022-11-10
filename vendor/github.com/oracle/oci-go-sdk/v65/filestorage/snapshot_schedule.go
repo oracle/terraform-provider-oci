@@ -16,44 +16,44 @@ import (
 	"strings"
 )
 
-// SnapshotSchedule The SnapshotSchedule is a structure within a parent Filesystem Snapshot Policy. It contains data about
+// SnapshotSchedule The snapshot schedule is a structure within a parent file system snapshot policy. It contains data about
 // the frequency of snapshot creation and the retention time of the taken snapshots.
 type SnapshotSchedule struct {
 
-	// The frequency of snapshot scheduling.
+	// The frequency of scheduled snapshots.
 	Period SnapshotSchedulePeriodEnum `mandatory:"true" json:"period"`
 
-	// Timezone used for scheduling the snapshot execution.
+	// Time zone used for scheduling the snapshot.
 	TimeZone SnapshotScheduleTimeZoneEnum `mandatory:"true" json:"timeZone"`
 
 	// A name prefix to be applied to snapshots created by this schedule.
-	// Maximum length of 100 characters.
 	// Example: `compliance1`
 	SchedulePrefix *string `mandatory:"false" json:"schedulePrefix"`
 
 	// The starting point used to begin the scheduling of the snapshots based upon recurrence string
 	// in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
-	// If no timeScheduleStart is provided, the value will be set to the time when the schedule was created.
+	// If no `timeScheduleStart` is provided, the value will be set to the time when the schedule was created.
 	TimeScheduleStart *common.SDKTime `mandatory:"false" json:"timeScheduleStart"`
 
-	// The number of seconds to retain snapshots created through this schedule.
-	// Snapshot expiration time will not be set if this value is empty. Minimum value of 3600.
+	// The number of seconds to retain snapshots created with this schedule.
+	// Snapshot expiration time will not be set if this value is empty.
 	RetentionDurationInSeconds *int64 `mandatory:"false" json:"retentionDurationInSeconds"`
 
 	// The hour of the day to create a DAILY, WEEKLY, MONTHLY, or YEARLY snapshot.
 	// If not set, a value will be chosen at creation time.
 	HourOfDay *int `mandatory:"false" json:"hourOfDay"`
 
-	// The day of the week to execute snapshot creation.
+	// The day of the week to create a scheduled snapshot.
 	// Used for WEEKLY snapshot schedules.
 	DayOfWeek SnapshotScheduleDayOfWeekEnum `mandatory:"false" json:"dayOfWeek,omitempty"`
 
-	// The day of the month to schedule snapshot creation.
+	// The day of the month to create a scheduled snapshot.
 	// If the day does not exist for the month, snapshot creation will be skipped.
-	// Used for MONTHLY and YEARLY snapshots.
+	// Used for MONTHLY and YEARLY snapshot schedules.
 	DayOfMonth *int `mandatory:"false" json:"dayOfMonth"`
 
-	// The month to execute YEARLY snapshot creation.
+	// The month to create a scheduled snapshot.
+	// Used only for YEARLY snapshot schedules.
 	Month SnapshotScheduleMonthEnum `mandatory:"false" json:"month,omitempty"`
 }
 

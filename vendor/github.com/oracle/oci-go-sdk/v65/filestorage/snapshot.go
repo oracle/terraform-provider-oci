@@ -79,7 +79,7 @@ type Snapshot struct {
 	// The time when this snapshot will be deleted.
 	ExpirationTime *common.SDKTime `mandatory:"false" json:"expirationTime"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the FilesystemSnapshotPolicy this resource was generated through.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system snapshot policy that created this snapshot.
 	FilesystemSnapshotPolicyId *string `mandatory:"false" json:"filesystemSnapshotPolicyId"`
 }
 

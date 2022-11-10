@@ -16,14 +16,14 @@ import (
 	"strings"
 )
 
-// CreateFilesystemSnapshotPolicyDetails Details for creating the Filesystem Snapshot Policyt.
+// CreateFilesystemSnapshotPolicyDetails Details for creating the file system snapshot policy.
 type CreateFilesystemSnapshotPolicyDetails struct {
 
-	// The availability domain the Filesystem Snapshot Policy is in.
+	// The availability domain that the file system snapshot policy is in.
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the Filesystem Snapshot Policy.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the file system snapshot policy.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly name. It does not have to be unique, and it is changeable.
@@ -32,11 +32,10 @@ type CreateFilesystemSnapshotPolicyDetails struct {
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// The prefix to apply to all snapshots created by this policy.
-	// Maximum length of 100 characters.
 	// Example: `acme`
 	PolicyPrefix *string `mandatory:"false" json:"policyPrefix"`
 
-	// The list of associated SnapshotSchedule objects. There is a maximum of 10 associated with a policy.
+	// The list of associated snapshot schedules. A maximum of 10 schedules can be associated with a policy.
 	Schedules []SnapshotSchedule `mandatory:"false" json:"schedules"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair

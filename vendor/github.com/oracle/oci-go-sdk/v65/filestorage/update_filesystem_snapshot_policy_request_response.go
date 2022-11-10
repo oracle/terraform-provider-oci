@@ -14,10 +14,10 @@ import (
 // UpdateFilesystemSnapshotPolicyRequest wrapper for the UpdateFilesystemSnapshotPolicy operation
 type UpdateFilesystemSnapshotPolicyRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Filesystem Snapshot Policy.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system snapshot policy.
 	FilesystemSnapshotPolicyId *string `mandatory:"true" contributesTo:"path" name:"filesystemSnapshotPolicyId"`
 
-	// Details object for updating a Filesystem Snapshot Policy.
+	// Details object for updating a file system snapshot policy.
 	UpdateFilesystemSnapshotPolicyDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

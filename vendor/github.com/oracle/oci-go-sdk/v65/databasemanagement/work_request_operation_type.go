@@ -24,6 +24,7 @@ const (
 	WorkRequestOperationTypeDeleteDbManagementPrivateEndpoint WorkRequestOperationTypeEnum = "DELETE_DB_MANAGEMENT_PRIVATE_ENDPOINT"
 	WorkRequestOperationTypeCreateDbSystemDiscovery           WorkRequestOperationTypeEnum = "CREATE_DB_SYSTEM_DISCOVERY"
 	WorkRequestOperationTypeCreateDbSystem                    WorkRequestOperationTypeEnum = "CREATE_DB_SYSTEM"
+	WorkRequestOperationTypeUpdateDbSystem                    WorkRequestOperationTypeEnum = "UPDATE_DB_SYSTEM"
 	WorkRequestOperationTypeDbSystemEnableDbmgmt              WorkRequestOperationTypeEnum = "DB_SYSTEM_ENABLE_DBMGMT"
 	WorkRequestOperationTypeDbSystemDisableDbmgmt             WorkRequestOperationTypeEnum = "DB_SYSTEM_DISABLE_DBMGMT"
 	WorkRequestOperationTypeDeleteDbSystem                    WorkRequestOperationTypeEnum = "DELETE_DB_SYSTEM"
@@ -36,6 +37,7 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"DELETE_DB_MANAGEMENT_PRIVATE_ENDPOINT": WorkRequestOperationTypeDeleteDbManagementPrivateEndpoint,
 	"CREATE_DB_SYSTEM_DISCOVERY":            WorkRequestOperationTypeCreateDbSystemDiscovery,
 	"CREATE_DB_SYSTEM":                      WorkRequestOperationTypeCreateDbSystem,
+	"UPDATE_DB_SYSTEM":                      WorkRequestOperationTypeUpdateDbSystem,
 	"DB_SYSTEM_ENABLE_DBMGMT":               WorkRequestOperationTypeDbSystemEnableDbmgmt,
 	"DB_SYSTEM_DISABLE_DBMGMT":              WorkRequestOperationTypeDbSystemDisableDbmgmt,
 	"DELETE_DB_SYSTEM":                      WorkRequestOperationTypeDeleteDbSystem,
@@ -48,6 +50,7 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"delete_db_management_private_endpoint": WorkRequestOperationTypeDeleteDbManagementPrivateEndpoint,
 	"create_db_system_discovery":            WorkRequestOperationTypeCreateDbSystemDiscovery,
 	"create_db_system":                      WorkRequestOperationTypeCreateDbSystem,
+	"update_db_system":                      WorkRequestOperationTypeUpdateDbSystem,
 	"db_system_enable_dbmgmt":               WorkRequestOperationTypeDbSystemEnableDbmgmt,
 	"db_system_disable_dbmgmt":              WorkRequestOperationTypeDbSystemDisableDbmgmt,
 	"delete_db_system":                      WorkRequestOperationTypeDeleteDbSystem,
@@ -71,6 +74,7 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"DELETE_DB_MANAGEMENT_PRIVATE_ENDPOINT",
 		"CREATE_DB_SYSTEM_DISCOVERY",
 		"CREATE_DB_SYSTEM",
+		"UPDATE_DB_SYSTEM",
 		"DB_SYSTEM_ENABLE_DBMGMT",
 		"DB_SYSTEM_DISABLE_DBMGMT",
 		"DELETE_DB_SYSTEM",

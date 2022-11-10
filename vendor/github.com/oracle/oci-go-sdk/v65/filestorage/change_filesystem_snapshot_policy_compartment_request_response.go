@@ -14,10 +14,10 @@ import (
 // ChangeFilesystemSnapshotPolicyCompartmentRequest wrapper for the ChangeFilesystemSnapshotPolicyCompartment operation
 type ChangeFilesystemSnapshotPolicyCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Filesystem Snapshot Policy.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system snapshot policy.
 	FilesystemSnapshotPolicyId *string `mandatory:"true" contributesTo:"path" name:"filesystemSnapshotPolicyId"`
 
-	// Details for changing the compartment.
+	// Details for changing the compartment of a file system snapshot policy.
 	ChangeFilesystemSnapshotPolicyCompartmentDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

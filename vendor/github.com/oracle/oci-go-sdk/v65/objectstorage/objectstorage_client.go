@@ -64,7 +64,7 @@ func newObjectStorageClientFromBaseClient(baseClient common.BaseClient, configPr
 
 // SetRegion overrides the region of this client.
 func (client *ObjectStorageClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("objectstorage", "https://objectstorage.{region}.{secondLevelDomain}")
+	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("objectstorage", "https://objectstorage.{region}.{secondLevelDomain}", "objectstorage")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid

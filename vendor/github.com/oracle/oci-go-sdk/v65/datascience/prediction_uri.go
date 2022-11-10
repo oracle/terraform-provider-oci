@@ -2,14 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Database Management API
+// Data Science API
 //
-// Use the Database Management API to perform tasks such as obtaining performance and resource usage metrics
-// for a fleet of Managed Databases or a specific Managed Database, creating Managed Database Groups, and
-// running a SQL job on a Managed Database or Managed Database Group.
+// Use the Data Science API to organize your data science work, access data and computing resources, and build, train, deploy and manage models and model deployments. For more information, see Data Science (https://docs.oracle.com/iaas/data-science/using/data-science.htm).
 //
 
-package databasemanagement
+package datascience
 
 import (
 	"fmt"
@@ -17,24 +15,24 @@ import (
 	"strings"
 )
 
-// ScanListenerInternal Scan listener details.
-type ScanListenerInternal struct {
+// PredictionUri Prediction URI per use-case.
+type PredictionUri struct {
 
-	// The alias of the scan listener.
-	Alias *string `mandatory:"true" json:"alias"`
+	// Prediction use-case.
+	UseCase *string `mandatory:"true" json:"useCase"`
 
-	// Node name.
-	NodeName *string `mandatory:"true" json:"nodeName"`
+	// Prediction URI.
+	Uri *string `mandatory:"true" json:"uri"`
 }
 
-func (m ScanListenerInternal) String() string {
+func (m PredictionUri) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ScanListenerInternal) ValidateEnumValue() (bool, error) {
+func (m PredictionUri) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

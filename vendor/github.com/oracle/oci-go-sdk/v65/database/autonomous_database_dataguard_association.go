@@ -116,6 +116,7 @@ const (
 	AutonomousDatabaseDataguardAssociationRoleStandby         AutonomousDatabaseDataguardAssociationRoleEnum = "STANDBY"
 	AutonomousDatabaseDataguardAssociationRoleDisabledStandby AutonomousDatabaseDataguardAssociationRoleEnum = "DISABLED_STANDBY"
 	AutonomousDatabaseDataguardAssociationRoleBackupCopy      AutonomousDatabaseDataguardAssociationRoleEnum = "BACKUP_COPY"
+	AutonomousDatabaseDataguardAssociationRoleSnapshotStandby AutonomousDatabaseDataguardAssociationRoleEnum = "SNAPSHOT_STANDBY"
 )
 
 var mappingAutonomousDatabaseDataguardAssociationRoleEnum = map[string]AutonomousDatabaseDataguardAssociationRoleEnum{
@@ -123,6 +124,7 @@ var mappingAutonomousDatabaseDataguardAssociationRoleEnum = map[string]Autonomou
 	"STANDBY":          AutonomousDatabaseDataguardAssociationRoleStandby,
 	"DISABLED_STANDBY": AutonomousDatabaseDataguardAssociationRoleDisabledStandby,
 	"BACKUP_COPY":      AutonomousDatabaseDataguardAssociationRoleBackupCopy,
+	"SNAPSHOT_STANDBY": AutonomousDatabaseDataguardAssociationRoleSnapshotStandby,
 }
 
 var mappingAutonomousDatabaseDataguardAssociationRoleEnumLowerCase = map[string]AutonomousDatabaseDataguardAssociationRoleEnum{
@@ -130,6 +132,7 @@ var mappingAutonomousDatabaseDataguardAssociationRoleEnumLowerCase = map[string]
 	"standby":          AutonomousDatabaseDataguardAssociationRoleStandby,
 	"disabled_standby": AutonomousDatabaseDataguardAssociationRoleDisabledStandby,
 	"backup_copy":      AutonomousDatabaseDataguardAssociationRoleBackupCopy,
+	"snapshot_standby": AutonomousDatabaseDataguardAssociationRoleSnapshotStandby,
 }
 
 // GetAutonomousDatabaseDataguardAssociationRoleEnumValues Enumerates the set of values for AutonomousDatabaseDataguardAssociationRoleEnum
@@ -148,6 +151,7 @@ func GetAutonomousDatabaseDataguardAssociationRoleEnumStringValues() []string {
 		"STANDBY",
 		"DISABLED_STANDBY",
 		"BACKUP_COPY",
+		"SNAPSHOT_STANDBY",
 	}
 }
 
@@ -228,6 +232,7 @@ const (
 	AutonomousDatabaseDataguardAssociationPeerRoleStandby         AutonomousDatabaseDataguardAssociationPeerRoleEnum = "STANDBY"
 	AutonomousDatabaseDataguardAssociationPeerRoleDisabledStandby AutonomousDatabaseDataguardAssociationPeerRoleEnum = "DISABLED_STANDBY"
 	AutonomousDatabaseDataguardAssociationPeerRoleBackupCopy      AutonomousDatabaseDataguardAssociationPeerRoleEnum = "BACKUP_COPY"
+	AutonomousDatabaseDataguardAssociationPeerRoleSnapshotStandby AutonomousDatabaseDataguardAssociationPeerRoleEnum = "SNAPSHOT_STANDBY"
 )
 
 var mappingAutonomousDatabaseDataguardAssociationPeerRoleEnum = map[string]AutonomousDatabaseDataguardAssociationPeerRoleEnum{
@@ -235,6 +240,7 @@ var mappingAutonomousDatabaseDataguardAssociationPeerRoleEnum = map[string]Auton
 	"STANDBY":          AutonomousDatabaseDataguardAssociationPeerRoleStandby,
 	"DISABLED_STANDBY": AutonomousDatabaseDataguardAssociationPeerRoleDisabledStandby,
 	"BACKUP_COPY":      AutonomousDatabaseDataguardAssociationPeerRoleBackupCopy,
+	"SNAPSHOT_STANDBY": AutonomousDatabaseDataguardAssociationPeerRoleSnapshotStandby,
 }
 
 var mappingAutonomousDatabaseDataguardAssociationPeerRoleEnumLowerCase = map[string]AutonomousDatabaseDataguardAssociationPeerRoleEnum{
@@ -242,6 +248,7 @@ var mappingAutonomousDatabaseDataguardAssociationPeerRoleEnumLowerCase = map[str
 	"standby":          AutonomousDatabaseDataguardAssociationPeerRoleStandby,
 	"disabled_standby": AutonomousDatabaseDataguardAssociationPeerRoleDisabledStandby,
 	"backup_copy":      AutonomousDatabaseDataguardAssociationPeerRoleBackupCopy,
+	"snapshot_standby": AutonomousDatabaseDataguardAssociationPeerRoleSnapshotStandby,
 }
 
 // GetAutonomousDatabaseDataguardAssociationPeerRoleEnumValues Enumerates the set of values for AutonomousDatabaseDataguardAssociationPeerRoleEnum
@@ -260,6 +267,7 @@ func GetAutonomousDatabaseDataguardAssociationPeerRoleEnumStringValues() []strin
 		"STANDBY",
 		"DISABLED_STANDBY",
 		"BACKUP_COPY",
+		"SNAPSHOT_STANDBY",
 	}
 }
 

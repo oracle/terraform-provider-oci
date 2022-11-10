@@ -1308,59 +1308,6 @@ func (client DbManagementClient) createTablespace(ctx context.Context, request c
 	return response, err
 }
 
-// DeleteDatabaseAssociations Deletes the associations to the External Database.
-func (client DbManagementClient) DeleteDatabaseAssociations(ctx context.Context, request DeleteDatabaseAssociationsRequest) (response DeleteDatabaseAssociationsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deleteDatabaseAssociations, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteDatabaseAssociationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteDatabaseAssociationsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteDatabaseAssociationsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteDatabaseAssociationsResponse")
-	}
-	return
-}
-
-// deleteDatabaseAssociations implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) deleteDatabaseAssociations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/internal/externalDbSystems/associatedDatabases/{externalDatabaseId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteDatabaseAssociationsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/DbSystemInternal/DeleteDatabaseAssociations"
-		err = common.PostProcessServiceError(err, "DbManagement", "DeleteDatabaseAssociations", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // DeleteDbManagementPrivateEndpoint Deletes a specific Database Management private endpoint.
 func (client DbManagementClient) DeleteDbManagementPrivateEndpoint(ctx context.Context, request DeleteDbManagementPrivateEndpointRequest) (response DeleteDbManagementPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6811,65 +6758,6 @@ func (client DbManagementClient) loadSqlPlanBaselinesFromCursorCache(ctx context
 	return response, err
 }
 
-// LookupDbSystem Lookup Dbsystem and associated components
-// A default retry strategy applies to this operation LookupDbSystem()
-func (client DbManagementClient) LookupDbSystem(ctx context.Context, request LookupDbSystemRequest) (response LookupDbSystemResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.lookupDbSystem, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = LookupDbSystemResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = LookupDbSystemResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(LookupDbSystemResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into LookupDbSystemResponse")
-	}
-	return
-}
-
-// lookupDbSystem implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) lookupDbSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internal/externalDbSystems/actions/lookupDbSystem", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response LookupDbSystemResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/DbSystemInternal/LookupDbSystem"
-		err = common.PostProcessServiceError(err, "DbManagement", "LookupDbSystem", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // PatchExternalDbSystemDiscovery Patches the external DB system discovery specified by `externalDbSystemDiscoveryId`.
 func (client DbManagementClient) PatchExternalDbSystemDiscovery(ctx context.Context, request PatchExternalDbSystemDiscoveryRequest) (response PatchExternalDbSystemDiscoveryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8074,6 +7962,61 @@ func (client DbManagementClient) summarizeJobExecutionsStatuses(ctx context.Cont
 	return response, err
 }
 
+// SummarizeManagedDatabaseAvailabilityMetrics Gets the availability metrics related to managed database for the Oracle
+// database specified by managedDatabaseId.
+// A default retry strategy applies to this operation SummarizeManagedDatabaseAvailabilityMetrics()
+func (client DbManagementClient) SummarizeManagedDatabaseAvailabilityMetrics(ctx context.Context, request SummarizeManagedDatabaseAvailabilityMetricsRequest) (response SummarizeManagedDatabaseAvailabilityMetricsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeManagedDatabaseAvailabilityMetrics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeManagedDatabaseAvailabilityMetricsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeManagedDatabaseAvailabilityMetricsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeManagedDatabaseAvailabilityMetricsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeManagedDatabaseAvailabilityMetricsResponse")
+	}
+	return
+}
+
+// summarizeManagedDatabaseAvailabilityMetrics implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) summarizeManagedDatabaseAvailabilityMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/availabilityMetrics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeManagedDatabaseAvailabilityMetricsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/SummarizeManagedDatabaseAvailabilityMetrics"
+		err = common.PostProcessServiceError(err, "DbManagement", "SummarizeManagedDatabaseAvailabilityMetrics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // SummarizeSqlPlanBaselines Get counts of SQL plan baselines aggregated by their attributes.
 // A default retry strategy applies to this operation SummarizeSqlPlanBaselines()
 func (client DbManagementClient) SummarizeSqlPlanBaselines(ctx context.Context, request SummarizeSqlPlanBaselinesRequest) (response SummarizeSqlPlanBaselinesResponse, err error) {
@@ -8917,65 +8860,6 @@ func (client DbManagementClient) updateTablespace(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/Tablespace/UpdateTablespace"
 		err = common.PostProcessServiceError(err, "DbManagement", "UpdateTablespace", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UploadDiscovery Upload scheduled discovery details.
-// A default retry strategy applies to this operation UploadDiscovery()
-func (client DbManagementClient) UploadDiscovery(ctx context.Context, request UploadDiscoveryRequest) (response UploadDiscoveryResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.uploadDiscovery, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UploadDiscoveryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UploadDiscoveryResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UploadDiscoveryResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UploadDiscoveryResponse")
-	}
-	return
-}
-
-// uploadDiscovery implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) uploadDiscovery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internal/externalDbSystems/actions/uploadChanges", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UploadDiscoveryResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/DbSystemInternal/UploadDiscovery"
-		err = common.PostProcessServiceError(err, "DbManagement", "UploadDiscovery", apiReferenceLink)
 		return response, err
 	}
 

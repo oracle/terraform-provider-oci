@@ -141,7 +141,7 @@ func (client FileStorageClient) changeFileSystemCompartment(ctx context.Context,
 	return response, err
 }
 
-// ChangeFilesystemSnapshotPolicyCompartment Moves a Filesystem Snapshot Policy into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
+// ChangeFilesystemSnapshotPolicyCompartment Moves a file system snapshot policy into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client FileStorageClient) ChangeFilesystemSnapshotPolicyCompartment(ctx context.Context, request ChangeFilesystemSnapshotPolicyCompartmentRequest) (response ChangeFilesystemSnapshotPolicyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -603,10 +603,10 @@ func (client FileStorageClient) createFileSystem(ctx context.Context, request co
 	return response, err
 }
 
-// CreateFilesystemSnapshotPolicy Creates a new Filesystem Snapshot Policy in the specified compartment and
+// CreateFilesystemSnapshotPolicy Creates a new file system snapshot policy in the specified compartment and
 // availability domain.
-// After you create a Filesystem Snapshot Policy, you can associate it with
-// filesystems.
+// After you create a file system snapshot policy, you can associate it with
+// file systems.
 func (client FileStorageClient) CreateFilesystemSnapshotPolicy(ctx context.Context, request CreateFilesystemSnapshotPolicyRequest) (response CreateFilesystemSnapshotPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1247,7 +1247,7 @@ func (client FileStorageClient) deleteFileSystem(ctx context.Context, request co
 	return response, err
 }
 
-// DeleteFilesystemSnapshotPolicy Deletes the specified Filesystem Snapshot Policy.
+// DeleteFilesystemSnapshotPolicy Deletes the specified file system snapshot policy.
 func (client FileStorageClient) DeleteFilesystemSnapshotPolicy(ctx context.Context, request DeleteFilesystemSnapshotPolicyRequest) (response DeleteFilesystemSnapshotPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1996,7 +1996,7 @@ func (client FileStorageClient) getFileSystem(ctx context.Context, request commo
 	return response, err
 }
 
-// GetFilesystemSnapshotPolicy Gets the specified Filesystem Snapshot Policy's information.
+// GetFilesystemSnapshotPolicy Gets the specified file system snapshot policy's information.
 func (client FileStorageClient) GetFilesystemSnapshotPolicy(ctx context.Context, request GetFilesystemSnapshotPolicyRequest) (response GetFilesystemSnapshotPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2635,7 +2635,7 @@ func (client FileStorageClient) listExports(ctx context.Context, request common.
 }
 
 // ListFileSystems Lists the file system resources in the specified compartment, or by the specified compartment and
-// filesystem snapshot policy.
+// file system snapshot policy.
 func (client FileStorageClient) ListFileSystems(ctx context.Context, request ListFileSystemsRequest) (response ListFileSystemsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2688,7 +2688,7 @@ func (client FileStorageClient) listFileSystems(ctx context.Context, request com
 	return response, err
 }
 
-// ListFilesystemSnapshotPolicies Lists Filesystem Snapshot Policies in the specified compartment.
+// ListFilesystemSnapshotPolicies Lists file system snapshot policies in the specified compartment.
 func (client FileStorageClient) ListFilesystemSnapshotPolicies(ctx context.Context, request ListFilesystemSnapshotPoliciesRequest) (response ListFilesystemSnapshotPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3077,9 +3077,9 @@ func (client FileStorageClient) listShares(ctx context.Context, request common.O
 	return response, err
 }
 
-// ListSnapshots Lists snapshots of the specified file system, or by filesystem snapshot policy and compartment,
-// or by filesystem snapshot policy and filesystem.
-// If file system ID is not specified, a filesystem snapshot policy ID and compartment ID have to be specified.
+// ListSnapshots Lists snapshots of the specified file system, or by file system snapshot policy and compartment,
+// or by file system snapshot policy and file system.
+// If file system ID is not specified, a file system snapshot policy ID and compartment ID must be specified.
 func (client FileStorageClient) ListSnapshots(ctx context.Context, request ListSnapshotsRequest) (response ListSnapshotsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3185,12 +3185,12 @@ func (client FileStorageClient) modifyRootdirAttributes(ctx context.Context, req
 	return response, err
 }
 
-// PauseFilesystemSnapshotPolicy This operation pauses the scheduled snapshot creation and deletion of the policy and updates the filesystem
-// snapshot policy from ACTIVE to INACTIVE state. If the policy is already paused, i.e. in INACTIVE state, the
-// policy will remain paused. You cannot not pause a policy that is in DELETING, DELETED, FAILED, or CREATING
-// state: a 409 conflict error would be returned if you do so.
-// When a filesystem snapshot policy is paused, i.e. in INACTIVE state, filesystems that are associated with the
-// policy would not have scheduled snapshot creation and deletion.
+// PauseFilesystemSnapshotPolicy This operation pauses the scheduled snapshot creation and snapshot deletion of the policy and updates the lifecycle state of the file system
+// snapshot policy from ACTIVE to INACTIVE. When a file system snapshot policy is paused, file systems that are associated with the
+// policy will not have scheduled snapshots created or deleted.
+// If the policy is already paused, or in the INACTIVE state, the
+// policy will remain paused. You can't pause a policy that is in a DELETING, DELETED, FAILED, or CREATING
+// state; attempts to pause a policy in these states result in a 409 conflict error.
 func (client FileStorageClient) PauseFilesystemSnapshotPolicy(ctx context.Context, request PauseFilesystemSnapshotPolicyRequest) (response PauseFilesystemSnapshotPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4101,12 +4101,10 @@ func (client FileStorageClient) testOutboundConnector(ctx context.Context, reque
 	return response, err
 }
 
-// UnpauseFilesystemSnapshotPolicy This operation unpauses a paused filesystem snapshot policy and updates the filesystem snapshot policy from
-// INACTIVE to ACTIVE state. If the policy is already in ACTIVE state, the policy will remain active. By default,
-// filesystem snapshot policies are in ACTIVE state. You cannot not unpause a policy that is in DELETING, DELETED,
-// FAILED, or CREATING state: a 409 conflict error would be returned if you do so.
-// When a filesystem snapshot policy is not paused, i.e. in ACTIVE state, filesystems that are associated with the
-// policy will have snapshots created / deleted, according to the schedules defined in the policy.
+// UnpauseFilesystemSnapshotPolicy This operation unpauses a paused file system snapshot policy and updates the lifecycle state of the file system snapshot policy from
+// INACTIVE to ACTIVE. By default, file system snapshot policies are in the ACTIVE state. When a file system snapshot policy is not paused, or in the ACTIVE state, file systems that are associated with the
+// policy will have snapshots created and deleted according to the schedules defined in the policy.
+// If the policy is already in the ACTIVE state, the policy will remain active. You can't unpause a policy that is in a DELETING, DELETED, FAILED, or CREATING state; attempts to unpause a policy in these states result in a 409 conflict error.
 func (client FileStorageClient) UnpauseFilesystemSnapshotPolicy(ctx context.Context, request UnpauseFilesystemSnapshotPolicyRequest) (response UnpauseFilesystemSnapshotPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4319,7 +4317,7 @@ func (client FileStorageClient) updateFileSystem(ctx context.Context, request co
 	return response, err
 }
 
-// UpdateFilesystemSnapshotPolicy Updates the specified Filesystem Snapshot Policy's information.
+// UpdateFilesystemSnapshotPolicy Updates the specified file system snapshot policy's information.
 func (client FileStorageClient) UpdateFilesystemSnapshotPolicy(ctx context.Context, request UpdateFilesystemSnapshotPolicyRequest) (response UpdateFilesystemSnapshotPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

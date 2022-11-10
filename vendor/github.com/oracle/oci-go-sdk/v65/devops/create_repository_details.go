@@ -24,7 +24,9 @@ type CreateRepositoryDetails struct {
 	// The OCID of the DevOps project containing the repository.
 	ProjectId *string `mandatory:"true" json:"projectId"`
 
-	// Type of repository.
+	// Type of repository. Allowed values:
+	// `MIRRORED`
+	// `HOSTED`
 	RepositoryType RepositoryRepositoryTypeEnum `mandatory:"true" json:"repositoryType"`
 
 	// The default branch of the repository.

@@ -16,25 +16,27 @@ import (
 	"strings"
 )
 
-// FilesystemSnapshotPolicy The Filesystem Snapshot Policy is a resource that governs policy-based snapshots of associated
-// filesystems. It contains a list of SnapshotSchedules where users can define the frequency of
-// snapshot creation for the associated filesystems, and the retention time of the taken snapshots.
+// FilesystemSnapshotPolicy A file system snapshot policy governs policy-based snapshots of associated
+// file systems. It contains a list of snapshot schedules that define the frequency of
+// snapshot creation for the associated file systems and the retention period of snapshots taken on schedule.
+// For more information, see Snapshot Scheduling (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/snapshot-policies-and-schedules.htm).
+// To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see Getting Started with Policies (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 type FilesystemSnapshotPolicy struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the Filesystem Snapshot Policy.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the file system snapshot policy.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The availability domain the Filesystem Snapshot Policy is in. May be unset as a blank or NULL value.
+	// The availability domain that the file system snapshot policy is in. May be unset using a blank or NULL value.
 	// Example: `Uocm:PHX-AD-2`
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Filesystem Snapshot Policy.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system snapshot policy.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The current state of the Filesystem Snapshot Policy.
+	// The current state of the file system snapshot policy.
 	LifecycleState FilesystemSnapshotPolicyLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The date and time the Filesystem Snapshot Policy was created, expressed
+	// The date and time the file system snapshot policy was created, expressed
 	// in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
@@ -45,11 +47,10 @@ type FilesystemSnapshotPolicy struct {
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// The prefix to apply to all snapshots created by this policy.
-	// Maximum length of 100 characters.
 	// Example: `acme`
 	PolicyPrefix *string `mandatory:"false" json:"policyPrefix"`
 
-	// The list of associated SnapshotSchedule objects. There is a maximum of 10 associated with a policy.
+	// The list of associated snapshot schedules. A maximum of 10 schedules can be associated with a policy.
 	Schedules []SnapshotSchedule `mandatory:"false" json:"schedules"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair

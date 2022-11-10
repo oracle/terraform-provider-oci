@@ -42,7 +42,7 @@ type UpdateFileSystemDetails struct {
 	// to be accessible. For more information, see Overview of Key Management (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm).
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the associated Filesystem Snapshot Policy, which
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the associated file system snapshot policy, which
 	// controls the frequency of snapshot creation and retention period of the taken snapshots.
 	// If string is empty, the policy reference (if any) would be removed.
 	FilesystemSnapshotPolicyId *string `mandatory:"false" json:"filesystemSnapshotPolicyId"`

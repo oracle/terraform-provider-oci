@@ -14,7 +14,7 @@ import (
 // UnpauseFilesystemSnapshotPolicyRequest wrapper for the UnpauseFilesystemSnapshotPolicy operation
 type UnpauseFilesystemSnapshotPolicyRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Filesystem Snapshot Policy.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system snapshot policy.
 	FilesystemSnapshotPolicyId *string `mandatory:"true" contributesTo:"path" name:"filesystemSnapshotPolicyId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call
@@ -76,8 +76,16 @@ type UnpauseFilesystemSnapshotPolicyResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// Unique Oracle-assigned identifier for the request.
+	// The FilesystemSnapshotPolicy instance
+	FilesystemSnapshotPolicy `presentIn:"body"`
+
+	// Unique Oracle-assigned identifier for the request. If
+	// you need to contact Oracle about a particular request,
+	// please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// For optimistic concurrency control. See `if-match`.
+	Etag *string `presentIn:"header" name:"etag"`
 }
 
 func (response UnpauseFilesystemSnapshotPolicyResponse) String() string {

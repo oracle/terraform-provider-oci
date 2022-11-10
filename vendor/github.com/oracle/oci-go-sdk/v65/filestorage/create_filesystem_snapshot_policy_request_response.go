@@ -14,7 +14,7 @@ import (
 // CreateFilesystemSnapshotPolicyRequest wrapper for the CreateFilesystemSnapshotPolicy operation
 type CreateFilesystemSnapshotPolicyRequest struct {
 
-	// Details for creating a new Filesystem Snapshot Policy.
+	// Details for creating a new file system snapshot policy.
 	CreateFilesystemSnapshotPolicyDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

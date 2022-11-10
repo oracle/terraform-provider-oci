@@ -30,8 +30,8 @@ type UpdateSnapshotDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The UTC time when this snapshot will be deleted. To remove the expirationTime, set this field
-	// to be the min value of DateTime, Date(0) i.e. Thu Jan 01 01:00:00 GMT 1970.
+	// The UTC time when this snapshot will be deleted. To remove the expiration time, set this field to the minimum date-time value using Date(0).
+	// Example: `Thu Jan 01 01:00:00 GMT 1970`
 	ExpirationTime *common.SDKTime `mandatory:"false" json:"expirationTime"`
 }
 

@@ -16,23 +16,23 @@ import (
 	"strings"
 )
 
-// FilesystemSnapshotPolicySummary Summary information for a Filesystem Snapshot Policy.
+// FilesystemSnapshotPolicySummary Summary information for a file system snapshot policy.
 type FilesystemSnapshotPolicySummary struct {
 
-	// The availability domain the Filesystem Snapshot Policy is in.
+	// The availability domain that the file system snapshot policy is in.
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the Filesystem Snapshot Policy.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the file system snapshot policy.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Filesystem Snapshot Policy.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system snapshot policy.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The current state of this Filesystem Snapshot Policy.
+	// The current state of this file system snapshot policy.
 	LifecycleState FilesystemSnapshotPolicySummaryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The date and time the Filesystem Snapshot Policy was created
+	// The date and time that the file system snapshot policy was created
 	// in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
 	// Example: `2020-02-04T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
@@ -43,7 +43,6 @@ type FilesystemSnapshotPolicySummary struct {
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// The prefix to apply to all snapshots created by this policy.
-	// Maximum length of 100 characters.
 	// Example: `acme`
 	PolicyPrefix *string `mandatory:"false" json:"policyPrefix"`
 

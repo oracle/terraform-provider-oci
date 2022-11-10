@@ -43,6 +43,9 @@ type PreauthenticatedRequestSummary struct {
 	// Deny: Prevents the user from performing a list operation.
 	// ListObjects: Authorizes the user to perform a list operation.
 	BucketListingAction PreauthenticatedRequestBucketListingActionEnum `mandatory:"false" json:"bucketListingAction,omitempty"`
+
+	// queryExpression field is required for PARs for querying objects.
+	QueryExpression *string `mandatory:"false" json:"queryExpression"`
 }
 
 func (m PreauthenticatedRequestSummary) String() string {
@@ -78,6 +81,7 @@ const (
 	PreauthenticatedRequestSummaryAccessTypeAnyobjectwrite     PreauthenticatedRequestSummaryAccessTypeEnum = "AnyObjectWrite"
 	PreauthenticatedRequestSummaryAccessTypeAnyobjectread      PreauthenticatedRequestSummaryAccessTypeEnum = "AnyObjectRead"
 	PreauthenticatedRequestSummaryAccessTypeAnyobjectreadwrite PreauthenticatedRequestSummaryAccessTypeEnum = "AnyObjectReadWrite"
+	PreauthenticatedRequestSummaryAccessTypeObjectquery        PreauthenticatedRequestSummaryAccessTypeEnum = "ObjectQuery"
 )
 
 var mappingPreauthenticatedRequestSummaryAccessTypeEnum = map[string]PreauthenticatedRequestSummaryAccessTypeEnum{
@@ -87,6 +91,7 @@ var mappingPreauthenticatedRequestSummaryAccessTypeEnum = map[string]Preauthenti
 	"AnyObjectWrite":     PreauthenticatedRequestSummaryAccessTypeAnyobjectwrite,
 	"AnyObjectRead":      PreauthenticatedRequestSummaryAccessTypeAnyobjectread,
 	"AnyObjectReadWrite": PreauthenticatedRequestSummaryAccessTypeAnyobjectreadwrite,
+	"ObjectQuery":        PreauthenticatedRequestSummaryAccessTypeObjectquery,
 }
 
 var mappingPreauthenticatedRequestSummaryAccessTypeEnumLowerCase = map[string]PreauthenticatedRequestSummaryAccessTypeEnum{
@@ -96,6 +101,7 @@ var mappingPreauthenticatedRequestSummaryAccessTypeEnumLowerCase = map[string]Pr
 	"anyobjectwrite":     PreauthenticatedRequestSummaryAccessTypeAnyobjectwrite,
 	"anyobjectread":      PreauthenticatedRequestSummaryAccessTypeAnyobjectread,
 	"anyobjectreadwrite": PreauthenticatedRequestSummaryAccessTypeAnyobjectreadwrite,
+	"objectquery":        PreauthenticatedRequestSummaryAccessTypeObjectquery,
 }
 
 // GetPreauthenticatedRequestSummaryAccessTypeEnumValues Enumerates the set of values for PreauthenticatedRequestSummaryAccessTypeEnum
@@ -116,6 +122,7 @@ func GetPreauthenticatedRequestSummaryAccessTypeEnumStringValues() []string {
 		"AnyObjectWrite",
 		"AnyObjectRead",
 		"AnyObjectReadWrite",
+		"ObjectQuery",
 	}
 }
 
