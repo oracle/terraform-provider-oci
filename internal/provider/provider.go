@@ -150,7 +150,6 @@ func SchemaMap() map[string]*schema.Schema {
 		globalvar.PrivateKeyAttrName: {
 			Type:        schema.TypeString,
 			Optional:    true,
-			Default:     "",
 			Sensitive:   true,
 			Description: descriptions[globalvar.PrivateKeyAttrName],
 			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.PrivateKeyAttrName), ociVarName(globalvar.PrivateKeyAttrName)}, nil),
@@ -159,15 +158,14 @@ func SchemaMap() map[string]*schema.Schema {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Description: descriptions[globalvar.PrivateKeyPathAttrName],
-			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.PrivateKeyPathAttrName), ociVarName(globalvar.PrivateKeyPathAttrName)}, nil),
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.PrivateKeyPathAttrName), ociVarName(globalvar.PrivateKeyPathAttrName)}, ""),
 		},
 		globalvar.PrivateKeyPasswordAttrName: {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Sensitive:   true,
-			Default:     "",
 			Description: descriptions[globalvar.PrivateKeyPasswordAttrName],
-			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.PrivateKeyPasswordAttrName), ociVarName(globalvar.PrivateKeyPasswordAttrName)}, nil),
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.PrivateKeyPasswordAttrName), ociVarName(globalvar.PrivateKeyPasswordAttrName)}, ""),
 		},
 		globalvar.RegionAttrName: {
 			Type:        schema.TypeString,
