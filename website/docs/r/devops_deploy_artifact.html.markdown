@@ -95,6 +95,17 @@ The following attributes are exported:
 * `time_created` - Time the deployment artifact was created. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
 * `time_updated` - Time the deployment artifact was updated. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
 
+<<<<<<< ours
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Deploy Artifact
+	* `update` - (Defaults to 20 minutes), when updating the Deploy Artifact
+	* `delete` - (Defaults to 20 minutes), when destroying the Deploy Artifact
+
+
+=======
+>>>>>>> theirs
 ## Import
 
 DeployArtifacts can be imported using the `id`, e.g.
