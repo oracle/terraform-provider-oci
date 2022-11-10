@@ -9,7 +9,7 @@ description: |-
 
 # oci_dns_record
 
-**Deprecated. Use [oci_dns_rrset](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/resources/dns_rrset) instead.**
+**Deprecated. Use [oci_dns_rrset](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/dns_rrset) instead.**
 
 This resource provides the Record resource in Oracle Cloud Infrastructure DNS service.
 
@@ -67,7 +67,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Record
 	* `update` - (Defaults to 20 minutes), when updating the Record
 	* `delete` - (Defaults to 20 minutes), when destroying the Record

@@ -122,7 +122,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Ingress Gateway Route Table
 	* `update` - (Defaults to 20 minutes), when updating the Ingress Gateway Route Table
 	* `delete` - (Defaults to 20 minutes), when destroying the Ingress Gateway Route Table

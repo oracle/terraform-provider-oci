@@ -34,12 +34,6 @@ resource "oci_database_vm_cluster_network" "test_vm_cluster_network" {
 	}
 	vm_networks {
 		#Required
-<<<<<<< ours
-=======
-		domain_name = var.vm_cluster_network_vm_networks_domain_name
-		gateway = var.vm_cluster_network_vm_networks_gateway
-		netmask = var.vm_cluster_network_vm_networks_netmask
->>>>>>> theirs
 		network_type = var.vm_cluster_network_vm_networks_network_type
 		nodes {
 			#Required
@@ -86,7 +80,7 @@ The following arguments are supported:
 	* `port` - (Required) (Updatable) The SCAN TCPIP port. Default is 1521.
 	* `scan_listener_port_tcp` - (Optional) (Updatable) The SCAN TCPIP port. Default is 1521.
 	* `scan_listener_port_tcp_ssl` - (Optional) (Updatable) The SCAN TCPIP SSL port. Default is 2484.
-* `validate_vm_cluster_network` - (Optional) (Updatable) A boolean flag indicating whether or not to validate VM cluster network after creation. Updates are not allowed on validated exadata VM cluster network. Note: Deleting a [VM Cluster](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/resources/database_vm_cluster) resource puts a VM Cluster Network in `REQUIRES_VALIDATION` state. This results in `After applying this step and refreshing, the plan was not empty` error and users should apply the terraform configuration again to validate the VM Cluster Network.
+* `validate_vm_cluster_network` - (Optional) (Updatable) A boolean flag indicating whether or not to validate VM cluster network after creation. Updates are not allowed on validated exadata VM cluster network. Note: Deleting a [VM Cluster](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/database_vm_cluster) resource puts a VM Cluster Network in `REQUIRES_VALIDATION` state. This results in `After applying this step and refreshing, the plan was not empty` error and users should apply the terraform configuration again to validate the VM Cluster Network.
 * `vm_networks` - (Required) (Updatable) Details of the client and backup networks.
 	* `domain_name` - (Optional) (Updatable) The network domain name.
 	* `gateway` - (Optional) (Updatable) The network gateway.
@@ -143,7 +137,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Vm Cluster Network
 	* `update` - (Defaults to 20 minutes), when updating the Vm Cluster Network
 	* `delete` - (Defaults to 20 minutes), when destroying the Vm Cluster Network

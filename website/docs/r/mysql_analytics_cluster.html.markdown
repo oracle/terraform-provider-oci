@@ -56,7 +56,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 1 hours), when creating the Analytics Cluster
 	* `update` - (Defaults to 1 hours), when updating the Analytics Cluster
 	* `delete` - (Defaults to 1 hours), when destroying the Analytics Cluster

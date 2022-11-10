@@ -40,7 +40,7 @@ Any change to a property that does not support update will force the destruction
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 1 hours), when creating the Purge Cache
 	* `update` - (Defaults to 1 hours), when updating the Purge Cache
 	* `delete` - (Defaults to 1 hours), when destroying the Purge Cache

@@ -40,7 +40,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Unset User Assessment Baseline
 	* `update` - (Defaults to 20 minutes), when updating the Unset User Assessment Baseline
 	* `delete` - (Defaults to 20 minutes), when destroying the Unset User Assessment Baseline
