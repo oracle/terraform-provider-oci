@@ -75,7 +75,6 @@ func (m *updatedrprotectiongroupmemberdetails) UnmarshalPolymorphicJSON(data []b
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for UpdateDrProtectionGroupMemberDetails: %s.", m.MemberType)
 		return *m, nil
 	}
 }
