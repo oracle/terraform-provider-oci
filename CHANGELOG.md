@@ -1,3 +1,11 @@
+## 4.100.0 (Unreleased)
+
+### Added
+- Support for mTLS and Scan port configuration of AVM Clusters on ExaCC
+- Support for Dev and Deployment of Site Guard as Service in OCI
+### Bug Fix
+- auto_backup_window field is not updated for dbSystem / database resource
+
 ## 4.99.0 (November 09, 2022)
 
 ### Added
