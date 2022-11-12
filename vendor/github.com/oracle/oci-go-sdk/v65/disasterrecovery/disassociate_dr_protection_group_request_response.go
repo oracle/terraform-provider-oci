@@ -12,6 +12,10 @@ import (
 )
 
 // DisassociateDrProtectionGroupRequest wrapper for the DisassociateDrProtectionGroup operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/DisassociateDrProtectionGroup.go.html to see an example of how to use DisassociateDrProtectionGroupRequest.
 type DisassociateDrProtectionGroupRequest struct {
 
 	// Details for removing an association between two DR Protection Groups.

@@ -2083,6 +2083,122 @@ func (client ResourceManagerClient) listConfigurationSourceProviders(ctx context
 	return response, err
 }
 
+// ListJobAssociatedResources Gets the list of resources associated with the specified job.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListJobAssociatedResources.go.html to see an example of how to use ListJobAssociatedResources API.
+// A default retry strategy applies to this operation ListJobAssociatedResources()
+func (client ResourceManagerClient) ListJobAssociatedResources(ctx context.Context, request ListJobAssociatedResourcesRequest) (response ListJobAssociatedResourcesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listJobAssociatedResources, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListJobAssociatedResourcesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListJobAssociatedResourcesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListJobAssociatedResourcesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListJobAssociatedResourcesResponse")
+	}
+	return
+}
+
+// listJobAssociatedResources implements the OCIOperation interface (enables retrying operations)
+func (client ResourceManagerClient) listJobAssociatedResources(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobs/{jobId}/associatedResources", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListJobAssociatedResourcesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/AssociatedResourceSummary/ListJobAssociatedResources"
+		err = common.PostProcessServiceError(err, "ResourceManager", "ListJobAssociatedResources", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListJobOutputs Gets the list of outputs associated with the specified job.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListJobOutputs.go.html to see an example of how to use ListJobOutputs API.
+// A default retry strategy applies to this operation ListJobOutputs()
+func (client ResourceManagerClient) ListJobOutputs(ctx context.Context, request ListJobOutputsRequest) (response ListJobOutputsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listJobOutputs, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListJobOutputsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListJobOutputsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListJobOutputsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListJobOutputsResponse")
+	}
+	return
+}
+
+// listJobOutputs implements the OCIOperation interface (enables retrying operations)
+func (client ResourceManagerClient) listJobOutputs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobs/{jobId}/outputs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListJobOutputsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/JobOutputSummary/ListJobOutputs"
+		err = common.PostProcessServiceError(err, "ResourceManager", "ListJobOutputs", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListJobs Lists jobs according to the specified filter. By default, the list is ordered by time created.
 // - To list all jobs in a stack, provide the stack OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // - To list all jobs in a compartment, provide the compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
@@ -2256,6 +2372,64 @@ func (client ResourceManagerClient) listResourceDiscoveryServices(ctx context.Co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Stack/ListResourceDiscoveryServices"
 		err = common.PostProcessServiceError(err, "ResourceManager", "ListResourceDiscoveryServices", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListStackAssociatedResources Gets the list of resources associated with the specified stack.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListStackAssociatedResources.go.html to see an example of how to use ListStackAssociatedResources API.
+// A default retry strategy applies to this operation ListStackAssociatedResources()
+func (client ResourceManagerClient) ListStackAssociatedResources(ctx context.Context, request ListStackAssociatedResourcesRequest) (response ListStackAssociatedResourcesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listStackAssociatedResources, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListStackAssociatedResourcesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListStackAssociatedResourcesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListStackAssociatedResourcesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListStackAssociatedResourcesResponse")
+	}
+	return
+}
+
+// listStackAssociatedResources implements the OCIOperation interface (enables retrying operations)
+func (client ResourceManagerClient) listStackAssociatedResources(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/stacks/{stackId}/associatedResources", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListStackAssociatedResourcesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/AssociatedResourceSummary/ListStackAssociatedResources"
+		err = common.PostProcessServiceError(err, "ResourceManager", "ListStackAssociatedResources", apiReferenceLink)
 		return response, err
 	}
 
