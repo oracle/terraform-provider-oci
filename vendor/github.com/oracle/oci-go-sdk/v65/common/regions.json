@@ -376,5 +376,11 @@
         "realmDomainComponent": "oraclecloud17.com", 
         "regionIdentifier": "us-dcc-phoenix-4", 
         "realmKey": "oc17"
+    }, 
+    {
+        "regionKey": "vll", 
+        "realmDomainComponent": "oraclecloud.eu", 
+        "regionIdentifier": "eu-madrid-2", 
+        "realmKey": "oc19"
     }
 ]
