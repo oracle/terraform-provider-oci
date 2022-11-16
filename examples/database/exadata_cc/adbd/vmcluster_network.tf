@@ -29,11 +29,13 @@ resource "oci_database_vm_cluster_network" "test_vm_cluster_network" {
     nodes {
       hostname = "myprefix2-cghdm1"
       ip       = "192.169.19.18"
+      db_server_id = data.oci_database_db_servers.test_db_servers.db_servers.0.id
     }
 
     nodes {
       hostname = "myprefix2-cghdm2"
       ip       = "192.169.19.20"
+      db_server_id = data.oci_database_db_servers.test_db_servers.db_servers.1.id
     }
 
     vlan_id = "11"
@@ -50,6 +52,7 @@ resource "oci_database_vm_cluster_network" "test_vm_cluster_network" {
       ip           = "192.168.19.10"
       vip          = "192.168.19.11"
       vip_hostname = "myprefix1-r64zc1-vip"
+      db_server_id = data.oci_database_db_servers.test_db_servers.db_servers.0.id
     }
 
     nodes {
@@ -57,6 +60,7 @@ resource "oci_database_vm_cluster_network" "test_vm_cluster_network" {
       ip           = "192.168.19.14"
       vip          = "192.168.19.15"
       vip_hostname = "myprefix1-r64zc2-vip"
+      db_server_id = data.oci_database_db_servers.test_db_servers.db_servers.1.id
     }
 
     vlan_id = "10"
@@ -72,6 +76,12 @@ resource "oci_database_vm_cluster_network" "test_vm_cluster_network" {
   }
 
   validate_vm_cluster_network = true
+  action = "ADD_DBSERVER_NETWORK"
+  lifecycle {
+    ignore_changes = [
+      vm_networks,
+    ]
+  }
 }
 
 resource "oci_database_vm_cluster_network" "test_vm_cluster_network2" {
@@ -105,11 +115,13 @@ resource "oci_database_vm_cluster_network" "test_vm_cluster_network2" {
     nodes {
       hostname = "myprefix3-cghdm1"
       ip       = "192.169.19.48"
+      db_server_id = data.oci_database_db_servers.test_db_servers.db_servers.0.id
     }
 
     nodes {
       hostname = "myprefix3-cghdm2"
       ip       = "192.169.19.50"
+      db_server_id = data.oci_database_db_servers.test_db_servers.db_servers.1.id
     }
 
     vlan_id = "21"
@@ -126,6 +138,7 @@ resource "oci_database_vm_cluster_network" "test_vm_cluster_network2" {
       ip           = "192.168.19.50"
       vip          = "192.168.19.51"
       vip_hostname = "myprefix4-r64zc1-vip"
+      db_server_id = data.oci_database_db_servers.test_db_servers.db_servers.0.id
     }
 
     nodes {
@@ -133,6 +146,7 @@ resource "oci_database_vm_cluster_network" "test_vm_cluster_network2" {
       ip           = "192.168.19.54"
       vip          = "192.168.19.55"
       vip_hostname = "myprefix4-r64zc2-vip"
+      db_server_id = data.oci_database_db_servers.test_db_servers.db_servers.1.id
     }
 
     vlan_id = "40"
@@ -148,4 +162,16 @@ resource "oci_database_vm_cluster_network" "test_vm_cluster_network2" {
   }
 
   validate_vm_cluster_network = true
+  action = "ADD_DBSERVER_NETWORK"
+  lifecycle {
+    ignore_changes = [
+      vm_networks,
+    ]
+  }
+}
+
+data "oci_database_db_servers" "test_db_servers" {
+  #Required
+  compartment_id            = var.compartment_ocid
+  exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
 }

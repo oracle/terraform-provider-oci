@@ -456,6 +456,66 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 				},
 			),
 		},
+		// verify auto_backup_window parameter update
+		{
+			Config: ResourceDatabaseBaseConfig + ResourceDatabaseTokenFn(`
+				resource "oci_database_db_system" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					//backup_subnet_id = "${oci_core_subnet.t2.id}" // this requires a specific shape
+					database_edition = "ENTERPRISE_EDITION"
+					disk_redundancy = "NORMAL"
+					shape = "VM.Standard2.1"
+					ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
+					display_name = "{{.token}}"
+					domain = "${oci_core_subnet.t.dns_label}.${oci_core_virtual_network.t.dns_label}.oraclevcn.com"
+					hostname = "myOracleDB" // this will be lowercased server side
+					data_storage_size_in_gb = "256"
+					license_model = "LICENSE_INCLUDED"
+					node_count = "1"
+					fault_domains = ["FAULT-DOMAIN-1"]
+					db_home {
+						db_version = "19.0.0.0"
+						display_name = "-tf-db-home"
+						database {
+							admin_password = "BEstrO0ng_#11"
+							db_name = "aTFdb"
+							character_set = "AL32UTF8"
+							defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
+							freeform_tags = {"Department" = "Finance"}
+							ncharacter_set = "AL16UTF16"
+							db_workload = "OLTP"
+							pdb_name = "pdbName"
+							db_backup_config {
+								auto_backup_enabled = true
+								auto_backup_window = "SLOT_THREE"
+								recovery_window_in_days = 10
+							}
+						}
+					}
+					db_system_options {
+						storage_management = "LVM"
+					}
+					defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
+					freeform_tags = {"Department" = "Finance"}
+					nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
+				}`, nil),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				// DB System Resource tests
+				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
+				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_backup_config.0.auto_backup_window", "SLOT_THREE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, "oci_database_db_system.t", "id")
+					if resId != resId2 {
+						return fmt.Errorf("expected same ocids, got different")
+					}
+					return err
+				},
+			),
+		},
 		// verify Update
 		{
 			Config: ResourceDatabaseBaseConfig + ResourceDatabaseTokenFn(`

@@ -1,3 +1,11 @@
+## 4.100.0 (November 16, 2022)
+
+### Added
+- Support for mTLS and Scan port configuration of AVM Clusters on ExaCC
+- Support for Dev and Deployment of Site Guard as Service in OCI
+### Bug Fix
+- auto_backup_window field is not updated for dbSystem / database resource
+
 ## 4.99.0 (November 09, 2022)
 
 ### Added
@@ -1083,7 +1091,7 @@ as source using `vm_cluster_id` and `SOURCE=VM_CLUSTER_NEW`.
 
 ### Notes
 - Upgrade to Terraform Plugin SDK v1.15.0
-- Resource discovery now requires Terraform CLI. For more details on how to provide the CLI, refer to [resource discovery prerequisites](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/resource_discovery#prerequisites) 
+- Resource discovery now requires Terraform CLI. For more details on how to provide the CLI, refer to [resource discovery prerequisites](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/resource_discovery#prerequisites) 
 
 ## 3.97.0 (October 14, 2020)
 

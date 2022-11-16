@@ -246,6 +246,17 @@ The following attributes are exported:
 	* `display_name` - Unique name that can be edited. The name should not contain any confidential information.
 	* `name` - Name of the vantage point.
 
+<<<<<<< ours
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Monitor
+	* `update` - (Defaults to 20 minutes), when updating the Monitor
+	* `delete` - (Defaults to 20 minutes), when destroying the Monitor
+
+
+=======
+>>>>>>> theirs
 ## Import
 
 Monitors can be imported using the `id`, e.g.

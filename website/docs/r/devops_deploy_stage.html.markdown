@@ -319,6 +319,17 @@ The following attributes are exported:
 	* `wait_duration` - The absolute wait duration. An ISO 8601 formatted duration string. Minimum waitDuration should be 5 seconds. Maximum waitDuration can be up to 2 days.
 	* `wait_type` - Wait criteria type.
 
+<<<<<<< ours
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Deploy Stage
+	* `update` - (Defaults to 20 minutes), when updating the Deploy Stage
+	* `delete` - (Defaults to 20 minutes), when destroying the Deploy Stage
+
+
+=======
+>>>>>>> theirs
 ## Import
 
 DeployStages can be imported using the `id`, e.g.

@@ -3037,7 +3037,7 @@ func (s *DatabaseDbSystemResourceCrud) mapToUpdateDbBackupConfig(fieldKeyFormat 
 	}
 
 	if autoBackupWindow, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_backup_window")); ok {
-		if result.AutoBackupEnabled != nil && *result.AutoBackupEnabled == true {
+		if autoBackupEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_backup_enabled")); ok && autoBackupEnabled.(bool) == true {
 			result.AutoBackupWindow = oci_database.DbBackupConfigAutoBackupWindowEnum(autoBackupWindow.(string))
 		}
 	}

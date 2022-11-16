@@ -248,7 +248,7 @@ github.com/mitchellh/reflectwalk
 # github.com/oklog/run v1.0.0
 ## explicit
 github.com/oklog/run
-# github.com/oracle/oci-go-sdk/v65 v65.26.0
+# github.com/oracle/oci-go-sdk/v65 v65.26.1
 ## explicit; go 1.13
 github.com/oracle/oci-go-sdk/v65/adm
 github.com/oracle/oci-go-sdk/v65/aianomalydetection
@@ -289,6 +289,7 @@ github.com/oracle/oci-go-sdk/v65/datalabelingservice
 github.com/oracle/oci-go-sdk/v65/datasafe
 github.com/oracle/oci-go-sdk/v65/datascience
 github.com/oracle/oci-go-sdk/v65/devops
+github.com/oracle/oci-go-sdk/v65/disasterrecovery
 github.com/oracle/oci-go-sdk/v65/dns
 github.com/oracle/oci-go-sdk/v65/email
 github.com/oracle/oci-go-sdk/v65/emwarehouse

@@ -166,7 +166,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 2 hours), when creating the Data Guard Association
 	* `update` - (Defaults to 2 hours), when updating the Data Guard Association
 	* `delete` - (Defaults to 2 hours), when destroying the Data Guard Association
