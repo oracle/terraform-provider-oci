@@ -53,6 +53,10 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
     is_enabled        = "false"
     retention_in_days = "10"
     window_start_time = "01:00-00:00"
+    pitr_policy {
+            #Required
+            is_enabled = "false"
+        }
   }
 
   #defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.mysql_defined_tags_value}"}
