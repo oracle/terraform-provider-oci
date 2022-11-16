@@ -220,6 +220,7 @@ const (
 	MaintenanceRunTargetResourceTypeExaccInfrastructure             MaintenanceRunTargetResourceTypeEnum = "EXACC_INFRASTRUCTURE"
 	MaintenanceRunTargetResourceTypeAutonomousVmCluster             MaintenanceRunTargetResourceTypeEnum = "AUTONOMOUS_VM_CLUSTER"
 	MaintenanceRunTargetResourceTypeAutonomousDatabase              MaintenanceRunTargetResourceTypeEnum = "AUTONOMOUS_DATABASE"
+	MaintenanceRunTargetResourceTypeCloudAutonomousVmCluster        MaintenanceRunTargetResourceTypeEnum = "CLOUD_AUTONOMOUS_VM_CLUSTER"
 )
 
 var mappingMaintenanceRunTargetResourceTypeEnum = map[string]MaintenanceRunTargetResourceTypeEnum{
@@ -230,6 +231,7 @@ var mappingMaintenanceRunTargetResourceTypeEnum = map[string]MaintenanceRunTarge
 	"EXACC_INFRASTRUCTURE":              MaintenanceRunTargetResourceTypeExaccInfrastructure,
 	"AUTONOMOUS_VM_CLUSTER":             MaintenanceRunTargetResourceTypeAutonomousVmCluster,
 	"AUTONOMOUS_DATABASE":               MaintenanceRunTargetResourceTypeAutonomousDatabase,
+	"CLOUD_AUTONOMOUS_VM_CLUSTER":       MaintenanceRunTargetResourceTypeCloudAutonomousVmCluster,
 }
 
 var mappingMaintenanceRunTargetResourceTypeEnumLowerCase = map[string]MaintenanceRunTargetResourceTypeEnum{
@@ -240,6 +242,7 @@ var mappingMaintenanceRunTargetResourceTypeEnumLowerCase = map[string]Maintenanc
 	"exacc_infrastructure":              MaintenanceRunTargetResourceTypeExaccInfrastructure,
 	"autonomous_vm_cluster":             MaintenanceRunTargetResourceTypeAutonomousVmCluster,
 	"autonomous_database":               MaintenanceRunTargetResourceTypeAutonomousDatabase,
+	"cloud_autonomous_vm_cluster":       MaintenanceRunTargetResourceTypeCloudAutonomousVmCluster,
 }
 
 // GetMaintenanceRunTargetResourceTypeEnumValues Enumerates the set of values for MaintenanceRunTargetResourceTypeEnum
@@ -261,6 +264,7 @@ func GetMaintenanceRunTargetResourceTypeEnumStringValues() []string {
 		"EXACC_INFRASTRUCTURE",
 		"AUTONOMOUS_VM_CLUSTER",
 		"AUTONOMOUS_DATABASE",
+		"CLOUD_AUTONOMOUS_VM_CLUSTER",
 	}
 }
 

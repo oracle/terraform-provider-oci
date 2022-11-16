@@ -41,6 +41,7 @@ import (
 	tf_dataintegration "github.com/oracle/terraform-provider-oci/internal/service/dataintegration"
 	tf_datascience "github.com/oracle/terraform-provider-oci/internal/service/datascience"
 	tf_devops "github.com/oracle/terraform-provider-oci/internal/service/devops"
+	tf_disaster_recovery "github.com/oracle/terraform-provider-oci/internal/service/disaster_recovery"
 	tf_dns "github.com/oracle/terraform-provider-oci/internal/service/dns"
 	tf_em_warehouse "github.com/oracle/terraform-provider-oci/internal/service/em_warehouse"
 	tf_email "github.com/oracle/terraform-provider-oci/internal/service/email"
@@ -144,6 +145,7 @@ func init() {
 	tf_dataintegration.RegisterResource()
 	tf_datascience.RegisterResource()
 	tf_devops.RegisterResource()
+	tf_disaster_recovery.RegisterResource()
 	tf_dns.RegisterResource()
 	tf_em_warehouse.RegisterResource()
 	tf_email.RegisterResource()

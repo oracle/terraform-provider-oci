@@ -9,7 +9,7 @@ description: |-
 
 # Data Source: oci_dns_records
 
-**Deprecated. Use [oci_dns_rrset](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/data-sources/dns_rrset) instead.**
+**Deprecated. Use [oci_dns_rrset](https://registry.terraform.io/providers/oracle/oci/latest/docs/data-sources/dns_rrset) instead.**
 
 This data source provides the list of Records in Oracle Cloud Infrastructure DNS service.
 

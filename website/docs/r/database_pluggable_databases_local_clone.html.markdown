@@ -64,7 +64,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Pluggable Databases Local Clone
 	* `update` - (Defaults to 20 minutes), when updating the Pluggable Databases Local Clone
 	* `delete` - (Defaults to 20 minutes), when destroying the Pluggable Databases Local Clone

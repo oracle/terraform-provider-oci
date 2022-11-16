@@ -68,6 +68,7 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 		source_type = var.mysql_db_system_source_source_type
 
 		#Optional
+		# source_url = var.mysql_db_system_source_source_url
 		backup_id = oci_mysql_mysql_backup.test_backup.id
 	}
 }
@@ -146,7 +147,8 @@ The following arguments are supported:
 	* `backup_id` - (Required when source_type=BACKUP) The OCID of the backup to be used as the source for the new DB System. 
 	* `db_system_id` - (Required when source_type=PITR) The OCID of the DB System from which a backup shall be selected to be restored when creating the new DB System. Use this together with recovery point to perform a point in time recovery operation. 
 	* `recovery_point` - (Applicable when source_type=PITR) The date and time, as per RFC 3339, of the change up to which the new DB System shall be restored to, using a backup and logs from the original DB System. In case no point in time is specified, then this new DB System shall be restored up to the latest change recorded for the original DB System. 
-	* `source_type` - (Required) The specific source identifier. Use `BACKUP` for creating a new database by restoring from a backup.
+	* `source_type` - (Required) The specific source identifier. Use `BACKUP` for creating a new database by restoring from a backup. Use `IMPORTURL` for creating a new database from a URL Object Storage PAR.
+	* `source_url` - (Required when source_type=IMPORTURL) The Pre-Authenticated Request (PAR) of a bucket/prefix or PAR of a @.manifest.json object from the Object Storage. Check [Using Pre-Authenticated Requests](https://docs.oracle.com/en-us/iaas/Content/Object/Tasks/usingpreauthenticatedrequests.htm) for information related to PAR creation. Please create PAR with "Permit object reads" access type and "Enable Object Listing" permission when using a bucket/prefix PAR. Please create PAR with "Permit object reads" access type when using a @.manifest.json object PAR. 
 * `subnet_id` - (Required) The OCID of the subnet the DB System is associated with. 
 * `state` - (Optional) (Updatable) The target state for the DB System. Could be set to `ACTIVE` or `INACTIVE`. 
 * `shutdown_type` - (Optional) It is applicable only for stopping a DB System. Could be set to `FAST`, `SLOW` or `IMMEDIATE`. Default value is `FAST`.
@@ -289,7 +291,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 1 hours), when creating the Mysql Db System
 	* `update` - (Defaults to 1 hours), when updating the Mysql Db System
 	* `delete` - (Defaults to 1 hours), when destroying the Mysql Db System

@@ -112,6 +112,15 @@ type AutonomousVmClusterSummary struct {
 
 	// The data disk group size available for Autonomous Databases, in TBs.
 	AvailableAutonomousDataStorageSizeInTBs *float64 `mandatory:"false" json:"availableAutonomousDataStorageSizeInTBs"`
+
+	// The SCAN Listener TLS port number. Default value is 2484.
+	ScanListenerPortTls *int `mandatory:"false" json:"scanListenerPortTls"`
+
+	// The SCAN Listener Non TLS port number. Default value is 1521.
+	ScanListenerPortNonTls *int `mandatory:"false" json:"scanListenerPortNonTls"`
+
+	// Enable mutual TLS(mTLS) authentication for database at time of provisioning a VMCluster. Default is TLS.
+	IsMtlsEnabled *bool `mandatory:"false" json:"isMtlsEnabled"`
 }
 
 func (m AutonomousVmClusterSummary) String() string {
