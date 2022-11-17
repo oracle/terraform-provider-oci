@@ -51,7 +51,9 @@ var (
 	configMetricGroupRepresentation = map[string]interface{}{
 		"apm_domain_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
 		"config_type":   acctest.Representation{RepType: acctest.Required, Create: configTypeMetricGroup, Update: configTypeMetricGroup},
-		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags": acctest.Representation{RepType: acctest.Optional,
+			Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`,
+			Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"display_name":  acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"filter_id":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_apm_config_config.test_span_filter.id}`},
@@ -105,6 +107,9 @@ func TestApmConfigMetricGroupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(spanFilterResourceName, "config_type", configTypeSpanFilter),
 					resource.TestCheckResourceAttr(spanFilterResourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(spanFilterResourceName, "filter_text", createFilterText),
+					resource.TestCheckResourceAttrSet(spanFilterResourceName, "created_by"),
+					resource.TestCheckResourceAttrSet(spanFilterResourceName, "updated_by"),
+					resource.TestCheckResourceAttrSet(spanFilterResourceName, "etag"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = acctest.FromInstanceState(s, spanFilterResourceName, "id")
@@ -122,6 +127,9 @@ func TestApmConfigMetricGroupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(metricGroupResourceName, "config_type", configTypeMetricGroup),
 					resource.TestCheckResourceAttr(metricGroupResourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(metricGroupResourceName, "filter_id"),
+					resource.TestCheckResourceAttrSet(metricGroupResourceName, "created_by"),
+					resource.TestCheckResourceAttrSet(metricGroupResourceName, "updated_by"),
+					resource.TestCheckResourceAttrSet(metricGroupResourceName, "etag"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = acctest.FromInstanceState(s, metricGroupResourceName, "id")
@@ -149,6 +157,9 @@ func TestApmConfigMetricGroupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(metricGroupResourceName, "metrics.0.name", "ThreadCpuTime"),
 					resource.TestCheckResourceAttr(metricGroupResourceName, "metrics.0.unit", "unit"),
 					resource.TestCheckResourceAttr(metricGroupResourceName, "namespace", "oracle_apm_monitoring"),
+					resource.TestCheckResourceAttrSet(metricGroupResourceName, "created_by"),
+					resource.TestCheckResourceAttrSet(metricGroupResourceName, "updated_by"),
+					resource.TestCheckResourceAttrSet(metricGroupResourceName, "etag"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = acctest.FromInstanceState(s, metricGroupResourceName, "id")
@@ -190,7 +201,9 @@ func TestApmConfigMetricGroupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularMGDatasourceName, "apm_domain_id"),
 					resource.TestCheckResourceAttrSet(singularMGDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularMGDatasourceName, "config_type", configTypeMetricGroup),
+					resource.TestCheckResourceAttrSet(singularMGDatasourceName, "created_by"),
 					resource.TestCheckResourceAttr(singularMGDatasourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttrSet(singularMGDatasourceName, "etag"),
 					resource.TestCheckResourceAttrSet(singularMGDatasourceName, "filter_id"),
 					resource.TestCheckResourceAttr(singularMGDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularMGDatasourceName, "metrics.#", "1"),
@@ -198,6 +211,7 @@ func TestApmConfigMetricGroupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularMGDatasourceName, "metrics.0.name", "PageResponseTime"),
 					resource.TestCheckResourceAttr(singularMGDatasourceName, "metrics.0.unit", "unit2"),
 					resource.TestCheckResourceAttr(singularMGDatasourceName, "namespace", "oracle_apm_rum"),
+					resource.TestCheckResourceAttrSet(singularMGDatasourceName, "updated_by"),
 				),
 			},
 			// Step 8 verify resource import

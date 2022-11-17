@@ -59,7 +59,9 @@ var (
 		"config_type":   acctest.Representation{RepType: acctest.Required, Create: configTypeSpanFilter, Update: configTypeSpanFilter},
 		"display_name":  acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"filter_text":   acctest.Representation{RepType: acctest.Required, Create: createFilterText, Update: updateFilterText},
-		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags": acctest.Representation{RepType: acctest.Optional,
+			Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`,
+			Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 	}
@@ -106,6 +108,10 @@ func TestApmConfigConfigResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "config_type", configTypeSpanFilter),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "filter_text", createFilterText),
+					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
+					resource.TestCheckResourceAttrSet(resourceName, "updated_by"),
+					resource.TestCheckResourceAttrSet(resourceName, "etag"),
+					resource.TestCheckResourceAttr(resourceName, "in_use_by.0.items.#", "0"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -129,6 +135,10 @@ func TestApmConfigConfigResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "filter_text", createFilterText),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
+					resource.TestCheckResourceAttrSet(resourceName, "updated_by"),
+					resource.TestCheckResourceAttrSet(resourceName, "etag"),
+					resource.TestCheckResourceAttr(resourceName, "in_use_by.0.items.#", "0"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -153,6 +163,10 @@ func TestApmConfigConfigResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "filter_text", updateFilterText),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
+					resource.TestCheckResourceAttrSet(resourceName, "updated_by"),
+					resource.TestCheckResourceAttrSet(resourceName, "etag"),
+					resource.TestCheckResourceAttr(resourceName, "in_use_by.0.items.#", "0"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -183,13 +197,17 @@ func TestApmConfigConfigResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "config_id"),
 
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "etag"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "filter_text", updateFilterText),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "updated_by"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "in_use_by.0.items.#", "0"),
 				),
 			},
 			// Step 6 remove singular datasource from previous step so that it doesn't conflict with import tests

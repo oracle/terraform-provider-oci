@@ -55,17 +55,24 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `config_type` - The type of configuration item.
+* `created_by` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a user. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - An optional string that describes what the span filter is intended or used for.
 * `dimensions` - A list of dimensions for the metric. This variable should not be used.
 	* `name` - The name of the dimension.
 	* `value_source` - The source to populate the dimension. This must not be specified. 
 * `display_name` - The name by which a configuration entity is displayed to the end user.
+* `etag` - For optimistic concurrency control. See `if-match`. 
 * `filter_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a Span Filter. The filterId is mandatory for the creation of MetricGroups. A filterId is generated when a Span Filter is created. 
 * `filter_text` - The string that defines the Span Filter expression. 
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `group` - A string that specifies the group that an OPTIONS item belongs to. 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the configuration item. An OCID is generated when the item is created. 
+* `in_use_by` - The list of configuration items that reference the span filter.
+	* `config_type` - The type of configuration item.
+	* `display_name` - The name by which a configuration entity is displayed to the end user.
+	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the configuration item. An OCID is generated when the item is created. 
+	* `options_group` - A string that specifies the group that an OPTIONS item belongs to. 
 * `metrics` - The list of metrics in this group. 
 	* `description` - A description of the metric.
 	* `name` - The name of the metric. This must be a known metric name.
@@ -83,4 +90,5 @@ The following attributes are exported:
 	* `tolerating_response_time` - The maximum response time in milliseconds that is considered "tolerable" for the end user. A response time beyond this threshold is considered "frustrating". This value cannot be lower than "satisfiedResponseTime". 
 * `time_created` - The time the resource was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-12T22:47:12.613Z` 
 * `time_updated` - The time the resource was updated, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-13T22:47:12.613Z` 
+* `updated_by` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a user. 
 

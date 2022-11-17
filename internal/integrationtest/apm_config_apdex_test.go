@@ -58,7 +58,9 @@ var (
 		"apm_domain_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
 		"config_type":   acctest.Representation{RepType: acctest.Required, Create: configTypeApdex, Update: configTypeApdex},
 		"display_name":  acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags": acctest.Representation{RepType: acctest.Optional,
+			Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`,
+			Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"rules":         acctest.RepresentationGroup{RepType: acctest.Required, Group: configRulesRepresentation},
 	}
@@ -114,6 +116,9 @@ func TestApmConfigApdexResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "rules.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "rules.0.filter_text", createRulesFilterText),
 					resource.TestCheckResourceAttr(resourceName, "rules.0.priority", "10"),
+					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
+					resource.TestCheckResourceAttrSet(resourceName, "updated_by"),
+					resource.TestCheckResourceAttrSet(resourceName, "etag"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -143,6 +148,9 @@ func TestApmConfigApdexResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "rules.0.priority", "10"),
 					resource.TestCheckResourceAttr(resourceName, "rules.0.satisfied_response_time", "10"),
 					resource.TestCheckResourceAttr(resourceName, "rules.0.tolerating_response_time", "10"),
+					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
+					resource.TestCheckResourceAttrSet(resourceName, "updated_by"),
+					resource.TestCheckResourceAttrSet(resourceName, "etag"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -173,6 +181,9 @@ func TestApmConfigApdexResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "rules.0.priority", "11"),
 					resource.TestCheckResourceAttr(resourceName, "rules.0.satisfied_response_time", "11"),
 					resource.TestCheckResourceAttr(resourceName, "rules.0.tolerating_response_time", "11"),
+					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
+					resource.TestCheckResourceAttrSet(resourceName, "updated_by"),
+					resource.TestCheckResourceAttrSet(resourceName, "etag"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -203,7 +214,9 @@ func TestApmConfigApdexResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "config_id"),
 
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "etag"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "rules.#", "1"),
@@ -216,9 +229,10 @@ func TestApmConfigApdexResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.tolerating_response_time", "11"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "updated_by"),
 				),
 			},
-			// Step 7 verify resource import
+			// Step 6 verify resource import
 			{
 				Config:            config + ConfigApdexRequiredOnlyResource,
 				ImportState:       true,
