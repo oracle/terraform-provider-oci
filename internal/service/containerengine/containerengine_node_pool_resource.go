@@ -999,14 +999,16 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 		request.Name = &tmp
 	}
 
-	if nodeConfigDetails, ok := s.D.GetOkExists("node_config_details"); ok && s.D.HasChange("node_config_details") {
-		if tmpList := nodeConfigDetails.([]interface{}); len(tmpList) > 0 {
+	if nodeConfigDetails, ok := s.D.GetOkExists("node_config_details"); ok {
+		if feildNameList := nodeConfigDetails.([]interface{}); len(feildNameList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "node_config_details", 0)
-			tmp, err := s.mapToUpdateNodePoolNodeConfigDetails(fieldKeyFormat)
-			if err != nil {
-				return err
+			if ok := s.hasNodeConfigDetailsChange(fieldKeyFormat, feildNameList); ok {
+				tmp, err := s.mapToUpdateNodePoolNodeConfigDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				request.NodeConfigDetails = &tmp
 			}
-			request.NodeConfigDetails = &tmp
 		}
 	}
 
@@ -1778,6 +1780,19 @@ func placementConfigsHashCodeForSets(v interface{}) int {
 		buf.WriteString(fmt.Sprintf("%v-", subnetId))
 	}
 	return utils.GetStringHashcode(buf.String())
+}
+
+func (s *ContainerengineNodePoolResourceCrud) hasNodeConfigDetailsChange(fieldKeyFormat string, fieldNameList []interface{}) bool {
+	for _, fieldName := range fieldNameList {
+		if rec, ok := fieldName.(map[string]interface{}); ok {
+			for key := range rec {
+				if _, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, key)); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, key)) {
+					return true
+				}
+			}
+		}
+	}
+	return false
 }
 
 func (s *ContainerengineNodePoolResourceCrud) mapToUpdateNodePoolNodeConfigDetails(fieldKeyFormat string) (oci_containerengine.UpdateNodePoolNodeConfigDetails, error) {
