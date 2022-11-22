@@ -2,12 +2,14 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Application Performance Monitoring Synthetic Monitoring API
+// Container Engine for Kubernetes API
 //
-// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
+// API for the Container Engine for Kubernetes service. Use this API to build, deploy,
+// and manage cloud-native applications. For more information, see
+// Overview of Container Engine for Kubernetes (https://docs.cloud.oracle.com/iaas/Content/ContEng/Concepts/contengoverview.htm).
 //
 
-package apmsynthetics
+package containerengine
 
 import (
 	"fmt"
@@ -15,24 +17,24 @@ import (
 	"strings"
 )
 
-// MonitorDimensionTag Tag details for the monitor dimensions.
-type MonitorDimensionTag struct {
+// AddOnOptions The properties that define options for supported add-ons.
+type AddOnOptions struct {
 
-	// Name of the monitor dimension.
-	DimensionName *string `mandatory:"true" json:"dimensionName"`
+	// Whether or not to enable the Kubernetes Dashboard add-on.
+	IsKubernetesDashboardEnabled *bool `mandatory:"false" json:"isKubernetesDashboardEnabled"`
 
-	// Value of the monitor dimension.
-	DimensionValue *string `mandatory:"true" json:"dimensionValue"`
+	// Whether or not to enable the Tiller add-on.
+	IsTillerEnabled *bool `mandatory:"false" json:"isTillerEnabled"`
 }
 
-func (m MonitorDimensionTag) String() string {
+func (m AddOnOptions) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m MonitorDimensionTag) ValidateEnumValue() (bool, error) {
+func (m AddOnOptions) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

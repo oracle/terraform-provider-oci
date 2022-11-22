@@ -43,7 +43,8 @@ type CreateMonitorDetails struct {
 	// If runOnce is enabled, then the monitor will run once.
 	IsRunOnce *bool `mandatory:"false" json:"isRunOnce"`
 
-	// Timeout in seconds. Timeout cannot be more than 30% of repeatIntervalInSeconds time for monitors.
+	// Timeout in seconds. If isFailureRetried is true, then timeout cannot be more than 30% of repeatIntervalInSeconds time for monitors.
+	// If isFailureRetried is false, then timeout cannot be more than 50% of repeatIntervalInSeconds time for monitors.
 	// Also, timeoutInSeconds should be a multiple of 60 for Scripted REST, Scripted Browser and Browser monitors.
 	// Monitor will be allowed to run only for timeoutInSeconds time. It would be terminated after that.
 	TimeoutInSeconds *int `mandatory:"false" json:"timeoutInSeconds"`
@@ -72,9 +73,6 @@ type CreateMonitorDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-
-	// List of monitor dimension tags.
-	MonitorDimensionTags []MonitorDimensionTag `mandatory:"false" json:"monitorDimensionTags"`
 
 	// If isRunNow is enabled, then the monitor will run now.
 	IsRunNow *bool `mandatory:"false" json:"isRunNow"`
@@ -125,7 +123,6 @@ func (m *CreateMonitorDetails) UnmarshalJSON(data []byte) (e error) {
 		MaintenanceWindowSchedule *MaintenanceWindowSchedule        `json:"maintenanceWindowSchedule"`
 		FreeformTags              map[string]string                 `json:"freeformTags"`
 		DefinedTags               map[string]map[string]interface{} `json:"definedTags"`
-		MonitorDimensionTags      []MonitorDimensionTag             `json:"monitorDimensionTags"`
 		IsRunNow                  *bool                             `json:"isRunNow"`
 		SchedulingPolicy          SchedulingPolicyEnum              `json:"schedulingPolicy"`
 		BatchIntervalInSeconds    *int                              `json:"batchIntervalInSeconds"`
@@ -172,11 +169,6 @@ func (m *CreateMonitorDetails) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
-
-	m.MonitorDimensionTags = make([]MonitorDimensionTag, len(model.MonitorDimensionTags))
-	for i, n := range model.MonitorDimensionTags {
-		m.MonitorDimensionTags[i] = n
-	}
 
 	m.IsRunNow = model.IsRunNow
 

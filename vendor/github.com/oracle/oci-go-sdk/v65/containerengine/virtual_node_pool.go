@@ -78,6 +78,8 @@ type VirtualNodePool struct {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	VirtualNodeTags *VirtualNodeTags `mandatory:"false" json:"virtualNodeTags"`
 }
 
 func (m VirtualNodePool) String() string {

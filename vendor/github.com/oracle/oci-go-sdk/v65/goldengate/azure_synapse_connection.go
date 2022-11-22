@@ -37,9 +37,9 @@ type AzureSynapseConnection struct {
 	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// JDBC connection URL.
+	// JDBC connection string.
 	// e.g.: 'jdbc:sqlserver://<synapse-workspace>.sql.azuresynapse.net:1433;database=<db-name>;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.sql.azuresynapse.net;loginTimeout=300;'
-	Url *string `mandatory:"true" json:"url"`
+	ConnectionString *string `mandatory:"true" json:"connectionString"`
 
 	// The username Oracle GoldenGate uses to connect the associated RDBMS.  This username must
 	// already exist and be available for use by the database.  It must conform to the security

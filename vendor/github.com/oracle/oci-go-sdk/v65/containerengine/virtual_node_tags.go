@@ -17,24 +17,28 @@ import (
 	"strings"
 )
 
-// AddonOptions The properties that define options for supported addons.
-type AddonOptions struct {
+// VirtualNodeTags The tags associated to the virtual nodes in this virtual node pool.
+type VirtualNodeTags struct {
 
-	// Whether or not to enable the Kubernetes Dashboard addon.
-	IsKubernetesDashboardEnabled *bool `mandatory:"false" json:"isKubernetesDashboardEnabled"`
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// Whether or not to enable the Tiller addon.
-	IsTillerEnabled *bool `mandatory:"false" json:"isTillerEnabled"`
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-func (m AddonOptions) String() string {
+func (m VirtualNodeTags) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m AddonOptions) ValidateEnumValue() (bool, error) {
+func (m VirtualNodeTags) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// AvailabilityConfiguration Monitor availability details.
+// AvailabilityConfiguration Monitor availability configuration details.
 type AvailabilityConfiguration struct {
 
 	// Intervals with failed runs more than this value will be classified as UNAVAILABLE.

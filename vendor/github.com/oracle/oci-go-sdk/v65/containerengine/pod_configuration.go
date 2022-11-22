@@ -21,13 +21,13 @@ import (
 type PodConfiguration struct {
 
 	// The regional subnet where pods' VNIC will be placed.
-	SubnetId *string `mandatory:"false" json:"subnetId"`
+	SubnetId *string `mandatory:"true" json:"subnetId"`
+
+	// Shape of the pods.
+	Shape *string `mandatory:"true" json:"shape"`
 
 	// List of network security group IDs applied to the Pod VNIC.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
-
-	// Shape of the pods.
-	Shape *string `mandatory:"false" json:"shape"`
 }
 
 func (m PodConfiguration) String() string {

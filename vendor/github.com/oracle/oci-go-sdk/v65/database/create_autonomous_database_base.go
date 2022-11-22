@@ -174,6 +174,9 @@ type CreateAutonomousDatabaseBase interface {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	GetDefinedTags() map[string]map[string]interface{}
 
+	// The private endpoint Ip address for the resource.
+	GetPrivateEndpointIp() *string
+
 	// A valid Oracle Database version for Autonomous Database.
 	GetDbVersion() *string
 
@@ -246,6 +249,7 @@ type createautonomousdatabasebase struct {
 	PrivateEndpointLabel                     *string                                                           `mandatory:"false" json:"privateEndpointLabel"`
 	FreeformTags                             map[string]string                                                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags                              map[string]map[string]interface{}                                 `mandatory:"false" json:"definedTags"`
+	PrivateEndpointIp                        *string                                                           `mandatory:"false" json:"privateEndpointIp"`
 	DbVersion                                *string                                                           `mandatory:"false" json:"dbVersion"`
 	CustomerContacts                         []CustomerContact                                                 `mandatory:"false" json:"customerContacts"`
 	IsMtlsConnectionRequired                 *bool                                                             `mandatory:"false" json:"isMtlsConnectionRequired"`
@@ -304,6 +308,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.PrivateEndpointLabel = s.Model.PrivateEndpointLabel
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
+	m.PrivateEndpointIp = s.Model.PrivateEndpointIp
 	m.DbVersion = s.Model.DbVersion
 	m.CustomerContacts = s.Model.CustomerContacts
 	m.IsMtlsConnectionRequired = s.Model.IsMtlsConnectionRequired
@@ -526,6 +531,11 @@ func (m createautonomousdatabasebase) GetFreeformTags() map[string]string {
 //GetDefinedTags returns DefinedTags
 func (m createautonomousdatabasebase) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+//GetPrivateEndpointIp returns PrivateEndpointIp
+func (m createautonomousdatabasebase) GetPrivateEndpointIp() *string {
+	return m.PrivateEndpointIp
 }
 
 //GetDbVersion returns DbVersion

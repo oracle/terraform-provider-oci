@@ -51,7 +51,8 @@ type Monitor struct {
 	// If runOnce is enabled, then the monitor will run once.
 	IsRunOnce *bool `mandatory:"true" json:"isRunOnce"`
 
-	// Timeout in seconds. Timeout cannot be more than 30% of repeatIntervalInSeconds time for monitors.
+	// Timeout in seconds. If isFailureRetried is true, then timeout cannot be more than 30% of repeatIntervalInSeconds time for monitors.
+	// If isFailureRetried is false, then timeout cannot be more than 50% of repeatIntervalInSeconds time for monitors.
 	// Also, timeoutInSeconds should be a multiple of 60 for Scripted REST, Scripted Browser and Browser monitors.
 	// Monitor will be allowed to run only for timeoutInSeconds time. It would be terminated after that.
 	TimeoutInSeconds *int `mandatory:"true" json:"timeoutInSeconds"`
@@ -94,9 +95,6 @@ type Monitor struct {
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// List of monitor dimension tags.
-	MonitorDimensionTags []MonitorDimensionTag `mandatory:"false" json:"monitorDimensionTags"`
-
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
@@ -138,7 +136,6 @@ func (m *Monitor) UnmarshalJSON(data []byte) (e error) {
 		TimeCreated               *common.SDKTime                   `json:"timeCreated"`
 		TimeUpdated               *common.SDKTime                   `json:"timeUpdated"`
 		FreeformTags              map[string]string                 `json:"freeformTags"`
-		MonitorDimensionTags      []MonitorDimensionTag             `json:"monitorDimensionTags"`
 		DefinedTags               map[string]map[string]interface{} `json:"definedTags"`
 		Id                        *string                           `json:"id"`
 		DisplayName               *string                           `json:"displayName"`
@@ -187,11 +184,6 @@ func (m *Monitor) UnmarshalJSON(data []byte) (e error) {
 	m.TimeUpdated = model.TimeUpdated
 
 	m.FreeformTags = model.FreeformTags
-
-	m.MonitorDimensionTags = make([]MonitorDimensionTag, len(model.MonitorDimensionTags))
-	for i, n := range model.MonitorDimensionTags {
-		m.MonitorDimensionTags[i] = n
-	}
 
 	m.DefinedTags = model.DefinedTags
 

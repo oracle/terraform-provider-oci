@@ -49,6 +49,9 @@ type CreateAutonomousContainerDatabaseDetails struct {
 	// in the Oracle Data Guard documentation.
 	ProtectionMode CreateAutonomousContainerDatabaseDetailsProtectionModeEnum `mandatory:"false" json:"protectionMode,omitempty"`
 
+	// The lag time for my preference based on data loss tolerance in seconds.
+	FastStartFailOverLagLimitInSeconds *int `mandatory:"false" json:"fastStartFailOverLagLimitInSeconds"`
+
 	// Indicates whether Automatic Failover is enabled for Autonomous Container Database Dataguard Association
 	IsAutomaticFailoverEnabled *bool `mandatory:"false" json:"isAutomaticFailoverEnabled"`
 

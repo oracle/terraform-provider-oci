@@ -51,9 +51,9 @@ type UpdateAzureSynapseConnectionDetails struct {
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
-	// JDBC connection URL.
+	// JDBC connection string.
 	// e.g.: 'jdbc:sqlserver://<synapse-workspace>.sql.azuresynapse.net:1433;database=<db-name>;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.sql.azuresynapse.net;loginTimeout=300;'
-	Url *string `mandatory:"false" json:"url"`
+	ConnectionString *string `mandatory:"false" json:"connectionString"`
 
 	// The username Oracle GoldenGate uses to connect the associated RDBMS.  This username must
 	// already exist and be available for use by the database.  It must conform to the security

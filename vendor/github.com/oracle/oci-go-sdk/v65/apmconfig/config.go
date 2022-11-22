@@ -35,6 +35,15 @@ type Config interface {
 	// Example: `2020-02-13T22:47:12.613Z`
 	GetTimeUpdated() *common.SDKTime
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a user.
+	GetCreatedBy() *string
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a user.
+	GetUpdatedBy() *string
+
+	// For optimistic concurrency control. See `if-match`.
+	GetEtag() *string
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	GetFreeformTags() map[string]string
@@ -49,6 +58,9 @@ type config struct {
 	Id           *string                           `mandatory:"false" json:"id"`
 	TimeCreated  *common.SDKTime                   `mandatory:"false" json:"timeCreated"`
 	TimeUpdated  *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
+	CreatedBy    *string                           `mandatory:"false" json:"createdBy"`
+	UpdatedBy    *string                           `mandatory:"false" json:"updatedBy"`
+	Etag         *string                           `mandatory:"false" json:"etag"`
 	FreeformTags map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags  map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	ConfigType   string                            `json:"configType"`
@@ -68,6 +80,9 @@ func (m *config) UnmarshalJSON(data []byte) error {
 	m.Id = s.Model.Id
 	m.TimeCreated = s.Model.TimeCreated
 	m.TimeUpdated = s.Model.TimeUpdated
+	m.CreatedBy = s.Model.CreatedBy
+	m.UpdatedBy = s.Model.UpdatedBy
+	m.Etag = s.Model.Etag
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.ConfigType = s.Model.ConfigType
@@ -119,6 +134,21 @@ func (m config) GetTimeCreated() *common.SDKTime {
 //GetTimeUpdated returns TimeUpdated
 func (m config) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
+}
+
+//GetCreatedBy returns CreatedBy
+func (m config) GetCreatedBy() *string {
+	return m.CreatedBy
+}
+
+//GetUpdatedBy returns UpdatedBy
+func (m config) GetUpdatedBy() *string {
+	return m.UpdatedBy
+}
+
+//GetEtag returns Etag
+func (m config) GetEtag() *string {
+	return m.Etag
 }
 
 //GetFreeformTags returns FreeformTags

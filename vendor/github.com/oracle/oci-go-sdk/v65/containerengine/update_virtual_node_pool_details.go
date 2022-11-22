@@ -53,6 +53,8 @@ type UpdateVirtualNodePoolDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	VirtualNodeTags *VirtualNodeTags `mandatory:"false" json:"virtualNodeTags"`
 }
 
 func (m UpdateVirtualNodePoolDetails) String() string {

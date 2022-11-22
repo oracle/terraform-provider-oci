@@ -104,7 +104,7 @@ type CloudVmClusterSummary struct {
 	// The data disk group size to be allocated in TBs.
 	DataStorageSizeInTBs *float64 `mandatory:"false" json:"dataStorageSizeInTBs"`
 
-	// The list of Db servers.
+	// The list of DB servers.
 	DbServers []string `mandatory:"false" json:"dbServers"`
 
 	// The cluster name for cloud VM cluster. The cluster name must begin with an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive.

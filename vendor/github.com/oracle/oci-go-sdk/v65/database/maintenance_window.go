@@ -19,7 +19,7 @@ import (
 type MaintenanceWindow struct {
 
 	// The maintenance window scheduling preference.
-	Preference MaintenanceWindowPreferenceEnum `mandatory:"true" json:"preference"`
+	Preference MaintenanceWindowPreferenceEnum `mandatory:"false" json:"preference,omitempty"`
 
 	// Cloud Exadata infrastructure node patching method, either "ROLLING" or "NONROLLING". Default value is ROLLING.
 	// *IMPORTANT*: Non-rolling infrastructure patching involves system down time. See Oracle-Managed Infrastructure Maintenance Updates (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/examaintenance.htm#Oracle) for more information.
@@ -63,10 +63,10 @@ func (m MaintenanceWindow) String() string {
 // Not recommended for calling this function directly
 func (m MaintenanceWindow) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+
 	if _, ok := GetMappingMaintenanceWindowPreferenceEnum(string(m.Preference)); !ok && m.Preference != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Preference: %s. Supported values are: %s.", m.Preference, strings.Join(GetMaintenanceWindowPreferenceEnumStringValues(), ",")))
 	}
-
 	if _, ok := GetMappingMaintenanceWindowPatchingModeEnum(string(m.PatchingMode)); !ok && m.PatchingMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PatchingMode: %s. Supported values are: %s.", m.PatchingMode, strings.Join(GetMaintenanceWindowPatchingModeEnumStringValues(), ",")))
 	}

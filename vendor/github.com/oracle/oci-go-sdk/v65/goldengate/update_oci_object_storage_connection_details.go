@@ -65,6 +65,9 @@ type UpdateOciObjectStorageConnectionDetails struct {
 	// See documentation: https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm
 	PrivateKeyFile *string `mandatory:"false" json:"privateKeyFile"`
 
+	// The passphrase of the private key.
+	Passphrase *string `mandatory:"false" json:"passphrase"`
+
 	// The fingerprint of the API Key of the user specified by the userId.
 	// See documentation: https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm
 	PublicKeyFingerprint *string `mandatory:"false" json:"publicKeyFingerprint"`

@@ -25,9 +25,9 @@ type CreateAzureSynapseConnectionDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// JDBC connection URL.
+	// JDBC connection string.
 	// e.g.: 'jdbc:sqlserver://<synapse-workspace>.sql.azuresynapse.net:1433;database=<db-name>;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.sql.azuresynapse.net;loginTimeout=300;'
-	Url *string `mandatory:"true" json:"url"`
+	ConnectionString *string `mandatory:"true" json:"connectionString"`
 
 	// The username Oracle GoldenGate uses to connect the associated RDBMS.  This username must
 	// already exist and be available for use by the database.  It must conform to the security

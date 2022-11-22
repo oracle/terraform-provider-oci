@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// CloudDbServerDetails Details of the ExaCs Db server. Applies to Exadata Cloud instances only.
+// CloudDbServerDetails Details of the ExaDB-D DB server. Applies to Exadata Cloud instances only.
 type CloudDbServerDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of ExaCS Db server.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of ExaDB-D DB server.
 	DbServerId *string `mandatory:"true" json:"dbServerId"`
 }
 

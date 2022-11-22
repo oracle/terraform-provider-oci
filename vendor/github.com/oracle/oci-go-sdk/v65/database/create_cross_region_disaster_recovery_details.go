@@ -196,6 +196,9 @@ type CreateCrossRegionDisasterRecoveryDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// The private endpoint Ip address for the resource.
+	PrivateEndpointIp *string `mandatory:"false" json:"privateEndpointIp"`
+
 	// A valid Oracle Database version for Autonomous Database.
 	DbVersion *string `mandatory:"false" json:"dbVersion"`
 
@@ -413,6 +416,11 @@ func (m CreateCrossRegionDisasterRecoveryDetails) GetFreeformTags() map[string]s
 //GetDefinedTags returns DefinedTags
 func (m CreateCrossRegionDisasterRecoveryDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+//GetPrivateEndpointIp returns PrivateEndpointIp
+func (m CreateCrossRegionDisasterRecoveryDetails) GetPrivateEndpointIp() *string {
+	return m.PrivateEndpointIp
 }
 
 //GetDbVersion returns DbVersion

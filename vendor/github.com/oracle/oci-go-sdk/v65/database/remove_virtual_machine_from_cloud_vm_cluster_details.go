@@ -18,7 +18,7 @@ import (
 // RemoveVirtualMachineFromCloudVmClusterDetails Details of removing Virtual Machines from the Cloud VM Cluster. Applies to Exadata Cloud instances only.
 type RemoveVirtualMachineFromCloudVmClusterDetails struct {
 
-	// The list of ExaCS DB servers for the cluster to be removed.
+	// The list of ExaDB-D DB server for the cluster to be removed.
 	DbServers []CloudDbServerDetails `mandatory:"true" json:"dbServers"`
 }
 

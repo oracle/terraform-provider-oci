@@ -173,6 +173,7 @@ const (
 	AutonomousDatabaseDataguardAssociationLifecycleStateTerminated           AutonomousDatabaseDataguardAssociationLifecycleStateEnum = "TERMINATED"
 	AutonomousDatabaseDataguardAssociationLifecycleStateFailed               AutonomousDatabaseDataguardAssociationLifecycleStateEnum = "FAILED"
 	AutonomousDatabaseDataguardAssociationLifecycleStateUnavailable          AutonomousDatabaseDataguardAssociationLifecycleStateEnum = "UNAVAILABLE"
+	AutonomousDatabaseDataguardAssociationLifecycleStateUpdating             AutonomousDatabaseDataguardAssociationLifecycleStateEnum = "UPDATING"
 )
 
 var mappingAutonomousDatabaseDataguardAssociationLifecycleStateEnum = map[string]AutonomousDatabaseDataguardAssociationLifecycleStateEnum{
@@ -183,6 +184,7 @@ var mappingAutonomousDatabaseDataguardAssociationLifecycleStateEnum = map[string
 	"TERMINATED":              AutonomousDatabaseDataguardAssociationLifecycleStateTerminated,
 	"FAILED":                  AutonomousDatabaseDataguardAssociationLifecycleStateFailed,
 	"UNAVAILABLE":             AutonomousDatabaseDataguardAssociationLifecycleStateUnavailable,
+	"UPDATING":                AutonomousDatabaseDataguardAssociationLifecycleStateUpdating,
 }
 
 var mappingAutonomousDatabaseDataguardAssociationLifecycleStateEnumLowerCase = map[string]AutonomousDatabaseDataguardAssociationLifecycleStateEnum{
@@ -193,6 +195,7 @@ var mappingAutonomousDatabaseDataguardAssociationLifecycleStateEnumLowerCase = m
 	"terminated":              AutonomousDatabaseDataguardAssociationLifecycleStateTerminated,
 	"failed":                  AutonomousDatabaseDataguardAssociationLifecycleStateFailed,
 	"unavailable":             AutonomousDatabaseDataguardAssociationLifecycleStateUnavailable,
+	"updating":                AutonomousDatabaseDataguardAssociationLifecycleStateUpdating,
 }
 
 // GetAutonomousDatabaseDataguardAssociationLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseDataguardAssociationLifecycleStateEnum
@@ -214,6 +217,7 @@ func GetAutonomousDatabaseDataguardAssociationLifecycleStateEnumStringValues() [
 		"TERMINATED",
 		"FAILED",
 		"UNAVAILABLE",
+		"UPDATING",
 	}
 }
 
@@ -289,6 +293,7 @@ const (
 	AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateTerminated           AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum = "TERMINATED"
 	AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateFailed               AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum = "FAILED"
 	AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateUnavailable          AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum = "UNAVAILABLE"
+	AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateUpdating             AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum = "UPDATING"
 )
 
 var mappingAutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum = map[string]AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum{
@@ -299,6 +304,7 @@ var mappingAutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycle
 	"TERMINATED":              AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateTerminated,
 	"FAILED":                  AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateFailed,
 	"UNAVAILABLE":             AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateUnavailable,
+	"UPDATING":                AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateUpdating,
 }
 
 var mappingAutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnumLowerCase = map[string]AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum{
@@ -309,6 +315,7 @@ var mappingAutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycle
 	"terminated":              AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateTerminated,
 	"failed":                  AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateFailed,
 	"unavailable":             AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateUnavailable,
+	"updating":                AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateUpdating,
 }
 
 // GetAutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnumValues Enumerates the set of values for AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum
@@ -330,6 +337,7 @@ func GetAutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleSta
 		"TERMINATED",
 		"FAILED",
 		"UNAVAILABLE",
+		"UPDATING",
 	}
 }
 
