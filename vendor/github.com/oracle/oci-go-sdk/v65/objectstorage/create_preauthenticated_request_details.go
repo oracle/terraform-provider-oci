@@ -41,9 +41,6 @@ type CreatePreauthenticatedRequestDetails struct {
 	// if the access type allows that. The object name can be a prefix as well, in that case pre-authenticated request
 	// grants access to all the objects within the bucket starting with that prefix provided that we have the correct access type.
 	ObjectName *string `mandatory:"false" json:"objectName"`
-
-	// queryExpression field is required for PARs for querying objects.
-	QueryExpression *string `mandatory:"false" json:"queryExpression"`
 }
 
 func (m CreatePreauthenticatedRequestDetails) String() string {
@@ -79,7 +76,6 @@ const (
 	CreatePreauthenticatedRequestDetailsAccessTypeAnyobjectwrite     CreatePreauthenticatedRequestDetailsAccessTypeEnum = "AnyObjectWrite"
 	CreatePreauthenticatedRequestDetailsAccessTypeAnyobjectread      CreatePreauthenticatedRequestDetailsAccessTypeEnum = "AnyObjectRead"
 	CreatePreauthenticatedRequestDetailsAccessTypeAnyobjectreadwrite CreatePreauthenticatedRequestDetailsAccessTypeEnum = "AnyObjectReadWrite"
-	CreatePreauthenticatedRequestDetailsAccessTypeObjectquery        CreatePreauthenticatedRequestDetailsAccessTypeEnum = "ObjectQuery"
 )
 
 var mappingCreatePreauthenticatedRequestDetailsAccessTypeEnum = map[string]CreatePreauthenticatedRequestDetailsAccessTypeEnum{
@@ -89,7 +85,6 @@ var mappingCreatePreauthenticatedRequestDetailsAccessTypeEnum = map[string]Creat
 	"AnyObjectWrite":     CreatePreauthenticatedRequestDetailsAccessTypeAnyobjectwrite,
 	"AnyObjectRead":      CreatePreauthenticatedRequestDetailsAccessTypeAnyobjectread,
 	"AnyObjectReadWrite": CreatePreauthenticatedRequestDetailsAccessTypeAnyobjectreadwrite,
-	"ObjectQuery":        CreatePreauthenticatedRequestDetailsAccessTypeObjectquery,
 }
 
 var mappingCreatePreauthenticatedRequestDetailsAccessTypeEnumLowerCase = map[string]CreatePreauthenticatedRequestDetailsAccessTypeEnum{
@@ -99,7 +94,6 @@ var mappingCreatePreauthenticatedRequestDetailsAccessTypeEnumLowerCase = map[str
 	"anyobjectwrite":     CreatePreauthenticatedRequestDetailsAccessTypeAnyobjectwrite,
 	"anyobjectread":      CreatePreauthenticatedRequestDetailsAccessTypeAnyobjectread,
 	"anyobjectreadwrite": CreatePreauthenticatedRequestDetailsAccessTypeAnyobjectreadwrite,
-	"objectquery":        CreatePreauthenticatedRequestDetailsAccessTypeObjectquery,
 }
 
 // GetCreatePreauthenticatedRequestDetailsAccessTypeEnumValues Enumerates the set of values for CreatePreauthenticatedRequestDetailsAccessTypeEnum
@@ -120,7 +114,6 @@ func GetCreatePreauthenticatedRequestDetailsAccessTypeEnumStringValues() []strin
 		"AnyObjectWrite",
 		"AnyObjectRead",
 		"AnyObjectReadWrite",
-		"ObjectQuery",
 	}
 }
 

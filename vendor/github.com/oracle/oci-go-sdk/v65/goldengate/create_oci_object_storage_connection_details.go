@@ -76,7 +76,7 @@ type CreateOciObjectStorageConnectionDetails struct {
 	UserId *string `mandatory:"false" json:"userId"`
 
 	// The passphrase of the private key.
-	Passphrase *string `mandatory:"false" json:"passphrase"`
+	PrivateKeyPassphrase *string `mandatory:"false" json:"privateKeyPassphrase"`
 
 	// The OCI Object Storage technology type.
 	TechnologyType OciObjectStorageConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`

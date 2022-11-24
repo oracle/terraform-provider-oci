@@ -81,7 +81,6 @@ const (
 	PreauthenticatedRequestSummaryAccessTypeAnyobjectwrite     PreauthenticatedRequestSummaryAccessTypeEnum = "AnyObjectWrite"
 	PreauthenticatedRequestSummaryAccessTypeAnyobjectread      PreauthenticatedRequestSummaryAccessTypeEnum = "AnyObjectRead"
 	PreauthenticatedRequestSummaryAccessTypeAnyobjectreadwrite PreauthenticatedRequestSummaryAccessTypeEnum = "AnyObjectReadWrite"
-	PreauthenticatedRequestSummaryAccessTypeObjectquery        PreauthenticatedRequestSummaryAccessTypeEnum = "ObjectQuery"
 )
 
 var mappingPreauthenticatedRequestSummaryAccessTypeEnum = map[string]PreauthenticatedRequestSummaryAccessTypeEnum{
@@ -91,7 +90,6 @@ var mappingPreauthenticatedRequestSummaryAccessTypeEnum = map[string]Preauthenti
 	"AnyObjectWrite":     PreauthenticatedRequestSummaryAccessTypeAnyobjectwrite,
 	"AnyObjectRead":      PreauthenticatedRequestSummaryAccessTypeAnyobjectread,
 	"AnyObjectReadWrite": PreauthenticatedRequestSummaryAccessTypeAnyobjectreadwrite,
-	"ObjectQuery":        PreauthenticatedRequestSummaryAccessTypeObjectquery,
 }
 
 var mappingPreauthenticatedRequestSummaryAccessTypeEnumLowerCase = map[string]PreauthenticatedRequestSummaryAccessTypeEnum{
@@ -101,7 +99,6 @@ var mappingPreauthenticatedRequestSummaryAccessTypeEnumLowerCase = map[string]Pr
 	"anyobjectwrite":     PreauthenticatedRequestSummaryAccessTypeAnyobjectwrite,
 	"anyobjectread":      PreauthenticatedRequestSummaryAccessTypeAnyobjectread,
 	"anyobjectreadwrite": PreauthenticatedRequestSummaryAccessTypeAnyobjectreadwrite,
-	"objectquery":        PreauthenticatedRequestSummaryAccessTypeObjectquery,
 }
 
 // GetPreauthenticatedRequestSummaryAccessTypeEnumValues Enumerates the set of values for PreauthenticatedRequestSummaryAccessTypeEnum
@@ -122,7 +119,6 @@ func GetPreauthenticatedRequestSummaryAccessTypeEnumStringValues() []string {
 		"AnyObjectWrite",
 		"AnyObjectRead",
 		"AnyObjectReadWrite",
-		"ObjectQuery",
 	}
 }
 

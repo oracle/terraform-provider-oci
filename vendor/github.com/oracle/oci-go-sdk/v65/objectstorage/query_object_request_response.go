@@ -22,7 +22,7 @@ type QueryObjectRequest struct {
 	// Example: `my-new-bucket1`
 	BucketName *string `mandatory:"true" contributesTo:"path" name:"bucketName"`
 
-	// Contains query parameters and object details on which the query is to be executed.
+	// Contains details related query which is required by Object Storage to process a query request on an object.
 	QueryObjectDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

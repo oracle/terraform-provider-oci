@@ -64,7 +64,7 @@ func newObjectStorageClientFromBaseClient(baseClient common.BaseClient, configPr
 
 // SetRegion overrides the region of this client.
 func (client *ObjectStorageClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("objectstorage", "https://objectstorage.{region}.{secondLevelDomain}")
+	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("objectstorage", "https://objectstorage.{region}.{secondLevelDomain}", "objectstorage")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -2637,7 +2637,7 @@ func (client ObjectStorageClient) putObjectLifecyclePolicy(ctx context.Context, 
 	return response, err
 }
 
-// QueryObject Returns query result as a byte string in the response body.
+// QueryObject Returns query result as a byte string in the response body.The default format of results is CSV.
 // A default retry strategy applies to this operation QueryObject()
 func (client ObjectStorageClient) QueryObject(ctx context.Context, request QueryObjectRequest) (response QueryObjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2980,8 +2980,8 @@ func (client ObjectStorageClient) replaceObjectMetadata(ctx context.Context, req
 	return response, err
 }
 
-// RestoreObjects Restores one or more objects specified by the objectName parameter.
-// By default objects will be restored for 24 hours. Duration can be configured using the hours parameter.
+// RestoreObjects Restores the object specified by the objectName parameter.
+// By default object will be restored for 24 hours. Duration can be configured using the hours parameter.
 // A default retry strategy applies to this operation RestoreObjects()
 func (client ObjectStorageClient) RestoreObjects(ctx context.Context, request RestoreObjectsRequest) (response RestoreObjectsResponse, err error) {
 	var ociResponse common.OCIResponse

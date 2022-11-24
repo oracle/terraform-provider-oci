@@ -17,6 +17,9 @@ type ListAddonOptionsRequest struct {
 	// The kubernetes version to fetch the addons.
 	KubernetesVersion *string `mandatory:"true" contributesTo:"query" name:"kubernetesVersion"`
 
+	// The name of the cluster addon.
+	AddonName *string `mandatory:"false" contributesTo:"query" name:"addonName"`
+
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

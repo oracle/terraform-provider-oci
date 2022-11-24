@@ -27,11 +27,6 @@ type StartPrefixRenameRequest struct {
 	// The client request ID for tracing.
 	OpcClientRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-client-request-id"`
 
-	// The entity tag (ETag) to match with the ETag of an existing resource. If the specified ETag matches the ETag of
-	// the existing resource, GET and HEAD requests will return the resource and PUT and POST requests will upload
-	// the resource.
-	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
-
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
