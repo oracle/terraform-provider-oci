@@ -25,6 +25,9 @@ default: build
 build: fmtcheck errcheck gomodenv
 	go install
 
+buildnovcs: fmtcheck errcheck gomodenv
+	go install -buildvcs=false
+
 ### TODO: Fix this so that only unit tests are running
 test: fmtcheck
 
