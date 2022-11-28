@@ -29,6 +29,13 @@ var (
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 	}
 
+	DatabaseDatabasePeerExaInfraDbServerDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.peer_exadata_infrastructure.id}`},
+		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+	}
+
 	DatabaseDbServerResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Required, acctest.Create, DatabaseExadataInfrastructureRepresentation)
 )
 

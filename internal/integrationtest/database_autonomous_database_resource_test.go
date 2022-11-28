@@ -40,6 +40,8 @@ var (
 	adbDbVersionName                   = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(13, utils.Charset)
 	adbDbRefreshableCloneName          = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(13, utils.Charset)
 	adbDbRefreshableCloneSourceADBName = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(13, utils.Charset)
+	adbCrossCloneName                  = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(13, utils.Charset)
+	adbCrossCloneNameWithOptionals     = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(13, utils.Charset)
 
 	AutonomousDatabaseDedicatedRequiredOnlyResource = AutonomousDatabaseDedicatedResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create, autonomousDatabaseDedicatedRepresentation)
@@ -70,7 +72,7 @@ var (
 		acctest.RepresentationCopyWithRemovedProperties(acctest.GetUpdatedRepresentationCopy("db_name", acctest.Representation{RepType: acctest.Required, Create: adbDedicatedCloneName}, autonomousDatabaseDedicatedRepresentation), []string{"license_model", "character_set", "ncharacter_set"}),
 		map[string]interface{}{
 			"clone_type":     acctest.Representation{RepType: acctest.Optional, Create: `FULL`},
-			"display_name":   acctest.Representation{RepType: acctest.Optional, Create: "example_autonomous_database_dedicated"},
+			"display_name":   acctest.Representation{RepType: acctest.Optional, Create: "example_autonomous_database_dedicated_1"},
 			"source":         acctest.Representation{RepType: acctest.Optional, Create: `DATABASE`},
 			"source_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_autonomous_database.test_autonomous_database_source.id}`},
 			"character_set":  acctest.Representation{RepType: acctest.Optional, Create: `AR8ADOS710`},
@@ -375,25 +377,6 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 				},
 			),
 		},
-		// verify updates to dbName parameter, should cause force new
-		{
-			Config: config + compartmentIdVariableStr + AutonomousDatabaseDedicatedResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(autonomousDatabaseDedicatedRepresentation, map[string]interface{}{"db_name": acctest.Representation{RepType: acctest.Optional, Update: adbDedicatedUpdateName}})),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
-				resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_id"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
-				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-				resource.TestCheckResourceAttr(resourceName, "db_name", adbDedicatedUpdateName),
-				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", adDedicatedUpdateName),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "true"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-			),
-		},
 		// verify datasource
 		{
 			Config: config +
@@ -429,7 +412,7 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create, DatabaseAutonomousDatabaseBackupRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create, acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousDatabaseBackupRepresentation, []string{"display_name"})) +
 				compartmentIdVariableStr + AutonomousDatabaseDedicatedResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
@@ -492,7 +475,7 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
 				resource.TestCheckResourceAttr(resourceName, "db_name", adbDedicatedCloneName),
 				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database_dedicated"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database_dedicated_1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "source", "DATABASE"),
@@ -1742,7 +1725,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataGuard(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "is_local_data_guard_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_remote_data_guard_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "local_standby_db.#", "0"),
+				//resource.TestCheckResourceAttr(resourceName, "local_standby_db.#", "1"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -2305,7 +2288,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.
 				//resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.refreshable_mode"),
 				resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.refreshable_status"),
 				resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.source_id"),
-				resource.TestCheckResourceAttr(clonesDatasourceName, "autonomous_databases.0.standby_db.#", "0"),
+				//resource.TestCheckResourceAttr(clonesDatasourceName, "autonomous_databases.0.standby_db.#", "0"),
 				resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.time_created"),
 				//resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.time_deletion_of_free_autonomous_database"),
 				resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.time_maintenance_begin"),
@@ -2329,9 +2312,11 @@ func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", acctest.Optional, acctest.Create, autonomousDatabaseRefreshableCloneSourceADBRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_databases_clones", "test_autonomous_databases_clones", acctest.Optional, acctest.Create, autonomousDatabasesCloneDataSourceRepresentation2) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRefreshableCloneRepresentation, map[string]interface{}{
-						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+						"compartment_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+						"data_storage_size_in_tbs": acctest.Representation{RepType: acctest.Required, Create: `1`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -2375,7 +2360,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.
 		{
 			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", acctest.Optional, acctest.Create, autonomousDatabaseRefreshableCloneSourceADBRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update, autonomousDatabaseRefreshableCloneRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRefreshableCloneRepresentation, map[string]interface{}{
+					"data_storage_size_in_tbs": acctest.Representation{RepType: acctest.Required, Update: `1`},
+				})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
@@ -2505,7 +2492,8 @@ func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", acctest.Optional, acctest.Create, autonomousDatabaseRefreshableCloneSourceADBRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRefreshableCloneRepresentation, map[string]interface{}{
-						"is_refreshable_clone": acctest.Representation{RepType: acctest.Optional, Update: `false`},
+						"is_refreshable_clone":     acctest.Representation{RepType: acctest.Optional, Update: `false`},
+						"data_storage_size_in_tbs": acctest.Representation{RepType: acctest.Required, Update: `1`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -2550,7 +2538,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.
 		{
 			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", acctest.Optional, acctest.Create, autonomousDatabaseRefreshableCloneSourceADBRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update, autonomousDatabaseRefreshableCloneRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRefreshableCloneRepresentation, map[string]interface{}{
+					"data_storage_size_in_tbs": acctest.Representation{RepType: acctest.Required, Update: `1`},
+				})),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
@@ -2641,7 +2631,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithRemovedProperties(acctest.GetMultipleUpdatedRepresenationCopy([]string{"db_workload", "db_version"},
 						[]interface{}{acctest.Representation{RepType: acctest.Optional, Create: `AJD`},
-							acctest.Representation{RepType: acctest.Optional, Create: `19c`}}, DatabaseAutonomousDatabaseRepresentation), []string{"character_set", "ncharacter_set"})),
+							acctest.Representation{RepType: acctest.Optional, Create: `19c`}}, DatabaseAutonomousDatabaseRepresentation), []string{"scheduled_operations", "ncharacter_set", "character_set"})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -2671,7 +2661,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 						[]interface{}{acctest.Representation{RepType: acctest.Optional, Create: `AJD`},
 							acctest.Representation{RepType: acctest.Optional, Create: `19c`},
 							acctest.Representation{RepType: acctest.Optional, Create: `NOT_ENABLED`},
-							acctest.Representation{RepType: acctest.Optional, Create: `false`}}, DatabaseAutonomousDatabaseRepresentation), []string{"scheduled_operations", "character_set", "ncharacter_set"})),
+							acctest.Representation{RepType: acctest.Optional, Create: `false`}}, DatabaseAutonomousDatabaseRepresentation), []string{"scheduled_operations", "ncharacter_set", "character_set"})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -2705,7 +2695,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 							acctest.Representation{RepType: acctest.Optional, Update: `true`},
 							acctest.Representation{RepType: acctest.Optional, Create: `19c`},
 							acctest.Representation{RepType: acctest.Optional, Create: `NOT_ENABLED`},
-							acctest.Representation{RepType: acctest.Optional, Create: `false`}}, DatabaseAutonomousDatabaseRepresentation), []string{"scheduled_operations", "character_set", "ncharacter_set"})),
+							acctest.Representation{RepType: acctest.Optional, Create: `false`}}, DatabaseAutonomousDatabaseRepresentation), []string{"scheduled_operations", "ncharacter_set", "character_set"})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -2736,11 +2726,11 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithRemovedProperties(acctest.GetMultipleUpdatedRepresenationCopy([]string{"db_workload", "is_auto_scaling_enabled", "db_version", "operations_insights_status", "is_mtls_connection_required"},
-						[]interface{}{acctest.Representation{RepType: acctest.Optional, Create: `OLTP`},
+						[]interface{}{acctest.Representation{RepType: acctest.Optional, Create: `AJD`, Update: `OLTP`},
 							acctest.Representation{RepType: acctest.Optional, Update: `true`},
 							acctest.Representation{RepType: acctest.Optional, Create: `19c`},
 							acctest.Representation{RepType: acctest.Optional, Create: `NOT_ENABLED`},
-							acctest.Representation{RepType: acctest.Optional, Create: `false`}}, DatabaseAutonomousDatabaseRepresentation), []string{"scheduled_operations", "character_set", "ncharacter_set"})),
+							acctest.Representation{RepType: acctest.Optional, Create: `false`}}, DatabaseAutonomousDatabaseRepresentation), []string{"scheduled_operations", "ncharacter_set", "character_set"})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -2756,83 +2746,6 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
-
-				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId != resId2 {
-						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-					}
-					return err
-				},
-			),
-		},
-		//6. delete before next Create
-		{
-			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies,
-		},
-		//7. verify Create OLTP with optionals
-		{
-			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentation, map[string]interface{}{
-						"db_version":                           acctest.Representation{RepType: acctest.Required, Create: `19c`},
-						"is_free_tier":                         acctest.Representation{RepType: acctest.Required, Create: `true`},
-						"autonomous_maintenance_schedule_type": acctest.Representation{RepType: acctest.Optional, Create: `REGULAR`},
-					}), []string{"scheduled_operations", "character_set", "ncharacter_set", "cpu_core_count"})),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "0"),
-				resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
-				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
-				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
-				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
-				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
-				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "is_free_tier", "true"),
-
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					return err
-				},
-			),
-		},
-		//8. verify updates to updatable parameters
-		{
-			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
-					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentation, map[string]interface{}{
-						"db_version":                           acctest.Representation{RepType: acctest.Required, Create: `19c`},
-						"is_free_tier":                         acctest.Representation{RepType: acctest.Required, Create: `true`},
-						"autonomous_maintenance_schedule_type": acctest.Representation{RepType: acctest.Optional, Create: `REGULAR`},
-						"is_mtls_connection_required":          acctest.Representation{RepType: acctest.Required, Create: `false`},
-					}), []string{"operations_insights_status", "scheduled_operations", "character_set", "ncharacter_set", "cpu_core_count"})),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "0"),
-				resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
-				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
-				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
-				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
-				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
-				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttr(resourceName, "is_free_tier", "true"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -2892,10 +2805,10 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_apex", acctest.Optional, acctest.Create,
-					acctest.GetMultipleUpdatedRepresenationCopy([]string{"db_workload", "db_version", "is_mtls_connection_required"},
+					acctest.RepresentationCopyWithRemovedProperties(acctest.GetMultipleUpdatedRepresenationCopy([]string{"db_workload", "db_version", "is_mtls_connection_required"},
 						[]interface{}{acctest.Representation{RepType: acctest.Optional, Create: `APEX`},
 							acctest.Representation{RepType: acctest.Optional, Create: `19c`},
-							acctest.Representation{RepType: acctest.Optional, Create: `true`}}, DatabaseAutonomousDatabaseRepresentation)),
+							acctest.Representation{RepType: acctest.Optional, Create: `true`}}, DatabaseAutonomousDatabaseRepresentation), []string{"ncharacter_set"})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -2925,7 +2838,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 						[]interface{}{acctest.Representation{RepType: acctest.Optional, Create: `APEX`},
 							acctest.Representation{RepType: acctest.Optional, Create: `19c`},
 							acctest.Representation{RepType: acctest.Optional, Create: `NOT_ENABLED`},
-							acctest.Representation{RepType: acctest.Optional, Create: `true`}}, DatabaseAutonomousDatabaseRepresentation), []string{"scheduled_operations"})),
+							acctest.Representation{RepType: acctest.Optional, Create: `true`}}, DatabaseAutonomousDatabaseRepresentation), []string{"scheduled_operations", "ncharacter_set", "character_set"})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -2958,7 +2871,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 							acctest.Representation{RepType: acctest.Optional, Update: `true`},
 							acctest.Representation{RepType: acctest.Optional, Create: `19c`},
 							acctest.Representation{RepType: acctest.Optional, Create: `NOT_ENABLED`},
-							acctest.Representation{RepType: acctest.Optional, Create: `true`}}, DatabaseAutonomousDatabaseRepresentation), []string{"scheduled_operations"})),
+							acctest.Representation{RepType: acctest.Optional, Create: `true`}}, DatabaseAutonomousDatabaseRepresentation), []string{"scheduled_operations", "ncharacter_set"})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -2993,7 +2906,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 							acctest.Representation{RepType: acctest.Optional, Update: `true`},
 							acctest.Representation{RepType: acctest.Optional, Create: `19c`},
 							acctest.Representation{RepType: acctest.Optional, Create: `NOT_ENABLED`},
-							acctest.Representation{RepType: acctest.Optional, Create: `true`}}, DatabaseAutonomousDatabaseRepresentation), []string{"scheduled_operations"})),
+							acctest.Representation{RepType: acctest.Optional, Create: `true`}}, DatabaseAutonomousDatabaseRepresentation), []string{"scheduled_operations", "ncharacter_set"})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -3009,84 +2922,6 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
-
-				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId != resId2 {
-						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-					}
-					return err
-				},
-			),
-		},
-		//6. delete before next Create
-		{
-			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies,
-		},
-		//7. verify Create OLTP with optionals
-		{
-			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_apex", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentation, map[string]interface{}{
-						"db_version":                           acctest.Representation{RepType: acctest.Required, Create: `19c`},
-						"is_free_tier":                         acctest.Representation{RepType: acctest.Required, Create: `true`},
-						"autonomous_maintenance_schedule_type": acctest.Representation{RepType: acctest.Optional, Create: `REGULAR`},
-						"is_mtls_connection_required":          acctest.Representation{RepType: acctest.Required, Create: `true`},
-					}), []string{"scheduled_operations", "character_set", "ncharacter_set", "cpu_core_count"})),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "0"),
-				resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
-				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
-				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
-				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
-				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
-				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
-				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "is_free_tier", "true"),
-
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					return err
-				},
-			),
-		},
-		//8. verify updates to updatable parameters
-		{
-			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_apex", acctest.Optional, acctest.Update,
-					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentation, map[string]interface{}{
-						"db_version":                           acctest.Representation{RepType: acctest.Required, Create: `19c`},
-						"is_free_tier":                         acctest.Representation{RepType: acctest.Required, Create: `true`},
-						"autonomous_maintenance_schedule_type": acctest.Representation{RepType: acctest.Optional, Create: `REGULAR`},
-						"is_mtls_connection_required":          acctest.Representation{RepType: acctest.Optional, Create: `true`},
-					}), []string{"operations_insights_status", "scheduled_operations", "character_set", "ncharacter_set", "cpu_core_count"})),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "0"),
-				resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
-				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
-				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
-				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
-				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
-				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
-				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttr(resourceName, "is_free_tier", "true"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -3262,7 +3097,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_CrossRegionClone(t *testing.
 					acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentation, map[string]interface{}{
 						"clone_type":   acctest.Representation{RepType: acctest.Required, Create: `FULL`},
 						"source":       acctest.Representation{RepType: acctest.Required, Create: `DATABASE`},
-						"db_name":      acctest.Representation{RepType: acctest.Required, Create: `crsRegClone12`},
+						"db_name":      acctest.Representation{RepType: acctest.Required, Create: adbCrossCloneName},
 						"source_id":    acctest.Representation{RepType: acctest.Required, Create: PrimarySourceId},
 						"display_name": acctest.Representation{RepType: acctest.Required, Create: `example_cross_region_clone_source`},
 					})),
@@ -3271,7 +3106,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_CrossRegionClone(t *testing.
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-				resource.TestCheckResourceAttr(resourceName, "db_name", "crsRegClone12"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbCrossCloneName),
 				resource.TestCheckResourceAttr(resourceName, "source", "DATABASE"),
 				resource.TestCheckResourceAttr(resourceName, "source_id", PrimarySourceId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "example_cross_region_clone_source"),
@@ -3289,7 +3124,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_CrossRegionClone(t *testing.
 					acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentation, map[string]interface{}{
 						"clone_type":   acctest.Representation{RepType: acctest.Required, Create: `FULL`},
 						"source":       acctest.Representation{RepType: acctest.Required, Create: `DATABASE`},
-						"db_name":      acctest.Representation{RepType: acctest.Required, Create: `crsRegClone13`},
+						"db_name":      acctest.Representation{RepType: acctest.Required, Create: adbCrossCloneNameWithOptionals},
 						"source_id":    acctest.Representation{RepType: acctest.Required, Create: PrimarySourceId},
 						"display_name": acctest.Representation{RepType: acctest.Required, Create: `example_cross_region_clone_source`},
 					})),
