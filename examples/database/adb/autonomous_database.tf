@@ -150,6 +150,7 @@ resource "oci_database_autonomous_database" "autonomous_database_from_backup_lat
   source                 = "BACKUP_FROM_TIMESTAMP"
   autonomous_database_id = oci_database_autonomous_database_backup.autonomous_database_backup.autonomous_database_id
   use_latest_available_backup_time_stamp              = "true"
+  whitelisted_ips             = ["1.1.1.1/28"]
 }
 
 data "oci_database_autonomous_databases" "autonomous_databases" {
