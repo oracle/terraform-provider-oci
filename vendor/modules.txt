@@ -10,17 +10,9 @@ cloud.google.com/go/internal/version
 # cloud.google.com/go/storage v1.10.0
 ## explicit; go 1.11
 cloud.google.com/go/storage
-# github.com/Masterminds/goutils v1.1.0
-## explicit
-# github.com/Masterminds/semver v1.5.0
-## explicit
-# github.com/Masterminds/sprig v2.22.0+incompatible
-## explicit
 # github.com/agext/levenshtein v1.2.2
 ## explicit
 github.com/agext/levenshtein
-# github.com/apparentlymart/go-cidr v1.1.0
-## explicit
 # github.com/apparentlymart/go-textseg v1.0.0
 ## explicit
 github.com/apparentlymart/go-textseg/textseg
@@ -30,8 +22,6 @@ github.com/apparentlymart/go-textseg/v12/textseg
 # github.com/apparentlymart/go-textseg/v13 v13.0.0
 ## explicit; go 1.16
 github.com/apparentlymart/go-textseg/v13/textseg
-# github.com/armon/go-radix v1.0.0
-## explicit
 # github.com/aws/aws-sdk-go v1.37.0
 ## explicit; go 1.11
 github.com/aws/aws-sdk-go/aws
@@ -86,8 +76,6 @@ github.com/aws/aws-sdk-go/service/sts/stsiface
 # github.com/bgentry/go-netrc v0.0.0-20140422174119-9fd32a8b3d3d
 ## explicit
 github.com/bgentry/go-netrc/netrc
-# github.com/bgentry/speakeasy v0.1.0
-## explicit
 # github.com/davecgh/go-spew v1.1.1
 ## explicit
 github.com/davecgh/go-spew/spew
@@ -118,8 +106,6 @@ github.com/google/go-cmp/cmp/internal/diff
 github.com/google/go-cmp/cmp/internal/flags
 github.com/google/go-cmp/cmp/internal/function
 github.com/google/go-cmp/cmp/internal/value
-# github.com/google/uuid v1.1.2
-## explicit
 # github.com/googleapis/gax-go/v2 v2.0.5
 ## explicit
 github.com/googleapis/gax-go/v2
@@ -163,8 +149,6 @@ github.com/hashicorp/go-uuid
 # github.com/hashicorp/go-version v1.3.0
 ## explicit
 github.com/hashicorp/go-version
-# github.com/hashicorp/hcl v0.0.0-20170504190234-a4b07c25de5f
-## explicit
 # github.com/hashicorp/hcl/v2 v2.8.2
 ## explicit; go 1.12
 github.com/hashicorp/hcl/v2
@@ -178,8 +162,6 @@ github.com/hashicorp/hcl2/hclwrite
 # github.com/hashicorp/logutils v1.0.0
 ## explicit
 github.com/hashicorp/logutils
-# github.com/hashicorp/terraform-config-inspect v0.0.0-20191212124732-c6ae6269b9d7
-## explicit
 # github.com/hashicorp/terraform-exec v0.14.0
 ## explicit; go 1.14
 github.com/hashicorp/terraform-exec/internal/version
@@ -221,17 +203,9 @@ github.com/hashicorp/terraform-plugin-sdk/v2/internal/tfdiags
 github.com/hashicorp/terraform-plugin-sdk/v2/meta
 github.com/hashicorp/terraform-plugin-sdk/v2/plugin
 github.com/hashicorp/terraform-plugin-sdk/v2/terraform
-# github.com/hashicorp/terraform-plugin-test/v2 v2.2.1
-## explicit; go 1.12
-# github.com/hashicorp/terraform-svchost v0.0.0-20200729002733-f050f53b9734
-## explicit; go 1.12
 # github.com/hashicorp/yamux v0.0.0-20181012175058-2f1d1f20f75d
 ## explicit
 github.com/hashicorp/yamux
-# github.com/huandu/xstrings v1.3.2
-## explicit; go 1.12
-# github.com/imdario/mergo v0.3.12
-## explicit; go 1.13
 # github.com/jmespath/go-jmespath v0.4.0
 ## explicit; go 1.14
 github.com/jmespath/go-jmespath
@@ -253,10 +227,6 @@ github.com/mattn/go-colorable
 # github.com/mattn/go-isatty v0.0.10
 ## explicit; go 1.14
 github.com/mattn/go-isatty
-# github.com/mitchellh/cli v1.1.2
-## explicit; go 1.11
-# github.com/mitchellh/colorstring v0.0.0-20190213212951-d06e56a500db
-## explicit
 # github.com/mitchellh/copystructure v1.2.0
 ## explicit; go 1.15
 github.com/mitchellh/copystructure
@@ -387,13 +357,9 @@ github.com/oracle/oci-go-sdk/v65/workrequests
 # github.com/pmezard/go-difflib v1.0.0
 ## explicit
 github.com/pmezard/go-difflib/difflib
-# github.com/posener/complete v1.2.1
-## explicit
 # github.com/sony/gobreaker v0.5.0
 ## explicit; go 1.12
 github.com/sony/gobreaker
-# github.com/spf13/afero v1.2.2
-## explicit
 # github.com/stretchr/testify v1.7.0
 ## explicit; go 1.13
 github.com/stretchr/testify/assert
@@ -409,10 +375,6 @@ github.com/ulikunitz/xz/lzma
 ## explicit
 github.com/vmihailenco/msgpack
 github.com/vmihailenco/msgpack/codes
-# github.com/vmihailenco/msgpack/v4 v4.3.12
-## explicit; go 1.11
-# github.com/vmihailenco/tagparser v0.1.1
-## explicit; go 1.13
 # github.com/zclconf/go-cty v1.8.4
 ## explicit; go 1.12
 github.com/zclconf/go-cty/cty
@@ -422,8 +384,6 @@ github.com/zclconf/go-cty/cty/function/stdlib
 github.com/zclconf/go-cty/cty/gocty
 github.com/zclconf/go-cty/cty/json
 github.com/zclconf/go-cty/cty/set
-# github.com/zclconf/go-cty-yaml v1.0.2
-## explicit
 # go.opencensus.io v0.22.4
 ## explicit; go 1.13
 go.opencensus.io
@@ -503,8 +463,6 @@ golang.org/x/tools/internal/gocommand
 golang.org/x/tools/internal/gopathwalk
 golang.org/x/tools/internal/imports
 golang.org/x/tools/internal/typeparams
-# golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1
-## explicit; go 1.11
 # google.golang.org/api v0.34.0
 ## explicit; go 1.11
 google.golang.org/api/googleapi
