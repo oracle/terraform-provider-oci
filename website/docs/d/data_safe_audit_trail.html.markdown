@@ -47,6 +47,7 @@ The following attributes are exported:
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `target_id` - The OCID of the Data Safe target for which the audit trail is created.
 * `time_created` - The date and time the audit trail was created, in the format defined by RFC3339.
+* `time_last_collected` - The date and time until which the audit events are collected from target database by Data Safe audit trail  collection process, in the format defined by RFC3339. 
 * `time_updated` - The date and time the audit trail was updated, in the format defined by RFC3339.
 * `trail_location` - An audit trail location represents the source of audit records that provides documentary evidence of the sequence of activities in the target database. 
 * `work_request_id` - The OCID of the workrequest for audit trail which collects audit records.

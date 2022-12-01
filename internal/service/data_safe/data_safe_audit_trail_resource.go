@@ -116,6 +116,10 @@ func DataSafeAuditTrailResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"time_last_collected": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"time_updated": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -570,6 +574,10 @@ func (s *DataSafeAuditTrailResourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeLastCollected != nil {
+		s.D.Set("time_last_collected", s.Res.TimeLastCollected.String())
 	}
 
 	if s.Res.TimeUpdated != nil {

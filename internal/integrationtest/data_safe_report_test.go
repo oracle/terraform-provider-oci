@@ -17,7 +17,7 @@ import (
 
 var (
 	DataSafereportSingularDataSourceRepresentation = map[string]interface{}{
-		"report_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_report.test_report.id}`},
+		"report_id": acctest.Representation{RepType: acctest.Required, Create: `${var.rep_identifier}`},
 	}
 
 	DataSafereportDataSourceRepresentation = map[string]interface{}{
@@ -27,6 +27,7 @@ var (
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 		"report_definition_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_report_definition.test_report_definition.id}`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"type":                      acctest.Representation{RepType: acctest.Optional, Create: `GENERATED`},
 	}
 
 	DataSafeReportResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_report_definition", "test_report_definition", acctest.Required, acctest.Create, reportDefinitionRepresentation)
@@ -44,6 +45,11 @@ func TestDataSafeReportResource_basic(t *testing.T) {
 
 	//compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	//compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+	reportDefId := utils.GetEnvSettingWithBlankDefault("report_ocid")
+	reportDefIdVariableStr := fmt.Sprintf("variable \"report_ocid\" { default = \"%s\" }\n", reportDefId)
+
+	reportIdentifier := utils.GetEnvSettingWithBlankDefault("rep_identifier")
+	reportIdentifierStr := fmt.Sprintf("variable \"rep_identifier\" { default = \"%s\" }\n", reportIdentifier)
 
 	datasourceName := "data.oci_data_safe_reports.test_reports"
 	singularDatasourceName := "data.oci_data_safe_report.test_report"
@@ -55,15 +61,9 @@ func TestDataSafeReportResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_reports", "test_reports", acctest.Required, acctest.Create, DataSafereportDataSourceRepresentation) +
-				compartmentIdVariableStr + DataSafeReportResourceConfig,
+				compartmentIdVariableStr + DataSafeReportResourceConfig + reportDefIdVariableStr + reportIdentifierStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "access_level", "RESTRICTED"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
-				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
-				resource.TestCheckResourceAttrSet(datasourceName, "report_definition_id"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
-
 				resource.TestCheckResourceAttrSet(datasourceName, "report_collection.#"),
 			),
 		},
@@ -71,17 +71,17 @@ func TestDataSafeReportResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_report", "test_report", acctest.Required, acctest.Create, DataSafereportSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DataSafeReportResourceConfig,
+				compartmentIdVariableStr + DataSafeReportResourceConfig + reportDefIdVariableStr + reportIdentifierStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "report_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "mime_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_generated"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
 			),
 		},
 	})
