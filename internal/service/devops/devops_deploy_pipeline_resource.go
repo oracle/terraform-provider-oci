@@ -685,11 +685,15 @@ func (s *DevopsDeployPipelineResourceCrud) mapToDeployPipelineParameter(fieldKey
 	}
 	if defaultValue, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "default_value")); ok {
 		tmp := defaultValue.(string)
-		result.DefaultValue = &tmp
+		if len(tmp) > 0 {
+			result.DefaultValue = &tmp
+		}
 	}
 	if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
 		tmp := description.(string)
-		result.Description = &tmp
+		if len(tmp) > 0 {
+			result.Description = &tmp
+		}
 	}
 
 	return result, nil
