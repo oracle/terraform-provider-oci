@@ -74,6 +74,10 @@ func (s *JmsFleetDataSourceCrud) SetData() error {
 		s.D.Set("approximate_installation_count", *s.Res.ApproximateInstallationCount)
 	}
 
+	if s.Res.ApproximateJavaServerCount != nil {
+		s.D.Set("approximate_java_server_count", *s.Res.ApproximateJavaServerCount)
+	}
+
 	if s.Res.ApproximateJreCount != nil {
 		s.D.Set("approximate_jre_count", *s.Res.ApproximateJreCount)
 	}

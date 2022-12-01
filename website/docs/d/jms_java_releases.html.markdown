@@ -48,13 +48,14 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `artifact_content_types` - Artifact content types for the Java version.
 * `artifacts` - List of Java artifacts.
 	* `approximate_file_size_in_bytes` - Approximate compressed file size in bytes.
 	* `artifact_content_type` - Product content type of this artifact.
 	* `artifact_description` - Description of the binary artifact. Typically includes the OS, architecture, and installer type.
 	* `artifact_id` - Unique identifier for the artifact.
 	* `sha256` - SHA256 checksum of the artifact.
-* `family_details` - Complete information of a specific Java release family. 
+* `family_details` - Metadata associated with a specific Java release family. A Java release family is typically a major version in the Java version identifier. 
 	* `display_name` - The display name of the release family.
 	* `doc_url` - Link to access the documentation for the release.
 	* `end_of_support_life_date` - The End of Support Life (EOSL) date of the Java release family (formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)). 
