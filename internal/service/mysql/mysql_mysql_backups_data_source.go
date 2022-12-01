@@ -132,7 +132,9 @@ func (s *MysqlMysqlBackupsDataSourceCrud) SetData() error {
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
-		mysqlBackup := map[string]interface{}{}
+		mysqlBackup := map[string]interface{}{
+			"compartment_id": *r.CompartmentId,
+		}
 
 		if r.BackupSizeInGBs != nil {
 			mysqlBackup["backup_size_in_gbs"] = *r.BackupSizeInGBs
