@@ -26,11 +26,11 @@ variable "log_configuration_source_source_type" {
   default = "OCISERVICE"
 }
 
-variable "log_defined_tags_value" {
-  default = "value"
+variable "defined_tags_value" {
+  default = "tf-value"
 }
 
-variable "log_freeform_tags" {
+variable "freeform_tags_value" {
   default = {
     "Department" = "Finance log"
   }
@@ -53,10 +53,17 @@ variable "log_source_service" {
   default = "objectstorage"
 }
 
+variable "test_log_group_id" {}
+variable "test_log_name" {
+  default = "tf-exampleLog"
+}
+variable "tag_namespace1_name" {}
+variable "tag2_name" {}
+
 resource "oci_logging_log" "test_log" {
   #Required
-  display_name = "displayName"
-  log_group_id = oci_logging_log_group.test_log_group.id
+  display_name = var.test_log_name
+  log_group_id = var.test_log_group_id
   log_type     = var.log_log_type.custom
 
   #Optional
@@ -78,22 +85,25 @@ resource "oci_logging_log" "test_log" {
   }*/
 
   defined_tags = {
-    "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag2.name}" = var.log_defined_tags_value
+    "${var.tag_namespace1_name}.${var.tag2_name}" = var.defined_tags_value
   }
-  freeform_tags      = var.log_freeform_tags
+  freeform_tags      = var.freeform_tags_value
   is_enabled         = "false"
   retention_duration = "30"
 }
 
 data "oci_logging_logs" "test_logs" {
   #Required
-  log_group_id = oci_logging_log_group.test_log_group.id
+  log_group_id = var.test_log_group_id
 
   #Optional
-  display_name    = "displayName"
+  display_name    = var.test_log_name
   log_type        = var.log_log_type.custom
   source_resource = var.log_source_resource
   source_service  = var.log_source_service
   state           = "ACTIVE"
 }
 
+output "test_log_id" {
+  value = oci_logging_log.test_log.id
+}

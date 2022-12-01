@@ -6,16 +6,28 @@ variable "log_saved_search_freeform_tags" {
     "Department" = "Finance"
   }
 }
+variable "log_defined_tags_value" {
+  default = "tf-value"
+}
+variable "log_group_defined_tags_value" {
+  default = "tf-value-group"
+}
+variable "compartment_id" {}
+variable "tag_namespace1_name" {}
+variable "tag1_name" {}
+variable "test_log_saved_search_name" {
+  default = "tf-exampleLogSavedSearch"
+}
 
 resource "oci_logging_log_saved_search" "test_log_saved_search" {
   #Required
-  compartment_id = var.compartment_ocid
-  name           = "exampleLogSavedSearch"
+  compartment_id = var.compartment_id
+  name           = var.test_log_saved_search_name
   query          = "exampleQuery"
 
   #Optional
   defined_tags = {
-    "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = var.log_group_defined_tags_value
+    "${var.tag_namespace1_name}.${var.tag1_name}" = var.log_group_defined_tags_value
   }
   description = "description"
 
@@ -24,9 +36,9 @@ resource "oci_logging_log_saved_search" "test_log_saved_search" {
 
 data "oci_logging_log_saved_searches" "test_log_saved_searches" {
   #Required
-  compartment_id = var.compartment_ocid
+  compartment_id = var.compartment_id
 
   #Optional
-  name           = "exampleLogSavedSearch"
+  name           = var.test_log_saved_search_name
   log_saved_search_id = oci_logging_log_saved_search.test_log_saved_search.id
 }
