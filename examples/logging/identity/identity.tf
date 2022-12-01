@@ -1,6 +1,8 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
+variable "compartment_id" {}
+
 variable "log_group_defined_tags_value" {
   default = "value2"
 }
@@ -16,12 +18,12 @@ variable "tag_namespace_description" {
 }
 
 variable "tag_namespace_name" {
-  default = "testexamples-tag-namespace"
+  default = "tf-testexamples-tag-namespace"
 }
 
 resource "oci_identity_tag_namespace" "tag-namespace1" {
   #Required
-  compartment_id = var.tenancy_ocid
+  compartment_id = var.compartment_id
   description    = var.tag_namespace_description
   name           = var.tag_namespace_name
 }
@@ -40,26 +42,12 @@ resource "oci_identity_tag" "tag2" {
   tag_namespace_id = oci_identity_tag_namespace.tag-namespace1.id
 }
 
-resource "oci_logging_log_group" "test_log_group" {
-  #Required
-  compartment_id = var.compartment_ocid
-  display_name   = "exampleLogGroup"
-
-  #Optional
-  defined_tags = {
-    "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = var.log_group_defined_tags_value
-  }
-  description = "description"
-
-  freeform_tags = var.log_group_freeform_tags
+output "tag_namespace1_name" {
+  value = oci_identity_tag_namespace.tag-namespace1.name
 }
-
-data "oci_logging_log_groups" "test_log_groups" {
-  #Required
-  compartment_id = var.compartment_ocid
-
-  #Optional
-  display_name                 = "exampleLogGroup"
-  is_compartment_id_in_subtree = "false"
+output "tag1_name" {
+  value = oci_identity_tag.tag1.name
 }
-
+output "tag2_name" {
+  value = oci_identity_tag.tag2.name
+}
