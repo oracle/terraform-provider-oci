@@ -40,46 +40,52 @@ func NetworkFirewallNetworkFirewallPolicyResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
-			// Optional
 			"application_lists": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-						"type": {
+						//Required
+						"application_list_name": {
 							Type:     schema.TypeString,
 							Required: true,
 						},
-						"key": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
-						// Optional
-						"icmp_type": {
-							Type:     schema.TypeInt,
+						//Optional
+						"application_values": {
+							Type:     schema.TypeList,
 							Optional: true,
 							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"type": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									// Optional
+									"icmp_type": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"icmp_code": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"minimum_port": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"maximum_port": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+								},
+							},
 						},
-						"icmp_code": {
-							Type:     schema.TypeInt,
-							Optional: true,
-							Computed: true,
-						},
-						"minimum_port": {
-							Type:     schema.TypeInt,
-							Optional: true,
-							Computed: true,
-						},
-						"maximum_port": {
-							Type:     schema.TypeInt,
-							Optional: true,
-							Computed: true,
-						},
-
-						// Computed
 					},
 				},
 			},
@@ -354,27 +360,31 @@ func NetworkFirewallNetworkFirewallPolicyResource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-						"type": {
+						"url_list_name": {
 							Type:     schema.TypeString,
 							Required: true,
 						},
-						"key": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
-						// Optional
-						"pattern": {
-							Type:     schema.TypeString,
+						"url_list_values": {
+							Type:     schema.TypeList,
 							Optional: true,
 							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"type": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"pattern": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+								},
+							},
 						},
-
-						// Computed
 					},
 				},
 			},
-
 			// Computed
 			"is_firewall_attached": {
 				Type:     schema.TypeBool,
@@ -473,97 +483,26 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) DeletedTarget() []str
 	}
 }
 
-func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) mapToApplication(fieldKeyFormat string) (oci_network_firewall.Application, error) {
-	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
-		tmp := type_.(string)
-		switch tmp {
-		case "ICMP":
-			result := oci_network_firewall.IcmpApplication{}
-			if icmpType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "icmp_type")); ok {
-				tmp := icmpType.(int)
-				result.IcmpType = &tmp
-			}
-			if icmpCode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "icmp_code")); ok {
-				tmp := icmpCode.(int)
-				result.IcmpCode = &tmp
-			}
-			return result, nil
-		case "ICMP6":
-			result := oci_network_firewall.Icmp6Application{}
-			if icmpType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "icmp_type")); ok {
-				tmp := icmpType.(int)
-				result.IcmpType = &tmp
-			}
-			if icmpCode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "icmp_code")); ok {
-				tmp := icmpCode.(int)
-				result.IcmpCode = &tmp
-			}
-			return result, nil
-		case "UDP":
-			result := oci_network_firewall.UdpApplication{}
-			if minimumPort, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "minimum_port")); ok {
-				tmp := minimumPort.(int)
-				result.MinimumPort = &tmp
-			}
-			if maximumPort, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maximum_port")); ok {
-				tmp := maximumPort.(int)
-				result.MaximumPort = &tmp
-			}
-			return result, nil
-		case "TCP":
-			result := oci_network_firewall.TcpApplication{}
-			if minimumPort, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "minimum_port")); ok {
-				tmp := minimumPort.(int)
-				result.MinimumPort = &tmp
-			}
-			if maximumPort, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maximum_port")); ok {
-				tmp := maximumPort.(int)
-				result.MaximumPort = &tmp
-			}
-			return result, nil
-		}
-	}
-	return nil, nil
-}
-
-func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) mapToUrlPattern(fieldKeyFormat string) (oci_network_firewall.UrlPattern, error) {
-
-	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
-		tmp := type_.(string)
-		switch tmp {
-		case "SIMPLE":
-			result := oci_network_firewall.SimpleUrlPattern{}
-			if pattern, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pattern")); ok {
-				tmp := pattern.(string)
-				result.Pattern = &tmp
-			}
-			return result, nil
-		}
-	}
-	return nil, nil
-}
-
 func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) Create() error {
 	request := oci_network_firewall.CreateNetworkFirewallPolicyRequest{}
 
 	if applicationLists, ok := s.D.GetOkExists("application_lists"); ok {
-		interfaces := applicationLists.([]interface{})
-		tmp := make([]oci_network_firewall.Application, len(interfaces))
-		var mapKey string
-		for i := range interfaces {
-			stateDataIndex := i
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", "application_lists", stateDataIndex)
-			converted, err := s.mapToApplication(fieldKeyFormatNextLevel)
-			if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormatNextLevel, "key")); ok {
-				mapKey = key.(string)
-			}
-			if err != nil {
-				return err
-			}
-			tmp[i] = converted
+		resultApplicationLists, err := s.objectMapToApplicationListsMap(applicationLists)
+		if err != nil {
+			return err
 		}
-		if len(tmp) != 0 || s.D.HasChange("application_lists") {
-			request.ApplicationLists = map[string][]oci_network_firewall.Application{mapKey: tmp}
+		if len(resultApplicationLists) > 0 {
+			request.ApplicationLists = resultApplicationLists
+		}
+	}
+
+	if urlLists, ok := s.D.GetOkExists("url_lists"); ok {
+		resultUrlLists, err := s.objectMapToUrlListsMap(urlLists)
+		if err != nil {
+			return err
+		}
+		if len(resultUrlLists) > 0 {
+			request.UrlLists = resultUrlLists
 		}
 	}
 
@@ -647,27 +586,6 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) Create() error {
 		}
 	}
 
-	if urlLists, ok := s.D.GetOkExists("url_lists"); ok {
-		interfaces := urlLists.([]interface{})
-		tmp := make([]oci_network_firewall.UrlPattern, len(interfaces))
-		var listKey string
-		for i := range interfaces {
-			stateDataIndex := i
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", "url_lists", stateDataIndex)
-			converted, err := s.mapToUrlPattern(fieldKeyFormatNextLevel)
-			if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormatNextLevel, "key")); ok {
-				listKey = key.(string)
-			}
-			if err != nil {
-				return err
-			}
-			tmp[i] = converted
-		}
-		if len(tmp) != 0 || s.D.HasChange("url_lists") {
-			request.UrlLists = map[string][]oci_network_firewall.UrlPattern{listKey: tmp}
-		}
-	}
-
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_firewall")
 
 	response, err := s.Client.CreateNetworkFirewallPolicy(context.Background(), request)
@@ -682,7 +600,6 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) Create() error {
 func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) objectMapToDecryptionProfileMap(decryptionProfiles interface{}) (map[string]oci_network_firewall.DecryptionProfile, error) {
 
 	resultMap := map[string]oci_network_firewall.DecryptionProfile{}
-	//set := decryptionProfiles.(*schema.Set)
 	tmpList := decryptionProfiles.([]interface{})
 	i := 0
 	for _, ifc := range tmpList {
@@ -990,23 +907,22 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) Update() error {
 	request := oci_network_firewall.UpdateNetworkFirewallPolicyRequest{}
 
 	if applicationLists, ok := s.D.GetOkExists("application_lists"); ok {
-		interfaces := applicationLists.([]interface{})
-		tmp := make([]oci_network_firewall.Application, len(interfaces))
-		var mapKey string
-		for i := range interfaces {
-			stateDataIndex := i
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", "application_lists", stateDataIndex)
-			converted, err := s.mapToApplication(fieldKeyFormatNextLevel)
-			if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormatNextLevel, "key")); ok {
-				mapKey = key.(string)
-			}
-			if err != nil {
-				return err
-			}
-			tmp[i] = converted
+		resultApplicationLists, err := s.objectMapToApplicationListsMap(applicationLists)
+		if err != nil {
+			return err
 		}
-		if len(tmp) != 0 || s.D.HasChange("application_lists") {
-			request.ApplicationLists = map[string][]oci_network_firewall.Application{mapKey: tmp}
+		if len(resultApplicationLists) > 0 {
+			request.ApplicationLists = resultApplicationLists
+		}
+	}
+
+	if urlLists, ok := s.D.GetOkExists("url_lists"); ok {
+		resultUrlLists, err := s.objectMapToUrlListsMap(urlLists)
+		if err != nil {
+			return err
+		}
+		if len(resultUrlLists) > 0 {
+			request.UrlLists = resultUrlLists
 		}
 	}
 
@@ -1037,13 +953,13 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) Update() error {
 		}
 	}
 
-	/*	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return err
 		}
 		request.DefinedTags = convertedDefinedTags
-	}*/
+	}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
@@ -1088,27 +1004,6 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) Update() error {
 		}
 	}
 
-	if urlLists, ok := s.D.GetOkExists("url_lists"); ok {
-		interfaces := urlLists.([]interface{})
-		tmp := make([]oci_network_firewall.UrlPattern, len(interfaces))
-		var listKey string
-		for i := range interfaces {
-			stateDataIndex := i
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", "url_lists", stateDataIndex)
-			converted, err := s.mapToUrlPattern(fieldKeyFormatNextLevel)
-			if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormatNextLevel, "key")); ok {
-				listKey = key.(string)
-			}
-			if err != nil {
-				return err
-			}
-			tmp[i] = converted
-		}
-		if len(tmp) != 0 || s.D.HasChange("url_lists") {
-			request.UrlLists = map[string][]oci_network_firewall.UrlPattern{listKey: tmp}
-		}
-	}
-
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_firewall")
 
 	response, err := s.Client.UpdateNetworkFirewallPolicy(context.Background(), request)
@@ -1145,6 +1040,12 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) SetData() error {
 		s.D.Set("application_lists", propertyApplicationListsToMap(s.Res.ApplicationLists))
 	} else {
 		s.D.Set("application_lists", nil)
+	}
+
+	if s.Res.UrlLists != nil {
+		s.D.Set("url_lists", propertyUrlListsToMap(s.Res.UrlLists))
+	} else {
+		s.D.Set("url_lists", nil)
 	}
 
 	if s.Res.CompartmentId != nil {
@@ -1213,25 +1114,74 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) SetData() error {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
-	/*s.D.Set("url_lists", s.Res.UrlLists)*/
-	if s.Res.UrlLists != nil {
-		s.D.Set("url_lists", propertyUrlListsToMap(s.Res.UrlLists))
-	} else {
-		s.D.Set("url_lists", nil)
-	}
-
 	return nil
 }
 
 func ipAddressListsToMap(ipAddressLists map[string][]string) []interface{} {
 	var ipAddrLists []interface{}
-	var ipAddrrObj = make(map[string]interface{})
 	for listName, ipAddrs := range ipAddressLists {
+		var ipAddrrObj = make(map[string]interface{})
 		ipAddrrObj["ip_address_list_name"] = listName
 		ipAddrrObj["ip_address_list_value"] = ipAddrs
 		ipAddrLists = append(ipAddrLists, ipAddrrObj)
 	}
 	return ipAddrLists
+}
+
+func propertyUrlListsToMap(obj map[string][]oci_network_firewall.UrlPattern) []interface{} {
+
+	var urls []interface{}
+	for k, v := range obj {
+		var urlListK = make(map[string]interface{})
+		urlListK["url_list_name"] = k
+		var urlLists []interface{}
+		for _, item := range v {
+			result := item.(map[string]interface{})
+			var url = make(map[string]interface{})
+			url["type"] = "SIMPLE"
+			for key, value := range result {
+				if key == "pattern" {
+					url["pattern"] = value
+				}
+			}
+			urlLists = append(urlLists, url)
+		}
+		urlListK["url_list_values"] = urlLists
+		urls = append(urls, urlListK)
+	}
+
+	return urls
+}
+
+func propertyApplicationListsToMap(obj map[string][]oci_network_firewall.Application) []interface{} {
+
+	var applications []interface{}
+	for k, v := range obj {
+		var applicationListK = make(map[string]interface{})
+		applicationListK["application_list_name"] = k
+		var applicationLists []interface{}
+		for _, item := range v {
+			var application = make(map[string]interface{})
+			result := item.(map[string]interface{})
+			for key, value := range result {
+				if key == "type" {
+					application["type"] = value
+				} else if key == "icmpType" {
+					application["icmp_type"] = value
+				} else if key == "icmpCode" {
+					application["icmp_code"] = value
+				} else if key == "minimumPort" {
+					application["minimum_port"] = value
+				} else if key == "maximumPort" {
+					application["maximum_port"] = value
+				}
+			}
+			applicationLists = append(applicationLists, application)
+		}
+		applicationListK["application_values"] = applicationLists
+		applications = append(applications, applicationListK)
+	}
+	return applications
 }
 
 func DecryptionProfileMapToMap(decryptionProfileMap map[string]oci_network_firewall.DecryptionProfile) []interface{} {
@@ -1298,78 +1248,21 @@ func MappedSecretToMap(obj oci_network_firewall.MappedSecret) map[string]interfa
 	return result
 }
 
-func propertyApplicationListsToMap(obj map[string][]oci_network_firewall.Application) []map[string]interface{} {
-	var tmp string
-	var length int
-	for k, v := range obj {
-		tmp = k
-		length = len(v)
-	}
-	applications := make([]map[string]interface{}, length)
-
-	i := 0
-	for _, item := range obj[tmp] {
-		applications[i] = propertyApplicationListToMap(item, tmp)
-		i++
-	}
-	return applications
-}
-
-func propertyApplicationListToMap(obj oci_network_firewall.Application, keyName string) map[string]interface{} {
-	result := make(map[string]interface{})
-	result["key"] = keyName
-	for k, v := range obj.(map[string]interface{}) {
-		if k == "type" {
-			//tmp = v.(string)
-			result["type"] = v //v.(string)
-		} else if k == "icmpType" {
-			result["icmp_type"] = v
-		} else if k == "icmpCode" {
-			result["icmp_code"] = v
-		} else if k == "minimumPort" {
-			result["minimum_port"] = v
-		} else if k == "maximumPort" {
-			result["maximum_port"] = v
-		}
-	}
-	return result
-}
-
-func propertyUrlListsToMap(obj map[string][]oci_network_firewall.UrlPattern) []map[string]interface{} {
-	var tmp string
-	var length int
-	for k, v := range obj {
-		tmp = k
-		length = len(v)
-	}
-	urls := make([]map[string]interface{}, length)
-
-	i := 0
-	for _, item := range obj[tmp] {
-		urls[i] = propertyUrlListToMap(item, tmp)
-		i++
-	}
-	return urls
-}
-
-func propertyUrlListToMap(obj oci_network_firewall.UrlPattern, keyName string) map[string]interface{} {
-	result := make(map[string]interface{})
-	result["key"] = keyName
-	for k, v := range obj.(map[string]interface{}) {
-		if k == "type" {
-			result["type"] = v
-		} else if k == "pattern" {
-			result["pattern"] = v
-		}
-	}
-	return result
-}
-
 func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) mapToDecryptionRule(fieldKeyFormat string) (oci_network_firewall.DecryptionRule, error) {
 	result := oci_network_firewall.DecryptionRule{}
 
 	if action, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "action")); ok {
 		result.Action = oci_network_firewall.DecryptionRuleActionEnum(action.(string))
+		if action == "DECRYPT" {
+			if decryptionProfile, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "decryption_profile")); ok {
+				tmp := decryptionProfile.(string)
+				result.DecryptionProfile = &tmp
+			}
+			if secret, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret")); ok {
+				tmp := secret.(string)
+				result.Secret = &tmp
+			}
+		}
 	}
 
 	if condition, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "condition")); ok {
@@ -1383,19 +1276,9 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) mapToDecryptionRule(f
 		}
 	}
 
-	if decryptionProfile, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "decryption_profile")); ok {
-		tmp := decryptionProfile.(string)
-		result.DecryptionProfile = &tmp
-	}
-
 	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
 		tmp := name.(string)
 		result.Name = &tmp
-	}
-
-	if secret, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret")); ok {
-		tmp := secret.(string)
-		result.Secret = &tmp
 	}
 
 	return result, nil
@@ -1461,7 +1344,6 @@ func DecryptionRuleMatchCriteriaToMap(obj *oci_network_firewall.DecryptionRuleMa
 	result := map[string]interface{}{}
 
 	result["destinations"] = obj.Destinations
-
 	result["sources"] = obj.Sources
 
 	return result
@@ -1676,4 +1558,69 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) objectMapToStringList
 		resultMap[ipAddrActualObj["ip_address_list_name"].(string)] = parsedIpAddrList
 	}
 	return resultMap
+}
+
+func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) objectMapToUrlListsMap(urlLists interface{}) (map[string][]oci_network_firewall.UrlPattern, error) {
+	resultMap := make(map[string][]oci_network_firewall.UrlPattern)
+	urlList := urlLists.([]interface{})
+
+	for _, list := range urlList {
+		urlListK := list.(map[string]interface{})
+		urlPatterns := urlListK["url_list_values"].([]interface{})
+		listKey := urlListK["url_list_name"].(string)
+		for _, v := range urlPatterns {
+			urlPattern := oci_network_firewall.SimpleUrlPattern{}
+			result := v.(map[string]interface{})
+			tmp := result["pattern"].(string)
+			urlPattern.Pattern = &tmp
+			resultMap[listKey] = append(resultMap[listKey], urlPattern)
+		}
+	}
+	return resultMap, nil
+}
+
+func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) objectMapToApplicationListsMap(applicationLists interface{}) (map[string][]oci_network_firewall.Application, error) {
+	resultMap := make(map[string][]oci_network_firewall.Application)
+	applicationList := applicationLists.([]interface{})
+
+	for _, list := range applicationList {
+		applicationListK := list.(map[string]interface{})
+		applications := applicationListK["application_values"].([]interface{})
+		listKey := applicationListK["application_list_name"].(string)
+		for _, v := range applications {
+			application := v.(map[string]interface{})
+			tmp := application["type"]
+			switch tmp {
+			case "ICMP":
+				result := oci_network_firewall.IcmpApplication{}
+				tmp := application["icmp_type"].(int)
+				result.IcmpType = &tmp
+				tmp1 := application["icmp_code"].(int)
+				result.IcmpCode = &tmp1
+				resultMap[listKey] = append(resultMap[listKey], result)
+			case "ICMP6":
+				result := oci_network_firewall.Icmp6Application{}
+				tmp := application["icmp_type"].(int)
+				result.IcmpType = &tmp
+				tmp1 := application["icmp_code"].(int)
+				result.IcmpCode = &tmp1
+				resultMap[listKey] = append(resultMap[listKey], result)
+			case "UDP":
+				result := oci_network_firewall.UdpApplication{}
+				tmp := application["minimum_port"].(int)
+				result.MinimumPort = &tmp
+				tmp1 := application["maximum_port"].(int)
+				result.MaximumPort = &tmp1
+				resultMap[listKey] = append(resultMap[listKey], result)
+			case "TCP":
+				result := oci_network_firewall.TcpApplication{}
+				tmp := application["minimum_port"].(int)
+				result.MinimumPort = &tmp
+				tmp1 := application["maximum_port"].(int)
+				result.MaximumPort = &tmp1
+				resultMap[listKey] = append(resultMap[listKey], result)
+			}
+		}
+	}
+	return resultMap, nil
 }
