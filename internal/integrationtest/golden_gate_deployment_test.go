@@ -255,6 +255,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "deployment_diagnostic_data.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "deployment_type", "OGG"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_url"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
