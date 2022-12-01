@@ -65,6 +65,10 @@ func DataSafeReportDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
@@ -146,6 +150,8 @@ func (s *DataSafeReportDataSourceCrud) SetData() error {
 	if s.Res.TimeGenerated != nil {
 		s.D.Set("time_generated", s.Res.TimeGenerated.String())
 	}
+
+	s.D.Set("type", s.Res.Type)
 
 	return nil
 }

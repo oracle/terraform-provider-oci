@@ -60,7 +60,7 @@ The following attributes are exported:
 	* `audit_event_time` - Time of audit event occurrence in the target database.
 	* `audit_location` - The location of the audit. Currently the value is audit table.
 	* `audit_policies` - Comma-seperated list of audit policies that caused the current audit event.
-	* `audit_trail_id` - The OCID of the audit trail that generated this audit event.
+	* `audit_trail_id` - The OCID of the audit trail that generated this audit event. To be noted, this field has been deprecated.
 	* `audit_type` - Type of auditing.
 	* `client_hostname` - Name of the host machine from which the session was spawned.
 	* `client_id` - The client identifier in each Oracle session.

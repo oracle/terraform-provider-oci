@@ -88,8 +88,6 @@ func (s *DataSafeAlertDataSourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
-	s.D.Set("feature_details", s.Res.FeatureDetails)
-
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.Operation != nil {
