@@ -35,7 +35,7 @@ resource "oci_mysql_mysql_backup" "test_mysql_backup" {
 The following arguments are supported:
 
 * `backup_type` - (Optional) The type of backup.
-* `compartment_id` - (Optional) (Updatable) The OCID of the compartment.
+* `compartment_id` - (Optional) (Updatable) The OCID of the compartment the backup exists in.
 * `db_system_id` - (Required) The OCID of the DB System the Backup is associated with.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - (Optional) (Updatable) A user-supplied description for the backup.
@@ -53,7 +53,7 @@ The following attributes are exported:
 
 * `backup_size_in_gbs` - The size of the backup in base-2 (IEC) gibibytes. (GiB).
 * `backup_type` - The type of backup.
-* `compartment_id` - The OCID of the compartment.
+* `compartment_id` - The OCID of the compartment the backup exists in.
 * `creation_type` - Indicates how the backup was created: manually, automatic, or by an Operator. 
 * `data_storage_size_in_gb` - Initial size of the data volume in GiBs. 
 * `db_system_id` - The OCID of the DB System the backup is associated with.

@@ -218,6 +218,7 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "backups.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.backup_size_in_gbs"),
 				resource.TestCheckResourceAttr(datasourceName, "backups.0.backup_type", "INCREMENTAL"),
+				resource.TestCheckResourceAttr(datasourceName, "backups.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.creation_type"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.data_storage_size_in_gb"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.db_system_id"),
