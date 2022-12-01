@@ -40,21 +40,18 @@ variable "fleet_state" {
   default = "ACTIVE"
 }
 
-variable "inventory_log_ocid" {
+variable "fleet_log_group_ocid" {
+  default = "example-log-group-id"
+}
+
+variable "fleet_inventory_log_ocid" {
   default = "example-inventory-log-id"
 }
 
-variable "inventory_log_group_ocid" {
-  default = "example-inventory-log-group-id"
-}
-
-variable "operation_log_ocid" {
+variable "fleet_operation_log_ocid" {
   default = "example-operation-log-id"
 }
 
-variable "operation_log_group_ocid" {
-  default = "example-operation-log-group-id"
-}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -69,17 +66,16 @@ resource "oci_jms_fleet" "example_fleet" {
   compartment_id = var.compartment_ocid
   display_name   = var.fleet_display_name
   inventory_log {
-    log_group_id = var.inventory_log_group_ocid
-    log_id       = var.inventory_log_ocid
+    log_group_id = var.fleet_log_group_ocid
+    log_id       = var.fleet_inventory_log_ocid
   }
 
   #Optional
   description                  = var.fleet_description
-  is_advanced_features_enabled = var.fleet_is_advanced_features_enabled
   freeform_tags                = var.fleet_freeform_tags
   operation_log {
-    log_group_id = var.operation_log_group_ocid
-    log_id       = var.operation_log_ocid
+    log_group_id = var.fleet_log_group_ocid
+    log_id       = var.fleet_operation_log_ocid
   }
 
   # Create the Tag namespace in OCI before enabling
