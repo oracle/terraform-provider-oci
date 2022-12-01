@@ -12,7 +12,7 @@ variable "unified_agent_configuration_description" {
 }
 
 variable "unified_agent_configuration_display_name" {
-  default = "displayName2"
+  default = "tf-agentConfigName"
 }
 
 variable "unified_agent_configuration_freeform_tags" {
@@ -164,12 +164,20 @@ variable "unified_agent_configuration_service_configuration_sources_paths" {
 }
 
 variable "unified_agent_configuration_service_configuration_sources_source_type" {
-  default = "WINDOWS_EVENT_LOG"
+  default = "LOG_TAIL"
 }
 
 variable "unified_agent_configuration_state" {
-  default = "AVAILABLE"
+  default = "ACTIVE"
 }
+
+variable "log_group_defined_tags_value" {
+  default = "value2"
+}
+variable "tag_namespace1_name" {}
+variable "tag1_name" {}
+variable "test_log_group_id" {}
+variable "test_log_id" {}
 
 resource "oci_logging_unified_agent_configuration" "test_unified_agent_configuration" {
   #Required
@@ -179,24 +187,29 @@ resource "oci_logging_unified_agent_configuration" "test_unified_agent_configura
     #Required
     configuration_type = var.unified_agent_configuration_service_configuration_configuration_type
 
-    #Optional
+    #Required field destination for service_configuration
     destination {
-      #Required
-      log_object_id = "${oci_logging_log.test_log.id}"
+      #Required field for destination
+      log_object_id = var.test_log_id
     }
     sources {
       #Required
       source_type = var.unified_agent_configuration_service_configuration_sources_source_type
 
       #Optional
-      channels = var.unified_agent_configuration_service_configuration_sources_channels
+      # channels for windows only
+      # channels = var.unified_agent_configuration_service_configuration_sources_channels
       name     = var.unified_agent_configuration_service_configuration_sources_name
+      parser {
+        parser_type = "NONE"
+      }
+      paths = ["/var/log/*"]
     }
   }
 
   #Optional
   defined_tags = {
-    "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = var.log_group_defined_tags_value
+    "${var.tag_namespace1_name}.${var.tag1_name}" = var.log_group_defined_tags_value
   }
   description   = var.unified_agent_configuration_description
   display_name  = var.unified_agent_configuration_display_name
@@ -204,7 +217,7 @@ resource "oci_logging_unified_agent_configuration" "test_unified_agent_configura
   group_association {
 
     #Optional
-    group_list = ["${oci_logging_log_group.test_log_group.id}"]
+    group_list = ["ocid1.dynamicgroup.oc1..aaaaaaaatqbpurg4jtr57dthka4lbykvsqajjmynecixwgsfgu2z36wf4kgq"]
   }
 }
 
@@ -214,9 +227,8 @@ data "oci_logging_unified_agent_configurations" "test_unified_agent_configuratio
 
   #Optional
   display_name                 = var.unified_agent_configuration_display_name
-  group_id                     = "${oci_logging_log_group.test_log_group.id}"
+  group_id                     = var.test_log_group_id
   is_compartment_id_in_subtree = var.unified_agent_configuration_is_compartment_id_in_subtree
-  log_id                       = "${oci_logging_log.test_log.id}"
+  log_id                       = var.test_log_id
   state                        = var.unified_agent_configuration_state
 }
-
