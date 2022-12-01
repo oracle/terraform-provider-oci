@@ -5,6 +5,7 @@ package database
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -47,11 +48,31 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 			},
 
 			// Optional
+			"autonomous_data_storage_size_in_tbs": {
+				Type:     schema.TypeFloat,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"cluster_time_zone": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"cpu_core_count_per_node": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"db_servers": {
+				Type:     schema.TypeList,
+				Optional: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -76,6 +97,112 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"maintenance_window_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"preference": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"custom_action_timeout_in_mins": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"days_of_week": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
+						},
+						"hours_of_day": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 20,
+							MinItems: 0,
+							Elem: &schema.Schema{
+								Type: schema.TypeInt,
+							},
+						},
+						"is_custom_action_timeout_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_monthly_patching_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"lead_time_in_weeks": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"months": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
+						},
+						"patching_mode": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"weeks_of_month": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 4,
+							MinItems: 1,
+							Elem: &schema.Schema{
+								Type: schema.TypeInt,
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
+			"memory_per_oracle_compute_unit_in_gbs": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"nsg_ids": {
 				Type:     schema.TypeSet,
 				Optional: true,
@@ -85,12 +212,14 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"total_container_databases": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
-			"autonomous_data_storage_size_in_tbs": {
-				Type:     schema.TypeFloat,
-				Computed: true,
-			},
 			"availability_domain": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -143,9 +272,90 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"memory_per_oracle_compute_unit_in_gbs": {
-				Type:     schema.TypeInt,
+			"maintenance_window": {
+				Type:     schema.TypeList,
 				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"custom_action_timeout_in_mins": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"days_of_week": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"hours_of_day": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeInt,
+							},
+						},
+						"is_custom_action_timeout_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_monthly_patching_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"lead_time_in_weeks": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"months": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"patching_mode": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"preference": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"weeks_of_month": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeInt,
+							},
+						},
+					},
+				},
 			},
 			"memory_size_in_gbs": {
 				Type:     schema.TypeInt,
@@ -181,18 +391,6 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 			},
 			"time_updated": {
 				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"total_container_databases": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"rotate_ords_certs_trigger": {
-				Type:     schema.TypeBool,
-				Optional: true,
-			},
-			"rotate_ssl_certs_trigger": {
-				Type:     schema.TypeBool,
 				Optional: true,
 			},
 		},
@@ -318,6 +516,11 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) DeletedTarget() []string 
 func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Create() error {
 	request := oci_database.CreateCloudAutonomousVmClusterRequest{}
 
+	if autonomousDataStorageSizeInTBs, ok := s.D.GetOkExists("autonomous_data_storage_size_in_tbs"); ok {
+		tmp := autonomousDataStorageSizeInTBs.(float64)
+		request.AutonomousDataStorageSizeInTBs = &tmp
+	}
+
 	if cloudExadataInfrastructureId, ok := s.D.GetOkExists("cloud_exadata_infrastructure_id"); ok {
 		tmp := cloudExadataInfrastructureId.(string)
 		request.CloudExadataInfrastructureId = &tmp
@@ -331,6 +534,24 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Create() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if cpuCoreCountPerNode, ok := s.D.GetOkExists("cpu_core_count_per_node"); ok {
+		tmp := cpuCoreCountPerNode.(int)
+		request.CpuCoreCountPerNode = &tmp
+	}
+
+	if dbServers, ok := s.D.GetOkExists("db_servers"); ok {
+		interfaces := dbServers.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("db_servers") {
+			request.DbServers = tmp
+		}
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -359,6 +580,22 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Create() error {
 		request.LicenseModel = oci_database.CreateCloudAutonomousVmClusterDetailsLicenseModelEnum(licenseModel.(string))
 	}
 
+	if maintenanceWindowDetails, ok := s.D.GetOkExists("maintenance_window_details"); ok {
+		if tmpList := maintenanceWindowDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_window_details", 0)
+			tmp, err := s.mapToMaintenanceWindow(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.MaintenanceWindowDetails = &tmp
+		}
+	}
+
+	if memoryPerOracleComputeUnitInGBs, ok := s.D.GetOkExists("memory_per_oracle_compute_unit_in_gbs"); ok {
+		tmp := memoryPerOracleComputeUnitInGBs.(int)
+		request.MemoryPerOracleComputeUnitInGBs = &tmp
+	}
+
 	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 		set := nsgIds.(*schema.Set)
 		interfaces := set.List()
@@ -378,7 +615,12 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Create() error {
 		request.SubnetId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = nil //tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+	if totalContainerDatabases, ok := s.D.GetOkExists("total_container_databases"); ok {
+		tmp := totalContainerDatabases.(int)
+		request.TotalContainerDatabases = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.CreateCloudAutonomousVmCluster(context.Background(), request)
 	if err != nil {
@@ -457,6 +699,17 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Update() error {
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 		request.LicenseModel = oci_database.UpdateCloudAutonomousVmClusterDetailsLicenseModelEnum(licenseModel.(string))
+	}
+
+	if maintenanceWindowDetails, ok := s.D.GetOkExists("maintenance_window_details"); ok {
+		if tmpList := maintenanceWindowDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_window_details", 0)
+			tmp, err := s.mapToMaintenanceWindow(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.MaintenanceWindowDetails = &tmp
+		}
 	}
 
 	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
@@ -553,6 +806,10 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) SetData() error {
 		s.D.Set("cpu_core_count", *s.Res.CpuCoreCount)
 	}
 
+	if s.Res.CpuCoreCountPerNode != nil {
+		s.D.Set("cpu_core_count_per_node", *s.Res.CpuCoreCountPerNode)
+	}
+
 	if s.Res.DataStorageSizeInGBs != nil {
 		s.D.Set("data_storage_size_in_gb", *s.Res.DataStorageSizeInGBs)
 	}
@@ -599,6 +856,12 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) SetData() error {
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.MaintenanceWindow != nil {
+		s.D.Set("maintenance_window", []interface{}{MaintenanceWindowToMap(s.Res.MaintenanceWindow)})
+	} else {
+		s.D.Set("maintenance_window", nil)
 	}
 
 	if s.Res.MemoryPerOracleComputeUnitInGBs != nil {
@@ -654,6 +917,180 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *DatabaseCloudAutonomousVmClusterResourceCrud) mapToDayOfWeek(fieldKeyFormat string) (oci_database.DayOfWeek, error) {
+	result := oci_database.DayOfWeek{}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		result.Name = oci_database.DayOfWeekNameEnum(name.(string))
+	}
+
+	return result, nil
+}
+
+func DayOfWeekToMap(obj oci_database.DayOfWeek) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["name"] = string(obj.Name)
+
+	return result
+}
+
+func (s *DatabaseCloudAutonomousVmClusterResourceCrud) mapToMaintenanceWindow(fieldKeyFormat string) (oci_database.MaintenanceWindow, error) {
+	result := oci_database.MaintenanceWindow{}
+
+	if customActionTimeoutInMins, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "custom_action_timeout_in_mins")); ok {
+		tmp := customActionTimeoutInMins.(int)
+		result.CustomActionTimeoutInMins = &tmp
+	}
+
+	if daysOfWeek, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "days_of_week")); ok {
+		interfaces := daysOfWeek.([]interface{})
+		tmp := make([]oci_database.DayOfWeek, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "days_of_week"), stateDataIndex)
+			converted, err := s.mapToDayOfWeek(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "days_of_week")) {
+			result.DaysOfWeek = tmp
+		}
+	}
+
+	if hoursOfDay, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hours_of_day")); ok {
+		interfaces := hoursOfDay.([]interface{})
+		tmp := make([]int, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(int)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "hours_of_day")) {
+			result.HoursOfDay = tmp
+		}
+	}
+
+	if isCustomActionTimeoutEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_custom_action_timeout_enabled")); ok {
+		tmp := isCustomActionTimeoutEnabled.(bool)
+		result.IsCustomActionTimeoutEnabled = &tmp
+	}
+
+	if isMonthlyPatchingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_monthly_patching_enabled")); ok {
+		tmp := isMonthlyPatchingEnabled.(bool)
+		result.IsMonthlyPatchingEnabled = &tmp
+	}
+
+	if leadTimeInWeeks, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lead_time_in_weeks")); ok {
+		tmp := leadTimeInWeeks.(int)
+		result.LeadTimeInWeeks = &tmp
+	}
+
+	if months, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "months")); ok {
+		interfaces := months.([]interface{})
+		tmp := make([]oci_database.Month, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "months"), stateDataIndex)
+			converted, err := s.mapToMonth(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "months")) {
+			result.Months = tmp
+		}
+	}
+
+	if patchingMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "patching_mode")); ok {
+		result.PatchingMode = oci_database.MaintenanceWindowPatchingModeEnum(patchingMode.(string))
+	}
+
+	if preference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preference")); ok {
+		result.Preference = oci_database.MaintenanceWindowPreferenceEnum(preference.(string))
+	}
+
+	if weeksOfMonth, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "weeks_of_month")); ok {
+		interfaces := weeksOfMonth.([]interface{})
+		tmp := make([]int, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(int)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "weeks_of_month")) {
+			result.WeeksOfMonth = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func MaintenanceWindowToMap(obj *oci_database.MaintenanceWindow) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CustomActionTimeoutInMins != nil {
+		result["custom_action_timeout_in_mins"] = int(*obj.CustomActionTimeoutInMins)
+	}
+
+	daysOfWeek := []interface{}{}
+	for _, item := range obj.DaysOfWeek {
+		daysOfWeek = append(daysOfWeek, DayOfWeekToMap(item))
+	}
+	result["days_of_week"] = daysOfWeek
+
+	result["hours_of_day"] = obj.HoursOfDay
+	result["hours_of_day"] = obj.HoursOfDay
+
+	if obj.IsCustomActionTimeoutEnabled != nil {
+		result["is_custom_action_timeout_enabled"] = bool(*obj.IsCustomActionTimeoutEnabled)
+	}
+
+	if obj.IsMonthlyPatchingEnabled != nil {
+		result["is_monthly_patching_enabled"] = bool(*obj.IsMonthlyPatchingEnabled)
+	}
+
+	if obj.LeadTimeInWeeks != nil {
+		result["lead_time_in_weeks"] = int(*obj.LeadTimeInWeeks)
+	}
+
+	months := []interface{}{}
+	for _, item := range obj.Months {
+		months = append(months, MonthToMap(item))
+	}
+	result["months"] = months
+
+	result["patching_mode"] = string(obj.PatchingMode)
+
+	result["preference"] = string(obj.Preference)
+
+	result["weeks_of_month"] = obj.WeeksOfMonth
+	result["weeks_of_month"] = obj.WeeksOfMonth
+
+	return result
+}
+
+func (s *DatabaseCloudAutonomousVmClusterResourceCrud) mapToMonth(fieldKeyFormat string) (oci_database.Month, error) {
+	result := oci_database.Month{}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		result.Name = oci_database.MonthNameEnum(name.(string))
+	}
+
+	return result, nil
+}
+
+func MonthToMap(obj oci_database.Month) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["name"] = string(obj.Name)
+
+	return result
 }
 
 func (s *DatabaseCloudAutonomousVmClusterResourceCrud) updateCompartment(compartment interface{}) error {
