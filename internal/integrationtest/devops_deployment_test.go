@@ -42,17 +42,27 @@ var (
 	}
 
 	DevopsDeploymentRepresentation = map[string]interface{}{
-		"deploy_pipeline_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_deploy_pipeline.test_deploy_pipeline.id}`},
-		"deployment_type":               acctest.Representation{RepType: acctest.Required, Create: `PIPELINE_DEPLOYMENT`},
-		"defined_tags":                  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"deployment_arguments":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: DevopsDeploymentDeploymentArgumentsRepresentation},
-		"display_name":                  acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
-		"trigger_new_devops_deployment": acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"freeform_tags":                 acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}},
-		"lifecycle":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreExecutionProgressDifferencesRepresentation},
+		"deploy_pipeline_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_deploy_pipeline.test_deploy_pipeline.id}`},
+		"deployment_type":                 acctest.Representation{RepType: acctest.Required, Create: `PIPELINE_DEPLOYMENT`},
+		"defined_tags":                    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"deployment_arguments":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: DevopsDeploymentDeploymentArgumentsRepresentation},
+		"deploy_stage_override_arguments": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DevopsDeploymentDeployStageOverrideArgumentsRepresentation},
+		"display_name":                    acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"trigger_new_devops_deployment":   acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"freeform_tags":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}},
+		"lifecycle":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreExecutionProgressDifferencesRepresentation},
+	}
+
+	DevopsDeploymentDeployStageOverrideArgumentsRepresentation = map[string]interface{}{
+		"items": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DevopsDeploymentDeployStageOverrideArgumentsItemsRepresentation},
 	}
 	DevopsDeploymentDeploymentArgumentsRepresentation = map[string]interface{}{
 		"items": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DevopsDeploymentDeploymentArgumentsItemsRepresentation},
+	}
+	DevopsDeploymentDeployStageOverrideArgumentsItemsRepresentation = map[string]interface{}{
+		"deploy_stage_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_deploy_stage.test_deploy_stage.id}`},
+		"name":            acctest.Representation{RepType: acctest.Optional, Create: `name`},
+		"value":           acctest.Representation{RepType: acctest.Optional, Create: `value`},
 	}
 	DevopsDeploymentDeploymentArgumentsItemsRepresentation = map[string]interface{}{
 		"name":  acctest.Representation{RepType: acctest.Optional, Create: `name`},
@@ -69,9 +79,8 @@ var (
 		"source_type": acctest.Representation{RepType: acctest.Required, Create: `OCISERVICE`},
 	}
 
-	DevopsDeploymentResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Required, acctest.Create, DevopsDeployArtifactRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", acctest.Required, acctest.Create, DevopsdeployEnvironmentRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_pipeline", "test_deploy_pipeline", acctest.Required, acctest.Create, DevopsDeployPipelineRepresentation) +
+	DevopsDeploymentResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_pipeline", "test_deploy_pipeline", acctest.Required, acctest.Create, DevopsDeployPipelineRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", acctest.Required, acctest.Create, DevopsDeployStageRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
@@ -126,6 +135,13 @@ func TestDevopsDeploymentResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
+
+				resource.TestCheckResourceAttr(resourceName, "deploy_stage_override_arguments.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "deploy_stage_override_arguments.0.items.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "deploy_stage_override_arguments.0.items.0.deploy_stage_id"),
+				resource.TestCheckResourceAttr(resourceName, "deploy_stage_override_arguments.0.items.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "deploy_stage_override_arguments.0.items.0.value", "value"),
+
 				resource.TestCheckResourceAttr(resourceName, "deployment_arguments.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "deployment_arguments.0.items.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "deployment_arguments.0.items.0.name", "name"),
@@ -156,6 +172,13 @@ func TestDevopsDeploymentResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
+
+				resource.TestCheckResourceAttr(resourceName, "deploy_stage_override_arguments.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "deploy_stage_override_arguments.0.items.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "deploy_stage_override_arguments.0.items.0.deploy_stage_id"),
+				resource.TestCheckResourceAttr(resourceName, "deploy_stage_override_arguments.0.items.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "deploy_stage_override_arguments.0.items.0.value", "value"),
+
 				resource.TestCheckResourceAttr(resourceName, "deployment_arguments.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "deployment_arguments.0.items.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "deployment_arguments.0.items.0.name", "name"),
@@ -199,8 +222,13 @@ func TestDevopsDeploymentResource_basic(t *testing.T) {
 				compartmentIdVariableStr + DevopsDeploymentResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_id"),
-
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "deploy_stage_override_arguments.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "deploy_stage_override_arguments.0.items.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "deploy_stage_override_arguments.0.items.0.name", "name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "deploy_stage_override_arguments.0.items.0.value", "value"),
+
 				resource.TestCheckResourceAttr(singularDatasourceName, "deployment_arguments.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "deployment_arguments.0.items.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "deployment_arguments.0.items.0.name", "name"),

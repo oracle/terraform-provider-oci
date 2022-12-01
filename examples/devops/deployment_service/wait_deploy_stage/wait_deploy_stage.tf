@@ -20,7 +20,7 @@ variable "region" {
 }
 
 provider "oci" {
-  #version = "4.92.0"
+  #version = "4.98.0"
   region           = var.region
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -91,4 +91,13 @@ resource "oci_devops_deployment" "test_deployment" {
   #Optional
   display_name                  = "test_deployment"
   trigger_new_devops_deployment = false
+  deploy_stage_override_arguments {
+    #Required
+    items {
+      #Required
+      deploy_stage_id = oci_devops_deploy_stage.test_wait_deploy_stage.id
+      name            = "version"
+      value           = "1.0"
+    }
+  }
 }
