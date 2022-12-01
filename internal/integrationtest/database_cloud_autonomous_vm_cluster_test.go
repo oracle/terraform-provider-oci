@@ -48,16 +48,55 @@ var (
 	}
 
 	DatabaseCloudAutonomousVmClusterRepresentation = map[string]interface{}{
-		"cloud_exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id}`},
-		"compartment_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"subnet_id":                       acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.exadata_subnet.id}`},
-		"display_name":                    acctest.Representation{RepType: acctest.Required, Create: `CloudAutonomousVmCluster`, Update: `displayName2`},
-		"cluster_time_zone":               acctest.Representation{RepType: acctest.Optional, Create: `Etc/UTC`},
-		"defined_tags":                    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":                     acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"freeform_tags":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"license_model":                   acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
-		"nsg_ids":                         acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{`${oci_core_network_security_group.test_network_security_group2.id}`}},
+		"cloud_exadata_infrastructure_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id}`},
+		"compartment_id":                        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":                          acctest.Representation{RepType: acctest.Required, Create: `CloudAutonomousVmCluster`, Update: `displayName2`},
+		"subnet_id":                             acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.exadata_subnet.id}`},
+		"cluster_time_zone":                     acctest.Representation{RepType: acctest.Optional, Create: `Etc/UTC`},
+		"defined_tags":                          acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":                           acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":                         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"license_model":                         acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
+		"nsg_ids":                               acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{`${oci_core_network_security_group.test_network_security_group2.id}`}},
+		"total_container_databases":             acctest.Representation{RepType: acctest.Optional, Create: `12`},
+		"memory_per_oracle_compute_unit_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `27`},
+		"cpu_core_count_per_node":               acctest.Representation{RepType: acctest.Optional, Create: `50`},
+		"autonomous_data_storage_size_in_tbs":   acctest.Representation{RepType: acctest.Optional, Create: `5`},
+		"lifecycle":                             acctest.RepresentationGroup{RepType: acctest.Optional, Group: AdbStorageInTbsIgnoreChangesRepresentation},
+	}
+	AdbStorageInTbsIgnoreChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Optional, Create: []string{`autonomous_data_storage_size_in_tbs`}},
+	}
+	DatabaseCloudAutonomousVmClusterMaintenanceWindowDetailsRepresentation = map[string]interface{}{
+		"preference":                       acctest.Representation{RepType: acctest.Required, Create: `NO_PREFERENCE`, Update: `NO_PREFERENCE`},
+		"custom_action_timeout_in_mins":    acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"days_of_week":                     acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseCloudAutonomousVmClusterMaintenanceWindowDetailsDaysOfWeekRepresentation},
+		"hours_of_day":                     acctest.Representation{RepType: acctest.Optional, Create: []string{`0`}, Update: []string{`4`}},
+		"is_custom_action_timeout_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_monthly_patching_enabled":      acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"lead_time_in_weeks":               acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `2`},
+		"months":                           []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: DatabaseCloudAutonomousVmClusterMaintenanceWindowDetailsMonthsRepresentation}, {RepType: acctest.Optional, Group: DatabaseCloudAutonomousVmClusterMaintenanceWindowDetailsMonthsRepresentation2}, {RepType: acctest.Optional, Group: DatabaseCloudAutonomousVmClusterMaintenanceWindowDetailsMonthsRepresentation3}, {RepType: acctest.Optional, Group: DatabaseCloudAutonomousVmClusterMaintenanceWindowDetailsMonthsRepresentation4}},
+		"patching_mode":                    acctest.Representation{RepType: acctest.Optional, Create: `ROLLING`, Update: `NONROLLING`},
+		"weeks_of_month":                   acctest.Representation{RepType: acctest.Optional, Create: []string{`1`}, Update: []string{`2`}},
+	}
+
+	DatabaseCloudAutonomousVmClusterMaintenanceWindowDetailsDaysOfWeekRepresentation = map[string]interface{}{
+		"name": acctest.Representation{RepType: acctest.Required, Create: `MONDAY`, Update: `TUESDAY`},
+	}
+	DatabaseCloudAutonomousVmClusterMaintenanceWindowDetailsMonthsRepresentation = map[string]interface{}{
+		"name": acctest.Representation{RepType: acctest.Required, Create: `JANUARY`, Update: `FEBRUARY`},
+	}
+
+	DatabaseCloudAutonomousVmClusterMaintenanceWindowDetailsMonthsRepresentation2 = map[string]interface{}{
+		"name": acctest.Representation{RepType: acctest.Required, Create: `APRIL`, Update: `MAY`},
+	}
+
+	DatabaseCloudAutonomousVmClusterMaintenanceWindowDetailsMonthsRepresentation3 = map[string]interface{}{
+		"name": acctest.Representation{RepType: acctest.Required, Create: `JULY`, Update: `AUGUST`},
+	}
+
+	DatabaseCloudAutonomousVmClusterMaintenanceWindowDetailsMonthsRepresentation4 = map[string]interface{}{
+		"name": acctest.Representation{RepType: acctest.Required, Create: `OCTOBER`, Update: `NOVEMBER`},
 	}
 
 	DatabaseCloudAutonomousNetworkSecurityGroupRepresentation = map[string]interface{}{
@@ -224,6 +263,11 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count_per_node", "50"),
+					resource.TestCheckResourceAttr(resourceName, "memory_per_oracle_compute_unit_in_gbs", "27"),
+					resource.TestCheckResourceAttr(resourceName, "total_container_databases", "12"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -255,6 +299,11 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count_per_node", "50"),
+					resource.TestCheckResourceAttr(resourceName, "memory_per_oracle_compute_unit_in_gbs", "27"),
+					resource.TestCheckResourceAttr(resourceName, "total_container_databases", "12"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -281,6 +330,11 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count_per_node", "50"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
+					resource.TestCheckResourceAttr(resourceName, "memory_per_oracle_compute_unit_in_gbs", "27"),
+					resource.TestCheckResourceAttr(resourceName, "total_container_databases", "12"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -324,6 +378,11 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.time_created"),
+					resource.TestCheckResourceAttr(datasourceName, "cloud_autonomous_vm_clusters.0.maintenance_window.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.autonomous_data_storage_size_in_tbs"),
+					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.cpu_core_count_per_node"),
+					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.memory_per_oracle_compute_unit_in_gbs"),
+					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.total_container_databases"),
 				),
 			},
 			// verify singular datasource
@@ -351,6 +410,10 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "cpu_core_count_per_node", "50"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "memory_per_oracle_compute_unit_in_gbs", "27"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "total_container_databases", "12"),
 				),
 			},
 			// verify resource import
@@ -358,7 +421,7 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 				Config:                  config + DatabaseCloudAutonomousVmClusterRequiredOnlyResource,
 				ImportState:             true,
 				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{"description"},
+				ImportStateVerifyIgnore: []string{"description", "db_servers", "maintenance_window_details"},
 				ResourceName:            resourceName,
 			},
 		},
