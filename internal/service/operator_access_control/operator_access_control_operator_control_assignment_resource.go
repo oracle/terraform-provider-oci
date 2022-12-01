@@ -211,6 +211,19 @@ func (s *OperatorAccessControlOperatorControlAssignmentResourceCrud) CreatedPend
 func (s *OperatorAccessControlOperatorControlAssignmentResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_operator_access_control.OperatorControlAssignmentLifecycleStatesApplied),
+		string(oci_operator_access_control.OperatorControlAssignmentLifecycleStatesApplyfailed),
+	}
+}
+func (s *OperatorAccessControlOperatorControlAssignmentResourceCrud) UpdatedPending() []string {
+	return []string{
+		string(oci_operator_access_control.OperatorControlAssignmentLifecycleStatesUpdating),
+	}
+}
+
+func (s *OperatorAccessControlOperatorControlAssignmentResourceCrud) UpdatedTarget() []string {
+	return []string{
+		string(oci_operator_access_control.OperatorControlAssignmentLifecycleStatesApplied),
+		string(oci_operator_access_control.OperatorControlAssignmentLifecycleStatesApplyfailed),
 	}
 }
 
