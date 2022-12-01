@@ -27,11 +27,11 @@ import (
 
 var (
 	ApigatewayDeploymentRequiredOnlyResource = DeploymentResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Required, acctest.Create, deploymentRepresentationCustomAuth) +
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Required, acctest.Create, deploymentRepresentationCustomAuthWithTokenHeader) +
 		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_dynamic_auth", acctest.Required, acctest.Create, deploymentRepresentationDynamicAuth)
 
 	ApigatewayDeploymentResourceConfig = DeploymentResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Update, deploymentRepresentationCustomAuth) +
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Update, deploymentRepresentationCustomAuthWithTokenHeader) +
 		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_dynamic_auth", acctest.Optional, acctest.Update, deploymentRepresentationDynamicAuth)
 
 	ApigatewayDeploymentSingularDataSourceRepresentation = map[string]interface{}{
@@ -152,9 +152,10 @@ var (
 	}
 
 	ApigatewayDeploymentSpecificationRoutesBackendRoutingBackendKeyRepresentation = map[string]interface{}{
-		"type":   acctest.Representation{RepType: acctest.Required, Create: `ANY_OF`},
-		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`abc`, `def`}, Update: []string{`xyz`}},
-		"name":   acctest.Representation{RepType: acctest.Required, Create: `key1`, Update: `key2`},
+		"type":       acctest.Representation{RepType: acctest.Required, Create: `ANY_OF`},
+		"values":     acctest.Representation{RepType: acctest.Required, Create: []string{`abc`, `def`}, Update: []string{`xyz`}},
+		"name":       acctest.Representation{RepType: acctest.Required, Create: `key1`, Update: `key2`},
+		"is_default": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
 	ApigatewayDeploymentSpecificationRoutesBackendRoutingBackendBackendRepresentation = map[string]interface{}{
@@ -423,7 +424,8 @@ var (
 	DeploymentResourceDependencies = DeploymentResourceGatewayDependency + DeploymentResourceDependenciesWithoutCABundle +
 		acctest.GenerateResourceFromRepresentationMap("oci_certificates_management_ca_bundle", "test_ca_bundle_dep", acctest.Optional, acctest.Create, caBundleRepresentation)
 
-	deploymentRepresentationCustomAuth = acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{
+	deploymentRepresentationCustomAuthWithTokenHeader = acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{
+		// A deployment specification cannot have both auth and dynamic auth and thus exclude the dynamic auth request policy
 		"specification.request_policies.dynamic_authentication",
 		"specification.request_policies.authentication.audiences",
 		"specification.request_policies.authentication.issuers",
@@ -436,7 +438,9 @@ var (
 		"specification.request_policies.authentication.cache_key",
 	}, ApigatewayDeploymentRepresentation)
 
-	deploymentRepresentationWithoutTokenHeaderCustomAuth = acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{
+	deploymentRepresentationCustomAuthWithParamCacheKey = acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{
+		// A deployment specification cannot have both auth and dynamic auth and thus exclude the dynamic auth request policy
+		"specification.request_policies.dynamic_authentication",
 		"specification.request_policies.authentication.audiences",
 		"specification.request_policies.authentication.issuers",
 		"specification.request_policies.authentication.max_clock_skew_in_seconds",
@@ -449,12 +453,12 @@ var (
 	deploymentRepresentationRequestBasedAuthCustomAuth = acctest.GetUpdatedRepresentationCopy(
 		"path_prefix",
 		acctest.Representation{RepType: acctest.Required, Create: `/v2`},
-		deploymentRepresentationWithoutTokenHeaderCustomAuth)
+		deploymentRepresentationCustomAuthWithParamCacheKey)
 	// Creating a new deployment for dynamic authentication as same deployment cant have both authentication and
 	// dynamic authentication policies
-	deploymentRepresentationWithNewPathPrefix = acctest.GetUpdatedRepresentationCopy(
+	deploymentRepresentationWithNewPathPrefix3 = acctest.GetUpdatedRepresentationCopy(
 		"path_prefix",
-		acctest.Representation{RepType: acctest.Required, Create: `/v2`},
+		acctest.Representation{RepType: acctest.Required, Create: `/v3`},
 		ApigatewayDeploymentRepresentation)
 	deploymentRepresentationDynamicAuth = acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{
 		"specification.request_policies.authentication",
@@ -465,7 +469,7 @@ var (
 		"specification.request_policies.dynamic_authentication.authentication_servers.authentication_server_detail.token_auth_scheme",
 		"specification.request_policies.dynamic_authentication.authentication_servers.authentication_server_detail.verify_claims",
 		"specification.request_policies.dynamic_authentication.authentication_servers.authentication_server_detail.token_query_param",
-	}, deploymentRepresentationWithNewPathPrefix)
+	}, deploymentRepresentationWithNewPathPrefix3)
 )
 
 // issue-routing-tag: apigateway/default
@@ -494,7 +498,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+imageVariableStr+DeploymentResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Create, deploymentRepresentationCustomAuth)+
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Create, deploymentRepresentationCustomAuthWithTokenHeader)+
 		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_rba", acctest.Optional, acctest.Create, deploymentRepresentationRequestBasedAuthCustomAuth)+
 		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_dynamic_auth", acctest.Optional, acctest.Create, deploymentRepresentationDynamicAuth), "apigateway", "deployment", t)
 
@@ -502,7 +506,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DeploymentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Required, acctest.Create, deploymentRepresentationCustomAuth) +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Required, acctest.Create, deploymentRepresentationCustomAuthWithTokenHeader) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_rba", acctest.Required, acctest.Create, deploymentRepresentationRequestBasedAuthCustomAuth) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_dynamic_auth", acctest.Required, acctest.Create, deploymentRepresentationDynamicAuth),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -512,7 +516,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "specification.#", "1"),
 				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceNameWithDynamicAuth, "gateway_id"),
-				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "path_prefix", "/v2"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "path_prefix", "/v3"),
 				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.#", "1"),
 
 				resource.TestCheckResourceAttr(resourceNameRba, "compartment_id", compartmentId),
@@ -536,7 +540,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + imageVariableStr + DeploymentResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsApplicationRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Create, deploymentRepresentationCustomAuth) +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Create, deploymentRepresentationCustomAuthWithTokenHeader) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_rba", acctest.Optional, acctest.Create, deploymentRepresentationRequestBasedAuthCustomAuth) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_dynamic_auth", acctest.Optional, acctest.Create, deploymentRepresentationDynamicAuth),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -582,6 +586,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.0.type", "ANY_OF"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.0.values.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.0.name", "key1"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.0.is_default", "false"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.backend.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.backend.0.type", "HTTP_BACKEND"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.backend.0.url", "https://api.weather.gov"),
@@ -673,7 +678,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceNameWithDynamicAuth, "gateway_id"),
 				resource.TestCheckResourceAttrSet(resourceNameWithDynamicAuth, "id"),
-				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "path_prefix", "/v2"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "path_prefix", "/v3"),
 				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.#", "1"),
 				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.#", "1"),
 				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.#", "1"),
@@ -736,12 +741,13 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsApplicationRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(deploymentRepresentationCustomAuth, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(deploymentRepresentationCustomAuthWithTokenHeader, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
-						"specification.request_policies.authentication.parameters": acctest.Representation{RepType: acctest.Optional, Create: nil},
 					})) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_rba", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(deploymentRepresentationRequestBasedAuthCustomAuth, map[string]interface{}{})) +
+					acctest.RepresentationCopyWithNewProperties(deploymentRepresentationRequestBasedAuthCustomAuth, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_dynamic_auth", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(deploymentRepresentationDynamicAuth, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -789,6 +795,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.0.type", "ANY_OF"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.0.values.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.0.name", "key1"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.0.is_default", "false"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.backend.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.backend.0.type", "HTTP_BACKEND"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.backend.0.url", "https://api.weather.gov"),
@@ -880,7 +887,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceNameWithDynamicAuth, "gateway_id"),
 				resource.TestCheckResourceAttrSet(resourceNameWithDynamicAuth, "id"),
-				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "path_prefix", "/v2"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "path_prefix", "/v3"),
 				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.#", "1"),
 				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.#", "1"),
 				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.#", "1"),
@@ -941,7 +948,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + imageVariableStr + DeploymentResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsApplicationRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Update, deploymentRepresentationCustomAuth) +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Update, deploymentRepresentationCustomAuthWithTokenHeader) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_rba", acctest.Optional, acctest.Update, deploymentRepresentationRequestBasedAuthCustomAuth) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_dynamic_auth", acctest.Optional, acctest.Update, deploymentRepresentationDynamicAuth),
 
@@ -988,6 +995,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.0.type", "ANY_OF"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.0.values.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.0.name", "key2"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.0.is_default", "true"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.backend.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.backend.0.type", "HTTP_BACKEND"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.backend.0.url", "https://www.oracle.com"),
@@ -1072,7 +1080,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceNameWithDynamicAuth, "gateway_id"),
 				resource.TestCheckResourceAttrSet(resourceNameWithDynamicAuth, "id"),
-				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "path_prefix", "/v2"),
+				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "path_prefix", "/v3"),
 				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.#", "1"),
 				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.#", "1"),
 				resource.TestCheckResourceAttr(resourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.#", "1"),
@@ -1130,7 +1138,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionRepresentation) +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_deployments", "test_deployments", acctest.Optional, acctest.Update, ApigatewayDeploymentDataSourceRepresentation) +
 				compartmentIdVariableStr + DeploymentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Update, deploymentRepresentationCustomAuth),
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Update, deploymentRepresentationCustomAuthWithTokenHeader),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -1194,6 +1202,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.0.type", "ANY_OF"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.0.values.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.0.name", "key2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.0.is_default", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.backend.0.routing_backends.0.backend.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.backend.0.routing_backends.0.backend.0.type", "HTTP_BACKEND"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.backend.0.routing_backends.0.backend.0.url", "https://www.oracle.com"),
@@ -1279,7 +1288,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceNameWithDynamicAuth, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceNameWithDynamicAuth, "gateway_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceNameWithDynamicAuth, "id"),
-				resource.TestCheckResourceAttr(singularDatasourceNameWithDynamicAuth, "path_prefix", "/v2"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithDynamicAuth, "path_prefix", "/v3"),
 				resource.TestCheckResourceAttr(singularDatasourceNameWithDynamicAuth, "specification.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceNameWithDynamicAuth, "specification.0.request_policies.0.dynamic_authentication.0.authentication_servers.#", "1"),

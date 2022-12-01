@@ -800,7 +800,189 @@ func ApigatewayDeploymentResource() *schema.Resource {
 																				},
 																			},
 																		},
+																		"cache_key": {
+																			Type:     schema.TypeList,
+																			Optional: true,
+																			Computed: true,
+																			Elem: &schema.Schema{
+																				Type: schema.TypeString,
+																			},
+																		},
+																		"parameters": {
+																			Type:     schema.TypeMap,
+																			Optional: true,
+																			Computed: true,
+																			Elem:     schema.TypeString,
+																		},
+																		"validation_failure_policy": {
+																			Type:     schema.TypeList,
+																			Optional: true,
+																			Computed: true,
+																			MaxItems: 1,
+																			MinItems: 1,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+																					"type": {
+																						Type:             schema.TypeString,
+																						Required:         true,
+																						DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																						ValidateFunc: validation.StringInSlice([]string{
+																							"MODIFY_RESPONSE",
+																						}, true),
+																					},
 
+																					// Optional
+																					"response_code": {
+																						Type:     schema.TypeString,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"response_header_transformations": {
+																						Type:     schema.TypeList,
+																						Optional: true,
+																						Computed: true,
+																						MaxItems: 1,
+																						MinItems: 1,
+																						Elem: &schema.Resource{
+																							Schema: map[string]*schema.Schema{
+																								// Required
+
+																								// Optional
+																								"filter_headers": {
+																									Type:     schema.TypeList,
+																									Optional: true,
+																									Computed: true,
+																									MaxItems: 1,
+																									MinItems: 1,
+																									Elem: &schema.Resource{
+																										Schema: map[string]*schema.Schema{
+																											// Required
+																											"items": {
+																												Type:     schema.TypeList,
+																												Required: true,
+																												Elem: &schema.Resource{
+																													Schema: map[string]*schema.Schema{
+																														// Required
+																														"name": {
+																															Type:     schema.TypeString,
+																															Required: true,
+																														},
+
+																														// Optional
+
+																														// Computed
+																													},
+																												},
+																											},
+																											"type": {
+																												Type:     schema.TypeString,
+																												Required: true,
+																											},
+
+																											// Optional
+
+																											// Computed
+																										},
+																									},
+																								},
+																								"rename_headers": {
+																									Type:     schema.TypeList,
+																									Optional: true,
+																									Computed: true,
+																									MaxItems: 1,
+																									MinItems: 1,
+																									Elem: &schema.Resource{
+																										Schema: map[string]*schema.Schema{
+																											// Required
+																											"items": {
+																												Type:     schema.TypeList,
+																												Required: true,
+																												Elem: &schema.Resource{
+																													Schema: map[string]*schema.Schema{
+																														// Required
+																														"from": {
+																															Type:     schema.TypeString,
+																															Required: true,
+																														},
+																														"to": {
+																															Type:     schema.TypeString,
+																															Required: true,
+																														},
+
+																														// Optional
+
+																														// Computed
+																													},
+																												},
+																											},
+
+																											// Optional
+
+																											// Computed
+																										},
+																									},
+																								},
+																								"set_headers": {
+																									Type:     schema.TypeList,
+																									Optional: true,
+																									Computed: true,
+																									MaxItems: 1,
+																									MinItems: 1,
+																									Elem: &schema.Resource{
+																										Schema: map[string]*schema.Schema{
+																											// Required
+																											"items": {
+																												Type:     schema.TypeList,
+																												Required: true,
+																												Elem: &schema.Resource{
+																													Schema: map[string]*schema.Schema{
+																														// Required
+																														"name": {
+																															Type:     schema.TypeString,
+																															Required: true,
+																														},
+																														"values": {
+																															Type:     schema.TypeList,
+																															Required: true,
+																															Elem: &schema.Schema{
+																																Type: schema.TypeString,
+																															},
+																														},
+
+																														// Optional
+																														"if_exists": {
+																															Type:     schema.TypeString,
+																															Optional: true,
+																															Computed: true,
+																														},
+
+																														// Computed
+																													},
+																												},
+																											},
+
+																											// Optional
+
+																											// Computed
+																										},
+																									},
+																								},
+
+																								// Computed
+																							},
+																						},
+																					},
+																					"response_message": {
+																						Type:     schema.TypeString,
+																						Optional: true,
+																						Computed: true,
+																					},
+
+																					// Computed
+																				},
+																			},
+																		},
 																		// Computed
 																	},
 																},
@@ -1084,6 +1266,11 @@ func ApigatewayDeploymentResource() *schema.Resource {
 																			Elem: &schema.Schema{
 																				Type: schema.TypeString,
 																			},
+																		},
+																		"is_default": {
+																			Type:     schema.TypeBool,
+																			Optional: true,
+																			Computed: true,
 																		},
 																	},
 																},
@@ -3475,7 +3662,6 @@ func AuthenticationPolicyToMap(obj *oci_apigateway.AuthenticationPolicy) map[str
 			result["function_id"] = string(*v.FunctionId)
 		}
 
-		result["parameters"] = v.Parameters
 		result["parameters"] = v.Parameters
 
 		if v.TokenHeader != nil {

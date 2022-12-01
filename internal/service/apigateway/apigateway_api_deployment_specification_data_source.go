@@ -639,6 +639,165 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 																	},
 																},
 															},
+															"cache_key": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Elem: &schema.Schema{
+																	Type: schema.TypeString,
+																},
+															},
+															"parameters": {
+																Type:     schema.TypeMap,
+																Computed: true,
+																Elem:     schema.TypeString,
+															},
+															"validation_failure_policy": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+
+																		// Optional
+
+																		// Computed
+																		"response_code": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"response_header_transformations": {
+																			Type:     schema.TypeList,
+																			Computed: true,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+
+																					// Optional
+
+																					// Computed
+																					"filter_headers": {
+																						Type:     schema.TypeList,
+																						Computed: true,
+																						Elem: &schema.Resource{
+																							Schema: map[string]*schema.Schema{
+																								// Required
+
+																								// Optional
+
+																								// Computed
+																								"items": {
+																									Type:     schema.TypeList,
+																									Computed: true,
+																									Elem: &schema.Resource{
+																										Schema: map[string]*schema.Schema{
+																											// Required
+
+																											// Optional
+
+																											// Computed
+																											"name": {
+																												Type:     schema.TypeString,
+																												Computed: true,
+																											},
+																										},
+																									},
+																								},
+																								"type": {
+																									Type:     schema.TypeString,
+																									Computed: true,
+																								},
+																							},
+																						},
+																					},
+																					"rename_headers": {
+																						Type:     schema.TypeList,
+																						Computed: true,
+																						Elem: &schema.Resource{
+																							Schema: map[string]*schema.Schema{
+																								// Required
+
+																								// Optional
+
+																								// Computed
+																								"items": {
+																									Type:     schema.TypeList,
+																									Computed: true,
+																									Elem: &schema.Resource{
+																										Schema: map[string]*schema.Schema{
+																											// Required
+
+																											// Optional
+
+																											// Computed
+																											"from": {
+																												Type:     schema.TypeString,
+																												Computed: true,
+																											},
+																											"to": {
+																												Type:     schema.TypeString,
+																												Computed: true,
+																											},
+																										},
+																									},
+																								},
+																							},
+																						},
+																					},
+																					"set_headers": {
+																						Type:     schema.TypeList,
+																						Computed: true,
+																						Elem: &schema.Resource{
+																							Schema: map[string]*schema.Schema{
+																								// Required
+
+																								// Optional
+
+																								// Computed
+																								"items": {
+																									Type:     schema.TypeList,
+																									Computed: true,
+																									Elem: &schema.Resource{
+																										Schema: map[string]*schema.Schema{
+																											// Required
+
+																											// Optional
+
+																											// Computed
+																											"if_exists": {
+																												Type:     schema.TypeString,
+																												Computed: true,
+																											},
+																											"name": {
+																												Type:     schema.TypeString,
+																												Computed: true,
+																											},
+																											"values": {
+																												Type:     schema.TypeList,
+																												Computed: true,
+																												Elem: &schema.Schema{
+																													Type: schema.TypeString,
+																												},
+																											},
+																										},
+																									},
+																								},
+																							},
+																						},
+																					},
+																				},
+																			},
+																		},
+																		"response_message": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"type": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																	},
+																},
+															},
 														},
 													},
 												},
@@ -862,6 +1021,11 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 																Elem: &schema.Schema{
 																	Type: schema.TypeString,
 																},
+															},
+															"is_default": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
 															},
 														},
 													},
