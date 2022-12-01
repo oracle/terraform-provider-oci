@@ -93,14 +93,16 @@ The following attributes are exported:
 	* `id` - The OCID of the DB System.
 	* `ip_address` - The IP address the DB System is configured to listen on. A private IP address of the primary endpoint of the DB System. Must be an available IP address within the subnet's CIDR. This will be a "dotted-quad" style IPv4 address. 
 	* `is_highly_available` - Specifies if the DB System is highly available. 
-	* `maintenance` - The Maintenance Policy for the DB System. 
+	* `maintenance` - The Maintenance Policy for the DB System or Read Replica that this model is included in. 
 		* `window_start_time` - The start time of the maintenance window.
 
 			This string is of the format: "{day-of-week} {time-of-day}".
 
 			"{day-of-week}" is a case-insensitive string like "mon", "tue", &c.
 
-			"{time-of-day}" is the "Time" portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero. 
+			"{time-of-day}" is the "Time" portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero.
+
+			If you set the read replica maintenance window to "" or if not specified, the read replica is set same as the DB system maintenance window. 
 	* `mysql_version` - Name of the MySQL Version in use for the DB System.
 	* `port` - The port for primary endpoint of the DB System to listen on.
 	* `port_x` - The network port on which X Plugin listens for TCP/IP connections. This is the X Plugin equivalent of port. 

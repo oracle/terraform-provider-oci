@@ -131,14 +131,17 @@ The following arguments are supported:
 * `is_highly_available` - (Optional) (Updatable) Specifies if the DB System is highly available.
 
 	When creating a DB System with High Availability, three instances are created and placed according to your region- and subnet-type. The secondaries are placed automatically in the other two availability or fault domains.  You can choose the preferred location of your primary instance, only. 
-* `maintenance` - (Optional) (Updatable) The Maintenance Policy for the DB System. `maintenance` and `backup_policy` cannot be updated in the same request.
+* `maintenance` - (Optional) (Updatable) The Maintenance Policy for the DB System or Read Replica that this model is included in. `maintenance` and `backup_policy` cannot be updated in the same request.
 	* `window_start_time` - (Required) (Updatable) The start of the 2 hour maintenance window.
 
 		This string is of the format: "{day-of-week} {time-of-day}".
 
 		"{day-of-week}" is a case-insensitive string like "mon", "tue", &c.
 
-		"{time-of-day}" is the "Time" portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero. 
+		"{time-of-day}" is the "Time" portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero.
+
+		If you set the read replica maintenance window to "" or if not specified, the read replica is set same as the DB system maintenance window. 
+* `mysql_version` - (Optional) The specific MySQL version identifier.
 * `port` - (Optional) The port for primary endpoint of the DB System to listen on.
 * `port_x` - (Optional) The TCP network port on which X Plugin listens for connections. This is the X Plugin equivalent of port. 
 * `shape_name` - (Required) (Updatable) The name of the shape. The shape determines the resources allocated
@@ -274,14 +277,16 @@ The following attributes are exported:
 * `is_heat_wave_cluster_attached` - If the DB System has a HeatWave Cluster attached. 
 * `is_highly_available` - Specifies if the DB System is highly available. 
 * `lifecycle_details` - Additional information about the current lifecycleState.
-* `maintenance` - The Maintenance Policy for the DB System. 
+* `maintenance` - The Maintenance Policy for the DB System or Read Replica that this model is included in. 
 	* `window_start_time` - The start time of the maintenance window.
 
 		This string is of the format: "{day-of-week} {time-of-day}".
 
 		"{day-of-week}" is a case-insensitive string like "mon", "tue", &c.
 
-		"{time-of-day}" is the "Time" portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero. 
+		"{time-of-day}" is the "Time" portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero.
+
+		If you set the read replica maintenance window to "" or if not specified, the read replica is set same as the DB system maintenance window. 
 * `mysql_version` - Name of the MySQL Version in use for the DB System.
 * `point_in_time_recovery_details` - Point-in-time Recovery details like earliest and latest recovery time point for the DB System. 
 	* `time_earliest_recovery_point` - Earliest recovery time point for the DB System, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 

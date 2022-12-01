@@ -12,4 +12,5 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_mysql_mysql_backup", MysqlMysqlBackupResource())
 	tfresource.RegisterResource("oci_mysql_mysql_configuration", MysqlMysqlConfigurationResource())
 	tfresource.RegisterResource("oci_mysql_mysql_db_system", MysqlMysqlDbSystemResource())
+	tfresource.RegisterResource("oci_mysql_replica", MysqlReplicaResource())
 }
