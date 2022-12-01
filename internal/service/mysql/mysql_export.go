@@ -124,11 +124,23 @@ var exportMysqlChannelHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportMysqlReplicaHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_mysql_replica",
+	DatasourceClass:      "oci_mysql_replicas",
+	DatasourceItemsAttr:  "replicas",
+	ResourceAbbreviation: "replica",
+	DiscoverableLifecycleStates: []string{
+		string(oci_mysql.ReplicaLifecycleStateActive),
+		string(oci_mysql.ReplicaLifecycleStateNeedsAttention),
+	},
+}
+
 var mysqlResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportMysqlMysqlConfigurationHints},
 		{TerraformResourceHints: exportMysqlMysqlBackupHints},
 		{TerraformResourceHints: exportMysqlMysqlDbSystemHints},
 		{TerraformResourceHints: exportMysqlChannelHints},
+		{TerraformResourceHints: exportMysqlReplicaHints},
 	},
 }

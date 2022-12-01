@@ -17,5 +17,7 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_mysql_mysql_db_system", MysqlMysqlDbSystemDataSource())
 	tfresource.RegisterDatasource("oci_mysql_mysql_db_systems", MysqlMysqlDbSystemsDataSource())
 	tfresource.RegisterDatasource("oci_mysql_mysql_versions", MysqlMysqlVersionsDataSource())
+	tfresource.RegisterDatasource("oci_mysql_replica", MysqlReplicaDataSource())
+	tfresource.RegisterDatasource("oci_mysql_replicas", MysqlReplicasDataSource())
 	tfresource.RegisterDatasource("oci_mysql_shapes", MysqlShapesDataSource())
 }

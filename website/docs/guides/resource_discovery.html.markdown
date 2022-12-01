@@ -810,6 +810,7 @@ mysql
 * oci\_mysql\_mysql\_backup
 * oci\_mysql\_mysql\_db\_system
 * oci\_mysql\_channel
+* oci\_mysql\_replica
 
 network_firewall
     
