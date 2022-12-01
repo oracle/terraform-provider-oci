@@ -35,10 +35,6 @@ variable "deployment_specification_routes_backend_type" {
   default = "DYNAMIC_ROUTING_BACKEND"
 }
 
-variable "deployment_specification_routes_backend_" {
-  default = "DYNAMIC_ROUTING_BACKEND"
-}
-
 variable "deployment_specification_routes_methods" {
   default = ["GET"]
 }
@@ -77,6 +73,10 @@ variable "deployment_specification_routes_backend_routing_backends_backend_type"
 
 variable "deployment_specification_routes_backend_routing_backends_backend_url" {
   default = "https://api.weather.gov"
+}
+
+variable "deployment_specification_routes_backend_routing_backends_key_is_default" {
+  default = false
 }
 
 provider "oci" {
@@ -135,9 +135,10 @@ resource "oci_apigateway_deployment" "test_deployment" {
         }
         routing_backends {
           key {
-            type    = var.deployment_specification_routes_backend_routing_backends_key_type
-            values  = var.deployment_specification_routes_backend_routing_backends_key_values
-            name    = var.deployment_specification_routes_backend_routing_backends_key_name
+            type        = var.deployment_specification_routes_backend_routing_backends_key_type
+            values      = var.deployment_specification_routes_backend_routing_backends_key_values
+            name        = var.deployment_specification_routes_backend_routing_backends_key_name
+            is_default  = var.deployment_specification_routes_backend_routing_backends_key_is_default
           }
           backend {
             type    = var.deployment_specification_routes_backend_routing_backends_backend_type
