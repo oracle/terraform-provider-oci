@@ -25,6 +25,7 @@ data "oci_data_safe_reports" "test_reports" {
 	display_name = var.report_display_name
 	report_definition_id = oci_data_safe_report_definition.test_report_definition.id
 	state = var.report_state
+	type = var.report_type
 }
 ```
 
@@ -38,6 +39,7 @@ The following arguments are supported:
 * `display_name` - (Optional) The name of the report definition to query.
 * `report_definition_id` - (Optional) The ID of the report definition to filter the list of reports
 * `state` - (Optional) An optional filter to return only resources that match the specified lifecycle state.
+* `type` - (Optional) An optional filter to return only resources that match the specified type.
 
 
 ## Attributes Reference
@@ -61,4 +63,5 @@ The following attributes are exported:
 * `state` - The current state of the report.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_generated` - Specifies the time at which the report was generated.
+* `type` - The type of the report.
 

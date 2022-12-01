@@ -43,4 +43,5 @@ The following attributes are exported:
 * `state` - The current state of the report.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_generated` - Specifies the time at which the report was generated.
+* `type` - The type of the report.
 
