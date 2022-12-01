@@ -84,7 +84,9 @@ The following arguments are supported:
 * `input_schema` - (Optional) Input schema file content in String format
 * `output_schema` - (Optional) Output schema file content in String format
 * `project_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate with the model.
-
+* `model_artifact` - (Optional) The model artifact to upload. It is a ZIP archive of the files necessary to run the model. This can be done in a separate step or using cli/sdk. The Model will remain in "Creating" state until its artifact is uploaded.
+* `artifact_content_disposition` - (Optional) This allows to specify a filename during upload. This file name is used to dispose of the file contents while downloading the file. Example: `attachment; filename=model-artifact.zip`
+* `artifact_content_length` - (Optional, Required if `model_artifact` is set) The content length of the model_artifact.
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
