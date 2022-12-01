@@ -112,6 +112,56 @@ func DevopsDeploymentResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"deploy_stage_override_arguments": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"items": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"deploy_stage_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"value": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
 			"deployment_arguments": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -525,6 +575,12 @@ func (s *DevopsDeploymentResourceCrud) SetData() error {
 			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
 		}
 
+		if v.DeployStageOverrideArguments != nil {
+			s.D.Set("deploy_stage_override_arguments", []interface{}{DeployStageOverrideArgumentCollectionToMap(v.DeployStageOverrideArguments)})
+		} else {
+			s.D.Set("deploy_stage_override_arguments", nil)
+		}
+
 		if v.DeploymentArguments != nil {
 			s.D.Set("deployment_arguments", []interface{}{DeploymentArgumentCollectionToMap(v.DeploymentArguments)})
 		} else {
@@ -603,6 +659,12 @@ func (s *DevopsDeploymentResourceCrud) SetData() error {
 			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
 		}
 
+		if v.DeployStageOverrideArguments != nil {
+			s.D.Set("deploy_stage_override_arguments", []interface{}{DeployStageOverrideArgumentCollectionToMap(v.DeployStageOverrideArguments)})
+		} else {
+			s.D.Set("deploy_stage_override_arguments", nil)
+		}
+
 		if v.DeploymentArguments != nil {
 			s.D.Set("deployment_arguments", []interface{}{DeploymentArgumentCollectionToMap(v.DeploymentArguments)})
 		} else {
@@ -679,6 +741,12 @@ func (s *DevopsDeploymentResourceCrud) SetData() error {
 
 		if v.DeployPipelineId != nil {
 			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+
+		if v.DeployStageOverrideArguments != nil {
+			s.D.Set("deploy_stage_override_arguments", []interface{}{DeployStageOverrideArgumentCollectionToMap(v.DeployStageOverrideArguments)})
+		} else {
+			s.D.Set("deploy_stage_override_arguments", nil)
 		}
 
 		if v.DeploymentArguments != nil {
@@ -761,6 +829,12 @@ func (s *DevopsDeploymentResourceCrud) SetData() error {
 
 		if v.DeployPipelineId != nil {
 			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+
+		if v.DeployStageOverrideArguments != nil {
+			s.D.Set("deploy_stage_override_arguments", []interface{}{DeployStageOverrideArgumentCollectionToMap(v.DeployStageOverrideArguments)})
+		} else {
+			s.D.Set("deploy_stage_override_arguments", nil)
 		}
 
 		if v.DeploymentArguments != nil {
@@ -934,6 +1008,80 @@ func DeployStageExecutionStepToMap(obj oci_devops.DeployStageExecutionStep) map[
 	if obj.TimeStarted != nil {
 		result["time_started"] = obj.TimeStarted.String()
 	}
+
+	return result
+}
+
+func (s *DevopsDeploymentResourceCrud) mapToDeployStageOverrideArgument(fieldKeyFormat string) (oci_devops.DeployStageOverrideArgument, error) {
+	result := oci_devops.DeployStageOverrideArgument{}
+
+	if deployStageId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "deploy_stage_id")); ok {
+		tmp := deployStageId.(string)
+		result.DeployStageId = &tmp
+	}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+		tmp := value.(string)
+		result.Value = &tmp
+	}
+
+	return result, nil
+}
+
+func DeployStageOverrideArgumentToMap(obj oci_devops.DeployStageOverrideArgument) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DeployStageId != nil {
+		result["deploy_stage_id"] = string(*obj.DeployStageId)
+	}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.Value != nil {
+		result["value"] = string(*obj.Value)
+	}
+
+	return result
+}
+
+func (s *DevopsDeploymentResourceCrud) mapToDeployStageOverrideArgumentCollection(fieldKeyFormat string) (oci_devops.DeployStageOverrideArgumentCollection, error) {
+	result := oci_devops.DeployStageOverrideArgumentCollection{}
+
+	if items, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "items")); ok {
+		interfaces := items.([]interface{})
+		tmp := make([]oci_devops.DeployStageOverrideArgument, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "items"), stateDataIndex)
+			converted, err := s.mapToDeployStageOverrideArgument(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "items")) {
+			result.Items = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func DeployStageOverrideArgumentCollectionToMap(obj *oci_devops.DeployStageOverrideArgumentCollection) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	items := []interface{}{}
+	for _, item := range obj.Items {
+		items = append(items, DeployStageOverrideArgumentToMap(item))
+	}
+	result["items"] = items
 
 	return result
 }
@@ -1171,6 +1319,16 @@ func (s *DevopsDeploymentResourceCrud) populateTopLevelPolymorphicCreateDeployme
 			tmp := deployPipelineId.(string)
 			details.DeployPipelineId = &tmp
 		}
+		if deployStageOverrideArguments, ok := s.D.GetOkExists("deploy_stage_override_arguments"); ok {
+			if tmpList := deployStageOverrideArguments.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_override_arguments", 0)
+				tmp, err := s.mapToDeployStageOverrideArgumentCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStageOverrideArguments = &tmp
+			}
+		}
 		if deploymentArguments, ok := s.D.GetOkExists("deployment_arguments"); ok {
 			if tmpList := deploymentArguments.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deployment_arguments", 0)
@@ -1260,6 +1418,16 @@ func (s *DevopsDeploymentResourceCrud) populateTopLevelPolymorphicCreateDeployme
 		if deployPipelineId, ok := s.D.GetOkExists("deploy_pipeline_id"); ok {
 			tmp := deployPipelineId.(string)
 			details.DeployPipelineId = &tmp
+		}
+		if deployStageOverrideArguments, ok := s.D.GetOkExists("deploy_stage_override_arguments"); ok {
+			if tmpList := deployStageOverrideArguments.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_override_arguments", 0)
+				tmp, err := s.mapToDeployStageOverrideArgumentCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStageOverrideArguments = &tmp
+			}
 		}
 		if deploymentArguments, ok := s.D.GetOkExists("deployment_arguments"); ok {
 			if tmpList := deploymentArguments.([]interface{}); len(tmpList) > 0 {
