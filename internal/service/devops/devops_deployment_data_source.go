@@ -100,6 +100,12 @@ func (s *DevopsDeploymentDataSourceCrud) SetData() error {
 			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
 		}
 
+		if v.DeployStageOverrideArguments != nil {
+			s.D.Set("deploy_stage_override_arguments", []interface{}{DeployStageOverrideArgumentCollectionToMap(v.DeployStageOverrideArguments)})
+		} else {
+			s.D.Set("deploy_stage_override_arguments", nil)
+		}
+
 		if v.DeploymentArguments != nil {
 			s.D.Set("deployment_arguments", []interface{}{DeploymentArgumentCollectionToMap(v.DeploymentArguments)})
 		} else {
@@ -176,6 +182,12 @@ func (s *DevopsDeploymentDataSourceCrud) SetData() error {
 			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
 		}
 
+		if v.DeployStageOverrideArguments != nil {
+			s.D.Set("deploy_stage_override_arguments", []interface{}{DeployStageOverrideArgumentCollectionToMap(v.DeployStageOverrideArguments)})
+		} else {
+			s.D.Set("deploy_stage_override_arguments", nil)
+		}
+
 		if v.DeploymentArguments != nil {
 			s.D.Set("deployment_arguments", []interface{}{DeploymentArgumentCollectionToMap(v.DeploymentArguments)})
 		} else {
@@ -250,6 +262,12 @@ func (s *DevopsDeploymentDataSourceCrud) SetData() error {
 
 		if v.DeployPipelineId != nil {
 			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+
+		if v.DeployStageOverrideArguments != nil {
+			s.D.Set("deploy_stage_override_arguments", []interface{}{DeployStageOverrideArgumentCollectionToMap(v.DeployStageOverrideArguments)})
+		} else {
+			s.D.Set("deploy_stage_override_arguments", nil)
 		}
 
 		if v.DeploymentArguments != nil {
@@ -330,6 +348,12 @@ func (s *DevopsDeploymentDataSourceCrud) SetData() error {
 
 		if v.DeployPipelineId != nil {
 			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+
+		if v.DeployStageOverrideArguments != nil {
+			s.D.Set("deploy_stage_override_arguments", []interface{}{DeployStageOverrideArgumentCollectionToMap(v.DeployStageOverrideArguments)})
+		} else {
+			s.D.Set("deploy_stage_override_arguments", nil)
 		}
 
 		if v.DeploymentArguments != nil {

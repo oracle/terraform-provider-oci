@@ -78,6 +78,11 @@ The following attributes are exported:
 		* `display_name` - Display name of the environment. Avoid entering confidential information.
 * `deploy_pipeline_id` - The OCID of a pipeline.
 * `deploy_stage_id` - Specifies the OCID of the stage to be redeployed.
+* `deploy_stage_override_arguments` - Specifies the list of arguments to be overriden per Stage at the time of deployment.
+	* `items` - List of stage override arguments at the time of deployment.
+		* `deploy_stage_id` - The OCID of the stage.
+		* `name` - Name of the parameter (case-sensitive).
+		* `value` - Value of the parameter.
 * `deployment_arguments` - Specifies list of arguments passed along with the deployment.
 	* `items` - List of arguments provided at the time of deployment.
 		* `name` - Name of the parameter (case-sensitive).
