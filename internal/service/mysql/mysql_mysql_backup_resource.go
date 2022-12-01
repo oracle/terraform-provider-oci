@@ -244,6 +244,14 @@ func MysqlMysqlBackupResource() *schema.Resource {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
+									"resource_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"resource_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"status": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -678,6 +686,12 @@ func DbSystemEndpointToMap(obj oci_mysql.DbSystemEndpoint) map[string]interface{
 	if obj.PortX != nil {
 		result["port_x"] = int(*obj.PortX)
 	}
+
+	if obj.ResourceId != nil {
+		result["resource_id"] = string(*obj.ResourceId)
+	}
+
+	result["resource_type"] = string(obj.ResourceType)
 
 	result["status"] = string(obj.Status)
 

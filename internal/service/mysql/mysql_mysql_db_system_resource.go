@@ -612,6 +612,14 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"resource_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"resource_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"status": {
 							Type:     schema.TypeString,
 							Computed: true,

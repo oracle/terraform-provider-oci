@@ -85,6 +85,8 @@ The following attributes are exported:
 		* `modes` - The access modes from the client that this endpoint supports.
 		* `port` - The port the MySQL instance listens on.
 		* `port_x` - The network port where to connect to use this endpoint using the X protocol.
+		* `resource_id` - The OCID of the resource that this endpoint is attached to.
+		* `resource_type` - The type of endpoint that clients and connectors can connect to.
 		* `status` - The state of the endpoints, as far as it can seen from the DB System. There may be some inconsistency with the actual state of the MySQL service. 
 		* `status_details` - Additional information about the current endpoint status.
 	* `fault_domain` - The name of the Fault Domain the DB System is located in. 
