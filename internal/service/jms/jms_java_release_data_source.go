@@ -22,6 +22,13 @@ func JmsJavaReleaseDataSource() *schema.Resource {
 				Required: true,
 			},
 			// Computed
+			"artifact_content_types": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"artifacts": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -188,6 +195,9 @@ func (s *JmsJavaReleaseDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(tfresource.GenerateDataSourceHashID("JmsJavaReleaseDataSource-", JmsJavaReleaseDataSource(), s.D))
+
+	s.D.Set("artifact_content_types", s.Res.ArtifactContentTypes)
+	s.D.Set("artifact_content_types", s.Res.ArtifactContentTypes)
 
 	artifacts := []interface{}{}
 	for _, item := range s.Res.Artifacts {
