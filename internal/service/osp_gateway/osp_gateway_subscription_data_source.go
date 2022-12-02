@@ -88,11 +88,11 @@ func (s *OspGatewaySubscriptionDataSourceCrud) SetData() error {
 		s.D.Set("bill_to_cust_account_id", *s.Res.BillToCustAccountId)
 	}
 
-	if s.Res.BillingAddress != nil {
-		s.D.Set("billing_address", []interface{}{BillingAddressToMap(s.Res.BillingAddress)})
-	} else {
-		s.D.Set("billing_address", nil)
-	}
+	//if s.Res.BillingAddress != nil {
+	//	s.D.Set("billing_address", []interface{}{BillingAddressToMap(s.Res.BillingAddress)})
+	//} else {
+	//	s.D.Set("billing_address", nil)
+	//}
 
 	if s.Res.CurrencyCode != nil {
 		s.D.Set("currency_code", *s.Res.CurrencyCode)

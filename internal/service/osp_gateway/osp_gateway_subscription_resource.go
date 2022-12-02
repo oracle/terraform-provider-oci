@@ -788,11 +788,11 @@ func (s *OspGatewaySubscriptionResourceCrud) SetData() error {
 		s.D.Set("bill_to_cust_account_id", *s.Res.BillToCustAccountId)
 	}
 
-	if s.Res.BillingAddress != nil {
-		s.D.Set("billing_address", []interface{}{BillingAddressToMap(s.Res.BillingAddress)})
-	} else {
-		s.D.Set("billing_address", nil)
-	}
+	//if s.Res.BillingAddress != nil {
+	//	s.D.Set("billing_address", []interface{}{BillingAddressToMap(s.Res.BillingAddress)})
+	//} else {
+	//	s.D.Set("billing_address", nil)
+	//}
 
 	if s.Res.CurrencyCode != nil {
 		s.D.Set("currency_code", *s.Res.CurrencyCode)
@@ -879,6 +879,7 @@ func parseSubscriptionCompositeId(compositeId string) (subscriptionId string, er
 	return
 }
 
+/*
 func (s *OspGatewaySubscriptionResourceCrud) mapToBillingAddress(fieldKeyFormat string) (oci_osp_gateway.BillingAddress, error) {
 	result := oci_osp_gateway.BillingAddress{}
 
@@ -989,7 +990,7 @@ func BillingAddressToMap(obj *oci_osp_gateway.BillingAddress) map[string]interfa
 
 	return result
 }
-
+*/
 func (s *OspGatewaySubscriptionResourceCrud) mapToMerchantDefinedData(fieldKeyFormat string) (oci_osp_gateway.MerchantDefinedData, error) {
 	result := oci_osp_gateway.MerchantDefinedData{}
 
@@ -1173,16 +1174,16 @@ func (s *OspGatewaySubscriptionResourceCrud) mapToSubscription(fieldKeyFormat st
 		result.BillToCustAccountId = &tmp
 	}
 
-	if billingAddress, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "billing_address")); ok {
-		if tmpList := billingAddress.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "billing_address"), 0)
-			tmp, err := s.mapToBillingAddress(fieldKeyFormatNextLevel)
-			if err != nil {
-				return result, fmt.Errorf("unable to convert billing_address, encountered error: %v", err)
-			}
-			result.BillingAddress = &tmp
-		}
-	}
+	//if billingAddress, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "billing_address")); ok {
+	//	if tmpList := billingAddress.([]interface{}); len(tmpList) > 0 {
+	//		fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "billing_address"), 0)
+	//		tmp, err := s.mapToBillingAddress(fieldKeyFormatNextLevel)
+	//		if err != nil {
+	//			return result, fmt.Errorf("unable to convert billing_address, encountered error: %v", err)
+	//		}
+	//		result.BillingAddress = &tmp
+	//	}
+	//}
 
 	if currencyCode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "currency_code")); ok {
 		tmp := currencyCode.(string)
@@ -1337,9 +1338,9 @@ func SubscriptionToMap(obj *oci_osp_gateway.Subscription) map[string]interface{}
 		result["bill_to_cust_account_id"] = string(*obj.BillToCustAccountId)
 	}
 
-	if obj.BillingAddress != nil {
-		result["billing_address"] = []interface{}{BillingAddressToMap(obj.BillingAddress)}
-	}
+	//if obj.BillingAddress != nil {
+	//	result["billing_address"] = []interface{}{BillingAddressToMap(obj.BillingAddress)}
+	//}
 
 	if obj.CurrencyCode != nil {
 		result["currency_code"] = string(*obj.CurrencyCode)
@@ -1415,9 +1416,9 @@ func SubscriptionSummaryToMap(obj oci_osp_gateway.SubscriptionSummary) map[strin
 		result["bill_to_cust_account_id"] = string(*obj.BillToCustAccountId)
 	}
 
-	if obj.BillingAddress != nil {
-		result["billing_address"] = []interface{}{BillingAddressToMap(obj.BillingAddress)}
-	}
+	//if obj.BillingAddress != nil {
+	//	result["billing_address"] = []interface{}{BillingAddressToMap(obj.BillingAddress)}
+	//}
 
 	if obj.CurrencyCode != nil {
 		result["currency_code"] = string(*obj.CurrencyCode)
