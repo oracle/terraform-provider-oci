@@ -55,10 +55,36 @@ var exportGoldenGateDeploymentBackupHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportGoldenGateConnectionAssignmentHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_golden_gate_connection_assignment",
+	DatasourceClass:        "oci_golden_gate_connection_assignments",
+	DatasourceItemsAttr:    "connection_assignment_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "connection_assignment",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_golden_gate.ConnectionAssignmentLifecycleStateActive),
+	},
+}
+
+var exportGoldenGateConnectionHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_golden_gate_connection",
+	DatasourceClass:        "oci_golden_gate_connections",
+	DatasourceItemsAttr:    "connection_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "connection",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_golden_gate.ConnectionLifecycleStateActive),
+	},
+}
+
 var goldenGateResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportGoldenGateDatabaseRegistrationHints},
 		{TerraformResourceHints: exportGoldenGateDeploymentHints},
 		{TerraformResourceHints: exportGoldenGateDeploymentBackupHints},
+		{TerraformResourceHints: exportGoldenGateConnectionAssignmentHints},
+		{TerraformResourceHints: exportGoldenGateConnectionHints},
 	},
 }

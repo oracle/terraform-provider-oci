@@ -18,6 +18,14 @@ func GoldenGateDeploymentsDataSource() *schema.Resource {
 		Read: readGoldenGateDeployments,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"assignable_connection_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"assigned_connection_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -35,6 +43,10 @@ func GoldenGateDeploymentsDataSource() *schema.Resource {
 				Optional: true,
 			},
 			"state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"supported_connection_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -77,6 +89,16 @@ func (s *GoldenGateDeploymentsDataSourceCrud) VoidState() {
 func (s *GoldenGateDeploymentsDataSourceCrud) Get() error {
 	request := oci_golden_gate.ListDeploymentsRequest{}
 
+	if assignableConnectionId, ok := s.D.GetOkExists("assignable_connection_id"); ok {
+		tmp := assignableConnectionId.(string)
+		request.AssignableConnectionId = &tmp
+	}
+
+	if assignedConnectionId, ok := s.D.GetOkExists("assigned_connection_id"); ok {
+		tmp := assignedConnectionId.(string)
+		request.AssignedConnectionId = &tmp
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -98,6 +120,10 @@ func (s *GoldenGateDeploymentsDataSourceCrud) Get() error {
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_golden_gate.ListDeploymentsLifecycleStateEnum(state.(string))
+	}
+
+	if supportedConnectionType, ok := s.D.GetOkExists("supported_connection_type"); ok {
+		request.SupportedConnectionType = oci_golden_gate.ListDeploymentsSupportedConnectionTypeEnum(supportedConnectionType.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "golden_gate")
