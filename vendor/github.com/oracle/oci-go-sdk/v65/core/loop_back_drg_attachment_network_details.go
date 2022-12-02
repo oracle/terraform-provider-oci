@@ -48,11 +48,6 @@ func (m LoopBackDrgAttachmentNetworkDetails) GetId() *string {
 	return m.Id
 }
 
-//GetIds returns Ids
-func (m LoopBackDrgAttachmentNetworkDetails) GetIds() []string {
-	return m.Ids
-}
-
 func (m LoopBackDrgAttachmentNetworkDetails) String() string {
 	return common.PointerString(m)
 }

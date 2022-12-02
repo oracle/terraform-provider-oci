@@ -88,9 +88,10 @@ func (client *SubscriptionServiceClient) ConfigurationProvider() *common.Configu
 }
 
 // AuthorizeSubscriptionPayment PSD2 authorization for subscription payment
+// A default retry strategy applies to this operation AuthorizeSubscriptionPayment()
 func (client SubscriptionServiceClient) AuthorizeSubscriptionPayment(ctx context.Context, request AuthorizeSubscriptionPaymentRequest) (response AuthorizeSubscriptionPaymentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -146,9 +147,10 @@ func (client SubscriptionServiceClient) authorizeSubscriptionPayment(ctx context
 }
 
 // GetSubscription Get the subscription plan.
+// A default retry strategy applies to this operation GetSubscription()
 func (client SubscriptionServiceClient) GetSubscription(ctx context.Context, request GetSubscriptionRequest) (response GetSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -199,9 +201,10 @@ func (client SubscriptionServiceClient) getSubscription(ctx context.Context, req
 }
 
 // ListSubscriptions Get the subscription data for the compartment
+// A default retry strategy applies to this operation ListSubscriptions()
 func (client SubscriptionServiceClient) ListSubscriptions(ctx context.Context, request ListSubscriptionsRequest) (response ListSubscriptionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -252,9 +255,10 @@ func (client SubscriptionServiceClient) listSubscriptions(ctx context.Context, r
 }
 
 // PaySubscription Pay a subscription
+// A default retry strategy applies to this operation PaySubscription()
 func (client SubscriptionServiceClient) PaySubscription(ctx context.Context, request PaySubscriptionRequest) (response PaySubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -310,9 +314,10 @@ func (client SubscriptionServiceClient) paySubscription(ctx context.Context, req
 }
 
 // UpdateSubscription Update plan of the subscription.
+// A default retry strategy applies to this operation UpdateSubscription()
 func (client SubscriptionServiceClient) UpdateSubscription(ctx context.Context, request UpdateSubscriptionRequest) (response UpdateSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

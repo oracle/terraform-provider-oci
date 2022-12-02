@@ -19,6 +19,9 @@ import (
 // UpdateOsvcChannelDetails Properties required to update an OSVC channel.
 type UpdateOsvcChannelDetails struct {
 
+	// The Channel's name. The name can contain only letters, numbers, periods, and underscores. The name must begin with a letter.
+	Name *string `mandatory:"false" json:"name"`
+
 	// A short description of the Channel.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -63,6 +66,11 @@ type UpdateOsvcChannelDetails struct {
 
 	// The type of OSVC service.
 	ChannelService OsvcServiceTypeEnum `mandatory:"false" json:"channelService,omitempty"`
+}
+
+//GetName returns Name
+func (m UpdateOsvcChannelDetails) GetName() *string {
+	return m.Name
 }
 
 //GetDescription returns Description

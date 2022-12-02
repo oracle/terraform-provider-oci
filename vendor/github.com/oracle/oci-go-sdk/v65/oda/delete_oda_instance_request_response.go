@@ -17,6 +17,9 @@ type DeleteOdaInstanceRequest struct {
 	// Unique Digital Assistant instance identifier.
 	OdaInstanceId *string `mandatory:"true" contributesTo:"path" name:"odaInstanceId"`
 
+	// Retain the ODA instance being deleted for the given number of days before hard-delete/purge.
+	RetentionTime *int `mandatory:"false" contributesTo:"query" name:"retentionTime"`
+
 	// For optimistic concurrency control in a PUT or DELETE call for
 	// a Digital Assistant instance, set the `if-match` query parameter
 	// to the value of the `ETAG` header from a previous GET or POST

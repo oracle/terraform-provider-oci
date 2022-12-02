@@ -25,7 +25,6 @@ import (
 // Instance A compute host. The image used to launch the instance determines its operating system and other
 // software. The shape specified during the launch process determines the number of CPUs and memory
 // allocated to the instance.
-//
 // When you launch an instance, it is automatically attached to a virtual
 // network interface card (VNIC), called the *primary VNIC*. The VNIC
 // has a private IP address from the subnet's CIDR. You can either assign a

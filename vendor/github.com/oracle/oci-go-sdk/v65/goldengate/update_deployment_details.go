@@ -55,6 +55,8 @@ type UpdateDeploymentDetails struct {
 	IsAutoScalingEnabled *bool `mandatory:"false" json:"isAutoScalingEnabled"`
 
 	OggData *UpdateOggDeploymentDetails `mandatory:"false" json:"oggData"`
+
+	MaintenanceWindow *UpdateMaintenanceWindowDetails `mandatory:"false" json:"maintenanceWindow"`
 }
 
 func (m UpdateDeploymentDetails) String() string {

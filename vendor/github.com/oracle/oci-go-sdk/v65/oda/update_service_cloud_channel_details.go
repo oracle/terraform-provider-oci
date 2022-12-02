@@ -19,6 +19,9 @@ import (
 // UpdateServiceCloudChannelDetails Properties to update a Service Cloud agent channel.
 type UpdateServiceCloudChannelDetails struct {
 
+	// The Channel's name. The name can contain only letters, numbers, periods, and underscores. The name must begin with a letter.
+	Name *string `mandatory:"false" json:"name"`
+
 	// A short description of the Channel.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -61,6 +64,11 @@ type UpdateServiceCloudChannelDetails struct {
 
 	// The type of Service Cloud client.
 	ClientType ServiceCloudClientTypeEnum `mandatory:"false" json:"clientType,omitempty"`
+}
+
+//GetName returns Name
+func (m UpdateServiceCloudChannelDetails) GetName() *string {
+	return m.Name
 }
 
 //GetDescription returns Description

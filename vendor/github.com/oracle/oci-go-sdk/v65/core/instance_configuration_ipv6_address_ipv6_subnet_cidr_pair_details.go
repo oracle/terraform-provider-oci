@@ -21,13 +21,13 @@ import (
 	"strings"
 )
 
-// InstanceConfigurationIpv6AddressIpv6SubnetCidrPairDetails Optional. Used to specify from which subnet CIDRs an IPv6 address should be allocated, or to assign valid available IPv6 addresses.
+// InstanceConfigurationIpv6AddressIpv6SubnetCidrPairDetails Optional. Used to specify from which subnet prefixes an IPv6 address should be allocated, or to assign valid available IPv6 addresses.
 type InstanceConfigurationIpv6AddressIpv6SubnetCidrPairDetails struct {
 
-	// Optional. Used to disambiguate which Subnet CIDR should be used to create an IPv6 allocation.
+	// Optional. Used to disambiguate which subnet prefix should be used to create an IPv6 allocation.
 	Ipv6SubnetCidr *string `mandatory:"false" json:"ipv6SubnetCidr"`
 
-	// Optional. An available IPv6 address of your subnet from a valid IPv6 CIDR on the subnet (otherwise the IP address is automatically assigned).
+	// Optional. An available IPv6 address of your subnet from a valid IPv6 prefix on the subnet (otherwise the IP address is automatically assigned).
 	Ipv6Address *string `mandatory:"false" json:"ipv6Address"`
 }
 

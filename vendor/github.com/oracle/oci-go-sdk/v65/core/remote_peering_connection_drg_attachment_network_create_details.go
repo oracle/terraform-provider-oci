@@ -34,9 +34,6 @@ type RemotePeeringConnectionDrgAttachmentNetworkCreateDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
 	Id *string `mandatory:"false" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
-	Ids []string `mandatory:"false" json:"ids"`
-
 	// Whether the RPC attachment is for a GFC DRG, indicating the mpls label should be
 	// allocated from the VC label range.
 	// Example: `true`
@@ -46,11 +43,6 @@ type RemotePeeringConnectionDrgAttachmentNetworkCreateDetails struct {
 //GetId returns Id
 func (m RemotePeeringConnectionDrgAttachmentNetworkCreateDetails) GetId() *string {
 	return m.Id
-}
-
-//GetIds returns Ids
-func (m RemotePeeringConnectionDrgAttachmentNetworkCreateDetails) GetIds() []string {
-	return m.Ids
 }
 
 func (m RemotePeeringConnectionDrgAttachmentNetworkCreateDetails) String() string {

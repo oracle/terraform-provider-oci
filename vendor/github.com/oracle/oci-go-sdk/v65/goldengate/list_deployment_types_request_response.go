@@ -17,6 +17,12 @@ type ListDeploymentTypesRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
+	// The type of deployment, the value determines the exact 'type' of the service executed in the deployment. Default value is DATABASE_ORACLE.
+	DeploymentType ListDeploymentTypesDeploymentTypeEnum `mandatory:"false" contributesTo:"query" name:"deploymentType" omitEmpty:"true"`
+
+	// Allows to query by a specific GoldenGate version.
+	OggVersion *string `mandatory:"false" contributesTo:"query" name:"oggVersion"`
+
 	// A filter to return only the resources that match the entire 'displayName' given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
@@ -74,6 +80,9 @@ func (request ListDeploymentTypesRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListDeploymentTypesRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingListDeploymentTypesDeploymentTypeEnum(string(request.DeploymentType)); !ok && request.DeploymentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeploymentType: %s. Supported values are: %s.", request.DeploymentType, strings.Join(GetListDeploymentTypesDeploymentTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingListDeploymentTypesSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDeploymentTypesSortOrderEnumStringValues(), ",")))
 	}
@@ -112,6 +121,64 @@ func (response ListDeploymentTypesResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListDeploymentTypesResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListDeploymentTypesDeploymentTypeEnum Enum with underlying type: string
+type ListDeploymentTypesDeploymentTypeEnum string
+
+// Set of constants representing the allowable values for ListDeploymentTypesDeploymentTypeEnum
+const (
+	ListDeploymentTypesDeploymentTypeOgg                ListDeploymentTypesDeploymentTypeEnum = "OGG"
+	ListDeploymentTypesDeploymentTypeDatabaseOracle     ListDeploymentTypesDeploymentTypeEnum = "DATABASE_ORACLE"
+	ListDeploymentTypesDeploymentTypeBigdata            ListDeploymentTypesDeploymentTypeEnum = "BIGDATA"
+	ListDeploymentTypesDeploymentTypeDatabaseMysql      ListDeploymentTypesDeploymentTypeEnum = "DATABASE_MYSQL"
+	ListDeploymentTypesDeploymentTypeDatabasePostgresql ListDeploymentTypesDeploymentTypeEnum = "DATABASE_POSTGRESQL"
+	ListDeploymentTypesDeploymentTypeGgsa               ListDeploymentTypesDeploymentTypeEnum = "GGSA"
+)
+
+var mappingListDeploymentTypesDeploymentTypeEnum = map[string]ListDeploymentTypesDeploymentTypeEnum{
+	"OGG":                 ListDeploymentTypesDeploymentTypeOgg,
+	"DATABASE_ORACLE":     ListDeploymentTypesDeploymentTypeDatabaseOracle,
+	"BIGDATA":             ListDeploymentTypesDeploymentTypeBigdata,
+	"DATABASE_MYSQL":      ListDeploymentTypesDeploymentTypeDatabaseMysql,
+	"DATABASE_POSTGRESQL": ListDeploymentTypesDeploymentTypeDatabasePostgresql,
+	"GGSA":                ListDeploymentTypesDeploymentTypeGgsa,
+}
+
+var mappingListDeploymentTypesDeploymentTypeEnumLowerCase = map[string]ListDeploymentTypesDeploymentTypeEnum{
+	"ogg":                 ListDeploymentTypesDeploymentTypeOgg,
+	"database_oracle":     ListDeploymentTypesDeploymentTypeDatabaseOracle,
+	"bigdata":             ListDeploymentTypesDeploymentTypeBigdata,
+	"database_mysql":      ListDeploymentTypesDeploymentTypeDatabaseMysql,
+	"database_postgresql": ListDeploymentTypesDeploymentTypeDatabasePostgresql,
+	"ggsa":                ListDeploymentTypesDeploymentTypeGgsa,
+}
+
+// GetListDeploymentTypesDeploymentTypeEnumValues Enumerates the set of values for ListDeploymentTypesDeploymentTypeEnum
+func GetListDeploymentTypesDeploymentTypeEnumValues() []ListDeploymentTypesDeploymentTypeEnum {
+	values := make([]ListDeploymentTypesDeploymentTypeEnum, 0)
+	for _, v := range mappingListDeploymentTypesDeploymentTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListDeploymentTypesDeploymentTypeEnumStringValues Enumerates the set of values in String for ListDeploymentTypesDeploymentTypeEnum
+func GetListDeploymentTypesDeploymentTypeEnumStringValues() []string {
+	return []string{
+		"OGG",
+		"DATABASE_ORACLE",
+		"BIGDATA",
+		"DATABASE_MYSQL",
+		"DATABASE_POSTGRESQL",
+		"GGSA",
+	}
+}
+
+// GetMappingListDeploymentTypesDeploymentTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListDeploymentTypesDeploymentTypeEnum(val string) (ListDeploymentTypesDeploymentTypeEnum, bool) {
+	enum, ok := mappingListDeploymentTypesDeploymentTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // ListDeploymentTypesSortOrderEnum Enum with underlying type: string

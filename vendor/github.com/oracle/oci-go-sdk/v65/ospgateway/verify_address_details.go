@@ -15,8 +15,8 @@ import (
 	"strings"
 )
 
-// BillingAddress Billing address details model.
-type BillingAddress struct {
+// VerifyAddressDetails Verify address related details
+type VerifyAddressDetails struct {
 
 	// Address identifier.
 	AddressKey *string `mandatory:"false" json:"addressKey"`
@@ -52,14 +52,14 @@ type BillingAddress struct {
 	LastName *string `mandatory:"false" json:"lastName"`
 }
 
-func (m BillingAddress) String() string {
+func (m VerifyAddressDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m BillingAddress) ValidateEnumValue() (bool, error) {
+func (m VerifyAddressDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

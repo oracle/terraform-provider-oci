@@ -50,6 +50,10 @@ func (m *upgradedeploymentdetails) UnmarshalPolymorphicJSON(data []byte) (interf
 
 	var err error
 	switch m.Type {
+	case "SPECIFIC_RELEASE":
+		mm := UpgradeDeploymentSpecificReleaseDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "CURRENT_RELEASE":
 		mm := UpgradeDeploymentCurrentReleaseDetails{}
 		err = json.Unmarshal(data, &mm)

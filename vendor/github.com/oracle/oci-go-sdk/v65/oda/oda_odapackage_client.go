@@ -90,9 +90,10 @@ func (client *OdapackageClient) ConfigurationProvider() *common.ConfigurationPro
 // CreateImportedPackage Starts an asynchronous job to import a package into a Digital Assistant instance.
 // To monitor the status of the job, take the `opc-work-request-id` response
 // header value and use it to call `GET /workRequests/{workRequestId}`.
+// A default retry strategy applies to this operation CreateImportedPackage()
 func (client OdapackageClient) CreateImportedPackage(ctx context.Context, request CreateImportedPackageRequest) (response CreateImportedPackageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -150,9 +151,10 @@ func (client OdapackageClient) createImportedPackage(ctx context.Context, reques
 // DeleteImportedPackage Starts an asynchronous job to delete a package from a Digital Assistant instance.
 // To monitor the status of the job, take the `opc-work-request-id` response
 // header value and use it to call `GET /workRequests/{workRequestId}`.
+// A default retry strategy applies to this operation DeleteImportedPackage()
 func (client OdapackageClient) DeleteImportedPackage(ctx context.Context, request DeleteImportedPackageRequest) (response DeleteImportedPackageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -208,9 +210,10 @@ func (client OdapackageClient) deleteImportedPackage(ctx context.Context, reques
 }
 
 // GetImportedPackage Returns a list of summaries for imported packages in the instance.
+// A default retry strategy applies to this operation GetImportedPackage()
 func (client OdapackageClient) GetImportedPackage(ctx context.Context, request GetImportedPackageRequest) (response GetImportedPackageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -261,9 +264,10 @@ func (client OdapackageClient) getImportedPackage(ctx context.Context, request c
 }
 
 // GetPackage Returns details about a package, and how to import it.
+// A default retry strategy applies to this operation GetPackage()
 func (client OdapackageClient) GetPackage(ctx context.Context, request GetPackageRequest) (response GetPackageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -314,9 +318,10 @@ func (client OdapackageClient) getPackage(ctx context.Context, request common.OC
 }
 
 // ListImportedPackages Returns a list of summaries for imported packages in the instance.
+// A default retry strategy applies to this operation ListImportedPackages()
 func (client OdapackageClient) ListImportedPackages(ctx context.Context, request ListImportedPackagesRequest) (response ListImportedPackagesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -379,9 +384,10 @@ func (client OdapackageClient) listImportedPackages(ctx context.Context, request
 // If the `opc-next-page` header appears in the response, then
 // there are more items to retrieve. To get the next page in the subsequent
 // GET request, include the header's value as the `page` query parameter.
+// A default retry strategy applies to this operation ListPackages()
 func (client OdapackageClient) ListPackages(ctx context.Context, request ListPackagesRequest) (response ListPackagesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -434,9 +440,10 @@ func (client OdapackageClient) listPackages(ctx context.Context, request common.
 // UpdateImportedPackage Starts an asynchronous job to update a package within a Digital Assistant instance.
 // To monitor the status of the job, take the `opc-work-request-id` response
 // header value and use it to call `GET /workRequests/{workRequestId}`.
+// A default retry strategy applies to this operation UpdateImportedPackage()
 func (client OdapackageClient) UpdateImportedPackage(ctx context.Context, request UpdateImportedPackageRequest) (response UpdateImportedPackageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

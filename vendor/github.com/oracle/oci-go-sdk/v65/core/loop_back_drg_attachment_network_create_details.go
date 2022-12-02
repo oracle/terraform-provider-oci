@@ -29,20 +29,15 @@ type LoopBackDrgAttachmentNetworkCreateDetails struct {
 	LoopBackIp *string `mandatory:"true" json:"loopBackIp"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
-	Id *string `mandatory:"false" json:"id"`
+	Ids []string `mandatory:"true" json:"ids"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
-	Ids []string `mandatory:"false" json:"ids"`
+	Id *string `mandatory:"false" json:"id"`
 }
 
 //GetId returns Id
 func (m LoopBackDrgAttachmentNetworkCreateDetails) GetId() *string {
 	return m.Id
-}
-
-//GetIds returns Ids
-func (m LoopBackDrgAttachmentNetworkCreateDetails) GetIds() []string {
-	return m.Ids
 }
 
 func (m LoopBackDrgAttachmentNetworkCreateDetails) String() string {

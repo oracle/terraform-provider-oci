@@ -23,6 +23,11 @@ type GetDigitalAssistantParameterRequest struct {
 	// The name of a Digital Assistant Parameter.  This is unique with the Digital Assistant.
 	ParameterName *string `mandatory:"true" contributesTo:"path" name:"parameterName"`
 
+	// The If-None-Match HTTP request header makes the request conditional. For GET methods, the service will return the
+	// requested resource, with a 200 status, only if it doesn't have an ETag matching the given ones.
+	// When the condition fails for GET methods, then the service will return HTTP status code 304 (Not Modified).
+	IfNoneMatch *string `mandatory:"false" contributesTo:"header" name:"if-none-match"`
+
 	// The client request ID for tracing. This value is included in the opc-request-id response header.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 

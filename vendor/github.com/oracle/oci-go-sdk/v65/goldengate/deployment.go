@@ -108,6 +108,9 @@ type Deployment struct {
 	// Indicates if the resource is the the latest available version.
 	IsLatestVersion *bool `mandatory:"false" json:"isLatestVersion"`
 
+	// Note: Deprecated: Use timeOfNextMaintenance instead, or related upgrade records
+	// to check, when deployment will be forced to upgrade to a newer version.
+	// Old description:
 	// The date the existing version in use will no longer be considered as usable
 	// and an upgrade will be required.  This date is typically 6 months after the
 	// version was released for use by GGS.  The format is defined by
@@ -123,6 +126,18 @@ type Deployment struct {
 	OggData *OggDeployment `mandatory:"false" json:"oggData"`
 
 	DeploymentDiagnosticData *DeploymentDiagnosticData `mandatory:"false" json:"deploymentDiagnosticData"`
+
+	MaintenanceWindow *MaintenanceWindow `mandatory:"false" json:"maintenanceWindow"`
+
+	// The time of next maintenance schedule. The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+	TimeOfNextMaintenance *common.SDKTime `mandatory:"false" json:"timeOfNextMaintenance"`
+
+	// Type of the next maintenance.
+	NextMaintenanceActionType MaintenanceActionTypeEnum `mandatory:"false" json:"nextMaintenanceActionType,omitempty"`
+
+	// Description of the next maintenance.
+	NextMaintenanceDescription *string `mandatory:"false" json:"nextMaintenanceDescription"`
 }
 
 func (m Deployment) String() string {
@@ -146,6 +161,9 @@ func (m Deployment) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingLifecycleSubStateEnum(string(m.LifecycleSubState)); !ok && m.LifecycleSubState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleSubState: %s. Supported values are: %s.", m.LifecycleSubState, strings.Join(GetLifecycleSubStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingMaintenanceActionTypeEnum(string(m.NextMaintenanceActionType)); !ok && m.NextMaintenanceActionType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NextMaintenanceActionType: %s. Supported values are: %s.", m.NextMaintenanceActionType, strings.Join(GetMaintenanceActionTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

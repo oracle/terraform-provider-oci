@@ -20,6 +20,9 @@ type ListPackagesRequest struct {
 	// Resource type identifier. Used to limit query results to the items which are applicable to the given type.
 	ResourceType *string `mandatory:"false" contributesTo:"query" name:"resourceType"`
 
+	// List the packages that belong to this compartment.
+	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
+
 	// List only the information for the package with this name. Package names are unique to a publisher and may not change.
 	// Example: `My Package`
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
@@ -29,7 +32,7 @@ type ListPackagesRequest struct {
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// Should we return only the latest version of a package (instead of all versions)?
-	IsLatestSkillOnly *bool `mandatory:"false" contributesTo:"query" name:"isLatestSkillOnly"`
+	IsLatestVersionOnly *bool `mandatory:"false" contributesTo:"query" name:"isLatestVersionOnly"`
 
 	// The maximum number of items to return per page.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`

@@ -32,7 +32,7 @@ type ClusterNetworkPlacementConfigurationDetails struct {
 	PlacementConstraint ClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnum `mandatory:"false" json:"placementConstraint,omitempty"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the primary subnet to place instances. This field is deprecated.
-	// Use the `primaryVnicSubnets` instead to set VNIC data for instances in the pool.
+	// Use `primaryVnicSubnets` instead to set VNIC data for instances in the pool.
 	PrimarySubnetId *string `mandatory:"false" json:"primarySubnetId"`
 
 	PrimaryVnicSubnets *InstancePoolPlacementPrimarySubnet `mandatory:"false" json:"primaryVnicSubnets"`

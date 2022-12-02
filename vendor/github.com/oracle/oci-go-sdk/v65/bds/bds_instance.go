@@ -239,27 +239,30 @@ type BdsInstanceClusterProfileEnum string
 
 // Set of constants representing the allowable values for BdsInstanceClusterProfileEnum
 const (
-	BdsInstanceClusterProfileHadoop BdsInstanceClusterProfileEnum = "HADOOP"
-	BdsInstanceClusterProfileHive   BdsInstanceClusterProfileEnum = "HIVE"
-	BdsInstanceClusterProfileSpark  BdsInstanceClusterProfileEnum = "SPARK"
-	BdsInstanceClusterProfileHbase  BdsInstanceClusterProfileEnum = "HBASE"
-	BdsInstanceClusterProfileTrino  BdsInstanceClusterProfileEnum = "TRINO"
+	BdsInstanceClusterProfileHadoopExtended BdsInstanceClusterProfileEnum = "HADOOP_EXTENDED"
+	BdsInstanceClusterProfileHadoop         BdsInstanceClusterProfileEnum = "HADOOP"
+	BdsInstanceClusterProfileHive           BdsInstanceClusterProfileEnum = "HIVE"
+	BdsInstanceClusterProfileSpark          BdsInstanceClusterProfileEnum = "SPARK"
+	BdsInstanceClusterProfileHbase          BdsInstanceClusterProfileEnum = "HBASE"
+	BdsInstanceClusterProfileTrino          BdsInstanceClusterProfileEnum = "TRINO"
 )
 
 var mappingBdsInstanceClusterProfileEnum = map[string]BdsInstanceClusterProfileEnum{
-	"HADOOP": BdsInstanceClusterProfileHadoop,
-	"HIVE":   BdsInstanceClusterProfileHive,
-	"SPARK":  BdsInstanceClusterProfileSpark,
-	"HBASE":  BdsInstanceClusterProfileHbase,
-	"TRINO":  BdsInstanceClusterProfileTrino,
+	"HADOOP_EXTENDED": BdsInstanceClusterProfileHadoopExtended,
+	"HADOOP":          BdsInstanceClusterProfileHadoop,
+	"HIVE":            BdsInstanceClusterProfileHive,
+	"SPARK":           BdsInstanceClusterProfileSpark,
+	"HBASE":           BdsInstanceClusterProfileHbase,
+	"TRINO":           BdsInstanceClusterProfileTrino,
 }
 
 var mappingBdsInstanceClusterProfileEnumLowerCase = map[string]BdsInstanceClusterProfileEnum{
-	"hadoop": BdsInstanceClusterProfileHadoop,
-	"hive":   BdsInstanceClusterProfileHive,
-	"spark":  BdsInstanceClusterProfileSpark,
-	"hbase":  BdsInstanceClusterProfileHbase,
-	"trino":  BdsInstanceClusterProfileTrino,
+	"hadoop_extended": BdsInstanceClusterProfileHadoopExtended,
+	"hadoop":          BdsInstanceClusterProfileHadoop,
+	"hive":            BdsInstanceClusterProfileHive,
+	"spark":           BdsInstanceClusterProfileSpark,
+	"hbase":           BdsInstanceClusterProfileHbase,
+	"trino":           BdsInstanceClusterProfileTrino,
 }
 
 // GetBdsInstanceClusterProfileEnumValues Enumerates the set of values for BdsInstanceClusterProfileEnum
@@ -274,6 +277,7 @@ func GetBdsInstanceClusterProfileEnumValues() []BdsInstanceClusterProfileEnum {
 // GetBdsInstanceClusterProfileEnumStringValues Enumerates the set of values in String for BdsInstanceClusterProfileEnum
 func GetBdsInstanceClusterProfileEnumStringValues() []string {
 	return []string{
+		"HADOOP_EXTENDED",
 		"HADOOP",
 		"HIVE",
 		"SPARK",

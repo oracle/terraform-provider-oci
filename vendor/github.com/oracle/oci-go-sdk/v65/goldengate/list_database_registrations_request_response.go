@@ -140,6 +140,7 @@ const (
 	ListDatabaseRegistrationsLifecycleStateCanceling      ListDatabaseRegistrationsLifecycleStateEnum = "CANCELING"
 	ListDatabaseRegistrationsLifecycleStateCanceled       ListDatabaseRegistrationsLifecycleStateEnum = "CANCELED"
 	ListDatabaseRegistrationsLifecycleStateSucceeded      ListDatabaseRegistrationsLifecycleStateEnum = "SUCCEEDED"
+	ListDatabaseRegistrationsLifecycleStateWaiting        ListDatabaseRegistrationsLifecycleStateEnum = "WAITING"
 )
 
 var mappingListDatabaseRegistrationsLifecycleStateEnum = map[string]ListDatabaseRegistrationsLifecycleStateEnum{
@@ -155,6 +156,7 @@ var mappingListDatabaseRegistrationsLifecycleStateEnum = map[string]ListDatabase
 	"CANCELING":       ListDatabaseRegistrationsLifecycleStateCanceling,
 	"CANCELED":        ListDatabaseRegistrationsLifecycleStateCanceled,
 	"SUCCEEDED":       ListDatabaseRegistrationsLifecycleStateSucceeded,
+	"WAITING":         ListDatabaseRegistrationsLifecycleStateWaiting,
 }
 
 var mappingListDatabaseRegistrationsLifecycleStateEnumLowerCase = map[string]ListDatabaseRegistrationsLifecycleStateEnum{
@@ -170,6 +172,7 @@ var mappingListDatabaseRegistrationsLifecycleStateEnumLowerCase = map[string]Lis
 	"canceling":       ListDatabaseRegistrationsLifecycleStateCanceling,
 	"canceled":        ListDatabaseRegistrationsLifecycleStateCanceled,
 	"succeeded":       ListDatabaseRegistrationsLifecycleStateSucceeded,
+	"waiting":         ListDatabaseRegistrationsLifecycleStateWaiting,
 }
 
 // GetListDatabaseRegistrationsLifecycleStateEnumValues Enumerates the set of values for ListDatabaseRegistrationsLifecycleStateEnum
@@ -196,6 +199,7 @@ func GetListDatabaseRegistrationsLifecycleStateEnumStringValues() []string {
 		"CANCELING",
 		"CANCELED",
 		"SUCCEEDED",
+		"WAITING",
 	}
 }
 

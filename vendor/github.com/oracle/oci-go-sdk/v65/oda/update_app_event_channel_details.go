@@ -19,6 +19,9 @@ import (
 // UpdateAppEventChannelDetails Properties to update an Application Event channel.
 type UpdateAppEventChannelDetails struct {
 
+	// The Channel's name. The name can contain only letters, numbers, periods, and underscores. The name must begin with a letter.
+	Name *string `mandatory:"false" json:"name"`
+
 	// A short description of the Channel.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -38,6 +41,11 @@ type UpdateAppEventChannelDetails struct {
 
 	// The IDs of the Skills and Digital Assistants that the Channel is routed to.
 	EventSinkBotIds []string `mandatory:"false" json:"eventSinkBotIds"`
+}
+
+//GetName returns Name
+func (m UpdateAppEventChannelDetails) GetName() *string {
+	return m.Name
 }
 
 //GetDescription returns Description

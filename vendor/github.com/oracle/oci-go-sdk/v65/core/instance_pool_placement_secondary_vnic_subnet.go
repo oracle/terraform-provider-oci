@@ -27,20 +27,20 @@ type InstancePoolPlacementSecondaryVnicSubnet struct {
 	// The subnet OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the secondary VNIC.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
-	// Whether to allocate an IPv6 address at instance/Vnic creation from an IPv6 Enabled
-	// Subnet. Default: False. When provided customer may optionally provide an IPv6 prefix
-	// (ipv6SubnetCidr) of their choice to assign the IPv6 address from. If ipv6SubnetCidr
-	// is not provided then IPv6 Prefix is chosen based on the logic described in "IPv6 Assignment
-	// logic in IPv6BL logic" section.
+	// Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled
+	// subnet. Default: False. When provided you may optionally provide an IPv6 prefix
+	// (`ipv6SubnetCidr`) of your choice to assign the IPv6 address from. If `ipv6SubnetCidr`
+	// is not provided then an IPv6 prefix is chosen
+	// for you.
 	IsAssignIpv6Ip *bool `mandatory:"false" json:"isAssignIpv6Ip"`
 
-	// A list of IPv6 CIDR ranges from which the Vnic should be assigned an IPv6 address.
-	// The caller can provide only the CIDR ranges, in which case, OCI will select an available
-	// address from the range.  The caller can optionally choose to leave the CIDR range empty
+	// A list of IPv6 prefix ranges from which the VNIC should be assigned an IPv6 address.
+	// You can provide only the prefix ranges and OCI will select an available
+	// address from the range. You can optionally choose to leave the prefix range empty
 	// and instead provide the specific IPv6 address that should be used from within that range.
 	Ipv6AddressIpv6SubnetCidrPairDetails []InstanceConfigurationIpv6AddressIpv6SubnetCidrPairDetails `mandatory:"false" json:"ipv6AddressIpv6SubnetCidrPairDetails"`
 
-	// The display name of the VNIC. This is also use to match against the instance configuration defined
+	// The display name of the VNIC. This is also used to match against the instance configuration defined
 	// secondary VNIC.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 }

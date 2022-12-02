@@ -28,9 +28,6 @@ type VcnDrgAttachmentNetworkCreateDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
 	Id *string `mandatory:"false" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
-	Ids []string `mandatory:"false" json:"ids"`
-
 	// This is the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table that is used to route the traffic as it enters a VCN through this attachment.
 	// For information about why you would associate a route table with a DRG attachment, see
 	// Advanced Scenario: Transit Routing (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitrouting.htm).
@@ -47,11 +44,6 @@ type VcnDrgAttachmentNetworkCreateDetails struct {
 //GetId returns Id
 func (m VcnDrgAttachmentNetworkCreateDetails) GetId() *string {
 	return m.Id
-}
-
-//GetIds returns Ids
-func (m VcnDrgAttachmentNetworkCreateDetails) GetIds() []string {
-	return m.Ids
 }
 
 func (m VcnDrgAttachmentNetworkCreateDetails) String() string {

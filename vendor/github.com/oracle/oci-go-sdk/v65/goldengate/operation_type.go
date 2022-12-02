@@ -40,7 +40,11 @@ const (
 	OperationTypeGoldengateConnectionAssignmentCreate  OperationTypeEnum = "GOLDENGATE_CONNECTION_ASSIGNMENT_CREATE"
 	OperationTypeGoldengateConnectionAssigmnentDelete  OperationTypeEnum = "GOLDENGATE_CONNECTION_ASSIGMNENT_DELETE"
 	OperationTypeGoldengateDeploymentDiagnosticCollect OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_DIAGNOSTIC_COLLECT"
-	OperationTypeGoldengateDeploymentPatch             OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_PATCH"
+	OperationTypeGoldengateDeploymentWalletExport      OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_WALLET_EXPORT"
+	OperationTypeGoldengateDeploymentWalletImport      OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_WALLET_IMPORT"
+	OperationTypeGoldengateDeploymentUpgradeUpgrade    OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_UPGRADE_UPGRADE"
+	OperationTypeGoldengateDeploymentUpgradeRollback   OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_UPGRADE_ROLLBACK"
+	OperationTypeGoldengateDeploymentUpgradeSnooze     OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_UPGRADE_SNOOZE"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -66,7 +70,11 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"GOLDENGATE_CONNECTION_ASSIGNMENT_CREATE":  OperationTypeGoldengateConnectionAssignmentCreate,
 	"GOLDENGATE_CONNECTION_ASSIGMNENT_DELETE":  OperationTypeGoldengateConnectionAssigmnentDelete,
 	"GOLDENGATE_DEPLOYMENT_DIAGNOSTIC_COLLECT": OperationTypeGoldengateDeploymentDiagnosticCollect,
-	"GOLDENGATE_DEPLOYMENT_PATCH":              OperationTypeGoldengateDeploymentPatch,
+	"GOLDENGATE_DEPLOYMENT_WALLET_EXPORT":      OperationTypeGoldengateDeploymentWalletExport,
+	"GOLDENGATE_DEPLOYMENT_WALLET_IMPORT":      OperationTypeGoldengateDeploymentWalletImport,
+	"GOLDENGATE_DEPLOYMENT_UPGRADE_UPGRADE":    OperationTypeGoldengateDeploymentUpgradeUpgrade,
+	"GOLDENGATE_DEPLOYMENT_UPGRADE_ROLLBACK":   OperationTypeGoldengateDeploymentUpgradeRollback,
+	"GOLDENGATE_DEPLOYMENT_UPGRADE_SNOOZE":     OperationTypeGoldengateDeploymentUpgradeSnooze,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -92,7 +100,11 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"goldengate_connection_assignment_create":  OperationTypeGoldengateConnectionAssignmentCreate,
 	"goldengate_connection_assigmnent_delete":  OperationTypeGoldengateConnectionAssigmnentDelete,
 	"goldengate_deployment_diagnostic_collect": OperationTypeGoldengateDeploymentDiagnosticCollect,
-	"goldengate_deployment_patch":              OperationTypeGoldengateDeploymentPatch,
+	"goldengate_deployment_wallet_export":      OperationTypeGoldengateDeploymentWalletExport,
+	"goldengate_deployment_wallet_import":      OperationTypeGoldengateDeploymentWalletImport,
+	"goldengate_deployment_upgrade_upgrade":    OperationTypeGoldengateDeploymentUpgradeUpgrade,
+	"goldengate_deployment_upgrade_rollback":   OperationTypeGoldengateDeploymentUpgradeRollback,
+	"goldengate_deployment_upgrade_snooze":     OperationTypeGoldengateDeploymentUpgradeSnooze,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -129,7 +141,11 @@ func GetOperationTypeEnumStringValues() []string {
 		"GOLDENGATE_CONNECTION_ASSIGNMENT_CREATE",
 		"GOLDENGATE_CONNECTION_ASSIGMNENT_DELETE",
 		"GOLDENGATE_DEPLOYMENT_DIAGNOSTIC_COLLECT",
-		"GOLDENGATE_DEPLOYMENT_PATCH",
+		"GOLDENGATE_DEPLOYMENT_WALLET_EXPORT",
+		"GOLDENGATE_DEPLOYMENT_WALLET_IMPORT",
+		"GOLDENGATE_DEPLOYMENT_UPGRADE_UPGRADE",
+		"GOLDENGATE_DEPLOYMENT_UPGRADE_ROLLBACK",
+		"GOLDENGATE_DEPLOYMENT_UPGRADE_SNOOZE",
 	}
 }
 

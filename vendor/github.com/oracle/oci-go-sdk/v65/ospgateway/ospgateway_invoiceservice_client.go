@@ -88,9 +88,10 @@ func (client *InvoiceServiceClient) ConfigurationProvider() *common.Configuratio
 }
 
 // DownloadPdfContent Returns an invoice in pdf format
+// A default retry strategy applies to this operation DownloadPdfContent()
 func (client InvoiceServiceClient) DownloadPdfContent(ctx context.Context, request DownloadPdfContentRequest) (response DownloadPdfContentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -140,9 +141,10 @@ func (client InvoiceServiceClient) downloadPdfContent(ctx context.Context, reque
 }
 
 // GetInvoice Returns an invoice by invoice id
+// A default retry strategy applies to this operation GetInvoice()
 func (client InvoiceServiceClient) GetInvoice(ctx context.Context, request GetInvoiceRequest) (response GetInvoiceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -193,9 +195,10 @@ func (client InvoiceServiceClient) getInvoice(ctx context.Context, request commo
 }
 
 // ListInvoiceLines Returns the invoice product list by invoice id
+// A default retry strategy applies to this operation ListInvoiceLines()
 func (client InvoiceServiceClient) ListInvoiceLines(ctx context.Context, request ListInvoiceLinesRequest) (response ListInvoiceLinesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -246,9 +249,10 @@ func (client InvoiceServiceClient) listInvoiceLines(ctx context.Context, request
 }
 
 // ListInvoices Returns a list of invoices
+// A default retry strategy applies to this operation ListInvoices()
 func (client InvoiceServiceClient) ListInvoices(ctx context.Context, request ListInvoicesRequest) (response ListInvoicesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -299,9 +303,10 @@ func (client InvoiceServiceClient) listInvoices(ctx context.Context, request com
 }
 
 // PayInvoice Pay an invoice
+// A default retry strategy applies to this operation PayInvoice()
 func (client InvoiceServiceClient) PayInvoice(ctx context.Context, request PayInvoiceRequest) (response PayInvoiceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

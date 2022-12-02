@@ -87,10 +87,14 @@ func (client *ManagementClient) ConfigurationProvider() *common.ConfigurationPro
 	return client.config
 }
 
-// ConfigureDigitalAssistantParameters This will store the provided parameters in the Digital Assistant instance and update any Digital Assistants with matching parameters.
-func (client ManagementClient) ConfigureDigitalAssistantParameters(ctx context.Context, request ConfigureDigitalAssistantParametersRequest) (response ConfigureDigitalAssistantParametersResponse, err error) {
+// ChangeOdaPrivateEndpointCompartment Starts an asynchronous job to move the specified ODA Private Endpoint into a different compartment.
+// To monitor the status of the job, take the `opc-work-request-id` response header
+// value and use it to call `GET /workRequests/{workRequestID}`.
+// When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeOdaPrivateEndpointCompartment()
+func (client ManagementClient) ChangeOdaPrivateEndpointCompartment(ctx context.Context, request ChangeOdaPrivateEndpointCompartmentRequest) (response ChangeOdaPrivateEndpointCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -102,6 +106,60 @@ func (client ManagementClient) ConfigureDigitalAssistantParameters(ctx context.C
 		request.OpcRetryToken = common.String(common.RetryToken())
 	}
 
+	ociResponse, err = common.Retry(ctx, request, client.changeOdaPrivateEndpointCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeOdaPrivateEndpointCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeOdaPrivateEndpointCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeOdaPrivateEndpointCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeOdaPrivateEndpointCompartmentResponse")
+	}
+	return
+}
+
+// changeOdaPrivateEndpointCompartment implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) changeOdaPrivateEndpointCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/odaPrivateEndpoints/{odaPrivateEndpointId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeOdaPrivateEndpointCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/OdaPrivateEndpoint/ChangeOdaPrivateEndpointCompartment"
+		err = common.PostProcessServiceError(err, "Management", "ChangeOdaPrivateEndpointCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ConfigureDigitalAssistantParameters This will store the provided parameters in the Digital Assistant instance and update any Digital Assistants with matching parameters.
+// A default retry strategy applies to this operation ConfigureDigitalAssistantParameters()
+func (client ManagementClient) ConfigureDigitalAssistantParameters(ctx context.Context, request ConfigureDigitalAssistantParametersRequest) (response ConfigureDigitalAssistantParametersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
 	ociResponse, err = common.Retry(ctx, request, client.configureDigitalAssistantParameters, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -146,9 +204,10 @@ func (client ManagementClient) configureDigitalAssistantParameters(ctx context.C
 }
 
 // CreateAuthenticationProvider Creates a new Authentication Provider
+// A default retry strategy applies to this operation CreateAuthenticationProvider()
 func (client ManagementClient) CreateAuthenticationProvider(ctx context.Context, request CreateAuthenticationProviderRequest) (response CreateAuthenticationProviderResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -204,9 +263,10 @@ func (client ManagementClient) createAuthenticationProvider(ctx context.Context,
 }
 
 // CreateChannel Creates a new Channel.
+// A default retry strategy applies to this operation CreateChannel()
 func (client ManagementClient) CreateChannel(ctx context.Context, request CreateChannelRequest) (response CreateChannelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -262,9 +322,10 @@ func (client ManagementClient) createChannel(ctx context.Context, request common
 }
 
 // CreateDigitalAssistant Creates a new Digital Assistant.
+// A default retry strategy applies to this operation CreateDigitalAssistant()
 func (client ManagementClient) CreateDigitalAssistant(ctx context.Context, request CreateDigitalAssistantRequest) (response CreateDigitalAssistantResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -319,10 +380,194 @@ func (client ManagementClient) createDigitalAssistant(ctx context.Context, reque
 	return response, err
 }
 
+// CreateOdaPrivateEndpoint Starts an asynchronous job to create an ODA Private Endpoint.
+// To monitor the status of the job, take the `opc-work-request-id` response
+// header value and use it to call `GET /workRequests/{workRequestID}`.
+// A default retry strategy applies to this operation CreateOdaPrivateEndpoint()
+func (client ManagementClient) CreateOdaPrivateEndpoint(ctx context.Context, request CreateOdaPrivateEndpointRequest) (response CreateOdaPrivateEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createOdaPrivateEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateOdaPrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateOdaPrivateEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateOdaPrivateEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateOdaPrivateEndpointResponse")
+	}
+	return
+}
+
+// createOdaPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) createOdaPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/odaPrivateEndpoints", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateOdaPrivateEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Management", "CreateOdaPrivateEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateOdaPrivateEndpointAttachment Starts an asynchronous job to create an ODA Private Endpoint Attachment.
+// To monitor the status of the job, take the `opc-work-request-id` response
+// header value and use it to call `GET /workRequests/{workRequestID}`.
+// A default retry strategy applies to this operation CreateOdaPrivateEndpointAttachment()
+func (client ManagementClient) CreateOdaPrivateEndpointAttachment(ctx context.Context, request CreateOdaPrivateEndpointAttachmentRequest) (response CreateOdaPrivateEndpointAttachmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createOdaPrivateEndpointAttachment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateOdaPrivateEndpointAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateOdaPrivateEndpointAttachmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateOdaPrivateEndpointAttachmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateOdaPrivateEndpointAttachmentResponse")
+	}
+	return
+}
+
+// createOdaPrivateEndpointAttachment implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) createOdaPrivateEndpointAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/odaPrivateEndpointAttachments", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateOdaPrivateEndpointAttachmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Management", "CreateOdaPrivateEndpointAttachment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateOdaPrivateEndpointScanProxy Starts an asynchronous job to create an ODA Private Endpoint Scan Proxy.
+// To monitor the status of the job, take the `opc-work-request-id` response
+// header value and use it to call `GET /workRequests/{workRequestID}`.
+// A default retry strategy applies to this operation CreateOdaPrivateEndpointScanProxy()
+func (client ManagementClient) CreateOdaPrivateEndpointScanProxy(ctx context.Context, request CreateOdaPrivateEndpointScanProxyRequest) (response CreateOdaPrivateEndpointScanProxyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createOdaPrivateEndpointScanProxy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateOdaPrivateEndpointScanProxyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateOdaPrivateEndpointScanProxyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateOdaPrivateEndpointScanProxyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateOdaPrivateEndpointScanProxyResponse")
+	}
+	return
+}
+
+// createOdaPrivateEndpointScanProxy implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) createOdaPrivateEndpointScanProxy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/odaPrivateEndpoints/{odaPrivateEndpointId}/odaPrivateEndpointScanProxies", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateOdaPrivateEndpointScanProxyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Management", "CreateOdaPrivateEndpointScanProxy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateSkill Creates a new Skill from scratch.
+// A default retry strategy applies to this operation CreateSkill()
 func (client ManagementClient) CreateSkill(ctx context.Context, request CreateSkillRequest) (response CreateSkillResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -378,9 +623,10 @@ func (client ManagementClient) createSkill(ctx context.Context, request common.O
 }
 
 // CreateSkillParameter Creates a new Skill Parameter.
+// A default retry strategy applies to this operation CreateSkillParameter()
 func (client ManagementClient) CreateSkillParameter(ctx context.Context, request CreateSkillParameterRequest) (response CreateSkillParameterResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -436,9 +682,10 @@ func (client ManagementClient) createSkillParameter(ctx context.Context, request
 }
 
 // CreateTranslator Creates a new Translator
+// A default retry strategy applies to this operation CreateTranslator()
 func (client ManagementClient) CreateTranslator(ctx context.Context, request CreateTranslatorRequest) (response CreateTranslatorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -494,9 +741,10 @@ func (client ManagementClient) createTranslator(ctx context.Context, request com
 }
 
 // DeleteAuthenticationProvider Delete the specified Authentication Provider.
+// A default retry strategy applies to this operation DeleteAuthenticationProvider()
 func (client ManagementClient) DeleteAuthenticationProvider(ctx context.Context, request DeleteAuthenticationProviderRequest) (response DeleteAuthenticationProviderResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -547,9 +795,10 @@ func (client ManagementClient) deleteAuthenticationProvider(ctx context.Context,
 }
 
 // DeleteChannel Delete the specified Channel.
+// A default retry strategy applies to this operation DeleteChannel()
 func (client ManagementClient) DeleteChannel(ctx context.Context, request DeleteChannelRequest) (response DeleteChannelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -600,9 +849,10 @@ func (client ManagementClient) deleteChannel(ctx context.Context, request common
 }
 
 // DeleteDigitalAssistant Delete the specified Digital Assistant.
+// A default retry strategy applies to this operation DeleteDigitalAssistant()
 func (client ManagementClient) DeleteDigitalAssistant(ctx context.Context, request DeleteDigitalAssistantRequest) (response DeleteDigitalAssistantResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -652,10 +902,176 @@ func (client ManagementClient) deleteDigitalAssistant(ctx context.Context, reque
 	return response, err
 }
 
+// DeleteOdaPrivateEndpoint Starts an asynchronous job to delete the specified ODA Private Endpoint.
+// To monitor the status of the job, take the `opc-work-request-id` response header value and use it to call `GET /workRequests/{workRequestID}`.
+// A default retry strategy applies to this operation DeleteOdaPrivateEndpoint()
+func (client ManagementClient) DeleteOdaPrivateEndpoint(ctx context.Context, request DeleteOdaPrivateEndpointRequest) (response DeleteOdaPrivateEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteOdaPrivateEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteOdaPrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteOdaPrivateEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteOdaPrivateEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteOdaPrivateEndpointResponse")
+	}
+	return
+}
+
+// deleteOdaPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) deleteOdaPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/odaPrivateEndpoints/{odaPrivateEndpointId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteOdaPrivateEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/OdaPrivateEndpoint/DeleteOdaPrivateEndpoint"
+		err = common.PostProcessServiceError(err, "Management", "DeleteOdaPrivateEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteOdaPrivateEndpointAttachment Starts an asynchronous job to delete the specified ODA Private Endpoint Attachment.
+// To monitor the status of the job, take the `opc-work-request-id` response header value and use it to call `GET /workRequests/{workRequestID}`.
+// A default retry strategy applies to this operation DeleteOdaPrivateEndpointAttachment()
+func (client ManagementClient) DeleteOdaPrivateEndpointAttachment(ctx context.Context, request DeleteOdaPrivateEndpointAttachmentRequest) (response DeleteOdaPrivateEndpointAttachmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteOdaPrivateEndpointAttachment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteOdaPrivateEndpointAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteOdaPrivateEndpointAttachmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteOdaPrivateEndpointAttachmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteOdaPrivateEndpointAttachmentResponse")
+	}
+	return
+}
+
+// deleteOdaPrivateEndpointAttachment implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) deleteOdaPrivateEndpointAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/odaPrivateEndpointAttachments/{odaPrivateEndpointAttachmentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteOdaPrivateEndpointAttachmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/OdaPrivateEndpointAttachment/DeleteOdaPrivateEndpointAttachment"
+		err = common.PostProcessServiceError(err, "Management", "DeleteOdaPrivateEndpointAttachment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteOdaPrivateEndpointScanProxy Starts an asynchronous job to delete the specified ODA Private Endpoint Scan Proxy.
+// To monitor the status of the job, take the `opc-work-request-id` response header value and use it to call `GET /workRequests/{workRequestID}`.
+// A default retry strategy applies to this operation DeleteOdaPrivateEndpointScanProxy()
+func (client ManagementClient) DeleteOdaPrivateEndpointScanProxy(ctx context.Context, request DeleteOdaPrivateEndpointScanProxyRequest) (response DeleteOdaPrivateEndpointScanProxyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteOdaPrivateEndpointScanProxy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteOdaPrivateEndpointScanProxyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteOdaPrivateEndpointScanProxyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteOdaPrivateEndpointScanProxyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteOdaPrivateEndpointScanProxyResponse")
+	}
+	return
+}
+
+// deleteOdaPrivateEndpointScanProxy implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) deleteOdaPrivateEndpointScanProxy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/odaPrivateEndpoints/{odaPrivateEndpointId}/odaPrivateEndpointScanProxies/{odaPrivateEndpointScanProxyId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteOdaPrivateEndpointScanProxyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/OdaPrivateEndpointScanProxy/DeleteOdaPrivateEndpointScanProxy"
+		err = common.PostProcessServiceError(err, "Management", "DeleteOdaPrivateEndpointScanProxy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteSkill Delete the specified Skill.
+// A default retry strategy applies to this operation DeleteSkill()
 func (client ManagementClient) DeleteSkill(ctx context.Context, request DeleteSkillRequest) (response DeleteSkillResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -706,9 +1122,10 @@ func (client ManagementClient) deleteSkill(ctx context.Context, request common.O
 }
 
 // DeleteSkillParameter Delete the specified Skill Parameter.
+// A default retry strategy applies to this operation DeleteSkillParameter()
 func (client ManagementClient) DeleteSkillParameter(ctx context.Context, request DeleteSkillParameterRequest) (response DeleteSkillParameterResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -759,9 +1176,10 @@ func (client ManagementClient) deleteSkillParameter(ctx context.Context, request
 }
 
 // DeleteTranslator Delete the specified Translator.
+// A default retry strategy applies to this operation DeleteTranslator()
 func (client ManagementClient) DeleteTranslator(ctx context.Context, request DeleteTranslatorRequest) (response DeleteTranslatorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -812,9 +1230,10 @@ func (client ManagementClient) deleteTranslator(ctx context.Context, request com
 }
 
 // ExportDigitalAssistant Exports the specified Digital Assistant as an archive to Object Storage.
+// A default retry strategy applies to this operation ExportDigitalAssistant()
 func (client ManagementClient) ExportDigitalAssistant(ctx context.Context, request ExportDigitalAssistantRequest) (response ExportDigitalAssistantResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -865,9 +1284,10 @@ func (client ManagementClient) exportDigitalAssistant(ctx context.Context, reque
 }
 
 // ExportSkill Exports the specified Skill as an archive to Object Storage.
+// A default retry strategy applies to this operation ExportSkill()
 func (client ManagementClient) ExportSkill(ctx context.Context, request ExportSkillRequest) (response ExportSkillResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -918,9 +1338,10 @@ func (client ManagementClient) exportSkill(ctx context.Context, request common.O
 }
 
 // GetAuthenticationProvider Gets the specified Authentication Provider.
+// A default retry strategy applies to this operation GetAuthenticationProvider()
 func (client ManagementClient) GetAuthenticationProvider(ctx context.Context, request GetAuthenticationProviderRequest) (response GetAuthenticationProviderResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -971,9 +1392,10 @@ func (client ManagementClient) getAuthenticationProvider(ctx context.Context, re
 }
 
 // GetChannel Gets the specified Channel.
+// A default retry strategy applies to this operation GetChannel()
 func (client ManagementClient) GetChannel(ctx context.Context, request GetChannelRequest) (response GetChannelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1024,9 +1446,10 @@ func (client ManagementClient) getChannel(ctx context.Context, request common.OC
 }
 
 // GetDigitalAssistant Gets the specified Digital Assistant.
+// A default retry strategy applies to this operation GetDigitalAssistant()
 func (client ManagementClient) GetDigitalAssistant(ctx context.Context, request GetDigitalAssistantRequest) (response GetDigitalAssistantResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1077,9 +1500,10 @@ func (client ManagementClient) getDigitalAssistant(ctx context.Context, request 
 }
 
 // GetDigitalAssistantParameter Gets the specified Digital Assistant Parameter.
+// A default retry strategy applies to this operation GetDigitalAssistantParameter()
 func (client ManagementClient) GetDigitalAssistantParameter(ctx context.Context, request GetDigitalAssistantParameterRequest) (response GetDigitalAssistantParameterResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1129,10 +1553,173 @@ func (client ManagementClient) getDigitalAssistantParameter(ctx context.Context,
 	return response, err
 }
 
+// GetOdaPrivateEndpoint Gets the specified ODA Private Endpoint.
+// A default retry strategy applies to this operation GetOdaPrivateEndpoint()
+func (client ManagementClient) GetOdaPrivateEndpoint(ctx context.Context, request GetOdaPrivateEndpointRequest) (response GetOdaPrivateEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getOdaPrivateEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetOdaPrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetOdaPrivateEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetOdaPrivateEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetOdaPrivateEndpointResponse")
+	}
+	return
+}
+
+// getOdaPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) getOdaPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/odaPrivateEndpoints/{odaPrivateEndpointId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetOdaPrivateEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/OdaPrivateEndpoint/GetOdaPrivateEndpoint"
+		err = common.PostProcessServiceError(err, "Management", "GetOdaPrivateEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetOdaPrivateEndpointAttachment Gets the specified ODA Private Endpoint Attachment.
+// A default retry strategy applies to this operation GetOdaPrivateEndpointAttachment()
+func (client ManagementClient) GetOdaPrivateEndpointAttachment(ctx context.Context, request GetOdaPrivateEndpointAttachmentRequest) (response GetOdaPrivateEndpointAttachmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getOdaPrivateEndpointAttachment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetOdaPrivateEndpointAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetOdaPrivateEndpointAttachmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetOdaPrivateEndpointAttachmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetOdaPrivateEndpointAttachmentResponse")
+	}
+	return
+}
+
+// getOdaPrivateEndpointAttachment implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) getOdaPrivateEndpointAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/odaPrivateEndpointAttachments/{odaPrivateEndpointAttachmentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetOdaPrivateEndpointAttachmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/OdaPrivateEndpointAttachment/GetOdaPrivateEndpointAttachment"
+		err = common.PostProcessServiceError(err, "Management", "GetOdaPrivateEndpointAttachment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetOdaPrivateEndpointScanProxy Gets the specified ODA Private Endpoint Scan Proxy.
+// A default retry strategy applies to this operation GetOdaPrivateEndpointScanProxy()
+func (client ManagementClient) GetOdaPrivateEndpointScanProxy(ctx context.Context, request GetOdaPrivateEndpointScanProxyRequest) (response GetOdaPrivateEndpointScanProxyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getOdaPrivateEndpointScanProxy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetOdaPrivateEndpointScanProxyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetOdaPrivateEndpointScanProxyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetOdaPrivateEndpointScanProxyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetOdaPrivateEndpointScanProxyResponse")
+	}
+	return
+}
+
+// getOdaPrivateEndpointScanProxy implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) getOdaPrivateEndpointScanProxy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/odaPrivateEndpoints/{odaPrivateEndpointId}/odaPrivateEndpointScanProxies/{odaPrivateEndpointScanProxyId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetOdaPrivateEndpointScanProxyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/OdaPrivateEndpointScanProxy/GetOdaPrivateEndpointScanProxy"
+		err = common.PostProcessServiceError(err, "Management", "GetOdaPrivateEndpointScanProxy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetSkill Gets the specified Skill.
+// A default retry strategy applies to this operation GetSkill()
 func (client ManagementClient) GetSkill(ctx context.Context, request GetSkillRequest) (response GetSkillResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1183,9 +1770,10 @@ func (client ManagementClient) getSkill(ctx context.Context, request common.OCIR
 }
 
 // GetSkillParameter Gets the specified Skill Parameter.
+// A default retry strategy applies to this operation GetSkillParameter()
 func (client ManagementClient) GetSkillParameter(ctx context.Context, request GetSkillParameterRequest) (response GetSkillParameterResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1236,9 +1824,10 @@ func (client ManagementClient) getSkillParameter(ctx context.Context, request co
 }
 
 // GetTranslator Gets the specified Translator.
+// A default retry strategy applies to this operation GetTranslator()
 func (client ManagementClient) GetTranslator(ctx context.Context, request GetTranslatorRequest) (response GetTranslatorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1289,9 +1878,10 @@ func (client ManagementClient) getTranslator(ctx context.Context, request common
 }
 
 // ImportBot Import a Bot archive from Object Storage.
+// A default retry strategy applies to this operation ImportBot()
 func (client ManagementClient) ImportBot(ctx context.Context, request ImportBotRequest) (response ImportBotResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1350,9 +1940,10 @@ func (client ManagementClient) importBot(ctx context.Context, request common.OCI
 // If the `opc-next-page` header appears in the response, then
 // there are more items to retrieve. To get the next page in the subsequent
 // GET request, include the header's value as the `page` query parameter.
+// A default retry strategy applies to this operation ListAuthenticationProviders()
 func (client ManagementClient) ListAuthenticationProviders(ctx context.Context, request ListAuthenticationProvidersRequest) (response ListAuthenticationProvidersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1406,9 +1997,10 @@ func (client ManagementClient) listAuthenticationProviders(ctx context.Context, 
 // If the `opc-next-page` header appears in the response, then
 // there are more items to retrieve. To get the next page in the subsequent
 // GET request, include the header's value as the `page` query parameter.
+// A default retry strategy applies to this operation ListChannels()
 func (client ManagementClient) ListChannels(ctx context.Context, request ListChannelsRequest) (response ListChannelsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1462,9 +2054,10 @@ func (client ManagementClient) listChannels(ctx context.Context, request common.
 // If the `opc-next-page` header appears in the response, then
 // there are more items to retrieve. To get the next page in the subsequent
 // GET request, include the header's value as the `page` query parameter.
+// A default retry strategy applies to this operation ListDigitalAssistantParameters()
 func (client ManagementClient) ListDigitalAssistantParameters(ctx context.Context, request ListDigitalAssistantParametersRequest) (response ListDigitalAssistantParametersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1518,9 +2111,10 @@ func (client ManagementClient) listDigitalAssistantParameters(ctx context.Contex
 // If the `opc-next-page` header appears in the response, then
 // there are more items to retrieve. To get the next page in the subsequent
 // GET request, include the header's value as the `page` query parameter.
+// A default retry strategy applies to this operation ListDigitalAssistants()
 func (client ManagementClient) ListDigitalAssistants(ctx context.Context, request ListDigitalAssistantsRequest) (response ListDigitalAssistantsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1570,13 +2164,187 @@ func (client ManagementClient) listDigitalAssistants(ctx context.Context, reques
 	return response, err
 }
 
+// ListOdaPrivateEndpointAttachments Returns a page of ODA Instances attached to this ODA Private Endpoint.
+// If the `opc-next-page` header appears in the response, then
+// there are more items to retrieve. To get the next page in the subsequent
+// GET request, include the header's value as the `page` query parameter.
+// A default retry strategy applies to this operation ListOdaPrivateEndpointAttachments()
+func (client ManagementClient) ListOdaPrivateEndpointAttachments(ctx context.Context, request ListOdaPrivateEndpointAttachmentsRequest) (response ListOdaPrivateEndpointAttachmentsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listOdaPrivateEndpointAttachments, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListOdaPrivateEndpointAttachmentsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListOdaPrivateEndpointAttachmentsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListOdaPrivateEndpointAttachmentsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListOdaPrivateEndpointAttachmentsResponse")
+	}
+	return
+}
+
+// listOdaPrivateEndpointAttachments implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) listOdaPrivateEndpointAttachments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/odaPrivateEndpointAttachments", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListOdaPrivateEndpointAttachmentsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/OdaPrivateEndpointAttachment/ListOdaPrivateEndpointAttachments"
+		err = common.PostProcessServiceError(err, "Management", "ListOdaPrivateEndpointAttachments", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListOdaPrivateEndpointScanProxies Returns a page of ODA Private Endpoint Scan Proxies that belong to the specified
+// ODA Private Endpoint.
+// If the `opc-next-page` header appears in the response, then
+// there are more items to retrieve. To get the next page in the subsequent
+// GET request, include the header's value as the `page` query parameter.
+// A default retry strategy applies to this operation ListOdaPrivateEndpointScanProxies()
+func (client ManagementClient) ListOdaPrivateEndpointScanProxies(ctx context.Context, request ListOdaPrivateEndpointScanProxiesRequest) (response ListOdaPrivateEndpointScanProxiesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listOdaPrivateEndpointScanProxies, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListOdaPrivateEndpointScanProxiesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListOdaPrivateEndpointScanProxiesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListOdaPrivateEndpointScanProxiesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListOdaPrivateEndpointScanProxiesResponse")
+	}
+	return
+}
+
+// listOdaPrivateEndpointScanProxies implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) listOdaPrivateEndpointScanProxies(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/odaPrivateEndpoints/{odaPrivateEndpointId}/odaPrivateEndpointScanProxies", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListOdaPrivateEndpointScanProxiesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/OdaPrivateEndpointScanProxy/ListOdaPrivateEndpointScanProxies"
+		err = common.PostProcessServiceError(err, "Management", "ListOdaPrivateEndpointScanProxies", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListOdaPrivateEndpoints Returns a page of ODA Private Endpoints that belong to the specified
+// compartment.
+// If the `opc-next-page` header appears in the response, then
+// there are more items to retrieve. To get the next page in the subsequent
+// GET request, include the header's value as the `page` query parameter.
+// A default retry strategy applies to this operation ListOdaPrivateEndpoints()
+func (client ManagementClient) ListOdaPrivateEndpoints(ctx context.Context, request ListOdaPrivateEndpointsRequest) (response ListOdaPrivateEndpointsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listOdaPrivateEndpoints, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListOdaPrivateEndpointsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListOdaPrivateEndpointsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListOdaPrivateEndpointsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListOdaPrivateEndpointsResponse")
+	}
+	return
+}
+
+// listOdaPrivateEndpoints implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) listOdaPrivateEndpoints(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/odaPrivateEndpoints", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListOdaPrivateEndpointsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/OdaPrivateEndpoint/ListOdaPrivateEndpoints"
+		err = common.PostProcessServiceError(err, "Management", "ListOdaPrivateEndpoints", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListSkillParameters Returns a page of Skill Parameters that belong to the specified Skill.
 // If the `opc-next-page` header appears in the response, then
 // there are more items to retrieve. To get the next page in the subsequent
 // GET request, include the header's value as the `page` query parameter.
+// A default retry strategy applies to this operation ListSkillParameters()
 func (client ManagementClient) ListSkillParameters(ctx context.Context, request ListSkillParametersRequest) (response ListSkillParametersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1630,9 +2398,10 @@ func (client ManagementClient) listSkillParameters(ctx context.Context, request 
 // If the `opc-next-page` header appears in the response, then
 // there are more items to retrieve. To get the next page in the subsequent
 // GET request, include the header's value as the `page` query parameter.
+// A default retry strategy applies to this operation ListSkills()
 func (client ManagementClient) ListSkills(ctx context.Context, request ListSkillsRequest) (response ListSkillsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1686,9 +2455,10 @@ func (client ManagementClient) listSkills(ctx context.Context, request common.OC
 // If the `opc-next-page` header appears in the response, then
 // there are more items to retrieve. To get the next page in the subsequent
 // GET request, include the header's value as the `page` query parameter.
+// A default retry strategy applies to this operation ListTranslators()
 func (client ManagementClient) ListTranslators(ctx context.Context, request ListTranslatorsRequest) (response ListTranslatorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1740,9 +2510,10 @@ func (client ManagementClient) listTranslators(ctx context.Context, request comm
 
 // PublishDigitalAssistant Publish a draft Digital Assistant.
 // Once published the Digital Assistant cannot be modified.
+// A default retry strategy applies to this operation PublishDigitalAssistant()
 func (client ManagementClient) PublishDigitalAssistant(ctx context.Context, request PublishDigitalAssistantRequest) (response PublishDigitalAssistantResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1794,9 +2565,10 @@ func (client ManagementClient) publishDigitalAssistant(ctx context.Context, requ
 
 // PublishSkill Publish a draft Skill.
 // Once published it cannot be modified.
+// A default retry strategy applies to this operation PublishSkill()
 func (client ManagementClient) PublishSkill(ctx context.Context, request PublishSkillRequest) (response PublishSkillResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1849,20 +2621,16 @@ func (client ManagementClient) publishSkill(ctx context.Context, request common.
 // RotateChannelKeys This will generate new keys for any generated keys in the Channel (eg. secretKey, verifyToken).
 // If a Channel has no generated keys then no changes will be made.
 // Ensure that you take note of the newly generated keys in the response as they will not be returned again.
+// A default retry strategy applies to this operation RotateChannelKeys()
 func (client ManagementClient) RotateChannelKeys(ctx context.Context, request RotateChannelKeysRequest) (response RotateChannelKeysResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
 	ociResponse, err = common.Retry(ctx, request, client.rotateChannelKeys, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -1907,20 +2675,16 @@ func (client ManagementClient) rotateChannelKeys(ctx context.Context, request co
 }
 
 // StartChannel Starts a Channel so that it will begin accepting messages.
+// A default retry strategy applies to this operation StartChannel()
 func (client ManagementClient) StartChannel(ctx context.Context, request StartChannelRequest) (response StartChannelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
 	ociResponse, err = common.Retry(ctx, request, client.startChannel, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -1965,20 +2729,16 @@ func (client ManagementClient) startChannel(ctx context.Context, request common.
 }
 
 // StopChannel Stops a Channel so that it will no longer accept messages.
+// A default retry strategy applies to this operation StopChannel()
 func (client ManagementClient) StopChannel(ctx context.Context, request StopChannelRequest) (response StopChannelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
 	ociResponse, err = common.Retry(ctx, request, client.stopChannel, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -2023,9 +2783,10 @@ func (client ManagementClient) stopChannel(ctx context.Context, request common.O
 }
 
 // UpdateAuthenticationProvider Updates the specified Authentication Provider with the information in the request body.
+// A default retry strategy applies to this operation UpdateAuthenticationProvider()
 func (client ManagementClient) UpdateAuthenticationProvider(ctx context.Context, request UpdateAuthenticationProviderRequest) (response UpdateAuthenticationProviderResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2076,9 +2837,10 @@ func (client ManagementClient) updateAuthenticationProvider(ctx context.Context,
 }
 
 // UpdateChannel Updates the specified Channel with the information in the request body.
+// A default retry strategy applies to this operation UpdateChannel()
 func (client ManagementClient) UpdateChannel(ctx context.Context, request UpdateChannelRequest) (response UpdateChannelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2129,9 +2891,10 @@ func (client ManagementClient) updateChannel(ctx context.Context, request common
 }
 
 // UpdateDigitalAssistant Updates the specified Digital Assistant with the information in the request body.
+// A default retry strategy applies to this operation UpdateDigitalAssistant()
 func (client ManagementClient) UpdateDigitalAssistant(ctx context.Context, request UpdateDigitalAssistantRequest) (response UpdateDigitalAssistantResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2182,9 +2945,10 @@ func (client ManagementClient) updateDigitalAssistant(ctx context.Context, reque
 }
 
 // UpdateDigitalAssistantParameter Updates the specified Digital Assistant Parameter with the information in the request body.
+// A default retry strategy applies to this operation UpdateDigitalAssistantParameter()
 func (client ManagementClient) UpdateDigitalAssistantParameter(ctx context.Context, request UpdateDigitalAssistantParameterRequest) (response UpdateDigitalAssistantParameterResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2234,10 +2998,65 @@ func (client ManagementClient) updateDigitalAssistantParameter(ctx context.Conte
 	return response, err
 }
 
+// UpdateOdaPrivateEndpoint Starts an asynchronous job to update the specified ODA Private Endpoint with the information in the request body.
+// A default retry strategy applies to this operation UpdateOdaPrivateEndpoint()
+func (client ManagementClient) UpdateOdaPrivateEndpoint(ctx context.Context, request UpdateOdaPrivateEndpointRequest) (response UpdateOdaPrivateEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateOdaPrivateEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateOdaPrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateOdaPrivateEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateOdaPrivateEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateOdaPrivateEndpointResponse")
+	}
+	return
+}
+
+// updateOdaPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) updateOdaPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/odaPrivateEndpoints/{odaPrivateEndpointId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateOdaPrivateEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/OdaPrivateEndpoint/UpdateOdaPrivateEndpoint"
+		err = common.PostProcessServiceError(err, "Management", "UpdateOdaPrivateEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateSkill Updates the specified Skill with the information in the request body.
+// A default retry strategy applies to this operation UpdateSkill()
 func (client ManagementClient) UpdateSkill(ctx context.Context, request UpdateSkillRequest) (response UpdateSkillResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2288,9 +3107,10 @@ func (client ManagementClient) updateSkill(ctx context.Context, request common.O
 }
 
 // UpdateSkillParameter Updates the specified Skill Parameter with the information in the request body.
+// A default retry strategy applies to this operation UpdateSkillParameter()
 func (client ManagementClient) UpdateSkillParameter(ctx context.Context, request UpdateSkillParameterRequest) (response UpdateSkillParameterResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2341,9 +3161,10 @@ func (client ManagementClient) updateSkillParameter(ctx context.Context, request
 }
 
 // UpdateTranslator Updates the specified Translator with the information in the request body.
+// A default retry strategy applies to this operation UpdateTranslator()
 func (client ManagementClient) UpdateTranslator(ctx context.Context, request UpdateTranslatorRequest) (response UpdateTranslatorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

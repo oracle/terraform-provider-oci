@@ -32,6 +32,9 @@ type ListManagedDatabasesRequest struct {
 	// A filter to return Managed Databases of the specified deployment type.
 	DeploymentType ListManagedDatabasesDeploymentTypeEnum `mandatory:"false" contributesTo:"query" name:"deploymentType" omitEmpty:"true"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
+	ExternalExadataInfrastructureId *string `mandatory:"false" contributesTo:"query" name:"externalExadataInfrastructureId"`
+
 	// The page token representing the page from where the next set of paginated results
 	// are retrieved. This is usually retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`

@@ -30,6 +30,7 @@ const (
 	LifecycleStateCanceling      LifecycleStateEnum = "CANCELING"
 	LifecycleStateCanceled       LifecycleStateEnum = "CANCELED"
 	LifecycleStateSucceeded      LifecycleStateEnum = "SUCCEEDED"
+	LifecycleStateWaiting        LifecycleStateEnum = "WAITING"
 )
 
 var mappingLifecycleStateEnum = map[string]LifecycleStateEnum{
@@ -45,6 +46,7 @@ var mappingLifecycleStateEnum = map[string]LifecycleStateEnum{
 	"CANCELING":       LifecycleStateCanceling,
 	"CANCELED":        LifecycleStateCanceled,
 	"SUCCEEDED":       LifecycleStateSucceeded,
+	"WAITING":         LifecycleStateWaiting,
 }
 
 var mappingLifecycleStateEnumLowerCase = map[string]LifecycleStateEnum{
@@ -60,6 +62,7 @@ var mappingLifecycleStateEnumLowerCase = map[string]LifecycleStateEnum{
 	"canceling":       LifecycleStateCanceling,
 	"canceled":        LifecycleStateCanceled,
 	"succeeded":       LifecycleStateSucceeded,
+	"waiting":         LifecycleStateWaiting,
 }
 
 // GetLifecycleStateEnumValues Enumerates the set of values for LifecycleStateEnum
@@ -86,6 +89,7 @@ func GetLifecycleStateEnumStringValues() []string {
 		"CANCELING",
 		"CANCELED",
 		"SUCCEEDED",
+		"WAITING",
 	}
 }
 

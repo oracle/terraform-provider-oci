@@ -28,9 +28,6 @@ type RemotePeeringConnectionDrgAttachmentNetworkDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
 	Id *string `mandatory:"false" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Ipsec tunnel attachment.
-	Ids []string `mandatory:"false" json:"ids"`
-
 	// The remote Oracle Cloud Infrastructure region name.
 	PeerRegionName *string `mandatory:"false" json:"peerRegionName"`
 
@@ -58,11 +55,6 @@ type RemotePeeringConnectionDrgAttachmentNetworkDetails struct {
 //GetId returns Id
 func (m RemotePeeringConnectionDrgAttachmentNetworkDetails) GetId() *string {
 	return m.Id
-}
-
-//GetIds returns Ids
-func (m RemotePeeringConnectionDrgAttachmentNetworkDetails) GetIds() []string {
-	return m.Ids
 }
 
 func (m RemotePeeringConnectionDrgAttachmentNetworkDetails) String() string {

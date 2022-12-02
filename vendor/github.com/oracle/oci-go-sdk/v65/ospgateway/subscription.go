@@ -68,7 +68,7 @@ type Subscription struct {
 
 	PaymentGateway *PaymentGateway `mandatory:"false" json:"paymentGateway"`
 
-	BillingAddress *BillingAddress `mandatory:"false" json:"billingAddress"`
+	BillingAddress *Address `mandatory:"false" json:"billingAddress"`
 
 	// Date of upgrade/conversion when planType changed from FREE_TIER to PAYG
 	TimePlanUpgrade *common.SDKTime `mandatory:"false" json:"timePlanUpgrade"`
@@ -118,7 +118,7 @@ func (m *Subscription) UnmarshalJSON(data []byte) (e error) {
 		TaxInfo                *TaxInfo                            `json:"taxInfo"`
 		PaymentOptions         []paymentoption                     `json:"paymentOptions"`
 		PaymentGateway         *PaymentGateway                     `json:"paymentGateway"`
-		BillingAddress         *BillingAddress                     `json:"billingAddress"`
+		BillingAddress         *Address                            `json:"billingAddress"`
 		TimePlanUpgrade        *common.SDKTime                     `json:"timePlanUpgrade"`
 		SubscriptionPlanNumber *string                             `json:"subscriptionPlanNumber"`
 	}{}
