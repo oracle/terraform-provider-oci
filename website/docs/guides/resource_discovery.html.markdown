@@ -688,6 +688,8 @@ golden_gate
 * oci\_golden\_gate\_database\_registration
 * oci\_golden\_gate\_deployment
 * oci\_golden\_gate\_deployment\_backup
+* oci\_golden\_gate\_connection\_assignment
+* oci\_golden\_gate\_connection
 
 health_checks
     
