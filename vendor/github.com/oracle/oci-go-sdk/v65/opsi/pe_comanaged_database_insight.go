@@ -79,6 +79,12 @@ type PeComanagedDatabaseInsight struct {
 	// Display name of database
 	DatabaseDisplayName *string `mandatory:"false" json:"databaseDisplayName"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM Cluster or DB System ID, depending on which configuration the resource belongs to.
+	ParentId *string `mandatory:"false" json:"parentId"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Infrastructure.
+	RootId *string `mandatory:"false" json:"rootId"`
+
 	// Indicates the status of a database insight in Operations Insights
 	Status ResourceStatusEnum `mandatory:"true" json:"status"`
 
@@ -206,6 +212,8 @@ func (m *PeComanagedDatabaseInsight) UnmarshalJSON(data []byte) (e error) {
 		ConnectionDetails               *PeComanagedDatabaseConnectionDetails `json:"connectionDetails"`
 		CredentialDetails               credentialdetails                     `json:"credentialDetails"`
 		DatabaseDisplayName             *string                               `json:"databaseDisplayName"`
+		ParentId                        *string                               `json:"parentId"`
+		RootId                          *string                               `json:"rootId"`
 		Id                              *string                               `json:"id"`
 		CompartmentId                   *string                               `json:"compartmentId"`
 		Status                          ResourceStatusEnum                    `json:"status"`
@@ -252,6 +260,10 @@ func (m *PeComanagedDatabaseInsight) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.DatabaseDisplayName = model.DatabaseDisplayName
+
+	m.ParentId = model.ParentId
+
+	m.RootId = model.RootId
 
 	m.Id = model.Id
 

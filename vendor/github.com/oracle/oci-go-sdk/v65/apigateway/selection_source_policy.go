@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// SelectionSourcePolicy Information around selector used for branching among routes/ authentication servers while dynamic routing/ authentication.
+// SelectionSourcePolicy The type of selector to use when dynamically routing and dynamically authenticating requests.
 type SelectionSourcePolicy interface {
 }
 

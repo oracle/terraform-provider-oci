@@ -52,6 +52,8 @@ type SingleDeployStageDeployment struct {
 
 	DeploymentArguments *DeploymentArgumentCollection `mandatory:"false" json:"deploymentArguments"`
 
+	DeployStageOverrideArguments *DeployStageOverrideArgumentCollection `mandatory:"false" json:"deployStageOverrideArguments"`
+
 	DeployArtifactOverrideArguments *DeployArtifactOverrideArgumentCollection `mandatory:"false" json:"deployArtifactOverrideArguments"`
 
 	DeploymentExecutionProgress *DeploymentExecutionProgress `mandatory:"false" json:"deploymentExecutionProgress"`
@@ -127,6 +129,11 @@ func (m SingleDeployStageDeployment) GetLifecycleDetails() *string {
 //GetDeploymentArguments returns DeploymentArguments
 func (m SingleDeployStageDeployment) GetDeploymentArguments() *DeploymentArgumentCollection {
 	return m.DeploymentArguments
+}
+
+//GetDeployStageOverrideArguments returns DeployStageOverrideArguments
+func (m SingleDeployStageDeployment) GetDeployStageOverrideArguments() *DeployStageOverrideArgumentCollection {
+	return m.DeployStageOverrideArguments
 }
 
 //GetDeployArtifactOverrideArguments returns DeployArtifactOverrideArguments

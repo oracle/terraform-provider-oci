@@ -69,6 +69,10 @@ type AuditTrail struct {
 	// The OCID of the workrequest for audit trail which collects audit records.
 	WorkRequestId *string `mandatory:"false" json:"workRequestId"`
 
+	// The date and time until which the audit events are collected from target database by Data Safe audit trail
+	// collection process, in the format defined by RFC3339.
+	TimeLastCollected *common.SDKTime `mandatory:"false" json:"timeLastCollected"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

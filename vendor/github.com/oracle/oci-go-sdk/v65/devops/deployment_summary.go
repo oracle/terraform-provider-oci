@@ -45,6 +45,8 @@ type DeploymentSummary interface {
 
 	GetDeploymentArguments() *DeploymentArgumentCollection
 
+	GetDeployStageOverrideArguments() *DeployStageOverrideArgumentCollection
+
 	GetDeployArtifactOverrideArguments() *DeployArtifactOverrideArgumentCollection
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
@@ -71,6 +73,7 @@ type deploymentsummary struct {
 	TimeUpdated                     *common.SDKTime                           `mandatory:"false" json:"timeUpdated"`
 	LifecycleState                  DeploymentLifecycleStateEnum              `mandatory:"false" json:"lifecycleState,omitempty"`
 	DeploymentArguments             *DeploymentArgumentCollection             `mandatory:"false" json:"deploymentArguments"`
+	DeployStageOverrideArguments    *DeployStageOverrideArgumentCollection    `mandatory:"false" json:"deployStageOverrideArguments"`
 	DeployArtifactOverrideArguments *DeployArtifactOverrideArgumentCollection `mandatory:"false" json:"deployArtifactOverrideArguments"`
 	LifecycleDetails                *string                                   `mandatory:"false" json:"lifecycleDetails"`
 	FreeformTags                    map[string]string                         `mandatory:"false" json:"freeformTags"`
@@ -99,6 +102,7 @@ func (m *deploymentsummary) UnmarshalJSON(data []byte) error {
 	m.TimeUpdated = s.Model.TimeUpdated
 	m.LifecycleState = s.Model.LifecycleState
 	m.DeploymentArguments = s.Model.DeploymentArguments
+	m.DeployStageOverrideArguments = s.Model.DeployStageOverrideArguments
 	m.DeployArtifactOverrideArguments = s.Model.DeployArtifactOverrideArguments
 	m.LifecycleDetails = s.Model.LifecycleDetails
 	m.FreeformTags = s.Model.FreeformTags
@@ -182,6 +186,11 @@ func (m deploymentsummary) GetLifecycleState() DeploymentLifecycleStateEnum {
 //GetDeploymentArguments returns DeploymentArguments
 func (m deploymentsummary) GetDeploymentArguments() *DeploymentArgumentCollection {
 	return m.DeploymentArguments
+}
+
+//GetDeployStageOverrideArguments returns DeployStageOverrideArguments
+func (m deploymentsummary) GetDeployStageOverrideArguments() *DeployStageOverrideArgumentCollection {
+	return m.DeployStageOverrideArguments
 }
 
 //GetDeployArtifactOverrideArguments returns DeployArtifactOverrideArguments

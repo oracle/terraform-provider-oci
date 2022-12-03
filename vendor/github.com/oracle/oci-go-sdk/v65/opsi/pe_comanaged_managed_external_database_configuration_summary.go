@@ -62,6 +62,8 @@ type PeComanagedManagedExternalDatabaseConfigurationSummary struct {
 	// Array of hostname and instance name.
 	Instances []HostInstanceMap `mandatory:"true" json:"instances"`
 
+	ExadataDetails *ExadataDetails `mandatory:"true" json:"exadataDetails"`
+
 	// Processor count. This is the OCPU count for Autonomous Database and CPU core count for other database types.
 	ProcessorCount *int `mandatory:"false" json:"processorCount"`
 }

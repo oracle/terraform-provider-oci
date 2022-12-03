@@ -29,14 +29,18 @@ type BaseCreateAnnouncementsPreferencesDetails interface {
 	// The OCID of the compartment for which you want to manage announcement email preferences. (Specify the tenancy by providing the
 	// root compartment OCID.)
 	GetCompartmentId() *string
+
+	// The time zone that the user prefers for announcement time stamps. Specify the preference with a value that uses the IANA Time Zone Database format (x-obmcs-time-zone). For example America/Los_Angeles.
+	GetPreferredTimeZone() *string
 }
 
 type basecreateannouncementspreferencesdetails struct {
-	JsonData       []byte
-	PreferenceType BaseCreateAnnouncementsPreferencesDetailsPreferenceTypeEnum `mandatory:"true" json:"preferenceType"`
-	IsUnsubscribed *bool                                                       `mandatory:"false" json:"isUnsubscribed"`
-	CompartmentId  *string                                                     `mandatory:"false" json:"compartmentId"`
-	Type           string                                                      `json:"type"`
+	JsonData          []byte
+	PreferenceType    BaseCreateAnnouncementsPreferencesDetailsPreferenceTypeEnum `mandatory:"true" json:"preferenceType"`
+	IsUnsubscribed    *bool                                                       `mandatory:"false" json:"isUnsubscribed"`
+	CompartmentId     *string                                                     `mandatory:"false" json:"compartmentId"`
+	PreferredTimeZone *string                                                     `mandatory:"false" json:"preferredTimeZone"`
+	Type              string                                                      `json:"type"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -53,6 +57,7 @@ func (m *basecreateannouncementspreferencesdetails) UnmarshalJSON(data []byte) e
 	m.PreferenceType = s.Model.PreferenceType
 	m.IsUnsubscribed = s.Model.IsUnsubscribed
 	m.CompartmentId = s.Model.CompartmentId
+	m.PreferredTimeZone = s.Model.PreferredTimeZone
 	m.Type = s.Model.Type
 
 	return err
@@ -93,6 +98,11 @@ func (m basecreateannouncementspreferencesdetails) GetIsUnsubscribed() *bool {
 //GetCompartmentId returns CompartmentId
 func (m basecreateannouncementspreferencesdetails) GetCompartmentId() *string {
 	return m.CompartmentId
+}
+
+//GetPreferredTimeZone returns PreferredTimeZone
+func (m basecreateannouncementspreferencesdetails) GetPreferredTimeZone() *string {
+	return m.PreferredTimeZone
 }
 
 func (m basecreateannouncementspreferencesdetails) String() string {

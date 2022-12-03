@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// DynamicRoutingTypeRoutingBackend Information around a routing backend for dynamic routing.
+// DynamicRoutingTypeRoutingBackend Policy for the details regarding each routing backend under dynamic routing. We specify the value of selectors for which this routing backend must be selected for a request under keys. We specify the configuration details of routing backend under backend.
 type DynamicRoutingTypeRoutingBackend struct {
 	Key DynamicSelectionKey `mandatory:"true" json:"key"`
 

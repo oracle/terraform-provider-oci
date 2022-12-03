@@ -135,6 +135,10 @@ const (
 	ListBlocklistsOperationUpdateFleetAgentConfiguration ListBlocklistsOperationEnum = "UPDATE_FLEET_AGENT_CONFIGURATION"
 	ListBlocklistsOperationDeleteJavaInstallation        ListBlocklistsOperationEnum = "DELETE_JAVA_INSTALLATION"
 	ListBlocklistsOperationCreateJavaInstallation        ListBlocklistsOperationEnum = "CREATE_JAVA_INSTALLATION"
+	ListBlocklistsOperationCollectJfr                    ListBlocklistsOperationEnum = "COLLECT_JFR"
+	ListBlocklistsOperationRequestCryptoEventAnalysis    ListBlocklistsOperationEnum = "REQUEST_CRYPTO_EVENT_ANALYSIS"
+	ListBlocklistsOperationScanJavaServerUsage           ListBlocklistsOperationEnum = "SCAN_JAVA_SERVER_USAGE"
+	ListBlocklistsOperationScanLibraryUsage              ListBlocklistsOperationEnum = "SCAN_LIBRARY_USAGE"
 )
 
 var mappingListBlocklistsOperationEnum = map[string]ListBlocklistsOperationEnum{
@@ -145,6 +149,10 @@ var mappingListBlocklistsOperationEnum = map[string]ListBlocklistsOperationEnum{
 	"UPDATE_FLEET_AGENT_CONFIGURATION": ListBlocklistsOperationUpdateFleetAgentConfiguration,
 	"DELETE_JAVA_INSTALLATION":         ListBlocklistsOperationDeleteJavaInstallation,
 	"CREATE_JAVA_INSTALLATION":         ListBlocklistsOperationCreateJavaInstallation,
+	"COLLECT_JFR":                      ListBlocklistsOperationCollectJfr,
+	"REQUEST_CRYPTO_EVENT_ANALYSIS":    ListBlocklistsOperationRequestCryptoEventAnalysis,
+	"SCAN_JAVA_SERVER_USAGE":           ListBlocklistsOperationScanJavaServerUsage,
+	"SCAN_LIBRARY_USAGE":               ListBlocklistsOperationScanLibraryUsage,
 }
 
 var mappingListBlocklistsOperationEnumLowerCase = map[string]ListBlocklistsOperationEnum{
@@ -155,6 +163,10 @@ var mappingListBlocklistsOperationEnumLowerCase = map[string]ListBlocklistsOpera
 	"update_fleet_agent_configuration": ListBlocklistsOperationUpdateFleetAgentConfiguration,
 	"delete_java_installation":         ListBlocklistsOperationDeleteJavaInstallation,
 	"create_java_installation":         ListBlocklistsOperationCreateJavaInstallation,
+	"collect_jfr":                      ListBlocklistsOperationCollectJfr,
+	"request_crypto_event_analysis":    ListBlocklistsOperationRequestCryptoEventAnalysis,
+	"scan_java_server_usage":           ListBlocklistsOperationScanJavaServerUsage,
+	"scan_library_usage":               ListBlocklistsOperationScanLibraryUsage,
 }
 
 // GetListBlocklistsOperationEnumValues Enumerates the set of values for ListBlocklistsOperationEnum
@@ -176,6 +188,10 @@ func GetListBlocklistsOperationEnumStringValues() []string {
 		"UPDATE_FLEET_AGENT_CONFIGURATION",
 		"DELETE_JAVA_INSTALLATION",
 		"CREATE_JAVA_INSTALLATION",
+		"COLLECT_JFR",
+		"REQUEST_CRYPTO_EVENT_ANALYSIS",
+		"SCAN_JAVA_SERVER_USAGE",
+		"SCAN_LIBRARY_USAGE",
 	}
 }
 

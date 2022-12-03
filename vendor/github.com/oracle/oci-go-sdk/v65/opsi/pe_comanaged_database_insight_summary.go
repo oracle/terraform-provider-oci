@@ -78,6 +78,12 @@ type PeComanagedDatabaseInsightSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OPSI private endpoint
 	OpsiPrivateEndpointId *string `mandatory:"false" json:"opsiPrivateEndpointId"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM Cluster or DB System ID, depending on which configuration the resource belongs to.
+	ParentId *string `mandatory:"false" json:"parentId"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the root resource for a composite target. e.g. for ExaCS members the rootId will be the OCID of the Exadata Infrastructure resource.
+	RootId *string `mandatory:"false" json:"rootId"`
+
 	// Indicates the status of a database insight in Operations Insights
 	Status ResourceStatusEnum `mandatory:"false" json:"status,omitempty"`
 

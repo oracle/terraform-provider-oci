@@ -54,6 +54,12 @@ type MaskingReport struct {
 
 	// The date and time data masking finished, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339)
 	TimeMaskingFinished *common.SDKTime `mandatory:"true" json:"timeMaskingFinished"`
+
+	// The current state of the masking report.
+	LifecycleState MaskingLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// The date and time the masking report was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 }
 
 func (m MaskingReport) String() string {
@@ -65,6 +71,9 @@ func (m MaskingReport) String() string {
 // Not recommended for calling this function directly
 func (m MaskingReport) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingMaskingLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetMaskingLifecycleStateEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

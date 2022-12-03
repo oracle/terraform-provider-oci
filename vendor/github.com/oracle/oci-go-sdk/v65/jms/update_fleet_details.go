@@ -28,7 +28,8 @@ type UpdateFleetDetails struct {
 
 	OperationLog *CustomLog `mandatory:"false" json:"operationLog"`
 
-	// Whether or not advanced features are enabled in this fleet.  By default, this is set to false.
+	// Whether or not advanced features are enabled in this fleet.
+	// Deprecated, use `/fleets/{fleetId}/advanceFeatureConfiguration` api instead.
 	IsAdvancedFeaturesEnabled *bool `mandatory:"false" json:"isAdvancedFeaturesEnabled"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.

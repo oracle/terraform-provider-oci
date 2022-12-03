@@ -29,6 +29,9 @@ type ChannelTargetDbSystem struct {
 
 	// The username for the replication applier of the target MySQL DB System.
 	ApplierUsername *string `mandatory:"true" json:"applierUsername"`
+
+	// Replication filter rules to be applied at the DB System Channel target.
+	Filters []ChannelFilter `mandatory:"false" json:"filters"`
 }
 
 func (m ChannelTargetDbSystem) String() string {

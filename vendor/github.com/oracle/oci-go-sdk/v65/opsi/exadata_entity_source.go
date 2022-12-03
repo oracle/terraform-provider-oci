@@ -21,14 +21,17 @@ type ExadataEntitySourceEnum string
 // Set of constants representing the allowable values for ExadataEntitySourceEnum
 const (
 	ExadataEntitySourceEmManagedExternalExadata ExadataEntitySourceEnum = "EM_MANAGED_EXTERNAL_EXADATA"
+	ExadataEntitySourcePeComanagedExadata       ExadataEntitySourceEnum = "PE_COMANAGED_EXADATA"
 )
 
 var mappingExadataEntitySourceEnum = map[string]ExadataEntitySourceEnum{
 	"EM_MANAGED_EXTERNAL_EXADATA": ExadataEntitySourceEmManagedExternalExadata,
+	"PE_COMANAGED_EXADATA":        ExadataEntitySourcePeComanagedExadata,
 }
 
 var mappingExadataEntitySourceEnumLowerCase = map[string]ExadataEntitySourceEnum{
 	"em_managed_external_exadata": ExadataEntitySourceEmManagedExternalExadata,
+	"pe_comanaged_exadata":        ExadataEntitySourcePeComanagedExadata,
 }
 
 // GetExadataEntitySourceEnumValues Enumerates the set of values for ExadataEntitySourceEnum
@@ -44,6 +47,7 @@ func GetExadataEntitySourceEnumValues() []ExadataEntitySourceEnum {
 func GetExadataEntitySourceEnumStringValues() []string {
 	return []string{
 		"EM_MANAGED_EXTERNAL_EXADATA",
+		"PE_COMANAGED_EXADATA",
 	}
 }
 

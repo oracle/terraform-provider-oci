@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// SingleSelectionSourcePolicy Information around selector used for branching among routes/ authentication servers in dynamic routing/ authentication where we are allowed to specify only a single context variable as selector.
+// SingleSelectionSourcePolicy The single context variable in an incoming request to match against specified selection keys when dynamically routing and dynamically authenticating requests.
 type SingleSelectionSourcePolicy struct {
 
 	// String describing the context variable used as selector.

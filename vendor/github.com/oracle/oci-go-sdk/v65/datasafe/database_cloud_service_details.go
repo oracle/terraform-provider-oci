@@ -19,14 +19,17 @@ import (
 // DatabaseCloudServiceDetails The details of the Oracle Database Cloud Service to be registered as a target database in Data Safe.
 type DatabaseCloudServiceDetails struct {
 
+	// The database service name.
+	ServiceName *string `mandatory:"true" json:"serviceName"`
+
 	// The OCID of the VM cluster in which the database is running.
 	VmClusterId *string `mandatory:"false" json:"vmClusterId"`
 
 	// The OCID of the cloud database system registered as a target database in Data Safe.
 	DbSystemId *string `mandatory:"false" json:"dbSystemId"`
 
-	// The database service name.
-	ServiceName *string `mandatory:"false" json:"serviceName"`
+	// The port number of the database listener.
+	ListenerPort *int `mandatory:"false" json:"listenerPort"`
 
 	// The infrastructure type the database is running on.
 	InfrastructureType InfrastructureTypeEnum `mandatory:"true" json:"infrastructureType"`
