@@ -255,36 +255,45 @@ type ListAuditTrailsStatusEnum string
 
 // Set of constants representing the allowable values for ListAuditTrailsStatusEnum
 const (
-	ListAuditTrailsStatusStarting   ListAuditTrailsStatusEnum = "STARTING"
-	ListAuditTrailsStatusCollecting ListAuditTrailsStatusEnum = "COLLECTING"
-	ListAuditTrailsStatusRecovering ListAuditTrailsStatusEnum = "RECOVERING"
-	ListAuditTrailsStatusIdle       ListAuditTrailsStatusEnum = "IDLE"
-	ListAuditTrailsStatusStopping   ListAuditTrailsStatusEnum = "STOPPING"
-	ListAuditTrailsStatusStopped    ListAuditTrailsStatusEnum = "STOPPED"
-	ListAuditTrailsStatusResuming   ListAuditTrailsStatusEnum = "RESUMING"
-	ListAuditTrailsStatusRetrying   ListAuditTrailsStatusEnum = "RETRYING"
+	ListAuditTrailsStatusStarting         ListAuditTrailsStatusEnum = "STARTING"
+	ListAuditTrailsStatusCollecting       ListAuditTrailsStatusEnum = "COLLECTING"
+	ListAuditTrailsStatusRecovering       ListAuditTrailsStatusEnum = "RECOVERING"
+	ListAuditTrailsStatusIdle             ListAuditTrailsStatusEnum = "IDLE"
+	ListAuditTrailsStatusStopping         ListAuditTrailsStatusEnum = "STOPPING"
+	ListAuditTrailsStatusStopped          ListAuditTrailsStatusEnum = "STOPPED"
+	ListAuditTrailsStatusResuming         ListAuditTrailsStatusEnum = "RESUMING"
+	ListAuditTrailsStatusRetrying         ListAuditTrailsStatusEnum = "RETRYING"
+	ListAuditTrailsStatusNotStarted       ListAuditTrailsStatusEnum = "NOT_STARTED"
+	ListAuditTrailsStatusStoppedNeedsAttn ListAuditTrailsStatusEnum = "STOPPED_NEEDS_ATTN"
+	ListAuditTrailsStatusStoppedFailed    ListAuditTrailsStatusEnum = "STOPPED_FAILED"
 )
 
 var mappingListAuditTrailsStatusEnum = map[string]ListAuditTrailsStatusEnum{
-	"STARTING":   ListAuditTrailsStatusStarting,
-	"COLLECTING": ListAuditTrailsStatusCollecting,
-	"RECOVERING": ListAuditTrailsStatusRecovering,
-	"IDLE":       ListAuditTrailsStatusIdle,
-	"STOPPING":   ListAuditTrailsStatusStopping,
-	"STOPPED":    ListAuditTrailsStatusStopped,
-	"RESUMING":   ListAuditTrailsStatusResuming,
-	"RETRYING":   ListAuditTrailsStatusRetrying,
+	"STARTING":           ListAuditTrailsStatusStarting,
+	"COLLECTING":         ListAuditTrailsStatusCollecting,
+	"RECOVERING":         ListAuditTrailsStatusRecovering,
+	"IDLE":               ListAuditTrailsStatusIdle,
+	"STOPPING":           ListAuditTrailsStatusStopping,
+	"STOPPED":            ListAuditTrailsStatusStopped,
+	"RESUMING":           ListAuditTrailsStatusResuming,
+	"RETRYING":           ListAuditTrailsStatusRetrying,
+	"NOT_STARTED":        ListAuditTrailsStatusNotStarted,
+	"STOPPED_NEEDS_ATTN": ListAuditTrailsStatusStoppedNeedsAttn,
+	"STOPPED_FAILED":     ListAuditTrailsStatusStoppedFailed,
 }
 
 var mappingListAuditTrailsStatusEnumLowerCase = map[string]ListAuditTrailsStatusEnum{
-	"starting":   ListAuditTrailsStatusStarting,
-	"collecting": ListAuditTrailsStatusCollecting,
-	"recovering": ListAuditTrailsStatusRecovering,
-	"idle":       ListAuditTrailsStatusIdle,
-	"stopping":   ListAuditTrailsStatusStopping,
-	"stopped":    ListAuditTrailsStatusStopped,
-	"resuming":   ListAuditTrailsStatusResuming,
-	"retrying":   ListAuditTrailsStatusRetrying,
+	"starting":           ListAuditTrailsStatusStarting,
+	"collecting":         ListAuditTrailsStatusCollecting,
+	"recovering":         ListAuditTrailsStatusRecovering,
+	"idle":               ListAuditTrailsStatusIdle,
+	"stopping":           ListAuditTrailsStatusStopping,
+	"stopped":            ListAuditTrailsStatusStopped,
+	"resuming":           ListAuditTrailsStatusResuming,
+	"retrying":           ListAuditTrailsStatusRetrying,
+	"not_started":        ListAuditTrailsStatusNotStarted,
+	"stopped_needs_attn": ListAuditTrailsStatusStoppedNeedsAttn,
+	"stopped_failed":     ListAuditTrailsStatusStoppedFailed,
 }
 
 // GetListAuditTrailsStatusEnumValues Enumerates the set of values for ListAuditTrailsStatusEnum
@@ -307,6 +316,9 @@ func GetListAuditTrailsStatusEnumStringValues() []string {
 		"STOPPED",
 		"RESUMING",
 		"RETRYING",
+		"NOT_STARTED",
+		"STOPPED_NEEDS_ATTN",
+		"STOPPED_FAILED",
 	}
 }
 

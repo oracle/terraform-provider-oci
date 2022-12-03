@@ -24,6 +24,12 @@ type UpdateFleetAgentConfigurationDetails struct {
 	// The frequency (in minutes) of Java Usage Tracker processing. (That is, how often should JMS process data from the Java Usage Tracker.)
 	JavaUsageTrackerProcessingFrequencyInMinutes *int `mandatory:"false" json:"javaUsageTrackerProcessingFrequencyInMinutes"`
 
+	// The validity period in days for work requests.
+	WorkRequestValidityPeriodInDays *int `mandatory:"false" json:"workRequestValidityPeriodInDays"`
+
+	// Agent polling interval in minutes
+	AgentPollingIntervalInMinutes *int `mandatory:"false" json:"agentPollingIntervalInMinutes"`
+
 	LinuxConfiguration *FleetAgentOsConfiguration `mandatory:"false" json:"linuxConfiguration"`
 
 	WindowsConfiguration *FleetAgentOsConfiguration `mandatory:"false" json:"windowsConfiguration"`

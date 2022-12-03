@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// DynamicRoutingBackend Send the request to a Dynamic Routing backend.
+// DynamicRoutingBackend Send the request to the backend dynamically selected based on the incoming request's context.
 type DynamicRoutingBackend struct {
 	SelectionSource SelectionSourcePolicy `mandatory:"true" json:"selectionSource"`
 

@@ -165,6 +165,10 @@ const (
 	WorkRequestOperationTypeUpdateLibraryMaskingFormat            WorkRequestOperationTypeEnum = "UPDATE_LIBRARY_MASKING_FORMAT"
 	WorkRequestOperationTypeAddColumnsFromSdm                     WorkRequestOperationTypeEnum = "ADD_COLUMNS_FROM_SDM"
 	WorkRequestOperationTypeMaskingJob                            WorkRequestOperationTypeEnum = "MASKING_JOB"
+	WorkRequestOperationTypeCreateSchedule                        WorkRequestOperationTypeEnum = "CREATE_SCHEDULE"
+	WorkRequestOperationTypeRemoveScheduleReport                  WorkRequestOperationTypeEnum = "REMOVE_SCHEDULE_REPORT"
+	WorkRequestOperationTypeUpdateAllAlert                        WorkRequestOperationTypeEnum = "UPDATE_ALL_ALERT"
+	WorkRequestOperationTypePatchTargetAlertPolicyAssociation     WorkRequestOperationTypeEnum = "PATCH_TARGET_ALERT_POLICY_ASSOCIATION"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -260,6 +264,10 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"UPDATE_LIBRARY_MASKING_FORMAT":              WorkRequestOperationTypeUpdateLibraryMaskingFormat,
 	"ADD_COLUMNS_FROM_SDM":                       WorkRequestOperationTypeAddColumnsFromSdm,
 	"MASKING_JOB":                                WorkRequestOperationTypeMaskingJob,
+	"CREATE_SCHEDULE":                            WorkRequestOperationTypeCreateSchedule,
+	"REMOVE_SCHEDULE_REPORT":                     WorkRequestOperationTypeRemoveScheduleReport,
+	"UPDATE_ALL_ALERT":                           WorkRequestOperationTypeUpdateAllAlert,
+	"PATCH_TARGET_ALERT_POLICY_ASSOCIATION":      WorkRequestOperationTypePatchTargetAlertPolicyAssociation,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -355,6 +363,10 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"update_library_masking_format":              WorkRequestOperationTypeUpdateLibraryMaskingFormat,
 	"add_columns_from_sdm":                       WorkRequestOperationTypeAddColumnsFromSdm,
 	"masking_job":                                WorkRequestOperationTypeMaskingJob,
+	"create_schedule":                            WorkRequestOperationTypeCreateSchedule,
+	"remove_schedule_report":                     WorkRequestOperationTypeRemoveScheduleReport,
+	"update_all_alert":                           WorkRequestOperationTypeUpdateAllAlert,
+	"patch_target_alert_policy_association":      WorkRequestOperationTypePatchTargetAlertPolicyAssociation,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -461,6 +473,10 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"UPDATE_LIBRARY_MASKING_FORMAT",
 		"ADD_COLUMNS_FROM_SDM",
 		"MASKING_JOB",
+		"CREATE_SCHEDULE",
+		"REMOVE_SCHEDULE_REPORT",
+		"UPDATE_ALL_ALERT",
+		"PATCH_TARGET_ALERT_POLICY_ASSOCIATION",
 	}
 }
 

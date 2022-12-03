@@ -47,6 +47,9 @@ type ExadataDatabaseMachineConfigurationSummary struct {
 	// OPSI Enterprise Manager Bridge OCID
 	EnterpriseManagerBridgeId *string `mandatory:"true" json:"enterpriseManagerBridgeId"`
 
+	// Array of objects containing VM cluster information.
+	VmclusterDetails []VmClusterSummary `mandatory:"false" json:"vmclusterDetails"`
+
 	// Operations Insights internal representation of the the Exadata system type.
 	ExadataType ExadataTypeEnum `mandatory:"true" json:"exadataType"`
 
@@ -92,6 +95,11 @@ func (m ExadataDatabaseMachineConfigurationSummary) GetDefinedTags() map[string]
 //GetFreeformTags returns FreeformTags
 func (m ExadataDatabaseMachineConfigurationSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
+}
+
+//GetVmclusterDetails returns VmclusterDetails
+func (m ExadataDatabaseMachineConfigurationSummary) GetVmclusterDetails() []VmClusterSummary {
+	return m.VmclusterDetails
 }
 
 func (m ExadataDatabaseMachineConfigurationSummary) String() string {

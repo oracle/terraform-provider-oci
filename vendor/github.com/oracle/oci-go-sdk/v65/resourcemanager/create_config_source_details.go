@@ -63,8 +63,20 @@ func (m *createconfigsourcedetails) UnmarshalPolymorphicJSON(data []byte) (inter
 
 	var err error
 	switch m.ConfigSourceType {
+	case "DEVOPS_CONFIG_SOURCE":
+		mm := CreateDevOpsConfigSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "BITBUCKET_CLOUD_CONFIG_SOURCE":
+		mm := CreateBitbucketCloudConfigSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ZIP_UPLOAD":
 		mm := CreateZipUploadConfigSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "BITBUCKET_SERVER_CONFIG_SOURCE":
+		mm := CreateBitbucketServerConfigSourceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "GIT_CONFIG_SOURCE":

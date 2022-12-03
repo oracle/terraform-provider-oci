@@ -16,6 +16,7 @@ import (
 )
 
 // JavaFamilySummary A summary of the Java release family information.
+// A Java release family is typically a major version in the Java version identifier.
 type JavaFamilySummary struct {
 
 	// The Java release family identifier.

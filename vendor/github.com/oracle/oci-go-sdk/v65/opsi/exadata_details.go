@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// ExadataDetails Partial information about the exadata which includes id and name.
+// ExadataDetails Partial information about the exadata which includes id, name and vmclusterNames.
 type ExadataDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of exadata insight resource.
@@ -25,6 +25,9 @@ type ExadataDetails struct {
 
 	// Name of exadata insight resource.
 	Name *string `mandatory:"true" json:"name"`
+
+	// Array of vm cluster names. Applicable for ExaCC and ExaCS.
+	VmclusterNames []string `mandatory:"false" json:"vmclusterNames"`
 }
 
 func (m ExadataDetails) String() string {

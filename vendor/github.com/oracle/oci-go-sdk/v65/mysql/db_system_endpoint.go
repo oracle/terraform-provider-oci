@@ -39,6 +39,12 @@ type DbSystemEndpoint struct {
 
 	// Additional information about the current endpoint status.
 	StatusDetails *string `mandatory:"false" json:"statusDetails"`
+
+	// The type of endpoint that clients and connectors can connect to.
+	ResourceType DbSystemEndpointResourceTypeEnum `mandatory:"false" json:"resourceType,omitempty"`
+
+	// The OCID of the resource that this endpoint is attached to.
+	ResourceId *string `mandatory:"false" json:"resourceId"`
 }
 
 func (m DbSystemEndpoint) String() string {
@@ -59,6 +65,9 @@ func (m DbSystemEndpoint) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingDbSystemEndpointStatusEnum(string(m.Status)); !ok && m.Status != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetDbSystemEndpointStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDbSystemEndpointResourceTypeEnum(string(m.ResourceType)); !ok && m.ResourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceType: %s. Supported values are: %s.", m.ResourceType, strings.Join(GetDbSystemEndpointResourceTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -151,5 +160,51 @@ func GetDbSystemEndpointStatusEnumStringValues() []string {
 // GetMappingDbSystemEndpointStatusEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDbSystemEndpointStatusEnum(val string) (DbSystemEndpointStatusEnum, bool) {
 	enum, ok := mappingDbSystemEndpointStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DbSystemEndpointResourceTypeEnum Enum with underlying type: string
+type DbSystemEndpointResourceTypeEnum string
+
+// Set of constants representing the allowable values for DbSystemEndpointResourceTypeEnum
+const (
+	DbSystemEndpointResourceTypeDbsystem     DbSystemEndpointResourceTypeEnum = "DBSYSTEM"
+	DbSystemEndpointResourceTypeReadReplica  DbSystemEndpointResourceTypeEnum = "READ_REPLICA"
+	DbSystemEndpointResourceTypeLoadBalancer DbSystemEndpointResourceTypeEnum = "LOAD_BALANCER"
+)
+
+var mappingDbSystemEndpointResourceTypeEnum = map[string]DbSystemEndpointResourceTypeEnum{
+	"DBSYSTEM":      DbSystemEndpointResourceTypeDbsystem,
+	"READ_REPLICA":  DbSystemEndpointResourceTypeReadReplica,
+	"LOAD_BALANCER": DbSystemEndpointResourceTypeLoadBalancer,
+}
+
+var mappingDbSystemEndpointResourceTypeEnumLowerCase = map[string]DbSystemEndpointResourceTypeEnum{
+	"dbsystem":      DbSystemEndpointResourceTypeDbsystem,
+	"read_replica":  DbSystemEndpointResourceTypeReadReplica,
+	"load_balancer": DbSystemEndpointResourceTypeLoadBalancer,
+}
+
+// GetDbSystemEndpointResourceTypeEnumValues Enumerates the set of values for DbSystemEndpointResourceTypeEnum
+func GetDbSystemEndpointResourceTypeEnumValues() []DbSystemEndpointResourceTypeEnum {
+	values := make([]DbSystemEndpointResourceTypeEnum, 0)
+	for _, v := range mappingDbSystemEndpointResourceTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDbSystemEndpointResourceTypeEnumStringValues Enumerates the set of values in String for DbSystemEndpointResourceTypeEnum
+func GetDbSystemEndpointResourceTypeEnumStringValues() []string {
+	return []string{
+		"DBSYSTEM",
+		"READ_REPLICA",
+		"LOAD_BALANCER",
+	}
+}
+
+// GetMappingDbSystemEndpointResourceTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDbSystemEndpointResourceTypeEnum(val string) (DbSystemEndpointResourceTypeEnum, bool) {
+	enum, ok := mappingDbSystemEndpointResourceTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

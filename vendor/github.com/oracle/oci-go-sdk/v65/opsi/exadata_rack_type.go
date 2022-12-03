@@ -24,6 +24,7 @@ const (
 	ExadataRackTypeHalf    ExadataRackTypeEnum = "HALF"
 	ExadataRackTypeQuarter ExadataRackTypeEnum = "QUARTER"
 	ExadataRackTypeEighth  ExadataRackTypeEnum = "EIGHTH"
+	ExadataRackTypeFlex    ExadataRackTypeEnum = "FLEX"
 )
 
 var mappingExadataRackTypeEnum = map[string]ExadataRackTypeEnum{
@@ -31,6 +32,7 @@ var mappingExadataRackTypeEnum = map[string]ExadataRackTypeEnum{
 	"HALF":    ExadataRackTypeHalf,
 	"QUARTER": ExadataRackTypeQuarter,
 	"EIGHTH":  ExadataRackTypeEighth,
+	"FLEX":    ExadataRackTypeFlex,
 }
 
 var mappingExadataRackTypeEnumLowerCase = map[string]ExadataRackTypeEnum{
@@ -38,6 +40,7 @@ var mappingExadataRackTypeEnumLowerCase = map[string]ExadataRackTypeEnum{
 	"half":    ExadataRackTypeHalf,
 	"quarter": ExadataRackTypeQuarter,
 	"eighth":  ExadataRackTypeEighth,
+	"flex":    ExadataRackTypeFlex,
 }
 
 // GetExadataRackTypeEnumValues Enumerates the set of values for ExadataRackTypeEnum
@@ -56,6 +59,7 @@ func GetExadataRackTypeEnumStringValues() []string {
 		"HALF",
 		"QUARTER",
 		"EIGHTH",
+		"FLEX",
 	}
 }
 

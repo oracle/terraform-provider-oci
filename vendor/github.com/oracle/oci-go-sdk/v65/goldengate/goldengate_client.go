@@ -410,6 +410,69 @@ func (client GoldenGateClient) changeDeploymentCompartment(ctx context.Context, 
 	return response, err
 }
 
+// CollectDeploymentDiagnostic Collects the diagnostic of a Deployment. When provided, If-Match is checked against ETag values of the resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CollectDeploymentDiagnostic.go.html to see an example of how to use CollectDeploymentDiagnostic API.
+// A default retry strategy applies to this operation CollectDeploymentDiagnostic()
+func (client GoldenGateClient) CollectDeploymentDiagnostic(ctx context.Context, request CollectDeploymentDiagnosticRequest) (response CollectDeploymentDiagnosticResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.collectDeploymentDiagnostic, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CollectDeploymentDiagnosticResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CollectDeploymentDiagnosticResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CollectDeploymentDiagnosticResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CollectDeploymentDiagnosticResponse")
+	}
+	return
+}
+
+// collectDeploymentDiagnostic implements the OCIOperation interface (enables retrying operations)
+func (client GoldenGateClient) collectDeploymentDiagnostic(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deployments/{deploymentId}/actions/collectDiagnostics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CollectDeploymentDiagnosticResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Deployment/CollectDeploymentDiagnostic"
+		err = common.PostProcessServiceError(err, "GoldenGate", "CollectDeploymentDiagnostic", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateConnection Creates a new Connection.
 //
 // See also

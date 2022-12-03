@@ -346,18 +346,21 @@ type BaseAnnouncementTimeTwoTypeEnum string
 
 // Set of constants representing the allowable values for BaseAnnouncementTimeTwoTypeEnum
 const (
-	BaseAnnouncementTimeTwoTypeEndTime    BaseAnnouncementTimeTwoTypeEnum = "END_TIME"
-	BaseAnnouncementTimeTwoTypeNewEndTime BaseAnnouncementTimeTwoTypeEnum = "NEW_END_TIME"
+	BaseAnnouncementTimeTwoTypeEndTime          BaseAnnouncementTimeTwoTypeEnum = "END_TIME"
+	BaseAnnouncementTimeTwoTypeNewEndTime       BaseAnnouncementTimeTwoTypeEnum = "NEW_END_TIME"
+	BaseAnnouncementTimeTwoTypeEstimatedEndTime BaseAnnouncementTimeTwoTypeEnum = "ESTIMATED_END_TIME"
 )
 
 var mappingBaseAnnouncementTimeTwoTypeEnum = map[string]BaseAnnouncementTimeTwoTypeEnum{
-	"END_TIME":     BaseAnnouncementTimeTwoTypeEndTime,
-	"NEW_END_TIME": BaseAnnouncementTimeTwoTypeNewEndTime,
+	"END_TIME":           BaseAnnouncementTimeTwoTypeEndTime,
+	"NEW_END_TIME":       BaseAnnouncementTimeTwoTypeNewEndTime,
+	"ESTIMATED_END_TIME": BaseAnnouncementTimeTwoTypeEstimatedEndTime,
 }
 
 var mappingBaseAnnouncementTimeTwoTypeEnumLowerCase = map[string]BaseAnnouncementTimeTwoTypeEnum{
-	"end_time":     BaseAnnouncementTimeTwoTypeEndTime,
-	"new_end_time": BaseAnnouncementTimeTwoTypeNewEndTime,
+	"end_time":           BaseAnnouncementTimeTwoTypeEndTime,
+	"new_end_time":       BaseAnnouncementTimeTwoTypeNewEndTime,
+	"estimated_end_time": BaseAnnouncementTimeTwoTypeEstimatedEndTime,
 }
 
 // GetBaseAnnouncementTimeTwoTypeEnumValues Enumerates the set of values for BaseAnnouncementTimeTwoTypeEnum
@@ -374,6 +377,7 @@ func GetBaseAnnouncementTimeTwoTypeEnumStringValues() []string {
 	return []string{
 		"END_TIME",
 		"NEW_END_TIME",
+		"ESTIMATED_END_TIME",
 	}
 }
 

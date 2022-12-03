@@ -20,7 +20,7 @@ import (
 type OnPremiseConnector struct {
 
 	// The OCID of the on-premises connector.
-	OnPremConnectorId *string `mandatory:"false" json:"onPremConnectorId"`
+	OnPremConnectorId *string `mandatory:"true" json:"onPremConnectorId"`
 }
 
 func (m OnPremiseConnector) String() string {

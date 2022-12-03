@@ -38,17 +38,21 @@ type BaseAnnouncementsPreferences interface {
 
 	// The string representing the user's preference regarding receiving announcements by email.
 	GetPreferenceType() BaseCreateAnnouncementsPreferencesDetailsPreferenceTypeEnum
+
+	// The time zone that the user prefers for announcement time stamps. Specify the preference with a value that uses the IANA Time Zone Database format (x-obmcs-time-zone). For example America/Los_Angeles.
+	GetPreferredTimeZone() *string
 }
 
 type baseannouncementspreferences struct {
-	JsonData       []byte
-	CompartmentId  *string                                                     `mandatory:"false" json:"compartmentId"`
-	Id             *string                                                     `mandatory:"false" json:"id"`
-	IsUnsubscribed *bool                                                       `mandatory:"false" json:"isUnsubscribed"`
-	TimeCreated    *common.SDKTime                                             `mandatory:"false" json:"timeCreated"`
-	TimeUpdated    *common.SDKTime                                             `mandatory:"false" json:"timeUpdated"`
-	PreferenceType BaseCreateAnnouncementsPreferencesDetailsPreferenceTypeEnum `mandatory:"false" json:"preferenceType,omitempty"`
-	Type           string                                                      `json:"type"`
+	JsonData          []byte
+	CompartmentId     *string                                                     `mandatory:"false" json:"compartmentId"`
+	Id                *string                                                     `mandatory:"false" json:"id"`
+	IsUnsubscribed    *bool                                                       `mandatory:"false" json:"isUnsubscribed"`
+	TimeCreated       *common.SDKTime                                             `mandatory:"false" json:"timeCreated"`
+	TimeUpdated       *common.SDKTime                                             `mandatory:"false" json:"timeUpdated"`
+	PreferenceType    BaseCreateAnnouncementsPreferencesDetailsPreferenceTypeEnum `mandatory:"false" json:"preferenceType,omitempty"`
+	PreferredTimeZone *string                                                     `mandatory:"false" json:"preferredTimeZone"`
+	Type              string                                                      `json:"type"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -68,6 +72,7 @@ func (m *baseannouncementspreferences) UnmarshalJSON(data []byte) error {
 	m.TimeCreated = s.Model.TimeCreated
 	m.TimeUpdated = s.Model.TimeUpdated
 	m.PreferenceType = s.Model.PreferenceType
+	m.PreferredTimeZone = s.Model.PreferredTimeZone
 	m.Type = s.Model.Type
 
 	return err
@@ -123,6 +128,11 @@ func (m baseannouncementspreferences) GetTimeUpdated() *common.SDKTime {
 //GetPreferenceType returns PreferenceType
 func (m baseannouncementspreferences) GetPreferenceType() BaseCreateAnnouncementsPreferencesDetailsPreferenceTypeEnum {
 	return m.PreferenceType
+}
+
+//GetPreferredTimeZone returns PreferredTimeZone
+func (m baseannouncementspreferences) GetPreferredTimeZone() *string {
+	return m.PreferredTimeZone
 }
 
 func (m baseannouncementspreferences) String() string {

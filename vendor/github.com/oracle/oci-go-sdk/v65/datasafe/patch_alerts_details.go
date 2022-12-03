@@ -20,7 +20,10 @@ import (
 type PatchAlertsDetails struct {
 
 	// Array of patch instructions.
-	Items []PatchInstruction `mandatory:"false" json:"items"`
+	Items []PatchInstruction `mandatory:"true" json:"items"`
+
+	// The OCID of the compartment that contains the alerts.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 
 func (m PatchAlertsDetails) String() string {
@@ -42,7 +45,8 @@ func (m PatchAlertsDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *PatchAlertsDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Items []patchinstruction `json:"items"`
+		Items         []patchinstruction `json:"items"`
+		CompartmentId *string            `json:"compartmentId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -62,6 +66,8 @@ func (m *PatchAlertsDetails) UnmarshalJSON(data []byte) (e error) {
 			m.Items[i] = nil
 		}
 	}
+
+	m.CompartmentId = model.CompartmentId
 
 	return
 }

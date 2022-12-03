@@ -39,6 +39,8 @@ type CreateChannelSourceFromMysqlDetails struct {
 
 	SslCaCertificate CaCertificate `mandatory:"false" json:"sslCaCertificate"`
 
+	AnonymousTransactionsHandling AnonymousTransactionsHandling `mandatory:"false" json:"anonymousTransactionsHandling"`
+
 	// The SSL mode of the Channel.
 	SslMode ChannelSourceMysqlSslModeEnum `mandatory:"true" json:"sslMode"`
 }
@@ -79,12 +81,13 @@ func (m CreateChannelSourceFromMysqlDetails) MarshalJSON() (buff []byte, e error
 // UnmarshalJSON unmarshals from json
 func (m *CreateChannelSourceFromMysqlDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Port             *int                          `json:"port"`
-		SslCaCertificate cacertificate                 `json:"sslCaCertificate"`
-		Hostname         *string                       `json:"hostname"`
-		Username         *string                       `json:"username"`
-		Password         *string                       `json:"password"`
-		SslMode          ChannelSourceMysqlSslModeEnum `json:"sslMode"`
+		Port                          *int                          `json:"port"`
+		SslCaCertificate              cacertificate                 `json:"sslCaCertificate"`
+		AnonymousTransactionsHandling anonymoustransactionshandling `json:"anonymousTransactionsHandling"`
+		Hostname                      *string                       `json:"hostname"`
+		Username                      *string                       `json:"username"`
+		Password                      *string                       `json:"password"`
+		SslMode                       ChannelSourceMysqlSslModeEnum `json:"sslMode"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -102,6 +105,16 @@ func (m *CreateChannelSourceFromMysqlDetails) UnmarshalJSON(data []byte) (e erro
 		m.SslCaCertificate = nn.(CaCertificate)
 	} else {
 		m.SslCaCertificate = nil
+	}
+
+	nn, e = model.AnonymousTransactionsHandling.UnmarshalPolymorphicJSON(model.AnonymousTransactionsHandling.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.AnonymousTransactionsHandling = nn.(AnonymousTransactionsHandling)
+	} else {
+		m.AnonymousTransactionsHandling = nil
 	}
 
 	m.Hostname = model.Hostname

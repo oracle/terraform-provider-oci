@@ -19,17 +19,17 @@ import (
 // InstalledDatabaseDetails The details of the database running on-premises or on a compute instance.
 type InstalledDatabaseDetails struct {
 
+	// The port number of the database listener.
+	ListenerPort *int `mandatory:"true" json:"listenerPort"`
+
+	// The service name of the database registered as target database.
+	ServiceName *string `mandatory:"true" json:"serviceName"`
+
 	// The OCID of the compute instance on which the database is running.
 	InstanceId *string `mandatory:"false" json:"instanceId"`
 
 	// The list of database host IP Addresses. Fully qualified domain names can be used if connectionType is 'ONPREM_CONNECTOR'.
 	IpAddresses []string `mandatory:"false" json:"ipAddresses"`
-
-	// The port number of the database listener.
-	ListenerPort *int `mandatory:"false" json:"listenerPort"`
-
-	// The service name of the database registered as target database.
-	ServiceName *string `mandatory:"false" json:"serviceName"`
 
 	// The infrastructure type the database is running on.
 	InfrastructureType InfrastructureTypeEnum `mandatory:"true" json:"infrastructureType"`

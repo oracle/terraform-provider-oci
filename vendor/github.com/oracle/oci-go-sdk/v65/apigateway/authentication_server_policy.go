@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// AuthenticationServerPolicy Information around an authentication server for dynamic authentication.
+// AuthenticationServerPolicy Policy for the details regarding each authentication server under dynamic authentication. We specify the value of selectors for which this authentication server must be selected for a request under keys. We specify the configuration details of authentication server under authenticationServerDetail.
 type AuthenticationServerPolicy struct {
 	Key DynamicSelectionKey `mandatory:"true" json:"key"`
 

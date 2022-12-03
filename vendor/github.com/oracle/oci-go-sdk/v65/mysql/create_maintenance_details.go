@@ -15,13 +15,14 @@ import (
 	"strings"
 )
 
-// CreateMaintenanceDetails The Maintenance Policy for the DB System.
+// CreateMaintenanceDetails The Maintenance Policy for the DB System or Read Replica that this model is included in.
 type CreateMaintenanceDetails struct {
 
 	// The start of the 2 hour maintenance window.
 	// This string is of the format: "{day-of-week} {time-of-day}".
 	// "{day-of-week}" is a case-insensitive string like "mon", "tue", &c.
 	// "{time-of-day}" is the "Time" portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero.
+	// If you set the read replica maintenance window to "" or if not specified, the read replica is set same as the DB system maintenance window.
 	WindowStartTime *string `mandatory:"true" json:"windowStartTime"`
 }
 

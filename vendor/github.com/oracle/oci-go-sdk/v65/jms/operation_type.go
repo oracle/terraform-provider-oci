@@ -25,6 +25,10 @@ const (
 	OperationTypeUpdateFleetAgentConfiguration OperationTypeEnum = "UPDATE_FLEET_AGENT_CONFIGURATION"
 	OperationTypeDeleteJavaInstallation        OperationTypeEnum = "DELETE_JAVA_INSTALLATION"
 	OperationTypeCreateJavaInstallation        OperationTypeEnum = "CREATE_JAVA_INSTALLATION"
+	OperationTypeCollectJfr                    OperationTypeEnum = "COLLECT_JFR"
+	OperationTypeRequestCryptoEventAnalysis    OperationTypeEnum = "REQUEST_CRYPTO_EVENT_ANALYSIS"
+	OperationTypeScanJavaServerUsage           OperationTypeEnum = "SCAN_JAVA_SERVER_USAGE"
+	OperationTypeScanLibraryUsage              OperationTypeEnum = "SCAN_LIBRARY_USAGE"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -35,6 +39,10 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"UPDATE_FLEET_AGENT_CONFIGURATION": OperationTypeUpdateFleetAgentConfiguration,
 	"DELETE_JAVA_INSTALLATION":         OperationTypeDeleteJavaInstallation,
 	"CREATE_JAVA_INSTALLATION":         OperationTypeCreateJavaInstallation,
+	"COLLECT_JFR":                      OperationTypeCollectJfr,
+	"REQUEST_CRYPTO_EVENT_ANALYSIS":    OperationTypeRequestCryptoEventAnalysis,
+	"SCAN_JAVA_SERVER_USAGE":           OperationTypeScanJavaServerUsage,
+	"SCAN_LIBRARY_USAGE":               OperationTypeScanLibraryUsage,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -45,6 +53,10 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"update_fleet_agent_configuration": OperationTypeUpdateFleetAgentConfiguration,
 	"delete_java_installation":         OperationTypeDeleteJavaInstallation,
 	"create_java_installation":         OperationTypeCreateJavaInstallation,
+	"collect_jfr":                      OperationTypeCollectJfr,
+	"request_crypto_event_analysis":    OperationTypeRequestCryptoEventAnalysis,
+	"scan_java_server_usage":           OperationTypeScanJavaServerUsage,
+	"scan_library_usage":               OperationTypeScanLibraryUsage,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -66,6 +78,10 @@ func GetOperationTypeEnumStringValues() []string {
 		"UPDATE_FLEET_AGENT_CONFIGURATION",
 		"DELETE_JAVA_INSTALLATION",
 		"CREATE_JAVA_INSTALLATION",
+		"COLLECT_JFR",
+		"REQUEST_CRYPTO_EVENT_ANALYSIS",
+		"SCAN_JAVA_SERVER_USAGE",
+		"SCAN_LIBRARY_USAGE",
 	}
 }
 

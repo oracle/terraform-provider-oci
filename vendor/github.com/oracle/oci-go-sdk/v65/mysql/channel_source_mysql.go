@@ -32,6 +32,8 @@ type ChannelSourceMysql struct {
 
 	SslCaCertificate CaCertificate `mandatory:"false" json:"sslCaCertificate"`
 
+	AnonymousTransactionsHandling AnonymousTransactionsHandling `mandatory:"false" json:"anonymousTransactionsHandling"`
+
 	// The SSL mode of the Channel.
 	SslMode ChannelSourceMysqlSslModeEnum `mandatory:"true" json:"sslMode"`
 }
@@ -72,11 +74,12 @@ func (m ChannelSourceMysql) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *ChannelSourceMysql) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		SslCaCertificate cacertificate                 `json:"sslCaCertificate"`
-		Hostname         *string                       `json:"hostname"`
-		Port             *int                          `json:"port"`
-		Username         *string                       `json:"username"`
-		SslMode          ChannelSourceMysqlSslModeEnum `json:"sslMode"`
+		SslCaCertificate              cacertificate                 `json:"sslCaCertificate"`
+		AnonymousTransactionsHandling anonymoustransactionshandling `json:"anonymousTransactionsHandling"`
+		Hostname                      *string                       `json:"hostname"`
+		Port                          *int                          `json:"port"`
+		Username                      *string                       `json:"username"`
+		SslMode                       ChannelSourceMysqlSslModeEnum `json:"sslMode"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -92,6 +95,16 @@ func (m *ChannelSourceMysql) UnmarshalJSON(data []byte) (e error) {
 		m.SslCaCertificate = nn.(CaCertificate)
 	} else {
 		m.SslCaCertificate = nil
+	}
+
+	nn, e = model.AnonymousTransactionsHandling.UnmarshalPolymorphicJSON(model.AnonymousTransactionsHandling.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.AnonymousTransactionsHandling = nn.(AnonymousTransactionsHandling)
+	} else {
+		m.AnonymousTransactionsHandling = nil
 	}
 
 	m.Hostname = model.Hostname
