@@ -1,3 +1,29 @@
+## 4.101.0 (Unreleased)
+
+### Added
+- Support for Golden Gate Deployment and Connection Type.
+- Support for Token Authentication in API Gateway
+- Support for Container Instances
+- Support for Complete Terraform testing for Diagnostics using TFACTL feature
+- Support for Report Scheduling Support in Data Safe audit
+- Support for Devops Deployment Stage Level Parameters
+- Support for Add BackupSummary compartmentId in API
+- Support for Managed Read Replicas - Load Balancing
+- Support for Managed Read Replicas
+- Support for OPSI: ExaCS Support
+- Support for MySQL Inbound replication support for filters and sources without transaction identifiers
+- Support for ADBD multi-vm
+- Support for Java Management Service 6.0
+- Missing is_default field for API Gateway
+- Support for Update Service Override for Public Logging
+- Golang upgrade to 1.18.8
+### Bug Fix
+- Fix bug of not being able to update nodepool which uses quantityPerSubnet
+- Fixing incorrect state mappings in Operator Control
+- oci_datascience_model Terraform Code Documentation correction
+- Empty check for optional values
+- Delay in updating network firewall
+
 ## 4.100.0 (November 16, 2022)
 
 ### Added
