@@ -1,4 +1,4 @@
-## 4.100.0 (Unreleased)
+## 4.100.0 (November 16, 2022)
 
 ### Added
 - Support for mTLS and Scan port configuration of AVM Clusters on ExaCC
