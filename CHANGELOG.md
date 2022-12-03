@@ -1,3 +1,37 @@
+## 4.101.0 (Unreleased)
+
+### Added
+- support for Golden Gate Deployment and Connection Type.
+- Support for Token Authentication in API Gateway
+- Support for Container Instances
+- Support for Complete Terraform testing for Diagnostics using TFACTL feature
+- Support for Report Scheduling Support in Data Safe audit
+- Support for Devops Deployment Stage Level Parameters
+- Support for Add BackupSummary.compartmentId in API
+- Support for Managed Read Replicas - Load Balancing
+- Support for Managed Read Replicas
+- Support for OPSI: ExaCS Support
+- Support for MySQL Inbound replication support for filters and sources without transaction identifiers
+- Support for ADBD multi-vm
+- Support for Java Management Service 6.0
+- Missing is_default field for API Gateway
+- Support for Update Service Override for Public Logging
+- Missed change in go upgrade changes
+- Build target with -buildvcs=false
+- Golang upgrade to 1.18.8
+- Support for Terraform support to Import from URL PAR Terraform platform does not support properly hiding nested fields in plan diff [mysql] Terraform support to Import from URL PAR
+- Support for mTLS and Scan port configuration of AVM Clusters on ExaCC
+- Support for Dev and Deployment of Site Guard as Service in OCI
+### Bug Fix
+- Fix bug of not being able to update nodepool which uses quantityPerSubnet
+- Fixing incorrect state mappings in Operator Control
+- oci_datascience_model Terraform Code Documentation correction
+- Empty check for optional values
+- Delay in updating network firewall
+- support environment variable for TF_VAR_private_key and TF_VAR_private_key_password
+- changed hashicorp to oracle in timeout links
+- auto_backup_window field is not updated for dbSystem / database resource
+
 ## 4.100.0 (Unreleased)
 
 ### Added
