@@ -49,6 +49,8 @@ This directory contains Terraform configuration files showing how to create spec
     [![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle/terraform-provider-oci/raw/master/examples/zips/concepts.zip)
 - container_engine  
     [![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle/terraform-provider-oci/raw/master/examples/zips/container_engine.zip)
+- container_instances  
+    [![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle/terraform-provider-oci/raw/master/examples/zips/container_instances.zip)
 - dataConnectivity  
     [![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle/terraform-provider-oci/raw/master/examples/zips/dataConnectivity.zip)
 - database  
