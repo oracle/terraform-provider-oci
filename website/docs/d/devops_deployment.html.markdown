@@ -35,7 +35,7 @@ The following attributes are exported:
 * `compartment_id` - The OCID of a compartment.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace.bar-key": "value"}`
 * `deploy_artifact_override_arguments` - Specifies the list of artifact override arguments at the time of deployment.
-	* `items` - List of artifact override arguments at the time of deployment.
+	* `items` - List of stage override arguments at the time of deployment.
 		* `deploy_artifact_id` - The OCID of the artifact to which this parameter applies.
 		* `name` - Name of the parameter (case-sensitive).
 		* `value` - Value of the parameter.
@@ -57,6 +57,11 @@ The following attributes are exported:
 		* `display_name` - Display name of the environment. Avoid entering confidential information.
 * `deploy_pipeline_id` - The OCID of a pipeline.
 * `deploy_stage_id` - Specifies the OCID of the stage to be redeployed.
+* `deploy_stage_override_arguments` - Specifies the list of arguments to be overriden per Stage at the time of deployment.
+	* `items` - List of stage override arguments at the time of deployment.
+		* `deploy_stage_id` - The OCID of the stage.
+		* `name` - Name of the parameter (case-sensitive).
+		* `value` - Value of the parameter.
 * `deployment_arguments` - Specifies list of arguments passed along with the deployment.
 	* `items` - List of arguments provided at the time of deployment.
 		* `name` - Name of the parameter (case-sensitive).

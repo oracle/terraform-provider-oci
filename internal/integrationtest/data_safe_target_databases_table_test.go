@@ -24,8 +24,7 @@ var (
 		"table_name_contains":  acctest.Representation{RepType: acctest.Optional, Create: `tableNameContains`},
 	}
 
-	DataSafeTargetDatabasesTableResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Required, acctest.Create, targetDatabaseRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation) +
+	DataSafeTargetDatabasesTableResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", acctest.Required, acctest.Create, NosqlTableRepresentation)
 )
 

@@ -52,6 +52,10 @@ func (m *enableexadatainsightdetails) UnmarshalPolymorphicJSON(data []byte) (int
 
 	var err error
 	switch m.EntitySource {
+	case "PE_COMANAGED_EXADATA":
+		mm := EnablePeComanagedExadataInsightDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "EM_MANAGED_EXTERNAL_EXADATA":
 		mm := EnableEmManagedExternalExadataInsightDetails{}
 		err = json.Unmarshal(data, &mm)

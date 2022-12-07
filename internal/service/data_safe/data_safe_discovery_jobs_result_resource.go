@@ -294,6 +294,10 @@ func (s *DataSafeDiscoveryJobsResultResourceCrud) SetData() error {
 
 	s.D.Set("db_defined_child_column_keys", s.Res.DbDefinedChildColumnKeys)
 
+	if s.Res.DiscoveryJobId != nil {
+		s.D.Set("discovery_job_id", *s.Res.DiscoveryJobId)
+	}
+
 	s.D.Set("discovery_type", s.Res.DiscoveryType)
 
 	if s.Res.EstimatedDataValueCount != nil {
@@ -372,6 +376,10 @@ func DiscoveryJobResultSummaryToMap(obj oci_data_safe.DiscoveryJobResultSummary)
 
 	if obj.DataType != nil {
 		result["data_type"] = string(*obj.DataType)
+	}
+
+	if obj.DiscoveryJobId != nil {
+		result["discovery_job_id"] = string(*obj.DiscoveryJobId)
 	}
 
 	result["discovery_type"] = string(obj.DiscoveryType)

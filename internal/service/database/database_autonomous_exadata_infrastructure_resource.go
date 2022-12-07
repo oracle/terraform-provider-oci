@@ -655,7 +655,7 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) SetData() error {
 	}
 
 	if s.Res.MaintenanceWindow != nil {
-		s.D.Set("maintenance_window", []interface{}{MaintenanceWindowToMap(s.Res.MaintenanceWindow)})
+		s.D.Set("maintenance_window", []interface{}{MaintenanceWindowToMapAvm(s.Res.MaintenanceWindow)})
 	} else {
 		s.D.Set("maintenance_window", nil)
 	}
@@ -707,7 +707,7 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) mapToDayOfWeek(fie
 	return result, nil
 }
 
-func DayOfWeekToMap(obj oci_database.DayOfWeek) map[string]interface{} {
+func DayOfWeekToMapAvm(obj oci_database.DayOfWeek) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	result["name"] = string(obj.Name)
@@ -819,7 +819,7 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) mapToMaintenanceWi
 	return result, nil
 }
 
-func MaintenanceWindowToMap(obj *oci_database.MaintenanceWindow) map[string]interface{} {
+func MaintenanceWindowToMapAvm(obj *oci_database.MaintenanceWindow) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.CustomActionTimeoutInMins != nil {
@@ -828,7 +828,7 @@ func MaintenanceWindowToMap(obj *oci_database.MaintenanceWindow) map[string]inte
 
 	daysOfWeek := []interface{}{}
 	for _, item := range obj.DaysOfWeek {
-		daysOfWeek = append(daysOfWeek, DayOfWeekToMap(item))
+		daysOfWeek = append(daysOfWeek, DayOfWeekToMapAvm(item))
 	}
 	result["days_of_week"] = daysOfWeek
 
@@ -848,7 +848,7 @@ func MaintenanceWindowToMap(obj *oci_database.MaintenanceWindow) map[string]inte
 
 	months := []interface{}{}
 	for _, item := range obj.Months {
-		months = append(months, MonthToMap(item))
+		months = append(months, MonthToMapAvm(item))
 	}
 	result["months"] = months
 
@@ -871,7 +871,7 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) mapToMonth(fieldKe
 	return result, nil
 }
 
-func MonthToMap(obj oci_database.Month) map[string]interface{} {
+func MonthToMapAvm(obj oci_database.Month) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	result["name"] = string(obj.Name)

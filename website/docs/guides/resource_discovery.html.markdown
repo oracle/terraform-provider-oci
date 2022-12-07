@@ -141,6 +141,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `cloud_bridge` - Discovers cloud_bridge resources within the specified compartment
     * `cloud_guard` - Discovers cloud guard resources within the specified compartment
     * `cloud_migrations` - Discovers cloud_migrations resources within the specified compartment
+    * `container_instances` - Discovers container_instances resources within the specified compartment
     * `containerengine` - Discovers containerengine resources within the specified compartment
     * `core` - Discovers compute, block storage, and networking resources within the specified compartment
     * `data_connectivity` - Discovers data_connectivity resources within the specified compartment
@@ -450,6 +451,10 @@ cloud_migrations
 * oci\_cloud\_migrations\_migration
 * oci\_cloud\_migrations\_replication\_schedule
 
+container_instances
+    
+* oci\_container\_instances\_container\_instance
+
 containerengine
     
 * oci\_containerengine\_cluster
@@ -683,6 +688,8 @@ golden_gate
 * oci\_golden\_gate\_database\_registration
 * oci\_golden\_gate\_deployment
 * oci\_golden\_gate\_deployment\_backup
+* oci\_golden\_gate\_connection\_assignment
+* oci\_golden\_gate\_connection
 
 health_checks
     
@@ -770,6 +777,7 @@ logging
     
 * oci\_logging\_log\_group
 * oci\_logging\_log
+* oci\_logging\_log\_saved\_search
 * oci\_logging\_unified\_agent\_configuration
 
 management_agent
@@ -809,6 +817,7 @@ mysql
 * oci\_mysql\_mysql\_backup
 * oci\_mysql\_mysql\_db\_system
 * oci\_mysql\_channel
+* oci\_mysql\_replica
 
 network_firewall
     

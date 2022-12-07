@@ -56,6 +56,12 @@ type AnnouncementSubscription struct {
 	// A list of filter groups for the announcement subscription. A filter group is a combination of multiple filters applied to announcements for matching purposes.
 	FilterGroups map[string]FilterGroup `mandatory:"false" json:"filterGroups"`
 
+	// (For announcement subscriptions with Oracle Fusion Applications configured as the service only) The language in which the user prefers to receive emailed announcements. Specify the preference with a value that uses the language tag format (x-obmcs-human-language). For example fr-FR.
+	PreferredLanguage *string `mandatory:"false" json:"preferredLanguage"`
+
+	// The time zone that the user prefers for announcement time stamps. Specify the preference with a value that uses the IANA Time Zone Database format (x-obmcs-time-zone). For example America/Los_Angeles.
+	PreferredTimeZone *string `mandatory:"false" json:"preferredTimeZone"`
+
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`

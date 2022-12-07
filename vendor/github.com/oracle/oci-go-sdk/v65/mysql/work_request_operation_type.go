@@ -38,6 +38,14 @@ const (
 	WorkRequestOperationTypeStopHeatwaveCluster                    WorkRequestOperationTypeEnum = "STOP_HEATWAVE_CLUSTER"
 	WorkRequestOperationTypeRestartHeatwaveCluster                 WorkRequestOperationTypeEnum = "RESTART_HEATWAVE_CLUSTER"
 	WorkRequestOperationTypeGenerateHeatwaveClusterMemoryEstimate  WorkRequestOperationTypeEnum = "GENERATE_HEATWAVE_CLUSTER_MEMORY_ESTIMATE"
+	WorkRequestOperationTypeCreateReplica                          WorkRequestOperationTypeEnum = "CREATE_REPLICA"
+	WorkRequestOperationTypeUpdateReplica                          WorkRequestOperationTypeEnum = "UPDATE_REPLICA"
+	WorkRequestOperationTypeDeleteReplica                          WorkRequestOperationTypeEnum = "DELETE_REPLICA"
+	WorkRequestOperationTypeCreateChannel                          WorkRequestOperationTypeEnum = "CREATE_CHANNEL"
+	WorkRequestOperationTypeUpdateChannel                          WorkRequestOperationTypeEnum = "UPDATE_CHANNEL"
+	WorkRequestOperationTypeResumeChannel                          WorkRequestOperationTypeEnum = "RESUME_CHANNEL"
+	WorkRequestOperationTypeResetChannel                           WorkRequestOperationTypeEnum = "RESET_CHANNEL"
+	WorkRequestOperationTypeDeleteChannel                          WorkRequestOperationTypeEnum = "DELETE_CHANNEL"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -61,6 +69,14 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"STOP_HEATWAVE_CLUSTER":                      WorkRequestOperationTypeStopHeatwaveCluster,
 	"RESTART_HEATWAVE_CLUSTER":                   WorkRequestOperationTypeRestartHeatwaveCluster,
 	"GENERATE_HEATWAVE_CLUSTER_MEMORY_ESTIMATE":  WorkRequestOperationTypeGenerateHeatwaveClusterMemoryEstimate,
+	"CREATE_REPLICA":                             WorkRequestOperationTypeCreateReplica,
+	"UPDATE_REPLICA":                             WorkRequestOperationTypeUpdateReplica,
+	"DELETE_REPLICA":                             WorkRequestOperationTypeDeleteReplica,
+	"CREATE_CHANNEL":                             WorkRequestOperationTypeCreateChannel,
+	"UPDATE_CHANNEL":                             WorkRequestOperationTypeUpdateChannel,
+	"RESUME_CHANNEL":                             WorkRequestOperationTypeResumeChannel,
+	"RESET_CHANNEL":                              WorkRequestOperationTypeResetChannel,
+	"DELETE_CHANNEL":                             WorkRequestOperationTypeDeleteChannel,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -84,6 +100,14 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"stop_heatwave_cluster":                      WorkRequestOperationTypeStopHeatwaveCluster,
 	"restart_heatwave_cluster":                   WorkRequestOperationTypeRestartHeatwaveCluster,
 	"generate_heatwave_cluster_memory_estimate":  WorkRequestOperationTypeGenerateHeatwaveClusterMemoryEstimate,
+	"create_replica":                             WorkRequestOperationTypeCreateReplica,
+	"update_replica":                             WorkRequestOperationTypeUpdateReplica,
+	"delete_replica":                             WorkRequestOperationTypeDeleteReplica,
+	"create_channel":                             WorkRequestOperationTypeCreateChannel,
+	"update_channel":                             WorkRequestOperationTypeUpdateChannel,
+	"resume_channel":                             WorkRequestOperationTypeResumeChannel,
+	"reset_channel":                              WorkRequestOperationTypeResetChannel,
+	"delete_channel":                             WorkRequestOperationTypeDeleteChannel,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -118,6 +142,14 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"STOP_HEATWAVE_CLUSTER",
 		"RESTART_HEATWAVE_CLUSTER",
 		"GENERATE_HEATWAVE_CLUSTER_MEMORY_ESTIMATE",
+		"CREATE_REPLICA",
+		"UPDATE_REPLICA",
+		"DELETE_REPLICA",
+		"CREATE_CHANNEL",
+		"UPDATE_CHANNEL",
+		"RESUME_CHANNEL",
+		"RESET_CHANNEL",
+		"DELETE_CHANNEL",
 	}
 }
 

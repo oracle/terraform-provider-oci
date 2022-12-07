@@ -6,6 +6,7 @@ package apigateway
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -241,6 +242,47 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 												// Optional
 
 												// Computed
+												"client_details": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+
+															// Computed
+															"client_id": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"client_secret_id": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"client_secret_version_number": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"type": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+														},
+													},
+												},
+												"fallback_redirect_path": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"logout_path": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"max_expiry_duration_in_hours": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
 												"response_code": {
 													Type:     schema.TypeString,
 													Computed: true,
@@ -371,7 +413,237 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"response_type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"scopes": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+												"source_uri_details": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+
+															// Computed
+															"type": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"uri": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+														},
+													},
+												},
 												"type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"use_cookies_for_intermediate_steps": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"use_cookies_for_session": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"use_pkce": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"validation_policy": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"additional_validation_policy": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+
+															// Computed
+															"audiences": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Elem: &schema.Schema{
+																	Type: schema.TypeString,
+																},
+															},
+															"issuers": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Elem: &schema.Schema{
+																	Type: schema.TypeString,
+																},
+															},
+															"verify_claims": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+
+																		// Optional
+
+																		// Computed
+																		"is_required": {
+																			Type:     schema.TypeBool,
+																			Computed: true,
+																		},
+																		"key": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"values": {
+																			Type:     schema.TypeList,
+																			Computed: true,
+																			Elem: &schema.Schema{
+																				Type: schema.TypeString,
+																			},
+																		},
+																	},
+																},
+															},
+														},
+													},
+												},
+												"client_details": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+
+															// Computed
+															"client_id": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"client_secret_id": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"client_secret_version_number": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"type": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+														},
+													},
+												},
+												"is_ssl_verify_disabled": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"keys": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+
+															// Computed
+															"alg": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"e": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"format": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"key": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"key_ops": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Elem: &schema.Schema{
+																	Type: schema.TypeString,
+																},
+															},
+															"kid": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"kty": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"n": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"use": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+														},
+													},
+												},
+												"max_cache_duration_in_hours": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"source_uri_details": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+
+															// Computed
+															"type": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"uri": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+														},
+													},
+												},
+												"type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"uri": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -611,6 +883,424 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 																Type:     schema.TypeString,
 																Computed: true,
 															},
+															"validation_failure_policy": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+
+																		// Optional
+
+																		// Computed
+																		"client_details": {
+																			Type:     schema.TypeList,
+																			Computed: true,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+
+																					// Optional
+
+																					// Computed
+																					"client_id": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																					"client_secret_id": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																					"client_secret_version_number": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																					"type": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																				},
+																			},
+																		},
+																		"fallback_redirect_path": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"logout_path": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"max_expiry_duration_in_hours": {
+																			Type:     schema.TypeInt,
+																			Computed: true,
+																		},
+																		"response_code": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"response_header_transformations": {
+																			Type:     schema.TypeList,
+																			Computed: true,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+
+																					// Optional
+
+																					// Computed
+																					"filter_headers": {
+																						Type:     schema.TypeList,
+																						Computed: true,
+																						Elem: &schema.Resource{
+																							Schema: map[string]*schema.Schema{
+																								// Required
+
+																								// Optional
+
+																								// Computed
+																								"items": {
+																									Type:     schema.TypeList,
+																									Computed: true,
+																									Elem: &schema.Resource{
+																										Schema: map[string]*schema.Schema{
+																											// Required
+
+																											// Optional
+
+																											// Computed
+																											"name": {
+																												Type:     schema.TypeString,
+																												Computed: true,
+																											},
+																										},
+																									},
+																								},
+																								"type": {
+																									Type:     schema.TypeString,
+																									Computed: true,
+																								},
+																							},
+																						},
+																					},
+																					"rename_headers": {
+																						Type:     schema.TypeList,
+																						Computed: true,
+																						Elem: &schema.Resource{
+																							Schema: map[string]*schema.Schema{
+																								// Required
+
+																								// Optional
+
+																								// Computed
+																								"items": {
+																									Type:     schema.TypeList,
+																									Computed: true,
+																									Elem: &schema.Resource{
+																										Schema: map[string]*schema.Schema{
+																											// Required
+
+																											// Optional
+
+																											// Computed
+																											"from": {
+																												Type:     schema.TypeString,
+																												Computed: true,
+																											},
+																											"to": {
+																												Type:     schema.TypeString,
+																												Computed: true,
+																											},
+																										},
+																									},
+																								},
+																							},
+																						},
+																					},
+																					"set_headers": {
+																						Type:     schema.TypeList,
+																						Computed: true,
+																						Elem: &schema.Resource{
+																							Schema: map[string]*schema.Schema{
+																								// Required
+
+																								// Optional
+
+																								// Computed
+																								"items": {
+																									Type:     schema.TypeList,
+																									Computed: true,
+																									Elem: &schema.Resource{
+																										Schema: map[string]*schema.Schema{
+																											// Required
+
+																											// Optional
+
+																											// Computed
+																											"if_exists": {
+																												Type:     schema.TypeString,
+																												Computed: true,
+																											},
+																											"name": {
+																												Type:     schema.TypeString,
+																												Computed: true,
+																											},
+																											"values": {
+																												Type:     schema.TypeList,
+																												Computed: true,
+																												Elem: &schema.Schema{
+																													Type: schema.TypeString,
+																												},
+																											},
+																										},
+																									},
+																								},
+																							},
+																						},
+																					},
+																				},
+																			},
+																		},
+																		"response_message": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"response_type": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"scopes": {
+																			Type:     schema.TypeList,
+																			Computed: true,
+																			Elem: &schema.Schema{
+																				Type: schema.TypeString,
+																			},
+																		},
+																		"source_uri_details": {
+																			Type:     schema.TypeList,
+																			Computed: true,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+
+																					// Optional
+
+																					// Computed
+																					"type": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																					"uri": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																				},
+																			},
+																		},
+																		"type": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"use_cookies_for_intermediate_steps": {
+																			Type:     schema.TypeBool,
+																			Computed: true,
+																		},
+																		"use_cookies_for_session": {
+																			Type:     schema.TypeBool,
+																			Computed: true,
+																		},
+																		"use_pkce": {
+																			Type:     schema.TypeBool,
+																			Computed: true,
+																		},
+																	},
+																},
+															},
+															"validation_policy": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+
+																		// Optional
+
+																		// Computed
+																		"additional_validation_policy": {
+																			Type:     schema.TypeList,
+																			Computed: true,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+
+																					// Optional
+
+																					// Computed
+																					"audiences": {
+																						Type:     schema.TypeList,
+																						Computed: true,
+																						Elem: &schema.Schema{
+																							Type: schema.TypeString,
+																						},
+																					},
+																					"issuers": {
+																						Type:     schema.TypeList,
+																						Computed: true,
+																						Elem: &schema.Schema{
+																							Type: schema.TypeString,
+																						},
+																					},
+																					"verify_claims": {
+																						Type:     schema.TypeList,
+																						Computed: true,
+																						Elem: &schema.Resource{
+																							Schema: map[string]*schema.Schema{
+																								// Required
+
+																								// Optional
+
+																								// Computed
+																								"is_required": {
+																									Type:     schema.TypeBool,
+																									Computed: true,
+																								},
+																								"key": {
+																									Type:     schema.TypeString,
+																									Computed: true,
+																								},
+																								"values": {
+																									Type:     schema.TypeList,
+																									Computed: true,
+																									Elem: &schema.Schema{
+																										Type: schema.TypeString,
+																									},
+																								},
+																							},
+																						},
+																					},
+																				},
+																			},
+																		},
+																		"client_details": {
+																			Type:     schema.TypeList,
+																			Computed: true,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+
+																					// Optional
+
+																					// Computed
+																					"client_id": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																					"client_secret_id": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																					"client_secret_version_number": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																					"type": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																				},
+																			},
+																		},
+																		"is_ssl_verify_disabled": {
+																			Type:     schema.TypeBool,
+																			Computed: true,
+																		},
+																		"keys": {
+																			Type:     schema.TypeList,
+																			Computed: true,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+
+																					// Optional
+
+																					// Computed
+																					"alg": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																					"e": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																					"format": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																					"key": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																					"key_ops": {
+																						Type:     schema.TypeList,
+																						Computed: true,
+																						Elem: &schema.Schema{
+																							Type: schema.TypeString,
+																						},
+																					},
+																					"kid": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																					"kty": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																					"n": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																					"use": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																				},
+																			},
+																		},
+																		"max_cache_duration_in_hours": {
+																			Type:     schema.TypeInt,
+																			Computed: true,
+																		},
+																		"source_uri_details": {
+																			Type:     schema.TypeList,
+																			Computed: true,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+
+																					// Optional
+
+																					// Computed
+																					"type": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																					"uri": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																				},
+																			},
+																		},
+																		"type": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"uri": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																	},
+																},
+															},
 															"verify_claims": {
 																Type:     schema.TypeList,
 																Computed: true,
@@ -638,6 +1328,18 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 																		},
 																	},
 																},
+															},
+															"cache_key": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Elem: &schema.Schema{
+																	Type: schema.TypeString,
+																},
+															},
+															"parameters": {
+																Type:     schema.TypeMap,
+																Computed: true,
+																Elem:     schema.TypeString,
 															},
 														},
 													},
@@ -793,6 +1495,13 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"allowed_post_logout_uris": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"body": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -830,6 +1539,10 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 										Type:     schema.TypeBool,
 										Computed: true,
 									},
+									"post_logout_state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"read_timeout_in_seconds": {
 										Type:     schema.TypeFloat,
 										Computed: true,
@@ -862,6 +1575,11 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 																Elem: &schema.Schema{
 																	Type: schema.TypeString,
 																},
+															},
+															"is_default": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
 															},
 														},
 													},
@@ -1754,29 +2472,49 @@ func (s *ApigatewayApiDeploymentSpecificationDataSourceCrud) mapToHeaderFieldSpe
 	return result, nil
 }
 
-func (s *ApigatewayApiDeploymentSpecificationDataSourceCrud) mapToJsonWebTokenClaim(fieldKeyFormat string) (oci_apigateway.JsonWebTokenClaim, error) {
-	result := oci_apigateway.JsonWebTokenClaim{}
+func (s *ApigatewayApiDeploymentSpecificationDataSourceCrud) mapToAdditionalValidationPolicy(fieldKeyFormat string) (oci_apigateway.AdditionalValidationPolicy, error) {
+	result := oci_apigateway.AdditionalValidationPolicy{}
 
-	if isRequired, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_required")); ok {
-		tmp := isRequired.(bool)
-		result.IsRequired = &tmp
-	}
-
-	if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key")); ok {
-		tmp := key.(string)
-		result.Key = &tmp
-	}
-
-	if values, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "values")); ok {
-		interfaces := values.([]interface{})
+	if audiences, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "audiences")); ok {
+		interfaces := audiences.([]interface{})
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "values")) {
-			result.Values = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "audiences")) {
+			result.Audiences = tmp
+		}
+	}
+
+	if issuers, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "issuers")); ok {
+		interfaces := issuers.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "issuers")) {
+			result.Issuers = tmp
+		}
+	}
+
+	if verifyClaims, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "verify_claims")); ok {
+		interfaces := verifyClaims.([]interface{})
+		tmp := make([]oci_apigateway.JsonWebTokenClaim, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "verify_claims"), stateDataIndex)
+			converted, err := s.mapToJsonWebTokenClaim(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "verify_claims")) {
+			result.VerifyClaims = tmp
 		}
 	}
 
@@ -1855,6 +2593,102 @@ func (s *ApigatewayApiDeploymentSpecificationDataSourceCrud) mapToSelectionSourc
 	default:
 		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
 	}
+
+	return baseObject, nil
+}
+
+func (s *ApigatewayApiDeploymentSpecificationDataSourceCrud) mapToClientAppDetails(fieldKeyFormat string) (oci_apigateway.ClientAppDetails, error) {
+	var baseObject oci_apigateway.ClientAppDetails
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("CUSTOM"):
+		details := oci_apigateway.CustomClientAppDetails{}
+		if clientId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_id")); ok {
+			tmp := clientId.(string)
+			details.ClientId = &tmp
+		}
+		if clientSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_secret_id")); ok {
+			tmp := clientSecretId.(string)
+			details.ClientSecretId = &tmp
+		}
+		if clientSecretVersionNumber, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_secret_version_number")); ok {
+			tmp := clientSecretVersionNumber.(string)
+			tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+			if err != nil {
+				return details, fmt.Errorf("unable to convert clientSecretVersionNumber string: %s to an int64 and encountered error: %v", tmp, err)
+			}
+			details.ClientSecretVersionNumber = &tmpInt64
+		}
+		baseObject = details
+	case strings.ToLower("VALIDATION_BLOCK"):
+		details := oci_apigateway.ValidationBlockClientAppDetails{}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func (s *ApigatewayApiDeploymentSpecificationDataSourceCrud) mapToJsonWebTokenClaim(fieldKeyFormat string) (oci_apigateway.JsonWebTokenClaim, error) {
+	result := oci_apigateway.JsonWebTokenClaim{}
+
+	if isRequired, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_required")); ok {
+		tmp := isRequired.(bool)
+		result.IsRequired = &tmp
+	}
+
+	if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key")); ok {
+		tmp := key.(string)
+		result.Key = &tmp
+	}
+
+	if values, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "values")); ok {
+		interfaces := values.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "values")) {
+			result.Values = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func (s *ApigatewayApiDeploymentSpecificationDataSourceCrud) mapToSourceUriDetails(fieldKeyFormat string) (oci_apigateway.SourceUriDetails, error) {
+	var baseObject oci_apigateway.SourceUriDetails
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("DISCOVERY_URI"):
+		details := oci_apigateway.DiscoveryUriSourceUriDetails{}
+		if uri, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
+			tmp := uri.(string)
+			details.Uri = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("VALIDATION_BLOCK"):
+		details := oci_apigateway.ValidationBlockSourceUriDetails{}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
 	return baseObject, nil
 }
 
@@ -1923,6 +2757,118 @@ func (s *ApigatewayApiDeploymentSpecificationDataSourceCrud) mapToStaticPublicKe
 	return baseObject, nil
 }
 
+func (s *ApigatewayApiDeploymentSpecificationDataSourceCrud) mapToTokenAuthenticationValidationPolicy(fieldKeyFormat string) (oci_apigateway.TokenAuthenticationValidationPolicy, error) {
+	var baseObject oci_apigateway.TokenAuthenticationValidationPolicy
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("REMOTE_DISCOVERY"):
+		details := oci_apigateway.TokenAuthenticationRemoteDiscoveryValidationPolicy{}
+		if clientDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_details")); ok {
+			if tmpList := clientDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "client_details"), 0)
+				tmp, err := s.mapToClientAppDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert client_details, encountered error: %v", err)
+				}
+				details.ClientDetails = tmp
+			}
+		}
+		if isSslVerifyDisabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_ssl_verify_disabled")); ok {
+			tmp := isSslVerifyDisabled.(bool)
+			details.IsSslVerifyDisabled = &tmp
+		}
+		if maxCacheDurationInHours, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_cache_duration_in_hours")); ok {
+			tmp := maxCacheDurationInHours.(int)
+			details.MaxCacheDurationInHours = &tmp
+		}
+		if sourceUriDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_uri_details")); ok {
+			if tmpList := sourceUriDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source_uri_details"), 0)
+				tmp, err := s.mapToSourceUriDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert source_uri_details, encountered error: %v", err)
+				}
+				details.SourceUriDetails = tmp
+			}
+		}
+		if additionalValidationPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "additional_validation_policy")); ok {
+			if tmpList := additionalValidationPolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "additional_validation_policy"), 0)
+				tmp, err := s.mapToAdditionalValidationPolicy(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert additional_validation_policy, encountered error: %v", err)
+				}
+				details.AdditionalValidationPolicy = &tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("REMOTE_JWKS"):
+		details := oci_apigateway.TokenAuthenticationRemoteJwksValidationPolicy{}
+		if isSslVerifyDisabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_ssl_verify_disabled")); ok {
+			tmp := isSslVerifyDisabled.(bool)
+			details.IsSslVerifyDisabled = &tmp
+		}
+		if maxCacheDurationInHours, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_cache_duration_in_hours")); ok {
+			tmp := maxCacheDurationInHours.(int)
+			details.MaxCacheDurationInHours = &tmp
+		}
+		if uri, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
+			tmp := uri.(string)
+			details.Uri = &tmp
+		}
+		if additionalValidationPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "additional_validation_policy")); ok {
+			if tmpList := additionalValidationPolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "additional_validation_policy"), 0)
+				tmp, err := s.mapToAdditionalValidationPolicy(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert additional_validation_policy, encountered error: %v", err)
+				}
+				details.AdditionalValidationPolicy = &tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("STATIC_KEYS"):
+		details := oci_apigateway.TokenAuthenticationStaticKeysValidationPolicy{}
+		if keys, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "keys")); ok {
+			interfaces := keys.([]interface{})
+			tmp := make([]oci_apigateway.StaticPublicKey, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "keys"), stateDataIndex)
+				converted, err := s.mapToStaticPublicKey(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "keys")) {
+				details.Keys = tmp
+			}
+		}
+		if additionalValidationPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "additional_validation_policy")); ok {
+			if tmpList := additionalValidationPolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "additional_validation_policy"), 0)
+				tmp, err := s.mapToAdditionalValidationPolicy(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert additional_validation_policy, encountered error: %v", err)
+				}
+				details.AdditionalValidationPolicy = &tmp
+			}
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
 func (s *ApigatewayApiDeploymentSpecificationDataSourceCrud) mapToValidationFailurePolicy(fieldKeyFormat string) (oci_apigateway.ValidationFailurePolicy, error) {
 	var baseObject oci_apigateway.ValidationFailurePolicy
 	//discriminator
@@ -1953,6 +2899,68 @@ func (s *ApigatewayApiDeploymentSpecificationDataSourceCrud) mapToValidationFail
 		if responseMessage, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "response_message")); ok {
 			tmp := responseMessage.(string)
 			details.ResponseMessage = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("OAUTH2"):
+		details := oci_apigateway.OAuth2ResponseValidationFailurePolicy{}
+		if clientDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_details")); ok {
+			if tmpList := clientDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "client_details"), 0)
+				tmp, err := s.mapToClientAppDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert client_details, encountered error: %v", err)
+				}
+				details.ClientDetails = tmp
+			}
+		}
+		if fallbackRedirectPath, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "fallback_redirect_path")); ok {
+			tmp := fallbackRedirectPath.(string)
+			details.FallbackRedirectPath = &tmp
+		}
+		if logoutPath, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "logout_path")); ok {
+			tmp := logoutPath.(string)
+			details.LogoutPath = &tmp
+		}
+		if maxExpiryDurationInHours, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_expiry_duration_in_hours")); ok {
+			tmp := maxExpiryDurationInHours.(int)
+			details.MaxExpiryDurationInHours = &tmp
+		}
+		if responseType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "response_type")); ok {
+			details.ResponseType = oci_apigateway.OAuth2ResponseValidationFailurePolicyResponseTypeEnum(responseType.(string))
+		}
+		if scopes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scopes")); ok {
+			interfaces := scopes.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "scopes")) {
+				details.Scopes = tmp
+			}
+		}
+		if sourceUriDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_uri_details")); ok {
+			if tmpList := sourceUriDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source_uri_details"), 0)
+				tmp, err := s.mapToSourceUriDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert source_uri_details, encountered error: %v", err)
+				}
+				details.SourceUriDetails = tmp
+			}
+		}
+		if useCookiesForIntermediateSteps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "use_cookies_for_intermediate_steps")); ok {
+			tmp := useCookiesForIntermediateSteps.(bool)
+			details.UseCookiesForIntermediateSteps = &tmp
+		}
+		if useCookiesForSession, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "use_cookies_for_session")); ok {
+			tmp := useCookiesForSession.(bool)
+			details.UseCookiesForSession = &tmp
+		}
+		if usePkce, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "use_pkce")); ok {
+			tmp := usePkce.(bool)
+			details.UsePkce = &tmp
 		}
 		baseObject = details
 	default:

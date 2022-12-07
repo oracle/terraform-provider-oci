@@ -184,7 +184,6 @@ func updateDataSafeAlert(d *schema.ResourceData, m interface{}) error {
 	sync := &DataSafeAlertResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
-
 	return tfresource.UpdateResource(d, sync)
 }
 
@@ -311,7 +310,22 @@ func (s *DataSafeAlertResourceCrud) Update() error {
 	}
 
 	if status, ok := s.D.GetOkExists("status"); ok {
+		request := oci_data_safe.AlertsUpdateRequest{}
 		request.Status = oci_data_safe.AlertStatusEnum(status.(string))
+		if compartment, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartment.(string)
+			request.CompartmentId = &tmp
+			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+
+			response, err := s.Client.AlertsUpdate(context.Background(), request)
+			if err != nil {
+				return err
+			} else {
+				workId := *response.OpcWorkRequestId
+				log.Printf("response %s", workId)
+			}
+
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
@@ -347,8 +361,6 @@ func (s *DataSafeAlertResourceCrud) SetData() error {
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
-
-	s.D.Set("feature_details", s.Res.FeatureDetails)
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 

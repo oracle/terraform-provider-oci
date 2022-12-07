@@ -11,6 +11,9 @@ description: |-
 This data source provides the list of Discovery Analytics in Oracle Cloud Infrastructure Data Safe service.
 
 Gets consolidated discovery analytics data based on the specified query parameters.
+If CompartmentIdInSubtreeQueryParam is specified as true, the behaviour
+is equivalent to accessLevel "ACCESSIBLE" by default.
+
 
 ## Example Usage
 

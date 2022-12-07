@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_jms_java_family
 This data source provides details about a specific Java Family resource in Oracle Cloud Infrastructure Jms service.
 
-Returns details of a Java release family based on specified version.
+Returns metadata associated with a specific Java release family.
 
 
 ## Example Usage

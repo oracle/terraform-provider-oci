@@ -1,6 +1,9 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
+/*
+  This example shows how to add multiple lists at a time while creating a firewall policy.
+*/
 variable "tenancy_ocid" {}
 variable "user_ocid" {}
 variable "fingerprint" {}
@@ -161,7 +164,7 @@ variable  "network_firewall_policy_ip_address_lists_value" {
   default=["10.180.1.0/24", "10.180.2.0/25"]
 }
 
-variable "network_firewall_policy_application_lists_key" {
+variable "network_firewall_policy_application_list_name" {
 }
 
 variable "network_firewall_policy_decryption_profiles_key" {
@@ -209,14 +212,32 @@ resource "oci_network_firewall_network_firewall_policy" "test_network_firewall_p
   //application_lists = var.network_firewall_policy_application_lists
   application_lists {
     #Required
-    type                           = var.network_firewall_policy_application_lists_type
-    key                            = var.network_firewall_policy_application_lists_key
-
-    #Optional
-    icmp_type                      = var.network_firewall_policy_application_lists_icmp_type
-    icmp_code                      = var.network_firewall_policy_application_lists_icmp_code
-    minimum_port                   = var.network_firewall_policy_application_lists_minimum_port
-    maximum_port                   = var.network_firewall_policy_application_lists_maximum_port
+    application_list_name          = var.network_firewall_policy_application_list_name
+    application_values {
+      type                           = var.network_firewall_policy_application_lists_type
+      #Optional
+      icmp_type                      = var.network_firewall_policy_application_lists_icmp_type
+      icmp_code                      = var.network_firewall_policy_application_lists_icmp_code
+      minimum_port                   = var.network_firewall_policy_application_lists_minimum_port
+      maximum_port                   = var.network_firewall_policy_application_lists_maximum_port
+    }
+  }
+  #Optional
+  application_lists {
+    #Required
+    application_list_name            = var.network_firewall_policy_application_list_name
+    application_values {
+      type                           = var.network_firewall_policy_application_lists_type
+      #Optional
+      icmp_type                   = var.network_firewall_policy_application_lists_icmp_type
+      icmp_code                   = var.network_firewall_policy_application_lists_icmp_code
+    }
+    application_values {
+      type                           = var.network_firewall_policy_application_lists_type
+      #Optional
+      minimum_port                   = var.network_firewall_policy_application_lists_minimum_port
+      maximum_port                   = var.network_firewall_policy_application_lists_maximum_port
+    }
   }
   decryption_profiles {
     #Required
@@ -282,12 +303,22 @@ resource "oci_network_firewall_network_firewall_policy" "test_network_firewall_p
     inspection = var.network_firewall_policy_security_rules_inspection
   }
   url_lists {
-    #Required
-    type                           = var.network_firewall_policy_url_lists_type
-    key                            = var.network_firewall_policy_url_lists_key
-
-    #Optional
-    pattern                        = var.network_firewall_policy_url_lists_pattern
+    url_list_name                = var.network_firewall_policy_url_lists_key
+    url_list_values {
+      type                           = var.network_firewall_policy_url_lists_type
+      pattern                        = var.network_firewall_policy_url_lists_pattern
+    }
+  }
+  url_lists {
+    url_list_name                = var.network_firewall_policy_url_lists_key
+    url_list_values {
+      type                           = var.network_firewall_policy_url_lists_type
+      pattern                        = var.network_firewall_policy_url_lists_pattern
+    }
+    url_list_values {
+      type                           = var.network_firewall_policy_url_lists_type
+      pattern                        = var.network_firewall_policy_url_lists_pattern
+    }
   }
 }
 

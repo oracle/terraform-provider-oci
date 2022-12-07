@@ -70,7 +70,15 @@ func DataSafeMaskingReportsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"target_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_created": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -281,8 +289,14 @@ func MaskingReportSummaryToMap(obj oci_data_safe.MaskingReportSummary) map[strin
 		result["masking_work_request_id"] = string(*obj.MaskingWorkRequestId)
 	}
 
+	result["state"] = string(obj.LifecycleState)
+
 	if obj.TargetId != nil {
 		result["target_id"] = string(*obj.TargetId)
+	}
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
 	}
 
 	if obj.TimeMaskingFinished != nil {

@@ -15,7 +15,8 @@ import (
 	"strings"
 )
 
-// JavaFamily Complete information of a specific Java release family.
+// JavaFamily Metadata associated with a specific Java release family.
+// A Java release family is typically a major version in the Java version identifier.
 type JavaFamily struct {
 
 	// The Java release family identifier.

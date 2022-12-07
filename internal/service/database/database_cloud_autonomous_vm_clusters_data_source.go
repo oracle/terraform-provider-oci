@@ -160,6 +160,10 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 			cloudAutonomousVmCluster["cpu_core_count"] = *r.CpuCoreCount
 		}
 
+		if r.CpuCoreCountPerNode != nil {
+			cloudAutonomousVmCluster["cpu_core_count_per_node"] = *r.CpuCoreCountPerNode
+		}
+
 		if r.DataStorageSizeInGBs != nil {
 			cloudAutonomousVmCluster["data_storage_size_in_gb"] = *r.DataStorageSizeInGBs
 		}
@@ -210,6 +214,12 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 
 		if r.LifecycleDetails != nil {
 			cloudAutonomousVmCluster["lifecycle_details"] = *r.LifecycleDetails
+		}
+
+		if r.MaintenanceWindow != nil {
+			cloudAutonomousVmCluster["maintenance_window"] = []interface{}{MaintenanceWindowToMap(r.MaintenanceWindow)}
+		} else {
+			cloudAutonomousVmCluster["maintenance_window"] = nil
 		}
 
 		if r.MemoryPerOracleComputeUnitInGBs != nil {

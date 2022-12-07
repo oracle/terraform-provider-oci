@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strconv"
 	"strings"
 	"time"
 
@@ -419,6 +420,35 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"anonymous_transactions_handling": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"last_configured_log_filename": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"last_configured_log_offset": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"policy": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"uuid": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
 									"hostname": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -488,6 +518,27 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 									"db_system_id": {
 										Type:     schema.TypeString,
 										Computed: true,
+									},
+									"filters": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"value": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
 									},
 									"target_type": {
 										Type:     schema.TypeString,
@@ -559,6 +610,14 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 						},
 						"port_x": {
 							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"resource_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"resource_type": {
+							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"status": {
@@ -1249,6 +1308,97 @@ func AnalyticsClusterSummaryToMap(obj *oci_mysql.AnalyticsClusterSummary) map[st
 	return result
 }
 
+func (s *MysqlMysqlDbSystemResourceCrud) mapToAnonymousTransactionsHandling(fieldKeyFormat string) (oci_mysql.AnonymousTransactionsHandling, error) {
+	var baseObject oci_mysql.AnonymousTransactionsHandling
+	//discriminator
+	policyRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "policy"))
+	var policy string
+	if ok {
+		policy = policyRaw.(string)
+	} else {
+		policy = "" // default value
+	}
+	switch strings.ToLower(policy) {
+	case strings.ToLower("ASSIGN_MANUAL_UUID"):
+		details := oci_mysql.AssignManualUuidHandling{}
+		if lastConfiguredLogFilename, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "last_configured_log_filename")); ok {
+			tmp := lastConfiguredLogFilename.(string)
+			details.LastConfiguredLogFilename = &tmp
+		}
+		if lastConfiguredLogOffset, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "last_configured_log_offset")); ok {
+			tmp := lastConfiguredLogOffset.(string)
+			tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+			if err != nil {
+				return details, fmt.Errorf("unable to convert lastConfiguredLogOffset string: %s to an int64 and encountered error: %v", tmp, err)
+			}
+			details.LastConfiguredLogOffset = &tmpInt64
+		}
+		if uuid, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "uuid")); ok {
+			tmp := uuid.(string)
+			details.Uuid = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("ASSIGN_TARGET_UUID"):
+		details := oci_mysql.AssignTargetUuidHandling{}
+		if lastConfiguredLogFilename, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "last_configured_log_filename")); ok {
+			tmp := lastConfiguredLogFilename.(string)
+			details.LastConfiguredLogFilename = &tmp
+		}
+		if lastConfiguredLogOffset, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "last_configured_log_offset")); ok {
+			tmp := lastConfiguredLogOffset.(string)
+			tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+			if err != nil {
+				return details, fmt.Errorf("unable to convert lastConfiguredLogOffset string: %s to an int64 and encountered error: %v", tmp, err)
+			}
+			details.LastConfiguredLogOffset = &tmpInt64
+		}
+		baseObject = details
+	case strings.ToLower("ERROR_ON_ANONYMOUS"):
+		details := oci_mysql.ErrorOnAnonymousHandling{}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown policy '%v' was specified", policy)
+	}
+	return baseObject, nil
+}
+
+func AnonymousTransactionsHandlingToMap(obj *oci_mysql.AnonymousTransactionsHandling) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_mysql.AssignManualUuidHandling:
+		result["policy"] = "ASSIGN_MANUAL_UUID"
+
+		if v.LastConfiguredLogFilename != nil {
+			result["last_configured_log_filename"] = string(*v.LastConfiguredLogFilename)
+		}
+
+		if v.LastConfiguredLogOffset != nil {
+			result["last_configured_log_offset"] = strconv.FormatInt(*v.LastConfiguredLogOffset, 10)
+		}
+
+		if v.Uuid != nil {
+			result["uuid"] = string(*v.Uuid)
+		}
+	case oci_mysql.AssignTargetUuidHandling:
+		result["policy"] = "ASSIGN_TARGET_UUID"
+
+		if v.LastConfiguredLogFilename != nil {
+			result["last_configured_log_filename"] = string(*v.LastConfiguredLogFilename)
+		}
+
+		if v.LastConfiguredLogOffset != nil {
+			result["last_configured_log_offset"] = strconv.FormatInt(*v.LastConfiguredLogOffset, 10)
+		}
+	case oci_mysql.ErrorOnAnonymousHandling:
+		result["policy"] = "ERROR_ON_ANONYMOUS"
+	default:
+		log.Printf("[WARN] Received 'policy' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
 func (s *MysqlMysqlDbSystemResourceCrud) mapToCaCertificate(fieldKeyFormat string) (oci_mysql.CaCertificate, error) {
 	var baseObject oci_mysql.CaCertificate
 	//discriminator
@@ -1290,11 +1440,46 @@ func CaCertificateToMap(obj *oci_mysql.CaCertificate) map[string]interface{} {
 	return result
 }
 
+func (s *MysqlMysqlDbSystemResourceCrud) mapToChannelFilter(fieldKeyFormat string) (oci_mysql.ChannelFilter, error) {
+	result := oci_mysql.ChannelFilter{}
+
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
+		result.Type = oci_mysql.ChannelFilterTypeEnum(type_.(string))
+	}
+
+	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+		tmp := value.(string)
+		result.Value = &tmp
+	}
+
+	return result, nil
+}
+
+func ChannelFilterToMap(obj oci_mysql.ChannelFilter) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["type"] = string(obj.Type)
+
+	if obj.Value != nil {
+		result["value"] = string(*obj.Value)
+	}
+
+	return result
+}
+
 func ChannelSourceToMap(obj *oci_mysql.ChannelSource) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
 	case oci_mysql.ChannelSourceMysql:
 		result["source_type"] = "MYSQL"
+
+		if v.AnonymousTransactionsHandling != nil {
+			anonymousTransactionsHandlingArray := []interface{}{}
+			if anonymousTransactionsHandlingMap := AnonymousTransactionsHandlingToMap(&v.AnonymousTransactionsHandling); anonymousTransactionsHandlingMap != nil {
+				anonymousTransactionsHandlingArray = append(anonymousTransactionsHandlingArray, anonymousTransactionsHandlingMap)
+			}
+			result["anonymous_transactions_handling"] = anonymousTransactionsHandlingArray
+		}
 
 		if v.Hostname != nil {
 			result["hostname"] = string(*v.Hostname)
@@ -1400,6 +1585,12 @@ func ChannelTargetToMap(obj *oci_mysql.ChannelTarget) map[string]interface{} {
 		if v.DbSystemId != nil {
 			result["db_system_id"] = string(*v.DbSystemId)
 		}
+
+		filters := []interface{}{}
+		for _, item := range v.Filters {
+			filters = append(filters, ChannelFilterToMap(item))
+		}
+		result["filters"] = filters
 	default:
 		log.Printf("[WARN] Received 'target_type' of unknown type %v", *obj)
 		return nil

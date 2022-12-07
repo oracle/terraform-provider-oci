@@ -18,16 +18,16 @@ import (
 	"strings"
 )
 
-// AnyOfSelectionKey Information around the set of string values for selector of a dynamic authentication/ routing branch. Selector should match any one of the values present in set of string values.
+// AnyOfSelectionKey When dynamically routing and dynamically authenticating requests, the route or authentication server associated with a set of selection keys is used if the context variable in an incoming request exactly matches one of the keys in the set.
 type AnyOfSelectionKey struct {
 
 	// Name assigned to the branch.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Information regarding whether this is the default branch.
+	// Specifies whether to use the route or authentication server associated with this selection key as the default. The default is used if the value of a context variable in an incoming request does not match any of the other selection key values when dynamically routing and dynamically authenticating requests.
 	IsDefault *bool `mandatory:"false" json:"isDefault"`
 
-	// Information regarding the set of values of selector for which this branch should be selected.
+	// The set of selection keys to match with the context variable in an incoming request. If the context variable exactly matches one of the keys in the set, the request is sent to the route or authentication server associated with the set.
 	Values []string `mandatory:"false" json:"values"`
 }
 

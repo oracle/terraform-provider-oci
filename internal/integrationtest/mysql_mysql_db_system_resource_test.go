@@ -177,6 +177,9 @@ func TestMysqlMysqlDbSystemResource_sourcePitr(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "endpoints.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "endpoints.0.resource_type", "DBSYSTEM"),
+				resource.TestCheckResourceAttrSet(resourceName, "endpoints.0.resource_id"),
 			),
 		},
 	})
@@ -242,6 +245,9 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "endpoints.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "endpoints.0.resource_type", "DBSYSTEM"),
+				resource.TestCheckResourceAttrSet(resourceName, "endpoints.0.resource_id"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -280,6 +286,9 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "endpoints.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "endpoints.0.resource_type", "DBSYSTEM"),
+				resource.TestCheckResourceAttrSet(resourceName, "endpoints.0.resource_id"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -323,6 +332,9 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "endpoints.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "endpoints.0.resource_type", "DBSYSTEM"),
+				resource.TestCheckResourceAttrSet(resourceName, "endpoints.0.resource_id"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -365,6 +377,9 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "endpoints.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "endpoints.0.resource_type", "DBSYSTEM"),
+				resource.TestCheckResourceAttrSet(resourceName, "endpoints.0.resource_id"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -478,6 +493,9 @@ func TestMysqlMysqlDbSystemResource_HA(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "is_highly_available", "true"),
+				resource.TestCheckResourceAttr(resourceName, "endpoints.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "endpoints.0.resource_type", "DBSYSTEM"),
+				resource.TestCheckResourceAttrSet(resourceName, "endpoints.0.resource_id"),
 			),
 		},
 	})
@@ -535,6 +553,9 @@ func TestMysqlMysqlDbSystemResource_crashRecovery(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "endpoints.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "endpoints.0.resource_type", "DBSYSTEM"),
+				resource.TestCheckResourceAttrSet(resourceName, "endpoints.0.resource_id"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -573,6 +594,9 @@ func TestMysqlMysqlDbSystemResource_crashRecovery(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "endpoints.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "endpoints.0.resource_type", "DBSYSTEM"),
+				resource.TestCheckResourceAttrSet(resourceName, "endpoints.0.resource_id"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")

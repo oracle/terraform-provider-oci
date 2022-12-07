@@ -206,6 +206,13 @@ func DataSafeReportDefinitionResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"compliance_standards": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"data_source": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -216,6 +223,30 @@ func DataSafeReportDefinitionResource() *schema.Resource {
 			},
 			"is_seeded": {
 				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"record_time_span": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"schedule": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"scheduled_report_compartment_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"scheduled_report_mime_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"scheduled_report_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"scheduled_report_row_limit": {
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 			"scim_filter": {
@@ -719,6 +750,9 @@ func (s *DataSafeReportDefinitionResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	s.D.Set("compliance_standards", s.Res.ComplianceStandards)
+	s.D.Set("compliance_standards", s.Res.ComplianceStandards)
+
 	s.D.Set("data_source", s.Res.DataSource)
 
 	if s.Res.DefinedTags != nil {
@@ -745,6 +779,28 @@ func (s *DataSafeReportDefinitionResourceCrud) SetData() error {
 
 	if s.Res.ParentId != nil {
 		s.D.Set("parent_id", *s.Res.ParentId)
+	}
+
+	if s.Res.RecordTimeSpan != nil {
+		s.D.Set("record_time_span", *s.Res.RecordTimeSpan)
+	}
+
+	if s.Res.Schedule != nil {
+		s.D.Set("schedule", *s.Res.Schedule)
+	}
+
+	if s.Res.ScheduledReportCompartmentId != nil {
+		s.D.Set("scheduled_report_compartment_id", *s.Res.ScheduledReportCompartmentId)
+	}
+
+	s.D.Set("scheduled_report_mime_type", s.Res.ScheduledReportMimeType)
+
+	if s.Res.ScheduledReportName != nil {
+		s.D.Set("scheduled_report_name", *s.Res.ScheduledReportName)
+	}
+
+	if s.Res.ScheduledReportRowLimit != nil {
+		s.D.Set("scheduled_report_row_limit", *s.Res.ScheduledReportRowLimit)
 	}
 
 	if s.Res.ScimFilter != nil {
@@ -783,6 +839,9 @@ func ReportDefinitionSummaryToMap(obj oci_data_safe.ReportDefinitionSummary) map
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
 
+	result["compliance_standards"] = obj.ComplianceStandards
+	result["compliance_standards"] = obj.ComplianceStandards
+
 	result["data_source"] = string(obj.DataSource)
 
 	if obj.DefinedTags != nil {
@@ -809,6 +868,10 @@ func ReportDefinitionSummaryToMap(obj oci_data_safe.ReportDefinitionSummary) map
 
 	if obj.IsSeeded != nil {
 		result["is_seeded"] = bool(*obj.IsSeeded)
+	}
+
+	if obj.Schedule != nil {
+		result["schedule"] = string(*obj.Schedule)
 	}
 
 	result["state"] = string(obj.LifecycleState)

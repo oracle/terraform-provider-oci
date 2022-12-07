@@ -18,33 +18,36 @@ type OnPremConnectorLifecycleStateEnum string
 
 // Set of constants representing the allowable values for OnPremConnectorLifecycleStateEnum
 const (
-	OnPremConnectorLifecycleStateCreating OnPremConnectorLifecycleStateEnum = "CREATING"
-	OnPremConnectorLifecycleStateUpdating OnPremConnectorLifecycleStateEnum = "UPDATING"
-	OnPremConnectorLifecycleStateActive   OnPremConnectorLifecycleStateEnum = "ACTIVE"
-	OnPremConnectorLifecycleStateInactive OnPremConnectorLifecycleStateEnum = "INACTIVE"
-	OnPremConnectorLifecycleStateDeleting OnPremConnectorLifecycleStateEnum = "DELETING"
-	OnPremConnectorLifecycleStateDeleted  OnPremConnectorLifecycleStateEnum = "DELETED"
-	OnPremConnectorLifecycleStateFailed   OnPremConnectorLifecycleStateEnum = "FAILED"
+	OnPremConnectorLifecycleStateCreating       OnPremConnectorLifecycleStateEnum = "CREATING"
+	OnPremConnectorLifecycleStateUpdating       OnPremConnectorLifecycleStateEnum = "UPDATING"
+	OnPremConnectorLifecycleStateActive         OnPremConnectorLifecycleStateEnum = "ACTIVE"
+	OnPremConnectorLifecycleStateInactive       OnPremConnectorLifecycleStateEnum = "INACTIVE"
+	OnPremConnectorLifecycleStateDeleting       OnPremConnectorLifecycleStateEnum = "DELETING"
+	OnPremConnectorLifecycleStateDeleted        OnPremConnectorLifecycleStateEnum = "DELETED"
+	OnPremConnectorLifecycleStateFailed         OnPremConnectorLifecycleStateEnum = "FAILED"
+	OnPremConnectorLifecycleStateNeedsAttention OnPremConnectorLifecycleStateEnum = "NEEDS_ATTENTION"
 )
 
 var mappingOnPremConnectorLifecycleStateEnum = map[string]OnPremConnectorLifecycleStateEnum{
-	"CREATING": OnPremConnectorLifecycleStateCreating,
-	"UPDATING": OnPremConnectorLifecycleStateUpdating,
-	"ACTIVE":   OnPremConnectorLifecycleStateActive,
-	"INACTIVE": OnPremConnectorLifecycleStateInactive,
-	"DELETING": OnPremConnectorLifecycleStateDeleting,
-	"DELETED":  OnPremConnectorLifecycleStateDeleted,
-	"FAILED":   OnPremConnectorLifecycleStateFailed,
+	"CREATING":        OnPremConnectorLifecycleStateCreating,
+	"UPDATING":        OnPremConnectorLifecycleStateUpdating,
+	"ACTIVE":          OnPremConnectorLifecycleStateActive,
+	"INACTIVE":        OnPremConnectorLifecycleStateInactive,
+	"DELETING":        OnPremConnectorLifecycleStateDeleting,
+	"DELETED":         OnPremConnectorLifecycleStateDeleted,
+	"FAILED":          OnPremConnectorLifecycleStateFailed,
+	"NEEDS_ATTENTION": OnPremConnectorLifecycleStateNeedsAttention,
 }
 
 var mappingOnPremConnectorLifecycleStateEnumLowerCase = map[string]OnPremConnectorLifecycleStateEnum{
-	"creating": OnPremConnectorLifecycleStateCreating,
-	"updating": OnPremConnectorLifecycleStateUpdating,
-	"active":   OnPremConnectorLifecycleStateActive,
-	"inactive": OnPremConnectorLifecycleStateInactive,
-	"deleting": OnPremConnectorLifecycleStateDeleting,
-	"deleted":  OnPremConnectorLifecycleStateDeleted,
-	"failed":   OnPremConnectorLifecycleStateFailed,
+	"creating":        OnPremConnectorLifecycleStateCreating,
+	"updating":        OnPremConnectorLifecycleStateUpdating,
+	"active":          OnPremConnectorLifecycleStateActive,
+	"inactive":        OnPremConnectorLifecycleStateInactive,
+	"deleting":        OnPremConnectorLifecycleStateDeleting,
+	"deleted":         OnPremConnectorLifecycleStateDeleted,
+	"failed":          OnPremConnectorLifecycleStateFailed,
+	"needs_attention": OnPremConnectorLifecycleStateNeedsAttention,
 }
 
 // GetOnPremConnectorLifecycleStateEnumValues Enumerates the set of values for OnPremConnectorLifecycleStateEnum
@@ -66,6 +69,7 @@ func GetOnPremConnectorLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"NEEDS_ATTENTION",
 	}
 }
 

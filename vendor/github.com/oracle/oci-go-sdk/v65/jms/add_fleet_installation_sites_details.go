@@ -20,6 +20,9 @@ type AddFleetInstallationSitesDetails struct {
 
 	// The list of installation sites to add.
 	InstallationSites []NewInstallationSite `mandatory:"true" json:"installationSites"`
+
+	// Optional list of post java installation actions
+	PostInstallationActions []PostInstallationActionsEnum `mandatory:"false" json:"postInstallationActions"`
 }
 
 func (m AddFleetInstallationSitesDetails) String() string {

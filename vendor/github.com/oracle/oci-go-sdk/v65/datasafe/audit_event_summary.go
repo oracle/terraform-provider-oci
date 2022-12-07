@@ -84,7 +84,7 @@ type AuditEventSummary struct {
 	// IP address of the host from which the session was spawned.
 	ClientIp *string `mandatory:"false" json:"clientIp"`
 
-	// The OCID of the audit trail that generated this audit event.
+	// The OCID of the audit trail that generated this audit event. To be noted, this field has been deprecated.
 	AuditTrailId *string `mandatory:"false" json:"auditTrailId"`
 
 	// The action taken for this audit event.

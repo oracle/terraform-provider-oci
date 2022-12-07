@@ -83,6 +83,12 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 		s.D.Set("deployment_backup_id", *s.Res.DeploymentBackupId)
 	}
 
+	if s.Res.DeploymentDiagnosticData != nil {
+		s.D.Set("deployment_diagnostic_data", []interface{}{DeploymentDiagnosticDataToMap(s.Res.DeploymentDiagnosticData)})
+	} else {
+		s.D.Set("deployment_diagnostic_data", nil)
+	}
+
 	s.D.Set("deployment_type", s.Res.DeploymentType)
 
 	if s.Res.DeploymentUrl != nil {

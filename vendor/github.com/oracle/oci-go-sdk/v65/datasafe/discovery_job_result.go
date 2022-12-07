@@ -64,6 +64,9 @@ type DiscoveryJobResult struct {
 	// operation to track whether the discovery result has already been processed and applied to the sensitive data model.
 	IsResultApplied *bool `mandatory:"true" json:"isResultApplied"`
 
+	// The OCID of the discovery job.
+	DiscoveryJobId *string `mandatory:"true" json:"discoveryJobId"`
+
 	// The unique key that identifies the sensitive column represented by the discovery result.
 	SensitiveColumnkey *string `mandatory:"false" json:"sensitiveColumnkey"`
 

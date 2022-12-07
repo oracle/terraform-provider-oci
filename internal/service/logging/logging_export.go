@@ -55,6 +55,18 @@ var exportLoggingLogHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportLoggingLogSavedSearchHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_logging_log_saved_search",
+	DatasourceClass:        "oci_logging_log_saved_searches",
+	DatasourceItemsAttr:    "log_saved_search_summary_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "log_saved_search",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_logging.LogSavedSearchLifecycleStateActive),
+	},
+}
+
 var exportLoggingUnifiedAgentConfigurationHints = &tf_export.TerraformResourceHints{
 	ResourceClass:          "oci_logging_unified_agent_configuration",
 	DatasourceClass:        "oci_logging_unified_agent_configurations",
@@ -67,6 +79,7 @@ var exportLoggingUnifiedAgentConfigurationHints = &tf_export.TerraformResourceHi
 var loggingResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportLoggingLogGroupHints},
+		{TerraformResourceHints: exportLoggingLogSavedSearchHints},
 		{TerraformResourceHints: exportLoggingUnifiedAgentConfigurationHints},
 	},
 	"oci_logging_log_group": {

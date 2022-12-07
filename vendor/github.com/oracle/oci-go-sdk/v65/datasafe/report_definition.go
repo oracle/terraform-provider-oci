@@ -69,6 +69,48 @@ type ReportDefinition struct {
 	// An array of report summary objects in the order (left to right)  displayed in the report.  A  report summary object stores all information about summary of report to be displayed, including the name displayed on UI, the display order, corresponding group by and count of values, summary visibility (if the summary is visible to user).
 	Summary []Summary `mandatory:"false" json:"summary"`
 
+	// Schedule to generate the report periodically in the specified format:
+	// <version-string>;<version-specific-schedule>
+	// Allowed version strings - "v1"
+	// v1's version specific schedule -<ss> <mm> <hh> <day-of-week> <day-of-month>
+	// Each of the above fields potentially introduce constraints. A workrequest is created only
+	// when clock time satisfies all the constraints. Constraints introduced:
+	// 1. seconds = <ss> (So, the allowed range for <ss> is [0, 59])
+	// 2. minutes = <mm> (So, the allowed range for <mm> is [0, 59])
+	// 3. hours = <hh> (So, the allowed range for <hh> is [0, 23])
+	// 4. <day-of-week> can be either '*' (without quotes or a number between 1(Monday) and 7(Sunday))
+	// No constraint introduced when it is '*'. When not, day of week must equal the given value
+	// 5. <day-of-month> can be either '*' (without quotes or a number between 1 and 28)
+	// No constraint introduced when it is '*'. When not, day of month must equal the given value
+	Schedule *string `mandatory:"false" json:"schedule"`
+
+	// Specifies the format of report to be excel or pdf
+	ScheduledReportMimeType ReportDefinitionScheduledReportMimeTypeEnum `mandatory:"false" json:"scheduledReportMimeType,omitempty"`
+
+	// Specifies the limit on number of rows in report.
+	ScheduledReportRowLimit *int `mandatory:"false" json:"scheduledReportRowLimit"`
+
+	// The name of the report to be scheduled.
+	ScheduledReportName *string `mandatory:"false" json:"scheduledReportName"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment
+	// in which the scheduled resource should be created.
+	ScheduledReportCompartmentId *string `mandatory:"false" json:"scheduledReportCompartmentId"`
+
+	// The time span of records in report to be scheduled.
+	// <period-value><period>
+	// Allowed period strings - "H","D","M","Y"
+	// Each of the above fields potentially introduce constraints. A workRequest is created only
+	// when period-value satisfies all the constraints. Constraints introduced:
+	// 1. period = H (The allowed range for period-value is [1, 23])
+	// 2. period = D (The allowed range for period-value is [1, 30])
+	// 3. period = M (The allowed range for period-value is [1, 11])
+	// 4. period = Y (The minimum period-value is 1)
+	RecordTimeSpan *string `mandatory:"false" json:"recordTimeSpan"`
+
+	// The list of data protection regulations/standards used in the report that will help demonstrate compliance.
+	ComplianceStandards []string `mandatory:"false" json:"complianceStandards"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -100,6 +142,9 @@ func (m ReportDefinition) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingReportDefinitionDataSourceEnum(string(m.DataSource)); !ok && m.DataSource != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataSource: %s. Supported values are: %s.", m.DataSource, strings.Join(GetReportDefinitionDataSourceEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingReportDefinitionScheduledReportMimeTypeEnum(string(m.ScheduledReportMimeType)); !ok && m.ScheduledReportMimeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ScheduledReportMimeType: %s. Supported values are: %s.", m.ScheduledReportMimeType, strings.Join(GetReportDefinitionScheduledReportMimeTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -150,5 +195,47 @@ func GetReportDefinitionCategoryEnumStringValues() []string {
 // GetMappingReportDefinitionCategoryEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingReportDefinitionCategoryEnum(val string) (ReportDefinitionCategoryEnum, bool) {
 	enum, ok := mappingReportDefinitionCategoryEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ReportDefinitionScheduledReportMimeTypeEnum Enum with underlying type: string
+type ReportDefinitionScheduledReportMimeTypeEnum string
+
+// Set of constants representing the allowable values for ReportDefinitionScheduledReportMimeTypeEnum
+const (
+	ReportDefinitionScheduledReportMimeTypePdf ReportDefinitionScheduledReportMimeTypeEnum = "PDF"
+	ReportDefinitionScheduledReportMimeTypeXls ReportDefinitionScheduledReportMimeTypeEnum = "XLS"
+)
+
+var mappingReportDefinitionScheduledReportMimeTypeEnum = map[string]ReportDefinitionScheduledReportMimeTypeEnum{
+	"PDF": ReportDefinitionScheduledReportMimeTypePdf,
+	"XLS": ReportDefinitionScheduledReportMimeTypeXls,
+}
+
+var mappingReportDefinitionScheduledReportMimeTypeEnumLowerCase = map[string]ReportDefinitionScheduledReportMimeTypeEnum{
+	"pdf": ReportDefinitionScheduledReportMimeTypePdf,
+	"xls": ReportDefinitionScheduledReportMimeTypeXls,
+}
+
+// GetReportDefinitionScheduledReportMimeTypeEnumValues Enumerates the set of values for ReportDefinitionScheduledReportMimeTypeEnum
+func GetReportDefinitionScheduledReportMimeTypeEnumValues() []ReportDefinitionScheduledReportMimeTypeEnum {
+	values := make([]ReportDefinitionScheduledReportMimeTypeEnum, 0)
+	for _, v := range mappingReportDefinitionScheduledReportMimeTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetReportDefinitionScheduledReportMimeTypeEnumStringValues Enumerates the set of values in String for ReportDefinitionScheduledReportMimeTypeEnum
+func GetReportDefinitionScheduledReportMimeTypeEnumStringValues() []string {
+	return []string{
+		"PDF",
+		"XLS",
+	}
+}
+
+// GetMappingReportDefinitionScheduledReportMimeTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingReportDefinitionScheduledReportMimeTypeEnum(val string) (ReportDefinitionScheduledReportMimeTypeEnum, bool) {
+	enum, ok := mappingReportDefinitionScheduledReportMimeTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

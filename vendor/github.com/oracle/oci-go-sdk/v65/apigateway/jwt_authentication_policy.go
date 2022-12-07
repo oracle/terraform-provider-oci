@@ -44,12 +44,12 @@ type JwtAuthenticationPolicy struct {
 	// the token. This must to be provided if "tokenHeader" is specified.
 	TokenAuthScheme *string `mandatory:"false" json:"tokenAuthScheme"`
 
-	// A list of claims which should be validated to consider the token valid.
-	VerifyClaims []JsonWebTokenClaim `mandatory:"false" json:"verifyClaims"`
-
 	// The maximum expected time difference between the system clocks
 	// of the token issuer and the API Gateway.
 	MaxClockSkewInSeconds *float32 `mandatory:"false" json:"maxClockSkewInSeconds"`
+
+	// A list of claims which should be validated to consider the token valid.
+	VerifyClaims []JsonWebTokenClaim `mandatory:"false" json:"verifyClaims"`
 }
 
 //GetIsAnonymousAccessAllowed returns IsAnonymousAccessAllowed
@@ -94,8 +94,8 @@ func (m *JwtAuthenticationPolicy) UnmarshalJSON(data []byte) (e error) {
 		TokenHeader              *string             `json:"tokenHeader"`
 		TokenQueryParam          *string             `json:"tokenQueryParam"`
 		TokenAuthScheme          *string             `json:"tokenAuthScheme"`
-		VerifyClaims             []JsonWebTokenClaim `json:"verifyClaims"`
 		MaxClockSkewInSeconds    *float32            `json:"maxClockSkewInSeconds"`
+		VerifyClaims             []JsonWebTokenClaim `json:"verifyClaims"`
 		Issuers                  []string            `json:"issuers"`
 		Audiences                []string            `json:"audiences"`
 		PublicKeys               publickeyset        `json:"publicKeys"`
@@ -114,12 +114,12 @@ func (m *JwtAuthenticationPolicy) UnmarshalJSON(data []byte) (e error) {
 
 	m.TokenAuthScheme = model.TokenAuthScheme
 
+	m.MaxClockSkewInSeconds = model.MaxClockSkewInSeconds
+
 	m.VerifyClaims = make([]JsonWebTokenClaim, len(model.VerifyClaims))
 	for i, n := range model.VerifyClaims {
 		m.VerifyClaims[i] = n
 	}
-
-	m.MaxClockSkewInSeconds = model.MaxClockSkewInSeconds
 
 	m.Issuers = make([]string, len(model.Issuers))
 	for i, n := range model.Issuers {

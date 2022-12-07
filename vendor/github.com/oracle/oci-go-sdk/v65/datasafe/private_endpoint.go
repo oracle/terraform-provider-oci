@@ -20,7 +20,7 @@ import (
 type PrivateEndpoint struct {
 
 	// The OCID of the Data Safe private endpoint.
-	DatasafePrivateEndpointId *string `mandatory:"false" json:"datasafePrivateEndpointId"`
+	DatasafePrivateEndpointId *string `mandatory:"true" json:"datasafePrivateEndpointId"`
 }
 
 func (m PrivateEndpoint) String() string {

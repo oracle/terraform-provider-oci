@@ -122,6 +122,10 @@ func JmsFleetResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"approximate_java_server_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"approximate_jre_count": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -499,6 +503,10 @@ func (s *JmsFleetResourceCrud) SetData() error {
 		s.D.Set("approximate_installation_count", *s.Res.ApproximateInstallationCount)
 	}
 
+	if s.Res.ApproximateJavaServerCount != nil {
+		s.D.Set("approximate_java_server_count", *s.Res.ApproximateJavaServerCount)
+	}
+
 	if s.Res.ApproximateJreCount != nil {
 		s.D.Set("approximate_jre_count", *s.Res.ApproximateJreCount)
 	}
@@ -593,6 +601,10 @@ func FleetSummaryToMap(obj oci_jms.FleetSummary) map[string]interface{} {
 
 	if obj.ApproximateInstallationCount != nil {
 		result["approximate_installation_count"] = int(*obj.ApproximateInstallationCount)
+	}
+
+	if obj.ApproximateJavaServerCount != nil {
+		result["approximate_java_server_count"] = int(*obj.ApproximateJavaServerCount)
 	}
 
 	if obj.ApproximateJreCount != nil {

@@ -222,6 +222,7 @@ func TestDataSafeAuditTrailResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "state", "INACTIVE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_last_collected"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "trail_location"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "work_request_id"),
@@ -233,7 +234,7 @@ func TestDataSafeAuditTrailResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + trailIdVariableStr + DataSafeAuditTrailResourceConfig,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{`audit_trail_id`, `lifecycle_details`, `resume_trigger`},

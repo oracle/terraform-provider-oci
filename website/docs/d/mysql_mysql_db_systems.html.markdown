@@ -103,6 +103,11 @@ The following attributes are exported:
 	* `is_enabled` - Whether the Channel has been enabled by the user.
 	* `lifecycle_details` - A message describing the state of the Channel.
 	* `source` - Parameters detailing how to provision the source for the given Channel.
+		* `anonymous_transactions_handling` - Specifies how the replication channel handles replicated transactions without an identifier, enabling replication from a source that does not use transaction-id-based replication to a replica that does. 
+			* `last_configured_log_filename` - Specifies one of the coordinates (file) at which the replica should begin reading the source's log. As this value specifies the point where replication starts from, it is only used once, when it starts. It is never used again, unless a new UpdateChannel operation modifies it. 
+			* `last_configured_log_offset` - Specifies one of the coordinates (offset) at which the replica should begin reading the source's log. As this value specifies the point where replication starts from, it is only used once, when it starts. It is never used again, unless a new UpdateChannel operation modifies it. 
+			* `policy` - Specifies how the replication channel handles anonymous transactions.
+			* `uuid` - The UUID that is used as a prefix when generating transaction identifiers for anonymous transactions coming from the source. You can change the UUID later. 
 		* `hostname` - The network address of the MySQL instance.
 		* `port` - The port the source MySQL instance listens on.
 		* `source_type` - The specific source identifier.
@@ -116,6 +121,11 @@ The following attributes are exported:
 		* `applier_username` - The username for the replication applier of the target MySQL DB System.
 		* `channel_name` - The case-insensitive name that identifies the replication channel. Channel names must follow the rules defined for [MySQL identifiers](https://dev.mysql.com/doc/refman/8.0/en/identifiers.html). The names of non-Deleted Channels must be unique for each DB System. 
 		* `db_system_id` - The OCID of the source DB System.
+		* `filters` - Replication filter rules to be applied at the DB System Channel target. 
+			* `type` - The type of the filter rule.
+
+				For details on each type, see [Replication Filtering Rules](https://dev.mysql.com/doc/refman/8.0/en/replication-rules.html) 
+			* `value` - The body of the filter rule. This can represent a database, a table, or a database pair (represented as "db1->db2"). For more information, see [Replication Filtering Rules](https://dev.mysql.com/doc/refman/8.0/en/replication-rules.html). 
 		* `target_type` - The specific target identifier.
 	* `time_created` - The date and time the Channel was created, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
 	* `time_updated` - The time the Channel was last updated, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
@@ -139,6 +149,8 @@ The following attributes are exported:
 	* `modes` - The access modes from the client that this endpoint supports.
 	* `port` - The port the MySQL instance listens on.
 	* `port_x` - The network port where to connect to use this endpoint using the X protocol.
+	* `resource_id` - The OCID of the resource that this endpoint is attached to.
+	* `resource_type` - The type of endpoint that clients and connectors can connect to.
 	* `status` - The state of the endpoints, as far as it can seen from the DB System. There may be some inconsistency with the actual state of the MySQL service. 
 	* `status_details` - Additional information about the current endpoint status.
 * `fault_domain` - The fault domain on which to deploy the Read/Write endpoint. This defines the preferred primary instance.
@@ -160,14 +172,16 @@ The following attributes are exported:
 * `is_heat_wave_cluster_attached` - If the DB System has a HeatWave Cluster attached. 
 * `is_highly_available` - Specifies if the DB System is highly available. 
 * `lifecycle_details` - Additional information about the current lifecycleState.
-* `maintenance` - The Maintenance Policy for the DB System. 
+* `maintenance` - The Maintenance Policy for the DB System or Read Replica that this model is included in. 
 	* `window_start_time` - The start time of the maintenance window.
 
 		This string is of the format: "{day-of-week} {time-of-day}".
 
 		"{day-of-week}" is a case-insensitive string like "mon", "tue", &c.
 
-		"{time-of-day}" is the "Time" portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero. 
+		"{time-of-day}" is the "Time" portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero.
+
+		If you set the read replica maintenance window to "" or if not specified, the read replica is set same as the DB system maintenance window. 
 * `mysql_version` - Name of the MySQL Version in use for the DB System.
 * `point_in_time_recovery_details` - Point-in-time Recovery details like earliest and latest recovery time point for the DB System. 
 	* `time_earliest_recovery_point` - Earliest recovery time point for the DB System, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 

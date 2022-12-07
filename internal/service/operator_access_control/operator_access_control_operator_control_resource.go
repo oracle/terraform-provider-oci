@@ -184,6 +184,7 @@ func (s *OperatorAccessControlOperatorControlResourceCrud) CreatedTarget() []str
 	return []string{
 		string(oci_operator_access_control.OperatorControlLifecycleStatesCreated),
 		string(oci_operator_access_control.OperatorControlLifecycleStatesAssigned),
+		string(oci_operator_access_control.OperatorControlLifecycleStatesUnassigned),
 	}
 }
 
@@ -193,7 +194,6 @@ func (s *OperatorAccessControlOperatorControlResourceCrud) DeletedPending() []st
 
 func (s *OperatorAccessControlOperatorControlResourceCrud) DeletedTarget() []string {
 	return []string{
-		string(oci_operator_access_control.OperatorControlLifecycleStatesUnassigned),
 		string(oci_operator_access_control.OperatorControlLifecycleStatesDeleted),
 	}
 }

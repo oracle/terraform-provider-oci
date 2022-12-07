@@ -14,6 +14,7 @@ func init() {
 	RegisterOracleClient("oci_mysql.DbBackupsClient", &OracleClient{InitClientFn: initMysqlDbBackupsClient})
 	RegisterOracleClient("oci_mysql.DbSystemClient", &OracleClient{InitClientFn: initMysqlDbSystemClient})
 	RegisterOracleClient("oci_mysql.MysqlaasClient", &OracleClient{InitClientFn: initMysqlMysqlaasClient})
+	RegisterOracleClient("oci_mysql.ReplicasClient", &OracleClient{InitClientFn: initMysqlReplicasClient})
 }
 
 func initMysqlChannelsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
@@ -94,4 +95,24 @@ func initMysqlMysqlaasClient(configProvider oci_common.ConfigurationProvider, co
 
 func (m *OracleClients) MysqlaasClient() *oci_mysql.MysqlaasClient {
 	return m.GetClient("oci_mysql.MysqlaasClient").(*oci_mysql.MysqlaasClient)
+}
+
+func initMysqlReplicasClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_mysql.NewReplicasClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) ReplicasClient() *oci_mysql.ReplicasClient {
+	return m.GetClient("oci_mysql.ReplicasClient").(*oci_mysql.ReplicasClient)
 }

@@ -116,6 +116,10 @@ func (s *DataSafeAuditTrailDataSourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	if s.Res.TimeLastCollected != nil {
+		s.D.Set("time_last_collected", s.Res.TimeLastCollected.String())
+	}
+
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}

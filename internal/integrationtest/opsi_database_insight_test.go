@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2022, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -109,9 +109,6 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Create, OpsiDatabaseInsightRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				//resource.TestCheckResourceAttrSet(resourceName, "database_id"), // Won't be available for EM managed databases
-				//resource.TestCheckResourceAttrSet(resourceName, "database_name"),
-				//resource.TestCheckResourceAttrSet(resourceName, "database_resource_type"),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_bridge_id"),
 				resource.TestCheckResourceAttr(resourceName, "enterprise_manager_entity_identifier", enterpriseManagerEntityId),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_name"),
@@ -144,9 +141,6 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				//resource.TestCheckResourceAttrSet(resourceName, "database_id"), // Won't be available for EM managed databases
-				//resource.TestCheckResourceAttrSet(resourceName, "database_name"),
-				//resource.TestCheckResourceAttrSet(resourceName, "database_resource_type"),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_bridge_id"),
 				resource.TestCheckResourceAttr(resourceName, "enterprise_manager_entity_identifier", enterpriseManagerEntityId),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_name"),
@@ -175,9 +169,6 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Update, OpsiDatabaseInsightRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				//resource.TestCheckResourceAttrSet(resourceName, "database_id"), // Won't be available for EM managed databases
-				//resource.TestCheckResourceAttrSet(resourceName, "database_name"),
-				//resource.TestCheckResourceAttrSet(resourceName, "database_resource_type"),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_bridge_id"),
 				resource.TestCheckResourceAttr(resourceName, "enterprise_manager_entity_identifier", enterpriseManagerEntityId),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_name"),
@@ -209,11 +200,9 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
-				//resource.TestCheckResourceAttr(datasourceName, "database_id.#", "1"), // Won't be available for EM managed databases
 				resource.TestCheckResourceAttr(datasourceName, "database_type.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "enterprise_manager_bridge_id"),
 				resource.TestCheckResourceAttr(datasourceName, "fields.#", "6"),
-				//resource.TestCheckResourceAttr(datasourceName, "id.#", "1"), // id is no more list. It is a string
 				resource.TestCheckResourceAttr(datasourceName, "state.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "status.#", "1"),
 
@@ -228,15 +217,7 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 				compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + OpsiDatabaseInsightResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				//resource.TestCheckResourceAttr(singularDatasourceName, "connection_credential_details.#", "1"), //Won't be available for EM managed databses
-				//resource.TestCheckResourceAttr(singularDatasourceName, "connection_details.#", "1"),
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "connector_id"),
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "database_display_name"),
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "database_name"),
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "database_resource_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_type"),
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "database_version"),
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "db_additional_details"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "enterprise_manager_entity_display_name"),
 				resource.TestCheckResourceAttr(resourceName, "enterprise_manager_entity_identifier", enterpriseManagerEntityId),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_name"),
@@ -245,8 +226,6 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "entity_source", "EM_MANAGED_EXTERNAL_DATABASE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "management_agent_id"),
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "processor_count"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "status", "DISABLED"),

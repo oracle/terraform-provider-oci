@@ -20,7 +20,7 @@ import (
 type AutonomousDatabaseDetails struct {
 
 	// The OCID of the autonomous database registered as a target database in Data Safe.
-	AutonomousDatabaseId *string `mandatory:"false" json:"autonomousDatabaseId"`
+	AutonomousDatabaseId *string `mandatory:"true" json:"autonomousDatabaseId"`
 
 	// The infrastructure type the database is running on.
 	InfrastructureType InfrastructureTypeEnum `mandatory:"true" json:"infrastructureType"`

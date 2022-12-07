@@ -24,6 +24,23 @@ var (
 	NodePoolRegionalResourceConfig = ContainerengineNodePoolResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", acctest.Optional, acctest.Update, nodePoolRegionalSubnetRepresentation)
 
+	NodePoolNonReginalResourceDependencies = ContainerengineNodePoolResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", acctest.Optional, acctest.Update, nodePoolNonRegionalSubnetRepresentation)
+
+	nodePoolNonRegionalSubnetRepresentation = map[string]interface{}{
+		"cluster_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_cluster.test_cluster.id}`},
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"kubernetes_version":  acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_cluster.test_cluster.kubernetes_version}`},
+		"name":                acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
+		"node_image_name":     acctest.Representation{RepType: acctest.Required, Create: `Oracle-Linux-7.6`},
+		"node_shape":          acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
+		"initial_node_labels": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineNodePoolInitialNodeLabelsRepresentation},
+		"node_metadata":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"nodeMetadata": "nodeMetadata"}, Update: map[string]string{"nodeMetadata2": "nodeMetadata2"}},
+		"ssh_public_key":      acctest.Representation{RepType: acctest.Optional, Create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`},
+		"quantity_per_subnet": acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
+		"subnet_ids":          acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_subnet.nodePool_Subnet_1.id}`}, Update: []string{`${oci_core_subnet.nodePool_Subnet_2.id}`}},
+	}
+
 	nodePoolRegionalSubnetRepresentation = map[string]interface{}{
 		"cluster_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_cluster.test_cluster.id}`},
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -752,6 +769,146 @@ func TestContainerengineNodePoolResource_flexibleShapes(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceNameForFlexibleShapes, "node_shape_config.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceNameForFlexibleShapes, "node_shape_config.0.ocpus", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceNameForFlexibleShapes, "node_shape_config.0.memory_in_gbs", "36"),
+			),
+		},
+	})
+}
+
+// issue-routing-tag: containerengine/default
+func TestResourceContainerengineNodePool_qps(t *testing.T) {
+	httpreplay.SetScenario("TestResourceContainerengineNodePool_qps")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_containerengine_node_pool.test_node_pool_qps"
+	datasourceName := "data.oci_containerengine_node_pools.test_node_pool_qps"
+	singularDatasourceName := "data.oci_containerengine_node_pool.test_node_pool_qps"
+
+	var resId, resId2 string
+
+	acctest.ResourceTest(t, testAccCheckContainerengineNodePoolDestroy, []resource.TestStep{
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + NodePoolNonReginalResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_qps", acctest.Optional, acctest.Create, nodePoolNonRegionalSubnetRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				//Asserting Resource created with Image Name
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "initial_node_labels.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.key", "key"),
+				resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.value", "value"),
+				resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
+				resource.TestCheckResourceAttr(resourceName, "name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "node_image_name", "Oracle-Linux-7.6"),
+				resource.TestCheckResourceAttr(resourceName, "node_metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "quantity_per_subnet", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
+				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + NodePoolNonReginalResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_qps", acctest.Optional, acctest.Update, acctest.GetUpdatedRepresentationCopy("node_metadata", acctest.Representation{RepType: acctest.Optional, Update: map[string]string{"nodeMetadata": "nodeMetadata"}}, nodePoolNonRegionalSubnetRepresentation)),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				//Asserting Resource created with Image Name
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "initial_node_labels.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.key", "key2"),
+				resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.value", "value2"),
+				resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
+				resource.TestCheckResourceAttr(resourceName, "name", "name2"),
+				resource.TestCheckResourceAttr(resourceName, "node_image_name", "Oracle-Linux-7.6"),
+				resource.TestCheckResourceAttr(resourceName, "node_metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
+				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "quantity_per_subnet", "2"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_node_pools", "test_node_pool_qps", acctest.Optional, acctest.Update, ContainerengineContainerengineNodePoolDataSourceRepresentation) +
+				compartmentIdVariableStr + NodePoolNonReginalResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_qps", acctest.Optional, acctest.Update, acctest.GetUpdatedRepresentationCopy("node_metadata", acctest.Representation{RepType: acctest.Optional, Update: map[string]string{"nodeMetadata": "nodeMetadata"}}, nodePoolNonRegionalSubnetRepresentation)),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				//Asserting Datasource for NodePool created with Image Name
+				resource.TestCheckResourceAttrSet(datasourceName, "cluster_id"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "name", "name2"),
+
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.cluster_id"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.initial_node_labels.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.initial_node_labels.0.key", "key2"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.initial_node_labels.0.value", "value2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.kubernetes_version"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.name", "name2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.node_image_id"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_image_name", "Oracle-Linux-7.6"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.subnet_ids.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.quantity_per_subnet", "2"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_qps", acctest.Required, acctest.Create, ContainerengineContainerengineNodePoolSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + NodePoolNonReginalResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_qps", acctest.Optional, acctest.Update, nodePoolNonRegionalSubnetRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				//Asserting Singular Datasource for NodePool created with Image Name
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "node_pool_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_node_labels.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_node_labels.0.key", "key2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_node_labels.0.value", "value2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "kubernetes_version"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "node_image_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "node_image_name", "Oracle-Linux-7.6"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "node_metadata.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "node_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "subnet_ids.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "quantity_per_subnet", "2"),
+				// "nodes" is not set until the instances in the node_pool are "Available" so we can't assert the nodes property
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes"),
 			),
 		},
 	})
