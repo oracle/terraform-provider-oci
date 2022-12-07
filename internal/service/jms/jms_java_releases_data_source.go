@@ -54,6 +54,13 @@ func JmsJavaReleasesDataSource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"artifact_content_types": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"artifacts": {
 										Type:     schema.TypeList,
 										Computed: true,
@@ -347,6 +354,9 @@ func JavaLicenseToMap(obj *oci_jms.JavaLicense) map[string]interface{} {
 
 func JavaReleaseSummaryToMap(obj oci_jms.JavaReleaseSummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	result["artifact_content_types"] = obj.ArtifactContentTypes
+	result["artifact_content_types"] = obj.ArtifactContentTypes
 
 	if obj.FamilyDetails != nil {
 		result["family_details"] = []interface{}{JavaFamilyToMap(obj.FamilyDetails)}

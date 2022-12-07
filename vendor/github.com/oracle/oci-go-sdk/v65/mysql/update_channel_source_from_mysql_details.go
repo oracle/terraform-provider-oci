@@ -39,6 +39,8 @@ type UpdateChannelSourceFromMysqlDetails struct {
 
 	SslCaCertificate CaCertificate `mandatory:"false" json:"sslCaCertificate"`
 
+	AnonymousTransactionsHandling AnonymousTransactionsHandling `mandatory:"false" json:"anonymousTransactionsHandling"`
+
 	// The SSL mode of the Channel.
 	SslMode ChannelSourceMysqlSslModeEnum `mandatory:"false" json:"sslMode,omitempty"`
 }
@@ -79,12 +81,13 @@ func (m UpdateChannelSourceFromMysqlDetails) MarshalJSON() (buff []byte, e error
 // UnmarshalJSON unmarshals from json
 func (m *UpdateChannelSourceFromMysqlDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Hostname         *string                       `json:"hostname"`
-		Port             *int                          `json:"port"`
-		Username         *string                       `json:"username"`
-		Password         *string                       `json:"password"`
-		SslMode          ChannelSourceMysqlSslModeEnum `json:"sslMode"`
-		SslCaCertificate cacertificate                 `json:"sslCaCertificate"`
+		Hostname                      *string                       `json:"hostname"`
+		Port                          *int                          `json:"port"`
+		Username                      *string                       `json:"username"`
+		Password                      *string                       `json:"password"`
+		SslMode                       ChannelSourceMysqlSslModeEnum `json:"sslMode"`
+		SslCaCertificate              cacertificate                 `json:"sslCaCertificate"`
+		AnonymousTransactionsHandling anonymoustransactionshandling `json:"anonymousTransactionsHandling"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -110,6 +113,16 @@ func (m *UpdateChannelSourceFromMysqlDetails) UnmarshalJSON(data []byte) (e erro
 		m.SslCaCertificate = nn.(CaCertificate)
 	} else {
 		m.SslCaCertificate = nil
+	}
+
+	nn, e = model.AnonymousTransactionsHandling.UnmarshalPolymorphicJSON(model.AnonymousTransactionsHandling.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.AnonymousTransactionsHandling = nn.(AnonymousTransactionsHandling)
+	} else {
+		m.AnonymousTransactionsHandling = nil
 	}
 
 	return

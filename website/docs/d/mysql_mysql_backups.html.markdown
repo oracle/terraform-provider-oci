@@ -53,7 +53,7 @@ The following attributes are exported:
 
 * `backup_size_in_gbs` - The size of the backup in base-2 (IEC) gibibytes. (GiB).
 * `backup_type` - The type of backup.
-* `compartment_id` - The OCID of the compartment.
+* `compartment_id` - The OCID of the compartment the backup exists in.
 * `creation_type` - Indicates how the backup was created: manually, automatic, or by an Operator. 
 * `data_storage_size_in_gb` - Initial size of the data volume in GiBs. 
 * `db_system_id` - The OCID of the DB System the backup is associated with.
@@ -104,6 +104,8 @@ The following attributes are exported:
 		* `modes` - The access modes from the client that this endpoint supports.
 		* `port` - The port the MySQL instance listens on.
 		* `port_x` - The network port where to connect to use this endpoint using the X protocol.
+		* `resource_id` - The OCID of the resource that this endpoint is attached to.
+		* `resource_type` - The type of endpoint that clients and connectors can connect to.
 		* `status` - The state of the endpoints, as far as it can seen from the DB System. There may be some inconsistency with the actual state of the MySQL service. 
 		* `status_details` - Additional information about the current endpoint status.
 	* `fault_domain` - The name of the Fault Domain the DB System is located in. 
@@ -112,14 +114,16 @@ The following attributes are exported:
 	* `id` - The OCID of the DB System.
 	* `ip_address` - The IP address the DB System is configured to listen on. A private IP address of the primary endpoint of the DB System. Must be an available IP address within the subnet's CIDR. This will be a "dotted-quad" style IPv4 address. 
 	* `is_highly_available` - Specifies if the DB System is highly available. 
-	* `maintenance` - The Maintenance Policy for the DB System. 
+	* `maintenance` - The Maintenance Policy for the DB System or Read Replica that this model is included in. 
 		* `window_start_time` - The start time of the maintenance window.
 
 			This string is of the format: "{day-of-week} {time-of-day}".
 
 			"{day-of-week}" is a case-insensitive string like "mon", "tue", &c.
 
-			"{time-of-day}" is the "Time" portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero. 
+			"{time-of-day}" is the "Time" portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero.
+
+			If you set the read replica maintenance window to "" or if not specified, the read replica is set same as the DB system maintenance window. 
 	* `mysql_version` - Name of the MySQL Version in use for the DB System.
 	* `port` - The port for primary endpoint of the DB System to listen on.
 	* `port_x` - The network port on which X Plugin listens for TCP/IP connections. This is the X Plugin equivalent of port. 

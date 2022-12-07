@@ -47,7 +47,7 @@ var (
 		"column_sortings": acctest.RepresentationGroup{RepType: acctest.Required, Group: reportDefinitionColumnSortingsRepresentation},
 		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":    acctest.Representation{RepType: acctest.Required, Create: `displayName18`, Update: `displayName19`},
-		"parent_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.report_id}`},
+		"parent_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.report_ocid}`},
 		"summary":         acctest.RepresentationGroup{RepType: acctest.Required, Group: reportDefinitionSummaryRepresentation},
 		"defined_tags":    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":     acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
@@ -61,10 +61,10 @@ var (
 		"operator":    acctest.Representation{RepType: acctest.Required, Create: `IN`, Update: `EQ`},
 	}
 	reportDefinitionColumnInfoRepresentation = map[string]interface{}{
-		"display_name":  acctest.Representation{RepType: acctest.Required, Create: `displayName18`, Update: `displayName18`},
-		"display_order": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
-		"field_name":    acctest.Representation{RepType: acctest.Required, Create: `operation`, Update: `operation`},
-		"is_hidden":     acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
+		"display_name":  acctest.Representation{RepType: acctest.Required, Create: `Target Id`, Update: `Target Id`},
+		"display_order": acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `1`},
+		"field_name":    acctest.Representation{RepType: acctest.Required, Create: `targetId`, Update: `targetId`},
+		"is_hidden":     acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
 		"data_type":     acctest.Representation{RepType: acctest.Optional, Create: `String`, Update: `String`},
 	}
 	reportDefinitionColumnSortingsRepresentation = map[string]interface{}{
@@ -81,7 +81,7 @@ var (
 		"scim_filter":         acctest.Representation{RepType: acctest.Optional, Create: `scimFilter`, Update: `scimFilter2`},
 	}
 	ignoreReportDefinitionSystemTagsChangesRep = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`system_tags`}},
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`system_tags`, `defined_tags`, `compliance_standards`}},
 	}
 
 	DataSafeReportDefinitionResourceDependencies = DefinedTagsDependencies
@@ -101,7 +101,7 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	reportDefId := utils.GetEnvSettingWithBlankDefault("report_ocid")
-	reportDefIdVariableStr := fmt.Sprintf("variable \"report_id\" { default = \"%s\" }\n", reportDefId)
+	reportDefIdVariableStr := fmt.Sprintf("variable \"report_ocid\" { default = \"%s\" }\n", reportDefId)
 
 	resourceName := "oci_data_safe_report_definition.test_report_definition"
 	datasourceName := "data.oci_data_safe_report_definitions.test_report_definitions"
@@ -125,10 +125,10 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "column_filters.0.is_hidden", "false"),
 				resource.TestCheckResourceAttr(resourceName, "column_filters.0.operator", "IN"),
 				resource.TestCheckResourceAttr(resourceName, "column_info.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_name", "displayName18"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_order", "10"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.field_name", "operation"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.is_hidden", "false"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_name", "Target Id"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_order", "1"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.field_name", "targetId"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.is_hidden", "true"),
 				resource.TestCheckResourceAttr(resourceName, "column_sortings.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "column_sortings.0.field_name", "operation"),
 				resource.TestCheckResourceAttr(resourceName, "column_sortings.0.is_ascending", "false"),
@@ -164,10 +164,10 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "column_filters.0.operator", "IN"),
 				resource.TestCheckResourceAttr(resourceName, "column_info.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "column_info.0.data_type", "String"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_name", "displayName18"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_order", "10"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.field_name", "operation"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.is_hidden", "false"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_name", "Target Id"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_order", "1"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.field_name", "targetId"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.is_hidden", "true"),
 				resource.TestCheckResourceAttr(resourceName, "column_sortings.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "column_sortings.0.field_name", "operation"),
 				resource.TestCheckResourceAttr(resourceName, "column_sortings.0.is_ascending", "false"),
@@ -214,10 +214,10 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "column_filters.0.operator", "IN"),
 				resource.TestCheckResourceAttr(resourceName, "column_info.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "column_info.0.data_type", "String"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_name", "displayName18"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_order", "10"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.field_name", "operation"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.is_hidden", "false"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_name", "Target Id"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_order", "1"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.field_name", "targetId"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.is_hidden", "true"),
 				resource.TestCheckResourceAttr(resourceName, "column_sortings.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "column_sortings.0.field_name", "operation"),
 				resource.TestCheckResourceAttr(resourceName, "column_sortings.0.is_ascending", "false"),
@@ -259,9 +259,9 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "column_filters.0.operator", "EQ"),
 				resource.TestCheckResourceAttr(resourceName, "column_info.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "column_info.0.data_type", "String"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_name", "displayName18"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_order", "11"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.field_name", "operation"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_name", "Target Id"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_order", "1"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.field_name", "targetId"),
 				resource.TestCheckResourceAttr(resourceName, "column_info.0.is_hidden", "true"),
 				resource.TestCheckResourceAttr(resourceName, "column_sortings.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "column_sortings.0.field_name", "operation"),
@@ -319,9 +319,9 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "column_filters.0.operator", "EQ"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "column_info.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "column_info.0.data_type", "String"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "column_info.0.display_name", "displayName18"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "column_info.0.display_order", "11"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "column_info.0.field_name", "operation"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "column_info.0.display_name", "Target Id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "column_info.0.display_order", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "column_info.0.field_name", "targetId"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "column_info.0.is_hidden", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "column_sortings.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "column_sortings.0.field_name", "operation"),
@@ -331,6 +331,8 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_order"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_seeded"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "summary.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "summary.0.count_of", "creates"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "summary.0.display_order", "11"),
@@ -348,7 +350,7 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + reportDefIdVariableStr + DataSafeReportDefinitionResourceConfig,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

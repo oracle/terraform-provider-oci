@@ -330,7 +330,6 @@ func networkFirewallWaitForWorkRequest(wId *string, entityType string, action oc
 			string(oci_network_firewall.OperationStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {
-			fmt.Printf("Calling Refresh")
 			var err error
 			response, err = client.GetWorkRequest(context.Background(),
 				oci_network_firewall.GetWorkRequestRequest{
@@ -348,7 +347,7 @@ func networkFirewallWaitForWorkRequest(wId *string, entityType string, action oc
 			wr := &response.WorkRequest
 			return wr, string(wr.Status), err
 		},
-		Delay:        10 * time.Minute,
+		Delay:        2 * time.Minute,
 		PollInterval: 150 * time.Second,
 		Timeout:      1 * time.Hour,
 	}

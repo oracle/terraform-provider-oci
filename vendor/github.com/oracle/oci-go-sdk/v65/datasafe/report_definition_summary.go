@@ -51,6 +51,24 @@ type ReportDefinitionSummary struct {
 	// Specifies the name of a resource that provides data for the report. For example alerts, events.
 	DataSource ReportDefinitionDataSourceEnum `mandatory:"false" json:"dataSource,omitempty"`
 
+	// Schedule to generate the report periodically in the specified format:
+	// <version-string>;<version-specific-schedule>
+	// Allowed version strings - "v1"
+	// v1's version specific schedule -<ss> <mm> <hh> <day-of-week> <day-of-month>
+	// Each of the above fields potentially introduce constraints. A workrequest is created only
+	// when clock time satisfies all the constraints. Constraints introduced:
+	// 1. seconds = <ss> (So, the allowed range for <ss> is [0, 59])
+	// 2. minutes = <mm> (So, the allowed range for <mm> is [0, 59])
+	// 3. hours = <hh> (So, the allowed range for <hh> is [0, 23])
+	// 4. <day-of-week> can be either '*' (without quotes or a number between 1(Monday) and 7(Sunday))
+	// No constraint introduced when it is '*'. When not, day of week must equal the given value
+	// 5. <day-of-month> can be either '*' (without quotes or a number between 1 and 28)
+	// No constraint introduced when it is '*'. When not, day of month must equal the given value
+	Schedule *string `mandatory:"false" json:"schedule"`
+
+	// The list of data protection regulations/standards used in the report that will help demonstrate compliance.
+	ComplianceStandards []string `mandatory:"false" json:"complianceStandards"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

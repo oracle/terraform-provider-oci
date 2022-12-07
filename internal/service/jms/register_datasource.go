@@ -7,7 +7,10 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_jms_fleet", JmsFleetDataSource())
+	tfresource.RegisterDatasource("oci_jms_fleet_advanced_feature_configuration", JmsFleetAdvancedFeatureConfigurationDataSource())
 	tfresource.RegisterDatasource("oci_jms_fleet_blocklists", JmsFleetBlocklistsDataSource())
+	tfresource.RegisterDatasource("oci_jms_fleet_crypto_analysis_result", JmsFleetCryptoAnalysisResultDataSource())
+	tfresource.RegisterDatasource("oci_jms_fleet_crypto_analysis_results", JmsFleetCryptoAnalysisResultsDataSource())
 	tfresource.RegisterDatasource("oci_jms_fleet_installation_site", JmsFleetInstallationSiteDataSource())
 	tfresource.RegisterDatasource("oci_jms_fleet_installation_sites", JmsFleetInstallationSitesDataSource())
 	tfresource.RegisterDatasource("oci_jms_fleets", JmsFleetsDataSource())

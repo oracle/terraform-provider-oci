@@ -42,6 +42,10 @@ func DataSafeReportsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"report_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -105,6 +109,10 @@ func DataSafeReportsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 								},
 							},
 						},
@@ -162,6 +170,10 @@ func (s *DataSafeReportsDataSourceCrud) Get() error {
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_data_safe.ListReportsLifecycleStateEnum(state.(string))
+	}
+
+	if type_, ok := s.D.GetOkExists("type"); ok {
+		request.Type = oci_data_safe.ListReportsTypeEnum(type_.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
@@ -251,6 +263,8 @@ func ReportSummaryToMap(obj oci_data_safe.ReportSummary) map[string]interface{} 
 	if obj.TimeGenerated != nil {
 		result["time_generated"] = obj.TimeGenerated.String()
 	}
+
+	result["type"] = string(obj.Type)
 
 	return result
 }

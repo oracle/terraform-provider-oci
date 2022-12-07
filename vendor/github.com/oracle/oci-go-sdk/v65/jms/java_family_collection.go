@@ -15,10 +15,11 @@ import (
 	"strings"
 )
 
-// JavaFamilyCollection Contains summary of the Java release family details.
+// JavaFamilyCollection Collection of the Java release family summary.
+// A Java release family is typically a major version in the Java version identifier.
 type JavaFamilyCollection struct {
 
-	// A list of the Java Release family details.
+	// A list of the Java Release family summary.
 	Items []JavaFamilySummary `mandatory:"true" json:"items"`
 }
 

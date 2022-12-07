@@ -42,9 +42,7 @@ type ListTargetAlertPolicyAssociationsRequest struct {
 	// The sort order to use, either ascending (ASC) or descending (DESC).
 	SortOrder ListTargetAlertPolicyAssociationsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field used for sorting. Only one sorting order (sortOrder) can be specified.
-	// The default order for TIMECREATED is descending. The default order for DISPLAYNAME is ascending.
-	// The DISPLAYNAME sort order is case sensitive.
+	// The field to sort by. Only one sort order may be provided.
 	SortBy ListTargetAlertPolicyAssociationsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// Unique identifier for the request.
@@ -265,18 +263,21 @@ type ListTargetAlertPolicyAssociationsSortByEnum string
 
 // Set of constants representing the allowable values for ListTargetAlertPolicyAssociationsSortByEnum
 const (
-	ListTargetAlertPolicyAssociationsSortByTimecreated ListTargetAlertPolicyAssociationsSortByEnum = "TIMECREATED"
 	ListTargetAlertPolicyAssociationsSortByDisplayname ListTargetAlertPolicyAssociationsSortByEnum = "DISPLAYNAME"
+	ListTargetAlertPolicyAssociationsSortByTimecreated ListTargetAlertPolicyAssociationsSortByEnum = "TIMECREATED"
+	ListTargetAlertPolicyAssociationsSortByTimeupdated ListTargetAlertPolicyAssociationsSortByEnum = "TIMEUPDATED"
 )
 
 var mappingListTargetAlertPolicyAssociationsSortByEnum = map[string]ListTargetAlertPolicyAssociationsSortByEnum{
-	"TIMECREATED": ListTargetAlertPolicyAssociationsSortByTimecreated,
 	"DISPLAYNAME": ListTargetAlertPolicyAssociationsSortByDisplayname,
+	"TIMECREATED": ListTargetAlertPolicyAssociationsSortByTimecreated,
+	"TIMEUPDATED": ListTargetAlertPolicyAssociationsSortByTimeupdated,
 }
 
 var mappingListTargetAlertPolicyAssociationsSortByEnumLowerCase = map[string]ListTargetAlertPolicyAssociationsSortByEnum{
-	"timecreated": ListTargetAlertPolicyAssociationsSortByTimecreated,
 	"displayname": ListTargetAlertPolicyAssociationsSortByDisplayname,
+	"timecreated": ListTargetAlertPolicyAssociationsSortByTimecreated,
+	"timeupdated": ListTargetAlertPolicyAssociationsSortByTimeupdated,
 }
 
 // GetListTargetAlertPolicyAssociationsSortByEnumValues Enumerates the set of values for ListTargetAlertPolicyAssociationsSortByEnum
@@ -291,8 +292,9 @@ func GetListTargetAlertPolicyAssociationsSortByEnumValues() []ListTargetAlertPol
 // GetListTargetAlertPolicyAssociationsSortByEnumStringValues Enumerates the set of values in String for ListTargetAlertPolicyAssociationsSortByEnum
 func GetListTargetAlertPolicyAssociationsSortByEnumStringValues() []string {
 	return []string{
-		"TIMECREATED",
 		"DISPLAYNAME",
+		"TIMECREATED",
+		"TIMEUPDATED",
 	}
 }
 

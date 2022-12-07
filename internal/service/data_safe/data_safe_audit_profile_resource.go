@@ -157,6 +157,10 @@ func DataSafeAuditProfileResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"time_last_collected": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"time_updated": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -788,6 +792,10 @@ func AuditTrailToMap(obj oci_data_safe.AuditTrail) map[string]interface{} {
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeLastCollected != nil {
+		result["time_last_collected"] = obj.TimeLastCollected.String()
 	}
 
 	if obj.TimeUpdated != nil {

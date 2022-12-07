@@ -60,10 +60,14 @@ var (
 		"is_include_all_schemas":                    acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"is_include_all_sensitive_types":            acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"is_sample_data_collection_enabled":         acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"lifecycle":                                 acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDiscoveryJobSystemTagsChangesRep},
 	}
 
-	DataSafeDiscoveryJobResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model", acctest.Required, acctest.Create, sensitiveDataModelRepresentation) +
-		DefinedTagsDependencies
+	DataSafeDiscoveryJobResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model", acctest.Required, acctest.Create, sensitiveDataModelRepresentation)
+
+	ignoreDiscoveryJobSystemTagsChangesRep = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`system_tags`, `defined_tags`, `freeform_tags`}},
+	}
 )
 
 // issue-routing-tag: data_safe/default
@@ -120,9 +124,7 @@ func TestDataSafeDiscoveryJobResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_include_all_schemas", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_include_all_sensitive_types", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_sample_data_collection_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "schemas_for_discovery.#", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "sensitive_data_model_id"),
-				resource.TestCheckResourceAttr(resourceName, "sensitive_type_ids_for_discovery.#", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_finished"),
@@ -226,13 +228,9 @@ func TestDataSafeDiscoveryJobResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "total_schemas_scanned"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + DataSafeDiscoveryJobResourceConfig + targetIdVariableStr,
-		},
 		// verify resource import
 		{
-			Config:                  config + targetIdVariableStr,
+			Config:                  config + targetIdVariableStr + DataSafeDiscoveryJobRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

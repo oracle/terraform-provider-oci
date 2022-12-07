@@ -61,7 +61,7 @@ var (
 		"ip_address_lists":    []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: networkFirewallIpAddressListsRepresentation}},
 		"mapped_secrets":      []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: networkFirewallPolicyMappedSecretsRepresentation}},
 		"security_rules":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: networkFirewallPolicySecurityRulesRepresentation},
-		"url_lists":           []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: networkFirewallUrlListsRepresentation}, {RepType: acctest.Optional, Group: networkFirewallUrlListsRepresentation}},
+		"url_lists":           []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: networkFirewallUrlListsRepresentation}},
 	}
 
 	networkFirewallIpAddressListsRepresentation = map[string]interface{}{
@@ -71,17 +71,24 @@ var (
 			"10.22.2.2"}},
 	}
 	networkFirewallUrlListsRepresentation = map[string]interface{}{
-		"key":     acctest.Representation{RepType: acctest.Required, Create: `hr`},
+		"url_list_name":   acctest.Representation{RepType: acctest.Required, Create: `hr`},
+		"url_list_values": []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: networkFirewallUrlRepresentation}},
+	}
+	networkFirewallUrlRepresentation = map[string]interface{}{
 		"type":    acctest.Representation{RepType: acctest.Required, Create: `SIMPLE`},
-		"pattern": acctest.Representation{RepType: acctest.Optional, Create: `google.com`, Update: `google.com`},
+		"pattern": acctest.Representation{RepType: acctest.Optional, Create: `google.com`},
+	}
+	networkFirewallApplicationListsRepresentation = map[string]interface{}{
+		"application_list_name": acctest.Representation{RepType: acctest.Required, Create: `app-1`},
+		"application_values":    []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: networkFirewallApplicationRepresentation}},
 	}
 
-	networkFirewallApplicationListsRepresentation = map[string]interface{}{
-		"key":       acctest.Representation{RepType: acctest.Required, Create: `app-1`},
+	networkFirewallApplicationRepresentation = map[string]interface{}{
 		"type":      acctest.Representation{RepType: acctest.Required, Create: "ICMP"},
 		"icmp_type": acctest.Representation{RepType: acctest.Optional, Create: `5`},
 		"icmp_code": acctest.Representation{RepType: acctest.Optional, Create: `2`},
 	}
+
 	networkFirewallApplicationListsRepresentation2 = map[string]interface{}{
 		"type":      acctest.Representation{RepType: acctest.Required, Create: "ICMP"},
 		"key":       acctest.Representation{RepType: acctest.Required, Create: `app-2`},
@@ -189,11 +196,11 @@ func TestNetworkFirewallNetworkFirewallPolicyResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_network_firewall_network_firewall_policy", "test_network_firewall_policy", acctest.Optional, acctest.Create, networkFirewallPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "application_lists.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "application_lists.0.type", "ICMP"),
-				resource.TestCheckResourceAttr(resourceName, "application_lists.0.icmp_type", "5"),
-				resource.TestCheckResourceAttr(resourceName, "application_lists.0.icmp_code", "2"),
-				resource.TestCheckResourceAttr(resourceName, "url_lists.#", "2"),
-				resource.TestCheckResourceAttr(resourceName, "url_lists.0.pattern", "google.com"),
+				resource.TestCheckResourceAttr(resourceName, "application_lists.0.application_list_name", "app-1"),
+				resource.TestCheckResourceAttr(resourceName, "application_lists.0.application_values.0.icmp_type", "5"),
+				resource.TestCheckResourceAttr(resourceName, "application_lists.0.application_values.0.icmp_code", "2"),
+				resource.TestCheckResourceAttr(resourceName, "url_lists.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "url_lists.0.url_list_values.0.pattern", "google.com"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "decryption_profiles.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "decryption_rules.#", "1"),
@@ -223,7 +230,6 @@ func TestNetworkFirewallNetworkFirewallPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-				resource.TestCheckResourceAttr(resourceName, "url_lists.#", "2"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")

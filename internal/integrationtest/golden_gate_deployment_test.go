@@ -42,13 +42,27 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		datasourceName         = "data.oci_golden_gate_deployments.depl_test_ggs_deployments"
 		singularDatasourceName = "data.oci_golden_gate_deployment.depl_test_ggs_deployment"
 
+		GoldenGateDeploymentDataSourceFilterRepresentation = map[string]interface{}{
+			"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
+			"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_golden_gate_deployment.test_deployment.id}`}},
+		}
+		GoldenGateGoldenGateDeploymentDataSourceRepresentation = map[string]interface{}{
+			"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+			"assignable_connection_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_golden_gate_connection.test_connection.id}`},
+			"assigned_connection_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_golden_gate_connection.test_connection.id}`},
+			"display_name":              acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+			"fqdn":                      acctest.Representation{RepType: acctest.Required, Create: `fqdn1.ggs.com`, Update: `fqdn2.ggs.com`},
+			"lifecycle_sub_state":       acctest.Representation{RepType: acctest.Required, Create: `RECOVERING`},
+			"state":                     acctest.Representation{RepType: acctest.Required, Create: `ACTIVE`},
+			"supported_connection_type": acctest.Representation{RepType: acctest.Required, Create: `GOLDENGATE`},
+			"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: GoldenGateDeploymentDataSourceFilterRepresentation}}
+
 		compartmentId        = utils.GetEnvSettingWithBlankDefault(COMPARTMENT_ID)
 		compartmentIdForMove = utils.GetEnvSettingWithBlankDefault(COMPARTMENT_ID_FOR_MOVE)
 
 		resId  string
 		resId2 string
 	)
-
 	var (
 		GoldenGateDeploymentResourceDependencies = ""
 
@@ -73,31 +87,22 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			"subnet_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.test_subnet_id}`},
 			"license_model":           acctest.Representation{RepType: acctest.Required, Create: `LICENSE_INCLUDED`},
 			"description":             acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-			"fqdn":                    acctest.Representation{RepType: acctest.Optional, Create: ``},
+			"fqdn":                    acctest.Representation{RepType: acctest.Optional, Create: `fqdn1.ggs.com`},
 			"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 			"is_public":               acctest.Representation{RepType: acctest.Optional, Create: `false`},
 			"ogg_data":                acctest.RepresentationGroup{RepType: acctest.Required, Group: goldenGateDeploymentOggDataRepresentation},
 			"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRepresentation},
 		}
 
-		goldenGateDeploymentDataSourceFilterRepresentation = map[string]interface{}{
-			"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
-			"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_golden_gate_deployment.depl_test_ggs_deployment.id}`}},
-		}
-
 		goldenGateDeploymentSingularDataSourceRepresentation = map[string]interface{}{
 			"deployment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_golden_gate_deployment.depl_test_ggs_deployment.id}`},
 		}
 
-		goldenGateDeploymentDataSourceRepresentation = map[string]interface{}{
-			"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-			"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
-			"fqdn":           acctest.Representation{RepType: acctest.Optional, Create: ``},
-			"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-			"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: goldenGateDeploymentDataSourceFilterRepresentation}}
-
 		DeploymentResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Optional, acctest.Update, goldenGateDeploymentRepresentation)
 	)
+
+	testDeploymentId := utils.GetEnvSettingWithBlankDefault("deployment_ocid")
+	testDeploymentIdVariableStr := fmt.Sprintf("variable \"test_deployment_id\" { default = \"%s\" }\n", testDeploymentId)
 
 	config := acctest.ProviderTestConfig() +
 		makeVariableStr(COMPARTMENT_ID, t) +
@@ -107,13 +112,13 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		GoldenGateDeploymentResourceDependencies
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+
+	acctest.SaveConfigContent(config+testDeploymentIdVariableStr+
 		acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Optional, acctest.Create, goldenGateDeploymentRepresentation), "goldengate", "deployment", t)
 
 	acctest.ResourceTest(t, testAccCheckGoldenGateDeploymentDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config +
+			Config: config + testDeploymentIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Required, acctest.Create, goldenGateDeploymentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -141,7 +146,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 
 		// verify Create with optionals
 		{
-			Config: config +
+			Config: config + testDeploymentIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Optional, acctest.Create, goldenGateDeploymentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -174,7 +179,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config +
+			Config: config + testDeploymentIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(goldenGateDeploymentRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_move}`},
@@ -208,7 +213,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + DeploymentResourceConfig,
+			Config: config + testDeploymentIdVariableStr + DeploymentResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
@@ -236,14 +241,25 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				},
 			),
 		},
-
 		// verify datasource
 		{
 			Config: config + DeploymentResourceConfig +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_golden_gate_deployments", "depl_test_ggs_deployments", acctest.Required, acctest.Update, goldenGateDeploymentDataSourceRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "test_deployment", acctest.Required, acctest.Create, goldenGateDeploymentRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_connection", "test_connection", acctest.Required, acctest.Create, GoldenGateConnectionRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_golden_gate_deployments", "depl_test_ggs_deployments", acctest.Required, acctest.Update, GoldenGateGoldenGateDeploymentDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				//Conflict??
+				resource.TestCheckResourceAttrSet(datasourceName, "assignable_connection_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "assigned_connection_id"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "fqdn", "fqdn2.ggs.com"),
+				resource.TestCheckResourceAttr(datasourceName, "lifecycle_sub_state", "RECOVERING"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(datasourceName, "supported_connection_type", "GOLDENGATE"),
+
 				resource.TestCheckResourceAttr(datasourceName, "deployment_collection.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "deployment_collection.0.items.#", "1"),
+				//resource.TestCheckResourceAttr(datasourceName, "deployment_collection.0.items.#", "1"),
 			),
 		},
 

@@ -35,7 +35,15 @@ func DataSafeMaskingReportDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"target_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -127,8 +135,14 @@ func (s *DataSafeMaskingReportDataSourceCrud) SetData() error {
 		s.D.Set("masking_work_request_id", *s.Res.MaskingWorkRequestId)
 	}
 
+	s.D.Set("state", s.Res.LifecycleState)
+
 	if s.Res.TargetId != nil {
 		s.D.Set("target_id", *s.Res.TargetId)
+	}
+
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
 	if s.Res.TimeMaskingFinished != nil {

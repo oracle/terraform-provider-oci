@@ -129,6 +129,10 @@ func (m *exadatainsightsummary) UnmarshalPolymorphicJSON(data []byte) (interface
 		mm := EmManagedExternalExadataInsightSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "PE_COMANAGED_EXADATA":
+		mm := PeComanagedExadataInsightSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}

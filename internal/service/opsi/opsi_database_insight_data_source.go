@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2022, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package opsi
@@ -170,6 +170,14 @@ func (s *OpsiDatabaseInsightDataSourceCrud) SetData() error {
 
 		if v.OpsiPrivateEndpointId != nil {
 			s.D.Set("opsi_private_endpoint_id", *v.OpsiPrivateEndpointId)
+		}
+
+		if v.ParentId != nil {
+			s.D.Set("parent_id", *v.ParentId)
+		}
+
+		if v.RootId != nil {
+			s.D.Set("root_id", *v.RootId)
 		}
 
 		if v.CompartmentId != nil {

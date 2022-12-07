@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// JavaRelease Complete information of a specific release of Java. Includes the artifact details.
+// JavaRelease Metadata associated with a specific release of Java. Includes the artifact details.
 type JavaRelease struct {
 
 	// Java release version identifier.
@@ -38,6 +38,9 @@ type JavaRelease struct {
 
 	// Release notes associated with the Java version.
 	ReleaseNotesUrl *string `mandatory:"true" json:"releaseNotesUrl"`
+
+	// Artifact content types for the Java version.
+	ArtifactContentTypes []ArtifactContentTypeEnum `mandatory:"true" json:"artifactContentTypes"`
 
 	// Parent Java release version identifier. This is applicable for BPR releases.
 	ParentReleaseVersion *string `mandatory:"false" json:"parentReleaseVersion"`
@@ -67,6 +70,11 @@ func (m JavaRelease) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingLicenseTypeEnum(string(m.LicenseType)); !ok && m.LicenseType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseType: %s. Supported values are: %s.", m.LicenseType, strings.Join(GetLicenseTypeEnumStringValues(), ",")))
+	}
+	for _, val := range m.ArtifactContentTypes {
+		if _, ok := GetMappingArtifactContentTypeEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ArtifactContentTypes: %s. Supported values are: %s.", val, strings.Join(GetArtifactContentTypeEnumStringValues(), ",")))
+		}
 	}
 
 	if len(errMessage) > 0 {

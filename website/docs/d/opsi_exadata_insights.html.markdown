@@ -36,7 +36,7 @@ The following arguments are supported:
 
 * `compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `compartment_id_in_subtree` - (Optional) A flag to search all resources within a given compartment and all sub-compartments. 
-* `enterprise_manager_bridge_id` - (Optional) Unique Enterprise Manager bridge identifier
+* `enterprise_manager_bridge_id` - (Applicable when entity_source=EM_MANAGED_EXTERNAL_EXADATA) Unique Enterprise Manager bridge identifier
 * `exadata_type` - (Optional) Filter by one or more Exadata types. Possible value are DBMACHINE, EXACS, and EXACC. 
 * `id` - (Optional) Optional list of Exadata insight resource [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
 * `state` - (Optional) Lifecycle states
@@ -63,8 +63,11 @@ The following attributes are exported:
 * `enterprise_manager_identifier` - Enterprise Manager Unique Identifier
 * `entity_source` - Source of the Exadata system.
 * `exadata_display_name` - The user-friendly name for the Exadata system. The name does not have to be unique.
+* `exadata_infra_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Infrastructure.
+* `exadata_infra_resource_type` - Oracle Cloud Infrastructure exadata infrastructure resource type
 * `exadata_name` - The Exadata system name. If the Exadata systems managed by Enterprise Manager, the name is unique amongst the Exadata systems managed by the same Enterprise Manager.
 * `exadata_rack_type` - Exadata rack type.
+* `exadata_shape` - The shape of the Exadata Infrastructure.
 * `exadata_type` - Operations Insights internal representation of the the Exadata system type.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - Exadata insight identifier

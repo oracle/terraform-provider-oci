@@ -401,7 +401,7 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 
 		region, ok := d.GetOk(globalvar.RegionAttrName)
 		if !ok {
-			return nil, fmt.Errorf("can not get %s from Terraform configuration (InstancePrincipal)", globalvar.RegionAttrName)
+			return nil, fmt.Errorf("can not get %s from Terraform configuration (SecurityToken)", globalvar.RegionAttrName)
 		}
 		// if region is part of the provider block make sure it is part of the final configuration too, and overwrites the region in the profile. +
 		regionProvider := oci_common.NewRawConfigurationProvider("", "", region.(string), "", "", nil)

@@ -157,6 +157,43 @@ func GoldenGateDeploymentResource() *schema.Resource {
 			},
 
 			// Computed
+			"deployment_diagnostic_data": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"bucket": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"diagnostic_state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"namespace": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"object": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_diagnostic_end": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_diagnostic_start": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"deployment_url": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -665,6 +702,12 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 		s.D.Set("deployment_backup_id", *s.Res.DeploymentBackupId)
 	}
 
+	if s.Res.DeploymentDiagnosticData != nil {
+		s.D.Set("deployment_diagnostic_data", []interface{}{DeploymentDiagnosticDataToMap(s.Res.DeploymentDiagnosticData)})
+	} else {
+		s.D.Set("deployment_diagnostic_data", nil)
+	}
+
 	s.D.Set("deployment_type", s.Res.DeploymentType)
 
 	if s.Res.DeploymentUrl != nil {
@@ -851,6 +894,34 @@ func OggDeploymentToMap(obj *oci_golden_gate.OggDeployment, resourceData *schema
 
 	if obj.OggVersion != nil {
 		result["ogg_version"] = string(*obj.OggVersion)
+	}
+
+	return result
+}
+
+func DeploymentDiagnosticDataToMap(obj *oci_golden_gate.DeploymentDiagnosticData) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.BucketName != nil {
+		result["bucket"] = string(*obj.BucketName)
+	}
+
+	result["diagnostic_state"] = string(obj.DiagnosticState)
+
+	if obj.NamespaceName != nil {
+		result["namespace"] = string(*obj.NamespaceName)
+	}
+
+	if obj.ObjectName != nil {
+		result["object"] = string(*obj.ObjectName)
+	}
+
+	if obj.TimeDiagnosticEnd != nil {
+		result["time_diagnostic_end"] = obj.TimeDiagnosticEnd.String()
+	}
+
+	if obj.TimeDiagnosticStart != nil {
+		result["time_diagnostic_start"] = obj.TimeDiagnosticStart.String()
 	}
 
 	return result

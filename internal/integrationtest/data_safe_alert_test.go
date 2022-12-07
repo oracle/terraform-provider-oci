@@ -34,11 +34,10 @@ var (
 
 	DataSafealertDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `RESTRICTED`},
+		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"field":                     acctest.Representation{RepType: acctest.Optional, Create: []oci_data_safe.ListAlertsFieldEnum{`severity`}},
 		"id":                        acctest.Representation{RepType: acctest.Optional, Create: `${var.alert_id}`},
-		"scim_query":                acctest.Representation{RepType: acctest.Optional, Create: `severity eq 'HIGH'`},
 		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: alertDataSourceFilterRepresentation},
 	}
 	alertDataSourceFilterRepresentation = map[string]interface{}{
@@ -51,7 +50,7 @@ var (
 		"comment":       acctest.Representation{RepType: acctest.Required, Create: `comment`, Update: `comment2`},
 		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"status":        acctest.Representation{RepType: acctest.Optional, Create: `OPEN`, Update: `CLOSED`},
+		"status":        acctest.Representation{RepType: acctest.Optional, Create: `OPEN`, Update: `OPEN`},
 		"lifecycle":     acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreFeatureDetailsSystemTagsChangesRep},
 	}
 
@@ -152,7 +151,7 @@ func TestDataSafeAlertResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttr(resourceName, "status", "CLOSED"),
+				resource.TestCheckResourceAttr(resourceName, "status", "OPEN"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
@@ -172,11 +171,10 @@ func TestDataSafeAlertResource_basic(t *testing.T) {
 				compartmentIdVariableStr + alertIdVariableStr + DataSafeAlertResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_alert", "test_alert", acctest.Optional, acctest.Update, alertRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "access_level", "RESTRICTED"),
+				resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
-				resource.TestCheckResourceAttr(datasourceName, "scim_query", "severity eq 'HIGH'"),
 				resource.TestCheckResourceAttr(datasourceName, "alert_collection.#", "1"),
 			),
 		},
@@ -192,7 +190,6 @@ func TestDataSafeAlertResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "operation"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "operation_status"),
@@ -200,7 +197,7 @@ func TestDataSafeAlertResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "policy_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "severity"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "status", "CLOSED"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "status", "OPEN"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "target_ids.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "target_names.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
@@ -212,6 +209,7 @@ func TestDataSafeAlertResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + alertIdVariableStr + DataSafeAlertResourceConfig,
 		},
 		// verify resource import
+
 		{
 			Config:                  config,
 			ImportState:             true,

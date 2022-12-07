@@ -21,6 +21,9 @@ type SummarizeJreUsageRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
+	// The Fleet-unique identifier of the related Java Runtime.
+	JreId *string `mandatory:"false" contributesTo:"query" name:"jreId"`
+
 	// The vendor of the Java Runtime.
 	JreVendor *string `mandatory:"false" contributesTo:"query" name:"jreVendor"`
 

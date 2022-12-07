@@ -36,7 +36,9 @@ The following attributes are exported:
 * `id` - The OCID of the masking report.
 * `masking_policy_id` - The OCID of the masking policy used.
 * `masking_work_request_id` - The OCID of the masking work request that resulted in this masking report.
+* `state` - The current state of the masking report.
 * `target_id` - The OCID of the target database masked.
+* `time_created` - The date and time the masking report was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 
 * `time_masking_finished` - The date and time data masking finished, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339)
 * `time_masking_started` - The date and time data masking started, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339)
 * `total_masked_columns` - The total number of masked columns.

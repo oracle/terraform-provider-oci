@@ -241,18 +241,21 @@ const (
 	ListMaskingColumnsSortByTimecreated ListMaskingColumnsSortByEnum = "timeCreated"
 	ListMaskingColumnsSortBySchemaname  ListMaskingColumnsSortByEnum = "schemaName"
 	ListMaskingColumnsSortByObjectname  ListMaskingColumnsSortByEnum = "objectName"
+	ListMaskingColumnsSortByDatatype    ListMaskingColumnsSortByEnum = "dataType"
 )
 
 var mappingListMaskingColumnsSortByEnum = map[string]ListMaskingColumnsSortByEnum{
 	"timeCreated": ListMaskingColumnsSortByTimecreated,
 	"schemaName":  ListMaskingColumnsSortBySchemaname,
 	"objectName":  ListMaskingColumnsSortByObjectname,
+	"dataType":    ListMaskingColumnsSortByDatatype,
 }
 
 var mappingListMaskingColumnsSortByEnumLowerCase = map[string]ListMaskingColumnsSortByEnum{
 	"timecreated": ListMaskingColumnsSortByTimecreated,
 	"schemaname":  ListMaskingColumnsSortBySchemaname,
 	"objectname":  ListMaskingColumnsSortByObjectname,
+	"datatype":    ListMaskingColumnsSortByDatatype,
 }
 
 // GetListMaskingColumnsSortByEnumValues Enumerates the set of values for ListMaskingColumnsSortByEnum
@@ -270,6 +273,7 @@ func GetListMaskingColumnsSortByEnumStringValues() []string {
 		"timeCreated",
 		"schemaName",
 		"objectName",
+		"dataType",
 	}
 }
 

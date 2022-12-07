@@ -83,6 +83,8 @@ type PeComanagedHostConfigurationSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
 	ParentId *string `mandatory:"true" json:"parentId"`
 
+	ExadataDetails *ExadataDetails `mandatory:"true" json:"exadataDetails"`
+
 	// Platform type.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
 	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].

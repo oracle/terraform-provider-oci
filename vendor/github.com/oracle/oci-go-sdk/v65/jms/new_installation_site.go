@@ -23,6 +23,9 @@ type NewInstallationSite struct {
 
 	// The release version of the Java Runtime.
 	ReleaseVersion *string `mandatory:"true" json:"releaseVersion"`
+
+	// Artifact content type for the Java version.
+	ArtifactContentType ArtifactContentTypeEnum `mandatory:"false" json:"artifactContentType,omitempty"`
 }
 
 func (m NewInstallationSite) String() string {
@@ -35,6 +38,9 @@ func (m NewInstallationSite) String() string {
 func (m NewInstallationSite) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingArtifactContentTypeEnum(string(m.ArtifactContentType)); !ok && m.ArtifactContentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ArtifactContentType: %s. Supported values are: %s.", m.ArtifactContentType, strings.Join(GetArtifactContentTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

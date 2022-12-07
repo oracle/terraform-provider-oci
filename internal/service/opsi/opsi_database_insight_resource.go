@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2022, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package opsi
@@ -299,8 +299,16 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"parent_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"processor_count": {
 				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"root_id": {
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"state": {
@@ -827,6 +835,14 @@ func (s *OpsiDatabaseInsightResourceCrud) SetData() error {
 			s.D.Set("opsi_private_endpoint_id", *v.OpsiPrivateEndpointId)
 		}
 
+		if v.ParentId != nil {
+			s.D.Set("parent_id", *v.ParentId)
+		}
+
+		if v.RootId != nil {
+			s.D.Set("root_id", *v.RootId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -1147,6 +1163,13 @@ func DatabaseInsightSummaryToMap(obj oci_opsi.DatabaseInsightSummary) map[string
 			result["opsi_private_endpoint_id"] = string(*v.OpsiPrivateEndpointId)
 		}
 
+		if v.ParentId != nil {
+			result["parent_id"] = string(*v.ParentId)
+		}
+
+		if v.RootId != nil {
+			result["root_id"] = string(*v.RootId)
+		}
 	default:
 		log.Printf("[WARN] Received 'entity_source' of unknown type %v", obj)
 	}

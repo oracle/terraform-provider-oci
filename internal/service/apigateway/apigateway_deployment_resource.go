@@ -8,6 +8,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strconv"
 	"strings"
 	"time"
 
@@ -149,6 +150,7 @@ func ApigatewayDeploymentResource() *schema.Resource {
 													ValidateFunc: validation.StringInSlice([]string{
 														"CUSTOM_AUTHENTICATION",
 														"JWT_AUTHENTICATION",
+														"TOKEN_AUTHENTICATION",
 													}, true),
 												},
 
@@ -334,10 +336,68 @@ func ApigatewayDeploymentResource() *schema.Resource {
 																DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 																ValidateFunc: validation.StringInSlice([]string{
 																	"MODIFY_RESPONSE",
+																	"OAUTH2",
 																}, true),
 															},
 
 															// Optional
+															"client_details": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																MaxItems: 1,
+																MinItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+																		"type": {
+																			Type:             schema.TypeString,
+																			Required:         true,
+																			DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																			ValidateFunc: validation.StringInSlice([]string{
+																				"CUSTOM",
+																				"VALIDATION_BLOCK",
+																			}, true),
+																		},
+
+																		// Optional
+																		"client_id": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+																		"client_secret_id": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+																		"client_secret_version_number": {
+																			Type:             schema.TypeString,
+																			Optional:         true,
+																			Computed:         true,
+																			ValidateFunc:     tfresource.ValidateInt64TypeString,
+																			DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+																		},
+
+																		// Computed
+																	},
+																},
+															},
+															"fallback_redirect_path": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+															"logout_path": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+															"max_expiry_duration_in_hours": {
+																Type:     schema.TypeInt,
+																Optional: true,
+																Computed: true,
+															},
 															"response_code": {
 																Type:     schema.TypeString,
 																Optional: true,
@@ -363,18 +423,22 @@ func ApigatewayDeploymentResource() *schema.Resource {
 																			Elem: &schema.Resource{
 																				Schema: map[string]*schema.Schema{
 																					// Required
+
+																					// Optional
 																					"items": {
 																						Type:     schema.TypeList,
-																						Required: true,
+																						Optional: true,
+																						Computed: true,
 																						Elem: &schema.Resource{
 																							Schema: map[string]*schema.Schema{
 																								// Required
-																								"name": {
-																									Type:     schema.TypeString,
-																									Required: true,
-																								},
 
 																								// Optional
+																								"name": {
+																									Type:     schema.TypeString,
+																									Optional: true,
+																									Computed: true,
+																								},
 
 																								// Computed
 																							},
@@ -382,10 +446,9 @@ func ApigatewayDeploymentResource() *schema.Resource {
 																					},
 																					"type": {
 																						Type:     schema.TypeString,
-																						Required: true,
+																						Optional: true,
+																						Computed: true,
 																					},
-
-																					// Optional
 
 																					// Computed
 																				},
@@ -400,29 +463,32 @@ func ApigatewayDeploymentResource() *schema.Resource {
 																			Elem: &schema.Resource{
 																				Schema: map[string]*schema.Schema{
 																					// Required
+
+																					// Optional
 																					"items": {
 																						Type:     schema.TypeList,
-																						Required: true,
+																						Optional: true,
+																						Computed: true,
 																						Elem: &schema.Resource{
 																							Schema: map[string]*schema.Schema{
 																								// Required
+
+																								// Optional
 																								"from": {
 																									Type:     schema.TypeString,
-																									Required: true,
+																									Optional: true,
+																									Computed: true,
 																								},
 																								"to": {
 																									Type:     schema.TypeString,
-																									Required: true,
+																									Optional: true,
+																									Computed: true,
 																								},
-
-																								// Optional
 
 																								// Computed
 																							},
 																						},
 																					},
-
-																					// Optional
 
 																					// Computed
 																				},
@@ -437,23 +503,15 @@ func ApigatewayDeploymentResource() *schema.Resource {
 																			Elem: &schema.Resource{
 																				Schema: map[string]*schema.Schema{
 																					// Required
+
+																					// Optional
 																					"items": {
 																						Type:     schema.TypeList,
-																						Required: true,
+																						Optional: true,
+																						Computed: true,
 																						Elem: &schema.Resource{
 																							Schema: map[string]*schema.Schema{
 																								// Required
-																								"name": {
-																									Type:     schema.TypeString,
-																									Required: true,
-																								},
-																								"values": {
-																									Type:     schema.TypeList,
-																									Required: true,
-																									Elem: &schema.Schema{
-																										Type: schema.TypeString,
-																									},
-																								},
 
 																								// Optional
 																								"if_exists": {
@@ -461,13 +519,24 @@ func ApigatewayDeploymentResource() *schema.Resource {
 																									Optional: true,
 																									Computed: true,
 																								},
+																								"name": {
+																									Type:     schema.TypeString,
+																									Optional: true,
+																									Computed: true,
+																								},
+																								"values": {
+																									Type:     schema.TypeList,
+																									Optional: true,
+																									Computed: true,
+																									Elem: &schema.Schema{
+																										Type: schema.TypeString,
+																									},
+																								},
 
 																								// Computed
 																							},
 																						},
 																					},
-
-																					// Optional
 
 																					// Computed
 																				},
@@ -479,6 +548,307 @@ func ApigatewayDeploymentResource() *schema.Resource {
 																},
 															},
 															"response_message": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+															"response_type": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+															"scopes": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																Elem: &schema.Schema{
+																	Type: schema.TypeString,
+																},
+															},
+															"source_uri_details": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																MaxItems: 1,
+																MinItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+																		"type": {
+																			Type:             schema.TypeString,
+																			Required:         true,
+																			DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																			ValidateFunc: validation.StringInSlice([]string{
+																				"DISCOVERY_URI",
+																				"VALIDATION_BLOCK",
+																			}, true),
+																		},
+
+																		// Optional
+																		"uri": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+
+																		// Computed
+																	},
+																},
+															},
+															"use_cookies_for_intermediate_steps": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+															},
+															"use_cookies_for_session": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+															},
+															"use_pkce": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+												"validation_policy": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"type": {
+																Type:             schema.TypeString,
+																Required:         true,
+																DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																ValidateFunc: validation.StringInSlice([]string{
+																	"REMOTE_DISCOVERY",
+																	"REMOTE_JWKS",
+																	"STATIC_KEYS",
+																}, true),
+															},
+
+															// Optional
+															"additional_validation_policy": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																MaxItems: 1,
+																MinItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+
+																		// Optional
+																		"audiences": {
+																			Type:     schema.TypeList,
+																			Optional: true,
+																			Computed: true,
+																			Elem: &schema.Schema{
+																				Type: schema.TypeString,
+																			},
+																		},
+																		"issuers": {
+																			Type:     schema.TypeList,
+																			Optional: true,
+																			Computed: true,
+																			Elem: &schema.Schema{
+																				Type: schema.TypeString,
+																			},
+																		},
+																		"verify_claims": {
+																			Type:     schema.TypeList,
+																			Optional: true,
+																			Computed: true,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+
+																					// Optional
+																					"is_required": {
+																						Type:     schema.TypeBool,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"key": {
+																						Type:     schema.TypeString,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"values": {
+																						Type:     schema.TypeList,
+																						Optional: true,
+																						Computed: true,
+																						Elem: &schema.Schema{
+																							Type: schema.TypeString,
+																						},
+																					},
+
+																					// Computed
+																				},
+																			},
+																		},
+
+																		// Computed
+																	},
+																},
+															},
+															"client_details": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																MaxItems: 1,
+																MinItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+																		"type": {
+																			Type:             schema.TypeString,
+																			Required:         true,
+																			DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																			ValidateFunc: validation.StringInSlice([]string{
+																				"CUSTOM",
+																				"VALIDATION_BLOCK",
+																			}, true),
+																		},
+
+																		// Optional
+																		"client_id": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+																		"client_secret_id": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+																		"client_secret_version_number": {
+																			Type:             schema.TypeString,
+																			Optional:         true,
+																			Computed:         true,
+																			ValidateFunc:     tfresource.ValidateInt64TypeString,
+																			DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+																		},
+
+																		// Computed
+																	},
+																},
+															},
+															"is_ssl_verify_disabled": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+															},
+															"keys": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+																		"format": {
+																			Type:             schema.TypeString,
+																			Required:         true,
+																			DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																			ValidateFunc: validation.StringInSlice([]string{
+																				"JSON_WEB_KEY",
+																				"PEM",
+																			}, true),
+																		},
+
+																		// Optional
+																		"alg": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+																		"e": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+																		"key": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+																		"key_ops": {
+																			Type:     schema.TypeList,
+																			Optional: true,
+																			Computed: true,
+																			Elem: &schema.Schema{
+																				Type: schema.TypeString,
+																			},
+																		},
+																		"kid": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+																		"kty": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+																		"n": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+																		"use": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+
+																		// Computed
+																	},
+																},
+															},
+															"max_cache_duration_in_hours": {
+																Type:     schema.TypeInt,
+																Optional: true,
+																Computed: true,
+															},
+															"source_uri_details": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																MaxItems: 1,
+																MinItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+																		"type": {
+																			Type:             schema.TypeString,
+																			Required:         true,
+																			DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																			ValidateFunc: validation.StringInSlice([]string{
+																				"DISCOVERY_URI",
+																				"VALIDATION_BLOCK",
+																			}, true),
+																		},
+
+																		// Optional
+																		"uri": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+
+																		// Computed
+																	},
+																},
+															},
+															"uri": {
 																Type:     schema.TypeString,
 																Optional: true,
 																Computed: true,
@@ -612,11 +982,20 @@ func ApigatewayDeploymentResource() *schema.Resource {
 																			ValidateFunc: validation.StringInSlice([]string{
 																				"CUSTOM_AUTHENTICATION",
 																				"JWT_AUTHENTICATION",
+																				"TOKEN_AUTHENTICATION",
 																			}, true),
 																		},
 
 																		// Optional
 																		"audiences": {
+																			Type:     schema.TypeList,
+																			Optional: true,
+																			Computed: true,
+																			Elem: &schema.Schema{
+																				Type: schema.TypeString,
+																			},
+																		},
+																		"cache_key": {
 																			Type:     schema.TypeList,
 																			Optional: true,
 																			Computed: true,
@@ -646,6 +1025,12 @@ func ApigatewayDeploymentResource() *schema.Resource {
 																			Type:     schema.TypeFloat,
 																			Optional: true,
 																			Computed: true,
+																		},
+																		"parameters": {
+																			Type:     schema.TypeMap,
+																			Optional: true,
+																			Computed: true,
+																			Elem:     schema.TypeString,
 																		},
 																		"public_keys": {
 																			Type:     schema.TypeList,
@@ -768,6 +1153,543 @@ func ApigatewayDeploymentResource() *schema.Resource {
 																			Optional: true,
 																			Computed: true,
 																		},
+																		"validation_failure_policy": {
+																			Type:     schema.TypeList,
+																			Optional: true,
+																			Computed: true,
+																			MaxItems: 1,
+																			MinItems: 1,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+																					"type": {
+																						Type:             schema.TypeString,
+																						Required:         true,
+																						DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																						ValidateFunc: validation.StringInSlice([]string{
+																							"MODIFY_RESPONSE",
+																							"OAUTH2",
+																						}, true),
+																					},
+
+																					// Optional
+																					"client_details": {
+																						Type:     schema.TypeList,
+																						Optional: true,
+																						Computed: true,
+																						MaxItems: 1,
+																						MinItems: 1,
+																						Elem: &schema.Resource{
+																							Schema: map[string]*schema.Schema{
+																								// Required
+																								"type": {
+																									Type:             schema.TypeString,
+																									Required:         true,
+																									DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																									ValidateFunc: validation.StringInSlice([]string{
+																										"CUSTOM",
+																										"VALIDATION_BLOCK",
+																									}, true),
+																								},
+
+																								// Optional
+																								"client_id": {
+																									Type:     schema.TypeString,
+																									Optional: true,
+																									Computed: true,
+																								},
+																								"client_secret_id": {
+																									Type:     schema.TypeString,
+																									Optional: true,
+																									Computed: true,
+																								},
+																								"client_secret_version_number": {
+																									Type:             schema.TypeString,
+																									Optional:         true,
+																									Computed:         true,
+																									ValidateFunc:     tfresource.ValidateInt64TypeString,
+																									DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+																								},
+
+																								// Computed
+																							},
+																						},
+																					},
+																					"fallback_redirect_path": {
+																						Type:     schema.TypeString,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"logout_path": {
+																						Type:     schema.TypeString,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"max_expiry_duration_in_hours": {
+																						Type:     schema.TypeInt,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"response_code": {
+																						Type:     schema.TypeString,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"response_header_transformations": {
+																						Type:     schema.TypeList,
+																						Optional: true,
+																						Computed: true,
+																						MaxItems: 1,
+																						MinItems: 1,
+																						Elem: &schema.Resource{
+																							Schema: map[string]*schema.Schema{
+																								// Required
+
+																								// Optional
+																								"filter_headers": {
+																									Type:     schema.TypeList,
+																									Optional: true,
+																									Computed: true,
+																									MaxItems: 1,
+																									MinItems: 1,
+																									Elem: &schema.Resource{
+																										Schema: map[string]*schema.Schema{
+																											// Required
+
+																											// Optional
+																											"items": {
+																												Type:     schema.TypeList,
+																												Optional: true,
+																												Computed: true,
+																												Elem: &schema.Resource{
+																													Schema: map[string]*schema.Schema{
+																														// Required
+
+																														// Optional
+																														"name": {
+																															Type:     schema.TypeString,
+																															Optional: true,
+																															Computed: true,
+																														},
+
+																														// Computed
+																													},
+																												},
+																											},
+																											"type": {
+																												Type:     schema.TypeString,
+																												Optional: true,
+																												Computed: true,
+																											},
+
+																											// Computed
+																										},
+																									},
+																								},
+																								"rename_headers": {
+																									Type:     schema.TypeList,
+																									Optional: true,
+																									Computed: true,
+																									MaxItems: 1,
+																									MinItems: 1,
+																									Elem: &schema.Resource{
+																										Schema: map[string]*schema.Schema{
+																											// Required
+
+																											// Optional
+																											"items": {
+																												Type:     schema.TypeList,
+																												Optional: true,
+																												Computed: true,
+																												Elem: &schema.Resource{
+																													Schema: map[string]*schema.Schema{
+																														// Required
+
+																														// Optional
+																														"from": {
+																															Type:     schema.TypeString,
+																															Optional: true,
+																															Computed: true,
+																														},
+																														"to": {
+																															Type:     schema.TypeString,
+																															Optional: true,
+																															Computed: true,
+																														},
+
+																														// Computed
+																													},
+																												},
+																											},
+
+																											// Computed
+																										},
+																									},
+																								},
+																								"set_headers": {
+																									Type:     schema.TypeList,
+																									Optional: true,
+																									Computed: true,
+																									MaxItems: 1,
+																									MinItems: 1,
+																									Elem: &schema.Resource{
+																										Schema: map[string]*schema.Schema{
+																											// Required
+
+																											// Optional
+																											"items": {
+																												Type:     schema.TypeList,
+																												Optional: true,
+																												Computed: true,
+																												Elem: &schema.Resource{
+																													Schema: map[string]*schema.Schema{
+																														// Required
+
+																														// Optional
+																														"if_exists": {
+																															Type:     schema.TypeString,
+																															Optional: true,
+																															Computed: true,
+																														},
+																														"name": {
+																															Type:     schema.TypeString,
+																															Optional: true,
+																															Computed: true,
+																														},
+																														"values": {
+																															Type:     schema.TypeList,
+																															Optional: true,
+																															Computed: true,
+																															Elem: &schema.Schema{
+																																Type: schema.TypeString,
+																															},
+																														},
+
+																														// Computed
+																													},
+																												},
+																											},
+
+																											// Computed
+																										},
+																									},
+																								},
+
+																								// Computed
+																							},
+																						},
+																					},
+																					"response_message": {
+																						Type:     schema.TypeString,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"response_type": {
+																						Type:     schema.TypeString,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"scopes": {
+																						Type:     schema.TypeList,
+																						Optional: true,
+																						Computed: true,
+																						Elem: &schema.Schema{
+																							Type: schema.TypeString,
+																						},
+																					},
+																					"source_uri_details": {
+																						Type:     schema.TypeList,
+																						Optional: true,
+																						Computed: true,
+																						MaxItems: 1,
+																						MinItems: 1,
+																						Elem: &schema.Resource{
+																							Schema: map[string]*schema.Schema{
+																								// Required
+																								"type": {
+																									Type:             schema.TypeString,
+																									Required:         true,
+																									DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																									ValidateFunc: validation.StringInSlice([]string{
+																										"DISCOVERY_URI",
+																										"VALIDATION_BLOCK",
+																									}, true),
+																								},
+
+																								// Optional
+																								"uri": {
+																									Type:     schema.TypeString,
+																									Optional: true,
+																									Computed: true,
+																								},
+
+																								// Computed
+																							},
+																						},
+																					},
+																					"use_cookies_for_intermediate_steps": {
+																						Type:     schema.TypeBool,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"use_cookies_for_session": {
+																						Type:     schema.TypeBool,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"use_pkce": {
+																						Type:     schema.TypeBool,
+																						Optional: true,
+																						Computed: true,
+																					},
+
+																					// Computed
+																				},
+																			},
+																		},
+																		"validation_policy": {
+																			Type:     schema.TypeList,
+																			Optional: true,
+																			Computed: true,
+																			MaxItems: 1,
+																			MinItems: 1,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+																					"type": {
+																						Type:             schema.TypeString,
+																						Required:         true,
+																						DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																						ValidateFunc: validation.StringInSlice([]string{
+																							"REMOTE_DISCOVERY",
+																							"REMOTE_JWKS",
+																							"STATIC_KEYS",
+																						}, true),
+																					},
+
+																					// Optional
+																					"additional_validation_policy": {
+																						Type:     schema.TypeList,
+																						Optional: true,
+																						Computed: true,
+																						MaxItems: 1,
+																						MinItems: 1,
+																						Elem: &schema.Resource{
+																							Schema: map[string]*schema.Schema{
+																								// Required
+
+																								// Optional
+																								"audiences": {
+																									Type:     schema.TypeList,
+																									Optional: true,
+																									Computed: true,
+																									Elem: &schema.Schema{
+																										Type: schema.TypeString,
+																									},
+																								},
+																								"issuers": {
+																									Type:     schema.TypeList,
+																									Optional: true,
+																									Computed: true,
+																									Elem: &schema.Schema{
+																										Type: schema.TypeString,
+																									},
+																								},
+																								"verify_claims": {
+																									Type:     schema.TypeList,
+																									Optional: true,
+																									Computed: true,
+																									Elem: &schema.Resource{
+																										Schema: map[string]*schema.Schema{
+																											// Required
+
+																											// Optional
+																											"is_required": {
+																												Type:     schema.TypeBool,
+																												Optional: true,
+																												Computed: true,
+																											},
+																											"key": {
+																												Type:     schema.TypeString,
+																												Optional: true,
+																												Computed: true,
+																											},
+																											"values": {
+																												Type:     schema.TypeList,
+																												Optional: true,
+																												Computed: true,
+																												Elem: &schema.Schema{
+																													Type: schema.TypeString,
+																												},
+																											},
+
+																											// Computed
+																										},
+																									},
+																								},
+
+																								// Computed
+																							},
+																						},
+																					},
+																					"client_details": {
+																						Type:     schema.TypeList,
+																						Optional: true,
+																						Computed: true,
+																						MaxItems: 1,
+																						MinItems: 1,
+																						Elem: &schema.Resource{
+																							Schema: map[string]*schema.Schema{
+																								// Required
+																								"type": {
+																									Type:             schema.TypeString,
+																									Required:         true,
+																									DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																									ValidateFunc: validation.StringInSlice([]string{
+																										"CUSTOM",
+																										"VALIDATION_BLOCK",
+																									}, true),
+																								},
+
+																								// Optional
+																								"client_id": {
+																									Type:     schema.TypeString,
+																									Optional: true,
+																									Computed: true,
+																								},
+																								"client_secret_id": {
+																									Type:     schema.TypeString,
+																									Optional: true,
+																									Computed: true,
+																								},
+																								"client_secret_version_number": {
+																									Type:             schema.TypeString,
+																									Optional:         true,
+																									Computed:         true,
+																									ValidateFunc:     tfresource.ValidateInt64TypeString,
+																									DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+																								},
+
+																								// Computed
+																							},
+																						},
+																					},
+																					"is_ssl_verify_disabled": {
+																						Type:     schema.TypeBool,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"keys": {
+																						Type:     schema.TypeList,
+																						Optional: true,
+																						Computed: true,
+																						Elem: &schema.Resource{
+																							Schema: map[string]*schema.Schema{
+																								// Required
+																								"format": {
+																									Type:             schema.TypeString,
+																									Required:         true,
+																									DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																									ValidateFunc: validation.StringInSlice([]string{
+																										"JSON_WEB_KEY",
+																										"PEM",
+																									}, true),
+																								},
+
+																								// Optional
+																								"alg": {
+																									Type:     schema.TypeString,
+																									Optional: true,
+																									Computed: true,
+																								},
+																								"e": {
+																									Type:     schema.TypeString,
+																									Optional: true,
+																									Computed: true,
+																								},
+																								"key": {
+																									Type:     schema.TypeString,
+																									Optional: true,
+																									Computed: true,
+																								},
+																								"key_ops": {
+																									Type:     schema.TypeList,
+																									Optional: true,
+																									Computed: true,
+																									Elem: &schema.Schema{
+																										Type: schema.TypeString,
+																									},
+																								},
+																								"kid": {
+																									Type:     schema.TypeString,
+																									Optional: true,
+																									Computed: true,
+																								},
+																								"kty": {
+																									Type:     schema.TypeString,
+																									Optional: true,
+																									Computed: true,
+																								},
+																								"n": {
+																									Type:     schema.TypeString,
+																									Optional: true,
+																									Computed: true,
+																								},
+																								"use": {
+																									Type:     schema.TypeString,
+																									Optional: true,
+																									Computed: true,
+																								},
+
+																								// Computed
+																							},
+																						},
+																					},
+																					"max_cache_duration_in_hours": {
+																						Type:     schema.TypeInt,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"source_uri_details": {
+																						Type:     schema.TypeList,
+																						Optional: true,
+																						Computed: true,
+																						MaxItems: 1,
+																						MinItems: 1,
+																						Elem: &schema.Resource{
+																							Schema: map[string]*schema.Schema{
+																								// Required
+																								"type": {
+																									Type:             schema.TypeString,
+																									Required:         true,
+																									DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																									ValidateFunc: validation.StringInSlice([]string{
+																										"DISCOVERY_URI",
+																										"VALIDATION_BLOCK",
+																									}, true),
+																								},
+
+																								// Optional
+																								"uri": {
+																									Type:     schema.TypeString,
+																									Optional: true,
+																									Computed: true,
+																								},
+
+																								// Computed
+																							},
+																						},
+																					},
+																					"uri": {
+																						Type:     schema.TypeString,
+																						Optional: true,
+																						Computed: true,
+																					},
+
+																					// Computed
+																				},
+																			},
+																		},
 																		"verify_claims": {
 																			Type:     schema.TypeList,
 																			Optional: true,
@@ -800,7 +1722,6 @@ func ApigatewayDeploymentResource() *schema.Resource {
 																				},
 																			},
 																		},
-
 																		// Computed
 																	},
 																},
@@ -995,12 +1916,21 @@ func ApigatewayDeploymentResource() *schema.Resource {
 													ValidateFunc: validation.StringInSlice([]string{
 														"DYNAMIC_ROUTING_BACKEND",
 														"HTTP_BACKEND",
+														"OAUTH2_LOGOUT_BACKEND",
 														"ORACLE_FUNCTIONS_BACKEND",
 														"STOCK_RESPONSE_BACKEND",
 													}, true),
 												},
 
 												// Optional
+												"allowed_post_logout_uris": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
 												"body": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -1045,6 +1975,11 @@ func ApigatewayDeploymentResource() *schema.Resource {
 													Optional: true,
 													Computed: true,
 												},
+												"post_logout_state": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
 												"read_timeout_in_seconds": {
 													Type:     schema.TypeFloat,
 													Optional: true,
@@ -1084,6 +2019,11 @@ func ApigatewayDeploymentResource() *schema.Resource {
 																			Elem: &schema.Schema{
 																				Type: schema.TypeString,
 																			},
+																		},
+																		"is_default": {
+																			Type:     schema.TypeBool,
+																			Optional: true,
+																			Computed: true,
 																		},
 																	},
 																},
@@ -2509,6 +3449,73 @@ func AccessLogPolicyToMap(obj *oci_apigateway.AccessLogPolicy) map[string]interf
 	return result
 }
 
+func (s *ApigatewayDeploymentResourceCrud) mapToAdditionalValidationPolicy(fieldKeyFormat string) (oci_apigateway.AdditionalValidationPolicy, error) {
+	result := oci_apigateway.AdditionalValidationPolicy{}
+
+	if audiences, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "audiences")); ok {
+		interfaces := audiences.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "audiences")) {
+			result.Audiences = tmp
+		}
+	}
+
+	if issuers, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "issuers")); ok {
+		interfaces := issuers.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "issuers")) {
+			result.Issuers = tmp
+		}
+	}
+
+	if verifyClaims, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "verify_claims")); ok {
+		interfaces := verifyClaims.([]interface{})
+		tmp := make([]oci_apigateway.JsonWebTokenClaim, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "verify_claims"), stateDataIndex)
+			converted, err := s.mapToJsonWebTokenClaim(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "verify_claims")) {
+			result.VerifyClaims = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func AdditionalValidationPolicyToMap(obj *oci_apigateway.AdditionalValidationPolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["audiences"] = obj.Audiences
+	result["audiences"] = obj.Audiences
+
+	result["issuers"] = obj.Issuers
+	result["issuers"] = obj.Issuers
+
+	verifyClaims := []interface{}{}
+	for _, item := range obj.VerifyClaims {
+		verifyClaims = append(verifyClaims, JsonWebTokenClaimToMap(item))
+	}
+	result["verify_claims"] = verifyClaims
+
+	return result
+}
+
 func (s *ApigatewayDeploymentResourceCrud) mapToApiSpecification(fieldKeyFormat string) (oci_apigateway.ApiSpecification, error) {
 	result := oci_apigateway.ApiSpecification{}
 
@@ -2885,6 +3892,25 @@ func (s *ApigatewayDeploymentResourceCrud) mapToApiSpecificationRouteBackend(fie
 			details.Url = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("OAUTH2_LOGOUT_BACKEND"):
+		details := oci_apigateway.OAuth2LogoutBackend{}
+		if allowedPostLogoutUris, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "allowed_post_logout_uris")); ok {
+			interfaces := allowedPostLogoutUris.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "allowed_post_logout_uris")) {
+				details.AllowedPostLogoutUris = tmp
+			}
+		}
+		if postLogoutState, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "post_logout_state")); ok {
+			tmp := postLogoutState.(string)
+			details.PostLogoutState = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("ORACLE_FUNCTIONS_BACKEND"):
 		details := oci_apigateway.OracleFunctionBackend{}
 		if functionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "function_id")); ok {
@@ -2965,6 +3991,15 @@ func ApiSpecificationRouteBackendToMap(obj *oci_apigateway.ApiSpecificationRoute
 
 		if v.Url != nil {
 			result["url"] = string(*v.Url)
+		}
+	case oci_apigateway.OAuth2LogoutBackend:
+		result["type"] = "OAUTH2_LOGOUT_BACKEND"
+
+		result["allowed_post_logout_uris"] = v.AllowedPostLogoutUris
+		result["allowed_post_logout_uris"] = v.AllowedPostLogoutUris
+
+		if v.PostLogoutState != nil {
+			result["post_logout_state"] = string(*v.PostLogoutState)
 		}
 	case oci_apigateway.OracleFunctionBackend:
 		result["type"] = "ORACLE_FUNCTIONS_BACKEND"
@@ -3456,6 +4491,51 @@ func (s *ApigatewayDeploymentResourceCrud) mapToAuthenticationPolicy(fieldKeyFor
 			details.IsAnonymousAccessAllowed = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("TOKEN_AUTHENTICATION"):
+		details := oci_apigateway.TokenAuthenticationPolicy{}
+		if maxClockSkewInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_clock_skew_in_seconds")); ok {
+			tmp := float32(maxClockSkewInSeconds.(float64))
+			details.MaxClockSkewInSeconds = &tmp
+		}
+		if tokenAuthScheme, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "token_auth_scheme")); ok {
+			tmp := tokenAuthScheme.(string)
+			details.TokenAuthScheme = &tmp
+		}
+		if tokenHeader, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "token_header")); ok {
+			tmp := tokenHeader.(string)
+			details.TokenHeader = &tmp
+		}
+		if tokenQueryParam, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "token_query_param")); ok {
+			tmp := tokenQueryParam.(string)
+			if len(tmp) != 0 {
+				details.TokenQueryParam = &tmp
+			}
+		}
+		if validationFailurePolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "validation_failure_policy")); ok {
+			if tmpList := validationFailurePolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "validation_failure_policy"), 0)
+				tmp, err := s.mapToValidationFailurePolicy(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert validation_failure_policy, encountered error: %v", err)
+				}
+				details.ValidationFailurePolicy = tmp
+			}
+		}
+		if validationPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "validation_policy")); ok {
+			if tmpList := validationPolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "validation_policy"), 0)
+				tmp, err := s.mapToTokenAuthenticationValidationPolicy(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert validation_policy, encountered error: %v", err)
+				}
+				details.ValidationPolicy = tmp
+			}
+		}
+		if isAnonymousAccessAllowed, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_anonymous_access_allowed")); ok {
+			tmp := isAnonymousAccessAllowed.(bool)
+			details.IsAnonymousAccessAllowed = &tmp
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
 	}
@@ -3475,7 +4555,6 @@ func AuthenticationPolicyToMap(obj *oci_apigateway.AuthenticationPolicy) map[str
 			result["function_id"] = string(*v.FunctionId)
 		}
 
-		result["parameters"] = v.Parameters
 		result["parameters"] = v.Parameters
 
 		if v.TokenHeader != nil {
@@ -3533,6 +4612,44 @@ func AuthenticationPolicyToMap(obj *oci_apigateway.AuthenticationPolicy) map[str
 			verifyClaims = append(verifyClaims, JsonWebTokenClaimToMap(item))
 		}
 		result["verify_claims"] = verifyClaims
+
+		if v.IsAnonymousAccessAllowed != nil {
+			result["is_anonymous_access_allowed"] = bool(*v.IsAnonymousAccessAllowed)
+		}
+	case oci_apigateway.TokenAuthenticationPolicy:
+		result["type"] = "TOKEN_AUTHENTICATION"
+
+		if v.MaxClockSkewInSeconds != nil {
+			result["max_clock_skew_in_seconds"] = float32(*v.MaxClockSkewInSeconds)
+		}
+
+		if v.TokenAuthScheme != nil {
+			result["token_auth_scheme"] = string(*v.TokenAuthScheme)
+		}
+
+		if v.TokenHeader != nil {
+			result["token_header"] = string(*v.TokenHeader)
+		}
+
+		if v.TokenQueryParam != nil {
+			result["token_query_param"] = string(*v.TokenQueryParam)
+		}
+
+		if v.ValidationFailurePolicy != nil {
+			validationFailurePolicyArray := []interface{}{}
+			if validationFailurePolicyMap := ValidationFailurePolicyToMap(&v.ValidationFailurePolicy); validationFailurePolicyMap != nil {
+				validationFailurePolicyArray = append(validationFailurePolicyArray, validationFailurePolicyMap)
+			}
+			result["validation_failure_policy"] = validationFailurePolicyArray
+		}
+
+		if v.ValidationPolicy != nil {
+			validationPolicyArray := []interface{}{}
+			if validationPolicyMap := TokenAuthenticationValidationPolicyToMap(&v.ValidationPolicy); validationPolicyMap != nil {
+				validationPolicyArray = append(validationPolicyArray, validationPolicyMap)
+			}
+			result["validation_policy"] = validationPolicyArray
+		}
 
 		if v.IsAnonymousAccessAllowed != nil {
 			result["is_anonymous_access_allowed"] = bool(*v.IsAnonymousAccessAllowed)
@@ -3702,6 +4819,72 @@ func BodyValidationRequestPolicyToMap(obj *oci_apigateway.BodyValidationRequestP
 	}
 
 	result["validation_mode"] = string(obj.ValidationMode)
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToClientAppDetails(fieldKeyFormat string) (oci_apigateway.ClientAppDetails, error) {
+	var baseObject oci_apigateway.ClientAppDetails
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("CUSTOM"):
+		details := oci_apigateway.CustomClientAppDetails{}
+		if clientId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_id")); ok {
+			tmp := clientId.(string)
+			details.ClientId = &tmp
+		}
+		if clientSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_secret_id")); ok {
+			tmp := clientSecretId.(string)
+			details.ClientSecretId = &tmp
+		}
+		if clientSecretVersionNumber, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_secret_version_number")); ok {
+			tmp := clientSecretVersionNumber.(string)
+			tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+			if err != nil {
+				return details, fmt.Errorf("unable to convert clientSecretVersionNumber string: %s to an int64 and encountered error: %v", tmp, err)
+			}
+			details.ClientSecretVersionNumber = &tmpInt64
+		}
+		baseObject = details
+	case strings.ToLower("VALIDATION_BLOCK"):
+		details := oci_apigateway.ValidationBlockClientAppDetails{}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func ClientAppDetailsToMap(obj *oci_apigateway.ClientAppDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_apigateway.CustomClientAppDetails:
+		result["type"] = "CUSTOM"
+
+		if v.ClientId != nil {
+			result["client_id"] = string(*v.ClientId)
+		}
+
+		if v.ClientSecretId != nil {
+			result["client_secret_id"] = string(*v.ClientSecretId)
+		}
+
+		if v.ClientSecretVersionNumber != nil {
+			result["client_secret_version_number"] = strconv.FormatInt(*v.ClientSecretVersionNumber, 10)
+		}
+	case oci_apigateway.ValidationBlockClientAppDetails:
+		result["type"] = "VALIDATION_BLOCK"
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		return nil
+	}
 
 	return result
 }
@@ -5015,6 +6198,52 @@ func SetQueryParameterPolicyItemToMap(obj oci_apigateway.SetQueryParameterPolicy
 	return result
 }
 
+func (s *ApigatewayDeploymentResourceCrud) mapToSourceUriDetails(fieldKeyFormat string) (oci_apigateway.SourceUriDetails, error) {
+	var baseObject oci_apigateway.SourceUriDetails
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("DISCOVERY_URI"):
+		details := oci_apigateway.DiscoveryUriSourceUriDetails{}
+		if uri, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
+			tmp := uri.(string)
+			details.Uri = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("VALIDATION_BLOCK"):
+		details := oci_apigateway.ValidationBlockSourceUriDetails{}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func SourceUriDetailsToMap(obj *oci_apigateway.SourceUriDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_apigateway.DiscoveryUriSourceUriDetails:
+		result["type"] = "DISCOVERY_URI"
+
+		if v.Uri != nil {
+			result["uri"] = string(*v.Uri)
+		}
+	case oci_apigateway.ValidationBlockSourceUriDetails:
+		result["type"] = "VALIDATION_BLOCK"
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
 func (s *ApigatewayDeploymentResourceCrud) mapToStaticPublicKey(fieldKeyFormat string) (oci_apigateway.StaticPublicKey, error) {
 	var baseObject oci_apigateway.StaticPublicKey
 	//discriminator
@@ -5123,6 +6352,186 @@ func StaticPublicKeyToMap(obj oci_apigateway.StaticPublicKey) map[string]interfa
 	return result
 }
 
+func (s *ApigatewayDeploymentResourceCrud) mapToTokenAuthenticationValidationPolicy(fieldKeyFormat string) (oci_apigateway.TokenAuthenticationValidationPolicy, error) {
+	var baseObject oci_apigateway.TokenAuthenticationValidationPolicy
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("REMOTE_DISCOVERY"):
+		details := oci_apigateway.TokenAuthenticationRemoteDiscoveryValidationPolicy{}
+		if clientDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_details")); ok {
+			if tmpList := clientDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "client_details"), 0)
+				tmp, err := s.mapToClientAppDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert client_details, encountered error: %v", err)
+				}
+				details.ClientDetails = tmp
+			}
+		}
+		if isSslVerifyDisabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_ssl_verify_disabled")); ok {
+			tmp := isSslVerifyDisabled.(bool)
+			details.IsSslVerifyDisabled = &tmp
+		}
+		if maxCacheDurationInHours, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_cache_duration_in_hours")); ok {
+			tmp := maxCacheDurationInHours.(int)
+			details.MaxCacheDurationInHours = &tmp
+		}
+		if sourceUriDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_uri_details")); ok {
+			if tmpList := sourceUriDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source_uri_details"), 0)
+				tmp, err := s.mapToSourceUriDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert source_uri_details, encountered error: %v", err)
+				}
+				details.SourceUriDetails = tmp
+			}
+		}
+		if additionalValidationPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "additional_validation_policy")); ok {
+			if tmpList := additionalValidationPolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "additional_validation_policy"), 0)
+				tmp, err := s.mapToAdditionalValidationPolicy(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert additional_validation_policy, encountered error: %v", err)
+				}
+				details.AdditionalValidationPolicy = &tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("REMOTE_JWKS"):
+		details := oci_apigateway.TokenAuthenticationRemoteJwksValidationPolicy{}
+		if isSslVerifyDisabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_ssl_verify_disabled")); ok {
+			tmp := isSslVerifyDisabled.(bool)
+			details.IsSslVerifyDisabled = &tmp
+		}
+		if maxCacheDurationInHours, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_cache_duration_in_hours")); ok {
+			tmp := maxCacheDurationInHours.(int)
+			details.MaxCacheDurationInHours = &tmp
+		}
+		if uri, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
+			tmp := uri.(string)
+			details.Uri = &tmp
+		}
+		if additionalValidationPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "additional_validation_policy")); ok {
+			if tmpList := additionalValidationPolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "additional_validation_policy"), 0)
+				tmp, err := s.mapToAdditionalValidationPolicy(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert additional_validation_policy, encountered error: %v", err)
+				}
+				details.AdditionalValidationPolicy = &tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("STATIC_KEYS"):
+		details := oci_apigateway.TokenAuthenticationStaticKeysValidationPolicy{}
+		if keys, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "keys")); ok {
+			interfaces := keys.([]interface{})
+			tmp := make([]oci_apigateway.StaticPublicKey, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "keys"), stateDataIndex)
+				converted, err := s.mapToStaticPublicKey(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "keys")) {
+				details.Keys = tmp
+			}
+		}
+		if additionalValidationPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "additional_validation_policy")); ok {
+			if tmpList := additionalValidationPolicy.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "additional_validation_policy"), 0)
+				tmp, err := s.mapToAdditionalValidationPolicy(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert additional_validation_policy, encountered error: %v", err)
+				}
+				details.AdditionalValidationPolicy = &tmp
+			}
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func TokenAuthenticationValidationPolicyToMap(obj *oci_apigateway.TokenAuthenticationValidationPolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_apigateway.TokenAuthenticationRemoteDiscoveryValidationPolicy:
+		result["type"] = "REMOTE_DISCOVERY"
+
+		if v.ClientDetails != nil {
+			clientDetailsArray := []interface{}{}
+			if clientDetailsMap := ClientAppDetailsToMap(&v.ClientDetails); clientDetailsMap != nil {
+				clientDetailsArray = append(clientDetailsArray, clientDetailsMap)
+			}
+			result["client_details"] = clientDetailsArray
+		}
+
+		if v.IsSslVerifyDisabled != nil {
+			result["is_ssl_verify_disabled"] = bool(*v.IsSslVerifyDisabled)
+		}
+
+		if v.MaxCacheDurationInHours != nil {
+			result["max_cache_duration_in_hours"] = int(*v.MaxCacheDurationInHours)
+		}
+
+		if v.SourceUriDetails != nil {
+			sourceUriDetailsArray := []interface{}{}
+			if sourceUriDetailsMap := SourceUriDetailsToMap(&v.SourceUriDetails); sourceUriDetailsMap != nil {
+				sourceUriDetailsArray = append(sourceUriDetailsArray, sourceUriDetailsMap)
+			}
+			result["source_uri_details"] = sourceUriDetailsArray
+		}
+		if v.AdditionalValidationPolicy != nil {
+			result["additional_validation_policy"] = []interface{}{AdditionalValidationPolicyToMap(v.AdditionalValidationPolicy)}
+		}
+	case oci_apigateway.TokenAuthenticationRemoteJwksValidationPolicy:
+		result["type"] = "REMOTE_JWKS"
+
+		if v.IsSslVerifyDisabled != nil {
+			result["is_ssl_verify_disabled"] = bool(*v.IsSslVerifyDisabled)
+		}
+
+		if v.MaxCacheDurationInHours != nil {
+			result["max_cache_duration_in_hours"] = int(*v.MaxCacheDurationInHours)
+		}
+
+		if v.Uri != nil {
+			result["uri"] = string(*v.Uri)
+		}
+		if v.AdditionalValidationPolicy != nil {
+			result["additional_validation_policy"] = []interface{}{AdditionalValidationPolicyToMap(v.AdditionalValidationPolicy)}
+		}
+	case oci_apigateway.TokenAuthenticationStaticKeysValidationPolicy:
+		result["type"] = "STATIC_KEYS"
+
+		keys := []interface{}{}
+		for _, item := range v.Keys {
+			keys = append(keys, StaticPublicKeyToMap(item))
+		}
+		result["keys"] = keys
+		if v.AdditionalValidationPolicy != nil {
+			result["additional_validation_policy"] = []interface{}{AdditionalValidationPolicyToMap(v.AdditionalValidationPolicy)}
+		}
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
 func (s *ApigatewayDeploymentResourceCrud) mapToUsagePlansPolicy(fieldKeyFormat string) (oci_apigateway.UsagePlansPolicy, error) {
 	result := oci_apigateway.UsagePlansPolicy{}
 
@@ -5182,6 +6591,72 @@ func (s *ApigatewayDeploymentResourceCrud) mapToValidationFailurePolicy(fieldKey
 			details.ResponseMessage = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("OAUTH2"):
+		details := oci_apigateway.OAuth2ResponseValidationFailurePolicy{}
+		if clientDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_details")); ok {
+			if tmpList := clientDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "client_details"), 0)
+				tmp, err := s.mapToClientAppDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert client_details, encountered error: %v", err)
+				}
+				details.ClientDetails = tmp
+			}
+		}
+		if fallbackRedirectPath, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "fallback_redirect_path")); ok {
+			tmp := fallbackRedirectPath.(string)
+			if len(tmp) != 0 {
+				details.FallbackRedirectPath = &tmp
+			}
+		}
+		if logoutPath, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "logout_path")); ok {
+			tmp := logoutPath.(string)
+			if len(tmp) != 0 {
+				details.LogoutPath = &tmp
+			}
+		}
+		if maxExpiryDurationInHours, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_expiry_duration_in_hours")); ok {
+			tmp := maxExpiryDurationInHours.(int)
+			details.MaxExpiryDurationInHours = &tmp
+		}
+		if responseType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "response_type")); ok {
+			details.ResponseType = oci_apigateway.OAuth2ResponseValidationFailurePolicyResponseTypeEnum(responseType.(string))
+		}
+		if scopes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scopes")); ok {
+			interfaces := scopes.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "scopes")) {
+				details.Scopes = tmp
+			}
+		}
+		if sourceUriDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_uri_details")); ok {
+			if tmpList := sourceUriDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source_uri_details"), 0)
+				tmp, err := s.mapToSourceUriDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert source_uri_details, encountered error: %v", err)
+				}
+				details.SourceUriDetails = tmp
+			}
+		}
+		if useCookiesForIntermediateSteps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "use_cookies_for_intermediate_steps")); ok {
+			tmp := useCookiesForIntermediateSteps.(bool)
+			details.UseCookiesForIntermediateSteps = &tmp
+		}
+		if useCookiesForSession, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "use_cookies_for_session")); ok {
+			tmp := useCookiesForSession.(bool)
+			details.UseCookiesForSession = &tmp
+		}
+		if usePkce, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "use_pkce")); ok {
+			tmp := usePkce.(bool)
+			details.UsePkce = &tmp
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
 	}
@@ -5204,6 +6679,53 @@ func ValidationFailurePolicyToMap(obj *oci_apigateway.ValidationFailurePolicy) m
 
 		if v.ResponseMessage != nil {
 			result["response_message"] = string(*v.ResponseMessage)
+		}
+	case oci_apigateway.OAuth2ResponseValidationFailurePolicy:
+		result["type"] = "OAUTH2"
+
+		if v.ClientDetails != nil {
+			clientDetailsArray := []interface{}{}
+			if clientDetailsMap := ClientAppDetailsToMap(&v.ClientDetails); clientDetailsMap != nil {
+				clientDetailsArray = append(clientDetailsArray, clientDetailsMap)
+			}
+			result["client_details"] = clientDetailsArray
+		}
+
+		if v.FallbackRedirectPath != nil {
+			result["fallback_redirect_path"] = string(*v.FallbackRedirectPath)
+		}
+
+		if v.LogoutPath != nil {
+			result["logout_path"] = string(*v.LogoutPath)
+		}
+
+		if v.MaxExpiryDurationInHours != nil {
+			result["max_expiry_duration_in_hours"] = int(*v.MaxExpiryDurationInHours)
+		}
+
+		result["response_type"] = string(v.ResponseType)
+
+		result["scopes"] = v.Scopes
+		result["scopes"] = v.Scopes
+
+		if v.SourceUriDetails != nil {
+			sourceUriDetailsArray := []interface{}{}
+			if sourceUriDetailsMap := SourceUriDetailsToMap(&v.SourceUriDetails); sourceUriDetailsMap != nil {
+				sourceUriDetailsArray = append(sourceUriDetailsArray, sourceUriDetailsMap)
+			}
+			result["source_uri_details"] = sourceUriDetailsArray
+		}
+
+		if v.UseCookiesForIntermediateSteps != nil {
+			result["use_cookies_for_intermediate_steps"] = bool(*v.UseCookiesForIntermediateSteps)
+		}
+
+		if v.UseCookiesForSession != nil {
+			result["use_cookies_for_session"] = bool(*v.UseCookiesForSession)
+		}
+
+		if v.UsePkce != nil {
+			result["use_pkce"] = bool(*v.UsePkce)
 		}
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)

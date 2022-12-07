@@ -40,6 +40,9 @@ type BackupSummary struct {
 	// The OCID of the DB System the Backup is associated with.
 	DbSystemId *string `mandatory:"true" json:"dbSystemId"`
 
+	// The OCID of the compartment the backup exists in.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
 	// A user-supplied display name for the backup.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 

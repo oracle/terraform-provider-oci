@@ -28,7 +28,8 @@ type UpdateMaskingColumnDetails struct {
 	// <a href=https://docs.oracle.com/en/cloud/paas/data-safe/udscs/group-masking1.html#GUID-755056B9-9540-48C0-9491-262A44A85037>Group Masking in the Data Safe documentation.</a>
 	MaskingColumnGroup *string `mandatory:"false" json:"maskingColumnGroup"`
 
-	// The OCID of the sensitive type to be associated with the masking column.
+	// The OCID of the sensitive type to be associated with the masking column. Note that there will be no change in
+	// assigned masking format when sensitive type is changed.
 	SensitiveTypeId *string `mandatory:"false" json:"sensitiveTypeId"`
 
 	// Indicates if data masking is enabled for the masking column. Set it to false

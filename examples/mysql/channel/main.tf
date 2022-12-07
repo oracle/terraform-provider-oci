@@ -78,7 +78,6 @@ data "oci_mysql_mysql_configurations" "test_mysql_configurations" {
 
   #Optional
   state        = "ACTIVE"
-  display_name = "VM.Standard.E2.4.Built-in"
   shape_name   = "VM.Standard.E2.4"
 }
 
@@ -103,6 +102,12 @@ resource "oci_mysql_channel" "test_channel" {
     source_type = "MYSQL"
     username    = "adminUser"
     ssl_mode    = "REQUIRED"
+
+    #Optional
+    anonymous_transactions_handling {
+      #Required
+      policy = "ERROR_ON_ANONYMOUS"
+    }
   }
 
   target {
@@ -110,6 +115,13 @@ resource "oci_mysql_channel" "test_channel" {
     db_system_id = oci_mysql_mysql_db_system.test_mysql_db_system.id
     target_type  = "DBSYSTEM"
     channel_name = "channelname"
+
+    #Optional
+    filters {
+      #Required
+      type = "REPLICATE_DO_DB"
+      value = "value"
+    }
   }
 }
 
