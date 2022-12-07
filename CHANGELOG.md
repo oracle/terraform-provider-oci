@@ -1,4 +1,4 @@
-## 4.101.0 (Unreleased)
+## 4.101.0 (December 07, 2022)
 
 ### Added
 - Support for Golden Gate Deployment and Connection Type.
