@@ -236,3 +236,16 @@ func TestUnitHandleError(t *testing.T) {
 	assert.Contains(t, response.Error(), "Request a service limit increase for this resource")
 
 }
+
+func TestUnitGetJsonError(t *testing.T) {
+	var jsonError customError
+	jsonError.ErrorCodeName = "NOT FOUND"
+	jsonError.ErrorCode = 404
+	jsonError.Message = "Not found error"
+
+	wantError := getJsonError(jsonError)
+	assert.Contains(t, wantError, "NOT FOUND")
+	assert.Contains(t, wantError, "404")
+	assert.Contains(t, wantError, "Not found error")
+
+}
