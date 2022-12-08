@@ -17,7 +17,7 @@ type DisableAddonRequest struct {
 	// The OCID of the cluster.
 	ClusterId *string `mandatory:"true" contributesTo:"path" name:"clusterId"`
 
-	// The name of the cluster addon.
+	// The name of the addon.
 	AddonName *string `mandatory:"true" contributesTo:"path" name:"addonName"`
 
 	// Whether existing addon resources should be deleted or not. True would remove the underlying resources completely.

@@ -15,16 +15,16 @@ import (
 	"strings"
 )
 
-// DownloadOneoffPatch Data to download oneoff patch.
+// DownloadOneoffPatch Data to download one-off patch.
 type DownloadOneoffPatch struct {
 
-	// URI to download oneoff patch.
+	// URI to download one-off patch.
 	AccessUri *string `mandatory:"true" json:"accessUri"`
 
-	// The date and time oneoff patch URI was created.
+	// The date and time one-off patch URI was created.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The date and time until which the oneoff patch URI will be available for download.
+	// The date and time until which the one-off patch URI will be available for download.
 	TimeExpires *common.SDKTime `mandatory:"true" json:"timeExpires"`
 }
 

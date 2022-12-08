@@ -751,7 +751,7 @@ func (client ContainerEngineClient) disableAddon(ctx context.Context, request co
 	return response, err
 }
 
-// GetAddon Get addon for a cluster.
+// GetAddon Get the specified addon for a cluster.
 // A default retry strategy applies to this operation GetAddon()
 func (client ContainerEngineClient) GetAddon(ctx context.Context, request GetAddonRequest) (response GetAddonResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1237,7 +1237,7 @@ func (client ContainerEngineClient) getWorkRequest(ctx context.Context, request 
 	return response, err
 }
 
-// InstallAddon Install addon for a provisioned cluster.
+// InstallAddon Install the specified addon for a cluster.
 // A default retry strategy applies to this operation InstallAddon()
 func (client ContainerEngineClient) InstallAddon(ctx context.Context, request InstallAddonRequest) (response InstallAddonResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1296,7 +1296,7 @@ func (client ContainerEngineClient) installAddon(ctx context.Context, request co
 	return response, err
 }
 
-// ListAddonOptions Get the list of addons.
+// ListAddonOptions Get list of supported addons for a specific kubernetes version.
 // A default retry strategy applies to this operation ListAddonOptions()
 func (client ContainerEngineClient) ListAddonOptions(ctx context.Context, request ListAddonOptionsRequest) (response ListAddonOptionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1836,7 +1836,7 @@ func (client ContainerEngineClient) listWorkRequests(ctx context.Context, reques
 	return response, err
 }
 
-// UpdateAddon Update addon for a provisioned cluster details.
+// UpdateAddon Update addon details for a cluster.
 // A default retry strategy applies to this operation UpdateAddon()
 func (client ContainerEngineClient) UpdateAddon(ctx context.Context, request UpdateAddonRequest) (response UpdateAddonResponse, err error) {
 	var ociResponse common.OCIResponse

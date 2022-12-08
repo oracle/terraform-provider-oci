@@ -17,7 +17,7 @@ type InstallAddonRequest struct {
 	// The OCID of the cluster.
 	ClusterId *string `mandatory:"true" contributesTo:"path" name:"clusterId"`
 
-	// The details of the cluster addon to be installed.
+	// The details of the addon to be installed.
 	InstallAddonDetails `contributesTo:"body"`
 
 	// A token you supply to uniquely identify the request and provide idempotency if

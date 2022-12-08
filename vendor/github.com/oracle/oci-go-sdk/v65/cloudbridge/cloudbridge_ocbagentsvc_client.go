@@ -1334,3 +1334,57 @@ func (client OcbAgentSvcClient) updateEnvironment(ctx context.Context, request c
 	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }
+
+// UpdatePlugin Updates the plugin.
+// A default retry strategy applies to this operation UpdatePlugin()
+func (client OcbAgentSvcClient) UpdatePlugin(ctx context.Context, request UpdatePluginRequest) (response UpdatePluginResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updatePlugin, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdatePluginResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdatePluginResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdatePluginResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdatePluginResponse")
+	}
+	return
+}
+
+// updatePlugin implements the OCIOperation interface (enables retrying operations)
+func (client OcbAgentSvcClient) updatePlugin(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/agents/{agentId}/plugins/{pluginName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdatePluginResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Plugin/UpdatePlugin"
+		err = common.PostProcessServiceError(err, "OcbAgentSvc", "UpdatePlugin", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}

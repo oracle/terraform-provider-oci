@@ -14,10 +14,10 @@ import (
 // UpdateOneoffPatchRequest wrapper for the UpdateOneoffPatch operation
 type UpdateOneoffPatchRequest struct {
 
-	// The oneoff patch OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The one-off patch OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	OneoffPatchId *string `mandatory:"true" contributesTo:"path" name:"oneoffPatchId"`
 
-	// Request to update the properties of a oneoff patch.
+	// Request to update the properties of a one-off patch.
 	UpdateOneoffPatchDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

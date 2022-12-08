@@ -1557,7 +1557,7 @@ func (client DatabaseClient) changeNfsStorageCompartment(ctx context.Context, re
 	return response, err
 }
 
-// ChangeOneoffPatchCompartment Move the oneoff patch to the specified compartment.
+// ChangeOneoffPatchCompartment Move the one-off patch to the specified compartment.
 func (client DatabaseClient) ChangeOneoffPatchCompartment(ctx context.Context, request ChangeOneoffPatchCompartmentRequest) (response ChangeOneoffPatchCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3248,7 +3248,7 @@ func (client DatabaseClient) createNfsStorage(ctx context.Context, request commo
 	return response, err
 }
 
-// CreateOneoffPatch Creates oneoff patch for specified database version to download.
+// CreateOneoffPatch Creates one-off patch for specified database version to download.
 func (client DatabaseClient) CreateOneoffPatch(ctx context.Context, request CreateOneoffPatchRequest) (response CreateOneoffPatchResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4618,7 +4618,7 @@ func (client DatabaseClient) deleteNfsStorage(ctx context.Context, request commo
 	return response, err
 }
 
-// DeleteOneoffPatch Deletes a oneoff patch.
+// DeleteOneoffPatch Deletes a one-off patch.
 func (client DatabaseClient) DeleteOneoffPatch(ctx context.Context, request DeleteOneoffPatchRequest) (response DeleteOneoffPatchResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5631,7 +5631,7 @@ func (client DatabaseClient) downloadExadataInfrastructureConfigFile(ctx context
 	return response, err
 }
 
-// DownloadOneoffPatch Download oneoff patch.
+// DownloadOneoffPatch Download one-off patch.
 func (client DatabaseClient) DownloadOneoffPatch(ctx context.Context, request DownloadOneoffPatchRequest) (response DownloadOneoffPatchResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9334,7 +9334,7 @@ func (client DatabaseClient) getNfsStorage(ctx context.Context, request common.O
 	return response, err
 }
 
-// GetOneoffPatch Gets information about the specified oneoff patch.
+// GetOneoffPatch Gets information about the specified one-off patch.
 func (client DatabaseClient) GetOneoffPatch(ctx context.Context, request GetOneoffPatchRequest) (response GetOneoffPatchResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -12822,7 +12822,7 @@ func (client DatabaseClient) listNfsStorages(ctx context.Context, request common
 	return response, err
 }
 
-// ListOneoffPatches Lists oneoff patches in the specified compartment.
+// ListOneoffPatches Lists one-off patches in the specified compartment.
 func (client DatabaseClient) ListOneoffPatches(ctx context.Context, request ListOneoffPatchesRequest) (response ListOneoffPatchesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16824,7 +16824,7 @@ func (client DatabaseClient) updateNfsStorage(ctx context.Context, request commo
 	return response, err
 }
 
-// UpdateOneoffPatch Updates the properties of the specified oneoff patch.
+// UpdateOneoffPatch Updates the properties of the specified one-off patch.
 func (client DatabaseClient) UpdateOneoffPatch(ctx context.Context, request UpdateOneoffPatchRequest) (response UpdateOneoffPatchResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

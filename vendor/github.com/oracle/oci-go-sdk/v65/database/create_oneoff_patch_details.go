@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// CreateOneoffPatchDetails Data to create the oneoff patch for the specificed database version.
+// CreateOneoffPatchDetails Data to create the one-off patch for the specificed database version.
 type CreateOneoffPatchDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Oneoff patch name.
+	// One-off patch name.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// A valid Oracle Database version. To get a list of supported versions, use the ListDbVersions operation.

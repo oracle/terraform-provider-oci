@@ -14,7 +14,7 @@ import (
 // DownloadOneoffPatchRequest wrapper for the DownloadOneoffPatch operation
 type DownloadOneoffPatchRequest struct {
 
-	// The oneoff patch OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The one-off patch OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	OneoffPatchId *string `mandatory:"true" contributesTo:"path" name:"oneoffPatchId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

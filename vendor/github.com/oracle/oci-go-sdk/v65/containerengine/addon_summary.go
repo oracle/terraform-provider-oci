@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// AddonSummary The properties that define a cluster addons summary.
+// AddonSummary The properties that define an addon summary.
 type AddonSummary struct {
 
-	// The name of the cluster addon.
+	// The name of the addon.
 	Name *string `mandatory:"true" json:"name"`
 
 	// selected addon version, or null indicates autoUpdate
@@ -29,7 +29,7 @@ type AddonSummary struct {
 	// current installed version of the addon
 	CurrentInstalledVersion *string `mandatory:"true" json:"currentInstalledVersion"`
 
-	// The state of the cluster addons.
+	// The state of the addon.
 	LifecycleState AddonLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The time the cluster was created.

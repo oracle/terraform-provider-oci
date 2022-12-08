@@ -37,6 +37,7 @@ const (
 	OperationTypeRefreshAssetSource    OperationTypeEnum = "REFRESH_ASSET_SOURCE"
 	OperationTypeCreateAssetSource     OperationTypeEnum = "CREATE_ASSET_SOURCE"
 	OperationTypeUpdateAssetSource     OperationTypeEnum = "UPDATE_ASSET_SOURCE"
+	OperationTypeUpdatePluginState     OperationTypeEnum = "UPDATE_PLUGIN_STATE"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -59,6 +60,7 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"REFRESH_ASSET_SOURCE":    OperationTypeRefreshAssetSource,
 	"CREATE_ASSET_SOURCE":     OperationTypeCreateAssetSource,
 	"UPDATE_ASSET_SOURCE":     OperationTypeUpdateAssetSource,
+	"UPDATE_PLUGIN_STATE":     OperationTypeUpdatePluginState,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -81,6 +83,7 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"refresh_asset_source":    OperationTypeRefreshAssetSource,
 	"create_asset_source":     OperationTypeCreateAssetSource,
 	"update_asset_source":     OperationTypeUpdateAssetSource,
+	"update_plugin_state":     OperationTypeUpdatePluginState,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -114,6 +117,7 @@ func GetOperationTypeEnumStringValues() []string {
 		"REFRESH_ASSET_SOURCE",
 		"CREATE_ASSET_SOURCE",
 		"UPDATE_ASSET_SOURCE",
+		"UPDATE_PLUGIN_STATE",
 	}
 }
 

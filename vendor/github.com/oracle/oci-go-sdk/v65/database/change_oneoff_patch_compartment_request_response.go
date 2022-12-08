@@ -14,10 +14,10 @@ import (
 // ChangeOneoffPatchCompartmentRequest wrapper for the ChangeOneoffPatchCompartment operation
 type ChangeOneoffPatchCompartmentRequest struct {
 
-	// Request to move oneoff patch to a different compartment
+	// Request to move one-off patch to a different compartment
 	ChangeCompartmentDetails `contributesTo:"body"`
 
-	// The oneoff patch OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The one-off patch OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	OneoffPatchId *string `mandatory:"true" contributesTo:"path" name:"oneoffPatchId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

@@ -74,7 +74,7 @@ type CreateAutonomousVmClusterDetails struct {
 	// The SCAN Listener Non TLS port number. Default value is 1521.
 	ScanListenerPortNonTls *int `mandatory:"false" json:"scanListenerPortNonTls"`
 
-	// Enable mutual TLS(mTLS) authentication for database at time of provisioning a VMCluster.Default is TLS.
+	// Enable mutual TLS(mTLS) authentication for database while provisioning a VMCluster. Default is TLS.
 	IsMtlsEnabled *bool `mandatory:"false" json:"isMtlsEnabled"`
 }
 

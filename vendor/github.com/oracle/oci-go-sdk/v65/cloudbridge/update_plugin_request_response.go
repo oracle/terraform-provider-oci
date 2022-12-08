@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-package database
+package cloudbridge
 
 import (
 	"fmt"
@@ -11,13 +11,26 @@ import (
 	"strings"
 )
 
-// GetOneoffPatchRequest wrapper for the GetOneoffPatch operation
-type GetOneoffPatchRequest struct {
+// UpdatePluginRequest wrapper for the UpdatePlugin operation
+type UpdatePluginRequest struct {
 
-	// The one-off patch OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
-	OneoffPatchId *string `mandatory:"true" contributesTo:"path" name:"oneoffPatchId"`
+	// Unique Agent identifier path parameter.
+	AgentId *string `mandatory:"true" contributesTo:"path" name:"agentId"`
 
-	// Unique identifier for the request.
+	// Unique plugin identifier path parameter.
+	PluginName *string `mandatory:"true" contributesTo:"path" name:"pluginName"`
+
+	// The information to be updated.
+	UpdatePluginDetails `contributesTo:"body"`
+
+	// For optimistic concurrency control. In the PUT or DELETE call
+	// for a resource, set the `if-match` parameter to the value of the
+	// etag from a previous GET or POST response for that resource.
+	// The resource will be updated or deleted only if the etag you
+	// provide matches the resource's current etag value.
+	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
+
+	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -25,12 +38,12 @@ type GetOneoffPatchRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request GetOneoffPatchRequest) String() string {
+func (request UpdatePluginRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request GetOneoffPatchRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request UpdatePluginRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -40,21 +53,21 @@ func (request GetOneoffPatchRequest) HTTPRequest(method, path string, binaryRequ
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request GetOneoffPatchRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request UpdatePluginRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetOneoffPatchRequest) RetryPolicy() *common.RetryPolicy {
+func (request UpdatePluginRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request GetOneoffPatchRequest) ValidateEnumValue() (bool, error) {
+func (request UpdatePluginRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -62,28 +75,31 @@ func (request GetOneoffPatchRequest) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// GetOneoffPatchResponse wrapper for the GetOneoffPatch operation
-type GetOneoffPatchResponse struct {
+// UpdatePluginResponse wrapper for the UpdatePlugin operation
+type UpdatePluginResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The OneoffPatch instance
-	OneoffPatch `presentIn:"body"`
+	// The Plugin instance
+	Plugin `presentIn:"body"`
 
 	// For optimistic concurrency control. See `if-match`.
 	Etag *string `presentIn:"header" name:"etag"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
-	// a particular request, please provide the request ID.
+	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// Unique Oracle-assigned identifier for the asynchronous request. You can use this to query status of the asynchronous operation.
+	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 
-func (response GetOneoffPatchResponse) String() string {
+func (response UpdatePluginResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response GetOneoffPatchResponse) HTTPResponse() *http.Response {
+func (response UpdatePluginResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

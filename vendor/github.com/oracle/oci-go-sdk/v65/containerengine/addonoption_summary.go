@@ -20,7 +20,7 @@ import (
 // AddonoptionSummary The properties that define addon summary.
 type AddonoptionSummary struct {
 
-	// Name of the Addon and it would be unique.
+	// Name of the addon and it would be unique.
 	Name *string `mandatory:"true" json:"name"`
 
 	// The life cycle state of the addon.
@@ -35,16 +35,16 @@ type AddonoptionSummary struct {
 	// Addon definition schema version to validate addon.
 	AddonSchemaVersion *string `mandatory:"false" json:"addonSchemaVersion"`
 
-	// Addon group info, more like a namespace concept as well as hints to optimize User Experience.
+	// Addon group info, a namespace concept that groups addons with similar functionalities.
 	AddonGroup *string `mandatory:"false" json:"addonGroup"`
 
 	// Description on the addon.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Defined tags of the Addons.
+	// Defined tags of the addon.
 	DefinedTags *string `mandatory:"false" json:"definedTags"`
 
-	// FreeFrom tags of the Addons.
+	// FreeFrom tags of the addon.
 	FreeformTags *string `mandatory:"false" json:"freeformTags"`
 
 	// The time the work request was created.

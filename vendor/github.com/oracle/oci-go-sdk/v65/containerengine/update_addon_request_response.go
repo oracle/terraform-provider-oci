@@ -17,10 +17,10 @@ type UpdateAddonRequest struct {
 	// The OCID of the cluster.
 	ClusterId *string `mandatory:"true" contributesTo:"path" name:"clusterId"`
 
-	// The name of the cluster addon.
+	// The name of the addon.
 	AddonName *string `mandatory:"true" contributesTo:"path" name:"addonName"`
 
-	// The details of the cluster addon to be updated.
+	// The details of the addon to be updated.
 	UpdateAddonDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

@@ -20,10 +20,10 @@ import (
 // InstallAddonDetails The properties that define to install/enable addon on a cluster
 type InstallAddonDetails struct {
 
-	// The new name for the cluster addon. Avoid entering confidential information.
-	Name *string `mandatory:"false" json:"name"`
+	// The name of the addon.
+	Name *string `mandatory:"true" json:"name"`
 
-	// The version of the installed addon.
+	// The version of addon to be installed.
 	Version *string `mandatory:"false" json:"version"`
 
 	// Add On configuration details.

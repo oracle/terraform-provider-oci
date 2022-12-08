@@ -15,18 +15,18 @@ import (
 	"strings"
 )
 
-// OneoffPatchSummary An Oracle oneoff patch for a specified database version.
+// OneoffPatchSummary An Oracle one-off patch for a specified database version.
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type OneoffPatchSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the oneoff patch.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the one-off patch.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Oneoff patch name.
+	// One-off patch name.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// A valid Oracle Database version. To get a list of supported versions, use the ListDbVersions operation.
@@ -35,31 +35,28 @@ type OneoffPatchSummary struct {
 	// The PSU or PBP or Release Updates. To get a list of supported versions, use the ListDbVersions operation.
 	ReleaseUpdate *string `mandatory:"true" json:"releaseUpdate"`
 
-	// The current state of the oneoff patch.
+	// The current state of the one-off patch.
 	LifecycleState OneoffPatchSummaryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The date and time oneoff patch was created.
+	// The date and time one-off patch was created.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// List of one-off patches for Database Homes.
 	OneOffPatches []string `mandatory:"false" json:"oneOffPatches"`
 
-	// The oneoff patch download URL.
-	PatchDownloadUrl *string `mandatory:"false" json:"patchDownloadUrl"`
-
-	// The size of oneoff patch in kilobytes.
+	// The size of one-off patch in kilobytes.
 	SizeInKBs *float32 `mandatory:"false" json:"sizeInKBs"`
 
 	// Detailed message for the lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// Sha256 checksum of the oneoff patch.
+	// SHA-256 checksum of the one-off patch.
 	Sha256Sum *string `mandatory:"false" json:"sha256Sum"`
 
-	// The date and time oneoff patch was updated.
+	// The date and time one-off patch was updated.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The date and time until which the oneoff patch will be available for download.
+	// The date and time until which the one-off patch will be available for download.
 	TimeOfExpiration *common.SDKTime `mandatory:"false" json:"timeOfExpiration"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// UpdateOneoffPatchDetails Data to update the oneoff patch.
+// UpdateOneoffPatchDetails Data to update the one-off patch.
 type UpdateOneoffPatchDetails struct {
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

@@ -14,7 +14,7 @@ import (
 // CreateOneoffPatchRequest wrapper for the CreateOneoffPatch operation
 type CreateOneoffPatchRequest struct {
 
-	// Request to create a oneoff patch to download.
+	// Request to create a one-off patch to download.
 	CreateOneoffPatchDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

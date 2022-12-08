@@ -17,7 +17,7 @@ type GetAddonRequest struct {
 	// The OCID of the cluster.
 	ClusterId *string `mandatory:"true" contributesTo:"path" name:"clusterId"`
 
-	// The name of the cluster addon.
+	// The name of the addon.
 	AddonName *string `mandatory:"true" contributesTo:"path" name:"addonName"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
