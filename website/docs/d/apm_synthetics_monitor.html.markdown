@@ -34,6 +34,9 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `availability_configuration` - Monitor availability configuration details.
+	* `max_allowed_failures_per_interval` - Intervals with failed runs more than this value will be classified as UNAVAILABLE.
+	* `min_allowed_runs_per_interval` - Intervals with runs less than this value will be classified as UNKNOWN and excluded from the availability calculations.
 * `batch_interval_in_seconds` - Time interval between 2 runs in round robin batch mode (*SchedulingPolicy - BATCHED_ROUND_ROBIN).
 * `configuration` - Details of monitor configuration.
 	* `config_type` - Type of configuration.
@@ -79,6 +82,9 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the monitor.
 * `is_run_now` - If isRunNow is enabled, then the monitor will run now.
 * `is_run_once` - If runOnce is enabled, then the monitor will run once.
+* `maintenance_window_schedule` - Details used to schedule maintenance window.
+	* `time_ended` - End time for the maintenance window, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-12T22:47:12.613Z` 
+	* `time_started` - Start time for the maintenance window, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-12T22:47:12.613Z` 
 * `monitor_type` - Type of the monitor.
 * `repeat_interval_in_seconds` - Interval in seconds after the start time when the job should be repeated. Minimum repeatIntervalInSeconds should be 300 seconds for Scripted REST, Scripted Browser and Browser monitors, and 60 seconds for REST monitor. 
 * `scheduling_policy` - Scheduling policy on Vantage points.
@@ -94,7 +100,7 @@ The following attributes are exported:
 * `target` - Specify the endpoint on which to run the monitor. For BROWSER and REST monitor types, target is mandatory. If target is specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script (specified by scriptId in monitor) against the specified target endpoint. If target is not specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script as it is. 
 * `time_created` - The time the resource was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-12T22:47:12.613Z` 
 * `time_updated` - The time the resource was updated, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-13T22:47:12.613Z` 
-* `timeout_in_seconds` - Timeout in seconds. Timeout cannot be more than 30% of repeatIntervalInSeconds time for monitors. Also, timeoutInSeconds should be a multiple of 60 for Scripted REST, Scripted Browser and Browser monitors. Monitor will be allowed to run only for timeoutInSeconds time. It would be terminated after that. 
+* `timeout_in_seconds` - Timeout in seconds. If isFailureRetried is true, then timeout cannot be more than 30% of repeatIntervalInSeconds time for monitors. If isFailureRetried is false, then timeout cannot be more than 50% of repeatIntervalInSeconds time for monitors. Also, timeoutInSeconds should be a multiple of 60 for Scripted REST, Scripted Browser and Browser monitors. Monitor will be allowed to run only for timeoutInSeconds time. It would be terminated after that. 
 * `vantage_point_count` - Number of vantage points where monitor is running.
 * `vantage_points` - List of public and dedicated vantage points where the monitor is running.
 	* `display_name` - Unique name that can be edited. The name should not contain any confidential information.
