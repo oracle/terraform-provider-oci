@@ -44,9 +44,11 @@ The following attributes are exported:
 * `fusion_environment_type` - Type of the FusionEnvironment.
 * `id` - Unique identifier that is immutable on creation
 * `idcs_domain_url` - The IDCS Domain URL
+* `is_break_glass_enabled` - If it's true, then the Break Glass feature is enabled
 * `kms_key_id` - BYOK key id
 * `kms_key_info` - BYOK key info
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+* `lockbox_id` - The lockbox Id of this fusion environment. If there's no lockbox id, this field will be null
 * `maintenance_policy` - The policy that specifies the maintenance and upgrade preferences for an environment. For more information about the options, see [Understanding Environment Maintenance](https://docs.cloud.oracle.com/iaas/Content/fusion-applications/plan-environment-family.htm#about-env-maintenance).
 	* `environment_maintenance_override` - User choice to upgrade both production and non-production environments at the same time. Overrides the Fusion environment family setting.
 	* `monthly_patching_override` - Whether the Fusion environment will be updated monthly or updated on the quarterly cycle. This setting overrides the monthly patching setting of its Fusion environment family.
