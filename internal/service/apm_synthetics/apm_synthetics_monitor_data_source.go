@@ -83,6 +83,12 @@ func (s *ApmSyntheticsMonitorDataSourceCrud) SetData() error {
 
 	s.D.SetId(GetMonitorCompositeId(*s.Res.Id, s.D.Get("apm_domain_id").(string)))
 
+	if s.Res.AvailabilityConfiguration != nil {
+		s.D.Set("availability_configuration", []interface{}{AvailabilityConfigurationToMap(s.Res.AvailabilityConfiguration)})
+	} else {
+		s.D.Set("availability_configuration", nil)
+	}
+
 	if s.Res.BatchIntervalInSeconds != nil {
 		s.D.Set("batch_interval_in_seconds", *s.Res.BatchIntervalInSeconds)
 	}
@@ -113,6 +119,12 @@ func (s *ApmSyntheticsMonitorDataSourceCrud) SetData() error {
 
 	if s.Res.IsRunOnce != nil {
 		s.D.Set("is_run_once", *s.Res.IsRunOnce)
+	}
+
+	if s.Res.MaintenanceWindowSchedule != nil {
+		s.D.Set("maintenance_window_schedule", []interface{}{MaintenanceWindowScheduleToMap(s.Res.MaintenanceWindowSchedule)})
+	} else {
+		s.D.Set("maintenance_window_schedule", nil)
 	}
 
 	s.D.Set("monitor_type", s.Res.MonitorType)
