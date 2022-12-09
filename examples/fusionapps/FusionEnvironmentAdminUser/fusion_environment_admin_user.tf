@@ -24,7 +24,7 @@ variable "fusion_environment_admin_user_password" {
 }
 
 variable "fusion_environment_admin_user_username" {
-  default = "username"
+  default = "username_test"
 }
 
 provider "oci" {
