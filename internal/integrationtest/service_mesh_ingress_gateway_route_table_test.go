@@ -253,7 +253,7 @@ func TestServiceMeshIngressGatewayRouteTableResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "ingress_gateway_route_table_collection.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "ingress_gateway_route_table_collection.0.items.#", "0"),
+				resource.TestCheckResourceAttr(datasourceName, "ingress_gateway_route_table_collection.0.items.#", "1"),
 			),
 		},
 		// verify singular datasource
