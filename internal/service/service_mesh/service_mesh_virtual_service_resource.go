@@ -6,6 +6,7 @@ package service_mesh
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -271,16 +272,16 @@ func (s *ServiceMeshVirtualServiceResourceCrud) Create() error {
 		request.MeshId = &tmp
 	}
 
-	if mtls, ok := s.D.GetOkExists("mtls"); ok {
-		if tmpList := mtls.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "mtls", 0)
-			tmp, err := s.mapToCreateMutualTransportLayerSecurityDetails(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.Mtls = &tmp
-		}
-	}
+	// if mtls, ok := s.D.GetOkExists("mtls"); ok {
+	// 	if tmpList := mtls.([]interface{}); len(tmpList) > 0 {
+	// 		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "mtls", 0)
+	// 		tmp, err := s.mapToCreateMutualTransportLayerSecurityDetails(fieldKeyFormat)
+	// 		if err != nil {
+	// 			return err
+	// 		}
+	// 		request.Mtls = &tmp
+	// 	}
+	// }
 
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
@@ -306,6 +307,18 @@ func (s *ServiceMeshVirtualServiceResourceCrud) getVirtualServiceFromWorkRequest
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
+		// Try to cancel the work request
+		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, virtualServiceId)
+		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+			oci_service_mesh.CancelWorkRequestRequest{
+				WorkRequestId: workId,
+				RequestMetadata: oci_common.RequestMetadata{
+					RetryPolicy: retryPolicy,
+				},
+			})
+		if cancelErr != nil {
+			log.Printf("[DEBUG] cleanup cancelWorkRequest failed with the error: %v\n", cancelErr)
+		}
 		return err
 	}
 	s.D.SetId(*virtualServiceId)
@@ -483,16 +496,16 @@ func (s *ServiceMeshVirtualServiceResourceCrud) Update() error {
 		}
 	}
 
-	if mtls, ok := s.D.GetOkExists("mtls"); ok {
-		if tmpList := mtls.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "mtls", 0)
-			tmp, err := s.mapToCreateMutualTransportLayerSecurityDetails(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.Mtls = &tmp
-		}
-	}
+	// if mtls, ok := s.D.GetOkExists("mtls"); ok {
+	// 	if tmpList := mtls.([]interface{}); len(tmpList) > 0 {
+	// 		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "mtls", 0)
+	// 		tmp, err := s.mapToCreateMutualTransportLayerSecurityDetails(fieldKeyFormat)
+	// 		if err != nil {
+	// 			return err
+	// 		}
+	// 		request.Mtls = &tmp
+	// 	}
+	// }
 
 	tmp := s.D.Id()
 	request.VirtualServiceId = &tmp
@@ -586,37 +599,6 @@ func (s *ServiceMeshVirtualServiceResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *ServiceMeshVirtualServiceResourceCrud) mapToCreateMutualTransportLayerSecurityDetails(fieldKeyFormat string) (oci_service_mesh.CreateMutualTransportLayerSecurityDetails, error) {
-	result := oci_service_mesh.CreateMutualTransportLayerSecurityDetails{}
-
-	if maximumValidity, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maximum_validity")); ok {
-		tmp := maximumValidity.(int)
-		result.MaximumValidity = &tmp
-	}
-
-	if mode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mode")); ok {
-		result.Mode = oci_service_mesh.MutualTransportLayerSecurityModeEnum(mode.(string))
-	}
-
-	return result, nil
-}
-
-func MutualTransportLayerSecurityToMap(obj *oci_service_mesh.MutualTransportLayerSecurity) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.CertificateId != nil {
-		result["certificate_id"] = string(*obj.CertificateId)
-	}
-
-	if obj.MaximumValidity != nil {
-		result["maximum_validity"] = int(*obj.MaximumValidity)
-	}
-
-	result["mode"] = string(obj.Mode)
-
-	return result
-}
-
 func (s *ServiceMeshVirtualServiceResourceCrud) mapToDefaultVirtualServiceRoutingPolicy(fieldKeyFormat string) (oci_service_mesh.DefaultVirtualServiceRoutingPolicy, error) {
 	result := oci_service_mesh.DefaultVirtualServiceRoutingPolicy{}
 
@@ -631,6 +613,37 @@ func DefaultVirtualServiceRoutingPolicyToMap(obj *oci_service_mesh.DefaultVirtua
 	result := map[string]interface{}{}
 
 	result["type"] = string(obj.Type)
+
+	return result
+}
+
+// func (s *ServiceMeshVirtualServiceResourceCrud) mapToVirtualServiceMutualTransportLayerSecurityDetails(fieldKeyFormat string) (oci_service_mesh.VirtualServiceMutualTransportLayerSecurityDetails, error) {
+//	result := oci_service_mesh.VirtualServiceMutualTransportLayerSecurityDetails{}
+
+// 	if maximumValidity, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maximum_validity")); ok {
+// 		tmp := maximumValidity.(int)
+// 		result.MaximumValidity = &tmp
+// 	}
+
+// 	if mode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mode")); ok {
+// 		result.Mode = oci_service_mesh.MutualTransportLayerSecurityModeEnum(mode.(string))
+// 	}
+
+// 	return result, nil
+// }
+
+func MutualTransportLayerSecurityToMap(obj *oci_service_mesh.MutualTransportLayerSecurity) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CertificateId != nil {
+		result["certificate_id"] = string(*obj.CertificateId)
+	}
+
+	if obj.MaximumValidity != nil {
+		result["maximum_validity"] = int(*obj.MaximumValidity)
+	}
+
+	result["mode"] = string(obj.Mode)
 
 	return result
 }
