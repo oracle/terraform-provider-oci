@@ -28,7 +28,7 @@ resource "oci_database_cloud_vm_cluster" "test_cloud_vm_cluster" {
   #Optional
   data_storage_size_in_tbs        = var.cloud_vm_cluster_data_storage_size_in_tbs
   db_node_storage_size_in_gbs     = var.cloud_vm_cluster_db_node_storage_size_in_gbs
-  db_servers                      = var.cloud_vm_cluster_db_servers
+  db_servers                      = [data.oci_database_db_servers.test_cloud_db_servers.db_servers.0.id, data.oci_database_db_servers.test_cloud_db_servers.db_servers.1.id]
   memory_size_in_gbs              = var.cloud_vm_cluster_memory_size_in_gbs
   ocpu_count                      = var.cloud_vm_cluster_ocpu_count
   scan_listener_port_tcp          = var.cloud_vm_cluster_scan_listener_port_tcp

@@ -541,14 +541,14 @@ func (s *DatabaseDatabaseResourceCrud) Create() error {
 		return err
 	}
 	workId := response.OpcWorkRequestId
+	s.Res = &response.Database
+
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		err := tfresource.ResourceRefreshForHybridPolling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeCreated, s.DisableNotFoundRetries, s.D, s)
 		if err != nil {
 			return err
 		}
 	}
-
-	s.Res = &response.Database
 	return nil
 }
 
