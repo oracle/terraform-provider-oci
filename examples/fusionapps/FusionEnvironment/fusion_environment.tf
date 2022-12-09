@@ -29,7 +29,7 @@ variable "fusion_environment_create_fusion_environment_admin_user_details_passwo
 }
 
 variable "fusion_environment_create_fusion_environment_admin_user_details_username" {
-  default = "username"
+  default = "username_test"
 }
 
 variable "fusion_environment_defined_tags_value" {
@@ -49,7 +49,7 @@ variable "fusion_environment_freeform_tags" {
 }
 
 variable "fusion_environment_fusion_environment_type" {
-  default = "PRODUCTION"
+  default = "TEST"
 }
 
 variable "fusion_environment_maintenance_policy_environment_maintenance_override" {
@@ -69,7 +69,7 @@ variable "fusion_environment_rules_conditions_attribute_name" {
 }
 
 variable "fusion_environment_rules_conditions_attribute_value" {
-  default = "attributeValue"
+  default = "208.128.0.0/10"
 }
 
 variable "fusion_environment_rules_description" {
@@ -108,7 +108,8 @@ resource "oci_fusion_apps_fusion_environment" "test_fusion_environment" {
   defined_tags              = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.fusion_environment_defined_tags_value)
   dns_prefix                = var.fusion_environment_dns_prefix
   freeform_tags             = var.fusion_environment_freeform_tags
-  kms_key_id                = oci_kms_key.test_key.id
+  # This field is related to the subscription you have
+  #kms_key_id                = oci_kms_key.test_key.id
   maintenance_policy {
 
     #Optional

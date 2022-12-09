@@ -105,6 +105,10 @@ func (s *FusionAppsFusionEnvironmentDataSourceCrud) SetData() error {
 		s.D.Set("idcs_domain_url", *s.Res.IdcsDomainUrl)
 	}
 
+	if s.Res.IsBreakGlassEnabled != nil {
+		s.D.Set("is_break_glass_enabled", *s.Res.IsBreakGlassEnabled)
+	}
+
 	if s.Res.KmsKeyId != nil {
 		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
 	}
@@ -117,6 +121,10 @@ func (s *FusionAppsFusionEnvironmentDataSourceCrud) SetData() error {
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.LockboxId != nil {
+		s.D.Set("lockbox_id", *s.Res.LockboxId)
 	}
 
 	if s.Res.MaintenancePolicy != nil {
