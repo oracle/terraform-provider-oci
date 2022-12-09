@@ -39,6 +39,6 @@ locals {
   virtual_service_default_routing_policy_type = "UNIFORM" // allowed values are ("UNIFORM", "DENY")
   virtual_service_description                 = "test virtual service description"
   virtual_service_hosts                       = ["test.com"]
-  virtual_service_mtls_mode                   = "PERMISSIVE" // allowed values are ("DISABLED", "STRICT", "PERMISSIVE")
-  virtual_service_mtls_maximum_validity       = 50 // allowed values between 45 and 90 days
+  virtual_service_mtls_mode                   = "DISABLED" // allowed values are ("DISABLED", "STRICT", "PERMISSIVE")
+  virtual_service_mtls_maximum_validity       = 45 // allowed values between 45 and 90 days
 }
