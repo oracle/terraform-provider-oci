@@ -80,6 +80,6 @@ locals {
   ingress_gateway_hosts_listeners_tls_server_certificate_type                   = "OCI_CERTIFICATES"
   // allowed values for above are ("OCI_CERTIFICATES", "LOCAL_FILE")
   ingress_gateway_access_logging_is_enabled                                     = true
-  ingress_gateway_mtls_maximum_validity                                         = 50
+  ingress_gateway_mtls_maximum_validity                                         = 45
   // allowed values for above are between 45 and 90 days
 }

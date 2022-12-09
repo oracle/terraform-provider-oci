@@ -47,30 +47,9 @@ func ServiceMeshAccessPolicyResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
-			// Optional
-			"defined_tags": {
-				Type:             schema.TypeMap,
-				Optional:         true,
-				Computed:         true,
-				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
-				Elem:             schema.TypeString,
-			},
-			"description": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Optional: true,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
 			"rules": {
 				Type:     schema.TypeList,
-				Optional: true,
-				Computed: true,
+				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -220,6 +199,26 @@ func ServiceMeshAccessPolicyResource() *schema.Resource {
 				},
 			},
 
+			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
+			"description": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
+
 			// Computed
 			"lifecycle_details": {
 				Type:     schema.TypeString,
@@ -351,18 +350,18 @@ func (s *ServiceMeshAccessPolicyResourceCrud) Create() error {
 
 	if rules, ok := s.D.GetOkExists("rules"); ok {
 		interfaces := rules.([]interface{})
-		tmp := make([]oci_service_mesh.AccessPolicyRule, len(interfaces))
+		tmp := make([]oci_service_mesh.AccessPolicyRuleDetails, len(interfaces))
 		for i := range interfaces {
 			stateDataIndex := i
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "rules", stateDataIndex)
-			converted, err := s.mapToAccessPolicyRule(fieldKeyFormat)
+			converted, err := s.mapToAccessPolicyRuleDetails(fieldKeyFormat)
 			if err != nil {
 				return err
 			}
 			tmp[i] = converted
 		}
 		if len(tmp) != 0 || s.D.HasChange("rules") {
-			// request.Rules = tmp
+			request.Rules = tmp
 		}
 	}
 
@@ -385,6 +384,18 @@ func (s *ServiceMeshAccessPolicyResourceCrud) getAccessPolicyFromWorkRequest(wor
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
+		// Try to cancel the work request
+		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, accessPolicyId)
+		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+			oci_service_mesh.CancelWorkRequestRequest{
+				WorkRequestId: workId,
+				RequestMetadata: oci_common.RequestMetadata{
+					RetryPolicy: retryPolicy,
+				},
+			})
+		if cancelErr != nil {
+			log.Printf("[DEBUG] cleanup cancelWorkRequest failed with the error: %v\n", cancelErr)
+		}
 		return err
 	}
 	s.D.SetId(*accessPolicyId)
@@ -543,18 +554,18 @@ func (s *ServiceMeshAccessPolicyResourceCrud) Update() error {
 
 	if rules, ok := s.D.GetOkExists("rules"); ok {
 		interfaces := rules.([]interface{})
-		tmp := make([]oci_service_mesh.AccessPolicyRule, len(interfaces))
+		tmp := make([]oci_service_mesh.AccessPolicyRuleDetails, len(interfaces))
 		for i := range interfaces {
 			stateDataIndex := i
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "rules", stateDataIndex)
-			converted, err := s.mapToAccessPolicyRule(fieldKeyFormat)
+			converted, err := s.mapToAccessPolicyRuleDetails(fieldKeyFormat)
 			if err != nil {
 				return err
 			}
 			tmp[i] = converted
 		}
 		if len(tmp) != 0 || s.D.HasChange("rules") {
-			// request.Rules = tmp
+			request.Rules = tmp
 		}
 	}
 
@@ -639,17 +650,17 @@ func (s *ServiceMeshAccessPolicyResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *ServiceMeshAccessPolicyResourceCrud) mapToAccessPolicyRule(fieldKeyFormat string) (oci_service_mesh.AccessPolicyRule, error) {
-	result := oci_service_mesh.AccessPolicyRule{}
+func (s *ServiceMeshAccessPolicyResourceCrud) mapToAccessPolicyRuleDetails(fieldKeyFormat string) (oci_service_mesh.AccessPolicyRuleDetails, error) {
+	result := oci_service_mesh.AccessPolicyRuleDetails{}
 
 	if action, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "action")); ok {
-		result.Action = oci_service_mesh.AccessPolicyRuleActionEnum(action.(string))
+		result.Action = oci_service_mesh.AccessPolicyRuleDetailsActionEnum(action.(string))
 	}
 
 	if destination, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination")); ok {
 		if tmpList := destination.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "destination"), 0)
-			tmp, err := s.mapToAccessPolicyTarget(fieldKeyFormatNextLevel)
+			tmp, err := s.mapToAccessPolicyTargetDetails(fieldKeyFormatNextLevel)
 			if err != nil {
 				return result, fmt.Errorf("unable to convert destination, encountered error: %v", err)
 			}
@@ -660,7 +671,7 @@ func (s *ServiceMeshAccessPolicyResourceCrud) mapToAccessPolicyRule(fieldKeyForm
 	if source, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source")); ok {
 		if tmpList := source.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source"), 0)
-			tmp, err := s.mapToAccessPolicyTarget(fieldKeyFormatNextLevel)
+			tmp, err := s.mapToAccessPolicyTargetDetails(fieldKeyFormatNextLevel)
 			if err != nil {
 				return result, fmt.Errorf("unable to convert source, encountered error: %v", err)
 			}
@@ -745,8 +756,8 @@ func AccessPolicySummaryToMap(obj oci_service_mesh.AccessPolicySummary) map[stri
 	return result
 }
 
-func (s *ServiceMeshAccessPolicyResourceCrud) mapToAccessPolicyTarget(fieldKeyFormat string) (oci_service_mesh.AccessPolicyTarget, error) {
-	var baseObject oci_service_mesh.AccessPolicyTarget
+func (s *ServiceMeshAccessPolicyResourceCrud) mapToAccessPolicyTargetDetails(fieldKeyFormat string) (oci_service_mesh.AccessPolicyTargetDetails, error) {
+	var baseObject oci_service_mesh.AccessPolicyTargetDetails
 	//discriminator
 	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
 	var type_ string
@@ -757,10 +768,10 @@ func (s *ServiceMeshAccessPolicyResourceCrud) mapToAccessPolicyTarget(fieldKeyFo
 	}
 	switch strings.ToLower(type_) {
 	case strings.ToLower("ALL_VIRTUAL_SERVICES"):
-		details := oci_service_mesh.AllVirtualServicesAccessPolicyTarget{}
+		details := oci_service_mesh.AllVirtualServicesAccessPolicyTargetDetails{}
 		baseObject = details
 	case strings.ToLower("EXTERNAL_SERVICE"):
-		details := oci_service_mesh.ExternalServiceAccessPolicyTarget{}
+		details := oci_service_mesh.ExternalServiceAccessPolicyTargetDetails{}
 		if hostnames, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostnames")); ok {
 			interfaces := hostnames.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -798,18 +809,18 @@ func (s *ServiceMeshAccessPolicyResourceCrud) mapToAccessPolicyTarget(fieldKeyFo
 			}
 		}
 		if protocol, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "protocol")); ok {
-			details.Protocol = oci_service_mesh.ExternalServiceAccessPolicyTargetProtocolEnum(protocol.(string))
+			details.Protocol = oci_service_mesh.ExternalServiceAccessPolicyTargetDetailsProtocolEnum(protocol.(string))
 		}
 		baseObject = details
 	case strings.ToLower("INGRESS_GATEWAY"):
-		details := oci_service_mesh.IngressGatewayAccessPolicyTarget{}
+		details := oci_service_mesh.IngressGatewayAccessPolicyTargetDetails{}
 		if ingressGatewayId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ingress_gateway_id")); ok {
 			tmp := ingressGatewayId.(string)
 			details.IngressGatewayId = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("VIRTUAL_SERVICE"):
-		details := oci_service_mesh.VirtualServiceAccessPolicyTarget{}
+		details := oci_service_mesh.VirtualServiceAccessPolicyTargetDetails{}
 		if virtualServiceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "virtual_service_id")); ok {
 			tmp := virtualServiceId.(string)
 			details.VirtualServiceId = &tmp

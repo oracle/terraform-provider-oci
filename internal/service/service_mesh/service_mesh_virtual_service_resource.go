@@ -6,6 +6,7 @@ package service_mesh
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -306,6 +307,18 @@ func (s *ServiceMeshVirtualServiceResourceCrud) getVirtualServiceFromWorkRequest
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
+		// Try to cancel the work request
+		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, virtualServiceId)
+		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+			oci_service_mesh.CancelWorkRequestRequest{
+				WorkRequestId: workId,
+				RequestMetadata: oci_common.RequestMetadata{
+					RetryPolicy: retryPolicy,
+				},
+			})
+		if cancelErr != nil {
+			log.Printf("[DEBUG] cleanup cancelWorkRequest failed with the error: %v\n", cancelErr)
+		}
 		return err
 	}
 	s.D.SetId(*virtualServiceId)
@@ -586,8 +599,26 @@ func (s *ServiceMeshVirtualServiceResourceCrud) SetData() error {
 	return nil
 }
 
-// func (s *ServiceMeshVirtualServiceResourceCrud) mapToCreateMutualTransportLayerSecurityDetails(fieldKeyFormat string) (oci_service_mesh.CreateMutualTransportLayerSecurityDetails, error) {
-// 	result := oci_service_mesh.CreateMutualTransportLayerSecurityDetails{}
+func (s *ServiceMeshVirtualServiceResourceCrud) mapToDefaultVirtualServiceRoutingPolicy(fieldKeyFormat string) (oci_service_mesh.DefaultVirtualServiceRoutingPolicy, error) {
+	result := oci_service_mesh.DefaultVirtualServiceRoutingPolicy{}
+
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
+		result.Type = oci_service_mesh.DefaultVirtualServiceRoutingPolicyTypeEnum(type_.(string))
+	}
+
+	return result, nil
+}
+
+func DefaultVirtualServiceRoutingPolicyToMap(obj *oci_service_mesh.DefaultVirtualServiceRoutingPolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["type"] = string(obj.Type)
+
+	return result
+}
+
+// func (s *ServiceMeshVirtualServiceResourceCrud) mapToVirtualServiceMutualTransportLayerSecurityDetails(fieldKeyFormat string) (oci_service_mesh.VirtualServiceMutualTransportLayerSecurityDetails, error) {
+//	result := oci_service_mesh.VirtualServiceMutualTransportLayerSecurityDetails{}
 
 // 	if maximumValidity, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maximum_validity")); ok {
 // 		tmp := maximumValidity.(int)
@@ -613,24 +644,6 @@ func MutualTransportLayerSecurityToMap(obj *oci_service_mesh.MutualTransportLaye
 	}
 
 	result["mode"] = string(obj.Mode)
-
-	return result
-}
-
-func (s *ServiceMeshVirtualServiceResourceCrud) mapToDefaultVirtualServiceRoutingPolicy(fieldKeyFormat string) (oci_service_mesh.DefaultVirtualServiceRoutingPolicy, error) {
-	result := oci_service_mesh.DefaultVirtualServiceRoutingPolicy{}
-
-	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
-		result.Type = oci_service_mesh.DefaultVirtualServiceRoutingPolicyTypeEnum(type_.(string))
-	}
-
-	return result, nil
-}
-
-func DefaultVirtualServiceRoutingPolicyToMap(obj *oci_service_mesh.DefaultVirtualServiceRoutingPolicy) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	result["type"] = string(obj.Type)
 
 	return result
 }
