@@ -115,6 +115,23 @@ func DatabasePluggableDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"pluggable_database_management_config": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"management_status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -339,6 +356,12 @@ func (s *DatabasePluggableDatabaseResourceCrud) SetData() error {
 		s.D.Set("pdb_name", *s.Res.PdbName)
 	}
 
+	if s.Res.PluggableDatabaseManagementConfig != nil {
+		s.D.Set("pluggable_database_management_config", []interface{}{PluggableDatabaseManagementConfigToMap(s.Res.PluggableDatabaseManagementConfig)})
+	} else {
+		s.D.Set("pluggable_database_management_config", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
@@ -360,6 +383,14 @@ func PluggableDatabaseConnectionStringsToMap(obj *oci_database.PluggableDatabase
 	if obj.PdbIpDefault != nil {
 		result["pdb_ip_default"] = string(*obj.PdbIpDefault)
 	}
+
+	return result
+}
+
+func PluggableDatabaseManagementConfigToMap(obj *oci_database.PluggableDatabaseManagementConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["management_status"] = string(obj.ManagementStatus)
 
 	return result
 }

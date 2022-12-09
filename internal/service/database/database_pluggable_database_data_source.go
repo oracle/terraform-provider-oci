@@ -100,6 +100,12 @@ func (s *DatabasePluggableDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("pdb_name", *s.Res.PdbName)
 	}
 
+	if s.Res.PluggableDatabaseManagementConfig != nil {
+		s.D.Set("pluggable_database_management_config", []interface{}{PluggableDatabaseManagementConfigToMap(s.Res.PluggableDatabaseManagementConfig)})
+	} else {
+		s.D.Set("pluggable_database_management_config", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
