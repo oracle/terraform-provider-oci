@@ -8,11 +8,11 @@
 - Support for Allow users to cancel work requests in Service Mesh
 - Support for Launch Queue Service in OCI
 - Support for OMA Integration with FAaaS
-- poll for workrequest and not workrequest and resource state due to infrequent get requests
-- fix security token error message
+- Poll for workrequest and not workrequest and resource state due to infrequent get requests
+- Fixed security token error message
 ### Bug Fix
 - Autonomous Database Test Fixed
-- TERSI-2336 unified agent config provider
+- Unified agent config provider
 - Appmgmt Control Service federated tests fix
 
 ## 4.101.0 (Unreleased)
