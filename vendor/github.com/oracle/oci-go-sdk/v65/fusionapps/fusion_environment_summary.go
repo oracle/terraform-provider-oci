@@ -4,7 +4,7 @@
 
 // Fusion Applications Environment Management API
 //
-// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.cloud.oracle.com/iaas/Content/Identity/fusion-applications/home.htm).
+// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.cloud.oracle.com/iaas/Content/fusion-applications/home.htm).
 //
 
 package fusionapps
@@ -58,6 +58,12 @@ type FusionEnvironmentSummary struct {
 
 	// Language packs
 	AdditionalLanguagePacks []string `mandatory:"false" json:"additionalLanguagePacks"`
+
+	// The lockbox Id of this fusion environment. If there's no lockbox id, this field will be null
+	LockboxId *string `mandatory:"false" json:"lockboxId"`
+
+	// If it's true, then the Break Glass feature is enabled
+	IsBreakGlassEnabled *bool `mandatory:"false" json:"isBreakGlassEnabled"`
 
 	// The time the the FusionEnvironment was created. An RFC3339 formatted datetime string
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`

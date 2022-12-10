@@ -2,12 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Database Migration API
+// Queue API
 //
-// Use the Oracle Cloud Infrastructure Database Migration APIs to perform database migration operations.
+// A description of the Queue API
 //
 
-package databasemigration
+package queue
 
 import (
 	"fmt"
@@ -15,21 +15,27 @@ import (
 	"strings"
 )
 
-// GenerateToken ODMS Agent token details.
-type GenerateToken struct {
+// Stats The stats for a queue or a dead letter queue.
+type Stats struct {
 
-	// Resource Principals Token in serialized form.
-	RptBlob *string `mandatory:"true" json:"rptBlob"`
+	// The approximate number of visible messages (available for delivery) currently in the queue.
+	VisibleMessages *int64 `mandatory:"true" json:"visibleMessages"`
+
+	// The approximate number of messages delivered to a consumer but not yet deleted and so unavailable for re-delivery.
+	InFlightMessages *int64 `mandatory:"true" json:"inFlightMessages"`
+
+	// The approximate size of the queue in bytes. Sum of the size of visible of in-flight messages.
+	SizeInBytes *int64 `mandatory:"true" json:"sizeInBytes"`
 }
 
-func (m GenerateToken) String() string {
+func (m Stats) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m GenerateToken) ValidateEnumValue() (bool, error) {
+func (m Stats) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

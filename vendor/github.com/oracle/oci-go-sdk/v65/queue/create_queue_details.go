@@ -2,12 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Database Migration API
+// Queue API
 //
-// Use the Oracle Cloud Infrastructure Database Migration APIs to perform database migration operations.
+// A description of the Queue API
 //
 
-package databasemigration
+package queue
 
 import (
 	"fmt"
@@ -15,23 +15,29 @@ import (
 	"strings"
 )
 
-// CreateAgentDetails ODMS Agent Details
-type CreateAgentDetails struct {
+// CreateQueueDetails The information about new Queue.
+type CreateQueueDetails struct {
 
-	// The OCID of the compartment.
-	CompartmentId *string `mandatory:"true" json:"compartmentId"`
-
-	// ODMS Agent name
+	// Queue Identifier
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID of the Stream
-	StreamId *string `mandatory:"true" json:"streamId"`
+	// Compartment Identifier
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// ODMS Agent public key as a Base64 Encoded string.
-	PublicKey *string `mandatory:"true" json:"publicKey"`
+	// The retention period of the messages in the queue, in seconds.
+	RetentionInSeconds *int `mandatory:"false" json:"retentionInSeconds"`
 
-	// ODMS Agent version
-	Version *string `mandatory:"true" json:"version"`
+	// The default visibility of the messages consumed from the queue.
+	VisibilityInSeconds *int `mandatory:"false" json:"visibilityInSeconds"`
+
+	// The default polling timeout of the messages in the queue, in seconds.
+	TimeoutInSeconds *int `mandatory:"false" json:"timeoutInSeconds"`
+
+	// The number of times a message can be delivered to a consumer before being moved to the dead letter queue. A value of 0 indicates that the DLQ is not used.
+	DeadLetterQueueDeliveryCount *int `mandatory:"false" json:"deadLetterQueueDeliveryCount"`
+
+	// Id of the custom master encryption key which will be used to encrypt messages content
+	CustomEncryptionKeyId *string `mandatory:"false" json:"customEncryptionKeyId"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -42,14 +48,14 @@ type CreateAgentDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-func (m CreateAgentDetails) String() string {
+func (m CreateQueueDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m CreateAgentDetails) ValidateEnumValue() (bool, error) {
+func (m CreateQueueDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

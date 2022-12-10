@@ -81,30 +81,33 @@ type ProjectLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ProjectLifecycleStateEnum
 const (
-	ProjectLifecycleStateCreating ProjectLifecycleStateEnum = "CREATING"
-	ProjectLifecycleStateUpdating ProjectLifecycleStateEnum = "UPDATING"
-	ProjectLifecycleStateActive   ProjectLifecycleStateEnum = "ACTIVE"
-	ProjectLifecycleStateDeleting ProjectLifecycleStateEnum = "DELETING"
-	ProjectLifecycleStateDeleted  ProjectLifecycleStateEnum = "DELETED"
-	ProjectLifecycleStateFailed   ProjectLifecycleStateEnum = "FAILED"
+	ProjectLifecycleStateCreating       ProjectLifecycleStateEnum = "CREATING"
+	ProjectLifecycleStateUpdating       ProjectLifecycleStateEnum = "UPDATING"
+	ProjectLifecycleStateActive         ProjectLifecycleStateEnum = "ACTIVE"
+	ProjectLifecycleStateDeleting       ProjectLifecycleStateEnum = "DELETING"
+	ProjectLifecycleStateDeleted        ProjectLifecycleStateEnum = "DELETED"
+	ProjectLifecycleStateFailed         ProjectLifecycleStateEnum = "FAILED"
+	ProjectLifecycleStateNeedsAttention ProjectLifecycleStateEnum = "NEEDS_ATTENTION"
 )
 
 var mappingProjectLifecycleStateEnum = map[string]ProjectLifecycleStateEnum{
-	"CREATING": ProjectLifecycleStateCreating,
-	"UPDATING": ProjectLifecycleStateUpdating,
-	"ACTIVE":   ProjectLifecycleStateActive,
-	"DELETING": ProjectLifecycleStateDeleting,
-	"DELETED":  ProjectLifecycleStateDeleted,
-	"FAILED":   ProjectLifecycleStateFailed,
+	"CREATING":        ProjectLifecycleStateCreating,
+	"UPDATING":        ProjectLifecycleStateUpdating,
+	"ACTIVE":          ProjectLifecycleStateActive,
+	"DELETING":        ProjectLifecycleStateDeleting,
+	"DELETED":         ProjectLifecycleStateDeleted,
+	"FAILED":          ProjectLifecycleStateFailed,
+	"NEEDS_ATTENTION": ProjectLifecycleStateNeedsAttention,
 }
 
 var mappingProjectLifecycleStateEnumLowerCase = map[string]ProjectLifecycleStateEnum{
-	"creating": ProjectLifecycleStateCreating,
-	"updating": ProjectLifecycleStateUpdating,
-	"active":   ProjectLifecycleStateActive,
-	"deleting": ProjectLifecycleStateDeleting,
-	"deleted":  ProjectLifecycleStateDeleted,
-	"failed":   ProjectLifecycleStateFailed,
+	"creating":        ProjectLifecycleStateCreating,
+	"updating":        ProjectLifecycleStateUpdating,
+	"active":          ProjectLifecycleStateActive,
+	"deleting":        ProjectLifecycleStateDeleting,
+	"deleted":         ProjectLifecycleStateDeleted,
+	"failed":          ProjectLifecycleStateFailed,
+	"needs_attention": ProjectLifecycleStateNeedsAttention,
 }
 
 // GetProjectLifecycleStateEnumValues Enumerates the set of values for ProjectLifecycleStateEnum
@@ -125,6 +128,7 @@ func GetProjectLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"NEEDS_ATTENTION",
 	}
 }
 

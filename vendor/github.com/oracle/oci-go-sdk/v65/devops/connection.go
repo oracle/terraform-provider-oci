@@ -40,6 +40,9 @@ type Connection interface {
 	// The time the connection was updated. Format defined by RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339).
 	GetTimeUpdated() *common.SDKTime
 
+	// A detailed message describing the current state. For example, can be used to provide actionable information for a resource in Failed state.
+	GetLifecycleDetails() *string
+
 	// The current state of the connection.
 	GetLifecycleState() ConnectionLifecycleStateEnum
 
@@ -54,19 +57,20 @@ type Connection interface {
 }
 
 type connection struct {
-	JsonData       []byte
-	Id             *string                           `mandatory:"true" json:"id"`
-	CompartmentId  *string                           `mandatory:"true" json:"compartmentId"`
-	ProjectId      *string                           `mandatory:"true" json:"projectId"`
-	Description    *string                           `mandatory:"false" json:"description"`
-	DisplayName    *string                           `mandatory:"false" json:"displayName"`
-	TimeCreated    *common.SDKTime                   `mandatory:"false" json:"timeCreated"`
-	TimeUpdated    *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
-	LifecycleState ConnectionLifecycleStateEnum      `mandatory:"false" json:"lifecycleState,omitempty"`
-	FreeformTags   map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags    map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	SystemTags     map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-	ConnectionType string                            `json:"connectionType"`
+	JsonData         []byte
+	Id               *string                           `mandatory:"true" json:"id"`
+	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
+	ProjectId        *string                           `mandatory:"true" json:"projectId"`
+	Description      *string                           `mandatory:"false" json:"description"`
+	DisplayName      *string                           `mandatory:"false" json:"displayName"`
+	TimeCreated      *common.SDKTime                   `mandatory:"false" json:"timeCreated"`
+	TimeUpdated      *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
+	LifecycleDetails *string                           `mandatory:"false" json:"lifecycleDetails"`
+	LifecycleState   ConnectionLifecycleStateEnum      `mandatory:"false" json:"lifecycleState,omitempty"`
+	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	SystemTags       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	ConnectionType   string                            `json:"connectionType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -87,6 +91,7 @@ func (m *connection) UnmarshalJSON(data []byte) error {
 	m.DisplayName = s.Model.DisplayName
 	m.TimeCreated = s.Model.TimeCreated
 	m.TimeUpdated = s.Model.TimeUpdated
+	m.LifecycleDetails = s.Model.LifecycleDetails
 	m.LifecycleState = s.Model.LifecycleState
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
@@ -169,6 +174,11 @@ func (m connection) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
+//GetLifecycleDetails returns LifecycleDetails
+func (m connection) GetLifecycleDetails() *string {
+	return m.LifecycleDetails
+}
+
 //GetLifecycleState returns LifecycleState
 func (m connection) GetLifecycleState() ConnectionLifecycleStateEnum {
 	return m.LifecycleState
@@ -213,15 +223,18 @@ type ConnectionLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ConnectionLifecycleStateEnum
 const (
-	ConnectionLifecycleStateActive ConnectionLifecycleStateEnum = "ACTIVE"
+	ConnectionLifecycleStateActive   ConnectionLifecycleStateEnum = "ACTIVE"
+	ConnectionLifecycleStateDeleting ConnectionLifecycleStateEnum = "DELETING"
 )
 
 var mappingConnectionLifecycleStateEnum = map[string]ConnectionLifecycleStateEnum{
-	"ACTIVE": ConnectionLifecycleStateActive,
+	"ACTIVE":   ConnectionLifecycleStateActive,
+	"DELETING": ConnectionLifecycleStateDeleting,
 }
 
 var mappingConnectionLifecycleStateEnumLowerCase = map[string]ConnectionLifecycleStateEnum{
-	"active": ConnectionLifecycleStateActive,
+	"active":   ConnectionLifecycleStateActive,
+	"deleting": ConnectionLifecycleStateDeleting,
 }
 
 // GetConnectionLifecycleStateEnumValues Enumerates the set of values for ConnectionLifecycleStateEnum
@@ -237,6 +250,7 @@ func GetConnectionLifecycleStateEnumValues() []ConnectionLifecycleStateEnum {
 func GetConnectionLifecycleStateEnumStringValues() []string {
 	return []string{
 		"ACTIVE",
+		"DELETING",
 	}
 }
 

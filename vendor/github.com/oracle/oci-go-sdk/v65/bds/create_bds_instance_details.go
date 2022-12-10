@@ -60,6 +60,9 @@ type CreateBdsInstanceDetails struct {
 
 	// The OCID of the Key Management master encryption key.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
+	// Profile of the Big Data Service cluster.
+	ClusterProfile BdsInstanceClusterProfileEnum `mandatory:"false" json:"clusterProfile,omitempty"`
 }
 
 func (m CreateBdsInstanceDetails) String() string {
@@ -75,6 +78,9 @@ func (m CreateBdsInstanceDetails) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ClusterVersion: %s. Supported values are: %s.", m.ClusterVersion, strings.Join(GetBdsInstanceClusterVersionEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingBdsInstanceClusterProfileEnum(string(m.ClusterProfile)); !ok && m.ClusterProfile != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ClusterProfile: %s. Supported values are: %s.", m.ClusterProfile, strings.Join(GetBdsInstanceClusterProfileEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

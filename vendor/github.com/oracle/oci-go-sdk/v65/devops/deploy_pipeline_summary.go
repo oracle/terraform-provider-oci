@@ -39,6 +39,9 @@ type DeployPipelineSummary struct {
 	// Time the deployment pipeline was updated. Format defined by RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339).
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
+	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
 	// The current state of the deployment pipeline.
 	LifecycleState DeployPipelineLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 

@@ -46,7 +46,7 @@ type ListAccessPoliciesRequest struct {
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// A filter to return only resources that match the life cycle state given.
-	LifecycleState *string `mandatory:"false" contributesTo:"query" name:"lifecycleState"`
+	LifecycleState AccessPolicyLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -89,6 +89,9 @@ func (request ListAccessPoliciesRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingListAccessPoliciesSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAccessPoliciesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingAccessPolicyLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetAccessPolicyLifecycleStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

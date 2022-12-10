@@ -2,12 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Database Migration API
+// Queue API
 //
-// Use the Oracle Cloud Infrastructure Database Migration APIs to perform database migration operations.
+// A description of the Queue API
 //
 
-package databasemigration
+package queue
 
 import (
 	"fmt"
@@ -15,21 +15,24 @@ import (
 	"strings"
 )
 
-// ParLink Pre-Authenticated Request Link for ODMS Agent log use.
-type ParLink struct {
+// WorkRequestLogEntry A log message from the execution of a work request.
+type WorkRequestLogEntry struct {
 
-	// Pre-Authenticated Request URI.
-	ParLink *string `mandatory:"true" json:"parLink"`
+	// Human-readable log message.
+	Message *string `mandatory:"true" json:"message"`
+
+	// The time the log message was written. An RFC3339 formatted datetime string
+	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
 }
 
-func (m ParLink) String() string {
+func (m WorkRequestLogEntry) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ParLink) ValidateEnumValue() (bool, error) {
+func (m WorkRequestLogEntry) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
