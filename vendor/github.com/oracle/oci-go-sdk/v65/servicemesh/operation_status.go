@@ -18,33 +18,36 @@ type OperationStatusEnum string
 
 // Set of constants representing the allowable values for OperationStatusEnum
 const (
-	OperationStatusAccepted   OperationStatusEnum = "ACCEPTED"
-	OperationStatusInProgress OperationStatusEnum = "IN_PROGRESS"
-	OperationStatusFailed     OperationStatusEnum = "FAILED"
-	OperationStatusSucceeded  OperationStatusEnum = "SUCCEEDED"
-	OperationStatusWaiting    OperationStatusEnum = "WAITING"
-	OperationStatusCanceling  OperationStatusEnum = "CANCELING"
-	OperationStatusCanceled   OperationStatusEnum = "CANCELED"
+	OperationStatusAccepted       OperationStatusEnum = "ACCEPTED"
+	OperationStatusInProgress     OperationStatusEnum = "IN_PROGRESS"
+	OperationStatusFailed         OperationStatusEnum = "FAILED"
+	OperationStatusSucceeded      OperationStatusEnum = "SUCCEEDED"
+	OperationStatusWaiting        OperationStatusEnum = "WAITING"
+	OperationStatusNeedsAttention OperationStatusEnum = "NEEDS_ATTENTION"
+	OperationStatusCanceling      OperationStatusEnum = "CANCELING"
+	OperationStatusCanceled       OperationStatusEnum = "CANCELED"
 )
 
 var mappingOperationStatusEnum = map[string]OperationStatusEnum{
-	"ACCEPTED":    OperationStatusAccepted,
-	"IN_PROGRESS": OperationStatusInProgress,
-	"FAILED":      OperationStatusFailed,
-	"SUCCEEDED":   OperationStatusSucceeded,
-	"WAITING":     OperationStatusWaiting,
-	"CANCELING":   OperationStatusCanceling,
-	"CANCELED":    OperationStatusCanceled,
+	"ACCEPTED":        OperationStatusAccepted,
+	"IN_PROGRESS":     OperationStatusInProgress,
+	"FAILED":          OperationStatusFailed,
+	"SUCCEEDED":       OperationStatusSucceeded,
+	"WAITING":         OperationStatusWaiting,
+	"NEEDS_ATTENTION": OperationStatusNeedsAttention,
+	"CANCELING":       OperationStatusCanceling,
+	"CANCELED":        OperationStatusCanceled,
 }
 
 var mappingOperationStatusEnumLowerCase = map[string]OperationStatusEnum{
-	"accepted":    OperationStatusAccepted,
-	"in_progress": OperationStatusInProgress,
-	"failed":      OperationStatusFailed,
-	"succeeded":   OperationStatusSucceeded,
-	"waiting":     OperationStatusWaiting,
-	"canceling":   OperationStatusCanceling,
-	"canceled":    OperationStatusCanceled,
+	"accepted":        OperationStatusAccepted,
+	"in_progress":     OperationStatusInProgress,
+	"failed":          OperationStatusFailed,
+	"succeeded":       OperationStatusSucceeded,
+	"waiting":         OperationStatusWaiting,
+	"needs_attention": OperationStatusNeedsAttention,
+	"canceling":       OperationStatusCanceling,
+	"canceled":        OperationStatusCanceled,
 }
 
 // GetOperationStatusEnumValues Enumerates the set of values for OperationStatusEnum
@@ -64,6 +67,7 @@ func GetOperationStatusEnumStringValues() []string {
 		"FAILED",
 		"SUCCEEDED",
 		"WAITING",
+		"NEEDS_ATTENTION",
 		"CANCELING",
 		"CANCELED",
 	}

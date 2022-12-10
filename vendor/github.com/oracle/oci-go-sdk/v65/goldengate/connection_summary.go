@@ -152,6 +152,14 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := GoldenGateConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "KAFKA_SCHEMA_REGISTRY":
+		mm := KafkaSchemaRegistryConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "POSTGRESQL":
+		mm := PostgresqlConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE":
 		mm := OracleConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
@@ -166,6 +174,14 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		return mm, err
 	case "OCI_OBJECT_STORAGE":
 		mm := OciObjectStorageConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AZURE_DATA_LAKE_STORAGE":
+		mm := AzureDataLakeStorageConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AZURE_SYNAPSE_ANALYTICS":
+		mm := AzureSynapseConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

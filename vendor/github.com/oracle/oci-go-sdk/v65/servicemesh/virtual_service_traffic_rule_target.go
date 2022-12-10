@@ -20,7 +20,7 @@ import (
 type VirtualServiceTrafficRuleTarget struct {
 
 	// The OCID of the virtual service where the request will be routed.
-	VirtualServiceId *string `mandatory:"true" json:"virtualServiceId"`
+	VirtualServiceId *string `mandatory:"false" json:"virtualServiceId"`
 
 	// The port on the virtual service to target.
 	// Mandatory if the virtual deployments are listening on multiple ports.

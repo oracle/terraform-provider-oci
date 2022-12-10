@@ -150,27 +150,39 @@ type ListDeploymentsSupportedConnectionTypeEnum string
 
 // Set of constants representing the allowable values for ListDeploymentsSupportedConnectionTypeEnum
 const (
-	ListDeploymentsSupportedConnectionTypeGoldengate       ListDeploymentsSupportedConnectionTypeEnum = "GOLDENGATE"
-	ListDeploymentsSupportedConnectionTypeKafka            ListDeploymentsSupportedConnectionTypeEnum = "KAFKA"
-	ListDeploymentsSupportedConnectionTypeMysql            ListDeploymentsSupportedConnectionTypeEnum = "MYSQL"
-	ListDeploymentsSupportedConnectionTypeOciObjectStorage ListDeploymentsSupportedConnectionTypeEnum = "OCI_OBJECT_STORAGE"
-	ListDeploymentsSupportedConnectionTypeOracle           ListDeploymentsSupportedConnectionTypeEnum = "ORACLE"
+	ListDeploymentsSupportedConnectionTypeGoldengate            ListDeploymentsSupportedConnectionTypeEnum = "GOLDENGATE"
+	ListDeploymentsSupportedConnectionTypeKafka                 ListDeploymentsSupportedConnectionTypeEnum = "KAFKA"
+	ListDeploymentsSupportedConnectionTypeKafkaSchemaRegistry   ListDeploymentsSupportedConnectionTypeEnum = "KAFKA_SCHEMA_REGISTRY"
+	ListDeploymentsSupportedConnectionTypeMysql                 ListDeploymentsSupportedConnectionTypeEnum = "MYSQL"
+	ListDeploymentsSupportedConnectionTypeOciObjectStorage      ListDeploymentsSupportedConnectionTypeEnum = "OCI_OBJECT_STORAGE"
+	ListDeploymentsSupportedConnectionTypeOracle                ListDeploymentsSupportedConnectionTypeEnum = "ORACLE"
+	ListDeploymentsSupportedConnectionTypeAzureDataLakeStorage  ListDeploymentsSupportedConnectionTypeEnum = "AZURE_DATA_LAKE_STORAGE"
+	ListDeploymentsSupportedConnectionTypePostgresql            ListDeploymentsSupportedConnectionTypeEnum = "POSTGRESQL"
+	ListDeploymentsSupportedConnectionTypeAzureSynapseAnalytics ListDeploymentsSupportedConnectionTypeEnum = "AZURE_SYNAPSE_ANALYTICS"
 )
 
 var mappingListDeploymentsSupportedConnectionTypeEnum = map[string]ListDeploymentsSupportedConnectionTypeEnum{
-	"GOLDENGATE":         ListDeploymentsSupportedConnectionTypeGoldengate,
-	"KAFKA":              ListDeploymentsSupportedConnectionTypeKafka,
-	"MYSQL":              ListDeploymentsSupportedConnectionTypeMysql,
-	"OCI_OBJECT_STORAGE": ListDeploymentsSupportedConnectionTypeOciObjectStorage,
-	"ORACLE":             ListDeploymentsSupportedConnectionTypeOracle,
+	"GOLDENGATE":              ListDeploymentsSupportedConnectionTypeGoldengate,
+	"KAFKA":                   ListDeploymentsSupportedConnectionTypeKafka,
+	"KAFKA_SCHEMA_REGISTRY":   ListDeploymentsSupportedConnectionTypeKafkaSchemaRegistry,
+	"MYSQL":                   ListDeploymentsSupportedConnectionTypeMysql,
+	"OCI_OBJECT_STORAGE":      ListDeploymentsSupportedConnectionTypeOciObjectStorage,
+	"ORACLE":                  ListDeploymentsSupportedConnectionTypeOracle,
+	"AZURE_DATA_LAKE_STORAGE": ListDeploymentsSupportedConnectionTypeAzureDataLakeStorage,
+	"POSTGRESQL":              ListDeploymentsSupportedConnectionTypePostgresql,
+	"AZURE_SYNAPSE_ANALYTICS": ListDeploymentsSupportedConnectionTypeAzureSynapseAnalytics,
 }
 
 var mappingListDeploymentsSupportedConnectionTypeEnumLowerCase = map[string]ListDeploymentsSupportedConnectionTypeEnum{
-	"goldengate":         ListDeploymentsSupportedConnectionTypeGoldengate,
-	"kafka":              ListDeploymentsSupportedConnectionTypeKafka,
-	"mysql":              ListDeploymentsSupportedConnectionTypeMysql,
-	"oci_object_storage": ListDeploymentsSupportedConnectionTypeOciObjectStorage,
-	"oracle":             ListDeploymentsSupportedConnectionTypeOracle,
+	"goldengate":              ListDeploymentsSupportedConnectionTypeGoldengate,
+	"kafka":                   ListDeploymentsSupportedConnectionTypeKafka,
+	"kafka_schema_registry":   ListDeploymentsSupportedConnectionTypeKafkaSchemaRegistry,
+	"mysql":                   ListDeploymentsSupportedConnectionTypeMysql,
+	"oci_object_storage":      ListDeploymentsSupportedConnectionTypeOciObjectStorage,
+	"oracle":                  ListDeploymentsSupportedConnectionTypeOracle,
+	"azure_data_lake_storage": ListDeploymentsSupportedConnectionTypeAzureDataLakeStorage,
+	"postgresql":              ListDeploymentsSupportedConnectionTypePostgresql,
+	"azure_synapse_analytics": ListDeploymentsSupportedConnectionTypeAzureSynapseAnalytics,
 }
 
 // GetListDeploymentsSupportedConnectionTypeEnumValues Enumerates the set of values for ListDeploymentsSupportedConnectionTypeEnum
@@ -187,9 +199,13 @@ func GetListDeploymentsSupportedConnectionTypeEnumStringValues() []string {
 	return []string{
 		"GOLDENGATE",
 		"KAFKA",
+		"KAFKA_SCHEMA_REGISTRY",
 		"MYSQL",
 		"OCI_OBJECT_STORAGE",
 		"ORACLE",
+		"AZURE_DATA_LAKE_STORAGE",
+		"POSTGRESQL",
+		"AZURE_SYNAPSE_ANALYTICS",
 	}
 }
 

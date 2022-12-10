@@ -28,7 +28,7 @@ type CreateIngressGatewayRouteTableDetails struct {
 	Name *string `mandatory:"true" json:"name"`
 
 	// The route rules for the ingress gateway.
-	RouteRules []IngressGatewayTrafficRouteRule `mandatory:"true" json:"routeRules"`
+	RouteRules []IngressGatewayTrafficRouteRuleDetails `mandatory:"true" json:"routeRules"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
@@ -69,14 +69,14 @@ func (m CreateIngressGatewayRouteTableDetails) ValidateEnumValue() (bool, error)
 // UnmarshalJSON unmarshals from json
 func (m *CreateIngressGatewayRouteTableDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description      *string                           `json:"description"`
-		Priority         *int                              `json:"priority"`
-		FreeformTags     map[string]string                 `json:"freeformTags"`
-		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
-		IngressGatewayId *string                           `json:"ingressGatewayId"`
-		Name             *string                           `json:"name"`
-		RouteRules       []ingressgatewaytrafficrouterule  `json:"routeRules"`
-		CompartmentId    *string                           `json:"compartmentId"`
+		Description      *string                                 `json:"description"`
+		Priority         *int                                    `json:"priority"`
+		FreeformTags     map[string]string                       `json:"freeformTags"`
+		DefinedTags      map[string]map[string]interface{}       `json:"definedTags"`
+		IngressGatewayId *string                                 `json:"ingressGatewayId"`
+		Name             *string                                 `json:"name"`
+		RouteRules       []ingressgatewaytrafficrouteruledetails `json:"routeRules"`
+		CompartmentId    *string                                 `json:"compartmentId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -96,14 +96,14 @@ func (m *CreateIngressGatewayRouteTableDetails) UnmarshalJSON(data []byte) (e er
 
 	m.Name = model.Name
 
-	m.RouteRules = make([]IngressGatewayTrafficRouteRule, len(model.RouteRules))
+	m.RouteRules = make([]IngressGatewayTrafficRouteRuleDetails, len(model.RouteRules))
 	for i, n := range model.RouteRules {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
 		if e != nil {
 			return e
 		}
 		if nn != nil {
-			m.RouteRules[i] = nn.(IngressGatewayTrafficRouteRule)
+			m.RouteRules[i] = nn.(IngressGatewayTrafficRouteRuleDetails)
 		} else {
 			m.RouteRules[i] = nil
 		}

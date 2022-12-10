@@ -29,13 +29,13 @@ type CreateAccessPolicyDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// List of applicable rules
+	Rules []AccessPolicyRuleDetails `mandatory:"true" json:"rules"`
+
 	// Description of the resource. It can be changed after creation.
 	// Avoid entering confidential information.
 	// Example: `This is my new resource`
 	Description *string `mandatory:"false" json:"description"`
-
-	// List of applicable rules
-	Rules []AccessPolicyRule `mandatory:"false" json:"rules"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`

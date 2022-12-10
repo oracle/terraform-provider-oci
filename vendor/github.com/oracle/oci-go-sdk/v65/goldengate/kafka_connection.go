@@ -230,18 +230,24 @@ type KafkaConnectionTechnologyTypeEnum string
 
 // Set of constants representing the allowable values for KafkaConnectionTechnologyTypeEnum
 const (
-	KafkaConnectionTechnologyTypeApacheKafka  KafkaConnectionTechnologyTypeEnum = "APACHE_KAFKA"
-	KafkaConnectionTechnologyTypeOciStreaming KafkaConnectionTechnologyTypeEnum = "OCI_STREAMING"
+	KafkaConnectionTechnologyTypeApacheKafka    KafkaConnectionTechnologyTypeEnum = "APACHE_KAFKA"
+	KafkaConnectionTechnologyTypeAzureEventHubs KafkaConnectionTechnologyTypeEnum = "AZURE_EVENT_HUBS"
+	KafkaConnectionTechnologyTypeConfluentKafka KafkaConnectionTechnologyTypeEnum = "CONFLUENT_KAFKA"
+	KafkaConnectionTechnologyTypeOciStreaming   KafkaConnectionTechnologyTypeEnum = "OCI_STREAMING"
 )
 
 var mappingKafkaConnectionTechnologyTypeEnum = map[string]KafkaConnectionTechnologyTypeEnum{
-	"APACHE_KAFKA":  KafkaConnectionTechnologyTypeApacheKafka,
-	"OCI_STREAMING": KafkaConnectionTechnologyTypeOciStreaming,
+	"APACHE_KAFKA":     KafkaConnectionTechnologyTypeApacheKafka,
+	"AZURE_EVENT_HUBS": KafkaConnectionTechnologyTypeAzureEventHubs,
+	"CONFLUENT_KAFKA":  KafkaConnectionTechnologyTypeConfluentKafka,
+	"OCI_STREAMING":    KafkaConnectionTechnologyTypeOciStreaming,
 }
 
 var mappingKafkaConnectionTechnologyTypeEnumLowerCase = map[string]KafkaConnectionTechnologyTypeEnum{
-	"apache_kafka":  KafkaConnectionTechnologyTypeApacheKafka,
-	"oci_streaming": KafkaConnectionTechnologyTypeOciStreaming,
+	"apache_kafka":     KafkaConnectionTechnologyTypeApacheKafka,
+	"azure_event_hubs": KafkaConnectionTechnologyTypeAzureEventHubs,
+	"confluent_kafka":  KafkaConnectionTechnologyTypeConfluentKafka,
+	"oci_streaming":    KafkaConnectionTechnologyTypeOciStreaming,
 }
 
 // GetKafkaConnectionTechnologyTypeEnumValues Enumerates the set of values for KafkaConnectionTechnologyTypeEnum
@@ -257,6 +263,8 @@ func GetKafkaConnectionTechnologyTypeEnumValues() []KafkaConnectionTechnologyTyp
 func GetKafkaConnectionTechnologyTypeEnumStringValues() []string {
 	return []string{
 		"APACHE_KAFKA",
+		"AZURE_EVENT_HUBS",
+		"CONFLUENT_KAFKA",
 		"OCI_STREAMING",
 	}
 }

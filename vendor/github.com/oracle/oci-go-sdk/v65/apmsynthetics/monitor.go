@@ -51,7 +51,8 @@ type Monitor struct {
 	// If runOnce is enabled, then the monitor will run once.
 	IsRunOnce *bool `mandatory:"true" json:"isRunOnce"`
 
-	// Timeout in seconds. Timeout cannot be more than 30% of repeatIntervalInSeconds time for monitors.
+	// Timeout in seconds. If isFailureRetried is true, then timeout cannot be more than 30% of repeatIntervalInSeconds time for monitors.
+	// If isFailureRetried is false, then timeout cannot be more than 50% of repeatIntervalInSeconds time for monitors.
 	// Also, timeoutInSeconds should be a multiple of 60 for Scripted REST, Scripted Browser and Browser monitors.
 	// Monitor will be allowed to run only for timeoutInSeconds time. It would be terminated after that.
 	TimeoutInSeconds *int `mandatory:"true" json:"timeoutInSeconds"`
@@ -75,6 +76,10 @@ type Monitor struct {
 	ScriptParameters []MonitorScriptParameterInfo `mandatory:"false" json:"scriptParameters"`
 
 	Configuration MonitorConfiguration `mandatory:"false" json:"configuration"`
+
+	AvailabilityConfiguration *AvailabilityConfiguration `mandatory:"false" json:"availabilityConfiguration"`
+
+	MaintenanceWindowSchedule *MaintenanceWindowSchedule `mandatory:"false" json:"maintenanceWindowSchedule"`
 
 	// The time the resource was created, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)
 	// timestamp format.
@@ -123,27 +128,29 @@ func (m Monitor) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *Monitor) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Target                  *string                           `json:"target"`
-		ScriptParameters        []MonitorScriptParameterInfo      `json:"scriptParameters"`
-		Configuration           monitorconfiguration              `json:"configuration"`
-		TimeCreated             *common.SDKTime                   `json:"timeCreated"`
-		TimeUpdated             *common.SDKTime                   `json:"timeUpdated"`
-		FreeformTags            map[string]string                 `json:"freeformTags"`
-		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
-		Id                      *string                           `json:"id"`
-		DisplayName             *string                           `json:"displayName"`
-		MonitorType             MonitorTypesEnum                  `json:"monitorType"`
-		VantagePoints           []VantagePointInfo                `json:"vantagePoints"`
-		VantagePointCount       *int                              `json:"vantagePointCount"`
-		ScriptId                *string                           `json:"scriptId"`
-		ScriptName              *string                           `json:"scriptName"`
-		Status                  MonitorStatusEnum                 `json:"status"`
-		RepeatIntervalInSeconds *int                              `json:"repeatIntervalInSeconds"`
-		IsRunOnce               *bool                             `json:"isRunOnce"`
-		TimeoutInSeconds        *int                              `json:"timeoutInSeconds"`
-		IsRunNow                *bool                             `json:"isRunNow"`
-		SchedulingPolicy        SchedulingPolicyEnum              `json:"schedulingPolicy"`
-		BatchIntervalInSeconds  *int                              `json:"batchIntervalInSeconds"`
+		Target                    *string                           `json:"target"`
+		ScriptParameters          []MonitorScriptParameterInfo      `json:"scriptParameters"`
+		Configuration             monitorconfiguration              `json:"configuration"`
+		AvailabilityConfiguration *AvailabilityConfiguration        `json:"availabilityConfiguration"`
+		MaintenanceWindowSchedule *MaintenanceWindowSchedule        `json:"maintenanceWindowSchedule"`
+		TimeCreated               *common.SDKTime                   `json:"timeCreated"`
+		TimeUpdated               *common.SDKTime                   `json:"timeUpdated"`
+		FreeformTags              map[string]string                 `json:"freeformTags"`
+		DefinedTags               map[string]map[string]interface{} `json:"definedTags"`
+		Id                        *string                           `json:"id"`
+		DisplayName               *string                           `json:"displayName"`
+		MonitorType               MonitorTypesEnum                  `json:"monitorType"`
+		VantagePoints             []VantagePointInfo                `json:"vantagePoints"`
+		VantagePointCount         *int                              `json:"vantagePointCount"`
+		ScriptId                  *string                           `json:"scriptId"`
+		ScriptName                *string                           `json:"scriptName"`
+		Status                    MonitorStatusEnum                 `json:"status"`
+		RepeatIntervalInSeconds   *int                              `json:"repeatIntervalInSeconds"`
+		IsRunOnce                 *bool                             `json:"isRunOnce"`
+		TimeoutInSeconds          *int                              `json:"timeoutInSeconds"`
+		IsRunNow                  *bool                             `json:"isRunNow"`
+		SchedulingPolicy          SchedulingPolicyEnum              `json:"schedulingPolicy"`
+		BatchIntervalInSeconds    *int                              `json:"batchIntervalInSeconds"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -167,6 +174,10 @@ func (m *Monitor) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.Configuration = nil
 	}
+
+	m.AvailabilityConfiguration = model.AvailabilityConfiguration
+
+	m.MaintenanceWindowSchedule = model.MaintenanceWindowSchedule
 
 	m.TimeCreated = model.TimeCreated
 

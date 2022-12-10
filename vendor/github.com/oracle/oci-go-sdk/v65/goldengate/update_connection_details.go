@@ -96,8 +96,16 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 
 	var err error
 	switch m.ConnectionType {
+	case "POSTGRESQL":
+		mm := UpdatePostgresqlConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE":
 		mm := UpdateOracleConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "KAFKA_SCHEMA_REGISTRY":
+		mm := UpdateKafkaSchemaRegistryConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "OCI_OBJECT_STORAGE":
@@ -112,8 +120,16 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := UpdateKafkaConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AZURE_DATA_LAKE_STORAGE":
+		mm := UpdateAzureDataLakeStorageConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GOLDENGATE":
 		mm := UpdateGoldenGateConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AZURE_SYNAPSE_ANALYTICS":
+		mm := UpdateAzureSynapseConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

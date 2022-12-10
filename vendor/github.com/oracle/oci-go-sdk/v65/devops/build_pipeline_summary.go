@@ -39,6 +39,9 @@ type BuildPipelineSummary struct {
 	// The time the build pipeline was updated. Format defined by RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339).
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
+	// A detailed message describing the current state. For example, can be used to provide actionable information for a resource in Failed state.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
 	// The current state of the build pipeline.
 	LifecycleState BuildPipelineLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 

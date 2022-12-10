@@ -15,8 +15,13 @@ import (
 	"strings"
 )
 
-// CreateIngressGatewayMutualTransportLayerSecurityDetails Mutual TLS settings used when sending requests to virtual services within the mesh.
-type CreateIngressGatewayMutualTransportLayerSecurityDetails struct {
+// VirtualServiceMutualTransportLayerSecurityDetails The mTLS authentication mode to use when receiving requests from other virtual services or ingress gateways within the mesh.
+type VirtualServiceMutualTransportLayerSecurityDetails struct {
+
+	// DISABLED: Connection is not tunneled.
+	// PERMISSIVE: Connection can be either plaintext or an mTLS tunnel.
+	// STRICT: Connection is an mTLS tunnel.  Clients without a valid certificate will be rejected.
+	Mode MutualTransportLayerSecurityModeEnum `mandatory:"true" json:"mode"`
 
 	// The number of days the mTLS certificate is valid.  This value should be less than the Maximum Validity Duration
 	// for Certificates (Days) setting on the Certificate Authority associated with this Mesh.  The certificate will
@@ -25,15 +30,18 @@ type CreateIngressGatewayMutualTransportLayerSecurityDetails struct {
 	MaximumValidity *int `mandatory:"false" json:"maximumValidity"`
 }
 
-func (m CreateIngressGatewayMutualTransportLayerSecurityDetails) String() string {
+func (m VirtualServiceMutualTransportLayerSecurityDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m CreateIngressGatewayMutualTransportLayerSecurityDetails) ValidateEnumValue() (bool, error) {
+func (m VirtualServiceMutualTransportLayerSecurityDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingMutualTransportLayerSecurityModeEnum(string(m.Mode)); !ok && m.Mode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Mode: %s. Supported values are: %s.", m.Mode, strings.Join(GetMutualTransportLayerSecurityModeEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

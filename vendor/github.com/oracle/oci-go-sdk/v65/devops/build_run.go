@@ -170,6 +170,7 @@ const (
 	BuildRunLifecycleStateSucceeded  BuildRunLifecycleStateEnum = "SUCCEEDED"
 	BuildRunLifecycleStateCanceling  BuildRunLifecycleStateEnum = "CANCELING"
 	BuildRunLifecycleStateCanceled   BuildRunLifecycleStateEnum = "CANCELED"
+	BuildRunLifecycleStateDeleting   BuildRunLifecycleStateEnum = "DELETING"
 )
 
 var mappingBuildRunLifecycleStateEnum = map[string]BuildRunLifecycleStateEnum{
@@ -179,6 +180,7 @@ var mappingBuildRunLifecycleStateEnum = map[string]BuildRunLifecycleStateEnum{
 	"SUCCEEDED":   BuildRunLifecycleStateSucceeded,
 	"CANCELING":   BuildRunLifecycleStateCanceling,
 	"CANCELED":    BuildRunLifecycleStateCanceled,
+	"DELETING":    BuildRunLifecycleStateDeleting,
 }
 
 var mappingBuildRunLifecycleStateEnumLowerCase = map[string]BuildRunLifecycleStateEnum{
@@ -188,6 +190,7 @@ var mappingBuildRunLifecycleStateEnumLowerCase = map[string]BuildRunLifecycleSta
 	"succeeded":   BuildRunLifecycleStateSucceeded,
 	"canceling":   BuildRunLifecycleStateCanceling,
 	"canceled":    BuildRunLifecycleStateCanceled,
+	"deleting":    BuildRunLifecycleStateDeleting,
 }
 
 // GetBuildRunLifecycleStateEnumValues Enumerates the set of values for BuildRunLifecycleStateEnum
@@ -208,6 +211,7 @@ func GetBuildRunLifecycleStateEnumStringValues() []string {
 		"SUCCEEDED",
 		"CANCELING",
 		"CANCELED",
+		"DELETING",
 	}
 }
 

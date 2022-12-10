@@ -50,7 +50,8 @@ type MonitorSummary struct {
 	// If runOnce is enabled, then the monitor will run once.
 	IsRunOnce *bool `mandatory:"true" json:"isRunOnce"`
 
-	// Timeout in seconds. Timeout cannot be more than 30% of repeatIntervalInSeconds time for monitors.
+	// Timeout in seconds. If isFailureRetried is true, then timeout cannot be more than 30% of repeatIntervalInSeconds time for monitors.
+	// If isFailureRetried is false, then timeout cannot be more than 50% of repeatIntervalInSeconds time for monitors.
 	// Also, timeoutInSeconds should be a multiple of 60 for Scripted REST, Scripted Browser and Browser monitors.
 	// Monitor will be allowed to run only for timeoutInSeconds time. It would be terminated after that.
 	TimeoutInSeconds *int `mandatory:"true" json:"timeoutInSeconds"`
@@ -69,6 +70,8 @@ type MonitorSummary struct {
 	// If target is specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script (specified by scriptId in monitor) against the specified target endpoint.
 	// If target is not specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script as it is.
 	Target *string `mandatory:"false" json:"target"`
+
+	MaintenanceWindowSchedule *MaintenanceWindowSchedule `mandatory:"false" json:"maintenanceWindowSchedule"`
 
 	// The time the resource was created, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)
 	// timestamp format.

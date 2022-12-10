@@ -40,7 +40,7 @@ type ListMeshesRequest struct {
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// A filter to return only resources that match the life cycle state given.
-	LifecycleState *string `mandatory:"false" contributesTo:"query" name:"lifecycleState"`
+	LifecycleState MeshLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// Unique Mesh identifier.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
@@ -86,6 +86,9 @@ func (request ListMeshesRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingListMeshesSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListMeshesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingMeshLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetMeshLifecycleStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

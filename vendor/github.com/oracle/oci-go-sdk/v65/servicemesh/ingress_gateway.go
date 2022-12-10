@@ -38,9 +38,6 @@ type IngressGateway struct {
 	// The time when this resource was updated in an RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// Array of hostnames and their listener configuration that this gateway will bind to.
-	Hosts []IngressGatewayHost `mandatory:"true" json:"hosts"`
-
 	// The current state of the Resource.
 	LifecycleState IngressGatewayLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
@@ -48,6 +45,9 @@ type IngressGateway struct {
 	// Avoid entering confidential information.
 	// Example: `This is my new resource`
 	Description *string `mandatory:"false" json:"description"`
+
+	// Array of hostnames and their listener configuration that this gateway will bind to.
+	Hosts []IngressGatewayHost `mandatory:"false" json:"hosts"`
 
 	Mtls *IngressGatewayMutualTransportLayerSecurity `mandatory:"false" json:"mtls"`
 

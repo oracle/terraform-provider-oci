@@ -42,7 +42,9 @@ type RepositorySummary struct {
 	// The default branch of the repository.
 	DefaultBranch *string `mandatory:"false" json:"defaultBranch"`
 
-	// Type of repository.
+	// Type of repository. Allowed values:
+	// `MIRRORED`
+	// `HOSTED`
 	RepositoryType RepositoryRepositoryTypeEnum `mandatory:"false" json:"repositoryType,omitempty"`
 
 	// SSH URL that you use to git clone, pull and push.

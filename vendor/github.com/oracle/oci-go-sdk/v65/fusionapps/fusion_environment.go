@@ -4,7 +4,7 @@
 
 // Fusion Applications Environment Management API
 //
-// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.cloud.oracle.com/iaas/Content/Identity/fusion-applications/home.htm).
+// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.cloud.oracle.com/iaas/Content/fusion-applications/home.htm).
 //
 
 package fusionapps
@@ -72,6 +72,12 @@ type FusionEnvironment struct {
 	// Language packs
 	AdditionalLanguagePacks []string `mandatory:"false" json:"additionalLanguagePacks"`
 
+	// The lockbox Id of this fusion environment. If there's no lockbox id, this field will be null
+	LockboxId *string `mandatory:"false" json:"lockboxId"`
+
+	// If it's true, then the Break Glass feature is enabled
+	IsBreakGlassEnabled *bool `mandatory:"false" json:"isBreakGlassEnabled"`
+
 	Refresh *RefreshDetails `mandatory:"false" json:"refresh"`
 
 	// Network Access Control Rules
@@ -136,6 +142,8 @@ func (m *FusionEnvironment) UnmarshalJSON(data []byte) (e error) {
 		PublicUrl                 *string                                    `json:"publicUrl"`
 		DnsPrefix                 *string                                    `json:"dnsPrefix"`
 		AdditionalLanguagePacks   []string                                   `json:"additionalLanguagePacks"`
+		LockboxId                 *string                                    `json:"lockboxId"`
+		IsBreakGlassEnabled       *bool                                      `json:"isBreakGlassEnabled"`
 		Refresh                   *RefreshDetails                            `json:"refresh"`
 		Rules                     []rule                                     `json:"rules"`
 		TimeCreated               *common.SDKTime                            `json:"timeCreated"`
@@ -190,6 +198,10 @@ func (m *FusionEnvironment) UnmarshalJSON(data []byte) (e error) {
 	for i, n := range model.AdditionalLanguagePacks {
 		m.AdditionalLanguagePacks[i] = n
 	}
+
+	m.LockboxId = model.LockboxId
+
+	m.IsBreakGlassEnabled = model.IsBreakGlassEnabled
 
 	m.Refresh = model.Refresh
 

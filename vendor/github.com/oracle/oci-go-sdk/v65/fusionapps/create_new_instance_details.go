@@ -4,7 +4,7 @@
 
 // Fusion Applications Environment Management API
 //
-// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.cloud.oracle.com/iaas/Content/Identity/fusion-applications/home.htm).
+// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.cloud.oracle.com/iaas/Content/fusion-applications/home.htm).
 //
 
 package fusionapps
@@ -18,7 +18,7 @@ import (
 
 // CreateNewInstanceDetails Information about the service attachment.
 type CreateNewInstanceDetails struct {
-	Details CreateServiceInstanceDetails `mandatory:"false" json:"details"`
+	Details CreateServiceInstanceDetails `mandatory:"true" json:"details"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -62,9 +62,9 @@ func (m CreateNewInstanceDetails) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateNewInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Details      createserviceinstancedetails      `json:"details"`
 		FreeformTags map[string]string                 `json:"freeformTags"`
 		DefinedTags  map[string]map[string]interface{} `json:"definedTags"`
+		Details      createserviceinstancedetails      `json:"details"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -72,6 +72,10 @@ func (m *CreateNewInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
 	nn, e = model.Details.UnmarshalPolymorphicJSON(model.Details.JsonData)
 	if e != nil {
 		return
@@ -81,10 +85,6 @@ func (m *CreateNewInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.Details = nil
 	}
-
-	m.FreeformTags = model.FreeformTags
-
-	m.DefinedTags = model.DefinedTags
 
 	return
 }

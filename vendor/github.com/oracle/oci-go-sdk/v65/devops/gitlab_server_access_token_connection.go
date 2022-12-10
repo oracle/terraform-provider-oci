@@ -48,6 +48,9 @@ type GitlabServerAccessTokenConnection struct {
 	// The time the connection was updated. Format defined by RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339).
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
+	// A detailed message describing the current state. For example, can be used to provide actionable information for a resource in Failed state.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
@@ -96,6 +99,11 @@ func (m GitlabServerAccessTokenConnection) GetTimeCreated() *common.SDKTime {
 //GetTimeUpdated returns TimeUpdated
 func (m GitlabServerAccessTokenConnection) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
+}
+
+//GetLifecycleDetails returns LifecycleDetails
+func (m GitlabServerAccessTokenConnection) GetLifecycleDetails() *string {
+	return m.LifecycleDetails
 }
 
 //GetLifecycleState returns LifecycleState
@@ -154,20 +162,21 @@ func (m GitlabServerAccessTokenConnection) MarshalJSON() (buff []byte, e error) 
 // UnmarshalJSON unmarshals from json
 func (m *GitlabServerAccessTokenConnection) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description     *string                           `json:"description"`
-		DisplayName     *string                           `json:"displayName"`
-		TimeCreated     *common.SDKTime                   `json:"timeCreated"`
-		TimeUpdated     *common.SDKTime                   `json:"timeUpdated"`
-		LifecycleState  ConnectionLifecycleStateEnum      `json:"lifecycleState"`
-		FreeformTags    map[string]string                 `json:"freeformTags"`
-		DefinedTags     map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags      map[string]map[string]interface{} `json:"systemTags"`
-		TlsVerifyConfig tlsverifyconfig                   `json:"tlsVerifyConfig"`
-		Id              *string                           `json:"id"`
-		CompartmentId   *string                           `json:"compartmentId"`
-		ProjectId       *string                           `json:"projectId"`
-		AccessToken     *string                           `json:"accessToken"`
-		BaseUrl         *string                           `json:"baseUrl"`
+		Description      *string                           `json:"description"`
+		DisplayName      *string                           `json:"displayName"`
+		TimeCreated      *common.SDKTime                   `json:"timeCreated"`
+		TimeUpdated      *common.SDKTime                   `json:"timeUpdated"`
+		LifecycleDetails *string                           `json:"lifecycleDetails"`
+		LifecycleState   ConnectionLifecycleStateEnum      `json:"lifecycleState"`
+		FreeformTags     map[string]string                 `json:"freeformTags"`
+		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags       map[string]map[string]interface{} `json:"systemTags"`
+		TlsVerifyConfig  tlsverifyconfig                   `json:"tlsVerifyConfig"`
+		Id               *string                           `json:"id"`
+		CompartmentId    *string                           `json:"compartmentId"`
+		ProjectId        *string                           `json:"projectId"`
+		AccessToken      *string                           `json:"accessToken"`
+		BaseUrl          *string                           `json:"baseUrl"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -182,6 +191,8 @@ func (m *GitlabServerAccessTokenConnection) UnmarshalJSON(data []byte) (e error)
 	m.TimeCreated = model.TimeCreated
 
 	m.TimeUpdated = model.TimeUpdated
+
+	m.LifecycleDetails = model.LifecycleDetails
 
 	m.LifecycleState = model.LifecycleState
 

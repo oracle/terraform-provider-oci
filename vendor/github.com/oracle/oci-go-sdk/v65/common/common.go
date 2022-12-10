@@ -80,12 +80,22 @@ func (region Region) EndpointForTemplate(service string, serviceEndpointTemplate
 	return endpoint
 }
 
-// EndpointForTemplateDottedRegion returns a endpoint for a service based on template, only unknown region name can fall back to "oc1", but not short code region name.
+// EndpointForTemplateDottedRegion returns a endpoint for a service based on the service name and EndpointTemplateForRegionWithDot template. If a service name is missing it is obtained from serviceEndpointTemplate and endpoint is constructed usingEndpointTemplateForRegionWithDot template.
 func (region Region) EndpointForTemplateDottedRegion(service string, serviceEndpointTemplate string, endpointServiceName string) (string, error) {
+	if !strings.Contains(string(region), ".") {
+		var endpoint = ""
+		if serviceEndpointTemplate != "" {
+			endpoint = region.EndpointForTemplate(service, serviceEndpointTemplate)
+			return endpoint, nil
+		}
+		endpoint = region.EndpointForTemplate(service, "")
+		return endpoint, nil
+	}
+
 	if endpointServiceName != "" {
 		endpoint := strings.Replace(EndpointTemplateForRegionWithDot, "{endpoint_service_name}", endpointServiceName, 1)
 		endpoint = strings.Replace(endpoint, "{region}", string(region), 1)
-		Debugf("Constructing endpoint from service name %s and region %s", endpointServiceName, region)
+		Debugf("Constructing endpoint from service name %s and region %s. Endpoint: %s", endpointServiceName, region, endpoint)
 		return endpoint, nil
 	}
 	if serviceEndpointTemplate != "" {
@@ -96,6 +106,7 @@ func (region Region) EndpointForTemplateDottedRegion(service string, serviceEndp
 			if len(res) > 1 {
 				endpoint = strings.Replace(EndpointTemplateForRegionWithDot, "{endpoint_service_name}", res[0], 1)
 				endpoint = strings.Replace(endpoint, "{region}", string(region), 1)
+				Debugf("Constructing endpoint from service endpoint template %s and region %s. Endpoint: %s", serviceEndpointTemplate, region, endpoint)
 			} else {
 				return endpoint, fmt.Errorf("Endpoint service name not present in endpoint template")
 			}

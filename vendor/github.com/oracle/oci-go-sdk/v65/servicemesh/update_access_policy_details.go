@@ -24,7 +24,7 @@ type UpdateAccessPolicyDetails struct {
 	Description *string `mandatory:"false" json:"description"`
 
 	// List of applicable rules.
-	Rules []AccessPolicyRule `mandatory:"false" json:"rules"`
+	Rules []AccessPolicyRuleDetails `mandatory:"false" json:"rules"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
