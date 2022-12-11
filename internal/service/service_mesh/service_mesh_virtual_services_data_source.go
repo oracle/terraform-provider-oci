@@ -97,10 +97,9 @@ func (s *ServiceMeshVirtualServicesDataSourceCrud) Get() error {
 		request.Name = &tmp
 	}
 
-	// if state, ok := s.D.GetOkExists("state"); ok {
-	// 	tmp := state.(string)
-	// 	request.LifecycleState = &tmp
-	// }
+	if state, ok := s.D.GetOkExists("state"); ok {
+		request.LifecycleState = oci_service_mesh.VirtualServiceLifecycleStateEnum(state.(string))
+	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "service_mesh")
 

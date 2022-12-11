@@ -41,7 +41,7 @@ var (
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_mesh_ingress_gateway.test_ingress_gateway.id}`},
 		"mesh_id":        acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_mesh_mesh.mesh1.id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `name`},
-		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceMeshIngressGatewayDataSourceFilterRepresentation}}
 	ServiceMeshIngressGatewayDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
@@ -330,7 +330,7 @@ func TestServiceMeshIngressGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "mesh_id"),
 				resource.TestCheckResourceAttr(datasourceName, "name", "name"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "ingress_gateway_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "ingress_gateway_collection.0.items.#", "0"),
@@ -340,8 +340,7 @@ func TestServiceMeshIngressGatewayResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_service_mesh_ingress_gateway", "test_ingress_gateway", acctest.Required, acctest.Create, ServiceMeshServiceMeshIngressGatewaySingularDataSourceRepresentation) +
-				vaultIdVariableStr + keyIdVariableStr + certificateIdVariableStr + certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshIngressGatewayResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway", "test_ingress_gateway", acctest.Optional, acctest.Update, acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{"hosts.listeners.tls.client_validation.trusted_ca_bundle.ca_bundle_id", "hosts.listeners.tls.server_certificate.certificate_id"}, ServiceMeshIngressGatewayRepresentation)),
+				vaultIdVariableStr + keyIdVariableStr + certificateIdVariableStr + certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshIngressGatewayResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway", "test_ingress_gateway", acctest.Optional, acctest.Update, acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{"hosts.listeners.tls.client_validation.trusted_ca_bundle.ca_bundle_id", "hosts.listeners.tls.server_certificate.certificate_id"}, ServiceMeshIngressGatewayRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ingress_gateway_id"),
 
@@ -474,8 +473,7 @@ func getServiceMeshIngressGatewayIds(compartment string) ([]string, error) {
 
 	listIngressGatewaysRequest := oci_service_mesh.ListIngressGatewaysRequest{}
 	listIngressGatewaysRequest.CompartmentId = &compartmentId
-	// active := "ACTIVE"
-	// listIngressGatewaysRequest.LifecycleState = &active
+	listIngressGatewaysRequest.LifecycleState = oci_service_mesh.IngressGatewayLifecycleStateActive
 	listIngressGatewaysResponse, err := serviceMeshClient.ListIngressGateways(context.Background(), listIngressGatewaysRequest)
 
 	if err != nil {

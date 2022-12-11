@@ -426,16 +426,16 @@ func (s *ServiceMeshIngressGatewayResourceCrud) Create() error {
 		request.MeshId = &tmp
 	}
 
-	// if mtls, ok := s.D.GetOkExists("mtls"); ok {
-	// 	if tmpList := mtls.([]interface{}); len(tmpList) > 0 {
-	// 		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "mtls", 0)
-	// 		tmp, err := s.mapToCreateIngressGatewayMutualTransportLayerSecurityDetails(fieldKeyFormat)
-	// 		if err != nil {
-	// 			return err
-	// 		}
-	// 		request.Mtls = &tmp
-	// 	}
-	// }
+	if mtls, ok := s.D.GetOkExists("mtls"); ok {
+		if tmpList := mtls.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "mtls", 0)
+			tmp, err := s.mapToCreateIngressGatewayMutualTransportLayerSecurityDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.Mtls = &tmp
+		}
+	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
@@ -657,16 +657,16 @@ func (s *ServiceMeshIngressGatewayResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.IngressGatewayId = &tmp
 
-	// if mtls, ok := s.D.GetOkExists("mtls"); ok {
-	// 	if tmpList := mtls.([]interface{}); len(tmpList) > 0 {
-	// 		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "mtls", 0)
-	// 		tmp, err := s.mapToCreateIngressGatewayMutualTransportLayerSecurityDetails(fieldKeyFormat)
-	// 		if err != nil {
-	// 			return err
-	// 		}
-	// 		request.Mtls = &tmp
-	// 	}
-	// }
+	if mtls, ok := s.D.GetOkExists("mtls"); ok {
+		if tmpList := mtls.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "mtls", 0)
+			tmp, err := s.mapToCreateIngressGatewayMutualTransportLayerSecurityDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.Mtls = &tmp
+		}
+	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "service_mesh")
 
@@ -826,16 +826,16 @@ func CaBundleToMap(obj *oci_service_mesh.CaBundle) map[string]interface{} {
 	return result
 }
 
-// func (s *ServiceMeshIngressGatewayResourceCrud) mapToCreateIngressGatewayMutualTransportLayerSecurityDetails(fieldKeyFormat string) (oci_service_mesh.CreateIngressGatewayMutualTransportLayerSecurityDetails, error) {
-// 	result := oci_service_mesh.CreateIngressGatewayMutualTransportLayerSecurityDetails{}
+func (s *ServiceMeshIngressGatewayResourceCrud) mapToCreateIngressGatewayMutualTransportLayerSecurityDetails(fieldKeyFormat string) (oci_service_mesh.IngressGatewayMutualTransportLayerSecurityDetails, error) {
+	result := oci_service_mesh.IngressGatewayMutualTransportLayerSecurityDetails{}
 
-// 	if maximumValidity, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maximum_validity")); ok {
-// 		tmp := maximumValidity.(int)
-// 		result.MaximumValidity = &tmp
-// 	}
+	if maximumValidity, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maximum_validity")); ok {
+		tmp := maximumValidity.(int)
+		result.MaximumValidity = &tmp
+	}
 
-// 	return result, nil
-// }
+	return result, nil
+}
 
 func IngressGatewayMutualTransportLayerSecurityToMap(obj *oci_service_mesh.IngressGatewayMutualTransportLayerSecurity) map[string]interface{} {
 	result := map[string]interface{}{}

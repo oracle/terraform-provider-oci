@@ -41,7 +41,7 @@ var (
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_mesh_access_policy.test_access_policy.id}`},
 		"mesh_id":        acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_mesh_mesh.mesh1.id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `name`},
-		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceMeshAccessPolicyDataSourceFilterRepresentation}}
 	ServiceMeshAccessPolicyDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
@@ -242,7 +242,7 @@ func TestServiceMeshAccessPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "mesh_id"),
 				resource.TestCheckResourceAttr(datasourceName, "name", "name"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttr(datasourceName, "access_policy_collection.#", "1"),
 			),
 		},
@@ -370,8 +370,7 @@ func getServiceMeshAccessPolicyIds(compartment string) ([]string, error) {
 
 	listAccessPoliciesRequest := oci_service_mesh.ListAccessPoliciesRequest{}
 	listAccessPoliciesRequest.CompartmentId = &compartmentId
-	// active := "ACTIVE"
-	// listAccessPoliciesRequest.LifecycleState = &active
+	listAccessPoliciesRequest.LifecycleState = oci_service_mesh.AccessPolicyLifecycleStateActive
 	listAccessPoliciesResponse, err := serviceMeshClient.ListAccessPolicies(context.Background(), listAccessPoliciesRequest)
 
 	if err != nil {

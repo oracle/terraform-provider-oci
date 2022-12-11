@@ -43,7 +43,7 @@ var (
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_mesh_mesh.test_mesh.id}`},
-		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: meshDataSourceFilterRepresentation}}
 	meshDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
@@ -211,14 +211,14 @@ func TestServiceMeshMeshResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_service_mesh_meshes", "test_meshes", acctest.Optional, acctest.Update, ServiceMeshMeshRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_service_mesh_meshes", "test_meshes", acctest.Optional, acctest.Update, ServiceMeshServiceMeshMeshDataSourceRepresentation) +
 				compartmentIdVariableStr + ServiceMeshMeshResourceDependencies + certificateAuthorityIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_mesh", "test_mesh", acctest.Optional, acctest.Update, ServiceMeshMeshRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "mesh_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "mesh_collection.0.items.#", "0"),
@@ -346,8 +346,7 @@ func getServiceMeshMeshIds(compartment string) ([]string, error) {
 
 	listMeshesRequest := oci_service_mesh.ListMeshesRequest{}
 	listMeshesRequest.CompartmentId = &compartmentId
-	// active := "ACTIVE"
-	// listMeshesRequest.LifecycleState = &active
+	listMeshesRequest.LifecycleState = oci_service_mesh.MeshLifecycleStateActive
 	listMeshesResponse, err := serviceMeshClient.ListMeshes(context.Background(), listMeshesRequest)
 
 	if err != nil {

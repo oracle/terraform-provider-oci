@@ -39,7 +39,7 @@ var (
 		"id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_mesh_ingress_gateway_route_table.test_ingress_gateway_route_table.id}`},
 		"ingress_gateway_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_mesh_ingress_gateway.ingress_gateway_1.id}`},
 		"name":               acctest.Representation{RepType: acctest.Optional, Create: `name`},
-		"state":              acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"state":              acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceMeshIngressGatewayRouteTableDataSourceFilterRepresentation}}
 	ServiceMeshIngressGatewayRouteTableDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
@@ -250,10 +250,10 @@ func TestServiceMeshIngressGatewayRouteTableResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "ingress_gateway_id"),
 				resource.TestCheckResourceAttr(datasourceName, "name", "name"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "ingress_gateway_route_table_collection.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "ingress_gateway_route_table_collection.0.items.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "ingress_gateway_route_table_collection.0.items.#", "0"),
 			),
 		},
 		// verify singular datasource
@@ -387,8 +387,7 @@ func getServiceMeshIngressGatewayRouteTableIds(compartment string) ([]string, er
 
 	listIngressGatewayRouteTablesRequest := oci_service_mesh.ListIngressGatewayRouteTablesRequest{}
 	listIngressGatewayRouteTablesRequest.CompartmentId = &compartmentId
-	// active := "ACTIVE"
-	// listIngressGatewayRouteTablesRequest.LifecycleState = &active
+	listIngressGatewayRouteTablesRequest.LifecycleState = oci_service_mesh.IngressGatewayRouteTableLifecycleStateActive
 	listIngressGatewayRouteTablesResponse, err := serviceMeshClient.ListIngressGatewayRouteTables(context.Background(), listIngressGatewayRouteTablesRequest)
 
 	if err != nil {

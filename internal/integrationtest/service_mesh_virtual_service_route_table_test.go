@@ -38,7 +38,7 @@ var (
 		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_mesh_virtual_service_route_table.test_virtual_service_route_table.id}`},
 		"name":               acctest.Representation{RepType: acctest.Optional, Create: `name`},
-		"state":              acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"state":              acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"virtual_service_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_mesh_virtual_service.virtual_service_1.id}`},
 		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceMeshVirtualServiceRouteTableDataSourceFilterRepresentation}}
 	ServiceMeshVirtualServiceRouteTableDataSourceFilterRepresentation = map[string]interface{}{
@@ -237,7 +237,7 @@ func TestServiceMeshVirtualServiceRouteTableResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttr(datasourceName, "name", "name"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(datasourceName, "virtual_service_id"),
 
 				resource.TestCheckResourceAttr(datasourceName, "virtual_service_route_table_collection.#", "1"),
@@ -372,8 +372,7 @@ func getServiceMeshVirtualServiceRouteTableIds(compartment string) ([]string, er
 
 	listVirtualServiceRouteTablesRequest := oci_service_mesh.ListVirtualServiceRouteTablesRequest{}
 	listVirtualServiceRouteTablesRequest.CompartmentId = &compartmentId
-	// active := "ACTIVE"
-	// listVirtualServiceRouteTablesRequest.LifecycleState = &active
+	listVirtualServiceRouteTablesRequest.LifecycleState = oci_service_mesh.VirtualServiceRouteTableLifecycleStateActive
 	listVirtualServiceRouteTablesResponse, err := serviceMeshClient.ListVirtualServiceRouteTables(context.Background(), listVirtualServiceRouteTablesRequest)
 
 	if err != nil {
