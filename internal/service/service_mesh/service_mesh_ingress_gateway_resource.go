@@ -826,8 +826,8 @@ func CaBundleToMap(obj *oci_service_mesh.CaBundle) map[string]interface{} {
 	return result
 }
 
-func (s *ServiceMeshIngressGatewayResourceCrud) mapToCreateIngressGatewayMutualTransportLayerSecurityDetails(fieldKeyFormat string) (oci_service_mesh.CreateIngressGatewayMutualTransportLayerSecurityDetails, error) {
-	result := oci_service_mesh.CreateIngressGatewayMutualTransportLayerSecurityDetails{}
+func (s *ServiceMeshIngressGatewayResourceCrud) mapToCreateIngressGatewayMutualTransportLayerSecurityDetails(fieldKeyFormat string) (oci_service_mesh.IngressGatewayMutualTransportLayerSecurityDetails, error) {
+	result := oci_service_mesh.IngressGatewayMutualTransportLayerSecurityDetails{}
 
 	if maximumValidity, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maximum_validity")); ok {
 		tmp := maximumValidity.(int)

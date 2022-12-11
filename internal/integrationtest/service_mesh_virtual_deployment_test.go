@@ -40,7 +40,7 @@ var (
 		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_mesh_virtual_deployment.test_virtual_deployment.id}`},
 		"name":               acctest.Representation{RepType: acctest.Optional, Create: `name`},
-		"state":              acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"state":              acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"virtual_service_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_mesh_virtual_service.virtual_service_1.id}`},
 		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceMeshVirtualDeploymentDataSourceFilterRepresentation}}
 	ServiceMeshVirtualDeploymentDataSourceFilterRepresentation = map[string]interface{}{
@@ -273,7 +273,7 @@ func TestServiceMeshVirtualDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttr(datasourceName, "name", "name"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(datasourceName, "virtual_service_id"),
 
 				resource.TestCheckResourceAttr(datasourceName, "virtual_deployment_collection.#", "1"),
@@ -405,8 +405,7 @@ func getServiceMeshVirtualDeploymentIds(compartment string) ([]string, error) {
 
 	listVirtualDeploymentsRequest := oci_service_mesh.ListVirtualDeploymentsRequest{}
 	listVirtualDeploymentsRequest.CompartmentId = &compartmentId
-	active := "ACTIVE"
-	listVirtualDeploymentsRequest.LifecycleState = &active
+	listVirtualDeploymentsRequest.LifecycleState = oci_service_mesh.VirtualDeploymentLifecycleStateActive
 	listVirtualDeploymentsResponse, err := serviceMeshClient.ListVirtualDeployments(context.Background(), listVirtualDeploymentsRequest)
 
 	if err != nil {

@@ -41,7 +41,7 @@ var (
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_mesh_virtual_service.test_virtual_service.id}`},
 		"mesh_id":        acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_mesh_mesh.mesh1.id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `vs-name`},
-		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceMeshVirtualServiceDataSourceFilterRepresentation}}
 	ServiceMeshVirtualServiceDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
@@ -233,7 +233,7 @@ func TestServiceMeshVirtualServiceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "mesh_id"),
 				resource.TestCheckResourceAttr(datasourceName, "name", "vs-name"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "virtual_service_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "virtual_service_collection.0.items.#", "0"),
@@ -364,8 +364,7 @@ func getServiceMeshVirtualServiceIds(compartment string) ([]string, error) {
 
 	listVirtualServicesRequest := oci_service_mesh.ListVirtualServicesRequest{}
 	listVirtualServicesRequest.CompartmentId = &compartmentId
-	active := "ACTIVE"
-	listVirtualServicesRequest.LifecycleState = &active
+	listVirtualServicesRequest.LifecycleState = oci_service_mesh.VirtualServiceLifecycleStateActive
 	listVirtualServicesResponse, err := serviceMeshClient.ListVirtualServices(context.Background(), listVirtualServicesRequest)
 
 	if err != nil {
