@@ -60,6 +60,7 @@ func DatabaseManagementManagedDatabasesUserSystemPrivilegeDataSource() *schema.R
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_database_management_managed_databases_user_system_privilege", "oci_database_management_managed_databases_user_system_privileges"),
 	}
 }
 

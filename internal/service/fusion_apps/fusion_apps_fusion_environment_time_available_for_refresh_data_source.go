@@ -40,6 +40,7 @@ func FusionAppsFusionEnvironmentTimeAvailableForRefreshDataSource() *schema.Reso
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_fusion_apps_fusion_environment_time_available_for_refresh", "oci_fusion_apps_fusion_environment_time_available_for_refreshs"),
 	}
 }
 

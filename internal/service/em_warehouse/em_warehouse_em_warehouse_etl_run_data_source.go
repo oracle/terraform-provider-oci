@@ -91,6 +91,7 @@ func EmWarehouseEmWarehouseEtlRunDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_em_warehouse_em_warehouse_etl_run", "oci_em_warehouse_em_warehouse_etl_runs"),
 	}
 }
 

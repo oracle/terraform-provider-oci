@@ -56,6 +56,7 @@ func DatabaseManagementManagedDatabasesUserProxyUserDataSource() *schema.Resourc
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_database_management_managed_databases_user_proxy_user", "oci_database_management_managed_databases_user_proxy_users"),
 	}
 }
 
