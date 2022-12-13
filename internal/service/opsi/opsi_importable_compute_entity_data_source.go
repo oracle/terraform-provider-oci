@@ -61,6 +61,7 @@ func OpsiImportableComputeEntityDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_opsi_importable_compute_entity", "oci_opsi_importable_compute_entities"),
 	}
 }
 

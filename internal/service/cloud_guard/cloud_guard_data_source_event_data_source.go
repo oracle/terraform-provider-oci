@@ -97,6 +97,7 @@ func CloudGuardDataSourceEventDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_cloud_guard_data_source_event", "oci_cloud_guard_data_source_events"),
 	}
 }
 

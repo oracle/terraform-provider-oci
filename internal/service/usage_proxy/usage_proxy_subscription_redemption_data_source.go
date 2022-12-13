@@ -90,6 +90,7 @@ func UsageProxySubscriptionRedemptionDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_usage_proxy_subscription_redemption", "oci_usage_proxy_subscription_redemptions"),
 	}
 }
 

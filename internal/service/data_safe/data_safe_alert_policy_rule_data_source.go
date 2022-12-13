@@ -48,6 +48,7 @@ func DataSafeAlertPolicyRuleDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_data_safe_alert_policy_rule", "oci_data_safe_alert_policy_rules"),
 	}
 }
 

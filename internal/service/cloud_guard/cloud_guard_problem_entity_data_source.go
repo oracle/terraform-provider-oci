@@ -83,6 +83,7 @@ func CloudGuardProblemEntityDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_cloud_guard_problem_entity", "oci_cloud_guard_problem_entities"),
 	}
 }
 

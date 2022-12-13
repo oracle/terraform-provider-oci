@@ -56,6 +56,7 @@ func DatabaseManagementDbManagementPrivateEndpointAssociatedDatabaseDataSource()
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_database_management_db_management_private_endpoint_associated_database", "oci_database_management_db_management_private_endpoint_associated_databases"),
 	}
 }
 

@@ -113,6 +113,7 @@ func OptimizerRecommendationStrategyDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_optimizer_recommendation_strategy", "oci_optimizer_recommendation_strategies"),
 	}
 }
 

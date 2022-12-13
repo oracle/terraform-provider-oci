@@ -48,6 +48,7 @@ func DatabaseManagementManagedDatabaseUserDataAccessContainerDataSource() *schem
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_database_management_managed_database_user_data_access_container", "oci_database_management_managed_database_user_data_access_containers"),
 	}
 }
 
