@@ -187,6 +187,7 @@ func DataSafeAuditEventAnalyticDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_data_safe_audit_event", "oci_data_safe_audit_events"),
 	}
 }
 

@@ -82,6 +82,7 @@ func DataSafeMaskingAnalyticDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_data_safe_masking_analytic", "oci_data_safe_masking_analytics"),
 	}
 }
 

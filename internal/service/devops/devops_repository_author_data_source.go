@@ -54,6 +54,7 @@ func DevopsRepositoryAuthorDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_devops_repository_author", "oci_devops_repository_authors"),
 	}
 }
 

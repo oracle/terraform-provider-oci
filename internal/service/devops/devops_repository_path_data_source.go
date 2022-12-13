@@ -87,6 +87,7 @@ func DevopsRepositoryPathDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_devops_repository_path", "oci_devops_repository_paths"),
 	}
 }
 

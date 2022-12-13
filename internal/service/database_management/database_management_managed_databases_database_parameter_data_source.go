@@ -177,6 +177,7 @@ func DatabaseManagementManagedDatabasesDatabaseParameterDataSource() *schema.Res
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_database_management_managed_databases_database_parameter", "oci_database_management_managed_databases_database_parameters"),
 	}
 }
 

@@ -48,6 +48,7 @@ func GoldenGateMessageDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_golden_gate_message", "oci_golden_gate_messages"),
 	}
 }
 

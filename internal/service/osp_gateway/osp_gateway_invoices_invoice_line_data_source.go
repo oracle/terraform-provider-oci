@@ -109,6 +109,7 @@ func OspGatewayInvoicesInvoiceLineDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_osp_gateway_invoices_invoice_line", "oci_osp_gateway_invoices_invoice_lines"),
 	}
 }
 

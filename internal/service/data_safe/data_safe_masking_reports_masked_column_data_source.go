@@ -117,6 +117,7 @@ func DataSafeMaskingReportsMaskedColumnDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_data_safe_masking_reports_masked_column", "oci_data_safe_masking_reports_masked_columns"),
 	}
 }
 

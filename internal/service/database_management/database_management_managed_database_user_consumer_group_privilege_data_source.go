@@ -56,6 +56,7 @@ func DatabaseManagementManagedDatabaseUserConsumerGroupPrivilegeDataSource() *sc
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_database_management_managed_database_user_consumer_group_privilege", "oci_database_management_managed_database_user_consumer_group_privileges"),
 	}
 }
 

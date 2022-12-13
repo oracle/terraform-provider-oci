@@ -196,6 +196,7 @@ func JmsFleetInstallationSiteDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_jms_fleet_installation_site", "oci_jms_fleet_installation_sites"),
 	}
 }
 
