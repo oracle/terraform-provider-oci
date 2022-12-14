@@ -41,8 +41,8 @@ var (
 		"group_id":                     acctest.Representation{RepType: acctest.Optional, Create: `${oci_identity_group.test_group.id}`},
 		"is_compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"log_id":                       acctest.Representation{RepType: acctest.Optional, Create: `${oci_logging_log.test_log.id}`},
-		"state":                        acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 		"filter":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: LoggingUnifiedAgentConfigurationDataSourceFilterRepresentation},
+		//"state":                        acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 	}
 
 	LoggingUnifiedAgentConfigurationRepresentation = map[string]interface{}{
@@ -67,14 +67,14 @@ var (
 	}
 
 	LoggingUnifiedAgentConfigurationServiceConfigurationSourcesParserRepresentation = map[string]interface{}{
-		"parser_type":               acctest.Representation{RepType: acctest.Required, Create: `AUDITD`},
-		"field_time_key":            acctest.Representation{RepType: acctest.Optional, Create: `fieldTimeKey`},
-		"is_estimate_current_event": acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"is_keep_time_key":          acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"is_null_empty_string":      acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"null_value_pattern":        acctest.Representation{RepType: acctest.Optional, Create: `nullValuePattern`},
-		"timeout_in_milliseconds":   acctest.Representation{RepType: acctest.Optional, Create: `10`},
-		"types":                     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"types": "types"}},
+		"parser_type":             acctest.Representation{RepType: acctest.Required, Create: `AUDITD`},
+		"field_time_key":          acctest.Representation{RepType: acctest.Optional, Create: `fieldTimeKey`},
+		"is_keep_time_key":        acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_null_empty_string":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"null_value_pattern":      acctest.Representation{RepType: acctest.Optional, Create: `nullValuePattern`},
+		"timeout_in_milliseconds": acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"types":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"types": "types"}},
+		//"is_estimate_current_event": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
 	LoggingUnifiedAgentConfigurationDataSourceFilterRepresentation = map[string]interface{}{
@@ -82,19 +82,27 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_logging_unified_agent_configuration.test_unified_agent_configuration.id}`}},
 	}
 
+	LoggingUAIdentityGroupRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
+		"description":    acctest.Representation{RepType: acctest.Required, Create: `Group for Logging UA`},
+		"name":           acctest.Representation{RepType: acctest.Required, Create: `LoggingAgentIdentityGroup`},
+	}
+
+	// need to add policy for creating groups
 	LoggingUnifiedAgentConfigurationResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Required, acctest.Create,
-			acctest.GetUpdatedRepresentationCopy("name", acctest.Representation{RepType: acctest.Required, Create: `LoggingAgentIdentityGroup`}, LoggingLogGroupRepresentation)) +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Required, acctest.Create, LoggingUAIdentityGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", acctest.Required, acctest.Create, LoggingLogGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", acctest.Required, acctest.Create, customLogRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Required, acctest.Create, ObjectStorageObjectRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", acctest.Required, acctest.Create, customLogRepresentation) // +
+		//acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
+		//acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
+		//acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Required, acctest.Create, ObjectStorageObjectRepresentation)
 
 	LoggingUnifiedAgentConfigurationServiceConfigurationSourcesRepresentation = map[string]interface{}{
-		"source_type": acctest.Representation{RepType: acctest.Required, Create: `WINDOWS_EVENT_LOG`},
-		"channels":    acctest.Representation{RepType: acctest.Required, Create: []string{`Security`}, Update: []string{`Security`, `Application`}},
-		"name":        acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
+		"source_type": acctest.Representation{RepType: acctest.Required, Create: `LOG_TAIL`},
+		"paths":       acctest.Representation{RepType: acctest.Required, Create: []string{`/var/log/*`}},
+		"name":        acctest.Representation{RepType: acctest.Required, Create: `name`},
+		"parser":      acctest.RepresentationGroup{RepType: acctest.Required, Group: LoggingUnifiedAgentConfigurationServiceConfigurationSourcesParserRepresentation},
+		//"channels":    acctest.Representation{RepType: acctest.Required, Create: []string{`Security`}, Update: []string{`Security`, `Application`}},
 	}
 )
 
@@ -121,7 +129,7 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", acctest.Optional, acctest.Create, LoggingUnifiedAgentConfigurationRepresentation), "logging", "unifiedAgentConfiguration", t)
 
 	acctest.ResourceTest(t, testAccCheckLoggingUnifiedAgentConfigurationDestroy, []resource.TestStep{
-		// verify Create
+		// 0. verify Create
 		{
 			Config: config + compartmentIdVariableStr + LoggingUnifiedAgentConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", acctest.Required, acctest.Create, LoggingUnifiedAgentConfigurationRepresentation),
@@ -130,6 +138,13 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.configuration_type", "LOGGING"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "service_configuration.0.destination.0.log_object_id"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.channels.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.paths.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.source_type", "LOG_TAIL"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -137,11 +152,11 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// delete before next Create
+		// 1. delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + LoggingUnifiedAgentConfigurationResourceDependencies,
 		},
-		// verify Create with optionals
+		// 2. verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + LoggingUnifiedAgentConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", acctest.Optional, acctest.Create, LoggingUnifiedAgentConfigurationRepresentation),
@@ -160,9 +175,11 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "service_configuration.0.destination.0.log_object_id"),
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.channels.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.channels.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.name", "name"),
-				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.source_type", "WINDOWS_EVENT_LOG"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.source_type", "LOG_TAIL"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.parser.0.parser_type", "AUDITD"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.parser.0.is_estimate_current_event", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
@@ -177,7 +194,7 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify Update to the compartment (the compartment will be switched back in the next step)
+		// 3. verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + LoggingUnifiedAgentConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", acctest.Optional, acctest.Create,
@@ -199,9 +216,9 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "service_configuration.0.destination.0.log_object_id"),
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.channels.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.channels.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.name", "name"),
-				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.source_type", "WINDOWS_EVENT_LOG"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.source_type", "LOG_TAIL"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
@@ -214,7 +231,7 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify updates to updatable parameters
+		// 4. verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + LoggingUnifiedAgentConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", acctest.Optional, acctest.Update, LoggingUnifiedAgentConfigurationRepresentation),
@@ -233,9 +250,9 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "service_configuration.0.destination.0.log_object_id"),
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.channels.#", "2"),
-				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.name", "name2"),
-				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.source_type", "WINDOWS_EVENT_LOG"),
+				//resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.channels.#", "2"),
+				//resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.name", "name2"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.source_type", "LOG_TAIL"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
@@ -247,7 +264,7 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify datasource
+		// 5. verify datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_logging_unified_agent_configurations", "test_unified_agent_configurations", acctest.Optional, acctest.Update, LoggingLoggingUnifiedAgentConfigurationDataSourceRepresentation) +
@@ -259,13 +276,13 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "group_id"),
 				resource.TestCheckResourceAttr(datasourceName, "is_compartment_id_in_subtree", "false"),
 				resource.TestCheckResourceAttrSet(datasourceName, "log_id"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(datasourceName, "unified_agent_configuration_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "unified_agent_configuration_collection.0.items.#", "1"),
 			),
 		},
 
-		// verify singular datasource
+		// 6. verify singular datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", acctest.Required, acctest.Create, LoggingLoggingUnifiedAgentConfigurationSingularDataSourceRepresentation) +
@@ -286,15 +303,15 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.configuration_type", "LOGGING"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.destination.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.sources.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.sources.0.channels.#", "2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.sources.0.name", "name2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.sources.0.source_type", "WINDOWS_EVENT_LOG"),
+				//resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.sources.0.channels.#", "2"),
+				//resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.sources.0.name", "name2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.sources.0.source_type", "LOG_TAIL"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_last_modified"),
 			),
 		},
-		// verify resource import
+		// 7. verify resource import
 		{
 			Config:                  config + LoggingUnifiedAgentConfigurationRequiredOnlyResource,
 			ImportState:             true,

@@ -40,7 +40,7 @@ var (
 		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_mesh_virtual_deployment.test_virtual_deployment.id}`},
 		"name":               acctest.Representation{RepType: acctest.Optional, Create: `name`},
-		"state":              acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"state":              acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"virtual_service_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_mesh_virtual_service.virtual_service_1.id}`},
 		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceMeshVirtualDeploymentDataSourceFilterRepresentation}}
 	ServiceMeshVirtualDeploymentDataSourceFilterRepresentation = map[string]interface{}{
@@ -50,25 +50,38 @@ var (
 
 	ServiceMeshVirtualDeploymentRepresentation = map[string]interface{}{
 		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"listeners":          acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceMeshVirtualDeploymentListenersRepresentation},
 		"name":               acctest.Representation{RepType: acctest.Required, Create: `name`},
-		"service_discovery":  acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceMeshVirtualDeploymentServiceDiscoveryRepresentation},
 		"virtual_service_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_service_mesh_virtual_service.virtual_service_1.id}`},
+		"listeners":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: ServiceMeshVirtualDeploymentListenersRepresentation},
+		"service_discovery":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ServiceMeshVirtualDeploymentServiceDiscoveryRepresentation},
 		"access_logging":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: ServiceMeshVirtualDeploymentAccessLoggingRepresentation},
 		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":        acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 	}
+
+	ServiceMeshVirtualDeploymentRepresentationWithDisabledServiceDiscovery = map[string]interface{}{
+		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"name":               acctest.Representation{RepType: acctest.Required, Create: `name_disabled`},
+		"service_discovery":  acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceMeshVirtualDeploymentDisabledServiceDiscoveryRepresentation},
+		"virtual_service_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_service_mesh_virtual_service.virtual_service_1.id}`},
+	}
+
+	ServiceMeshVirtualDeploymentAccessLoggingRepresentation = map[string]interface{}{
+		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+	}
+
 	ServiceMeshVirtualDeploymentListenersRepresentation = map[string]interface{}{
 		"port":     acctest.Representation{RepType: acctest.Required, Create: `8080`, Update: `8081`},
 		"protocol": acctest.Representation{RepType: acctest.Required, Create: `HTTP`, Update: `TLS_PASSTHROUGH`},
 	}
 	ServiceMeshVirtualDeploymentServiceDiscoveryRepresentation = map[string]interface{}{
-		"hostname": acctest.Representation{RepType: acctest.Required, Create: `hostname`, Update: `hostname2`},
-		"type":     acctest.Representation{RepType: acctest.Required, Create: `DNS`},
+		"type":     acctest.Representation{RepType: acctest.Required, Create: `DNS`, Update: `DNS`},
+		"hostname": acctest.Representation{RepType: acctest.Optional, Create: `hostname`, Update: `hostname2`},
 	}
-	ServiceMeshVirtualDeploymentAccessLoggingRepresentation = map[string]interface{}{
-		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+
+	ServiceMeshVirtualDeploymentDisabledServiceDiscoveryRepresentation = map[string]interface{}{
+		"type": acctest.Representation{RepType: acctest.Required, Create: `DISABLED`},
 	}
 
 	ServiceMeshVirtualDeploymentResourceDependencies = DefinedTagsDependencies +
@@ -109,15 +122,32 @@ func TestServiceMeshVirtualDeploymentResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_deployment", "test_virtual_deployment", acctest.Required, acctest.Create, ServiceMeshVirtualDeploymentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "listeners.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "listeners.0.port", "8080"),
-				resource.TestCheckResourceAttr(resourceName, "listeners.0.protocol", "HTTP"),
 				resource.TestCheckResourceAttr(resourceName, "name", "name"),
-				resource.TestCheckResourceAttr(resourceName, "service_discovery.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "service_discovery.0.hostname", "hostname"),
-				resource.TestCheckResourceAttr(resourceName, "service_discovery.0.type", "DNS"),
 				resource.TestCheckResourceAttrSet(resourceName, "virtual_service_id"),
+				resource.TestCheckResourceAttr(resourceName, "service_discovery.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_discovery.0.type", "DISABLED"),
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
 
+		// delete before next Create
+		{
+			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshVirtualDeploymentResourceDependencies,
+		},
+
+		// verify Create with Disabled Mode
+		{
+			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshVirtualDeploymentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_deployment", "test_virtual_deployment", acctest.Required, acctest.Create, ServiceMeshVirtualDeploymentRepresentationWithDisabledServiceDiscovery),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "name", "name_disabled"),
+				resource.TestCheckResourceAttrSet(resourceName, "virtual_service_id"),
+				resource.TestCheckResourceAttr(resourceName, "service_discovery.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_discovery.0.type", "DISABLED"),
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
@@ -243,11 +273,10 @@ func TestServiceMeshVirtualDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttr(datasourceName, "name", "name"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(datasourceName, "virtual_service_id"),
 
 				resource.TestCheckResourceAttr(datasourceName, "virtual_deployment_collection.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "virtual_deployment_collection.0.items.#", "0"),
 			),
 		},
 		// verify singular datasource
@@ -376,8 +405,7 @@ func getServiceMeshVirtualDeploymentIds(compartment string) ([]string, error) {
 
 	listVirtualDeploymentsRequest := oci_service_mesh.ListVirtualDeploymentsRequest{}
 	listVirtualDeploymentsRequest.CompartmentId = &compartmentId
-	active := "ACTIVE"
-	listVirtualDeploymentsRequest.LifecycleState = &active
+	listVirtualDeploymentsRequest.LifecycleState = oci_service_mesh.VirtualDeploymentLifecycleStateActive
 	listVirtualDeploymentsResponse, err := serviceMeshClient.ListVirtualDeployments(context.Background(), listVirtualDeploymentsRequest)
 
 	if err != nil {

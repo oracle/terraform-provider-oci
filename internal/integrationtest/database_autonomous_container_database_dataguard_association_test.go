@@ -52,7 +52,8 @@ var (
 		acctest.RepresentationCopyWithNewProperties(exadataInfrastructureRepresentationWithContacts, map[string]interface{}{"activation_file": acctest.Representation{RepType: acctest.Required, Create: activationFilePath}})) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", acctest.Required, acctest.Create, DatabaseAutonomousVmClusterRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Required, acctest.Create,
-			acctest.RepresentationCopyWithNewProperties(DatabaseVmClusterNetworkRepresentation, map[string]interface{}{"validate_vm_cluster_network": acctest.Representation{RepType: acctest.Required, Create: "true"}}))
+			acctest.RepresentationCopyWithNewProperties(DatabaseVmClusterNetworkRepresentation, map[string]interface{}{"validate_vm_cluster_network": acctest.Representation{RepType: acctest.Required, Create: "true"}})) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Required, acctest.Create, DatabaseDatabaseDbServerDataSourceRepresentation)
 
 	peerExadataInfraNewProperties = map[string]interface{}{
 		"activation_file": acctest.Representation{RepType: acctest.Required, Create: activationFilePath},
@@ -66,8 +67,6 @@ var (
 		"exadata_infrastructure_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.peer_exadata_infrastructure.id}`},
 	}
 
-	peerVmClusterNetworkRepresentation = acctest.RepresentationCopyWithNewProperties(DatabaseVmClusterNetworkRepresentation, peerVmClusterNetworkNewProperties)
-
 	peerAutonomousVmClusterNewProperties = map[string]interface{}{
 		"display_name":              acctest.Representation{RepType: acctest.Required, Create: `peerAutonomousVmCluster`},
 		"exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.peer_exadata_infrastructure.id}`},
@@ -79,8 +78,9 @@ var (
 
 	ExaccACDWithDataGuardResourceDependencies = ExaCCACDResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "peer_exadata_infrastructure", acctest.Required, acctest.Create, peerExadataInfraRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "peer_vm_cluster_network", acctest.Required, acctest.Create, peerVmClusterNetworkRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "peer_vm_cluster_network", acctest.Required, acctest.Create, DatabasePeerVmClusterNetworkRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "peer_autonomous_vm_cluster", acctest.Required, acctest.Create, peerAutonomousVmClusterRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "peer_db_servers", acctest.Required, acctest.Create, DatabaseDatabasePeerExaInfraDbServerDataSourceRepresentation) +
 		DefinedTagsDependencies
 
 	ExaccACDWithDataGuardRepresentation = map[string]interface{}{

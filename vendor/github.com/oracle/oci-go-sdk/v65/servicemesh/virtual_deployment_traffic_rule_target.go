@@ -19,11 +19,11 @@ import (
 // VirtualDeploymentTrafficRuleTarget Traffic router target for a virtual service version.
 type VirtualDeploymentTrafficRuleTarget struct {
 
-	// The OCID of the virtual deployment where the request will be routed.
-	VirtualDeploymentId *string `mandatory:"true" json:"virtualDeploymentId"`
-
 	// Weight of traffic target.
 	Weight *int `mandatory:"true" json:"weight"`
+
+	// The OCID of the virtual deployment where the request will be routed.
+	VirtualDeploymentId *string `mandatory:"false" json:"virtualDeploymentId"`
 
 	// Port on virtual deployment to target.
 	// If port is missing, the rule will target all ports on the virtual deployment.

@@ -125,15 +125,15 @@ variable "time_zone" {
 }
 
 variable "cloud_vm_cluster_memory_size_in_gbs" {
-  default = 10
+  default = 60
 }
 
 variable "cloud_vm_cluster_data_storage_size_in_tbs" {
-  default = 1.0
+  default = 2.0
 }
 
 variable "cloud_vm_cluster_db_node_storage_size_in_gbs" {
-  default = 10
+  default = 120
 }
 
 variable "cloud_vm_cluster_db_servers" {

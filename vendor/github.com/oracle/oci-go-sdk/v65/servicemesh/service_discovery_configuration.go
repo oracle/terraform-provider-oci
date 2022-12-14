@@ -54,6 +54,10 @@ func (m *servicediscoveryconfiguration) UnmarshalPolymorphicJSON(data []byte) (i
 		mm := DnsServiceDiscoveryConfiguration{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DISABLED":
+		mm := DisabledServiceDiscoveryConfiguration{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}
@@ -80,15 +84,18 @@ type ServiceDiscoveryConfigurationTypeEnum string
 
 // Set of constants representing the allowable values for ServiceDiscoveryConfigurationTypeEnum
 const (
-	ServiceDiscoveryConfigurationTypeDns ServiceDiscoveryConfigurationTypeEnum = "DNS"
+	ServiceDiscoveryConfigurationTypeDns      ServiceDiscoveryConfigurationTypeEnum = "DNS"
+	ServiceDiscoveryConfigurationTypeDisabled ServiceDiscoveryConfigurationTypeEnum = "DISABLED"
 )
 
 var mappingServiceDiscoveryConfigurationTypeEnum = map[string]ServiceDiscoveryConfigurationTypeEnum{
-	"DNS": ServiceDiscoveryConfigurationTypeDns,
+	"DNS":      ServiceDiscoveryConfigurationTypeDns,
+	"DISABLED": ServiceDiscoveryConfigurationTypeDisabled,
 }
 
 var mappingServiceDiscoveryConfigurationTypeEnumLowerCase = map[string]ServiceDiscoveryConfigurationTypeEnum{
-	"dns": ServiceDiscoveryConfigurationTypeDns,
+	"dns":      ServiceDiscoveryConfigurationTypeDns,
+	"disabled": ServiceDiscoveryConfigurationTypeDisabled,
 }
 
 // GetServiceDiscoveryConfigurationTypeEnumValues Enumerates the set of values for ServiceDiscoveryConfigurationTypeEnum
@@ -104,6 +111,7 @@ func GetServiceDiscoveryConfigurationTypeEnumValues() []ServiceDiscoveryConfigur
 func GetServiceDiscoveryConfigurationTypeEnumStringValues() []string {
 	return []string{
 		"DNS",
+		"DISABLED",
 	}
 }
 

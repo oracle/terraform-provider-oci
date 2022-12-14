@@ -34,7 +34,7 @@ var (
 		"ntp_server":                  acctest.Representation{RepType: acctest.Required, Create: []string{`10.231.225.76`}, Update: []string{`10.246.6.36`, `10.31.138.20`}},
 		"shape":                       acctest.Representation{RepType: acctest.Required, Create: `ExadataCC.X7`},
 		"storage_count":               acctest.Representation{RepType: acctest.Required, Create: `3`},
-		"compute_count":               acctest.Representation{RepType: acctest.Required, Create: `3`},
+		"compute_count":               acctest.Representation{RepType: acctest.Required, Create: `2`}, //computeCount must be one of [2, 4, 8].
 		"time_zone":                   acctest.Representation{RepType: acctest.Required, Create: `US/Pacific`, Update: `UTC`},
 		"contacts":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseExadataInfrastructureContactsRepresentation},
 		"corporate_proxy":             acctest.Representation{RepType: acctest.Optional, Create: `http://192.168.19.1:80`, Update: `http://192.168.19.2:80`},
@@ -92,7 +92,7 @@ func TestResourceDatabaseExadataInfrastructure_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.X7"),
 				resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
-				resource.TestCheckResourceAttr(resourceName, "compute_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "UTC"),
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 			),
@@ -124,7 +124,7 @@ func TestResourceDatabaseExadataInfrastructure_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.X7"),
 				resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
-				resource.TestCheckResourceAttr(resourceName, "compute_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "UTC"),
 				resource.TestCheckResourceAttr(resourceName, "state", "REQUIRES_ACTIVATION"),
 
@@ -158,7 +158,7 @@ func TestResourceDatabaseExadataInfrastructure_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.X7"),
 				resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
-				resource.TestCheckResourceAttr(resourceName, "compute_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "UTC"),
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 

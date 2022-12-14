@@ -24,7 +24,7 @@ type CreateDirectoryObject struct {
 	Name *string `mandatory:"true" json:"name"`
 
 	// Absolute path of directory on database server
-	Path *string `mandatory:"true" json:"path"`
+	Path *string `mandatory:"false" json:"path"`
 }
 
 func (m CreateDirectoryObject) String() string {

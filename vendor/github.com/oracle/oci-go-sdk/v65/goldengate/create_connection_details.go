@@ -106,6 +106,22 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 
 	var err error
 	switch m.ConnectionType {
+	case "POSTGRESQL":
+		mm := CreatePostgresqlConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "KAFKA_SCHEMA_REGISTRY":
+		mm := CreateKafkaSchemaRegistryConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AZURE_SYNAPSE_ANALYTICS":
+		mm := CreateAzureSynapseConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AZURE_DATA_LAKE_STORAGE":
+		mm := CreateAzureDataLakeStorageConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "MYSQL":
 		mm := CreateMysqlConnectionDetails{}
 		err = json.Unmarshal(data, &mm)

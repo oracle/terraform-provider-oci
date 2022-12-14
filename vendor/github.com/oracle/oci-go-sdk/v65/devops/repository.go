@@ -169,18 +169,21 @@ const (
 	RepositoryLifecycleStateActive   RepositoryLifecycleStateEnum = "ACTIVE"
 	RepositoryLifecycleStateCreating RepositoryLifecycleStateEnum = "CREATING"
 	RepositoryLifecycleStateDeleted  RepositoryLifecycleStateEnum = "DELETED"
+	RepositoryLifecycleStateDeleting RepositoryLifecycleStateEnum = "DELETING"
 )
 
 var mappingRepositoryLifecycleStateEnum = map[string]RepositoryLifecycleStateEnum{
 	"ACTIVE":   RepositoryLifecycleStateActive,
 	"CREATING": RepositoryLifecycleStateCreating,
 	"DELETED":  RepositoryLifecycleStateDeleted,
+	"DELETING": RepositoryLifecycleStateDeleting,
 }
 
 var mappingRepositoryLifecycleStateEnumLowerCase = map[string]RepositoryLifecycleStateEnum{
 	"active":   RepositoryLifecycleStateActive,
 	"creating": RepositoryLifecycleStateCreating,
 	"deleted":  RepositoryLifecycleStateDeleted,
+	"deleting": RepositoryLifecycleStateDeleting,
 }
 
 // GetRepositoryLifecycleStateEnumValues Enumerates the set of values for RepositoryLifecycleStateEnum
@@ -198,6 +201,7 @@ func GetRepositoryLifecycleStateEnumStringValues() []string {
 		"ACTIVE",
 		"CREATING",
 		"DELETED",
+		"DELETING",
 	}
 }
 

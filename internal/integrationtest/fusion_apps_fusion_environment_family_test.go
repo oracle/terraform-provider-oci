@@ -49,10 +49,11 @@ var (
 	FusionAppsFusionEnvironmentFamilyRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":              acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"subscription_ids":          acctest.Representation{RepType: acctest.Required, Create: []string{`ocid1.subscription.region1..aaaaaaaam255pmogxppvxocajwtnscil7o36ohz3ep6flaut37dp22dxdpnq`}, Update: []string{`ocid1.subscription.region1..aaaaaaaam255pmogxppvxocajwtnscil7o36ohz3ep6flaut37dp22dxdpnq`}},
-		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"subscription_ids":          acctest.Representation{RepType: acctest.Required, Create: []string{`ocid1.subscription.region1..BGBG0000m255pmogxppvxocajwtnscil7o36ohz3ep6flaut37dp22dxdpnq`}, Update: []string{`ocid1.subscription.region1..BGBG0000m255pmogxppvxocajwtnscil7o36ohz3ep6flaut37dp22dxdpnq`}},
+		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace-terraform.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace-terraform.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"family_maintenance_policy": acctest.RepresentationGroup{RepType: acctest.Optional, Group: FusionAppsFusionEnvironmentFamilyFamilyMaintenancePolicyRepresentation},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: definedTagsIgnoreRepresentation_fusionapps},
 	}
 	FusionAppsFusionEnvironmentFamilyFamilyMaintenancePolicyRepresentation = map[string]interface{}{
 		"concurrent_maintenance":        acctest.Representation{RepType: acctest.Optional, Create: `PROD`, Update: `NON_PROD`},
@@ -60,7 +61,7 @@ var (
 		"quarterly_upgrade_begin_times": acctest.Representation{RepType: acctest.Optional, Create: `RRULE:FREQ=YEARLY;BYMONTH=2,5,8,11`},
 	}
 
-	FusionAppsFusionEnvironmentFamilyResourceDependencies = DefinedTagsDependencies
+	FusionAppsFusionEnvironmentFamilyResourceDependencies = DefinedTagsDependencies_fusionapps
 )
 
 // issue-routing-tag: fusion_apps/default

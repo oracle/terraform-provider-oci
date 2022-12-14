@@ -26,11 +26,15 @@ func FusionAppsFusionEnvironmentResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createFusionAppsFusionEnvironment,
-		Read:     readFusionAppsFusionEnvironment,
-		Update:   updateFusionAppsFusionEnvironment,
-		Delete:   deleteFusionAppsFusionEnvironment,
+		Timeouts: &schema.ResourceTimeout{
+			Create: tfresource.GetTimeoutDuration("12h"),
+			Update: tfresource.GetTimeoutDuration("12h"),
+			Delete: tfresource.GetTimeoutDuration("12h"),
+		},
+		Create: createFusionAppsFusionEnvironment,
+		Read:   readFusionAppsFusionEnvironment,
+		Update: updateFusionAppsFusionEnvironment,
+		Delete: deleteFusionAppsFusionEnvironment,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -245,14 +249,56 @@ func FusionAppsFusionEnvironmentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"is_break_glass_enabled": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"kms_key_info": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"active_key_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"active_key_version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"scheduled_key_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"scheduled_key_version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"current_key_lifecycle_state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"scheduled_lifecycle_state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"scheduled_key_status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
 				},
 			},
 			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"lockbox_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -572,10 +618,11 @@ func fusionEnvironmentWaitForWorkRequest(wId *string, entityType string, action 
 	// The work request response contains an array of objects that finished the operation
 	for _, res := range response.Resources {
 		if strings.Contains(strings.ToLower(*res.EntityType), entityType) {
-			if res.ActionType == action {
+			/**if res.ActionType == action {
 				identifier = res.Identifier
 				break
-			}
+			}**/
+			identifier = res.Identifier
 		}
 	}
 
@@ -776,6 +823,10 @@ func (s *FusionAppsFusionEnvironmentResourceCrud) SetData() error {
 		s.D.Set("idcs_domain_url", *s.Res.IdcsDomainUrl)
 	}
 
+	if s.Res.IsBreakGlassEnabled != nil {
+		s.D.Set("is_break_glass_enabled", *s.Res.IsBreakGlassEnabled)
+	}
+
 	if s.Res.KmsKeyId != nil {
 		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
 	}
@@ -788,6 +839,10 @@ func (s *FusionAppsFusionEnvironmentResourceCrud) SetData() error {
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.LockboxId != nil {
+		s.D.Set("lockbox_id", *s.Res.LockboxId)
 	}
 
 	if s.Res.MaintenancePolicy != nil {
@@ -935,8 +990,16 @@ func FusionEnvironmentSummaryToMap(obj oci_fusion_apps.FusionEnvironmentSummary)
 		result["id"] = string(*obj.Id)
 	}
 
+	if obj.IsBreakGlassEnabled != nil {
+		result["is_break_glass_enabled"] = bool(*obj.IsBreakGlassEnabled)
+	}
+
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
+	}
+
+	if obj.LockboxId != nil {
+		result["lockbox_id"] = string(*obj.LockboxId)
 	}
 
 	if obj.MaintenancePolicy != nil {

@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"strconv"
 	"testing"
+	"time"
 
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
@@ -38,34 +39,38 @@ var (
 	}
 
 	ApmSyntheticsApmSyntheticsmonitorDataSourceRepresentation = map[string]interface{}{
-		"apm_domain_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
-		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"monitor_type":  acctest.Representation{RepType: acctest.Optional, Create: `SCRIPTED_BROWSER`},
-		"script_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_apm_synthetics_script.test_script.id}`},
-		"status":        acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
-		"filter":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ApmSyntheticsmonitorDataSourceFilterRepresentation}}
+		"apm_domain_id":                acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
+		"display_name":                 acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"is_maintenance_window_active": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_maintenance_window_set":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"monitor_type":                 acctest.Representation{RepType: acctest.Optional, Create: `SCRIPTED_BROWSER`},
+		"script_id":                    acctest.Representation{RepType: acctest.Optional, Create: `${oci_apm_synthetics_script.test_script.id}`},
+		"status":                       acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
+		"filter":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: ApmSyntheticsmonitorDataSourceFilterRepresentation}}
 	ApmSyntheticsmonitorDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `display_name`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_apm_synthetics_monitor.test_monitor.display_name}`}},
 	}
 
 	ApmSyntheticsmonitorRepresentation = map[string]interface{}{
-		"apm_domain_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
-		"display_name":               acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"monitor_type":               acctest.Representation{RepType: acctest.Required, Create: `SCRIPTED_BROWSER`},
-		"repeat_interval_in_seconds": acctest.Representation{RepType: acctest.Required, Create: `600`, Update: `1200`},
-		"vantage_points":             acctest.Representation{RepType: acctest.Required, Create: []string{`OraclePublic-us-ashburn-1`}},
-		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"is_run_once":                acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"is_run_now":                 acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"scheduling_policy":          acctest.Representation{RepType: acctest.Optional, Create: `ALL`, Update: `ROUND_ROBIN`},
-		"script_id":                  acctest.Representation{RepType: acctest.Optional, Create: `${oci_apm_synthetics_script.test_script.id}`},
-		"status":                     acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
-		"target":                     acctest.Representation{RepType: acctest.Optional, Create: `https://console.us-ashburn-1.oraclecloud.com`, Update: `https://console.us-phoenix-1.oraclecloud.com`},
-		"timeout_in_seconds":         acctest.Representation{RepType: acctest.Optional, Create: `60`, Update: `120`},
-		"configuration":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsmonitorConfigurationRepresentation},
-		"script_parameters":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsmonitorScriptParametersRepresentation},
+		"apm_domain_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
+		"display_name":                acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"monitor_type":                acctest.Representation{RepType: acctest.Required, Create: `SCRIPTED_BROWSER`},
+		"repeat_interval_in_seconds":  acctest.Representation{RepType: acctest.Required, Create: `600`, Update: `1200`},
+		"vantage_points":              acctest.Representation{RepType: acctest.Required, Create: []string{`OraclePublic-us-ashburn-1`}},
+		"availability_configuration":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsMonitorAvailabilityConfigurationRepresentation},
+		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_run_once":                 acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_run_now":                  acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"maintenance_window_schedule": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsMonitorMaintenanceWindowScheduleRepresentation},
+		"scheduling_policy":           acctest.Representation{RepType: acctest.Optional, Create: `ALL`, Update: `ROUND_ROBIN`},
+		"script_id":                   acctest.Representation{RepType: acctest.Optional, Create: `${oci_apm_synthetics_script.test_script.id}`},
+		"status":                      acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
+		"target":                      acctest.Representation{RepType: acctest.Optional, Create: `https://console.us-ashburn-1.oraclecloud.com`, Update: `https://console.us-phoenix-1.oraclecloud.com`},
+		"timeout_in_seconds":          acctest.Representation{RepType: acctest.Optional, Create: `60`, Update: `120`},
+		"configuration":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsmonitorConfigurationRepresentation},
+		"script_parameters":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsmonitorScriptParametersRepresentation},
 	}
 
 	ApmSyntheticsmonitorConfigurationRepresentation = map[string]interface{}{
@@ -74,6 +79,18 @@ var (
 		"is_certificate_validation_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_failure_retried":                acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"network_configuration":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsmonitorConfigurationNetworkConfigurationRepresentation},
+	}
+	ApmSyntheticsMonitorAvailabilityConfigurationRepresentation = map[string]interface{}{
+		"max_allowed_failures_per_interval": acctest.Representation{RepType: acctest.Optional, Create: `0`},
+		"min_allowed_runs_per_interval":     acctest.Representation{RepType: acctest.Optional, Create: `1`},
+	}
+	TimeStarted1                                                = time.Now().AddDate(0, 1, 0).UTC().Format(time.RFC3339)
+	TimeStarted2                                                = time.Now().AddDate(0, 1, 1).UTC().Format(time.RFC3339)
+	TimeEnded1                                                  = time.Now().AddDate(0, 1, 2).UTC().Format(time.RFC3339)
+	TimeEnded2                                                  = time.Now().AddDate(0, 1, 3).UTC().Format(time.RFC3339)
+	ApmSyntheticsMonitorMaintenanceWindowScheduleRepresentation = map[string]interface{}{
+		"time_ended":   acctest.Representation{RepType: acctest.Optional, Create: TimeEnded1, Update: TimeEnded2},
+		"time_started": acctest.Representation{RepType: acctest.Optional, Create: TimeStarted1, Update: TimeStarted2},
 	}
 	ApmSyntheticsmonitorConfigurationDnsConfigurationRepresentation = map[string]interface{}{
 		"is_override_dns": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
@@ -125,6 +142,9 @@ func TestApmSyntheticsMonitorResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Create, ApmSyntheticsmonitorRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
+				resource.TestCheckResourceAttr(resourceName, "availability_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "availability_configuration.0.max_allowed_failures_per_interval", "0"),
+				resource.TestCheckResourceAttr(resourceName, "availability_configuration.0.min_allowed_runs_per_interval", "1"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.dns_configuration.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.dns_configuration.0.is_override_dns", "false"),
@@ -143,6 +163,9 @@ func TestApmSyntheticsMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_run_now", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_run_once", "false"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.time_ended", TimeEnded1),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.time_started", TimeStarted1),
 				resource.TestCheckResourceAttr(resourceName, "monitor_type", "SCRIPTED_BROWSER"),
 				resource.TestCheckResourceAttr(resourceName, "scheduling_policy", "ALL"),
 				resource.TestCheckResourceAttr(resourceName, "repeat_interval_in_seconds", "600"),
@@ -179,6 +202,9 @@ func TestApmSyntheticsMonitorResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Update, ApmSyntheticsmonitorRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
+				resource.TestCheckResourceAttr(resourceName, "availability_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "availability_configuration.0.max_allowed_failures_per_interval", "0"),
+				resource.TestCheckResourceAttr(resourceName, "availability_configuration.0.min_allowed_runs_per_interval", "1"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.config_type", "SCRIPTED_BROWSER_CONFIG"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.dns_configuration.#", "1"),
@@ -195,6 +221,9 @@ func TestApmSyntheticsMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.time_ended", TimeEnded2),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.time_started", TimeStarted2),
 				resource.TestCheckResourceAttr(resourceName, "is_run_now", "false"),
 				resource.TestCheckResourceAttr(resourceName, "scheduling_policy", "ROUND_ROBIN"),
 				resource.TestCheckResourceAttr(resourceName, "is_run_once", "false"),
@@ -233,6 +262,8 @@ func TestApmSyntheticsMonitorResource_basic(t *testing.T) {
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(datasourceName, "apm_domain_id"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "is_maintenance_window_active", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "is_maintenance_window_set", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "monitor_type", "SCRIPTED_BROWSER"),
 				resource.TestCheckResourceAttrSet(datasourceName, "script_id"),
 				resource.TestCheckResourceAttr(datasourceName, "status", "DISABLED"),
@@ -250,6 +281,9 @@ func TestApmSyntheticsMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "monitor_id"),
 
+				resource.TestCheckResourceAttr(singularDatasourceName, "availability_configuration.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "availability_configuration.0.max_allowed_failures_per_interval", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "availability_configuration.0.min_allowed_runs_per_interval", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.config_type", "SCRIPTED_BROWSER_CONFIG"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.dns_configuration.#", "1"),
@@ -266,6 +300,9 @@ func TestApmSyntheticsMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window_schedule.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_window_schedule.0.time_ended"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_window_schedule.0.time_started"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_run_now", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "scheduling_policy", "ROUND_ROBIN"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_run_once", "false"),

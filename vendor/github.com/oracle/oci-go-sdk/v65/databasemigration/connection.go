@@ -79,6 +79,9 @@ type Connection struct {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// An array of Network Security Group OCIDs used to define network access for Connections.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
 }
 
 func (m Connection) String() string {

@@ -30,6 +30,12 @@ type ListWorkRequestLogsRequest struct {
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
+	// The sort order to use, either 'ASC' or 'DESC'.
+	SortOrder ListWorkRequestLogsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
+
+	// The field to sort by. Only one sort order may be provided. Default order for timestamp is descending.
+	SortBy ListWorkRequestLogsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -66,6 +72,12 @@ func (request ListWorkRequestLogsRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListWorkRequestLogsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingListWorkRequestLogsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListWorkRequestLogsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListWorkRequestLogsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListWorkRequestLogsSortByEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -98,4 +110,84 @@ func (response ListWorkRequestLogsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListWorkRequestLogsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListWorkRequestLogsSortOrderEnum Enum with underlying type: string
+type ListWorkRequestLogsSortOrderEnum string
+
+// Set of constants representing the allowable values for ListWorkRequestLogsSortOrderEnum
+const (
+	ListWorkRequestLogsSortOrderAsc  ListWorkRequestLogsSortOrderEnum = "ASC"
+	ListWorkRequestLogsSortOrderDesc ListWorkRequestLogsSortOrderEnum = "DESC"
+)
+
+var mappingListWorkRequestLogsSortOrderEnum = map[string]ListWorkRequestLogsSortOrderEnum{
+	"ASC":  ListWorkRequestLogsSortOrderAsc,
+	"DESC": ListWorkRequestLogsSortOrderDesc,
+}
+
+var mappingListWorkRequestLogsSortOrderEnumLowerCase = map[string]ListWorkRequestLogsSortOrderEnum{
+	"asc":  ListWorkRequestLogsSortOrderAsc,
+	"desc": ListWorkRequestLogsSortOrderDesc,
+}
+
+// GetListWorkRequestLogsSortOrderEnumValues Enumerates the set of values for ListWorkRequestLogsSortOrderEnum
+func GetListWorkRequestLogsSortOrderEnumValues() []ListWorkRequestLogsSortOrderEnum {
+	values := make([]ListWorkRequestLogsSortOrderEnum, 0)
+	for _, v := range mappingListWorkRequestLogsSortOrderEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListWorkRequestLogsSortOrderEnumStringValues Enumerates the set of values in String for ListWorkRequestLogsSortOrderEnum
+func GetListWorkRequestLogsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
+}
+
+// GetMappingListWorkRequestLogsSortOrderEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListWorkRequestLogsSortOrderEnum(val string) (ListWorkRequestLogsSortOrderEnum, bool) {
+	enum, ok := mappingListWorkRequestLogsSortOrderEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListWorkRequestLogsSortByEnum Enum with underlying type: string
+type ListWorkRequestLogsSortByEnum string
+
+// Set of constants representing the allowable values for ListWorkRequestLogsSortByEnum
+const (
+	ListWorkRequestLogsSortByTimestamp ListWorkRequestLogsSortByEnum = "timestamp"
+)
+
+var mappingListWorkRequestLogsSortByEnum = map[string]ListWorkRequestLogsSortByEnum{
+	"timestamp": ListWorkRequestLogsSortByTimestamp,
+}
+
+var mappingListWorkRequestLogsSortByEnumLowerCase = map[string]ListWorkRequestLogsSortByEnum{
+	"timestamp": ListWorkRequestLogsSortByTimestamp,
+}
+
+// GetListWorkRequestLogsSortByEnumValues Enumerates the set of values for ListWorkRequestLogsSortByEnum
+func GetListWorkRequestLogsSortByEnumValues() []ListWorkRequestLogsSortByEnum {
+	values := make([]ListWorkRequestLogsSortByEnum, 0)
+	for _, v := range mappingListWorkRequestLogsSortByEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListWorkRequestLogsSortByEnumStringValues Enumerates the set of values in String for ListWorkRequestLogsSortByEnum
+func GetListWorkRequestLogsSortByEnumStringValues() []string {
+	return []string{
+		"timestamp",
+	}
+}
+
+// GetMappingListWorkRequestLogsSortByEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListWorkRequestLogsSortByEnum(val string) (ListWorkRequestLogsSortByEnum, bool) {
+	enum, ok := mappingListWorkRequestLogsSortByEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

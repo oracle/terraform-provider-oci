@@ -89,8 +89,7 @@ func (s *ServiceMeshMeshesDataSourceCrud) Get() error {
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
-		tmp := state.(string)
-		request.LifecycleState = &tmp
+		request.LifecycleState = oci_service_mesh.MeshLifecycleStateEnum(state.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "service_mesh")

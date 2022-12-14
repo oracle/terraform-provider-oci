@@ -18,27 +18,39 @@ type ConnectionTypeEnum string
 
 // Set of constants representing the allowable values for ConnectionTypeEnum
 const (
-	ConnectionTypeGoldengate       ConnectionTypeEnum = "GOLDENGATE"
-	ConnectionTypeKafka            ConnectionTypeEnum = "KAFKA"
-	ConnectionTypeMysql            ConnectionTypeEnum = "MYSQL"
-	ConnectionTypeOciObjectStorage ConnectionTypeEnum = "OCI_OBJECT_STORAGE"
-	ConnectionTypeOracle           ConnectionTypeEnum = "ORACLE"
+	ConnectionTypeGoldengate            ConnectionTypeEnum = "GOLDENGATE"
+	ConnectionTypeKafka                 ConnectionTypeEnum = "KAFKA"
+	ConnectionTypeKafkaSchemaRegistry   ConnectionTypeEnum = "KAFKA_SCHEMA_REGISTRY"
+	ConnectionTypeMysql                 ConnectionTypeEnum = "MYSQL"
+	ConnectionTypeOciObjectStorage      ConnectionTypeEnum = "OCI_OBJECT_STORAGE"
+	ConnectionTypeOracle                ConnectionTypeEnum = "ORACLE"
+	ConnectionTypeAzureDataLakeStorage  ConnectionTypeEnum = "AZURE_DATA_LAKE_STORAGE"
+	ConnectionTypePostgresql            ConnectionTypeEnum = "POSTGRESQL"
+	ConnectionTypeAzureSynapseAnalytics ConnectionTypeEnum = "AZURE_SYNAPSE_ANALYTICS"
 )
 
 var mappingConnectionTypeEnum = map[string]ConnectionTypeEnum{
-	"GOLDENGATE":         ConnectionTypeGoldengate,
-	"KAFKA":              ConnectionTypeKafka,
-	"MYSQL":              ConnectionTypeMysql,
-	"OCI_OBJECT_STORAGE": ConnectionTypeOciObjectStorage,
-	"ORACLE":             ConnectionTypeOracle,
+	"GOLDENGATE":              ConnectionTypeGoldengate,
+	"KAFKA":                   ConnectionTypeKafka,
+	"KAFKA_SCHEMA_REGISTRY":   ConnectionTypeKafkaSchemaRegistry,
+	"MYSQL":                   ConnectionTypeMysql,
+	"OCI_OBJECT_STORAGE":      ConnectionTypeOciObjectStorage,
+	"ORACLE":                  ConnectionTypeOracle,
+	"AZURE_DATA_LAKE_STORAGE": ConnectionTypeAzureDataLakeStorage,
+	"POSTGRESQL":              ConnectionTypePostgresql,
+	"AZURE_SYNAPSE_ANALYTICS": ConnectionTypeAzureSynapseAnalytics,
 }
 
 var mappingConnectionTypeEnumLowerCase = map[string]ConnectionTypeEnum{
-	"goldengate":         ConnectionTypeGoldengate,
-	"kafka":              ConnectionTypeKafka,
-	"mysql":              ConnectionTypeMysql,
-	"oci_object_storage": ConnectionTypeOciObjectStorage,
-	"oracle":             ConnectionTypeOracle,
+	"goldengate":              ConnectionTypeGoldengate,
+	"kafka":                   ConnectionTypeKafka,
+	"kafka_schema_registry":   ConnectionTypeKafkaSchemaRegistry,
+	"mysql":                   ConnectionTypeMysql,
+	"oci_object_storage":      ConnectionTypeOciObjectStorage,
+	"oracle":                  ConnectionTypeOracle,
+	"azure_data_lake_storage": ConnectionTypeAzureDataLakeStorage,
+	"postgresql":              ConnectionTypePostgresql,
+	"azure_synapse_analytics": ConnectionTypeAzureSynapseAnalytics,
 }
 
 // GetConnectionTypeEnumValues Enumerates the set of values for ConnectionTypeEnum
@@ -55,9 +67,13 @@ func GetConnectionTypeEnumStringValues() []string {
 	return []string{
 		"GOLDENGATE",
 		"KAFKA",
+		"KAFKA_SCHEMA_REGISTRY",
 		"MYSQL",
 		"OCI_OBJECT_STORAGE",
 		"ORACLE",
+		"AZURE_DATA_LAKE_STORAGE",
+		"POSTGRESQL",
+		"AZURE_SYNAPSE_ANALYTICS",
 	}
 }
 

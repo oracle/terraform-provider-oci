@@ -18,7 +18,7 @@ import (
 // DbSystemStoragePerformanceSummary Representation of storage performance summary per shapeType .
 type DbSystemStoragePerformanceSummary struct {
 
-	// ShapeType of the DbSystems,INTEL or AMD
+	// ShapeType of the DbSystems INTEL , AMD or INTEL_FLEX_X9
 	ShapeType DbSystemStoragePerformanceSummaryShapeTypeEnum `mandatory:"true" json:"shapeType"`
 
 	// List of storage performance for the DATA disks
@@ -52,18 +52,21 @@ type DbSystemStoragePerformanceSummaryShapeTypeEnum string
 
 // Set of constants representing the allowable values for DbSystemStoragePerformanceSummaryShapeTypeEnum
 const (
-	DbSystemStoragePerformanceSummaryShapeTypeAmd   DbSystemStoragePerformanceSummaryShapeTypeEnum = "AMD"
-	DbSystemStoragePerformanceSummaryShapeTypeIntel DbSystemStoragePerformanceSummaryShapeTypeEnum = "INTEL"
+	DbSystemStoragePerformanceSummaryShapeTypeAmd         DbSystemStoragePerformanceSummaryShapeTypeEnum = "AMD"
+	DbSystemStoragePerformanceSummaryShapeTypeIntel       DbSystemStoragePerformanceSummaryShapeTypeEnum = "INTEL"
+	DbSystemStoragePerformanceSummaryShapeTypeIntelFlexX9 DbSystemStoragePerformanceSummaryShapeTypeEnum = "INTEL_FLEX_X9"
 )
 
 var mappingDbSystemStoragePerformanceSummaryShapeTypeEnum = map[string]DbSystemStoragePerformanceSummaryShapeTypeEnum{
-	"AMD":   DbSystemStoragePerformanceSummaryShapeTypeAmd,
-	"INTEL": DbSystemStoragePerformanceSummaryShapeTypeIntel,
+	"AMD":           DbSystemStoragePerformanceSummaryShapeTypeAmd,
+	"INTEL":         DbSystemStoragePerformanceSummaryShapeTypeIntel,
+	"INTEL_FLEX_X9": DbSystemStoragePerformanceSummaryShapeTypeIntelFlexX9,
 }
 
 var mappingDbSystemStoragePerformanceSummaryShapeTypeEnumLowerCase = map[string]DbSystemStoragePerformanceSummaryShapeTypeEnum{
-	"amd":   DbSystemStoragePerformanceSummaryShapeTypeAmd,
-	"intel": DbSystemStoragePerformanceSummaryShapeTypeIntel,
+	"amd":           DbSystemStoragePerformanceSummaryShapeTypeAmd,
+	"intel":         DbSystemStoragePerformanceSummaryShapeTypeIntel,
+	"intel_flex_x9": DbSystemStoragePerformanceSummaryShapeTypeIntelFlexX9,
 }
 
 // GetDbSystemStoragePerformanceSummaryShapeTypeEnumValues Enumerates the set of values for DbSystemStoragePerformanceSummaryShapeTypeEnum
@@ -80,6 +83,7 @@ func GetDbSystemStoragePerformanceSummaryShapeTypeEnumStringValues() []string {
 	return []string{
 		"AMD",
 		"INTEL",
+		"INTEL_FLEX_X9",
 	}
 }
 

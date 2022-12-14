@@ -93,8 +93,7 @@ func (s *ServiceMeshVirtualDeploymentsDataSourceCrud) Get() error {
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
-		tmp := state.(string)
-		request.LifecycleState = &tmp
+		request.LifecycleState = oci_service_mesh.VirtualDeploymentLifecycleStateEnum(state.(string))
 	}
 
 	if virtualServiceId, ok := s.D.GetOkExists("virtual_service_id"); ok {

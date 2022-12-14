@@ -90,6 +90,7 @@ import (
 	tf_osub_organization_subscription "github.com/oracle/terraform-provider-oci/internal/service/osub_organization_subscription"
 	tf_osub_subscription "github.com/oracle/terraform-provider-oci/internal/service/osub_subscription"
 	tf_osub_usage "github.com/oracle/terraform-provider-oci/internal/service/osub_usage"
+	tf_queue "github.com/oracle/terraform-provider-oci/internal/service/queue"
 	tf_resourcemanager "github.com/oracle/terraform-provider-oci/internal/service/resourcemanager"
 	tf_sch "github.com/oracle/terraform-provider-oci/internal/service/sch"
 	tf_secrets "github.com/oracle/terraform-provider-oci/internal/service/secrets"
@@ -195,6 +196,7 @@ func init() {
 	tf_osub_organization_subscription.RegisterResource()
 	tf_osub_subscription.RegisterResource()
 	tf_osub_usage.RegisterResource()
+	tf_queue.RegisterResource()
 	tf_resourcemanager.RegisterResource()
 	tf_sch.RegisterResource()
 	tf_secrets.RegisterResource()

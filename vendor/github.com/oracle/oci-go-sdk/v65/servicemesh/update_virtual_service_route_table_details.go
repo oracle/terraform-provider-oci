@@ -28,7 +28,7 @@ type UpdateVirtualServiceRouteTableDetails struct {
 	Priority *int `mandatory:"false" json:"priority"`
 
 	// The route rules for the virtual service.
-	RouteRules []VirtualServiceTrafficRouteRule `mandatory:"false" json:"routeRules"`
+	RouteRules []VirtualServiceTrafficRouteRuleDetails `mandatory:"false" json:"routeRules"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -58,11 +58,11 @@ func (m UpdateVirtualServiceRouteTableDetails) ValidateEnumValue() (bool, error)
 // UnmarshalJSON unmarshals from json
 func (m *UpdateVirtualServiceRouteTableDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description  *string                           `json:"description"`
-		Priority     *int                              `json:"priority"`
-		RouteRules   []virtualservicetrafficrouterule  `json:"routeRules"`
-		FreeformTags map[string]string                 `json:"freeformTags"`
-		DefinedTags  map[string]map[string]interface{} `json:"definedTags"`
+		Description  *string                                 `json:"description"`
+		Priority     *int                                    `json:"priority"`
+		RouteRules   []virtualservicetrafficrouteruledetails `json:"routeRules"`
+		FreeformTags map[string]string                       `json:"freeformTags"`
+		DefinedTags  map[string]map[string]interface{}       `json:"definedTags"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -74,14 +74,14 @@ func (m *UpdateVirtualServiceRouteTableDetails) UnmarshalJSON(data []byte) (e er
 
 	m.Priority = model.Priority
 
-	m.RouteRules = make([]VirtualServiceTrafficRouteRule, len(model.RouteRules))
+	m.RouteRules = make([]VirtualServiceTrafficRouteRuleDetails, len(model.RouteRules))
 	for i, n := range model.RouteRules {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
 		if e != nil {
 			return e
 		}
 		if nn != nil {
-			m.RouteRules[i] = nn.(VirtualServiceTrafficRouteRule)
+			m.RouteRules[i] = nn.(VirtualServiceTrafficRouteRuleDetails)
 		} else {
 			m.RouteRules[i] = nil
 		}

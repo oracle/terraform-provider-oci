@@ -4,7 +4,7 @@
 
 // Fusion Applications Environment Management API
 //
-// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.cloud.oracle.com/iaas/Content/Identity/fusion-applications/home.htm).
+// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.cloud.oracle.com/iaas/Content/fusion-applications/home.htm).
 //
 
 package fusionapps
@@ -93,9 +93,10 @@ func (client *FusionApplicationsClient) ConfigurationProvider() *common.Configur
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/ChangeFusionEnvironmentCompartment.go.html to see an example of how to use ChangeFusionEnvironmentCompartment API.
+// A default retry strategy applies to this operation ChangeFusionEnvironmentCompartment()
 func (client FusionApplicationsClient) ChangeFusionEnvironmentCompartment(ctx context.Context, request ChangeFusionEnvironmentCompartmentRequest) (response ChangeFusionEnvironmentCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -156,9 +157,10 @@ func (client FusionApplicationsClient) changeFusionEnvironmentCompartment(ctx co
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/ChangeFusionEnvironmentFamilyCompartment.go.html to see an example of how to use ChangeFusionEnvironmentFamilyCompartment API.
+// A default retry strategy applies to this operation ChangeFusionEnvironmentFamilyCompartment()
 func (client FusionApplicationsClient) ChangeFusionEnvironmentFamilyCompartment(ctx context.Context, request ChangeFusionEnvironmentFamilyCompartmentRequest) (response ChangeFusionEnvironmentFamilyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -218,9 +220,10 @@ func (client FusionApplicationsClient) changeFusionEnvironmentFamilyCompartment(
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/CreateDataMaskingActivity.go.html to see an example of how to use CreateDataMaskingActivity API.
+// A default retry strategy applies to this operation CreateDataMaskingActivity()
 func (client FusionApplicationsClient) CreateDataMaskingActivity(ctx context.Context, request CreateDataMaskingActivityRequest) (response CreateDataMaskingActivityResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -280,9 +283,10 @@ func (client FusionApplicationsClient) createDataMaskingActivity(ctx context.Con
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/CreateFusionEnvironment.go.html to see an example of how to use CreateFusionEnvironment API.
+// A default retry strategy applies to this operation CreateFusionEnvironment()
 func (client FusionApplicationsClient) CreateFusionEnvironment(ctx context.Context, request CreateFusionEnvironmentRequest) (response CreateFusionEnvironmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -342,9 +346,10 @@ func (client FusionApplicationsClient) createFusionEnvironment(ctx context.Conte
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/CreateFusionEnvironmentAdminUser.go.html to see an example of how to use CreateFusionEnvironmentAdminUser API.
+// A default retry strategy applies to this operation CreateFusionEnvironmentAdminUser()
 func (client FusionApplicationsClient) CreateFusionEnvironmentAdminUser(ctx context.Context, request CreateFusionEnvironmentAdminUserRequest) (response CreateFusionEnvironmentAdminUserResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -404,9 +409,10 @@ func (client FusionApplicationsClient) createFusionEnvironmentAdminUser(ctx cont
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/CreateFusionEnvironmentFamily.go.html to see an example of how to use CreateFusionEnvironmentFamily API.
+// A default retry strategy applies to this operation CreateFusionEnvironmentFamily()
 func (client FusionApplicationsClient) CreateFusionEnvironmentFamily(ctx context.Context, request CreateFusionEnvironmentFamilyRequest) (response CreateFusionEnvironmentFamilyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -466,9 +472,10 @@ func (client FusionApplicationsClient) createFusionEnvironmentFamily(ctx context
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/CreateRefreshActivity.go.html to see an example of how to use CreateRefreshActivity API.
+// A default retry strategy applies to this operation CreateRefreshActivity()
 func (client FusionApplicationsClient) CreateRefreshActivity(ctx context.Context, request CreateRefreshActivityRequest) (response CreateRefreshActivityResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -528,9 +535,10 @@ func (client FusionApplicationsClient) createRefreshActivity(ctx context.Context
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/DeleteFusionEnvironment.go.html to see an example of how to use DeleteFusionEnvironment API.
+// A default retry strategy applies to this operation DeleteFusionEnvironment()
 func (client FusionApplicationsClient) DeleteFusionEnvironment(ctx context.Context, request DeleteFusionEnvironmentRequest) (response DeleteFusionEnvironmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -585,9 +593,10 @@ func (client FusionApplicationsClient) deleteFusionEnvironment(ctx context.Conte
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/DeleteFusionEnvironmentAdminUser.go.html to see an example of how to use DeleteFusionEnvironmentAdminUser API.
+// A default retry strategy applies to this operation DeleteFusionEnvironmentAdminUser()
 func (client FusionApplicationsClient) DeleteFusionEnvironmentAdminUser(ctx context.Context, request DeleteFusionEnvironmentAdminUserRequest) (response DeleteFusionEnvironmentAdminUserResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -642,9 +651,10 @@ func (client FusionApplicationsClient) deleteFusionEnvironmentAdminUser(ctx cont
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/DeleteFusionEnvironmentFamily.go.html to see an example of how to use DeleteFusionEnvironmentFamily API.
+// A default retry strategy applies to this operation DeleteFusionEnvironmentFamily()
 func (client FusionApplicationsClient) DeleteFusionEnvironmentFamily(ctx context.Context, request DeleteFusionEnvironmentFamilyRequest) (response DeleteFusionEnvironmentFamilyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -694,14 +704,73 @@ func (client FusionApplicationsClient) deleteFusionEnvironmentFamily(ctx context
 	return response, err
 }
 
+// DeleteRefreshActivity Deletes a scheduled RefreshActivity resource by identifier
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/DeleteRefreshActivity.go.html to see an example of how to use DeleteRefreshActivity API.
+// A default retry strategy applies to this operation DeleteRefreshActivity()
+func (client FusionApplicationsClient) DeleteRefreshActivity(ctx context.Context, request DeleteRefreshActivityRequest) (response DeleteRefreshActivityResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteRefreshActivity, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteRefreshActivityResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteRefreshActivityResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteRefreshActivityResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteRefreshActivityResponse")
+	}
+	return
+}
+
+// deleteRefreshActivity implements the OCIOperation interface (enables retrying operations)
+func (client FusionApplicationsClient) deleteRefreshActivity(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/fusionEnvironments/{fusionEnvironmentId}/refreshActivities/{refreshActivityId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteRefreshActivityResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fusion-applications/20211201/RefreshActivity/DeleteRefreshActivity"
+		err = common.PostProcessServiceError(err, "FusionApplications", "DeleteRefreshActivity", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetDataMaskingActivity Gets a DataMaskingActivity by identifier
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/GetDataMaskingActivity.go.html to see an example of how to use GetDataMaskingActivity API.
+// A default retry strategy applies to this operation GetDataMaskingActivity()
 func (client FusionApplicationsClient) GetDataMaskingActivity(ctx context.Context, request GetDataMaskingActivityRequest) (response GetDataMaskingActivityResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -756,9 +825,10 @@ func (client FusionApplicationsClient) getDataMaskingActivity(ctx context.Contex
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/GetFusionEnvironment.go.html to see an example of how to use GetFusionEnvironment API.
+// A default retry strategy applies to this operation GetFusionEnvironment()
 func (client FusionApplicationsClient) GetFusionEnvironment(ctx context.Context, request GetFusionEnvironmentRequest) (response GetFusionEnvironmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -813,9 +883,10 @@ func (client FusionApplicationsClient) getFusionEnvironment(ctx context.Context,
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/GetFusionEnvironmentFamily.go.html to see an example of how to use GetFusionEnvironmentFamily API.
+// A default retry strategy applies to this operation GetFusionEnvironmentFamily()
 func (client FusionApplicationsClient) GetFusionEnvironmentFamily(ctx context.Context, request GetFusionEnvironmentFamilyRequest) (response GetFusionEnvironmentFamilyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -870,9 +941,10 @@ func (client FusionApplicationsClient) getFusionEnvironmentFamily(ctx context.Co
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/GetFusionEnvironmentFamilyLimitsAndUsage.go.html to see an example of how to use GetFusionEnvironmentFamilyLimitsAndUsage API.
+// A default retry strategy applies to this operation GetFusionEnvironmentFamilyLimitsAndUsage()
 func (client FusionApplicationsClient) GetFusionEnvironmentFamilyLimitsAndUsage(ctx context.Context, request GetFusionEnvironmentFamilyLimitsAndUsageRequest) (response GetFusionEnvironmentFamilyLimitsAndUsageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -927,9 +999,10 @@ func (client FusionApplicationsClient) getFusionEnvironmentFamilyLimitsAndUsage(
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/GetFusionEnvironmentFamilySubscriptionDetail.go.html to see an example of how to use GetFusionEnvironmentFamilySubscriptionDetail API.
+// A default retry strategy applies to this operation GetFusionEnvironmentFamilySubscriptionDetail()
 func (client FusionApplicationsClient) GetFusionEnvironmentFamilySubscriptionDetail(ctx context.Context, request GetFusionEnvironmentFamilySubscriptionDetailRequest) (response GetFusionEnvironmentFamilySubscriptionDetailResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -984,9 +1057,10 @@ func (client FusionApplicationsClient) getFusionEnvironmentFamilySubscriptionDet
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/GetFusionEnvironmentStatus.go.html to see an example of how to use GetFusionEnvironmentStatus API.
+// A default retry strategy applies to this operation GetFusionEnvironmentStatus()
 func (client FusionApplicationsClient) GetFusionEnvironmentStatus(ctx context.Context, request GetFusionEnvironmentStatusRequest) (response GetFusionEnvironmentStatusResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1041,9 +1115,10 @@ func (client FusionApplicationsClient) getFusionEnvironmentStatus(ctx context.Co
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/GetRefreshActivity.go.html to see an example of how to use GetRefreshActivity API.
+// A default retry strategy applies to this operation GetRefreshActivity()
 func (client FusionApplicationsClient) GetRefreshActivity(ctx context.Context, request GetRefreshActivityRequest) (response GetRefreshActivityResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1098,9 +1173,10 @@ func (client FusionApplicationsClient) getRefreshActivity(ctx context.Context, r
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/GetScheduledActivity.go.html to see an example of how to use GetScheduledActivity API.
+// A default retry strategy applies to this operation GetScheduledActivity()
 func (client FusionApplicationsClient) GetScheduledActivity(ctx context.Context, request GetScheduledActivityRequest) (response GetScheduledActivityResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1155,9 +1231,10 @@ func (client FusionApplicationsClient) getScheduledActivity(ctx context.Context,
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/GetServiceAttachment.go.html to see an example of how to use GetServiceAttachment API.
+// A default retry strategy applies to this operation GetServiceAttachment()
 func (client FusionApplicationsClient) GetServiceAttachment(ctx context.Context, request GetServiceAttachmentRequest) (response GetServiceAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1212,9 +1289,10 @@ func (client FusionApplicationsClient) getServiceAttachment(ctx context.Context,
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client FusionApplicationsClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1269,9 +1347,10 @@ func (client FusionApplicationsClient) getWorkRequest(ctx context.Context, reque
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/ListAdminUsers.go.html to see an example of how to use ListAdminUsers API.
+// A default retry strategy applies to this operation ListAdminUsers()
 func (client FusionApplicationsClient) ListAdminUsers(ctx context.Context, request ListAdminUsersRequest) (response ListAdminUsersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1326,9 +1405,10 @@ func (client FusionApplicationsClient) listAdminUsers(ctx context.Context, reque
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/ListDataMaskingActivities.go.html to see an example of how to use ListDataMaskingActivities API.
+// A default retry strategy applies to this operation ListDataMaskingActivities()
 func (client FusionApplicationsClient) ListDataMaskingActivities(ctx context.Context, request ListDataMaskingActivitiesRequest) (response ListDataMaskingActivitiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1383,9 +1463,10 @@ func (client FusionApplicationsClient) listDataMaskingActivities(ctx context.Con
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/ListFusionEnvironmentFamilies.go.html to see an example of how to use ListFusionEnvironmentFamilies API.
+// A default retry strategy applies to this operation ListFusionEnvironmentFamilies()
 func (client FusionApplicationsClient) ListFusionEnvironmentFamilies(ctx context.Context, request ListFusionEnvironmentFamiliesRequest) (response ListFusionEnvironmentFamiliesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1440,9 +1521,10 @@ func (client FusionApplicationsClient) listFusionEnvironmentFamilies(ctx context
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/ListFusionEnvironments.go.html to see an example of how to use ListFusionEnvironments API.
+// A default retry strategy applies to this operation ListFusionEnvironments()
 func (client FusionApplicationsClient) ListFusionEnvironments(ctx context.Context, request ListFusionEnvironmentsRequest) (response ListFusionEnvironmentsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1497,9 +1579,10 @@ func (client FusionApplicationsClient) listFusionEnvironments(ctx context.Contex
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/ListRefreshActivities.go.html to see an example of how to use ListRefreshActivities API.
+// A default retry strategy applies to this operation ListRefreshActivities()
 func (client FusionApplicationsClient) ListRefreshActivities(ctx context.Context, request ListRefreshActivitiesRequest) (response ListRefreshActivitiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1554,9 +1637,10 @@ func (client FusionApplicationsClient) listRefreshActivities(ctx context.Context
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/ListScheduledActivities.go.html to see an example of how to use ListScheduledActivities API.
+// A default retry strategy applies to this operation ListScheduledActivities()
 func (client FusionApplicationsClient) ListScheduledActivities(ctx context.Context, request ListScheduledActivitiesRequest) (response ListScheduledActivitiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1611,9 +1695,10 @@ func (client FusionApplicationsClient) listScheduledActivities(ctx context.Conte
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/ListServiceAttachments.go.html to see an example of how to use ListServiceAttachments API.
+// A default retry strategy applies to this operation ListServiceAttachments()
 func (client FusionApplicationsClient) ListServiceAttachments(ctx context.Context, request ListServiceAttachmentsRequest) (response ListServiceAttachmentsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1668,9 +1753,10 @@ func (client FusionApplicationsClient) listServiceAttachments(ctx context.Contex
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/ListTimeAvailableForRefreshes.go.html to see an example of how to use ListTimeAvailableForRefreshes API.
+// A default retry strategy applies to this operation ListTimeAvailableForRefreshes()
 func (client FusionApplicationsClient) ListTimeAvailableForRefreshes(ctx context.Context, request ListTimeAvailableForRefreshesRequest) (response ListTimeAvailableForRefreshesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1725,9 +1811,10 @@ func (client FusionApplicationsClient) listTimeAvailableForRefreshes(ctx context
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client FusionApplicationsClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1782,9 +1869,10 @@ func (client FusionApplicationsClient) listWorkRequestErrors(ctx context.Context
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client FusionApplicationsClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1839,9 +1927,10 @@ func (client FusionApplicationsClient) listWorkRequestLogs(ctx context.Context, 
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client FusionApplicationsClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1896,9 +1985,10 @@ func (client FusionApplicationsClient) listWorkRequests(ctx context.Context, req
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/ResetFusionEnvironmentPassword.go.html to see an example of how to use ResetFusionEnvironmentPassword API.
+// A default retry strategy applies to this operation ResetFusionEnvironmentPassword()
 func (client FusionApplicationsClient) ResetFusionEnvironmentPassword(ctx context.Context, request ResetFusionEnvironmentPasswordRequest) (response ResetFusionEnvironmentPasswordResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1958,9 +2048,10 @@ func (client FusionApplicationsClient) resetFusionEnvironmentPassword(ctx contex
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/UpdateFusionEnvironment.go.html to see an example of how to use UpdateFusionEnvironment API.
+// A default retry strategy applies to this operation UpdateFusionEnvironment()
 func (client FusionApplicationsClient) UpdateFusionEnvironment(ctx context.Context, request UpdateFusionEnvironmentRequest) (response UpdateFusionEnvironmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2015,9 +2106,10 @@ func (client FusionApplicationsClient) updateFusionEnvironment(ctx context.Conte
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/UpdateFusionEnvironmentFamily.go.html to see an example of how to use UpdateFusionEnvironmentFamily API.
+// A default retry strategy applies to this operation UpdateFusionEnvironmentFamily()
 func (client FusionApplicationsClient) UpdateFusionEnvironmentFamily(ctx context.Context, request UpdateFusionEnvironmentFamilyRequest) (response UpdateFusionEnvironmentFamilyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2060,6 +2152,64 @@ func (client FusionApplicationsClient) updateFusionEnvironmentFamily(ctx context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fusion-applications/20211201/FusionEnvironmentFamily/UpdateFusionEnvironmentFamily"
 		err = common.PostProcessServiceError(err, "FusionApplications", "UpdateFusionEnvironmentFamily", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateRefreshActivity Updates a scheduled RefreshActivity.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/UpdateRefreshActivity.go.html to see an example of how to use UpdateRefreshActivity API.
+// A default retry strategy applies to this operation UpdateRefreshActivity()
+func (client FusionApplicationsClient) UpdateRefreshActivity(ctx context.Context, request UpdateRefreshActivityRequest) (response UpdateRefreshActivityResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateRefreshActivity, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateRefreshActivityResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateRefreshActivityResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateRefreshActivityResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateRefreshActivityResponse")
+	}
+	return
+}
+
+// updateRefreshActivity implements the OCIOperation interface (enables retrying operations)
+func (client FusionApplicationsClient) updateRefreshActivity(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/fusionEnvironments/{fusionEnvironmentId}/refreshActivities/{refreshActivityId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateRefreshActivityResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fusion-applications/20211201/UpdateRefreshActivityDetails/UpdateRefreshActivity"
+		err = common.PostProcessServiceError(err, "FusionApplications", "UpdateRefreshActivity", apiReferenceLink)
 		return response, err
 	}
 
