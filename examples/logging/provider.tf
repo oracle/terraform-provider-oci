@@ -22,7 +22,7 @@ variable "compartment_ocid" {
 }
 
 variable "region" {
-  default = "us-ashburn-1"
+  default = "us-phoenix-1"
 }
 
 provider "oci" {
@@ -31,5 +31,6 @@ provider "oci" {
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
   private_key_path = var.private_key_path
+#  version = "4.100.0"
 }
 

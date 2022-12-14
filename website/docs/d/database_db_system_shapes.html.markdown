@@ -63,5 +63,5 @@ The following attributes are exported:
 * `name` - The name of the shape used for the DB system.
 * `shape` - Deprecated. Use `name` instead of `shape`.
 * `shape_family` - The family of the shape used for the DB system.
-* `shape_type` - The shape type for the virtual machine DB system. Shape type is determined by CPU hardware. Valid values are `AMD` and `INTEL`.
+* `shape_type` - The shape type for the virtual machine DB system. Shape type is determined by CPU hardware. Valid values are `AMD` , `INTEL` or `INTEL_FLEX_X9`.
 

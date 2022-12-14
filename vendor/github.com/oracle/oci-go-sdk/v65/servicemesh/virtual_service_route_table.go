@@ -33,9 +33,6 @@ type VirtualServiceRouteTable struct {
 	// Example: `My unique resource name`
 	Name *string `mandatory:"true" json:"name"`
 
-	// The route rules for the virtual service.
-	RouteRules []VirtualServiceTrafficRouteRule `mandatory:"true" json:"routeRules"`
-
 	// The time when this resource was created in an RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
@@ -52,6 +49,9 @@ type VirtualServiceRouteTable struct {
 
 	// The priority of the route table. Lower value means higher priority. The routes are declared based on the priority.
 	Priority *int `mandatory:"false" json:"priority"`
+
+	// The route rules for the virtual service.
+	RouteRules []VirtualServiceTrafficRouteRule `mandatory:"false" json:"routeRules"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in a Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
@@ -93,6 +93,7 @@ func (m *VirtualServiceRouteTable) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Description      *string                                    `json:"description"`
 		Priority         *int                                       `json:"priority"`
+		RouteRules       []virtualservicetrafficrouterule           `json:"routeRules"`
 		LifecycleDetails *string                                    `json:"lifecycleDetails"`
 		FreeformTags     map[string]string                          `json:"freeformTags"`
 		DefinedTags      map[string]map[string]interface{}          `json:"definedTags"`
@@ -101,7 +102,6 @@ func (m *VirtualServiceRouteTable) UnmarshalJSON(data []byte) (e error) {
 		CompartmentId    *string                                    `json:"compartmentId"`
 		VirtualServiceId *string                                    `json:"virtualServiceId"`
 		Name             *string                                    `json:"name"`
-		RouteRules       []virtualservicetrafficrouterule           `json:"routeRules"`
 		TimeCreated      *common.SDKTime                            `json:"timeCreated"`
 		TimeUpdated      *common.SDKTime                            `json:"timeUpdated"`
 		LifecycleState   VirtualServiceRouteTableLifecycleStateEnum `json:"lifecycleState"`
@@ -115,6 +115,19 @@ func (m *VirtualServiceRouteTable) UnmarshalJSON(data []byte) (e error) {
 	m.Description = model.Description
 
 	m.Priority = model.Priority
+
+	m.RouteRules = make([]VirtualServiceTrafficRouteRule, len(model.RouteRules))
+	for i, n := range model.RouteRules {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.RouteRules[i] = nn.(VirtualServiceTrafficRouteRule)
+		} else {
+			m.RouteRules[i] = nil
+		}
+	}
 
 	m.LifecycleDetails = model.LifecycleDetails
 
@@ -131,19 +144,6 @@ func (m *VirtualServiceRouteTable) UnmarshalJSON(data []byte) (e error) {
 	m.VirtualServiceId = model.VirtualServiceId
 
 	m.Name = model.Name
-
-	m.RouteRules = make([]VirtualServiceTrafficRouteRule, len(model.RouteRules))
-	for i, n := range model.RouteRules {
-		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
-		if e != nil {
-			return e
-		}
-		if nn != nil {
-			m.RouteRules[i] = nn.(VirtualServiceTrafficRouteRule)
-		} else {
-			m.RouteRules[i] = nil
-		}
-	}
 
 	m.TimeCreated = model.TimeCreated
 

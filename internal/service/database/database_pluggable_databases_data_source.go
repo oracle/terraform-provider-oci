@@ -155,6 +155,12 @@ func (s *DatabasePluggableDatabasesDataSourceCrud) SetData() error {
 			pluggableDatabase["pdb_name"] = *r.PdbName
 		}
 
+		if r.PluggableDatabaseManagementConfig != nil {
+			pluggableDatabase["pluggable_database_management_config"] = []interface{}{PluggableDatabaseManagementConfigToMap(r.PluggableDatabaseManagementConfig)}
+		} else {
+			pluggableDatabase["pluggable_database_management_config"] = nil
+		}
+
 		pluggableDatabase["state"] = r.LifecycleState
 
 		if r.TimeCreated != nil {

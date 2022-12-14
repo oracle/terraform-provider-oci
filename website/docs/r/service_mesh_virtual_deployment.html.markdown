@@ -19,17 +19,7 @@ Creates a new VirtualDeployment.
 resource "oci_service_mesh_virtual_deployment" "test_virtual_deployment" {
 	#Required
 	compartment_id = var.compartment_id
-	listeners {
-		#Required
-		port = var.virtual_deployment_listeners_port
-		protocol = var.virtual_deployment_listeners_protocol
-	}
 	name = var.virtual_deployment_name
-	service_discovery {
-		#Required
-		hostname = var.virtual_deployment_service_discovery_hostname
-		type = var.virtual_deployment_service_discovery_type
-	}
 	virtual_service_id = oci_service_mesh_virtual_service.test_virtual_service.id
 
 	#Optional
@@ -41,6 +31,18 @@ resource "oci_service_mesh_virtual_deployment" "test_virtual_deployment" {
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	description = var.virtual_deployment_description
 	freeform_tags = {"bar-key"= "value"}
+	listeners {
+		#Required
+		port = var.virtual_deployment_listeners_port
+		protocol = var.virtual_deployment_listeners_protocol
+	}
+	service_discovery {
+		#Required
+		type = var.virtual_deployment_service_discovery_type
+
+		#Optional
+		hostname = var.virtual_deployment_service_discovery_hostname
+	}
 }
 ```
 
@@ -54,12 +56,12 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - (Optional) (Updatable) Description of the resource. It can be changed after creation. Avoid entering confidential information.  Example: `This is my new resource` 
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
-* `listeners` - (Required) (Updatable) The listeners for the virtual deployment.
+* `listeners` - (Optional) (Updatable) The listeners for the virtual deployment.
 	* `port` - (Required) (Updatable) Port in which virtual deployment is running.
 	* `protocol` - (Required) (Updatable) Type of protocol used in virtual deployment.
 * `name` - (Required) A user-friendly name. The name must be unique within the same virtual service and cannot be changed after creation. Avoid entering confidential information.  Example: `My unique resource name` 
-* `service_discovery` - (Required) (Updatable) Service Discovery configuration for virtual deployments.
-	* `hostname` - (Required) (Updatable) The hostname of the virtual deployments.
+* `service_discovery` - (Optional) (Updatable) Service Discovery configuration for virtual deployments.
+	* `hostname` - (Required when type=DNS) (Updatable) The hostname of the virtual deployments.
 	* `type` - (Required) (Updatable) Type of service discovery.
 * `virtual_service_id` - (Required) The OCID of the service mesh in which this access policy is created.
 

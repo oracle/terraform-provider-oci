@@ -20,7 +20,7 @@ import (
 type IngressGatewayAccessPolicyTarget struct {
 
 	// The OCID of the ingress gateway resource.
-	IngressGatewayId *string `mandatory:"true" json:"ingressGatewayId"`
+	IngressGatewayId *string `mandatory:"false" json:"ingressGatewayId"`
 }
 
 func (m IngressGatewayAccessPolicyTarget) String() string {

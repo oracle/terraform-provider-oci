@@ -185,6 +185,67 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`vm_networks`}},
 	}
 
+	// DG peer network related representations below
+	DatabasePeerVmClusterNetworkVmNetworksClientNodes1Representation = map[string]interface{}{
+		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb21`, Update: `myprefix2-xapb22`},
+		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.168.19.10`, Update: `192.168.19.11`},
+		"vip":          acctest.Representation{RepType: acctest.Required, Create: `192.168.19.12`, Update: `192.168.19.13`},
+		"vip_hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb21-vip`, Update: `myprefix2-xapb22-vip`},
+		"db_server_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_servers.peer_db_servers.db_servers.0.id}`},
+	}
+
+	DatabasePeerVmClusterNetworkVmNetworksClientNodes2Representation = map[string]interface{}{
+		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb25`, Update: `myprefix2-xapb26`},
+		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.168.19.14`, Update: `192.168.19.15`},
+		"vip":          acctest.Representation{RepType: acctest.Required, Create: `192.168.19.16`, Update: `192.168.19.17`},
+		"vip_hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb25-vip`, Update: `myprefix2-xapb26-vip`},
+		"db_server_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_servers.peer_db_servers.db_servers.1.id}`},
+	}
+
+	DatabasePeerVmClusterNetworkVmNetworksBackupNodes1Representation = map[string]interface{}{
+		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb23`, Update: `myprefix2-xapb24`},
+		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.169.19.18`, Update: `192.169.19.19`},
+		"db_server_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_servers.peer_db_servers.db_servers.0.id}`},
+	}
+	DatabasePeerVmClusterNetworkVmNetworksBackupNodes2Representation = map[string]interface{}{
+		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb27`, Update: `myprefix2-xapb28`},
+		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.169.19.20`, Update: `192.169.19.21`},
+		"db_server_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_servers.peer_db_servers.db_servers.1.id}`},
+	}
+
+	DatabasePeerVmClusterNetworkBackupVmNetworkRepresentation = map[string]interface{}{
+		"domain_name":  acctest.Representation{RepType: acctest.Required, Create: `oracle.com`, Update: `oracle.com`},
+		"gateway":      acctest.Representation{RepType: acctest.Required, Create: `192.169.20.1`, Update: `192.169.20.2`},
+		"netmask":      acctest.Representation{RepType: acctest.Required, Create: `255.255.0.0`, Update: `255.255.192.0`},
+		"network_type": acctest.Representation{RepType: acctest.Required, Create: `BACKUP`, Update: `BACKUP`},
+		"nodes":        []acctest.RepresentationGroup{{RepType: acctest.Required, Group: DatabasePeerVmClusterNetworkVmNetworksBackupNodes1Representation}, {RepType: acctest.Required, Group: DatabasePeerVmClusterNetworkVmNetworksBackupNodes2Representation}},
+		"vlan_id":      acctest.Representation{RepType: acctest.Required, Create: `100`},
+	}
+
+	DatabasePeerVmClusterNetworkClientVmNetworkRepresentation = map[string]interface{}{
+		"domain_name":  acctest.Representation{RepType: acctest.Required, Create: `oracle.com`, Update: `oracle.com`},
+		"gateway":      acctest.Representation{RepType: acctest.Required, Create: `192.168.20.1`, Update: `192.168.20.2`},
+		"netmask":      acctest.Representation{RepType: acctest.Required, Create: `255.255.0.0`, Update: `255.255.192.0`},
+		"network_type": acctest.Representation{RepType: acctest.Required, Create: `CLIENT`, Update: `CLIENT`},
+		"nodes":        []acctest.RepresentationGroup{{RepType: acctest.Required, Group: DatabasePeerVmClusterNetworkVmNetworksClientNodes1Representation}, {RepType: acctest.Required, Group: DatabasePeerVmClusterNetworkVmNetworksClientNodes2Representation}},
+		"vlan_id":      acctest.Representation{RepType: acctest.Required, Create: `101`},
+	}
+
+	DatabasePeerVmClusterNetworkRepresentation = map[string]interface{}{
+		"compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":                acctest.Representation{RepType: acctest.Required, Create: `peerVmClusterNw`},
+		"exadata_infrastructure_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.peer_exadata_infrastructure.id}`},
+		"scans":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseVmClusterNetworkScansRepresentation},
+		"vm_networks":                 []acctest.RepresentationGroup{{RepType: acctest.Required, Group: DatabasePeerVmClusterNetworkBackupVmNetworkRepresentation}, {RepType: acctest.Required, Group: DatabasePeerVmClusterNetworkClientVmNetworkRepresentation}},
+		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"dns":                         acctest.Representation{RepType: acctest.Optional, Create: []string{`192.168.10.10`}, Update: []string{`192.168.10.12`}},
+		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"ntp":                         acctest.Representation{RepType: acctest.Optional, Create: []string{`192.168.10.20`}, Update: []string{`192.168.10.22`}},
+		"lifecycle":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: vmClusterNetworkIgnoreNetworkRepresentation},
+		"validate_vm_cluster_network": acctest.Representation{RepType: acctest.Required, Create: "true"},
+	}
+	// End DG peer network related representations
+
 	activationFilePath, _                        = createTmpActivationFile()
 	DatabaseVmClusterNetworkResourceDependencies = DefinedTagsDependencies +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Required, acctest.Create, DatabaseDatabaseDbServerDataSourceRepresentation) +

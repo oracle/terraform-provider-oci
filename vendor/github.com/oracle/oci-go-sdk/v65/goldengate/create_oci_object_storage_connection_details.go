@@ -75,6 +75,9 @@ type CreateOciObjectStorageConnectionDetails struct {
 	// The user must have write access to the bucket they want to connect to.
 	UserId *string `mandatory:"false" json:"userId"`
 
+	// The passphrase of the private key.
+	PrivateKeyPassphrase *string `mandatory:"false" json:"privateKeyPassphrase"`
+
 	// The OCI Object Storage technology type.
 	TechnologyType OciObjectStorageConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 }

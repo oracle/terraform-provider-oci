@@ -4,7 +4,7 @@
 
 // Fusion Applications Environment Management API
 //
-// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.cloud.oracle.com/iaas/Content/Identity/fusion-applications/home.htm).
+// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.cloud.oracle.com/iaas/Content/fusion-applications/home.htm).
 //
 
 package fusionapps
@@ -22,16 +22,15 @@ type CreateOaxServiceInstanceDetails struct {
 	// The service instance type being provisioned
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
+	// A unique Name for Analytics Warehouse.
+	Name *string `mandatory:"true" json:"name"`
+
 	// Comparment where the instance is to be created
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
-
-	// A unique Name for Analytics Warehouse.
-	Name *string `mandatory:"false" json:"name"`
 
 	// This is the description for Analytics Warehouse Service.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Admin information to provision Analytics Warehouse Servcie
 	FawAdminInfo *FawAdminInfoDetails `mandatory:"false" json:"FawAdminInfo"`
 }
 

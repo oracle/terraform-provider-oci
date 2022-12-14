@@ -33,11 +33,6 @@ type VirtualDeployment struct {
 	// Example: `My unique resource name`
 	Name *string `mandatory:"true" json:"name"`
 
-	ServiceDiscovery ServiceDiscoveryConfiguration `mandatory:"true" json:"serviceDiscovery"`
-
-	// The listeners for the virtual deployment
-	Listeners []VirtualDeploymentListener `mandatory:"true" json:"listeners"`
-
 	// The time when this resource was created in an RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
@@ -51,6 +46,11 @@ type VirtualDeployment struct {
 	// Avoid entering confidential information.
 	// Example: `This is my new resource`
 	Description *string `mandatory:"false" json:"description"`
+
+	ServiceDiscovery ServiceDiscoveryConfiguration `mandatory:"false" json:"serviceDiscovery"`
+
+	// The listeners for the virtual deployment
+	Listeners []VirtualDeploymentListener `mandatory:"false" json:"listeners"`
 
 	AccessLogging *AccessLoggingConfiguration `mandatory:"false" json:"accessLogging"`
 
@@ -93,6 +93,8 @@ func (m VirtualDeployment) ValidateEnumValue() (bool, error) {
 func (m *VirtualDeployment) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Description      *string                             `json:"description"`
+		ServiceDiscovery servicediscoveryconfiguration       `json:"serviceDiscovery"`
+		Listeners        []VirtualDeploymentListener         `json:"listeners"`
 		AccessLogging    *AccessLoggingConfiguration         `json:"accessLogging"`
 		LifecycleDetails *string                             `json:"lifecycleDetails"`
 		FreeformTags     map[string]string                   `json:"freeformTags"`
@@ -102,8 +104,6 @@ func (m *VirtualDeployment) UnmarshalJSON(data []byte) (e error) {
 		CompartmentId    *string                             `json:"compartmentId"`
 		VirtualServiceId *string                             `json:"virtualServiceId"`
 		Name             *string                             `json:"name"`
-		ServiceDiscovery servicediscoveryconfiguration       `json:"serviceDiscovery"`
-		Listeners        []VirtualDeploymentListener         `json:"listeners"`
 		TimeCreated      *common.SDKTime                     `json:"timeCreated"`
 		TimeUpdated      *common.SDKTime                     `json:"timeUpdated"`
 		LifecycleState   VirtualDeploymentLifecycleStateEnum `json:"lifecycleState"`
@@ -115,6 +115,21 @@ func (m *VirtualDeployment) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.Description = model.Description
+
+	nn, e = model.ServiceDiscovery.UnmarshalPolymorphicJSON(model.ServiceDiscovery.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ServiceDiscovery = nn.(ServiceDiscoveryConfiguration)
+	} else {
+		m.ServiceDiscovery = nil
+	}
+
+	m.Listeners = make([]VirtualDeploymentListener, len(model.Listeners))
+	for i, n := range model.Listeners {
+		m.Listeners[i] = n
+	}
 
 	m.AccessLogging = model.AccessLogging
 
@@ -133,21 +148,6 @@ func (m *VirtualDeployment) UnmarshalJSON(data []byte) (e error) {
 	m.VirtualServiceId = model.VirtualServiceId
 
 	m.Name = model.Name
-
-	nn, e = model.ServiceDiscovery.UnmarshalPolymorphicJSON(model.ServiceDiscovery.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.ServiceDiscovery = nn.(ServiceDiscoveryConfiguration)
-	} else {
-		m.ServiceDiscovery = nil
-	}
-
-	m.Listeners = make([]VirtualDeploymentListener, len(model.Listeners))
-	for i, n := range model.Listeners {
-		m.Listeners[i] = n
-	}
 
 	m.TimeCreated = model.TimeCreated
 

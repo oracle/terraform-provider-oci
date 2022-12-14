@@ -4,7 +4,7 @@
 
 // Fusion Applications Environment Management API
 //
-// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.cloud.oracle.com/iaas/Content/Identity/fusion-applications/home.htm).
+// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.cloud.oracle.com/iaas/Content/fusion-applications/home.htm).
 //
 
 package fusionapps
@@ -98,6 +98,7 @@ const (
 	WorkRequestOperationTypeChangeFusionEnvironmentFamilyCompartment WorkRequestOperationTypeEnum = "CHANGE_FUSION_ENVIRONMENT_FAMILY_COMPARTMENT"
 	WorkRequestOperationTypeRefreshFusionEnvironment                 WorkRequestOperationTypeEnum = "REFRESH_FUSION_ENVIRONMENT"
 	WorkRequestOperationTypeExecuteColdPatch                         WorkRequestOperationTypeEnum = "EXECUTE_COLD_PATCH"
+	WorkRequestOperationTypeDataMaskFusionEnvironment                WorkRequestOperationTypeEnum = "DATA_MASK_FUSION_ENVIRONMENT"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -121,6 +122,7 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"CHANGE_FUSION_ENVIRONMENT_FAMILY_COMPARTMENT": WorkRequestOperationTypeChangeFusionEnvironmentFamilyCompartment,
 	"REFRESH_FUSION_ENVIRONMENT":                   WorkRequestOperationTypeRefreshFusionEnvironment,
 	"EXECUTE_COLD_PATCH":                           WorkRequestOperationTypeExecuteColdPatch,
+	"DATA_MASK_FUSION_ENVIRONMENT":                 WorkRequestOperationTypeDataMaskFusionEnvironment,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -144,6 +146,7 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"change_fusion_environment_family_compartment": WorkRequestOperationTypeChangeFusionEnvironmentFamilyCompartment,
 	"refresh_fusion_environment":                   WorkRequestOperationTypeRefreshFusionEnvironment,
 	"execute_cold_patch":                           WorkRequestOperationTypeExecuteColdPatch,
+	"data_mask_fusion_environment":                 WorkRequestOperationTypeDataMaskFusionEnvironment,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -178,6 +181,7 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"CHANGE_FUSION_ENVIRONMENT_FAMILY_COMPARTMENT",
 		"REFRESH_FUSION_ENVIRONMENT",
 		"EXECUTE_COLD_PATCH",
+		"DATA_MASK_FUSION_ENVIRONMENT",
 	}
 }
 

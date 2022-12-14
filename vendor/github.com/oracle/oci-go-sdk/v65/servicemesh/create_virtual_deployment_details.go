@@ -27,11 +27,6 @@ type CreateVirtualDeploymentDetails struct {
 	// Example: `My unique resource name`
 	Name *string `mandatory:"true" json:"name"`
 
-	ServiceDiscovery ServiceDiscoveryConfiguration `mandatory:"true" json:"serviceDiscovery"`
-
-	// The listeners for the virtual deployment.
-	Listeners []VirtualDeploymentListener `mandatory:"true" json:"listeners"`
-
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
@@ -39,6 +34,11 @@ type CreateVirtualDeploymentDetails struct {
 	// Avoid entering confidential information.
 	// Example: `This is my new resource`
 	Description *string `mandatory:"false" json:"description"`
+
+	ServiceDiscovery ServiceDiscoveryConfiguration `mandatory:"false" json:"serviceDiscovery"`
+
+	// The listeners for the virtual deployment.
+	Listeners []VirtualDeploymentListener `mandatory:"false" json:"listeners"`
 
 	AccessLogging *AccessLoggingConfiguration `mandatory:"false" json:"accessLogging"`
 
@@ -71,13 +71,13 @@ func (m CreateVirtualDeploymentDetails) ValidateEnumValue() (bool, error) {
 func (m *CreateVirtualDeploymentDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Description      *string                           `json:"description"`
+		ServiceDiscovery servicediscoveryconfiguration     `json:"serviceDiscovery"`
+		Listeners        []VirtualDeploymentListener       `json:"listeners"`
 		AccessLogging    *AccessLoggingConfiguration       `json:"accessLogging"`
 		FreeformTags     map[string]string                 `json:"freeformTags"`
 		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
 		VirtualServiceId *string                           `json:"virtualServiceId"`
 		Name             *string                           `json:"name"`
-		ServiceDiscovery servicediscoveryconfiguration     `json:"serviceDiscovery"`
-		Listeners        []VirtualDeploymentListener       `json:"listeners"`
 		CompartmentId    *string                           `json:"compartmentId"`
 	}{}
 
@@ -87,16 +87,6 @@ func (m *CreateVirtualDeploymentDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.Description = model.Description
-
-	m.AccessLogging = model.AccessLogging
-
-	m.FreeformTags = model.FreeformTags
-
-	m.DefinedTags = model.DefinedTags
-
-	m.VirtualServiceId = model.VirtualServiceId
-
-	m.Name = model.Name
 
 	nn, e = model.ServiceDiscovery.UnmarshalPolymorphicJSON(model.ServiceDiscovery.JsonData)
 	if e != nil {
@@ -112,6 +102,16 @@ func (m *CreateVirtualDeploymentDetails) UnmarshalJSON(data []byte) (e error) {
 	for i, n := range model.Listeners {
 		m.Listeners[i] = n
 	}
+
+	m.AccessLogging = model.AccessLogging
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.VirtualServiceId = model.VirtualServiceId
+
+	m.Name = model.Name
 
 	m.CompartmentId = model.CompartmentId
 

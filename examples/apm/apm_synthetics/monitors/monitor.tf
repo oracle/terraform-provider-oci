@@ -132,6 +132,22 @@ variable "monitor_configuration_dns_configuration_override_dns_ip" {
   default = "12.1.21.1"
 }
 
+variable "monitor_availability_configuration_max_allowed_failures_per_interval" {
+  default = 0
+}
+
+variable "monitor_availability_configuration_min_allowed_runs_per_interval" {
+  default = 1
+}
+
+variable "monitor_maintenance_window_schedule_time_ended" {
+  default = "2023-02-12T22:47:12.613Z"
+}
+
+variable "monitor_maintenance_window_schedule_time_started" {
+  default = "2022-12-18T22:47:12.654Z"
+}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -185,6 +201,15 @@ resource "oci_apm_synthetics_monitor" "test_monitor" {
   is_run_once        = var.monitor_is_run_once
   is_run_now         = var.monitor_is_run_now
   scheduling_policy  = var.monitor_scheduling_policy
+  #Optional
+  availability_configuration {
+    max_allowed_failures_per_interval  = var.monitor_availability_configuration_max_allowed_failures_per_interval
+    min_allowed_runs_per_interval      = var.monitor_availability_configuration_min_allowed_runs_per_interval
+  }
+  maintenance_window_schedule {
+    time_ended   = var.monitor_maintenance_window_schedule_time_ended
+    time_started = var.monitor_maintenance_window_schedule_time_started
+  }
 }
 
 data "oci_apm_synthetics_monitors" "test_monitors" {

@@ -147,6 +147,12 @@ var (
 		"kms_key_rotation": acctest.Representation{RepType: acctest.Optional, Update: `1`},
 	}
 
+	DatabaseExacsDatabaseRepresentation = map[string]interface{}{
+		"database":   acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseDatabaseRepresentation},
+		"db_home_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_home.test_db_home_vm_cluster_no_db.id}`},
+		"source":     acctest.Representation{RepType: acctest.Required, Create: `NONE`},
+	}
+
 	databaseRepresentationMigration = map[string]interface{}{
 		"database":          acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseDatabaseRepresentation},
 		"db_home_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_home.test_db_home.id}`},
@@ -160,7 +166,7 @@ var (
 		"db_name":          acctest.Representation{RepType: acctest.Required, Create: `myTestDb`},
 		"character_set":    acctest.Representation{RepType: acctest.Optional, Create: `AL32UTF8`},
 		"db_backup_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: databaseDatabaseDbBackupConfigRepresentation},
-		"db_unique_name":   acctest.Representation{RepType: acctest.Optional, Create: `myTestDb_12`},
+		"db_unique_name":   acctest.Representation{RepType: acctest.Optional, Create: `myTestDb_13`},
 		"db_workload":      acctest.Representation{RepType: acctest.Optional, Create: `OLTP`},
 		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
@@ -179,7 +185,11 @@ var (
 	}
 
 	DatabaseDatabaseResourceDependencies = ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + KeyResourceDependencyConfig +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, CoreRouteTableRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Required, acctest.Create, dbHomeRepresentationSourceNone)
+
+	DatabaseExacsDatabaseResourceDependencies = DbHomeResourceVmClusterDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_vm_cluster_no_db", acctest.Required, acctest.Create, dbHomeRepresentationSourceVmCluster)
 )
 
 // issue-routing-tag: database/default
@@ -246,7 +256,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "db_backup_config.0.auto_backup_window", "SLOT_TWO"),
 				resource.TestCheckResourceAttr(resourceName, "db_backup_config.0.recovery_window_in_days", "10"),
 				resource.TestCheckResourceAttr(resourceName, "db_name", "myTestDb"),
-				resource.TestCheckResourceAttr(resourceName, "db_unique_name", "myTestDb_12"),
+				resource.TestCheckResourceAttr(resourceName, "db_unique_name", "myTestDb_13"),
 				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "ncharacter_set", "AL16UTF16"),
@@ -354,8 +364,8 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_unique_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_workload"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_cdb"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "last_backup_timestamp"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "is_cdb"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "last_backup_timestamp"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ncharacter_set"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "pdb_name"),
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "source_database_point_in_time_recovery_timestamp"),
@@ -377,6 +387,37 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				"source",
 			},
 			ResourceName: resourceName,
+		},
+	})
+}
+
+func TestDatabaseExacsDatabaseResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseDatabaseResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_database.test_database"
+
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseExacsDatabaseResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, DatabaseExacsDatabaseRepresentation), "database", "database", t)
+
+	acctest.ResourceTest(t, testAccCheckDatabaseDatabaseDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseExacsDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Required, acctest.Create, DatabaseExacsDatabaseRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "myTestDb"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_home_id"),
+				resource.TestCheckResourceAttr(resourceName, "source", "NONE"),
+			),
 		},
 	})
 }

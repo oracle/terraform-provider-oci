@@ -4,7 +4,7 @@
 
 // Fusion Applications Environment Management API
 //
-// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.cloud.oracle.com/iaas/Content/Identity/fusion-applications/home.htm).
+// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.cloud.oracle.com/iaas/Content/fusion-applications/home.htm).
 //
 
 package fusionapps
@@ -23,7 +23,7 @@ type SourceIpAddressCondition struct {
 	// The service accepts only classless inter-domain routing (CIDR) format (x.x.x.x/y or x:x::x/y) strings.
 	// Specify 0.0.0.0/0 or ::/0 to match all incoming traffic.
 	// example: "192.168.0.0/16"
-	AttributeValue *string `mandatory:"false" json:"attributeValue"`
+	AttributeValue *string `mandatory:"true" json:"attributeValue"`
 }
 
 func (m SourceIpAddressCondition) String() string {

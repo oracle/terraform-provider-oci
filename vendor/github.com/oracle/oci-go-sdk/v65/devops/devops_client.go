@@ -276,6 +276,69 @@ func (client DevopsClient) cancelDeployment(ctx context.Context, request common.
 	return response, err
 }
 
+// CancelScheduledCascadingProjectDeletion Cascading operation that restores Project and child resources from a DELETING state to an active state
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CancelScheduledCascadingProjectDeletion.go.html to see an example of how to use CancelScheduledCascadingProjectDeletion API.
+// A default retry strategy applies to this operation CancelScheduledCascadingProjectDeletion()
+func (client DevopsClient) CancelScheduledCascadingProjectDeletion(ctx context.Context, request CancelScheduledCascadingProjectDeletionRequest) (response CancelScheduledCascadingProjectDeletionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.cancelScheduledCascadingProjectDeletion, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CancelScheduledCascadingProjectDeletionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CancelScheduledCascadingProjectDeletionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CancelScheduledCascadingProjectDeletionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CancelScheduledCascadingProjectDeletionResponse")
+	}
+	return
+}
+
+// cancelScheduledCascadingProjectDeletion implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) cancelScheduledCascadingProjectDeletion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/projects/{projectId}/actions/cancelScheduledCascadingProjectDeletion", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CancelScheduledCascadingProjectDeletionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Project/CancelScheduledCascadingProjectDeletion"
+		err = common.PostProcessServiceError(err, "Devops", "CancelScheduledCascadingProjectDeletion", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeProjectCompartment Moves a project resource from one compartment OCID to another.
 //
 // See also
@@ -4464,6 +4527,69 @@ func (client DevopsClient) putRepositoryRef(ctx context.Context, request common.
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &repositoryref{})
+	return response, err
+}
+
+// ScheduleCascadingProjectDeletion Cascading operation that marks Project and child DevOps resources in a DELETING state for a retention period
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ScheduleCascadingProjectDeletion.go.html to see an example of how to use ScheduleCascadingProjectDeletion API.
+// A default retry strategy applies to this operation ScheduleCascadingProjectDeletion()
+func (client DevopsClient) ScheduleCascadingProjectDeletion(ctx context.Context, request ScheduleCascadingProjectDeletionRequest) (response ScheduleCascadingProjectDeletionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.scheduleCascadingProjectDeletion, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ScheduleCascadingProjectDeletionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ScheduleCascadingProjectDeletionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ScheduleCascadingProjectDeletionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ScheduleCascadingProjectDeletionResponse")
+	}
+	return
+}
+
+// scheduleCascadingProjectDeletion implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) scheduleCascadingProjectDeletion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/projects/{projectId}/actions/scheduleCascadingProjectDeletion", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ScheduleCascadingProjectDeletionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Project/ScheduleCascadingProjectDeletion"
+		err = common.PostProcessServiceError(err, "Devops", "ScheduleCascadingProjectDeletion", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }
 

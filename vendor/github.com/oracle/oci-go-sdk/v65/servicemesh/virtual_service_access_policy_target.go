@@ -20,7 +20,7 @@ import (
 type VirtualServiceAccessPolicyTarget struct {
 
 	// The OCID of the virtual service resource.
-	VirtualServiceId *string `mandatory:"true" json:"virtualServiceId"`
+	VirtualServiceId *string `mandatory:"false" json:"virtualServiceId"`
 }
 
 func (m VirtualServiceAccessPolicyTarget) String() string {

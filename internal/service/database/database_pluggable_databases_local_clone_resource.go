@@ -116,6 +116,23 @@ func DatabasePluggableDatabasesLocalCloneResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"pluggable_database_management_config": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"management_status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -251,6 +268,12 @@ func (s *DatabasePluggableDatabasesLocalCloneResourceCrud) SetData() error {
 
 	if s.Res.PdbName != nil {
 		s.D.Set("pdb_name", *s.Res.PdbName)
+	}
+
+	if s.Res.PluggableDatabaseManagementConfig != nil {
+		s.D.Set("pluggable_database_management_config", []interface{}{PluggableDatabaseManagementConfigToMap(s.Res.PluggableDatabaseManagementConfig)})
+	} else {
+		s.D.Set("pluggable_database_management_config", nil)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

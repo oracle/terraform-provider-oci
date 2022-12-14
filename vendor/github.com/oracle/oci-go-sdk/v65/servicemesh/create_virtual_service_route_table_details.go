@@ -28,7 +28,7 @@ type CreateVirtualServiceRouteTableDetails struct {
 	Name *string `mandatory:"true" json:"name"`
 
 	// The route rules for the virtual service.
-	RouteRules []VirtualServiceTrafficRouteRule `mandatory:"true" json:"routeRules"`
+	RouteRules []VirtualServiceTrafficRouteRuleDetails `mandatory:"true" json:"routeRules"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
@@ -69,14 +69,14 @@ func (m CreateVirtualServiceRouteTableDetails) ValidateEnumValue() (bool, error)
 // UnmarshalJSON unmarshals from json
 func (m *CreateVirtualServiceRouteTableDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description      *string                           `json:"description"`
-		Priority         *int                              `json:"priority"`
-		FreeformTags     map[string]string                 `json:"freeformTags"`
-		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
-		VirtualServiceId *string                           `json:"virtualServiceId"`
-		Name             *string                           `json:"name"`
-		RouteRules       []virtualservicetrafficrouterule  `json:"routeRules"`
-		CompartmentId    *string                           `json:"compartmentId"`
+		Description      *string                                 `json:"description"`
+		Priority         *int                                    `json:"priority"`
+		FreeformTags     map[string]string                       `json:"freeformTags"`
+		DefinedTags      map[string]map[string]interface{}       `json:"definedTags"`
+		VirtualServiceId *string                                 `json:"virtualServiceId"`
+		Name             *string                                 `json:"name"`
+		RouteRules       []virtualservicetrafficrouteruledetails `json:"routeRules"`
+		CompartmentId    *string                                 `json:"compartmentId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -96,14 +96,14 @@ func (m *CreateVirtualServiceRouteTableDetails) UnmarshalJSON(data []byte) (e er
 
 	m.Name = model.Name
 
-	m.RouteRules = make([]VirtualServiceTrafficRouteRule, len(model.RouteRules))
+	m.RouteRules = make([]VirtualServiceTrafficRouteRuleDetails, len(model.RouteRules))
 	for i, n := range model.RouteRules {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
 		if e != nil {
 			return e
 		}
 		if nn != nil {
-			m.RouteRules[i] = nn.(VirtualServiceTrafficRouteRule)
+			m.RouteRules[i] = nn.(VirtualServiceTrafficRouteRuleDetails)
 		} else {
 			m.RouteRules[i] = nil
 		}

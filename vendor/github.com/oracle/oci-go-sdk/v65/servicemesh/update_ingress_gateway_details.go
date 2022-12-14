@@ -28,7 +28,7 @@ type UpdateIngressGatewayDetails struct {
 
 	AccessLogging *AccessLoggingConfiguration `mandatory:"false" json:"accessLogging"`
 
-	Mtls *CreateIngressGatewayMutualTransportLayerSecurityDetails `mandatory:"false" json:"mtls"`
+	Mtls *IngressGatewayMutualTransportLayerSecurityDetails `mandatory:"false" json:"mtls"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`

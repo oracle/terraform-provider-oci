@@ -27,6 +27,14 @@ func ApmSyntheticsMonitorsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"is_maintenance_window_active": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"is_maintenance_window_set": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"monitor_type": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -90,6 +98,16 @@ func (s *ApmSyntheticsMonitorsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if isMaintenanceWindowActive, ok := s.D.GetOkExists("is_maintenance_window_active"); ok {
+		tmp := isMaintenanceWindowActive.(bool)
+		request.IsMaintenanceWindowActive = &tmp
+	}
+
+	if isMaintenanceWindowSet, ok := s.D.GetOkExists("is_maintenance_window_set"); ok {
+		tmp := isMaintenanceWindowSet.(bool)
+		request.IsMaintenanceWindowSet = &tmp
 	}
 
 	if monitorType, ok := s.D.GetOkExists("monitor_type"); ok {

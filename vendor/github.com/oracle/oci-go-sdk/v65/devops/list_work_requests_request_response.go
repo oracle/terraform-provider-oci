@@ -45,6 +45,9 @@ type ListWorkRequestsRequest struct {
 	// The field to sort by. Only one sort order can be provided. Default sort order is descending and is based on the timeAccepted field.
 	SortBy ListWorkRequestsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
+	// A filter to return only resources where their Operation Types matches the parameter operation types
+	OperationTypeMultiValueQuery []string `contributesTo:"query" name:"operationTypeMultiValueQuery" collectionFormat:"multi"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

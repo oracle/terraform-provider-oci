@@ -182,9 +182,15 @@ The following arguments are supported:
 	* For Exadata and virtual machine 2-node RAC systems, do not use a subnet that overlaps with 192.168.128.0/20.
 	* For Autonomous Database, setting this will disable public secure access to the database.
 
+<<<<<<< ours
+	These subnets are used by the Oracle Clusterware private interconnect on the database instance. Specifying an overlapping subnet will cause the private interconnect to malfunction. This restriction applies to both the client subnet and the backup subnet. 
+* `timestamp` - (Applicable when source=BACKUP_FROM_TIMESTAMP) The timestamp specified for the point-in-time clone of the source Autonomous Database. The timestamp must be in the past.
+* `use_latest_available_backup_time_stamp` - (Applicable when source=BACKUP_FROM_TIMESTAMP) Clone from latest available backup timestamp. 
+=======
   These subnets are used by the Oracle Clusterware private interconnect on the database instance. Specifying an overlapping subnet will cause the private interconnect to malfunction. This restriction applies to both the client subnet and the backup subnet.
 * `timestamp` - (Applicable when source=BACKUP_FROM_TIMESTAMP) The timestamp specified for the point-in-time clone of the source Autonomous Database. The timestamp must be in the past.
 * `use_latest_available_backup_time_stamp` - (Applicable when source=BACKUP_FROM_TIMESTAMP) Clone from latest available backup timestamp.
+>>>>>>> theirs
 * `vault_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
 * `whitelisted_ips` - (Optional) (Updatable) The client IP access control list (ACL). This feature is available for autonomous databases on [shared Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html) and on Exadata Cloud@Customer. Only clients connecting from an IP address included in the ACL may access the Autonomous Database instance.
 

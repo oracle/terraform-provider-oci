@@ -10,14 +10,16 @@ import (
 	"net/url"
 	"regexp"
 	"strings"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
+	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v65/apmsynthetics"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
+
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
-	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v65/apmsynthetics"
 )
 
 func ApmSyntheticsMonitorResource() *schema.Resource {
@@ -60,6 +62,32 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 			},
 
 			// Optional
+			"availability_configuration": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"max_allowed_failures_per_interval": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"min_allowed_runs_per_interval": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"batch_interval_in_seconds": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -370,6 +398,34 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"maintenance_window_schedule": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"time_ended": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+						},
+						"time_started": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"scheduling_policy": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -521,6 +577,17 @@ func (s *ApmSyntheticsMonitorResourceCrud) Create() error {
 		request.ApmDomainId = &tmp
 	}
 
+	if availabilityConfiguration, ok := s.D.GetOkExists("availability_configuration"); ok {
+		if tmpList := availabilityConfiguration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "availability_configuration", 0)
+			tmp, err := s.mapToAvailabilityConfiguration(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.AvailabilityConfiguration = &tmp
+		}
+	}
+
 	if batchIntervalInSeconds, ok := s.D.GetOkExists("batch_interval_in_seconds"); ok {
 		tmp := batchIntervalInSeconds.(int)
 		request.BatchIntervalInSeconds = &tmp
@@ -562,6 +629,17 @@ func (s *ApmSyntheticsMonitorResourceCrud) Create() error {
 	if isRunOnce, ok := s.D.GetOkExists("is_run_once"); ok {
 		tmp := isRunOnce.(bool)
 		request.IsRunOnce = &tmp
+	}
+
+	if maintenanceWindowSchedule, ok := s.D.GetOkExists("maintenance_window_schedule"); ok {
+		if tmpList := maintenanceWindowSchedule.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_window_schedule", 0)
+			tmp, err := s.mapToMaintenanceWindowSchedule(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.MaintenanceWindowSchedule = &tmp
+		}
 	}
 
 	if monitorType, ok := s.D.GetOkExists("monitor_type"); ok {
@@ -673,6 +751,17 @@ func (s *ApmSyntheticsMonitorResourceCrud) Update() error {
 		request.ApmDomainId = &tmp
 	}
 
+	if availabilityConfiguration, ok := s.D.GetOkExists("availability_configuration"); ok {
+		if tmpList := availabilityConfiguration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "availability_configuration", 0)
+			tmp, err := s.mapToAvailabilityConfiguration(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.AvailabilityConfiguration = &tmp
+		}
+	}
+
 	if batchIntervalInSeconds, ok := s.D.GetOkExists("batch_interval_in_seconds"); ok {
 		tmp := batchIntervalInSeconds.(int)
 		request.BatchIntervalInSeconds = &tmp
@@ -714,6 +803,17 @@ func (s *ApmSyntheticsMonitorResourceCrud) Update() error {
 	if isRunOnce, ok := s.D.GetOkExists("is_run_once"); ok {
 		tmp := isRunOnce.(bool)
 		request.IsRunOnce = &tmp
+	}
+
+	if maintenanceWindowSchedule, ok := s.D.GetOkExists("maintenance_window_schedule"); ok {
+		if tmpList := maintenanceWindowSchedule.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_window_schedule", 0)
+			tmp, err := s.mapToMaintenanceWindowSchedule(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.MaintenanceWindowSchedule = &tmp
+		}
 	}
 
 	monitorId, apmDomainId, err := parseMonitorCompositeId(s.D.Id())
@@ -831,6 +931,12 @@ func (s *ApmSyntheticsMonitorResourceCrud) SetData() error {
 		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
 	}
 
+	if s.Res.AvailabilityConfiguration != nil {
+		s.D.Set("availability_configuration", []interface{}{AvailabilityConfigurationToMap(s.Res.AvailabilityConfiguration)})
+	} else {
+		s.D.Set("availability_configuration", nil)
+	}
+
 	if s.Res.BatchIntervalInSeconds != nil {
 		s.D.Set("batch_interval_in_seconds", *s.Res.BatchIntervalInSeconds)
 	}
@@ -861,6 +967,12 @@ func (s *ApmSyntheticsMonitorResourceCrud) SetData() error {
 
 	if s.Res.IsRunOnce != nil {
 		s.D.Set("is_run_once", *s.Res.IsRunOnce)
+	}
+
+	if s.Res.MaintenanceWindowSchedule != nil {
+		s.D.Set("maintenance_window_schedule", []interface{}{MaintenanceWindowScheduleToMap(s.Res.MaintenanceWindowSchedule)})
+	} else {
+		s.D.Set("maintenance_window_schedule", nil)
 	}
 
 	s.D.Set("monitor_type", s.Res.MonitorType)
@@ -937,6 +1049,36 @@ func parseMonitorCompositeId(compositeId string) (monitorId string, apmDomainId 
 	return
 }
 
+func (s *ApmSyntheticsMonitorResourceCrud) mapToAvailabilityConfiguration(fieldKeyFormat string) (oci_apm_synthetics.AvailabilityConfiguration, error) {
+	result := oci_apm_synthetics.AvailabilityConfiguration{}
+
+	if maxAllowedFailuresPerInterval, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_allowed_failures_per_interval")); ok {
+		tmp := maxAllowedFailuresPerInterval.(int)
+		result.MaxAllowedFailuresPerInterval = &tmp
+	}
+
+	if minAllowedRunsPerInterval, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "min_allowed_runs_per_interval")); ok {
+		tmp := minAllowedRunsPerInterval.(int)
+		result.MinAllowedRunsPerInterval = &tmp
+	}
+
+	return result, nil
+}
+
+func AvailabilityConfigurationToMap(obj *oci_apm_synthetics.AvailabilityConfiguration) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.MaxAllowedFailuresPerInterval != nil {
+		result["max_allowed_failures_per_interval"] = int(*obj.MaxAllowedFailuresPerInterval)
+	}
+
+	if obj.MinAllowedRunsPerInterval != nil {
+		result["min_allowed_runs_per_interval"] = int(*obj.MinAllowedRunsPerInterval)
+	}
+
+	return result
+}
+
 func (s *ApmSyntheticsMonitorResourceCrud) mapToDnsConfiguration(fieldKeyFormat string) (oci_apm_synthetics.DnsConfiguration, error) {
 	result := oci_apm_synthetics.DnsConfiguration{}
 
@@ -992,6 +1134,42 @@ func SyntheticHeaderToMap(obj oci_apm_synthetics.Header) map[string]interface{} 
 
 	if obj.HeaderValue != nil {
 		result["header_value"] = string(*obj.HeaderValue)
+	}
+
+	return result
+}
+
+func (s *ApmSyntheticsMonitorResourceCrud) mapToMaintenanceWindowSchedule(fieldKeyFormat string) (oci_apm_synthetics.MaintenanceWindowSchedule, error) {
+	result := oci_apm_synthetics.MaintenanceWindowSchedule{}
+
+	if timeEnded, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_ended")); ok {
+		tmp, err := time.Parse(time.RFC3339, timeEnded.(string))
+		if err != nil {
+			return result, err
+		}
+		result.TimeEnded = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if timeStarted, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_started")); ok {
+		tmp, err := time.Parse(time.RFC3339, timeStarted.(string))
+		if err != nil {
+			return result, err
+		}
+		result.TimeStarted = &oci_common.SDKTime{Time: tmp}
+	}
+
+	return result, nil
+}
+
+func MaintenanceWindowScheduleToMap(obj *oci_apm_synthetics.MaintenanceWindowSchedule) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.TimeEnded != nil {
+		result["time_ended"] = obj.TimeEnded.Format(time.RFC3339Nano)
+	}
+
+	if obj.TimeStarted != nil {
+		result["time_started"] = obj.TimeStarted.Format(time.RFC3339Nano)
 	}
 
 	return result
@@ -1382,6 +1560,10 @@ func MonitorSummaryToMap(obj oci_apm_synthetics.MonitorSummary) map[string]inter
 
 	if obj.IsRunOnce != nil {
 		result["is_run_once"] = bool(*obj.IsRunOnce)
+	}
+
+	if obj.MaintenanceWindowSchedule != nil {
+		result["maintenance_window_schedule"] = []interface{}{MaintenanceWindowScheduleToMap(obj.MaintenanceWindowSchedule)}
 	}
 
 	result["monitor_type"] = string(obj.MonitorType)

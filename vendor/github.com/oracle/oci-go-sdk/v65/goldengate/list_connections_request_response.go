@@ -159,24 +159,27 @@ type ListConnectionsAssignableDeploymentTypeEnum string
 
 // Set of constants representing the allowable values for ListConnectionsAssignableDeploymentTypeEnum
 const (
-	ListConnectionsAssignableDeploymentTypeOgg            ListConnectionsAssignableDeploymentTypeEnum = "OGG"
-	ListConnectionsAssignableDeploymentTypeDatabaseOracle ListConnectionsAssignableDeploymentTypeEnum = "DATABASE_ORACLE"
-	ListConnectionsAssignableDeploymentTypeBigdata        ListConnectionsAssignableDeploymentTypeEnum = "BIGDATA"
-	ListConnectionsAssignableDeploymentTypeDatabaseMysql  ListConnectionsAssignableDeploymentTypeEnum = "DATABASE_MYSQL"
+	ListConnectionsAssignableDeploymentTypeOgg                ListConnectionsAssignableDeploymentTypeEnum = "OGG"
+	ListConnectionsAssignableDeploymentTypeDatabaseOracle     ListConnectionsAssignableDeploymentTypeEnum = "DATABASE_ORACLE"
+	ListConnectionsAssignableDeploymentTypeBigdata            ListConnectionsAssignableDeploymentTypeEnum = "BIGDATA"
+	ListConnectionsAssignableDeploymentTypeDatabaseMysql      ListConnectionsAssignableDeploymentTypeEnum = "DATABASE_MYSQL"
+	ListConnectionsAssignableDeploymentTypeDatabasePostgresql ListConnectionsAssignableDeploymentTypeEnum = "DATABASE_POSTGRESQL"
 )
 
 var mappingListConnectionsAssignableDeploymentTypeEnum = map[string]ListConnectionsAssignableDeploymentTypeEnum{
-	"OGG":             ListConnectionsAssignableDeploymentTypeOgg,
-	"DATABASE_ORACLE": ListConnectionsAssignableDeploymentTypeDatabaseOracle,
-	"BIGDATA":         ListConnectionsAssignableDeploymentTypeBigdata,
-	"DATABASE_MYSQL":  ListConnectionsAssignableDeploymentTypeDatabaseMysql,
+	"OGG":                 ListConnectionsAssignableDeploymentTypeOgg,
+	"DATABASE_ORACLE":     ListConnectionsAssignableDeploymentTypeDatabaseOracle,
+	"BIGDATA":             ListConnectionsAssignableDeploymentTypeBigdata,
+	"DATABASE_MYSQL":      ListConnectionsAssignableDeploymentTypeDatabaseMysql,
+	"DATABASE_POSTGRESQL": ListConnectionsAssignableDeploymentTypeDatabasePostgresql,
 }
 
 var mappingListConnectionsAssignableDeploymentTypeEnumLowerCase = map[string]ListConnectionsAssignableDeploymentTypeEnum{
-	"ogg":             ListConnectionsAssignableDeploymentTypeOgg,
-	"database_oracle": ListConnectionsAssignableDeploymentTypeDatabaseOracle,
-	"bigdata":         ListConnectionsAssignableDeploymentTypeBigdata,
-	"database_mysql":  ListConnectionsAssignableDeploymentTypeDatabaseMysql,
+	"ogg":                 ListConnectionsAssignableDeploymentTypeOgg,
+	"database_oracle":     ListConnectionsAssignableDeploymentTypeDatabaseOracle,
+	"bigdata":             ListConnectionsAssignableDeploymentTypeBigdata,
+	"database_mysql":      ListConnectionsAssignableDeploymentTypeDatabaseMysql,
+	"database_postgresql": ListConnectionsAssignableDeploymentTypeDatabasePostgresql,
 }
 
 // GetListConnectionsAssignableDeploymentTypeEnumValues Enumerates the set of values for ListConnectionsAssignableDeploymentTypeEnum
@@ -195,6 +198,7 @@ func GetListConnectionsAssignableDeploymentTypeEnumStringValues() []string {
 		"DATABASE_ORACLE",
 		"BIGDATA",
 		"DATABASE_MYSQL",
+		"DATABASE_POSTGRESQL",
 	}
 }
 

@@ -30,7 +30,7 @@ type DbSystemShapeSummary struct {
 	// The family of the shape used for the DB system.
 	ShapeFamily *string `mandatory:"false" json:"shapeFamily"`
 
-	// The shape type for the virtual machine DB system. Shape type is determined by CPU hardware. Valid values are `AMD` and `INTEL`.
+	// The shape type for the virtual machine DB system. Shape type is determined by CPU hardware. Valid values are `AMD` , `INTEL` or `INTEL_FLEX_X9`.
 	ShapeType DbSystemShapeSummaryShapeTypeEnum `mandatory:"false" json:"shapeType,omitempty"`
 
 	// Deprecated. Use `name` instead of `shape`.
@@ -112,18 +112,21 @@ type DbSystemShapeSummaryShapeTypeEnum string
 
 // Set of constants representing the allowable values for DbSystemShapeSummaryShapeTypeEnum
 const (
-	DbSystemShapeSummaryShapeTypeAmd   DbSystemShapeSummaryShapeTypeEnum = "AMD"
-	DbSystemShapeSummaryShapeTypeIntel DbSystemShapeSummaryShapeTypeEnum = "INTEL"
+	DbSystemShapeSummaryShapeTypeAmd         DbSystemShapeSummaryShapeTypeEnum = "AMD"
+	DbSystemShapeSummaryShapeTypeIntel       DbSystemShapeSummaryShapeTypeEnum = "INTEL"
+	DbSystemShapeSummaryShapeTypeIntelFlexX9 DbSystemShapeSummaryShapeTypeEnum = "INTEL_FLEX_X9"
 )
 
 var mappingDbSystemShapeSummaryShapeTypeEnum = map[string]DbSystemShapeSummaryShapeTypeEnum{
-	"AMD":   DbSystemShapeSummaryShapeTypeAmd,
-	"INTEL": DbSystemShapeSummaryShapeTypeIntel,
+	"AMD":           DbSystemShapeSummaryShapeTypeAmd,
+	"INTEL":         DbSystemShapeSummaryShapeTypeIntel,
+	"INTEL_FLEX_X9": DbSystemShapeSummaryShapeTypeIntelFlexX9,
 }
 
 var mappingDbSystemShapeSummaryShapeTypeEnumLowerCase = map[string]DbSystemShapeSummaryShapeTypeEnum{
-	"amd":   DbSystemShapeSummaryShapeTypeAmd,
-	"intel": DbSystemShapeSummaryShapeTypeIntel,
+	"amd":           DbSystemShapeSummaryShapeTypeAmd,
+	"intel":         DbSystemShapeSummaryShapeTypeIntel,
+	"intel_flex_x9": DbSystemShapeSummaryShapeTypeIntelFlexX9,
 }
 
 // GetDbSystemShapeSummaryShapeTypeEnumValues Enumerates the set of values for DbSystemShapeSummaryShapeTypeEnum
@@ -140,6 +143,7 @@ func GetDbSystemShapeSummaryShapeTypeEnumStringValues() []string {
 	return []string{
 		"AMD",
 		"INTEL",
+		"INTEL_FLEX_X9",
 	}
 }
 
