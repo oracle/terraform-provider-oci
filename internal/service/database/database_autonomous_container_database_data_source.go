@@ -196,5 +196,7 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("vault_id", *s.Res.VaultId)
 	}
 
+	s.D.Set("version_preference", s.Res.VersionPreference)
+
 	return nil
 }

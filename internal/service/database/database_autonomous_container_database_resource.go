@@ -132,6 +132,12 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"db_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -395,6 +401,11 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"version_preference": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"availability_domain": {
@@ -410,10 +421,6 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Computed: true,
 			},
 			"infrastructure_type": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"db_version": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -735,6 +742,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 		request.DbUniqueName = &tmp
 	}
 
+	if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
+		tmp := dbVersion.(string)
+		request.DbVersion = &tmp
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -836,9 +848,14 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 		request.VaultId = &tmp
 	}
 
+	if versionPreference, ok := s.D.GetOkExists("version_preference"); ok {
+		request.VersionPreference = oci_database.CreateAutonomousContainerDatabaseDetailsVersionPreferenceEnum(versionPreference.(string))
+	}
+
 	if standbyMaintenanceBufferInDays, ok := s.D.GetOkExists("standby_maintenance_buffer_in_days"); ok {
 		tmp := standbyMaintenanceBufferInDays.(int)
 		request.StandbyMaintenanceBufferInDays = &tmp
+
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -937,6 +954,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Update() error {
 	if standbyMaintenanceBufferInDays, ok := s.D.GetOkExists("standby_maintenance_buffer_in_days"); ok {
 		tmp := standbyMaintenanceBufferInDays.(int)
 		request.StandbyMaintenanceBufferInDays = &tmp
+	}
+
+	if versionPreference, ok := s.D.GetOkExists("version_preference"); ok {
+		request.VersionPreference = oci_database.UpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnum(versionPreference.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -1100,6 +1121,8 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 	if s.Res.VaultId != nil {
 		s.D.Set("vault_id", *s.Res.VaultId)
 	}
+
+	s.D.Set("version_preference", s.Res.VersionPreference)
 
 	return nil
 }
