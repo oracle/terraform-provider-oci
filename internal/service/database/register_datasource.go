@@ -9,6 +9,7 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_database_autonomous_container_database", DatabaseAutonomousContainerDatabaseDataSource())
 	tfresource.RegisterDatasource("oci_database_autonomous_container_database_dataguard_association", DatabaseAutonomousContainerDatabaseDataguardAssociationDataSource())
 	tfresource.RegisterDatasource("oci_database_autonomous_container_database_dataguard_associations", DatabaseAutonomousContainerDatabaseDataguardAssociationsDataSource())
+	tfresource.RegisterDatasource("oci_database_autonomous_container_database_versions", DatabaseAutonomousContainerDatabaseVersionsDataSource())
 	tfresource.RegisterDatasource("oci_database_autonomous_container_databases", DatabaseAutonomousContainerDatabasesDataSource())
 	tfresource.RegisterDatasource("oci_database_autonomous_container_patches", DatabaseAutonomousContainerPatchesDataSource())
 	tfresource.RegisterDatasource("oci_database_autonomous_database", DatabaseAutonomousDatabaseDataSource())
