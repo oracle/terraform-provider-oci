@@ -27,7 +27,7 @@ type ListHostInsightsRequest struct {
 	LifecycleState []LifecycleStateEnum `contributesTo:"query" name:"lifecycleState" omitEmpty:"true" collectionFormat:"multi"`
 
 	// Filter by one or more host types.
-	// Possible values are CLOUD-HOST, EXTERNAL-HOST
+	// Possible values are CLOUD-HOST, EXTERNAL-HOST, COMANAGED-VM-HOST, COMANAGED-BM-HOST, COMANAGED-EXACS-HOST
 	HostType []string `contributesTo:"query" name:"hostType" collectionFormat:"multi"`
 
 	// Filter by one or more platform types.

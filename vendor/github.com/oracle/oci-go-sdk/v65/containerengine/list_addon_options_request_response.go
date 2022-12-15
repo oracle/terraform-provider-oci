@@ -93,8 +93,8 @@ type ListAddonOptionsResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// A list of []AddonoptionSummary instances
-	Items []AddonoptionSummary `presentIn:"body"`
+	// A list of []AddonOptionSummary instances
+	Items []AddonOptionSummary `presentIn:"body"`
 
 	// For list pagination. When this header appears in the response, additional pages of results remain.
 	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).

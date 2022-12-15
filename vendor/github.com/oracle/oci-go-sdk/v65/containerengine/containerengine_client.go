@@ -1330,7 +1330,7 @@ func (client ContainerEngineClient) ListAddonOptions(ctx context.Context, reques
 // listAddonOptions implements the OCIOperation interface (enables retrying operations)
 func (client ContainerEngineClient) listAddonOptions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/addonoptions", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/addonOptions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1341,7 +1341,7 @@ func (client ContainerEngineClient) listAddonOptions(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/AddonoptionSummary/ListAddonOptions"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/AddonOptionSummary/ListAddonOptions"
 		err = common.PostProcessServiceError(err, "ContainerEngine", "ListAddonOptions", apiReferenceLink)
 		return response, err
 	}

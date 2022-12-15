@@ -18,6 +18,7 @@ type SummarizeHostInsightResourceForecastTrendRequest struct {
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// Filter by host resource metric.
+	// Supported values are CPU, MEMORY, LOGICAL_MEMORY, STORAGE and NETWORK.
 	ResourceMetric *string `mandatory:"true" contributesTo:"query" name:"resourceMetric"`
 
 	// Specify time period in ISO 8601 format with respect to current time.
@@ -116,7 +117,7 @@ type SummarizeHostInsightResourceForecastTrendRequest struct {
 	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
 
 	// Filter by one or more host types.
-	// Possible values are CLOUD-HOST, EXTERNAL-HOST
+	// Possible values are CLOUD-HOST, EXTERNAL-HOST, COMANAGED-VM-HOST, COMANAGED-BM-HOST, COMANAGED-EXACS-HOST
 	HostType []string `contributesTo:"query" name:"hostType" collectionFormat:"multi"`
 
 	// Optional OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host (Compute Id)

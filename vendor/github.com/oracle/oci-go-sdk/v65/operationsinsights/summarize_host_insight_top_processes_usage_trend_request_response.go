@@ -60,7 +60,7 @@ type SummarizeHostInsightTopProcessesUsageTrendRequest struct {
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Filter by one or more host types.
-	// Possible values are CLOUD-HOST, EXTERNAL-HOST
+	// Possible values are CLOUD-HOST, EXTERNAL-HOST, COMANAGED-VM-HOST, COMANAGED-BM-HOST, COMANAGED-EXACS-HOST
 	HostType []string `contributesTo:"query" name:"hostType" collectionFormat:"multi"`
 
 	// Optional OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host (Compute Id)
@@ -68,6 +68,9 @@ type SummarizeHostInsightTopProcessesUsageTrendRequest struct {
 
 	// Unique identifier for a process.
 	ProcessHash *string `mandatory:"false" contributesTo:"query" name:"processHash"`
+
+	// Choose the type of statistic metric data to be used for forecasting.
+	Statistic SummarizeHostInsightTopProcessesUsageTrendStatisticEnum `mandatory:"false" contributesTo:"query" name:"statistic" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -105,6 +108,9 @@ func (request SummarizeHostInsightTopProcessesUsageTrendRequest) RetryPolicy() *
 // Not recommended for calling this function directly
 func (request SummarizeHostInsightTopProcessesUsageTrendRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingSummarizeHostInsightTopProcessesUsageTrendStatisticEnum(string(request.Statistic)); !ok && request.Statistic != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Statistic: %s. Supported values are: %s.", request.Statistic, strings.Join(GetSummarizeHostInsightTopProcessesUsageTrendStatisticEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -137,4 +143,46 @@ func (response SummarizeHostInsightTopProcessesUsageTrendResponse) String() stri
 // HTTPResponse implements the OCIResponse interface
 func (response SummarizeHostInsightTopProcessesUsageTrendResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// SummarizeHostInsightTopProcessesUsageTrendStatisticEnum Enum with underlying type: string
+type SummarizeHostInsightTopProcessesUsageTrendStatisticEnum string
+
+// Set of constants representing the allowable values for SummarizeHostInsightTopProcessesUsageTrendStatisticEnum
+const (
+	SummarizeHostInsightTopProcessesUsageTrendStatisticAvg SummarizeHostInsightTopProcessesUsageTrendStatisticEnum = "AVG"
+	SummarizeHostInsightTopProcessesUsageTrendStatisticMax SummarizeHostInsightTopProcessesUsageTrendStatisticEnum = "MAX"
+)
+
+var mappingSummarizeHostInsightTopProcessesUsageTrendStatisticEnum = map[string]SummarizeHostInsightTopProcessesUsageTrendStatisticEnum{
+	"AVG": SummarizeHostInsightTopProcessesUsageTrendStatisticAvg,
+	"MAX": SummarizeHostInsightTopProcessesUsageTrendStatisticMax,
+}
+
+var mappingSummarizeHostInsightTopProcessesUsageTrendStatisticEnumLowerCase = map[string]SummarizeHostInsightTopProcessesUsageTrendStatisticEnum{
+	"avg": SummarizeHostInsightTopProcessesUsageTrendStatisticAvg,
+	"max": SummarizeHostInsightTopProcessesUsageTrendStatisticMax,
+}
+
+// GetSummarizeHostInsightTopProcessesUsageTrendStatisticEnumValues Enumerates the set of values for SummarizeHostInsightTopProcessesUsageTrendStatisticEnum
+func GetSummarizeHostInsightTopProcessesUsageTrendStatisticEnumValues() []SummarizeHostInsightTopProcessesUsageTrendStatisticEnum {
+	values := make([]SummarizeHostInsightTopProcessesUsageTrendStatisticEnum, 0)
+	for _, v := range mappingSummarizeHostInsightTopProcessesUsageTrendStatisticEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetSummarizeHostInsightTopProcessesUsageTrendStatisticEnumStringValues Enumerates the set of values in String for SummarizeHostInsightTopProcessesUsageTrendStatisticEnum
+func GetSummarizeHostInsightTopProcessesUsageTrendStatisticEnumStringValues() []string {
+	return []string{
+		"AVG",
+		"MAX",
+	}
+}
+
+// GetMappingSummarizeHostInsightTopProcessesUsageTrendStatisticEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingSummarizeHostInsightTopProcessesUsageTrendStatisticEnum(val string) (SummarizeHostInsightTopProcessesUsageTrendStatisticEnum, bool) {
+	enum, ok := mappingSummarizeHostInsightTopProcessesUsageTrendStatisticEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

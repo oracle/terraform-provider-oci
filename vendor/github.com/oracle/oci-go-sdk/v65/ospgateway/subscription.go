@@ -61,6 +61,9 @@ type Subscription struct {
 	// This field is used to describe the Upgrade State in case of error (E.g. Upgrade failure caused by interfacing Tax details- TaxError)
 	UpgradeStateDetails SubscriptionUpgradeStateDetailsEnum `mandatory:"false" json:"upgradeStateDetails,omitempty"`
 
+	// Account type.
+	AccountType SubscriptionAccountTypeEnum `mandatory:"false" json:"accountType,omitempty"`
+
 	TaxInfo *TaxInfo `mandatory:"false" json:"taxInfo"`
 
 	// Payment option list of a subscription.
@@ -72,6 +75,9 @@ type Subscription struct {
 
 	// Date of upgrade/conversion when planType changed from FREE_TIER to PAYG
 	TimePlanUpgrade *common.SDKTime `mandatory:"false" json:"timePlanUpgrade"`
+
+	// Date of upgrade/conversion when account type changed from PERSONAL to CORPORATE
+	TimePersonalToCorporateConv *common.SDKTime `mandatory:"false" json:"timePersonalToCorporateConv"`
 }
 
 func (m Subscription) String() string {
@@ -93,6 +99,9 @@ func (m Subscription) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingSubscriptionUpgradeStateDetailsEnum(string(m.UpgradeStateDetails)); !ok && m.UpgradeStateDetails != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpgradeStateDetails: %s. Supported values are: %s.", m.UpgradeStateDetails, strings.Join(GetSubscriptionUpgradeStateDetailsEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingSubscriptionAccountTypeEnum(string(m.AccountType)); !ok && m.AccountType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccountType: %s. Supported values are: %s.", m.AccountType, strings.Join(GetSubscriptionAccountTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -102,25 +111,27 @@ func (m Subscription) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *Subscription) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Id                     *string                             `json:"id"`
-		PlanType               SubscriptionPlanTypeEnum            `json:"planType"`
-		TimeStart              *common.SDKTime                     `json:"timeStart"`
-		ShipToCustAcctSiteId   *string                             `json:"shipToCustAcctSiteId"`
-		ShipToCustAcctRoleId   *string                             `json:"shipToCustAcctRoleId"`
-		BillToCustAccountId    *string                             `json:"billToCustAccountId"`
-		IsIntentToPay          *bool                               `json:"isIntentToPay"`
-		CurrencyCode           *string                             `json:"currencyCode"`
-		GsiOrgCode             *string                             `json:"gsiOrgCode"`
-		LanguageCode           *string                             `json:"languageCode"`
-		OrganizationId         *string                             `json:"organizationId"`
-		UpgradeState           SubscriptionUpgradeStateEnum        `json:"upgradeState"`
-		UpgradeStateDetails    SubscriptionUpgradeStateDetailsEnum `json:"upgradeStateDetails"`
-		TaxInfo                *TaxInfo                            `json:"taxInfo"`
-		PaymentOptions         []paymentoption                     `json:"paymentOptions"`
-		PaymentGateway         *PaymentGateway                     `json:"paymentGateway"`
-		BillingAddress         *Address                            `json:"billingAddress"`
-		TimePlanUpgrade        *common.SDKTime                     `json:"timePlanUpgrade"`
-		SubscriptionPlanNumber *string                             `json:"subscriptionPlanNumber"`
+		Id                          *string                             `json:"id"`
+		PlanType                    SubscriptionPlanTypeEnum            `json:"planType"`
+		TimeStart                   *common.SDKTime                     `json:"timeStart"`
+		ShipToCustAcctSiteId        *string                             `json:"shipToCustAcctSiteId"`
+		ShipToCustAcctRoleId        *string                             `json:"shipToCustAcctRoleId"`
+		BillToCustAccountId         *string                             `json:"billToCustAccountId"`
+		IsIntentToPay               *bool                               `json:"isIntentToPay"`
+		CurrencyCode                *string                             `json:"currencyCode"`
+		GsiOrgCode                  *string                             `json:"gsiOrgCode"`
+		LanguageCode                *string                             `json:"languageCode"`
+		OrganizationId              *string                             `json:"organizationId"`
+		UpgradeState                SubscriptionUpgradeStateEnum        `json:"upgradeState"`
+		UpgradeStateDetails         SubscriptionUpgradeStateDetailsEnum `json:"upgradeStateDetails"`
+		AccountType                 SubscriptionAccountTypeEnum         `json:"accountType"`
+		TaxInfo                     *TaxInfo                            `json:"taxInfo"`
+		PaymentOptions              []paymentoption                     `json:"paymentOptions"`
+		PaymentGateway              *PaymentGateway                     `json:"paymentGateway"`
+		BillingAddress              *Address                            `json:"billingAddress"`
+		TimePlanUpgrade             *common.SDKTime                     `json:"timePlanUpgrade"`
+		TimePersonalToCorporateConv *common.SDKTime                     `json:"timePersonalToCorporateConv"`
+		SubscriptionPlanNumber      *string                             `json:"subscriptionPlanNumber"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -154,6 +165,8 @@ func (m *Subscription) UnmarshalJSON(data []byte) (e error) {
 
 	m.UpgradeStateDetails = model.UpgradeStateDetails
 
+	m.AccountType = model.AccountType
+
 	m.TaxInfo = model.TaxInfo
 
 	m.PaymentOptions = make([]PaymentOption, len(model.PaymentOptions))
@@ -174,6 +187,8 @@ func (m *Subscription) UnmarshalJSON(data []byte) (e error) {
 	m.BillingAddress = model.BillingAddress
 
 	m.TimePlanUpgrade = model.TimePlanUpgrade
+
+	m.TimePersonalToCorporateConv = model.TimePersonalToCorporateConv
 
 	m.SubscriptionPlanNumber = model.SubscriptionPlanNumber
 
@@ -311,5 +326,51 @@ func GetSubscriptionUpgradeStateDetailsEnumStringValues() []string {
 // GetMappingSubscriptionUpgradeStateDetailsEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingSubscriptionUpgradeStateDetailsEnum(val string) (SubscriptionUpgradeStateDetailsEnum, bool) {
 	enum, ok := mappingSubscriptionUpgradeStateDetailsEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// SubscriptionAccountTypeEnum Enum with underlying type: string
+type SubscriptionAccountTypeEnum string
+
+// Set of constants representing the allowable values for SubscriptionAccountTypeEnum
+const (
+	SubscriptionAccountTypePersonal           SubscriptionAccountTypeEnum = "PERSONAL"
+	SubscriptionAccountTypeCorporate          SubscriptionAccountTypeEnum = "CORPORATE"
+	SubscriptionAccountTypeCorporateSubmitted SubscriptionAccountTypeEnum = "CORPORATE_SUBMITTED"
+)
+
+var mappingSubscriptionAccountTypeEnum = map[string]SubscriptionAccountTypeEnum{
+	"PERSONAL":            SubscriptionAccountTypePersonal,
+	"CORPORATE":           SubscriptionAccountTypeCorporate,
+	"CORPORATE_SUBMITTED": SubscriptionAccountTypeCorporateSubmitted,
+}
+
+var mappingSubscriptionAccountTypeEnumLowerCase = map[string]SubscriptionAccountTypeEnum{
+	"personal":            SubscriptionAccountTypePersonal,
+	"corporate":           SubscriptionAccountTypeCorporate,
+	"corporate_submitted": SubscriptionAccountTypeCorporateSubmitted,
+}
+
+// GetSubscriptionAccountTypeEnumValues Enumerates the set of values for SubscriptionAccountTypeEnum
+func GetSubscriptionAccountTypeEnumValues() []SubscriptionAccountTypeEnum {
+	values := make([]SubscriptionAccountTypeEnum, 0)
+	for _, v := range mappingSubscriptionAccountTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetSubscriptionAccountTypeEnumStringValues Enumerates the set of values in String for SubscriptionAccountTypeEnum
+func GetSubscriptionAccountTypeEnumStringValues() []string {
+	return []string{
+		"PERSONAL",
+		"CORPORATE",
+		"CORPORATE_SUBMITTED",
+	}
+}
+
+// GetMappingSubscriptionAccountTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingSubscriptionAccountTypeEnum(val string) (SubscriptionAccountTypeEnum, bool) {
+	enum, ok := mappingSubscriptionAccountTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

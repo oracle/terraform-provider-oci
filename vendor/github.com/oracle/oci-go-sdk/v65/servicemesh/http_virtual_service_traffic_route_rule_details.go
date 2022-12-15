@@ -29,10 +29,11 @@ type HttpVirtualServiceTrafficRouteRuleDetails struct {
 	// or one of the various application/grpc+ values.
 	IsGrpc *bool `mandatory:"false" json:"isGrpc"`
 
-	// It is the maximum duration in milliseconds for the target service to respond to a request.
-	// If provided, the timeout value overrides the default timeout of 15 seconds. The value 0 (zero) indicates that the timeout is disabled.
-	// For streaming responses from the target service, it is suggested to either keep the timeout disabled or set a sufficiently high value.
-	TimeoutInMs *int64 `mandatory:"false" json:"timeoutInMs"`
+	// The maximum duration in milliseconds for the target service to respond to a request.
+	// If provided, the timeout value overrides the default timeout of 15 seconds for the HTTP based route rules, and disabled (no timeout) when 'isGrpc' is true.
+	// The value 0 (zero) indicates that the timeout is disabled.
+	// For streaming responses from the target service, consider either keeping the timeout disabled or set a sufficiently high value.
+	RequestTimeoutInMs *int64 `mandatory:"false" json:"requestTimeoutInMs"`
 
 	// Match type for the route
 	PathType HttpVirtualServiceTrafficRouteRuleDetailsPathTypeEnum `mandatory:"false" json:"pathType,omitempty"`

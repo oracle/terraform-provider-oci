@@ -73,6 +73,8 @@ type Migration struct {
 	// Database objects to include from migration.
 	IncludeObjects []DatabaseObject `mandatory:"false" json:"includeObjects"`
 
+	GoldenGateServiceDetails *GoldenGateServiceDetails `mandatory:"false" json:"goldenGateServiceDetails"`
+
 	GoldenGateDetails *GoldenGateDetails `mandatory:"false" json:"goldenGateDetails"`
 
 	VaultDetails *VaultDetails `mandatory:"false" json:"vaultDetails"`

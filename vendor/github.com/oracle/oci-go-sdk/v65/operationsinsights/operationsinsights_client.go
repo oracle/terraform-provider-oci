@@ -148,6 +148,65 @@ func (client OperationsInsightsClient) addExadataInsightMembers(ctx context.Cont
 	return response, err
 }
 
+// ChangeAutonomousDatabaseInsightAdvancedFeatures Update connection detail for advanced features of Autonomous Database in Operations Insights.
+// A default retry strategy applies to this operation ChangeAutonomousDatabaseInsightAdvancedFeatures()
+func (client OperationsInsightsClient) ChangeAutonomousDatabaseInsightAdvancedFeatures(ctx context.Context, request ChangeAutonomousDatabaseInsightAdvancedFeaturesRequest) (response ChangeAutonomousDatabaseInsightAdvancedFeaturesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeAutonomousDatabaseInsightAdvancedFeatures, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeAutonomousDatabaseInsightAdvancedFeaturesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeAutonomousDatabaseInsightAdvancedFeaturesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeAutonomousDatabaseInsightAdvancedFeaturesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeAutonomousDatabaseInsightAdvancedFeaturesResponse")
+	}
+	return
+}
+
+// changeAutonomousDatabaseInsightAdvancedFeatures implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) changeAutonomousDatabaseInsightAdvancedFeatures(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/{databaseInsightId}/actions/changeAutonomousDatabaseInsightAdvancedFeatures", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeAutonomousDatabaseInsightAdvancedFeaturesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/ChangeAutonomousDatabaseInsightAdvancedFeatures"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ChangeAutonomousDatabaseInsightAdvancedFeatures", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeDatabaseInsightCompartment Moves a DatabaseInsight resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
 // A default retry strategy applies to this operation ChangeDatabaseInsightCompartment()
 func (client OperationsInsightsClient) ChangeDatabaseInsightCompartment(ctx context.Context, request ChangeDatabaseInsightCompartmentRequest) (response ChangeDatabaseInsightCompartmentResponse, err error) {
@@ -1581,6 +1640,65 @@ func (client OperationsInsightsClient) deleteOpsiConfiguration(ctx context.Conte
 	return response, err
 }
 
+// DisableAutonomousDatabaseInsightAdvancedFeatures Disable advanced features for an Autonomous Database in Operations Insights. The connection detail and advanced features will be removed.
+// A default retry strategy applies to this operation DisableAutonomousDatabaseInsightAdvancedFeatures()
+func (client OperationsInsightsClient) DisableAutonomousDatabaseInsightAdvancedFeatures(ctx context.Context, request DisableAutonomousDatabaseInsightAdvancedFeaturesRequest) (response DisableAutonomousDatabaseInsightAdvancedFeaturesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.disableAutonomousDatabaseInsightAdvancedFeatures, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableAutonomousDatabaseInsightAdvancedFeaturesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableAutonomousDatabaseInsightAdvancedFeaturesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableAutonomousDatabaseInsightAdvancedFeaturesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableAutonomousDatabaseInsightAdvancedFeaturesResponse")
+	}
+	return
+}
+
+// disableAutonomousDatabaseInsightAdvancedFeatures implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) disableAutonomousDatabaseInsightAdvancedFeatures(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/{databaseInsightId}/actions/disableAutonomousDatabaseInsightAdvancedFeatures", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableAutonomousDatabaseInsightAdvancedFeaturesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/DisableAutonomousDatabaseInsightAdvancedFeatures"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "DisableAutonomousDatabaseInsightAdvancedFeatures", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DisableDatabaseInsight Disables a database in Operations Insights. Database metric collection and analysis will be stopped.
 // A default retry strategy applies to this operation DisableDatabaseInsight()
 func (client OperationsInsightsClient) DisableDatabaseInsight(ctx context.Context, request DisableDatabaseInsightRequest) (response DisableDatabaseInsightResponse, err error) {
@@ -1809,6 +1927,65 @@ func (client OperationsInsightsClient) downloadOperationsInsightsWarehouseWallet
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsWarehouses/DownloadOperationsInsightsWarehouseWallet"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "DownloadOperationsInsightsWarehouseWallet", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EnableAutonomousDatabaseInsightAdvancedFeatures Enables advanced features for an Autonomous Database in Operations Insights. A direct connection will be available for further collection.
+// A default retry strategy applies to this operation EnableAutonomousDatabaseInsightAdvancedFeatures()
+func (client OperationsInsightsClient) EnableAutonomousDatabaseInsightAdvancedFeatures(ctx context.Context, request EnableAutonomousDatabaseInsightAdvancedFeaturesRequest) (response EnableAutonomousDatabaseInsightAdvancedFeaturesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableAutonomousDatabaseInsightAdvancedFeatures, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableAutonomousDatabaseInsightAdvancedFeaturesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableAutonomousDatabaseInsightAdvancedFeaturesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableAutonomousDatabaseInsightAdvancedFeaturesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableAutonomousDatabaseInsightAdvancedFeaturesResponse")
+	}
+	return
+}
+
+// enableAutonomousDatabaseInsightAdvancedFeatures implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) enableAutonomousDatabaseInsightAdvancedFeatures(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/{databaseInsightId}/actions/enableAutonomousDatabaseInsightAdvancedFeatures", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableAutonomousDatabaseInsightAdvancedFeaturesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/EnableAutonomousDatabaseInsightAdvancedFeatures"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "EnableAutonomousDatabaseInsightAdvancedFeatures", apiReferenceLink)
 		return response, err
 	}
 
@@ -2753,6 +2930,66 @@ func (client OperationsInsightsClient) getWorkRequest(ctx context.Context, reque
 	return response, err
 }
 
+// IngestAddmReports This endpoint takes in a JSON payload, persists it in Operation Insights ingest pipeline.
+// Either databaseId or id must be specified.
+// A default retry strategy applies to this operation IngestAddmReports()
+func (client OperationsInsightsClient) IngestAddmReports(ctx context.Context, request IngestAddmReportsRequest) (response IngestAddmReportsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.ingestAddmReports, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = IngestAddmReportsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = IngestAddmReportsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(IngestAddmReportsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into IngestAddmReportsResponse")
+	}
+	return
+}
+
+// ingestAddmReports implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) ingestAddmReports(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/actions/ingestAddmReports", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response IngestAddmReportsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/IngestAddmReports"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "IngestAddmReports", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // IngestDatabaseConfiguration This is a generic ingest endpoint for all database configuration metrics.
 // A default retry strategy applies to this operation IngestDatabaseConfiguration()
 func (client OperationsInsightsClient) IngestDatabaseConfiguration(ctx context.Context, request IngestDatabaseConfigurationRequest) (response IngestDatabaseConfigurationResponse, err error) {
@@ -3164,6 +3401,330 @@ func (client OperationsInsightsClient) ingestSqlText(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/IngestSqlText"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "IngestSqlText", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAddmDbFindingCategories Gets list of ADDM finding categories.
+// A default retry strategy applies to this operation ListAddmDbFindingCategories()
+func (client OperationsInsightsClient) ListAddmDbFindingCategories(ctx context.Context, request ListAddmDbFindingCategoriesRequest) (response ListAddmDbFindingCategoriesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAddmDbFindingCategories, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAddmDbFindingCategoriesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAddmDbFindingCategoriesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAddmDbFindingCategoriesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAddmDbFindingCategoriesResponse")
+	}
+	return
+}
+
+// listAddmDbFindingCategories implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) listAddmDbFindingCategories(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/addmDbFindingCategories", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAddmDbFindingCategoriesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/ListAddmDbFindingCategories"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListAddmDbFindingCategories", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAddmDbFindingsTimeSeries Get the ADDM findings time series for the specified databases for a given time period.
+// A default retry strategy applies to this operation ListAddmDbFindingsTimeSeries()
+func (client OperationsInsightsClient) ListAddmDbFindingsTimeSeries(ctx context.Context, request ListAddmDbFindingsTimeSeriesRequest) (response ListAddmDbFindingsTimeSeriesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAddmDbFindingsTimeSeries, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAddmDbFindingsTimeSeriesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAddmDbFindingsTimeSeriesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAddmDbFindingsTimeSeriesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAddmDbFindingsTimeSeriesResponse")
+	}
+	return
+}
+
+// listAddmDbFindingsTimeSeries implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) listAddmDbFindingsTimeSeries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/addmDbFindingsTimeSeries", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAddmDbFindingsTimeSeriesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/ListAddmDbFindingsTimeSeries"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListAddmDbFindingsTimeSeries", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAddmDbParameterCategories Gets list of ADDM database parameter categories for the specified databases.
+// A default retry strategy applies to this operation ListAddmDbParameterCategories()
+func (client OperationsInsightsClient) ListAddmDbParameterCategories(ctx context.Context, request ListAddmDbParameterCategoriesRequest) (response ListAddmDbParameterCategoriesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAddmDbParameterCategories, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAddmDbParameterCategoriesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAddmDbParameterCategoriesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAddmDbParameterCategoriesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAddmDbParameterCategoriesResponse")
+	}
+	return
+}
+
+// listAddmDbParameterCategories implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) listAddmDbParameterCategories(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/addmDbParameterCategories", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAddmDbParameterCategoriesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/ListAddmDbParameterCategories"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListAddmDbParameterCategories", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAddmDbRecommendationCategories Gets list of ADDM recommendation categories for the specified databases.
+// A default retry strategy applies to this operation ListAddmDbRecommendationCategories()
+func (client OperationsInsightsClient) ListAddmDbRecommendationCategories(ctx context.Context, request ListAddmDbRecommendationCategoriesRequest) (response ListAddmDbRecommendationCategoriesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAddmDbRecommendationCategories, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAddmDbRecommendationCategoriesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAddmDbRecommendationCategoriesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAddmDbRecommendationCategoriesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAddmDbRecommendationCategoriesResponse")
+	}
+	return
+}
+
+// listAddmDbRecommendationCategories implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) listAddmDbRecommendationCategories(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/addmDbRecommendationCategories", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAddmDbRecommendationCategoriesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/ListAddmDbRecommendationCategories"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListAddmDbRecommendationCategories", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAddmDbRecommendationsTimeSeries Gets time series data for ADDM recommendations for the specified databases.
+// A default retry strategy applies to this operation ListAddmDbRecommendationsTimeSeries()
+func (client OperationsInsightsClient) ListAddmDbRecommendationsTimeSeries(ctx context.Context, request ListAddmDbRecommendationsTimeSeriesRequest) (response ListAddmDbRecommendationsTimeSeriesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAddmDbRecommendationsTimeSeries, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAddmDbRecommendationsTimeSeriesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAddmDbRecommendationsTimeSeriesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAddmDbRecommendationsTimeSeriesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAddmDbRecommendationsTimeSeriesResponse")
+	}
+	return
+}
+
+// listAddmDbRecommendationsTimeSeries implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) listAddmDbRecommendationsTimeSeries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/addmDbRecommendationsTimeSeries", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAddmDbRecommendationsTimeSeriesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/ListAddmDbRecommendationsTimeSeries"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListAddmDbRecommendationsTimeSeries", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAddmDbs Gets a list of ADDM database information
+// A default retry strategy applies to this operation ListAddmDbs()
+func (client OperationsInsightsClient) ListAddmDbs(ctx context.Context, request ListAddmDbsRequest) (response ListAddmDbsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAddmDbs, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAddmDbsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAddmDbsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAddmDbsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAddmDbsResponse")
+	}
+	return
+}
+
+// listAddmDbs implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) listAddmDbs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/addmDbs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAddmDbsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/ListAddmDbs"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListAddmDbs", apiReferenceLink)
 		return response, err
 	}
 
@@ -4704,6 +5265,335 @@ func (client OperationsInsightsClient) rotateOperationsInsightsWarehouseWallet(c
 	return response, err
 }
 
+// SummarizeAddmDbFindings Summarizes ADDM findings for the specified databases.
+// A default retry strategy applies to this operation SummarizeAddmDbFindings()
+func (client OperationsInsightsClient) SummarizeAddmDbFindings(ctx context.Context, request SummarizeAddmDbFindingsRequest) (response SummarizeAddmDbFindingsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeAddmDbFindings, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeAddmDbFindingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeAddmDbFindingsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeAddmDbFindingsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeAddmDbFindingsResponse")
+	}
+	return
+}
+
+// summarizeAddmDbFindings implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) summarizeAddmDbFindings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/addmDbFindings", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeAddmDbFindingsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SummarizeAddmDbFindings"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeAddmDbFindings", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizeAddmDbParameterChanges Summarizes the AWR database parameter change history for the specified parameter. There will
+// be one element for each time that parameter changed during the specified time period.
+// This API is limited to only one parameter per request.
+// A default retry strategy applies to this operation SummarizeAddmDbParameterChanges()
+func (client OperationsInsightsClient) SummarizeAddmDbParameterChanges(ctx context.Context, request SummarizeAddmDbParameterChangesRequest) (response SummarizeAddmDbParameterChangesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeAddmDbParameterChanges, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeAddmDbParameterChangesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeAddmDbParameterChangesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeAddmDbParameterChangesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeAddmDbParameterChangesResponse")
+	}
+	return
+}
+
+// summarizeAddmDbParameterChanges implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) summarizeAddmDbParameterChanges(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/addmDbParameterChanges", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeAddmDbParameterChangesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SummarizeAddmDbParameterChanges"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeAddmDbParameterChanges", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizeAddmDbParameters Summarizes database parameter history information for the specified databases. Return a list of parameters
+// with information on whether the parameter values were changed or not within the specified
+// time period. The response does not include the individual parameter changes within the time
+// period.
+// A default retry strategy applies to this operation SummarizeAddmDbParameters()
+func (client OperationsInsightsClient) SummarizeAddmDbParameters(ctx context.Context, request SummarizeAddmDbParametersRequest) (response SummarizeAddmDbParametersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeAddmDbParameters, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeAddmDbParametersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeAddmDbParametersResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeAddmDbParametersResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeAddmDbParametersResponse")
+	}
+	return
+}
+
+// summarizeAddmDbParameters implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) summarizeAddmDbParameters(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/addmDbParameters", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeAddmDbParametersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SummarizeAddmDbParameters"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeAddmDbParameters", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizeAddmDbRecommendations Summarizes ADDM recommendations for the specified databases.
+// A default retry strategy applies to this operation SummarizeAddmDbRecommendations()
+func (client OperationsInsightsClient) SummarizeAddmDbRecommendations(ctx context.Context, request SummarizeAddmDbRecommendationsRequest) (response SummarizeAddmDbRecommendationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeAddmDbRecommendations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeAddmDbRecommendationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeAddmDbRecommendationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeAddmDbRecommendationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeAddmDbRecommendationsResponse")
+	}
+	return
+}
+
+// summarizeAddmDbRecommendations implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) summarizeAddmDbRecommendations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/addmDbRecommendations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeAddmDbRecommendationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SummarizeAddmDbRecommendations"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeAddmDbRecommendations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizeAddmDbSchemaObjects Summarizes Schema objects for the specified databases for the specified objectIdentifiers
+// A default retry strategy applies to this operation SummarizeAddmDbSchemaObjects()
+func (client OperationsInsightsClient) SummarizeAddmDbSchemaObjects(ctx context.Context, request SummarizeAddmDbSchemaObjectsRequest) (response SummarizeAddmDbSchemaObjectsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeAddmDbSchemaObjects, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeAddmDbSchemaObjectsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeAddmDbSchemaObjectsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeAddmDbSchemaObjectsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeAddmDbSchemaObjectsResponse")
+	}
+	return
+}
+
+// summarizeAddmDbSchemaObjects implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) summarizeAddmDbSchemaObjects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/addmDbSchemaObjects", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeAddmDbSchemaObjectsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SummarizeAddmDbSchemaObjects"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeAddmDbSchemaObjects", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizeAddmDbSqlStatements Summarizes SQL Statements for the specified databases for the specified sqlIdentifiers
+// A default retry strategy applies to this operation SummarizeAddmDbSqlStatements()
+func (client OperationsInsightsClient) SummarizeAddmDbSqlStatements(ctx context.Context, request SummarizeAddmDbSqlStatementsRequest) (response SummarizeAddmDbSqlStatementsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeAddmDbSqlStatements, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeAddmDbSqlStatementsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeAddmDbSqlStatementsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeAddmDbSqlStatementsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeAddmDbSqlStatementsResponse")
+	}
+	return
+}
+
+// summarizeAddmDbSqlStatements implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) summarizeAddmDbSqlStatements(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/addmDbSqlStatements", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeAddmDbSqlStatementsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SummarizeAddmDbSqlStatements"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeAddmDbSqlStatements", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // SummarizeAwrDatabaseCpuUsages Summarizes the AWR CPU resource limits and metrics for the specified database in AWR.
 // Based on the time range provided as part of query param, the metrics points will be returned in the response as below.
 // - if time range is <=7 days then the metrics points will be for every MINUTES
@@ -6226,6 +7116,60 @@ func (client OperationsInsightsClient) summarizeExadataMembers(ctx context.Conte
 	return response, err
 }
 
+// SummarizeHostInsightNetworkUsageTrend Returns response with usage time series data with breakdown by network interface for the time period specified.
+// A default retry strategy applies to this operation SummarizeHostInsightNetworkUsageTrend()
+func (client OperationsInsightsClient) SummarizeHostInsightNetworkUsageTrend(ctx context.Context, request SummarizeHostInsightNetworkUsageTrendRequest) (response SummarizeHostInsightNetworkUsageTrendResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeHostInsightNetworkUsageTrend, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeHostInsightNetworkUsageTrendResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeHostInsightNetworkUsageTrendResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeHostInsightNetworkUsageTrendResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeHostInsightNetworkUsageTrendResponse")
+	}
+	return
+}
+
+// summarizeHostInsightNetworkUsageTrend implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) summarizeHostInsightNetworkUsageTrend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostInsights/networkUsageTrend", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeHostInsightNetworkUsageTrendResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/SummarizeHostInsightNetworkUsageTrend"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeHostInsightNetworkUsageTrend", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // SummarizeHostInsightResourceCapacityTrend Returns response with time series data (endTimestamp, capacity) for the time period specified.
 // The maximum time range for analysis is 2 years, hence this is intentionally not paginated.
 // If compartmentIdInSubtree is specified, aggregates resources in a compartment and in all sub-compartments.
@@ -6553,6 +7497,60 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceUtilizationIn
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/SummarizeHostInsightResourceUtilizationInsight"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeHostInsightResourceUtilizationInsight", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizeHostInsightStorageUsageTrend Returns response with usage time series data with breakdown by filesystem for the time period specified.
+// A default retry strategy applies to this operation SummarizeHostInsightStorageUsageTrend()
+func (client OperationsInsightsClient) SummarizeHostInsightStorageUsageTrend(ctx context.Context, request SummarizeHostInsightStorageUsageTrendRequest) (response SummarizeHostInsightStorageUsageTrendResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeHostInsightStorageUsageTrend, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeHostInsightStorageUsageTrendResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeHostInsightStorageUsageTrendResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeHostInsightStorageUsageTrendResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeHostInsightStorageUsageTrendResponse")
+	}
+	return
+}
+
+// summarizeHostInsightStorageUsageTrend implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) summarizeHostInsightStorageUsageTrend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostInsights/storageUsageTrend", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeHostInsightStorageUsageTrendResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/SummarizeHostInsightStorageUsageTrend"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeHostInsightStorageUsageTrend", apiReferenceLink)
 		return response, err
 	}
 

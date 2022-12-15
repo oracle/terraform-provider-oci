@@ -27,11 +27,29 @@ type VerifyAddressDetails struct {
 	// Address line 2.
 	Line2 *string `mandatory:"false" json:"line2"`
 
+	// Address line 3.
+	Line3 *string `mandatory:"false" json:"line3"`
+
+	// Address line 4.
+	Line4 *string `mandatory:"false" json:"line4"`
+
+	// Street name of the address.
+	StreetName *string `mandatory:"false" json:"streetName"`
+
+	// Street number of the address.
+	StreetNumber *string `mandatory:"false" json:"streetNumber"`
+
 	// Name of the city.
 	City *string `mandatory:"false" json:"city"`
 
+	// County of the address.
+	County *string `mandatory:"false" json:"county"`
+
 	// Country of the address.
 	Country *string `mandatory:"false" json:"country"`
+
+	// Province of the address.
+	Province *string `mandatory:"false" json:"province"`
 
 	// Post code of the address.
 	PostalCode *string `mandatory:"false" json:"postalCode"`
@@ -48,8 +66,35 @@ type VerifyAddressDetails struct {
 	// First name of the contact person.
 	FirstName *string `mandatory:"false" json:"firstName"`
 
+	// Middle name of the contact person.
+	MiddleName *string `mandatory:"false" json:"middleName"`
+
 	// Last name of the contact person.
 	LastName *string `mandatory:"false" json:"lastName"`
+
+	// Phone country code of the contact person.
+	PhoneCountryCode *string `mandatory:"false" json:"phoneCountryCode"`
+
+	// Phone number of the contact person.
+	PhoneNumber *string `mandatory:"false" json:"phoneNumber"`
+
+	// Job title of the contact person.
+	JobTitle *string `mandatory:"false" json:"jobTitle"`
+
+	// Department name of the customer company.
+	DepartmentName *string `mandatory:"false" json:"departmentName"`
+
+	// Internal number of the customer company.
+	InternalNumber *string `mandatory:"false" json:"internalNumber"`
+
+	// Contributor class of the customer company.
+	ContributorClass *string `mandatory:"false" json:"contributorClass"`
+
+	// State Inscription.
+	StateInscription *string `mandatory:"false" json:"stateInscription"`
+
+	// Municipal Inscription.
+	MunicipalInscription *string `mandatory:"false" json:"municipalInscription"`
 }
 
 func (m VerifyAddressDetails) String() string {

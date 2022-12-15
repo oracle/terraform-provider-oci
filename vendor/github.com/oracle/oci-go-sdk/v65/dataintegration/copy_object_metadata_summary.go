@@ -36,6 +36,9 @@ type CopyObjectMetadataSummary struct {
 	// Object version.
 	ObjectVersion *string `mandatory:"false" json:"objectVersion"`
 
+	// Aggregator key
+	AggregatorKey *string `mandatory:"false" json:"aggregatorKey"`
+
 	// Object name path.
 	NamePath *string `mandatory:"false" json:"namePath"`
 

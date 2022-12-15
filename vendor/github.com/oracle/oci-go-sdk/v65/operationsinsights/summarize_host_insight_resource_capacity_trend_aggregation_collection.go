@@ -69,18 +69,24 @@ const (
 	SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricCpu           SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum = "CPU"
 	SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricMemory        SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum = "MEMORY"
 	SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricLogicalMemory SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum = "LOGICAL_MEMORY"
+	SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricStorage       SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum = "STORAGE"
+	SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricNetwork       SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum = "NETWORK"
 )
 
 var mappingSummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum = map[string]SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum{
 	"CPU":            SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricCpu,
 	"MEMORY":         SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricMemory,
 	"LOGICAL_MEMORY": SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricLogicalMemory,
+	"STORAGE":        SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricStorage,
+	"NETWORK":        SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricNetwork,
 }
 
 var mappingSummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnumLowerCase = map[string]SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum{
 	"cpu":            SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricCpu,
 	"memory":         SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricMemory,
 	"logical_memory": SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricLogicalMemory,
+	"storage":        SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricStorage,
+	"network":        SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricNetwork,
 }
 
 // GetSummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnumValues Enumerates the set of values for SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum
@@ -98,6 +104,8 @@ func GetSummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMe
 		"CPU",
 		"MEMORY",
 		"LOGICAL_MEMORY",
+		"STORAGE",
+		"NETWORK",
 	}
 }
 

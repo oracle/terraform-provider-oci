@@ -66,6 +66,10 @@ func (m *databaseconfigurationmetricgroup) UnmarshalPolymorphicJSON(data []byte)
 		mm := DbExternalInstance{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DB_PARAMETERS":
+		mm := DbParameters{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DB_EXTERNAL_PROPERTIES":
 		mm := DbExternalProperties{}
 		err = json.Unmarshal(data, &mm)
@@ -105,18 +109,21 @@ const (
 	DatabaseConfigurationMetricGroupMetricNameExternalProperties DatabaseConfigurationMetricGroupMetricNameEnum = "DB_EXTERNAL_PROPERTIES"
 	DatabaseConfigurationMetricGroupMetricNameExternalInstance   DatabaseConfigurationMetricGroupMetricNameEnum = "DB_EXTERNAL_INSTANCE"
 	DatabaseConfigurationMetricGroupMetricNameOsConfigInstance   DatabaseConfigurationMetricGroupMetricNameEnum = "DB_OS_CONFIG_INSTANCE"
+	DatabaseConfigurationMetricGroupMetricNameParameters         DatabaseConfigurationMetricGroupMetricNameEnum = "DB_PARAMETERS"
 )
 
 var mappingDatabaseConfigurationMetricGroupMetricNameEnum = map[string]DatabaseConfigurationMetricGroupMetricNameEnum{
 	"DB_EXTERNAL_PROPERTIES": DatabaseConfigurationMetricGroupMetricNameExternalProperties,
 	"DB_EXTERNAL_INSTANCE":   DatabaseConfigurationMetricGroupMetricNameExternalInstance,
 	"DB_OS_CONFIG_INSTANCE":  DatabaseConfigurationMetricGroupMetricNameOsConfigInstance,
+	"DB_PARAMETERS":          DatabaseConfigurationMetricGroupMetricNameParameters,
 }
 
 var mappingDatabaseConfigurationMetricGroupMetricNameEnumLowerCase = map[string]DatabaseConfigurationMetricGroupMetricNameEnum{
 	"db_external_properties": DatabaseConfigurationMetricGroupMetricNameExternalProperties,
 	"db_external_instance":   DatabaseConfigurationMetricGroupMetricNameExternalInstance,
 	"db_os_config_instance":  DatabaseConfigurationMetricGroupMetricNameOsConfigInstance,
+	"db_parameters":          DatabaseConfigurationMetricGroupMetricNameParameters,
 }
 
 // GetDatabaseConfigurationMetricGroupMetricNameEnumValues Enumerates the set of values for DatabaseConfigurationMetricGroupMetricNameEnum
@@ -134,6 +141,7 @@ func GetDatabaseConfigurationMetricGroupMetricNameEnumStringValues() []string {
 		"DB_EXTERNAL_PROPERTIES",
 		"DB_EXTERNAL_INSTANCE",
 		"DB_OS_CONFIG_INSTANCE",
+		"DB_PARAMETERS",
 	}
 }
 

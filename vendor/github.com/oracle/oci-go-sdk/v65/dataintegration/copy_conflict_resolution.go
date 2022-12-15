@@ -19,7 +19,7 @@ import (
 type CopyConflictResolution struct {
 
 	// Copy Object Conflict Resolution Type (RETAIN/DUPLICATE/REPLACE).
-	CopyConflictResolutionType CopyConflictResolutionCopyConflictResolutionTypeEnum `mandatory:"true" json:"copyConflictResolutionType"`
+	RequestType CopyConflictResolutionRequestTypeEnum `mandatory:"true" json:"requestType"`
 
 	// In case of DUPLICATE mode, this prefix will be used to disambiguate the object.
 	DuplicatePrefix *string `mandatory:"false" json:"duplicatePrefix"`
@@ -37,8 +37,8 @@ func (m CopyConflictResolution) String() string {
 // Not recommended for calling this function directly
 func (m CopyConflictResolution) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingCopyConflictResolutionCopyConflictResolutionTypeEnum(string(m.CopyConflictResolutionType)); !ok && m.CopyConflictResolutionType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CopyConflictResolutionType: %s. Supported values are: %s.", m.CopyConflictResolutionType, strings.Join(GetCopyConflictResolutionCopyConflictResolutionTypeEnumStringValues(), ",")))
+	if _, ok := GetMappingCopyConflictResolutionRequestTypeEnum(string(m.RequestType)); !ok && m.RequestType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RequestType: %s. Supported values are: %s.", m.RequestType, strings.Join(GetCopyConflictResolutionRequestTypeEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {
@@ -47,39 +47,39 @@ func (m CopyConflictResolution) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// CopyConflictResolutionCopyConflictResolutionTypeEnum Enum with underlying type: string
-type CopyConflictResolutionCopyConflictResolutionTypeEnum string
+// CopyConflictResolutionRequestTypeEnum Enum with underlying type: string
+type CopyConflictResolutionRequestTypeEnum string
 
-// Set of constants representing the allowable values for CopyConflictResolutionCopyConflictResolutionTypeEnum
+// Set of constants representing the allowable values for CopyConflictResolutionRequestTypeEnum
 const (
-	CopyConflictResolutionCopyConflictResolutionTypeRetain    CopyConflictResolutionCopyConflictResolutionTypeEnum = "RETAIN"
-	CopyConflictResolutionCopyConflictResolutionTypeDuplicate CopyConflictResolutionCopyConflictResolutionTypeEnum = "DUPLICATE"
-	CopyConflictResolutionCopyConflictResolutionTypeReplace   CopyConflictResolutionCopyConflictResolutionTypeEnum = "REPLACE"
+	CopyConflictResolutionRequestTypeRetain    CopyConflictResolutionRequestTypeEnum = "RETAIN"
+	CopyConflictResolutionRequestTypeDuplicate CopyConflictResolutionRequestTypeEnum = "DUPLICATE"
+	CopyConflictResolutionRequestTypeReplace   CopyConflictResolutionRequestTypeEnum = "REPLACE"
 )
 
-var mappingCopyConflictResolutionCopyConflictResolutionTypeEnum = map[string]CopyConflictResolutionCopyConflictResolutionTypeEnum{
-	"RETAIN":    CopyConflictResolutionCopyConflictResolutionTypeRetain,
-	"DUPLICATE": CopyConflictResolutionCopyConflictResolutionTypeDuplicate,
-	"REPLACE":   CopyConflictResolutionCopyConflictResolutionTypeReplace,
+var mappingCopyConflictResolutionRequestTypeEnum = map[string]CopyConflictResolutionRequestTypeEnum{
+	"RETAIN":    CopyConflictResolutionRequestTypeRetain,
+	"DUPLICATE": CopyConflictResolutionRequestTypeDuplicate,
+	"REPLACE":   CopyConflictResolutionRequestTypeReplace,
 }
 
-var mappingCopyConflictResolutionCopyConflictResolutionTypeEnumLowerCase = map[string]CopyConflictResolutionCopyConflictResolutionTypeEnum{
-	"retain":    CopyConflictResolutionCopyConflictResolutionTypeRetain,
-	"duplicate": CopyConflictResolutionCopyConflictResolutionTypeDuplicate,
-	"replace":   CopyConflictResolutionCopyConflictResolutionTypeReplace,
+var mappingCopyConflictResolutionRequestTypeEnumLowerCase = map[string]CopyConflictResolutionRequestTypeEnum{
+	"retain":    CopyConflictResolutionRequestTypeRetain,
+	"duplicate": CopyConflictResolutionRequestTypeDuplicate,
+	"replace":   CopyConflictResolutionRequestTypeReplace,
 }
 
-// GetCopyConflictResolutionCopyConflictResolutionTypeEnumValues Enumerates the set of values for CopyConflictResolutionCopyConflictResolutionTypeEnum
-func GetCopyConflictResolutionCopyConflictResolutionTypeEnumValues() []CopyConflictResolutionCopyConflictResolutionTypeEnum {
-	values := make([]CopyConflictResolutionCopyConflictResolutionTypeEnum, 0)
-	for _, v := range mappingCopyConflictResolutionCopyConflictResolutionTypeEnum {
+// GetCopyConflictResolutionRequestTypeEnumValues Enumerates the set of values for CopyConflictResolutionRequestTypeEnum
+func GetCopyConflictResolutionRequestTypeEnumValues() []CopyConflictResolutionRequestTypeEnum {
+	values := make([]CopyConflictResolutionRequestTypeEnum, 0)
+	for _, v := range mappingCopyConflictResolutionRequestTypeEnum {
 		values = append(values, v)
 	}
 	return values
 }
 
-// GetCopyConflictResolutionCopyConflictResolutionTypeEnumStringValues Enumerates the set of values in String for CopyConflictResolutionCopyConflictResolutionTypeEnum
-func GetCopyConflictResolutionCopyConflictResolutionTypeEnumStringValues() []string {
+// GetCopyConflictResolutionRequestTypeEnumStringValues Enumerates the set of values in String for CopyConflictResolutionRequestTypeEnum
+func GetCopyConflictResolutionRequestTypeEnumStringValues() []string {
 	return []string{
 		"RETAIN",
 		"DUPLICATE",
@@ -87,8 +87,8 @@ func GetCopyConflictResolutionCopyConflictResolutionTypeEnumStringValues() []str
 	}
 }
 
-// GetMappingCopyConflictResolutionCopyConflictResolutionTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingCopyConflictResolutionCopyConflictResolutionTypeEnum(val string) (CopyConflictResolutionCopyConflictResolutionTypeEnum, bool) {
-	enum, ok := mappingCopyConflictResolutionCopyConflictResolutionTypeEnumLowerCase[strings.ToLower(val)]
+// GetMappingCopyConflictResolutionRequestTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCopyConflictResolutionRequestTypeEnum(val string) (CopyConflictResolutionRequestTypeEnum, bool) {
+	enum, ok := mappingCopyConflictResolutionRequestTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
