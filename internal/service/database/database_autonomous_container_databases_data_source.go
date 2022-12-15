@@ -293,6 +293,8 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 			autonomousContainerDatabase["vault_id"] = *r.VaultId
 		}
 
+		autonomousContainerDatabase["version_preference"] = r.VersionPreference
+
 		resources = append(resources, autonomousContainerDatabase)
 	}
 

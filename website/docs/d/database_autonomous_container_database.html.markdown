@@ -93,4 +93,5 @@ The following attributes are exported:
 * `time_created` - The date and time the Autonomous Container Database was created.
 * `total_cpus` - The number of CPU cores allocated to the Autonomous VM cluster.
 * `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
+* `version_preference` - The next maintenance version preference. 
 
