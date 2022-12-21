@@ -188,6 +188,50 @@ func TestUnitApplyFilters_duplicates(t *testing.T) {
 	}
 }
 
+func TestUnitIsValidSchemaType(t *testing.T) {
+	type _tests struct {
+		schema  *schema.Schema
+		isValid bool
+		message string
+	}
+
+	tests := []_tests{
+		{
+			schema: &schema.Schema{
+
+				Type:     schema.TypeList,
+				Optional: true,
+			},
+			isValid: false,
+			message: "MaxItems and MinItems should be 1",
+		},
+		{
+			schema: &schema.Schema{
+
+				Type:     schema.TypeList,
+				Computed: true,
+			},
+
+			isValid: true,
+			message: "computed fields shouldn't have MaxItems and MinItems",
+		},
+		{
+			schema: &schema.Schema{
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			isValid: true,
+			message: "string type is valid filters",
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.message, func(t *testing.T) {
+			assert.Equal(t, test.isValid, isValidSchemaType(test.schema))
+		})
+	}
+}
+
 // issue-routing-tag: terraform/default
 func TestUnitApplyFilters_OR(t *testing.T) {
 	items := []map[string]interface{}{
