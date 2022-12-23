@@ -129,8 +129,7 @@ The following attributes are exported:
 		* `time_usage_ended` - The usage end time.
 		* `time_usage_started` - The usage start time.
 	* `version` - The saved query version.
-
-<<<<<<< ours
+	
 ## Timeouts
 
 The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
@@ -139,8 +138,6 @@ The `timeouts` block allows you to specify [timeouts](https://registry.terraform
 	* `delete` - (Defaults to 20 minutes), when destroying the Query
 
 
-=======
->>>>>>> theirs
 ## Import
 
 Queries can be imported using the `id`, e.g.
