@@ -21,7 +21,7 @@ import (
 // DatabaseConnectionCredentialsByDetails The credentials used to connect to the database.
 type DatabaseConnectionCredentialsByDetails struct {
 
-	// The user name that will be used to connect to the database.
+	// The user name used to connect to the database.
 	UserName *string `mandatory:"true" json:"userName"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the secret containing the user password.
@@ -38,7 +38,7 @@ type DatabaseConnectionCredentialsByDetails struct {
 	// For example: inventorydb.abc112233445566778899
 	CredentialName *string `mandatory:"false" json:"credentialName"`
 
-	// The role of the user that will be connecting to the database.
+	// The role of the user connecting to the database.
 	Role DatabaseConnectionCredentialsByDetailsRoleEnum `mandatory:"true" json:"role"`
 }
 

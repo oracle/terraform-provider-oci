@@ -30,6 +30,8 @@ type NodePoolPlacementConfigDetails struct {
 	// The OCID of the compute capacity reservation in which to place the compute instance.
 	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
 
+	PreemptibleNodeConfig *PreemptibleNodeConfigDetails `mandatory:"false" json:"preemptibleNodeConfig"`
+
 	// A list of fault domains in which to place nodes.
 	FaultDomains []string `mandatory:"false" json:"faultDomains"`
 }

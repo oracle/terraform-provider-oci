@@ -38,7 +38,7 @@ type InstancePoolPlacementSecondaryVnicSubnet struct {
 	// You can provide only the prefix ranges and OCI will select an available
 	// address from the range. You can optionally choose to leave the prefix range empty
 	// and instead provide the specific IPv6 address that should be used from within that range.
-	Ipv6AddressIpv6SubnetCidrPairDetails []InstanceConfigurationIpv6AddressIpv6SubnetCidrPairDetails `mandatory:"false" json:"ipv6AddressIpv6SubnetCidrPairDetails"`
+	Ipv6AddressIpv6SubnetCidrPairDetails []InstancePoolPlacementIpv6AddressIpv6SubnetCidrDetails `mandatory:"false" json:"ipv6AddressIpv6SubnetCidrPairDetails"`
 
 	// The display name of the VNIC. This is also used to match against the instance configuration defined
 	// secondary VNIC.

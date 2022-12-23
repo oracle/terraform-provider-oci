@@ -32,7 +32,7 @@ type ExternalAsm struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system that this ASM is part of.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system that the ASM is a part of.
 	ExternalDbSystemId *string `mandatory:"true" json:"externalDbSystemId"`
 
 	// The current lifecycle state of the external ASM.
@@ -47,10 +47,10 @@ type ExternalAsm struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external connector.
 	ExternalConnectorId *string `mandatory:"false" json:"externalConnectorId"`
 
-	// The directory where Oracle ASM is installed. This is the same directory where Oracle Grid Infrastructure is installed.
+	// The directory in which ASM is installed. This is the same directory in which Oracle Grid Infrastructure is installed.
 	GridHome *string `mandatory:"false" json:"gridHome"`
 
-	// Indicates whether this is a cluster ASM or not.
+	// Indicates whether the ASM is a cluster ASM or not.
 	IsCluster *bool `mandatory:"false" json:"isCluster"`
 
 	// Indicates whether Oracle Flex ASM is enabled or not.
@@ -59,14 +59,14 @@ type ExternalAsm struct {
 	// Additional information about the current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// List of databases that are serviced by this Oracle ASM.
+	// The list of databases that are serviced by the ASM.
 	ServicedDatabases []ExternalAsmServicedDatabase `mandatory:"false" json:"servicedDatabases"`
 
 	// The additional details of the external ASM defined in `{"key": "value"}` format.
 	// Example: `{"bar-key": "value"}`
 	AdditionalDetails map[string]string `mandatory:"false" json:"additionalDetails"`
 
-	// The Oracle ASM version.
+	// The ASM version.
 	Version *string `mandatory:"false" json:"version"`
 }
 

@@ -17,7 +17,7 @@ type UpdateExternalClusterRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external cluster.
 	ExternalClusterId *string `mandatory:"true" contributesTo:"path" name:"externalClusterId"`
 
-	// Details required to update an external cluster.
+	// The details required to update an external cluster.
 	UpdateExternalClusterDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

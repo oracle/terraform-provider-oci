@@ -32,22 +32,22 @@ type ExternalAsmInstance struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external ASM that this ASM instance belongs to.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external ASM that the ASM instance belongs to.
 	ExternalAsmId *string `mandatory:"true" json:"externalAsmId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system that this ASM instance is part of.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system that the ASM instance is a part of.
 	ExternalDbSystemId *string `mandatory:"true" json:"externalDbSystemId"`
 
 	// The current lifecycle state of the external ASM instance.
 	LifecycleState ExternalAsmInstanceLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB node where the ASM instance is running.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB node on which the ASM instance is running.
 	ExternalDbNodeId *string `mandatory:"false" json:"externalDbNodeId"`
 
 	// The Automatic Diagnostic Repository (ADR) home directory for the ASM instance.
 	AdrHomeDirectory *string `mandatory:"false" json:"adrHomeDirectory"`
 
-	// The name of the host where the ASM instance is running.
+	// The name of the host on which the ASM instance is running.
 	HostName *string `mandatory:"false" json:"hostName"`
 
 	// Additional information about the current lifecycle state.

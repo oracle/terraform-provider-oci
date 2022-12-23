@@ -17,19 +17,19 @@ import (
 	"strings"
 )
 
-// AsmConnectionString The Oracle ASM instance connection string.
+// AsmConnectionString The ASM instance connection string.
 type AsmConnectionString struct {
 
-	// The list of host names of the Oracle ASM instances.
+	// The list of host names of the ASM instances.
 	Hosts []string `mandatory:"true" json:"hosts"`
 
-	// The port used to connect to the Oracle ASM instance.
+	// The port used to connect to the ASM instance.
 	Port *int `mandatory:"true" json:"port"`
 
-	// The service name of the Oracle ASM instance.
+	// The service name of the ASM instance.
 	Service *string `mandatory:"true" json:"service"`
 
-	// The protocol used to connect to the Oracle ASM instance.
+	// The protocol used to connect to the ASM instance.
 	Protocol AsmConnectionStringProtocolEnum `mandatory:"true" json:"protocol"`
 }
 

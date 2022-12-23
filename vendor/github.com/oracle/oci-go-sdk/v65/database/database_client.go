@@ -7626,7 +7626,7 @@ func (client DatabaseClient) getCloudExadataInfrastructure(ctx context.Context, 
 	return response, err
 }
 
-// GetCloudExadataInfrastructureUnallocatedResources Gets un allocated resources information for the specified Cloud Exadata infrastructure.
+// GetCloudExadataInfrastructureUnallocatedResources Gets unallocated resources information for the specified Cloud Exadata infrastructure.
 func (client DatabaseClient) GetCloudExadataInfrastructureUnallocatedResources(ctx context.Context, request GetCloudExadataInfrastructureUnallocatedResourcesRequest) (response GetCloudExadataInfrastructureUnallocatedResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

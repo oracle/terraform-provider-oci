@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// DiscoveredExternalAsm The details of an Oracle ASM discovered in an external DB system discovery run.
+// DiscoveredExternalAsm The details of an ASM discovered in an external DB system discovery run.
 type DiscoveredExternalAsm struct {
 
 	// The identifier of the discovered DB system component.
@@ -33,19 +33,19 @@ type DiscoveredExternalAsm struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the existing OCI resource matching the discovered DB system component.
 	ResourceId *string `mandatory:"false" json:"resourceId"`
 
-	// This indicates whether the DB system component should be provisioned as an OCI resource or not.
+	// Indicates whether the DB system component should be provisioned as an OCI resource or not.
 	IsSelectedForMonitoring *bool `mandatory:"false" json:"isSelectedForMonitoring"`
 
 	// The list of associated components.
 	AssociatedComponents []AssociatedComponent `mandatory:"false" json:"associatedComponents"`
 
-	// The directory where Oracle ASM is installed. This is the same directory where Oracle Grid Infrastructure is installed.
+	// The directory in which ASM is installed. This is the same directory in which Oracle Grid Infrastructure is installed.
 	GridHome *string `mandatory:"false" json:"gridHome"`
 
 	// Indicates whether Oracle Flex ASM is enabled or not.
 	IsFlexEnabled *bool `mandatory:"false" json:"isFlexEnabled"`
 
-	// The Oracle ASM version.
+	// The ASM version.
 	Version *string `mandatory:"false" json:"version"`
 
 	AsmInstances []DiscoveredExternalAsmInstance `mandatory:"false" json:"asmInstances"`

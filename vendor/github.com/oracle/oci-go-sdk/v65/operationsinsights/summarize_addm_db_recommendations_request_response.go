@@ -234,21 +234,21 @@ type SummarizeAddmDbRecommendationsSortByEnum string
 
 // Set of constants representing the allowable values for SummarizeAddmDbRecommendationsSortByEnum
 const (
-	SummarizeAddmDbRecommendationsSortByMaxbenefitpercent          SummarizeAddmDbRecommendationsSortByEnum = "maxBenefitPercent"
-	SummarizeAddmDbRecommendationsSortByMaxbenfitavgactivesessions SummarizeAddmDbRecommendationsSortByEnum = "maxBenfitAvgActiveSessions"
-	SummarizeAddmDbRecommendationsSortByFrequencycount             SummarizeAddmDbRecommendationsSortByEnum = "frequencyCount"
+	SummarizeAddmDbRecommendationsSortByMaxbenefitpercent           SummarizeAddmDbRecommendationsSortByEnum = "maxBenefitPercent"
+	SummarizeAddmDbRecommendationsSortByMaxbenefitavgactivesessions SummarizeAddmDbRecommendationsSortByEnum = "maxBenefitAvgActiveSessions"
+	SummarizeAddmDbRecommendationsSortByFrequencycount              SummarizeAddmDbRecommendationsSortByEnum = "frequencyCount"
 )
 
 var mappingSummarizeAddmDbRecommendationsSortByEnum = map[string]SummarizeAddmDbRecommendationsSortByEnum{
-	"maxBenefitPercent":          SummarizeAddmDbRecommendationsSortByMaxbenefitpercent,
-	"maxBenfitAvgActiveSessions": SummarizeAddmDbRecommendationsSortByMaxbenfitavgactivesessions,
-	"frequencyCount":             SummarizeAddmDbRecommendationsSortByFrequencycount,
+	"maxBenefitPercent":           SummarizeAddmDbRecommendationsSortByMaxbenefitpercent,
+	"maxBenefitAvgActiveSessions": SummarizeAddmDbRecommendationsSortByMaxbenefitavgactivesessions,
+	"frequencyCount":              SummarizeAddmDbRecommendationsSortByFrequencycount,
 }
 
 var mappingSummarizeAddmDbRecommendationsSortByEnumLowerCase = map[string]SummarizeAddmDbRecommendationsSortByEnum{
-	"maxbenefitpercent":          SummarizeAddmDbRecommendationsSortByMaxbenefitpercent,
-	"maxbenfitavgactivesessions": SummarizeAddmDbRecommendationsSortByMaxbenfitavgactivesessions,
-	"frequencycount":             SummarizeAddmDbRecommendationsSortByFrequencycount,
+	"maxbenefitpercent":           SummarizeAddmDbRecommendationsSortByMaxbenefitpercent,
+	"maxbenefitavgactivesessions": SummarizeAddmDbRecommendationsSortByMaxbenefitavgactivesessions,
+	"frequencycount":              SummarizeAddmDbRecommendationsSortByFrequencycount,
 }
 
 // GetSummarizeAddmDbRecommendationsSortByEnumValues Enumerates the set of values for SummarizeAddmDbRecommendationsSortByEnum
@@ -264,7 +264,7 @@ func GetSummarizeAddmDbRecommendationsSortByEnumValues() []SummarizeAddmDbRecomm
 func GetSummarizeAddmDbRecommendationsSortByEnumStringValues() []string {
 	return []string{
 		"maxBenefitPercent",
-		"maxBenfitAvgActiveSessions",
+		"maxBenefitAvgActiveSessions",
 		"frequencyCount",
 	}
 }

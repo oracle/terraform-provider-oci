@@ -17,7 +17,7 @@ type UpdateExternalListenerRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external listener.
 	ExternalListenerId *string `mandatory:"true" contributesTo:"path" name:"externalListenerId"`
 
-	// Details required to update an external listener.
+	// The details required to update an external listener.
 	UpdateExternalListenerDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

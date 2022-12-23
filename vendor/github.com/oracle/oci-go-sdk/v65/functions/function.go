@@ -46,6 +46,9 @@ type Function struct {
 
 	SourceDetails FunctionSourceDetails `mandatory:"false" json:"sourceDetails"`
 
+	// The processor architecture (x86/arm) on which to run functions in the application, extracted from the image manifest.
+	Architectures []string `mandatory:"false" json:"architectures"`
+
 	// Maximum usable memory for the function (MiB).
 	MemoryInMBs *int64 `mandatory:"false" json:"memoryInMBs"`
 
@@ -114,6 +117,7 @@ func (m *Function) UnmarshalJSON(data []byte) (e error) {
 		Image                        *string                              `json:"image"`
 		ImageDigest                  *string                              `json:"imageDigest"`
 		SourceDetails                functionsourcedetails                `json:"sourceDetails"`
+		Architectures                []string                             `json:"architectures"`
 		MemoryInMBs                  *int64                               `json:"memoryInMBs"`
 		Config                       map[string]string                    `json:"config"`
 		TimeoutInSeconds             *int                                 `json:"timeoutInSeconds"`
@@ -152,6 +156,11 @@ func (m *Function) UnmarshalJSON(data []byte) (e error) {
 		m.SourceDetails = nn.(FunctionSourceDetails)
 	} else {
 		m.SourceDetails = nil
+	}
+
+	m.Architectures = make([]string, len(model.Architectures))
+	for i, n := range model.Architectures {
+		m.Architectures[i] = n
 	}
 
 	m.MemoryInMBs = model.MemoryInMBs

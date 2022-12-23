@@ -30,13 +30,13 @@ type DiscoveredExternalClusterInstance struct {
 	// The name of the discovered DB system component.
 	ComponentName *string `mandatory:"true" json:"componentName"`
 
-	// The name of the host where the cluster instance is running.
+	// The name of the host on which the cluster instance is running.
 	HostName *string `mandatory:"true" json:"hostName"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the existing OCI resource matching the discovered DB system component.
 	ResourceId *string `mandatory:"false" json:"resourceId"`
 
-	// This indicates whether the DB system component should be provisioned as an OCI resource or not.
+	// Indicates whether the DB system component should be provisioned as an OCI resource or not.
 	IsSelectedForMonitoring *bool `mandatory:"false" json:"isSelectedForMonitoring"`
 
 	// The list of associated components.

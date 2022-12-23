@@ -32,7 +32,7 @@ type ExternalDbSystemMacsConnector struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system that this connector is part of.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system that the connector is a part of.
 	ExternalDbSystemId *string `mandatory:"true" json:"externalDbSystemId"`
 
 	// The date and time the external DB system connector was created.
@@ -55,7 +55,7 @@ type ExternalDbSystemMacsConnector struct {
 	// Additional information about the current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// The date and time the connectionStatus of this external DB system connector was last updated.
+	// The date and time the connectionStatus of the external DB system connector was last updated.
 	TimeConnectionStatusLastUpdated *common.SDKTime `mandatory:"false" json:"timeConnectionStatusLastUpdated"`
 
 	ConnectionInfo ExternalDbSystemConnectionInfo `mandatory:"false" json:"connectionInfo"`

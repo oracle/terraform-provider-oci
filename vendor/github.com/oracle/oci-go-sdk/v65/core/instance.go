@@ -185,6 +185,9 @@ type Instance struct {
 	PreferredMaintenanceAction InstancePreferredMaintenanceActionEnum `mandatory:"false" json:"preferredMaintenanceAction,omitempty"`
 
 	PlatformConfig PlatformConfig `mandatory:"false" json:"platformConfig"`
+
+	// The instance configuration ID for platform agnostic launches. This configuration will specify the possible shapes that can be used to launch this instance.
+	InstanceConfigurationId *string `mandatory:"false" json:"instanceConfigurationId"`
 }
 
 func (m Instance) String() string {
@@ -239,6 +242,7 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 		TimeStopScheduled          *common.SDKTime                        `json:"timeStopScheduled"`
 		PreferredMaintenanceAction InstancePreferredMaintenanceActionEnum `json:"preferredMaintenanceAction"`
 		PlatformConfig             platformconfig                         `json:"platformConfig"`
+		InstanceConfigurationId    *string                                `json:"instanceConfigurationId"`
 		AvailabilityDomain         *string                                `json:"availabilityDomain"`
 		CompartmentId              *string                                `json:"compartmentId"`
 		Id                         *string                                `json:"id"`
@@ -316,6 +320,8 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.PlatformConfig = nil
 	}
+
+	m.InstanceConfigurationId = model.InstanceConfigurationId
 
 	m.AvailabilityDomain = model.AvailabilityDomain
 

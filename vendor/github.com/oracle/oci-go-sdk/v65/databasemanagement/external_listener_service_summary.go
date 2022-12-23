@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// ExternalListenerServiceSummary The summary of a service registered with external listener.
+// ExternalListenerServiceSummary The summary of a service registered with an external listener.
 type ExternalListenerServiceSummary struct {
 
 	// The name of the service.

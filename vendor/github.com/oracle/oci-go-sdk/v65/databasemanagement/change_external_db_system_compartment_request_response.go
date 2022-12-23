@@ -17,7 +17,7 @@ type ChangeExternalDbSystemCompartmentRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system.
 	ExternalDbSystemId *string `mandatory:"true" contributesTo:"path" name:"externalDbSystemId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to move the external DB system to.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to which the external DB system should be moved.
 	ChangeExternalDbSystemCompartmentDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

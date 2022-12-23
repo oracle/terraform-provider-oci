@@ -39,6 +39,9 @@ type ListAutonomousDatabaseBackupsRequest struct {
 	// A filter to return only resources that match the entire display name given. The match is not case sensitive.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
+	// A filter to return only backups that matches with the given type of Backup.
+	Type *string `mandatory:"false" contributesTo:"query" name:"type"`
+
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 

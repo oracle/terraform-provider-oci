@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// AssociatedComponent The details of associated component.
+// AssociatedComponent The details of the associated component.
 type AssociatedComponent struct {
 
 	// The identifier of the associated component.
@@ -26,7 +26,7 @@ type AssociatedComponent struct {
 	// The association type.
 	AssociationType AssociatedComponentAssociationTypeEnum `mandatory:"true" json:"associationType"`
 
-	// The type of the associated component.
+	// The type of associated component.
 	ComponentType ExternalDbSystemComponentTypeEnum `mandatory:"false" json:"componentType,omitempty"`
 }
 

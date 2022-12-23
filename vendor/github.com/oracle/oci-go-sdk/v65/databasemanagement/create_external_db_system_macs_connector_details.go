@@ -18,8 +18,8 @@ import (
 	"strings"
 )
 
-// CreateExternalDbSystemMacsConnectorDetails Details for creating a connector used to connect to an external DB system component
-// using the Management Agent cloud service (MACS) (https://docs.cloud.oracle.com/iaas/management-agents/index.html).
+// CreateExternalDbSystemMacsConnectorDetails The details for creating an external connector that is used to connect to an external DB system component
+// using the Management Agent Cloud Service (MACS) (https://docs.cloud.oracle.com/iaas/management-agents/index.html).
 type CreateExternalDbSystemMacsConnectorDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system.

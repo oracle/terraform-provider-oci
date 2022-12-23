@@ -23,28 +23,28 @@ type ExternalAsmDiskGroupSummary struct {
 	// The name of the ASM disk group.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The number of ASM instances having this disk group in mounted state.
+	// The number of ASM instances that have the disk group in mounted state.
 	MountingInstanceCount *int `mandatory:"false" json:"mountingInstanceCount"`
 
-	// The number of ASM instances having this disk group in dismounted state.
+	// The number of ASM instances that have the disk group in dismounted state.
 	DismountingInstanceCount *int `mandatory:"false" json:"dismountingInstanceCount"`
 
 	// The redundancy type of the disk group.
 	RedundancyType ExternalAsmDiskGroupSummaryRedundancyTypeEnum `mandatory:"false" json:"redundancyType,omitempty"`
 
-	// Indicates whether this is a sparse disk group or not.
+	// Indicates whether the disk group is a sparse disk group or not.
 	IsSparse *bool `mandatory:"false" json:"isSparse"`
 
-	// The unique names of databases using the disk group.
+	// The unique names of the databases using the disk group.
 	Databases []string `mandatory:"false" json:"databases"`
 
-	// Total capacity of the disk group (in megabytes).
+	// The total capacity of the disk group (in megabytes).
 	TotalSizeInMBs *int64 `mandatory:"false" json:"totalSizeInMBs"`
 
-	// Used capacity of the disk group (in megabytes).
+	// The used capacity of the disk group (in megabytes).
 	UsedSizeInMBs *int64 `mandatory:"false" json:"usedSizeInMBs"`
 
-	// The percentage of used space of the disk group.
+	// The percentage of used space in the disk group.
 	UsedPercent *float32 `mandatory:"false" json:"usedPercent"`
 }
 

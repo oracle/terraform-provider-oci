@@ -18,7 +18,8 @@ import (
 	"strings"
 )
 
-// DatabaseConnectionCredentials Credentials used to connect to the database. Currently only the `DETAILS` type is supported for creating MACS connector crendentials.
+// DatabaseConnectionCredentials The credentials used to connect to the database. Currently only the `DETAILS` type
+// is supported for creating MACS connector credentials.
 type DatabaseConnectionCredentials interface {
 }
 

@@ -32,10 +32,10 @@ type ExternalClusterInstanceSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external cluster that this cluster instance belongs to.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external cluster that the cluster instance belongs to.
 	ExternalClusterId *string `mandatory:"true" json:"externalClusterId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system that this cluster instance is part of.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system that the cluster instance is a part of.
 	ExternalDbSystemId *string `mandatory:"true" json:"externalDbSystemId"`
 
 	// The current lifecycle state of the external cluster instance.
@@ -47,7 +47,7 @@ type ExternalClusterInstanceSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external connector.
 	ExternalConnectorId *string `mandatory:"false" json:"externalConnectorId"`
 
-	// The name of the host where the cluster instance is running.
+	// The name of the host on which the cluster instance is running.
 	HostName *string `mandatory:"false" json:"hostName"`
 
 	// The role of the cluster node.

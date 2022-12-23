@@ -32,7 +32,7 @@ type ExternalCluster struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system that this cluster is part of.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system that the cluster is a part of.
 	ExternalDbSystemId *string `mandatory:"true" json:"externalDbSystemId"`
 
 	// The current lifecycle state of the external cluster.
@@ -47,10 +47,10 @@ type ExternalCluster struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external connector.
 	ExternalConnectorId *string `mandatory:"false" json:"externalConnectorId"`
 
-	// The directory where Oracle Grid Infrastructure is installed.
+	// The directory in which Oracle Grid Infrastructure is installed.
 	GridHome *string `mandatory:"false" json:"gridHome"`
 
-	// Indicates whether this cluster is Oracle Flex Cluster or not.
+	// Indicates whether the cluster is Oracle Flex Cluster or not.
 	IsFlexCluster *bool `mandatory:"false" json:"isFlexCluster"`
 
 	// The additional details of the external cluster defined in `{"key": "value"}` format.
@@ -63,7 +63,7 @@ type ExternalCluster struct {
 	// The list of network address configurations of the external cluster.
 	NetworkConfigurations []ExternalClusterNetworkConfiguration `mandatory:"false" json:"networkConfigurations"`
 
-	// The list of virtual IP (VIP) configurations of the external cluster.
+	// The list of Virtual IP (VIP) configurations of the external cluster.
 	VipConfigurations []ExternalClusterVipConfiguration `mandatory:"false" json:"vipConfigurations"`
 
 	// The list of Single Client Access Name (SCAN) configurations of the external cluster.

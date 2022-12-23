@@ -17,7 +17,7 @@ type EnableExternalDbSystemDatabaseManagementRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system.
 	ExternalDbSystemId *string `mandatory:"true" contributesTo:"path" name:"externalDbSystemId"`
 
-	// Details to enable Database Management on an external DB system.
+	// The details required to enable Database Management for an external DB system.
 	EnableExternalDbSystemDatabaseManagementDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

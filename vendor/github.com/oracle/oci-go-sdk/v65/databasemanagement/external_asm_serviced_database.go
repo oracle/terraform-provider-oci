@@ -35,11 +35,11 @@ type ExternalAsmServicedDatabase struct {
 	// The type of Oracle Database installation.
 	DatabaseType DatabaseTypeEnum `mandatory:"false" json:"databaseType,omitempty"`
 
-	// The subtype of the Oracle Database. Indicates whether the database is a Container Database,
+	// The subtype of Oracle Database. Indicates whether the database is a Container Database,
 	// Pluggable Database, Non-container Database, Autonomous Database, or Autonomous Container Database.
 	DatabaseSubType DatabaseSubTypeEnum `mandatory:"false" json:"databaseSubType,omitempty"`
 
-	// Indicates whether this database is a Managed Database or not.
+	// Indicates whether the database is a Managed Database or not.
 	IsManaged *bool `mandatory:"false" json:"isManaged"`
 
 	// The list of ASM disk groups used by the database.

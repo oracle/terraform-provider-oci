@@ -33,11 +33,6 @@ type LaunchInstanceDetails struct {
 	// The OCID of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The shape of an instance. The shape determines the number of CPUs, amount of memory,
-	// and other resources allocated to the instance.
-	// You can enumerate all available shapes by calling ListShapes.
-	Shape *string `mandatory:"true" json:"shape"`
-
 	// The OCID of the compute capacity reservation this instance is launched under.
 	// You can opt out of all default reservations by specifying an empty string as input for this field.
 	// For more information, see Capacity Reservations (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default).
@@ -168,6 +163,11 @@ type LaunchInstanceDetails struct {
 
 	AgentConfig *LaunchInstanceAgentConfigDetails `mandatory:"false" json:"agentConfig"`
 
+	// The shape of an instance. The shape determines the number of CPUs, amount of memory,
+	// and other resources allocated to the instance.
+	// You can enumerate all available shapes by calling ListShapes.
+	Shape *string `mandatory:"false" json:"shape"`
+
 	ShapeConfig *LaunchInstanceShapeConfigDetails `mandatory:"false" json:"shapeConfig"`
 
 	SourceDetails InstanceSourceDetails `mandatory:"false" json:"sourceDetails"`
@@ -192,6 +192,9 @@ type LaunchInstanceDetails struct {
 	PreferredMaintenanceAction LaunchInstanceDetailsPreferredMaintenanceActionEnum `mandatory:"false" json:"preferredMaintenanceAction,omitempty"`
 
 	PlatformConfig LaunchInstancePlatformConfig `mandatory:"false" json:"platformConfig"`
+
+	// The instance configuration ID for platform agnostic launches. This configuration will specify the possible shapes that can be used to launch this instance.
+	InstanceConfigurationId *string `mandatory:"false" json:"instanceConfigurationId"`
 }
 
 func (m LaunchInstanceDetails) String() string {
@@ -234,6 +237,7 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		PreemptibleInstanceConfig      *PreemptibleInstanceConfigDetails                   `json:"preemptibleInstanceConfig"`
 		Metadata                       map[string]string                                   `json:"metadata"`
 		AgentConfig                    *LaunchInstanceAgentConfigDetails                   `json:"agentConfig"`
+		Shape                          *string                                             `json:"shape"`
 		ShapeConfig                    *LaunchInstanceShapeConfigDetails                   `json:"shapeConfig"`
 		SourceDetails                  instancesourcedetails                               `json:"sourceDetails"`
 		SubnetId                       *string                                             `json:"subnetId"`
@@ -242,9 +246,9 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		IsPvEncryptionInTransitEnabled *bool                                               `json:"isPvEncryptionInTransitEnabled"`
 		PreferredMaintenanceAction     LaunchInstanceDetailsPreferredMaintenanceActionEnum `json:"preferredMaintenanceAction"`
 		PlatformConfig                 launchinstanceplatformconfig                        `json:"platformConfig"`
+		InstanceConfigurationId        *string                                             `json:"instanceConfigurationId"`
 		AvailabilityDomain             *string                                             `json:"availabilityDomain"`
 		CompartmentId                  *string                                             `json:"compartmentId"`
-		Shape                          *string                                             `json:"shape"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -287,6 +291,8 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.Metadata = model.Metadata
 
 	m.AgentConfig = model.AgentConfig
+
+	m.Shape = model.Shape
 
 	m.ShapeConfig = model.ShapeConfig
 
@@ -334,11 +340,11 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		m.PlatformConfig = nil
 	}
 
+	m.InstanceConfigurationId = model.InstanceConfigurationId
+
 	m.AvailabilityDomain = model.AvailabilityDomain
 
 	m.CompartmentId = model.CompartmentId
-
-	m.Shape = model.Shape
 
 	return
 }

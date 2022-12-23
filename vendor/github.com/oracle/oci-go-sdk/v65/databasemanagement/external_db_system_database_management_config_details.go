@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// ExternalDbSystemDatabaseManagementConfigDetails Details to enable Database Management on an external DB system.
+// ExternalDbSystemDatabaseManagementConfigDetails The details required to enable Database Management for an external DB system.
 type ExternalDbSystemDatabaseManagementConfigDetails struct {
 
 	// The Oracle license model that applies to the external database.

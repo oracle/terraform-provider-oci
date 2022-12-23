@@ -43,7 +43,7 @@ type ExternalDbSystemDiscovery struct {
 	// The date and time the external DB system discovery was last updated.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// The directory where Oracle Grid Infrastructure is installed.
+	// The directory in which Oracle Grid Infrastructure is installed.
 	GridHome *string `mandatory:"false" json:"gridHome"`
 
 	// The list of DB system components that were found in the DB system discovery.

@@ -39,7 +39,7 @@ type DiscoveredExternalPluggableDatabase struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the existing OCI resource matching the discovered DB system component.
 	ResourceId *string `mandatory:"false" json:"resourceId"`
 
-	// This indicates whether the DB system component should be provisioned as an OCI resource or not.
+	// Indicates whether the DB system component should be provisioned as an OCI resource or not.
 	IsSelectedForMonitoring *bool `mandatory:"false" json:"isSelectedForMonitoring"`
 
 	// The list of associated components.

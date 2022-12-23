@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// UpdateExternalDbSystemMacsConnectorDetails Details for updating an external Management Agent cloud service (MACS) (https://docs.cloud.oracle.com/iaas/management-agents/index.html)
+// UpdateExternalDbSystemMacsConnectorDetails The details for updating the external Management Agent Cloud Service (MACS) (https://docs.cloud.oracle.com/iaas/management-agents/index.html)
 // connector used to connect to an external DB system component.
 type UpdateExternalDbSystemMacsConnectorDetails struct {
 	ConnectionInfo ExternalDbSystemConnectionInfo `mandatory:"true" json:"connectionInfo"`

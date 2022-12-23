@@ -20,7 +20,7 @@ type ListExternalDatabasesRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system.
 	ExternalDbSystemId *string `mandatory:"false" contributesTo:"query" name:"externalDbSystemId"`
 
-	// A filter to return only resources that match the entire name.
+	// A filter to only return the resources that match the entire display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// The page token representing the page from where the next set of paginated results
@@ -31,8 +31,8 @@ type ListExternalDatabasesRequest struct {
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The field to sort information by. Only one sortOrder can be used. The default sort order
-	// for ‘TIMECREATED’ is descending and the default sort order for ‘NAME’ is ascending.
-	// The ‘NAME’ sort order is case-sensitive.
+	// for `TIMECREATED` is descending and the default sort order for `DISPLAYNAME` is ascending.
+	// The `DISPLAYNAME` sort order is case-sensitive.
 	SortBy ListExternalDatabasesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The option to sort information in ascending (‘ASC’) or descending (‘DESC’) order. Ascending order is the default order.
@@ -123,17 +123,17 @@ type ListExternalDatabasesSortByEnum string
 // Set of constants representing the allowable values for ListExternalDatabasesSortByEnum
 const (
 	ListExternalDatabasesSortByTimecreated ListExternalDatabasesSortByEnum = "TIMECREATED"
-	ListExternalDatabasesSortByName        ListExternalDatabasesSortByEnum = "NAME"
+	ListExternalDatabasesSortByDisplayname ListExternalDatabasesSortByEnum = "DISPLAYNAME"
 )
 
 var mappingListExternalDatabasesSortByEnum = map[string]ListExternalDatabasesSortByEnum{
 	"TIMECREATED": ListExternalDatabasesSortByTimecreated,
-	"NAME":        ListExternalDatabasesSortByName,
+	"DISPLAYNAME": ListExternalDatabasesSortByDisplayname,
 }
 
 var mappingListExternalDatabasesSortByEnumLowerCase = map[string]ListExternalDatabasesSortByEnum{
 	"timecreated": ListExternalDatabasesSortByTimecreated,
-	"name":        ListExternalDatabasesSortByName,
+	"displayname": ListExternalDatabasesSortByDisplayname,
 }
 
 // GetListExternalDatabasesSortByEnumValues Enumerates the set of values for ListExternalDatabasesSortByEnum
@@ -149,7 +149,7 @@ func GetListExternalDatabasesSortByEnumValues() []ListExternalDatabasesSortByEnu
 func GetListExternalDatabasesSortByEnumStringValues() []string {
 	return []string{
 		"TIMECREATED",
-		"NAME",
+		"DISPLAYNAME",
 	}
 }
 

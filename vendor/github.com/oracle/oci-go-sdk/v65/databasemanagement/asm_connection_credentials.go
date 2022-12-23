@@ -18,7 +18,8 @@ import (
 	"strings"
 )
 
-// AsmConnectionCredentials Credentials used to connect to the ASM instance. Currently only the `DETAILS` type is supported for creating MACS connector crendentials.
+// AsmConnectionCredentials The credentials used to connect to the ASM instance. Currently only the `DETAILS` type
+// is supported for creating MACS connector credentials.
 type AsmConnectionCredentials interface {
 }
 

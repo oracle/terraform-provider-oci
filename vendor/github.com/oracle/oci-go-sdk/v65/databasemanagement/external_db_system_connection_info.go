@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// ExternalDbSystemConnectionInfo The connection details needed to connect to an external DB system component.
+// ExternalDbSystemConnectionInfo The connection details required to connect to an external DB system component.
 type ExternalDbSystemConnectionInfo interface {
 }
 

@@ -33,25 +33,25 @@ type DiscoveredExternalCluster struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the existing OCI resource matching the discovered DB system component.
 	ResourceId *string `mandatory:"false" json:"resourceId"`
 
-	// This indicates whether the DB system component should be provisioned as an OCI resource or not.
+	// Indicates whether the DB system component should be provisioned as an OCI resource or not.
 	IsSelectedForMonitoring *bool `mandatory:"false" json:"isSelectedForMonitoring"`
 
 	// The list of associated components.
 	AssociatedComponents []AssociatedComponent `mandatory:"false" json:"associatedComponents"`
 
-	// The directory where Oracle Grid Infrastructure is installed.
+	// The directory in which Oracle Grid Infrastructure is installed.
 	GridHome *string `mandatory:"false" json:"gridHome"`
 
 	// The version of Oracle Clusterware running in the cluster.
 	Version *string `mandatory:"false" json:"version"`
 
-	// Indicates whether this cluster is Oracle Flex Cluster or not.
+	// Indicates whether the cluster is an Oracle Flex Cluster or not.
 	IsFlexCluster *bool `mandatory:"false" json:"isFlexCluster"`
 
 	// The list of network address configurations of the external cluster.
 	NetworkConfigurations []ExternalClusterNetworkConfiguration `mandatory:"false" json:"networkConfigurations"`
 
-	// The list of virtual IP (VIP) configurations of the external cluster.
+	// The list of Virtual IP (VIP) configurations of the external cluster.
 	VipConfigurations []ExternalClusterVipConfiguration `mandatory:"false" json:"vipConfigurations"`
 
 	// The list of Single Client Access Name (SCAN) configurations of the external cluster.

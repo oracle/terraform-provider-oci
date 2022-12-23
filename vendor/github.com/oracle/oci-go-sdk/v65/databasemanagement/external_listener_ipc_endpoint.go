@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// ExternalListenerIpcEndpoint An `IPC` based protocol address.
+// ExternalListenerIpcEndpoint An `IPC`-based protocol address.
 type ExternalListenerIpcEndpoint struct {
 
 	// The unique name of the service.

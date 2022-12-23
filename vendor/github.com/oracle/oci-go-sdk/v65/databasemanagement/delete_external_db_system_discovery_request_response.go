@@ -14,7 +14,7 @@ import (
 // DeleteExternalDbSystemDiscoveryRequest wrapper for the DeleteExternalDbSystemDiscovery operation
 type DeleteExternalDbSystemDiscoveryRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB systems discovery.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system discovery.
 	ExternalDbSystemDiscoveryId *string `mandatory:"true" contributesTo:"path" name:"externalDbSystemDiscoveryId"`
 
 	// The client request ID for tracing.

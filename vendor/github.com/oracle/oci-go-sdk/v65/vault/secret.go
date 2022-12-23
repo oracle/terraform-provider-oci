@@ -65,6 +65,8 @@ type Secret struct {
 	// metadata might specify the connection endpoint and the connection string. Provide additional metadata as key-value pairs.
 	Metadata map[string]interface{} `mandatory:"false" json:"metadata"`
 
+	RotationConfig *RotationConfig `mandatory:"false" json:"rotationConfig"`
+
 	// A list of rules that control how the secret is used and managed.
 	SecretRules []SecretRule `mandatory:"false" json:"secretRules"`
 
@@ -111,6 +113,7 @@ func (m *Secret) UnmarshalJSON(data []byte) (e error) {
 		KeyId                      *string                           `json:"keyId"`
 		LifecycleDetails           *string                           `json:"lifecycleDetails"`
 		Metadata                   map[string]interface{}            `json:"metadata"`
+		RotationConfig             *RotationConfig                   `json:"rotationConfig"`
 		SecretRules                []secretrule                      `json:"secretRules"`
 		TimeOfCurrentVersionExpiry *common.SDKTime                   `json:"timeOfCurrentVersionExpiry"`
 		TimeOfDeletion             *common.SDKTime                   `json:"timeOfDeletion"`
@@ -142,6 +145,8 @@ func (m *Secret) UnmarshalJSON(data []byte) (e error) {
 	m.LifecycleDetails = model.LifecycleDetails
 
 	m.Metadata = model.Metadata
+
+	m.RotationConfig = model.RotationConfig
 
 	m.SecretRules = make([]SecretRule, len(model.SecretRules))
 	for i, n := range model.SecretRules {

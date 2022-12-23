@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// DiscoveredExternalDbSystemComponent The details of an external Db system component.
+// DiscoveredExternalDbSystemComponent The details of an external DB system component.
 type DiscoveredExternalDbSystemComponent interface {
 
 	// The identifier of the discovered DB system component.
@@ -33,7 +33,7 @@ type DiscoveredExternalDbSystemComponent interface {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the existing OCI resource matching the discovered DB system component.
 	GetResourceId() *string
 
-	// This indicates whether the DB system component should be provisioned as an OCI resource or not.
+	// Indicates whether the DB system component should be provisioned as an OCI resource or not.
 	GetIsSelectedForMonitoring() *bool
 
 	// The state of the discovered DB system component.
@@ -189,21 +189,21 @@ type DiscoveredExternalDbSystemComponentStatusEnum string
 // Set of constants representing the allowable values for DiscoveredExternalDbSystemComponentStatusEnum
 const (
 	DiscoveredExternalDbSystemComponentStatusNew               DiscoveredExternalDbSystemComponentStatusEnum = "NEW"
-	DiscoveredExternalDbSystemComponentStatusMonitored         DiscoveredExternalDbSystemComponentStatusEnum = "MONITORED"
+	DiscoveredExternalDbSystemComponentStatusExisting          DiscoveredExternalDbSystemComponentStatusEnum = "EXISTING"
 	DiscoveredExternalDbSystemComponentStatusMarkedForDeletion DiscoveredExternalDbSystemComponentStatusEnum = "MARKED_FOR_DELETION"
 	DiscoveredExternalDbSystemComponentStatusUnknown           DiscoveredExternalDbSystemComponentStatusEnum = "UNKNOWN"
 )
 
 var mappingDiscoveredExternalDbSystemComponentStatusEnum = map[string]DiscoveredExternalDbSystemComponentStatusEnum{
 	"NEW":                 DiscoveredExternalDbSystemComponentStatusNew,
-	"MONITORED":           DiscoveredExternalDbSystemComponentStatusMonitored,
+	"EXISTING":            DiscoveredExternalDbSystemComponentStatusExisting,
 	"MARKED_FOR_DELETION": DiscoveredExternalDbSystemComponentStatusMarkedForDeletion,
 	"UNKNOWN":             DiscoveredExternalDbSystemComponentStatusUnknown,
 }
 
 var mappingDiscoveredExternalDbSystemComponentStatusEnumLowerCase = map[string]DiscoveredExternalDbSystemComponentStatusEnum{
 	"new":                 DiscoveredExternalDbSystemComponentStatusNew,
-	"monitored":           DiscoveredExternalDbSystemComponentStatusMonitored,
+	"existing":            DiscoveredExternalDbSystemComponentStatusExisting,
 	"marked_for_deletion": DiscoveredExternalDbSystemComponentStatusMarkedForDeletion,
 	"unknown":             DiscoveredExternalDbSystemComponentStatusUnknown,
 }
@@ -221,7 +221,7 @@ func GetDiscoveredExternalDbSystemComponentStatusEnumValues() []DiscoveredExtern
 func GetDiscoveredExternalDbSystemComponentStatusEnumStringValues() []string {
 	return []string{
 		"NEW",
-		"MONITORED",
+		"EXISTING",
 		"MARKED_FOR_DELETION",
 		"UNKNOWN",
 	}

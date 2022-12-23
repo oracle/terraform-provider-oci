@@ -17,11 +17,11 @@ type SummarizeExternalDbSystemAvailabilityMetricsRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system.
 	ExternalDbSystemId *string `mandatory:"true" contributesTo:"path" name:"externalDbSystemId"`
 
-	// The beginning of the time range to use when retrieving metric data for DB system
+	// The beginning of the time range set to retrieve metric data for the DB system
 	// and its members. Expressed in UTC in ISO-8601 format, which is `yyyy-MM-dd'T'hh:mm:ss.sss'Z'`.
 	StartTime *string `mandatory:"true" contributesTo:"query" name:"startTime"`
 
-	// The end of the time range to use when retrieving metric data for DB system
+	// The end of the time range set to retrieve metric data for the DB system
 	// and its members. Expressed in UTC in ISO-8601 format, which is `yyyy-MM-dd'T'hh:mm:ss.sss'Z'`.
 	EndTime *string `mandatory:"true" contributesTo:"query" name:"endTime"`
 

@@ -20,7 +20,7 @@ type ListExternalDbNodesRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system.
 	ExternalDbSystemId *string `mandatory:"false" contributesTo:"query" name:"externalDbSystemId"`
 
-	// A filter to return only resources that match the entire name.
+	// A filter to only return the resources that match the entire display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// The page token representing the page from where the next set of paginated results
@@ -31,8 +31,8 @@ type ListExternalDbNodesRequest struct {
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The field to sort information by. Only one sortOrder can be used. The default sort order
-	// for ‘TIMECREATED’ is descending and the default sort order for ‘NAME’ is ascending.
-	// The ‘NAME’ sort order is case-sensitive.
+	// for `TIMECREATED` is descending and the default sort order for `DISPLAYNAME` is ascending.
+	// The `DISPLAYNAME` sort order is case-sensitive.
 	SortBy ListExternalDbNodesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The option to sort information in ascending (‘ASC’) or descending (‘DESC’) order. Ascending order is the default order.
@@ -123,17 +123,17 @@ type ListExternalDbNodesSortByEnum string
 // Set of constants representing the allowable values for ListExternalDbNodesSortByEnum
 const (
 	ListExternalDbNodesSortByTimecreated ListExternalDbNodesSortByEnum = "TIMECREATED"
-	ListExternalDbNodesSortByName        ListExternalDbNodesSortByEnum = "NAME"
+	ListExternalDbNodesSortByDisplayname ListExternalDbNodesSortByEnum = "DISPLAYNAME"
 )
 
 var mappingListExternalDbNodesSortByEnum = map[string]ListExternalDbNodesSortByEnum{
 	"TIMECREATED": ListExternalDbNodesSortByTimecreated,
-	"NAME":        ListExternalDbNodesSortByName,
+	"DISPLAYNAME": ListExternalDbNodesSortByDisplayname,
 }
 
 var mappingListExternalDbNodesSortByEnumLowerCase = map[string]ListExternalDbNodesSortByEnum{
 	"timecreated": ListExternalDbNodesSortByTimecreated,
-	"name":        ListExternalDbNodesSortByName,
+	"displayname": ListExternalDbNodesSortByDisplayname,
 }
 
 // GetListExternalDbNodesSortByEnumValues Enumerates the set of values for ListExternalDbNodesSortByEnum
@@ -149,7 +149,7 @@ func GetListExternalDbNodesSortByEnumValues() []ListExternalDbNodesSortByEnum {
 func GetListExternalDbNodesSortByEnumStringValues() []string {
 	return []string{
 		"TIMECREATED",
-		"NAME",
+		"DISPLAYNAME",
 	}
 }
 

@@ -17,7 +17,7 @@ type UpdateExternalDbNodeRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external database node.
 	ExternalDbNodeId *string `mandatory:"true" contributesTo:"path" name:"externalDbNodeId"`
 
-	// Details required to update an external DB node.
+	// The details required to update an external DB node.
 	UpdateExternalDbNodeDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

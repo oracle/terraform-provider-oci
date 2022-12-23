@@ -57,6 +57,8 @@ type SecretSummary struct {
 	// Additional information about the secret's current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	RotationConfig *RotationConfig `mandatory:"false" json:"rotationConfig"`
+
 	// An optional property indicating when the current secret version will expire, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
 	// Example: `2019-04-03T21:10:29.600Z`
 	TimeOfCurrentVersionExpiry *common.SDKTime `mandatory:"false" json:"timeOfCurrentVersionExpiry"`
@@ -98,6 +100,7 @@ func (m *SecretSummary) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags               map[string]string                 `json:"freeformTags"`
 		KeyId                      *string                           `json:"keyId"`
 		LifecycleDetails           *string                           `json:"lifecycleDetails"`
+		RotationConfig             *RotationConfig                   `json:"rotationConfig"`
 		TimeOfCurrentVersionExpiry *common.SDKTime                   `json:"timeOfCurrentVersionExpiry"`
 		TimeOfDeletion             *common.SDKTime                   `json:"timeOfDeletion"`
 		SecretGenerationContext    secretgenerationcontext           `json:"secretGenerationContext"`
@@ -124,6 +127,8 @@ func (m *SecretSummary) UnmarshalJSON(data []byte) (e error) {
 	m.KeyId = model.KeyId
 
 	m.LifecycleDetails = model.LifecycleDetails
+
+	m.RotationConfig = model.RotationConfig
 
 	m.TimeOfCurrentVersionExpiry = model.TimeOfCurrentVersionExpiry
 

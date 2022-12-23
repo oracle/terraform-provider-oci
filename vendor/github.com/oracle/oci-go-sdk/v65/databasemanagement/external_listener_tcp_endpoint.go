@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// ExternalListenerTcpEndpoint A `TCP` based protocol address.
+// ExternalListenerTcpEndpoint A `TCP`-based protocol address.
 type ExternalListenerTcpEndpoint struct {
 
 	// The host name or IP address.

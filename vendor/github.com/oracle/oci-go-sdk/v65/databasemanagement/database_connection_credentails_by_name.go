@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// DatabaseConnectionCredentailsByName Existing named credential used to connect to the database.
+// DatabaseConnectionCredentailsByName The existing named credential used to connect to the database.
 type DatabaseConnectionCredentailsByName struct {
 
 	// The name of the credential information that used to connect to the DB system resource.

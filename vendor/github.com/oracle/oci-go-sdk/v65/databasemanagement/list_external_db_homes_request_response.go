@@ -20,7 +20,7 @@ type ListExternalDbHomesRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system.
 	ExternalDbSystemId *string `mandatory:"false" contributesTo:"query" name:"externalDbSystemId"`
 
-	// A filter to return only resources that match the entire name.
+	// A filter to only return the resources that match the entire display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// The page token representing the page from where the next set of paginated results
@@ -31,8 +31,8 @@ type ListExternalDbHomesRequest struct {
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The field to sort information by. Only one sortOrder can be used. The default sort order
-	// for ‘TIMECREATED’ is descending and the default sort order for ‘NAME’ is ascending.
-	// The ‘NAME’ sort order is case-sensitive.
+	// for `TIMECREATED` is descending and the default sort order for `DISPLAYNAME` is ascending.
+	// The `DISPLAYNAME` sort order is case-sensitive.
 	SortBy ListExternalDbHomesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The option to sort information in ascending (‘ASC’) or descending (‘DESC’) order. Ascending order is the default order.
@@ -123,17 +123,17 @@ type ListExternalDbHomesSortByEnum string
 // Set of constants representing the allowable values for ListExternalDbHomesSortByEnum
 const (
 	ListExternalDbHomesSortByTimecreated ListExternalDbHomesSortByEnum = "TIMECREATED"
-	ListExternalDbHomesSortByName        ListExternalDbHomesSortByEnum = "NAME"
+	ListExternalDbHomesSortByDisplayname ListExternalDbHomesSortByEnum = "DISPLAYNAME"
 )
 
 var mappingListExternalDbHomesSortByEnum = map[string]ListExternalDbHomesSortByEnum{
 	"TIMECREATED": ListExternalDbHomesSortByTimecreated,
-	"NAME":        ListExternalDbHomesSortByName,
+	"DISPLAYNAME": ListExternalDbHomesSortByDisplayname,
 }
 
 var mappingListExternalDbHomesSortByEnumLowerCase = map[string]ListExternalDbHomesSortByEnum{
 	"timecreated": ListExternalDbHomesSortByTimecreated,
-	"name":        ListExternalDbHomesSortByName,
+	"displayname": ListExternalDbHomesSortByDisplayname,
 }
 
 // GetListExternalDbHomesSortByEnumValues Enumerates the set of values for ListExternalDbHomesSortByEnum
@@ -149,7 +149,7 @@ func GetListExternalDbHomesSortByEnumValues() []ListExternalDbHomesSortByEnum {
 func GetListExternalDbHomesSortByEnumStringValues() []string {
 	return []string{
 		"TIMECREATED",
-		"NAME",
+		"DISPLAYNAME",
 	}
 }
 

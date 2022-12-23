@@ -17,7 +17,7 @@ type ListExternalDbSystemDiscoveriesRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// A filter to return only resources that match the entire name.
+	// A filter to only return the resources that match the entire display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// The page token representing the page from where the next set of paginated results
@@ -28,8 +28,8 @@ type ListExternalDbSystemDiscoveriesRequest struct {
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The field to sort information by. Only one sortOrder can be used. The default sort order
-	// for ‘TIMECREATED’ is descending and the default sort order for ‘NAME’ is ascending.
-	// The ‘NAME’ sort order is case-sensitive.
+	// for `TIMECREATED` is descending and the default sort order for `DISPLAYNAME` is ascending.
+	// The `DISPLAYNAME` sort order is case-sensitive.
 	SortBy ListExternalDbSystemDiscoveriesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The option to sort information in ascending (‘ASC’) or descending (‘DESC’) order. Ascending order is the default order.
@@ -120,17 +120,17 @@ type ListExternalDbSystemDiscoveriesSortByEnum string
 // Set of constants representing the allowable values for ListExternalDbSystemDiscoveriesSortByEnum
 const (
 	ListExternalDbSystemDiscoveriesSortByTimecreated ListExternalDbSystemDiscoveriesSortByEnum = "TIMECREATED"
-	ListExternalDbSystemDiscoveriesSortByName        ListExternalDbSystemDiscoveriesSortByEnum = "NAME"
+	ListExternalDbSystemDiscoveriesSortByDisplayname ListExternalDbSystemDiscoveriesSortByEnum = "DISPLAYNAME"
 )
 
 var mappingListExternalDbSystemDiscoveriesSortByEnum = map[string]ListExternalDbSystemDiscoveriesSortByEnum{
 	"TIMECREATED": ListExternalDbSystemDiscoveriesSortByTimecreated,
-	"NAME":        ListExternalDbSystemDiscoveriesSortByName,
+	"DISPLAYNAME": ListExternalDbSystemDiscoveriesSortByDisplayname,
 }
 
 var mappingListExternalDbSystemDiscoveriesSortByEnumLowerCase = map[string]ListExternalDbSystemDiscoveriesSortByEnum{
 	"timecreated": ListExternalDbSystemDiscoveriesSortByTimecreated,
-	"name":        ListExternalDbSystemDiscoveriesSortByName,
+	"displayname": ListExternalDbSystemDiscoveriesSortByDisplayname,
 }
 
 // GetListExternalDbSystemDiscoveriesSortByEnumValues Enumerates the set of values for ListExternalDbSystemDiscoveriesSortByEnum
@@ -146,7 +146,7 @@ func GetListExternalDbSystemDiscoveriesSortByEnumValues() []ListExternalDbSystem
 func GetListExternalDbSystemDiscoveriesSortByEnumStringValues() []string {
 	return []string{
 		"TIMECREATED",
-		"NAME",
+		"DISPLAYNAME",
 	}
 }
 

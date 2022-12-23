@@ -786,7 +786,7 @@ func (client DbManagementClient) changeSqlPlanBaselinesAttributes(ctx context.Co
 	return response, err
 }
 
-// CheckExternalDbSystemConnectorConnectionStatus Check the status of the external DB system component connection specified in this connector.
+// CheckExternalDbSystemConnectorConnectionStatus Checks the status of the external DB system component connection specified in this connector.
 // This operation will refresh the connectionStatus and timeConnectionStatusLastUpdated fields.
 // A default retry strategy applies to this operation CheckExternalDbSystemConnectorConnectionStatus()
 func (client DbManagementClient) CheckExternalDbSystemConnectorConnectionStatus(ctx context.Context, request CheckExternalDbSystemConnectorConnectionStatusRequest) (response CheckExternalDbSystemConnectorConnectionStatusResponse, err error) {
@@ -1763,7 +1763,7 @@ func (client DbManagementClient) deleteExternalDbSystemDiscovery(ctx context.Con
 	return response, err
 }
 
-// DeleteExternalExadataInfrastructure Deletes the the Exadata infrastructure specified by ExternalExadataInfrastructureId.
+// DeleteExternalExadataInfrastructure Deletes the the Exadata infrastructure specified by externalExadataInfrastructureId.
 func (client DbManagementClient) DeleteExternalExadataInfrastructure(ctx context.Context, request DeleteExternalExadataInfrastructureRequest) (response DeleteExternalExadataInfrastructureResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2138,7 +2138,7 @@ func (client DbManagementClient) disableAutomaticSpmEvolveAdvisorTask(ctx contex
 }
 
 // DisableExternalDbSystemDatabaseManagement Disables Database Management service for all the components of the specified
-// external DB system except databases.
+// external DB system (except databases).
 // A default retry strategy applies to this operation DisableExternalDbSystemDatabaseManagement()
 func (client DbManagementClient) DisableExternalDbSystemDatabaseManagement(ctx context.Context, request DisableExternalDbSystemDatabaseManagementRequest) (response DisableExternalDbSystemDatabaseManagementResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2197,7 +2197,7 @@ func (client DbManagementClient) disableExternalDbSystemDatabaseManagement(ctx c
 	return response, err
 }
 
-// DisableExternalExadataInfrastructureManagement Disables Database Management service for the Exadata infrastructuree specified by ExternalExadataInfrastructureId.
+// DisableExternalExadataInfrastructureManagement Disables Database Management service for the Exadata infrastructure specified by externalExadataInfrastructureId.
 // It covers the following components
 //           Exadata infrastructure
 //           Exadata storage grid
@@ -2674,7 +2674,7 @@ func (client DbManagementClient) enableAutomaticSpmEvolveAdvisorTask(ctx context
 }
 
 // EnableExternalDbSystemDatabaseManagement Enables Database Management service for all the components of the specified
-// external DB system except databases.
+// external DB system (except databases).
 // A default retry strategy applies to this operation EnableExternalDbSystemDatabaseManagement()
 func (client DbManagementClient) EnableExternalDbSystemDatabaseManagement(ctx context.Context, request EnableExternalDbSystemDatabaseManagementRequest) (response EnableExternalDbSystemDatabaseManagementResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2733,7 +2733,8 @@ func (client DbManagementClient) enableExternalDbSystemDatabaseManagement(ctx co
 	return response, err
 }
 
-// EnableExternalExadataInfrastructureManagement Enables Database Management service for the exadata infrastructure specified by ExternalExadataInfrastructureId. It covers the following components
+// EnableExternalExadataInfrastructureManagement Enables Database Management service for the exadata infrastructure specified by externalExadataInfrastructureId. It covers the following
+// components
 //   Exadata infrastructure
 //   Exadata storage grid
 //   Exadata storage server
@@ -3838,7 +3839,7 @@ func (client DbManagementClient) getExternalDbSystemDiscovery(ctx context.Contex
 	return response, err
 }
 
-// GetExternalExadataInfrastructure Gets the details for the the Exadata infrastructure specified by ExternalExadataInfrastructureId. It includes the database systems and storage grid within the
+// GetExternalExadataInfrastructure Gets the details for the the Exadata infrastructure specified by externalExadataInfrastructureId. It includes the database systems and storage grid within the
 // Exadata infrastructure.
 // A default retry strategy applies to this operation GetExternalExadataInfrastructure()
 func (client DbManagementClient) GetExternalExadataInfrastructure(ctx context.Context, request GetExternalExadataInfrastructureRequest) (response GetExternalExadataInfrastructureResponse, err error) {
@@ -5939,7 +5940,7 @@ func (client DbManagementClient) listExternalClusters(ctx context.Context, reque
 	return response, err
 }
 
-// ListExternalDatabases Lists the external databases in the specified compartment or in the specifed DB system.
+// ListExternalDatabases Lists the external databases in the specified compartment or in the specified DB system.
 // A default retry strategy applies to this operation ListExternalDatabases()
 func (client DbManagementClient) ListExternalDatabases(ctx context.Context, request ListExternalDatabasesRequest) (response ListExternalDatabasesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5993,7 +5994,7 @@ func (client DbManagementClient) listExternalDatabases(ctx context.Context, requ
 	return response, err
 }
 
-// ListExternalDbHomes Lists the database homes in the specified external DB system.
+// ListExternalDbHomes Lists the DB homes in the specified external DB system.
 // A default retry strategy applies to this operation ListExternalDbHomes()
 func (client DbManagementClient) ListExternalDbHomes(ctx context.Context, request ListExternalDbHomesRequest) (response ListExternalDbHomesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6426,7 +6427,7 @@ func (client DbManagementClient) listExternalExadataStorageServers(ctx context.C
 }
 
 // ListExternalListenerServices Lists the database services registered with the specified external listener
-// for the specified managed database.
+// for the specified Managed Database.
 // A default retry strategy applies to this operation ListExternalListenerServices()
 func (client DbManagementClient) ListExternalListenerServices(ctx context.Context, request ListExternalListenerServicesRequest) (response ListExternalListenerServicesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9689,7 +9690,7 @@ func (client DbManagementClient) updateExternalDbSystemDiscovery(ctx context.Con
 	return response, err
 }
 
-// UpdateExternalExadataInfrastructure Updates the details for the the Exadata infrastructure specified by ExternalExadataInfrastructureId.
+// UpdateExternalExadataInfrastructure Updates the details for the the Exadata infrastructure specified by externalExadataInfrastructureId.
 // A default retry strategy applies to this operation UpdateExternalExadataInfrastructure()
 func (client DbManagementClient) UpdateExternalExadataInfrastructure(ctx context.Context, request UpdateExternalExadataInfrastructureRequest) (response UpdateExternalExadataInfrastructureResponse, err error) {
 	var ociResponse common.OCIResponse

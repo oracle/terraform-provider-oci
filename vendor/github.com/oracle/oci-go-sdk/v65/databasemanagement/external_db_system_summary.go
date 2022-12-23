@@ -38,8 +38,8 @@ type ExternalDbSystemSummary struct {
 	// The date and time the external DB system was last updated.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// The Oracle Grid home directory in case of cluster based DB system and
-	// Oracle home directory in case of single instance based DB system.
+	// The Oracle Grid home directory in case of cluster-based DB system and
+	// Oracle home directory in case of single instance-based DB system.
 	HomeDirectory *string `mandatory:"false" json:"homeDirectory"`
 
 	DatabaseManagementConfig *ExternalDbSystemDatabaseManagementConfigDetails `mandatory:"false" json:"databaseManagementConfig"`

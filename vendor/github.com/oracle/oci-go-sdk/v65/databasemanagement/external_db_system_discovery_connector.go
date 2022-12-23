@@ -31,7 +31,7 @@ type ExternalDbSystemDiscoveryConnector interface {
 	// the connection was successful.
 	GetConnectionFailureMessage() *string
 
-	// The date and time the connectionStatus of this external DB system connector was last updated.
+	// The date and time the connectionStatus of the external DB system connector was last updated.
 	GetTimeConnectionStatusLastUpdated() *common.SDKTime
 }
 

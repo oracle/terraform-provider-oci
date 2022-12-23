@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// ExternalDatabaseConnectionInfo The details needed to connect to an external Oracle database.
+// ExternalDatabaseConnectionInfo The details required to connect to an external Oracle Database.
 type ExternalDatabaseConnectionInfo struct {
 	ConnectionString *DatabaseConnectionString `mandatory:"true" json:"connectionString"`
 

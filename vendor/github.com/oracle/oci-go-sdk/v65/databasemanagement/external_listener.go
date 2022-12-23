@@ -33,7 +33,7 @@ type ExternalListener struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system that this listener is part of.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system that the listener is a part of.
 	ExternalDbSystemId *string `mandatory:"true" json:"externalDbSystemId"`
 
 	// The current lifecycle state of the external listener.
@@ -73,7 +73,7 @@ type ExternalListener struct {
 	// The Oracle home location of the listener.
 	OracleHome *string `mandatory:"false" json:"oracleHome"`
 
-	// The name of the host where the external listener is running.
+	// The name of the host on which the external listener is running.
 	HostName *string `mandatory:"false" json:"hostName"`
 
 	// The directory that stores tracing and logging incidents when Automatic Diagnostic Repository (ADR) is enabled.
@@ -91,10 +91,10 @@ type ExternalListener struct {
 	// The list of protocol addresses the listener is configured to listen on.
 	Endpoints []ExternalListenerEndpoint `mandatory:"false" json:"endpoints"`
 
-	// List of databases that are serviced by this listener.
+	// The list of databases that are serviced by the listener.
 	ServicedDatabases []ExternalListenerServicedDatabase `mandatory:"false" json:"servicedDatabases"`
 
-	// List of ASMs that are serviced by this listener.
+	// The list of ASMs that are serviced by the listener.
 	ServicedAsms []ExternalServicedAsm `mandatory:"false" json:"servicedAsms"`
 }
 

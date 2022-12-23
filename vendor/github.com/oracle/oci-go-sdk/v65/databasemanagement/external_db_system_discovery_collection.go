@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// ExternalDbSystemDiscoveryCollection A collection of external DB systema discovery summaries.
+// ExternalDbSystemDiscoveryCollection A collection of external DB system discovery summaries.
 type ExternalDbSystemDiscoveryCollection struct {
 
 	// An array of external DB system discoveries.

@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// ExternalAsmConfiguration The configuration details of an Oracle ASM.
+// ExternalAsmConfiguration The configuration details of an ASM.
 type ExternalAsmConfiguration struct {
 
 	// An array of initialization parameters for the external ASM instances.

@@ -39,6 +39,10 @@ type Application struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of the subnets in which to run functions in the application.
 	SubnetIds []string `mandatory:"false" json:"subnetIds"`
 
+	// The processor architecture (x86/arm) on which to run functions in the application.
+	// The values can be either of "x86", "arm" or both. Values are case sensitive. If nothing is provided, it will be defaulted to "x86".
+	Architectures []string `mandatory:"false" json:"architectures"`
+
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of the Network Security Groups to add the application to.
 	NetworkSecurityGroupIds []string `mandatory:"false" json:"networkSecurityGroupIds"`
 

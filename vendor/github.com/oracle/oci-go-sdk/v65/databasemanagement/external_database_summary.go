@@ -41,7 +41,7 @@ type ExternalDatabaseSummary struct {
 	// The type of Oracle Database installation.
 	DatabaseType DatabaseTypeEnum `mandatory:"false" json:"databaseType,omitempty"`
 
-	// The subtype of the Oracle Database. Indicates whether the database is a Container Database,
+	// The subtype of Oracle Database. Indicates whether the database is a Container Database,
 	// Pluggable Database, or Non-container Database.
 	DatabaseSubType DatabaseSubTypeEnum `mandatory:"false" json:"databaseSubType,omitempty"`
 

@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// ExternalAsmInstanceParameters The initialization parameters for an Oracle ASM instance.
+// ExternalAsmInstanceParameters The initialization parameters for an ASM instance.
 type ExternalAsmInstanceParameters struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external ASM instance.
@@ -29,13 +29,13 @@ type ExternalAsmInstanceParameters struct {
 	// An operating system-dependent value used to limit the set of disks considered for discovery.
 	DiskDiscoveryPath *string `mandatory:"true" json:"diskDiscoveryPath"`
 
-	// A list of disk group names that an Oracle ASM instance mounts at startup or when the `ALTER DISKGROUP ALL MOUNT` statement is issued.
+	// The list of disk group names that an ASM instance mounts at startup or when the `ALTER DISKGROUP ALL MOUNT` statement is issued.
 	AutoMountDiskGroups []string `mandatory:"true" json:"autoMountDiskGroups"`
 
-	// The maximum power on an Oracle ASM instance for disk rebalancing.
+	// The maximum power on an ASM instance for disk rebalancing.
 	RebalancePower *int `mandatory:"true" json:"rebalancePower"`
 
-	// A list of failure groups that contain preferred read disks.
+	// The list of failure groups that contain preferred read disks.
 	PreferredReadFailureGroups []string `mandatory:"true" json:"preferredReadFailureGroups"`
 }
 

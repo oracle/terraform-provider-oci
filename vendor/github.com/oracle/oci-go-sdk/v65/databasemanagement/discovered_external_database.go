@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// DiscoveredExternalDatabase The details of an external Oracle database discovered in an external DB system discovery run.
+// DiscoveredExternalDatabase The details of an external Oracle Database discovered in an external DB system discovery run.
 type DiscoveredExternalDatabase struct {
 
 	// The identifier of the discovered DB system component.
@@ -39,7 +39,7 @@ type DiscoveredExternalDatabase struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the existing OCI resource matching the discovered DB system component.
 	ResourceId *string `mandatory:"false" json:"resourceId"`
 
-	// This indicates whether the DB system component should be provisioned as an OCI resource or not.
+	// Indicates whether the DB system component should be provisioned as an OCI resource or not.
 	IsSelectedForMonitoring *bool `mandatory:"false" json:"isSelectedForMonitoring"`
 
 	// The list of associated components.
@@ -65,13 +65,13 @@ type DiscoveredExternalDatabase struct {
 
 	Connector ExternalDbSystemDiscoveryConnector `mandatory:"false" json:"connector"`
 
-	// The role of the Oracle database in Oracle Data Guard configuration.
+	// The role of the Oracle Database in Oracle Data Guard configuration.
 	DbRole DiscoveredExternalDatabaseDbRoleEnum `mandatory:"false" json:"dbRole,omitempty"`
 
 	// The state of the discovered DB system component.
 	Status DiscoveredExternalDbSystemComponentStatusEnum `mandatory:"false" json:"status,omitempty"`
 
-	// The type of the Oracle Database. Indicates whether the database is a Container Database,
+	// The type of Oracle Database. Indicates whether the database is a Container Database,
 	// Pluggable Database, or a Non-container Database.
 	DbType DatabaseSubTypeEnum `mandatory:"false" json:"dbType,omitempty"`
 }

@@ -20,7 +20,7 @@ import (
 // DatabaseConnectionString The Oracle Database connection string.
 type DatabaseConnectionString struct {
 
-	// The host name of the database or the SCAN name in case of RAC database.
+	// The host name of the database or the SCAN name in case of a RAC database.
 	HostName *string `mandatory:"true" json:"hostName"`
 
 	// The port used to connect to the database.

@@ -30,7 +30,7 @@ type ExternalDbSystemConnector interface {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	GetCompartmentId() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system that this connector is part of.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system that the connector is a part of.
 	GetExternalDbSystemId() *string
 
 	// The current lifecycle state of the external DB system connector.
@@ -52,7 +52,7 @@ type ExternalDbSystemConnector interface {
 	// Additional information about the current lifecycle state.
 	GetLifecycleDetails() *string
 
-	// The date and time the connectionStatus of this external DB system connector was last updated.
+	// The date and time the connectionStatus of the external DB system connector was last updated.
 	GetTimeConnectionStatusLastUpdated() *common.SDKTime
 }
 

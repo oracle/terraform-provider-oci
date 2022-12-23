@@ -28,9 +28,6 @@ type AddHeatWaveClusterDetails struct {
 
 	// Enable/disable Lakehouse for the HeatWave cluster.
 	IsLakehouseEnabled *bool `mandatory:"false" json:"isLakehouseEnabled"`
-
-	// Enable/disable Datalake for the HeatWave cluster.
-	IsDatalakeEnabled *bool `mandatory:"false" json:"isDatalakeEnabled"`
 }
 
 func (m AddHeatWaveClusterDetails) String() string {

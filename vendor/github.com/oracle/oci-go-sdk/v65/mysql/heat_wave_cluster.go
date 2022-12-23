@@ -46,9 +46,6 @@ type HeatWaveCluster struct {
 	// Lakehouse enabled status for the HeatWave cluster.
 	IsLakehouseEnabled *bool `mandatory:"false" json:"isLakehouseEnabled"`
 
-	// Datalake enabled status for the HeatWave cluster.
-	IsDatalakeEnabled *bool `mandatory:"false" json:"isDatalakeEnabled"`
-
 	// Additional information about the current lifecycleState.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 }

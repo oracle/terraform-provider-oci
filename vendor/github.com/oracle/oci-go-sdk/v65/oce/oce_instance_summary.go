@@ -79,6 +79,9 @@ type OceInstanceSummary struct {
 	// Details of the current state of the instance lifecycle
 	LifecycleDetails LifecycleDetailsEnum `mandatory:"false" json:"lifecycleDetails,omitempty"`
 
+	// disaster recovery paired ragion name
+	DrRegion *string `mandatory:"false" json:"drRegion"`
+
 	// An message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	StateMessage *string `mandatory:"false" json:"stateMessage"`
 

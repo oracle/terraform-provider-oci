@@ -37,7 +37,7 @@ type ExternalDbSystemDiscoveryMacsConnector struct {
 	// the connection was successful.
 	ConnectionFailureMessage *string `mandatory:"false" json:"connectionFailureMessage"`
 
-	// The date and time the connectionStatus of this external DB system connector was last updated.
+	// The date and time the connectionStatus of the external DB system connector was last updated.
 	TimeConnectionStatusLastUpdated *common.SDKTime `mandatory:"false" json:"timeConnectionStatusLastUpdated"`
 
 	ConnectionInfo ExternalDbSystemConnectionInfo `mandatory:"false" json:"connectionInfo"`

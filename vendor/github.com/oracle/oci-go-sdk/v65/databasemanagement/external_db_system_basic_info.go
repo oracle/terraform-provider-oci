@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// ExternalDbSystemBasicInfo The basic information of an external database system.
+// ExternalDbSystemBasicInfo The basic information about an external DB system.
 type ExternalDbSystemBasicInfo struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system.

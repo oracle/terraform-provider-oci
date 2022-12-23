@@ -30,6 +30,8 @@ type CreateAutonomousDatabaseBackupDetails struct {
 
 	// Indicates whether the backup is long-term
 	IsLongTermBackup *bool `mandatory:"false" json:"isLongTermBackup"`
+
+	BackupDestinationDetails *BackupDestinationDetails `mandatory:"false" json:"backupDestinationDetails"`
 }
 
 func (m CreateAutonomousDatabaseBackupDetails) String() string {

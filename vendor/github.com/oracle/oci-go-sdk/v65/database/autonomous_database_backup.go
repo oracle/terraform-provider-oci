@@ -80,6 +80,8 @@ type AutonomousDatabaseBackup struct {
 
 	// The backup size in terrabytes (TB).
 	SizeInTBs *int `mandatory:"false" json:"sizeInTBs"`
+
+	BackupDestinationDetails *BackupDestinationDetails `mandatory:"false" json:"backupDestinationDetails"`
 }
 
 func (m AutonomousDatabaseBackup) String() string {

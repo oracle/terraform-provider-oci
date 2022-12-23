@@ -574,9 +574,10 @@ func (client ComputeClient) changeComputeClusterCompartment(ctx context.Context,
 // ChangeComputeImageCapabilitySchemaCompartment Moves a compute image capability schema into a different compartment within the same tenancy.
 // For information about moving resources between compartments, see
 //         Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// A default retry strategy applies to this operation ChangeComputeImageCapabilitySchemaCompartment()
 func (client ComputeClient) ChangeComputeImageCapabilitySchemaCompartment(ctx context.Context, request ChangeComputeImageCapabilitySchemaCompartmentRequest) (response ChangeComputeImageCapabilitySchemaCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -692,9 +693,10 @@ func (client ComputeClient) changeDedicatedVmHostCompartment(ctx context.Context
 // ChangeImageCompartment Moves an image into a different compartment within the same tenancy. For information about moving
 // resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// A default retry strategy applies to this operation ChangeImageCompartment()
 func (client ComputeClient) ChangeImageCompartment(ctx context.Context, request ChangeImageCompartmentRequest) (response ChangeImageCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -812,9 +814,10 @@ func (client ComputeClient) changeInstanceCompartment(ctx context.Context, reque
 }
 
 // CreateAppCatalogSubscription Create a subscription for listing resource version for a compartment. It will take some time to propagate to all regions.
+// A default retry strategy applies to this operation CreateAppCatalogSubscription()
 func (client ComputeClient) CreateAppCatalogSubscription(ctx context.Context, request CreateAppCatalogSubscriptionRequest) (response CreateAppCatalogSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1055,9 +1058,10 @@ func (client ComputeClient) createComputeCluster(ctx context.Context, request co
 }
 
 // CreateComputeImageCapabilitySchema Creates compute image capability schema.
+// A default retry strategy applies to this operation CreateComputeImageCapabilitySchema()
 func (client ComputeClient) CreateComputeImageCapabilitySchema(ctx context.Context, request CreateComputeImageCapabilitySchemaRequest) (response CreateComputeImageCapabilitySchemaResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1251,9 +1255,10 @@ func (client ComputeClient) createFirmwareReport(ctx context.Context, request co
 // You may optionally specify a *display name* for the image, which is simply a friendly name or description.
 // It does not have to be unique, and you can change it. See UpdateImage.
 // Avoid entering confidential information.
+// A default retry strategy applies to this operation CreateImage()
 func (client ComputeClient) CreateImage(ctx context.Context, request CreateImageRequest) (response CreateImageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2093,9 +2098,10 @@ func (client ComputeClient) detachVolume(ctx context.Context, request common.OCI
 // see Let Users Write Objects to Object Storage Buckets (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/commonpolicies.htm#Let4).
 // See Object Storage URLs (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/imageimportexport.htm#URLs) and Using Pre-Authenticated Requests (https://docs.cloud.oracle.com/iaas/Content/Object/Tasks/usingpreauthenticatedrequests.htm)
 // for constructing URLs for image import/export.
+// A default retry strategy applies to this operation ExportImage()
 func (client ComputeClient) ExportImage(ctx context.Context, request ExportImageRequest) (response ExportImageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2151,9 +2157,10 @@ func (client ComputeClient) exportImage(ctx context.Context, request common.OCIR
 }
 
 // GetAppCatalogListing Gets the specified listing.
+// A default retry strategy applies to this operation GetAppCatalogListing()
 func (client ComputeClient) GetAppCatalogListing(ctx context.Context, request GetAppCatalogListingRequest) (response GetAppCatalogListingResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2204,9 +2211,10 @@ func (client ComputeClient) getAppCatalogListing(ctx context.Context, request co
 }
 
 // GetAppCatalogListingAgreements Retrieves the agreements for a particular resource version of a listing.
+// A default retry strategy applies to this operation GetAppCatalogListingAgreements()
 func (client ComputeClient) GetAppCatalogListingAgreements(ctx context.Context, request GetAppCatalogListingAgreementsRequest) (response GetAppCatalogListingAgreementsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2257,9 +2265,10 @@ func (client ComputeClient) getAppCatalogListingAgreements(ctx context.Context, 
 }
 
 // GetAppCatalogListingResourceVersion Gets the specified listing resource version.
+// A default retry strategy applies to this operation GetAppCatalogListingResourceVersion()
 func (client ComputeClient) GetAppCatalogListingResourceVersion(ctx context.Context, request GetAppCatalogListingResourceVersionRequest) (response GetAppCatalogListingResourceVersionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2469,9 +2478,10 @@ func (client ComputeClient) getComputeCluster(ctx context.Context, request commo
 }
 
 // GetComputeGlobalImageCapabilitySchema Gets the specified Compute Global Image Capability Schema
+// A default retry strategy applies to this operation GetComputeGlobalImageCapabilitySchema()
 func (client ComputeClient) GetComputeGlobalImageCapabilitySchema(ctx context.Context, request GetComputeGlobalImageCapabilitySchemaRequest) (response GetComputeGlobalImageCapabilitySchemaResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2522,9 +2532,10 @@ func (client ComputeClient) getComputeGlobalImageCapabilitySchema(ctx context.Co
 }
 
 // GetComputeGlobalImageCapabilitySchemaVersion Gets the specified Compute Global Image Capability Schema Version
+// A default retry strategy applies to this operation GetComputeGlobalImageCapabilitySchemaVersion()
 func (client ComputeClient) GetComputeGlobalImageCapabilitySchemaVersion(ctx context.Context, request GetComputeGlobalImageCapabilitySchemaVersionRequest) (response GetComputeGlobalImageCapabilitySchemaVersionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2575,9 +2586,10 @@ func (client ComputeClient) getComputeGlobalImageCapabilitySchemaVersion(ctx con
 }
 
 // GetComputeImageCapabilitySchema Gets the specified Compute Image Capability Schema
+// A default retry strategy applies to this operation GetComputeImageCapabilitySchema()
 func (client ComputeClient) GetComputeImageCapabilitySchema(ctx context.Context, request GetComputeImageCapabilitySchemaRequest) (response GetComputeImageCapabilitySchemaResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2845,9 +2857,10 @@ func (client ComputeClient) getFirmwareReport(ctx context.Context, request commo
 }
 
 // GetImage Gets the specified image.
+// A default retry strategy applies to this operation GetImage()
 func (client ComputeClient) GetImage(ctx context.Context, request GetImageRequest) (response GetImageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2898,9 +2911,10 @@ func (client ComputeClient) getImage(ctx context.Context, request common.OCIRequ
 }
 
 // GetImageShapeCompatibilityEntry Retrieves an image shape compatibility entry.
+// A default retry strategy applies to this operation GetImageShapeCompatibilityEntry()
 func (client ComputeClient) GetImageShapeCompatibilityEntry(ctx context.Context, request GetImageShapeCompatibilityEntryRequest) (response GetImageShapeCompatibilityEntryResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3611,9 +3625,10 @@ func (client ComputeClient) launchInstance(ctx context.Context, request common.O
 }
 
 // ListAppCatalogListingResourceVersions Gets all resource versions for a particular listing.
+// A default retry strategy applies to this operation ListAppCatalogListingResourceVersions()
 func (client ComputeClient) ListAppCatalogListingResourceVersions(ctx context.Context, request ListAppCatalogListingResourceVersionsRequest) (response ListAppCatalogListingResourceVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3664,9 +3679,10 @@ func (client ComputeClient) listAppCatalogListingResourceVersions(ctx context.Co
 }
 
 // ListAppCatalogListings Lists the published listings.
+// A default retry strategy applies to this operation ListAppCatalogListings()
 func (client ComputeClient) ListAppCatalogListings(ctx context.Context, request ListAppCatalogListingsRequest) (response ListAppCatalogListingsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3717,9 +3733,10 @@ func (client ComputeClient) listAppCatalogListings(ctx context.Context, request 
 }
 
 // ListAppCatalogSubscriptions Lists subscriptions for a compartment.
+// A default retry strategy applies to this operation ListAppCatalogSubscriptions()
 func (client ComputeClient) ListAppCatalogSubscriptions(ctx context.Context, request ListAppCatalogSubscriptionsRequest) (response ListAppCatalogSubscriptionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4039,9 +4056,10 @@ func (client ComputeClient) listComputeClusters(ctx context.Context, request com
 }
 
 // ListComputeGlobalImageCapabilitySchemaVersions Lists Compute Global Image Capability Schema versions in the specified compartment.
+// A default retry strategy applies to this operation ListComputeGlobalImageCapabilitySchemaVersions()
 func (client ComputeClient) ListComputeGlobalImageCapabilitySchemaVersions(ctx context.Context, request ListComputeGlobalImageCapabilitySchemaVersionsRequest) (response ListComputeGlobalImageCapabilitySchemaVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4092,9 +4110,10 @@ func (client ComputeClient) listComputeGlobalImageCapabilitySchemaVersions(ctx c
 }
 
 // ListComputeGlobalImageCapabilitySchemas Lists Compute Global Image Capability Schema in the specified compartment.
+// A default retry strategy applies to this operation ListComputeGlobalImageCapabilitySchemas()
 func (client ComputeClient) ListComputeGlobalImageCapabilitySchemas(ctx context.Context, request ListComputeGlobalImageCapabilitySchemasRequest) (response ListComputeGlobalImageCapabilitySchemasResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4145,9 +4164,10 @@ func (client ComputeClient) listComputeGlobalImageCapabilitySchemas(ctx context.
 }
 
 // ListComputeImageCapabilitySchemas Lists Compute Image Capability Schema in the specified compartment. You can also query by a specific imageId.
+// A default retry strategy applies to this operation ListComputeImageCapabilitySchemas()
 func (client ComputeClient) ListComputeImageCapabilitySchemas(ctx context.Context, request ListComputeImageCapabilitySchemasRequest) (response ListComputeImageCapabilitySchemasResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4520,9 +4540,10 @@ func (client ComputeClient) listFirmwareReports(ctx context.Context, request com
 }
 
 // ListImageShapeCompatibilityEntries Lists the compatible shapes for the specified image.
+// A default retry strategy applies to this operation ListImageShapeCompatibilityEntries()
 func (client ComputeClient) ListImageShapeCompatibilityEntries(ctx context.Context, request ListImageShapeCompatibilityEntriesRequest) (response ListImageShapeCompatibilityEntriesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4581,9 +4602,10 @@ func (client ComputeClient) listImageShapeCompatibilityEntries(ctx context.Conte
 // then all of the custom images.
 // **Caution:** Platform images are refreshed regularly. When new images are released, older versions are replaced.
 // The image OCIDs remain available, but when the platform image is replaced, the image OCIDs are no longer returned as part of the platform image list.
+// A default retry strategy applies to this operation ListImages()
 func (client ComputeClient) ListImages(ctx context.Context, request ListImagesRequest) (response ListImagesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

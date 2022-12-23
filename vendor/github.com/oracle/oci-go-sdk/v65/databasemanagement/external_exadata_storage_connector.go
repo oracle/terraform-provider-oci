@@ -49,6 +49,9 @@ type ExternalExadataStorageConnector struct {
 	// Example: `{"bar-key": "value"}`
 	AdditionalDetails map[string]string `mandatory:"false" json:"additionalDetails"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of Exadata infrastructure system.
+	ExadataInfrastructureId *string `mandatory:"false" json:"exadataInfrastructureId"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the agent for the Exadata storage server.
 	AgentId *string `mandatory:"false" json:"agentId"`
 

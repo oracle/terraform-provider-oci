@@ -20,7 +20,7 @@ type ListExternalClusterInstancesRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external cluster.
 	ExternalClusterId *string `mandatory:"false" contributesTo:"query" name:"externalClusterId"`
 
-	// A filter to return only resources that match the entire name.
+	// A filter to only return the resources that match the entire display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// The page token representing the page from where the next set of paginated results
@@ -31,8 +31,8 @@ type ListExternalClusterInstancesRequest struct {
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The field to sort information by. Only one sortOrder can be used. The default sort order
-	// for ‘TIMECREATED’ is descending and the default sort order for ‘NAME’ is ascending.
-	// The ‘NAME’ sort order is case-sensitive.
+	// for `TIMECREATED` is descending and the default sort order for `DISPLAYNAME` is ascending.
+	// The `DISPLAYNAME` sort order is case-sensitive.
 	SortBy ListExternalClusterInstancesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The option to sort information in ascending (‘ASC’) or descending (‘DESC’) order. Ascending order is the default order.
@@ -123,17 +123,17 @@ type ListExternalClusterInstancesSortByEnum string
 // Set of constants representing the allowable values for ListExternalClusterInstancesSortByEnum
 const (
 	ListExternalClusterInstancesSortByTimecreated ListExternalClusterInstancesSortByEnum = "TIMECREATED"
-	ListExternalClusterInstancesSortByName        ListExternalClusterInstancesSortByEnum = "NAME"
+	ListExternalClusterInstancesSortByDisplayname ListExternalClusterInstancesSortByEnum = "DISPLAYNAME"
 )
 
 var mappingListExternalClusterInstancesSortByEnum = map[string]ListExternalClusterInstancesSortByEnum{
 	"TIMECREATED": ListExternalClusterInstancesSortByTimecreated,
-	"NAME":        ListExternalClusterInstancesSortByName,
+	"DISPLAYNAME": ListExternalClusterInstancesSortByDisplayname,
 }
 
 var mappingListExternalClusterInstancesSortByEnumLowerCase = map[string]ListExternalClusterInstancesSortByEnum{
 	"timecreated": ListExternalClusterInstancesSortByTimecreated,
-	"name":        ListExternalClusterInstancesSortByName,
+	"displayname": ListExternalClusterInstancesSortByDisplayname,
 }
 
 // GetListExternalClusterInstancesSortByEnumValues Enumerates the set of values for ListExternalClusterInstancesSortByEnum
@@ -149,7 +149,7 @@ func GetListExternalClusterInstancesSortByEnumValues() []ListExternalClusterInst
 func GetListExternalClusterInstancesSortByEnumStringValues() []string {
 	return []string{
 		"TIMECREATED",
-		"NAME",
+		"DISPLAYNAME",
 	}
 }
 

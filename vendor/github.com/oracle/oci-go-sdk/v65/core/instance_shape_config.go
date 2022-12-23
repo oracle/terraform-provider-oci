@@ -65,6 +65,11 @@ type InstanceShapeConfig struct {
 	// A short description of the local disks available to this instance.
 	// If the instance does not have any local disks, this field is `null`.
 	LocalDiskDescription *string `mandatory:"false" json:"localDiskDescription"`
+
+	// The total number of VCPUs available to the instance. This can be used instead of OCPUs in the case of
+	// platform-agnostic launch, in which case the actual number of OCPUs will be calculated based on this value
+	// and the actual hardware. This must be a multiple of 2.
+	Vcpus *float32 `mandatory:"false" json:"vcpus"`
 }
 
 func (m InstanceShapeConfig) String() string {

@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// CloudAutonomousVmClusterResourceDetails Unallocated resource details of the CAVM
+// CloudAutonomousVmClusterResourceDetails Unallocated resource details of the Cloud Autonomous VM Cluster.
 type CloudAutonomousVmClusterResourceDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Cloud Exadata infrastructure.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Total unallocated autonomous data storage in the CAVM in TBs.
+	// Total unallocated autonomous data storage in the Cloud Autonomous VM Cluster in TBs.
 	UnAllocatedAdbStorageInTBs *float64 `mandatory:"true" json:"unAllocatedAdbStorageInTBs"`
 }
 

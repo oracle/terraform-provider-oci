@@ -41,14 +41,14 @@ type ExternalDbSystem struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DB system discovery.
 	DbSystemDiscoveryId *string `mandatory:"false" json:"dbSystemDiscoveryId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Management Agent used during the discovery of DB system.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the management agent used during the discovery of the DB system.
 	DiscoveryAgentId *string `mandatory:"false" json:"discoveryAgentId"`
 
-	// Indicates whether this DB system is a cluster database system or not.
+	// Indicates whether the DB system is a cluster DB system or not.
 	IsCluster *bool `mandatory:"false" json:"isCluster"`
 
-	// The Oracle Grid home directory in case of cluster based DB system and
-	// Oracle home directory in case of single instance based DB system.
+	// The Oracle Grid home directory in case of cluster-based DB system and
+	// Oracle home directory in case of single instance-based DB system.
 	HomeDirectory *string `mandatory:"false" json:"homeDirectory"`
 
 	DatabaseManagementConfig *ExternalDbSystemDatabaseManagementConfigDetails `mandatory:"false" json:"databaseManagementConfig"`

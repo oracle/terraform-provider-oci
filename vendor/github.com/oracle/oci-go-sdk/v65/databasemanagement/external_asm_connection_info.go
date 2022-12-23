@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// ExternalAsmConnectionInfo The details needed to connect to an external Oracle ASM instance.
+// ExternalAsmConnectionInfo The details required to connect to an external ASM instance.
 type ExternalAsmConnectionInfo struct {
 	ConnectionString *AsmConnectionString `mandatory:"true" json:"connectionString"`
 

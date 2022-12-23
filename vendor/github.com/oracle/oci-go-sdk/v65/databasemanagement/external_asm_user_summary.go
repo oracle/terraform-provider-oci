@@ -17,13 +17,13 @@ import (
 	"strings"
 )
 
-// ExternalAsmUserSummary The summary of an Oracle ASM user.
+// ExternalAsmUserSummary The summary of an ASM user.
 type ExternalAsmUserSummary struct {
 
-	// The name of Oracle ASM user.
+	// The name of the ASM user.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The list of privileges of Oracle ASM user.
+	// The list of privileges of the ASM user.
 	Privileges []string `mandatory:"true" json:"privileges"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external ASM.

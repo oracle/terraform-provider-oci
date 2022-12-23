@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// ExternalClusterVipConfiguration The details of Virtual IP (VIP) address for a node in an external cluster.
+// ExternalClusterVipConfiguration The details of the Virtual IP (VIP) address for a node in an external cluster.
 type ExternalClusterVipConfiguration struct {
 
-	// The name of the node having the VIP.
+	// The name of the node with the VIP.
 	NodeName *string `mandatory:"false" json:"nodeName"`
 
 	// The VIP name or IP address.

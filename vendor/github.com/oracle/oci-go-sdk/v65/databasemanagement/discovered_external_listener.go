@@ -33,7 +33,7 @@ type DiscoveredExternalListener struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the existing OCI resource matching the discovered DB system component.
 	ResourceId *string `mandatory:"false" json:"resourceId"`
 
-	// This indicates whether the DB system component should be provisioned as an OCI resource or not.
+	// Indicates whether the DB system component should be provisioned as an OCI resource or not.
 	IsSelectedForMonitoring *bool `mandatory:"false" json:"isSelectedForMonitoring"`
 
 	// The list of associated components.
@@ -60,7 +60,7 @@ type DiscoveredExternalListener struct {
 	// The listener version.
 	Version *string `mandatory:"false" json:"version"`
 
-	// The name of the host where the external listener is running.
+	// The name of the host on which the external listener is running.
 	HostName *string `mandatory:"false" json:"hostName"`
 
 	// The list of protocol addresses the listener is configured to listen on.

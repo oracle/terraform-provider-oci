@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// ExternalServicedAsm The details of Oracle ASM serviced by an external listener.
+// ExternalServicedAsm The details of ASM serviced by an external listener.
 type ExternalServicedAsm struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external ASM.

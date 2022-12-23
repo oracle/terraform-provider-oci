@@ -30,10 +30,10 @@ type DbManagementAnalyticsMetric struct {
 	// Example: `"unit": "bytes"`
 	Metadata map[string]string `mandatory:"false" json:"metadata"`
 
-	// Qualifiers provided in the definition of the returned metric.
+	// The qualifiers provided in the definition of the returned metric.
 	Dimensions map[string]string `mandatory:"false" json:"dimensions"`
 
-	// The start time associated with the value of this metric.
+	// The start time associated with the value of the metric.
 	StartTimestampInEpochSeconds *int64 `mandatory:"false" json:"startTimestampInEpochSeconds"`
 
 	// The mean value of the metric.

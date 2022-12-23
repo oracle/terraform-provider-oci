@@ -36,7 +36,7 @@ type CreateCloudAutonomousVmClusterDetails struct {
 	// The total number of Autonomous Container Databases that can be created.
 	TotalContainerDatabases *int `mandatory:"false" json:"totalContainerDatabases"`
 
-	// The number of OCPU cores to enable per VM cluster node.
+	// The number of OCPU cores to be enabled per VM cluster node.
 	CpuCoreCountPerNode *int `mandatory:"false" json:"cpuCoreCountPerNode"`
 
 	// The amount of memory (in GBs) to be enabled per each OCPU core.
@@ -54,7 +54,7 @@ type CreateCloudAutonomousVmClusterDetails struct {
 	// Enable mutual TLS(mTLS) authentication for database at time of provisioning a VMCluster. This is applicable to database TLS Certificates only. Default is TLS
 	IsMtlsEnabledVmCluster *bool `mandatory:"false" json:"isMtlsEnabledVmCluster"`
 
-	// The list of Db server.
+	// The list of database servers.
 	DbServers []string `mandatory:"false" json:"dbServers"`
 
 	MaintenanceWindowDetails *MaintenanceWindow `mandatory:"false" json:"maintenanceWindowDetails"`
