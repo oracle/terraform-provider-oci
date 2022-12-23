@@ -5,26 +5,20 @@ package datascience
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
+
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
-func DatascienceModelsDataSource() *schema.Resource {
+func DatascienceModelVersionSetsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatascienceModels,
+		Read: readDatascienceModelVersionSets,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"model_version_set_name": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"version_label": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
@@ -32,11 +26,11 @@ func DatascienceModelsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"display_name": {
+			"id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"id": {
+			"name": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -48,35 +42,35 @@ func DatascienceModelsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"models": {
+			"model_version_sets": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     tfresource.GetDataSourceItemSchema(DatascienceModelResource()),
+				Elem:     tfresource.GetDataSourceItemSchema(DatascienceModelVersionSetResource()),
 			},
 		},
 	}
 }
 
-func readDatascienceModels(d *schema.ResourceData, m interface{}) error {
-	sync := &DatascienceModelsDataSourceCrud{}
+func readDatascienceModelVersionSets(d *schema.ResourceData, m interface{}) error {
+	sync := &DatascienceModelVersionSetsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
 	return tfresource.ReadResource(sync)
 }
 
-type DatascienceModelsDataSourceCrud struct {
+type DatascienceModelVersionSetsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_datascience.DataScienceClient
-	Res    *oci_datascience.ListModelsResponse
+	Res    *oci_datascience.ListModelVersionSetsResponse
 }
 
-func (s *DatascienceModelsDataSourceCrud) VoidState() {
+func (s *DatascienceModelVersionSetsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceModelsDataSourceCrud) Get() error {
-	request := oci_datascience.ListModelsRequest{}
+func (s *DatascienceModelVersionSetsDataSourceCrud) Get() error {
+	request := oci_datascience.ListModelVersionSetsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -88,24 +82,14 @@ func (s *DatascienceModelsDataSourceCrud) Get() error {
 		request.CreatedBy = &tmp
 	}
 
-	if displayName, ok := s.D.GetOkExists("display_name"); ok {
-		tmp := displayName.(string)
-		request.DisplayName = &tmp
-	}
-
-	if model_version_set_name, ok := s.D.GetOkExists("model_version_set_name"); ok {
-		tmp := model_version_set_name.(string)
-		request.ModelVersionSetName = &tmp
-	}
-
-	if version_label, ok := s.D.GetOkExists("version_label"); ok {
-		tmp := version_label.(string)
-		request.VersionLabel = &tmp
-	}
-
 	if id, ok := s.D.GetOkExists("id"); ok {
 		tmp := id.(string)
 		request.Id = &tmp
+	}
+
+	if name, ok := s.D.GetOkExists("name"); ok {
+		tmp := name.(string)
+		request.Name = &tmp
 	}
 
 	if projectId, ok := s.D.GetOkExists("project_id"); ok {
@@ -114,12 +98,12 @@ func (s *DatascienceModelsDataSourceCrud) Get() error {
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
-		request.LifecycleState = oci_datascience.ListModelsLifecycleStateEnum(state.(string))
+		request.LifecycleState = oci_datascience.ListModelVersionSetsLifecycleStateEnum(state.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.ListModels(context.Background(), request)
+	response, err := s.Client.ListModelVersionSets(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -128,7 +112,7 @@ func (s *DatascienceModelsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListModels(context.Background(), request)
+		listResponse, err := s.Client.ListModelVersionSets(context.Background(), request)
 		if err != nil {
 			return err
 		}
@@ -140,63 +124,60 @@ func (s *DatascienceModelsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatascienceModelsDataSourceCrud) SetData() error {
+func (s *DatascienceModelVersionSetsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
 
-	s.D.SetId(tfresource.GenerateDataSourceHashID("DatascienceModelsDataSource-", DatascienceModelsDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("DatascienceModelVersionSetsDataSource-", DatascienceModelVersionSetsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
-		model := map[string]interface{}{
+		modelVersionSet := map[string]interface{}{
 			"compartment_id": *r.CompartmentId,
 		}
 
 		if r.CreatedBy != nil {
-			model["created_by"] = *r.CreatedBy
+			modelVersionSet["created_by"] = *r.CreatedBy
 		}
 
 		if r.DefinedTags != nil {
-			model["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
+			modelVersionSet["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
 		}
 
-		if r.DisplayName != nil {
-			model["display_name"] = *r.DisplayName
-		}
-
-		model["freeform_tags"] = r.FreeformTags
+		modelVersionSet["freeform_tags"] = r.FreeformTags
+		modelVersionSet["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
-			model["id"] = *r.Id
+			modelVersionSet["id"] = *r.Id
+		}
+
+		if r.Name != nil {
+			modelVersionSet["name"] = *r.Name
 		}
 
 		if r.ProjectId != nil {
-			model["project_id"] = *r.ProjectId
+			modelVersionSet["project_id"] = *r.ProjectId
 		}
 
-		if r.ModelVersionSetName != nil {
-			model["model_version_set_name"] = *r.ModelVersionSetName
-		}
-
-		if r.VersionLabel != nil {
-			model["version_label"] = *r.VersionLabel
-		}
-
-		model["state"] = r.LifecycleState
+		modelVersionSet["state"] = r.LifecycleState
 
 		if r.TimeCreated != nil {
-			model["time_created"] = r.TimeCreated.String()
+			modelVersionSet["time_created"] = r.TimeCreated.String()
 		}
 
-		resources = append(resources, model)
+		if r.TimeUpdated != nil {
+			modelVersionSet["time_updated"] = r.TimeUpdated.String()
+		}
+
+		resources = append(resources, modelVersionSet)
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = tfresource.ApplyFilters(f.(*schema.Set), resources, DatascienceModelsDataSource().Schema["models"].Elem.(*schema.Resource).Schema)
+		resources = tfresource.ApplyFilters(f.(*schema.Set), resources, DatascienceModelVersionSetsDataSource().Schema["model_version_sets"].Elem.(*schema.Resource).Schema)
 	}
 
-	if err := s.D.Set("models", resources); err != nil {
+	if err := s.D.Set("model_version_sets", resources); err != nil {
 		return err
 	}
 
