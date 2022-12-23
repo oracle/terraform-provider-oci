@@ -85,7 +85,6 @@ The following attributes are exported:
 * `time_updated` - The time the resource was updated, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-13T22:47:12.613Z` 
 * `time_uploaded` - The time the script was uploaded.
 
-<<<<<<< ours
 ## Timeouts
 
 The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
@@ -94,8 +93,6 @@ The `timeouts` block allows you to specify [timeouts](https://registry.terraform
 	* `delete` - (Defaults to 20 minutes), when destroying the Script
 
 
-=======
->>>>>>> theirs
 ## Import
 
 Scripts can be imported using the `id`, e.g.

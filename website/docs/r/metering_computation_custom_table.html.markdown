@@ -79,7 +79,6 @@ The following attributes are exported:
 	* `version` - The version of the custom table.
 * `saved_report_id` - The custom table associated saved report OCID.
 
-<<<<<<< ours
 ## Timeouts
 
 The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
@@ -88,8 +87,6 @@ The `timeouts` block allows you to specify [timeouts](https://registry.terraform
 	* `delete` - (Defaults to 20 minutes), when destroying the Custom Table
 
 
-=======
->>>>>>> theirs
 ## Import
 
 CustomTables can be imported using the `id`, e.g.

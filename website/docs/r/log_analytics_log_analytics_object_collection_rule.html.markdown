@@ -103,7 +103,6 @@ The following attributes are exported:
 * `time_updated` - The time when this rule was last updated. An RFC3339 formatted datetime string.
 * `timezone` - Timezone to be used when processing log entries whose timestamps do not include an explicit timezone.  When this property is not specified, the timezone of the entity specified is used.  If the entity is also not specified or do not have a valid timezone then UTC is used. 
 
-<<<<<<< ours
 ## Timeouts
 
 The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
@@ -112,8 +111,6 @@ The `timeouts` block allows you to specify [timeouts](https://registry.terraform
 	* `delete` - (Defaults to 20 minutes), when destroying the Log Analytics Object Collection Rule
 
 
-=======
->>>>>>> theirs
 ## Import
 
 LogAnalyticsObjectCollectionRules can be imported using the `id`, e.g.

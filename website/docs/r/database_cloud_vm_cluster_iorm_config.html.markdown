@@ -51,8 +51,7 @@ The following attributes are exported:
 	* `flash_cache_limit` - The flash cache limit for this database. This value is internally configured based on the share value assigned to the database. 
 	* `share` - The relative priority of this database. 
 * `lifecycle_details` - Additional information about the current `lifecycleState`. 
-* `objective` - The current value for the IORM objective. The default is `AUTO`. 
-<<<<<<< ours
+* `objective` - The current value for the IORM objective. The default is `AUTO`.
 * `state` - The current state of IORM configuration for the Exadata DB system. 
 
 ## Timeouts
@@ -70,7 +69,3 @@ CloudVmClusterIormConfigs can be imported using the `id`, e.g.
 ```
 $ terraform import oci_database_cloud_vm_cluster_iorm_config.test_cloud_vm_cluster_iorm_config "cloudVmClusters/{cloudVmClusterId}/CloudVmClusterIormConfig" 
 ```
-
-=======
-* `state` - The current state of IORM configuration for the Cloud Vm Cluster. 
->>>>>>> theirs

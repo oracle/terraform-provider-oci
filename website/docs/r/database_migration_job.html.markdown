@@ -74,8 +74,7 @@ The following attributes are exported:
 	* `object` - Name of the object (regular expression is allowed) 
 	* `owner` - Owner of the object (regular expression is allowed) 
 	* `type` - Type of unsupported object 
-
-<<<<<<< ours
+	
 ## Timeouts
 
 The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
@@ -84,8 +83,6 @@ The `timeouts` block allows you to specify [timeouts](https://registry.terraform
 	* `delete` - (Defaults to 20 minutes), when destroying the Job
 
 
-=======
->>>>>>> theirs
 ## Import
 
 Jobs can be imported using the `id`, e.g.

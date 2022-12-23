@@ -374,7 +374,6 @@ The following attributes are exported:
 	* `vault_id` - OCID of the vault 
 * `wait_after` - Name of a migration phase. The Job will wait after executing this phase until the Resume Job endpoint is called. 
 
-<<<<<<< ours
 ## Timeouts
 
 The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
@@ -383,8 +382,6 @@ The `timeouts` block allows you to specify [timeouts](https://registry.terraform
 	* `delete` - (Defaults to 20 minutes), when destroying the Migration
 
 
-=======
->>>>>>> theirs
 ## Import
 
 Migrations can be imported using the `id`, e.g.
