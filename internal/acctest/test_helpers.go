@@ -467,13 +467,39 @@ func WriteToFile(content string, service string, resource string) error {
 	return nil
 }
 
-func GenericTestStepPreConfiguration(stepNumber int) func() {
+func WriteToFileWithStepNumber(content string, step int, t *testing.T) error {
+	path, err := os.Getwd()
+	if err != nil {
+		return err
+	}
+	path = path + "/output/"
+	if err := os.MkdirAll(path, 0770); err != nil {
+		return err
+	}
+	fileName := fmt.Sprintf("%s%s-step-%d.tf", path, t.Name(), step)
+	f, err := os.OpenFile(fileName, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0755)
+	if err != nil {
+		return err
+	}
+	if _, err = f.WriteString(content); err != nil {
+		return err
+	}
+	log.Printf("Test Config saved to : %s", fileName)
+	return nil
+}
+
+func GenericTestStepPreConfiguration(steps []resource.TestStep, stepNumber int, t *testing.T) func() {
 	return func() {
 
 		// add logs for notifying execution
 		log.Println()
 		log.Printf("====================== Executing Test Step %d ===================", stepNumber)
 		log.Println()
+		if strings.ToLower(utils.GetEnvSettingWithBlankDefault(globalvar.DebugTestSteps)) == "true" {
+			if err := WriteToFileWithStepNumber(steps[stepNumber].Config, stepNumber, t); err != nil {
+				log.Printf("Failed to write TF content to file with error: %q", err)
+			}
+		}
 	}
 }
 
@@ -577,7 +603,7 @@ func ResourceTest(t *testing.T, checkDestroyFunc resource.TestCheckFunc, steps [
 	// set Generic preconfiguration method if not explicitly set
 	for index, _ := range steps {
 		if steps[index].PreConfig == nil {
-			steps[index].PreConfig = GenericTestStepPreConfiguration(index)
+			steps[index].PreConfig = GenericTestStepPreConfiguration(steps, index, t)
 		}
 	}
 
