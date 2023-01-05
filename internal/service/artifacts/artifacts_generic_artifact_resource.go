@@ -17,6 +17,9 @@ import (
 
 func ArtifactsGenericArtifactResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: tfresource.DefaultTimeout,
 		Create:   createArtifactsGenericArtifact,
 		Read:     readArtifactsGenericArtifact,
@@ -189,6 +192,9 @@ func (s *ArtifactsGenericArtifactResourceCrud) Get() error {
 	if artifactId, ok := s.D.GetOkExists("artifact_id"); ok {
 		tmp := artifactId.(string)
 		request.ArtifactId = &tmp
+	} else {
+		tmp := s.D.Id()
+		request.ArtifactId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "artifacts")
@@ -248,6 +254,9 @@ func (s *ArtifactsGenericArtifactResourceCrud) Delete() error {
 }
 
 func (s *ArtifactsGenericArtifactResourceCrud) SetData() error {
+	if s.Res.Id != nil {
+		s.D.Set("artifact_id", *s.Res.Id)
+	}
 
 	if s.Res.ArtifactPath != nil {
 		s.D.Set("artifact_path", *s.Res.ArtifactPath)
@@ -291,7 +300,6 @@ func (s *ArtifactsGenericArtifactResourceCrud) SetData() error {
 
 	return nil
 }
-
 func GenericArtifactSummaryToMap(obj oci_artifacts.GenericArtifactSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
