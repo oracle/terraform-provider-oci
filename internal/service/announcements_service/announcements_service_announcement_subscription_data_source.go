@@ -98,6 +98,14 @@ func (s *AnnouncementsServiceAnnouncementSubscriptionDataSourceCrud) SetData() e
 		s.D.Set("ons_topic_id", *s.Res.OnsTopicId)
 	}
 
+	if s.Res.PreferredLanguage != nil {
+		s.D.Set("preferred_language", *s.Res.PreferredLanguage)
+	}
+
+	if s.Res.PreferredTimeZone != nil {
+		s.D.Set("preferred_time_zone", *s.Res.PreferredTimeZone)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {

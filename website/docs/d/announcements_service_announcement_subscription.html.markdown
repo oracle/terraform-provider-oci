@@ -48,6 +48,8 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the announcement subscription.
 * `lifecycle_details` - A message describing the current lifecycle state in more detail. For example, details might provide required or recommended actions for a resource in a Failed state. 
 * `ons_topic_id` - The OCID of the Notifications service topic that is the target for publishing announcements that match the configured announcement subscription. 
+* `preferred_language` - (For announcement subscriptions with Oracle Fusion Applications configured as the service only) The language in which the user prefers to receive emailed announcements. Specify the preference with a value that uses the language tag format (x-obmcs-human-language). For example fr-FR.
+* `preferred_time_zone` - The time zone that the user prefers for announcement time stamps. Specify the preference with a value that uses the IANA Time Zone Database format (x-obmcs-time-zone). For example America/Los_Angeles.
 * `state` - The current lifecycle state of the announcement subscription.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time that the announcement subscription was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. 
