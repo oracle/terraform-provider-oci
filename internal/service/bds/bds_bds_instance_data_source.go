@@ -82,6 +82,8 @@ func (s *BdsBdsInstanceDataSourceCrud) SetData() error {
 		s.D.Set("cluster_details", nil)
 	}
 
+	s.D.Set("cluster_profile", s.Res.ClusterProfile)
+
 	s.D.Set("cluster_version", s.Res.ClusterVersion)
 
 	if s.Res.CompartmentId != nil {

@@ -57,6 +57,7 @@ The following attributes are exported:
 	* `os_version` - Oracle Linux version installed in the cluster.
 	* `time_created` - The time the cluster was created, shown as an RFC 3339 formatted datetime string.
 	* `time_refreshed` - The time the cluster was automatically or manually refreshed, shown as an RFC 3339 formatted datetime string. 
+* `cluster_profile` - Profile of the Big Data Service cluster.
 * `cluster_version` - Version of the Hadoop distribution.
 * `compartment_id` - The OCID of the compartment.
 * `created_by` - The user who created the cluster.
