@@ -385,9 +385,11 @@ apm_synthetics
 
 artifacts
     
+* oci\_artifacts\_container\_configuration
 * oci\_artifacts\_container\_repository
 * oci\_artifacts\_container\_image\_signature
 * oci\_artifacts\_repository
+* oci\_artifacts\_generic\_artifact
 
 auto_scaling
     
@@ -601,10 +603,8 @@ dataflow
 * oci\_dataflow\_run\_statement
 
 dataintegration
-
+    
 * oci\_dataintegration\_workspace
-* oci\_dataintegration\_workspace\_project
-* oci\_dataintegration\_workspace\_folder
 
 datascience
     

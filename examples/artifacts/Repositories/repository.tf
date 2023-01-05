@@ -6,7 +6,7 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-variable "compartment_id" {}
+variable "compartment_ocid" {}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -18,7 +18,7 @@ provider "oci" {
 
 resource "oci_artifacts_repository" "test_repository" {
   #Required
-  compartment_id  = var.compartment_id
+  compartment_id  = var.compartment_ocid
   is_immutable    = false
   repository_type = "GENERIC"
 }
@@ -48,7 +48,7 @@ resource "oci_artifacts_generic_artifact" "test_artifact_by_source" {
 
 data "oci_artifacts_repositories" "test_repositories" {
   #Required
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
   state = "AVAILABLE"
 }
 
