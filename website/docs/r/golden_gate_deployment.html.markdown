@@ -65,7 +65,7 @@ The following arguments are supported:
 * `license_model` - (Required) (Updatable) The Oracle license model that applies to a Deployment. 
 * `nsg_ids` - (Optional) (Updatable) An array of Network Security Group OCIDs used to define network access for either Deployments or Connections. 
 * `ogg_data` - (Optional) (Updatable) Deployment Data for creating an OggDeployment 
-	* `admin_password` - (Required) (Updatable) The password associated with the GoldenGate deployment console username. The password must be 8 to 30 characters long and must contain at least 1 uppercase, 1 lowercase, 1 numeric, and 1 special character. Special characters such as ‘$’, ‘^’, or ‘?’ are not allowed. 
+	* `admin_password` - (Required) (Updatable) The password associated with the GoldenGate deployment console username. The password must be 8 to 30 characters long and must contain at least 1 uppercase, 1 lowercase, 1 numeric, and 1 special character. Special characters such as ‘$’, ‘^’, or ‘?’ are not allowed. This field will be deprecated and replaced by "passwordSecretId". 
 	* `admin_username` - (Required) (Updatable) The GoldenGate deployment console username. 
 	* `certificate` - (Optional) (Updatable) A PEM-encoded SSL certificate. 
 	* `deployment_name` - (Required) The name given to the GoldenGate service deployment. The name must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter. 
