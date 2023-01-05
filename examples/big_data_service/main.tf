@@ -29,6 +29,9 @@ variable "bds_instance_cluster_admin_password" {
 variable "kms_key_id" {
 }
 
+variable "cluster_profile" {
+}
+
 variable "bds_instance_cluster_public_key" {
   default = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDpUa4zUZKyU3AkW9yoJTBDO550wpWZOXdHswfRq75gbJ2ZYlMtifvwiO3qUL/RIZSC6e1wA5OL2LQ97UaHrLLPXgjvKGVIDRHqPkzTOayjJ4ZA7NPNhcu6f/OxhKkCYF3TAQObhMJmUSMrWSUeufaRIujDz1HHqazxOgFk09fj4i2dcGnfPcm32t8a9MzlsHSmgexYCUwxGisuuWTsnMgxbqsj6DaY51l+SEPi5tf10iFmUWqziF0eKDDQ/jHkwLJ8wgBJef9FSOmwJReHcBY+NviwFTatGj7Cwtnks6CVomsFD+rAMJ9uzM8SCv5agYunx07hnEXbR9r/TXqgXGfN bdsclusterkey@oracleoci.com"
 }
@@ -173,6 +176,7 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
   is_high_availability   = var.bds_instance_is_high_availability
   is_secure              = var.bds_instance_is_secure
   kms_key_id             = var.kms_key_id
+  cluster_profile        = var.cluster_profile
 
   master_node {
     #Required

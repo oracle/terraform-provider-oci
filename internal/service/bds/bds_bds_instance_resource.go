@@ -460,6 +460,12 @@ func BdsBdsInstanceResource() *schema.Resource {
 					},
 				},
 			},
+			"cluster_profile": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -892,6 +898,10 @@ func (s *BdsBdsInstanceResourceCrud) Create() error {
 	if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
 		tmp := clusterAdminPassword.(string)
 		request.ClusterAdminPassword = &tmp
+	}
+
+	if clusterProfile, ok := s.D.GetOkExists("cluster_profile"); ok {
+		request.ClusterProfile = oci_bds.BdsInstanceClusterProfileEnum(clusterProfile.(string))
 	}
 
 	if clusterPublicKey, ok := s.D.GetOkExists("cluster_public_key"); ok {
@@ -1570,6 +1580,8 @@ func (s *BdsBdsInstanceResourceCrud) SetData() error {
 	} else {
 		s.D.Set("cluster_details", nil)
 	}
+
+	s.D.Set("cluster_profile", s.Res.ClusterProfile)
 
 	s.D.Set("cluster_version", s.Res.ClusterVersion)
 
