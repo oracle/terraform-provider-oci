@@ -25,6 +25,8 @@ import (
 )
 
 var (
+	ArtifactsGenericArtifactRequiredOnlyResource = ArtifactsGenericArtifactResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", acctest.Required, acctest.Create, ArtifactsGenericArtifactRepresentation)
+
 	ArtifactsGenericArtifactResourceConfig = ArtifactsGenericArtifactResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", acctest.Optional, acctest.Update, ArtifactsGenericArtifactRepresentation)
 
@@ -158,6 +160,14 @@ func TestArtifactsGenericArtifactResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "version"),
 			),
+		},
+		// verify resource import
+		{
+			Config:                  config + ArtifactsGenericArtifactRequiredOnlyResource,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{"artifact_id"},
+			ResourceName:            resourceName,
 		},
 	})
 }
