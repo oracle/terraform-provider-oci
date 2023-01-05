@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -80,8 +80,6 @@ type CreateNodePoolDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	NodeEvictionNodePoolSettings *NodeEvictionNodePoolSettings `mandatory:"false" json:"nodeEvictionNodePoolSettings"`
-
-	NodePoolCyclingDetails *NodePoolCyclingDetails `mandatory:"false" json:"nodePoolCyclingDetails"`
 }
 
 func (m CreateNodePoolDetails) String() string {
@@ -116,7 +114,6 @@ func (m *CreateNodePoolDetails) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags                 map[string]string                 `json:"freeformTags"`
 		DefinedTags                  map[string]map[string]interface{} `json:"definedTags"`
 		NodeEvictionNodePoolSettings *NodeEvictionNodePoolSettings     `json:"nodeEvictionNodePoolSettings"`
-		NodePoolCyclingDetails       *NodePoolCyclingDetails           `json:"nodePoolCyclingDetails"`
 		CompartmentId                *string                           `json:"compartmentId"`
 		ClusterId                    *string                           `json:"clusterId"`
 		Name                         *string                           `json:"name"`
@@ -167,8 +164,6 @@ func (m *CreateNodePoolDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.NodeEvictionNodePoolSettings = model.NodeEvictionNodePoolSettings
-
-	m.NodePoolCyclingDetails = model.NodePoolCyclingDetails
 
 	m.CompartmentId = model.CompartmentId
 

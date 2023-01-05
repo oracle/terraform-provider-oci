@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -27,7 +27,6 @@ const (
 	WorkRequestOperationTypeNodepoolUpdate        WorkRequestOperationTypeEnum = "NODEPOOL_UPDATE"
 	WorkRequestOperationTypeNodepoolDelete        WorkRequestOperationTypeEnum = "NODEPOOL_DELETE"
 	WorkRequestOperationTypeNodepoolReconcile     WorkRequestOperationTypeEnum = "NODEPOOL_RECONCILE"
-	WorkRequestOperationTypeNodepoolCycling       WorkRequestOperationTypeEnum = "NODEPOOL_CYCLING"
 	WorkRequestOperationTypeWorkrequestCancel     WorkRequestOperationTypeEnum = "WORKREQUEST_CANCEL"
 	WorkRequestOperationTypeVirtualnodepoolCreate WorkRequestOperationTypeEnum = "VIRTUALNODEPOOL_CREATE"
 	WorkRequestOperationTypeVirtualnodepoolUpdate WorkRequestOperationTypeEnum = "VIRTUALNODEPOOL_UPDATE"
@@ -45,7 +44,6 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"NODEPOOL_UPDATE":        WorkRequestOperationTypeNodepoolUpdate,
 	"NODEPOOL_DELETE":        WorkRequestOperationTypeNodepoolDelete,
 	"NODEPOOL_RECONCILE":     WorkRequestOperationTypeNodepoolReconcile,
-	"NODEPOOL_CYCLING":       WorkRequestOperationTypeNodepoolCycling,
 	"WORKREQUEST_CANCEL":     WorkRequestOperationTypeWorkrequestCancel,
 	"VIRTUALNODEPOOL_CREATE": WorkRequestOperationTypeVirtualnodepoolCreate,
 	"VIRTUALNODEPOOL_UPDATE": WorkRequestOperationTypeVirtualnodepoolUpdate,
@@ -63,7 +61,6 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"nodepool_update":        WorkRequestOperationTypeNodepoolUpdate,
 	"nodepool_delete":        WorkRequestOperationTypeNodepoolDelete,
 	"nodepool_reconcile":     WorkRequestOperationTypeNodepoolReconcile,
-	"nodepool_cycling":       WorkRequestOperationTypeNodepoolCycling,
 	"workrequest_cancel":     WorkRequestOperationTypeWorkrequestCancel,
 	"virtualnodepool_create": WorkRequestOperationTypeVirtualnodepoolCreate,
 	"virtualnodepool_update": WorkRequestOperationTypeVirtualnodepoolUpdate,
@@ -92,7 +89,6 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"NODEPOOL_UPDATE",
 		"NODEPOOL_DELETE",
 		"NODEPOOL_RECONCILE",
-		"NODEPOOL_CYCLING",
 		"WORKREQUEST_CANCEL",
 		"VIRTUALNODEPOOL_CREATE",
 		"VIRTUALNODEPOOL_UPDATE",

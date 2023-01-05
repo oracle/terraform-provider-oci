@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -20,13 +20,13 @@ import (
 type ObjectStorageDataset struct {
 
 	// The namespace name of the Object Storage bucket that contains the input data file.
-	NamespaceName *string `mandatory:"false" json:"namespaceName"`
+	NamespaceName *string `mandatory:"true" json:"namespaceName"`
 
 	// The name of the Object Storage bucket that contains the input data file.
-	BucketName *string `mandatory:"false" json:"bucketName"`
+	BucketName *string `mandatory:"true" json:"bucketName"`
 
 	// The object name of the input data file.
-	ObjectName *string `mandatory:"false" json:"objectName"`
+	ObjectName *string `mandatory:"true" json:"objectName"`
 }
 
 func (m ObjectStorageDataset) String() string {

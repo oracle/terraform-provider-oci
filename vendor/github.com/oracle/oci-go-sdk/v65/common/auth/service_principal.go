@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 package auth
@@ -83,12 +83,12 @@ func NewServicePrincipalConfigurationProviderWithCustomClient(modifier func(comm
 	return servicePrincipalConfigurationProvider{keyProvider: keyProvider, region: region, tenancyID: tenancyID}, nil
 }
 
-//NewServicePrincipalWithInstancePrincipalConfigurationProvider create a S2S configuration provider by acquiring credentials via instance principals
+// NewServicePrincipalWithInstancePrincipalConfigurationProvider create a S2S configuration provider by acquiring credentials via instance principals
 func NewServicePrincipalWithInstancePrincipalConfigurationProvider(region common.Region) (common.ConfigurationProvider, error) {
 	return newInstancePrincipalConfigurationProvider(region, servicePrincipalTokenPurpose, nil)
 }
 
-//NewServicePrincipalConfigurationWithCerts returns a configuration for service principals with a given region and hardcoded certificates in lieu of metadata service certs
+// NewServicePrincipalConfigurationWithCerts returns a configuration for service principals with a given region and hardcoded certificates in lieu of metadata service certs
 func NewServicePrincipalConfigurationWithCerts(region common.Region, leafCertificate, leafPassphrase, leafPrivateKey []byte, intermediateCertificates [][]byte) (common.ConfigurationProvider, error) {
 	leafCertificateRetriever := staticCertificateRetriever{Passphrase: leafPassphrase, CertificatePem: leafCertificate, PrivateKeyPem: leafPrivateKey}
 
@@ -107,9 +107,9 @@ func NewServicePrincipalConfigurationWithCerts(region common.Region, leafCertifi
 	return servicePrincipalConfigurationProvider{keyProvider: &keyProvider, region: string(region), tenancyID: tenancyID}, nil
 }
 
-//NewServicePrincipalConfigurationProviderFromHostCerts returns a configuration for service principals,
-//given the region and a pathname to the host's service principal certificate directory.
-//The pathname generally follows the pattern "/var/certs/hostclass/${hostclass}/${servicePrincipalName}-identity"
+// NewServicePrincipalConfigurationProviderFromHostCerts returns a configuration for service principals,
+// given the region and a pathname to the host's service principal certificate directory.
+// The pathname generally follows the pattern "/var/certs/hostclass/${hostclass}/${servicePrincipalName}-identity"
 func NewServicePrincipalConfigurationProviderFromHostCerts(region common.Region, certDir string) (common.ConfigurationProvider, error) {
 	if certDir == "" {
 		return nil, fmt.Errorf("empty input string")

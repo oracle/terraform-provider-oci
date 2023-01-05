@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -74,9 +74,6 @@ type ClusterSummary struct {
 	// The image verification policy for signature validation.
 	ImagePolicyConfig *ImagePolicyConfig `mandatory:"false" json:"imagePolicyConfig"`
 
-	// Governance Policy Config.
-	GovernancePolicyConfig *GovernancePolicyConfig `mandatory:"false" json:"governancePolicyConfig"`
-
 	// Available CNIs and network options for existing and new node pools of the cluster
 	ClusterPodNetworkOptions []ClusterPodNetworkOptionDetails `mandatory:"false" json:"clusterPodNetworkOptions"`
 }
@@ -119,7 +116,6 @@ func (m *ClusterSummary) UnmarshalJSON(data []byte) (e error) {
 		Endpoints                   *ClusterEndpoints                 `json:"endpoints"`
 		AvailableKubernetesUpgrades []string                          `json:"availableKubernetesUpgrades"`
 		ImagePolicyConfig           *ImagePolicyConfig                `json:"imagePolicyConfig"`
-		GovernancePolicyConfig      *GovernancePolicyConfig           `json:"governancePolicyConfig"`
 		ClusterPodNetworkOptions    []clusterpodnetworkoptiondetails  `json:"clusterPodNetworkOptions"`
 	}{}
 
@@ -162,8 +158,6 @@ func (m *ClusterSummary) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.ImagePolicyConfig = model.ImagePolicyConfig
-
-	m.GovernancePolicyConfig = model.GovernancePolicyConfig
 
 	m.ClusterPodNetworkOptions = make([]ClusterPodNetworkOptionDetails, len(model.ClusterPodNetworkOptions))
 	for i, n := range model.ClusterPodNetworkOptions {

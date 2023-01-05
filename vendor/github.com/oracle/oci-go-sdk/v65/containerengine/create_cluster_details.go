@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -58,9 +58,6 @@ type CreateClusterDetails struct {
 	// attached to the policy.
 	ImagePolicyConfig *CreateImagePolicyConfigDetails `mandatory:"false" json:"imagePolicyConfig"`
 
-	// Governance Policy Config
-	GovernancePolicyConfig *CreateGovernancePolicyConfigDetails `mandatory:"false" json:"governancePolicyConfig"`
-
 	// Available CNIs and network options for existing and new node pools of the cluster
 	ClusterPodNetworkOptions []ClusterPodNetworkOptionDetails `mandatory:"false" json:"clusterPodNetworkOptions"`
 }
@@ -84,18 +81,17 @@ func (m CreateClusterDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateClusterDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		EndpointConfig           *CreateClusterEndpointConfigDetails  `json:"endpointConfig"`
-		KmsKeyId                 *string                              `json:"kmsKeyId"`
-		FreeformTags             map[string]string                    `json:"freeformTags"`
-		DefinedTags              map[string]map[string]interface{}    `json:"definedTags"`
-		Options                  *ClusterCreateOptions                `json:"options"`
-		ImagePolicyConfig        *CreateImagePolicyConfigDetails      `json:"imagePolicyConfig"`
-		GovernancePolicyConfig   *CreateGovernancePolicyConfigDetails `json:"governancePolicyConfig"`
-		ClusterPodNetworkOptions []clusterpodnetworkoptiondetails     `json:"clusterPodNetworkOptions"`
-		Name                     *string                              `json:"name"`
-		CompartmentId            *string                              `json:"compartmentId"`
-		VcnId                    *string                              `json:"vcnId"`
-		KubernetesVersion        *string                              `json:"kubernetesVersion"`
+		EndpointConfig           *CreateClusterEndpointConfigDetails `json:"endpointConfig"`
+		KmsKeyId                 *string                             `json:"kmsKeyId"`
+		FreeformTags             map[string]string                   `json:"freeformTags"`
+		DefinedTags              map[string]map[string]interface{}   `json:"definedTags"`
+		Options                  *ClusterCreateOptions               `json:"options"`
+		ImagePolicyConfig        *CreateImagePolicyConfigDetails     `json:"imagePolicyConfig"`
+		ClusterPodNetworkOptions []clusterpodnetworkoptiondetails    `json:"clusterPodNetworkOptions"`
+		Name                     *string                             `json:"name"`
+		CompartmentId            *string                             `json:"compartmentId"`
+		VcnId                    *string                             `json:"vcnId"`
+		KubernetesVersion        *string                             `json:"kubernetesVersion"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -114,8 +110,6 @@ func (m *CreateClusterDetails) UnmarshalJSON(data []byte) (e error) {
 	m.Options = model.Options
 
 	m.ImagePolicyConfig = model.ImagePolicyConfig
-
-	m.GovernancePolicyConfig = model.GovernancePolicyConfig
 
 	m.ClusterPodNetworkOptions = make([]ClusterPodNetworkOptionDetails, len(model.ClusterPodNetworkOptions))
 	for i, n := range model.ClusterPodNetworkOptions {

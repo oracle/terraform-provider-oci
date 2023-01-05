@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -90,8 +90,6 @@ type NodePoolSummary struct {
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
 	NodeEvictionNodePoolSettings *NodeEvictionNodePoolSettings `mandatory:"false" json:"nodeEvictionNodePoolSettings"`
-
-	NodePoolCyclingDetails *NodePoolCyclingDetails `mandatory:"false" json:"nodePoolCyclingDetails"`
 }
 
 func (m NodePoolSummary) String() string {
@@ -138,7 +136,6 @@ func (m *NodePoolSummary) UnmarshalJSON(data []byte) (e error) {
 		DefinedTags                  map[string]map[string]interface{} `json:"definedTags"`
 		SystemTags                   map[string]map[string]interface{} `json:"systemTags"`
 		NodeEvictionNodePoolSettings *NodeEvictionNodePoolSettings     `json:"nodeEvictionNodePoolSettings"`
-		NodePoolCyclingDetails       *NodePoolCyclingDetails           `json:"nodePoolCyclingDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -211,8 +208,6 @@ func (m *NodePoolSummary) UnmarshalJSON(data []byte) (e error) {
 	m.SystemTags = model.SystemTags
 
 	m.NodeEvictionNodePoolSettings = model.NodeEvictionNodePoolSettings
-
-	m.NodePoolCyclingDetails = model.NodePoolCyclingDetails
 
 	return
 }
