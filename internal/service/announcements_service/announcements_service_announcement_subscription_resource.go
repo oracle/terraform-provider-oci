@@ -104,6 +104,16 @@ func AnnouncementsServiceAnnouncementSubscriptionResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"preferred_language": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"preferred_time_zone": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"lifecycle_details": {
@@ -241,6 +251,16 @@ func (s *AnnouncementsServiceAnnouncementSubscriptionResourceCrud) Create() erro
 		request.OnsTopicId = &tmp
 	}
 
+	if preferredLanguage, ok := s.D.GetOkExists("preferred_language"); ok {
+		tmp := preferredLanguage.(string)
+		request.PreferredLanguage = &tmp
+	}
+
+	if preferredTimeZone, ok := s.D.GetOkExists("preferred_time_zone"); ok {
+		tmp := preferredTimeZone.(string)
+		request.PreferredTimeZone = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "announcements_service")
 
 	response, err := s.Client.CreateAnnouncementSubscription(context.Background(), request)
@@ -311,6 +331,16 @@ func (s *AnnouncementsServiceAnnouncementSubscriptionResourceCrud) Update() erro
 		request.OnsTopicId = &tmp
 	}
 
+	if preferredLanguage, ok := s.D.GetOkExists("preferred_language"); ok {
+		tmp := preferredLanguage.(string)
+		request.PreferredLanguage = &tmp
+	}
+
+	if preferredTimeZone, ok := s.D.GetOkExists("preferred_time_zone"); ok {
+		tmp := preferredTimeZone.(string)
+		request.PreferredTimeZone = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "announcements_service")
 
 	response, err := s.Client.UpdateAnnouncementSubscription(context.Background(), request)
@@ -365,6 +395,14 @@ func (s *AnnouncementsServiceAnnouncementSubscriptionResourceCrud) SetData() err
 
 	if s.Res.OnsTopicId != nil {
 		s.D.Set("ons_topic_id", *s.Res.OnsTopicId)
+	}
+
+	if s.Res.PreferredLanguage != nil {
+		s.D.Set("preferred_language", *s.Res.PreferredLanguage)
+	}
+
+	if s.Res.PreferredTimeZone != nil {
+		s.D.Set("preferred_time_zone", *s.Res.PreferredTimeZone)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
