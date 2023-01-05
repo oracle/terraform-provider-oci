@@ -52,6 +52,8 @@ The following attributes are exported:
 * `display_name` - A friendly name for the refresh activity. Can be changed later.
 * `id` - The unique identifier (OCID) of the refresh activity. Can't be changed after creation.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+* `refresh_issue_details_list` - Details of refresh investigation information, each item represents a different issue.
+	* `refresh_issues` - Detail reasons of refresh failure or validation failure that needs to be shown to customer.
 * `service_availability` - Service availability / impact during refresh activity execution up down
 * `source_fusion_environment_id` - The OCID of the Fusion environment that is the source environment for the refresh.
 * `state` - The current state of the refreshActivity.
