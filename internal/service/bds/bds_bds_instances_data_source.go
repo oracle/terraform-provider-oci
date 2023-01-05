@@ -131,6 +131,8 @@ func (s *BdsBdsInstancesDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		bdsInstance["cluster_profile"] = r.ClusterProfile
+
 		bdsInstance["cluster_version"] = r.ClusterVersion
 
 		if r.DefinedTags != nil {
