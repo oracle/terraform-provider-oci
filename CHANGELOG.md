@@ -1,4 +1,4 @@
-## 4.102.0 (Unreleased)
+## 4.102.0 (December 14, 2022)
 
 ### Added
 - Poll for workrequest and not workrequest and resource state due to infrequent get requests
