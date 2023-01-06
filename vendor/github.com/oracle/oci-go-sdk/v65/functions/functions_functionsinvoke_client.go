@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//FunctionsInvokeClient a client for FunctionsInvoke
+// FunctionsInvokeClient a client for FunctionsInvoke
 type FunctionsInvokeClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -39,7 +39,6 @@ func NewFunctionsInvokeClientWithConfigurationProvider(configProvider common.Con
 
 // NewFunctionsInvokeClientWithOboToken Creates a new default FunctionsInvoke client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
 func NewFunctionsInvokeClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string, endpoint string) (client FunctionsInvokeClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//OpensearchClusterClient a client for OpensearchCluster
+// OpensearchClusterClient a client for OpensearchCluster
 type OpensearchClusterClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -39,7 +39,8 @@ func NewOpensearchClusterClientWithConfigurationProvider(configProvider common.C
 
 // NewOpensearchClusterClientWithOboToken Creates a new default OpensearchCluster client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewOpensearchClusterClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client OpensearchClusterClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
@@ -140,7 +141,7 @@ func (client OpensearchClusterClient) backupOpensearchCluster(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchCluster/BackupOpensearchCluster"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "BackupOpensearchCluster", apiReferenceLink)
 		return response, err
 	}
@@ -202,7 +203,7 @@ func (client OpensearchClusterClient) createOpensearchCluster(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchCluster/CreateOpensearchCluster"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "CreateOpensearchCluster", apiReferenceLink)
 		return response, err
 	}
@@ -259,7 +260,7 @@ func (client OpensearchClusterClient) deleteOpensearchCluster(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchCluster/DeleteOpensearchCluster"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "DeleteOpensearchCluster", apiReferenceLink)
 		return response, err
 	}
@@ -316,7 +317,7 @@ func (client OpensearchClusterClient) getOpensearchCluster(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchCluster/GetOpensearchCluster"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "GetOpensearchCluster", apiReferenceLink)
 		return response, err
 	}
@@ -373,7 +374,7 @@ func (client OpensearchClusterClient) getWorkRequest(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -430,7 +431,7 @@ func (client OpensearchClusterClient) listOpensearchClusters(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchClusterCollection/ListOpensearchClusters"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "ListOpensearchClusters", apiReferenceLink)
 		return response, err
 	}
@@ -487,7 +488,7 @@ func (client OpensearchClusterClient) listOpensearchVersions(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchVersionsCollection/ListOpensearchVersions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "ListOpensearchVersions", apiReferenceLink)
 		return response, err
 	}
@@ -544,7 +545,7 @@ func (client OpensearchClusterClient) listWorkRequestErrors(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/WorkRequestErrorCollection/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -601,7 +602,7 @@ func (client OpensearchClusterClient) listWorkRequestLogs(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/WorkRequestLogEntryCollection/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -658,7 +659,7 @@ func (client OpensearchClusterClient) listWorkRequests(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/WorkRequestCollection/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -720,7 +721,7 @@ func (client OpensearchClusterClient) opensearchClusterRestore(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchCluster/OpensearchClusterRestore"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "OpensearchClusterRestore", apiReferenceLink)
 		return response, err
 	}
@@ -782,7 +783,7 @@ func (client OpensearchClusterClient) resizeOpensearchClusterHorizontal(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchCluster/ResizeOpensearchClusterHorizontal"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "ResizeOpensearchClusterHorizontal", apiReferenceLink)
 		return response, err
 	}
@@ -844,7 +845,7 @@ func (client OpensearchClusterClient) resizeOpensearchClusterVertical(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchCluster/ResizeOpensearchClusterVertical"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "ResizeOpensearchClusterVertical", apiReferenceLink)
 		return response, err
 	}
@@ -901,7 +902,7 @@ func (client OpensearchClusterClient) updateOpensearchCluster(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchCluster/UpdateOpensearchCluster"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "UpdateOpensearchCluster", apiReferenceLink)
 		return response, err
 	}

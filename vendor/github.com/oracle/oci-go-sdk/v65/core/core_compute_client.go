@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -21,7 +21,7 @@ import (
 	"net/http"
 )
 
-//ComputeClient a client for Compute
+// ComputeClient a client for Compute
 type ComputeClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -43,7 +43,8 @@ func NewComputeClientWithConfigurationProvider(configProvider common.Configurati
 
 // NewComputeClientWithOboToken Creates a new default Compute client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewComputeClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client ComputeClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
@@ -4445,10 +4446,10 @@ func (client ComputeClient) listVnicAttachments(ctx context.Context, request com
 	return response, err
 }
 
-//listvolumeattachment allows to unmarshal list of polymorphic VolumeAttachment
+// listvolumeattachment allows to unmarshal list of polymorphic VolumeAttachment
 type listvolumeattachment []volumeattachment
 
-//UnmarshalPolymorphicJSON unmarshals polymorphic json list of items
+// UnmarshalPolymorphicJSON unmarshals polymorphic json list of items
 func (m *listvolumeattachment) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	res := make([]VolumeAttachment, len(*m))
 	for i, v := range *m {
