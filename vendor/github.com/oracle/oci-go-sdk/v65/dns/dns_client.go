@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -18,7 +18,7 @@ import (
 	"net/http"
 )
 
-//DnsClient a client for Dns
+// DnsClient a client for Dns
 type DnsClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -40,7 +40,8 @@ func NewDnsClientWithConfigurationProvider(configProvider common.ConfigurationPr
 
 // NewDnsClientWithOboToken Creates a new default Dns client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewDnsClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DnsClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
@@ -1922,10 +1923,10 @@ func (client DnsClient) getZoneRecords(ctx context.Context, request common.OCIRe
 	return response, err
 }
 
-//listresolverendpointsummary allows to unmarshal list of polymorphic ResolverEndpointSummary
+// listresolverendpointsummary allows to unmarshal list of polymorphic ResolverEndpointSummary
 type listresolverendpointsummary []resolverendpointsummary
 
-//UnmarshalPolymorphicJSON unmarshals polymorphic json list of items
+// UnmarshalPolymorphicJSON unmarshals polymorphic json list of items
 func (m *listresolverendpointsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	res := make([]ResolverEndpointSummary, len(*m))
 	for i, v := range *m {

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -19,7 +19,7 @@ import (
 	"net/http"
 )
 
-//DisasterRecoveryClient a client for DisasterRecovery
+// DisasterRecoveryClient a client for DisasterRecovery
 type DisasterRecoveryClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -41,7 +41,8 @@ func NewDisasterRecoveryClientWithConfigurationProvider(configProvider common.Co
 
 // NewDisasterRecoveryClientWithOboToken Creates a new default DisasterRecovery client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewDisasterRecoveryClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DisasterRecoveryClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
@@ -143,7 +144,7 @@ func (client DisasterRecoveryClient) associateDrProtectionGroup(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrProtectionGroup/AssociateDrProtectionGroup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "AssociateDrProtectionGroup", apiReferenceLink)
 		return response, err
 	}
@@ -205,7 +206,7 @@ func (client DisasterRecoveryClient) cancelDrPlanExecution(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrPlanExecution/CancelDrPlanExecution"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "CancelDrPlanExecution", apiReferenceLink)
 		return response, err
 	}
@@ -262,7 +263,7 @@ func (client DisasterRecoveryClient) cancelWorkRequest(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/WorkRequest/CancelWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -324,7 +325,7 @@ func (client DisasterRecoveryClient) changeDrProtectionGroupCompartment(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrProtectionGroup/ChangeDrProtectionGroupCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "ChangeDrProtectionGroupCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -386,7 +387,7 @@ func (client DisasterRecoveryClient) createDrPlan(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrPlan/CreateDrPlan"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "CreateDrPlan", apiReferenceLink)
 		return response, err
 	}
@@ -448,7 +449,7 @@ func (client DisasterRecoveryClient) createDrPlanExecution(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrPlanExecution/CreateDrPlanExecution"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "CreateDrPlanExecution", apiReferenceLink)
 		return response, err
 	}
@@ -510,7 +511,7 @@ func (client DisasterRecoveryClient) createDrProtectionGroup(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrProtectionGroup/CreateDrProtectionGroup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "CreateDrProtectionGroup", apiReferenceLink)
 		return response, err
 	}
@@ -567,7 +568,7 @@ func (client DisasterRecoveryClient) deleteDrPlan(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrPlan/DeleteDrPlan"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "DeleteDrPlan", apiReferenceLink)
 		return response, err
 	}
@@ -624,7 +625,7 @@ func (client DisasterRecoveryClient) deleteDrPlanExecution(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrPlanExecution/DeleteDrPlanExecution"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "DeleteDrPlanExecution", apiReferenceLink)
 		return response, err
 	}
@@ -681,7 +682,7 @@ func (client DisasterRecoveryClient) deleteDrProtectionGroup(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrProtectionGroup/DeleteDrProtectionGroup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "DeleteDrProtectionGroup", apiReferenceLink)
 		return response, err
 	}
@@ -744,7 +745,7 @@ func (client DisasterRecoveryClient) disassociateDrProtectionGroup(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrProtectionGroup/DisassociateDrProtectionGroup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "DisassociateDrProtectionGroup", apiReferenceLink)
 		return response, err
 	}
@@ -801,7 +802,7 @@ func (client DisasterRecoveryClient) getDrPlan(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrPlan/GetDrPlan"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "GetDrPlan", apiReferenceLink)
 		return response, err
 	}
@@ -858,7 +859,7 @@ func (client DisasterRecoveryClient) getDrPlanExecution(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrPlanExecution/GetDrPlanExecution"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "GetDrPlanExecution", apiReferenceLink)
 		return response, err
 	}
@@ -915,7 +916,7 @@ func (client DisasterRecoveryClient) getDrProtectionGroup(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrProtectionGroup/GetDrProtectionGroup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "GetDrProtectionGroup", apiReferenceLink)
 		return response, err
 	}
@@ -972,7 +973,7 @@ func (client DisasterRecoveryClient) getWorkRequest(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -1034,7 +1035,7 @@ func (client DisasterRecoveryClient) ignoreDrPlanExecution(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrPlanExecution/IgnoreDrPlanExecution"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "IgnoreDrPlanExecution", apiReferenceLink)
 		return response, err
 	}
@@ -1091,7 +1092,7 @@ func (client DisasterRecoveryClient) listDrPlanExecutions(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrPlanExecution/ListDrPlanExecutions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "ListDrPlanExecutions", apiReferenceLink)
 		return response, err
 	}
@@ -1148,7 +1149,7 @@ func (client DisasterRecoveryClient) listDrPlans(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrPlan/ListDrPlans"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "ListDrPlans", apiReferenceLink)
 		return response, err
 	}
@@ -1205,7 +1206,7 @@ func (client DisasterRecoveryClient) listDrProtectionGroups(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrProtectionGroup/ListDrProtectionGroups"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "ListDrProtectionGroups", apiReferenceLink)
 		return response, err
 	}
@@ -1262,7 +1263,7 @@ func (client DisasterRecoveryClient) listWorkRequestErrors(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/WorkRequestError/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -1319,7 +1320,7 @@ func (client DisasterRecoveryClient) listWorkRequestLogs(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/WorkRequestLogEntry/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -1376,7 +1377,7 @@ func (client DisasterRecoveryClient) listWorkRequests(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/WorkRequest/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -1438,7 +1439,7 @@ func (client DisasterRecoveryClient) pauseDrPlanExecution(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrPlanExecution/PauseDrPlanExecution"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "PauseDrPlanExecution", apiReferenceLink)
 		return response, err
 	}
@@ -1500,7 +1501,7 @@ func (client DisasterRecoveryClient) resumeDrPlanExecution(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrPlanExecution/ResumeDrPlanExecution"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "ResumeDrPlanExecution", apiReferenceLink)
 		return response, err
 	}
@@ -1562,7 +1563,7 @@ func (client DisasterRecoveryClient) retryDrPlanExecution(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrPlanExecution/RetryDrPlanExecution"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "RetryDrPlanExecution", apiReferenceLink)
 		return response, err
 	}
@@ -1619,7 +1620,7 @@ func (client DisasterRecoveryClient) updateDrPlan(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrPlan/UpdateDrPlan"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "UpdateDrPlan", apiReferenceLink)
 		return response, err
 	}
@@ -1676,7 +1677,7 @@ func (client DisasterRecoveryClient) updateDrPlanExecution(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrPlanExecution/UpdateDrPlanExecution"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "UpdateDrPlanExecution", apiReferenceLink)
 		return response, err
 	}
@@ -1733,7 +1734,7 @@ func (client DisasterRecoveryClient) updateDrProtectionGroup(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrProtectionGroup/UpdateDrProtectionGroup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "UpdateDrProtectionGroup", apiReferenceLink)
 		return response, err
 	}
@@ -1795,7 +1796,7 @@ func (client DisasterRecoveryClient) updateDrProtectionGroupRole(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrProtectionGroup/UpdateDrProtectionGroupRole"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "UpdateDrProtectionGroupRole", apiReferenceLink)
 		return response, err
 	}
