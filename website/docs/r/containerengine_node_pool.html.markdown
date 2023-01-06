@@ -124,7 +124,7 @@ The following arguments are supported:
 * `node_eviction_node_pool_settings` - (Optional) (Updatable) Node Eviction Details configuration
 	* `eviction_grace_duration` - (Optional) (Updatable) Duration after which OKE will give up eviction of the pods on the node. PT0M will indicate you want to delete the node without cordon and drain. Default PT60M, Min PT0M, Max: PT60M. Format ISO 8601 e.g PT30M 
 	* `is_force_delete_after_grace_duration` - (Optional) (Updatable) If the underlying compute instance should be deleted if you cannot evict all the pods in grace period
-* `node_image_name` - (Optional) Deprecated. Use `nodeSourceDetails` instead. If you specify values for both, this value is ignored. The name of the image running on the nodes in the node pool. Cannot be used when `node_image_id` is specified.
+* `node_image_name` - (Optional) Deprecated. Use `node_source_details` instead. If you specify values for both, this value is ignored. The name of the image running on the nodes in the node pool. Cannot be used when `node_image_id` is specified.
 * `node_metadata` - (Optional) (Updatable) A list of key/value pairs to add to each underlying Oracle Cloud Infrastructure instance in the node pool on launch.
 * `node_shape` - (Required) (Updatable) The name of the node shape of the nodes in the node pool.
 * `node_shape_config` - (Optional) (Updatable) Specify the configuration of the shape to launch nodes in the node pool. 
@@ -179,14 +179,14 @@ The following attributes are exported:
 * `node_eviction_node_pool_settings` - Node Eviction Details configuration
 	* `eviction_grace_duration` - Duration after which OKE will give up eviction of the pods on the node. PT0M will indicate you want to delete the node without cordon and drain. Default PT60M, Min PT0M, Max: PT60M. Format ISO 8601 e.g PT30M 
 	* `is_force_delete_after_grace_duration` - If the underlying compute instance should be deleted if you cannot evict all the pods in grace period
-* `node_image_id` - Deprecated. see `nodeSource`. The OCID of the image running on the nodes in the node pool. 
-* `node_image_name` - Deprecated. see `nodeSource`. The name of the image running on the nodes in the node pool. 
+* `node_image_id` - Deprecated. see `node_source`. The OCID of the image running on the nodes in the node pool. 
+* `node_image_name` - Deprecated. see `node_source`. The name of the image running on the nodes in the node pool. 
 * `node_metadata` - A list of key/value pairs to add to each underlying Oracle Cloud Infrastructure instance in the node pool on launch.
 * `node_shape` - The name of the node shape of the nodes in the node pool.
 * `node_shape_config` - The shape configuration of the nodes.
 	* `memory_in_gbs` - The total amount of memory available to each node, in gigabytes. 
 	* `ocpus` - The total number of OCPUs available to each node in the node pool. See [here](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Shape/) for details. 
-* `node_source` - Deprecated. see `nodeSourceDetails`. Source running on the nodes in the node pool.
+* `node_source` - Deprecated. see `node_source_details`. Source running on the nodes in the node pool.
 	* `image_id` - The OCID of the image.
 	* `source_name` - The user-friendly name of the entity corresponding to the OCID. 
 	* `source_type` - The source type of this option. `IMAGE` means the OCID is of an image. 
