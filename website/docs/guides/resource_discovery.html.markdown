@@ -601,7 +601,8 @@ dataflow
 * oci\_dataflow\_run\_statement
 
 dataintegration
-    
+
+* oci\_dataintegration\_workspace
 * oci\_dataintegration\_workspace\_project
 * oci\_dataintegration\_workspace\_folder
 
