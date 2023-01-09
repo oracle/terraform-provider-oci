@@ -35,15 +35,17 @@ import (
 )
 
 var (
-	FifteenMinutes                = 15 * time.Minute
-	TwentyMinutes                 = 20 * time.Minute
-	ThirtyMinutes                 = 30 * time.Minute
-	OneHour                       = 60 * time.Minute
-	TwoHours                      = 120 * time.Minute
-	TwoAndHalfHours               = 150 * time.Minute
-	ThreeHours                    = 180 * time.Minute
-	TwelveHours                   = 12 * time.Hour
-	ZeroTime        time.Duration = 0
+	//string value can store true,false and empty. Empty value can identify that user has not set the flag.
+	RealmSpecificServiceEndpointTemplateEnabled               = ""
+	FifteenMinutes                                            = 15 * time.Minute
+	TwentyMinutes                                             = 20 * time.Minute
+	ThirtyMinutes                                             = 30 * time.Minute
+	OneHour                                                   = 60 * time.Minute
+	TwoHours                                                  = 120 * time.Minute
+	TwoAndHalfHours                                           = 150 * time.Minute
+	ThreeHours                                                = 180 * time.Minute
+	TwelveHours                                               = 12 * time.Hour
+	ZeroTime                                    time.Duration = 0
 
 	DefaultTimeout = &schema.ResourceTimeout{
 		Create: &TwentyMinutes,

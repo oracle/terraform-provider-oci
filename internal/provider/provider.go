@@ -104,8 +104,9 @@ func init() {
 			"Automatic retries were introduced to solve some eventual consistency problems but it also introduced performance issues on destroy operations.",
 		globalvar.RetryDurationSecondsAttrName: "(Optional) The minimum duration (in seconds) to retry a resource operation in response to an error.\n" +
 			"The actual retry duration may be longer due to jittering of retry operations. This value is ignored if the `disable_auto_retries` field is set to true.",
-		globalvar.ConfigFileProfileAttrName: "(Optional) The profile name to be used from config file, if not set it will be DEFAULT.",
-		globalvar.DefinedTagsToIgnore:       "(Optional) List of defined tags keys that Terraform should ignore when planning creates and updates to the associated remote object",
+		globalvar.ConfigFileProfileAttrName:                   "(Optional) The profile name to be used from config file, if not set it will be DEFAULT.",
+		globalvar.DefinedTagsToIgnore:                         "(Optional) List of defined tags keys that Terraform should ignore when planning creates and updates to the associated remote object",
+		globalvar.RealmSpecificServiceEndpointTemplateEnabled: "(Optional) flags to enable realm specific service endpoint.",
 	}
 }
 
@@ -199,6 +200,11 @@ func SchemaMap() map[string]*schema.Schema {
 			Description: descriptions[globalvar.DefinedTagsToIgnore],
 			MaxItems:    100,
 		},
+		globalvar.RealmSpecificServiceEndpointTemplateEnabled: {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Description: descriptions[globalvar.RealmSpecificServiceEndpointTemplateEnabled],
+		},
 	}
 }
 
@@ -227,6 +233,7 @@ func ResourcesMap() map[string]*schema.Resource {
 
 func ProviderConfig(d *schema.ResourceData) (interface{}, error) {
 	tf_resource.DefinedTagsToSuppress = IgnoreDefinedTags(d)
+	tf_resource.RealmSpecificServiceEndpointTemplateEnabled = realmSpecificServiceEndpointTemplateEnabled(d)
 	clients := &tf_client.OracleClients{
 		SdkClientMap:  make(map[string]interface{}, len(tf_client.OracleClientRegistrationsVar.RegisteredClients)),
 		Configuration: make(map[string]string),
@@ -501,6 +508,12 @@ func IgnoreDefinedTags(d schemaResourceData) []string {
 		return tags
 	}
 	return nil
+}
+func realmSpecificServiceEndpointTemplateEnabled(d schemaResourceData) string {
+	if flag, ok := d.GetOkExists(globalvar.RealmSpecificServiceEndpointTemplateEnabled); ok {
+		return strconv.FormatBool(flag.(bool))
+	}
+	return ""
 }
 
 func (p ResourceDataConfigProvider) KeyID() (string, error) {
