@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-// OceInstanceClient a client for OceInstance
+//OceInstanceClient a client for OceInstance
 type OceInstanceClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -39,8 +39,7 @@ func NewOceInstanceClientWithConfigurationProvider(configProvider common.Configu
 
 // NewOceInstanceClientWithOboToken Creates a new default OceInstance client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewOceInstanceClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client OceInstanceClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
@@ -142,7 +141,7 @@ func (client OceInstanceClient) changeOceInstanceCompartment(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/oce/20190912/OceInstance/ChangeOceInstanceCompartment"
 		err = common.PostProcessServiceError(err, "OceInstance", "ChangeOceInstanceCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -205,7 +204,7 @@ func (client OceInstanceClient) createOceInstance(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/oce/20190912/OceInstance/CreateOceInstance"
 		err = common.PostProcessServiceError(err, "OceInstance", "CreateOceInstance", apiReferenceLink)
 		return response, err
 	}
@@ -263,7 +262,7 @@ func (client OceInstanceClient) deleteOceInstance(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/oce/20190912/OceInstance/DeleteOceInstance"
 		err = common.PostProcessServiceError(err, "OceInstance", "DeleteOceInstance", apiReferenceLink)
 		return response, err
 	}
@@ -321,7 +320,7 @@ func (client OceInstanceClient) getOceInstance(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/oce/20190912/OceInstance/GetOceInstance"
 		err = common.PostProcessServiceError(err, "OceInstance", "GetOceInstance", apiReferenceLink)
 		return response, err
 	}
@@ -379,7 +378,7 @@ func (client OceInstanceClient) getWorkRequest(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/oce/20190912/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "OceInstance", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -437,7 +436,7 @@ func (client OceInstanceClient) listOceInstances(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/oce/20190912/OceInstanceSummary/ListOceInstances"
 		err = common.PostProcessServiceError(err, "OceInstance", "ListOceInstances", apiReferenceLink)
 		return response, err
 	}
@@ -495,7 +494,7 @@ func (client OceInstanceClient) listWorkRequestErrors(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/oce/20190912/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "OceInstance", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -553,7 +552,7 @@ func (client OceInstanceClient) listWorkRequestLogs(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/oce/20190912/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "OceInstance", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -611,7 +610,7 @@ func (client OceInstanceClient) listWorkRequests(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/oce/20190912/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "OceInstance", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -669,7 +668,7 @@ func (client OceInstanceClient) updateOceInstance(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/oce/20190912/OceInstance/UpdateOceInstance"
 		err = common.PostProcessServiceError(err, "OceInstance", "UpdateOceInstance", apiReferenceLink)
 		return response, err
 	}

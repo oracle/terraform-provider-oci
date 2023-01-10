@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -18,7 +18,7 @@ import (
 	"net/http"
 )
 
-// MediaServicesClient a client for MediaServices
+//MediaServicesClient a client for MediaServices
 type MediaServicesClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -40,8 +40,7 @@ func NewMediaServicesClientWithConfigurationProvider(configProvider common.Confi
 
 // NewMediaServicesClientWithOboToken Creates a new default MediaServices client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewMediaServicesClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client MediaServicesClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
@@ -143,7 +142,7 @@ func (client MediaServicesClient) changeMediaAssetCompartment(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaAsset/ChangeMediaAssetCompartment"
 		err = common.PostProcessServiceError(err, "MediaServices", "ChangeMediaAssetCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -206,7 +205,7 @@ func (client MediaServicesClient) changeMediaWorkflowCompartment(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflow/ChangeMediaWorkflowCompartment"
 		err = common.PostProcessServiceError(err, "MediaServices", "ChangeMediaWorkflowCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -269,7 +268,7 @@ func (client MediaServicesClient) changeMediaWorkflowConfigurationCompartment(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflowConfiguration/ChangeMediaWorkflowConfigurationCompartment"
 		err = common.PostProcessServiceError(err, "MediaServices", "ChangeMediaWorkflowConfigurationCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -332,7 +331,7 @@ func (client MediaServicesClient) changeMediaWorkflowJobCompartment(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflowJob/ChangeMediaWorkflowJobCompartment"
 		err = common.PostProcessServiceError(err, "MediaServices", "ChangeMediaWorkflowJobCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -395,7 +394,7 @@ func (client MediaServicesClient) changeStreamDistributionChannelCompartment(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/StreamDistributionChannel/ChangeStreamDistributionChannelCompartment"
 		err = common.PostProcessServiceError(err, "MediaServices", "ChangeStreamDistributionChannelCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -458,7 +457,7 @@ func (client MediaServicesClient) createMediaAsset(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaAsset/CreateMediaAsset"
 		err = common.PostProcessServiceError(err, "MediaServices", "CreateMediaAsset", apiReferenceLink)
 		return response, err
 	}
@@ -521,7 +520,7 @@ func (client MediaServicesClient) createMediaWorkflow(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflow/CreateMediaWorkflow"
 		err = common.PostProcessServiceError(err, "MediaServices", "CreateMediaWorkflow", apiReferenceLink)
 		return response, err
 	}
@@ -584,7 +583,7 @@ func (client MediaServicesClient) createMediaWorkflowConfiguration(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflowConfiguration/CreateMediaWorkflowConfiguration"
 		err = common.PostProcessServiceError(err, "MediaServices", "CreateMediaWorkflowConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -647,7 +646,7 @@ func (client MediaServicesClient) createMediaWorkflowJob(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflowJob/CreateMediaWorkflowJob"
 		err = common.PostProcessServiceError(err, "MediaServices", "CreateMediaWorkflowJob", apiReferenceLink)
 		return response, err
 	}
@@ -710,7 +709,7 @@ func (client MediaServicesClient) createStreamCdnConfig(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/StreamCdnConfig/CreateStreamCdnConfig"
 		err = common.PostProcessServiceError(err, "MediaServices", "CreateStreamCdnConfig", apiReferenceLink)
 		return response, err
 	}
@@ -773,7 +772,7 @@ func (client MediaServicesClient) createStreamDistributionChannel(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/StreamDistributionChannel/CreateStreamDistributionChannel"
 		err = common.PostProcessServiceError(err, "MediaServices", "CreateStreamDistributionChannel", apiReferenceLink)
 		return response, err
 	}
@@ -836,7 +835,7 @@ func (client MediaServicesClient) createStreamPackagingConfig(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/StreamPackagingConfig/CreateStreamPackagingConfig"
 		err = common.PostProcessServiceError(err, "MediaServices", "CreateStreamPackagingConfig", apiReferenceLink)
 		return response, err
 	}
@@ -894,7 +893,7 @@ func (client MediaServicesClient) deleteMediaAsset(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaAsset/DeleteMediaAsset"
 		err = common.PostProcessServiceError(err, "MediaServices", "DeleteMediaAsset", apiReferenceLink)
 		return response, err
 	}
@@ -952,7 +951,7 @@ func (client MediaServicesClient) deleteMediaAssetDistributionChannelAttachment(
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaAssetDistributionChannelAttachment/DeleteMediaAssetDistributionChannelAttachment"
 		err = common.PostProcessServiceError(err, "MediaServices", "DeleteMediaAssetDistributionChannelAttachment", apiReferenceLink)
 		return response, err
 	}
@@ -1010,7 +1009,7 @@ func (client MediaServicesClient) deleteMediaWorkflow(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflow/DeleteMediaWorkflow"
 		err = common.PostProcessServiceError(err, "MediaServices", "DeleteMediaWorkflow", apiReferenceLink)
 		return response, err
 	}
@@ -1068,7 +1067,7 @@ func (client MediaServicesClient) deleteMediaWorkflowConfiguration(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflowConfiguration/DeleteMediaWorkflowConfiguration"
 		err = common.PostProcessServiceError(err, "MediaServices", "DeleteMediaWorkflowConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -1126,7 +1125,7 @@ func (client MediaServicesClient) deleteMediaWorkflowJob(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflowJob/DeleteMediaWorkflowJob"
 		err = common.PostProcessServiceError(err, "MediaServices", "DeleteMediaWorkflowJob", apiReferenceLink)
 		return response, err
 	}
@@ -1184,7 +1183,7 @@ func (client MediaServicesClient) deleteStreamCdnConfig(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/StreamCdnConfig/DeleteStreamCdnConfig"
 		err = common.PostProcessServiceError(err, "MediaServices", "DeleteStreamCdnConfig", apiReferenceLink)
 		return response, err
 	}
@@ -1242,7 +1241,7 @@ func (client MediaServicesClient) deleteStreamDistributionChannel(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/StreamDistributionChannel/DeleteStreamDistributionChannel"
 		err = common.PostProcessServiceError(err, "MediaServices", "DeleteStreamDistributionChannel", apiReferenceLink)
 		return response, err
 	}
@@ -1300,7 +1299,7 @@ func (client MediaServicesClient) deleteStreamPackagingConfig(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/StreamPackagingConfig/DeleteStreamPackagingConfig"
 		err = common.PostProcessServiceError(err, "MediaServices", "DeleteStreamPackagingConfig", apiReferenceLink)
 		return response, err
 	}
@@ -1358,7 +1357,7 @@ func (client MediaServicesClient) getMediaAsset(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaAsset/GetMediaAsset"
 		err = common.PostProcessServiceError(err, "MediaServices", "GetMediaAsset", apiReferenceLink)
 		return response, err
 	}
@@ -1416,7 +1415,7 @@ func (client MediaServicesClient) getMediaAssetDistributionChannelAttachment(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaAssetDistributionChannelAttachment/GetMediaAssetDistributionChannelAttachment"
 		err = common.PostProcessServiceError(err, "MediaServices", "GetMediaAssetDistributionChannelAttachment", apiReferenceLink)
 		return response, err
 	}
@@ -1474,7 +1473,7 @@ func (client MediaServicesClient) getMediaWorkflow(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflow/GetMediaWorkflow"
 		err = common.PostProcessServiceError(err, "MediaServices", "GetMediaWorkflow", apiReferenceLink)
 		return response, err
 	}
@@ -1532,7 +1531,7 @@ func (client MediaServicesClient) getMediaWorkflowConfiguration(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflowConfiguration/GetMediaWorkflowConfiguration"
 		err = common.PostProcessServiceError(err, "MediaServices", "GetMediaWorkflowConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -1590,7 +1589,7 @@ func (client MediaServicesClient) getMediaWorkflowJob(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflowJob/GetMediaWorkflowJob"
 		err = common.PostProcessServiceError(err, "MediaServices", "GetMediaWorkflowJob", apiReferenceLink)
 		return response, err
 	}
@@ -1648,7 +1647,7 @@ func (client MediaServicesClient) getMediaWorkflowJobFact(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflowJobFact/GetMediaWorkflowJobFact"
 		err = common.PostProcessServiceError(err, "MediaServices", "GetMediaWorkflowJobFact", apiReferenceLink)
 		return response, err
 	}
@@ -1706,7 +1705,7 @@ func (client MediaServicesClient) getStreamCdnConfig(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/StreamCdnConfig/GetStreamCdnConfig"
 		err = common.PostProcessServiceError(err, "MediaServices", "GetStreamCdnConfig", apiReferenceLink)
 		return response, err
 	}
@@ -1764,7 +1763,7 @@ func (client MediaServicesClient) getStreamDistributionChannel(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/StreamDistributionChannel/GetStreamDistributionChannel"
 		err = common.PostProcessServiceError(err, "MediaServices", "GetStreamDistributionChannel", apiReferenceLink)
 		return response, err
 	}
@@ -1822,7 +1821,7 @@ func (client MediaServicesClient) getStreamPackagingConfig(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/StreamPackagingConfig/GetStreamPackagingConfig"
 		err = common.PostProcessServiceError(err, "MediaServices", "GetStreamPackagingConfig", apiReferenceLink)
 		return response, err
 	}
@@ -1885,7 +1884,7 @@ func (client MediaServicesClient) ingestStreamDistributionChannel(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/StreamDistributionChannel/IngestStreamDistributionChannel"
 		err = common.PostProcessServiceError(err, "MediaServices", "IngestStreamDistributionChannel", apiReferenceLink)
 		return response, err
 	}
@@ -1943,7 +1942,7 @@ func (client MediaServicesClient) listMediaAssetDistributionChannelAttachments(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaAssetDistributionChannelAttachmentCollection/ListMediaAssetDistributionChannelAttachments"
 		err = common.PostProcessServiceError(err, "MediaServices", "ListMediaAssetDistributionChannelAttachments", apiReferenceLink)
 		return response, err
 	}
@@ -2001,7 +2000,7 @@ func (client MediaServicesClient) listMediaAssets(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaAsset/ListMediaAssets"
 		err = common.PostProcessServiceError(err, "MediaServices", "ListMediaAssets", apiReferenceLink)
 		return response, err
 	}
@@ -2059,7 +2058,7 @@ func (client MediaServicesClient) listMediaWorkflowConfigurations(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflowConfigurationCollection/ListMediaWorkflowConfigurations"
 		err = common.PostProcessServiceError(err, "MediaServices", "ListMediaWorkflowConfigurations", apiReferenceLink)
 		return response, err
 	}
@@ -2117,7 +2116,7 @@ func (client MediaServicesClient) listMediaWorkflowJobFacts(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflowJobFact/ListMediaWorkflowJobFacts"
 		err = common.PostProcessServiceError(err, "MediaServices", "ListMediaWorkflowJobFacts", apiReferenceLink)
 		return response, err
 	}
@@ -2175,7 +2174,7 @@ func (client MediaServicesClient) listMediaWorkflowJobs(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflowJob/ListMediaWorkflowJobs"
 		err = common.PostProcessServiceError(err, "MediaServices", "ListMediaWorkflowJobs", apiReferenceLink)
 		return response, err
 	}
@@ -2233,7 +2232,7 @@ func (client MediaServicesClient) listMediaWorkflowTaskDeclarations(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflowTaskDeclarationCollection/ListMediaWorkflowTaskDeclarations"
 		err = common.PostProcessServiceError(err, "MediaServices", "ListMediaWorkflowTaskDeclarations", apiReferenceLink)
 		return response, err
 	}
@@ -2291,7 +2290,7 @@ func (client MediaServicesClient) listMediaWorkflows(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflow/ListMediaWorkflows"
 		err = common.PostProcessServiceError(err, "MediaServices", "ListMediaWorkflows", apiReferenceLink)
 		return response, err
 	}
@@ -2349,7 +2348,7 @@ func (client MediaServicesClient) listStreamCdnConfigs(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/StreamCdnConfig/ListStreamCdnConfigs"
 		err = common.PostProcessServiceError(err, "MediaServices", "ListStreamCdnConfigs", apiReferenceLink)
 		return response, err
 	}
@@ -2407,7 +2406,7 @@ func (client MediaServicesClient) listStreamDistributionChannels(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/StreamDistributionChannel/ListStreamDistributionChannels"
 		err = common.PostProcessServiceError(err, "MediaServices", "ListStreamDistributionChannels", apiReferenceLink)
 		return response, err
 	}
@@ -2465,7 +2464,7 @@ func (client MediaServicesClient) listStreamPackagingConfigs(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/StreamPackagingConfig/ListStreamPackagingConfigs"
 		err = common.PostProcessServiceError(err, "MediaServices", "ListStreamPackagingConfigs", apiReferenceLink)
 		return response, err
 	}
@@ -2523,7 +2522,7 @@ func (client MediaServicesClient) listSystemMediaWorkflows(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflow/ListSystemMediaWorkflows"
 		err = common.PostProcessServiceError(err, "MediaServices", "ListSystemMediaWorkflows", apiReferenceLink)
 		return response, err
 	}
@@ -2581,7 +2580,7 @@ func (client MediaServicesClient) updateMediaAsset(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaAsset/UpdateMediaAsset"
 		err = common.PostProcessServiceError(err, "MediaServices", "UpdateMediaAsset", apiReferenceLink)
 		return response, err
 	}
@@ -2639,7 +2638,7 @@ func (client MediaServicesClient) updateMediaWorkflow(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflow/UpdateMediaWorkflow"
 		err = common.PostProcessServiceError(err, "MediaServices", "UpdateMediaWorkflow", apiReferenceLink)
 		return response, err
 	}
@@ -2697,7 +2696,7 @@ func (client MediaServicesClient) updateMediaWorkflowConfiguration(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflowConfiguration/UpdateMediaWorkflowConfiguration"
 		err = common.PostProcessServiceError(err, "MediaServices", "UpdateMediaWorkflowConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -2755,7 +2754,7 @@ func (client MediaServicesClient) updateMediaWorkflowJob(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflowJob/UpdateMediaWorkflowJob"
 		err = common.PostProcessServiceError(err, "MediaServices", "UpdateMediaWorkflowJob", apiReferenceLink)
 		return response, err
 	}
@@ -2813,7 +2812,7 @@ func (client MediaServicesClient) updateStreamCdnConfig(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/StreamCdnConfig/UpdateStreamCdnConfig"
 		err = common.PostProcessServiceError(err, "MediaServices", "UpdateStreamCdnConfig", apiReferenceLink)
 		return response, err
 	}
@@ -2871,7 +2870,7 @@ func (client MediaServicesClient) updateStreamDistributionChannel(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/StreamDistributionChannel/UpdateStreamDistributionChannel"
 		err = common.PostProcessServiceError(err, "MediaServices", "UpdateStreamDistributionChannel", apiReferenceLink)
 		return response, err
 	}
@@ -2929,7 +2928,7 @@ func (client MediaServicesClient) updateStreamPackagingConfig(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/StreamPackagingConfig/UpdateStreamPackagingConfig"
 		err = common.PostProcessServiceError(err, "MediaServices", "UpdateStreamPackagingConfig", apiReferenceLink)
 		return response, err
 	}
