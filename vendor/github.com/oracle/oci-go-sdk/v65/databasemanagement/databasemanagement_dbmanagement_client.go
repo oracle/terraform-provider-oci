@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -19,7 +19,7 @@ import (
 	"net/http"
 )
 
-// DbManagementClient a client for DbManagement
+//DbManagementClient a client for DbManagement
 type DbManagementClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -41,8 +41,7 @@ func NewDbManagementClientWithConfigurationProvider(configProvider common.Config
 
 // NewDbManagementClientWithOboToken Creates a new default DbManagement client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewDbManagementClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DbManagementClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

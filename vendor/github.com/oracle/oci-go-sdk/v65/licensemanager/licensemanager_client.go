@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-// LicenseManagerClient a client for LicenseManager
+//LicenseManagerClient a client for LicenseManager
 type LicenseManagerClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -39,8 +39,7 @@ func NewLicenseManagerClientWithConfigurationProvider(configProvider common.Conf
 
 // NewLicenseManagerClientWithOboToken Creates a new default LicenseManager client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewLicenseManagerClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client LicenseManagerClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
@@ -137,7 +136,7 @@ func (client LicenseManagerClient) bulkUploadLicenseRecords(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/BulkUploadLicenseRecordsDetails/BulkUploadLicenseRecords"
 		err = common.PostProcessServiceError(err, "LicenseManager", "BulkUploadLicenseRecords", apiReferenceLink)
 		return response, err
 	}
@@ -200,7 +199,7 @@ func (client LicenseManagerClient) createLicenseRecord(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/LicenseRecord/CreateLicenseRecord"
 		err = common.PostProcessServiceError(err, "LicenseManager", "CreateLicenseRecord", apiReferenceLink)
 		return response, err
 	}
@@ -263,7 +262,7 @@ func (client LicenseManagerClient) createProductLicense(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/ProductLicense/CreateProductLicense"
 		err = common.PostProcessServiceError(err, "LicenseManager", "CreateProductLicense", apiReferenceLink)
 		return response, err
 	}
@@ -321,7 +320,7 @@ func (client LicenseManagerClient) deleteLicenseRecord(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/LicenseRecord/DeleteLicenseRecord"
 		err = common.PostProcessServiceError(err, "LicenseManager", "DeleteLicenseRecord", apiReferenceLink)
 		return response, err
 	}
@@ -379,7 +378,7 @@ func (client LicenseManagerClient) deleteProductLicense(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/ProductLicense/DeleteProductLicense"
 		err = common.PostProcessServiceError(err, "LicenseManager", "DeleteProductLicense", apiReferenceLink)
 		return response, err
 	}
@@ -437,7 +436,7 @@ func (client LicenseManagerClient) getBulkUploadTemplate(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/BulkUploadTemplate/GetBulkUploadTemplate"
 		err = common.PostProcessServiceError(err, "LicenseManager", "GetBulkUploadTemplate", apiReferenceLink)
 		return response, err
 	}
@@ -495,7 +494,7 @@ func (client LicenseManagerClient) getConfiguration(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/Configuration/GetConfiguration"
 		err = common.PostProcessServiceError(err, "LicenseManager", "GetConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -553,7 +552,7 @@ func (client LicenseManagerClient) getLicenseMetric(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/LicenseMetric/GetLicenseMetric"
 		err = common.PostProcessServiceError(err, "LicenseManager", "GetLicenseMetric", apiReferenceLink)
 		return response, err
 	}
@@ -611,7 +610,7 @@ func (client LicenseManagerClient) getLicenseRecord(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/LicenseRecord/GetLicenseRecord"
 		err = common.PostProcessServiceError(err, "LicenseManager", "GetLicenseRecord", apiReferenceLink)
 		return response, err
 	}
@@ -669,7 +668,7 @@ func (client LicenseManagerClient) getProductLicense(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/ProductLicense/GetProductLicense"
 		err = common.PostProcessServiceError(err, "LicenseManager", "GetProductLicense", apiReferenceLink)
 		return response, err
 	}
@@ -727,7 +726,7 @@ func (client LicenseManagerClient) listLicenseRecords(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/LicenseRecordCollection/ListLicenseRecords"
 		err = common.PostProcessServiceError(err, "LicenseManager", "ListLicenseRecords", apiReferenceLink)
 		return response, err
 	}
@@ -785,7 +784,7 @@ func (client LicenseManagerClient) listProductLicenseConsumers(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/ProductLicenseConsumerCollection/ListProductLicenseConsumers"
 		err = common.PostProcessServiceError(err, "LicenseManager", "ListProductLicenseConsumers", apiReferenceLink)
 		return response, err
 	}
@@ -843,7 +842,7 @@ func (client LicenseManagerClient) listProductLicenses(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/ProductLicenseCollection/ListProductLicenses"
 		err = common.PostProcessServiceError(err, "LicenseManager", "ListProductLicenses", apiReferenceLink)
 		return response, err
 	}
@@ -901,7 +900,7 @@ func (client LicenseManagerClient) listTopUtilizedProductLicenses(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/TopUtilizedProductLicenseCollection/ListTopUtilizedProductLicenses"
 		err = common.PostProcessServiceError(err, "LicenseManager", "ListTopUtilizedProductLicenses", apiReferenceLink)
 		return response, err
 	}
@@ -959,7 +958,7 @@ func (client LicenseManagerClient) listTopUtilizedResources(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/TopUtilizedResourceCollection/ListTopUtilizedResources"
 		err = common.PostProcessServiceError(err, "LicenseManager", "ListTopUtilizedResources", apiReferenceLink)
 		return response, err
 	}
@@ -1017,7 +1016,7 @@ func (client LicenseManagerClient) updateConfiguration(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/Configuration/UpdateConfiguration"
 		err = common.PostProcessServiceError(err, "LicenseManager", "UpdateConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -1075,7 +1074,7 @@ func (client LicenseManagerClient) updateLicenseRecord(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/LicenseRecord/UpdateLicenseRecord"
 		err = common.PostProcessServiceError(err, "LicenseManager", "UpdateLicenseRecord", apiReferenceLink)
 		return response, err
 	}
@@ -1133,7 +1132,7 @@ func (client LicenseManagerClient) updateProductLicense(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/licensemanager/20220430/ProductLicense/UpdateProductLicense"
 		err = common.PostProcessServiceError(err, "LicenseManager", "UpdateProductLicense", apiReferenceLink)
 		return response, err
 	}

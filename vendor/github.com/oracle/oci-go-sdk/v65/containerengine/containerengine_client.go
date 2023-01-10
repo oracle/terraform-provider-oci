@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -19,7 +19,7 @@ import (
 	"net/http"
 )
 
-// ContainerEngineClient a client for ContainerEngine
+//ContainerEngineClient a client for ContainerEngine
 type ContainerEngineClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -41,8 +41,7 @@ func NewContainerEngineClientWithConfigurationProvider(configProvider common.Con
 
 // NewContainerEngineClientWithOboToken Creates a new default ContainerEngine client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewContainerEngineClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client ContainerEngineClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
