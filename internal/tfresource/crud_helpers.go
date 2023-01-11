@@ -567,6 +567,10 @@ func ResourceNotFoundErrorMessage(resourceName string, reason string) error {
 	return fmt.Errorf("%s not found. %s \n", resourceName, reason)
 }
 
+func DatasourceDeprecatedForAnother(deprecatedDatasourceName string, newDatasourceName string) string {
+	return fmt.Sprintf("The '%s' datasource has been deprecated. Please use '%s' instead.", deprecatedDatasourceName, newDatasourceName)
+}
+
 // GenerateDataSourceID generates an ID for the data source based on the current time stamp.
 func GenerateDataSourceID() string {
 	// Important, if you don't have an ID, make one up for your datasource

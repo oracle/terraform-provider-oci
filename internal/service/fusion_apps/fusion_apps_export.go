@@ -56,7 +56,10 @@ var exportFusionAppsFusionEnvironmentRefreshActivityHints = &tf_export.Terraform
 	ResourceAbbreviation:   "fusion_environment_refresh_activity",
 	RequireResourceRefresh: true,
 	DiscoverableLifecycleStates: []string{
-		string(oci_fusion_apps.DataMaskingActivityLifecycleStateSucceeded),
+		string(oci_fusion_apps.RefreshActivityLifecycleStateAccepted),
+		string(oci_fusion_apps.RefreshActivityLifecycleStateInProgress),
+		string(oci_fusion_apps.RefreshActivityLifecycleStateNeedsAttention),
+		string(oci_fusion_apps.RefreshActivityLifecycleStateSucceeded),
 	},
 }
 
@@ -100,7 +103,7 @@ var exportFusionAppsFusionEnvironmentDataMaskingActivityHints = &tf_export.Terra
 	ResourceAbbreviation:   "fusion_environment_data_masking_activity",
 	RequireResourceRefresh: true,
 	DiscoverableLifecycleStates: []string{
-		string(oci_fusion_apps.RefreshActivityLifecycleStateSucceeded),
+		string(oci_fusion_apps.DataMaskingActivityLifecycleStateSucceeded),
 	},
 }
 

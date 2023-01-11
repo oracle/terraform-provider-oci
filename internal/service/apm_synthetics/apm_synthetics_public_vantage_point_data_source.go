@@ -89,6 +89,7 @@ func ApmSyntheticsPublicVantagePointDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_apm_synthetics_public_vantage_point", "oci_apm_synthetics_public_vantage_points"),
 	}
 }
 

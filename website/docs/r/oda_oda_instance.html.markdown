@@ -83,7 +83,6 @@ The following attributes are exported:
 
 ## Timeouts
 
-<<<<<<< ours
 The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 40 minutes), when creating the Oda Instance
 	* `update` - (Defaults to 40 minutes), when updating the Oda Instance

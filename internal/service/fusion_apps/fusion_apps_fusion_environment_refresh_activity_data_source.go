@@ -52,9 +52,12 @@ func (s *FusionAppsFusionEnvironmentRefreshActivityDataSourceCrud) Get() error {
 		request.FusionEnvironmentId = &tmp
 	}
 
+	// the refresh_activity_id is a composite id
 	if refreshActivityId, ok := s.D.GetOkExists("refresh_activity_id"); ok {
-		tmp := refreshActivityId.(string)
-		request.RefreshActivityId = &tmp
+		_, refreshActivityIdString, err := parseFusionEnvironmentRefreshActivityCompositeId(refreshActivityId.(string))
+		if err == nil {
+			request.RefreshActivityId = &refreshActivityIdString
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fusion_apps")
@@ -81,6 +84,12 @@ func (s *FusionAppsFusionEnvironmentRefreshActivityDataSourceCrud) SetData() err
 
 	s.D.Set("lifecycle_details", s.Res.LifecycleDetails)
 
+	refreshIssueDetailsList := []interface{}{}
+	for _, item := range s.Res.RefreshIssueDetailsList {
+		refreshIssueDetailsList = append(refreshIssueDetailsList, RefreshIssueDetailsToMap(item))
+	}
+	s.D.Set("refresh_issue_details_list", refreshIssueDetailsList)
+
 	s.D.Set("service_availability", s.Res.ServiceAvailability)
 
 	if s.Res.SourceFusionEnvironmentId != nil {
@@ -103,10 +112,6 @@ func (s *FusionAppsFusionEnvironmentRefreshActivityDataSourceCrud) SetData() err
 
 	if s.Res.TimeOfRestorationPoint != nil {
 		s.D.Set("time_of_restoration_point", s.Res.TimeOfRestorationPoint.String())
-	}
-
-	if s.Res.TimeScheduledStart != nil {
-		s.D.Set("time_scheduled_start", s.Res.TimeScheduledStart.String())
 	}
 
 	if s.Res.TimeUpdated != nil {

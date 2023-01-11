@@ -44,6 +44,7 @@ func DatabaseManagementManagedDatabasesAsmPropertyDataSource() *schema.Resource 
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_database_management_managed_databases_asm_property", "oci_database_management_managed_databases_asm_properties"),
 	}
 }
 

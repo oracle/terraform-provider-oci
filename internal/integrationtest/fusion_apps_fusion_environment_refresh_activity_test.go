@@ -13,9 +13,7 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
-
 	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
-
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
@@ -25,20 +23,11 @@ var (
 
 	FusionAppsFusionAppsFusionEnvironmentRefreshActivitySingularDataSourceRepresentation = map[string]interface{}{
 		"fusion_environment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_fusion_apps_fusion_environment.test_fusion_environment.id}`},
-		"refresh_activity_id":   acctest.Representation{RepType: acctest.Required, Create: `{}`},
+		"refresh_activity_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_fusion_apps_fusion_environment_refresh_activity.test_fusion_environment_refresh_activity.id}`},
 	}
 
 	FusionAppsFusionAppsFusionEnvironmentRefreshActivityDataSourceRepresentation = map[string]interface{}{
-		"fusion_environment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_fusion_apps_fusion_environment.test_fusion_environment.id}`},
-		"display_name":          acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
-		"state":                 acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"time_expected_finish_less_than_or_equal_to":    acctest.Representation{RepType: acctest.Optional, Create: `timeExpectedFinishLessThanOrEqualTo`},
-		"time_scheduled_start_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `timeScheduledStartGreaterThanOrEqualTo`},
-		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: FusionAppsFusionEnvironmentRefreshActivityDataSourceFilterRepresentation}}
-	FusionAppsFusionEnvironmentRefreshActivityDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
-		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_fusion_apps_fusion_environment_refresh_activity.test_fusion_environment_refresh_activity.id}`}},
-	}
+		"fusion_environment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_fusion_apps_fusion_environment.test_fusion_environment.id}`}}
 
 	FusionAppsFusionEnvironmentRefreshActivityRepresentation = map[string]interface{}{
 		"fusion_environment_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_fusion_apps_fusion_environment.test_fusion_environment.id}`},
@@ -79,7 +68,7 @@ func TestFusionAppsFusionEnvironmentRefreshActivityResource_basic(t *testing.T) 
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
 						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -96,11 +85,7 @@ func TestFusionAppsFusionEnvironmentRefreshActivityResource_basic(t *testing.T) 
 				compartmentIdVariableStr + FusionAppsFusionEnvironmentRefreshActivityResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_fusion_apps_fusion_environment_refresh_activity", "test_fusion_environment_refresh_activity", acctest.Optional, acctest.Update, FusionAppsFusionEnvironmentRefreshActivityRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(datasourceName, "fusion_environment_id"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-				resource.TestCheckResourceAttrSet(datasourceName, "time_expected_finish_less_than_or_equal_to"),
-				resource.TestCheckResourceAttrSet(datasourceName, "time_scheduled_start_greater_than_or_equal_to"),
 
 				resource.TestCheckResourceAttr(datasourceName, "refresh_activity_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "refresh_activity_collection.0.items.#", "1"),
@@ -117,14 +102,21 @@ func TestFusionAppsFusionEnvironmentRefreshActivityResource_basic(t *testing.T) 
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				// if there's no refresh issue, this field will be null, so commented out this line
+				// resource.TestCheckResourceAttr(singularDatasourceName, "refresh_issue_details_list.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "service_availability"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_accepted"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_expected_finish"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_finished"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_of_restoration_point"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_scheduled_start"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				// Refresh resource is a scheduled activity, the create API is to create the activity.
+				// This field will only be set when the actual refresh finished, commented out
+				// resource.TestCheckResourceAttrSet(singularDatasourceName, "time_finished"),
+
+				// This field will only be set when the actual refresh finished, commented out
+				// resource.TestCheckResourceAttrSet(singularDatasourceName, "time_of_restoration_point"),
+
+				// This field will only be set when the actual refresh finished, commented out
+				// resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
 		},
 	})

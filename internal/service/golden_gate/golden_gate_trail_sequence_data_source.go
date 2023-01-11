@@ -68,6 +68,7 @@ func GoldenGateTrailSequenceDataSource() *schema.Resource {
 				Computed: true,
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_golden_gate_trail_sequence", "oci_golden_gate_trail_sequences"),
 	}
 }
 

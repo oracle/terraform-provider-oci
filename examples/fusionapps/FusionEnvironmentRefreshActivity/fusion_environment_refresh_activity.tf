@@ -8,7 +8,7 @@ variable "private_key_path" {}
 variable "region" {}
 
 variable "fusion_environment_refresh_activity_display_name" {
-  default = "displayName"
+  default = "Manual_Execute_Refresh_2022-12-02T03:48:18.932Z"
 }
 
 variable "fusion_environment_refresh_activity_state" {

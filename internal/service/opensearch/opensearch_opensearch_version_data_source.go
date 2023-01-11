@@ -41,6 +41,7 @@ func OpensearchOpensearchVersionDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_opensearch_opensearch_version", "oci_opensearch_opensearch_versions"),
 	}
 }
 

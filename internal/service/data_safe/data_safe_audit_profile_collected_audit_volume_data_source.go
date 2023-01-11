@@ -66,6 +66,7 @@ func DataSafeAuditProfileCollectedAuditVolumeDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_data_safe_audit_profile_collected_audit_volume", "oci_data_safe_audit_profile_collected_audit_volumes"),
 	}
 }
 

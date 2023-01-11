@@ -78,6 +78,7 @@ func OpsiAwrHubAwrSnapshotDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_opsi_awr_hub_awr_snapshot", "oci_opsi_awr_hub_awr_snapshots"),
 	}
 }
 

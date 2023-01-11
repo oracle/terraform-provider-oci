@@ -55,6 +55,7 @@ var (
 		"display_name":             acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"is_high_availability":     acctest.Representation{RepType: acctest.Required, Create: `true`},
 		"is_secure":                acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"cluster_profile":          acctest.Representation{RepType: acctest.Optional, Create: `HADOOP`},
 		"kerberos_realm_name":      acctest.Representation{RepType: acctest.Optional, Create: `BDSCLOUDSERVICE.ORACLE.COM`},
 		"master_node":              acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlexShapeRepresentation},
 		"util_node":                acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlexShapeRepresentation},
@@ -238,6 +239,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "bootstrap_script_url", bootstrapScriptUrl),
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
+				resource.TestCheckResourceAttr(resourceName, "cluster_profile", "HADOOP"),
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
 				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -289,6 +291,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 					})),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
+				resource.TestCheckResourceAttr(resourceName, "cluster_profile", "HADOOP"),
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
 				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -336,6 +339,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Update, bdsInstanceOdhWithRegularComputeAndFlexMasterUtilRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
+				resource.TestCheckResourceAttr(resourceName, "cluster_profile", "HADOOP"),
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
 				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -387,6 +391,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttr(datasourceName, "bds_instances.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.cluster_profile", "HADOOP"),
 				resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.cluster_version", "ODH1"),
 				resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.display_name", "displayName2"),
@@ -410,6 +415,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "cloud_sql_details.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_profile", "HADOOP"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_version", "ODH1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_details.0.bd_cell_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_details.0.bds_version"),

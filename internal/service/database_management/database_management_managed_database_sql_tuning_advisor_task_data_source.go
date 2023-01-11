@@ -102,6 +102,7 @@ func DatabaseManagementManagedDatabaseSqlTuningAdvisorTaskDataSource() *schema.R
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_database_management_managed_database_sql_tuning_advisor_task", "oci_database_management_managed_database_sql_tuning_advisor_tasks"),
 	}
 }
 

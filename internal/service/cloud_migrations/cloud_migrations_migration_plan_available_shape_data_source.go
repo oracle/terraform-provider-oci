@@ -124,6 +124,7 @@ func CloudMigrationsMigrationPlanAvailableShapeDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_cloud_migrations_migration_plan_available_shape", "oci_cloud_migrations_migration_plan_available_shapes"),
 	}
 }
 

@@ -68,6 +68,7 @@ func DatabaseManagementManagedDatabaseUserRoleDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_database_management_managed_database_user_role", "oci_database_management_managed_database_user_roles"),
 	}
 }
 
