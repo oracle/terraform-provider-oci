@@ -81,6 +81,7 @@ func DataSafeDiscoveryAnalyticDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_data_safe_discovery_analytic", "oci_data_safe_discovery_analytics"),
 	}
 }
 

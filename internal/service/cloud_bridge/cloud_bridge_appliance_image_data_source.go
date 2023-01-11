@@ -94,6 +94,7 @@ func CloudBridgeApplianceImageDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_cloud_bridge_appliance_image", "oci_cloud_bridge_appliance_images"),
 	}
 }
 

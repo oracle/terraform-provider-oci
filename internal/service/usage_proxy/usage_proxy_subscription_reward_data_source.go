@@ -125,6 +125,7 @@ func UsageProxySubscriptionRewardDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_usage_proxy_subscription_reward", "oci_usage_proxy_subscription_rewards"),
 	}
 }
 

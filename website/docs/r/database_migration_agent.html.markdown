@@ -64,7 +64,6 @@ The following attributes are exported:
 * `time_updated` - The time of the last Agent details update. An RFC3339 formatted datetime string. 
 * `version` - ODMS Agent version 
 
-<<<<<<< ours
 ## Timeouts
 
 The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
@@ -73,8 +72,6 @@ The `timeouts` block allows you to specify [timeouts](https://registry.terraform
 	* `delete` - (Defaults to 20 minutes), when destroying the Agent
 
 
-=======
->>>>>>> theirs
 ## Import
 
 Agents can be imported using the `id`, e.g.

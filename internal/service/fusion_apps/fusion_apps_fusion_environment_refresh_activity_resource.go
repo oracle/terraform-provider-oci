@@ -27,10 +27,12 @@ func FusionAppsFusionEnvironmentRefreshActivityResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createFusionAppsFusionEnvironmentRefreshActivity,
-		Read:     readFusionAppsFusionEnvironmentRefreshActivity,
-		Delete:   deleteFusionAppsFusionEnvironmentRefreshActivity,
+		Timeouts: &schema.ResourceTimeout{
+			Create: tfresource.GetTimeoutDuration("12h"),
+		},
+		Create: createFusionAppsFusionEnvironmentRefreshActivity,
+		Read:   readFusionAppsFusionEnvironmentRefreshActivity,
+		Delete: deleteFusionAppsFusionEnvironmentRefreshActivity,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"fusion_environment_id": {
@@ -44,9 +46,11 @@ func FusionAppsFusionEnvironmentRefreshActivityResource() *schema.Resource {
 				ForceNew: true,
 			},
 
-			// Optional
-
 			// Computed
+			"refresh_activity_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -54,6 +58,23 @@ func FusionAppsFusionEnvironmentRefreshActivityResource() *schema.Resource {
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"refresh_issue_details_list": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"refresh_issues": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"service_availability": {
 				Type:     schema.TypeString,
@@ -76,10 +97,6 @@ func FusionAppsFusionEnvironmentRefreshActivityResource() *schema.Resource {
 				Computed: true,
 			},
 			"time_of_restoration_point": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_scheduled_start": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -119,7 +136,7 @@ type FusionAppsFusionEnvironmentRefreshActivityResourceCrud struct {
 }
 
 func (s *FusionAppsFusionEnvironmentRefreshActivityResourceCrud) ID() string {
-	return GetFusionEnvironmentRefreshActivityCompositeId(s.D.Get("fusion_environment_id").(string), s.D.Get("refresh_activity_id").(string))
+	return GetFusionEnvironmentRefreshActivityCompositeId(s.D.Get("fusion_environment_id").(string), *(s.Res).Id)
 }
 
 func (s *FusionAppsFusionEnvironmentRefreshActivityResourceCrud) CreatedPending() []string {
@@ -130,6 +147,7 @@ func (s *FusionAppsFusionEnvironmentRefreshActivityResourceCrud) CreatedPending(
 
 func (s *FusionAppsFusionEnvironmentRefreshActivityResourceCrud) CreatedTarget() []string {
 	return []string{
+		string(oci_fusion_apps.RefreshActivityLifecycleStateNeedsAttention),
 		string(oci_fusion_apps.RefreshActivityLifecycleStateSucceeded),
 	}
 }
@@ -169,14 +187,16 @@ func (s *FusionAppsFusionEnvironmentRefreshActivityResourceCrud) Create() error 
 func (s *FusionAppsFusionEnvironmentRefreshActivityResourceCrud) getFusionEnvironmentRefreshActivityFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_fusion_apps.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
-	// Wait until it finishes
-	fusionEnvironmentRefreshActivityId, err := fusionEnvironmentRefreshActivityWaitForWorkRequest(workId, "fusion_apps",
+	// We don't wait for the actual refresh complete,
+	// the work request will track the actual refresh instead of the refresh resource creation
+	// As long as the work request is returned, that means the refresh resource is created
+	fusionEnvironmentRefreshActivityId, err := fusionEnvironmentRefreshActivityWaitForWorkRequest(workId, "refreshactivity",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		return err
 	}
-	s.D.SetId(*fusionEnvironmentRefreshActivityId)
+	s.D.Set("refresh_activity_id", fusionEnvironmentRefreshActivityId)
 
 	return s.Get()
 }
@@ -196,9 +216,10 @@ func fusionEnvironmentRefreshActivityWorkRequestShouldRetryFunc(timeout time.Dur
 			return true
 		}
 
-		// Only stop if the time Finished is set
+		// This work request will track the actual refresh, for creation,
+		//when the work request is accepted then the refresh creation is succeeded
 		if workRequestResponse, ok := response.Response.(oci_fusion_apps.GetWorkRequestResponse); ok {
-			return workRequestResponse.TimeFinished == nil
+			return workRequestResponse.TimeAccepted == nil
 		}
 		return false
 	}
@@ -212,11 +233,14 @@ func fusionEnvironmentRefreshActivityWaitForWorkRequest(wId *string, entityType 
 	response := oci_fusion_apps.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
 		Pending: []string{
-			string(oci_fusion_apps.WorkRequestStatusInProgress),
-			string(oci_fusion_apps.WorkRequestStatusAccepted),
 			string(oci_fusion_apps.WorkRequestStatusCanceling),
 		},
+		// We don't wait for the actual refresh complete,
+		// the work request will track the actual refresh instead of the refresh resource creation
+		// As long as the work request is returned, that means the refresh resource is created
 		Target: []string{
+			string(oci_fusion_apps.WorkRequestStatusInProgress),
+			string(oci_fusion_apps.WorkRequestStatusAccepted),
 			string(oci_fusion_apps.WorkRequestStatusSucceeded),
 			string(oci_fusion_apps.WorkRequestStatusFailed),
 			string(oci_fusion_apps.WorkRequestStatusCanceled),
@@ -243,10 +267,8 @@ func fusionEnvironmentRefreshActivityWaitForWorkRequest(wId *string, entityType 
 	// The work request response contains an array of objects that finished the operation
 	for _, res := range response.Resources {
 		if strings.Contains(strings.ToLower(*res.EntityType), entityType) {
-			if res.ActionType == action {
-				identifier = res.Identifier
-				break
-			}
+			identifier = res.Identifier
+			break
 		}
 	}
 
@@ -329,6 +351,12 @@ func (s *FusionAppsFusionEnvironmentRefreshActivityResourceCrud) SetData() error
 
 	s.D.Set("lifecycle_details", s.Res.LifecycleDetails)
 
+	refreshIssueDetailsList := []interface{}{}
+	for _, item := range s.Res.RefreshIssueDetailsList {
+		refreshIssueDetailsList = append(refreshIssueDetailsList, RefreshIssueDetailsToMap(item))
+	}
+	s.D.Set("refresh_issue_details_list", refreshIssueDetailsList)
+
 	s.D.Set("service_availability", s.Res.ServiceAvailability)
 
 	if s.Res.SourceFusionEnvironmentId != nil {
@@ -351,10 +379,6 @@ func (s *FusionAppsFusionEnvironmentRefreshActivityResourceCrud) SetData() error
 
 	if s.Res.TimeOfRestorationPoint != nil {
 		s.D.Set("time_of_restoration_point", s.Res.TimeOfRestorationPoint.String())
-	}
-
-	if s.Res.TimeScheduledStart != nil {
-		s.D.Set("time_scheduled_start", s.Res.TimeScheduledStart.String())
 	}
 
 	if s.Res.TimeUpdated != nil {
@@ -397,6 +421,12 @@ func RefreshActivitySummaryToMap(obj oci_fusion_apps.RefreshActivitySummary) map
 
 	result["lifecycle_details"] = string(obj.LifecycleDetails)
 
+	refreshIssueDetailsList := []interface{}{}
+	for _, item := range obj.RefreshIssueDetailsList {
+		refreshIssueDetailsList = append(refreshIssueDetailsList, RefreshIssueDetailsToMap(item))
+	}
+	result["refresh_issue_details_list"] = refreshIssueDetailsList
+
 	result["service_availability"] = string(obj.ServiceAvailability)
 
 	if obj.SourceFusionEnvironmentId != nil {
@@ -421,12 +451,18 @@ func RefreshActivitySummaryToMap(obj oci_fusion_apps.RefreshActivitySummary) map
 		result["time_of_restoration_point"] = obj.TimeOfRestorationPoint.String()
 	}
 
-	if obj.TimeScheduledStart != nil {
-		result["time_scheduled_start"] = obj.TimeScheduledStart.String()
-	}
-
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
+	}
+
+	return result
+}
+
+func RefreshIssueDetailsToMap(obj oci_fusion_apps.RefreshIssueDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.RefreshIssues != nil {
+		result["refresh_issues"] = string(*obj.RefreshIssues)
 	}
 
 	return result

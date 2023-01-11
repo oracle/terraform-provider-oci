@@ -68,6 +68,7 @@ func DatabaseManagementJobExecutionsStatusDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_database_management_job_executions_status", "oci_database_management_job_executions_statuses"),
 	}
 }
 

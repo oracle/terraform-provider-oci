@@ -152,13 +152,9 @@ resource "oci_container_instances_container_instance" "test_container_instance" 
       "sleep 24h"]
     command = [
       "/bin/sh"]
-    defined_tags = map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")
     display_name = "displayName"
     environment_variables = {
       "environment" = "variable"
-    }
-    freeform_tags = {
-      "tagName" = "tagValue"
     }
     health_checks {
       #Required
@@ -236,7 +232,6 @@ resource "oci_container_instances_container_instance" "test_container_instance" 
     searches = [
       "search domain"]
   }
-  fault_domain  = "fault-domain-1"
   freeform_tags = {
     "bar-key" = "foo-value"
   }

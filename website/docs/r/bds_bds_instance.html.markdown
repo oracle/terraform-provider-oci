@@ -103,6 +103,7 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
 
 	#Optional
 	bootstrap_script_url = var.bds_instance_bootstrap_script_url
+	cluster_profile = var.bds_instance_cluster_profile
 	defined_tags = var.bds_instance_defined_tags
 	freeform_tags = var.bds_instance_freeform_tags
 	kerberos_realm_name = var.bds_instance_kerberos_realm_name
@@ -121,7 +122,8 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
 The following arguments are supported:
 
 * `bootstrap_script_url` - (Optional) (Updatable) Pre-authenticated URL of the script in Object Store that is downloaded and executed.
-* `cluster_admin_password` - (Required) Base-64 encoded password for Cloudera Manager admin user
+* `cluster_admin_password` - (Required) Base-64 encoded password for the cluster (and Cloudera Manager) admin user.
+* `cluster_profile` - (Optional) Profile of the Big Data Service cluster.
 * `cluster_public_key` - (Required) The SSH public key used to authenticate the cluster connection.
 * `cluster_version` - (Required) Version of the Hadoop distribution
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment
@@ -196,32 +198,34 @@ The following attributes are exported:
 	* `kms_key_id` - The OCID of the Key Management master encryption key
 	* `shape` - Shape of the node
 * `cluster_details` - Specific info about a Hadoop cluster
-    * `ambari_url` - The URL of Ambari
-    * `bd_cell_version` - Cloud SQL cell version
-    * `bda_version` - BDA version installed in the cluster
-    * `bdm_version` - Big Data Manager version installed in the cluster
-    * `bds_version` - Big Data Service version installed in the cluster
-    * `big_data_manager_url` - The URL of a Big Data Manager
-    * `cloudera_manager_url` - The URL of a Cloudera Manager
-    * `csql_cell_version` - Big Data SQL version
-    * `db_version` - Query Server Database version
-    * `hue_server_url` - The URL of a Hue Server
-    * `jupyter_hub_url` - The URL of the Jupyterhub.
-    * `odh_version` - Version of the ODH (Oracle Distribution including Apache Hadoop) installed on the cluster.
-    * `os_version` - Oracle Linux version installed in the cluster
-    * `time_created` - The time the cluster was created. An RFC3339 formatted datetime string
-    * `time_refreshed` - The time the BDS instance was automatically, or manually refreshed. An RFC3339 formatted datetime string 
-* `cluster_version` - Version of the Hadoop distribution
-* `compartment_id` - The OCID of the compartment
-* `created_by` - The user who created the BDS instance.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
-* `display_name` - Name of the BDS instance
-* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
-* `id` - The OCID of the BDS resource
-* `is_cloud_sql_configured` - Boolean flag specifying whether we configure Cloud SQL or not
-* `is_high_availability` - Boolean flag specifying whether or not the cluster is HA
-* `is_secure` - Boolean flag specifying whether or not the cluster should be setup as secure.
-* `network_config` - Additional configuration of customer's network.
+	* `ambari_url` - The URL of Ambari
+	* `bd_cell_version` - Cloud SQL cell version.
+	* `bda_version` - BDA version installed in the cluster
+	* `bdm_version` - Big Data Manager version installed in the cluster.
+	* `bds_version` - Big Data Service version installed in the cluster.
+	* `big_data_manager_url` - The URL of Big Data Manager.
+	* `cloudera_manager_url` - The URL of Cloudera Manager
+	* `csql_cell_version` - Big Data SQL version.
+	* `db_version` - Cloud SQL query server database version.
+	* `hue_server_url` - The URL of the Hue server.
+	* `jupyter_hub_url` - The URL of the Jupyterhub.
+	* `odh_version` - Version of the ODH (Oracle Distribution including Apache Hadoop) installed on the cluster.
+	* `os_version` - Oracle Linux version installed in the cluster.
+	* `time_created` - The time the cluster was created, shown as an RFC 3339 formatted datetime string.
+	* `time_refreshed` - The time the cluster was automatically or manually refreshed, shown as an RFC 3339 formatted datetime string. 
+* `cluster_profile` - Profile of the Big Data Service cluster.
+* `cluster_version` - Version of the Hadoop distribution.
+* `compartment_id` - The OCID of the compartment.
+* `created_by` - The user who created the cluster.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For example, `{"foo-namespace": {"bar-key": "value"}}` 
+* `display_name` - The name of the cluster.
+* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only. For example, `{"bar-key": "value"}` 
+* `id` - The OCID of the Big Data Service resource.
+* `is_cloud_sql_configured` - Boolean flag specifying whether or not Cloud SQL should be configured.
+* `is_high_availability` - Boolean flag specifying whether or not the cluster is highly available (HA)
+* `is_secure` - Boolean flag specifying whether or not the cluster should be set up as secure.
+* `kms_key_id` - The OCID of the Key Management master encryption key.
+* `network_config` - Additional configuration of the user's network.
 	* `cidr_block` - The CIDR IP address block of the VCN.
 	* `is_nat_gateway_required` - A boolean flag whether to configure a NAT gateway.
 * `nodes` - The list of nodes in the cluster.

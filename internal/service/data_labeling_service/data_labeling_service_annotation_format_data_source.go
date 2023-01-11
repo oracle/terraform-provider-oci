@@ -40,6 +40,7 @@ func DataLabelingServiceAnnotationFormatDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_data_labeling_service_annotation_format", "oci_data_labeling_service_annotation_formats"),
 	}
 }
 

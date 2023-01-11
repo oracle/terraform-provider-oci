@@ -71,6 +71,41 @@ var (
 		"subnet_id":       acctest.Representation{RepType: acctest.Optional, Create: `${var.test_subnet_id}`},
 		"vault_id":        acctest.Representation{RepType: acctest.Optional, Create: `${var.vault_id}`},
 	}
+
+	PostgresqlConnectionRepresentation = map[string]interface{}{
+		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"connection_type":   acctest.Representation{RepType: acctest.Required, Create: `POSTGRESQL`},
+		"display_name":      acctest.Representation{RepType: acctest.Required, Create: `Postgresql_TFtest`, Update: `Postgresql_TFtest2`},
+		"database_name":     acctest.Representation{RepType: acctest.Required, Create: `TF_PostgresqlDB`},
+		"technology_type":   acctest.Representation{RepType: acctest.Required, Create: `POSTGRESQL_SERVER`},
+		"description":       acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"bar-key": "value"}},
+		"key_id":            acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_id}`},
+		"host":              acctest.Representation{RepType: acctest.Required, Create: `10.0.0.127`, Update: `10.0.0.128`},
+		"port":              acctest.Representation{RepType: acctest.Required, Create: `12`, Update: `13`},
+		"private_ip":        acctest.Representation{RepType: acctest.Optional, Create: `10.0.1.78`},
+		"password":          acctest.Representation{RepType: acctest.Required, Create: `bEStrO0nG_1`},
+		"security_protocol": acctest.Representation{RepType: acctest.Required, Create: `PLAIN`},
+		"subnet_id":         acctest.Representation{RepType: acctest.Optional, Create: `${var.test_subnet_id}`},
+		"vault_id":          acctest.Representation{RepType: acctest.Optional, Create: `${var.vault_id}`},
+		"username":          acctest.Representation{RepType: acctest.Required, Create: `admin`},
+	}
+
+	AzureSynapseConnectionRepresentation = map[string]interface{}{
+		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"connection_type":   acctest.Representation{RepType: acctest.Required, Create: `AZURE_SYNAPSE_ANALYTICS`},
+		"display_name":      acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"technology_type":   acctest.Representation{RepType: acctest.Required, Create: `AZURE_SYNAPSE_ANALYTICS`},
+		"description":       acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"bar-key": "value"}},
+		"key_id":            acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_id}`},
+		"password":          acctest.Representation{RepType: acctest.Required, Create: `bEStrO0nG_1`},
+		"private_ip":        acctest.Representation{RepType: acctest.Optional, Create: `10.0.1.78`},
+		"connection_string": acctest.Representation{RepType: acctest.Required, Create: `jdbc:sqlserver://127.0.0.1:1433`},
+		"username":          acctest.Representation{RepType: acctest.Required, Create: `admin`},
+		"subnet_id":         acctest.Representation{RepType: acctest.Optional, Create: `${var.test_subnet_id}`},
+		"vault_id":          acctest.Representation{RepType: acctest.Optional, Create: `${var.vault_id}`},
+	}
 )
 
 // issue-routing-tag: golden_gate/default
@@ -112,7 +147,7 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckGoldenGateConnectionDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + testDeploymentIdVariableStr +
+			Config: config + compartmentIdVariableStr + testDeploymentIdVariableStr + testSubnetIdVariableStr + testVaultIdVariableStr + testKeyIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_connection", "test_connection", acctest.Required, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(GoldenGateConnectionRepresentation, map[string]interface{}{
 						"deployment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.test_deployment_id}`},
@@ -124,6 +159,92 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "deployment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "technology_type", "GOLDENGATE"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr,
+		},
+		// verify Create - Postgresql
+		{
+			Config: config + compartmentIdVariableStr + testSubnetIdVariableStr + testVaultIdVariableStr + testKeyIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_connection", "test_connection", acctest.Required, acctest.Create, PostgresqlConnectionRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "connection_type", "POSTGRESQL"),
+				resource.TestCheckResourceAttr(resourceName, "database_name", "TF_PostgresqlDB"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Postgresql_TFtest"),
+				resource.TestCheckResourceAttr(resourceName, "host", "10.0.0.127"),
+				resource.TestCheckResourceAttr(resourceName, "password", "bEStrO0nG_1"),
+				resource.TestCheckResourceAttr(resourceName, "port", "12"),
+				resource.TestCheckResourceAttr(resourceName, "username", "admin"),
+				resource.TestCheckResourceAttrSet(resourceName, "security_protocol"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "technology_type", "POSTGRESQL_SERVER"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// verify Create with optionals - Postgresql
+		{
+			Config: config + compartmentIdVariableStr + testSubnetIdVariableStr + testVaultIdVariableStr + testKeyIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_connection", "test_connection", acctest.Optional, acctest.Create, PostgresqlConnectionRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "connection_type", "POSTGRESQL"),
+				resource.TestCheckResourceAttr(resourceName, "database_name", "TF_PostgresqlDB"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Postgresql_TFtest"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "key_id"),
+				resource.TestCheckResourceAttr(resourceName, "host", "10.0.0.127"),
+				resource.TestCheckResourceAttr(resourceName, "password", "bEStrO0nG_1"),
+				resource.TestCheckResourceAttrSet(resourceName, "private_ip"),
+				resource.TestCheckResourceAttr(resourceName, "port", "12"),
+				resource.TestCheckResourceAttrSet(resourceName, "security_protocol"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "subnet_id", testSubnetId),
+				resource.TestCheckResourceAttr(resourceName, "technology_type", "POSTGRESQL_SERVER"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "username", "admin"),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr,
+		},
+		// verify Create - AzureSynapse
+		{
+			Config: config + compartmentIdVariableStr + testSubnetIdVariableStr + testVaultIdVariableStr + testKeyIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_connection", "test_connection", acctest.Required, acctest.Create, AzureSynapseConnectionRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "connection_string", "jdbc:sqlserver://127.0.0.1:1433"),
+				resource.TestCheckResourceAttr(resourceName, "connection_type", "AZURE_SYNAPSE_ANALYTICS"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "password", "bEStrO0nG_1"),
+				resource.TestCheckResourceAttr(resourceName, "username", "admin"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "technology_type", "AZURE_SYNAPSE_ANALYTICS"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
@@ -167,7 +288,6 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 				},
 			),
 		},
-
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + testSubnetIdVariableStr + testVaultIdVariableStr + testKeyIdVariableStr + testDeploymentIdVariableStr +
@@ -216,7 +336,6 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "connection_type", "GOLDENGATE"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -291,13 +410,17 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
+				"account_key",
+				"client_secret",
 				"consumer_properties",
 				"key_store",
 				"key_store_password",
 				"password",
 				"private_key_file",
+				"private_key_passphrase",
 				"producer_properties",
 				"public_key_fingerprint",
+				"sas_token",
 				"ssl_ca",
 				"ssl_cert",
 				"ssl_crl",

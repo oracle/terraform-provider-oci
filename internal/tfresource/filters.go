@@ -275,6 +275,8 @@ func isValidSchemaType(fieldSchema *schema.Schema) bool {
 			return true
 		} else if fieldSchema.MaxItems == 1 && fieldSchema.MinItems == 1 { //nested structures
 			return true
+		} else if fieldSchema.Computed && !fieldSchema.Optional && fieldSchema.MinItems <= 1 && fieldSchema.MaxItems <= 1 {
+			return true
 		}
 		return false
 	}

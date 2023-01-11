@@ -104,6 +104,7 @@ func OptimizerProfileLevelDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_optimizer_profile_level", "oci_optimizer_profile_levels"),
 	}
 }
 
