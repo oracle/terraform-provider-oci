@@ -98,6 +98,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("backup_config", nil)
 	}
 
+	if s.Res.BackupRetentionPeriodInDays != nil {
+		s.D.Set("backup_retention_period_in_days", *s.Res.BackupRetentionPeriodInDays)
+	}
+
 	if s.Res.CharacterSet != nil {
 		s.D.Set("character_set", *s.Res.CharacterSet)
 	}
@@ -392,6 +396,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.TimeUntilReconnectCloneEnabled != nil {
 		s.D.Set("time_until_reconnect_clone_enabled", s.Res.TimeUntilReconnectCloneEnabled.String())
+	}
+
+	if s.Res.TotalBackupStorageSizeInGBs != nil {
+		s.D.Set("total_backup_storage_size_in_gbs", *s.Res.TotalBackupStorageSizeInGBs)
 	}
 
 	if s.Res.UsedDataStorageSizeInTBs != nil {

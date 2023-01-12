@@ -486,6 +486,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 					},
 				},
 			},
+			"backup_retention_period_in_days": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"connection_strings": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -853,6 +857,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			},
 			"time_until_reconnect_clone_enabled": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"total_backup_storage_size_in_gbs": {
+				Type:     schema.TypeFloat,
 				Computed: true,
 			},
 			"used_data_storage_size_in_tbs": {
@@ -1535,6 +1543,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("backup_config", nil)
 	}
 
+	if s.Res.BackupRetentionPeriodInDays != nil {
+		s.D.Set("backup_retention_period_in_days", *s.Res.BackupRetentionPeriodInDays)
+	}
+
 	if s.Res.CharacterSet != nil {
 		s.D.Set("character_set", *s.Res.CharacterSet)
 	}
@@ -1837,6 +1849,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	if s.Res.TimeUntilReconnectCloneEnabled != nil {
 		s.D.Set("time_until_reconnect_clone_enabled", s.Res.TimeUntilReconnectCloneEnabled.String())
+	}
+
+	if s.Res.TotalBackupStorageSizeInGBs != nil {
+		s.D.Set("total_backup_storage_size_in_gbs", *s.Res.TotalBackupStorageSizeInGBs)
 	}
 
 	if s.Res.UsedDataStorageSizeInTBs != nil {
