@@ -152,6 +152,11 @@ func (client MigrationClient) ChangeMigrationCompartment(ctx context.Context, re
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.changeMigrationCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -2327,6 +2332,11 @@ func (client MigrationClient) UpdateMigrationPlan(ctx context.Context, request U
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.updateMigrationPlan, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -2381,6 +2391,11 @@ func (client MigrationClient) UpdateReplicationSchedule(ctx context.Context, req
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.updateReplicationSchedule, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -2435,6 +2450,11 @@ func (client MigrationClient) UpdateTargetAsset(ctx context.Context, request Upd
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.updateTargetAsset, policy)
 	if err != nil {
 		if ociResponse != nil {

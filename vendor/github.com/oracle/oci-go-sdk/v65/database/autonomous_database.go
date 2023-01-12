@@ -93,7 +93,7 @@ type AutonomousDatabase struct {
 	BackupRetentionPeriodInDays *int `mandatory:"false" json:"backupRetentionPeriodInDays"`
 
 	// The backup storage to the database.
-	TotalBackupStorageSizeInGBs *int `mandatory:"false" json:"totalBackupStorageSizeInGBs"`
+	TotalBackupStorageSizeInGBs *float64 `mandatory:"false" json:"totalBackupStorageSizeInGBs"`
 
 	// The number of OCPU cores to be made available to the database.
 	// The following points apply:

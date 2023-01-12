@@ -17,17 +17,20 @@ import (
 	"strings"
 )
 
-// CreatePeComanagedExadataVmclusterDetails The information of the VM Cluster which contains databases.
+// CreatePeComanagedExadataVmclusterDetails The information of the VM Cluster which contains databases. Either an opsiPrivateEndpointId or dbmPrivateEndpointId must be specified. If the dbmPrivateEndpointId is specified, a new Operations Insights private endpoint will be created.
 type CreatePeComanagedExadataVmclusterDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM Cluster.
 	VmclusterId *string `mandatory:"true" json:"vmclusterId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OPSI private endpoint
-	OpsiPrivateEndpointId *string `mandatory:"true" json:"opsiPrivateEndpointId"`
-
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OPSI private endpoint
+	OpsiPrivateEndpointId *string `mandatory:"false" json:"opsiPrivateEndpointId"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint
+	DbmPrivateEndpointId *string `mandatory:"false" json:"dbmPrivateEndpointId"`
 
 	// The databases that belong to the VM Cluster
 	MemberDatabaseDetails []CreatePeComanagedDatabaseInsightDetails `mandatory:"false" json:"memberDatabaseDetails"`

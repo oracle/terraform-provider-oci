@@ -122,7 +122,7 @@ func (client ResourcesClient) ListResourceQuota(ctx context.Context, request Lis
 // listResourceQuota implements the OCIOperation interface (enables retrying operations)
 func (client ResourcesClient) listResourceQuota(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/resources/quota/{serviceName}", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/resources/quota", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -177,7 +177,7 @@ func (client ResourcesClient) ListResources(ctx context.Context, request ListRes
 // listResources implements the OCIOperation interface (enables retrying operations)
 func (client ResourcesClient) listResources(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/resources/{serviceName}", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/resources", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

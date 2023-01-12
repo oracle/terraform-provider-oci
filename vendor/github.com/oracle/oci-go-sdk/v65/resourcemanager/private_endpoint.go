@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// PrivateEndpoint A private endpoint allowing Resource Manager to access nonpublic cloud resources. For more information about private endpoints, see Private Endpoint Management (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/private-endpoints.htm).
+// PrivateEndpoint A private endpoint allowing Resource Manager to access nonpublic cloud resources. For more information about private endpoints, see Managing Private Endpoints (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/private-endpoints.htm).
 type PrivateEndpoint struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private endpoint.

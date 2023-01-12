@@ -32,6 +32,8 @@ type EnablePeComanagedDatabaseInsightDetails struct {
 
 	CredentialDetails CredentialDetails `mandatory:"true" json:"credentialDetails"`
 
+	ConnectionDetails *PeComanagedDatabaseConnectionDetails `mandatory:"false" json:"connectionDetails"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -78,13 +80,14 @@ func (m EnablePeComanagedDatabaseInsightDetails) MarshalJSON() (buff []byte, e e
 // UnmarshalJSON unmarshals from json
 func (m *EnablePeComanagedDatabaseInsightDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		FreeformTags          map[string]string                 `json:"freeformTags"`
-		DefinedTags           map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags            map[string]map[string]interface{} `json:"systemTags"`
-		CompartmentId         *string                           `json:"compartmentId"`
-		OpsiPrivateEndpointId *string                           `json:"opsiPrivateEndpointId"`
-		ServiceName           *string                           `json:"serviceName"`
-		CredentialDetails     credentialdetails                 `json:"credentialDetails"`
+		ConnectionDetails     *PeComanagedDatabaseConnectionDetails `json:"connectionDetails"`
+		FreeformTags          map[string]string                     `json:"freeformTags"`
+		DefinedTags           map[string]map[string]interface{}     `json:"definedTags"`
+		SystemTags            map[string]map[string]interface{}     `json:"systemTags"`
+		CompartmentId         *string                               `json:"compartmentId"`
+		OpsiPrivateEndpointId *string                               `json:"opsiPrivateEndpointId"`
+		ServiceName           *string                               `json:"serviceName"`
+		CredentialDetails     credentialdetails                     `json:"credentialDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -92,6 +95,8 @@ func (m *EnablePeComanagedDatabaseInsightDetails) UnmarshalJSON(data []byte) (e 
 		return
 	}
 	var nn interface{}
+	m.ConnectionDetails = model.ConnectionDetails
+
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

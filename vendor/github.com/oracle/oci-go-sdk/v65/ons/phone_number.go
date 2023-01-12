@@ -49,8 +49,11 @@ type PhoneNumber struct {
 	// The time the PhoneNumber was updated. An RFC3339 formatted datetime string
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
-	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+	// Sub-state for phone number resource
+	LifecycleDetails PhoneNumberLifecycleDetailsEnum `mandatory:"false" json:"lifecycleDetails,omitempty"`
+
+	// A message describing the current state and sub-state in more detail. For example, can be used to provide actionable information for a resource in NEEDS_ATTENTION, FAILED, DELETED state.
+	LifecycleDetailsDescription *string `mandatory:"false" json:"lifecycleDetailsDescription"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -81,6 +84,9 @@ func (m PhoneNumber) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetPhoneNumberLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingPhoneNumberLifecycleDetailsEnum(string(m.LifecycleDetails)); !ok && m.LifecycleDetails != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleDetails: %s. Supported values are: %s.", m.LifecycleDetails, strings.Join(GetPhoneNumberLifecycleDetailsEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

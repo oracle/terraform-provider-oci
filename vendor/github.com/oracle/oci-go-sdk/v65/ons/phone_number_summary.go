@@ -47,7 +47,10 @@ type PhoneNumberSummary struct {
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
-	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+	LifecycleDetails PhoneNumberLifecycleDetailsEnum `mandatory:"false" json:"lifecycleDetails,omitempty"`
+
+	// A message describing the current state and sub-state in more detail. For example, can be used to provide actionable information for a resource in NEEDS_ATTENTION, FAILED, DELETED state.
+	LifecycleDetailsDescription *string `mandatory:"false" json:"lifecycleDetailsDescription"`
 
 	// ISO country code(ISO 3166-1 alpha-2) of the phone number
 	IsoCountryCode *string `mandatory:"false" json:"isoCountryCode"`
@@ -81,6 +84,9 @@ func (m PhoneNumberSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetPhoneNumberTypeEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingPhoneNumberLifecycleDetailsEnum(string(m.LifecycleDetails)); !ok && m.LifecycleDetails != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleDetails: %s. Supported values are: %s.", m.LifecycleDetails, strings.Join(GetPhoneNumberLifecycleDetailsEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

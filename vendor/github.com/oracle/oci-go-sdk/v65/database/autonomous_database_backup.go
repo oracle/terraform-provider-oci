@@ -79,7 +79,7 @@ type AutonomousDatabaseBackup struct {
 	DbVersion *string `mandatory:"false" json:"dbVersion"`
 
 	// The backup size in terrabytes (TB).
-	SizeInTBs *int `mandatory:"false" json:"sizeInTBs"`
+	SizeInTBs *float64 `mandatory:"false" json:"sizeInTBs"`
 
 	BackupDestinationDetails *BackupDestinationDetails `mandatory:"false" json:"backupDestinationDetails"`
 }

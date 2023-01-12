@@ -19,33 +19,33 @@ type PhoneNumberLifecycleStateEnum string
 
 // Set of constants representing the allowable values for PhoneNumberLifecycleStateEnum
 const (
-	PhoneNumberLifecycleStateCreating PhoneNumberLifecycleStateEnum = "CREATING"
-	PhoneNumberLifecycleStateActive   PhoneNumberLifecycleStateEnum = "ACTIVE"
-	PhoneNumberLifecycleStateUpdating PhoneNumberLifecycleStateEnum = "UPDATING"
-	PhoneNumberLifecycleStateInactive PhoneNumberLifecycleStateEnum = "INACTIVE"
-	PhoneNumberLifecycleStateDeleting PhoneNumberLifecycleStateEnum = "DELETING"
-	PhoneNumberLifecycleStateDeleted  PhoneNumberLifecycleStateEnum = "DELETED"
-	PhoneNumberLifecycleStateFailed   PhoneNumberLifecycleStateEnum = "FAILED"
+	PhoneNumberLifecycleStateCreating       PhoneNumberLifecycleStateEnum = "CREATING"
+	PhoneNumberLifecycleStateActive         PhoneNumberLifecycleStateEnum = "ACTIVE"
+	PhoneNumberLifecycleStateUpdating       PhoneNumberLifecycleStateEnum = "UPDATING"
+	PhoneNumberLifecycleStateDeleting       PhoneNumberLifecycleStateEnum = "DELETING"
+	PhoneNumberLifecycleStateDeleted        PhoneNumberLifecycleStateEnum = "DELETED"
+	PhoneNumberLifecycleStateFailed         PhoneNumberLifecycleStateEnum = "FAILED"
+	PhoneNumberLifecycleStateNeedsAttention PhoneNumberLifecycleStateEnum = "NEEDS_ATTENTION"
 )
 
 var mappingPhoneNumberLifecycleStateEnum = map[string]PhoneNumberLifecycleStateEnum{
-	"CREATING": PhoneNumberLifecycleStateCreating,
-	"ACTIVE":   PhoneNumberLifecycleStateActive,
-	"UPDATING": PhoneNumberLifecycleStateUpdating,
-	"INACTIVE": PhoneNumberLifecycleStateInactive,
-	"DELETING": PhoneNumberLifecycleStateDeleting,
-	"DELETED":  PhoneNumberLifecycleStateDeleted,
-	"FAILED":   PhoneNumberLifecycleStateFailed,
+	"CREATING":        PhoneNumberLifecycleStateCreating,
+	"ACTIVE":          PhoneNumberLifecycleStateActive,
+	"UPDATING":        PhoneNumberLifecycleStateUpdating,
+	"DELETING":        PhoneNumberLifecycleStateDeleting,
+	"DELETED":         PhoneNumberLifecycleStateDeleted,
+	"FAILED":          PhoneNumberLifecycleStateFailed,
+	"NEEDS_ATTENTION": PhoneNumberLifecycleStateNeedsAttention,
 }
 
 var mappingPhoneNumberLifecycleStateEnumLowerCase = map[string]PhoneNumberLifecycleStateEnum{
-	"creating": PhoneNumberLifecycleStateCreating,
-	"active":   PhoneNumberLifecycleStateActive,
-	"updating": PhoneNumberLifecycleStateUpdating,
-	"inactive": PhoneNumberLifecycleStateInactive,
-	"deleting": PhoneNumberLifecycleStateDeleting,
-	"deleted":  PhoneNumberLifecycleStateDeleted,
-	"failed":   PhoneNumberLifecycleStateFailed,
+	"creating":        PhoneNumberLifecycleStateCreating,
+	"active":          PhoneNumberLifecycleStateActive,
+	"updating":        PhoneNumberLifecycleStateUpdating,
+	"deleting":        PhoneNumberLifecycleStateDeleting,
+	"deleted":         PhoneNumberLifecycleStateDeleted,
+	"failed":          PhoneNumberLifecycleStateFailed,
+	"needs_attention": PhoneNumberLifecycleStateNeedsAttention,
 }
 
 // GetPhoneNumberLifecycleStateEnumValues Enumerates the set of values for PhoneNumberLifecycleStateEnum
@@ -63,10 +63,10 @@ func GetPhoneNumberLifecycleStateEnumStringValues() []string {
 		"CREATING",
 		"ACTIVE",
 		"UPDATING",
-		"INACTIVE",
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"NEEDS_ATTENTION",
 	}
 }
 

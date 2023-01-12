@@ -18,7 +18,7 @@ type ListUsageLimitsRequest struct {
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The subscription ID for which rewards information is requested for.
-	SubscriptionId *string `mandatory:"true" contributesTo:"path" name:"subscriptionId"`
+	SubscriptionId *string `mandatory:"true" contributesTo:"query" name:"subscriptionId"`
 
 	// Hard or soft limit. Hard limits lead to breaches, soft to alerts.
 	LimitType *string `mandatory:"false" contributesTo:"query" name:"limitType"`

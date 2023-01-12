@@ -90,6 +90,65 @@ func (client *ResourceManagerClient) ConfigurationProvider() *common.Configurati
 	return client.config
 }
 
+// AddStackLock Adds a lock to a stack.
+// A default retry strategy applies to this operation AddStackLock()
+func (client ResourceManagerClient) AddStackLock(ctx context.Context, request AddStackLockRequest) (response AddStackLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addStackLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddStackLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddStackLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddStackLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddStackLockResponse")
+	}
+	return
+}
+
+// addStackLock implements the OCIOperation interface (enables retrying operations)
+func (client ResourceManagerClient) addStackLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/stacks/{stackId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddStackLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Stack/AddStackLock"
+		err = common.PostProcessServiceError(err, "ResourceManager", "AddStackLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CancelJob Indicates the intention to cancel the specified job.
 // Cancellation of the job is not immediate, and may be delayed,
 // or may not happen at all.
@@ -395,7 +454,7 @@ func (client ResourceManagerClient) changeTemplateCompartment(ctx context.Contex
 
 // CreateConfigurationSourceProvider Creates a configuration source provider in the specified compartment.
 // For more information, see
-// To create a configuration source provider (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/managingconfigurationsourceproviders.htm#CreateConfigurationSourceProvider).
+// Creating a Configuration Source Provider (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/create-csp.htm).
 // A default retry strategy applies to this operation CreateConfigurationSourceProvider()
 func (client ResourceManagerClient) CreateConfigurationSourceProvider(ctx context.Context, request CreateConfigurationSourceProviderRequest) (response CreateConfigurationSourceProviderResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -578,7 +637,7 @@ func (client ResourceManagerClient) createPrivateEndpoint(ctx context.Context, r
 // You can also create a stack from an existing compartment, which generates a Terraform configuration.
 // You can also upload the Terraform configuration from an Object Storage bucket.
 // For more information, see
-// Creating Stacks (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/create-stack.htm).
+// Creating a Stack (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/create-stack.htm).
 // A default retry strategy applies to this operation CreateStack()
 func (client ResourceManagerClient) CreateStack(ctx context.Context, request CreateStackRequest) (response CreateStackResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1298,7 +1357,7 @@ func (client ResourceManagerClient) getJobTfConfig(ctx context.Context, request 
 
 // GetJobTfPlan Returns the output of the specified Terraform plan job in binary or JSON format.
 // For information about running Terraform plan jobs, see
-// Creating Plan Jobs (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/create-job.htm).
+// Creating a Plan Job (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/create-job-plan.htm).
 // A default retry strategy applies to this operation GetJobTfPlan()
 func (client ResourceManagerClient) GetJobTfPlan(ctx context.Context, request GetJobTfPlanRequest) (response GetJobTfPlanResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2720,9 +2779,68 @@ func (client ResourceManagerClient) listWorkRequests(ctx context.Context, reques
 	return response, err
 }
 
+// RemoveStackLock Removes a lock from a stack resource.
+// A default retry strategy applies to this operation RemoveStackLock()
+func (client ResourceManagerClient) RemoveStackLock(ctx context.Context, request RemoveStackLockRequest) (response RemoveStackLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeStackLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveStackLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveStackLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveStackLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveStackLockResponse")
+	}
+	return
+}
+
+// removeStackLock implements the OCIOperation interface (enables retrying operations)
+func (client ResourceManagerClient) removeStackLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/stacks/{stackId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveStackLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Stack/RemoveStackLock"
+		err = common.PostProcessServiceError(err, "ResourceManager", "RemoveStackLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateConfigurationSourceProvider Updates the properties of the specified configuration source provider.
 // For more information, see
-// To edit a configuration source provider (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/managingconfigurationsourceproviders.htm#EditConfigurationSourceProvider).
+// Updating a Configuration Source Provider (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/update-csp.htm).
 // A default retry strategy applies to this operation UpdateConfigurationSourceProvider()
 func (client ResourceManagerClient) UpdateConfigurationSourceProvider(ctx context.Context, request UpdateConfigurationSourceProviderRequest) (response UpdateConfigurationSourceProviderResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2888,7 +3006,7 @@ func (client ResourceManagerClient) updatePrivateEndpoint(ctx context.Context, r
 // Use `UpdateStack` when you update your Terraform configuration
 // and want your changes to be reflected in the execution plan.
 // For more information, see
-// Updating Stacks (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/update-stack.htm).
+// Updating a Stack (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/update-stack.htm).
 // A default retry strategy applies to this operation UpdateStack()
 func (client ResourceManagerClient) UpdateStack(ctx context.Context, request UpdateStackRequest) (response UpdateStackResponse, err error) {
 	var ociResponse common.OCIResponse

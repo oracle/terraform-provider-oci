@@ -121,7 +121,7 @@ func (client UsagelimitsClient) ListUsageLimits(ctx context.Context, request Lis
 // listUsageLimits implements the OCIOperation interface (enables retrying operations)
 func (client UsagelimitsClient) listUsageLimits(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/usagelimits/{subscriptionId}", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/usagelimits", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

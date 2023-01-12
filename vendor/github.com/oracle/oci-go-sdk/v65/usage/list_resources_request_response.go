@@ -15,7 +15,7 @@ import (
 type ListResourcesRequest struct {
 
 	// Service Name.
-	ServiceName *string `mandatory:"true" contributesTo:"path" name:"serviceName"`
+	ServiceName *string `mandatory:"true" contributesTo:"query" name:"serviceName"`
 
 	// The OCID of the root compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`

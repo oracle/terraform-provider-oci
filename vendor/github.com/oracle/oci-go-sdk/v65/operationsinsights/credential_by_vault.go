@@ -30,6 +30,9 @@ type CredentialByVault struct {
 	// The secret OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
 	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the database keystore contents are stored.
+	WalletSecretId *string `mandatory:"false" json:"walletSecretId"`
+
 	// database user role.
 	Role CredentialByVaultRoleEnum `mandatory:"false" json:"role,omitempty"`
 }
