@@ -202,6 +202,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["backup_config"] = nil
 		}
 
+		if r.BackupRetentionPeriodInDays != nil {
+			autonomousDatabase["backup_retention_period_in_days"] = *r.BackupRetentionPeriodInDays
+		}
+
 		if r.CharacterSet != nil {
 			autonomousDatabase["character_set"] = *r.CharacterSet
 		}
@@ -496,6 +500,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		if r.TimeUntilReconnectCloneEnabled != nil {
 			autonomousDatabase["time_until_reconnect_clone_enabled"] = r.TimeUntilReconnectCloneEnabled.String()
+		}
+
+		if r.TotalBackupStorageSizeInGBs != nil {
+			autonomousDatabase["total_backup_storage_size_in_gbs"] = *r.TotalBackupStorageSizeInGBs
 		}
 
 		if r.UsedDataStorageSizeInTBs != nil {
