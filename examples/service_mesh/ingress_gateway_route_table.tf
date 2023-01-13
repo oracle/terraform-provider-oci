@@ -28,6 +28,7 @@ resource "oci_service_mesh_ingress_gateway_route_table" "test_ingress_gateway_ro
     is_path_rewrite_enabled = local.ingress_gateway_route_table_route_rules_is_path_rewrite_enabled
     path                    = local.ingress_gateway_route_table_route_rules_path
     path_type               = local.ingress_gateway_route_table_route_rules_path_type
+    request_timeout_in_ms   = local.ingress_gateway_route_table_route_rules_request_timeout_in_ms
   }
 
   #Optional
@@ -66,4 +67,5 @@ locals {
   ingress_gateway_route_table_route_rules_ingress_gateway_host_name = "test-host"
   ingress_gateway_route_table_route_rules_ingress_gateway_host_port = "2000"
   // allowed values for above are between 1024 and 65535
+  ingress_gateway_route_table_route_rules_request_timeout_in_ms     = 100
 }

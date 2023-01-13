@@ -65,6 +65,7 @@ var (
 		"is_path_rewrite_enabled": acctest.Representation{RepType: acctest.Optional, Update: `true`},
 		"path":                    acctest.Representation{RepType: acctest.Optional, Update: `/path2`},
 		"path_type":               acctest.Representation{RepType: acctest.Optional, Update: `PREFIX`},
+		"request_timeout_in_ms":   acctest.Representation{RepType: acctest.Optional, Update: `11`},
 	}
 	ServiceMeshIngressGatewayRouteTableRouteRulesDestinationsRepresentation = map[string]interface{}{
 		"virtual_service_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_service_mesh_virtual_service.virtual_service_1.id}`},
@@ -223,6 +224,7 @@ func TestServiceMeshIngressGatewayRouteTableResource_basic(t *testing.T) {
 					"is_path_rewrite_enabled": "true",
 					"path":                    "/path2",
 					"path_type":               "PREFIX",
+					"request_timeout_in_ms":   "11",
 					"type":                    "HTTP",
 				},
 					[]string{}),
@@ -279,6 +281,7 @@ func TestServiceMeshIngressGatewayRouteTableResource_basic(t *testing.T) {
 					"is_path_rewrite_enabled": "true",
 					"path":                    "/path2",
 					"path_type":               "PREFIX",
+					"request_timeout_in_ms":   "11",
 					"type":                    "HTTP",
 				},
 					[]string{}),

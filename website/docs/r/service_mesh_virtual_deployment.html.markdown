@@ -35,6 +35,10 @@ resource "oci_service_mesh_virtual_deployment" "test_virtual_deployment" {
 		#Required
 		port = var.virtual_deployment_listeners_port
 		protocol = var.virtual_deployment_listeners_protocol
+
+		#Optional
+		idle_timeout_in_ms = var.virtual_deployment_listeners_idle_timeout_in_ms
+		request_timeout_in_ms = var.virtual_deployment_listeners_request_timeout_in_ms
 	}
 	service_discovery {
 		#Required
@@ -57,8 +61,10 @@ The following arguments are supported:
 * `description` - (Optional) (Updatable) Description of the resource. It can be changed after creation. Avoid entering confidential information.  Example: `This is my new resource` 
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `listeners` - (Optional) (Updatable) The listeners for the virtual deployment.
+	* `idle_timeout_in_ms` - (Optional) (Updatable) The maximum duration in milliseconds for which the request's stream may be idle. The value 0 (zero) indicates that the timeout is disabled.
 	* `port` - (Required) (Updatable) Port in which virtual deployment is running.
 	* `protocol` - (Required) (Updatable) Type of protocol used in virtual deployment.
+	* `request_timeout_in_ms` - (Optional) (Updatable) The maximum duration in milliseconds for the deployed service to respond to an incoming request through the listener.  If provided, the timeout value overrides the default timeout of 15 seconds for the HTTP/HTTP2 listeners, and disabled (no timeout) for the GRPC listeners. The value 0 (zero) indicates that the timeout is disabled.  The timeout cannot be configured for the TCP and TLS_PASSTHROUGH listeners.  For streaming responses from the deployed service, consider either keeping the timeout disabled or set a sufficiently high value. 
 * `name` - (Required) A user-friendly name. The name must be unique within the same virtual service and cannot be changed after creation. Avoid entering confidential information.  Example: `My unique resource name` 
 * `service_discovery` - (Optional) (Updatable) Service Discovery configuration for virtual deployments.
 	* `hostname` - (Required when type=DNS) (Updatable) The hostname of the virtual deployments.
@@ -82,8 +88,10 @@ The following attributes are exported:
 * `id` - Unique identifier that is immutable on creation.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in a Failed state.
 * `listeners` - The listeners for the virtual deployment
+	* `idle_timeout_in_ms` - The maximum duration in milliseconds for which the request's stream may be idle. The value 0 (zero) indicates that the timeout is disabled.
 	* `port` - Port in which virtual deployment is running.
 	* `protocol` - Type of protocol used in virtual deployment.
+	* `request_timeout_in_ms` - The maximum duration in milliseconds for the deployed service to respond to an incoming request through the listener.  If provided, the timeout value overrides the default timeout of 15 seconds for the HTTP/HTTP2 listeners, and disabled (no timeout) for the GRPC listeners. The value 0 (zero) indicates that the timeout is disabled.  The timeout cannot be configured for the TCP and TLS_PASSTHROUGH listeners.  For streaming responses from the deployed service, consider either keeping the timeout disabled or set a sufficiently high value. 
 * `name` - A user-friendly name. The name must be unique within the same virtual service and cannot be changed after creation. Avoid entering confidential information.  Example: `My unique resource name` 
 * `service_discovery` - Service Discovery configuration for virtual deployments.
 	* `hostname` - The hostname of the virtual deployments.

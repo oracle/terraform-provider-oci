@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strconv"
 	"strings"
 	"time"
 
@@ -142,6 +143,13 @@ func ServiceMeshIngressGatewayRouteTableResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
+						},
+						"request_timeout_in_ms": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 						},
 
 						// Computed
@@ -737,6 +745,14 @@ func (s *ServiceMeshIngressGatewayRouteTableResourceCrud) mapToIngressGatewayTra
 		if pathType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path_type")); ok {
 			details.PathType = oci_service_mesh.HttpIngressGatewayTrafficRouteRuleDetailsPathTypeEnum(pathType.(string))
 		}
+		if requestTimeoutInMs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "request_timeout_in_ms")); ok {
+			tmp := requestTimeoutInMs.(string)
+			tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+			if err != nil {
+				return details, fmt.Errorf("unable to convert requestTimeoutInMs string: %s to an int64 and encountered error: %v", tmp, err)
+			}
+			details.RequestTimeoutInMs = &tmpInt64
+		}
 		if destinations, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destinations")); ok {
 			interfaces := destinations.([]interface{})
 			tmp := make([]oci_service_mesh.VirtualServiceTrafficRuleTargetDetails, len(interfaces))
@@ -851,6 +867,10 @@ func IngressGatewayTrafficRouteRuleToMap(obj oci_service_mesh.IngressGatewayTraf
 		}
 
 		result["path_type"] = string(v.PathType)
+
+		if v.RequestTimeoutInMs != nil {
+			result["request_timeout_in_ms"] = strconv.FormatInt(*v.RequestTimeoutInMs, 10)
+		}
 
 		destinations := []interface{}{}
 		for _, item := range v.Destinations {
