@@ -214,6 +214,12 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"private_zone_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"scan_listener_port_tcp": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -603,6 +609,11 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 			request.NsgIds = tmp
 		}
+	}
+
+	if privateZoneId, ok := s.D.GetOkExists("private_zone_id"); ok {
+		tmp := privateZoneId.(string)
+		request.PrivateZoneId = &tmp
 	}
 
 	if scanListenerPortTcp, ok := s.D.GetOkExists("scan_listener_port_tcp"); ok {

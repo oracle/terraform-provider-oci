@@ -20,6 +20,10 @@ data "oci_database_cloud_vm_cluster_iorm_config" "test_cloud_vm_cluster_iorm_con
   cloud_vm_cluster_id = oci_database_cloud_vm_cluster_iorm_config.test_cloud_vm_cluster_iorm_config.cloud_vm_cluster_id
 }
 
+data "oci_identity_tenancy" "tenancy" {
+  tenancy_id = var.tenancy_ocid
+}
+
 data "oci_database_db_servers" "test_cloud_db_servers" {
   #Required
   compartment_id            = var.compartment_ocid

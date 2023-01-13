@@ -114,3 +114,29 @@ resource "oci_core_network_security_group" "test_network_security_group_backup" 
   vcn_id         = oci_core_vcn.vcn.id
   display_name   = "displayName"
 }
+
+resource "oci_dns_zone" "test_zone" {
+  compartment_id = var.compartment_ocid
+  name           = "sicdbaas.exacs.zonetest"
+  zone_type      = "PRIMARY"
+  scope          = "PRIVATE"
+  view_id        = oci_dns_view.test_view.id
+}
+
+resource "oci_dns_view" "test_view" {
+  compartment_id = var.compartment_ocid
+  scope          = "PRIVATE"
+}
+
+resource "oci_dns_resolver" "test_resolver" {
+  attached_views {
+    view_id = oci_dns_view.test_view.id
+  }
+  display_name = "test_resolver"
+  resolver_id = data.oci_core_vcn_dns_resolver_association.test_vcn_dns_resolver_association.dns_resolver_id
+  scope = "PRIVATE"
+}
+
+data "oci_core_vcn_dns_resolver_association" "test_vcn_dns_resolver_association" {
+  vcn_id = "${oci_core_vcn.vcn.id}"
+}
