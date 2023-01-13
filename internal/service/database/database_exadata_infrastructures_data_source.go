@@ -70,6 +70,8 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
+	request.ExcludedFields = []oci_database.ListExadataInfrastructuresExcludedFieldsEnum{"multiRackConfigurationFile"}
+
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_database.ExadataInfrastructureSummaryLifecycleStateEnum(state.(string))
 	}
@@ -198,6 +200,10 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 			exadataInfrastructure["is_cps_offline_report_enabled"] = *r.IsCpsOfflineReportEnabled
 		}
 
+		if r.IsMultiRackDeployment != nil {
+			exadataInfrastructure["is_multi_rack_deployment"] = *r.IsMultiRackDeployment
+		}
+
 		if r.LifecycleDetails != nil {
 			exadataInfrastructure["lifecycle_details"] = *r.LifecycleDetails
 		}
@@ -232,6 +238,10 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 
 		if r.MonthlyDbServerVersion != nil {
 			exadataInfrastructure["monthly_db_server_version"] = *r.MonthlyDbServerVersion
+		}
+
+		if r.MultiRackConfigurationFile != nil {
+			exadataInfrastructure["multi_rack_configuration_file"] = string(r.MultiRackConfigurationFile)
 		}
 
 		if r.Netmask != nil {
