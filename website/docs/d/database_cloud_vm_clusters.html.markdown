@@ -63,7 +63,7 @@ The following attributes are exported:
 * `data_storage_percentage` - The percentage assigned to DATA storage (user data and database files). The remaining percentage is assigned to RECO storage (database redo logs, archive logs, and recovery manager backups). Accepted values are 35, 40, 60 and 80. The default is 80 percent assigned to DATA storage. See [Storage Configuration](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaoverview.htm#Exadata) in the Exadata documentation for details on the impact of the configuration settings on storage. 
 * `data_storage_size_in_tbs` - The data disk group size to be allocated in TBs.
 * `db_node_storage_size_in_gbs` - The local node storage to be allocated in GBs.
-* `db_servers` - The list of Db servers.
+* `db_servers` - The list of DB servers.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `disk_redundancy` - The type of redundancy configured for the cloud Vm cluster. NORMAL is 2-way redundancy. HIGH is 3-way redundancy. 
 * `display_name` - The user-friendly name for the cloud VM cluster. The name does not need to be unique.

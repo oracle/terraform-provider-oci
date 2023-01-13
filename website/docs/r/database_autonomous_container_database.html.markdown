@@ -47,8 +47,6 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 	key_store_id = oci_database_key_store.test_key_store.id
 	kms_key_id = oci_kms_key.test_key.id
 	maintenance_window_details {
-		#Required
-		preference = var.autonomous_container_database_maintenance_window_details_preference
 
 		#Optional
 		custom_action_timeout_in_mins = var.autonomous_container_database_maintenance_window_details_custom_action_timeout_in_mins
@@ -65,6 +63,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 			name = var.autonomous_container_database_maintenance_window_details_months_name
 		}
 		patching_mode = var.autonomous_container_database_maintenance_window_details_patching_mode
+		preference = var.autonomous_container_database_maintenance_window_details_preference
 		weeks_of_month = var.autonomous_container_database_maintenance_window_details_weeks_of_month
 	}
 	peer_autonomous_container_database_display_name = var.autonomous_container_database_peer_autonomous_container_database_display_name
@@ -133,7 +132,7 @@ The following arguments are supported:
 	* `patching_mode` - (Optional) (Updatable) Cloud Exadata infrastructure node patching method, either "ROLLING" or "NONROLLING". Default value is ROLLING.
 
 		*IMPORTANT*: Non-rolling infrastructure patching involves system down time. See [Oracle-Managed Infrastructure Maintenance Updates](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/examaintenance.htm#Oracle) for more information. 
-	* `preference` - (Required) (Updatable) The maintenance window scheduling preference.
+	* `preference` - (Optional) (Updatable) The maintenance window scheduling preference.
 	* `weeks_of_month` - (Optional) (Updatable) Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `patch_model` - (Required) (Updatable) Database Patch model preference.
 * `peer_autonomous_container_database_display_name` - (Optional) The display name for the peer Autonomous Container Database.
