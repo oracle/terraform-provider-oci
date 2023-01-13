@@ -495,7 +495,7 @@ func GenericTestStepPreConfiguration(steps []resource.TestStep, stepNumber int, 
 		log.Println()
 		log.Printf("====================== Executing Test Step %d ===================", stepNumber)
 		log.Println()
-		if strings.ToLower(utils.GetEnvSettingWithBlankDefault(globalvar.DebugTestSteps)) == "true" {
+		if strings.ToLower(utils.GetEnvSettingWithBlankDefault(globalvar.DebugTestSteps)) == "true" || strings.ToLower(utils.GetEnvSettingWithBlankDefault(globalvar.DebugTestStepsShowConfigOnly)) == "true" {
 			if err := WriteToFileWithStepNumber(steps[stepNumber].Config, stepNumber, t); err != nil {
 				log.Printf("Failed to write TF content to file with error: %q", err)
 			}
@@ -604,6 +604,12 @@ func ResourceTest(t *testing.T, checkDestroyFunc resource.TestCheckFunc, steps [
 	for index, _ := range steps {
 		if steps[index].PreConfig == nil {
 			steps[index].PreConfig = GenericTestStepPreConfiguration(steps, index, t)
+			steps[index].SkipFunc = func() (bool, error) {
+				if strings.ToLower(utils.GetEnvSettingWithBlankDefault(globalvar.DebugTestStepsShowConfigOnly)) == "true" {
+					return true, nil
+				}
+				return false, nil
+			}
 		}
 	}
 
