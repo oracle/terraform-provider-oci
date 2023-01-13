@@ -48,6 +48,7 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
   storage_count               = 3
   compute_count               = 2
   is_cps_offline_report_enabled = false
+  is_multi_rack_deployment      = false
 
   #Optional
   contacts {

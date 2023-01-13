@@ -159,6 +159,11 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"is_multi_rack_deployment": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"maintenance_window": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -259,6 +264,10 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 						// Computed
 					},
 				},
+			},
+			"multi_rack_configuration_file": {
+				Type:     schema.TypeString,
+				Optional: true,
 			},
 			"storage_count": {
 				Type:     schema.TypeInt,
@@ -557,6 +566,11 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 		request.IsCpsOfflineReportEnabled = &tmp
 	}
 
+	if isMultiRackDeployment, ok := s.D.GetOkExists("is_multi_rack_deployment"); ok {
+		tmp := isMultiRackDeployment.(bool)
+		request.IsMultiRackDeployment = &tmp
+	}
+
 	if maintenanceWindow, ok := s.D.GetOkExists("maintenance_window"); ok {
 		if tmpList := maintenanceWindow.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_window", 0)
@@ -566,6 +580,16 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 			}
 			request.MaintenanceWindow = &tmp
 		}
+	}
+
+	if multiRackConfigurationFile, ok := s.D.GetOkExists("multi_rack_configuration_file"); ok &&
+		s.D.Get("multi_rack_configuration_file").(string) != "" {
+		configJsonFile, err := ioutil.ReadFile(multiRackConfigurationFile.(string))
+		if err != nil {
+			return fmt.Errorf("unable to open Multi-Rack Configuration SAR JSON file: %s", err)
+		}
+
+		request.MultiRackConfigurationFile = configJsonFile
 	}
 
 	if netmask, ok := s.D.GetOkExists("netmask"); ok {
@@ -632,6 +656,8 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Get() error {
 
 	tmp := s.D.Id()
 	request.ExadataInfrastructureId = &tmp
+
+	request.ExcludedFields = []oci_database.GetExadataInfrastructureExcludedFieldsEnum{"multiRackConfigurationFile"}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
@@ -741,6 +767,21 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Update() error {
 	if isCpsOfflineReportEnabled, ok := s.D.GetOkExists("is_cps_offline_report_enabled"); ok && s.D.HasChange("is_cps_offline_report_enabled") {
 		tmp := isCpsOfflineReportEnabled.(bool)
 		request.IsCpsOfflineReportEnabled = &tmp
+	}
+
+	if isMultiRackDeployment, ok := s.D.GetOkExists("is_multi_rack_deployment"); ok {
+		tmp := isMultiRackDeployment.(bool)
+		request.IsMultiRackDeployment = &tmp
+	}
+
+	if multiRackConfigurationFile, ok := s.D.GetOkExists("multi_rack_configuration_file"); ok &&
+		s.D.Get("multi_rack_configuration_file").(string) != "" {
+		configJsonFile, err := ioutil.ReadFile(multiRackConfigurationFile.(string))
+		if err != nil {
+			return fmt.Errorf("unable to open Multi-Rack Configuration SAR JSON file: %s", err)
+		}
+
+		request.MultiRackConfigurationFile = configJsonFile
 	}
 
 	if maintenanceWindow, ok := s.D.GetOkExists("maintenance_window"); ok {
@@ -909,6 +950,10 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 		s.D.Set("is_cps_offline_report_enabled", *s.Res.IsCpsOfflineReportEnabled)
 	}
 
+	if s.Res.IsMultiRackDeployment != nil {
+		s.D.Set("is_multi_rack_deployment", *s.Res.IsMultiRackDeployment)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
@@ -943,6 +988,10 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 
 	if s.Res.MonthlyDbServerVersion != nil {
 		s.D.Set("monthly_db_server_version", *s.Res.MonthlyDbServerVersion)
+	}
+
+	if s.Res.MultiRackConfigurationFile != nil {
+		s.D.Set("multi_rack_configuration_file", string(s.Res.MultiRackConfigurationFile))
 	}
 
 	if s.Res.Netmask != nil {
