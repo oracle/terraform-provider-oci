@@ -51,8 +51,6 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
 	is_cps_offline_report_enabled = var.exadata_infrastructure_is_cps_offline_report_enabled
 	is_multi_rack_deployment = var.exadata_infrastructure_is_multi_rack_deployment
 	maintenance_window {
-		#Required
-		preference = var.exadata_infrastructure_maintenance_window_preference
 
 		#Optional
 		custom_action_timeout_in_mins = var.exadata_infrastructure_maintenance_window_custom_action_timeout_in_mins
@@ -69,6 +67,7 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
 			name = var.exadata_infrastructure_maintenance_window_months_name
 		}
 		patching_mode = var.exadata_infrastructure_maintenance_window_patching_mode
+		preference = var.exadata_infrastructure_maintenance_window_preference
 		weeks_of_month = var.exadata_infrastructure_maintenance_window_weeks_of_month
 	}
 	multi_rack_configuration_file = var.exadata_infrastructure_multi_rack_configuration_file
@@ -115,7 +114,7 @@ The following arguments are supported:
 	* `patching_mode` - (Optional) (Updatable) Cloud Exadata infrastructure node patching method, either "ROLLING" or "NONROLLING". Default value is ROLLING.
 
 		*IMPORTANT*: Non-rolling infrastructure patching involves system down time. See [Oracle-Managed Infrastructure Maintenance Updates](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/examaintenance.htm#Oracle) for more information. 
-	* `preference` - (Required) (Updatable) The maintenance window scheduling preference.
+	* `preference` - (Optional) (Updatable) The maintenance window scheduling preference.
 	* `weeks_of_month` - (Optional) (Updatable) Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `multi_rack_configuration_file` - (Optional) (Updatable) The base64 encoded Multi-Rack configuration json file.
 * `netmask` - (Required) (Updatable) The netmask for the control plane network.

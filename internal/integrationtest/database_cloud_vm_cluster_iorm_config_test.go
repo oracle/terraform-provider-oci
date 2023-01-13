@@ -31,7 +31,12 @@ var (
 		"db_plans":            acctest.RepresentationGroup{RepType: acctest.Required, Group: dbPlanRepresentation},
 	}
 
-	DatabaseCloudVmClusterIormConfigResourceDependencies = AvailabilityDomainConfig + DatabaseCloudVmClusterRequiredOnlyResource
+	DatabaseCloudVmClusterIormResourceDependencies = ad_subnet_security + acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Required, acctest.Create,
+		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseCloudExadataInfrastructureRepresentation, []string{"compute_count"}), map[string]interface{}{
+			"compute_count": acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
+		})) + acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Required, acctest.Create, DatabaseCloudVmClusterRepresentation)
+
+	DatabaseCloudVmClusterIormConfigResourceDependencies = AvailabilityDomainConfig + DatabaseCloudVmClusterIormResourceDependencies
 )
 
 // issue-routing-tag: database/ExaCS
