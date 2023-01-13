@@ -36,6 +36,7 @@ resource "oci_service_mesh_virtual_service_route_table" "test_virtual_service_ro
 		is_grpc = var.virtual_service_route_table_route_rules_is_grpc
 		path = var.virtual_service_route_table_route_rules_path
 		path_type = var.virtual_service_route_table_route_rules_path_type
+		request_timeout_in_ms = var.virtual_service_route_table_route_rules_request_timeout_in_ms
 	}
 	virtual_service_id = oci_service_mesh_virtual_service.test_virtual_service.id
 
@@ -66,6 +67,7 @@ The following arguments are supported:
 	* `is_grpc` - (Applicable when type=HTTP) (Updatable) If true, the rule will check that the content-type header has a application/grpc or one of the various application/grpc+ values. 
 	* `path` - (Applicable when type=HTTP) (Updatable) Route to match
 	* `path_type` - (Applicable when type=HTTP) (Updatable) Match type for the route
+	* `request_timeout_in_ms` - (Applicable when type=HTTP) (Updatable) The maximum duration in milliseconds for the target service to respond to a request.  If provided, the timeout value overrides the default timeout of 15 seconds for the HTTP based route rules, and disabled (no timeout) when 'isGrpc' is true.  The value 0 (zero) indicates that the timeout is disabled.  For streaming responses from the target service, consider either keeping the timeout disabled or set a sufficiently high value. 
 	* `type` - (Required) (Updatable) Type of protocol.
 * `virtual_service_id` - (Required) The OCID of the service mesh in which this access policy is created.
 
@@ -94,6 +96,7 @@ The following attributes are exported:
 	* `is_grpc` - If true, the rule will check that the content-type header has a application/grpc or one of the various application/grpc+ values. 
 	* `path` - Route to match
 	* `path_type` - Match type for the route
+	* `request_timeout_in_ms` - The maximum duration in milliseconds for the target service to respond to a request.  If provided, the timeout value overrides the default timeout of 15 seconds for the HTTP based route rules, and disabled (no timeout) when 'isGrpc' is true.  The value 0 (zero) indicates that the timeout is disabled.  For streaming responses from the target service, consider either keeping the timeout disabled or set a sufficiently high value. 
 	* `type` - Type of protocol.
 * `state` - The current state of the Resource.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

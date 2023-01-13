@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strconv"
 	"strings"
 	"time"
 
@@ -105,6 +106,20 @@ func ServiceMeshVirtualDeploymentResource() *schema.Resource {
 						},
 
 						// Optional
+						"idle_timeout_in_ms": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
+						"request_timeout_in_ms": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
 
 						// Computed
 					},
@@ -692,6 +707,15 @@ func ServiceDiscoveryConfigurationToMap(obj *oci_service_mesh.ServiceDiscoveryCo
 func (s *ServiceMeshVirtualDeploymentResourceCrud) mapToVirtualDeploymentListener(fieldKeyFormat string) (oci_service_mesh.VirtualDeploymentListener, error) {
 	result := oci_service_mesh.VirtualDeploymentListener{}
 
+	if idleTimeoutInMs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "idle_timeout_in_ms")); ok {
+		tmp := idleTimeoutInMs.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return result, fmt.Errorf("unable to convert idleTimeoutInMs string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		result.IdleTimeoutInMs = &tmpInt64
+	}
+
 	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
 		tmp := port.(int)
 		result.Port = &tmp
@@ -701,17 +725,34 @@ func (s *ServiceMeshVirtualDeploymentResourceCrud) mapToVirtualDeploymentListene
 		result.Protocol = oci_service_mesh.VirtualDeploymentListenerProtocolEnum(protocol.(string))
 	}
 
+	if requestTimeoutInMs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "request_timeout_in_ms")); ok {
+		tmp := requestTimeoutInMs.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return result, fmt.Errorf("unable to convert requestTimeoutInMs string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		result.RequestTimeoutInMs = &tmpInt64
+	}
+
 	return result, nil
 }
 
 func VirtualDeploymentListenerToMap(obj oci_service_mesh.VirtualDeploymentListener) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.IdleTimeoutInMs != nil {
+		result["idle_timeout_in_ms"] = strconv.FormatInt(*obj.IdleTimeoutInMs, 10)
+	}
+
 	if obj.Port != nil {
 		result["port"] = int(*obj.Port)
 	}
 
 	result["protocol"] = string(obj.Protocol)
+
+	if obj.RequestTimeoutInMs != nil {
+		result["request_timeout_in_ms"] = strconv.FormatInt(*obj.RequestTimeoutInMs, 10)
+	}
 
 	return result
 }
