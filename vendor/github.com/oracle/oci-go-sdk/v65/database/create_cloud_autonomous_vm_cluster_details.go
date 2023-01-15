@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -36,7 +36,7 @@ type CreateCloudAutonomousVmClusterDetails struct {
 	// The total number of Autonomous Container Databases that can be created.
 	TotalContainerDatabases *int `mandatory:"false" json:"totalContainerDatabases"`
 
-	// The number of OCPU cores to enable per VM cluster node.
+	// The number of OCPU cores to be enabled per VM cluster node.
 	CpuCoreCountPerNode *int `mandatory:"false" json:"cpuCoreCountPerNode"`
 
 	// The amount of memory (in GBs) to be enabled per each OCPU core.
@@ -48,7 +48,7 @@ type CreateCloudAutonomousVmClusterDetails struct {
 	// The time zone to use for the Cloud Autonomous VM cluster. For details, see DB System Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
 	ClusterTimeZone *string `mandatory:"false" json:"clusterTimeZone"`
 
-	// The list of Db server.
+	// The list of database servers.
 	DbServers []string `mandatory:"false" json:"dbServers"`
 
 	MaintenanceWindowDetails *MaintenanceWindow `mandatory:"false" json:"maintenanceWindowDetails"`

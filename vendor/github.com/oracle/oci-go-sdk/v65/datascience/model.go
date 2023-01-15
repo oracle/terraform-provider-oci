@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -39,6 +39,18 @@ type Model struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the user who created the model.
 	CreatedBy *string `mandatory:"true" json:"createdBy"`
+
+	// The OCID of the model version set that the model is associated to.
+	ModelVersionSetId *string `mandatory:"true" json:"modelVersionSetId"`
+
+	// The name of the model version set that the model is associated to.
+	ModelVersionSetName *string `mandatory:"true" json:"modelVersionSetName"`
+
+	// Unique identifier assigned to each version of the model.
+	VersionId *int64 `mandatory:"true" json:"versionId"`
+
+	// The version label can add an additional description of the lifecycle state of the model or the application using and training the model.
+	VersionLabel *string `mandatory:"true" json:"versionLabel"`
 
 	// A short description of the model.
 	Description *string `mandatory:"false" json:"description"`

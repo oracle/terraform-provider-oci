@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 package common
@@ -14,7 +14,7 @@ import (
 	"time"
 )
 
-//sdkLogger an interface for logging in the SDK
+// sdkLogger an interface for logging in the SDK
 type sdkLogger interface {
 	//LogLevel returns the log level of sdkLogger
 	LogLevel() int
@@ -23,19 +23,19 @@ type sdkLogger interface {
 	Log(logLevel int, format string, v ...interface{}) error
 }
 
-//noLogging no logging messages
+// noLogging no logging messages
 const noLogging = 0
 
-//infoLogging minimal logging messages
+// infoLogging minimal logging messages
 const infoLogging = 1
 
-//debugLogging some logging messages
+// debugLogging some logging messages
 const debugLogging = 2
 
-//verboseLogging all logging messages
+// verboseLogging all logging messages
 const verboseLogging = 3
 
-//DefaultSDKLogger the default implementation of the sdkLogger
+// DefaultSDKLogger the default implementation of the sdkLogger
 type DefaultSDKLogger struct {
 	currentLoggingLevel int
 	verboseLogger       *log.Logger
@@ -44,18 +44,18 @@ type DefaultSDKLogger struct {
 	nullLogger          *log.Logger
 }
 
-//defaultLogger is the defaultLogger in the SDK
+// defaultLogger is the defaultLogger in the SDK
 var defaultLogger sdkLogger
 var loggerLock sync.Mutex
 var file *os.File
 
-//initializes the SDK defaultLogger as a defaultLogger
+// initializes the SDK defaultLogger as a defaultLogger
 func init() {
 	l, _ := NewSDKLogger()
 	SetSDKLogger(l)
 }
 
-//SetSDKLogger sets the logger used by the sdk
+// SetSDKLogger sets the logger used by the sdk
 func SetSDKLogger(logger sdkLogger) {
 	loggerLock.Lock()
 	defaultLogger = logger
@@ -171,25 +171,25 @@ func openLogOutputFile(logger DefaultSDKLogger, fileName string) *os.File {
 	return file
 }
 
-//CloseLogFile close the logging file and return error
+// CloseLogFile close the logging file and return error
 func CloseLogFile() error {
 	return file.Close()
 }
 
-//LogLevel returns the current debug level
+// LogLevel returns the current debug level
 func (l DefaultSDKLogger) LogLevel() int {
 	return l.currentLoggingLevel
 }
 
-//Log logs v with the provided format if the current log level is loglevel
+// Log logs v with the provided format if the current log level is loglevel
 func (l DefaultSDKLogger) Log(logLevel int, format string, v ...interface{}) error {
 	logger := l.getLoggerForLevel(logLevel)
 	logger.Output(4, fmt.Sprintf(format, v...))
 	return nil
 }
 
-//Logln logs v appending a new line at the end
-//Deprecated
+// Logln logs v appending a new line at the end
+// Deprecated
 func Logln(v ...interface{}) {
 	defaultLogger.Log(infoLogging, "%v\n", v...)
 }
