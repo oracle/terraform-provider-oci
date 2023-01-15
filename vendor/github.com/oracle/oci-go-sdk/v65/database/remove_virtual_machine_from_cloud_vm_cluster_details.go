@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -18,7 +18,7 @@ import (
 // RemoveVirtualMachineFromCloudVmClusterDetails Details of removing Virtual Machines from the Cloud VM Cluster. Applies to Exadata Cloud instances only.
 type RemoveVirtualMachineFromCloudVmClusterDetails struct {
 
-	// The list of ExaCS DB servers for the cluster to be removed.
+	// The list of ExaDB-D DB server for the cluster to be removed.
 	DbServers []CloudDbServerDetails `mandatory:"true" json:"dbServers"`
 }
 

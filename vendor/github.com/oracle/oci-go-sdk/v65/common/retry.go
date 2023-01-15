@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 package common
@@ -468,19 +468,26 @@ func EventuallyConsistentRetryPolicy(nonEventuallyConsistentPolicy RetryPolicy) 
 
 // NewRetryPolicy is a helper method for assembling a Retry Policy object. It does not handle eventual consistency, so as to not break existing code.
 // If you want to handle eventual consistency, the simplest way to do that is to replace the code
-//   NewRetryPolicy(a, r, n)
+//
+//	NewRetryPolicy(a, r, n)
+//
 // with the code
-//   NewRetryPolicyWithOptions(
-//		WithMaximumNumberAttempts(a),
-// 		WithFixedBackoff(fb) // fb is the fixed backoff duration
-//		WithShouldRetryOperation(r))
+//
+//	  NewRetryPolicyWithOptions(
+//			WithMaximumNumberAttempts(a),
+//			WithFixedBackoff(fb) // fb is the fixed backoff duration
+//			WithShouldRetryOperation(r))
+//
 // or
-//   NewRetryPolicyWithOptions(
-//		WithMaximumNumberAttempts(a),
-// 		WithExponentialBackoff(mb, e) // mb is the maximum backoff duration, and e is the base for exponential backoff, e.g. 2.0
-//		WithShouldRetryOperation(r))
+//
+//	  NewRetryPolicyWithOptions(
+//			WithMaximumNumberAttempts(a),
+//			WithExponentialBackoff(mb, e) // mb is the maximum backoff duration, and e is the base for exponential backoff, e.g. 2.0
+//			WithShouldRetryOperation(r))
+//
 // or, if a == 0 (the maximum number of attempts is unlimited)
-//   NewRetryPolicyWithEventualConsistencyUnlimitedAttempts(a, r, n, mcb) // mcb is the maximum cumulative backoff duration without jitter
+//
+//	NewRetryPolicyWithEventualConsistencyUnlimitedAttempts(a, r, n, mcb) // mcb is the maximum cumulative backoff duration without jitter
 func NewRetryPolicy(attempts uint, retryOperation func(OCIOperationResponse) bool, nextDuration func(OCIOperationResponse) time.Duration) RetryPolicy {
 	return NewRetryPolicyWithOptions(
 		ReplaceWithValuesFromRetryPolicy(DefaultRetryPolicyWithoutEventualConsistency()),

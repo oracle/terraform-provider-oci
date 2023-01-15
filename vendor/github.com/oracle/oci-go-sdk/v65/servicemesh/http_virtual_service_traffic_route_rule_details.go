@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -28,6 +28,12 @@ type HttpVirtualServiceTrafficRouteRuleDetails struct {
 	// If true, the rule will check that the content-type header has a application/grpc
 	// or one of the various application/grpc+ values.
 	IsGrpc *bool `mandatory:"false" json:"isGrpc"`
+
+	// The maximum duration in milliseconds for the target service to respond to a request.
+	// If provided, the timeout value overrides the default timeout of 15 seconds for the HTTP based route rules, and disabled (no timeout) when 'isGrpc' is true.
+	// The value 0 (zero) indicates that the timeout is disabled.
+	// For streaming responses from the target service, consider either keeping the timeout disabled or set a sufficiently high value.
+	RequestTimeoutInMs *int64 `mandatory:"false" json:"requestTimeoutInMs"`
 
 	// Match type for the route
 	PathType HttpVirtualServiceTrafficRouteRuleDetailsPathTypeEnum `mandatory:"false" json:"pathType,omitempty"`
