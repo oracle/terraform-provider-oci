@@ -1560,7 +1560,7 @@ func TestUnitGetHCLString_basic(t *testing.T) {
 	}
 	resultHcl := testStringBuilder.String()
 
-	expectedHclResult := `resource oci_test_child export_string3_child_2 {
+	expectedHclResult := `resource oci_test_child export_string3_child_1 {
 a_bool = "true"
 a_float = "3.3"
 a_int = "3"

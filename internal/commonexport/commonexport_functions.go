@@ -587,7 +587,8 @@ func FindResourcesGeneric(ctx *ResourceDiscoveryContext, tfMeta *TerraformResour
 			}
 
 			if resource.TerraformName, err = GenerateTerraformNameFromResource(resource.SourceAttributes, elemResource.Schema); err != nil {
-				resource.TerraformName = fmt.Sprintf("%s_%s_%d", parent.TerraformName, tfMeta.ResourceAbbreviation, idx+1)
+				resource.TerraformName = fmt.Sprintf("%s_%s", parent.TerraformName, tfMeta.ResourceAbbreviation)
+				resource.TerraformName = CheckDuplicateResourceName(resource.TerraformName)
 			}
 
 			results = append(results, resource)
@@ -601,6 +602,7 @@ func FindResourcesGeneric(ctx *ResourceDiscoveryContext, tfMeta *TerraformResour
 
 		if resource.TerraformName, err = GenerateTerraformNameFromResource(resource.SourceAttributes, datasource.Schema); err != nil {
 			resource.TerraformName = fmt.Sprintf("%s_%s", parent.TerraformName, tfMeta.ResourceAbbreviation)
+			resource.TerraformName = CheckDuplicateResourceName(resource.TerraformName)
 		}
 
 		discoverable := true
@@ -826,21 +828,25 @@ var GenerateTerraformNameFromResource = func(resourceAttributes map[string]inter
 		if nameSchema, hasNameAttr := resourceSchema[nameAttribute]; hasNameAttr && nameSchema.Type == schema.TypeString {
 			if value, exists := resourceAttributes[nameAttribute]; exists {
 				terraformName := getNormalizedTerraformName(value.(string))
-				resourceNameCountLock.Lock()
-				if count, resourceNameExists := ResourceNameCount[terraformName]; resourceNameExists {
-					// Update count for existing name
-					ResourceNameCount[terraformName] = count + 1
-					terraformName = fmt.Sprintf("%s_%d", terraformName, count)
-				}
-				// add the newly generated name to map
-				ResourceNameCount[terraformName] = 1
-				resourceNameCountLock.Unlock()
+				terraformName = CheckDuplicateResourceName(terraformName)
 				return terraformName, nil
 			}
 		}
 	}
 
 	return "", fmt.Errorf("unable to find a suitable name from the resource attributes")
+}
+
+var CheckDuplicateResourceName = func(terraformName string) string {
+	ResourceNameCountLock.Lock()
+	if count, resourceNameExists := ResourceNameCount[terraformName]; resourceNameExists {
+		ResourceNameCount[terraformName] = count + 1
+		terraformName = fmt.Sprintf("%s_%d", terraformName, count)
+
+	}
+	ResourceNameCount[terraformName] = 1
+	ResourceNameCountLock.Unlock()
+	return terraformName
 }
 
 func getNormalizedTerraformName(source string) string {

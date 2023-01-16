@@ -113,6 +113,7 @@ func findIdentityTags(ctx *tf_export.ResourceDiscoveryContext, tfMeta *tf_export
 
 		if resource.TerraformName, err = tf_export.GenerateTerraformNameFromResource(resource.SourceAttributes, tagResource.Schema); err != nil {
 			resource.TerraformName = fmt.Sprintf("%s_%s", parent.Parent.TerraformName, *tag.Name)
+			resource.TerraformName = tf_export.CheckDuplicateResourceName(resource.TerraformName)
 		}
 
 		results = append(results, resource)
