@@ -230,7 +230,7 @@ var FailedResourceReferenceSet map[string]bool // stores the terraform reference
 var CompartmentResourceGraphs = make(map[string]TerraformResourceGraph)
 var TenancyResourceGraphs = map[string]TerraformResourceGraph{}
 var RefMapLock sync.Mutex
-var resourceNameCountLock sync.Mutex
+var ResourceNameCountLock sync.Mutex
 var ReferenceMap map[string]string                              //	stores references to replace the ocids in config
 var LoadBalancerCertificateNameMap map[string]map[string]string // helper map to generate references for certificate names, stores certificate name to certificate name interpolation
 var ResourceNameCount map[string]int
