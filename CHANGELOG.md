@@ -5,11 +5,9 @@
 - Support for ExaCC Multi-Rack storage expansion
 - Support for Configurable timeouts to OCI Service Mesh
 - Support for ExaCS Private DNS Integration
-support for DEBUG_TEST_STEPS_SHOW_CONFIG_ONLY flag into acceptance test
-support to debug integration test steps
+
 ### Bug Fix
 - fix timeout urls
-- document fix for DIS workspace
 - Fixed the doc links
 
 ## 4.103.0 (Unreleased)
