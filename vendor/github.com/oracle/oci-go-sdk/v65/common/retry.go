@@ -872,7 +872,6 @@ func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperat
 			if !policyToUse.ShouldRetryOperation(operationResponse) {
 				// we should NOT retry operation based on response and/or error => return
 				retrierChannel <- retrierResult{response, err}
-				Debugln(fmt.Sprintf("Http Status Code: %v. Not Matching retry policy", operationResponse.Response.HTTPResponse().StatusCode))
 				return
 			}
 			// if the request body type is stream, requested retry but doesn't resettable, throw error and stop retrying
