@@ -17,6 +17,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_datascience_model_deployment_shapes", DatascienceModelDeploymentShapesDataSource())
 	tfresource.RegisterDatasource("oci_datascience_model_deployments", DatascienceModelDeploymentsDataSource())
 	tfresource.RegisterDatasource("oci_datascience_model_provenance", DatascienceModelProvenanceDataSource())
+	tfresource.RegisterDatasource("oci_datascience_model_version_set", DatascienceModelVersionSetDataSource())
+	tfresource.RegisterDatasource("oci_datascience_model_version_sets", DatascienceModelVersionSetsDataSource())
 	tfresource.RegisterDatasource("oci_datascience_models", DatascienceModelsDataSource())
 	tfresource.RegisterDatasource("oci_datascience_notebook_session", DatascienceNotebookSessionDataSource())
 	tfresource.RegisterDatasource("oci_datascience_notebook_session_shapes", DatascienceNotebookSessionShapesDataSource())

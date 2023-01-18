@@ -33,8 +33,6 @@ resource "oci_database_cloud_exadata_infrastructure" "test_cloud_exadata_infrast
 	defined_tags = var.cloud_exadata_infrastructure_defined_tags
 	freeform_tags = {"Department"= "Finance"}
 	maintenance_window {
-		#Required
-		preference = var.cloud_exadata_infrastructure_maintenance_window_preference
 
 		#Optional
 		custom_action_timeout_in_mins = var.cloud_exadata_infrastructure_maintenance_window_custom_action_timeout_in_mins
@@ -51,6 +49,7 @@ resource "oci_database_cloud_exadata_infrastructure" "test_cloud_exadata_infrast
 			name = var.cloud_exadata_infrastructure_maintenance_window_months_name
 		}
 		patching_mode = var.cloud_exadata_infrastructure_maintenance_window_patching_mode
+		preference = var.cloud_exadata_infrastructure_maintenance_window_preference
 		weeks_of_month = var.cloud_exadata_infrastructure_maintenance_window_weeks_of_month
 	}
 	storage_count = var.cloud_exadata_infrastructure_storage_count
@@ -83,7 +82,7 @@ The following arguments are supported:
 	* `patching_mode` - (Optional) (Updatable) Cloud Exadata infrastructure node patching method, either "ROLLING" or "NONROLLING". Default value is ROLLING.
 
 		*IMPORTANT*: Non-rolling infrastructure patching involves system down time. See [Oracle-Managed Infrastructure Maintenance Updates](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/examaintenance.htm#Oracle) for more information. 
-	* `preference` - (Required) (Updatable) The maintenance window scheduling preference.
+	* `preference` - (Optional) (Updatable) The maintenance window scheduling preference.
 	* `weeks_of_month` - (Optional) (Updatable) Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `shape` - (Required) The shape of the cloud Exadata infrastructure resource. 
 * `storage_count` - (Optional) (Updatable) The number of storage servers for the cloud Exadata infrastructure.

@@ -91,6 +91,22 @@ func (s *DatascienceModelDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.ModelVersionSetId != nil {
+		s.D.Set("model_version_set_id", *s.Res.ModelVersionSetId)
+	}
+
+	if s.Res.VersionLabel != nil {
+		s.D.Set("version_label", *s.Res.VersionLabel)
+	}
+
+	if s.Res.VersionId != nil {
+		s.D.Set("version_id", *s.Res.VersionId)
+	}
+
+	if s.Res.ModelVersionSetName != nil {
+		s.D.Set("model_version_set_name", *s.Res.ModelVersionSetName)
+	}
+
 	if s.Res.CreatedBy != nil {
 		s.D.Set("created_by", *s.Res.CreatedBy)
 	}

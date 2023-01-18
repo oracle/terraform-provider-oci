@@ -51,6 +51,7 @@ resource "oci_database_cloud_vm_cluster" "test_cloud_vm_cluster" {
 	memory_size_in_gbs = var.cloud_vm_cluster_memory_size_in_gbs
 	nsg_ids = var.cloud_vm_cluster_nsg_ids
 	ocpu_count = var.cloud_vm_cluster_ocpu_count
+	private_zone_id = oci_dns_zone.test_zone.id
 	scan_listener_port_tcp = var.cloud_vm_cluster_scan_listener_port_tcp
 	scan_listener_port_tcp_ssl = var.cloud_vm_cluster_scan_listener_port_tcp_ssl
 	time_zone = var.cloud_vm_cluster_time_zone
@@ -81,7 +82,7 @@ The following arguments are supported:
 * `data_storage_percentage` - (Optional) The percentage assigned to DATA storage (user data and database files). The remaining percentage is assigned to RECO storage (database redo logs, archive logs, and recovery manager backups). Accepted values are 35, 40, 60 and 80. The default is 80 percent assigned to DATA storage. See [Storage Configuration](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaoverview.htm#Exadata) in the Exadata documentation for details on the impact of the configuration settings on storage. 
 * `data_storage_size_in_tbs` - (Optional) (Updatable) The data disk group size to be allocated in TBs.
 * `db_node_storage_size_in_gbs` - (Optional) (Updatable) The local node storage to be allocated in GBs.
-* `db_servers` - (Optional) The list of Db servers.
+* `db_servers` - (Optional) The list of DB servers.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - (Required) (Updatable) The user-friendly name for the cloud VM cluster. The name does not need to be unique.
 * `domain` - (Optional) A domain name used for the cloud VM cluster. If the Oracle-provided internet and VCN resolver is enabled for the specified subnet, the domain name for the subnet is used (do not provide one). Otherwise, provide a valid DNS domain name. Hyphens (-) are not permitted. Applies to Exadata Cloud Service instances only. 
@@ -99,6 +100,7 @@ The following arguments are supported:
 * `nsg_ids` - (Optional) (Updatable) The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). **NsgIds restrictions:**
 	* A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty. 
 * `ocpu_count` - (Optional) (Updatable) The number of OCPU cores to enable for a cloud VM cluster. Only 1 decimal place is allowed for the fractional part.
+* `private_zone_id` - (Optional) The private zone id in which DNS records need to be created.
 * `scan_listener_port_tcp` - (Optional) The TCP Single Client Access Name (SCAN) port. The default port is 1521.
 * `scan_listener_port_tcp_ssl` - (Optional) The TCPS Single Client Access Name (SCAN) port. The default port is 2484.
 * `ssh_public_keys` - (Required) (Updatable) The public key portion of one or more key pairs used for SSH access to the cloud VM cluster.
@@ -129,7 +131,7 @@ The following attributes are exported:
 * `data_storage_percentage` - The percentage assigned to DATA storage (user data and database files). The remaining percentage is assigned to RECO storage (database redo logs, archive logs, and recovery manager backups). Accepted values are 35, 40, 60 and 80. The default is 80 percent assigned to DATA storage. See [Storage Configuration](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaoverview.htm#Exadata) in the Exadata documentation for details on the impact of the configuration settings on storage. 
 * `data_storage_size_in_tbs` - The data disk group size to be allocated in TBs.
 * `db_node_storage_size_in_gbs` - The local node storage to be allocated in GBs.
-* `db_servers` - The list of Db servers.
+* `db_servers` - The list of DB servers.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `disk_redundancy` - The type of redundancy configured for the cloud Vm cluster. NORMAL is 2-way redundancy. HIGH is 3-way redundancy. 
 * `display_name` - The user-friendly name for the cloud VM cluster. The name does not need to be unique.

@@ -23,6 +23,7 @@ data "oci_datascience_models" "test_models" {
 	created_by = var.model_created_by
 	display_name = var.model_display_name
 	id = var.model_id
+	model_version_set_name = oci_datascience_model_version_set.test_model_version_set.name
 	project_id = oci_datascience_project.test_project.id
 	state = var.model_state
 }

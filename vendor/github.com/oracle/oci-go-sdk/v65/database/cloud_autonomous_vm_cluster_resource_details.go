@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// CloudAutonomousVmClusterResourceDetails Unallocated resource details of the CAVM
+// CloudAutonomousVmClusterResourceDetails Unallocated resource details of the Cloud Autonomous VM Cluster.
 type CloudAutonomousVmClusterResourceDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Cloud Exadata infrastructure.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Total unallocated autonomous data storage in the CAVM in TBs.
+	// Total unallocated autonomous data storage in the Cloud Autonomous VM Cluster in TBs.
 	UnAllocatedAdbStorageInTBs *float64 `mandatory:"true" json:"unAllocatedAdbStorageInTBs"`
 }
 

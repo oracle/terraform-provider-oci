@@ -1,3 +1,14 @@
+## 4.104.0 (January 18, 2023)
+
+### Added
+- Support for ExaCS Private DNS Integration
+- Support for Configurable timeouts to OCI Service Mesh
+- Support for ExaCC Multi-Rack storage expansion
+- Support for ODSC - Model Store - Model Versioning
+- Support for FSS : Support for cross region replication
+### Bug Fix
+- Fix for timeout urls
+- Fix for container repository resource discovery
 ## 4.103.0 (January 11, 2023)
 
 ### Added

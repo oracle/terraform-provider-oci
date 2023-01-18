@@ -58,8 +58,10 @@ The following attributes are exported:
 * `id` - Unique identifier that is immutable on creation.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in a Failed state.
 * `listeners` - The listeners for the virtual deployment
+	* `idle_timeout_in_ms` - The maximum duration in milliseconds for which the request's stream may be idle. The value 0 (zero) indicates that the timeout is disabled.
 	* `port` - Port in which virtual deployment is running.
 	* `protocol` - Type of protocol used in virtual deployment.
+	* `request_timeout_in_ms` - The maximum duration in milliseconds for the deployed service to respond to an incoming request through the listener.  If provided, the timeout value overrides the default timeout of 15 seconds for the HTTP/HTTP2 listeners, and disabled (no timeout) for the GRPC listeners. The value 0 (zero) indicates that the timeout is disabled.  The timeout cannot be configured for the TCP and TLS_PASSTHROUGH listeners.  For streaming responses from the deployed service, consider either keeping the timeout disabled or set a sufficiently high value. 
 * `name` - A user-friendly name. The name must be unique within the same virtual service and cannot be changed after creation. Avoid entering confidential information.  Example: `My unique resource name` 
 * `service_discovery` - Service Discovery configuration for virtual deployments.
 	* `hostname` - The hostname of the virtual deployments.

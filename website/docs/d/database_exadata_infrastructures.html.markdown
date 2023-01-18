@@ -23,6 +23,7 @@ data "oci_database_exadata_infrastructures" "test_exadata_infrastructures" {
 
 	#Optional
 	display_name = var.exadata_infrastructure_display_name
+	excluded_fields = var.exadata_infrastructure_excluded_fields
 	state = var.exadata_infrastructure_state
 }
 ```
@@ -33,6 +34,7 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
+* `excluded_fields` - (Optional) If provided, the specified fields will be excluded in the response.
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
 
 
@@ -75,6 +77,7 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
 * `infini_band_network_cidr` - The CIDR block for the Exadata InfiniBand interconnect.
 * `is_cps_offline_report_enabled` - Indicates whether cps offline diagnostic report is enabled for this Exadata infrastructure. This will allow a customer to quickly check status themselves and fix problems on their end, saving time and frustration for both Oracle and the customer when they find the CPS in a disconnected state.You can enable offline diagnostic report during Exadata infrastructure provisioning. You can also disable or enable it at any time using the UpdateExadatainfrastructure API. 
+* `is_multi_rack_deployment` - Indicates if deployment is Multi-Rack or not.
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `maintenance_slo_status` - A field to capture ‘Maintenance SLO Status’ for the Exadata infrastructure with values ‘OK’, ‘DEGRADED’. Default is ‘OK’ when the infrastructure is provisioned.
 * `maintenance_window` - The scheduling details for the quarterly maintenance window. Patching and system updates take place during the maintenance window. 
@@ -99,6 +102,7 @@ The following attributes are exported:
 * `max_memory_in_gbs` - The total memory available in GBs.
 * `memory_size_in_gbs` - The memory allocated in GBs.
 * `monthly_db_server_version` - The monthly software version of the database servers (dom0) in the Exadata infrastructure.
+* `multi_rack_configuration_file` - The base64 encoded Multi-Rack configuration json file.
 * `netmask` - The netmask for the control plane network.
 * `ntp_server` - The list of NTP server IP addresses. Maximum of 3 allowed.
 * `rack_serial_number` - The serial number for the Exadata infrastructure.

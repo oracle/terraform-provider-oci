@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -22,6 +22,7 @@ const (
 	WorkRequestOperationTypeNotebookSessionDelete     WorkRequestOperationTypeEnum = "NOTEBOOK_SESSION_DELETE"
 	WorkRequestOperationTypeNotebookSessionActivate   WorkRequestOperationTypeEnum = "NOTEBOOK_SESSION_ACTIVATE"
 	WorkRequestOperationTypeNotebookSessionDeactivate WorkRequestOperationTypeEnum = "NOTEBOOK_SESSION_DEACTIVATE"
+	WorkRequestOperationTypeModelversionsetDelete     WorkRequestOperationTypeEnum = "MODELVERSIONSET_DELETE"
 	WorkRequestOperationTypeExportModelArtifact       WorkRequestOperationTypeEnum = "EXPORT_MODEL_ARTIFACT"
 	WorkRequestOperationTypeImportModelArtifact       WorkRequestOperationTypeEnum = "IMPORT_MODEL_ARTIFACT"
 	WorkRequestOperationTypeModelDeploymentCreate     WorkRequestOperationTypeEnum = "MODEL_DEPLOYMENT_CREATE"
@@ -39,6 +40,7 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"NOTEBOOK_SESSION_DELETE":     WorkRequestOperationTypeNotebookSessionDelete,
 	"NOTEBOOK_SESSION_ACTIVATE":   WorkRequestOperationTypeNotebookSessionActivate,
 	"NOTEBOOK_SESSION_DEACTIVATE": WorkRequestOperationTypeNotebookSessionDeactivate,
+	"MODELVERSIONSET_DELETE":      WorkRequestOperationTypeModelversionsetDelete,
 	"EXPORT_MODEL_ARTIFACT":       WorkRequestOperationTypeExportModelArtifact,
 	"IMPORT_MODEL_ARTIFACT":       WorkRequestOperationTypeImportModelArtifact,
 	"MODEL_DEPLOYMENT_CREATE":     WorkRequestOperationTypeModelDeploymentCreate,
@@ -56,6 +58,7 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"notebook_session_delete":     WorkRequestOperationTypeNotebookSessionDelete,
 	"notebook_session_activate":   WorkRequestOperationTypeNotebookSessionActivate,
 	"notebook_session_deactivate": WorkRequestOperationTypeNotebookSessionDeactivate,
+	"modelversionset_delete":      WorkRequestOperationTypeModelversionsetDelete,
 	"export_model_artifact":       WorkRequestOperationTypeExportModelArtifact,
 	"import_model_artifact":       WorkRequestOperationTypeImportModelArtifact,
 	"model_deployment_create":     WorkRequestOperationTypeModelDeploymentCreate,
@@ -84,6 +87,7 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"NOTEBOOK_SESSION_DELETE",
 		"NOTEBOOK_SESSION_ACTIVATE",
 		"NOTEBOOK_SESSION_DEACTIVATE",
+		"MODELVERSIONSET_DELETE",
 		"EXPORT_MODEL_ARTIFACT",
 		"IMPORT_MODEL_ARTIFACT",
 		"MODEL_DEPLOYMENT_CREATE",
