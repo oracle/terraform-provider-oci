@@ -18,6 +18,7 @@ resource "oci_service_mesh_virtual_service_route_table" "test_virtual_service_ro
     is_grpc   = local.virtual_service_route_table_route_rules_is_grpc
     path      = local.virtual_service_route_table_route_rules_path
     path_type = local.virtual_service_route_table_route_rules_path_type
+    request_timeout_in_ms = local.virtual_service_route_table_route_rules_request_timeout_in_ms
   }
   virtual_service_id = oci_service_mesh_virtual_service.test_virtual_service.id
 
@@ -40,8 +41,9 @@ locals {
   virtual_service_route_table_description                     = "test virtual service route table description"
   virtual_service_route_table_priority                        = 1
   // allowed values for above are between 1 and 1000, with 1 being highest priority.
-  virtual_service_route_table_route_rules_destinations_port   = "8080"
-  virtual_service_route_table_route_rules_is_grpc             = true
-  virtual_service_route_table_route_rules_path                = "/path"
-  virtual_service_route_table_route_rules_path_type           = "PREFIX"
+  virtual_service_route_table_route_rules_destinations_port     = "8080"
+  virtual_service_route_table_route_rules_is_grpc               = true
+  virtual_service_route_table_route_rules_path                  = "/path"
+  virtual_service_route_table_route_rules_path_type             = "PREFIX"
+  virtual_service_route_table_route_rules_request_timeout_in_ms = 200
 }

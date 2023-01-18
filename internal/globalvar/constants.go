@@ -77,5 +77,8 @@ const (
 	TfEnvPrefix    = "TF_VAR_"
 	OciEnvPrefix   = "OCI_"
 )
-
+const (
+	DebugTestSteps               = "DEBUG_TEST_STEPS"
+	DebugTestStepsShowConfigOnly = "DEBUG_TEST_STEPS_SHOW_CONFIG_ONLY"
+)
 const TerraformDocumentLink = "https://registry.terraform.io/providers/oracle/oci/latest/docs/"

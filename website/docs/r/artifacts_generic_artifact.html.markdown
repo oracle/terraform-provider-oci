@@ -64,4 +64,8 @@ The `timeouts` block allows you to specify [timeouts](https://registry.terraform
 
 ## Import
 
-Import is not supported for this resource.
+GenericArtifacts can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_artifacts_generic_artifact.test_generic_artifact "generic/artifacts/{artifactId}" 
+```

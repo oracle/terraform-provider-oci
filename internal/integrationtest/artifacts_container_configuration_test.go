@@ -18,6 +18,8 @@ import (
 )
 
 var (
+	ArtifactsContainerConfigurationRequiredOnlyResource = ArtifactsContainerConfigurationResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_configuration", "test_container_configuration", acctest.Required, acctest.Create, ArtifactscontainerConfigurationRepresentation)
+
 	ArtifactsContainerConfigurationResourceConfig = ArtifactsContainerConfigurationResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_configuration", "test_container_configuration", acctest.Optional, acctest.Update, ArtifactscontainerConfigurationRepresentation)
 
@@ -103,6 +105,16 @@ func TestArtifactsContainerConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_repository_created_on_first_push", "true"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
 			),
+		},
+		// verify resource import
+		{
+			Config:            config + ArtifactsContainerConfigurationRequiredOnlyResource,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"compartment_id",
+			},
+			ResourceName: resourceName,
 		},
 	})
 }

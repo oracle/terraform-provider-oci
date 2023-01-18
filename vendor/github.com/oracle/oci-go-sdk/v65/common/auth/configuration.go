@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 package auth
@@ -15,22 +15,22 @@ type instancePrincipalConfigurationProvider struct {
 	region      *common.Region
 }
 
-//InstancePrincipalConfigurationProvider returns a configuration for instance principals
+// InstancePrincipalConfigurationProvider returns a configuration for instance principals
 func InstancePrincipalConfigurationProvider() (common.ConfigurationProvider, error) {
 	return newInstancePrincipalConfigurationProvider("", nil)
 }
 
-//InstancePrincipalConfigurationProviderForRegion returns a configuration for instance principals with a given region
+// InstancePrincipalConfigurationProviderForRegion returns a configuration for instance principals with a given region
 func InstancePrincipalConfigurationProviderForRegion(region common.Region) (common.ConfigurationProvider, error) {
 	return newInstancePrincipalConfigurationProvider(region, nil)
 }
 
-//InstancePrincipalConfigurationProviderWithCustomClient returns a configuration for instance principals using a modifier function to modify the HTTPRequestDispatcher
+// InstancePrincipalConfigurationProviderWithCustomClient returns a configuration for instance principals using a modifier function to modify the HTTPRequestDispatcher
 func InstancePrincipalConfigurationProviderWithCustomClient(modifier func(common.HTTPRequestDispatcher) (common.HTTPRequestDispatcher, error)) (common.ConfigurationProvider, error) {
 	return newInstancePrincipalConfigurationProvider("", modifier)
 }
 
-//InstancePrincipalConfigurationForRegionWithCustomClient returns a configuration for instance principals with a given region using a modifier function to modify the HTTPRequestDispatcher
+// InstancePrincipalConfigurationForRegionWithCustomClient returns a configuration for instance principals with a given region using a modifier function to modify the HTTPRequestDispatcher
 func InstancePrincipalConfigurationForRegionWithCustomClient(region common.Region, modifier func(common.HTTPRequestDispatcher) (common.HTTPRequestDispatcher, error)) (common.ConfigurationProvider, error) {
 	return newInstancePrincipalConfigurationProvider(region, modifier)
 }
@@ -47,7 +47,7 @@ func newInstancePrincipalConfigurationProvider(region common.Region, modifier fu
 	return instancePrincipalConfigurationProvider{keyProvider: *keyProvider, region: nil}, nil
 }
 
-//InstancePrincipalConfigurationWithCerts returns a configuration for instance principals with a given region and hardcoded certificates in lieu of metadata service certs
+// InstancePrincipalConfigurationWithCerts returns a configuration for instance principals with a given region and hardcoded certificates in lieu of metadata service certs
 func InstancePrincipalConfigurationWithCerts(region common.Region, leafCertificate, leafPassphrase, leafPrivateKey []byte, intermediateCertificates [][]byte) (common.ConfigurationProvider, error) {
 	leafCertificateRetriever := staticCertificateRetriever{Passphrase: leafPassphrase, CertificatePem: leafCertificate, PrivateKeyPem: leafPrivateKey}
 

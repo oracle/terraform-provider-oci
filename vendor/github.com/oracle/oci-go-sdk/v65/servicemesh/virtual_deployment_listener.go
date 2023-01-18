@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -23,6 +23,15 @@ type VirtualDeploymentListener struct {
 
 	// Port in which virtual deployment is running.
 	Port *int `mandatory:"true" json:"port"`
+
+	// The maximum duration in milliseconds for the deployed service to respond to an incoming request through the listener.
+	// If provided, the timeout value overrides the default timeout of 15 seconds for the HTTP/HTTP2 listeners, and disabled (no timeout) for the GRPC listeners. The value 0 (zero) indicates that the timeout is disabled.
+	// The timeout cannot be configured for the TCP and TLS_PASSTHROUGH listeners.
+	// For streaming responses from the deployed service, consider either keeping the timeout disabled or set a sufficiently high value.
+	RequestTimeoutInMs *int64 `mandatory:"false" json:"requestTimeoutInMs"`
+
+	// The maximum duration in milliseconds for which the request's stream may be idle. The value 0 (zero) indicates that the timeout is disabled.
+	IdleTimeoutInMs *int64 `mandatory:"false" json:"idleTimeoutInMs"`
 }
 
 func (m VirtualDeploymentListener) String() string {

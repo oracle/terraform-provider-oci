@@ -19,7 +19,7 @@ resource "oci_database_cloud_vm_cluster" "test_cloud_vm_cluster" {
   compartment_id                  = var.compartment_ocid
   cpu_core_count                  = var.cloud_vm_cluster_cpu_core_count
   display_name                    = "MyTFVmClusterExaCs"
-  domain                          = oci_core_subnet.subnet.subnet_domain_name
+  domain                          = oci_dns_zone.test_zone.name
   gi_version                      = var.cloud_vm_cluster_gi_version
   hostname                        = var.cloud_vm_cluster_hostname
   ssh_public_keys                 = [var.ssh_public_key]
@@ -33,6 +33,7 @@ resource "oci_database_cloud_vm_cluster" "test_cloud_vm_cluster" {
   ocpu_count                      = var.cloud_vm_cluster_ocpu_count
   scan_listener_port_tcp          = var.cloud_vm_cluster_scan_listener_port_tcp
   scan_listener_port_tcp_ssl      = var.cloud_vm_cluster_scan_listener_port_tcp_ssl
+  private_zone_id                 = oci_dns_zone.test_zone.id
 
   data_collection_options {
     #Optional

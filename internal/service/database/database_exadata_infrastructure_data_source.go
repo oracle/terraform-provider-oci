@@ -48,6 +48,8 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) Get() error {
 		request.ExadataInfrastructureId = &tmp
 	}
 
+	request.ExcludedFields = []oci_database.GetExadataInfrastructureExcludedFieldsEnum{"multiRackConfigurationFile"}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
 	response, err := s.Client.GetExadataInfrastructure(context.Background(), request)
@@ -154,6 +156,10 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) SetData() error {
 		s.D.Set("is_cps_offline_report_enabled", *s.Res.IsCpsOfflineReportEnabled)
 	}
 
+	if s.Res.IsMultiRackDeployment != nil {
+		s.D.Set("is_multi_rack_deployment", *s.Res.IsMultiRackDeployment)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
@@ -188,6 +194,10 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) SetData() error {
 
 	if s.Res.MonthlyDbServerVersion != nil {
 		s.D.Set("monthly_db_server_version", *s.Res.MonthlyDbServerVersion)
+	}
+
+	if s.Res.MultiRackConfigurationFile != nil {
+		s.D.Set("multi_rack_configuration_file", string(s.Res.MultiRackConfigurationFile))
 	}
 
 	if s.Res.Netmask != nil {

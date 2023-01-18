@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -38,6 +38,12 @@ type UpdateModelDetails struct {
 
 	// An array of defined metadata details for the model.
 	DefinedMetadataList []Metadata `mandatory:"false" json:"definedMetadataList"`
+
+	// The OCID of the model version set that the model is associated to.
+	ModelVersionSetId *string `mandatory:"false" json:"modelVersionSetId"`
+
+	// The version label can add an additional description of the lifecycle state of the model or the application using/training the model.
+	VersionLabel *string `mandatory:"false" json:"versionLabel"`
 }
 
 func (m UpdateModelDetails) String() string {

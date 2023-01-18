@@ -72,6 +72,7 @@ The following attributes are exported:
 	* `is_path_rewrite_enabled` - If true, the matched path prefix will be rewritten to '/' before being directed to the target virtual deployment. 
 	* `path` - Route to match
 	* `path_type` - Match type for the route
+	* `request_timeout_in_ms` - The maximum duration in milliseconds for the upstream service to respond to a request.  If provided, the timeout value overrides the default timeout of 15 seconds for the HTTP based route rules, and disabled (no timeout) when 'isGrpc' is true.  The value 0 (zero) indicates that the timeout is disabled.  For streaming responses from the upstream service, consider either keeping the timeout disabled or set a sufficiently high value. 
 	* `type` - Type of protocol.
 * `state` - The current state of the Resource.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

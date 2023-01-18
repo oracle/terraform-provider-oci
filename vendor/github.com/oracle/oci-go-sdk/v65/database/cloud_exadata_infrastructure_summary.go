@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -105,6 +105,22 @@ type CloudExadataInfrastructureSummary struct {
 	// Oracle uses these email addresses to send notifications about planned and unplanned software maintenance updates, information about system hardware, and other information needed by administrators.
 	// Up to 10 email addresses can be added to the customer contacts for a cloud Exadata infrastructure instance.
 	CustomerContacts []CustomerContact `mandatory:"false" json:"customerContacts"`
+
+	// The software version of the storage servers (cells) in the cloud Exadata infrastructure.
+	// Example: 20.1.15
+	StorageServerVersion *string `mandatory:"false" json:"storageServerVersion"`
+
+	// The software version of the database servers (dom0) in the cloud Exadata infrastructure.
+	// Example: 20.1.15
+	DbServerVersion *string `mandatory:"false" json:"dbServerVersion"`
+
+	// The monthly software version of the storage servers (cells) in the cloud Exadata infrastructure.
+	// Example: 20.1.15
+	MonthlyStorageServerVersion *string `mandatory:"false" json:"monthlyStorageServerVersion"`
+
+	// The monthly software version of the database servers (dom0) in the cloud Exadata infrastructure.
+	// Example: 20.1.15
+	MonthlyDbServerVersion *string `mandatory:"false" json:"monthlyDbServerVersion"`
 }
 
 func (m CloudExadataInfrastructureSummary) String() string {
