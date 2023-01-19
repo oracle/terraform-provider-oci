@@ -72,7 +72,7 @@ type Cpe struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// Indicates whether this cpe is of type private or not
+	// Indicates whether this CPE is of type `private` or not.
 	IsPrivate *bool `mandatory:"false" json:"isPrivate"`
 }
 

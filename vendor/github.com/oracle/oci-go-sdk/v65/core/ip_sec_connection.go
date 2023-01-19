@@ -101,7 +101,7 @@ type IpSecConnection struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The transport used for the IPSec connection.
+	// The transport type used for the IPSec connection.
 	TransportType IpSecConnectionTransportTypeEnum `mandatory:"false" json:"transportType,omitempty"`
 
 	MigrationStatus *IpSecConnectionMigrationStatus `mandatory:"false" json:"migrationStatus"`

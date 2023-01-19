@@ -82,27 +82,30 @@ type WorkRequestOperationTypeEnum string
 
 // Set of constants representing the allowable values for WorkRequestOperationTypeEnum
 const (
-	WorkRequestOperationTypeCreateIntegrationInstance WorkRequestOperationTypeEnum = "CREATE_INTEGRATION_INSTANCE"
-	WorkRequestOperationTypeUpdateIntegrationInstance WorkRequestOperationTypeEnum = "UPDATE_INTEGRATION_INSTANCE"
-	WorkRequestOperationTypeStopIntegrationInstance   WorkRequestOperationTypeEnum = "STOP_INTEGRATION_INSTANCE"
-	WorkRequestOperationTypeStartIntegrationInstance  WorkRequestOperationTypeEnum = "START_INTEGRATION_INSTANCE"
-	WorkRequestOperationTypeDeleteIntegrationInstance WorkRequestOperationTypeEnum = "DELETE_INTEGRATION_INSTANCE"
+	WorkRequestOperationTypeCreateIntegrationInstance               WorkRequestOperationTypeEnum = "CREATE_INTEGRATION_INSTANCE"
+	WorkRequestOperationTypeUpdateIntegrationInstance               WorkRequestOperationTypeEnum = "UPDATE_INTEGRATION_INSTANCE"
+	WorkRequestOperationTypeStopIntegrationInstance                 WorkRequestOperationTypeEnum = "STOP_INTEGRATION_INSTANCE"
+	WorkRequestOperationTypeStartIntegrationInstance                WorkRequestOperationTypeEnum = "START_INTEGRATION_INSTANCE"
+	WorkRequestOperationTypeDeleteIntegrationInstance               WorkRequestOperationTypeEnum = "DELETE_INTEGRATION_INSTANCE"
+	WorkRequestOperationTypeChangePrivateEndpointOutboundConnection WorkRequestOperationTypeEnum = "CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
-	"CREATE_INTEGRATION_INSTANCE": WorkRequestOperationTypeCreateIntegrationInstance,
-	"UPDATE_INTEGRATION_INSTANCE": WorkRequestOperationTypeUpdateIntegrationInstance,
-	"STOP_INTEGRATION_INSTANCE":   WorkRequestOperationTypeStopIntegrationInstance,
-	"START_INTEGRATION_INSTANCE":  WorkRequestOperationTypeStartIntegrationInstance,
-	"DELETE_INTEGRATION_INSTANCE": WorkRequestOperationTypeDeleteIntegrationInstance,
+	"CREATE_INTEGRATION_INSTANCE":                 WorkRequestOperationTypeCreateIntegrationInstance,
+	"UPDATE_INTEGRATION_INSTANCE":                 WorkRequestOperationTypeUpdateIntegrationInstance,
+	"STOP_INTEGRATION_INSTANCE":                   WorkRequestOperationTypeStopIntegrationInstance,
+	"START_INTEGRATION_INSTANCE":                  WorkRequestOperationTypeStartIntegrationInstance,
+	"DELETE_INTEGRATION_INSTANCE":                 WorkRequestOperationTypeDeleteIntegrationInstance,
+	"CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION": WorkRequestOperationTypeChangePrivateEndpointOutboundConnection,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
-	"create_integration_instance": WorkRequestOperationTypeCreateIntegrationInstance,
-	"update_integration_instance": WorkRequestOperationTypeUpdateIntegrationInstance,
-	"stop_integration_instance":   WorkRequestOperationTypeStopIntegrationInstance,
-	"start_integration_instance":  WorkRequestOperationTypeStartIntegrationInstance,
-	"delete_integration_instance": WorkRequestOperationTypeDeleteIntegrationInstance,
+	"create_integration_instance":                 WorkRequestOperationTypeCreateIntegrationInstance,
+	"update_integration_instance":                 WorkRequestOperationTypeUpdateIntegrationInstance,
+	"stop_integration_instance":                   WorkRequestOperationTypeStopIntegrationInstance,
+	"start_integration_instance":                  WorkRequestOperationTypeStartIntegrationInstance,
+	"delete_integration_instance":                 WorkRequestOperationTypeDeleteIntegrationInstance,
+	"change_private_endpoint_outbound_connection": WorkRequestOperationTypeChangePrivateEndpointOutboundConnection,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -122,6 +125,7 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"STOP_INTEGRATION_INSTANCE",
 		"START_INTEGRATION_INSTANCE",
 		"DELETE_INTEGRATION_INSTANCE",
+		"CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION",
 	}
 }
 

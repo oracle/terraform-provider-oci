@@ -16,8 +16,8 @@ import (
 	"strings"
 )
 
-// CreateManagedShellDeployStageDetails Specifies the managed shell stage.
-type CreateManagedShellDeployStageDetails struct {
+// CreateShellDeployStageDetails Specifies the shell stage.
+type CreateShellDeployStageDetails struct {
 
 	// The OCID of a pipeline.
 	DeployPipelineId *string `mandatory:"true" json:"deployPipelineId"`
@@ -41,48 +41,48 @@ type CreateManagedShellDeployStageDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// Time to wait for execution of a managed shell stage. Defaults to 36000 seconds.
+	// Time to wait for execution of a shell stage. Defaults to 36000 seconds.
 	TimeoutInSeconds *int `mandatory:"false" json:"timeoutInSeconds"`
 }
 
 //GetDescription returns Description
-func (m CreateManagedShellDeployStageDetails) GetDescription() *string {
+func (m CreateShellDeployStageDetails) GetDescription() *string {
 	return m.Description
 }
 
 //GetDisplayName returns DisplayName
-func (m CreateManagedShellDeployStageDetails) GetDisplayName() *string {
+func (m CreateShellDeployStageDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
 //GetDeployPipelineId returns DeployPipelineId
-func (m CreateManagedShellDeployStageDetails) GetDeployPipelineId() *string {
+func (m CreateShellDeployStageDetails) GetDeployPipelineId() *string {
 	return m.DeployPipelineId
 }
 
 //GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
-func (m CreateManagedShellDeployStageDetails) GetDeployStagePredecessorCollection() *DeployStagePredecessorCollection {
+func (m CreateShellDeployStageDetails) GetDeployStagePredecessorCollection() *DeployStagePredecessorCollection {
 	return m.DeployStagePredecessorCollection
 }
 
 //GetFreeformTags returns FreeformTags
-func (m CreateManagedShellDeployStageDetails) GetFreeformTags() map[string]string {
+func (m CreateShellDeployStageDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
 //GetDefinedTags returns DefinedTags
-func (m CreateManagedShellDeployStageDetails) GetDefinedTags() map[string]map[string]interface{} {
+func (m CreateShellDeployStageDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-func (m CreateManagedShellDeployStageDetails) String() string {
+func (m CreateShellDeployStageDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m CreateManagedShellDeployStageDetails) ValidateEnumValue() (bool, error) {
+func (m CreateShellDeployStageDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -92,21 +92,21 @@ func (m CreateManagedShellDeployStageDetails) ValidateEnumValue() (bool, error) 
 }
 
 // MarshalJSON marshals to json representation
-func (m CreateManagedShellDeployStageDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeCreateManagedShellDeployStageDetails CreateManagedShellDeployStageDetails
+func (m CreateShellDeployStageDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeCreateShellDeployStageDetails CreateShellDeployStageDetails
 	s := struct {
 		DiscriminatorParam string `json:"deployStageType"`
-		MarshalTypeCreateManagedShellDeployStageDetails
+		MarshalTypeCreateShellDeployStageDetails
 	}{
-		"MANAGED_SHELL",
-		(MarshalTypeCreateManagedShellDeployStageDetails)(m),
+		"SHELL",
+		(MarshalTypeCreateShellDeployStageDetails)(m),
 	}
 
 	return json.Marshal(&s)
 }
 
 // UnmarshalJSON unmarshals from json
-func (m *CreateManagedShellDeployStageDetails) UnmarshalJSON(data []byte) (e error) {
+func (m *CreateShellDeployStageDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Description                      *string                           `json:"description"`
 		DisplayName                      *string                           `json:"displayName"`

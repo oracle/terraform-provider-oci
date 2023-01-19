@@ -122,8 +122,8 @@ type Run struct {
 	// The OCID of OCI Hive Metastore.
 	MetastoreId *string `mandatory:"false" json:"metastoreId"`
 
-	// The OCID of OCI LakeHouse.
-	LakehouseId *string `mandatory:"false" json:"lakehouseId"`
+	// The OCID of OCI Lake.
+	LakeId *string `mandatory:"false" json:"lakeId"`
 
 	// Unique Oracle assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.

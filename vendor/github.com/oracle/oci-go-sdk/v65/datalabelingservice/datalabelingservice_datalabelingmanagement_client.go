@@ -480,6 +480,65 @@ func (client DataLabelingManagementClient) getWorkRequest(ctx context.Context, r
 	return response, err
 }
 
+// ImportPreAnnotatedData Imports records and annotations from dataset files into existing Dataset.
+// A default retry strategy applies to this operation ImportPreAnnotatedData()
+func (client DataLabelingManagementClient) ImportPreAnnotatedData(ctx context.Context, request ImportPreAnnotatedDataRequest) (response ImportPreAnnotatedDataResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.importPreAnnotatedData, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ImportPreAnnotatedDataResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ImportPreAnnotatedDataResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ImportPreAnnotatedDataResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ImportPreAnnotatedDataResponse")
+	}
+	return
+}
+
+// importPreAnnotatedData implements the OCIOperation interface (enables retrying operations)
+func (client DataLabelingManagementClient) importPreAnnotatedData(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/datasets/{datasetId}/actions/importPreAnnotatedData", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ImportPreAnnotatedDataResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/Dataset/ImportPreAnnotatedData"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "ImportPreAnnotatedData", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListAnnotationFormats These are a static list in a given region.
 // A default retry strategy applies to this operation ListAnnotationFormats()
 func (client DataLabelingManagementClient) ListAnnotationFormats(ctx context.Context, request ListAnnotationFormatsRequest) (response ListAnnotationFormatsResponse, err error) {

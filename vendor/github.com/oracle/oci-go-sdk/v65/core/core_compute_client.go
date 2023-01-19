@@ -5214,12 +5214,13 @@ func (client ComputeClient) removeImageShapeCompatibilityEntry(ctx context.Conte
 	return response, err
 }
 
-// TerminateInstance Terminates the specified instance. Any attached VNICs and volumes are automatically detached
+// TerminateInstance Terminates (deletes) the specified instance. Any attached VNICs and volumes are automatically detached
 // when the instance terminates.
 // To preserve the boot volume associated with the instance, specify `true` for `PreserveBootVolumeQueryParam`.
 // To delete the boot volume when the instance is deleted, specify `false` or do not specify a value for `PreserveBootVolumeQueryParam`.
-// This is an asynchronous operation. The instance's `lifecycleState` will change to TERMINATING temporarily
-// until the instance is completely removed.
+// This is an asynchronous operation. The instance's `lifecycleState` changes to TERMINATING temporarily
+// until the instance is completely deleted. After the instance is deleted, the record remains visible in the list of instances
+// with the state TERMINATED for at least 12 hours, but no further action is needed.
 func (client ComputeClient) TerminateInstance(ctx context.Context, request TerminateInstanceRequest) (response TerminateInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

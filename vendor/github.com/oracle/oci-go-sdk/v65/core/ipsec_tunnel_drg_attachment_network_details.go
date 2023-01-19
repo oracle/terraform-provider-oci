@@ -51,7 +51,7 @@ type IpsecTunnelDrgAttachmentNetworkDetails struct {
 	// Whether traffic from this network is forwarded to the El Paso Gamma VIPs (or not)
 	IsGammaDrg *bool `mandatory:"false" json:"isGammaDrg"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the virtual-circuit drg attachment.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the virtual circuit's DRG attachment.
 	TransportAttachmentId *string `mandatory:"false" json:"transportAttachmentId"`
 }
 

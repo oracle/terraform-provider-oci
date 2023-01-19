@@ -22,13 +22,13 @@ import (
 	"strings"
 )
 
-// LoopBackDrgAttachmentNetworkDetails Specifies the Loopback attached to the DRG.
+// LoopBackDrgAttachmentNetworkDetails Specifies the loopback attachment on the DRG. A loopback attachment can be used to terminate a virtual circuit that is carrying an IPSec tunnel, routing traffic directly to the IPSec tunnel attachment where the tunnel can terminate.
 type LoopBackDrgAttachmentNetworkDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
 	Id *string `mandatory:"false" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Ipsec tunnel attachment.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target IPSec tunnel attachment.
 	Ids []string `mandatory:"false" json:"ids"`
 
 	// The MPLS label of the DRG attachment.

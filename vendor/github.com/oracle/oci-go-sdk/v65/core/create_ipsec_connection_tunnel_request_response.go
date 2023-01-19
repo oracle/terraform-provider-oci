@@ -17,7 +17,7 @@ type CreateIpsecConnectionTunnelRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IPSec connection.
 	IpscId *string `mandatory:"true" contributesTo:"path" name:"ipscId"`
 
-	// Details object for creating one new private IPSec connection tunnel
+	// Details object for creating one new private IPSec connection tunnel.
 	CreateIpSecConnectionTunnelDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

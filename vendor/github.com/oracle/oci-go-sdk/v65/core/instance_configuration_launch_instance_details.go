@@ -145,7 +145,7 @@ type InstanceConfigurationLaunchInstanceDetails struct {
 	// Example: `FAULT-DOMAIN-1`
 	FaultDomain *string `mandatory:"false" json:"faultDomain"`
 
-	// The OCID of dedicated VM host.
+	// The OCID of the dedicated virtual machine host to place the instance on.
 	// Dedicated VM hosts can be used when launching individual instances from an instance configuration. They
 	// cannot be used to launch instance pools.
 	DedicatedVmHostId *string `mandatory:"false" json:"dedicatedVmHostId"`

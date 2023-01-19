@@ -40,7 +40,7 @@ type LaunchInstanceDetails struct {
 
 	CreateVnicDetails *CreateVnicDetails `mandatory:"false" json:"createVnicDetails"`
 
-	// The OCID of the dedicated VM host.
+	// The OCID of the dedicated virtual machine host to place the instance on.
 	DedicatedVmHostId *string `mandatory:"false" json:"dedicatedVmHostId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a

@@ -16,8 +16,8 @@ import (
 	"strings"
 )
 
-// UpdateManagedShellDeployStageDetails Specifies the manual approval stage.
-type UpdateManagedShellDeployStageDetails struct {
+// UpdateShellDeployStageDetails Specifies the shell stage.
+type UpdateShellDeployStageDetails struct {
 
 	// Optional description about the deployment stage.
 	Description *string `mandatory:"false" json:"description"`
@@ -38,43 +38,43 @@ type UpdateManagedShellDeployStageDetails struct {
 	// The OCID of the artifact that contains the command specification.
 	CommandSpecDeployArtifactId *string `mandatory:"false" json:"commandSpecDeployArtifactId"`
 
-	// Time to wait for execution of a managed shell stage. Defaults to 36000 seconds.
+	// Time to wait for execution of a shell stage. Defaults to 36000 seconds.
 	TimeoutInSeconds *int `mandatory:"false" json:"timeoutInSeconds"`
 }
 
 //GetDescription returns Description
-func (m UpdateManagedShellDeployStageDetails) GetDescription() *string {
+func (m UpdateShellDeployStageDetails) GetDescription() *string {
 	return m.Description
 }
 
 //GetDisplayName returns DisplayName
-func (m UpdateManagedShellDeployStageDetails) GetDisplayName() *string {
+func (m UpdateShellDeployStageDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
 //GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
-func (m UpdateManagedShellDeployStageDetails) GetDeployStagePredecessorCollection() *DeployStagePredecessorCollection {
+func (m UpdateShellDeployStageDetails) GetDeployStagePredecessorCollection() *DeployStagePredecessorCollection {
 	return m.DeployStagePredecessorCollection
 }
 
 //GetFreeformTags returns FreeformTags
-func (m UpdateManagedShellDeployStageDetails) GetFreeformTags() map[string]string {
+func (m UpdateShellDeployStageDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
 //GetDefinedTags returns DefinedTags
-func (m UpdateManagedShellDeployStageDetails) GetDefinedTags() map[string]map[string]interface{} {
+func (m UpdateShellDeployStageDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-func (m UpdateManagedShellDeployStageDetails) String() string {
+func (m UpdateShellDeployStageDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m UpdateManagedShellDeployStageDetails) ValidateEnumValue() (bool, error) {
+func (m UpdateShellDeployStageDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -84,21 +84,21 @@ func (m UpdateManagedShellDeployStageDetails) ValidateEnumValue() (bool, error) 
 }
 
 // MarshalJSON marshals to json representation
-func (m UpdateManagedShellDeployStageDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeUpdateManagedShellDeployStageDetails UpdateManagedShellDeployStageDetails
+func (m UpdateShellDeployStageDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeUpdateShellDeployStageDetails UpdateShellDeployStageDetails
 	s := struct {
 		DiscriminatorParam string `json:"deployStageType"`
-		MarshalTypeUpdateManagedShellDeployStageDetails
+		MarshalTypeUpdateShellDeployStageDetails
 	}{
-		"MANAGED_SHELL",
-		(MarshalTypeUpdateManagedShellDeployStageDetails)(m),
+		"SHELL",
+		(MarshalTypeUpdateShellDeployStageDetails)(m),
 	}
 
 	return json.Marshal(&s)
 }
 
 // UnmarshalJSON unmarshals from json
-func (m *UpdateManagedShellDeployStageDetails) UnmarshalJSON(data []byte) (e error) {
+func (m *UpdateShellDeployStageDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Description                      *string                           `json:"description"`
 		DisplayName                      *string                           `json:"displayName"`

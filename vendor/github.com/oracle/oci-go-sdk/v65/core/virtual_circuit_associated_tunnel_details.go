@@ -21,16 +21,16 @@ import (
 	"strings"
 )
 
-// VirtualCircuitAssociatedTunnelDetails Detailed private tunnel info associated with the virtual circuit
+// VirtualCircuitAssociatedTunnelDetails Detailed private tunnel info associated with the virtual circuit.
 type VirtualCircuitAssociatedTunnelDetails struct {
 
-	// The type of the tunnel associated with the virtual circuit
+	// The type of the tunnel associated with the virtual circuit.
 	TunnelType VirtualCircuitAssociatedTunnelDetailsTunnelTypeEnum `mandatory:"true" json:"tunnelType"`
 
-	// The [OCID] of tunnel associated with the virtual circuit
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IPSec tunnel associated with the virtual circuit.
 	TunnelId *string `mandatory:"true" json:"tunnelId"`
 
-	// The [OCID] of ipsec connection associated with the virtual circuit
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of IPSec connection associated with the virtual circuit.
 	IpsecConnectionId *string `mandatory:"false" json:"ipsecConnectionId"`
 }
 

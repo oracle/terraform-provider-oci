@@ -21,7 +21,7 @@ import (
 	"strings"
 )
 
-// CreateInternalDrgRouteTableDetails Details to create internal Drg route table.
+// CreateInternalDrgRouteTableDetails Details to create and update internal Drg route table. Partitioned DRG Route Tables are supported when specifying the sharding information.
 type CreateInternalDrgRouteTableDetails struct {
 
 	// The label of the drg attachment.
@@ -32,6 +32,19 @@ type CreateInternalDrgRouteTableDetails struct {
 
 	// The collection of rules which will be used by VCN Dataplane to route DRG traffic.
 	Rules []InternalDrgRouteRule `mandatory:"true" json:"rules"`
+
+	// The sequence number for the DRG Route Table update (version of the DRG Route Table). Only supported for partitioned route tables.
+	SequenceNumber *int64 `mandatory:"false" json:"sequenceNumber"`
+
+	// The total number of shards/partitions for the specified DRG Route Table. Only supported for partitioned route tables.
+	ShardsTotal *int64 `mandatory:"false" json:"shardsTotal"`
+
+	// The shard number for the DRG Route Table shard. Only supported for partitioned route tables.
+	ShardId *int64 `mandatory:"false" json:"shardId"`
+
+	// The DRG Route Table partitions's physical availability domain. This attribute will be null if this is a non-partitioned DRG Route Table.
+	// Example: `PHX-AD-1`
+	InternalAvailabilityDomain *string `mandatory:"false" json:"internalAvailabilityDomain"`
 }
 
 func (m CreateInternalDrgRouteTableDetails) String() string {

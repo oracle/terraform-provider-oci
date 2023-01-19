@@ -57,7 +57,7 @@ type CreateCpeDetails struct {
 	//   * GetTunnelCpeDeviceConfig
 	CpeDeviceShapeId *string `mandatory:"false" json:"cpeDeviceShapeId"`
 
-	// Indicates whether this cpe is of type private or not
+	// Indicates whether this CPE is of type `private` or not.
 	IsPrivate *bool `mandatory:"false" json:"isPrivate"`
 }
 

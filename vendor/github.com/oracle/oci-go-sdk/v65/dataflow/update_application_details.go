@@ -93,8 +93,8 @@ type UpdateApplicationDetails struct {
 	// The OCID of OCI Hive Metastore.
 	MetastoreId *string `mandatory:"false" json:"metastoreId"`
 
-	// The OCID of OCI LakeHouse.
-	LakehouseId *string `mandatory:"false" json:"lakehouseId"`
+	// The OCID of OCI Lake.
+	LakeId *string `mandatory:"false" json:"lakeId"`
 
 	// The number of executor VMs requested.
 	NumExecutors *int `mandatory:"false" json:"numExecutors"`

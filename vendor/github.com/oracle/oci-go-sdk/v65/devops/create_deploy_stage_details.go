@@ -99,6 +99,10 @@ func (m *createdeploystagedetails) UnmarshalPolymorphicJSON(data []byte) (interf
 		mm := CreateLoadBalancerTrafficShiftDeployStageDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "SHELL":
+		mm := CreateShellDeployStageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "COMPUTE_INSTANCE_GROUP_BLUE_GREEN_TRAFFIC_SHIFT":
 		mm := CreateComputeInstanceGroupBlueGreenTrafficShiftDeployStageDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -129,10 +133,6 @@ func (m *createdeploystagedetails) UnmarshalPolymorphicJSON(data []byte) (interf
 		return mm, err
 	case "COMPUTE_INSTANCE_GROUP_CANARY_APPROVAL":
 		mm := CreateComputeInstanceGroupCanaryApprovalDeployStageDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "MANAGED_SHELL":
-		mm := CreateManagedShellDeployStageDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "OKE_HELM_CHART_DEPLOYMENT":

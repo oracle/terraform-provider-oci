@@ -16,8 +16,8 @@ import (
 	"strings"
 )
 
-// ManagedShellDeployStageExecutionProgress Specifies the managed shell stage specific execution details.
-type ManagedShellDeployStageExecutionProgress struct {
+// ShellDeployStageExecutionProgress Specifies the shell stage specific execution details.
+type ShellDeployStageExecutionProgress struct {
 
 	// Stage display name. Avoid entering confidential information.
 	DeployStageDisplayName *string `mandatory:"false" json:"deployStageDisplayName"`
@@ -41,48 +41,48 @@ type ManagedShellDeployStageExecutionProgress struct {
 }
 
 //GetDeployStageDisplayName returns DeployStageDisplayName
-func (m ManagedShellDeployStageExecutionProgress) GetDeployStageDisplayName() *string {
+func (m ShellDeployStageExecutionProgress) GetDeployStageDisplayName() *string {
 	return m.DeployStageDisplayName
 }
 
 //GetDeployStageId returns DeployStageId
-func (m ManagedShellDeployStageExecutionProgress) GetDeployStageId() *string {
+func (m ShellDeployStageExecutionProgress) GetDeployStageId() *string {
 	return m.DeployStageId
 }
 
 //GetTimeStarted returns TimeStarted
-func (m ManagedShellDeployStageExecutionProgress) GetTimeStarted() *common.SDKTime {
+func (m ShellDeployStageExecutionProgress) GetTimeStarted() *common.SDKTime {
 	return m.TimeStarted
 }
 
 //GetTimeFinished returns TimeFinished
-func (m ManagedShellDeployStageExecutionProgress) GetTimeFinished() *common.SDKTime {
+func (m ShellDeployStageExecutionProgress) GetTimeFinished() *common.SDKTime {
 	return m.TimeFinished
 }
 
 //GetStatus returns Status
-func (m ManagedShellDeployStageExecutionProgress) GetStatus() DeployStageExecutionProgressStatusEnum {
+func (m ShellDeployStageExecutionProgress) GetStatus() DeployStageExecutionProgressStatusEnum {
 	return m.Status
 }
 
 //GetDeployStagePredecessors returns DeployStagePredecessors
-func (m ManagedShellDeployStageExecutionProgress) GetDeployStagePredecessors() *DeployStagePredecessorCollection {
+func (m ShellDeployStageExecutionProgress) GetDeployStagePredecessors() *DeployStagePredecessorCollection {
 	return m.DeployStagePredecessors
 }
 
 //GetDeployStageExecutionProgressDetails returns DeployStageExecutionProgressDetails
-func (m ManagedShellDeployStageExecutionProgress) GetDeployStageExecutionProgressDetails() []DeployStageExecutionProgressDetails {
+func (m ShellDeployStageExecutionProgress) GetDeployStageExecutionProgressDetails() []DeployStageExecutionProgressDetails {
 	return m.DeployStageExecutionProgressDetails
 }
 
-func (m ManagedShellDeployStageExecutionProgress) String() string {
+func (m ShellDeployStageExecutionProgress) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ManagedShellDeployStageExecutionProgress) ValidateEnumValue() (bool, error) {
+func (m ShellDeployStageExecutionProgress) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if _, ok := GetMappingDeployStageExecutionProgressStatusEnum(string(m.Status)); !ok && m.Status != "" {
@@ -95,14 +95,14 @@ func (m ManagedShellDeployStageExecutionProgress) ValidateEnumValue() (bool, err
 }
 
 // MarshalJSON marshals to json representation
-func (m ManagedShellDeployStageExecutionProgress) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeManagedShellDeployStageExecutionProgress ManagedShellDeployStageExecutionProgress
+func (m ShellDeployStageExecutionProgress) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeShellDeployStageExecutionProgress ShellDeployStageExecutionProgress
 	s := struct {
 		DiscriminatorParam string `json:"deployStageType"`
-		MarshalTypeManagedShellDeployStageExecutionProgress
+		MarshalTypeShellDeployStageExecutionProgress
 	}{
-		"MANAGED_SHELL",
-		(MarshalTypeManagedShellDeployStageExecutionProgress)(m),
+		"SHELL",
+		(MarshalTypeShellDeployStageExecutionProgress)(m),
 	}
 
 	return json.Marshal(&s)

@@ -16,8 +16,8 @@ import (
 	"strings"
 )
 
-// ManagedShellDeployStage Specifies the managed shell stage.
-type ManagedShellDeployStage struct {
+// ShellDeployStage Specifies the shell stage.
+type ShellDeployStage struct {
 
 	// Unique identifier that is immutable on creation.
 	Id *string `mandatory:"true" json:"id"`
@@ -62,7 +62,7 @@ type ManagedShellDeployStage struct {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	// Time to wait for execution of a managed shell stage. Defaults to 36000 seconds.
+	// Time to wait for execution of a shell stage. Defaults to 36000 seconds.
 	TimeoutInSeconds *int `mandatory:"false" json:"timeoutInSeconds"`
 
 	// The current state of the deployment stage.
@@ -70,83 +70,83 @@ type ManagedShellDeployStage struct {
 }
 
 //GetId returns Id
-func (m ManagedShellDeployStage) GetId() *string {
+func (m ShellDeployStage) GetId() *string {
 	return m.Id
 }
 
 //GetDescription returns Description
-func (m ManagedShellDeployStage) GetDescription() *string {
+func (m ShellDeployStage) GetDescription() *string {
 	return m.Description
 }
 
 //GetDisplayName returns DisplayName
-func (m ManagedShellDeployStage) GetDisplayName() *string {
+func (m ShellDeployStage) GetDisplayName() *string {
 	return m.DisplayName
 }
 
 //GetProjectId returns ProjectId
-func (m ManagedShellDeployStage) GetProjectId() *string {
+func (m ShellDeployStage) GetProjectId() *string {
 	return m.ProjectId
 }
 
 //GetDeployPipelineId returns DeployPipelineId
-func (m ManagedShellDeployStage) GetDeployPipelineId() *string {
+func (m ShellDeployStage) GetDeployPipelineId() *string {
 	return m.DeployPipelineId
 }
 
 //GetCompartmentId returns CompartmentId
-func (m ManagedShellDeployStage) GetCompartmentId() *string {
+func (m ShellDeployStage) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
 //GetTimeCreated returns TimeCreated
-func (m ManagedShellDeployStage) GetTimeCreated() *common.SDKTime {
+func (m ShellDeployStage) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
 //GetTimeUpdated returns TimeUpdated
-func (m ManagedShellDeployStage) GetTimeUpdated() *common.SDKTime {
+func (m ShellDeployStage) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
 //GetLifecycleState returns LifecycleState
-func (m ManagedShellDeployStage) GetLifecycleState() DeployStageLifecycleStateEnum {
+func (m ShellDeployStage) GetLifecycleState() DeployStageLifecycleStateEnum {
 	return m.LifecycleState
 }
 
 //GetLifecycleDetails returns LifecycleDetails
-func (m ManagedShellDeployStage) GetLifecycleDetails() *string {
+func (m ShellDeployStage) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
 //GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
-func (m ManagedShellDeployStage) GetDeployStagePredecessorCollection() *DeployStagePredecessorCollection {
+func (m ShellDeployStage) GetDeployStagePredecessorCollection() *DeployStagePredecessorCollection {
 	return m.DeployStagePredecessorCollection
 }
 
 //GetFreeformTags returns FreeformTags
-func (m ManagedShellDeployStage) GetFreeformTags() map[string]string {
+func (m ShellDeployStage) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
 //GetDefinedTags returns DefinedTags
-func (m ManagedShellDeployStage) GetDefinedTags() map[string]map[string]interface{} {
+func (m ShellDeployStage) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
 //GetSystemTags returns SystemTags
-func (m ManagedShellDeployStage) GetSystemTags() map[string]map[string]interface{} {
+func (m ShellDeployStage) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-func (m ManagedShellDeployStage) String() string {
+func (m ShellDeployStage) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ManagedShellDeployStage) ValidateEnumValue() (bool, error) {
+func (m ShellDeployStage) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if _, ok := GetMappingDeployStageLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
@@ -159,21 +159,21 @@ func (m ManagedShellDeployStage) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m ManagedShellDeployStage) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeManagedShellDeployStage ManagedShellDeployStage
+func (m ShellDeployStage) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeShellDeployStage ShellDeployStage
 	s := struct {
 		DiscriminatorParam string `json:"deployStageType"`
-		MarshalTypeManagedShellDeployStage
+		MarshalTypeShellDeployStage
 	}{
-		"MANAGED_SHELL",
-		(MarshalTypeManagedShellDeployStage)(m),
+		"SHELL",
+		(MarshalTypeShellDeployStage)(m),
 	}
 
 	return json.Marshal(&s)
 }
 
 // UnmarshalJSON unmarshals from json
-func (m *ManagedShellDeployStage) UnmarshalJSON(data []byte) (e error) {
+func (m *ShellDeployStage) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Description                      *string                           `json:"description"`
 		DisplayName                      *string                           `json:"displayName"`

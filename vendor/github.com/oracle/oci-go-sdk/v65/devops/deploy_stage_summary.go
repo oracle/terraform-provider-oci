@@ -151,8 +151,8 @@ func (m *deploystagesummary) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		mm := OkeHelmChartDeployStageSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "MANAGED_SHELL":
-		mm := ManagedShellDeployStageSummary{}
+	case "SHELL":
+		mm := ShellDeployStageSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "OKE_CANARY_TRAFFIC_SHIFT":

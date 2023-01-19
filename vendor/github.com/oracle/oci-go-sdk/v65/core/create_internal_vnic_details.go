@@ -31,7 +31,7 @@ type CreateInternalVnicDetails struct {
 	AssignIpv6Ip *bool `mandatory:"false" json:"assignIpv6Ip"`
 
 	// List of IPv6 prefixes and IPv6 addresses pair.
-	Ipv6AddressIpv6SubnetCidrPairDetails []Ipv6AddressIpv6SubnetCidrPairDetails `mandatory:"false" json:"ipv6AddressIpv6SubnetCidrPairDetails"`
+	Ipv6AddressIpv6SubnetCidrPairDetails []InternalIpv6AddressIpv6SubnetCidrPairDetails `mandatory:"false" json:"ipv6AddressIpv6SubnetCidrPairDetails"`
 
 	// Whether the VNIC should be assigned a public IP address. Defaults to whether
 	// the subnet is public or private. If not set and the VNIC is being created

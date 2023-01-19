@@ -480,6 +480,64 @@ func (client VirtualNetworkClient) addNetworkSecurityGroupSecurityRules(ctx cont
 	return response, err
 }
 
+// AddPublicIpCapacity Sync the public IP capacity tables from VCNIP to VCNCP. This will be used only during region bootstrap.
+func (client VirtualNetworkClient) AddPublicIpCapacity(ctx context.Context, request AddPublicIpCapacityRequest) (response AddPublicIpCapacityResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addPublicIpCapacity, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddPublicIpCapacityResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddPublicIpCapacityResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddPublicIpCapacityResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddPublicIpCapacityResponse")
+	}
+	return
+}
+
+// addPublicIpCapacity implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) addPublicIpCapacity(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/publicIpCapacity/actions/addCapacity", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddPublicIpCapacityResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PublicIpCapacity/AddPublicIpCapacity"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "AddPublicIpCapacity", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AddPublicIpPoolCapacity Adds some or all of a CIDR block to a public IP pool.
 // The CIDR block (or subrange) must not overlap with any other CIDR block already added to this or any other public IP pool.
 func (client VirtualNetworkClient) AddPublicIpPoolCapacity(ctx context.Context, request AddPublicIpPoolCapacityRequest) (response AddPublicIpPoolCapacityResponse, err error) {
@@ -769,6 +827,66 @@ func (client VirtualNetworkClient) attachServiceId(ctx context.Context, request 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ServiceGateway/AttachServiceId"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "AttachServiceId", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// AttachServiceVnicToDestinationShard Attaches service VNIC, that needs to be live migrated, to destination shard. This is the first step
+// for live migration of the VNIC from source to destination shard.
+// **Note** that VNIC's ingress traffic will still be routed to source shard.
+func (client VirtualNetworkClient) AttachServiceVnicToDestinationShard(ctx context.Context, request AttachServiceVnicToDestinationShardRequest) (response AttachServiceVnicToDestinationShardResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.attachServiceVnicToDestinationShard, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AttachServiceVnicToDestinationShardResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AttachServiceVnicToDestinationShardResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AttachServiceVnicToDestinationShardResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AttachServiceVnicToDestinationShardResponse")
+	}
+	return
+}
+
+// attachServiceVnicToDestinationShard implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) attachServiceVnicToDestinationShard(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internalVnics/{internalVnicId}/attachment/action/attachServiceVnicToDestinationShard", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AttachServiceVnicToDestinationShardResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/AttachServiceVnicToDestinationShard"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "AttachServiceVnicToDestinationShard", apiReferenceLink)
 		return response, err
 	}
 
@@ -3842,6 +3960,64 @@ func (client VirtualNetworkClient) createCrossConnectGroup(ctx context.Context, 
 	return response, err
 }
 
+// CreateDatapathMessage Create an ad-hoc datapath message
+func (client VirtualNetworkClient) CreateDatapathMessage(ctx context.Context, request CreateDatapathMessageRequest) (response CreateDatapathMessageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createDatapathMessage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateDatapathMessageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateDatapathMessageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateDatapathMessageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateDatapathMessageResponse")
+	}
+	return
+}
+
+// createDatapathMessage implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) createDatapathMessage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/datapathMessages", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateDatapathMessageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DatapathMessage/CreateDatapathMessage"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateDatapathMessage", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateDav Request to create a Direct Attached Vnic.
 func (client VirtualNetworkClient) CreateDav(ctx context.Context, request CreateDavRequest) (response CreateDavResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4477,6 +4653,64 @@ func (client VirtualNetworkClient) createIPSecConnection(ctx context.Context, re
 	return response, err
 }
 
+// CreateInternalByoipv6Range Create an InternalByoipv6Range.
+func (client VirtualNetworkClient) CreateInternalByoipv6Range(ctx context.Context, request CreateInternalByoipv6RangeRequest) (response CreateInternalByoipv6RangeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createInternalByoipv6Range, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateInternalByoipv6RangeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateInternalByoipv6RangeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateInternalByoipv6RangeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateInternalByoipv6RangeResponse")
+	}
+	return
+}
+
+// createInternalByoipv6Range implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) createInternalByoipv6Range(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internalByoipv6Ranges", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateInternalByoipv6RangeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalByoipv6Range/CreateInternalByoipv6Range"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateInternalByoipv6Range", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateInternalDnsRecord Creates a new Dns Record.
 func (client VirtualNetworkClient) CreateInternalDnsRecord(ctx context.Context, request CreateInternalDnsRecordRequest) (response CreateInternalDnsRecordResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4726,6 +4960,64 @@ func (client VirtualNetworkClient) createInternalDrgRouteTable(ctx context.Conte
 	return response, err
 }
 
+// CreateInternalFloatingIp Create a floating IP
+func (client VirtualNetworkClient) CreateInternalFloatingIp(ctx context.Context, request CreateInternalFloatingIpRequest) (response CreateInternalFloatingIpResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createInternalFloatingIp, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateInternalFloatingIpResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateInternalFloatingIpResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateInternalFloatingIpResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateInternalFloatingIpResponse")
+	}
+	return
+}
+
+// createInternalFloatingIp implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) createInternalFloatingIp(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internalFloatingIps", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateInternalFloatingIpResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalFloatingIp/CreateInternalFloatingIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateInternalFloatingIp", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateInternalGenericGateway Request to create an internal generic gateway
 func (client VirtualNetworkClient) CreateInternalGenericGateway(ctx context.Context, request CreateInternalGenericGatewayRequest) (response CreateInternalGenericGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4777,6 +5069,64 @@ func (client VirtualNetworkClient) createInternalGenericGateway(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalGenericGateway/CreateInternalGenericGateway"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateInternalGenericGateway", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateInternalPrivateIp Create a Internal private IP.
+func (client VirtualNetworkClient) CreateInternalPrivateIp(ctx context.Context, request CreateInternalPrivateIpRequest) (response CreateInternalPrivateIpResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createInternalPrivateIp, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateInternalPrivateIpResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateInternalPrivateIpResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateInternalPrivateIpResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateInternalPrivateIpResponse")
+	}
+	return
+}
+
+// createInternalPrivateIp implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) createInternalPrivateIp(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internalPrivateIps", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateInternalPrivateIpResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalPrivateIp/CreateInternalPrivateIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateInternalPrivateIp", apiReferenceLink)
 		return response, err
 	}
 
@@ -5047,7 +5397,7 @@ func (client VirtualNetworkClient) createInternetGateway(ctx context.Context, re
 	return response, err
 }
 
-// CreateIpsecConnectionTunnel Creates one new private IPSec connection tunnel for private cpe and enable encryption for fast connect
+// CreateIpsecConnectionTunnel Creates one new private IPSec connection tunnel for a private CPE and enables encryption for FastConnect.
 // A default retry strategy applies to this operation CreateIpsecConnectionTunnel()
 func (client VirtualNetworkClient) CreateIpsecConnectionTunnel(ctx context.Context, request CreateIpsecConnectionTunnelRequest) (response CreateIpsecConnectionTunnelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7138,6 +7488,64 @@ func (client VirtualNetworkClient) deleteCrossConnectGroup(ctx context.Context, 
 	return response, err
 }
 
+// DeleteDatapathMessage delete an ad-hoc datapath message
+func (client VirtualNetworkClient) DeleteDatapathMessage(ctx context.Context, request DeleteDatapathMessageRequest) (response DeleteDatapathMessageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deleteDatapathMessage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteDatapathMessageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteDatapathMessageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteDatapathMessageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteDatapathMessageResponse")
+	}
+	return
+}
+
+// deleteDatapathMessage implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) deleteDatapathMessage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/datapathMessages/{datapathMessageType}/{datapathMessageId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteDatapathMessageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DatapathMessage/DeleteDatapathMessage"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteDatapathMessage", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteDav Deletes a Direct Attached Vnic.
 func (client VirtualNetworkClient) DeleteDav(ctx context.Context, request DeleteDavRequest) (response DeleteDavResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7686,6 +8094,64 @@ func (client VirtualNetworkClient) deleteIPSecConnection(ctx context.Context, re
 	return response, err
 }
 
+// DeleteInternalByoipv6Range Deletes an internalByoipv6Range in VCNCP if no prefixes within this range is currently in use by any VCN.
+func (client VirtualNetworkClient) DeleteInternalByoipv6Range(ctx context.Context, request DeleteInternalByoipv6RangeRequest) (response DeleteInternalByoipv6RangeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deleteInternalByoipv6Range, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteInternalByoipv6RangeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteInternalByoipv6RangeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteInternalByoipv6RangeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteInternalByoipv6RangeResponse")
+	}
+	return
+}
+
+// deleteInternalByoipv6Range implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) deleteInternalByoipv6Range(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/internalByoipv6Ranges/{byoipv6RangeId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteInternalByoipv6RangeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalByoipv6Range/DeleteInternalByoipv6Range"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternalByoipv6Range", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteInternalDnsRecord Deletes a DnsRecord.
 func (client VirtualNetworkClient) DeleteInternalDnsRecord(ctx context.Context, request DeleteInternalDnsRecordRequest) (response DeleteInternalDnsRecordResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7901,6 +8367,64 @@ func (client VirtualNetworkClient) deleteInternalDrgRouteTable(ctx context.Conte
 	return response, err
 }
 
+// DeleteInternalFloatingIp Delete a floating IP
+func (client VirtualNetworkClient) DeleteInternalFloatingIp(ctx context.Context, request DeleteInternalFloatingIpRequest) (response DeleteInternalFloatingIpResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deleteInternalFloatingIp, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteInternalFloatingIpResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteInternalFloatingIpResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteInternalFloatingIpResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteInternalFloatingIpResponse")
+	}
+	return
+}
+
+// deleteInternalFloatingIp implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) deleteInternalFloatingIp(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/internalFloatingIps/{internalFloatingIpId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteInternalFloatingIpResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalFloatingIp/DeleteInternalFloatingIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternalFloatingIp", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteInternalGenericGateway Deletes an internal generic gateway.
 func (client VirtualNetworkClient) DeleteInternalGenericGateway(ctx context.Context, request DeleteInternalGenericGatewayRequest) (response DeleteInternalGenericGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7947,6 +8471,64 @@ func (client VirtualNetworkClient) deleteInternalGenericGateway(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalGenericGateway/DeleteInternalGenericGateway"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternalGenericGateway", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteInternalPrivateIp Delete a floating private IP
+func (client VirtualNetworkClient) DeleteInternalPrivateIp(ctx context.Context, request DeleteInternalPrivateIpRequest) (response DeleteInternalPrivateIpResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deleteInternalPrivateIp, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteInternalPrivateIpResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteInternalPrivateIpResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteInternalPrivateIpResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteInternalPrivateIpResponse")
+	}
+	return
+}
+
+// deleteInternalPrivateIp implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) deleteInternalPrivateIp(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/internalPrivateIps/{internalPrivateIpId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteInternalPrivateIpResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalPrivateIp/DeleteInternalPrivateIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternalPrivateIp", apiReferenceLink)
 		return response, err
 	}
 
@@ -8176,9 +8758,9 @@ func (client VirtualNetworkClient) deleteInternetGateway(ctx context.Context, re
 	return response, err
 }
 
-// DeleteIpsecConnectionTunnel Deletes the specified IPSec connection tunnel.
-// This is an asynchronous operation. The connection's `lifecycleState` will change to TERMINATING temporarily
-// until the connection is completely removed.
+// DeleteIpsecConnectionTunnel Deletes the specified IPSec tunnel.
+// This is an asynchronous operation. The tunnel's `lifecycleState` will change to TERMINATING temporarily
+// until the tunnel is completely removed.
 // A default retry strategy applies to this operation DeleteIpsecConnectionTunnel()
 func (client VirtualNetworkClient) DeleteIpsecConnectionTunnel(ctx context.Context, request DeleteIpsecConnectionTunnelRequest) (response DeleteIpsecConnectionTunnelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9232,9 +9814,11 @@ func (client VirtualNetworkClient) deleteSubnet(ctx context.Context, request com
 	return response, err
 }
 
-// DeleteVcn Deletes the specified VCN. The VCN must be empty and have no attached gateways. This is an asynchronous
-// operation. The VCN's `lifecycleState` will change to TERMINATING temporarily until the VCN is completely
-// removed.
+// DeleteVcn Deletes the specified VCN. The VCN must be completely empty and have no attached gateways. This is an asynchronous
+// operation.
+// A deleted VCN's `lifecycleState` changes to TERMINATING and then TERMINATED temporarily until the VCN is completely
+// removed. A completely removed VCN does not appear in the results of a `ListVcns` operation and can't be used in a
+// `GetVcn` operation.
 func (client VirtualNetworkClient) DeleteVcn(ctx context.Context, request DeleteVcnRequest) (response DeleteVcnResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9736,6 +10320,126 @@ func (client VirtualNetworkClient) detachServiceId(ctx context.Context, request 
 	return response, err
 }
 
+// DetachServiceVnicFromDestinationShard Detaches service VNIC, getting live migrated, from destination shard. This API is called by dataplane
+// as part of aborting an in-progress service vnic live migration.
+// **Note** that this API cannot be called after API call to route traffic to destination shard.
+func (client VirtualNetworkClient) DetachServiceVnicFromDestinationShard(ctx context.Context, request DetachServiceVnicFromDestinationShardRequest) (response DetachServiceVnicFromDestinationShardResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.detachServiceVnicFromDestinationShard, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DetachServiceVnicFromDestinationShardResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DetachServiceVnicFromDestinationShardResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DetachServiceVnicFromDestinationShardResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DetachServiceVnicFromDestinationShardResponse")
+	}
+	return
+}
+
+// detachServiceVnicFromDestinationShard implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) detachServiceVnicFromDestinationShard(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internalVnics/{internalVnicId}/attachment/action/detachServiceVnicFromDestinationShard", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DetachServiceVnicFromDestinationShardResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/DetachServiceVnicFromDestinationShard"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DetachServiceVnicFromDestinationShard", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DetachServiceVnicFromSourceShard Detaches service VNIC, getting live migrated, from source shard. This is the last step for live migration
+// of the VNIC from source to destination shard and removes all migration related information associated
+// with it.
+func (client VirtualNetworkClient) DetachServiceVnicFromSourceShard(ctx context.Context, request DetachServiceVnicFromSourceShardRequest) (response DetachServiceVnicFromSourceShardResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.detachServiceVnicFromSourceShard, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DetachServiceVnicFromSourceShardResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DetachServiceVnicFromSourceShardResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DetachServiceVnicFromSourceShardResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DetachServiceVnicFromSourceShardResponse")
+	}
+	return
+}
+
+// detachServiceVnicFromSourceShard implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) detachServiceVnicFromSourceShard(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internalVnics/{internalVnicId}/attachment/action/detachServiceVnicFromSourceShard", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DetachServiceVnicFromSourceShardResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/DetachServiceVnicFromSourceShard"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DetachServiceVnicFromSourceShard", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DetachVnicFromDestinationSmartNic Detaches VNIC, getting live migrated, from destination smart NIC. This API is called by compute
 // as part of aborting an in-progress instance live migration.
 // **Note** that this API cannot be called after API call to route traffic to destination smart NIC.
@@ -9907,6 +10611,64 @@ func (client VirtualNetworkClient) detachVnicWorker(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VnicWorker/DetachVnicWorker"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "DetachVnicWorker", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DisableCompartment Disable a compartment by setting the compartment enablement status to DISABLING.
+func (client VirtualNetworkClient) DisableCompartment(ctx context.Context, request DisableCompartmentRequest) (response DisableCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.disableCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableCompartmentResponse")
+	}
+	return
+}
+
+// disableCompartment implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) disableCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/compartments/{compartmentId}/actions/disable", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Compartment/DisableCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DisableCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -10131,6 +10893,64 @@ func (client VirtualNetworkClient) drgMigration(ctx context.Context, request com
 	return response, err
 }
 
+// EnableCompartment Enable a compartment by setting the compartment enablement status to ENABLING.
+func (client VirtualNetworkClient) EnableCompartment(ctx context.Context, request EnableCompartmentRequest) (response EnableCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableCompartmentResponse")
+	}
+	return
+}
+
+// enableCompartment implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) enableCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/compartments/{compartmentId}/actions/enable", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Compartment/EnableCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "EnableCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // EnableReverseConnections Enables support for reverse connections and a DNS proxy for the specified private endpoint.
 func (client VirtualNetworkClient) EnableReverseConnections(ctx context.Context, request EnableReverseConnectionsRequest) (response EnableReverseConnectionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10242,6 +11062,59 @@ func (client VirtualNetworkClient) enableVnicWorker(ctx context.Context, request
 	return response, err
 }
 
+// FinishPublicIpCapacityMigration Start a migration process on a provided public IP CIDR. This API is strictly for VCN IP team.
+func (client VirtualNetworkClient) FinishPublicIpCapacityMigration(ctx context.Context, request FinishPublicIpCapacityMigrationRequest) (response FinishPublicIpCapacityMigrationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.finishPublicIpCapacityMigration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = FinishPublicIpCapacityMigrationResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(FinishPublicIpCapacityMigrationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into FinishPublicIpCapacityMigrationResponse")
+	}
+	return
+}
+
+// finishPublicIpCapacityMigration implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) finishPublicIpCapacityMigration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/publicIpCapacity/actions/finishMigration", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response FinishPublicIpCapacityMigrationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PublicIpCapacity/FinishPublicIpCapacityMigration"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "FinishPublicIpCapacityMigration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GenerateLocalPeeringToken Generates a token from this local peering connection. You can share this token with a
 // peer who can then accept the token. The peer will likewise generate a token that you can
 // accept. Once both sides accept one another's token, a peering is established. Note that
@@ -10344,6 +11217,64 @@ func (client VirtualNetworkClient) getAllDrgAttachments(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/GetAllDrgAttachments"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetAllDrgAttachments", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetAllServiceCidrs Get all service cidrs
+func (client VirtualNetworkClient) GetAllServiceCidrs(ctx context.Context, request GetAllServiceCidrsRequest) (response GetAllServiceCidrsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getAllServiceCidrs, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAllServiceCidrsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAllServiceCidrsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAllServiceCidrsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAllServiceCidrsResponse")
+	}
+	return
+}
+
+// getAllServiceCidrs implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getAllServiceCidrs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/serviceCidrs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAllServiceCidrsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ServiceCidrConfigResponse/GetAllServiceCidrs"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetAllServiceCidrs", apiReferenceLink)
 		return response, err
 	}
 
@@ -10617,6 +11548,59 @@ func (client VirtualNetworkClient) getCaptureFilter(ctx context.Context, request
 	return response, err
 }
 
+// GetCdnCidr get cdn cidr ranges
+func (client VirtualNetworkClient) GetCdnCidr(ctx context.Context, request GetCdnCidrRequest) (response GetCdnCidrResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCdnCidr, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCdnCidrResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCdnCidrResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCdnCidrResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCdnCidrResponse")
+	}
+	return
+}
+
+// getCdnCidr implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getCdnCidr(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internal/cdnCidrs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCdnCidrResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CdnCidr/GetCdnCidr"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetCdnCidr", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetClientVpn Get the specific ClientVpn by given the id.
 // A default retry strategy applies to this operation GetClientVpn()
 func (client VirtualNetworkClient) GetClientVpn(ctx context.Context, request GetClientVpnRequest) (response GetClientVpnResponse, err error) {
@@ -10878,6 +11862,64 @@ func (client VirtualNetworkClient) getClientVpnUserProfile(ctx context.Context, 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ClientVpnUser/GetClientVpnUserProfile"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetClientVpnUserProfile", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetCompartment Gets the details for a compartment ID, which includes connectivity enablement.
+func (client VirtualNetworkClient) GetCompartment(ctx context.Context, request GetCompartmentRequest) (response GetCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCompartmentResponse")
+	}
+	return
+}
+
+// getCompartment implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/compartments/{compartmentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Compartment/GetCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -11338,6 +12380,64 @@ func (client VirtualNetworkClient) getCrossConnectStatus(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CrossConnectStatus/GetCrossConnectStatus"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetCrossConnectStatus", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetDatapathMessage Get an ad-hoc datapath message record
+func (client VirtualNetworkClient) GetDatapathMessage(ctx context.Context, request GetDatapathMessageRequest) (response GetDatapathMessageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getDatapathMessage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDatapathMessageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDatapathMessageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDatapathMessageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDatapathMessageResponse")
+	}
+	return
+}
+
+// getDatapathMessage implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getDatapathMessage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/datapathMessages/{datapathMessageType}/{datapathMessageId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDatapathMessageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DatapathMessage/GetDatapathMessage"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetDatapathMessage", apiReferenceLink)
 		return response, err
 	}
 
@@ -12585,6 +13685,122 @@ func (client VirtualNetworkClient) getIPSecConnectionTunnelSharedSecret(ctx cont
 	return response, err
 }
 
+// GetInternalByoipv6Range Get Byoipv6 Range
+func (client VirtualNetworkClient) GetInternalByoipv6Range(ctx context.Context, request GetInternalByoipv6RangeRequest) (response GetInternalByoipv6RangeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getInternalByoipv6Range, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetInternalByoipv6RangeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetInternalByoipv6RangeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetInternalByoipv6RangeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetInternalByoipv6RangeResponse")
+	}
+	return
+}
+
+// getInternalByoipv6Range implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getInternalByoipv6Range(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internalByoipv6Ranges/{byoipv6RangeId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetInternalByoipv6RangeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalByoipv6Range/GetInternalByoipv6Range"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetInternalByoipv6Range", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetInternalDhcpOptions Gets the specified set of DHCP options.
+func (client VirtualNetworkClient) GetInternalDhcpOptions(ctx context.Context, request GetInternalDhcpOptionsRequest) (response GetInternalDhcpOptionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getInternalDhcpOptions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetInternalDhcpOptionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetInternalDhcpOptionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetInternalDhcpOptionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetInternalDhcpOptionsResponse")
+	}
+	return
+}
+
+// getInternalDhcpOptions implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getInternalDhcpOptions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internalDhcps/{internalDhcpId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetInternalDhcpOptionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalDhcpOptions/GetInternalDhcpOptions"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetInternalDhcpOptions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetInternalDnsRecord Gets the information for the specified `DnsRecord`.
 func (client VirtualNetworkClient) GetInternalDnsRecord(ctx context.Context, request GetInternalDnsRecordRequest) (response GetInternalDnsRecordResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -12803,6 +14019,64 @@ func (client VirtualNetworkClient) getInternalDrgRouteTable(ctx context.Context,
 	return response, err
 }
 
+// GetInternalFloatingIp Get an internal floating IP
+func (client VirtualNetworkClient) GetInternalFloatingIp(ctx context.Context, request GetInternalFloatingIpRequest) (response GetInternalFloatingIpResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getInternalFloatingIp, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetInternalFloatingIpResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetInternalFloatingIpResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetInternalFloatingIpResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetInternalFloatingIpResponse")
+	}
+	return
+}
+
+// getInternalFloatingIp implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getInternalFloatingIp(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internalFloatingIps/{internalFloatingIpId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetInternalFloatingIpResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalFloatingIp/GetInternalFloatingIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetInternalFloatingIp", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetInternalGenericGateway Get an internal generic gateway.
 func (client VirtualNetworkClient) GetInternalGenericGateway(ctx context.Context, request GetInternalGenericGatewayRequest) (response GetInternalGenericGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -12907,6 +14181,59 @@ func (client VirtualNetworkClient) getInternalGenericGatewayByGatewayId(ctx cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalGenericGateway/GetInternalGenericGatewayByGatewayId"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetInternalGenericGatewayByGatewayId", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetInternalPrivateIp Get a internal private IP
+func (client VirtualNetworkClient) GetInternalPrivateIp(ctx context.Context, request GetInternalPrivateIpRequest) (response GetInternalPrivateIpResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getInternalPrivateIp, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetInternalPrivateIpResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetInternalPrivateIpResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetInternalPrivateIpResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetInternalPrivateIpResponse")
+	}
+	return
+}
+
+// getInternalPrivateIp implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getInternalPrivateIp(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internalPrivateIps/{internalPrivateIpId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetInternalPrivateIpResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalPrivateIp/GetInternalPrivateIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetInternalPrivateIp", apiReferenceLink)
 		return response, err
 	}
 
@@ -13575,6 +14902,64 @@ func (client VirtualNetworkClient) getNetworkingTopology(ctx context.Context, re
 	return response, err
 }
 
+// GetPrimaryPrivateIpByVnicId Gets VNIC's primary private IP.
+func (client VirtualNetworkClient) GetPrimaryPrivateIpByVnicId(ctx context.Context, request GetPrimaryPrivateIpByVnicIdRequest) (response GetPrimaryPrivateIpByVnicIdResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getPrimaryPrivateIpByVnicId, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetPrimaryPrivateIpByVnicIdResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetPrimaryPrivateIpByVnicIdResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetPrimaryPrivateIpByVnicIdResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetPrimaryPrivateIpByVnicIdResponse")
+	}
+	return
+}
+
+// getPrimaryPrivateIpByVnicId implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getPrimaryPrivateIpByVnicId(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internalPrivateIps/actions/getPrimaryPrivateIPByVnicId", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetPrimaryPrivateIpByVnicIdResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalPrivateIp/GetPrimaryPrivateIpByVnicId"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetPrimaryPrivateIpByVnicId", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetPrivateAccessGateway Gets the specified private access gateway's information.
 func (client VirtualNetworkClient) GetPrivateAccessGateway(ctx context.Context, request GetPrivateAccessGatewayRequest) (response GetPrivateAccessGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -14017,6 +15402,64 @@ func (client VirtualNetworkClient) getPublicIpByPrivateIpId(ctx context.Context,
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PublicIp/GetPublicIpByPrivateIpId"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetPublicIpByPrivateIpId", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetPublicIpCapacityByCidr Get a specific public IPv4 capacity using CIDR.
+func (client VirtualNetworkClient) GetPublicIpCapacityByCidr(ctx context.Context, request GetPublicIpCapacityByCidrRequest) (response GetPublicIpCapacityByCidrResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getPublicIpCapacityByCidr, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetPublicIpCapacityByCidrResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetPublicIpCapacityByCidrResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetPublicIpCapacityByCidrResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetPublicIpCapacityByCidrResponse")
+	}
+	return
+}
+
+// getPublicIpCapacityByCidr implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getPublicIpCapacityByCidr(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/publicIpCapacity/actions/getByCidr", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetPublicIpCapacityByCidrResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PublicIpCapacity/GetPublicIpCapacityByCidr"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetPublicIpCapacityByCidr", apiReferenceLink)
 		return response, err
 	}
 
@@ -14787,6 +16230,64 @@ func (client VirtualNetworkClient) getVcn(ctx context.Context, request common.OC
 	return response, err
 }
 
+// GetVcnCompartmentMapping Retrieves the /definitions/CompartmentMapping object for a given VCN
+func (client VirtualNetworkClient) GetVcnCompartmentMapping(ctx context.Context, request GetVcnCompartmentMappingRequest) (response GetVcnCompartmentMappingResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getVcnCompartmentMapping, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetVcnCompartmentMappingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetVcnCompartmentMappingResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetVcnCompartmentMappingResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetVcnCompartmentMappingResponse")
+	}
+	return
+}
+
+// getVcnCompartmentMapping implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getVcnCompartmentMapping(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vcns/{vcnId}/compartmentMapping", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetVcnCompartmentMappingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vcn/GetVcnCompartmentMapping"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetVcnCompartmentMapping", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetVcnDnsResolverAssociation Get the associated DNS resolver information with a vcn
 func (client VirtualNetworkClient) GetVcnDnsResolverAssociation(ctx context.Context, request GetVcnDnsResolverAssociationRequest) (response GetVcnDnsResolverAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -14939,6 +16440,64 @@ func (client VirtualNetworkClient) getVcnDrgAttachment(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgAttachment/GetVcnDrgAttachment"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetVcnDrgAttachment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetVcnMappinglessStatus Determine if a VCN is mappingless
+func (client VirtualNetworkClient) GetVcnMappinglessStatus(ctx context.Context, request GetVcnMappinglessStatusRequest) (response GetVcnMappinglessStatusResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getVcnMappinglessStatus, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetVcnMappinglessStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetVcnMappinglessStatusResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetVcnMappinglessStatusResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetVcnMappinglessStatusResponse")
+	}
+	return
+}
+
+// getVcnMappinglessStatus implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getVcnMappinglessStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vcns/{vcnId}/mappingless", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetVcnMappinglessStatusResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vcn/GetVcnMappinglessStatus"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetVcnMappinglessStatus", apiReferenceLink)
 		return response, err
 	}
 
@@ -15261,6 +16820,64 @@ func (client VirtualNetworkClient) getVtap(ctx context.Context, request common.O
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vtap/GetVtap"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetVtap", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// LearnInternalPrivateIp Optionally Create and move a private IP to the desired VNIC.
+func (client VirtualNetworkClient) LearnInternalPrivateIp(ctx context.Context, request LearnInternalPrivateIpRequest) (response LearnInternalPrivateIpResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.learnInternalPrivateIp, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = LearnInternalPrivateIpResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = LearnInternalPrivateIpResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(LearnInternalPrivateIpResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into LearnInternalPrivateIpResponse")
+	}
+	return
+}
+
+// learnInternalPrivateIp implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) learnInternalPrivateIp(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internalPrivateIps/actions/learn", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response LearnInternalPrivateIpResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/LearnedInternalPrivateIpMapping/LearnInternalPrivateIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "LearnInternalPrivateIp", apiReferenceLink)
 		return response, err
 	}
 
@@ -16139,6 +17756,64 @@ func (client VirtualNetworkClient) listCrossconnectPortSpeedShapes(ctx context.C
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CrossConnectPortSpeedShape/ListCrossconnectPortSpeedShapes"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListCrossconnectPortSpeedShapes", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDatapathMessages Get a list of ad-hoc datapath message records
+func (client VirtualNetworkClient) ListDatapathMessages(ctx context.Context, request ListDatapathMessagesRequest) (response ListDatapathMessagesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.listDatapathMessages, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDatapathMessagesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDatapathMessagesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDatapathMessagesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDatapathMessagesResponse")
+	}
+	return
+}
+
+// listDatapathMessages implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listDatapathMessages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/datapathMessages", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDatapathMessagesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DatapathMessage/ListDatapathMessages"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListDatapathMessages", apiReferenceLink)
 		return response, err
 	}
 
@@ -17178,6 +18853,64 @@ func (client VirtualNetworkClient) listIPSecConnections(ctx context.Context, req
 	return response, err
 }
 
+// ListInternalByoipv6RangeAllocations List all InternalByoipv6RangeAllocations based on the ByoipRange OCID.
+func (client VirtualNetworkClient) ListInternalByoipv6RangeAllocations(ctx context.Context, request ListInternalByoipv6RangeAllocationsRequest) (response ListInternalByoipv6RangeAllocationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.listInternalByoipv6RangeAllocations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListInternalByoipv6RangeAllocationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListInternalByoipv6RangeAllocationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListInternalByoipv6RangeAllocationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListInternalByoipv6RangeAllocationsResponse")
+	}
+	return
+}
+
+// listInternalByoipv6RangeAllocations implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listInternalByoipv6RangeAllocations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internalByoipv6RangeAllocations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListInternalByoipv6RangeAllocationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalByoipv6RangeAllocations/ListInternalByoipv6RangeAllocations"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListInternalByoipv6RangeAllocations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListInternalDnsRecords Get a list of Dns Records, based on compartment ID and Internal Hosted Zone Id.
 // Implicit DNS Records created by VNIC and FloatingPrivateIP are not captured by this LIST operation.
 func (client VirtualNetworkClient) ListInternalDnsRecords(ctx context.Context, request ListInternalDnsRecordsRequest) (response ListInternalDnsRecordsResponse, err error) {
@@ -17339,6 +19072,64 @@ func (client VirtualNetworkClient) listInternalDrgs(ctx context.Context, request
 	return response, err
 }
 
+// ListInternalFloatingIps Get a list of floating IPs
+func (client VirtualNetworkClient) ListInternalFloatingIps(ctx context.Context, request ListInternalFloatingIpsRequest) (response ListInternalFloatingIpsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.listInternalFloatingIps, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListInternalFloatingIpsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListInternalFloatingIpsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListInternalFloatingIpsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListInternalFloatingIpsResponse")
+	}
+	return
+}
+
+// listInternalFloatingIps implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listInternalFloatingIps(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internalFloatingIps", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListInternalFloatingIpsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalFloatingIp/ListInternalFloatingIps"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListInternalFloatingIps", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListInternalGenericGateways Gets a list of internal generic gateways for a gateway's compartment
 func (client VirtualNetworkClient) ListInternalGenericGateways(ctx context.Context, request ListInternalGenericGatewaysRequest) (response ListInternalGenericGatewaysResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -17385,6 +19176,64 @@ func (client VirtualNetworkClient) listInternalGenericGateways(ctx context.Conte
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalGenericGateway/ListInternalGenericGateways"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListInternalGenericGateways", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListInternalPrivateIps Get a list of floating private IPs
+func (client VirtualNetworkClient) ListInternalPrivateIps(ctx context.Context, request ListInternalPrivateIpsRequest) (response ListInternalPrivateIpsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.listInternalPrivateIps, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListInternalPrivateIpsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListInternalPrivateIpsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListInternalPrivateIpsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListInternalPrivateIpsResponse")
+	}
+	return
+}
+
+// listInternalPrivateIps implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listInternalPrivateIps(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internalPrivateIps", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListInternalPrivateIpsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalPrivateIp/ListInternalPrivateIps"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListInternalPrivateIps", apiReferenceLink)
 		return response, err
 	}
 
@@ -18282,6 +20131,65 @@ func (client VirtualNetworkClient) listPrivateIps(ctx context.Context, request c
 	return response, err
 }
 
+// ListPublicIpCapacity List available public IPv4 capacity in owned by VCN CP. This is temporarily used by VCN IP team during
+// a migration process.
+func (client VirtualNetworkClient) ListPublicIpCapacity(ctx context.Context, request ListPublicIpCapacityRequest) (response ListPublicIpCapacityResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.listPublicIpCapacity, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListPublicIpCapacityResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListPublicIpCapacityResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListPublicIpCapacityResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListPublicIpCapacityResponse")
+	}
+	return
+}
+
+// listPublicIpCapacity implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listPublicIpCapacity(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/publicIpCapacity", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListPublicIpCapacityResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PublicIpCapacity/ListPublicIpCapacity"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListPublicIpCapacity", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListPublicIpPools Lists the public IP pools in the specified compartment.
 // You can filter the list using query parameters.
 func (client VirtualNetworkClient) ListPublicIpPools(ctx context.Context, request ListPublicIpPoolsRequest) (response ListPublicIpPoolsResponse, err error) {
@@ -18891,6 +20799,64 @@ func (client VirtualNetworkClient) listSubnets(ctx context.Context, request comm
 	return response, err
 }
 
+// ListVcnCompartmentMappings Lists the /definitions/CompartmentMapping objects
+func (client VirtualNetworkClient) ListVcnCompartmentMappings(ctx context.Context, request ListVcnCompartmentMappingsRequest) (response ListVcnCompartmentMappingsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.listVcnCompartmentMappings, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListVcnCompartmentMappingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListVcnCompartmentMappingsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListVcnCompartmentMappingsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListVcnCompartmentMappingsResponse")
+	}
+	return
+}
+
+// listVcnCompartmentMappings implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listVcnCompartmentMappings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vcns/compartmentMapping", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListVcnCompartmentMappingsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vcn/ListVcnCompartmentMappings"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListVcnCompartmentMappings", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListVcnDrgAttachments Lists the `DrgAttachment` objects for the specified compartment. You can filter the
 // results by DRG, attached network, attachment type, DRG route table or
 // VCN route table.
@@ -19425,6 +21391,122 @@ func (client VirtualNetworkClient) listVtaps(ctx context.Context, request common
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vtap/ListVtaps"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListVtaps", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// MapInternalFloatingIp Map the floating IP to a VNIC
+func (client VirtualNetworkClient) MapInternalFloatingIp(ctx context.Context, request MapInternalFloatingIpRequest) (response MapInternalFloatingIpResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.mapInternalFloatingIp, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = MapInternalFloatingIpResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = MapInternalFloatingIpResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(MapInternalFloatingIpResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into MapInternalFloatingIpResponse")
+	}
+	return
+}
+
+// mapInternalFloatingIp implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) mapInternalFloatingIp(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internalFloatingIps/{internalFloatingIpId}/map", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response MapInternalFloatingIpResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalFloatingIp/MapInternalFloatingIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "MapInternalFloatingIp", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// MapInternalPrivateIp Initially map or move the floating private IP to a different VNIC.
+func (client VirtualNetworkClient) MapInternalPrivateIp(ctx context.Context, request MapInternalPrivateIpRequest) (response MapInternalPrivateIpResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.mapInternalPrivateIp, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = MapInternalPrivateIpResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = MapInternalPrivateIpResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(MapInternalPrivateIpResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into MapInternalPrivateIpResponse")
+	}
+	return
+}
+
+// mapInternalPrivateIp implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) mapInternalPrivateIp(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/internalPrivateIps/{internalPrivateIpId}/mapping", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response MapInternalPrivateIpResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalPrivateIpMapping/MapInternalPrivateIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "MapInternalPrivateIp", apiReferenceLink)
 		return response, err
 	}
 
@@ -20444,6 +22526,65 @@ func (client VirtualNetworkClient) rollbackUpgradeDrg(ctx context.Context, reque
 	return response, err
 }
 
+// RouteServiceVnicIngressTrafficToDestinationShard Starts routing VNIC's ingress traffic to destination shard. This API is called by dataplane after getting
+// live migrated, on the destination shard.
+func (client VirtualNetworkClient) RouteServiceVnicIngressTrafficToDestinationShard(ctx context.Context, request RouteServiceVnicIngressTrafficToDestinationShardRequest) (response RouteServiceVnicIngressTrafficToDestinationShardResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.routeServiceVnicIngressTrafficToDestinationShard, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RouteServiceVnicIngressTrafficToDestinationShardResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RouteServiceVnicIngressTrafficToDestinationShardResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RouteServiceVnicIngressTrafficToDestinationShardResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RouteServiceVnicIngressTrafficToDestinationShardResponse")
+	}
+	return
+}
+
+// routeServiceVnicIngressTrafficToDestinationShard implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) routeServiceVnicIngressTrafficToDestinationShard(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internalVnics/{internalVnicId}/attachment/action/routeTrafficToDestinationShard", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RouteServiceVnicIngressTrafficToDestinationShardResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/RouteServiceVnicIngressTrafficToDestinationShard"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "RouteServiceVnicIngressTrafficToDestinationShard", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RouteVnicIngressTrafficToDestinationSmartNic Starts routing VNIC's ingress traffic to destination smart NIC. This API is called by compute after
 // resuming instances, getting live migrated, on the destination smart NIC.
 func (client VirtualNetworkClient) RouteVnicIngressTrafficToDestinationSmartNic(ctx context.Context, request RouteVnicIngressTrafficToDestinationSmartNicRequest) (response RouteVnicIngressTrafficToDestinationSmartNicResponse, err error) {
@@ -20556,6 +22697,175 @@ func (client VirtualNetworkClient) setDrgPeeringConnection(ctx context.Context, 
 	return response, err
 }
 
+// SetInternalDrgRouteData Sets the route data for the given Drg.
+func (client VirtualNetworkClient) SetInternalDrgRouteData(ctx context.Context, request SetInternalDrgRouteDataRequest) (response SetInternalDrgRouteDataResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.setInternalDrgRouteData, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SetInternalDrgRouteDataResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SetInternalDrgRouteDataResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SetInternalDrgRouteDataResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SetInternalDrgRouteDataResponse")
+	}
+	return
+}
+
+// setInternalDrgRouteData implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) setInternalDrgRouteData(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internalDrgs/{internalDrgId}/actions/setRouteData", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SetInternalDrgRouteDataResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalDrg/SetInternalDrgRouteData"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "SetInternalDrgRouteData", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SetVcnMappinglessStatus Set a VCN's mappingless status
+func (client VirtualNetworkClient) SetVcnMappinglessStatus(ctx context.Context, request SetVcnMappinglessStatusRequest) (response SetVcnMappinglessStatusResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.setVcnMappinglessStatus, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SetVcnMappinglessStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SetVcnMappinglessStatusResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SetVcnMappinglessStatusResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SetVcnMappinglessStatusResponse")
+	}
+	return
+}
+
+// setVcnMappinglessStatus implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) setVcnMappinglessStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/vcns/{vcnId}/mappingless", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SetVcnMappinglessStatusResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vcn/SetVcnMappinglessStatus"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "SetVcnMappinglessStatus", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// StartPublicIpCapacityMigration Start a migration process on a provided public IP CIDR. This API is strictly for VCN IP team.
+func (client VirtualNetworkClient) StartPublicIpCapacityMigration(ctx context.Context, request StartPublicIpCapacityMigrationRequest) (response StartPublicIpCapacityMigrationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.startPublicIpCapacityMigration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = StartPublicIpCapacityMigrationResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StartPublicIpCapacityMigrationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StartPublicIpCapacityMigrationResponse")
+	}
+	return
+}
+
+// startPublicIpCapacityMigration implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) startPublicIpCapacityMigration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/publicIpCapacity/actions/startMigration", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response StartPublicIpCapacityMigrationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PublicIpCapacity/StartPublicIpCapacityMigration"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "StartPublicIpCapacityMigration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UndrainVnicWorker Undrain a specified vnicWorker.
 func (client VirtualNetworkClient) UndrainVnicWorker(ctx context.Context, request UndrainVnicWorkerRequest) (response UndrainVnicWorkerResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -20602,6 +22912,180 @@ func (client VirtualNetworkClient) undrainVnicWorker(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VnicWorker/UndrainVnicWorker"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "UndrainVnicWorker", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UnlearnInternalPrivateIp Detach a private IP from a VNIC. This will *NOT* delete the private IP or the associated public IP, if any.
+func (client VirtualNetworkClient) UnlearnInternalPrivateIp(ctx context.Context, request UnlearnInternalPrivateIpRequest) (response UnlearnInternalPrivateIpResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.unlearnInternalPrivateIp, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UnlearnInternalPrivateIpResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UnlearnInternalPrivateIpResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UnlearnInternalPrivateIpResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UnlearnInternalPrivateIpResponse")
+	}
+	return
+}
+
+// unlearnInternalPrivateIp implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) unlearnInternalPrivateIp(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internalPrivateIps/actions/unlearn", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UnlearnInternalPrivateIpResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/LearnedInternalPrivateIpMapping/UnlearnInternalPrivateIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UnlearnInternalPrivateIp", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UnmapInternalFloatingIp Unmap the floating IP
+func (client VirtualNetworkClient) UnmapInternalFloatingIp(ctx context.Context, request UnmapInternalFloatingIpRequest) (response UnmapInternalFloatingIpResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.unmapInternalFloatingIp, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UnmapInternalFloatingIpResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UnmapInternalFloatingIpResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UnmapInternalFloatingIpResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UnmapInternalFloatingIpResponse")
+	}
+	return
+}
+
+// unmapInternalFloatingIp implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) unmapInternalFloatingIp(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/internalFloatingIps/{internalFloatingIpId}/map", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UnmapInternalFloatingIpResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalFloatingIp/UnmapInternalFloatingIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UnmapInternalFloatingIp", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UnmapInternalPrivateIp Unmap the floating private IP
+func (client VirtualNetworkClient) UnmapInternalPrivateIp(ctx context.Context, request UnmapInternalPrivateIpRequest) (response UnmapInternalPrivateIpResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.unmapInternalPrivateIp, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UnmapInternalPrivateIpResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UnmapInternalPrivateIpResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UnmapInternalPrivateIpResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UnmapInternalPrivateIpResponse")
+	}
+	return
+}
+
+// unmapInternalPrivateIp implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) unmapInternalPrivateIp(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/internalPrivateIps/{internalPrivateIpId}/mapping", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UnmapInternalPrivateIpResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalPrivateIpMapping/UnmapInternalPrivateIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UnmapInternalPrivateIp", apiReferenceLink)
 		return response, err
 	}
 
@@ -20815,6 +23299,64 @@ func (client VirtualNetworkClient) updateCaptureFilter(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CaptureFilter/UpdateCaptureFilter"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateCaptureFilter", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateCdnCidr Update cdn cidr ranges
+func (client VirtualNetworkClient) UpdateCdnCidr(ctx context.Context, request UpdateCdnCidrRequest) (response UpdateCdnCidrResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateCdnCidr, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCdnCidrResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCdnCidrResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateCdnCidrResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateCdnCidrResponse")
+	}
+	return
+}
+
+// updateCdnCidr implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateCdnCidr(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/internal/cdnCidrs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateCdnCidrResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CdnCidr/UpdateCdnCidr"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateCdnCidr", apiReferenceLink)
 		return response, err
 	}
 
@@ -21092,6 +23634,64 @@ func (client VirtualNetworkClient) updateCrossConnectGroup(ctx context.Context, 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CrossConnectGroup/UpdateCrossConnectGroup"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateCrossConnectGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateDatapathMessage Update the ad-hoc datapath message
+func (client VirtualNetworkClient) UpdateDatapathMessage(ctx context.Context, request UpdateDatapathMessageRequest) (response UpdateDatapathMessageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateDatapathMessage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateDatapathMessageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateDatapathMessageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateDatapathMessageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateDatapathMessageResponse")
+	}
+	return
+}
+
+// updateDatapathMessage implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateDatapathMessage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/datapathMessages/{datapathMessageType}/{datapathMessageId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateDatapathMessageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DatapathMessage/UpdateDatapathMessage"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateDatapathMessage", apiReferenceLink)
 		return response, err
 	}
 
@@ -22123,6 +24723,122 @@ func (client VirtualNetworkClient) updateInternalGenericGateway(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalGenericGateway/UpdateInternalGenericGateway"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateInternalGenericGateway", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateInternalIpv6 Updates the specified IPv6. You must specify the object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// Use this operation if you want to:
+//   * Move an IPv6 to a different VNIC in the same subnet.
+//   * Enable/disable internet access for an IPv6.
+//   * Change the display name for an IPv6.
+//   * Update resource tags for an IPv6.
+func (client VirtualNetworkClient) UpdateInternalIpv6(ctx context.Context, request UpdateInternalIpv6Request) (response UpdateInternalIpv6Response, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateInternalIpv6, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateInternalIpv6Response{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateInternalIpv6Response{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateInternalIpv6Response); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateInternalIpv6Response")
+	}
+	return
+}
+
+// updateInternalIpv6 implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateInternalIpv6(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/internalIpv6/{ipv6Id}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateInternalIpv6Response
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalIpv6/UpdateInternalIpv6"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateInternalIpv6", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateInternalPrivateIp Update the floating private IP.
+func (client VirtualNetworkClient) UpdateInternalPrivateIp(ctx context.Context, request UpdateInternalPrivateIpRequest) (response UpdateInternalPrivateIpResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateInternalPrivateIp, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateInternalPrivateIpResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateInternalPrivateIpResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateInternalPrivateIpResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateInternalPrivateIpResponse")
+	}
+	return
+}
+
+// updateInternalPrivateIp implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateInternalPrivateIp(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/internalPrivateIps/{internalPrivateIpId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateInternalPrivateIpResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalPrivateIp/UpdateInternalPrivateIp"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateInternalPrivateIp", apiReferenceLink)
 		return response, err
 	}
 
@@ -23338,6 +26054,64 @@ func (client VirtualNetworkClient) updateSecurityList(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/SecurityList/UpdateSecurityList"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateSecurityList", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateServiceCidrConfig Service cidr config change notification
+func (client VirtualNetworkClient) UpdateServiceCidrConfig(ctx context.Context, request UpdateServiceCidrConfigRequest) (response UpdateServiceCidrConfigResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateServiceCidrConfig, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateServiceCidrConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateServiceCidrConfigResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateServiceCidrConfigResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateServiceCidrConfigResponse")
+	}
+	return
+}
+
+// updateServiceCidrConfig implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateServiceCidrConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/serviceCidrs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateServiceCidrConfigResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateServiceCidrConfig", apiReferenceLink)
 		return response, err
 	}
 

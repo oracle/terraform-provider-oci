@@ -26,6 +26,9 @@ type SummarizeManagementAgentCountsRequest struct {
 	// A filter to return either agents or gateway types depending upon install type selected by user. By default both install type will be returned.
 	InstallType SummarizeManagementAgentCountsInstallTypeEnum `mandatory:"false" contributesTo:"query" name:"installType" omitEmpty:"true"`
 
+	// if set to true then it fetches resources for all compartments where user has access to else only on the compartment specified.
+	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
+
 	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 

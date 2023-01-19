@@ -173,7 +173,7 @@ func (client DataplaneClient) GenerateUserSecurityToken(ctx context.Context, req
 // generateUserSecurityToken implements the OCIOperation interface (enables retrying operations)
 func (client DataplaneClient) generateUserSecurityToken(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users/self/actions/GenerateUserSecurityToken", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/token/upst/actions/GenerateUpst", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
