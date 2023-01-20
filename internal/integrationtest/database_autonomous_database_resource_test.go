@@ -160,6 +160,7 @@ var (
 			map[string]interface{}{
 				"nsg_ids":                acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{`${oci_core_network_security_group.test_network_security_group.id}`, `${oci_core_network_security_group.test_network_security_group2.id}`}},
 				"private_endpoint_label": acctest.Representation{RepType: acctest.Optional, Create: `xlx4fc9y`},
+				"private_endpoint_ip":    acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.97`},
 				"subnet_id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
 			}), []string{"whitelisted_ips", "scheduled_operations"})
 
@@ -1213,6 +1214,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "private_endpoint_ip", "10.0.0.97"),
 				resource.TestCheckResourceAttr(resourceName, "private_endpoint_label", "xlx4fc9y"),
 				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
 				//resource.TestCheckResourceAttrSet(resourceName, "private_endpoint"),
@@ -1325,6 +1327,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.is_preview"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.nsg_ids.#", "1"),
 				//resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.private_endpoint"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.private_endpoint_ip", "10.0.0.97"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.private_endpoint_label", "xlx4fc9y"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.subnet_id"),
@@ -1359,6 +1362,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_preview"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "nsg_ids.#", "1"),
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "private_endpoint_ip", "10.0.0.97"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "private_endpoint_label", "xlx4fc9y"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
@@ -1366,6 +1370,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 				resource.TestCheckResourceAttr(resourceName, "connection_strings.0.profiles.#", "3"),
 			),
 		},
+
 		//5. delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabasePrivateEndpointResourceDependencies,
@@ -1450,8 +1455,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 			Config: config + compartmentIdVariableStr + AutonomousDatabasePrivateEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(autonomousDatabasePrivateEndpointRepresentation, map[string]interface{}{
-						"db_version":       acctest.Representation{RepType: acctest.Optional, Create: `19c`},
-						"data_safe_status": acctest.Representation{RepType: acctest.Optional, Create: `REGISTERED`},
+						"private_endpoint_ip": acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.97`},
+						"db_version":          acctest.Representation{RepType: acctest.Optional, Create: `19c`},
+						"data_safe_status":    acctest.Representation{RepType: acctest.Optional, Create: `REGISTERED`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
@@ -1467,6 +1473,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "private_endpoint_ip", "10.0.0.97"),
 				resource.TestCheckResourceAttr(resourceName, "private_endpoint_label", "xlx4fc9y"),
 				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
 				//resource.TestCheckResourceAttrSet(resourceName, "private_endpoint"),
@@ -1503,6 +1510,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "private_endpoint_ip", "10.0.0.97"),
 				resource.TestCheckResourceAttr(resourceName, "private_endpoint_label", "xlx4fc9y"),
 				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -1523,6 +1531,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(autonomousDatabasePrivateEndpointRepresentation, []string{"nsg_ids", "private_endpoint_label", "subnet_id"}), map[string]interface{}{
 						"nsg_ids":                acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
 						"private_endpoint_label": acctest.Representation{RepType: acctest.Optional, Create: `null`},
+						"private_endpoint_ip":    acctest.Representation{RepType: acctest.Optional, Create: `null`},
 						"subnet_id":              acctest.Representation{RepType: acctest.Optional, Create: `null`},
 						"db_version":             acctest.Representation{RepType: acctest.Optional, Create: `19c`, Update: `19c`},
 					})),
@@ -1541,6 +1550,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "private_endpoint_ip", "null"),
 				resource.TestCheckResourceAttr(resourceName, "private_endpoint_label", "null"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "is_mtls_connection_required", "true"),
