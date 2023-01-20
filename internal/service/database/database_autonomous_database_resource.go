@@ -259,6 +259,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"private_endpoint_ip": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"private_endpoint_label": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -704,10 +709,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional: true,
 			},
 			"private_endpoint": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"private_endpoint_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -1371,6 +1372,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 	if peerDbId, ok := s.D.GetOkExists("peer_db_id"); ok {
 		tmp := peerDbId.(string)
 		request.PeerDbId = &tmp
+	}
+
+	if privateEndpointIp, ok := s.D.GetOkExists("private_endpoint_ip"); ok {
+		tmp := privateEndpointIp.(string)
+		request.PrivateEndpointIp = &tmp
 	}
 
 	if refreshableMode, ok := s.D.GetOkExists("refreshable_mode"); ok && s.D.HasChange("refreshable_mode") {
@@ -2193,6 +2199,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := float32(ocpuCount.(float64))
 			details.OcpuCount = &tmp
 		}
+		if privateEndpointIp, ok := s.D.GetOkExists("private_endpoint_ip"); ok {
+			tmp := privateEndpointIp.(string)
+			details.PrivateEndpointIp = &tmp
+		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
 			tmp := privateEndpointLabel.(string)
 			details.PrivateEndpointLabel = &tmp
@@ -2411,6 +2421,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := float32(ocpuCount.(float64))
 			details.OcpuCount = &tmp
 		}
+		if privateEndpointIp, ok := s.D.GetOkExists("private_endpoint_ip"); ok {
+			tmp := privateEndpointIp.(string)
+			details.PrivateEndpointIp = &tmp
+		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
 			tmp := privateEndpointLabel.(string)
 			details.PrivateEndpointLabel = &tmp
@@ -2618,6 +2632,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := float32(ocpuCount.(float64))
 			details.OcpuCount = &tmp
 		}
+		if privateEndpointIp, ok := s.D.GetOkExists("private_endpoint_ip"); ok {
+			tmp := privateEndpointIp.(string)
+			details.PrivateEndpointIp = &tmp
+		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
 			tmp := privateEndpointLabel.(string)
 			details.PrivateEndpointLabel = &tmp
@@ -2809,6 +2827,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
 			tmp := ocpuCount.(float32)
 			details.OcpuCount = &tmp
+		}
+		if privateEndpointIp, ok := s.D.GetOkExists("private_endpoint_ip"); ok {
+			tmp := privateEndpointIp.(string)
+			details.PrivateEndpointIp = &tmp
 		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
 			tmp := privateEndpointLabel.(string)
@@ -3020,6 +3042,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := float32(ocpuCount.(float64))
 			details.OcpuCount = &tmp
 		}
+		if privateEndpointIp, ok := s.D.GetOkExists("private_endpoint_ip"); ok {
+			tmp := privateEndpointIp.(string)
+			details.PrivateEndpointIp = &tmp
+		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
 			tmp := privateEndpointLabel.(string)
 			details.PrivateEndpointLabel = &tmp
@@ -3221,6 +3247,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
 			tmp := float32(ocpuCount.(float64))
 			details.OcpuCount = &tmp
+		}
+		if privateEndpointIp, ok := s.D.GetOkExists("private_endpoint_ip"); ok {
+			tmp := privateEndpointIp.(string)
+			details.PrivateEndpointIp = &tmp
 		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
 			tmp := privateEndpointLabel.(string)
