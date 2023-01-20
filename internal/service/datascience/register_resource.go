@@ -15,5 +15,7 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_datascience_model_artifact_export", DatascienceModelArtifactExportResource())
 	tfresource.RegisterResource("oci_datascience_model_artifact_import", DatascienceModelArtifactImportResource())
 	tfresource.RegisterResource("oci_datascience_notebook_session", DatascienceNotebookSessionResource())
+	tfresource.RegisterResource("oci_datascience_pipeline", DatasciencePipelineResource())
+	tfresource.RegisterResource("oci_datascience_pipeline_run", DatasciencePipelineRunResource())
 	tfresource.RegisterResource("oci_datascience_project", DatascienceProjectResource())
 }

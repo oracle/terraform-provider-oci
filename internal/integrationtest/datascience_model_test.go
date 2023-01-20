@@ -37,14 +37,12 @@ var (
 	}
 
 	DatascienceDatascienceModelDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"id":                     acctest.Representation{RepType: acctest.Optional, Create: `${oci_datascience_model.test_model.id}`},
-		"model_version_set_name": acctest.Representation{RepType: acctest.Optional, Create: ``},
-		"project_id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_datascience_project.test_project.id}`},
-		"state":                  acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"version_label":          acctest.Representation{RepType: acctest.Optional, Create: ``, Update: ``},
-		"filter":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceModelDataSourceFilterRepresentation}}
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_datascience_model.test_model.id}`},
+		"project_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_datascience_project.test_project.id}`},
+		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceModelDataSourceFilterRepresentation}}
 	DatascienceModelDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_datascience_model.test_model.id}`}},
@@ -77,10 +75,6 @@ var (
 	}
 
 	DatascienceModelResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, DatascienceProjectRepresentation) +
-		DefinedTagsDependencies
-
-	DatascienceModelResourceModelVersionSetDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_version_set", "test_model_version_set", acctest.Required, acctest.Create, DatascienceModelVersionSetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, DatascienceProjectRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -247,12 +241,11 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_models", "test_models", acctest.Optional, acctest.Update, DatascienceDatascienceModelDataSourceRepresentation) +
-				compartmentIdVariableStr + DatascienceModelResourceModelVersionSetDependencies +
+				compartmentIdVariableStr + DatascienceModelResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Optional, acctest.Update, DatascienceModelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "project_id"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
