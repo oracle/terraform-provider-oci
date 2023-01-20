@@ -23,6 +23,10 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_datascience_notebook_session", DatascienceNotebookSessionDataSource())
 	tfresource.RegisterDatasource("oci_datascience_notebook_session_shapes", DatascienceNotebookSessionShapesDataSource())
 	tfresource.RegisterDatasource("oci_datascience_notebook_sessions", DatascienceNotebookSessionsDataSource())
+	tfresource.RegisterDatasource("oci_datascience_pipeline", DatasciencePipelineDataSource())
+	tfresource.RegisterDatasource("oci_datascience_pipeline_run", DatasciencePipelineRunDataSource())
+	tfresource.RegisterDatasource("oci_datascience_pipeline_runs", DatasciencePipelineRunsDataSource())
+	tfresource.RegisterDatasource("oci_datascience_pipelines", DatasciencePipelinesDataSource())
 	tfresource.RegisterDatasource("oci_datascience_project", DatascienceProjectDataSource())
 	tfresource.RegisterDatasource("oci_datascience_projects", DatascienceProjectsDataSource())
 }
