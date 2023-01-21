@@ -3,6 +3,7 @@
 ### Added
 - Support for ODSC - ML Pipelines
 - Support for ADB-S: Ability to Set Custom Private IP During PE Provisioning
+- Support for ExaCS | Infrastructure patching v2
 
 ## 4.104.0 (January 18, 2023)
 
