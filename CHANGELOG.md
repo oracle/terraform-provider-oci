@@ -1,3 +1,7 @@
+## 4.104.1 (January 23, 2023)
+
+### Bug Fix
+- Rollback Testing v4.104.1, do not pin this version
 ## 4.104.0 (January 18, 2023)
 
 ### Added
