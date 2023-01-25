@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 resource "random_string" "autonomous_database_admin_password" {
@@ -151,6 +151,43 @@ resource "oci_database_autonomous_database" "autonomous_database_from_backup_lat
   autonomous_database_id = oci_database_autonomous_database_backup.autonomous_database_backup.autonomous_database_id
   use_latest_available_backup_time_stamp              = "true"
   whitelisted_ips             = ["1.1.1.1/28"]
+}
+
+resource "oci_core_vcn" "test_vcn" {
+  cidr_block = "10.0.0.0/16"
+  compartment_id = var.compartment_ocid
+  display_name = "test_vcn"
+}
+
+resource "oci_core_subnet" "test_subnet" {
+  cidr_block = "10.0.0.0/24"
+  compartment_id = var.compartment_ocid
+  vcn_id = oci_core_vcn.test_vcn.id
+  display_name = "test_vcn"
+}
+
+resource "oci_database_autonomous_database" "autonomous_database_private_ip" {
+  #Required
+  admin_password           = random_string.autonomous_database_admin_password.result
+  compartment_id           = var.compartment_ocid
+  cpu_core_count           = "1"
+  data_storage_size_in_tbs = "1"
+  db_name                  = "adbdbip"
+
+  #Optional
+  db_version                                     = data.oci_database_autonomous_db_versions.test_autonomous_db_versions.autonomous_db_versions[0].version
+  db_workload                                    = var.autonomous_database_db_workload
+  display_name                                   = "example_autonomous_database"
+  freeform_tags                                  = var.autonomous_database_freeform_tags
+  is_auto_scaling_enabled                        = "true"
+  is_auto_scaling_for_storage_enabled            = "true"
+  license_model                                  = var.autonomous_database_license_model
+  is_preview_version_with_service_terms_accepted = "false"
+  character_set                                  = "AL32UTF8"
+  ncharacter_set                                 = "AL16UTF16"
+  private_endpoint_ip = "10.0.0.97"
+  subnet_id = oci_core_subnet.test_subnet.id
+  nsg_ids = ["test-bn-nsg-id-1"]
 }
 
 data "oci_database_autonomous_databases" "autonomous_databases" {

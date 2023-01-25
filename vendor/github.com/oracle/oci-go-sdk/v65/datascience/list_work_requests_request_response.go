@@ -154,6 +154,11 @@ const (
 	ListWorkRequestsOperationTypeProjectDelete             ListWorkRequestsOperationTypeEnum = "PROJECT_DELETE"
 	ListWorkRequestsOperationTypeWorkrequestCancel         ListWorkRequestsOperationTypeEnum = "WORKREQUEST_CANCEL"
 	ListWorkRequestsOperationTypeJobDelete                 ListWorkRequestsOperationTypeEnum = "JOB_DELETE"
+	ListWorkRequestsOperationTypePipelineCreate            ListWorkRequestsOperationTypeEnum = "PIPELINE_CREATE"
+	ListWorkRequestsOperationTypePipelineDelete            ListWorkRequestsOperationTypeEnum = "PIPELINE_DELETE"
+	ListWorkRequestsOperationTypePipelineRunCreate         ListWorkRequestsOperationTypeEnum = "PIPELINE_RUN_CREATE"
+	ListWorkRequestsOperationTypePipelineRunCancel         ListWorkRequestsOperationTypeEnum = "PIPELINE_RUN_CANCEL"
+	ListWorkRequestsOperationTypePipelineRunDelete         ListWorkRequestsOperationTypeEnum = "PIPELINE_RUN_DELETE"
 )
 
 var mappingListWorkRequestsOperationTypeEnum = map[string]ListWorkRequestsOperationTypeEnum{
@@ -172,6 +177,11 @@ var mappingListWorkRequestsOperationTypeEnum = map[string]ListWorkRequestsOperat
 	"PROJECT_DELETE":              ListWorkRequestsOperationTypeProjectDelete,
 	"WORKREQUEST_CANCEL":          ListWorkRequestsOperationTypeWorkrequestCancel,
 	"JOB_DELETE":                  ListWorkRequestsOperationTypeJobDelete,
+	"PIPELINE_CREATE":             ListWorkRequestsOperationTypePipelineCreate,
+	"PIPELINE_DELETE":             ListWorkRequestsOperationTypePipelineDelete,
+	"PIPELINE_RUN_CREATE":         ListWorkRequestsOperationTypePipelineRunCreate,
+	"PIPELINE_RUN_CANCEL":         ListWorkRequestsOperationTypePipelineRunCancel,
+	"PIPELINE_RUN_DELETE":         ListWorkRequestsOperationTypePipelineRunDelete,
 }
 
 var mappingListWorkRequestsOperationTypeEnumLowerCase = map[string]ListWorkRequestsOperationTypeEnum{
@@ -190,6 +200,11 @@ var mappingListWorkRequestsOperationTypeEnumLowerCase = map[string]ListWorkReque
 	"project_delete":              ListWorkRequestsOperationTypeProjectDelete,
 	"workrequest_cancel":          ListWorkRequestsOperationTypeWorkrequestCancel,
 	"job_delete":                  ListWorkRequestsOperationTypeJobDelete,
+	"pipeline_create":             ListWorkRequestsOperationTypePipelineCreate,
+	"pipeline_delete":             ListWorkRequestsOperationTypePipelineDelete,
+	"pipeline_run_create":         ListWorkRequestsOperationTypePipelineRunCreate,
+	"pipeline_run_cancel":         ListWorkRequestsOperationTypePipelineRunCancel,
+	"pipeline_run_delete":         ListWorkRequestsOperationTypePipelineRunDelete,
 }
 
 // GetListWorkRequestsOperationTypeEnumValues Enumerates the set of values for ListWorkRequestsOperationTypeEnum
@@ -219,6 +234,11 @@ func GetListWorkRequestsOperationTypeEnumStringValues() []string {
 		"PROJECT_DELETE",
 		"WORKREQUEST_CANCEL",
 		"JOB_DELETE",
+		"PIPELINE_CREATE",
+		"PIPELINE_DELETE",
+		"PIPELINE_RUN_CREATE",
+		"PIPELINE_RUN_CANCEL",
+		"PIPELINE_RUN_DELETE",
 	}
 }
 

@@ -1,7 +1,10 @@
-## 4.104.1 (January 23, 2023)
+## 4.105.0 (January 25, 2023)
 
-### Bug Fix
-- Rollback Testing v4.104.1, do not pin this version
+### Added
+- Support for ODSC - ML Pipelines
+- Support for ADB-S: Ability to Set Custom Private IP During PE Provisioning
+- Support for ExaCS | Infrastructure patching v2
+
 ## 4.104.0 (January 18, 2023)
 
 ### Added
