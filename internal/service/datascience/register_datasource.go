@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package datascience
@@ -23,6 +23,10 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_datascience_notebook_session", DatascienceNotebookSessionDataSource())
 	tfresource.RegisterDatasource("oci_datascience_notebook_session_shapes", DatascienceNotebookSessionShapesDataSource())
 	tfresource.RegisterDatasource("oci_datascience_notebook_sessions", DatascienceNotebookSessionsDataSource())
+	tfresource.RegisterDatasource("oci_datascience_pipeline", DatasciencePipelineDataSource())
+	tfresource.RegisterDatasource("oci_datascience_pipeline_run", DatasciencePipelineRunDataSource())
+	tfresource.RegisterDatasource("oci_datascience_pipeline_runs", DatasciencePipelineRunsDataSource())
+	tfresource.RegisterDatasource("oci_datascience_pipelines", DatasciencePipelinesDataSource())
 	tfresource.RegisterDatasource("oci_datascience_project", DatascienceProjectDataSource())
 	tfresource.RegisterDatasource("oci_datascience_projects", DatascienceProjectsDataSource())
 }

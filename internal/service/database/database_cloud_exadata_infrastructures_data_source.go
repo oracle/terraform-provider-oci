@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database
@@ -148,6 +148,10 @@ func (s *DatabaseCloudExadataInfrastructuresDataSourceCrud) SetData() error {
 			cloudExadataInfrastructure["db_node_storage_size_in_gbs"] = *r.DbNodeStorageSizeInGBs
 		}
 
+		if r.DbServerVersion != nil {
+			cloudExadataInfrastructure["db_server_version"] = *r.DbServerVersion
+		}
+
 		if r.DefinedTags != nil {
 			cloudExadataInfrastructure["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
 		}
@@ -196,6 +200,14 @@ func (s *DatabaseCloudExadataInfrastructuresDataSourceCrud) SetData() error {
 			cloudExadataInfrastructure["memory_size_in_gbs"] = *r.MemorySizeInGBs
 		}
 
+		if r.MonthlyDbServerVersion != nil {
+			cloudExadataInfrastructure["monthly_db_server_version"] = *r.MonthlyDbServerVersion
+		}
+
+		if r.MonthlyStorageServerVersion != nil {
+			cloudExadataInfrastructure["monthly_storage_server_version"] = *r.MonthlyStorageServerVersion
+		}
+
 		if r.NextMaintenanceRunId != nil {
 			cloudExadataInfrastructure["next_maintenance_run_id"] = *r.NextMaintenanceRunId
 		}
@@ -208,6 +220,10 @@ func (s *DatabaseCloudExadataInfrastructuresDataSourceCrud) SetData() error {
 
 		if r.StorageCount != nil {
 			cloudExadataInfrastructure["storage_count"] = *r.StorageCount
+		}
+
+		if r.StorageServerVersion != nil {
+			cloudExadataInfrastructure["storage_server_version"] = *r.StorageServerVersion
 		}
 
 		if r.TimeCreated != nil {
