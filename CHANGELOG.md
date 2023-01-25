@@ -1,4 +1,4 @@
-## 4.105.0 (Unreleased)
+## 4.105.0 (January 25, 2023)
 
 ### Added
 - Support for ODSC - ML Pipelines
