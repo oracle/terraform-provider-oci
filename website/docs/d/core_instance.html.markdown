@@ -126,6 +126,28 @@ The following attributes are exported:
 		* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
 		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images. 
 * `metadata` - Custom metadata that you provide.
+
+* `platform_config` - The platform configuration for the instance. 
+	* `are_virtual_instructions_enabled` - Whether virtualization instructions are available. For example, Secure Virtual Machine for AMD shapes or VT-x for Intel shapes. 
+	* `is_access_control_service_enabled` - Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device pass-through. 
+	* `is_input_output_memory_management_unit_enabled` - Whether the input-output memory management unit is enabled. 
+	* `is_measured_boot_enabled` - Whether the Measured Boot feature is enabled on the instance. 
+	* `is_memory_encryption_enabled` - Whether the instance is a confidential instance. If this value is `true`, the instance is a confidential instance. The default value is `false`. 
+	* `is_secure_boot_enabled` - Whether Secure Boot is enabled on the instance. 
+	* `is_symmetric_multi_threading_enabled` - Whether symmetric multithreading is enabled on the instance. Symmetric multithreading is also called simultaneous multithreading (SMT) or Intel Hyper-Threading.
+
+		Intel and AMD processors have two hardware execution threads per core (OCPU). SMT permits multiple independent threads of execution, to better use the resources and increase the efficiency of the CPU. When multithreading is disabled, only one thread is permitted to run on each core, which can provide higher or more predictable performance for some workloads. 
+	* `is_trusted_platform_module_enabled` - Whether the Trusted Platform Module (TPM) is enabled on the instance. 
+	* `numa_nodes_per_socket` - The number of NUMA nodes per socket (NPS). 
+	* `percentage_of_cores_enabled` - The percentage of cores enabled. Value must be a multiple of 25%. If the requested percentage results in a fractional number of cores, the system rounds up the number of cores across processors and provisions an instance with a whole number of cores.
+
+		If the applications that you run on the instance use a core-based licensing model and need fewer cores than the full size of the shape, you can disable cores to reduce your licensing costs. The instance itself is billed for the full shape, regardless of whether all cores are enabled. 
+	* `type` - The type of platform being configured. 
+* `preemptible_instance_config` - Configuration options for preemptible instances. 
+	* `preemption_action` - The action to run when the preemptible instance is interrupted for eviction. 
+		* `preserve_boot_volume` - Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified. 
+		* `type` - The type of action to run when the instance is interrupted for eviction.
+
 * `platform_config` - The platform configuration for the instance.
 	* `are_virtual_instructions_enabled` - Whether virtualization instructions are available.
 	* `is_access_control_service_enabled` - Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device passthrough. 
@@ -143,6 +165,7 @@ The following attributes are exported:
 		* `type` - (Required) The type of action to run when the instance is interrupted for eviction.
 * `private_ip` - The private IP address of instance VNIC. To set the private IP address, use the `private_ip` argument in create_vnic_details.
 * `public_ip` - The public IP address of instance VNIC (if enabled).
+
 * `region` - The region that contains the availability domain the instance is running in.
 
 	For the us-phoenix-1 and us-ashburn-1 regions, `phx` and `iad` are returned, respectively. For all other regions, the full region name is returned.
