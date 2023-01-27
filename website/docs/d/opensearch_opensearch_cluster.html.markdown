@@ -72,6 +72,9 @@ The following attributes are exported:
 * `opendashboard_private_ip` - The private IP address for the cluster's OpenSearch Dashboard.
 * `opensearch_fqdn` - The fully qualified domain name (FQDN) for the cluster's API endpoint.
 * `opensearch_private_ip` - The cluster's private IP address.
+* `security_master_user_name` - The name of the master user that are used to manage security config
+* `security_master_user_password_hash` - The password hash of the master user that are used to manage security config
+* `security_mode` - The security mode of the cluster.
 * `software_version` - The software version the cluster is running.
 * `state` - The current state of the cluster.
 * `subnet_compartment_id` - The OCID for the compartment where the cluster's subnet is located.

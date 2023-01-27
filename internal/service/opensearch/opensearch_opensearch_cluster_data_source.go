@@ -161,6 +161,16 @@ func (s *OpensearchOpensearchClusterDataSourceCrud) SetData() error {
 		s.D.Set("opensearch_private_ip", *s.Res.OpensearchPrivateIp)
 	}
 
+	if s.Res.SecurityMasterUserName != nil {
+		s.D.Set("security_master_user_name", *s.Res.SecurityMasterUserName)
+	}
+
+	if s.Res.SecurityMasterUserPasswordHash != nil {
+		s.D.Set("security_master_user_password_hash", *s.Res.SecurityMasterUserPasswordHash)
+	}
+
+	s.D.Set("security_mode", s.Res.SecurityMode)
+
 	if s.Res.SoftwareVersion != nil {
 		s.D.Set("software_version", *s.Res.SoftwareVersion)
 	}
