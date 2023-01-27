@@ -1,6 +1,7 @@
 package core
 
 import (
+	"context"
 	"fmt"
 	"strconv"
 
@@ -127,6 +128,33 @@ func processCoreVcns(ctx *tf_export.ResourceDiscoveryContext, resources []*tf_ex
 	// either cidr_block or cidr_blocks should be specified in config
 	// service returns the cidr_block value in cidr_blocks field
 	for _, resource := range resources {
+		// Adding default DHCP Options reference for VCN to referenceMap to be utilized during processDefaultDhcpOptions()
+		if defaultDhcpOptionsId, exists := resource.SourceAttributes["default_dhcp_options_id"]; exists {
+			if defaultDhcpOptionsIdStr, ok := defaultDhcpOptionsId.(string); ok {
+				tf_export.RefMapLock.Lock()
+				tf_export.ReferenceMap[defaultDhcpOptionsIdStr] = tf_export.TfHclVersionvar.GetDoubleExpHclString(resource.GetTerraformReference(), "default_dhcp_options_id")
+				tf_export.RefMapLock.Unlock()
+			}
+		}
+
+		// Adding default Route Table reference for VCN to referenceMap to be utilized during processDefaultRouteTables()
+		if defaultRouteTableId, exists := resource.SourceAttributes["default_route_table_id"]; exists {
+			if defaultRouteTableIdStr, ok := defaultRouteTableId.(string); ok {
+				tf_export.RefMapLock.Lock()
+				tf_export.ReferenceMap[defaultRouteTableIdStr] = tf_export.TfHclVersionvar.GetDoubleExpHclString(resource.GetTerraformReference(), "default_route_table_id")
+				tf_export.RefMapLock.Unlock()
+			}
+		}
+
+		// Adding default SecurityList reference for VCN to referenceMap to be utilized during processDefaultSecurityLists()
+		if defaultSecurityListId, exists := resource.SourceAttributes["default_security_list_id"]; exists {
+			if defaultSecurityListIdStr, ok := defaultSecurityListId.(string); ok {
+				tf_export.RefMapLock.Lock()
+				tf_export.ReferenceMap[defaultSecurityListIdStr] = tf_export.TfHclVersionvar.GetDoubleExpHclString(resource.GetTerraformReference(), "default_security_list_id")
+				tf_export.RefMapLock.Unlock()
+			}
+		}
+
 		if _, ok := resource.SourceAttributes["cidr_block"].(string); ok {
 			delete(resource.SourceAttributes, "cidr_block")
 		}
@@ -137,17 +165,23 @@ func processCoreVcns(ctx *tf_export.ResourceDiscoveryContext, resources []*tf_ex
 func processDefaultSecurityLists(ctx *tf_export.ResourceDiscoveryContext, resources []*tf_export.OCIResource) ([]*tf_export.OCIResource, error) {
 	// Default security lists need to be handled as default resources
 	for _, resource := range resources {
-		if resource.Parent == nil {
-			continue
-		}
+		if resource.SourceAttributes["vcn_id"] != nil {
+			vcnId := resource.SourceAttributes["vcn_id"].(string)
+			request := oci_core.GetVcnRequest{}
+			request.VcnId = &vcnId
+			response, err := ctx.Clients.VirtualNetworkClient().GetVcn(context.Background(), request)
 
-		if resource.Id == resource.Parent.SourceAttributes["default_security_list_id"].(string) {
-			resource.SourceAttributes["manage_default_resource_id"] = resource.Id
-			resource.TerraformResource.TerraformClass = "oci_core_default_security_list"
+			if err != nil {
+				return resources, err
+			}
 
-			// Don't use references to parent resources if they will be omitted from final result
-			if !resource.Parent.OmitFromExport {
-				resource.TerraformResource.TerraformReferenceIdString = fmt.Sprintf("%s.%s", resource.Parent.GetTerraformReference(), "default_security_list_id")
+			if response.Vcn.DefaultSecurityListId != nil && resource.Id == *response.Vcn.DefaultSecurityListId {
+				resource.SourceAttributes["manage_default_resource_id"] = resource.Id
+				resource.TerraformResource.TerraformClass = "oci_core_default_security_list"
+
+				if referenceVal, exists := tf_export.ReferenceMap[resource.Id]; exists {
+					resource.TerraformResource.TerraformReferenceIdString = referenceVal
+				}
 			}
 		}
 	}
@@ -157,17 +191,23 @@ func processDefaultSecurityLists(ctx *tf_export.ResourceDiscoveryContext, resour
 func processDefaultRouteTables(ctx *tf_export.ResourceDiscoveryContext, resources []*tf_export.OCIResource) ([]*tf_export.OCIResource, error) {
 	// Default route tables need to be handled as default resources
 	for _, resource := range resources {
-		if resource.Parent == nil {
-			continue
-		}
+		if resource.SourceAttributes["vcn_id"] != nil {
+			vcnId := resource.SourceAttributes["vcn_id"].(string)
+			request := oci_core.GetVcnRequest{}
+			request.VcnId = &vcnId
+			response, err := ctx.Clients.VirtualNetworkClient().GetVcn(context.Background(), request)
 
-		if resource.Id == resource.Parent.SourceAttributes["default_route_table_id"].(string) {
-			resource.SourceAttributes["manage_default_resource_id"] = resource.Id
-			resource.TerraformResource.TerraformClass = "oci_core_default_route_table"
+			if err != nil {
+				return resources, err
+			}
 
-			// Don't use references to parent resources if they will be omitted from final result
-			if !resource.Parent.OmitFromExport {
-				resource.TerraformResource.TerraformReferenceIdString = fmt.Sprintf("%s.%s", resource.Parent.GetTerraformReference(), "default_route_table_id")
+			if response.Vcn.DefaultRouteTableId != nil && resource.Id == *response.Vcn.DefaultRouteTableId {
+				resource.SourceAttributes["manage_default_resource_id"] = resource.Id
+				resource.TerraformResource.TerraformClass = "oci_core_default_route_table"
+
+				if referenceVal, exists := tf_export.ReferenceMap[resource.Id]; exists {
+					resource.TerraformResource.TerraformReferenceIdString = referenceVal
+				}
 			}
 		}
 	}
@@ -307,17 +347,23 @@ func filterCustomImages(ctx *tf_export.ResourceDiscoveryContext, resources []*tf
 func processDefaultDhcpOptions(ctx *tf_export.ResourceDiscoveryContext, resources []*tf_export.OCIResource) ([]*tf_export.OCIResource, error) {
 	// Default dhcp options need to be handled as default resources
 	for _, resource := range resources {
-		if resource.Parent == nil {
-			continue
-		}
+		if resource.SourceAttributes["vcn_id"] != nil {
+			vcnId := resource.SourceAttributes["vcn_id"].(string)
+			request := oci_core.GetVcnRequest{}
+			request.VcnId = &vcnId
+			response, err := ctx.Clients.VirtualNetworkClient().GetVcn(context.Background(), request)
 
-		if resource.Id == resource.Parent.SourceAttributes["default_dhcp_options_id"].(string) {
-			resource.SourceAttributes["manage_default_resource_id"] = resource.Id
-			resource.TerraformResource.TerraformClass = "oci_core_default_dhcp_options"
+			if err != nil {
+				return resources, err
+			}
 
-			// Don't use references to parent resources if they will be omitted from final result
-			if !resource.Parent.OmitFromExport {
-				resource.TerraformResource.TerraformReferenceIdString = fmt.Sprintf("%s.%s", resource.Parent.GetTerraformReference(), "default_dhcp_options_id")
+			if response.Vcn.DefaultDhcpOptionsId != nil && resource.Id == *response.Vcn.DefaultDhcpOptionsId {
+				resource.SourceAttributes["manage_default_resource_id"] = resource.Id
+				resource.TerraformResource.TerraformClass = "oci_core_default_dhcp_options"
+
+				if referenceVal, exists := tf_export.ReferenceMap[resource.Id]; exists {
+					resource.TerraformResource.TerraformReferenceIdString = referenceVal
+				}
 			}
 		}
 	}
@@ -854,6 +900,7 @@ var coreResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportCoreCpeHints},
 		{TerraformResourceHints: exportCoreCrossConnectGroupHints},
 		{TerraformResourceHints: exportCoreCrossConnectHints},
+		{TerraformResourceHints: exportCoreDhcpOptionsHints},
 		{TerraformResourceHints: exportCoreDrgAttachmentHints},
 		{TerraformResourceHints: exportCoreDrgHints},
 		{TerraformResourceHints: exportCoreDedicatedVmHostHints},
@@ -873,9 +920,12 @@ var coreResourceGraph = tf_export.TerraformResourceGraph{
 			},
 		},
 		{TerraformResourceHints: exportCoreRemotePeeringConnectionHints},
+		{TerraformResourceHints: exportCoreRouteTableHints},
+		{TerraformResourceHints: exportCoreSecurityListHints},
 		{TerraformResourceHints: exportCoreServiceGatewayHints},
 		{TerraformResourceHints: exportCoreSubnetHints},
 		{TerraformResourceHints: exportCoreVcnHints},
+		{TerraformResourceHints: exportCoreVlanHints},
 		{TerraformResourceHints: exportCoreVirtualCircuitHints},
 		{TerraformResourceHints: exportCoreVolumeAttachmentHints},
 		{TerraformResourceHints: exportCoreVolumeBackupHints},
@@ -949,31 +999,7 @@ var coreResourceGraph = tf_export.TerraformResourceGraph{
 	},
 	"oci_core_vcn": {
 		{
-			TerraformResourceHints: exportCoreDhcpOptionsHints,
-			DatasourceQueryParams: map[string]string{
-				"vcn_id": "id",
-			},
-		},
-		{
 			TerraformResourceHints: exportCoreNatGatewayHints,
-			DatasourceQueryParams: map[string]string{
-				"vcn_id": "id",
-			},
-		},
-		{
-			TerraformResourceHints: exportCoreRouteTableHints,
-			DatasourceQueryParams: map[string]string{
-				"vcn_id": "id",
-			},
-		},
-		{
-			TerraformResourceHints: exportCoreSecurityListHints,
-			DatasourceQueryParams: map[string]string{
-				"vcn_id": "id",
-			},
-		},
-		{
-			TerraformResourceHints: exportCoreVlanHints,
 			DatasourceQueryParams: map[string]string{
 				"vcn_id": "id",
 			},
