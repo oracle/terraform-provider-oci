@@ -71,6 +71,36 @@ var (
 		"defined_tags":                       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":                      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"system_tags":                        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"sys-namespace.tag-key": "value"}, Update: map[string]string{"sys-namespace.tag-key": "updatedValue"}},
+		"security_mode":                      acctest.Representation{RepType: acctest.Optional, Create: `DISABLED`, Update: `ENFORCING`},
+		"lifecycle":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreOpenSearchSystemTagsChangesRep},
+	}
+
+	OpensearchOpensearchClusterRepresentationWithEnforcingSecurityMode = map[string]interface{}{
+		"compartment_id":                     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"data_node_count":                    acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"data_node_host_memory_gb":           acctest.Representation{RepType: acctest.Required, Create: `20`},
+		"data_node_host_ocpu_count":          acctest.Representation{RepType: acctest.Required, Create: `2`},
+		"data_node_host_type":                acctest.Representation{RepType: acctest.Required, Create: `FLEX`},
+		"data_node_storage_gb":               acctest.Representation{RepType: acctest.Required, Create: `50`},
+		"display_name":                       acctest.Representation{RepType: acctest.Required, Create: `tf_provider_cluster_updated`, Update: `tf_provider_cluster_updated`},
+		"master_node_count":                  acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"master_node_host_memory_gb":         acctest.Representation{RepType: acctest.Required, Create: `16`},
+		"master_node_host_ocpu_count":        acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"master_node_host_type":              acctest.Representation{RepType: acctest.Required, Create: `FLEX`},
+		"opendashboard_node_count":           acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"opendashboard_node_host_memory_gb":  acctest.Representation{RepType: acctest.Required, Create: `10`},
+		"opendashboard_node_host_ocpu_count": acctest.Representation{RepType: acctest.Required, Create: `2`},
+		"software_version":                   acctest.Representation{RepType: acctest.Required, Create: `1.2.4`, Update: `1.2.4`},
+		"subnet_compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"subnet_id":                          acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"vcn_compartment_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"vcn_id":                             acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"defined_tags":                       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":                      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"system_tags":                        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"sys-namespace.tag-key": "value"}, Update: map[string]string{"sys-namespace.tag-key": "updatedValue"}},
+		"security_mode":                      acctest.Representation{RepType: acctest.Optional, Create: `DISABLED`, Update: `ENFORCING`},
+		"security_master_user_name":          acctest.Representation{RepType: acctest.Optional, Update: `${oci_identity_user.test_user.name}`},
+		"security_master_user_password_hash": acctest.Representation{RepType: acctest.Optional, Update: `securityMasterUserPasswordHash2`},
 		"lifecycle":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreOpenSearchSystemTagsChangesRep},
 	}
 
@@ -80,7 +110,8 @@ var (
 
 	OpensearchOpensearchClusterResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
-		DefinedTagsDependencies
+		DefinedTagsDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation)
 )
 
 // issue-routing-tag: opensearch/default
@@ -141,7 +172,7 @@ func TestOpensearchOpensearchClusterResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + OpensearchOpensearchClusterResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opensearch_opensearch_cluster", "test_opensearch_cluster", acctest.Optional, acctest.Create, OpensearchOpensearchClusterRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_opensearch_opensearch_cluster", "test_opensearch_cluster", acctest.Optional, acctest.Create, OpensearchOpensearchClusterRepresentationWithEnforcingSecurityMode),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "data_node_count", "1"),
@@ -163,6 +194,7 @@ func TestOpensearchOpensearchClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "opendashboard_private_ip"),
 				resource.TestCheckResourceAttrSet(resourceName, "opensearch_fqdn"),
 				resource.TestCheckResourceAttrSet(resourceName, "opensearch_private_ip"),
+				resource.TestCheckResourceAttr(resourceName, "security_mode", "DISABLED"),
 				resource.TestCheckResourceAttr(resourceName, "software_version", "1.2.4"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_compartment_id"),
@@ -184,11 +216,10 @@ func TestOpensearchOpensearchClusterResource_basic(t *testing.T) {
 				},
 			),
 		},
-
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + OpensearchOpensearchClusterResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opensearch_opensearch_cluster", "test_opensearch_cluster", acctest.Optional, acctest.Update, OpensearchOpensearchClusterRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_opensearch_opensearch_cluster", "test_opensearch_cluster", acctest.Optional, acctest.Update, OpensearchOpensearchClusterRepresentationWithEnforcingSecurityMode),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -211,6 +242,9 @@ func TestOpensearchOpensearchClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "opendashboard_private_ip"),
 				resource.TestCheckResourceAttrSet(resourceName, "opensearch_fqdn"),
 				resource.TestCheckResourceAttrSet(resourceName, "opensearch_private_ip"),
+				resource.TestCheckResourceAttrSet(resourceName, "security_master_user_name"),
+				resource.TestCheckResourceAttr(resourceName, "security_master_user_password_hash", "securityMasterUserPasswordHash2"),
+				resource.TestCheckResourceAttr(resourceName, "security_mode", "ENFORCING"),
 				resource.TestCheckResourceAttr(resourceName, "software_version", "1.2.4"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_compartment_id"),
@@ -273,6 +307,9 @@ func TestOpensearchOpensearchClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "opendashboard_private_ip"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "opensearch_fqdn"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "opensearch_private_ip"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "security_master_user_name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "security_master_user_password_hash", "securityMasterUserPasswordHash2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "security_mode", "ENFORCING"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "software_version", "1.2.4"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "system_tags.%", "0"),
