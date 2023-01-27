@@ -152,6 +152,22 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"security_master_user_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"security_master_user_password_hash": {
+				Type:      schema.TypeString,
+				Optional:  true,
+				Computed:  true,
+				Sensitive: true,
+			},
+			"security_mode": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"system_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -385,6 +401,20 @@ func (s *OpensearchOpensearchClusterResourceCrud) Create() error {
 		request.OpendashboardNodeHostOcpuCount = &tmp
 	}
 
+	if securityMasterUserName, ok := s.D.GetOkExists("security_master_user_name"); ok {
+		tmp := securityMasterUserName.(string)
+		request.SecurityMasterUserName = &tmp
+	}
+
+	if securityMasterUserPasswordHash, ok := s.D.GetOkExists("security_master_user_password_hash"); ok {
+		tmp := securityMasterUserPasswordHash.(string)
+		request.SecurityMasterUserPasswordHash = &tmp
+	}
+
+	if securityMode, ok := s.D.GetOkExists("security_mode"); ok {
+		request.SecurityMode = oci_opensearch.SecurityModeEnum(securityMode.(string))
+	}
+
 	if softwareVersion, ok := s.D.GetOkExists("software_version"); ok {
 		tmp := softwareVersion.(string)
 		request.SoftwareVersion = &tmp
@@ -584,6 +614,20 @@ func (s *OpensearchOpensearchClusterResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.OpensearchClusterId = &tmp
 
+	if securityMasterUserName, ok := s.D.GetOkExists("security_master_user_name"); ok {
+		tmp := securityMasterUserName.(string)
+		request.SecurityMasterUserName = &tmp
+	}
+
+	if securityMasterUserPasswordHash, ok := s.D.GetOkExists("security_master_user_password_hash"); ok {
+		tmp := securityMasterUserPasswordHash.(string)
+		request.SecurityMasterUserPasswordHash = &tmp
+	}
+
+	if securityMode, ok := s.D.GetOkExists("security_mode"); ok {
+		request.SecurityMode = oci_opensearch.SecurityModeEnum(securityMode.(string))
+	}
+
 	if softwareVersion, ok := s.D.GetOkExists("software_version"); ok {
 		tmp := softwareVersion.(string)
 		request.SoftwareVersion = &tmp
@@ -715,6 +759,16 @@ func (s *OpensearchOpensearchClusterResourceCrud) SetData() error {
 		s.D.Set("opensearch_private_ip", *s.Res.OpensearchPrivateIp)
 	}
 
+	if s.Res.SecurityMasterUserName != nil {
+		s.D.Set("security_master_user_name", *s.Res.SecurityMasterUserName)
+	}
+
+	if s.Res.SecurityMasterUserPasswordHash != nil {
+		s.D.Set("security_master_user_password_hash", *s.Res.SecurityMasterUserPasswordHash)
+	}
+
+	s.D.Set("security_mode", s.Res.SecurityMode)
+
 	if s.Res.SoftwareVersion != nil {
 		s.D.Set("software_version", *s.Res.SoftwareVersion)
 	}
@@ -788,6 +842,8 @@ func OpensearchClusterSummaryToMap(obj oci_opensearch.OpensearchClusterSummary) 
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
+
+	result["security_mode"] = string(obj.SecurityMode)
 
 	if obj.SoftwareVersion != nil {
 		result["software_version"] = string(*obj.SoftwareVersion)
