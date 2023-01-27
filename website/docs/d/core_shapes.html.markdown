@@ -95,6 +95,41 @@ The following attributes are exported:
 	* `max` - The maximum number of OCPUs. 
 	* `min` - The minimum number of OCPUs. 
 * `ocpus` - The default number of OCPUs available for this shape. 
+
+* `platform_config_options` - The list of supported platform configuration options for this shape. 
+	* `access_control_service_options` - Configuration options for the Access Control Service. 
+		* `allowed_values` - Whether the Access Control Service can be enabled. 
+		* `is_default_enabled` - Whether the Access Control Service is enabled by default. 
+	* `input_output_memory_management_unit_options` - Configuration options for the input-output memory management unit (IOMMU). 
+		* `allowed_values` - Whether the input-output memory management unit can be enabled. 
+		* `is_default_enabled` - Whether the input-output memory management unit is enabled by default. 
+	* `measured_boot_options` - Configuration options for the Measured Boot feature. 
+		* `allowed_values` - Boolean values that indicate whether the Measured Boot feature can be enabled or disabled. 
+		* `is_default_enabled` - Whether the Measured Boot feature is enabled by default. 
+	* `memory_encryption_options` - Configuration options for memory encryption. 
+		* `allowed_values` - Whether memory encryption can be enabled. 
+		* `is_default_enabled` - Whether memory encryption is enabled by default. 
+	* `numa_nodes_per_socket_platform_options` - Configuration options for NUMA nodes per socket. 
+		* `allowed_values` - The supported values for this platform configuration property. 
+		* `default_value` - The default NUMA nodes per socket configuration. 
+	* `percentage_of_cores_enabled_options` - Configuration options for the percentage of cores enabled. 
+		* `default_value` - The default percentage of cores enabled. 
+		* `max` - The maximum allowed percentage of cores enabled. 
+		* `min` - The minimum allowed percentage of cores enabled. 
+	* `secure_boot_options` - Configuration options for Secure Boot. 
+		* `allowed_values` - Boolean values that indicate whether Secure Boot can be enabled or disabled. 
+		* `is_default_enabled` - Whether Secure Boot is enabled by default. 
+	* `symmetric_multi_threading_options` - Configuration options for symmetric multithreading (also called simultaneous multithreading or SMT). 
+		* `allowed_values` - Whether symmetric multithreading can be enabled. 
+		* `is_default_enabled` - Whether symmetric multithreading is enabled by default. 
+	* `trusted_platform_module_options` - Configuration options for the Trusted Platform Module (TPM). 
+		* `allowed_values` - Boolean values that indicate whether the Trusted Platform Module can be enabled or disabled. 
+		* `is_default_enabled` - Whether the Trusted Platform Module is enabled by default. 
+	* `type` - The type of platform being configured. 
+	* `virtual_instructions_options` - Configuration options for the virtualization instructions. 
+		* `allowed_values` - Whether virtualization instructions can be enabled. 
+		* `is_default_enabled` - Whether virtualization instructions are enabled by default. 
+
 * `platform_config_options` - The list of supported platform configuration options for this shape.
 	* `access_control_service_options` - Configuration options for the Access Control Service.
 		* `allowed_values` - Whether the Access Control Service can be enabled.
@@ -125,6 +160,7 @@ The following attributes are exported:
 	* `virtual_instructions_options` - Configuration options for the virtualization instructions.
 		* `allowed_values` - Whether virtualization instructions can be enabled.
 		* `is_default_enabled` - Whether virtualization instructions are enabled by default.
+
 * `processor_description` - A short description of the shape's processor (CPU). 
 * `quota_names` - The list of of compartment quotas for the shape. 
 * `rdma_bandwidth_in_gbps` - The networking bandwidth available for the remote direct memory access (RDMA) network for this shape, in gigabits per second. 

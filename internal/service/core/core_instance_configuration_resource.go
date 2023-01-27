@@ -695,6 +695,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Computed: true,
 													ForceNew: true,
 												},
+												"is_memory_encryption_enabled": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
 												"is_secure_boot_enabled": {
 													Type:     schema.TypeBool,
 													Optional: true,
@@ -2366,6 +2372,10 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 			tmp := isMeasuredBootEnabled.(bool)
 			details.IsMeasuredBootEnabled = &tmp
 		}
+		if isMemoryEncryptionEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_memory_encryption_enabled")); ok {
+			tmp := isMemoryEncryptionEnabled.(bool)
+			details.IsMemoryEncryptionEnabled = &tmp
+		}
 		if isSecureBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_secure_boot_enabled")); ok {
 			tmp := isSecureBootEnabled.(bool)
 			details.IsSecureBootEnabled = &tmp
@@ -2404,6 +2414,10 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 			tmp := isMeasuredBootEnabled.(bool)
 			details.IsMeasuredBootEnabled = &tmp
 		}
+		if isMemoryEncryptionEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_memory_encryption_enabled")); ok {
+			tmp := isMemoryEncryptionEnabled.(bool)
+			details.IsMemoryEncryptionEnabled = &tmp
+		}
 		if isSecureBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_secure_boot_enabled")); ok {
 			tmp := isSecureBootEnabled.(bool)
 			details.IsSecureBootEnabled = &tmp
@@ -2438,6 +2452,10 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 			tmp := isMeasuredBootEnabled.(bool)
 			details.IsMeasuredBootEnabled = &tmp
 		}
+		if isMemoryEncryptionEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_memory_encryption_enabled")); ok {
+			tmp := isMemoryEncryptionEnabled.(bool)
+			details.IsMemoryEncryptionEnabled = &tmp
+		}
 		if isSecureBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_secure_boot_enabled")); ok {
 			tmp := isSecureBootEnabled.(bool)
 			details.IsSecureBootEnabled = &tmp
@@ -2452,6 +2470,10 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 		if isMeasuredBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_measured_boot_enabled")); ok {
 			tmp := isMeasuredBootEnabled.(bool)
 			details.IsMeasuredBootEnabled = &tmp
+		}
+		if isMemoryEncryptionEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_memory_encryption_enabled")); ok {
+			tmp := isMemoryEncryptionEnabled.(bool)
+			details.IsMemoryEncryptionEnabled = &tmp
 		}
 		if isSecureBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_secure_boot_enabled")); ok {
 			tmp := isSecureBootEnabled.(bool)
@@ -2483,6 +2505,10 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 			tmp := isMeasuredBootEnabled.(bool)
 			details.IsMeasuredBootEnabled = &tmp
 		}
+		if isMemoryEncryptionEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_memory_encryption_enabled")); ok {
+			tmp := isMemoryEncryptionEnabled.(bool)
+			details.IsMemoryEncryptionEnabled = &tmp
+		}
 		if isSecureBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_secure_boot_enabled")); ok {
 			tmp := isSecureBootEnabled.(bool)
 			details.IsSecureBootEnabled = &tmp
@@ -2498,6 +2524,10 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 			tmp := isMeasuredBootEnabled.(bool)
 			details.IsMeasuredBootEnabled = &tmp
 		}
+		if isMemoryEncryptionEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_memory_encryption_enabled")); ok {
+			tmp := isMemoryEncryptionEnabled.(bool)
+			details.IsMemoryEncryptionEnabled = &tmp
+		}
 		if isSecureBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_secure_boot_enabled")); ok {
 			tmp := isSecureBootEnabled.(bool)
 			details.IsSecureBootEnabled = &tmp
@@ -2512,6 +2542,10 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 		if isMeasuredBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_measured_boot_enabled")); ok {
 			tmp := isMeasuredBootEnabled.(bool)
 			details.IsMeasuredBootEnabled = &tmp
+		}
+		if isMemoryEncryptionEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_memory_encryption_enabled")); ok {
+			tmp := isMemoryEncryptionEnabled.(bool)
+			details.IsMemoryEncryptionEnabled = &tmp
 		}
 		if isSecureBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_secure_boot_enabled")); ok {
 			tmp := isSecureBootEnabled.(bool)
