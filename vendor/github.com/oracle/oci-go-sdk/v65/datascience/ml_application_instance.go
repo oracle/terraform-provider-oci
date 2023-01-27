@@ -31,17 +31,29 @@ type MlApplicationInstance struct {
 	// The name of ML Application (based on mlApplicationId).
 	MlApplicationName *string `mandatory:"true" json:"mlApplicationName"`
 
-	// The OCID of the compartment where the MlApplicationInstance is created.
-	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+	// The OCID of ML Application Implementation selected as a certain solution for a given ML problem (ML Application)
+	MlApplicationImplementationId *string `mandatory:"true" json:"mlApplicationImplementationId"`
+
+	// The name of Ml Application Implementation (based on mlApplicationImplementationId)
+	MlApplicationImplementationName *string `mandatory:"true" json:"mlApplicationImplementationName"`
 
 	// States whether the MlApplicationInstance is supposed to be in ACTIVE lifecycle state.
 	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
 
+	// The OCID of the compartment where the MlApplicationInstance is created.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
 	// The time the the MlApplication was created. An RFC3339 formatted datetime string
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
+	// Time of last MlApplicationInstance update in the format defined by RFC 3339.
+	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
+
 	// The current state of the MlApplicationInstance.
 	LifecycleState MlApplicationInstanceLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// The current substate of the MlApplicationInstance. The substate has MlApplicationInstance specific values in comparison with lifecycleState which has standard values common for all OCI resources.
+	LifecycleSubstate MlApplicationInstanceLifecycleSubstateEnum `mandatory:"true" json:"lifecycleSubstate"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"true" json:"lifecycleDetails"`
@@ -56,7 +68,7 @@ type MlApplicationInstance struct {
 
 	AuthConfiguration AuthConfiguration `mandatory:"false" json:"authConfiguration"`
 
-	// Data that are used for provisioning of the given MlApplicationInstance. These are validated against configurationSchema defined in referenced MlApplication.
+	// Data that are used for provisioning of the given MlApplicationInstance. These are validated against configurationSchema defined in referenced MlApplicationImplementation.
 	Configuration []ConfigurationProperty `mandatory:"false" json:"configuration"`
 
 	// Array of all prediction URIs per use-case.
@@ -79,6 +91,9 @@ func (m MlApplicationInstance) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingMlApplicationInstanceLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetMlApplicationInstanceLifecycleStateEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingMlApplicationInstanceLifecycleSubstateEnum(string(m.LifecycleSubstate)); !ok && m.LifecycleSubstate != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleSubstate: %s. Supported values are: %s.", m.LifecycleSubstate, strings.Join(GetMlApplicationInstanceLifecycleSubstateEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -89,21 +104,25 @@ func (m MlApplicationInstance) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *MlApplicationInstance) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		AuthConfiguration authconfiguration                       `json:"authConfiguration"`
-		Configuration     []ConfigurationProperty                 `json:"configuration"`
-		PredictionUris    []PredictionUri                         `json:"predictionUris"`
-		SystemTags        map[string]map[string]interface{}       `json:"systemTags"`
-		Id                *string                                 `json:"id"`
-		Name              *string                                 `json:"name"`
-		MlApplicationId   *string                                 `json:"mlApplicationId"`
-		MlApplicationName *string                                 `json:"mlApplicationName"`
-		CompartmentId     *string                                 `json:"compartmentId"`
-		IsEnabled         *bool                                   `json:"isEnabled"`
-		TimeCreated       *common.SDKTime                         `json:"timeCreated"`
-		LifecycleState    MlApplicationInstanceLifecycleStateEnum `json:"lifecycleState"`
-		LifecycleDetails  *string                                 `json:"lifecycleDetails"`
-		FreeformTags      map[string]string                       `json:"freeformTags"`
-		DefinedTags       map[string]map[string]interface{}       `json:"definedTags"`
+		AuthConfiguration               authconfiguration                          `json:"authConfiguration"`
+		Configuration                   []ConfigurationProperty                    `json:"configuration"`
+		PredictionUris                  []PredictionUri                            `json:"predictionUris"`
+		SystemTags                      map[string]map[string]interface{}          `json:"systemTags"`
+		Id                              *string                                    `json:"id"`
+		Name                            *string                                    `json:"name"`
+		MlApplicationId                 *string                                    `json:"mlApplicationId"`
+		MlApplicationName               *string                                    `json:"mlApplicationName"`
+		MlApplicationImplementationId   *string                                    `json:"mlApplicationImplementationId"`
+		MlApplicationImplementationName *string                                    `json:"mlApplicationImplementationName"`
+		IsEnabled                       *bool                                      `json:"isEnabled"`
+		CompartmentId                   *string                                    `json:"compartmentId"`
+		TimeCreated                     *common.SDKTime                            `json:"timeCreated"`
+		TimeUpdated                     *common.SDKTime                            `json:"timeUpdated"`
+		LifecycleState                  MlApplicationInstanceLifecycleStateEnum    `json:"lifecycleState"`
+		LifecycleSubstate               MlApplicationInstanceLifecycleSubstateEnum `json:"lifecycleSubstate"`
+		LifecycleDetails                *string                                    `json:"lifecycleDetails"`
+		FreeformTags                    map[string]string                          `json:"freeformTags"`
+		DefinedTags                     map[string]map[string]interface{}          `json:"definedTags"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -141,13 +160,21 @@ func (m *MlApplicationInstance) UnmarshalJSON(data []byte) (e error) {
 
 	m.MlApplicationName = model.MlApplicationName
 
-	m.CompartmentId = model.CompartmentId
+	m.MlApplicationImplementationId = model.MlApplicationImplementationId
+
+	m.MlApplicationImplementationName = model.MlApplicationImplementationName
 
 	m.IsEnabled = model.IsEnabled
 
+	m.CompartmentId = model.CompartmentId
+
 	m.TimeCreated = model.TimeCreated
 
+	m.TimeUpdated = model.TimeUpdated
+
 	m.LifecycleState = model.LifecycleState
+
+	m.LifecycleSubstate = model.LifecycleSubstate
 
 	m.LifecycleDetails = model.LifecycleDetails
 
@@ -163,33 +190,33 @@ type MlApplicationInstanceLifecycleStateEnum string
 
 // Set of constants representing the allowable values for MlApplicationInstanceLifecycleStateEnum
 const (
-	MlApplicationInstanceLifecycleStateCreating MlApplicationInstanceLifecycleStateEnum = "CREATING"
-	MlApplicationInstanceLifecycleStateUpdating MlApplicationInstanceLifecycleStateEnum = "UPDATING"
-	MlApplicationInstanceLifecycleStateActive   MlApplicationInstanceLifecycleStateEnum = "ACTIVE"
-	MlApplicationInstanceLifecycleStateInactive MlApplicationInstanceLifecycleStateEnum = "INACTIVE"
-	MlApplicationInstanceLifecycleStateDeleting MlApplicationInstanceLifecycleStateEnum = "DELETING"
-	MlApplicationInstanceLifecycleStateDeleted  MlApplicationInstanceLifecycleStateEnum = "DELETED"
-	MlApplicationInstanceLifecycleStateFailed   MlApplicationInstanceLifecycleStateEnum = "FAILED"
+	MlApplicationInstanceLifecycleStateCreating       MlApplicationInstanceLifecycleStateEnum = "CREATING"
+	MlApplicationInstanceLifecycleStateUpdating       MlApplicationInstanceLifecycleStateEnum = "UPDATING"
+	MlApplicationInstanceLifecycleStateActive         MlApplicationInstanceLifecycleStateEnum = "ACTIVE"
+	MlApplicationInstanceLifecycleStateInactive       MlApplicationInstanceLifecycleStateEnum = "INACTIVE"
+	MlApplicationInstanceLifecycleStateDeleting       MlApplicationInstanceLifecycleStateEnum = "DELETING"
+	MlApplicationInstanceLifecycleStateNeedsAttention MlApplicationInstanceLifecycleStateEnum = "NEEDS_ATTENTION"
+	MlApplicationInstanceLifecycleStateFailed         MlApplicationInstanceLifecycleStateEnum = "FAILED"
 )
 
 var mappingMlApplicationInstanceLifecycleStateEnum = map[string]MlApplicationInstanceLifecycleStateEnum{
-	"CREATING": MlApplicationInstanceLifecycleStateCreating,
-	"UPDATING": MlApplicationInstanceLifecycleStateUpdating,
-	"ACTIVE":   MlApplicationInstanceLifecycleStateActive,
-	"INACTIVE": MlApplicationInstanceLifecycleStateInactive,
-	"DELETING": MlApplicationInstanceLifecycleStateDeleting,
-	"DELETED":  MlApplicationInstanceLifecycleStateDeleted,
-	"FAILED":   MlApplicationInstanceLifecycleStateFailed,
+	"CREATING":        MlApplicationInstanceLifecycleStateCreating,
+	"UPDATING":        MlApplicationInstanceLifecycleStateUpdating,
+	"ACTIVE":          MlApplicationInstanceLifecycleStateActive,
+	"INACTIVE":        MlApplicationInstanceLifecycleStateInactive,
+	"DELETING":        MlApplicationInstanceLifecycleStateDeleting,
+	"NEEDS_ATTENTION": MlApplicationInstanceLifecycleStateNeedsAttention,
+	"FAILED":          MlApplicationInstanceLifecycleStateFailed,
 }
 
 var mappingMlApplicationInstanceLifecycleStateEnumLowerCase = map[string]MlApplicationInstanceLifecycleStateEnum{
-	"creating": MlApplicationInstanceLifecycleStateCreating,
-	"updating": MlApplicationInstanceLifecycleStateUpdating,
-	"active":   MlApplicationInstanceLifecycleStateActive,
-	"inactive": MlApplicationInstanceLifecycleStateInactive,
-	"deleting": MlApplicationInstanceLifecycleStateDeleting,
-	"deleted":  MlApplicationInstanceLifecycleStateDeleted,
-	"failed":   MlApplicationInstanceLifecycleStateFailed,
+	"creating":        MlApplicationInstanceLifecycleStateCreating,
+	"updating":        MlApplicationInstanceLifecycleStateUpdating,
+	"active":          MlApplicationInstanceLifecycleStateActive,
+	"inactive":        MlApplicationInstanceLifecycleStateInactive,
+	"deleting":        MlApplicationInstanceLifecycleStateDeleting,
+	"needs_attention": MlApplicationInstanceLifecycleStateNeedsAttention,
+	"failed":          MlApplicationInstanceLifecycleStateFailed,
 }
 
 // GetMlApplicationInstanceLifecycleStateEnumValues Enumerates the set of values for MlApplicationInstanceLifecycleStateEnum
@@ -209,7 +236,7 @@ func GetMlApplicationInstanceLifecycleStateEnumStringValues() []string {
 		"ACTIVE",
 		"INACTIVE",
 		"DELETING",
-		"DELETED",
+		"NEEDS_ATTENTION",
 		"FAILED",
 	}
 }
@@ -217,5 +244,71 @@ func GetMlApplicationInstanceLifecycleStateEnumStringValues() []string {
 // GetMappingMlApplicationInstanceLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingMlApplicationInstanceLifecycleStateEnum(val string) (MlApplicationInstanceLifecycleStateEnum, bool) {
 	enum, ok := mappingMlApplicationInstanceLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// MlApplicationInstanceLifecycleSubstateEnum Enum with underlying type: string
+type MlApplicationInstanceLifecycleSubstateEnum string
+
+// Set of constants representing the allowable values for MlApplicationInstanceLifecycleSubstateEnum
+const (
+	MlApplicationInstanceLifecycleSubstateCreating       MlApplicationInstanceLifecycleSubstateEnum = "CREATING"
+	MlApplicationInstanceLifecycleSubstateUpdating       MlApplicationInstanceLifecycleSubstateEnum = "UPDATING"
+	MlApplicationInstanceLifecycleSubstateUpgrading      MlApplicationInstanceLifecycleSubstateEnum = "UPGRADING"
+	MlApplicationInstanceLifecycleSubstateActive         MlApplicationInstanceLifecycleSubstateEnum = "ACTIVE"
+	MlApplicationInstanceLifecycleSubstateInactive       MlApplicationInstanceLifecycleSubstateEnum = "INACTIVE"
+	MlApplicationInstanceLifecycleSubstateDeleting       MlApplicationInstanceLifecycleSubstateEnum = "DELETING"
+	MlApplicationInstanceLifecycleSubstateNeedsAttention MlApplicationInstanceLifecycleSubstateEnum = "NEEDS_ATTENTION"
+	MlApplicationInstanceLifecycleSubstateFailed         MlApplicationInstanceLifecycleSubstateEnum = "FAILED"
+)
+
+var mappingMlApplicationInstanceLifecycleSubstateEnum = map[string]MlApplicationInstanceLifecycleSubstateEnum{
+	"CREATING":        MlApplicationInstanceLifecycleSubstateCreating,
+	"UPDATING":        MlApplicationInstanceLifecycleSubstateUpdating,
+	"UPGRADING":       MlApplicationInstanceLifecycleSubstateUpgrading,
+	"ACTIVE":          MlApplicationInstanceLifecycleSubstateActive,
+	"INACTIVE":        MlApplicationInstanceLifecycleSubstateInactive,
+	"DELETING":        MlApplicationInstanceLifecycleSubstateDeleting,
+	"NEEDS_ATTENTION": MlApplicationInstanceLifecycleSubstateNeedsAttention,
+	"FAILED":          MlApplicationInstanceLifecycleSubstateFailed,
+}
+
+var mappingMlApplicationInstanceLifecycleSubstateEnumLowerCase = map[string]MlApplicationInstanceLifecycleSubstateEnum{
+	"creating":        MlApplicationInstanceLifecycleSubstateCreating,
+	"updating":        MlApplicationInstanceLifecycleSubstateUpdating,
+	"upgrading":       MlApplicationInstanceLifecycleSubstateUpgrading,
+	"active":          MlApplicationInstanceLifecycleSubstateActive,
+	"inactive":        MlApplicationInstanceLifecycleSubstateInactive,
+	"deleting":        MlApplicationInstanceLifecycleSubstateDeleting,
+	"needs_attention": MlApplicationInstanceLifecycleSubstateNeedsAttention,
+	"failed":          MlApplicationInstanceLifecycleSubstateFailed,
+}
+
+// GetMlApplicationInstanceLifecycleSubstateEnumValues Enumerates the set of values for MlApplicationInstanceLifecycleSubstateEnum
+func GetMlApplicationInstanceLifecycleSubstateEnumValues() []MlApplicationInstanceLifecycleSubstateEnum {
+	values := make([]MlApplicationInstanceLifecycleSubstateEnum, 0)
+	for _, v := range mappingMlApplicationInstanceLifecycleSubstateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetMlApplicationInstanceLifecycleSubstateEnumStringValues Enumerates the set of values in String for MlApplicationInstanceLifecycleSubstateEnum
+func GetMlApplicationInstanceLifecycleSubstateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"UPGRADING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"NEEDS_ATTENTION",
+		"FAILED",
+	}
+}
+
+// GetMappingMlApplicationInstanceLifecycleSubstateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingMlApplicationInstanceLifecycleSubstateEnum(val string) (MlApplicationInstanceLifecycleSubstateEnum, bool) {
+	enum, ok := mappingMlApplicationInstanceLifecycleSubstateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

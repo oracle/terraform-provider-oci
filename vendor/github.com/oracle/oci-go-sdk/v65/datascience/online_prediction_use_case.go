@@ -70,14 +70,17 @@ type OnlinePredictionUseCaseAuthTypeEnum string
 // Set of constants representing the allowable values for OnlinePredictionUseCaseAuthTypeEnum
 const (
 	OnlinePredictionUseCaseAuthTypeIdcs OnlinePredictionUseCaseAuthTypeEnum = "IDCS"
+	OnlinePredictionUseCaseAuthTypeIam  OnlinePredictionUseCaseAuthTypeEnum = "IAM"
 )
 
 var mappingOnlinePredictionUseCaseAuthTypeEnum = map[string]OnlinePredictionUseCaseAuthTypeEnum{
 	"IDCS": OnlinePredictionUseCaseAuthTypeIdcs,
+	"IAM":  OnlinePredictionUseCaseAuthTypeIam,
 }
 
 var mappingOnlinePredictionUseCaseAuthTypeEnumLowerCase = map[string]OnlinePredictionUseCaseAuthTypeEnum{
 	"idcs": OnlinePredictionUseCaseAuthTypeIdcs,
+	"iam":  OnlinePredictionUseCaseAuthTypeIam,
 }
 
 // GetOnlinePredictionUseCaseAuthTypeEnumValues Enumerates the set of values for OnlinePredictionUseCaseAuthTypeEnum
@@ -93,6 +96,7 @@ func GetOnlinePredictionUseCaseAuthTypeEnumValues() []OnlinePredictionUseCaseAut
 func GetOnlinePredictionUseCaseAuthTypeEnumStringValues() []string {
 	return []string{
 		"IDCS",
+		"IAM",
 	}
 }
 

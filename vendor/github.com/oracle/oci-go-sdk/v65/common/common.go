@@ -39,6 +39,9 @@ const (
 	realmKeyPropertyName             = "realmKey"             // e.g. "oc1"
 	realmDomainComponentPropertyName = "realmDomainComponent" // e.g. "oraclecloud.com"
 	regionKeyPropertyName            = "regionKey"            // e.g. "SYD"
+
+	// OciRealmSpecificServiceEndpointTemplateEnabledEnvVar is the environment variable name to enable the realm specific service endpoint template.
+	OciRealmSpecificServiceEndpointTemplateEnabledEnvVar = "OCI_REALM_SPECIFIC_SERVICE_ENDPOINT_TEMPLATE_ENABLED"
 )
 
 // External region metadata info flag, used to control adding these metadata region info only once.
@@ -46,6 +49,9 @@ var readCfgFile, readEnvVar, visitIMDS bool = true, true, false
 
 // getRegionInfoFromInstanceMetadataService gets the region information
 var getRegionInfoFromInstanceMetadataService = getRegionInfoFromInstanceMetadataServiceProd
+
+// OciRealmSpecificServiceEndpointTemplateEnabled is the flag to enable the realm specific service endpoint template. This one has higher priority than the environment variable.
+var OciRealmSpecificServiceEndpointTemplateEnabled *bool = nil
 
 // Endpoint returns a endpoint for a service
 func (region Region) Endpoint(service string) string {
@@ -382,4 +388,19 @@ func getRegionInfoFromInstanceMetadataServiceProd() ([]byte, error) {
 	}
 
 	return content, nil
+}
+
+// TemplateParamForPerRealmEndpoint is a template parameter for per-realm endpoint.
+type TemplateParamForPerRealmEndpoint struct {
+	Template    string
+	EndsWithDot bool
+}
+
+// SetMissingTemplateParams function will parse the {} template in client host and replace with empty string.
+func SetMissingTemplateParams(client *BaseClient) {
+	templateRegex := regexp.MustCompile(`{.*?}`)
+	templates := templateRegex.FindAllString(client.Host, -1)
+	for _, template := range templates {
+		client.Host = strings.Replace(client.Host, template, "", -1)
+	}
 }

@@ -15,20 +15,27 @@ import (
 	"strings"
 )
 
-// CreateGoldenGateServiceDetails Details about Oracle GoldenGate GGS Deployment.
-type CreateGoldenGateServiceDetails struct {
-	Settings *CreateGoldenGateSettings `mandatory:"false" json:"settings"`
+// DiagnosticsResult Result from Database Connection Diagnostic action.
+type DiagnosticsResult struct {
+
+	// Type of the Result (i.e. Success or Failure).
+	ResultType ResultTypeEnum `mandatory:"true" json:"resultType"`
+
+	Error *ResultError `mandatory:"false" json:"error"`
 }
 
-func (m CreateGoldenGateServiceDetails) String() string {
+func (m DiagnosticsResult) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m CreateGoldenGateServiceDetails) ValidateEnumValue() (bool, error) {
+func (m DiagnosticsResult) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingResultTypeEnum(string(m.ResultType)); !ok && m.ResultType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResultType: %s. Supported values are: %s.", m.ResultType, strings.Join(GetResultTypeEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

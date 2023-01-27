@@ -23,8 +23,8 @@ type ListMlApplicationInstancesRequest struct {
 	// unique MlApplication identifier
 	MlApplicationId *string `mandatory:"false" contributesTo:"query" name:"mlApplicationId"`
 
-	// A filter to return only resources with lifecycleState matching the given lifecycleState.
-	LifecycleState MlApplicationInstanceLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+	// A filter to return only resources with lifecycleSubstate matching the given lifecycleSubState.
+	LifecycleSubstate MlApplicationInstanceLifecycleSubstateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleSubstate" omitEmpty:"true"`
 
 	// For list pagination. The maximum number of results per page,
 	// or items to return in a paginated "List" call.
@@ -83,8 +83,8 @@ func (request ListMlApplicationInstancesRequest) RetryPolicy() *common.RetryPoli
 // Not recommended for calling this function directly
 func (request ListMlApplicationInstancesRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingMlApplicationInstanceLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetMlApplicationInstanceLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingMlApplicationInstanceLifecycleSubstateEnum(string(request.LifecycleSubstate)); !ok && request.LifecycleSubstate != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleSubstate: %s. Supported values are: %s.", request.LifecycleSubstate, strings.Join(GetMlApplicationInstanceLifecycleSubstateEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListMlApplicationInstancesSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListMlApplicationInstancesSortOrderEnumStringValues(), ",")))

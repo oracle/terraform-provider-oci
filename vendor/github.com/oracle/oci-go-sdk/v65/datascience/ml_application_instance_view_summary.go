@@ -24,6 +24,30 @@ type MlApplicationInstanceViewSummary struct {
 	// This field is a copy from MlApplicationInstance created by the consumer. The name must be unique for the given namespace (consumer tenancy namespace).
 	Name *string `mandatory:"true" json:"name"`
 
+	// The namespace of (consumer) tenancy where MlApplicationInstance is located.
+	Namespace *string `mandatory:"true" json:"namespace"`
+
+	// The OCID of ML Application. This resource is an instance of ML Application referenced by this OCID.
+	MlApplicationId *string `mandatory:"true" json:"mlApplicationId"`
+
+	// The OCID of the MlApplicationInstance (created by the consumer) which this MlApplicationInstanceView is mirroring.
+	MlApplicationInstanceId *string `mandatory:"true" json:"mlApplicationInstanceId"`
+
+	// This field is a copy from MlApplicationInstance created by the consumer. The OCID of ML Application Implementation selected as a certain solution for a given ML problem (ML Application)
+	MlApplicationImplementationId *string `mandatory:"true" json:"mlApplicationImplementationId"`
+
+	// This field is a copy from MlApplicationInstance created by the consumer. The name of Ml Application Implemenation (based on mlApplicationImplementationId)
+	MlApplicationImplementationName *string `mandatory:"true" json:"mlApplicationImplementationName"`
+
+	// Version of MlApplicationImplementation which is currently used by this MlApplicationInstance.
+	MlApplicationImplementationVersion *string `mandatory:"true" json:"mlApplicationImplementationVersion"`
+
+	// The OCID of the currently used MlApplicationImplementationVersion
+	MlApplicationImplementationVersionId *string `mandatory:"true" json:"mlApplicationImplementationVersionId"`
+
+	// This field is a copy from MlApplicationInstance created by the consumer. States whether the MlApplicationInstance is supposed to be in ACTIVE lifecycle state.
+	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
+
 	// The OCID of the compartment where the MlApplicationInstanceView is created.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
@@ -33,14 +57,8 @@ type MlApplicationInstanceViewSummary struct {
 	// The current state of the MlApplicationInstance(View).
 	LifecycleState MlApplicationInstanceViewLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
-	LifecycleDetails *string `mandatory:"true" json:"lifecycleDetails"`
-
-	// The namespace of (consumer) tenancy where MlApplicationInstance is located.
-	Namespace *string `mandatory:"false" json:"namespace"`
-
-	// The OCID of ML Application. This resource is an instance of ML Application referenced by this OCID.
-	MlApplicationId *string `mandatory:"false" json:"mlApplicationId"`
+	// The current substate of the MlApplicationInstance. The substate has MlApplicationInstance specific values in comparison with lifecycleState which has standard values common for all OCI resources.
+	LifecycleSubstate MlApplicationInstanceViewLifecycleSubstateEnum `mandatory:"true" json:"lifecycleSubstate"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -49,6 +67,10 @@ type MlApplicationInstanceViewSummary struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m MlApplicationInstanceViewSummary) String() string {
@@ -62,6 +84,9 @@ func (m MlApplicationInstanceViewSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingMlApplicationInstanceViewLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetMlApplicationInstanceViewLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingMlApplicationInstanceViewLifecycleSubstateEnum(string(m.LifecycleSubstate)); !ok && m.LifecycleSubstate != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleSubstate: %s. Supported values are: %s.", m.LifecycleSubstate, strings.Join(GetMlApplicationInstanceViewLifecycleSubstateEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {

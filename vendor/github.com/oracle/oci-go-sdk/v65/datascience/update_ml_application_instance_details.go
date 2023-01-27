@@ -21,6 +21,9 @@ type UpdateMlApplicationInstanceDetails struct {
 	// Data that are used for provisioning of the given MlApplicationInstance. These are validated against configurationSchema defined in referenced MlApplication.
 	Configuration []ConfigurationProperty `mandatory:"false" json:"configuration"`
 
+	// The OCID of ML Application Implementation selected as a certain solution for a given ML problem (ML Application) used for the given instance.
+	MlApplicationImplementationId *string `mandatory:"false" json:"mlApplicationImplementationId"`
+
 	// Switches lifecycle state of MlApplicationInstance from INACTIVE to ACTIVE (true value) or vice versa (false value).
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 

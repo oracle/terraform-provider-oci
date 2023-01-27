@@ -18,7 +18,7 @@ import (
 // MlApplicationInstanceCollection Results of a mlApplicationInstance search. It contains list of MlApplicationInstanceSummary items.
 type MlApplicationInstanceCollection struct {
 
-	// List of mlApplicationInstances.
+	// List of MlApplicationInstanceSummaries.
 	Items []MlApplicationInstanceSummary `mandatory:"true" json:"items"`
 }
 

@@ -21,7 +21,7 @@ type MlApplicationInstanceSummary struct {
 	// The OCID of the MlApplicationInstance. Unique identifier that is immutable after creation
 	Id *string `mandatory:"true" json:"id"`
 
-	// Resource name which must be unique in the context of given ML Application Implementation.
+	// Resource name which must be unique in the context of given ML Application and tenancy.
 	Name *string `mandatory:"true" json:"name"`
 
 	// The OCID of ML Application. This resource is an instance of ML Application referenced by this OCID.
@@ -29,6 +29,12 @@ type MlApplicationInstanceSummary struct {
 
 	// The name of ML Application (based on mlApplicationId).
 	MlApplicationName *string `mandatory:"true" json:"mlApplicationName"`
+
+	// The OCID of ML Application Implementation selected as a certain solution for a given ML problem (ML Application)
+	MlApplicationImplementationId *string `mandatory:"true" json:"mlApplicationImplementationId"`
+
+	// The name of Ml Application Implementation (based on mlApplicationImplementationId)
+	MlApplicationImplementationName *string `mandatory:"true" json:"mlApplicationImplementationName"`
 
 	// The OCID of the compartment where you the MlApplicationInstance is created.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
@@ -39,8 +45,8 @@ type MlApplicationInstanceSummary struct {
 	// The current state of the MlApplicationInstance.
 	LifecycleState MlApplicationInstanceLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
-	LifecycleDetails *string `mandatory:"true" json:"lifecycleDetails"`
+	// The current substate of the MlApplicationInstance. The substate has MlApplicationInstance specific values in comparison with lifecycleState which has standard values common for all OCI resources.
+	LifecycleSubstate MlApplicationInstanceLifecycleSubstateEnum `mandatory:"true" json:"lifecycleSubstate"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -66,6 +72,9 @@ func (m MlApplicationInstanceSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingMlApplicationInstanceLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetMlApplicationInstanceLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingMlApplicationInstanceLifecycleSubstateEnum(string(m.LifecycleSubstate)); !ok && m.LifecycleSubstate != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleSubstate: %s. Supported values are: %s.", m.LifecycleSubstate, strings.Join(GetMlApplicationInstanceLifecycleSubstateEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {

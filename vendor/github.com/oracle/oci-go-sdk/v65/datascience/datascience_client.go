@@ -520,9 +520,10 @@ func (client DataScienceClient) changeJobRunCompartment(ctx context.Context, req
 }
 
 // ChangeMlApplicationCompartment Moves a MlApplication resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeMlApplicationCompartment()
 func (client DataScienceClient) ChangeMlApplicationCompartment(ctx context.Context, request ChangeMlApplicationCompartmentRequest) (response ChangeMlApplicationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -577,10 +578,70 @@ func (client DataScienceClient) changeMlApplicationCompartment(ctx context.Conte
 	return response, err
 }
 
+// ChangeMlApplicationImplementationCompartment Moves a MlApplicationImplementation resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeMlApplicationImplementationCompartment()
+func (client DataScienceClient) ChangeMlApplicationImplementationCompartment(ctx context.Context, request ChangeMlApplicationImplementationCompartmentRequest) (response ChangeMlApplicationImplementationCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeMlApplicationImplementationCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeMlApplicationImplementationCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeMlApplicationImplementationCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeMlApplicationImplementationCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeMlApplicationImplementationCompartmentResponse")
+	}
+	return
+}
+
+// changeMlApplicationImplementationCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) changeMlApplicationImplementationCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mlApplicationImplementations/{mlApplicationImplementationId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeMlApplicationImplementationCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementation/ChangeMlApplicationImplementationCompartment"
+		err = common.PostProcessServiceError(err, "DataScience", "ChangeMlApplicationImplementationCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeMlApplicationInstanceCompartment Moves a MlApplicationInstance resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeMlApplicationInstanceCompartment()
 func (client DataScienceClient) ChangeMlApplicationInstanceCompartment(ctx context.Context, request ChangeMlApplicationInstanceCompartmentRequest) (response ChangeMlApplicationInstanceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -636,9 +697,10 @@ func (client DataScienceClient) changeMlApplicationInstanceCompartment(ctx conte
 }
 
 // ChangeMlApplicationInstanceViewCompartment Moves a MlApplicationInstanceView resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeMlApplicationInstanceViewCompartment()
 func (client DataScienceClient) ChangeMlApplicationInstanceViewCompartment(ctx context.Context, request ChangeMlApplicationInstanceViewCompartmentRequest) (response ChangeMlApplicationInstanceViewCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1276,9 +1338,10 @@ func (client DataScienceClient) createJobRun(ctx context.Context, request common
 }
 
 // CreateMlApplication Creates a new MlApplication.
+// A default retry strategy applies to this operation CreateMlApplication()
 func (client DataScienceClient) CreateMlApplication(ctx context.Context, request CreateMlApplicationRequest) (response CreateMlApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1333,10 +1396,70 @@ func (client DataScienceClient) createMlApplication(ctx context.Context, request
 	return response, err
 }
 
+// CreateMlApplicationImplementation Creates a new MlApplicationImplementation.
+// A default retry strategy applies to this operation CreateMlApplicationImplementation()
+func (client DataScienceClient) CreateMlApplicationImplementation(ctx context.Context, request CreateMlApplicationImplementationRequest) (response CreateMlApplicationImplementationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createMlApplicationImplementation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateMlApplicationImplementationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateMlApplicationImplementationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateMlApplicationImplementationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateMlApplicationImplementationResponse")
+	}
+	return
+}
+
+// createMlApplicationImplementation implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) createMlApplicationImplementation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mlApplicationImplementations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateMlApplicationImplementationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementation/CreateMlApplicationImplementation"
+		err = common.PostProcessServiceError(err, "DataScience", "CreateMlApplicationImplementation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateMlApplicationInstance Creates a new MlApplicationInstance.
+// A default retry strategy applies to this operation CreateMlApplicationInstance()
 func (client DataScienceClient) CreateMlApplicationInstance(ctx context.Context, request CreateMlApplicationInstanceRequest) (response CreateMlApplicationInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2269,9 +2392,10 @@ func (client DataScienceClient) deleteJobRun(ctx context.Context, request common
 }
 
 // DeleteMlApplication Deletes a MlApplication resource by identifier
+// A default retry strategy applies to this operation DeleteMlApplication()
 func (client DataScienceClient) DeleteMlApplication(ctx context.Context, request DeleteMlApplicationRequest) (response DeleteMlApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2321,10 +2445,65 @@ func (client DataScienceClient) deleteMlApplication(ctx context.Context, request
 	return response, err
 }
 
+// DeleteMlApplicationImplementation Deletes a MlApplicationImplementation resource by identifier
+// A default retry strategy applies to this operation DeleteMlApplicationImplementation()
+func (client DataScienceClient) DeleteMlApplicationImplementation(ctx context.Context, request DeleteMlApplicationImplementationRequest) (response DeleteMlApplicationImplementationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteMlApplicationImplementation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteMlApplicationImplementationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteMlApplicationImplementationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteMlApplicationImplementationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteMlApplicationImplementationResponse")
+	}
+	return
+}
+
+// deleteMlApplicationImplementation implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) deleteMlApplicationImplementation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/mlApplicationImplementations/{mlApplicationImplementationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteMlApplicationImplementationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementation/DeleteMlApplicationImplementation"
+		err = common.PostProcessServiceError(err, "DataScience", "DeleteMlApplicationImplementation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteMlApplicationInstance Deletes a MlApplicationInstance resource by identifier
+// A default retry strategy applies to this operation DeleteMlApplicationInstance()
 func (client DataScienceClient) DeleteMlApplicationInstance(ctx context.Context, request DeleteMlApplicationInstanceRequest) (response DeleteMlApplicationInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2809,58 +2988,6 @@ func (client DataScienceClient) exportModelArtifact(ctx context.Context, request
 	return response, err
 }
 
-// GetInstanceComponentTemplateArtifactContent Gets instance component template file uploaded during ML Application creation
-func (client DataScienceClient) GetInstanceComponentTemplateArtifactContent(ctx context.Context, request GetInstanceComponentTemplateArtifactContentRequest) (response GetInstanceComponentTemplateArtifactContentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getInstanceComponentTemplateArtifactContent, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetInstanceComponentTemplateArtifactContentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetInstanceComponentTemplateArtifactContentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetInstanceComponentTemplateArtifactContentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetInstanceComponentTemplateArtifactContentResponse")
-	}
-	return
-}
-
-// getInstanceComponentTemplateArtifactContent implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) getInstanceComponentTemplateArtifactContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mlApplications/{mlApplicationId}/instanceComponentTemplateArtifact/content", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetInstanceComponentTemplateArtifactContentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplication/GetInstanceComponentTemplateArtifactContent"
-		err = common.PostProcessServiceError(err, "DataScience", "GetInstanceComponentTemplateArtifactContent", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetJob Gets a job.
 // A default retry strategy applies to this operation GetJob()
 func (client DataScienceClient) GetJob(ctx context.Context, request GetJobRequest) (response GetJobResponse, err error) {
@@ -3023,9 +3150,10 @@ func (client DataScienceClient) getJobRun(ctx context.Context, request common.OC
 }
 
 // GetMlApplication Gets a MlApplication by identifier
+// A default retry strategy applies to this operation GetMlApplication()
 func (client DataScienceClient) GetMlApplication(ctx context.Context, request GetMlApplicationRequest) (response GetMlApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3075,10 +3203,172 @@ func (client DataScienceClient) getMlApplication(ctx context.Context, request co
 	return response, err
 }
 
+// GetMlApplicationHistoricalPackageContent Retrieves ML Application package for MlApplicationImplementationVersion with given id.
+// A default retry strategy applies to this operation GetMlApplicationHistoricalPackageContent()
+func (client DataScienceClient) GetMlApplicationHistoricalPackageContent(ctx context.Context, request GetMlApplicationHistoricalPackageContentRequest) (response GetMlApplicationHistoricalPackageContentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getMlApplicationHistoricalPackageContent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetMlApplicationHistoricalPackageContentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetMlApplicationHistoricalPackageContentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetMlApplicationHistoricalPackageContentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetMlApplicationHistoricalPackageContentResponse")
+	}
+	return
+}
+
+// getMlApplicationHistoricalPackageContent implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) getMlApplicationHistoricalPackageContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mlApplicationImplementationVersions/{mlApplicationImplementationVersionId}/mlApplicationHistoricalPackage/content", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetMlApplicationHistoricalPackageContentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementationVersion/GetMlApplicationHistoricalPackageContent"
+		err = common.PostProcessServiceError(err, "DataScience", "GetMlApplicationHistoricalPackageContent", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetMlApplicationImplementation Gets a MlApplicationImplementation by identifier
+// A default retry strategy applies to this operation GetMlApplicationImplementation()
+func (client DataScienceClient) GetMlApplicationImplementation(ctx context.Context, request GetMlApplicationImplementationRequest) (response GetMlApplicationImplementationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getMlApplicationImplementation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetMlApplicationImplementationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetMlApplicationImplementationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetMlApplicationImplementationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetMlApplicationImplementationResponse")
+	}
+	return
+}
+
+// getMlApplicationImplementation implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) getMlApplicationImplementation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mlApplicationImplementations/{mlApplicationImplementationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetMlApplicationImplementationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementation/GetMlApplicationImplementation"
+		err = common.PostProcessServiceError(err, "DataScience", "GetMlApplicationImplementation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetMlApplicationImplementationVersion Gets a MlApplicationImplementationVersion by identifier
+// A default retry strategy applies to this operation GetMlApplicationImplementationVersion()
+func (client DataScienceClient) GetMlApplicationImplementationVersion(ctx context.Context, request GetMlApplicationImplementationVersionRequest) (response GetMlApplicationImplementationVersionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getMlApplicationImplementationVersion, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetMlApplicationImplementationVersionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetMlApplicationImplementationVersionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetMlApplicationImplementationVersionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetMlApplicationImplementationVersionResponse")
+	}
+	return
+}
+
+// getMlApplicationImplementationVersion implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) getMlApplicationImplementationVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mlApplicationImplementationVersions/{mlApplicationImplementationVersionId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetMlApplicationImplementationVersionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementationVersion/GetMlApplicationImplementationVersion"
+		err = common.PostProcessServiceError(err, "DataScience", "GetMlApplicationImplementationVersion", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetMlApplicationInstance Gets a MlApplicationInstance by identifier
+// A default retry strategy applies to this operation GetMlApplicationInstance()
 func (client DataScienceClient) GetMlApplicationInstance(ctx context.Context, request GetMlApplicationInstanceRequest) (response GetMlApplicationInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3129,9 +3419,10 @@ func (client DataScienceClient) getMlApplicationInstance(ctx context.Context, re
 }
 
 // GetMlApplicationInstanceView Gets a MlApplicationInstanceView by identifier
+// A default retry strategy applies to this operation GetMlApplicationInstanceView()
 func (client DataScienceClient) GetMlApplicationInstanceView(ctx context.Context, request GetMlApplicationInstanceViewRequest) (response GetMlApplicationInstanceViewResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -3174,6 +3465,59 @@ func (client DataScienceClient) getMlApplicationInstanceView(ctx context.Context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationInstanceView/GetMlApplicationInstanceView"
 		err = common.PostProcessServiceError(err, "DataScience", "GetMlApplicationInstanceView", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetMlApplicationPackageContent Retrieves last ML Application package uploaded for given ML Application Implementation
+// A default retry strategy applies to this operation GetMlApplicationPackageContent()
+func (client DataScienceClient) GetMlApplicationPackageContent(ctx context.Context, request GetMlApplicationPackageContentRequest) (response GetMlApplicationPackageContentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getMlApplicationPackageContent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetMlApplicationPackageContentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetMlApplicationPackageContentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetMlApplicationPackageContentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetMlApplicationPackageContentResponse")
+	}
+	return
+}
+
+// getMlApplicationPackageContent implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) getMlApplicationPackageContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mlApplicationImplementations/{mlApplicationImplementationId}/mlApplicationPackage/content", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetMlApplicationPackageContentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementation/GetMlApplicationPackageContent"
+		err = common.PostProcessServiceError(err, "DataScience", "GetMlApplicationPackageContent", apiReferenceLink)
 		return response, err
 	}
 
@@ -4214,10 +4558,119 @@ func (client DataScienceClient) listJobs(ctx context.Context, request common.OCI
 	return response, err
 }
 
+// ListMlApplicationImplementationVersions Returns a list of MlApplicationImplementationVersions.
+// A default retry strategy applies to this operation ListMlApplicationImplementationVersions()
+func (client DataScienceClient) ListMlApplicationImplementationVersions(ctx context.Context, request ListMlApplicationImplementationVersionsRequest) (response ListMlApplicationImplementationVersionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listMlApplicationImplementationVersions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListMlApplicationImplementationVersionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListMlApplicationImplementationVersionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListMlApplicationImplementationVersionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListMlApplicationImplementationVersionsResponse")
+	}
+	return
+}
+
+// listMlApplicationImplementationVersions implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) listMlApplicationImplementationVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mlApplicationImplementationVersions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListMlApplicationImplementationVersionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementationVersionSummary/ListMlApplicationImplementationVersions"
+		err = common.PostProcessServiceError(err, "DataScience", "ListMlApplicationImplementationVersions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListMlApplicationImplementations Returns a list of MlApplicationImplementations.
+// A default retry strategy applies to this operation ListMlApplicationImplementations()
+func (client DataScienceClient) ListMlApplicationImplementations(ctx context.Context, request ListMlApplicationImplementationsRequest) (response ListMlApplicationImplementationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listMlApplicationImplementations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListMlApplicationImplementationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListMlApplicationImplementationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListMlApplicationImplementationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListMlApplicationImplementationsResponse")
+	}
+	return
+}
+
+// listMlApplicationImplementations implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) listMlApplicationImplementations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mlApplicationImplementations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListMlApplicationImplementationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementationSummary/ListMlApplicationImplementations"
+		err = common.PostProcessServiceError(err, "DataScience", "ListMlApplicationImplementations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListMlApplicationInstanceViews Returns a list of MlApplicationInstanceViews.
+// A default retry strategy applies to this operation ListMlApplicationInstanceViews()
 func (client DataScienceClient) ListMlApplicationInstanceViews(ctx context.Context, request ListMlApplicationInstanceViewsRequest) (response ListMlApplicationInstanceViewsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4268,9 +4721,10 @@ func (client DataScienceClient) listMlApplicationInstanceViews(ctx context.Conte
 }
 
 // ListMlApplicationInstances Returns a list of MlApplicationsInstances.
+// A default retry strategy applies to this operation ListMlApplicationInstances()
 func (client DataScienceClient) ListMlApplicationInstances(ctx context.Context, request ListMlApplicationInstancesRequest) (response ListMlApplicationInstancesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -4321,9 +4775,10 @@ func (client DataScienceClient) listMlApplicationInstances(ctx context.Context, 
 }
 
 // ListMlApplications Returns a list of MlApplications.
+// A default retry strategy applies to this operation ListMlApplications()
 func (client DataScienceClient) ListMlApplications(ctx context.Context, request ListMlApplicationsRequest) (response ListMlApplicationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5021,10 +5476,11 @@ func (client DataScienceClient) listWorkRequests(ctx context.Context, request co
 	return response, err
 }
 
-// PutInstanceComponentTemplateArtifact Upload instance component template artifact
-func (client DataScienceClient) PutInstanceComponentTemplateArtifact(ctx context.Context, request PutInstanceComponentTemplateArtifactRequest) (response PutInstanceComponentTemplateArtifactResponse, err error) {
+// PutMlApplicationPackage Upload ML Application Package
+// A default retry strategy applies to this operation PutMlApplicationPackage()
+func (client DataScienceClient) PutMlApplicationPackage(ctx context.Context, request PutMlApplicationPackageRequest) (response PutMlApplicationPackageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5036,42 +5492,42 @@ func (client DataScienceClient) PutInstanceComponentTemplateArtifact(ctx context
 		request.OpcRetryToken = common.String(common.RetryToken())
 	}
 
-	ociResponse, err = common.Retry(ctx, request, client.putInstanceComponentTemplateArtifact, policy)
+	ociResponse, err = common.Retry(ctx, request, client.putMlApplicationPackage, policy)
 	if err != nil {
 		if ociResponse != nil {
 			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
 				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = PutInstanceComponentTemplateArtifactResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+				response = PutMlApplicationPackageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
 			} else {
-				response = PutInstanceComponentTemplateArtifactResponse{}
+				response = PutMlApplicationPackageResponse{}
 			}
 		}
 		return
 	}
-	if convertedResponse, ok := ociResponse.(PutInstanceComponentTemplateArtifactResponse); ok {
+	if convertedResponse, ok := ociResponse.(PutMlApplicationPackageResponse); ok {
 		response = convertedResponse
 	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into PutInstanceComponentTemplateArtifactResponse")
+		err = fmt.Errorf("failed to convert OCIResponse into PutMlApplicationPackageResponse")
 	}
 	return
 }
 
-// putInstanceComponentTemplateArtifact implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) putInstanceComponentTemplateArtifact(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+// putMlApplicationPackage implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) putMlApplicationPackage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/mlApplications/{mlApplicationId}/instanceComponentTemplateArtifact", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/mlApplicationImplementations/{mlApplicationImplementationId}/mlApplicationPackage", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
 
-	var response PutInstanceComponentTemplateArtifactResponse
+	var response PutMlApplicationPackageResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplication/PutInstanceComponentTemplateArtifact"
-		err = common.PostProcessServiceError(err, "DataScience", "PutInstanceComponentTemplateArtifact", apiReferenceLink)
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementation/PutMlApplicationPackage"
+		err = common.PostProcessServiceError(err, "DataScience", "PutMlApplicationPackage", apiReferenceLink)
 		return response, err
 	}
 
@@ -5188,9 +5644,10 @@ func (client DataScienceClient) updateJobRun(ctx context.Context, request common
 }
 
 // UpdateMlApplication Updates the MlApplication
+// A default retry strategy applies to this operation UpdateMlApplication()
 func (client DataScienceClient) UpdateMlApplication(ctx context.Context, request UpdateMlApplicationRequest) (response UpdateMlApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -5240,10 +5697,119 @@ func (client DataScienceClient) updateMlApplication(ctx context.Context, request
 	return response, err
 }
 
+// UpdateMlApplicationImplementation Updates the MlApplicationImplementation
+// A default retry strategy applies to this operation UpdateMlApplicationImplementation()
+func (client DataScienceClient) UpdateMlApplicationImplementation(ctx context.Context, request UpdateMlApplicationImplementationRequest) (response UpdateMlApplicationImplementationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateMlApplicationImplementation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateMlApplicationImplementationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateMlApplicationImplementationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateMlApplicationImplementationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateMlApplicationImplementationResponse")
+	}
+	return
+}
+
+// updateMlApplicationImplementation implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) updateMlApplicationImplementation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/mlApplicationImplementations/{mlApplicationImplementationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateMlApplicationImplementationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementation/UpdateMlApplicationImplementation"
+		err = common.PostProcessServiceError(err, "DataScience", "UpdateMlApplicationImplementation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateMlApplicationImplementationVersion Updates the MlApplicationImplementationVersion
+// A default retry strategy applies to this operation UpdateMlApplicationImplementationVersion()
+func (client DataScienceClient) UpdateMlApplicationImplementationVersion(ctx context.Context, request UpdateMlApplicationImplementationVersionRequest) (response UpdateMlApplicationImplementationVersionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateMlApplicationImplementationVersion, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateMlApplicationImplementationVersionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateMlApplicationImplementationVersionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateMlApplicationImplementationVersionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateMlApplicationImplementationVersionResponse")
+	}
+	return
+}
+
+// updateMlApplicationImplementationVersion implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) updateMlApplicationImplementationVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/mlApplicationImplementationVersions/{mlApplicationImplementationVersionId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateMlApplicationImplementationVersionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementationVersion/UpdateMlApplicationImplementationVersion"
+		err = common.PostProcessServiceError(err, "DataScience", "UpdateMlApplicationImplementationVersion", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateMlApplicationInstance Updates the MlApplicationInstance
+// A default retry strategy applies to this operation UpdateMlApplicationInstance()
 func (client DataScienceClient) UpdateMlApplicationInstance(ctx context.Context, request UpdateMlApplicationInstanceRequest) (response UpdateMlApplicationInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

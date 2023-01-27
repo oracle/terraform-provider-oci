@@ -116,8 +116,9 @@ type HTTPRequestDispatcher interface {
 
 // CustomClientConfiguration contains configurations set at client level, currently it only includes RetryPolicy
 type CustomClientConfiguration struct {
-	RetryPolicy    *RetryPolicy
-	CircuitBreaker *OciCircuitBreaker
+	RetryPolicy                                 *RetryPolicy
+	CircuitBreaker                              *OciCircuitBreaker
+	RealmSpecificServiceEndpointTemplateEnabled *bool
 }
 
 // BaseClient struct implements all basic operations to call oci web services.
@@ -702,4 +703,13 @@ func CloseBodyIfValid(httpResponse *http.Response) {
 	if httpResponse != nil && httpResponse.Body != nil {
 		httpResponse.Body.Close()
 	}
+}
+
+// IsOciRealmSpecificServiceEndpointTemplateEnabled returns true if the client is configured to use realm specific service endpoint template
+// it will first check the client configuration, if not set, it will check the environment variable
+func (client BaseClient) IsOciRealmSpecificServiceEndpointTemplateEnabled() bool {
+	if client.Configuration.RealmSpecificServiceEndpointTemplateEnabled != nil {
+		return *client.Configuration.RealmSpecificServiceEndpointTemplateEnabled
+	}
+	return IsEnvVarTrue(OciRealmSpecificServiceEndpointTemplateEnabledEnvVar)
 }

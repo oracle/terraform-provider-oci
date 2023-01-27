@@ -10,7 +10,6 @@
 package datascience
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -24,20 +23,11 @@ type CreateMlApplicationDetails struct {
 
 	PredictionContract *PredictionContract `mandatory:"true" json:"predictionContract"`
 
-	// List of application components (OCI resources shared for all MlApplicationInstances).
-	ApplicationComponents []ApplicationComponent `mandatory:"true" json:"applicationComponents"`
-
 	// The OCID of the compartment where the MlApplication is created.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Optional description of the ML Application
 	Description *string `mandatory:"false" json:"description"`
-
-	// Schema of configuration which needs to be provided for each ML Application Instance
-	ConfigurationSchema []ConfigurationPropertySchema `mandatory:"false" json:"configurationSchema"`
-
-	// Vault ID used for secure persisting possible secrets from configuration
-	VaultId *string `mandatory:"false" json:"vaultId"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -62,58 +52,4 @@ func (m CreateMlApplicationDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// UnmarshalJSON unmarshals from json
-func (m *CreateMlApplicationDetails) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		Description           *string                           `json:"description"`
-		ConfigurationSchema   []ConfigurationPropertySchema     `json:"configurationSchema"`
-		VaultId               *string                           `json:"vaultId"`
-		FreeformTags          map[string]string                 `json:"freeformTags"`
-		DefinedTags           map[string]map[string]interface{} `json:"definedTags"`
-		Name                  *string                           `json:"name"`
-		PredictionContract    *PredictionContract               `json:"predictionContract"`
-		ApplicationComponents []applicationcomponent            `json:"applicationComponents"`
-		CompartmentId         *string                           `json:"compartmentId"`
-	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
-	}
-	var nn interface{}
-	m.Description = model.Description
-
-	m.ConfigurationSchema = make([]ConfigurationPropertySchema, len(model.ConfigurationSchema))
-	for i, n := range model.ConfigurationSchema {
-		m.ConfigurationSchema[i] = n
-	}
-
-	m.VaultId = model.VaultId
-
-	m.FreeformTags = model.FreeformTags
-
-	m.DefinedTags = model.DefinedTags
-
-	m.Name = model.Name
-
-	m.PredictionContract = model.PredictionContract
-
-	m.ApplicationComponents = make([]ApplicationComponent, len(model.ApplicationComponents))
-	for i, n := range model.ApplicationComponents {
-		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
-		if e != nil {
-			return e
-		}
-		if nn != nil {
-			m.ApplicationComponents[i] = nn.(ApplicationComponent)
-		} else {
-			m.ApplicationComponents[i] = nil
-		}
-	}
-
-	m.CompartmentId = model.CompartmentId
-
-	return
 }

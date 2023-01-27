@@ -7,16 +7,18 @@ package datascience
 import (
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
-	"io"
 	"net/http"
 	"strings"
 )
 
-// GetInstanceComponentTemplateArtifactContentRequest wrapper for the GetInstanceComponentTemplateArtifactContent operation
-type GetInstanceComponentTemplateArtifactContentRequest struct {
+// CreateMlApplicationImplementationRequest wrapper for the CreateMlApplicationImplementation operation
+type CreateMlApplicationImplementationRequest struct {
 
-	// unique MlApplication identifier
-	MlApplicationId *string `mandatory:"true" contributesTo:"path" name:"mlApplicationId"`
+	// Details for the new MlApplicationImplementation.
+	CreateMlApplicationImplementationDetails `contributesTo:"body"`
+
+	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without risk of executing that same action again. Retry tokens expire after 24 hours, but can be invalidated before then due to conflicting operations. For example, if a resource has been deleted and purged from the system, then a retry of the original creation request might be rejected.
+	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
 	// Unique Oracle assigned identifier for the request. If you need to contact Oracle about a particular request, then provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -26,12 +28,12 @@ type GetInstanceComponentTemplateArtifactContentRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request GetInstanceComponentTemplateArtifactContentRequest) String() string {
+func (request CreateMlApplicationImplementationRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request GetInstanceComponentTemplateArtifactContentRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request CreateMlApplicationImplementationRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -41,21 +43,21 @@ func (request GetInstanceComponentTemplateArtifactContentRequest) HTTPRequest(me
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request GetInstanceComponentTemplateArtifactContentRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request CreateMlApplicationImplementationRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetInstanceComponentTemplateArtifactContentRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateMlApplicationImplementationRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request GetInstanceComponentTemplateArtifactContentRequest) ValidateEnumValue() (bool, error) {
+func (request CreateMlApplicationImplementationRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -63,25 +65,28 @@ func (request GetInstanceComponentTemplateArtifactContentRequest) ValidateEnumVa
 	return false, nil
 }
 
-// GetInstanceComponentTemplateArtifactContentResponse wrapper for the GetInstanceComponentTemplateArtifactContent operation
-type GetInstanceComponentTemplateArtifactContentResponse struct {
+// CreateMlApplicationImplementationResponse wrapper for the CreateMlApplicationImplementation operation
+type CreateMlApplicationImplementationResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The io.ReadCloser instance
-	Content io.ReadCloser `presentIn:"body" encoding:"binary"`
+	// The MlApplicationImplementation instance
+	MlApplicationImplementation `presentIn:"body"`
+
+	// For optimistic concurrency control. See ETags for Optimistic Concurrency Control (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
+	Etag *string `presentIn:"header" name:"etag"`
 
 	// Unique Oracle assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, then provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response GetInstanceComponentTemplateArtifactContentResponse) String() string {
+func (response CreateMlApplicationImplementationResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response GetInstanceComponentTemplateArtifactContentResponse) HTTPResponse() *http.Response {
+func (response CreateMlApplicationImplementationResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

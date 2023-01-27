@@ -24,6 +24,21 @@ type AddmDbSummary struct {
 	// Number of ADDM findings
 	NumberOfFindings *int `mandatory:"false" json:"numberOfFindings"`
 
+	// Number of ADDM tasks
+	NumberOfAddmTasks *int `mandatory:"false" json:"numberOfAddmTasks"`
+
+	// The start timestamp that was passed into the request.
+	TimeFirstSnapshotBegin *common.SDKTime `mandatory:"false" json:"timeFirstSnapshotBegin"`
+
+	// The end timestamp that was passed into the request.
+	TimeLatestSnapshotEnd *common.SDKTime `mandatory:"false" json:"timeLatestSnapshotEnd"`
+
+	// AWR snapshot id.
+	SnapshotIntervalStart *string `mandatory:"false" json:"snapshotIntervalStart"`
+
+	// AWR snapshot id.
+	SnapshotIntervalEnd *string `mandatory:"false" json:"snapshotIntervalEnd"`
+
 	// Maximum overall impact in terms of percentage of total activity
 	MaxOverallImpact *float64 `mandatory:"false" json:"maxOverallImpact"`
 

@@ -12,14 +12,14 @@ import (
 	"strings"
 )
 
-// PutInstanceComponentTemplateArtifactRequest wrapper for the PutInstanceComponentTemplateArtifact operation
-type PutInstanceComponentTemplateArtifactRequest struct {
+// PutMlApplicationPackageRequest wrapper for the PutMlApplicationPackage operation
+type PutMlApplicationPackageRequest struct {
 
-	// unique MlApplication identifier
-	MlApplicationId *string `mandatory:"true" contributesTo:"path" name:"mlApplicationId"`
+	// unique MlApplicationImplementation identifier
+	MlApplicationImplementationId *string `mandatory:"true" contributesTo:"path" name:"mlApplicationImplementationId"`
 
-	// Instance component templates to upload
-	PutInstanceComponentTemplateArtifactDetails io.ReadCloser `mandatory:"true" contributesTo:"body" encoding:"binary"`
+	// ML Application Package to upload
+	PutMlApplicationPackage io.ReadCloser `mandatory:"true" contributesTo:"body" encoding:"binary"`
 
 	// The content length of the body.
 	ContentLength *int64 `mandatory:"false" contributesTo:"header" name:"content-length"`
@@ -39,17 +39,20 @@ type PutInstanceComponentTemplateArtifactRequest struct {
 	//            "Content-Type": "application/gzip"}`
 	ContentDisposition *string `mandatory:"false" contributesTo:"header" name:"content-disposition"`
 
+	// List of arguments (Json map - argument name to argument value) for ML Application package (available arguments are in ML Application package descriptor). E.g. {"vcnId": "ocid1.vcn.oc1.iad.abcd...", "logId":"ocid1.log.oc1.iad.abcd..."}
+	OpcMlAppPackageArgs *string `mandatory:"false" contributesTo:"header" name:"opc-ml-app-package-args"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
 }
 
-func (request PutInstanceComponentTemplateArtifactRequest) String() string {
+func (request PutMlApplicationPackageRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request PutInstanceComponentTemplateArtifactRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request PutMlApplicationPackageRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 	if err == nil && binaryRequestBody.Seekable() {
 		common.UpdateRequestBinaryBody(&httpRequest, binaryRequestBody)
@@ -58,8 +61,8 @@ func (request PutInstanceComponentTemplateArtifactRequest) HTTPRequest(method, p
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request PutInstanceComponentTemplateArtifactRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
-	rsc := common.NewOCIReadSeekCloser(request.PutInstanceComponentTemplateArtifactDetails)
+func (request PutMlApplicationPackageRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+	rsc := common.NewOCIReadSeekCloser(request.PutMlApplicationPackage)
 	if rsc.Seekable() {
 		return rsc, true
 	}
@@ -68,14 +71,14 @@ func (request PutInstanceComponentTemplateArtifactRequest) BinaryRequestBody() (
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request PutInstanceComponentTemplateArtifactRequest) RetryPolicy() *common.RetryPolicy {
+func (request PutMlApplicationPackageRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request PutInstanceComponentTemplateArtifactRequest) ValidateEnumValue() (bool, error) {
+func (request PutMlApplicationPackageRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -83,8 +86,8 @@ func (request PutInstanceComponentTemplateArtifactRequest) ValidateEnumValue() (
 	return false, nil
 }
 
-// PutInstanceComponentTemplateArtifactResponse wrapper for the PutInstanceComponentTemplateArtifact operation
-type PutInstanceComponentTemplateArtifactResponse struct {
+// PutMlApplicationPackageResponse wrapper for the PutMlApplicationPackage operation
+type PutMlApplicationPackageResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
@@ -98,11 +101,11 @@ type PutInstanceComponentTemplateArtifactResponse struct {
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response PutInstanceComponentTemplateArtifactResponse) String() string {
+func (response PutMlApplicationPackageResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response PutInstanceComponentTemplateArtifactResponse) HTTPResponse() *http.Response {
+func (response PutMlApplicationPackageResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

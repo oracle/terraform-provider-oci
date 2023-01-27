@@ -25,7 +25,19 @@ type ConfigurationPropertySchema struct {
 	ValueType ConfigurationPropertySchemaValueTypeEnum `mandatory:"true" json:"valueType"`
 
 	// Description of this configuration property
-	Description *string `mandatory:"false" json:"description"`
+	Description *string `mandatory:"true" json:"description"`
+
+	// Sample property value (it must match validationRegexp if it is specified)
+	SampleValue *string `mandatory:"true" json:"sampleValue"`
+
+	// If the value is true this configuration property is mandatory and visa versa. If not specified configuration property is optional.
+	IsMandatory *bool `mandatory:"false" json:"isMandatory"`
+
+	// The default value for the optional configuration property (it must not be specified for mandatory configuration properties)
+	DefaultValue *string `mandatory:"false" json:"defaultValue"`
+
+	// A regular expression will be used for the validation of property value.
+	ValidationRegexp *string `mandatory:"false" json:"validationRegexp"`
 }
 
 func (m ConfigurationPropertySchema) String() string {

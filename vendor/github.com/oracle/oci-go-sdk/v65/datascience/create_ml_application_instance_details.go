@@ -19,7 +19,7 @@ import (
 // CreateMlApplicationInstanceDetails The information about new MlApplicationInstance.
 type CreateMlApplicationInstanceDetails struct {
 
-	// Resource name which must be unique in the context of given ML Application Implementation.
+	// Resource name which must be unique in the context of given ML Application and consumer tenancy.
 	Name *string `mandatory:"true" json:"name"`
 
 	// The OCID of ML Application. This resource is an instance of ML Application referenced by this OCID.
@@ -28,9 +28,12 @@ type CreateMlApplicationInstanceDetails struct {
 	// The OCID of the compartment where the MlApplicationInstance is created.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// The OCID of ML Application Implementation selected as a certain solution for a given ML problem (ML Application)
+	MlApplicationImplementationId *string `mandatory:"false" json:"mlApplicationImplementationId"`
+
 	AuthConfiguration AuthConfiguration `mandatory:"false" json:"authConfiguration"`
 
-	// Data that are used for provisioning of the given MlApplicationInstance. These are validated against configurationSchema defined in referenced MlApplication.
+	// Data that are used for provisioning of the given MlApplicationInstance. These are validated against configurationSchema defined in referenced MlApplicationImplementation.
 	Configuration []ConfigurationProperty `mandatory:"false" json:"configuration"`
 
 	// Defines whether the MlApplicationInstance will be created in ACTIVE (true value) or INACTIVE (false value) lifecycle state.
@@ -64,14 +67,15 @@ func (m CreateMlApplicationInstanceDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateMlApplicationInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		AuthConfiguration authconfiguration                 `json:"authConfiguration"`
-		Configuration     []ConfigurationProperty           `json:"configuration"`
-		IsEnabled         *bool                             `json:"isEnabled"`
-		FreeformTags      map[string]string                 `json:"freeformTags"`
-		DefinedTags       map[string]map[string]interface{} `json:"definedTags"`
-		Name              *string                           `json:"name"`
-		MlApplicationId   *string                           `json:"mlApplicationId"`
-		CompartmentId     *string                           `json:"compartmentId"`
+		MlApplicationImplementationId *string                           `json:"mlApplicationImplementationId"`
+		AuthConfiguration             authconfiguration                 `json:"authConfiguration"`
+		Configuration                 []ConfigurationProperty           `json:"configuration"`
+		IsEnabled                     *bool                             `json:"isEnabled"`
+		FreeformTags                  map[string]string                 `json:"freeformTags"`
+		DefinedTags                   map[string]map[string]interface{} `json:"definedTags"`
+		Name                          *string                           `json:"name"`
+		MlApplicationId               *string                           `json:"mlApplicationId"`
+		CompartmentId                 *string                           `json:"compartmentId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -79,6 +83,8 @@ func (m *CreateMlApplicationInstanceDetails) UnmarshalJSON(data []byte) (e error
 		return
 	}
 	var nn interface{}
+	m.MlApplicationImplementationId = model.MlApplicationImplementationId
+
 	nn, e = model.AuthConfiguration.UnmarshalPolymorphicJSON(model.AuthConfiguration.JsonData)
 	if e != nil {
 		return

@@ -10,13 +10,12 @@
 package datascience
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// MlApplication Description of MlApplication.
+// MlApplication Resource representing a definition of an AI/ML use-case
 type MlApplication struct {
 
 	// The OCID of the MlApplication. Unique identifier that is immutable after creation.
@@ -28,8 +27,11 @@ type MlApplication struct {
 	// The OCID of the compartment where the MlApplication is created.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The time the MlApplication was created. An RFC3339 formatted datetime string
+	// Creation time of MlApplication in the format defined by RFC 3339.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
+
+	// Time of last MlApplication update in the format defined by RFC 3339.
+	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
 	// The current state of the MlApplication.
 	LifecycleState MlApplicationLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
@@ -49,15 +51,6 @@ type MlApplication struct {
 	Description *string `mandatory:"false" json:"description"`
 
 	PredictionContract *PredictionContract `mandatory:"false" json:"predictionContract"`
-
-	// List of application components (OCI resources shared for all MlApplicationInstances).
-	ApplicationComponents []ApplicationComponent `mandatory:"false" json:"applicationComponents"`
-
-	// Schema of configuration which needs to be provided for each ML Application Instance
-	ConfigurationSchema []ConfigurationPropertySchema `mandatory:"false" json:"configurationSchema"`
-
-	// Vault ID used for secure persisting possible secrets from configuration
-	VaultId *string `mandatory:"false" json:"vaultId"`
 
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
@@ -83,104 +76,23 @@ func (m MlApplication) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// UnmarshalJSON unmarshals from json
-func (m *MlApplication) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		Description           *string                           `json:"description"`
-		PredictionContract    *PredictionContract               `json:"predictionContract"`
-		ApplicationComponents []applicationcomponent            `json:"applicationComponents"`
-		ConfigurationSchema   []ConfigurationPropertySchema     `json:"configurationSchema"`
-		VaultId               *string                           `json:"vaultId"`
-		SystemTags            map[string]map[string]interface{} `json:"systemTags"`
-		Id                    *string                           `json:"id"`
-		Name                  *string                           `json:"name"`
-		CompartmentId         *string                           `json:"compartmentId"`
-		TimeCreated           *common.SDKTime                   `json:"timeCreated"`
-		LifecycleState        MlApplicationLifecycleStateEnum   `json:"lifecycleState"`
-		LifecycleDetails      *string                           `json:"lifecycleDetails"`
-		FreeformTags          map[string]string                 `json:"freeformTags"`
-		DefinedTags           map[string]map[string]interface{} `json:"definedTags"`
-	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
-	}
-	var nn interface{}
-	m.Description = model.Description
-
-	m.PredictionContract = model.PredictionContract
-
-	m.ApplicationComponents = make([]ApplicationComponent, len(model.ApplicationComponents))
-	for i, n := range model.ApplicationComponents {
-		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
-		if e != nil {
-			return e
-		}
-		if nn != nil {
-			m.ApplicationComponents[i] = nn.(ApplicationComponent)
-		} else {
-			m.ApplicationComponents[i] = nil
-		}
-	}
-
-	m.ConfigurationSchema = make([]ConfigurationPropertySchema, len(model.ConfigurationSchema))
-	for i, n := range model.ConfigurationSchema {
-		m.ConfigurationSchema[i] = n
-	}
-
-	m.VaultId = model.VaultId
-
-	m.SystemTags = model.SystemTags
-
-	m.Id = model.Id
-
-	m.Name = model.Name
-
-	m.CompartmentId = model.CompartmentId
-
-	m.TimeCreated = model.TimeCreated
-
-	m.LifecycleState = model.LifecycleState
-
-	m.LifecycleDetails = model.LifecycleDetails
-
-	m.FreeformTags = model.FreeformTags
-
-	m.DefinedTags = model.DefinedTags
-
-	return
-}
-
 // MlApplicationLifecycleStateEnum Enum with underlying type: string
 type MlApplicationLifecycleStateEnum string
 
 // Set of constants representing the allowable values for MlApplicationLifecycleStateEnum
 const (
-	MlApplicationLifecycleStateCreating MlApplicationLifecycleStateEnum = "CREATING"
-	MlApplicationLifecycleStateActive   MlApplicationLifecycleStateEnum = "ACTIVE"
-	MlApplicationLifecycleStateUpdating MlApplicationLifecycleStateEnum = "UPDATING"
-	MlApplicationLifecycleStateDeleting MlApplicationLifecycleStateEnum = "DELETING"
-	MlApplicationLifecycleStateDeleted  MlApplicationLifecycleStateEnum = "DELETED"
-	MlApplicationLifecycleStateFailed   MlApplicationLifecycleStateEnum = "FAILED"
+	MlApplicationLifecycleStateActive MlApplicationLifecycleStateEnum = "ACTIVE"
+	MlApplicationLifecycleStateFailed MlApplicationLifecycleStateEnum = "FAILED"
 )
 
 var mappingMlApplicationLifecycleStateEnum = map[string]MlApplicationLifecycleStateEnum{
-	"CREATING": MlApplicationLifecycleStateCreating,
-	"ACTIVE":   MlApplicationLifecycleStateActive,
-	"UPDATING": MlApplicationLifecycleStateUpdating,
-	"DELETING": MlApplicationLifecycleStateDeleting,
-	"DELETED":  MlApplicationLifecycleStateDeleted,
-	"FAILED":   MlApplicationLifecycleStateFailed,
+	"ACTIVE": MlApplicationLifecycleStateActive,
+	"FAILED": MlApplicationLifecycleStateFailed,
 }
 
 var mappingMlApplicationLifecycleStateEnumLowerCase = map[string]MlApplicationLifecycleStateEnum{
-	"creating": MlApplicationLifecycleStateCreating,
-	"active":   MlApplicationLifecycleStateActive,
-	"updating": MlApplicationLifecycleStateUpdating,
-	"deleting": MlApplicationLifecycleStateDeleting,
-	"deleted":  MlApplicationLifecycleStateDeleted,
-	"failed":   MlApplicationLifecycleStateFailed,
+	"active": MlApplicationLifecycleStateActive,
+	"failed": MlApplicationLifecycleStateFailed,
 }
 
 // GetMlApplicationLifecycleStateEnumValues Enumerates the set of values for MlApplicationLifecycleStateEnum
@@ -195,11 +107,7 @@ func GetMlApplicationLifecycleStateEnumValues() []MlApplicationLifecycleStateEnu
 // GetMlApplicationLifecycleStateEnumStringValues Enumerates the set of values in String for MlApplicationLifecycleStateEnum
 func GetMlApplicationLifecycleStateEnumStringValues() []string {
 	return []string{
-		"CREATING",
 		"ACTIVE",
-		"UPDATING",
-		"DELETING",
-		"DELETED",
 		"FAILED",
 	}
 }
