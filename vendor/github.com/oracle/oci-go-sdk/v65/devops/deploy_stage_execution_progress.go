@@ -100,6 +100,10 @@ func (m *deploystageexecutionprogress) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := ComputeInstanceGroupDeployStageExecutionProgress{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "SHELL":
+		mm := ShellDeployStageExecutionProgress{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "OKE_CANARY_DEPLOYMENT":
 		mm := OkeCanaryDeployStageExecutionProgress{}
 		err = json.Unmarshal(data, &mm)

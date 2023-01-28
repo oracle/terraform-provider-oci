@@ -33,6 +33,9 @@ type AmdRomeBmGpuLaunchInstancePlatformConfig struct {
 	// Whether the Measured Boot feature is enabled on the instance.
 	IsMeasuredBootEnabled *bool `mandatory:"false" json:"isMeasuredBootEnabled"`
 
+	// Whether the instance is a confidential instance. If this value is `true`, the instance is a confidential instance. The default value is `false`.
+	IsMemoryEncryptionEnabled *bool `mandatory:"false" json:"isMemoryEncryptionEnabled"`
+
 	// Whether symmetric multithreading is enabled on the instance. Symmetric multithreading is also
 	// called simultaneous multithreading (SMT) or Intel Hyper-Threading.
 	// Intel and AMD processors have two hardware execution threads per core (OCPU). SMT permits multiple
@@ -69,6 +72,11 @@ func (m AmdRomeBmGpuLaunchInstancePlatformConfig) GetIsTrustedPlatformModuleEnab
 //GetIsMeasuredBootEnabled returns IsMeasuredBootEnabled
 func (m AmdRomeBmGpuLaunchInstancePlatformConfig) GetIsMeasuredBootEnabled() *bool {
 	return m.IsMeasuredBootEnabled
+}
+
+//GetIsMemoryEncryptionEnabled returns IsMemoryEncryptionEnabled
+func (m AmdRomeBmGpuLaunchInstancePlatformConfig) GetIsMemoryEncryptionEnabled() *bool {
+	return m.IsMemoryEncryptionEnabled
 }
 
 func (m AmdRomeBmGpuLaunchInstancePlatformConfig) String() string {

@@ -70,7 +70,7 @@ type LoadBalancerTrafficShiftDeployStageSummary struct {
 	// The current state of the deployment stage.
 	LifecycleState DeployStageLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// Specifies the target or destination backend set.
+	// Specifies the target or destination backend set. Example: BLUE - Traffic from the existing backends of managed Load Balance Listener to blue Backend IPs, as per rolloutPolicy. GREEN - Traffic from the existing backends of managed Load Balance Listener to blue Backend IPs as per rolloutPolicy.
 	TrafficShiftTarget LoadBalancerTrafficShiftDeployStageTrafficShiftTargetEnum `mandatory:"true" json:"trafficShiftTarget"`
 }
 
