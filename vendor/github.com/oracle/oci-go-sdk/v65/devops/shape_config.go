@@ -10,51 +10,33 @@
 package devops
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// NginxBlueGreenStrategy Specifies the NGINX blue green release strategy.
-type NginxBlueGreenStrategy struct {
+// ShapeConfig Determines the size and amount of resources available to the instance.
+type ShapeConfig struct {
 
-	// Namespace A for deployment. Example: namespaceA - first Namespace name.
-	NamespaceA *string `mandatory:"true" json:"namespaceA"`
+	// The total number of OCPUs available to the instance.
+	Ocpus *float32 `mandatory:"true" json:"ocpus"`
 
-	// Namespace B for deployment. Example: namespaceB - second Namespace name.
-	NamespaceB *string `mandatory:"true" json:"namespaceB"`
-
-	// Name of the Ingress resource.
-	IngressName *string `mandatory:"true" json:"ingressName"`
+	// The total amount of memory available to the instance, in gigabytes.
+	MemoryInGBs *float32 `mandatory:"false" json:"memoryInGBs"`
 }
 
-func (m NginxBlueGreenStrategy) String() string {
+func (m ShapeConfig) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m NginxBlueGreenStrategy) ValidateEnumValue() (bool, error) {
+func (m ShapeConfig) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// MarshalJSON marshals to json representation
-func (m NginxBlueGreenStrategy) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeNginxBlueGreenStrategy NginxBlueGreenStrategy
-	s := struct {
-		DiscriminatorParam string `json:"strategyType"`
-		MarshalTypeNginxBlueGreenStrategy
-	}{
-		"NGINX_BLUE_GREEN_STRATEGY",
-		(MarshalTypeNginxBlueGreenStrategy)(m),
-	}
-
-	return json.Marshal(&s)
 }

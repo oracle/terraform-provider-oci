@@ -16,8 +16,8 @@ import (
 	"strings"
 )
 
-// ManualApprovalDeployStageExecutionProgress Specifies the manual approval stage specific execution details.
-type ManualApprovalDeployStageExecutionProgress struct {
+// ShellDeployStageExecutionProgress Specifies the shell stage specific execution details.
+type ShellDeployStageExecutionProgress struct {
 
 	// Stage display name. Avoid entering confidential information.
 	DeployStageDisplayName *string `mandatory:"false" json:"deployStageDisplayName"`
@@ -36,56 +36,53 @@ type ManualApprovalDeployStageExecutionProgress struct {
 	// Details about stage execution for all the target environments.
 	DeployStageExecutionProgressDetails []DeployStageExecutionProgressDetails `mandatory:"false" json:"deployStageExecutionProgressDetails"`
 
-	// Specifies the Canary approval actions.
-	ApprovalActions []ApprovalAction `mandatory:"false" json:"approvalActions"`
-
 	// The current state of the stage.
 	Status DeployStageExecutionProgressStatusEnum `mandatory:"false" json:"status,omitempty"`
 }
 
 //GetDeployStageDisplayName returns DeployStageDisplayName
-func (m ManualApprovalDeployStageExecutionProgress) GetDeployStageDisplayName() *string {
+func (m ShellDeployStageExecutionProgress) GetDeployStageDisplayName() *string {
 	return m.DeployStageDisplayName
 }
 
 //GetDeployStageId returns DeployStageId
-func (m ManualApprovalDeployStageExecutionProgress) GetDeployStageId() *string {
+func (m ShellDeployStageExecutionProgress) GetDeployStageId() *string {
 	return m.DeployStageId
 }
 
 //GetTimeStarted returns TimeStarted
-func (m ManualApprovalDeployStageExecutionProgress) GetTimeStarted() *common.SDKTime {
+func (m ShellDeployStageExecutionProgress) GetTimeStarted() *common.SDKTime {
 	return m.TimeStarted
 }
 
 //GetTimeFinished returns TimeFinished
-func (m ManualApprovalDeployStageExecutionProgress) GetTimeFinished() *common.SDKTime {
+func (m ShellDeployStageExecutionProgress) GetTimeFinished() *common.SDKTime {
 	return m.TimeFinished
 }
 
 //GetStatus returns Status
-func (m ManualApprovalDeployStageExecutionProgress) GetStatus() DeployStageExecutionProgressStatusEnum {
+func (m ShellDeployStageExecutionProgress) GetStatus() DeployStageExecutionProgressStatusEnum {
 	return m.Status
 }
 
 //GetDeployStagePredecessors returns DeployStagePredecessors
-func (m ManualApprovalDeployStageExecutionProgress) GetDeployStagePredecessors() *DeployStagePredecessorCollection {
+func (m ShellDeployStageExecutionProgress) GetDeployStagePredecessors() *DeployStagePredecessorCollection {
 	return m.DeployStagePredecessors
 }
 
 //GetDeployStageExecutionProgressDetails returns DeployStageExecutionProgressDetails
-func (m ManualApprovalDeployStageExecutionProgress) GetDeployStageExecutionProgressDetails() []DeployStageExecutionProgressDetails {
+func (m ShellDeployStageExecutionProgress) GetDeployStageExecutionProgressDetails() []DeployStageExecutionProgressDetails {
 	return m.DeployStageExecutionProgressDetails
 }
 
-func (m ManualApprovalDeployStageExecutionProgress) String() string {
+func (m ShellDeployStageExecutionProgress) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ManualApprovalDeployStageExecutionProgress) ValidateEnumValue() (bool, error) {
+func (m ShellDeployStageExecutionProgress) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if _, ok := GetMappingDeployStageExecutionProgressStatusEnum(string(m.Status)); !ok && m.Status != "" {
@@ -98,14 +95,14 @@ func (m ManualApprovalDeployStageExecutionProgress) ValidateEnumValue() (bool, e
 }
 
 // MarshalJSON marshals to json representation
-func (m ManualApprovalDeployStageExecutionProgress) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeManualApprovalDeployStageExecutionProgress ManualApprovalDeployStageExecutionProgress
+func (m ShellDeployStageExecutionProgress) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeShellDeployStageExecutionProgress ShellDeployStageExecutionProgress
 	s := struct {
 		DiscriminatorParam string `json:"deployStageType"`
-		MarshalTypeManualApprovalDeployStageExecutionProgress
+		MarshalTypeShellDeployStageExecutionProgress
 	}{
-		"MANUAL_APPROVAL",
-		(MarshalTypeManualApprovalDeployStageExecutionProgress)(m),
+		"SHELL",
+		(MarshalTypeShellDeployStageExecutionProgress)(m),
 	}
 
 	return json.Marshal(&s)

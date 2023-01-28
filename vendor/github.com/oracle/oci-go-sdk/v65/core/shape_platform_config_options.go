@@ -33,6 +33,8 @@ type ShapePlatformConfigOptions struct {
 
 	NumaNodesPerSocketPlatformOptions *ShapeNumaNodesPerSocketPlatformOptions `mandatory:"false" json:"numaNodesPerSocketPlatformOptions"`
 
+	MemoryEncryptionOptions *ShapeMemoryEncryptionOptions `mandatory:"false" json:"memoryEncryptionOptions"`
+
 	SymmetricMultiThreadingOptions *ShapeSymmetricMultiThreadingEnabledPlatformOptions `mandatory:"false" json:"symmetricMultiThreadingOptions"`
 
 	AccessControlServiceOptions *ShapeAccessControlServiceEnabledPlatformOptions `mandatory:"false" json:"accessControlServiceOptions"`

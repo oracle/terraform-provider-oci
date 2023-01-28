@@ -78,6 +78,12 @@ type AutonomousDatabase struct {
 	// Key History Entry.
 	KeyHistoryEntry []AutonomousDatabaseKeyHistoryEntry `mandatory:"false" json:"keyHistoryEntry"`
 
+	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value.
+	ComputeModel AutonomousDatabaseComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
+
+	// The compute amount available to the database. Minimum and maximum values depend on the compute model and whether the database is on Shared or Dedicated infrastructure. For an Autonomous Database on Shared infrastructure, the 'ECPU' compute model requires values in multiples of two. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value.
+	ComputeCount *float32 `mandatory:"false" json:"computeCount"`
+
 	// The number of OCPU cores to be made available to the database.
 	// The following points apply:
 	// - For Autonomous Databases on dedicated Exadata infrastructure, to provision less than 1 core, enter a fractional value in an increment of 0.1. For example, you can provision 0.3 or 0.4 cores, but not 0.35 cores. (Note that fractional OCPU values are not supported for Autonomous Databasese on shared Exadata infrastructure.)
@@ -338,6 +344,9 @@ type AutonomousDatabase struct {
 
 	// The Oracle Database Edition that applies to the Autonomous databases.
 	DatabaseEdition AutonomousDatabaseDatabaseEditionEnum `mandatory:"false" json:"databaseEdition,omitempty"`
+
+	// List of database tools details.
+	DbToolsDetails []DatabaseTool `mandatory:"false" json:"dbToolsDetails"`
 }
 
 func (m AutonomousDatabase) String() string {
@@ -353,6 +362,9 @@ func (m AutonomousDatabase) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAutonomousDatabaseLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingAutonomousDatabaseComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetAutonomousDatabaseComputeModelEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingAutonomousDatabaseInfrastructureTypeEnum(string(m.InfrastructureType)); !ok && m.InfrastructureType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InfrastructureType: %s. Supported values are: %s.", m.InfrastructureType, strings.Join(GetAutonomousDatabaseInfrastructureTypeEnumStringValues(), ",")))
 	}
@@ -516,6 +528,48 @@ func GetAutonomousDatabaseLifecycleStateEnumStringValues() []string {
 // GetMappingAutonomousDatabaseLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingAutonomousDatabaseLifecycleStateEnum(val string) (AutonomousDatabaseLifecycleStateEnum, bool) {
 	enum, ok := mappingAutonomousDatabaseLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// AutonomousDatabaseComputeModelEnum Enum with underlying type: string
+type AutonomousDatabaseComputeModelEnum string
+
+// Set of constants representing the allowable values for AutonomousDatabaseComputeModelEnum
+const (
+	AutonomousDatabaseComputeModelEcpu AutonomousDatabaseComputeModelEnum = "ECPU"
+	AutonomousDatabaseComputeModelOcpu AutonomousDatabaseComputeModelEnum = "OCPU"
+)
+
+var mappingAutonomousDatabaseComputeModelEnum = map[string]AutonomousDatabaseComputeModelEnum{
+	"ECPU": AutonomousDatabaseComputeModelEcpu,
+	"OCPU": AutonomousDatabaseComputeModelOcpu,
+}
+
+var mappingAutonomousDatabaseComputeModelEnumLowerCase = map[string]AutonomousDatabaseComputeModelEnum{
+	"ecpu": AutonomousDatabaseComputeModelEcpu,
+	"ocpu": AutonomousDatabaseComputeModelOcpu,
+}
+
+// GetAutonomousDatabaseComputeModelEnumValues Enumerates the set of values for AutonomousDatabaseComputeModelEnum
+func GetAutonomousDatabaseComputeModelEnumValues() []AutonomousDatabaseComputeModelEnum {
+	values := make([]AutonomousDatabaseComputeModelEnum, 0)
+	for _, v := range mappingAutonomousDatabaseComputeModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAutonomousDatabaseComputeModelEnumStringValues Enumerates the set of values in String for AutonomousDatabaseComputeModelEnum
+func GetAutonomousDatabaseComputeModelEnumStringValues() []string {
+	return []string{
+		"ECPU",
+		"OCPU",
+	}
+}
+
+// GetMappingAutonomousDatabaseComputeModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAutonomousDatabaseComputeModelEnum(val string) (AutonomousDatabaseComputeModelEnum, bool) {
+	enum, ok := mappingAutonomousDatabaseComputeModelEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

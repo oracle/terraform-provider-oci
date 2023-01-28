@@ -51,6 +51,9 @@ type AutonomousVmCluster struct {
 	// The number of enabled CPU cores.
 	CpusEnabled *int `mandatory:"false" json:"cpusEnabled"`
 
+	// The compute model of the Autonomous VM Cluster.
+	ComputeModel AutonomousVmClusterComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
+
 	// The number of enabled OCPU cores.
 	OcpusEnabled *float32 `mandatory:"false" json:"ocpusEnabled"`
 
@@ -136,6 +139,9 @@ func (m AutonomousVmCluster) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAutonomousVmClusterLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingAutonomousVmClusterComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetAutonomousVmClusterComputeModelEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingAutonomousVmClusterLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetAutonomousVmClusterLicenseModelEnumStringValues(), ",")))
 	}
@@ -204,6 +210,48 @@ func GetAutonomousVmClusterLifecycleStateEnumStringValues() []string {
 // GetMappingAutonomousVmClusterLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingAutonomousVmClusterLifecycleStateEnum(val string) (AutonomousVmClusterLifecycleStateEnum, bool) {
 	enum, ok := mappingAutonomousVmClusterLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// AutonomousVmClusterComputeModelEnum Enum with underlying type: string
+type AutonomousVmClusterComputeModelEnum string
+
+// Set of constants representing the allowable values for AutonomousVmClusterComputeModelEnum
+const (
+	AutonomousVmClusterComputeModelEcpu AutonomousVmClusterComputeModelEnum = "ECPU"
+	AutonomousVmClusterComputeModelOcpu AutonomousVmClusterComputeModelEnum = "OCPU"
+)
+
+var mappingAutonomousVmClusterComputeModelEnum = map[string]AutonomousVmClusterComputeModelEnum{
+	"ECPU": AutonomousVmClusterComputeModelEcpu,
+	"OCPU": AutonomousVmClusterComputeModelOcpu,
+}
+
+var mappingAutonomousVmClusterComputeModelEnumLowerCase = map[string]AutonomousVmClusterComputeModelEnum{
+	"ecpu": AutonomousVmClusterComputeModelEcpu,
+	"ocpu": AutonomousVmClusterComputeModelOcpu,
+}
+
+// GetAutonomousVmClusterComputeModelEnumValues Enumerates the set of values for AutonomousVmClusterComputeModelEnum
+func GetAutonomousVmClusterComputeModelEnumValues() []AutonomousVmClusterComputeModelEnum {
+	values := make([]AutonomousVmClusterComputeModelEnum, 0)
+	for _, v := range mappingAutonomousVmClusterComputeModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAutonomousVmClusterComputeModelEnumStringValues Enumerates the set of values in String for AutonomousVmClusterComputeModelEnum
+func GetAutonomousVmClusterComputeModelEnumStringValues() []string {
+	return []string{
+		"ECPU",
+		"OCPU",
+	}
+}
+
+// GetMappingAutonomousVmClusterComputeModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAutonomousVmClusterComputeModelEnum(val string) (AutonomousVmClusterComputeModelEnum, bool) {
+	enum, ok := mappingAutonomousVmClusterComputeModelEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

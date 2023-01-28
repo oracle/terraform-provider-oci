@@ -110,20 +110,23 @@ type AutonomousContainerDatabaseSummary struct {
 	// The wallet name for Oracle Key Vault.
 	KeyStoreWalletName *string `mandatory:"false" json:"keyStoreWalletName"`
 
-	// The amount of memory (in GBs) enabled per each OCPU core in Autonomous VM Cluster.
+	// The amount of memory (in GBs) enabled per each CPU in the Autonomous VM Cluster.
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
 
-	// Sum of OCPUs available on the Autonomous VM Cluster + Sum of reclaimable OCPUs available in the Autonomous Container Database.
+	// Sum of CPUs available on the Autonomous VM Cluster + Sum of reclaimable CPUs available in the Autonomous Container Database.
 	AvailableCpus *float32 `mandatory:"false" json:"availableCpus"`
 
-	// The number of CPU cores allocated to the Autonomous VM cluster.
+	// The number of CPUs allocated to the Autonomous VM cluster.
 	TotalCpus *int `mandatory:"false" json:"totalCpus"`
 
-	// CPU cores that continue to be included in the count of OCPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available OCPUs at its parent AVMC level by restarting the Autonomous Container Database.
+	// CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database.
 	ReclaimableCpus *float32 `mandatory:"false" json:"reclaimableCpus"`
 
 	// An array of CPU values that can be used to successfully provision a single Autonomous Database.
 	ProvisionableCpus []float32 `mandatory:"false" json:"provisionableCpus"`
+
+	// The compute model of the Autonomous VM Cluster.
+	ComputeModel AutonomousContainerDatabaseSummaryComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 }
 
 func (m AutonomousContainerDatabaseSummary) String() string {
@@ -150,6 +153,9 @@ func (m AutonomousContainerDatabaseSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingAutonomousContainerDatabaseSummaryRoleEnum(string(m.Role)); !ok && m.Role != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Role: %s. Supported values are: %s.", m.Role, strings.Join(GetAutonomousContainerDatabaseSummaryRoleEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingAutonomousContainerDatabaseSummaryComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetAutonomousContainerDatabaseSummaryComputeModelEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -416,5 +422,47 @@ func GetAutonomousContainerDatabaseSummaryRoleEnumStringValues() []string {
 // GetMappingAutonomousContainerDatabaseSummaryRoleEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingAutonomousContainerDatabaseSummaryRoleEnum(val string) (AutonomousContainerDatabaseSummaryRoleEnum, bool) {
 	enum, ok := mappingAutonomousContainerDatabaseSummaryRoleEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// AutonomousContainerDatabaseSummaryComputeModelEnum Enum with underlying type: string
+type AutonomousContainerDatabaseSummaryComputeModelEnum string
+
+// Set of constants representing the allowable values for AutonomousContainerDatabaseSummaryComputeModelEnum
+const (
+	AutonomousContainerDatabaseSummaryComputeModelEcpu AutonomousContainerDatabaseSummaryComputeModelEnum = "ECPU"
+	AutonomousContainerDatabaseSummaryComputeModelOcpu AutonomousContainerDatabaseSummaryComputeModelEnum = "OCPU"
+)
+
+var mappingAutonomousContainerDatabaseSummaryComputeModelEnum = map[string]AutonomousContainerDatabaseSummaryComputeModelEnum{
+	"ECPU": AutonomousContainerDatabaseSummaryComputeModelEcpu,
+	"OCPU": AutonomousContainerDatabaseSummaryComputeModelOcpu,
+}
+
+var mappingAutonomousContainerDatabaseSummaryComputeModelEnumLowerCase = map[string]AutonomousContainerDatabaseSummaryComputeModelEnum{
+	"ecpu": AutonomousContainerDatabaseSummaryComputeModelEcpu,
+	"ocpu": AutonomousContainerDatabaseSummaryComputeModelOcpu,
+}
+
+// GetAutonomousContainerDatabaseSummaryComputeModelEnumValues Enumerates the set of values for AutonomousContainerDatabaseSummaryComputeModelEnum
+func GetAutonomousContainerDatabaseSummaryComputeModelEnumValues() []AutonomousContainerDatabaseSummaryComputeModelEnum {
+	values := make([]AutonomousContainerDatabaseSummaryComputeModelEnum, 0)
+	for _, v := range mappingAutonomousContainerDatabaseSummaryComputeModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAutonomousContainerDatabaseSummaryComputeModelEnumStringValues Enumerates the set of values in String for AutonomousContainerDatabaseSummaryComputeModelEnum
+func GetAutonomousContainerDatabaseSummaryComputeModelEnumStringValues() []string {
+	return []string{
+		"ECPU",
+		"OCPU",
+	}
+}
+
+// GetMappingAutonomousContainerDatabaseSummaryComputeModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAutonomousContainerDatabaseSummaryComputeModelEnum(val string) (AutonomousContainerDatabaseSummaryComputeModelEnum, bool) {
+	enum, ok := mappingAutonomousContainerDatabaseSummaryComputeModelEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

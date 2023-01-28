@@ -91,6 +91,9 @@ type CloudAutonomousVmClusterSummary struct {
 	// The number of CPU cores on the cloud Autonomous VM cluster. Only 1 decimal place is allowed for the fractional part.
 	OcpuCount *float32 `mandatory:"false" json:"ocpuCount"`
 
+	// The compute model of the Cloud Autonomous VM Cluster.
+	ComputeModel CloudAutonomousVmClusterSummaryComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
+
 	// The number of OCPU cores enabled per VM cluster node.
 	CpuCoreCountPerNode *int `mandatory:"false" json:"cpuCoreCountPerNode"`
 
@@ -158,6 +161,9 @@ func (m CloudAutonomousVmClusterSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetCloudAutonomousVmClusterSummaryLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingCloudAutonomousVmClusterSummaryComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetCloudAutonomousVmClusterSummaryComputeModelEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingCloudAutonomousVmClusterSummaryLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetCloudAutonomousVmClusterSummaryLicenseModelEnumStringValues(), ",")))
 	}
@@ -226,6 +232,48 @@ func GetCloudAutonomousVmClusterSummaryLifecycleStateEnumStringValues() []string
 // GetMappingCloudAutonomousVmClusterSummaryLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCloudAutonomousVmClusterSummaryLifecycleStateEnum(val string) (CloudAutonomousVmClusterSummaryLifecycleStateEnum, bool) {
 	enum, ok := mappingCloudAutonomousVmClusterSummaryLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CloudAutonomousVmClusterSummaryComputeModelEnum Enum with underlying type: string
+type CloudAutonomousVmClusterSummaryComputeModelEnum string
+
+// Set of constants representing the allowable values for CloudAutonomousVmClusterSummaryComputeModelEnum
+const (
+	CloudAutonomousVmClusterSummaryComputeModelEcpu CloudAutonomousVmClusterSummaryComputeModelEnum = "ECPU"
+	CloudAutonomousVmClusterSummaryComputeModelOcpu CloudAutonomousVmClusterSummaryComputeModelEnum = "OCPU"
+)
+
+var mappingCloudAutonomousVmClusterSummaryComputeModelEnum = map[string]CloudAutonomousVmClusterSummaryComputeModelEnum{
+	"ECPU": CloudAutonomousVmClusterSummaryComputeModelEcpu,
+	"OCPU": CloudAutonomousVmClusterSummaryComputeModelOcpu,
+}
+
+var mappingCloudAutonomousVmClusterSummaryComputeModelEnumLowerCase = map[string]CloudAutonomousVmClusterSummaryComputeModelEnum{
+	"ecpu": CloudAutonomousVmClusterSummaryComputeModelEcpu,
+	"ocpu": CloudAutonomousVmClusterSummaryComputeModelOcpu,
+}
+
+// GetCloudAutonomousVmClusterSummaryComputeModelEnumValues Enumerates the set of values for CloudAutonomousVmClusterSummaryComputeModelEnum
+func GetCloudAutonomousVmClusterSummaryComputeModelEnumValues() []CloudAutonomousVmClusterSummaryComputeModelEnum {
+	values := make([]CloudAutonomousVmClusterSummaryComputeModelEnum, 0)
+	for _, v := range mappingCloudAutonomousVmClusterSummaryComputeModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCloudAutonomousVmClusterSummaryComputeModelEnumStringValues Enumerates the set of values in String for CloudAutonomousVmClusterSummaryComputeModelEnum
+func GetCloudAutonomousVmClusterSummaryComputeModelEnumStringValues() []string {
+	return []string{
+		"ECPU",
+		"OCPU",
+	}
+}
+
+// GetMappingCloudAutonomousVmClusterSummaryComputeModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCloudAutonomousVmClusterSummaryComputeModelEnum(val string) (CloudAutonomousVmClusterSummaryComputeModelEnum, bool) {
+	enum, ok := mappingCloudAutonomousVmClusterSummaryComputeModelEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 
