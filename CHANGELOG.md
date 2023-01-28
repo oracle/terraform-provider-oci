@@ -1,3 +1,14 @@
+## 4.106.0 (Unreleased)
+
+### Added
+- Support for ADB-D and ADB on ExaCC | ECPU Billing
+- apm_config: support for usage and ownership details
+- Support for ADB-S: Support Vault Secret ID for ADMIN Password
+- Support for OCI Search Service with OpenSearch Local Role Based Access Control
+- Support for Confidential VM
+- Support for DevOps Deploy Shell stage
+- Support for Fix Terraform Resource Discovery for Route Tables, Security List, DhcpOptions and Vlans
+
 ## 4.105.0 (January 25, 2023)
 
 ### Added
