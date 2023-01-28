@@ -154,29 +154,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
-			"db_tools_details": {
-				Type:     schema.TypeList,
-				Optional: true,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-						"name": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
-
-						// Optional
-						"is_enabled": {
-							Type:     schema.TypeBool,
-							Optional: true,
-							Computed: true,
-						},
-
-						// Computed
-					},
-				},
-			},
 			"db_version": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -602,27 +579,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"database_transforms_url": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
 						"graph_studio_url": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"machine_learning_notebook_url": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
 						"machine_learning_user_management_url": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"mongo_db_url": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"ords_url": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -1481,29 +1442,6 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.SecretVersionNumber = &tmp
 	}
 
-	if dbToolsDetails, ok := s.D.GetOkExists("db_tools_details"); ok && s.D.HasChange("db_tools_details") {
-		interfaces := dbToolsDetails.([]interface{})
-		tmp := make([]oci_database.DatabaseTool, len(interfaces))
-		for i := range interfaces {
-			stateDataIndex := i
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_tools_details", stateDataIndex)
-			converted, err := s.mapToDatabaseTool(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			tmp[i] = converted
-		}
-		if len(tmp) != 0 || s.D.HasChange("db_tools_details") {
-			request.DbToolsDetails = tmp
-		}
-		if _, ok := s.D.GetOkExists("freeform_tags"); ok && !s.D.HasChange("freeform_tags") {
-			request.FreeformTags = nil
-		}
-		if _, ok := s.D.GetOkExists("defined_tags"); ok && !s.D.HasChange("defined_tags") {
-			request.DefinedTags = nil
-		}
-	}
-
 	if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
 		interfaces := standbyWhitelistedIps.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -1652,12 +1590,6 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	if s.Res.DbName != nil {
 		s.D.Set("db_name", *s.Res.DbName)
 	}
-
-	dbToolsDetails := []interface{}{}
-	for _, item := range s.Res.DbToolsDetails {
-		dbToolsDetails = append(dbToolsDetails, DatabaseToolToMap(item))
-	}
-	s.D.Set("db_tools_details", dbToolsDetails)
 
 	if s.Res.DbVersion != nil {
 		s.D.Set("db_version", *s.Res.DbVersion)
@@ -1987,28 +1919,12 @@ func AutonomousDatabaseConnectionUrlsToMap(obj *oci_database.AutonomousDatabaseC
 		result["apex_url"] = string(*obj.ApexUrl)
 	}
 
-	if obj.DatabaseTransformsUrl != nil {
-		result["database_transforms_url"] = string(*obj.DatabaseTransformsUrl)
-	}
-
 	if obj.GraphStudioUrl != nil {
 		result["graph_studio_url"] = string(*obj.GraphStudioUrl)
 	}
 
-	if obj.MachineLearningNotebookUrl != nil {
-		result["machine_learning_notebook_url"] = string(*obj.MachineLearningNotebookUrl)
-	}
-
 	if obj.MachineLearningUserManagementUrl != nil {
 		result["machine_learning_user_management_url"] = string(*obj.MachineLearningUserManagementUrl)
-	}
-
-	if obj.MongoDbUrl != nil {
-		result["mongo_db_url"] = string(*obj.MongoDbUrl)
-	}
-
-	if obj.OrdsUrl != nil {
-		result["ords_url"] = string(*obj.OrdsUrl)
 	}
 
 	if obj.SqlDevWebUrl != nil {
@@ -2102,32 +2018,6 @@ func DatabaseConnectionStringProfileToMap(obj oci_database.DatabaseConnectionStr
 	if obj.Value != nil {
 		result["value"] = string(*obj.Value)
 	}
-
-	return result
-}
-
-func (s *DatabaseAutonomousDatabaseResourceCrud) mapToDatabaseTool(fieldKeyFormat string) (oci_database.DatabaseTool, error) {
-	result := oci_database.DatabaseTool{}
-
-	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
-		result.Name = oci_database.DatabaseToolNameEnum(name.(string))
-	}
-
-	if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
-		tmp := isEnabled.(bool)
-		result.IsEnabled = &tmp
-	}
-	return result, nil
-}
-
-func DatabaseToolToMap(obj oci_database.DatabaseTool) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.IsEnabled != nil {
-		result["is_enabled"] = bool(*obj.IsEnabled)
-	}
-
-	result["name"] = string(obj.Name)
 
 	return result
 }
@@ -2278,22 +2168,6 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if dbName, ok := s.D.GetOkExists("db_name"); ok {
 			tmp := dbName.(string)
 			details.DbName = &tmp
-		}
-		if dbToolsDetails, ok := s.D.GetOkExists("db_tools_details"); ok {
-			interfaces := dbToolsDetails.([]interface{})
-			tmp := make([]oci_database.DatabaseTool, len(interfaces))
-			for i := range interfaces {
-				stateDataIndex := i
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_tools_details", stateDataIndex)
-				converted, err := s.mapToDatabaseTool(fieldKeyFormat)
-				if err != nil {
-					return err
-				}
-				tmp[i] = converted
-			}
-			if len(tmp) != 0 || s.D.HasChange("db_tools_details") {
-				details.DbToolsDetails = tmp
-			}
 		}
 		if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
 			tmp := dbVersion.(string)
@@ -2532,22 +2406,6 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := dbName.(string)
 			details.DbName = &tmp
 		}
-		if dbToolsDetails, ok := s.D.GetOkExists("db_tools_details"); ok {
-			interfaces := dbToolsDetails.([]interface{})
-			tmp := make([]oci_database.DatabaseTool, len(interfaces))
-			for i := range interfaces {
-				stateDataIndex := i
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_tools_details", stateDataIndex)
-				converted, err := s.mapToDatabaseTool(fieldKeyFormat)
-				if err != nil {
-					return err
-				}
-				tmp[i] = converted
-			}
-			if len(tmp) != 0 || s.D.HasChange("db_tools_details") {
-				details.DbToolsDetails = tmp
-			}
-		}
 		if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
 			tmp := dbVersion.(string)
 			details.DbVersion = &tmp
@@ -2774,22 +2632,6 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := dbName.(string)
 			details.DbName = &tmp
 		}
-		if dbToolsDetails, ok := s.D.GetOkExists("db_tools_details"); ok {
-			interfaces := dbToolsDetails.([]interface{})
-			tmp := make([]oci_database.DatabaseTool, len(interfaces))
-			for i := range interfaces {
-				stateDataIndex := i
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_tools_details", stateDataIndex)
-				converted, err := s.mapToDatabaseTool(fieldKeyFormat)
-				if err != nil {
-					return err
-				}
-				tmp[i] = converted
-			}
-			if len(tmp) != 0 || s.D.HasChange("db_tools_details") {
-				details.DbToolsDetails = tmp
-			}
-		}
 		if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
 			tmp := dbVersion.(string)
 			details.DbVersion = &tmp
@@ -3009,22 +2851,6 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := dbName.(string)
 			details.DbName = &tmp
 		}
-		if dbToolsDetails, ok := s.D.GetOkExists("db_tools_details"); ok {
-			interfaces := dbToolsDetails.([]interface{})
-			tmp := make([]oci_database.DatabaseTool, len(interfaces))
-			for i := range interfaces {
-				stateDataIndex := i
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_tools_details", stateDataIndex)
-				converted, err := s.mapToDatabaseTool(fieldKeyFormat)
-				if err != nil {
-					return err
-				}
-				tmp[i] = converted
-			}
-			if len(tmp) != 0 || s.D.HasChange("db_tools_details") {
-				details.DbToolsDetails = tmp
-			}
-		}
 		if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
 			tmp := dbVersion.(string)
 			details.DbVersion = &tmp
@@ -3242,22 +3068,6 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := dbName.(string)
 			details.DbName = &tmp
 		}
-		if dbToolsDetails, ok := s.D.GetOkExists("db_tools_details"); ok {
-			interfaces := dbToolsDetails.([]interface{})
-			tmp := make([]oci_database.DatabaseTool, len(interfaces))
-			for i := range interfaces {
-				stateDataIndex := i
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_tools_details", stateDataIndex)
-				converted, err := s.mapToDatabaseTool(fieldKeyFormat)
-				if err != nil {
-					return err
-				}
-				tmp[i] = converted
-			}
-			if len(tmp) != 0 || s.D.HasChange("db_tools_details") {
-				details.DbToolsDetails = tmp
-			}
-		}
 		if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
 			tmp := dbVersion.(string)
 			details.DbVersion = &tmp
@@ -3371,6 +3181,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 				details.ScheduledOperations = tmp
 			}
 		}
+		if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+			tmp := secretId.(string)
+			details.SecretId = &tmp
+		}
+		if secretVersionNumber, ok := s.D.GetOkExists("secret_version_number"); ok {
+			tmp := secretVersionNumber.(int)
+			details.SecretVersionNumber = &tmp
+		}
 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
 			interfaces := standbyWhitelistedIps.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -3470,22 +3288,6 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if dbName, ok := s.D.GetOkExists("db_name"); ok {
 			tmp := dbName.(string)
 			details.DbName = &tmp
-		}
-		if dbToolsDetails, ok := s.D.GetOkExists("db_tools_details"); ok {
-			interfaces := dbToolsDetails.([]interface{})
-			tmp := make([]oci_database.DatabaseTool, len(interfaces))
-			for i := range interfaces {
-				stateDataIndex := i
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_tools_details", stateDataIndex)
-				converted, err := s.mapToDatabaseTool(fieldKeyFormat)
-				if err != nil {
-					return err
-				}
-				tmp[i] = converted
-			}
-			if len(tmp) != 0 || s.D.HasChange("db_tools_details") {
-				details.DbToolsDetails = tmp
-			}
 		}
 		if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
 			tmp := dbVersion.(string)

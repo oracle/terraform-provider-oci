@@ -254,12 +254,6 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["db_name"] = *r.DbName
 		}
 
-		dbToolsDetails := []interface{}{}
-		for _, item := range r.DbToolsDetails {
-			dbToolsDetails = append(dbToolsDetails, DatabaseToolToMap(item))
-		}
-		autonomousDatabase["db_tools_details"] = dbToolsDetails
-
 		if r.DbVersion != nil {
 			autonomousDatabase["db_version"] = *r.DbVersion
 		}

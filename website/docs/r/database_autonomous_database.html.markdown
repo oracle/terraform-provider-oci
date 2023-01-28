@@ -42,14 +42,6 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 	data_storage_size_in_gb = var.autonomous_database_data_storage_size_in_gb
 	data_storage_size_in_tbs = var.autonomous_database_data_storage_size_in_tbs
 	database_edition = var.autonomous_database_database_edition
-	db_name = var.autonomous_database_db_name
-	db_tools_details {
-		#Required
-		name = var.autonomous_database_db_tools_details_name
-
-		#Optional
-		is_enabled = var.autonomous_database_db_tools_details_is_enabled
-	}
 	db_version = var.autonomous_database_db_version
 	db_workload = var.autonomous_database_db_workload
 	defined_tags = var.autonomous_database_defined_tags
@@ -133,10 +125,7 @@ The following arguments are supported:
   **Note:** This parameter cannot be used with the `dataStorageSizeInGBs` parameter. This input is ignored for Always Free resources.
 * `database_edition` - (Optional) (Updatable) The Oracle Database Edition that applies to the Autonomous databases.
 * `db_name` - (Required) The database name. The name must begin with an alphabetic character and can contain a maximum of 14 alphanumeric characters. Special characters are not permitted. The database name must be unique in the tenancy.
-* `db_tools_details` - (Optional) (Updatable) List of database tools details.
-	* `is_enabled` - (Optional) (Updatable) Indicates whether tool is enabled.
-	* `name` - (Required) (Updatable) Name of database tool.
-* `db_version` - (Optional) (Updatable) A valid Oracle Database version for Autonomous Database.`db_workload` AJD is only supported for `db_version` `19c` and above.
+* `db_version` - (Optional) (Updatable) A valid Oracle Database version for Autonomous Database.`db_workload` AJD and APEX are only supported for `db_version` `19c` and above.
 * `db_workload` - (Optional) (Updatable) The Autonomous Database workload type. The following values are valid:
 	* OLTP - indicates an Autonomous Transaction Processing database
 	* DW - indicates an Autonomous Data Warehouse database
@@ -158,8 +147,8 @@ The following arguments are supported:
 * `is_mtls_connection_required` - (Optional) (Updatable) Indicates whether the Autonomous Database requires mTLS connections.
 * `is_preview_version_with_service_terms_accepted` - (Optional) If set to `TRUE`, indicates that an Autonomous Database preview version is being provisioned, and that the preview version's terms of service have been accepted. Note that preview version software is only available for databases on [shared Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).
 * `kms_key_id` - (Optional) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
-* `max_cpu_core_count` - (Optional) (Updatable) The number of Max OCPU cores to be made available to the autonomous database with auto scaling of cpu enabled. 
-* `ncharacter_set` - (Optional) The character set for the Autonomous Database.  The default is AL32UTF8. Use [List Autonomous Database Character Sets](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/autonomousDatabaseCharacterSets/ListAutonomousDatabaseCharacterSets) to list the allowed values for an Autonomous Database on shared Exadata infrastructure. For an Autonomous Database on dedicated Exadata infrastructure, the allowed values are: AL16UTF16 or UTF8. 
+* `max_cpu_core_count` - (Optional) (Updatable) The number of Max OCPU cores to be made available to the autonomous database with auto scaling of cpu enabled.
+* `ncharacter_set` - (Optional) The character set for the Autonomous Database.  The default is AL32UTF8. Use [List Autonomous Database Character Sets](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/autonomousDatabaseCharacterSets/ListAutonomousDatabaseCharacterSets) to list the allowed values for an Autonomous Database on shared Exadata infrastructure. For an Autonomous Database on dedicated Exadata infrastructure, the allowed values are: AL16UTF16 or UTF8.
 * `nsg_ids` - (Optional) (Updatable) The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). **NsgIds restrictions:**
 	* A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.
 * `is_refreshable_clone` - (Applicable when source=CLONE_TO_REFRESHABLE) (Updatable) True for creating a refreshable clone and False for detaching the clone from source Autonomous Database. Detaching is one time operation and clone becomes a regular Autonomous Database.
@@ -258,15 +247,14 @@ The following attributes are exported:
 		* `syntax_format` - Specifies whether the connection string is using the long (`LONG`), Easy Connect (`EZCONNECT`), or Easy Connect Plus (`EZCONNECTPLUS`) format. Autonomous Databases on shared Exadata infrastructure always use the long format.
 		* `tls_authentication` - Specifies whether the TLS handshake is using one-way (`SERVER`) or mutual (`MUTUAL`) authentication.
 		* `value` - Connection string value.
-* `connection_urls` - The URLs for accessing Oracle Application Express (APEX) and SQL Developer Web with a browser from a Compute instance within your VCN or that has a direct connection to your VCN. Note that these URLs are provided by the console only for databases on [dedicated Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).  Example: `{"sqlDevWebUrl": "https://<hostname>/ords...", "apexUrl", "https://<hostname>/ords..."}` 
-	* `apex_url` - Oracle Application Express (APEX) URL.
-	* `database_transforms_url` - The URL of the Database Transforms for the Autonomous Database.
-	* `graph_studio_url` - The URL of the Graph Studio for the Autonomous Database.
-	* `machine_learning_notebook_url` - The URL of the Oracle Machine Learning (OML) Notebook for the Autonomous Database.
-	* `machine_learning_user_management_url` - Oracle Machine Learning user management URL.
-	* `mongo_db_url` - The URL of the MongoDB API for the Autonomous Database.
-	* `ords_url` - The Oracle REST Data Services (ORDS) URL of the Web Access for the Autonomous Database.
-	* `sql_dev_web_url` - Oracle SQL Developer Web URL.
+* `connection_urls` - The URLs for accessing Oracle Application Express (APEX) and SQL Developer Web with a browser from a Compute instance within your VCN or that has a direct connection to your VCN. Note that these URLs are provided by the console only for databases on [dedicated Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).  Example: `{"sqlDevWebUrl": "https://<hostname>/ords...", "apexUrl", "https://<hostname>/ords..."}`
+    * `apex_url` - Oracle Application Express (APEX) URL.
+    * `database_transforms_url` - The URL of the Database Transforms for the Autonomous Database.
+    * `graph_studio_url` - The URL of the Graph Studio for the Autonomous Database.
+    * `machine_learning_user_management_url` - Oracle Machine Learning user management URL.
+    * `mongo_db_url` - The URL of the MongoDB API for the Autonomous Database.
+    * `ords_url` - The Oracle REST Data Services (ORDS) URL of the Web Access for the Autonomous Database.
+    * `sql_dev_web_url` - Oracle SQL Developer Web URL.
 * `cpu_core_count` - The number of OCPU cores to be made available to the database. When the ECPU is selected, the value for cpuCoreCount is 0. For Autonomous Databases on dedicated Exadata infrastructure, the maximum number of cores is determined by the infrastructure shape. See [Characteristics of Infrastructure Shapes](https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
 
   **Note:** This parameter cannot be used with the `ocpuCount` parameter.
@@ -279,9 +267,6 @@ The following attributes are exported:
 * `database_management_status` - Status of Database Management for this Autonomous Database.
 * `dataguard_region_type` - The Autonomous Data Guard region type of the Autonomous Database. For Autonomous Databases on shared Exadata infrastructure, Data Guard associations have designated primary and standby regions, and these region types do not change when the database changes roles. The standby regions in Data Guard associations can be the same region designated as the primary region, or they can be remote regions. Certain database administrative operations may be available only in the primary region of the Data Guard association, and cannot be performed when the database using the "primary" role is operating in a remote Data Guard standby region.
 * `db_name` - The database name.
-* `db_tools_details` - List of database tools details.
-	* `is_enabled` - Indicates whether tool is enabled.
-	* `name` - Name of database tool.
 * `db_version` - A valid Oracle Database version for Autonomous Database.
 * `db_workload` - The Autonomous Database workload type. The following values are valid:
     * OLTP - indicates an Autonomous Transaction Processing database
