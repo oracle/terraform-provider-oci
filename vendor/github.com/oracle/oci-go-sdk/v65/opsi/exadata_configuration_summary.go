@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -46,6 +46,9 @@ type ExadataConfigurationSummary interface {
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	GetFreeformTags() map[string]string
+
+	// Array of objects containing VM cluster information.
+	GetVmclusterDetails() []VmClusterSummary
 }
 
 type exadataconfigurationsummary struct {
@@ -58,6 +61,7 @@ type exadataconfigurationsummary struct {
 	ExadataRackType    ExadataRackTypeEnum               `mandatory:"true" json:"exadataRackType"`
 	DefinedTags        map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 	FreeformTags       map[string]string                 `mandatory:"true" json:"freeformTags"`
+	VmclusterDetails   []VmClusterSummary                `mandatory:"false" json:"vmclusterDetails"`
 	EntitySource       string                            `json:"entitySource"`
 }
 
@@ -80,6 +84,7 @@ func (m *exadataconfigurationsummary) UnmarshalJSON(data []byte) error {
 	m.ExadataRackType = s.Model.ExadataRackType
 	m.DefinedTags = s.Model.DefinedTags
 	m.FreeformTags = s.Model.FreeformTags
+	m.VmclusterDetails = s.Model.VmclusterDetails
 	m.EntitySource = s.Model.EntitySource
 
 	return err
@@ -96,6 +101,10 @@ func (m *exadataconfigurationsummary) UnmarshalPolymorphicJSON(data []byte) (int
 	switch m.EntitySource {
 	case "EM_MANAGED_EXTERNAL_EXADATA":
 		mm := ExadataDatabaseMachineConfigurationSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "PE_COMANAGED_EXADATA":
+		mm := ExadataExacsConfigurationSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -141,6 +150,11 @@ func (m exadataconfigurationsummary) GetDefinedTags() map[string]map[string]inte
 //GetFreeformTags returns FreeformTags
 func (m exadataconfigurationsummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
+}
+
+//GetVmclusterDetails returns VmclusterDetails
+func (m exadataconfigurationsummary) GetVmclusterDetails() []VmClusterSummary {
+	return m.VmclusterDetails
 }
 
 func (m exadataconfigurationsummary) String() string {

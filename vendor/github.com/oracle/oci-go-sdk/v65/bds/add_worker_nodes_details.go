@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -62,16 +62,19 @@ type AddWorkerNodesDetailsNodeTypeEnum string
 const (
 	AddWorkerNodesDetailsNodeTypeWorker            AddWorkerNodesDetailsNodeTypeEnum = "WORKER"
 	AddWorkerNodesDetailsNodeTypeComputeOnlyWorker AddWorkerNodesDetailsNodeTypeEnum = "COMPUTE_ONLY_WORKER"
+	AddWorkerNodesDetailsNodeTypeEdge              AddWorkerNodesDetailsNodeTypeEnum = "EDGE"
 )
 
 var mappingAddWorkerNodesDetailsNodeTypeEnum = map[string]AddWorkerNodesDetailsNodeTypeEnum{
 	"WORKER":              AddWorkerNodesDetailsNodeTypeWorker,
 	"COMPUTE_ONLY_WORKER": AddWorkerNodesDetailsNodeTypeComputeOnlyWorker,
+	"EDGE":                AddWorkerNodesDetailsNodeTypeEdge,
 }
 
 var mappingAddWorkerNodesDetailsNodeTypeEnumLowerCase = map[string]AddWorkerNodesDetailsNodeTypeEnum{
 	"worker":              AddWorkerNodesDetailsNodeTypeWorker,
 	"compute_only_worker": AddWorkerNodesDetailsNodeTypeComputeOnlyWorker,
+	"edge":                AddWorkerNodesDetailsNodeTypeEdge,
 }
 
 // GetAddWorkerNodesDetailsNodeTypeEnumValues Enumerates the set of values for AddWorkerNodesDetailsNodeTypeEnum
@@ -88,6 +91,7 @@ func GetAddWorkerNodesDetailsNodeTypeEnumStringValues() []string {
 	return []string{
 		"WORKER",
 		"COMPUTE_ONLY_WORKER",
+		"EDGE",
 	}
 }
 

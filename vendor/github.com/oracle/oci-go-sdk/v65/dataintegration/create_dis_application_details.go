@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -23,6 +23,9 @@ type CreateDisApplicationDetails struct {
 
 	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"true" json:"identifier"`
+
+	// OCID of the compartment that this resource belongs to. Defaults to compartment of the Workspace.
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// Currently not used on application creation. Reserved for future.
 	Key *string `mandatory:"false" json:"key"`

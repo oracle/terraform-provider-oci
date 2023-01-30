@@ -34,6 +34,12 @@ resource "oci_datascience_job" "test_job" {
 		shape_name = oci_core_shape.test_shape.name
 
 		#Optional
+		job_shape_config_details {
+
+			#Optional
+			memory_in_gbs = var.job_job_infrastructure_configuration_details_job_shape_config_details_memory_in_gbs
+			ocpus = var.job_job_infrastructure_configuration_details_job_shape_config_details_ocpus
+		}
 		subnet_id = oci_core_subnet.test_subnet.id
 	}
 	project_id = oci_datascience_project.test_project.id
@@ -72,6 +78,9 @@ The following arguments are supported:
 * `job_infrastructure_configuration_details` - (Required) (Updatable) The job infrastructure configuration details (shape, block storage, etc.) 
 	* `block_storage_size_in_gbs` - (Required) (Updatable) The size of the block storage volume to attach to the instance running the job 
 	* `job_infrastructure_type` - (Required) (Updatable) The infrastructure type used for job run.
+	* `job_shape_config_details` - (Optional) (Updatable) Details for the job run shape configuration. Specify only when a flex shape is selected.
+		* `memory_in_gbs` - (Applicable when job_infrastructure_type=ME_STANDALONE | STANDALONE) (Updatable) The total amount of memory available to the job run instance, in gigabytes. 
+		* `ocpus` - (Applicable when job_infrastructure_type=ME_STANDALONE | STANDALONE) (Updatable) The total number of OCPUs available to the job run instance. 
 	* `shape_name` - (Required) (Updatable) The shape used to launch the job run instances.
 	* `subnet_id` - (Required when job_infrastructure_type=STANDALONE) (Updatable) The subnet to create a secondary vnic in to attach to the instance running the job 
 * `job_log_configuration_details` - (Optional) Logging configuration for resource. 
@@ -107,6 +116,9 @@ The following attributes are exported:
 * `job_infrastructure_configuration_details` - The job infrastructure configuration details (shape, block storage, etc.) 
 	* `block_storage_size_in_gbs` - The size of the block storage volume to attach to the instance running the job 
 	* `job_infrastructure_type` - The infrastructure type used for job run.
+	* `job_shape_config_details` - Details for the job run shape configuration. Specify only when a flex shape is selected.
+		* `memory_in_gbs` - The total amount of memory available to the job run instance, in gigabytes. 
+		* `ocpus` - The total number of OCPUs available to the job run instance. 
 	* `shape_name` - The shape used to launch the job run instances.
 	* `subnet_id` - The subnet to create a secondary vnic in to attach to the instance running the job 
 * `job_log_configuration_details` - Logging configuration for resource. 
@@ -121,7 +133,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Job
 	* `update` - (Defaults to 20 minutes), when updating the Job
 	* `delete` - (Defaults to 20 minutes), when destroying the Job

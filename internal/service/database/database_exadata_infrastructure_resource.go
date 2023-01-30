@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database
@@ -9,8 +9,8 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 
@@ -87,7 +87,6 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
 			// Optional
 			"create_async": {
 				Type:     schema.TypeBool,
@@ -102,7 +101,6 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"contacts": {
 				Type:     schema.TypeList,
@@ -155,6 +153,16 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"is_cps_offline_report_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"is_multi_rack_deployment": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
 			},
 			"maintenance_window": {
 				Type:     schema.TypeList,
@@ -209,6 +217,11 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"is_monthly_patching_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"lead_time_in_weeks": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -252,6 +265,10 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 					},
 				},
 			},
+			"multi_rack_configuration_file": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"storage_count": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -264,6 +281,17 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+
+			"additional_compute_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+
+			"additional_compute_system_model": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+
 			"additional_storage_count": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -315,6 +343,10 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 			},
 			"memory_size_in_gbs": {
 				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"monthly_db_server_version": {
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"state": {
@@ -529,6 +561,16 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 		request.InfiniBandNetworkCIDR = &tmp
 	}
 
+	if isCpsOfflineReportEnabled, ok := s.D.GetOkExists("is_cps_offline_report_enabled"); ok {
+		tmp := isCpsOfflineReportEnabled.(bool)
+		request.IsCpsOfflineReportEnabled = &tmp
+	}
+
+	if isMultiRackDeployment, ok := s.D.GetOkExists("is_multi_rack_deployment"); ok {
+		tmp := isMultiRackDeployment.(bool)
+		request.IsMultiRackDeployment = &tmp
+	}
+
 	if maintenanceWindow, ok := s.D.GetOkExists("maintenance_window"); ok {
 		if tmpList := maintenanceWindow.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_window", 0)
@@ -538,6 +580,16 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 			}
 			request.MaintenanceWindow = &tmp
 		}
+	}
+
+	if multiRackConfigurationFile, ok := s.D.GetOkExists("multi_rack_configuration_file"); ok &&
+		s.D.Get("multi_rack_configuration_file").(string) != "" {
+		configJsonFile, err := ioutil.ReadFile(multiRackConfigurationFile.(string))
+		if err != nil {
+			return fmt.Errorf("unable to open Multi-Rack Configuration SAR JSON file: %s", err)
+		}
+
+		request.MultiRackConfigurationFile = configJsonFile
 	}
 
 	if netmask, ok := s.D.GetOkExists("netmask"); ok {
@@ -604,6 +656,8 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Get() error {
 
 	tmp := s.D.Id()
 	request.ExadataInfrastructureId = &tmp
+
+	request.ExcludedFields = []oci_database.GetExadataInfrastructureExcludedFieldsEnum{"multiRackConfigurationFile"}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
@@ -710,6 +764,26 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Update() error {
 		request.InfiniBandNetworkCIDR = &tmp
 	}
 
+	if isCpsOfflineReportEnabled, ok := s.D.GetOkExists("is_cps_offline_report_enabled"); ok && s.D.HasChange("is_cps_offline_report_enabled") {
+		tmp := isCpsOfflineReportEnabled.(bool)
+		request.IsCpsOfflineReportEnabled = &tmp
+	}
+
+	if isMultiRackDeployment, ok := s.D.GetOkExists("is_multi_rack_deployment"); ok {
+		tmp := isMultiRackDeployment.(bool)
+		request.IsMultiRackDeployment = &tmp
+	}
+
+	if multiRackConfigurationFile, ok := s.D.GetOkExists("multi_rack_configuration_file"); ok &&
+		s.D.Get("multi_rack_configuration_file").(string) != "" {
+		configJsonFile, err := ioutil.ReadFile(multiRackConfigurationFile.(string))
+		if err != nil {
+			return fmt.Errorf("unable to open Multi-Rack Configuration SAR JSON file: %s", err)
+		}
+
+		request.MultiRackConfigurationFile = configJsonFile
+	}
+
 	if maintenanceWindow, ok := s.D.GetOkExists("maintenance_window"); ok {
 		if tmpList := maintenanceWindow.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_window", 0)
@@ -792,6 +866,12 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 		s.D.Set("activated_storage_count", *s.Res.ActivatedStorageCount)
 	}
 
+	if s.Res.AdditionalComputeCount != nil {
+		s.D.Set("additional_compute_count", *s.Res.AdditionalComputeCount)
+	}
+
+	s.D.Set("additional_compute_system_model", s.Res.AdditionalComputeSystemModel)
+
 	if s.Res.AdditionalStorageCount != nil {
 		s.D.Set("additional_storage_count", *s.Res.AdditionalStorageCount)
 	}
@@ -866,6 +946,14 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 		s.D.Set("infini_band_network_cidr", *s.Res.InfiniBandNetworkCIDR)
 	}
 
+	if s.Res.IsCpsOfflineReportEnabled != nil {
+		s.D.Set("is_cps_offline_report_enabled", *s.Res.IsCpsOfflineReportEnabled)
+	}
+
+	if s.Res.IsMultiRackDeployment != nil {
+		s.D.Set("is_multi_rack_deployment", *s.Res.IsMultiRackDeployment)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
@@ -896,6 +984,14 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 
 	if s.Res.MemorySizeInGBs != nil {
 		s.D.Set("memory_size_in_gbs", *s.Res.MemorySizeInGBs)
+	}
+
+	if s.Res.MonthlyDbServerVersion != nil {
+		s.D.Set("monthly_db_server_version", *s.Res.MonthlyDbServerVersion)
+	}
+
+	if s.Res.MultiRackConfigurationFile != nil {
+		s.D.Set("multi_rack_configuration_file", string(s.Res.MultiRackConfigurationFile))
 	}
 
 	if s.Res.Netmask != nil {
@@ -1053,6 +1149,11 @@ func (s *DatabaseExadataInfrastructureResourceCrud) mapToMaintenanceWindow(field
 		result.IsCustomActionTimeoutEnabled = &tmp
 	}
 
+	if isMonthlyPatchingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_monthly_patching_enabled")); ok {
+		tmp := isMonthlyPatchingEnabled.(bool)
+		result.IsMonthlyPatchingEnabled = &tmp
+	}
+
 	if leadTimeInWeeks, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lead_time_in_weeks")); ok {
 		tmp := leadTimeInWeeks.(int)
 		result.LeadTimeInWeeks = &tmp
@@ -1116,6 +1217,10 @@ func ExadataInfrastructureMaintenanceWindowToMap(obj *oci_database.MaintenanceWi
 
 	if obj.IsCustomActionTimeoutEnabled != nil {
 		result["is_custom_action_timeout_enabled"] = bool(*obj.IsCustomActionTimeoutEnabled)
+	}
+
+	if obj.IsMonthlyPatchingEnabled != nil {
+		result["is_monthly_patching_enabled"] = bool(*obj.IsMonthlyPatchingEnabled)
 	}
 
 	if obj.LeadTimeInWeeks != nil {

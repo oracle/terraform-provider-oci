@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -21,14 +21,17 @@ type ImportableAgentEntitySourceEnum string
 // Set of constants representing the allowable values for ImportableAgentEntitySourceEnum
 const (
 	ImportableAgentEntitySourceMacsManagedExternalHost ImportableAgentEntitySourceEnum = "MACS_MANAGED_EXTERNAL_HOST"
+	ImportableAgentEntitySourceMacsManagedCloudHost    ImportableAgentEntitySourceEnum = "MACS_MANAGED_CLOUD_HOST"
 )
 
 var mappingImportableAgentEntitySourceEnum = map[string]ImportableAgentEntitySourceEnum{
 	"MACS_MANAGED_EXTERNAL_HOST": ImportableAgentEntitySourceMacsManagedExternalHost,
+	"MACS_MANAGED_CLOUD_HOST":    ImportableAgentEntitySourceMacsManagedCloudHost,
 }
 
 var mappingImportableAgentEntitySourceEnumLowerCase = map[string]ImportableAgentEntitySourceEnum{
 	"macs_managed_external_host": ImportableAgentEntitySourceMacsManagedExternalHost,
+	"macs_managed_cloud_host":    ImportableAgentEntitySourceMacsManagedCloudHost,
 }
 
 // GetImportableAgentEntitySourceEnumValues Enumerates the set of values for ImportableAgentEntitySourceEnum
@@ -44,6 +47,7 @@ func GetImportableAgentEntitySourceEnumValues() []ImportableAgentEntitySourceEnu
 func GetImportableAgentEntitySourceEnumStringValues() []string {
 	return []string{
 		"MACS_MANAGED_EXTERNAL_HOST",
+		"MACS_MANAGED_CLOUD_HOST",
 	}
 }
 

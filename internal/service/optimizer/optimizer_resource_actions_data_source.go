@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package optimizer
@@ -9,8 +9,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_optimizer "github.com/oracle/oci-go-sdk/v65/optimizer"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func OptimizerResourceActionsDataSource() *schema.Resource {
@@ -18,6 +18,13 @@ func OptimizerResourceActionsDataSource() *schema.Resource {
 		Read: readOptimizerResourceActions,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"child_tenancy_ids": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -26,13 +33,21 @@ func OptimizerResourceActionsDataSource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Required: true,
 			},
+			"include_organization": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"name": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"recommendation_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
+			},
+			"recommendation_name": {
+				Type:     schema.TypeString,
+				Optional: true,
 			},
 			"resource_type": {
 				Type:     schema.TypeString,
@@ -85,6 +100,19 @@ func (s *OptimizerResourceActionsDataSourceCrud) VoidState() {
 func (s *OptimizerResourceActionsDataSourceCrud) Get() error {
 	request := oci_optimizer.ListResourceActionsRequest{}
 
+	if childTenancyIds, ok := s.D.GetOkExists("child_tenancy_ids"); ok {
+		interfaces := childTenancyIds.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("child_tenancy_ids") {
+			request.ChildTenancyIds = tmp
+		}
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -95,6 +123,11 @@ func (s *OptimizerResourceActionsDataSourceCrud) Get() error {
 		request.CompartmentIdInSubtree = &tmp
 	}
 
+	if includeOrganization, ok := s.D.GetOkExists("include_organization"); ok {
+		tmp := includeOrganization.(bool)
+		request.IncludeOrganization = &tmp
+	}
+
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
 		request.Name = &tmp
@@ -103,6 +136,11 @@ func (s *OptimizerResourceActionsDataSourceCrud) Get() error {
 	if recommendationId, ok := s.D.GetOkExists("recommendation_id"); ok {
 		tmp := recommendationId.(string)
 		request.RecommendationId = &tmp
+	}
+
+	if recommendationName, ok := s.D.GetOkExists("recommendation_name"); ok {
+		tmp := recommendationName.(string)
+		request.RecommendationName = &tmp
 	}
 
 	if resourceType, ok := s.D.GetOkExists("resource_type"); ok {

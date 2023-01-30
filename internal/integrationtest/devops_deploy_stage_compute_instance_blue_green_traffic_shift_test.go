@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -8,14 +8,14 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -30,7 +30,7 @@ var (
 	}
 
 	deployComputeInstanceGroupBlueGreenTrafficShiftStageRepresentation = acctest.GetUpdatedRepresentationCopy("deploy_stage_type", acctest.Representation{RepType: acctest.Required, Create: `COMPUTE_INSTANCE_GROUP_BLUE_GREEN_TRAFFIC_SHIFT`},
-		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(deployStageRepresentation, []string{"wait_criteria"}), map[string]interface{}{
+		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DevopsDeployStageRepresentation, []string{"wait_criteria"}), map[string]interface{}{
 			"compute_instance_group_blue_green_deployment_deploy_stage_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_deploy_stage.test_compute_instance_blue_green_deploy_stage.id}`},
 			"deploy_stage_predecessor_collection":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: computeInstanceBlueGreenTrafficShiftDeployStageDeployStagePredecessorCollectionRepresentation},
 		}))
@@ -150,7 +150,7 @@ func TestDevopsDeployStageResource_computeInstanceGroupBlueGreenTrafficShift(t *
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_stages", "test_deploy_stages", acctest.Optional, acctest.Update, deployStageDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_stages", "test_deploy_stages", acctest.Optional, acctest.Update, DevopsDevopsDeployStageDataSourceRepresentation) +
 				compartmentIdVariableStr + DeployComputeInstanceGroupBlueGreenTrafficShiftStageResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", acctest.Optional, acctest.Update, deployComputeInstanceGroupBlueGreenTrafficShiftStageRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(

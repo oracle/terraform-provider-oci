@@ -23,6 +23,10 @@ resource "oci_containerengine_cluster" "test_cluster" {
 	vcn_id = oci_core_vcn.test_vcn.id
 
 	#Optional
+	cluster_pod_network_options {
+		#Required
+		cni_type = var.cluster_cluster_pod_network_options_cni_type
+	}
 	defined_tags = {"Operations.CostCenter"= "42"}
 	endpoint_config {
 
@@ -84,6 +88,8 @@ resource "oci_containerengine_cluster" "test_cluster" {
 
 The following arguments are supported:
 
+* `cluster_pod_network_options` - (Optional) Available CNIs and network options for existing and new node pools of the cluster
+	* `cni_type` - (Required) The CNI used by the node pools of this cluster
 * `compartment_id` - (Required) The OCID of the compartment in which to create the cluster.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `endpoint_config` - (Optional) The network configuration for access to the Cluster control plane. 
@@ -125,6 +131,8 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `available_kubernetes_upgrades` - Available Kubernetes versions to which the clusters masters may be upgraded.
+* `cluster_pod_network_options` - Available CNIs and network options for existing and new node pools of the cluster
+	* `cni_type` - The CNI used by the node pools of this cluster
 * `compartment_id` - The OCID of the compartment in which the cluster exists.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `endpoint_config` - The network configuration for access to the Cluster control plane. 
@@ -177,7 +185,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 1 hours), when creating the Cluster
 	* `update` - (Defaults to 1 hours), when updating the Cluster
 	* `delete` - (Defaults to 1 hours), when destroying the Cluster

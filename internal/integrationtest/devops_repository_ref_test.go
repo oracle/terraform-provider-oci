@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,33 +22,33 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	RepositoryRefRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_devops_repository_ref", "test_repository_ref", acctest.Required, acctest.Create, repositoryRefRepresentation)
+	DevopsRepositoryRefRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_devops_repository_ref", "test_repository_ref", acctest.Required, acctest.Create, DevopsRepositoryRefRepresentation)
 
-	RepositoryRefResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_devops_repository_ref", "test_repository_ref", acctest.Optional, acctest.Update, repositoryRefRepresentation)
+	DevopsRepositoryRefResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_devops_repository_ref", "test_repository_ref", acctest.Optional, acctest.Update, DevopsRepositoryRefRepresentation)
 
-	repositoryRefSingularDataSourceRepresentation = map[string]interface{}{
+	DevopsDevopsRepositoryRefSingularDataSourceRepresentation = map[string]interface{}{
 		"ref_name":      acctest.Representation{RepType: acctest.Required, Create: `refName`},
 		"repository_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_repository.test_repository.id}`},
 	}
 
-	repositoryRefDataSourceRepresentation = map[string]interface{}{
+	DevopsDevopsRepositoryRefDataSourceRepresentation = map[string]interface{}{
 		"repository_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_repository.test_repository.id}`},
 	}
 
-	repositoryRefRepresentation = map[string]interface{}{
+	DevopsRepositoryRefRepresentation = map[string]interface{}{
 		"ref_name":      acctest.Representation{RepType: acctest.Required, Create: `refName`},
 		"ref_type":      acctest.Representation{RepType: acctest.Required, Create: `BRANCH`},
 		"repository_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_repository.test_repository.id}`},
 		"commit_id":     acctest.Representation{RepType: acctest.Required, Create: `commitId`, Update: `commitId1`},
 	}
 
-	RepositoryRefResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, devopsProjectRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Required, acctest.Create, devopsRepositoryRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, notificationTopicRepresentation)
+	DevopsRepositoryRefResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Required, acctest.Create, DevopsRepositoryRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation)
 )
 
 // issue-routing-tag: devops/default
@@ -73,14 +73,14 @@ func TestDevopsRepositoryRefResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+commitIdStr+RepositoryRefResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_repository_ref", "test_repository_ref", acctest.Required, acctest.Create, repositoryRefRepresentation), "devops", "repositoryRef", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+commitIdStr+DevopsRepositoryRefResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_repository_ref", "test_repository_ref", acctest.Required, acctest.Create, DevopsRepositoryRefRepresentation), "devops", "repositoryRef", t)
 
 	acctest.ResourceTest(t, testAccCheckDevopsRepositoryRefDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + commitIdStr + RepositoryRefResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_repository_ref", "test_repository_ref", acctest.Required, acctest.Create, repositoryRefRepresentation),
+			Config: config + compartmentIdVariableStr + commitIdStr + DevopsRepositoryRefResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_repository_ref", "test_repository_ref", acctest.Required, acctest.Create, DevopsRepositoryRefRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "commit_id"),
 				resource.TestCheckResourceAttr(resourceName, "ref_name", "refName"),
@@ -101,8 +101,8 @@ func TestDevopsRepositoryRefResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + commitIdStr + RepositoryRefResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_repository_ref", "test_repository_ref", acctest.Optional, acctest.Update, repositoryRefRepresentation),
+			Config: config + compartmentIdVariableStr + commitIdStr + DevopsRepositoryRefResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_repository_ref", "test_repository_ref", acctest.Optional, acctest.Update, DevopsRepositoryRefRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "commit_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "full_ref_name"),
@@ -121,9 +121,9 @@ func TestDevopsRepositoryRefResource_basic(t *testing.T) {
 		},
 		// verify datasource
 		{
-			Config: config + acctest.GenerateResourceFromRepresentationMap("oci_devops_repository_ref", "test_repository_ref", acctest.Optional, acctest.Update, repositoryRefRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repository_refs", "test_repository_refs", acctest.Optional, acctest.Update, repositoryRefDataSourceRepresentation) +
-				compartmentIdVariableStr + commitIdStr + RepositoryRefResourceDependencies,
+			Config: config + acctest.GenerateResourceFromRepresentationMap("oci_devops_repository_ref", "test_repository_ref", acctest.Optional, acctest.Update, DevopsRepositoryRefRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repository_refs", "test_repository_refs", acctest.Optional, acctest.Update, DevopsDevopsRepositoryRefDataSourceRepresentation) +
+				compartmentIdVariableStr + commitIdStr + DevopsRepositoryRefResourceDependencies,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "repository_id"),
 				resource.TestCheckResourceAttr(datasourceName, "repository_ref_collection.#", "1"),
@@ -133,8 +133,8 @@ func TestDevopsRepositoryRefResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repository_ref", "test_repository_ref", acctest.Required, acctest.Create, repositoryRefSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + commitIdStr + RepositoryRefResourceDependencies + RepositoryRefResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repository_ref", "test_repository_ref", acctest.Required, acctest.Create, DevopsDevopsRepositoryRefSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + commitIdStr + DevopsRepositoryRefResourceDependencies + DevopsRepositoryRefResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "commit_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "ref_name", "refName"),
@@ -145,7 +145,7 @@ func TestDevopsRepositoryRefResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + RepositoryRefRequiredOnlyResource,
+			Config:                  config + DevopsRepositoryRefRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -206,7 +206,7 @@ func init() {
 
 func sweepDevopsRepositoryRefResource(compartment string) error {
 	devopsClient := acctest.GetTestClients(&schema.ResourceData{}).DevopsClient()
-	repositoryRefIds, err := getRepositoryRefIds(compartment)
+	repositoryRefIds, err := getDevopsRepositoryRefIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -225,7 +225,7 @@ func sweepDevopsRepositoryRefResource(compartment string) error {
 	return nil
 }
 
-func getRepositoryRefIds(compartment string) ([]string, error) {
+func getDevopsRepositoryRefIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "RepositoryRefId")
 	if ids != nil {
 		return ids, nil
@@ -237,7 +237,7 @@ func getRepositoryRefIds(compartment string) ([]string, error) {
 	listRefsRequest := oci_devops.ListRefsRequest{}
 	//listRefsRequest.CompartmentId = &compartmentId
 
-	repositoryIds, error := devopsGetRepositoryIds(compartment)
+	repositoryIds, error := getDevopsRepositoryIds(compartment)
 	if error != nil {
 		return resourceIds, fmt.Errorf("Error getting repositoryId required for RepositoryRef resource requests \n")
 	}

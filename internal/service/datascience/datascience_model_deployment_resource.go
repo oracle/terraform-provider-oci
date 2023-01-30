@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package datascience
@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -79,6 +79,32 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 												},
 
 												// Optional
+												"model_deployment_instance_shape_config_details": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"memory_in_gbs": {
+																Type:     schema.TypeFloat,
+																Optional: true,
+																Computed: true,
+															},
+															"ocpus": {
+																Type:     schema.TypeFloat,
+																Optional: true,
+																Computed: true,
+															},
+
+															// Computed
+														},
+													},
+												},
 
 												// Computed
 											},
@@ -229,6 +255,16 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"state": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(oci_datascience.ModelDeploymentLifecycleStateInactive),
+					string(oci_datascience.ModelDeploymentLifecycleStateActive),
+				}, true),
+			},
 
 			// Computed
 			"created_by": {
@@ -240,10 +276,6 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 				Computed: true,
 			},
 			"model_deployment_url": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -259,8 +291,26 @@ func createDatascienceModelDeployment(d *schema.ResourceData, m interface{}) err
 	sync := &DatascienceModelDeploymentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
+	var powerOff = false
+	if powerState, ok := sync.D.GetOkExists("state"); ok {
+		wantedPowerState := oci_datascience.ModelDeploymentLifecycleStateEnum(strings.ToUpper(powerState.(string)))
+		if wantedPowerState == oci_datascience.ModelDeploymentLifecycleStateInactive {
+			powerOff = true
+		}
+	}
 
-	return tfresource.CreateResource(d, sync)
+	if e := tfresource.CreateResource(d, sync); e != nil {
+		return e
+	}
+
+	if powerOff {
+		if err := sync.StopModelDeployment(); err != nil {
+			return err
+		}
+		sync.D.Set("state", oci_datascience.ModelDeploymentLifecycleStateInactive)
+	}
+	return nil
+
 }
 
 func readDatascienceModelDeployment(d *schema.ResourceData, m interface{}) error {
@@ -276,7 +326,36 @@ func updateDatascienceModelDeployment(d *schema.ResourceData, m interface{}) err
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.UpdateResource(d, sync)
+	powerOn, powerOff := false, false
+
+	if sync.D.HasChange("state") {
+		wantedState := strings.ToUpper(sync.D.Get("state").(string))
+		if oci_datascience.ModelDeploymentLifecycleStateActive == oci_datascience.ModelDeploymentLifecycleStateEnum(wantedState) {
+			powerOn = true
+		} else if oci_datascience.ModelDeploymentLifecycleStateInactive == oci_datascience.ModelDeploymentLifecycleStateEnum(wantedState) {
+			powerOff = true
+		}
+	}
+
+	if powerOn {
+		if err := sync.StartModelDeployment(); err != nil {
+			return err
+		}
+		sync.D.Set("state", oci_datascience.ModelDeploymentLifecycleStateActive)
+	}
+
+	if err := tfresource.UpdateResource(d, sync); err != nil {
+		return err
+	}
+
+	if powerOff {
+		if err := sync.StopModelDeployment(); err != nil {
+			return err
+		}
+		sync.D.Set("state", oci_datascience.ModelDeploymentLifecycleStateInactive)
+	}
+
+	return nil
 }
 
 func deleteDatascienceModelDeployment(d *schema.ResourceData, m interface{}) error {
@@ -702,6 +781,40 @@ func (s *DatascienceModelDeploymentResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *DatascienceModelDeploymentResourceCrud) StartModelDeployment() error {
+	request := oci_datascience.ActivateModelDeploymentRequest{}
+
+	idTmp := s.D.Id()
+	request.ModelDeploymentId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
+
+	_, err := s.Client.ActivateModelDeployment(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_datascience.ModelDeploymentLifecycleStateActive }
+	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *DatascienceModelDeploymentResourceCrud) StopModelDeployment() error {
+	request := oci_datascience.DeactivateModelDeploymentRequest{}
+
+	idTmp := s.D.Id()
+	request.ModelDeploymentId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
+
+	_, err := s.Client.DeactivateModelDeployment(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_datascience.ModelDeploymentLifecycleStateInactive }
+	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+}
+
 func (s *DatascienceModelDeploymentResourceCrud) mapToCategoryLogDetails(fieldKeyFormat string) (oci_datascience.CategoryLogDetails, error) {
 	result := oci_datascience.CategoryLogDetails{}
 
@@ -780,6 +893,17 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToInstanceConfiguration(fiel
 		result.InstanceShapeName = &tmp
 	}
 
+	if modelDeploymentInstanceShapeConfigDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_deployment_instance_shape_config_details")); ok {
+		if tmpList := modelDeploymentInstanceShapeConfigDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "model_deployment_instance_shape_config_details"), 0)
+			tmp, err := s.mapToModelDeploymentInstanceShapeConfigDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert model_deployment_instance_shape_config_details, encountered error: %v", err)
+			}
+			result.ModelDeploymentInstanceShapeConfigDetails = &tmp
+		}
+	}
+
 	return result, nil
 }
 
@@ -788,6 +912,10 @@ func InstanceConfigurationToMap(obj *oci_datascience.InstanceConfiguration) map[
 
 	if obj.InstanceShapeName != nil {
 		result["instance_shape_name"] = string(*obj.InstanceShapeName)
+	}
+
+	if obj.ModelDeploymentInstanceShapeConfigDetails != nil {
+		result["model_deployment_instance_shape_config_details"] = []interface{}{ModelDeploymentInstanceShapeConfigDetailsToMap(obj.ModelDeploymentInstanceShapeConfigDetails)}
 	}
 
 	return result
@@ -929,6 +1057,42 @@ func ModelDeploymentConfigurationDetailsToMap(obj *oci_datascience.ModelDeployme
 	default:
 		log.Printf("[WARN] Received 'deployment_type' of unknown type %v", *obj)
 		return nil
+	}
+
+	return result
+}
+
+func (s *DatascienceModelDeploymentResourceCrud) mapToModelDeploymentInstanceShapeConfigDetails(fieldKeyFormat string) (oci_datascience.ModelDeploymentInstanceShapeConfigDetails, error) {
+	result := oci_datascience.ModelDeploymentInstanceShapeConfigDetails{}
+
+	memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs"))
+	if ok {
+		tmp := float32(memoryInGBs.(float64))
+		result.MemoryInGBs = &tmp
+	} else {
+		return result, fmt.Errorf("memory_in_gbs is required parameter")
+	}
+
+	ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus"))
+	if ok {
+		tmp := float32(ocpus.(float64))
+		result.Ocpus = &tmp
+	} else {
+		return result, fmt.Errorf("ocpus is required parameter")
+	}
+
+	return result, nil
+}
+
+func ModelDeploymentInstanceShapeConfigDetailsToMap(obj *oci_datascience.ModelDeploymentInstanceShapeConfigDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.MemoryInGBs != nil {
+		result["memory_in_gbs"] = float32(*obj.MemoryInGBs)
+	}
+
+	if obj.Ocpus != nil {
+		result["ocpus"] = float32(*obj.Ocpus)
 	}
 
 	return result

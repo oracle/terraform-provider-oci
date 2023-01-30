@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -6,20 +6,20 @@ package integrationtest
 import (
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	logSetsCountSingularDataSourceRepresentation = map[string]interface{}{
+	LogAnalyticsLogAnalyticsLogSetsCountSingularDataSourceRepresentation = map[string]interface{}{
 		"namespace": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 	}
 
-	LogSetsCountResourceConfig           = ""
-	LogAnalyticsLogSetsCountDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation)
+	LogAnalyticsLogSetsCountResourceConfig = ""
+	LogAnalyticsLogSetsCountDependencies   = acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsNamespaceSingularDataSourceRepresentation)
 )
 
 // issue-routing-tag: log_analytics/default
@@ -37,7 +37,7 @@ func TestLogAnalyticsLogSetsCountResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_sets_count", "test_log_sets_count", acctest.Required, acctest.Create, logSetsCountSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_sets_count", "test_log_sets_count", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsLogSetsCountSingularDataSourceRepresentation) +
 				LogAnalyticsLogSetsCountDependencies,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),

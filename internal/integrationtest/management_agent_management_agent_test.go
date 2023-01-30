@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,47 +16,89 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_management_agent "github.com/oracle/oci-go-sdk/v65/managementagent"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	ManagementAgentRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", acctest.Required, acctest.Create, managementAgentRepresentation)
-
-	ManagementAgentResourceConfig = ManagementAgentResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", acctest.Optional, acctest.Update, managementAgentRepresentation)
-
 	managementAgentSingularDataSourceRepresentation = map[string]interface{}{
 		"management_agent_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_management_agent_management_agent.test_management_agent.id}`},
 	}
 
 	managementAgentDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"availability_status":  acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"display_name":         acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"host_id":              acctest.Representation{RepType: acctest.Optional, Create: ``},
-		"install_type":         acctest.Representation{RepType: acctest.Optional, Create: `AGENT`},
-		"is_customer_deployed": acctest.Representation{RepType: acctest.Optional, Create: `true`},
-		"platform_type":        acctest.Representation{RepType: acctest.Optional, Create: []string{`LINUX`}},
-		"state":                acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":               acctest.RepresentationGroup{RepType: acctest.Required, Group: managementAgentDataSourceFilterRepresentation}}
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
+		"availability_status":       acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `terraformTest`, Update: `terraformTest2`},
+		"host_id":                   acctest.Representation{RepType: acctest.Optional, Create: ``},
+		"install_type":              acctest.Representation{RepType: acctest.Optional, Create: `AGENT`},
+		"is_customer_deployed":      acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"platform_type":             acctest.Representation{RepType: acctest.Optional, Create: []string{`LINUX`}},
+		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: managementAgentDataSourceFilterRepresentation}}
+
 	managementAgentDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_management_agent_management_agent.test_management_agent.id}`}},
 	}
 
-	managementAgentRepresentation = map[string]interface{}{
-		"managed_agent_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.managed_agent_id}`},
-		"display_name":      acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"deploy_plugins_id": acctest.Representation{RepType: acctest.Optional, Create: []string{`${data.oci_management_agent_management_agent_plugins.test_management_agent_plugins.management_agent_plugins.0.id}`}},
-	}
-
 	ManagementAgentResourceDependencies = ""
 )
+
+// issue-routing-tag: management_agent/default
+//This test can only be run against production where RQS scope is not in staging mode. this will fail in dev environments
+func TestManagementAgentManagementAgentResource_dataInSubcompartment(t *testing.T) {
+	httpreplay.SetScenario("TestManagementAgentManagementAgentResource_dataInSubcompartment")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	rootCompartmentId := utils.GetEnvSettingWithBlankDefault("root_compartment_ocid")
+	if rootCompartmentId == "" {
+		rootCompartmentId = utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
+	}
+	rootCompartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", rootCompartmentId)
+	managementAgentDataSourceRepresentationInSubtree := map[string]interface{}{
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: rootCompartmentId},
+		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
+		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `true`}}
+	datasourceName := "data.oci_management_agent_management_agents.test_management_agents"
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource with compartment_id_in_subtree
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_management_agent_management_agents", "test_management_agents", acctest.Optional, acctest.Update, managementAgentDataSourceRepresentationInSubtree) +
+				rootCompartmentIdVariableStr,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", rootCompartmentId),
+
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.availability_status"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.compartment_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.display_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.host"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.install_key_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.install_type"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.is_customer_deployed"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.is_agent_auto_upgradable"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.platform_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.platform_type"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.platform_version"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.time_last_heartbeat"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.version"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.time_updated"),
+			),
+		},
+	})
+}
 
 // issue-routing-tag: management_agent/default
 func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
@@ -68,20 +110,33 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	managementAgentId := utils.GetEnvSettingWithBlankDefault("managed_agent_id")
-	if managementAgentId == "" {
-		t.Skip("Manual install agent and set managed_agent_id to run this test")
+	managementAgentIds, err := getManagementAgentIds(compartmentId)
+	if err != nil {
+		t.Errorf("Failed to get agents in compartment %s", err)
 	}
+	if len(managementAgentIds) == 0 {
+		t.Errorf("Failed to find any active agents in compartment %s", compartmentId)
+	}
+	managementAgentId := managementAgentIds[0]
 	managementAgentIdVariableStr := fmt.Sprintf("variable \"managed_agent_id\" { default = \"%s\" }\n", managementAgentId)
 
 	resourceName := "oci_management_agent_management_agent.test_management_agent"
 	datasourceName := "data.oci_management_agent_management_agents.test_management_agents"
 	singularDatasourceName := "data.oci_management_agent_management_agent.test_management_agent"
+	managementAgentRepresentation := map[string]interface{}{
+		"managed_agent_id":  acctest.Representation{RepType: acctest.Required, Create: managementAgentId},
+		"display_name":      acctest.Representation{RepType: acctest.Optional, Create: `terraformTest`, Update: `terraformTest2`},
+		"deploy_plugins_id": acctest.Representation{RepType: acctest.Optional, Create: []string{`${data.oci_management_agent_management_agent_plugins.test_management_agent_plugins.management_agent_plugins.0.id}`}},
+	}
+	ManagementAgentRequiredOnlyResource := acctest.GenerateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", acctest.Required, acctest.Create, managementAgentRepresentation)
+
+	ManagementAgentResourceConfig := ManagementAgentResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", acctest.Optional, acctest.Update, managementAgentRepresentation)
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+ManagementAgentResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", acctest.Optional, acctest.Create, managementAgentRepresentation), "managementagent", "managementAgent", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", acctest.Optional, acctest.Create, managementAgentRepresentation)+managementAgentIdVariableStr, "managementagent", "managementAgent", t)
 
 	acctest.ResourceTest(t, testAccCheckManagementAgentManagementAgentDestroy, []resource.TestStep{
 		// verify Create
@@ -112,7 +167,7 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "version"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "terraformTest2"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -133,7 +188,7 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "availability_status", "ACTIVE"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "terraformTest2"),
 				resource.TestCheckResourceAttr(datasourceName, "install_type", "AGENT"),
 				resource.TestCheckResourceAttr(datasourceName, "is_customer_deployed", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "platform_type.#", "1"),
@@ -157,6 +212,8 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.time_last_heartbeat"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.version"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.time_updated"),
+				resource.TestCheckResourceAttr(datasourceName, "management_agents.0.plugin_list.0.plugin_status", "RUNNING"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.plugin_list.0.plugin_display_name"),
 			),
 		},
 		// verify singular datasource
@@ -166,7 +223,7 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 				acctest.GenerateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", acctest.Required, acctest.Create, managementAgentPluginDataSourceRepresentation) +
 				compartmentIdVariableStr + managementAgentIdVariableStr + ManagementAgentResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "terraformTest2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "platform_type", "LINUX"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "management_agent_id"),
@@ -286,11 +343,13 @@ func getManagementAgentIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
+	terraformTest := "terraformTest"
 	managementAgentClient := acctest.GetTestClients(&schema.ResourceData{}).ManagementAgentClient()
 
 	listManagementAgentsRequest := oci_management_agent.ListManagementAgentsRequest{}
 	listManagementAgentsRequest.CompartmentId = &compartmentId
 	listManagementAgentsRequest.LifecycleState = oci_management_agent.ListManagementAgentsLifecycleStateActive
+	listManagementAgentsRequest.DisplayName = &terraformTest
 	listManagementAgentsResponse, err := managementAgentClient.ListManagementAgents(context.Background(), listManagementAgentsRequest)
 
 	if err != nil {

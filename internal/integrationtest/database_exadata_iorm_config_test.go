@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -12,24 +12,24 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	ExadataIormConfigRequiredOnlyResource = ExadataIormConfigResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", acctest.Required, acctest.Create, exadataIormConfigRepresentation)
+	DatabaseExadataIormConfigRequiredOnlyResource = DatabaseExadataIormConfigResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", acctest.Required, acctest.Create, DatabaseExadataIormConfigRepresentation)
 
-	ExadataIormConfigResourceConfig = ExadataIormConfigResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", acctest.Optional, acctest.Update, exadataIormConfigRepresentation)
+	DatabaseExadataIormConfigResourceConfig = DatabaseExadataIormConfigResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", acctest.Optional, acctest.Update, DatabaseExadataIormConfigRepresentation)
 
-	exadataIormConfigSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseExadataIormConfigSingularDataSourceRepresentation = map[string]interface{}{
 		"db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_system.t.id}`},
 	}
 
-	exadataIormConfigRepresentation = map[string]interface{}{
+	DatabaseExadataIormConfigRepresentation = map[string]interface{}{
 		"db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_system.t.id}`},
 		"objective":    acctest.Representation{RepType: acctest.Optional, Create: `AUTO`, Update: `BALANCED`},
 		"db_plans":     acctest.RepresentationGroup{RepType: acctest.Required, Group: dbPlanRepresentation},
@@ -40,7 +40,7 @@ var (
 		"share":   acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
 	}
 
-	ExadataIormConfigResourceDependencies = DefinedTagsDependencies + `
+	DatabaseExadataIormConfigResourceDependencies = DefinedTagsDependencies + `
 
 	resource "oci_core_virtual_network" "t" {
 		compartment_id = "${var.compartment_id}"
@@ -148,14 +148,14 @@ func TestDatabaseExadataIormConfigResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ExadataIormConfigResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", acctest.Optional, acctest.Create, exadataIormConfigRepresentation), "database", "exadataIormConfig", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseExadataIormConfigResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", acctest.Optional, acctest.Create, DatabaseExadataIormConfigRepresentation), "database", "exadataIormConfig", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ExadataIormConfigResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", acctest.Required, acctest.Create, exadataIormConfigRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseExadataIormConfigResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", acctest.Required, acctest.Create, DatabaseExadataIormConfigRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
 				resource.TestCheckResourceAttr(resourceName, "db_plans.#", "1"),
@@ -169,12 +169,12 @@ func TestDatabaseExadataIormConfigResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ExadataIormConfigResourceDependencies,
+			Config: config + compartmentIdVariableStr + DatabaseExadataIormConfigResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ExadataIormConfigResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", acctest.Optional, acctest.Create, exadataIormConfigRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseExadataIormConfigResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", acctest.Optional, acctest.Create, DatabaseExadataIormConfigRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "objective", "AUTO"),
 
@@ -192,8 +192,8 @@ func TestDatabaseExadataIormConfigResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ExadataIormConfigResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", acctest.Optional, acctest.Update, exadataIormConfigRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseExadataIormConfigResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", acctest.Optional, acctest.Update, DatabaseExadataIormConfigRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
 				resource.TestCheckResourceAttr(resourceName, "objective", "BALANCED"),
@@ -211,8 +211,8 @@ func TestDatabaseExadataIormConfigResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", acctest.Required, acctest.Create, exadataIormConfigSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ExadataIormConfigResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", acctest.Required, acctest.Create, DatabaseDatabaseExadataIormConfigSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseExadataIormConfigResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
 

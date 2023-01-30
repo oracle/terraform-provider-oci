@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,18 +9,18 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	publisherDataSourceRepresentation = map[string]interface{}{
+	MarketplaceMarketplacePublisherDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"publisher_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_marketplace_publisher.test_publisher.id}`},
 	}
 
-	PublisherResourceConfig = ``
+	MarketplacePublisherResourceConfig = ``
 )
 
 // issue-routing-tag: marketplace/default
@@ -41,8 +41,8 @@ func TestMarketplacePublisherResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_publishers", "test_publishers", acctest.Required, acctest.Create, publisherDataSourceRepresentation) +
-				compartmentIdVariableStr + PublisherResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_publishers", "test_publishers", acctest.Required, acctest.Create, MarketplaceMarketplacePublisherDataSourceRepresentation) +
+				compartmentIdVariableStr + MarketplacePublisherResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 
 				resource.TestCheckResourceAttrSet(datasourceName, "publishers.#"),

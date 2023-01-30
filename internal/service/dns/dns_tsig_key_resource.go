@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package dns
@@ -6,8 +6,8 @@ package dns
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -134,6 +134,18 @@ func (s *DnsTsigKeyResourceCrud) CreatedPending() []string {
 }
 
 func (s *DnsTsigKeyResourceCrud) CreatedTarget() []string {
+	return []string{
+		string(oci_dns.TsigKeyLifecycleStateActive),
+	}
+}
+
+func (s *DnsTsigKeyResourceCrud) UpdatedPending() []string {
+	return []string{
+		string(oci_dns.TsigKeyLifecycleStateUpdating),
+	}
+}
+
+func (s *DnsTsigKeyResourceCrud) UpdatedTarget() []string {
 	return []string{
 		string(oci_dns.TsigKeyLifecycleStateActive),
 	}

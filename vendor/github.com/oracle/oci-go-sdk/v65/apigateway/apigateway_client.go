@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -218,9 +218,10 @@ func (client ApiGatewayClient) changeCertificateCompartment(ctx context.Context,
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/CreateApi.go.html to see an example of how to use CreateApi API.
+// A default retry strategy applies to this operation CreateApi()
 func (client ApiGatewayClient) CreateApi(ctx context.Context, request CreateApiRequest) (response CreateApiResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -280,9 +281,10 @@ func (client ApiGatewayClient) createApi(ctx context.Context, request common.OCI
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/CreateCertificate.go.html to see an example of how to use CreateCertificate API.
+// A default retry strategy applies to this operation CreateCertificate()
 func (client ApiGatewayClient) CreateCertificate(ctx context.Context, request CreateCertificateRequest) (response CreateCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -342,9 +344,10 @@ func (client ApiGatewayClient) createCertificate(ctx context.Context, request co
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/CreateSdk.go.html to see an example of how to use CreateSdk API.
+// A default retry strategy applies to this operation CreateSdk()
 func (client ApiGatewayClient) CreateSdk(ctx context.Context, request CreateSdkRequest) (response CreateSdkResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -575,9 +578,10 @@ func (client ApiGatewayClient) deleteSdk(ctx context.Context, request common.OCI
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/GetApi.go.html to see an example of how to use GetApi API.
+// A default retry strategy applies to this operation GetApi()
 func (client ApiGatewayClient) GetApi(ctx context.Context, request GetApiRequest) (response GetApiResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -632,9 +636,10 @@ func (client ApiGatewayClient) getApi(ctx context.Context, request common.OCIReq
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/GetApiContent.go.html to see an example of how to use GetApiContent API.
+// A default retry strategy applies to this operation GetApiContent()
 func (client ApiGatewayClient) GetApiContent(ctx context.Context, request GetApiContentRequest) (response GetApiContentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -688,9 +693,10 @@ func (client ApiGatewayClient) getApiContent(ctx context.Context, request common
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/GetApiDeploymentSpecification.go.html to see an example of how to use GetApiDeploymentSpecification API.
+// A default retry strategy applies to this operation GetApiDeploymentSpecification()
 func (client ApiGatewayClient) GetApiDeploymentSpecification(ctx context.Context, request GetApiDeploymentSpecificationRequest) (response GetApiDeploymentSpecificationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -745,9 +751,10 @@ func (client ApiGatewayClient) getApiDeploymentSpecification(ctx context.Context
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/GetApiValidations.go.html to see an example of how to use GetApiValidations API.
+// A default retry strategy applies to this operation GetApiValidations()
 func (client ApiGatewayClient) GetApiValidations(ctx context.Context, request GetApiValidationsRequest) (response GetApiValidationsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -802,9 +809,10 @@ func (client ApiGatewayClient) getApiValidations(ctx context.Context, request co
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/GetCertificate.go.html to see an example of how to use GetCertificate API.
+// A default retry strategy applies to this operation GetCertificate()
 func (client ApiGatewayClient) GetCertificate(ctx context.Context, request GetCertificateRequest) (response GetCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -859,9 +867,10 @@ func (client ApiGatewayClient) getCertificate(ctx context.Context, request commo
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/GetSdk.go.html to see an example of how to use GetSdk API.
+// A default retry strategy applies to this operation GetSdk()
 func (client ApiGatewayClient) GetSdk(ctx context.Context, request GetSdkRequest) (response GetSdkResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -916,9 +925,10 @@ func (client ApiGatewayClient) getSdk(ctx context.Context, request common.OCIReq
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ListApis.go.html to see an example of how to use ListApis API.
+// A default retry strategy applies to this operation ListApis()
 func (client ApiGatewayClient) ListApis(ctx context.Context, request ListApisRequest) (response ListApisResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -973,9 +983,10 @@ func (client ApiGatewayClient) listApis(ctx context.Context, request common.OCIR
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ListCertificates.go.html to see an example of how to use ListCertificates API.
+// A default retry strategy applies to this operation ListCertificates()
 func (client ApiGatewayClient) ListCertificates(ctx context.Context, request ListCertificatesRequest) (response ListCertificatesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1030,9 +1041,10 @@ func (client ApiGatewayClient) listCertificates(ctx context.Context, request com
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ListSdkLanguageTypes.go.html to see an example of how to use ListSdkLanguageTypes API.
+// A default retry strategy applies to this operation ListSdkLanguageTypes()
 func (client ApiGatewayClient) ListSdkLanguageTypes(ctx context.Context, request ListSdkLanguageTypesRequest) (response ListSdkLanguageTypesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1087,9 +1099,10 @@ func (client ApiGatewayClient) listSdkLanguageTypes(ctx context.Context, request
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ListSdks.go.html to see an example of how to use ListSdks API.
+// A default retry strategy applies to this operation ListSdks()
 func (client ApiGatewayClient) ListSdks(ctx context.Context, request ListSdksRequest) (response ListSdksResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

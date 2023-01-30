@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package management_agent
@@ -16,8 +16,8 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_management_agent "github.com/oracle/oci-go-sdk/v65/managementagent"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func ManagementAgentManagementAgentResource() *schema.Resource {
@@ -141,6 +141,14 @@ func ManagementAgentManagementAgentResource() *schema.Resource {
 							Computed: true,
 						},
 						"plugin_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"plugin_status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"plugin_status_message": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -573,6 +581,12 @@ func ManagementAgentPluginDetailsToMap(obj oci_management_agent.ManagementAgentP
 
 	if obj.PluginName != nil {
 		result["plugin_name"] = string(*obj.PluginName)
+	}
+
+	result["plugin_status"] = string(obj.PluginStatus)
+
+	if obj.PluginStatusMessage != nil {
+		result["plugin_status_message"] = string(*obj.PluginStatusMessage)
 	}
 
 	if obj.PluginVersion != nil {

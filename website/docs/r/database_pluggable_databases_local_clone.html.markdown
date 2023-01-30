@@ -59,12 +59,14 @@ The following attributes are exported:
 * `lifecycle_details` - Detailed message for the lifecycle state.
 * `open_mode` - The mode that pluggable database is in. Open mode can only be changed to READ_ONLY or MIGRATE directly from the backend (within the Oracle Database software). 
 * `pdb_name` - The name for the pluggable database (PDB). The name is unique in the context of a [container database](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/Database/). The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. Special characters are not permitted. The pluggable database name should not be same as the container database name.
+* `pluggable_database_management_config` - The configuration of the Pluggable Database Management service.
+	* `management_status` - The status of the Pluggable Database Management service.
 * `state` - The current state of the pluggable database.
 * `time_created` - The date and time the pluggable database was created.
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Pluggable Databases Local Clone
 	* `update` - (Defaults to 20 minutes), when updating the Pluggable Databases Local Clone
 	* `delete` - (Defaults to 20 minutes), when destroying the Pluggable Databases Local Clone

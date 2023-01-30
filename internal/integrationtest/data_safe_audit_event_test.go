@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,23 +7,23 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	auditEventSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafeauditEventSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `RESTRICTED`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"scim_query":                acctest.Representation{RepType: acctest.Optional, Create: `scimQuery`},
 	}
 
-	dataSafeAuditEventDataSourceRepresentation = map[string]interface{}{
+	DataSafeauditEventDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `RESTRICTED`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
@@ -52,7 +52,7 @@ func TestDataSafeAuditEventResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_events", "test_audit_events", acctest.Required, acctest.Create, dataSafeAuditEventDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_events", "test_audit_events", acctest.Required, acctest.Create, DataSafeauditEventDataSourceRepresentation) +
 				compartmentIdVariableStr + DataSafeAuditEventResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -62,7 +62,7 @@ func TestDataSafeAuditEventResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_event", "test_audit_event", acctest.Required, acctest.Create, auditEventSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_event", "test_audit_event", acctest.Required, acctest.Create, DataSafeauditEventSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DataSafeAuditEventResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

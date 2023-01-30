@@ -68,7 +68,7 @@ The following arguments are supported:
 		* [Transit Routing: Access to Multiple VCNs in Same Region](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitrouting.htm)
 		* [Transit Routing: Private Access to Oracle Services](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitroutingoracleservices.htm) 
 	* `type` - (Required) (Updatable) The type can be one of these values: `IPSEC_TUNNEL`, `REMOTE_PEERING_CONNECTION`, `VCN`, `VIRTUAL_CIRCUIT`
-	* `vcn_route_type` - (Optional) (Updatable) Indicates whether the VCN CIDR(s) or the individual Subnet CIDR(s) are imported from the attachment.  Routes from the VCN Ingress Route Table are always imported. It can be one of these values: `VCN_CIDRS` , `SUBNET_CIDRS`
+	* `vcn_route_type` - (Optional) (Updatable) Indicates whether the VCN CIDRs or the individual subnet CIDRs are imported from the attachment. Routes from the VCN ingress route table are always imported. 
 * `route_table_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table used by the DRG attachment.
 
 	If you don't specify a route table here, the DRG attachment is created without an associated route table. The Networking service does NOT automatically associate the attached VCN's default route table with the DRG attachment. For information about why you would associate a route table with a DRG attachment, see:
@@ -105,7 +105,7 @@ The following attributes are exported:
 		* [Transit Routing: Access to Multiple VCNs in Same Region](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitrouting.htm)
 		* [Transit Routing: Private Access to Oracle Services](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitroutingoracleservices.htm)
 	* `type` - The type can be one of these values: `IPSEC_TUNNEL`, `REMOTE_PEERING_CONNECTION`, `VCN`, `VIRTUAL_CIRCUIT`
-	* `vcn_route_type` - Indicates whether the VCN CIDR(s) or the individual Subnet CIDR(s) are imported from the attachment.  Routes from the VCN Ingress Route Table are always imported. It can be one of these values: `VCN_CIDRS` , `SUBNET_CIDRS`
+	* `vcn_route_type` - Indicates whether the VCN CIDRs or the individual subnet CIDRs are imported from the attachment. Routes from the VCN ingress route table are always imported. 
 * `route_table_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the DRG attachment is using.
 
 	For information about why you would associate a route table with a DRG attachment, see:
@@ -119,7 +119,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Drg Attachment
 	* `update` - (Defaults to 20 minutes), when updating the Drg Attachment
 	* `delete` - (Defaults to 20 minutes), when destroying the Drg Attachment

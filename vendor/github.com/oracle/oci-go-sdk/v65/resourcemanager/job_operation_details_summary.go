@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// JobOperationDetailsSummary Job details that are specific to the operation type.
+// JobOperationDetailsSummary A summary of job details that is specific to the operation type.
 type JobOperationDetailsSummary interface {
 }
 
@@ -53,8 +53,16 @@ func (m *joboperationdetailssummary) UnmarshalPolymorphicJSON(data []byte) (inte
 
 	var err error
 	switch m.Operation {
+	case "APPLY_ROLLBACK":
+		mm := ApplyRollbackJobOperationDetailsSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "IMPORT_TF_STATE":
 		mm := ImportTfStateJobOperationDetailsSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "PLAN_ROLLBACK":
+		mm := PlanRollbackJobOperationDetailsSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "PLAN":

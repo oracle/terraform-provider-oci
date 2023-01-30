@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package devops
@@ -6,8 +6,8 @@ package devops
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"log"
 
@@ -149,6 +149,16 @@ func (s *DevopsBuildPipelineStageDataSourceCrud) SetData() error {
 
 		if v.BuildSpecFile != nil {
 			s.D.Set("build_spec_file", v.BuildSpecFile)
+		}
+
+		if v.PrivateAccessConfig != nil {
+			privateAccessConfigArray := []interface{}{}
+			if privateAccessConfigMap := NetworkChannelToMapForBuildStage(&v.PrivateAccessConfig, true); privateAccessConfigMap != nil {
+				privateAccessConfigArray = append(privateAccessConfigArray, privateAccessConfigMap)
+			}
+			s.D.Set("private_access_config", privateAccessConfigArray)
+		} else {
+			s.D.Set("private_access_config", nil)
 		}
 	case oci_devops.DeliverArtifactStage:
 		s.D.Set("build_pipeline_stage_type", "DELIVER_ARTIFACT")

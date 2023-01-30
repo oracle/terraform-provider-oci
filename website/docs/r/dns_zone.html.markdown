@@ -11,7 +11,7 @@ description: |-
 This resource provides the Zone resource in Oracle Cloud Infrastructure DNS service.
 
 Creates a new zone in the specified compartment. Additionally, for Private DNS, 
-the `scope` and `viewId` query parameters are required when creating private zones.
+the `viewId` field is required when creating private zones.
 
 ## Example Usage
 
@@ -96,7 +96,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Zone
 	* `update` - (Defaults to 20 minutes), when updating the Zone
 	* `delete` - (Defaults to 20 minutes), when destroying the Zone
@@ -104,15 +104,8 @@ The `timeouts` block allows you to specify [timeouts](https://registry.terraform
 
 ## Import
 
-For legacy Zones that were created without using `scope`, these Zones can be imported using the `id`, e.g.
+Zones can be imported using their OCID, e.g.
 
 ```
 $ terraform import oci_dns_zone.test_zone "id"
 ```
-For Zones created using `scope` and `view_id`, these Zones can be imported using the `id`, e.g.
-
-```
-$ terraform import oci_dns_zone.test_zone "zoneNameOrId/{zoneNameOrId}/scope/{scope}/viewId/{viewId}"
-```
-
-skip adding `{view_id}` at the end if Zone was created without `view_id`.

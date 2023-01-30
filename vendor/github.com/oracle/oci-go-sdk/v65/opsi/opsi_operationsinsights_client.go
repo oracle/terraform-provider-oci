@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -1941,6 +1941,122 @@ func (client OperationsInsightsClient) enableHostInsight(ctx context.Context, re
 	return response, err
 }
 
+// GetAwrDatabaseReport Gets the AWR report for the specified database.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetAwrDatabaseReport.go.html to see an example of how to use GetAwrDatabaseReport API.
+// A default retry strategy applies to this operation GetAwrDatabaseReport()
+func (client OperationsInsightsClient) GetAwrDatabaseReport(ctx context.Context, request GetAwrDatabaseReportRequest) (response GetAwrDatabaseReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAwrDatabaseReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAwrDatabaseReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAwrDatabaseReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAwrDatabaseReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAwrDatabaseReportResponse")
+	}
+	return
+}
+
+// getAwrDatabaseReport implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) getAwrDatabaseReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/awrHubs/{awrHubId}/awrDatabaseReport", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAwrDatabaseReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/GetAwrDatabaseReport"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "GetAwrDatabaseReport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetAwrDatabaseSqlReport Gets the SQL health check report for one SQL of the specified database.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetAwrDatabaseSqlReport.go.html to see an example of how to use GetAwrDatabaseSqlReport API.
+// A default retry strategy applies to this operation GetAwrDatabaseSqlReport()
+func (client OperationsInsightsClient) GetAwrDatabaseSqlReport(ctx context.Context, request GetAwrDatabaseSqlReportRequest) (response GetAwrDatabaseSqlReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAwrDatabaseSqlReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAwrDatabaseSqlReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAwrDatabaseSqlReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAwrDatabaseSqlReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAwrDatabaseSqlReportResponse")
+	}
+	return
+}
+
+// getAwrDatabaseSqlReport implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) getAwrDatabaseSqlReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/awrHubs/{awrHubId}/awrDatabaseSqlReport", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAwrDatabaseSqlReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/GetAwrDatabaseSqlReport"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "GetAwrDatabaseSqlReport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetAwrHub Gets details of an AWR hub.
 //
 // See also
@@ -2465,6 +2581,64 @@ func (client OperationsInsightsClient) getOperationsInsightsWarehouseUser(ctx co
 	return response, err
 }
 
+// GetOpsiDataObject Gets details of an OPSI data object.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetOpsiDataObject.go.html to see an example of how to use GetOpsiDataObject API.
+// A default retry strategy applies to this operation GetOpsiDataObject()
+func (client OperationsInsightsClient) GetOpsiDataObject(ctx context.Context, request GetOpsiDataObjectRequest) (response GetOpsiDataObjectResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getOpsiDataObject, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetOpsiDataObjectResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetOpsiDataObjectResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetOpsiDataObjectResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetOpsiDataObjectResponse")
+	}
+	return
+}
+
+// getOpsiDataObject implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) getOpsiDataObject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/opsiDataObjects/{opsiDataObjectIdentifier}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetOpsiDataObjectResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OpsiDataObjects/GetOpsiDataObject"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "GetOpsiDataObject", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &opsidataobject{})
+	return response, err
+}
+
 // GetWorkRequest Gets the status of the work request with the given ID.
 //
 // See also
@@ -2962,6 +3136,122 @@ func (client OperationsInsightsClient) ingestSqlText(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/IngestSqlText"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "IngestSqlText", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAwrDatabaseSnapshots Lists AWR snapshots for the specified database in the AWR.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListAwrDatabaseSnapshots.go.html to see an example of how to use ListAwrDatabaseSnapshots API.
+// A default retry strategy applies to this operation ListAwrDatabaseSnapshots()
+func (client OperationsInsightsClient) ListAwrDatabaseSnapshots(ctx context.Context, request ListAwrDatabaseSnapshotsRequest) (response ListAwrDatabaseSnapshotsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAwrDatabaseSnapshots, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAwrDatabaseSnapshotsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAwrDatabaseSnapshotsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAwrDatabaseSnapshotsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAwrDatabaseSnapshotsResponse")
+	}
+	return
+}
+
+// listAwrDatabaseSnapshots implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) listAwrDatabaseSnapshots(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/awrHubs/{awrHubId}/awrDatabaseSnapshots", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAwrDatabaseSnapshotsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/ListAwrDatabaseSnapshots"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListAwrDatabaseSnapshots", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAwrDatabases Gets the list of databases and their snapshot summary details available in the AWRHub.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListAwrDatabases.go.html to see an example of how to use ListAwrDatabases API.
+// A default retry strategy applies to this operation ListAwrDatabases()
+func (client OperationsInsightsClient) ListAwrDatabases(ctx context.Context, request ListAwrDatabasesRequest) (response ListAwrDatabasesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAwrDatabases, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAwrDatabasesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAwrDatabasesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAwrDatabasesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAwrDatabasesResponse")
+	}
+	return
+}
+
+// listAwrDatabases implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) listAwrDatabases(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/awrHubs/{awrHubId}/awrDatabases", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAwrDatabasesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/ListAwrDatabases"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListAwrDatabases", apiReferenceLink)
 		return response, err
 	}
 
@@ -3618,6 +3908,70 @@ func (client OperationsInsightsClient) listImportableAgentEntities(ctx context.C
 	return response, err
 }
 
+// ListImportableComputeEntities Gets a list of available compute intances running cloud agent to add a new hostInsight.  An Compute entity is "available"
+// and will be shown if all the following conditions are true:
+//    1. Compute is running OCA
+//    2. OCI Management Agent is not enabled or If OCI Management Agent is enabled
+//       2.1 The agent OCID is not already being used for an existing hostInsight.
+//       2.2 The agent availabilityStatus = 'ACTIVE'
+//       2.3 The agent lifecycleState = 'ACTIVE'
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListImportableComputeEntities.go.html to see an example of how to use ListImportableComputeEntities API.
+// A default retry strategy applies to this operation ListImportableComputeEntities()
+func (client OperationsInsightsClient) ListImportableComputeEntities(ctx context.Context, request ListImportableComputeEntitiesRequest) (response ListImportableComputeEntitiesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listImportableComputeEntities, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListImportableComputeEntitiesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListImportableComputeEntitiesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListImportableComputeEntitiesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListImportableComputeEntitiesResponse")
+	}
+	return
+}
+
+// listImportableComputeEntities implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) listImportableComputeEntities(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/importableComputeEntities", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListImportableComputeEntitiesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/ListImportableComputeEntities"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListImportableComputeEntities", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListImportableEnterpriseManagerEntities Gets a list of importable entities for an Operations Insights Enterprise Manager bridge that have not been imported before.
 //
 // See also
@@ -3725,7 +4079,7 @@ func (client OperationsInsightsClient) listOperationsInsightsPrivateEndpoints(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsPrivateEndpointCollection/ListOperationsInsightsPrivateEndpoints"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsPrivateEndpoint/ListOperationsInsightsPrivateEndpoints"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "ListOperationsInsightsPrivateEndpoints", apiReferenceLink)
 		return response, err
 	}
@@ -3844,6 +4198,64 @@ func (client OperationsInsightsClient) listOperationsInsightsWarehouses(ctx cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsWarehouses/ListOperationsInsightsWarehouses"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "ListOperationsInsightsWarehouses", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListOpsiDataObjects Gets a list of OPSI data objects based on the query parameters specified. CompartmentId id query parameter must be specified.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListOpsiDataObjects.go.html to see an example of how to use ListOpsiDataObjects API.
+// A default retry strategy applies to this operation ListOpsiDataObjects()
+func (client OperationsInsightsClient) ListOpsiDataObjects(ctx context.Context, request ListOpsiDataObjectsRequest) (response ListOpsiDataObjectsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listOpsiDataObjects, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListOpsiDataObjectsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListOpsiDataObjectsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListOpsiDataObjectsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListOpsiDataObjectsResponse")
+	}
+	return
+}
+
+// listOpsiDataObjects implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) listOpsiDataObjects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/opsiDataObjects", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListOpsiDataObjectsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OpsiDataObjects/ListOpsiDataObjects"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListOpsiDataObjects", apiReferenceLink)
 		return response, err
 	}
 
@@ -4201,6 +4613,65 @@ func (client OperationsInsightsClient) listWorkRequests(ctx context.Context, req
 	return response, err
 }
 
+// QueryOpsiDataObjectData Queries an OPSI data object with the inputs provided and sends the result set back. Either analysisTimeInterval
+// or timeIntervalStart and timeIntervalEnd parameters need to be passed as well.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/QueryOpsiDataObjectData.go.html to see an example of how to use QueryOpsiDataObjectData API.
+// A default retry strategy applies to this operation QueryOpsiDataObjectData()
+func (client OperationsInsightsClient) QueryOpsiDataObjectData(ctx context.Context, request QueryOpsiDataObjectDataRequest) (response QueryOpsiDataObjectDataResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.queryOpsiDataObjectData, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = QueryOpsiDataObjectDataResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = QueryOpsiDataObjectDataResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(QueryOpsiDataObjectDataResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into QueryOpsiDataObjectDataResponse")
+	}
+	return
+}
+
+// queryOpsiDataObjectData implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) queryOpsiDataObjectData(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/opsiDataObjects/actions/queryData", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response QueryOpsiDataObjectDataResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OpsiDataObjects/QueryOpsiDataObjectData"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "QueryOpsiDataObjectData", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &querydataobjectresultsetrowscollection{})
+	return response, err
+}
+
 // RotateOperationsInsightsWarehouseWallet Rotate the ADW wallet for Operations Insights Warehouse using which the Hub data is exposed.
 //
 // See also
@@ -4252,6 +4723,544 @@ func (client OperationsInsightsClient) rotateOperationsInsightsWarehouseWallet(c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsWarehouses/RotateOperationsInsightsWarehouseWallet"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "RotateOperationsInsightsWarehouseWallet", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizeAwrDatabaseCpuUsages Summarizes the AWR CPU resource limits and metrics for the specified database in AWR.
+// Based on the time range provided as part of query param, the metrics points will be returned in the response as below.
+// - if time range is <=7 days then the metrics points will be for every MINUTES
+// - if time range is <=2 hours then the metrics points will be for every 10 SECONDS
+// - if time range is >7 days then the metrics points will be for every HOUR.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAwrDatabaseCpuUsages.go.html to see an example of how to use SummarizeAwrDatabaseCpuUsages API.
+// A default retry strategy applies to this operation SummarizeAwrDatabaseCpuUsages()
+func (client OperationsInsightsClient) SummarizeAwrDatabaseCpuUsages(ctx context.Context, request SummarizeAwrDatabaseCpuUsagesRequest) (response SummarizeAwrDatabaseCpuUsagesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeAwrDatabaseCpuUsages, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeAwrDatabaseCpuUsagesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeAwrDatabaseCpuUsagesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeAwrDatabaseCpuUsagesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeAwrDatabaseCpuUsagesResponse")
+	}
+	return
+}
+
+// summarizeAwrDatabaseCpuUsages implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) summarizeAwrDatabaseCpuUsages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/awrHubs/{awrHubId}/awrDatabaseCpuUsages", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeAwrDatabaseCpuUsagesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/SummarizeAwrDatabaseCpuUsages"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeAwrDatabaseCpuUsages", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizeAwrDatabaseMetrics Summarizes the metric samples for the specified database in the AWR. The metric samples are summarized based on the Time dimension for each metric.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAwrDatabaseMetrics.go.html to see an example of how to use SummarizeAwrDatabaseMetrics API.
+// A default retry strategy applies to this operation SummarizeAwrDatabaseMetrics()
+func (client OperationsInsightsClient) SummarizeAwrDatabaseMetrics(ctx context.Context, request SummarizeAwrDatabaseMetricsRequest) (response SummarizeAwrDatabaseMetricsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeAwrDatabaseMetrics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeAwrDatabaseMetricsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeAwrDatabaseMetricsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeAwrDatabaseMetricsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeAwrDatabaseMetricsResponse")
+	}
+	return
+}
+
+// summarizeAwrDatabaseMetrics implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) summarizeAwrDatabaseMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/awrHubs/{awrHubId}/awrDatabaseMetrics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeAwrDatabaseMetricsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/SummarizeAwrDatabaseMetrics"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeAwrDatabaseMetrics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizeAwrDatabaseParameterChanges Summarizes the database parameter change history for one database parameter of the specified database in AWR. One change history record contains
+// the previous value, the changed value, and the corresponding time range. If the database parameter value was changed multiple times within the time range, then multiple change history records are created for the same parameter.
+// Note that this API only returns information on change history details for one database parameter.
+// To get a list of all the database parameters whose values were changed during a specified time range, use the following API endpoint:
+// /awrHubs/{awrHubId}/awrDbParameters?awrSourceDatabaseIdentifier={awrSourceDbId}
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAwrDatabaseParameterChanges.go.html to see an example of how to use SummarizeAwrDatabaseParameterChanges API.
+// A default retry strategy applies to this operation SummarizeAwrDatabaseParameterChanges()
+func (client OperationsInsightsClient) SummarizeAwrDatabaseParameterChanges(ctx context.Context, request SummarizeAwrDatabaseParameterChangesRequest) (response SummarizeAwrDatabaseParameterChangesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeAwrDatabaseParameterChanges, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeAwrDatabaseParameterChangesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeAwrDatabaseParameterChangesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeAwrDatabaseParameterChangesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeAwrDatabaseParameterChangesResponse")
+	}
+	return
+}
+
+// summarizeAwrDatabaseParameterChanges implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) summarizeAwrDatabaseParameterChanges(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/awrHubs/{awrHubId}/awrDatabaseParameterChanges", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeAwrDatabaseParameterChangesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/SummarizeAwrDatabaseParameterChanges"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeAwrDatabaseParameterChanges", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizeAwrDatabaseParameters Summarizes the database parameter history for the specified database in AWR. This includes the list of database
+// parameters, with information on whether the parameter values were modified within the query time range. Note that
+// each database parameter is only listed once. Depending on the optional query parameters, the returned summary gets all the database parameters, which include:
+// Queryparam (valueChanged ="Y") - Each parameter whose value was changed during the time range, "isChanged : true" in response for the DB params.
+// Queryparam (valueChanged ="N") - Each parameter whose value was unchanged during the time range, "isChanged : false" in response for the DB params.
+// Queryparam (valueChanged ="Y"  and valueModified = "SYSTEM_MOD") - Each parameter whose value was changed at the system level during the time range, "isChanged : true" & "valueModified : SYSTEM_MOD" in response for the DB params.
+// Queryparam (valueChanged ="N" and  valueDefault = "FALSE") - Each parameter whose value was unchanged during the time range, however, the value is not the default value, "isChanged : true" & "isDefault : false" in response for the DB params.
+// Note that this API does not return information on the number of times each database parameter has been changed within the time range. To get the database parameter value change history for a specific parameter, use the following API endpoint:
+// /awrHubs/{awrHubId}/awrDbParameterChanges?awrSourceDatabaseIdentifier={awrSourceDbId}
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAwrDatabaseParameters.go.html to see an example of how to use SummarizeAwrDatabaseParameters API.
+// A default retry strategy applies to this operation SummarizeAwrDatabaseParameters()
+func (client OperationsInsightsClient) SummarizeAwrDatabaseParameters(ctx context.Context, request SummarizeAwrDatabaseParametersRequest) (response SummarizeAwrDatabaseParametersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeAwrDatabaseParameters, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeAwrDatabaseParametersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeAwrDatabaseParametersResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeAwrDatabaseParametersResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeAwrDatabaseParametersResponse")
+	}
+	return
+}
+
+// summarizeAwrDatabaseParameters implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) summarizeAwrDatabaseParameters(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/awrHubs/{awrHubId}/awrDatabaseParameters", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeAwrDatabaseParametersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/SummarizeAwrDatabaseParameters"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeAwrDatabaseParameters", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizeAwrDatabaseSnapshotRanges Summarizes the AWR snapshot ranges that contain continuous snapshots, for the specified AWRHub.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAwrDatabaseSnapshotRanges.go.html to see an example of how to use SummarizeAwrDatabaseSnapshotRanges API.
+// A default retry strategy applies to this operation SummarizeAwrDatabaseSnapshotRanges()
+func (client OperationsInsightsClient) SummarizeAwrDatabaseSnapshotRanges(ctx context.Context, request SummarizeAwrDatabaseSnapshotRangesRequest) (response SummarizeAwrDatabaseSnapshotRangesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeAwrDatabaseSnapshotRanges, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeAwrDatabaseSnapshotRangesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeAwrDatabaseSnapshotRangesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeAwrDatabaseSnapshotRangesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeAwrDatabaseSnapshotRangesResponse")
+	}
+	return
+}
+
+// summarizeAwrDatabaseSnapshotRanges implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) summarizeAwrDatabaseSnapshotRanges(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/awrHubs/{awrHubId}/awrDatabaseSnapshotRanges", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeAwrDatabaseSnapshotRangesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/SummarizeAwrDatabaseSnapshotRanges"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeAwrDatabaseSnapshotRanges", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizeAwrDatabaseSysstats Summarizes the AWR SYSSTAT sample data for the specified database in AWR. The statistical data is summarized based on the Time dimension for each statistic.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAwrDatabaseSysstats.go.html to see an example of how to use SummarizeAwrDatabaseSysstats API.
+// A default retry strategy applies to this operation SummarizeAwrDatabaseSysstats()
+func (client OperationsInsightsClient) SummarizeAwrDatabaseSysstats(ctx context.Context, request SummarizeAwrDatabaseSysstatsRequest) (response SummarizeAwrDatabaseSysstatsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeAwrDatabaseSysstats, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeAwrDatabaseSysstatsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeAwrDatabaseSysstatsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeAwrDatabaseSysstatsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeAwrDatabaseSysstatsResponse")
+	}
+	return
+}
+
+// summarizeAwrDatabaseSysstats implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) summarizeAwrDatabaseSysstats(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/awrHubs/{awrHubId}/awrDatabaseSysstats", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeAwrDatabaseSysstatsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/SummarizeAwrDatabaseSysstats"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeAwrDatabaseSysstats", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizeAwrDatabaseTopWaitEvents Summarizes the AWR top wait events.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAwrDatabaseTopWaitEvents.go.html to see an example of how to use SummarizeAwrDatabaseTopWaitEvents API.
+// A default retry strategy applies to this operation SummarizeAwrDatabaseTopWaitEvents()
+func (client OperationsInsightsClient) SummarizeAwrDatabaseTopWaitEvents(ctx context.Context, request SummarizeAwrDatabaseTopWaitEventsRequest) (response SummarizeAwrDatabaseTopWaitEventsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeAwrDatabaseTopWaitEvents, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeAwrDatabaseTopWaitEventsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeAwrDatabaseTopWaitEventsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeAwrDatabaseTopWaitEventsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeAwrDatabaseTopWaitEventsResponse")
+	}
+	return
+}
+
+// summarizeAwrDatabaseTopWaitEvents implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) summarizeAwrDatabaseTopWaitEvents(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/awrHubs/{awrHubId}/awrDatabaseTopWaitEvents", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeAwrDatabaseTopWaitEventsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/SummarizeAwrDatabaseTopWaitEvents"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeAwrDatabaseTopWaitEvents", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizeAwrDatabaseWaitEventBuckets Summarizes AWR wait event data into value buckets and frequency, for the specified database in the AWR.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAwrDatabaseWaitEventBuckets.go.html to see an example of how to use SummarizeAwrDatabaseWaitEventBuckets API.
+// A default retry strategy applies to this operation SummarizeAwrDatabaseWaitEventBuckets()
+func (client OperationsInsightsClient) SummarizeAwrDatabaseWaitEventBuckets(ctx context.Context, request SummarizeAwrDatabaseWaitEventBucketsRequest) (response SummarizeAwrDatabaseWaitEventBucketsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeAwrDatabaseWaitEventBuckets, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeAwrDatabaseWaitEventBucketsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeAwrDatabaseWaitEventBucketsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeAwrDatabaseWaitEventBucketsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeAwrDatabaseWaitEventBucketsResponse")
+	}
+	return
+}
+
+// summarizeAwrDatabaseWaitEventBuckets implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) summarizeAwrDatabaseWaitEventBuckets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/awrHubs/{awrHubId}/awrDatabaseWaitEventBuckets", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeAwrDatabaseWaitEventBucketsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/SummarizeAwrDatabaseWaitEventBuckets"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeAwrDatabaseWaitEventBuckets", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizeAwrDatabaseWaitEvents Summarizes the AWR wait event sample data for the specified database in the AWR. The event data is summarized based on the Time dimension for each event.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAwrDatabaseWaitEvents.go.html to see an example of how to use SummarizeAwrDatabaseWaitEvents API.
+// A default retry strategy applies to this operation SummarizeAwrDatabaseWaitEvents()
+func (client OperationsInsightsClient) SummarizeAwrDatabaseWaitEvents(ctx context.Context, request SummarizeAwrDatabaseWaitEventsRequest) (response SummarizeAwrDatabaseWaitEventsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeAwrDatabaseWaitEvents, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeAwrDatabaseWaitEventsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeAwrDatabaseWaitEventsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeAwrDatabaseWaitEventsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeAwrDatabaseWaitEventsResponse")
+	}
+	return
+}
+
+// summarizeAwrDatabaseWaitEvents implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) summarizeAwrDatabaseWaitEvents(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/awrHubs/{awrHubId}/awrDatabaseWaitEvents", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeAwrDatabaseWaitEventsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/SummarizeAwrDatabaseWaitEvents"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeAwrDatabaseWaitEvents", apiReferenceLink)
 		return response, err
 	}
 
@@ -5643,6 +6652,66 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceUtilizationIn
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/SummarizeHostInsightResourceUtilizationInsight"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeHostInsightResourceUtilizationInsight", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizeHostInsightTopProcessesUsage Returns response with aggregated data (timestamp, usageData) for top processes on a specific date.
+// Data is aggregated for the time specified and processes are sorted descendent by the process metric specified (CPU, MEMORY, VIRTUAL_MEMORY).
+// hostInsightId, processMetric must be specified.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeHostInsightTopProcessesUsage.go.html to see an example of how to use SummarizeHostInsightTopProcessesUsage API.
+// A default retry strategy applies to this operation SummarizeHostInsightTopProcessesUsage()
+func (client OperationsInsightsClient) SummarizeHostInsightTopProcessesUsage(ctx context.Context, request SummarizeHostInsightTopProcessesUsageRequest) (response SummarizeHostInsightTopProcessesUsageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeHostInsightTopProcessesUsage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeHostInsightTopProcessesUsageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeHostInsightTopProcessesUsageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeHostInsightTopProcessesUsageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeHostInsightTopProcessesUsageResponse")
+	}
+	return
+}
+
+// summarizeHostInsightTopProcessesUsage implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) summarizeHostInsightTopProcessesUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostInsights/topProcessesUsage", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeHostInsightTopProcessesUsageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/SummarizeHostInsightTopProcessesUsage"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeHostInsightTopProcessesUsage", apiReferenceLink)
 		return response, err
 	}
 

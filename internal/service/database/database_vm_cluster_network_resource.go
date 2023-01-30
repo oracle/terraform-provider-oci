@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database
@@ -12,12 +12,15 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
+	"github.com/oracle/oci-go-sdk/v65/database"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
 
@@ -94,18 +97,6 @@ func DatabaseVmClusterNetworkResource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
-						"domain_name": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
-						"gateway": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
-						"netmask": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
 						"network_type": {
 							Type:     schema.TypeString,
 							Required: true,
@@ -125,8 +116,17 @@ func DatabaseVmClusterNetworkResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Required: true,
 									},
-
 									// Optional
+									"db_server_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"state": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 									"vip": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -142,13 +142,27 @@ func DatabaseVmClusterNetworkResource() *schema.Resource {
 								},
 							},
 						},
+						// Optional
+						"domain_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"gateway": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"netmask": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"vlan_id": {
 							Type:     schema.TypeString,
-							Required: true,
+							Optional: true,
+							Computed: true,
 						},
-
-						// Optional
-
 						// Computed
 					},
 				},
@@ -206,6 +220,14 @@ func DatabaseVmClusterNetworkResource() *schema.Resource {
 			"vm_cluster_id": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"action": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					"ADD_DBSERVER_NETWORK",
+					"REMOVE_DBSERVER_NETWORK",
+				}, true),
 			},
 		},
 	}
@@ -266,6 +288,7 @@ func (s *DatabaseVmClusterNetworkResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_database.VmClusterNetworkLifecycleStateRequiresValidation),
 		string(oci_database.VmClusterNetworkLifecycleStateValidated),
+		string(oci_database.VmClusterNetworkLifecycleStateNeedsAttention),
 	}
 }
 
@@ -294,6 +317,7 @@ func (s *DatabaseVmClusterNetworkResourceCrud) UpdatedTarget() []string {
 		string(oci_database.VmClusterNetworkLifecycleStateValidated),
 		string(oci_database.VmClusterNetworkLifecycleStateValidationFailed),
 		string(oci_database.VmClusterNetworkLifecycleStateAllocated),
+		string(oci_database.VmClusterNetworkLifecycleStateNeedsAttention),
 	}
 }
 
@@ -451,6 +475,53 @@ func (s *DatabaseVmClusterNetworkResourceCrud) Get() error {
 }
 
 func (s *DatabaseVmClusterNetworkResourceCrud) Update() error {
+
+	if action, ok := s.D.GetOkExists("action"); ok && s.D.HasChange("action") {
+
+		request := oci_database.ResizeVmClusterNetworkRequest{}
+		request.Action = action.(database.ResizeVmClusterNetworkDetailsActionEnum)
+
+		if exadataInfrastructureId, ok := s.D.GetOkExists("exadata_infrastructure_id"); ok {
+			tmp := exadataInfrastructureId.(string)
+			request.ExadataInfrastructureId = &tmp
+		}
+
+		if vmNetworks, ok := s.D.GetOkExists("vm_networks"); ok {
+			request.VmNetworks = []oci_database.VmNetworkDetails{}
+			set := vmNetworks.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]oci_database.VmNetworkDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := vmNetworksHashCodeForSets(interfaces[i])
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "vm_networks", stateDataIndex)
+				converted, err := s.mapToVmNetworkDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("vm_networks") {
+				request.VmNetworks = tmp
+			}
+		}
+
+		tmp := s.D.Id()
+		request.VmClusterNetworkId = &tmp
+
+		response, err := s.Client.ResizeVmClusterNetwork(context.Background(), request)
+		if err != nil {
+			return err
+		}
+
+		s.Res = &response.VmClusterNetwork
+
+		if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+			return waitErr
+		}
+
+		return nil
+
+	}
 
 	if s.D.Get("state").(string) == string(oci_database.VmClusterNetworkLifecycleStateValidated) ||
 		s.D.Get("state").(string) == string(oci_database.VmClusterNetworkLifecycleStateAllocated) {
@@ -677,6 +748,11 @@ func parseVmClusterNetworkCompositeId(compositeId string) (exadataInfrastructure
 func (s *DatabaseVmClusterNetworkResourceCrud) mapToNodeDetails(fieldKeyFormat string) (oci_database.NodeDetails, error) {
 	result := oci_database.NodeDetails{}
 
+	if dbServerId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_server_id")); ok {
+		tmp := dbServerId.(string)
+		result.DbServerId = &tmp
+	}
+
 	if hostname, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname")); ok {
 		tmp := hostname.(string)
 		result.Hostname = &tmp
@@ -685,6 +761,10 @@ func (s *DatabaseVmClusterNetworkResourceCrud) mapToNodeDetails(fieldKeyFormat s
 	if ip, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ip")); ok {
 		tmp := ip.(string)
 		result.Ip = &tmp
+	}
+
+	if state, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "state")); ok {
+		result.LifecycleState = oci_database.NodeDetailsLifecycleStateEnum(state.(string))
 	}
 
 	if vip, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vip")); ok && vip != "" {
@@ -703,6 +783,10 @@ func (s *DatabaseVmClusterNetworkResourceCrud) mapToNodeDetails(fieldKeyFormat s
 func NodeDetailsToMap(obj oci_database.NodeDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.DbServerId != nil {
+		result["db_server_id"] = string(*obj.DbServerId)
+	}
+
 	if obj.Hostname != nil {
 		result["hostname"] = string(*obj.Hostname)
 	}
@@ -710,6 +794,7 @@ func NodeDetailsToMap(obj oci_database.NodeDetails) map[string]interface{} {
 	if obj.Ip != nil {
 		result["ip"] = string(*obj.Ip)
 	}
+	result["state"] = string(obj.LifecycleState)
 
 	if obj.Vip != nil {
 		result["vip"] = string(*obj.Vip)
@@ -870,11 +955,17 @@ func VmNetworkDetailsToMap(obj oci_database.VmNetworkDetails, datasource bool) m
 func nodesHashCodeForSets(v interface{}) int {
 	var buf bytes.Buffer
 	m := v.(map[string]interface{})
+	if dbServerId, ok := m["db_server_id"]; ok && dbServerId != "" {
+		buf.WriteString(fmt.Sprintf("%v-", dbServerId))
+	}
 	if hostname, ok := m["hostname"]; ok && hostname != "" {
 		buf.WriteString(fmt.Sprintf("%v-", hostname))
 	}
 	if ip, ok := m["ip"]; ok && ip != "" {
 		buf.WriteString(fmt.Sprintf("%v-", ip))
+	}
+	if state, ok := m["state"]; ok && state != "" {
+		buf.WriteString(fmt.Sprintf("%v-", state))
 	}
 	if vip, ok := m["vip"]; ok && vip != "" {
 		buf.WriteString(fmt.Sprintf("%v-", vip))

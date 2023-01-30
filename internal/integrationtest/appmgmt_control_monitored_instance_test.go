@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -8,22 +8,22 @@ import (
 	"log"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	MonitoredInstanceResourceConfig                   = MonitoredInstanceResourceDependencies
+	AppmgmtControlMonitoredInstanceResourceConfig     = MonitoredInstanceResourceDependencies
 	monitoredInstanceSingularDataSourceRepresentation = map[string]interface{}{
 		"monitored_instance_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance.test_instance.id}`},
 	}
 
-	monitoredInstanceDataSourceRepresentation = map[string]interface{}{
+	AppmgmtControlAppmgmtControlmonitoredInstanceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
@@ -38,20 +38,25 @@ var (
 		"subnet_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
 
-	MonitoredInstanceResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
+	appmgmtControlSourceDetailsRepresentation = map[string]interface{}{
+		"source_type": acctest.Representation{RepType: acctest.Required, Create: `image`},
+		"source_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.appmgmt_control_image_id}`},
+	}
+
+	MonitoredInstanceResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreInstanceRepresentation, map[string]interface{}{
 		"create_vnic_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: privateVnicDetailsRepresentation},
-		"source_details":      acctest.RepresentationGroup{RepType: acctest.Required, Group: sourceDetailsRepresentation},
+		"source_details":      acctest.RepresentationGroup{RepType: acctest.Required, Group: appmgmtControlSourceDetailsRepresentation},
 		"agent_config":        acctest.RepresentationGroup{RepType: acctest.Required, Group: appmgmtControlInstanceAgentConfigRepresentation},
-		"image":               acctest.Representation{RepType: acctest.Required, Create: `${var.OsManagedImageOCID[var.region]}`}, //variable defined in helpers.go
+		"image":               acctest.Representation{RepType: acctest.Required, Create: `${var.appmgmt_control_image_id}`}, //variable dependency taken from terraform.tfvars.json
 	})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 			"dns_label":  acctest.Representation{RepType: acctest.Required, Create: `testvcn`},
 			"cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.1.0.0/16`},
 		})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, internetGatewayRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, CoreInternetGatewayRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_default_route_table", "default_route_table", acctest.Required, acctest.Create, routeTablesRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.1.20.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `testsubnet`}, "route_table_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.default_route_table_id}`}})) +
-		AvailabilityDomainConfig + utils.OsManagedImageIdsVariable
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.1.20.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `testsubnet`}, "route_table_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.default_route_table_id}`}})) +
+		AvailabilityDomainConfig
 )
 
 // issue-routing-tag: appmgmt_control/default
@@ -64,6 +69,9 @@ func TestAppmgmtControlMonitoredInstanceResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	imageId := utils.GetEnvSettingWithBlankDefault("appmgmt_control_image_id")
+	imageIdVariableStr := fmt.Sprintf("variable \"appmgmt_control_image_id\" { default = \"%s\" }\n", imageId)
+
 	datasourceName := "data.oci_appmgmt_control_monitored_instances.test_monitored_instances"
 	singularDatasourceName := "data.oci_appmgmt_control_monitored_instance.test_monitored_instance"
 
@@ -72,7 +80,7 @@ func TestAppmgmtControlMonitoredInstanceResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// Create dependencies
 		{
-			Config: config + compartmentIdVariableStr + MonitoredInstanceResourceDependencies,
+			Config: config + compartmentIdVariableStr + imageIdVariableStr + MonitoredInstanceResourceDependencies,
 			Check: func(s *terraform.State) (err error) {
 				log.Printf("[DEBUG] Appmgmt Control Monitored Resource should be created")
 				return nil
@@ -82,8 +90,8 @@ func TestAppmgmtControlMonitoredInstanceResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_appmgmt_control_monitored_instances", "test_monitored_instances", acctest.Required, acctest.Create, monitoredInstanceDataSourceRepresentation) +
-				compartmentIdVariableStr + MonitoredInstanceResourceDependencies,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_appmgmt_control_monitored_instances", "test_monitored_instances", acctest.Required, acctest.Create, AppmgmtControlAppmgmtControlmonitoredInstanceDataSourceRepresentation) +
+				compartmentIdVariableStr + imageIdVariableStr + MonitoredInstanceResourceDependencies,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
@@ -94,7 +102,7 @@ func TestAppmgmtControlMonitoredInstanceResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_appmgmt_control_monitored_instance", "test_monitored_instance", acctest.Required, acctest.Create, monitoredInstanceSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + MonitoredInstanceResourceDependencies,
+				compartmentIdVariableStr + imageIdVariableStr + MonitoredInstanceResourceDependencies,
 
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "monitored_instance_id"),

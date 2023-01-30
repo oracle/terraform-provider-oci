@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,9 +10,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
@@ -41,7 +41,7 @@ var (
 		"source":                    acctest.Representation{RepType: acctest.Optional, Create: `10.0.1.0/24`, Update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
 		"source_type":               acctest.Representation{RepType: acctest.Optional, Create: `CIDR_BLOCK`, Update: `SERVICE_CIDR_BLOCK`},
 		"stateless":                 acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"udp_options":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: securityRulesUdpOptionsRepresentation},
+		"udp_options":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreNetworkSecurityGroupSecurityRulesUdpOptionsRepresentation},
 	}
 
 	nsgSecurityRulesIcmpOptionsRepresentation = map[string]interface{}{
@@ -67,7 +67,7 @@ func TestAccResourceCoreNetworkSecurityGroupSecurityRule_scenarios(t *testing.T)
 
 		//verify Create 10 rules
 		{
-			Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
+			Config: config + compartmentIdVariableStr + CoreNetworkSecurityGroupSecurityRuleResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(networkSecurityGroupSecurityRuleResourceRepresentation, map[string]interface{}{
 						"count": acctest.Representation{RepType: acctest.Optional, Create: `10`},
@@ -87,7 +87,7 @@ func TestAccResourceCoreNetworkSecurityGroupSecurityRule_scenarios(t *testing.T)
 		},
 		//verify Update 10 rules
 		{
-			Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
+			Config: config + compartmentIdVariableStr + CoreNetworkSecurityGroupSecurityRuleResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithNewProperties(networkSecurityGroupSecurityRuleResourceRepresentation, map[string]interface{}{
 						"count": acctest.Representation{RepType: acctest.Optional, Create: `10`},
@@ -119,11 +119,11 @@ func TestAccResourceCoreNetworkSecurityGroupSecurityRule_scenarios(t *testing.T)
 		},
 		// delete
 		{
-			Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreNetworkSecurityGroupSecurityRuleResourceDependencies,
 		},
 		// Create rule without specifying `code` in icmp options
 		{
-			Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
+			Config: config + compartmentIdVariableStr + CoreNetworkSecurityGroupSecurityRuleResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", acctest.Optional, acctest.Create, networkSecurityGroupIngressSecurityRuleResourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "icmp_options.#", "1"),
@@ -132,7 +132,7 @@ func TestAccResourceCoreNetworkSecurityGroupSecurityRule_scenarios(t *testing.T)
 		},
 		// Update rule without specifying code in icmp options
 		{
-			Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
+			Config: config + compartmentIdVariableStr + CoreNetworkSecurityGroupSecurityRuleResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", acctest.Optional, acctest.Update, networkSecurityGroupIngressSecurityRuleResourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "icmp_options.#", "1"),
@@ -141,11 +141,11 @@ func TestAccResourceCoreNetworkSecurityGroupSecurityRule_scenarios(t *testing.T)
 		},
 		// delete
 		{
-			Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreNetworkSecurityGroupSecurityRuleResourceDependencies,
 		},
 		// Create rule without specifying `code` in udp options
 		{
-			Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
+			Config: config + compartmentIdVariableStr + CoreNetworkSecurityGroupSecurityRuleResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", acctest.Optional, acctest.Create, networkSecurityGroupIngressSecurityRuleUDPResourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "udp_options.#", "1"),

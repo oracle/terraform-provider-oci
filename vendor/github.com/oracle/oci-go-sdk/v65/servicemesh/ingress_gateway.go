@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -38,9 +38,6 @@ type IngressGateway struct {
 	// The time when this resource was updated in an RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// Array of hostnames and their listener configuration that this gateway will bind to.
-	Hosts []IngressGatewayHost `mandatory:"true" json:"hosts"`
-
 	// The current state of the Resource.
 	LifecycleState IngressGatewayLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
@@ -48,6 +45,9 @@ type IngressGateway struct {
 	// Avoid entering confidential information.
 	// Example: `This is my new resource`
 	Description *string `mandatory:"false" json:"description"`
+
+	// Array of hostnames and their listener configuration that this gateway will bind to.
+	Hosts []IngressGatewayHost `mandatory:"false" json:"hosts"`
 
 	Mtls *IngressGatewayMutualTransportLayerSecurity `mandatory:"false" json:"mtls"`
 

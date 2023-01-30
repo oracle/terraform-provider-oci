@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -8,17 +8,17 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 
 	//"strconv"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
 
-	//"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	//"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -26,14 +26,14 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	AuditTrailResourceConfig = AuditTrailResourceDependencies +
+	DataSafeAuditTrailResourceConfig = DataSafeAuditTrailResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_trail", "test_audit_trail", acctest.Optional, acctest.Update, auditTrailUpdateRepresentation)
 
-	auditTrailSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafeauditTrailSingularDataSourceRepresentation = map[string]interface{}{
 		"audit_trail_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_audit_trail.test_audit_trail.id}`},
 	}
 
@@ -83,7 +83,7 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `freeform_tags`}},
 	}
 
-	AuditTrailResourceDependencies = DefinedTagsDependencies
+	DataSafeAuditTrailResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: data_safe/default
@@ -106,13 +106,13 @@ func TestDataSafeAuditTrailResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+trailIdVariableStr+AuditTrailResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+trailIdVariableStr+DataSafeAuditTrailResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_trail", "test_audit_trail", acctest.Optional, acctest.Create, auditTrailStartRepresentation), "datasafe", "auditTrail", t)
 
 	acctest.ResourceTest(t, testAccCheckDataSafeAuditTrailDestroy, []resource.TestStep{
 		// verify Start
 		{
-			Config: config + compartmentIdVariableStr + trailIdVariableStr + AuditTrailResourceDependencies +
+			Config: config + compartmentIdVariableStr + trailIdVariableStr + DataSafeAuditTrailResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_trail", "test_audit_trail", acctest.Optional, acctest.Update, auditTrailStartRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "audit_trail_id"),
@@ -126,7 +126,7 @@ func TestDataSafeAuditTrailResource_basic(t *testing.T) {
 
 		// verify Stop
 		{
-			Config: config + compartmentIdVariableStr + trailIdVariableStr + AuditTrailResourceDependencies +
+			Config: config + compartmentIdVariableStr + trailIdVariableStr + DataSafeAuditTrailResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_trail", "test_audit_trail", acctest.Optional, acctest.Update, auditTrailStopRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "audit_trail_id"),
@@ -135,7 +135,7 @@ func TestDataSafeAuditTrailResource_basic(t *testing.T) {
 
 		// verify Resume
 		{
-			Config: config + compartmentIdVariableStr + trailIdVariableStr + AuditTrailResourceDependencies +
+			Config: config + compartmentIdVariableStr + trailIdVariableStr + DataSafeAuditTrailResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_trail", "test_audit_trail", acctest.Optional, acctest.Update, auditTrailResumeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "audit_profile_id"),
@@ -163,7 +163,7 @@ func TestDataSafeAuditTrailResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + trailIdVariableStr + AuditTrailResourceDependencies +
+			Config: config + compartmentIdVariableStr + trailIdVariableStr + DataSafeAuditTrailResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_trail", "test_audit_trail", acctest.Optional, acctest.Update, auditTrailUpdateRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "audit_profile_id"),
@@ -192,7 +192,7 @@ func TestDataSafeAuditTrailResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_trails", "test_audit_trails", acctest.Optional, acctest.Update, auditTrailDataSourceRepresentation) +
-				compartmentIdVariableStr + trailIdVariableStr + AuditTrailResourceDependencies +
+				compartmentIdVariableStr + trailIdVariableStr + DataSafeAuditTrailResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_trail", "test_audit_trail", acctest.Optional, acctest.Update, auditTrailUpdateRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "audit_trail_id"),
@@ -206,8 +206,8 @@ func TestDataSafeAuditTrailResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_trail", "test_audit_trail", acctest.Required, acctest.Create, auditTrailSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + trailIdVariableStr + AuditTrailResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_trail", "test_audit_trail", acctest.Required, acctest.Create, DataSafeauditTrailSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + trailIdVariableStr + DataSafeAuditTrailResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "audit_trail_id"),
 
@@ -222,6 +222,7 @@ func TestDataSafeAuditTrailResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "state", "INACTIVE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_last_collected"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "trail_location"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "work_request_id"),
@@ -229,11 +230,11 @@ func TestDataSafeAuditTrailResource_basic(t *testing.T) {
 		},
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
-			Config: config + compartmentIdVariableStr + trailIdVariableStr + AuditTrailResourceConfig,
+			Config: config + compartmentIdVariableStr + trailIdVariableStr + DataSafeAuditTrailResourceConfig,
 		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + trailIdVariableStr + DataSafeAuditTrailResourceConfig,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{`audit_trail_id`, `lifecycle_details`, `resume_trigger`},
@@ -289,7 +290,7 @@ func init() {
 
 func sweepDataSafeAuditTrailResource(compartment string) error {
 	dataSafeClient := acctest.GetTestClients(&schema.ResourceData{}).DataSafeClient()
-	auditTrailIds, err := getAuditTrailIds(compartment)
+	auditTrailIds, err := getDataSafeAuditTrailIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -310,7 +311,7 @@ func sweepDataSafeAuditTrailResource(compartment string) error {
 	return nil
 }
 
-func getAuditTrailIds(compartment string) ([]string, error) {
+func getDataSafeAuditTrailIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "AuditTrailId")
 	if ids != nil {
 		return ids, nil

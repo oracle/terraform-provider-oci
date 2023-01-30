@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,47 +22,53 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_dataflow "github.com/oracle/oci-go-sdk/v65/dataflow"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	PrivateEndpointRequiredOnlyResource = PrivateEndpointResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", acctest.Required, acctest.Create, privateEndpointRepresentation)
+	DataflowPrivateEndpointRequiredOnlyResource = DataflowPrivateEndpointResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", acctest.Required, acctest.Create, DataflowPrivateEndpointRepresentation)
 
-	PrivateEndpointResourceConfig = PrivateEndpointResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", acctest.Optional, acctest.Update, privateEndpointRepresentation)
+	DataflowPrivateEndpointResourceConfig = DataflowPrivateEndpointResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", acctest.Optional, acctest.Update, DataflowPrivateEndpointRepresentation)
 
-	privateEndpointSingularDataSourceRepresentation = map[string]interface{}{
+	DataflowDataflowPrivateEndpointSingularDataSourceRepresentation = map[string]interface{}{
 		"private_endpoint_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_dataflow_private_endpoint.test_private_endpoint.id}`},
 	}
 
-	privateEndpointDataSourceRepresentation = map[string]interface{}{
+	DataflowDataflowPrivateEndpointDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":             acctest.Representation{RepType: acctest.Required, Create: `pe_1234`, Update: `displayName2`},
 		"display_name_starts_with": acctest.Representation{RepType: acctest.Optional, Create: `displayNameStartsWith`},
 		"owner_principal_id":       acctest.Representation{RepType: acctest.Optional, Create: `${var.user_ocid}`},
 		"state":                    acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`},
-		"filter":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: privateEndpointDataSourceFilterRepresentation}}
-	privateEndpointDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: DataflowPrivateEndpointDataSourceFilterRepresentation}}
+	DataflowPrivateEndpointDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_dataflow_private_endpoint.test_private_endpoint.id}`}},
 	}
 
-	privateEndpointRepresentation = map[string]interface{}{
+	DataflowPrivateEndpointRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"dns_zones":      acctest.Representation{RepType: acctest.Required, Create: []string{`custpvtsubnet.oraclevcn.com`}, Update: []string{`db.custpvtsubnet.oraclevcn.com`}},
 		"subnet_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		//"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `pe_1234`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"max_host_count": acctest.Representation{RepType: acctest.Optional, Create: `256`, Update: `512`},
 		"nsg_ids":        acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForDataFlowResource},
+		"scan_details":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataflowPrivateEndpointScanDetailsRepresentation},
+	}
+	DataflowPrivateEndpointScanDetailsRepresentation = map[string]interface{}{
+		"fqdn": acctest.Representation{RepType: acctest.Optional, Create: `scan.test1.com`, Update: `scan.test2.com`},
+		"port": acctest.Representation{RepType: acctest.Optional, Create: `1521`, Update: `1522`},
 	}
 
-	PrivateEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, networkSecurityGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	DataflowPrivateEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -87,14 +93,14 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+PrivateEndpointResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", acctest.Optional, acctest.Create, privateEndpointRepresentation), "dataflow", "privateEndpoint", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DataflowPrivateEndpointResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", acctest.Optional, acctest.Create, DataflowPrivateEndpointRepresentation), "dataflow", "privateEndpoint", t)
 
 	acctest.ResourceTest(t, testAccCheckDataflowPrivateEndpointDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + PrivateEndpointResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", acctest.Required, acctest.Create, privateEndpointRepresentation),
+			Config: config + compartmentIdVariableStr + DataflowPrivateEndpointResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", acctest.Required, acctest.Create, DataflowPrivateEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "dns_zones.#", "1"),
@@ -109,12 +115,12 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + PrivateEndpointResourceDependencies,
+			Config: config + compartmentIdVariableStr + DataflowPrivateEndpointResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + PrivateEndpointResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", acctest.Optional, acctest.Create, privateEndpointRepresentation),
+			Config: config + compartmentIdVariableStr + DataflowPrivateEndpointResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", acctest.Optional, acctest.Create, DataflowPrivateEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -124,6 +130,9 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "max_host_count", "256"),
 				resource.TestCheckResourceAttrSet(resourceName, "owner_principal_id"),
+				resource.TestCheckResourceAttr(resourceName, "scan_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "scan_details.0.fqdn", "scan.test1.com"),
+				resource.TestCheckResourceAttr(resourceName, "scan_details.0.port", "1521"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -143,9 +152,9 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + PrivateEndpointResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DataflowPrivateEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(privateEndpointRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(DataflowPrivateEndpointRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -157,6 +166,9 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "max_host_count", "256"),
 				resource.TestCheckResourceAttrSet(resourceName, "owner_principal_id"),
+				resource.TestCheckResourceAttr(resourceName, "scan_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "scan_details.0.fqdn", "scan.test1.com"),
+				resource.TestCheckResourceAttr(resourceName, "scan_details.0.port", "1521"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -174,8 +186,8 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + PrivateEndpointResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", acctest.Optional, acctest.Update, privateEndpointRepresentation),
+			Config: config + compartmentIdVariableStr + DataflowPrivateEndpointResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", acctest.Optional, acctest.Update, DataflowPrivateEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -185,6 +197,9 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "max_host_count", "512"),
 				resource.TestCheckResourceAttrSet(resourceName, "owner_principal_id"),
+				resource.TestCheckResourceAttr(resourceName, "scan_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "scan_details.0.fqdn", "scan.test2.com"),
+				resource.TestCheckResourceAttr(resourceName, "scan_details.0.port", "1522"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -202,9 +217,9 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_dataflow_private_endpoints", "test_private_endpoints", acctest.Required, acctest.Update, privateEndpointDataSourceRepresentation) +
-				compartmentIdVariableStr + PrivateEndpointResourceDependencies + userIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", acctest.Optional, acctest.Update, privateEndpointRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_dataflow_private_endpoints", "test_private_endpoints", acctest.Required, acctest.Update, DataflowDataflowPrivateEndpointDataSourceRepresentation) +
+				compartmentIdVariableStr + DataflowPrivateEndpointResourceDependencies + userIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", acctest.Optional, acctest.Update, DataflowPrivateEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -216,8 +231,8 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", acctest.Required, acctest.Create, privateEndpointSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + PrivateEndpointResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", acctest.Required, acctest.Create, DataflowDataflowPrivateEndpointSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DataflowPrivateEndpointResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_id"),
 
@@ -229,6 +244,9 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "max_host_count", "512"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "owner_user_name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "scan_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "scan_details.0.fqdn", "scan.test2.com"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "scan_details.0.port", "1522"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
@@ -236,7 +254,7 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + PrivateEndpointRequiredOnlyResource,
+			Config:                  config + DataflowPrivateEndpointRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -300,7 +318,7 @@ func init() {
 
 func sweepDataflowPrivateEndpointResource(compartment string) error {
 	dataFlowClient := acctest.GetTestClients(&schema.ResourceData{}).DataFlowClient()
-	privateEndpointIds, err := getPrivateEndpointIds(compartment)
+	privateEndpointIds, err := getDataflowPrivateEndpointIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -316,14 +334,14 @@ func sweepDataflowPrivateEndpointResource(compartment string) error {
 				fmt.Printf("Error deleting PrivateEndpoint %s %s, It is possible that the resource is already deleted. Please verify manually \n", privateEndpointId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &privateEndpointId, privateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
-				privateEndpointSweepResponseFetchOperation, "dataflow", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &privateEndpointId, DataflowPrivateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
+				DataflowPrivateEndpointSweepResponseFetchOperation, "dataflow", true)
 		}
 	}
 	return nil
 }
 
-func getPrivateEndpointIds(compartment string) ([]string, error) {
+func getDataflowPrivateEndpointIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "PrivateEndpointId")
 	if ids != nil {
 		return ids, nil
@@ -348,7 +366,7 @@ func getPrivateEndpointIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func privateEndpointSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DataflowPrivateEndpointSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if privateEndpointResponse, ok := response.Response.(oci_dataflow.GetPrivateEndpointResponse); ok {
 		return privateEndpointResponse.LifecycleState != oci_dataflow.PrivateEndpointLifecycleStateDeleted
@@ -356,7 +374,7 @@ func privateEndpointSweepWaitCondition(response common.OCIOperationResponse) boo
 	return false
 }
 
-func privateEndpointSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DataflowPrivateEndpointSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DataFlowClient().GetPrivateEndpoint(context.Background(), oci_dataflow.GetPrivateEndpointRequest{
 		PrivateEndpointId: resourceId,
 		RequestMetadata: common.RequestMetadata{

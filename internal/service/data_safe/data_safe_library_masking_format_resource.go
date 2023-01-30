@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package data_safe
@@ -18,8 +18,8 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func DataSafeLibraryMaskingFormatResource() *schema.Resource {

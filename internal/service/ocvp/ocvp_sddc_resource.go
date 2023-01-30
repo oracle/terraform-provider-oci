@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package ocvp
@@ -18,8 +18,8 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_ocvp "github.com/oracle/oci-go-sdk/v65/ocvp"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func OcvpSddcResource() *schema.Resource {
@@ -93,6 +93,12 @@ func OcvpSddcResource() *schema.Resource {
 			},
 
 			// Optional
+			"capacity_reservation_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -162,6 +168,12 @@ func OcvpSddcResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"is_single_host_sddc": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"provisioning_vlan_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -191,6 +203,10 @@ func OcvpSddcResource() *schema.Resource {
 			},
 
 			// Computed
+			"actual_esxi_hosts_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"hcx_fqdn": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -284,6 +300,27 @@ func OcvpSddcResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"upgrade_licenses": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"license_key": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"license_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"vcenter_fqdn": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -300,9 +337,30 @@ func OcvpSddcResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"actual_esxi_hosts_count": {
-				Type:     schema.TypeInt,
+			"vsphere_upgrade_guide": {
+				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"vsphere_upgrade_objects": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"download_link": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"link_description": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 		},
 	}
@@ -389,6 +447,11 @@ func (s *OcvpSddcResourceCrud) DeletedTarget() []string {
 func (s *OcvpSddcResourceCrud) Create() error {
 	request := oci_ocvp.CreateSddcRequest{}
 
+	if capacityReservationId, ok := s.D.GetOkExists("capacity_reservation_id"); ok {
+		tmp := capacityReservationId.(string)
+		request.CapacityReservationId = &tmp
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -453,6 +516,11 @@ func (s *OcvpSddcResourceCrud) Create() error {
 	if isShieldedInstanceEnabled, ok := s.D.GetOkExists("is_shielded_instance_enabled"); ok {
 		tmp := isShieldedInstanceEnabled.(bool)
 		request.IsShieldedInstanceEnabled = &tmp
+	}
+
+	if isSingleHostSddc, ok := s.D.GetOkExists("is_single_host_sddc"); ok {
+		tmp := isSingleHostSddc.(bool)
+		request.IsSingleHostSddc = &tmp
 	}
 
 	if nsxEdgeUplink1VlanId, ok := s.D.GetOkExists("nsx_edge_uplink1vlan_id"); ok {
@@ -906,6 +974,10 @@ func (s *OcvpSddcResourceCrud) Delete() error {
 }
 
 func (s *OcvpSddcResourceCrud) SetData() error {
+	if s.Res.CapacityReservationId != nil {
+		s.D.Set("capacity_reservation_id", *s.Res.CapacityReservationId)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -997,6 +1069,10 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 		s.D.Set("is_shielded_instance_enabled", *s.Res.IsShieldedInstanceEnabled)
 	}
 
+	if s.Res.IsSingleHostSddc != nil {
+		s.D.Set("is_single_host_sddc", *s.Res.IsSingleHostSddc)
+	}
+
 	if s.Res.NsxEdgeUplink1VlanId != nil {
 		s.D.Set("nsx_edge_uplink1vlan_id", *s.Res.NsxEdgeUplink1VlanId)
 	}
@@ -1071,6 +1147,12 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
+	upgradeLicenses := []interface{}{}
+	for _, item := range s.Res.UpgradeLicenses {
+		upgradeLicenses = append(upgradeLicenses, VsphereLicenseToMap(item))
+	}
+	s.D.Set("upgrade_licenses", upgradeLicenses)
+
 	if s.Res.VcenterFqdn != nil {
 		s.D.Set("vcenter_fqdn", *s.Res.VcenterFqdn)
 	}
@@ -1098,6 +1180,16 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 	if s.Res.VsanVlanId != nil {
 		s.D.Set("vsan_vlan_id", *s.Res.VsanVlanId)
 	}
+
+	if s.Res.VsphereUpgradeGuide != nil {
+		s.D.Set("vsphere_upgrade_guide", *s.Res.VsphereUpgradeGuide)
+	}
+
+	vsphereUpgradeObjects := []interface{}{}
+	for _, item := range s.Res.VsphereUpgradeObjects {
+		vsphereUpgradeObjects = append(vsphereUpgradeObjects, VsphereUpgradeObjectToMap(item))
+	}
+	s.D.Set("vsphere_upgrade_objects", vsphereUpgradeObjects)
 
 	if s.Res.VsphereVlanId != nil {
 		s.D.Set("vsphere_vlan_id", *s.Res.VsphereVlanId)
@@ -1176,6 +1268,10 @@ func SddcSummaryToMap(obj oci_ocvp.SddcSummary) map[string]interface{} {
 		result["is_shielded_instance_enabled"] = bool(*obj.IsShieldedInstanceEnabled)
 	}
 
+	if obj.IsSingleHostSddc != nil {
+		result["is_single_host_sddc"] = bool(*obj.IsSingleHostSddc)
+	}
+
 	if obj.NsxManagerFqdn != nil {
 		result["nsx_manager_fqdn"] = string(*obj.NsxManagerFqdn)
 	}
@@ -1196,6 +1292,34 @@ func SddcSummaryToMap(obj oci_ocvp.SddcSummary) map[string]interface{} {
 
 	if obj.VmwareSoftwareVersion != nil {
 		result["vmware_software_version"] = string(*obj.VmwareSoftwareVersion)
+	}
+
+	return result
+}
+
+func VsphereLicenseToMap(obj oci_ocvp.VsphereLicense) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.LicenseKey != nil {
+		result["license_key"] = string(*obj.LicenseKey)
+	}
+
+	if obj.LicenseType != nil {
+		result["license_type"] = string(*obj.LicenseType)
+	}
+
+	return result
+}
+
+func VsphereUpgradeObjectToMap(obj oci_ocvp.VsphereUpgradeObject) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DownloadLink != nil {
+		result["download_link"] = string(*obj.DownloadLink)
+	}
+
+	if obj.LinkDescription != nil {
+		result["link_description"] = string(*obj.LinkDescription)
 	}
 
 	return result

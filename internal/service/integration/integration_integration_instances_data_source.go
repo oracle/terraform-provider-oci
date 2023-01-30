@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integration
@@ -6,8 +6,8 @@ package integration
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_integration "github.com/oracle/oci-go-sdk/v65/integration"
@@ -124,9 +124,15 @@ func (s *IntegrationIntegrationInstancesDataSourceCrud) SetData() error {
 			integrationInstance["custom_endpoint"] = nil
 		}
 
+		if r.DefinedTags != nil {
+			integrationInstance["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			integrationInstance["display_name"] = *r.DisplayName
 		}
+
+		integrationInstance["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			integrationInstance["id"] = *r.Id

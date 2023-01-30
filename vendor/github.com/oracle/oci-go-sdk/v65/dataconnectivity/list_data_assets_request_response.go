@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/ListDataAssets.go.html to see an example of how to use ListDataAssetsRequest.
 type ListDataAssetsRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
 	// For list pagination. The value for this parameter is the `opc-next-page` or the `opc-prev-page` response header from the previous `List` call. See List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
@@ -30,10 +30,10 @@ type ListDataAssetsRequest struct {
 	// Specifies the fields to get for an object.
 	Fields []string `contributesTo:"query" name:"fields" collectionFormat:"multi"`
 
-	// DataAsset type which needs to be listed while listing dataAssets
+	// Artifact type which needs to be listed while listing Artifacts.
 	IncludeTypes []string `contributesTo:"query" name:"includeTypes" collectionFormat:"multi"`
 
-	// Specifies the field to sort by. Accepts only one field. By default, when you sort by time fields, results are shown in descending order. All other fields default to ascending order. Sorting related parameters are ignored when parameter `query` is present (search operation and sorting order is by relevance score in descending order).
+	// Specifies the field to sort by. Accepts only one field. By default, when you sort by time fields, results are shown in descending order. All other fields default to ascending order. Sorting related parameters are ignored when parameter `query` is present (search operation and sorting order are by relevance score in descending order).
 	SortBy ListDataAssetsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// Specifies sort order to use, either `ASC` (ascending) or `DESC` (descending).
@@ -47,7 +47,7 @@ type ListDataAssetsRequest struct {
 	// please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// Types which wont be listed while listing dataAsset/Connection
+	// The types that will be excluded from the list of data assets/connections.
 	ExcludeTypes []string `contributesTo:"query" name:"excludeTypes" collectionFormat:"multi"`
 
 	// If value is FAVORITES_ONLY, then only objects marked as favorite by the requesting user will be included in result. If value is NON_FAVORITES_ONLY, then objects marked as favorites by the requesting user will be skipped. If value is ALL or if not specified, all objects, irrespective of favorites or not will be returned. Default is ALL.
@@ -56,10 +56,10 @@ type ListDataAssetsRequest struct {
 	// Unique key of the folder.
 	FolderId *string `mandatory:"false" contributesTo:"query" name:"folderId"`
 
-	// Endpoint Ids used for data-plane APIs to filter or prefer specific endpoint.
+	// Endpoint IDs used for data-plane APIs to filter or prefer specific endpoint.
 	EndpointIds []string `contributesTo:"query" name:"endpointIds" collectionFormat:"multi"`
 
-	// Endpoints which will be excluded while listing dataAssets
+	// Endpoints which will be excluded while listing data assets.
 	ExcludeEndpointIds []string `contributesTo:"query" name:"excludeEndpointIds" collectionFormat:"multi"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

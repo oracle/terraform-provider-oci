@@ -1,10 +1,11 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // File Storage API
 //
-// API for the File Storage service. Use this API to manage file systems, mount targets, and snapshots. For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
+// Use the File Storage service API to manage file systems, mount targets, and snapshots.
+// For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
 //
 
 package filestorage
@@ -65,13 +66,13 @@ type FileSystemSummary struct {
 	SourceDetails *SourceDetails `mandatory:"false" json:"sourceDetails"`
 
 	// Specifies whether the file system has been cloned.
-	// See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningafilesystem.htm).
+	// See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningFS.htm).
 	IsCloneParent *bool `mandatory:"false" json:"isCloneParent"`
 
 	// Specifies whether the data has finished copying from the source to the clone.
 	// Hydration can take up to several hours to complete depending on the size of the source.
 	// The source and clone remain available during hydration, but there may be some performance impact.
-	// See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningafilesystem.htm#hydration).
+	// See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningFS.htm#hydration).
 	IsHydrated *bool `mandatory:"false" json:"isHydrated"`
 
 	// Additional information about the current 'lifecycleState'.
@@ -106,6 +107,7 @@ const (
 	FileSystemSummaryLifecycleStateActive   FileSystemSummaryLifecycleStateEnum = "ACTIVE"
 	FileSystemSummaryLifecycleStateDeleting FileSystemSummaryLifecycleStateEnum = "DELETING"
 	FileSystemSummaryLifecycleStateDeleted  FileSystemSummaryLifecycleStateEnum = "DELETED"
+	FileSystemSummaryLifecycleStateFailed   FileSystemSummaryLifecycleStateEnum = "FAILED"
 )
 
 var mappingFileSystemSummaryLifecycleStateEnum = map[string]FileSystemSummaryLifecycleStateEnum{
@@ -113,6 +115,7 @@ var mappingFileSystemSummaryLifecycleStateEnum = map[string]FileSystemSummaryLif
 	"ACTIVE":   FileSystemSummaryLifecycleStateActive,
 	"DELETING": FileSystemSummaryLifecycleStateDeleting,
 	"DELETED":  FileSystemSummaryLifecycleStateDeleted,
+	"FAILED":   FileSystemSummaryLifecycleStateFailed,
 }
 
 var mappingFileSystemSummaryLifecycleStateEnumLowerCase = map[string]FileSystemSummaryLifecycleStateEnum{
@@ -120,6 +123,7 @@ var mappingFileSystemSummaryLifecycleStateEnumLowerCase = map[string]FileSystemS
 	"active":   FileSystemSummaryLifecycleStateActive,
 	"deleting": FileSystemSummaryLifecycleStateDeleting,
 	"deleted":  FileSystemSummaryLifecycleStateDeleted,
+	"failed":   FileSystemSummaryLifecycleStateFailed,
 }
 
 // GetFileSystemSummaryLifecycleStateEnumValues Enumerates the set of values for FileSystemSummaryLifecycleStateEnum
@@ -138,6 +142,7 @@ func GetFileSystemSummaryLifecycleStateEnumStringValues() []string {
 		"ACTIVE",
 		"DELETING",
 		"DELETED",
+		"FAILED",
 	}
 }
 

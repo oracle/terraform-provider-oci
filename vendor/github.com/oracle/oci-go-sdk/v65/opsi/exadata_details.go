@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// ExadataDetails Partial information about the exadata which includes id and name.
+// ExadataDetails Partial information about the exadata which includes id, name and vmclusterNames.
 type ExadataDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of exadata insight resource.
@@ -25,6 +25,9 @@ type ExadataDetails struct {
 
 	// Name of exadata insight resource.
 	Name *string `mandatory:"true" json:"name"`
+
+	// Array of vm cluster names. Applicable for ExaCC and ExaCS.
+	VmclusterNames []string `mandatory:"false" json:"vmclusterNames"`
 }
 
 func (m ExadataDetails) String() string {

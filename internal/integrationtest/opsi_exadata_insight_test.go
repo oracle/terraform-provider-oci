@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,21 +22,21 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_opsi "github.com/oracle/oci-go-sdk/v65/opsi"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	ExadataInsightRequiredOnlyResource = ExadataInsightResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_exadata_insight", "test_exadata_insight", acctest.Required, acctest.Create, exadataInsightRepresentation)
+	OpsiExadataInsightRequiredOnlyResource = OpsiExadataInsightResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_exadata_insight", "test_exadata_insight", acctest.Required, acctest.Create, OpsiExadataInsightRepresentation)
 
-	ExadataInsightResourceConfig = ExadataInsightResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_exadata_insight", "test_exadata_insight", acctest.Optional, acctest.Update, exadataInsightRepresentation)
+	OpsiExadataInsightResourceConfig = OpsiExadataInsightResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_exadata_insight", "test_exadata_insight", acctest.Optional, acctest.Update, OpsiExadataInsightRepresentation)
 
-	exadataInsightSingularDataSourceRepresentation = map[string]interface{}{
+	OpsiOpsiExadataInsightSingularDataSourceRepresentation = map[string]interface{}{
 		"exadata_insight_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_opsi_exadata_insight.test_exadata_insight.id}`},
 	}
 
-	exadataInsightDataSourceRepresentation = map[string]interface{}{
+	OpsiOpsiExadataInsightDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":               acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"enterprise_manager_bridge_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.enterprise_manager_bridge_id}`},
@@ -44,14 +44,14 @@ var (
 		"id":                           acctest.Representation{RepType: acctest.Optional, Create: `${oci_opsi_exadata_insight.test_exadata_insight.id}`},
 		"state":                        acctest.Representation{RepType: acctest.Optional, Create: []string{`ACTIVE`}},
 		"status":                       acctest.Representation{RepType: acctest.Optional, Create: []string{`ENABLED`}, Update: []string{`DISABLED`}},
-		"filter":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: exadataInsightDataSourceFilterRepresentation}}
+		"filter":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: OpsiExadataInsightDataSourceFilterRepresentation}}
 
-	exadataInsightDataSourceFilterRepresentation = map[string]interface{}{
+	OpsiExadataInsightDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_opsi_exadata_insight.test_exadata_insight.id}`}},
 	}
 
-	exadataInsightRepresentation = map[string]interface{}{
+	OpsiExadataInsightRepresentation = map[string]interface{}{
 		"compartment_id":                       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"enterprise_manager_bridge_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.enterprise_manager_bridge_id}`},
 		"enterprise_manager_entity_identifier": acctest.Representation{RepType: acctest.Required, Create: `${var.em_exadata_enterprise_manager_entity_id}`},
@@ -68,7 +68,7 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
-	ExadataInsightResourceDependencies = DefinedTagsDependencies
+	OpsiExadataInsightResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: opsi/controlPlane
@@ -99,14 +99,14 @@ func TestOpsiExadataInsightResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+emBridgeIdVariableStr+enterpriseManagerIdVariableStr+enterpriseManagerEntityIdVariableStr+ExadataInsightResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_exadata_insight", "test_exadata_insight", acctest.Optional, acctest.Create, exadataInsightRepresentation), "opsi", "exadataInsight", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+emBridgeIdVariableStr+enterpriseManagerIdVariableStr+enterpriseManagerEntityIdVariableStr+OpsiExadataInsightResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_exadata_insight", "test_exadata_insight", acctest.Optional, acctest.Create, OpsiExadataInsightRepresentation), "opsi", "exadataInsight", t)
 
 	acctest.ResourceTest(t, testAccCheckOpsiExadataInsightDestroy, []resource.TestStep{
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + ExadataInsightResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_exadata_insight", "test_exadata_insight", acctest.Optional, acctest.Create, exadataInsightRepresentation),
+			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + OpsiExadataInsightResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_exadata_insight", "test_exadata_insight", acctest.Optional, acctest.Create, OpsiExadataInsightRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -137,9 +137,9 @@ func TestOpsiExadataInsightResource_basic(t *testing.T) {
 
 		// verify update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + compartmentIdUVariableStr + ExadataInsightResourceDependencies +
+			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + compartmentIdUVariableStr + OpsiExadataInsightResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_opsi_exadata_insight", "test_exadata_insight", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(exadataInsightRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(OpsiExadataInsightRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -170,8 +170,8 @@ func TestOpsiExadataInsightResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + ExadataInsightResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_exadata_insight", "test_exadata_insight", acctest.Optional, acctest.Update, exadataInsightRepresentation),
+			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + OpsiExadataInsightResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_exadata_insight", "test_exadata_insight", acctest.Optional, acctest.Update, OpsiExadataInsightRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_bridge_id"),
@@ -200,9 +200,9 @@ func TestOpsiExadataInsightResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_exadata_insights", "test_exadata_insights", acctest.Optional, acctest.Update, exadataInsightDataSourceRepresentation) +
-				compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + ExadataInsightResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_exadata_insight", "test_exadata_insight", acctest.Optional, acctest.Update, exadataInsightRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_exadata_insights", "test_exadata_insights", acctest.Optional, acctest.Update, OpsiOpsiExadataInsightDataSourceRepresentation) +
+				compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + OpsiExadataInsightResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_exadata_insight", "test_exadata_insight", acctest.Optional, acctest.Update, OpsiExadataInsightRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
@@ -219,8 +219,8 @@ func TestOpsiExadataInsightResource_basic(t *testing.T) {
 		//verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_exadata_insight", "test_exadata_insight", acctest.Required, acctest.Create, exadataInsightSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + ExadataInsightResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_exadata_insight", "test_exadata_insight", acctest.Required, acctest.Create, OpsiOpsiExadataInsightSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + OpsiExadataInsightResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_insight_id"),
 
@@ -247,9 +247,9 @@ func TestOpsiExadataInsightResource_basic(t *testing.T) {
 		},
 		//verify enable
 		{
-			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + ExadataInsightResourceDependencies +
+			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + OpsiExadataInsightResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_opsi_exadata_insight", "test_exadata_insight", acctest.Optional, acctest.Update,
-					acctest.RepresentationCopyWithNewProperties(exadataInsightRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(OpsiExadataInsightRepresentation, map[string]interface{}{
 						"status": acctest.Representation{RepType: acctest.Required, Update: `ENABLED`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -266,7 +266,7 @@ func TestOpsiExadataInsightResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ExadataInsightRequiredOnlyResource,
+			Config:                  config + OpsiExadataInsightRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -330,7 +330,7 @@ func init() {
 
 func sweepOpsiExadataInsightResource(compartment string) error {
 	operationsInsightsClient := acctest.GetTestClients(&schema.ResourceData{}).OperationsInsightsClient()
-	exadataInsightIds, err := getExadataInsightIds(compartment)
+	exadataInsightIds, err := getOpsiExadataInsightIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -346,14 +346,14 @@ func sweepOpsiExadataInsightResource(compartment string) error {
 				fmt.Printf("Error deleting ExadataInsight %s %s, It is possible that the resource is already deleted. Please verify manually \n", exadataInsightId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &exadataInsightId, exadataInsightSweepWaitCondition, time.Duration(3*time.Minute),
-				exadataInsightSweepResponseFetchOperation, "opsi", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &exadataInsightId, OpsiExadataInsightSweepWaitCondition, time.Duration(3*time.Minute),
+				OpsiExadataInsightSweepResponseFetchOperation, "opsi", true)
 		}
 	}
 	return nil
 }
 
-func getExadataInsightIds(compartment string) ([]string, error) {
+func getOpsiExadataInsightIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ExadataInsightId")
 	if ids != nil {
 		return ids, nil
@@ -378,7 +378,7 @@ func getExadataInsightIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func exadataInsightSweepWaitCondition(response common.OCIOperationResponse) bool {
+func OpsiExadataInsightSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if exadataInsightResponse, ok := response.Response.(oci_opsi.GetExadataInsightResponse); ok {
 		return exadataInsightResponse.GetLifecycleState() != oci_opsi.ExadataInsightLifecycleStateDeleted
@@ -386,7 +386,7 @@ func exadataInsightSweepWaitCondition(response common.OCIOperationResponse) bool
 	return false
 }
 
-func exadataInsightSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func OpsiExadataInsightSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.OperationsInsightsClient().GetExadataInsight(context.Background(), oci_opsi.GetExadataInsightRequest{
 		ExadataInsightId: resourceId,
 		RequestMetadata: common.RequestMetadata{

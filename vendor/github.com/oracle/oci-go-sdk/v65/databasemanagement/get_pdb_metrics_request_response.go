@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -116,16 +116,19 @@ type GetPdbMetricsCompareTypeEnum string
 const (
 	GetPdbMetricsCompareTypeHour GetPdbMetricsCompareTypeEnum = "HOUR"
 	GetPdbMetricsCompareTypeDay  GetPdbMetricsCompareTypeEnum = "DAY"
+	GetPdbMetricsCompareTypeWeek GetPdbMetricsCompareTypeEnum = "WEEK"
 )
 
 var mappingGetPdbMetricsCompareTypeEnum = map[string]GetPdbMetricsCompareTypeEnum{
 	"HOUR": GetPdbMetricsCompareTypeHour,
 	"DAY":  GetPdbMetricsCompareTypeDay,
+	"WEEK": GetPdbMetricsCompareTypeWeek,
 }
 
 var mappingGetPdbMetricsCompareTypeEnumLowerCase = map[string]GetPdbMetricsCompareTypeEnum{
 	"hour": GetPdbMetricsCompareTypeHour,
 	"day":  GetPdbMetricsCompareTypeDay,
+	"week": GetPdbMetricsCompareTypeWeek,
 }
 
 // GetGetPdbMetricsCompareTypeEnumValues Enumerates the set of values for GetPdbMetricsCompareTypeEnum
@@ -142,6 +145,7 @@ func GetGetPdbMetricsCompareTypeEnumStringValues() []string {
 	return []string{
 		"HOUR",
 		"DAY",
+		"WEEK",
 	}
 }
 

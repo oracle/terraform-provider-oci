@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package log_analytics
@@ -6,8 +6,8 @@ package log_analytics
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_log_analytics "github.com/oracle/oci-go-sdk/v65/loganalytics"
@@ -107,6 +107,16 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleDataSourceCrud) SetData() e
 		s.D.Set("log_group_id", *s.Res.LogGroupId)
 	}
 
+	if s.Res.LogSet != nil {
+		s.D.Set("log_set", *s.Res.LogSet)
+	}
+
+	if s.Res.LogSetExtRegex != nil {
+		s.D.Set("log_set_ext_regex", *s.Res.LogSetExtRegex)
+	}
+
+	s.D.Set("log_set_key", s.Res.LogSetKey)
+
 	if s.Res.LogSourceName != nil {
 		s.D.Set("log_source_name", *s.Res.LogSourceName)
 	}
@@ -147,6 +157,10 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleDataSourceCrud) SetData() e
 
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	}
+
+	if s.Res.Timezone != nil {
+		s.D.Set("timezone", *s.Res.Timezone)
 	}
 
 	return nil

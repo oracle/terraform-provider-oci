@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package operator_access_control
@@ -12,8 +12,8 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_operator_access_control "github.com/oracle/oci-go-sdk/v65/operatoraccesscontrol"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func OperatorAccessControlOperatorControlAssignmentResource() *schema.Resource {
@@ -136,6 +136,10 @@ func OperatorAccessControlOperatorControlAssignmentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -207,6 +211,19 @@ func (s *OperatorAccessControlOperatorControlAssignmentResourceCrud) CreatedPend
 func (s *OperatorAccessControlOperatorControlAssignmentResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_operator_access_control.OperatorControlAssignmentLifecycleStatesApplied),
+		string(oci_operator_access_control.OperatorControlAssignmentLifecycleStatesApplyfailed),
+	}
+}
+func (s *OperatorAccessControlOperatorControlAssignmentResourceCrud) UpdatedPending() []string {
+	return []string{
+		string(oci_operator_access_control.OperatorControlAssignmentLifecycleStatesUpdating),
+	}
+}
+
+func (s *OperatorAccessControlOperatorControlAssignmentResourceCrud) UpdatedTarget() []string {
+	return []string{
+		string(oci_operator_access_control.OperatorControlAssignmentLifecycleStatesApplied),
+		string(oci_operator_access_control.OperatorControlAssignmentLifecycleStatesApplyfailed),
 	}
 }
 
@@ -494,6 +511,10 @@ func (s *OperatorAccessControlOperatorControlAssignmentResourceCrud) SetData() e
 		s.D.Set("is_log_forwarded", *s.Res.IsLogForwarded)
 	}
 
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
 	if s.Res.OperatorControlId != nil {
 		s.D.Set("operator_control_id", *s.Res.OperatorControlId)
 	}
@@ -580,6 +601,10 @@ func OperatorControlAssignmentSummaryToMap(obj oci_operator_access_control.Opera
 
 	if obj.IsLogForwarded != nil {
 		result["is_log_forwarded"] = bool(*obj.IsLogForwarded)
+	}
+
+	if obj.LifecycleDetails != nil {
+		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
 
 	if obj.OperatorControlId != nil {

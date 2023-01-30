@@ -43,10 +43,10 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) Compartment Identifier
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
-* `description` - (Optional) (Updatable) Responder recipe description. 
+* `description` - (Optional) (Updatable) Responder recipe description.
 
 	Avoid entering confidential information. 
-* `display_name` - (Required) (Updatable) Responder recipe display name. 
+* `display_name` - (Required) (Updatable) Responder recipe display name.
 
 	Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
@@ -75,7 +75,7 @@ The following attributes are exported:
 	* `compartment_id` - Compartment Identifier
 	* `description` - ResponderRule description.
 	* `details` - Details of ResponderRule.
-		* `condition` - 
+		* `condition` - Base condition object
 		* `configurations` - ResponderRule configurations
 			* `config_key` - Unique name of the configuration
 			* `name` - configuration name
@@ -101,7 +101,7 @@ The following attributes are exported:
 	* `compartment_id` - Compartment Identifier
 	* `description` - ResponderRule description.
 	* `details` - Details of ResponderRule.
-		* `condition` - 
+		* `condition` - Base condition object
 		* `configurations` - ResponderRule configurations
 			* `config_key` - Unique name of the configuration
 			* `name` - configuration name
@@ -125,7 +125,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Responder Recipe
 	* `update` - (Defaults to 20 minutes), when updating the Responder Recipe
 	* `delete` - (Defaults to 20 minutes), when destroying the Responder Recipe

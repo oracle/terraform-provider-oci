@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -99,8 +99,16 @@ func (m *updatedataassetdetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 
 	var err error
 	switch m.ModelType {
+	case "REST_DATA_ASSET":
+		mm := UpdateDataAssetFromRest{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE_ATP_DATA_ASSET":
 		mm := UpdateDataAssetFromAtp{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "LAKE_HOUSE_DATA_ASSET":
+		mm := UpdateDataAssetFromLakehouse{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE_ADWC_DATA_ASSET":
@@ -215,6 +223,8 @@ const (
 	UpdateDataAssetDetailsModelTypeGenericJdbcDataAsset         UpdateDataAssetDetailsModelTypeEnum = "GENERIC_JDBC_DATA_ASSET"
 	UpdateDataAssetDetailsModelTypeFusionAppDataAsset           UpdateDataAssetDetailsModelTypeEnum = "FUSION_APP_DATA_ASSET"
 	UpdateDataAssetDetailsModelTypeAmazonS3DataAsset            UpdateDataAssetDetailsModelTypeEnum = "AMAZON_S3_DATA_ASSET"
+	UpdateDataAssetDetailsModelTypeLakeHouseDataAsset           UpdateDataAssetDetailsModelTypeEnum = "LAKE_HOUSE_DATA_ASSET"
+	UpdateDataAssetDetailsModelTypeRestDataAsset                UpdateDataAssetDetailsModelTypeEnum = "REST_DATA_ASSET"
 )
 
 var mappingUpdateDataAssetDetailsModelTypeEnum = map[string]UpdateDataAssetDetailsModelTypeEnum{
@@ -226,6 +236,8 @@ var mappingUpdateDataAssetDetailsModelTypeEnum = map[string]UpdateDataAssetDetai
 	"GENERIC_JDBC_DATA_ASSET":          UpdateDataAssetDetailsModelTypeGenericJdbcDataAsset,
 	"FUSION_APP_DATA_ASSET":            UpdateDataAssetDetailsModelTypeFusionAppDataAsset,
 	"AMAZON_S3_DATA_ASSET":             UpdateDataAssetDetailsModelTypeAmazonS3DataAsset,
+	"LAKE_HOUSE_DATA_ASSET":            UpdateDataAssetDetailsModelTypeLakeHouseDataAsset,
+	"REST_DATA_ASSET":                  UpdateDataAssetDetailsModelTypeRestDataAsset,
 }
 
 var mappingUpdateDataAssetDetailsModelTypeEnumLowerCase = map[string]UpdateDataAssetDetailsModelTypeEnum{
@@ -237,6 +249,8 @@ var mappingUpdateDataAssetDetailsModelTypeEnumLowerCase = map[string]UpdateDataA
 	"generic_jdbc_data_asset":          UpdateDataAssetDetailsModelTypeGenericJdbcDataAsset,
 	"fusion_app_data_asset":            UpdateDataAssetDetailsModelTypeFusionAppDataAsset,
 	"amazon_s3_data_asset":             UpdateDataAssetDetailsModelTypeAmazonS3DataAsset,
+	"lake_house_data_asset":            UpdateDataAssetDetailsModelTypeLakeHouseDataAsset,
+	"rest_data_asset":                  UpdateDataAssetDetailsModelTypeRestDataAsset,
 }
 
 // GetUpdateDataAssetDetailsModelTypeEnumValues Enumerates the set of values for UpdateDataAssetDetailsModelTypeEnum
@@ -259,6 +273,8 @@ func GetUpdateDataAssetDetailsModelTypeEnumStringValues() []string {
 		"GENERIC_JDBC_DATA_ASSET",
 		"FUSION_APP_DATA_ASSET",
 		"AMAZON_S3_DATA_ASSET",
+		"LAKE_HOUSE_DATA_ASSET",
+		"REST_DATA_ASSET",
 	}
 }
 

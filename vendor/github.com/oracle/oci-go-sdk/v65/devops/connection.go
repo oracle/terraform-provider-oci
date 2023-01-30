@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -40,6 +40,9 @@ type Connection interface {
 	// The time the connection was updated. Format defined by RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339).
 	GetTimeUpdated() *common.SDKTime
 
+	// A detailed message describing the current state. For example, can be used to provide actionable information for a resource in Failed state.
+	GetLifecycleDetails() *string
+
 	// The current state of the connection.
 	GetLifecycleState() ConnectionLifecycleStateEnum
 
@@ -54,19 +57,20 @@ type Connection interface {
 }
 
 type connection struct {
-	JsonData       []byte
-	Id             *string                           `mandatory:"true" json:"id"`
-	CompartmentId  *string                           `mandatory:"true" json:"compartmentId"`
-	ProjectId      *string                           `mandatory:"true" json:"projectId"`
-	Description    *string                           `mandatory:"false" json:"description"`
-	DisplayName    *string                           `mandatory:"false" json:"displayName"`
-	TimeCreated    *common.SDKTime                   `mandatory:"false" json:"timeCreated"`
-	TimeUpdated    *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
-	LifecycleState ConnectionLifecycleStateEnum      `mandatory:"false" json:"lifecycleState,omitempty"`
-	FreeformTags   map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags    map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	SystemTags     map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-	ConnectionType string                            `json:"connectionType"`
+	JsonData         []byte
+	Id               *string                           `mandatory:"true" json:"id"`
+	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
+	ProjectId        *string                           `mandatory:"true" json:"projectId"`
+	Description      *string                           `mandatory:"false" json:"description"`
+	DisplayName      *string                           `mandatory:"false" json:"displayName"`
+	TimeCreated      *common.SDKTime                   `mandatory:"false" json:"timeCreated"`
+	TimeUpdated      *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
+	LifecycleDetails *string                           `mandatory:"false" json:"lifecycleDetails"`
+	LifecycleState   ConnectionLifecycleStateEnum      `mandatory:"false" json:"lifecycleState,omitempty"`
+	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	SystemTags       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	ConnectionType   string                            `json:"connectionType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -87,6 +91,7 @@ func (m *connection) UnmarshalJSON(data []byte) error {
 	m.DisplayName = s.Model.DisplayName
 	m.TimeCreated = s.Model.TimeCreated
 	m.TimeUpdated = s.Model.TimeUpdated
+	m.LifecycleDetails = s.Model.LifecycleDetails
 	m.LifecycleState = s.Model.LifecycleState
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
@@ -105,6 +110,10 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 
 	var err error
 	switch m.ConnectionType {
+	case "BITBUCKET_SERVER_ACCESS_TOKEN":
+		mm := BitbucketServerAccessTokenConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GITLAB_ACCESS_TOKEN":
 		mm := GitlabAccessTokenConnection{}
 		err = json.Unmarshal(data, &mm)
@@ -115,6 +124,14 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		return mm, err
 	case "BITBUCKET_CLOUD_APP_PASSWORD":
 		mm := BitbucketCloudAppPasswordConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GITLAB_SERVER_ACCESS_TOKEN":
+		mm := GitlabServerAccessTokenConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "VBS_ACCESS_TOKEN":
+		mm := VbsAccessTokenConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -155,6 +172,11 @@ func (m connection) GetTimeCreated() *common.SDKTime {
 //GetTimeUpdated returns TimeUpdated
 func (m connection) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
+}
+
+//GetLifecycleDetails returns LifecycleDetails
+func (m connection) GetLifecycleDetails() *string {
+	return m.LifecycleDetails
 }
 
 //GetLifecycleState returns LifecycleState
@@ -201,15 +223,18 @@ type ConnectionLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ConnectionLifecycleStateEnum
 const (
-	ConnectionLifecycleStateActive ConnectionLifecycleStateEnum = "ACTIVE"
+	ConnectionLifecycleStateActive   ConnectionLifecycleStateEnum = "ACTIVE"
+	ConnectionLifecycleStateDeleting ConnectionLifecycleStateEnum = "DELETING"
 )
 
 var mappingConnectionLifecycleStateEnum = map[string]ConnectionLifecycleStateEnum{
-	"ACTIVE": ConnectionLifecycleStateActive,
+	"ACTIVE":   ConnectionLifecycleStateActive,
+	"DELETING": ConnectionLifecycleStateDeleting,
 }
 
 var mappingConnectionLifecycleStateEnumLowerCase = map[string]ConnectionLifecycleStateEnum{
-	"active": ConnectionLifecycleStateActive,
+	"active":   ConnectionLifecycleStateActive,
+	"deleting": ConnectionLifecycleStateDeleting,
 }
 
 // GetConnectionLifecycleStateEnumValues Enumerates the set of values for ConnectionLifecycleStateEnum
@@ -225,6 +250,7 @@ func GetConnectionLifecycleStateEnumValues() []ConnectionLifecycleStateEnum {
 func GetConnectionLifecycleStateEnumStringValues() []string {
 	return []string{
 		"ACTIVE",
+		"DELETING",
 	}
 }
 
@@ -239,21 +265,30 @@ type ConnectionConnectionTypeEnum string
 
 // Set of constants representing the allowable values for ConnectionConnectionTypeEnum
 const (
-	ConnectionConnectionTypeGithubAccessToken         ConnectionConnectionTypeEnum = "GITHUB_ACCESS_TOKEN"
-	ConnectionConnectionTypeGitlabAccessToken         ConnectionConnectionTypeEnum = "GITLAB_ACCESS_TOKEN"
-	ConnectionConnectionTypeBitbucketCloudAppPassword ConnectionConnectionTypeEnum = "BITBUCKET_CLOUD_APP_PASSWORD"
+	ConnectionConnectionTypeGithubAccessToken          ConnectionConnectionTypeEnum = "GITHUB_ACCESS_TOKEN"
+	ConnectionConnectionTypeGitlabAccessToken          ConnectionConnectionTypeEnum = "GITLAB_ACCESS_TOKEN"
+	ConnectionConnectionTypeGitlabServerAccessToken    ConnectionConnectionTypeEnum = "GITLAB_SERVER_ACCESS_TOKEN"
+	ConnectionConnectionTypeBitbucketServerAccessToken ConnectionConnectionTypeEnum = "BITBUCKET_SERVER_ACCESS_TOKEN"
+	ConnectionConnectionTypeBitbucketCloudAppPassword  ConnectionConnectionTypeEnum = "BITBUCKET_CLOUD_APP_PASSWORD"
+	ConnectionConnectionTypeVbsAccessToken             ConnectionConnectionTypeEnum = "VBS_ACCESS_TOKEN"
 )
 
 var mappingConnectionConnectionTypeEnum = map[string]ConnectionConnectionTypeEnum{
-	"GITHUB_ACCESS_TOKEN":          ConnectionConnectionTypeGithubAccessToken,
-	"GITLAB_ACCESS_TOKEN":          ConnectionConnectionTypeGitlabAccessToken,
-	"BITBUCKET_CLOUD_APP_PASSWORD": ConnectionConnectionTypeBitbucketCloudAppPassword,
+	"GITHUB_ACCESS_TOKEN":           ConnectionConnectionTypeGithubAccessToken,
+	"GITLAB_ACCESS_TOKEN":           ConnectionConnectionTypeGitlabAccessToken,
+	"GITLAB_SERVER_ACCESS_TOKEN":    ConnectionConnectionTypeGitlabServerAccessToken,
+	"BITBUCKET_SERVER_ACCESS_TOKEN": ConnectionConnectionTypeBitbucketServerAccessToken,
+	"BITBUCKET_CLOUD_APP_PASSWORD":  ConnectionConnectionTypeBitbucketCloudAppPassword,
+	"VBS_ACCESS_TOKEN":              ConnectionConnectionTypeVbsAccessToken,
 }
 
 var mappingConnectionConnectionTypeEnumLowerCase = map[string]ConnectionConnectionTypeEnum{
-	"github_access_token":          ConnectionConnectionTypeGithubAccessToken,
-	"gitlab_access_token":          ConnectionConnectionTypeGitlabAccessToken,
-	"bitbucket_cloud_app_password": ConnectionConnectionTypeBitbucketCloudAppPassword,
+	"github_access_token":           ConnectionConnectionTypeGithubAccessToken,
+	"gitlab_access_token":           ConnectionConnectionTypeGitlabAccessToken,
+	"gitlab_server_access_token":    ConnectionConnectionTypeGitlabServerAccessToken,
+	"bitbucket_server_access_token": ConnectionConnectionTypeBitbucketServerAccessToken,
+	"bitbucket_cloud_app_password":  ConnectionConnectionTypeBitbucketCloudAppPassword,
+	"vbs_access_token":              ConnectionConnectionTypeVbsAccessToken,
 }
 
 // GetConnectionConnectionTypeEnumValues Enumerates the set of values for ConnectionConnectionTypeEnum
@@ -270,7 +305,10 @@ func GetConnectionConnectionTypeEnumStringValues() []string {
 	return []string{
 		"GITHUB_ACCESS_TOKEN",
 		"GITLAB_ACCESS_TOKEN",
+		"GITLAB_SERVER_ACCESS_TOKEN",
+		"BITBUCKET_SERVER_ACCESS_TOKEN",
 		"BITBUCKET_CLOUD_APP_PASSWORD",
+		"VBS_ACCESS_TOKEN",
 	}
 }
 

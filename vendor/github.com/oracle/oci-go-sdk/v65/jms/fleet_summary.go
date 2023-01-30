@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -47,6 +47,10 @@ type FleetSummary struct {
 	// This metric is provided on a best-effort manner, and is not taken into account when computing the resource ETag.
 	ApproximateManagedInstanceCount *int `mandatory:"true" json:"approximateManagedInstanceCount"`
 
+	// The approximate count of all unique Java servers in the Fleet in the past seven days.
+	// This metric is provided on a best-effort manner, and is not taken into account when computing the resource ETag.
+	ApproximateJavaServerCount *int `mandatory:"true" json:"approximateJavaServerCount"`
+
 	// The creation date and time of the Fleet (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
@@ -56,6 +60,10 @@ type FleetSummary struct {
 	InventoryLog *CustomLog `mandatory:"false" json:"inventoryLog"`
 
 	OperationLog *CustomLog `mandatory:"false" json:"operationLog"`
+
+	// Whether or not advanced features are enabled in this fleet.
+	// This flag is true if any one of the advanced features is turned on.
+	IsAdvancedFeaturesEnabled *bool `mandatory:"false" json:"isAdvancedFeaturesEnabled"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`. (See Understanding Free-form Tags (https://docs.cloud.oracle.com/Content/Tagging/Tasks/managingtagsandtagnamespaces.htm)).

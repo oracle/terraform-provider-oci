@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// CreateRedeemableUserDetails A list of email IDs to be added to the list of users that can redeem rewards.
+// CreateRedeemableUserDetails A list of new user to be added to the list of user that can redeem rewards.
 type CreateRedeemableUserDetails struct {
 
-	// The list of email IDs to be added to the list of users that can redeem rewards.
+	// The list of new user to be added to the list of user that can redeem rewards.
 	Items []RedeemableUser `mandatory:"false" json:"items"`
 }
 

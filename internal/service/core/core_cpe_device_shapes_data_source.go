@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package core
@@ -9,8 +9,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func CoreCpeDeviceShapesDataSource() *schema.Resource {
@@ -141,4 +141,36 @@ func (s *CoreCpeDeviceShapesDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func CpeDeviceConfigQuestionToMap(obj oci_core.CpeDeviceConfigQuestion) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	if obj.Explanation != nil {
+		result["explanation"] = string(*obj.Explanation)
+	}
+
+	if obj.Key != nil {
+		result["key"] = string(*obj.Key)
+	}
+
+	return result
+}
+
+func CpeDeviceInfoToMap(obj *oci_core.CpeDeviceInfo) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.PlatformSoftwareVersion != nil {
+		result["platform_software_version"] = string(*obj.PlatformSoftwareVersion)
+	}
+
+	if obj.Vendor != nil {
+		result["vendor"] = string(*obj.Vendor)
+	}
+
+	return result
 }

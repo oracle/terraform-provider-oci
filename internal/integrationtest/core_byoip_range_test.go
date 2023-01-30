@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -15,24 +15,24 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	byoipRangeSingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreByoipRangeSingularDataSourceRepresentation = map[string]interface{}{
 		"byoip_range_id": acctest.Representation{RepType: acctest.Required, Create: `${var.byoip_range_id}`},
 	}
 
-	byoipRangeDataSourceRepresentation = map[string]interface{}{
+	CoreCoreByoipRangeDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 	}
-	byoipv6RangeSingularDataSouorceRepresentation = map[string]interface{}{
+	CoreCoreByoipv6RangeSingularDataSouorceRepresentation = map[string]interface{}{
 		"byoip_range_id": acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("byoipv6_range_ocid")},
 	}
 
@@ -62,7 +62,7 @@ func TestCoreByoipRangeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_byoip_ranges", "test_byoip_ranges", acctest.Required, acctest.Create, byoipRangeDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_byoip_ranges", "test_byoip_ranges", acctest.Required, acctest.Create, CoreCoreByoipRangeDataSourceRepresentation) +
 				compartmentIdVariableStr + ByoipRangeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -73,7 +73,7 @@ func TestCoreByoipRangeResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_byoip_range", "test_byoip_range", acctest.Required, acctest.Create, byoipRangeSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_byoip_range", "test_byoip_range", acctest.Required, acctest.Create, CoreCoreByoipRangeSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ByoipRangeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "byoip_range_id"),
@@ -89,7 +89,7 @@ func TestCoreByoipRangeResource_basic(t *testing.T) {
 		// verify byoipv6 singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_byoip_range", "test_byoip_range", acctest.Required, acctest.Create, byoipv6RangeSingularDataSouorceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_byoip_range", "test_byoip_range", acctest.Required, acctest.Create, CoreCoreByoipv6RangeSingularDataSouorceRepresentation) +
 				compartmentIdVariableStr + Byoipv6RangeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "byoip_range_id"),
@@ -121,7 +121,7 @@ func init() {
 
 func sweepCoreByoipRangeResource(compartment string) error {
 	virtualNetworkClient := acctest.GetTestClients(&schema.ResourceData{}).VirtualNetworkClient()
-	byoipRangeIds, err := getByoipRangeIds(compartment)
+	byoipRangeIds, err := getCoreByoipRangeIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -137,14 +137,14 @@ func sweepCoreByoipRangeResource(compartment string) error {
 				fmt.Printf("Error deleting ByoipRange %s %s, It is possible that the resource is already deleted. Please verify manually \n", byoipRangeId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &byoipRangeId, byoipRangeSweepWaitCondition, time.Duration(3*time.Minute),
-				byoipRangeSweepResponseFetchOperation, "core", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &byoipRangeId, CoreByoipRangeSweepWaitCondition, time.Duration(3*time.Minute),
+				CoreByoipRangeSweepResponseFetchOperation, "core", true)
 		}
 	}
 	return nil
 }
 
-func getByoipRangeIds(compartment string) ([]string, error) {
+func getCoreByoipRangeIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ByoipRangeId")
 	if ids != nil {
 		return ids, nil
@@ -170,7 +170,7 @@ func getByoipRangeIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func byoipRangeSweepWaitCondition(response common.OCIOperationResponse) bool {
+func CoreByoipRangeSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if byoipRangeResponse, ok := response.Response.(oci_core.GetByoipRangeResponse); ok {
 		return byoipRangeResponse.LifecycleState != oci_core.ByoipRangeLifecycleStateDeleted
@@ -178,7 +178,7 @@ func byoipRangeSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func byoipRangeSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CoreByoipRangeSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.VirtualNetworkClient().GetByoipRange(context.Background(), oci_core.GetByoipRangeRequest{
 		ByoipRangeId: resourceId,
 		RequestMetadata: common.RequestMetadata{

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,10 +9,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/oracle/oci-go-sdk/v65/common"
 
@@ -27,14 +27,14 @@ import (
 var (
 	AutoScalingConfigurationOptionalOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Create, autoScalingConfigurationRepresentation2)
 
-	AutoScalingConfigurationResourceConfigForScheduledExecution = AutoScalingConfigurationResourceDependencies +
+	AutoScalingConfigurationResourceConfigForScheduledExecution = AutoScalingAutoScalingConfigurationResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Update, autoScalingConfigurationRepresentation2)
 
-	AutoScalingConfigurationResourceConfigForScheduledExecutionResourceAction = AutoScalingConfigurationResourceDependencies +
+	AutoScalingConfigurationResourceConfigForScheduledExecutionResourceAction = AutoScalingAutoScalingConfigurationResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Update, autoScalingConfigurationRepresentation3)
 
 	autoScalingConfigurationRepresentation2 = map[string]interface{}{
-		"auto_scaling_resources": acctest.RepresentationGroup{RepType: acctest.Required, Group: autoScalingConfigurationAutoScalingResourcesRepresentation},
+		"auto_scaling_resources": acctest.RepresentationGroup{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationAutoScalingResourcesRepresentation},
 		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"policies":               acctest.RepresentationGroup{RepType: acctest.Required, Group: autoScalingConfigurationPoliciesRepresentationForScheduledExecution},
 		"cool_down_in_seconds":   acctest.Representation{RepType: acctest.Optional, Create: `300`, Update: `400`},
@@ -45,7 +45,7 @@ var (
 	}
 
 	autoScalingConfigurationRepresentation3 = map[string]interface{}{
-		"auto_scaling_resources": acctest.RepresentationGroup{RepType: acctest.Required, Group: autoScalingConfigurationAutoScalingResourcesRepresentation},
+		"auto_scaling_resources": acctest.RepresentationGroup{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationAutoScalingResourcesRepresentation},
 		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"policies":               acctest.RepresentationGroup{RepType: acctest.Required, Group: autoScalingConfigurationPoliciesRepresentationForScheduledExecution3},
 		"cool_down_in_seconds":   acctest.Representation{RepType: acctest.Optional, Create: `300`, Update: `400`},
@@ -56,7 +56,7 @@ var (
 	}
 
 	autoScalingConfigurationPoliciesRepresentationForScheduledExecution = map[string]interface{}{
-		"capacity":           acctest.RepresentationGroup{RepType: acctest.Required, Group: autoScalingConfigurationPoliciesCapacityRepresentation},
+		"capacity":           acctest.RepresentationGroup{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesCapacityRepresentation},
 		"policy_type":        acctest.Representation{RepType: acctest.Required, Create: `scheduled`, Update: `scheduled`},
 		"display_name":       acctest.Representation{RepType: acctest.Optional, Create: `example_autoscaling_configuration`, Update: `displayName2`},
 		"execution_schedule": acctest.RepresentationGroup{RepType: acctest.Optional, Group: autoScalingConfigurationPoliciesExecutionScheduleRepresentation},
@@ -326,7 +326,7 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution(t *testi
 	acctest.ResourceTest(t, testAccCheckAutoScalingAutoScalingConfigurationDestroy, []resource.TestStep{
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + AutoScalingConfigurationResourceDependencies +
+			Config: config + compartmentIdVariableStr + AutoScalingAutoScalingConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Create, autoScalingConfigurationRepresentation2),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.#", "1"),
@@ -368,7 +368,7 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution(t *testi
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AutoScalingConfigurationResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AutoScalingAutoScalingConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(autoScalingConfigurationRepresentation2, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -408,7 +408,7 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution(t *testi
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + AutoScalingConfigurationResourceDependencies +
+			Config: config + compartmentIdVariableStr + AutoScalingAutoScalingConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Update, autoScalingConfigurationRepresentation2),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.#", "1"),
@@ -448,8 +448,8 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution(t *testi
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_autoscaling_auto_scaling_configurations", "test_auto_scaling_configurations", acctest.Optional, acctest.Update, autoScalingConfigurationDataSourceRepresentation) +
-				compartmentIdVariableStr + AutoScalingConfigurationResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_autoscaling_auto_scaling_configurations", "test_auto_scaling_configurations", acctest.Optional, acctest.Update, AutoScalingAutoScalingautoScalingConfigurationDataSourceRepresentation) +
+				compartmentIdVariableStr + AutoScalingAutoScalingConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Update, autoScalingConfigurationRepresentation2),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -471,7 +471,7 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution(t *testi
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Required, acctest.Create, autoScalingConfigurationSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Required, acctest.Create, AutoScalingAutoScalingautoScalingConfigurationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AutoScalingConfigurationResourceConfigForScheduledExecution,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "auto_scaling_configuration_id"),
@@ -538,7 +538,7 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution_Resource
 	acctest.ResourceTest(t, testAccCheckAutoScalingAutoScalingConfigurationDestroy, []resource.TestStep{
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + AutoScalingConfigurationResourceDependencies +
+			Config: config + compartmentIdVariableStr + AutoScalingAutoScalingConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Create, autoScalingConfigurationRepresentation3),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.#", "1"),
@@ -579,7 +579,7 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution_Resource
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AutoScalingConfigurationResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AutoScalingAutoScalingConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(autoScalingConfigurationRepresentation3, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -618,7 +618,7 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution_Resource
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + AutoScalingConfigurationResourceDependencies +
+			Config: config + compartmentIdVariableStr + AutoScalingAutoScalingConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Update, autoScalingConfigurationRepresentation3),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.#", "1"),
@@ -657,8 +657,8 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution_Resource
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_autoscaling_auto_scaling_configurations", "test_auto_scaling_configurations", acctest.Optional, acctest.Update, autoScalingConfigurationDataSourceRepresentation) +
-				compartmentIdVariableStr + AutoScalingConfigurationResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_autoscaling_auto_scaling_configurations", "test_auto_scaling_configurations", acctest.Optional, acctest.Update, AutoScalingAutoScalingautoScalingConfigurationDataSourceRepresentation) +
+				compartmentIdVariableStr + AutoScalingAutoScalingConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Update, autoScalingConfigurationRepresentation3),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -680,7 +680,7 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution_Resource
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Required, acctest.Create, autoScalingConfigurationSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Required, acctest.Create, AutoScalingAutoScalingautoScalingConfigurationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AutoScalingConfigurationResourceConfigForScheduledExecutionResourceAction,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "auto_scaling_configuration_id"),
@@ -715,7 +715,7 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution_Resource
 		},
 		// verify resource import
 		{
-			Config:                  config + AutoScalingConfigurationRequiredOnlyResource,
+			Config:                  config + AutoScalingAutoScalingConfigurationRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -54,6 +54,9 @@ type MacsManagedExternalHostInsightSummary struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OPSI private endpoint
+	OpsiPrivateEndpointId *string `mandatory:"false" json:"opsiPrivateEndpointId"`
+
 	// The time the the host insight was first enabled. An RFC3339 formatted datetime string
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
@@ -65,6 +68,7 @@ type MacsManagedExternalHostInsightSummary struct {
 
 	// Platform type.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
+	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
 	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
 	PlatformType MacsManagedExternalHostInsightSummaryPlatformTypeEnum `mandatory:"false" json:"platformType,omitempty"`
 
@@ -118,6 +122,11 @@ func (m MacsManagedExternalHostInsightSummary) GetDefinedTags() map[string]map[s
 //GetSystemTags returns SystemTags
 func (m MacsManagedExternalHostInsightSummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+//GetOpsiPrivateEndpointId returns OpsiPrivateEndpointId
+func (m MacsManagedExternalHostInsightSummary) GetOpsiPrivateEndpointId() *string {
+	return m.OpsiPrivateEndpointId
 }
 
 //GetStatus returns Status

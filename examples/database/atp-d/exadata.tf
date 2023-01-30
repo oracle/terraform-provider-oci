@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 resource "oci_core_vcn" "test_vcn" {
@@ -70,6 +70,11 @@ resource "oci_database_cloud_autonomous_vm_cluster" "test_cloud_autonomous_vm_cl
   freeform_tags                   = var.autonomous_database_freeform_tags
   license_model                   = "LICENSE_INCLUDED"
   subnet_id                       = oci_core_subnet.exadata_subnet.id
+  #Optional
+  autonomous_data_storage_size_in_tbs   = 5
+  memory_per_oracle_compute_unit_in_gbs = 27
+  cpu_core_count_per_node               = 50
+  total_container_databases             = 12
 }
 
 resource "oci_core_network_security_group" "test_network_security_group" {

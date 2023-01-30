@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -24,7 +24,7 @@ type HostMemoryStatistics struct {
 	// Total amount used of the resource metric type (CPU, STORAGE).
 	Usage *float64 `mandatory:"true" json:"usage"`
 
-	// The maximum allocated amount of the resource metric type  (CPU, STORAGE).
+	// The maximum allocated amount of the resource metric type  (CPU, STORAGE) for a set of databases.
 	Capacity *float64 `mandatory:"true" json:"capacity"`
 
 	// Resource utilization in percentage.

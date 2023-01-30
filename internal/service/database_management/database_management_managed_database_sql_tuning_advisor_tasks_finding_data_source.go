@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database_management
@@ -8,8 +8,8 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
@@ -134,6 +134,7 @@ func DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksFindingDataSource() *
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_database_management_managed_database_sql_tuning_advisor_tasks_finding", "oci_database_management_managed_database_sql_tuning_advisor_tasks_findings"),
 	}
 }
 
@@ -233,78 +234,4 @@ func (s *DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksFindingDataSource
 	s.D.Set("items", items)
 
 	return nil
-}
-
-func SqlTuningAdvisorTaskFindingSummaryToMap(obj oci_database_management.SqlTuningAdvisorTaskFindingSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.DbTimeBenefit != nil {
-		result["db_time_benefit"] = float32(*obj.DbTimeBenefit)
-	}
-
-	if obj.IsAlternativePlanFindingPresent != nil {
-		result["is_alternative_plan_finding_present"] = bool(*obj.IsAlternativePlanFindingPresent)
-	}
-
-	if obj.IsErrorFindingPresent != nil {
-		result["is_error_finding_present"] = bool(*obj.IsErrorFindingPresent)
-	}
-
-	if obj.IsIndexFindingPresent != nil {
-		result["is_index_finding_present"] = bool(*obj.IsIndexFindingPresent)
-	}
-
-	if obj.IsMiscellaneousFindingPresent != nil {
-		result["is_miscellaneous_finding_present"] = bool(*obj.IsMiscellaneousFindingPresent)
-	}
-
-	if obj.IsRestructureSqlFindingPresent != nil {
-		result["is_restructure_sql_finding_present"] = bool(*obj.IsRestructureSqlFindingPresent)
-	}
-
-	if obj.IsSqlProfileFindingImplemented != nil {
-		result["is_sql_profile_finding_implemented"] = bool(*obj.IsSqlProfileFindingImplemented)
-	}
-
-	if obj.IsSqlProfileFindingPresent != nil {
-		result["is_sql_profile_finding_present"] = bool(*obj.IsSqlProfileFindingPresent)
-	}
-
-	if obj.IsStatsFindingPresent != nil {
-		result["is_stats_finding_present"] = bool(*obj.IsStatsFindingPresent)
-	}
-
-	if obj.IsTimeoutFindingPresent != nil {
-		result["is_timeout_finding_present"] = bool(*obj.IsTimeoutFindingPresent)
-	}
-
-	if obj.ParsingSchema != nil {
-		result["parsing_schema"] = string(*obj.ParsingSchema)
-	}
-
-	if obj.PerExecutionPercentage != nil {
-		result["per_execution_percentage"] = int(*obj.PerExecutionPercentage)
-	}
-
-	if obj.SqlKey != nil {
-		result["sql_key"] = string(*obj.SqlKey)
-	}
-
-	if obj.SqlText != nil {
-		result["sql_text"] = string(*obj.SqlText)
-	}
-
-	if obj.SqlTuningAdvisorTaskId != nil {
-		result["sql_tuning_advisor_task_id"] = strconv.FormatInt(*obj.SqlTuningAdvisorTaskId, 10)
-	}
-
-	if obj.SqlTuningAdvisorTaskObjectExecutionId != nil {
-		result["sql_tuning_advisor_task_object_execution_id"] = strconv.FormatInt(*obj.SqlTuningAdvisorTaskObjectExecutionId, 10)
-	}
-
-	if obj.SqlTuningAdvisorTaskObjectId != nil {
-		result["sql_tuning_advisor_task_object_id"] = strconv.FormatInt(*obj.SqlTuningAdvisorTaskObjectId, 10)
-	}
-
-	return result
 }

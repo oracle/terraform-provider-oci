@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -18,25 +18,25 @@ import (
 // WorkRequestSummary A work request summary object.
 type WorkRequestSummary struct {
 
-	// type of the work request
+	// Type of the work request.
 	OperationType WorkRequestSummaryOperationTypeEnum `mandatory:"true" json:"operationType"`
 
-	// status of current work request.
+	// Status of the current work request.
 	Status WorkRequestSummaryStatusEnum `mandatory:"true" json:"status"`
 
-	// The id of the work request.
+	// The ID of the work request.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The ocid of the compartment that contains the work request. Work requests should be scoped to
+	// The OCID of the compartment that contains the work request. Work requests should be scoped to
 	// the same compartment as the resource the work request affects. If the work request affects multiple resources,
 	// and those resources are not in the same compartment, it is up to the service team to pick the primary
-	// resource whose compartment should be used
+	// resource whose compartment should be used.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The resources affected by this work request.
 	Resources []WorkRequestResource `mandatory:"true" json:"resources"`
 
-	// Percentage of the request completed.
+	// The percentage of the request completed.
 	PercentComplete *float32 `mandatory:"true" json:"percentComplete"`
 
 	// The date and time the request was created, as described in

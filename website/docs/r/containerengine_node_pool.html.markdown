@@ -19,7 +19,6 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 	#Required
 	cluster_id = oci_containerengine_cluster.test_cluster.id
 	compartment_id = var.compartment_id
-	kubernetes_version = var.node_pool_kubernetes_version
 	name = var.node_pool_name
 	node_shape = var.node_pool_node_shape
 
@@ -32,6 +31,7 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 		key = var.node_pool_initial_node_labels_key
 		value = var.node_pool_initial_node_labels_value
 	}
+	kubernetes_version = var.node_pool_kubernetes_version
 	node_config_details {
 		#Required
 		placement_configs {
@@ -41,15 +41,31 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 
 			#Optional
 			capacity_reservation_id = oci_containerengine_capacity_reservation.test_capacity_reservation.id
+			fault_domains = var.node_pool_node_config_details_placement_configs_fault_domains
 		}
 		size = var.node_pool_node_config_details_size
 
 		#Optional
 		is_pv_encryption_in_transit_enabled = var.node_pool_node_config_details_is_pv_encryption_in_transit_enabled
 		kms_key_id = oci_kms_key.test_key.id
+		node_pool_pod_network_option_details {
+			#Required
+			cni_type = var.node_pool_node_config_details_node_pool_pod_network_option_details_cni_type
+
+			#Optional
+			max_pods_per_node = var.node_pool_node_config_details_node_pool_pod_network_option_details_max_pods_per_node
+			pod_nsg_ids = var.node_pool_node_config_details_node_pool_pod_network_option_details_pod_nsg_ids
+			pod_subnet_ids = var.node_pool_node_config_details_node_pool_pod_network_option_details_pod_subnet_ids
+		}
 		defined_tags = {"Operations.CostCenter"= "42"}
 		freeform_tags = {"Department"= "Finance"}
 		nsg_ids = var.node_pool_node_config_details_nsg_ids
+	}
+	node_eviction_node_pool_settings {
+
+		#Optional
+		eviction_grace_duration = var.node_pool_node_eviction_node_pool_settings_eviction_grace_duration
+		is_force_delete_after_grace_duration = var.node_pool_node_eviction_node_pool_settings_is_force_delete_after_grace_duration
 	}
 	node_image_name = oci_core_image.test_image.name
 	node_metadata = var.node_pool_node_metadata
@@ -84,11 +100,16 @@ The following arguments are supported:
 * `initial_node_labels` - (Optional) (Updatable) A list of key/value pairs to add to nodes after they join the Kubernetes cluster.
 	* `key` - (Optional) (Updatable) The key of the pair.
 	* `value` - (Optional) (Updatable) The value of the pair.
-* `kubernetes_version` - (Required) (Updatable) The version of Kubernetes to install on the nodes in the node pool.
+* `kubernetes_version` - (Optional) (Updatable) The version of Kubernetes to install on the nodes in the node pool.
 * `name` - (Required) (Updatable) The name of the node pool. Avoid entering confidential information.
 * `node_config_details` - (Optional) (Updatable) The configuration of nodes in the node pool. Exactly one of the subnetIds or nodeConfigDetails properties must be specified. 
 	* `is_pv_encryption_in_transit_enabled` - (Optional) (Updatable) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. This field applies to both block volumes and boot volumes. The default value is false.
 	* `kms_key_id` - (Optional) (Updatable) The OCID of the Key Management Service key assigned to the boot volume.
+	* `node_pool_pod_network_option_details` - (Optional) (Updatable) The CNI related configuration of pods in the node pool. 
+		* `cni_type` - (Required) (Updatable) The CNI plugin used by this node pool
+		* `max_pods_per_node` - (Applicable when cni_type=OCI_VCN_IP_NATIVE) (Updatable) The max number of pods per node in the node pool. This value will be limited by the number of VNICs attachable to the node pool shape 
+		* `pod_nsg_ids` - (Applicable when cni_type=OCI_VCN_IP_NATIVE) (Updatable) The OCIDs of the Network Security Group(s) to associate pods for this node pool with. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
+		* `pod_subnet_ids` - (Required when cni_type=OCI_VCN_IP_NATIVE) (Updatable) The OCIDs of the subnets in which to place pods for this node pool. This can be one of the node pool subnet IDs 
 	* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 	* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 	* `nsg_ids` - (Optional) (Updatable) The OCIDs of the Network Security Group(s) to associate nodes for this node pool with. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
@@ -97,8 +118,12 @@ The following arguments are supported:
 		To use the node pool with a regional subnet, provide a placement configuration for each availability domain, and include the regional subnet in each placement configuration. 
 		* `availability_domain` - (Required) (Updatable) The availability domain in which to place nodes. Example: `Uocm:PHX-AD-1` 
 		* `capacity_reservation_id` - (Optional) (Updatable) The OCID of the compute capacity reservation in which to place the compute instance.
+		* `fault_domains` - (Optional) (Updatable) A list of fault domains in which to place nodes. 
 		* `subnet_id` - (Required) (Updatable) The OCID of the subnet in which to place nodes.
 	* `size` - (Required) (Updatable) The number of nodes that should be in the node pool. 
+* `node_eviction_node_pool_settings` - (Optional) (Updatable) Node Eviction Details configuration
+	* `eviction_grace_duration` - (Optional) (Updatable) Duration after which OKE will give up eviction of the pods on the node. PT0M will indicate you want to delete the node without cordon and drain. Default PT60M, Min PT0M, Max: PT60M. Format ISO 8601 e.g PT30M 
+	* `is_force_delete_after_grace_duration` - (Optional) (Updatable) If the underlying compute instance should be deleted if you cannot evict all the pods in grace period
 * `node_image_name` - (Optional) Deprecated. Use `nodeSourceDetails` instead. If you specify values for both, this value is ignored. The name of the image running on the nodes in the node pool. Cannot be used when `node_image_id` is specified.
 * `node_metadata` - (Optional) (Updatable) A list of key/value pairs to add to each underlying Oracle Cloud Infrastructure instance in the node pool on launch.
 * `node_shape` - (Required) (Updatable) The name of the node shape of the nodes in the node pool.
@@ -130,10 +155,16 @@ The following attributes are exported:
 	* `key` - The key of the pair.
 	* `value` - The value of the pair.
 * `kubernetes_version` - The version of Kubernetes running on the nodes in the node pool.
+* `lifecycle_details` - Details about the state of the nodepool.
 * `name` - The name of the node pool.
 * `node_config_details` - The configuration of nodes in the node pool.
 	* `is_pv_encryption_in_transit_enabled` - Whether to enable in-transit encryption for the data volume's paravirtualized attachment. This field applies to both block volumes and boot volumes. The default value is false.
 	* `kms_key_id` - The OCID of the Key Management Service key assigned to the boot volume.
+	* `node_pool_pod_network_option_details` - The CNI related configuration of pods in the node pool. 
+		* `cni_type` - The CNI plugin used by this node pool
+		* `max_pods_per_node` - The max number of pods per node in the node pool. This value will be limited by the number of VNICs attachable to the node pool shape 
+		* `pod_nsg_ids` - The OCIDs of the Network Security Group(s) to associate pods for this node pool with. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
+		* `pod_subnet_ids` - The OCIDs of the subnets in which to place pods for this node pool. This can be one of the node pool subnet IDs 
 	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 	* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 	* `nsg_ids` - The OCIDs of the Network Security Group(s) to associate nodes for this node pool with. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
@@ -142,8 +173,12 @@ The following attributes are exported:
 		To use the node pool with a regional subnet, provide a placement configuration for each availability domain, and include the regional subnet in each placement configuration. 
 		* `availability_domain` - The availability domain in which to place nodes. Example: `Uocm:PHX-AD-1` 
 		* `capacity_reservation_id` - The OCID of the compute capacity reservation in which to place the compute instance.
+		* `fault_domains` - A list of fault domains in which to place nodes. 
 		* `subnet_id` - The OCID of the subnet in which to place nodes.
 	* `size` - The number of nodes in the node pool. 
+* `node_eviction_node_pool_settings` - Node Eviction Details configuration
+	* `eviction_grace_duration` - Duration after which OKE will give up eviction of the pods on the node. PT0M will indicate you want to delete the node without cordon and drain. Default PT60M, Min PT0M, Max: PT60M. Format ISO 8601 e.g PT30M 
+	* `is_force_delete_after_grace_duration` - If the underlying compute instance should be deleted if you cannot evict all the pods in grace period
 * `node_image_id` - Deprecated. see `nodeSource`. The OCID of the image running on the nodes in the node pool. 
 * `node_image_name` - Deprecated. see `nodeSource`. The name of the image running on the nodes in the node pool. 
 * `node_metadata` - A list of key/value pairs to add to each underlying Oracle Cloud Infrastructure instance in the node pool on launch.
@@ -179,11 +214,12 @@ The following attributes are exported:
 	* `subnet_id` - The OCID of the subnet in which this node is placed.
 * `quantity_per_subnet` - The number of nodes in each subnet.
 * `ssh_public_key` - The SSH public key on each node in the node pool on launch.
+* `state` - The state of the nodepool.
 * `subnet_ids` - The OCIDs of the subnets in which to place nodes for this node pool.
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 50 minutes), when creating the Node Pool
 	* `update` - (Defaults to 50 minutes), when updating the Node Pool
 	* `delete` - (Defaults to 50 minutes), when destroying the Node Pool

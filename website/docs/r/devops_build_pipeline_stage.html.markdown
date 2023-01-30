@@ -63,6 +63,14 @@ resource "oci_devops_build_pipeline_stage" "test_build_pipeline_stage" {
 	image = var.build_pipeline_stage_image
 	is_pass_all_parameters_enabled = var.build_pipeline_stage_is_pass_all_parameters_enabled
 	primary_build_source = var.build_pipeline_stage_primary_build_source
+	private_access_config {
+		#Required
+		network_channel_type = var.build_pipeline_stage_private_access_config_network_channel_type
+		subnet_id = oci_core_subnet.test_subnet.id
+
+		#Optional
+		nsg_ids = var.build_pipeline_stage_private_access_config_nsg_ids
+	}
 	stage_execution_timeout_in_seconds = var.build_pipeline_stage_stage_execution_timeout_in_seconds
 	wait_criteria {
 		#Required
@@ -84,7 +92,7 @@ The following arguments are supported:
 * `build_source_collection` - (Required when build_pipeline_stage_type=BUILD) (Updatable) Collection of build sources.
 	* `items` - (Required when build_pipeline_stage_type=BUILD) (Updatable) Collection of build sources. In case of UPDATE operation, replaces existing build sources list. Merging with existing build sources is not supported.
 		* `branch` - (Required when build_pipeline_stage_type=BUILD) (Updatable) Branch name.
-		* `connection_id` - (Required when connection_type=BITBUCKET_CLOUD | GITHUB | GITLAB) (Updatable) Connection identifier pertinent to Bitbucket Cloud source provider
+		* `connection_id` - (Required when connection_type=BITBUCKET_CLOUD | BITBUCKET_SERVER | GITHUB | GITLAB | GITLAB_SERVER | VBS) (Updatable) Connection identifier pertinent to Bitbucket Server source provider
 		* `connection_type` - (Required) (Updatable) The type of source provider.
 		* `name` - (Required when build_pipeline_stage_type=BUILD) (Updatable) Name of the build source. This must be unique within a build source collection. The name can be used by customers to locate the working directory pertinent to this repository.
 		* `repository_id` - (Required when connection_type=DEVOPS_CODE_REPOSITORY) (Updatable) The DevOps code repository ID.
@@ -102,6 +110,10 @@ The following arguments are supported:
 * `image` - (Required when build_pipeline_stage_type=BUILD) (Updatable) Image name for the build environment
 * `is_pass_all_parameters_enabled` - (Required when build_pipeline_stage_type=TRIGGER_DEPLOYMENT_PIPELINE) (Updatable) A boolean flag that specifies whether all the parameters must be passed when the deployment is triggered.
 * `primary_build_source` - (Applicable when build_pipeline_stage_type=BUILD) (Updatable) Name of the build source where the build_spec.yml file is located. If not specified, the first entry in the build source collection is chosen as primary build source.
+* `private_access_config` - (Applicable when build_pipeline_stage_type=BUILD) (Updatable) Specifies the configuration needed when the target Oracle Cloud Infrastructure resource, i.e., OKE cluster, resides in customer's private network. 
+	* `network_channel_type` - (Required) (Updatable) Network channel type.
+	* `nsg_ids` - (Optional) (Updatable) An array of network security group OCIDs.
+	* `subnet_id` - (Required) (Updatable) The OCID of the subnet where VNIC resources will be created for private endpoint.
 * `stage_execution_timeout_in_seconds` - (Applicable when build_pipeline_stage_type=BUILD) (Updatable) Timeout for the build stage execution. Specify value in seconds.
 * `wait_criteria` - (Required when build_pipeline_stage_type=WAIT) (Updatable) Specifies wait criteria for the Wait stage.
 	* `wait_duration` - (Required) (Updatable) The absolute wait duration. Minimum wait duration must be 5 seconds. Maximum wait duration can be up to 2 days. 
@@ -123,7 +135,7 @@ The following attributes are exported:
 * `build_source_collection` - Collection of build sources.
 	* `items` - Collection of build sources. In case of UPDATE operation, replaces existing build sources list. Merging with existing build sources is not supported.
 		* `branch` - Branch name.
-		* `connection_id` - Connection identifier pertinent to Bitbucket Cloud source provider
+		* `connection_id` - Connection identifier pertinent to Bitbucket Server source provider
 		* `connection_type` - The type of source provider.
 		* `name` - Name of the build source. This must be unique within a build source collection. The name can be used by customers to locate the working directory pertinent to this repository.
 		* `repository_id` - The DevOps code repository ID.
@@ -144,6 +156,10 @@ The following attributes are exported:
 * `is_pass_all_parameters_enabled` - A boolean flag that specifies whether all the parameters must be passed when the deployment is triggered.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `primary_build_source` - Name of the build source where the build_spec.yml file is located. If not specified, then the first entry in the build source collection is chosen as primary build source.
+* `private_access_config` - Specifies the configuration needed when the target Oracle Cloud Infrastructure resource, i.e., OKE cluster, resides in customer's private network. 
+	* `network_channel_type` - Network channel type.
+	* `nsg_ids` - An array of network security group OCIDs.
+	* `subnet_id` - The OCID of the subnet where VNIC resources will be created for private endpoint.
 * `project_id` - The OCID of the DevOps project.
 * `stage_execution_timeout_in_seconds` - Timeout for the build stage execution. Specify value in seconds.
 * `state` - The current state of the stage. 
@@ -156,7 +172,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Build Pipeline Stage
 	* `update` - (Defaults to 20 minutes), when updating the Build Pipeline Stage
 	* `delete` - (Defaults to 20 minutes), when destroying the Build Pipeline Stage

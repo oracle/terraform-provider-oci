@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package containerengine
@@ -6,8 +6,8 @@ package containerengine
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_containerengine "github.com/oracle/oci-go-sdk/v65/containerengine"
@@ -29,6 +29,13 @@ func ContainerengineNodePoolsDataSource() *schema.Resource {
 			"name": {
 				Type:     schema.TypeString,
 				Optional: true,
+			},
+			"state": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"node_pools": {
 				Type:     schema.TypeList,
@@ -73,6 +80,14 @@ func (s *ContainerengineNodePoolsDataSourceCrud) Get() error {
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
 		request.Name = &tmp
+	}
+
+	if states, ok := s.D.GetOkExists("state"); ok {
+		var enumStates []oci_containerengine.NodePoolLifecycleStateEnum
+		for _, r := range states.([]interface{}) {
+			enumStates = append(enumStates, oci_containerengine.NodePoolLifecycleStateEnum(r.(string)))
+		}
+		request.LifecycleState = enumStates
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "containerengine")
@@ -135,6 +150,10 @@ func (s *ContainerengineNodePoolsDataSourceCrud) SetData() error {
 			nodePool["kubernetes_version"] = *r.KubernetesVersion
 		}
 
+		if r.LifecycleDetails != nil {
+			nodePool["lifecycle_details"] = *r.LifecycleDetails
+		}
+
 		if r.Name != nil {
 			nodePool["name"] = *r.Name
 		}
@@ -143,6 +162,12 @@ func (s *ContainerengineNodePoolsDataSourceCrud) SetData() error {
 			nodePool["node_config_details"] = []interface{}{NodePoolNodeConfigDetailsToMap(r.NodeConfigDetails, true)}
 		} else {
 			nodePool["node_config_details"] = nil
+		}
+
+		if r.NodeEvictionNodePoolSettings != nil {
+			nodePool["node_eviction_node_pool_settings"] = []interface{}{NodeEvictionNodePoolSettingsToMap(r.NodeEvictionNodePoolSettings)}
+		} else {
+			nodePool["node_eviction_node_pool_settings"] = nil
 		}
 
 		if r.NodeImageId != nil {
@@ -190,6 +215,8 @@ func (s *ContainerengineNodePoolsDataSourceCrud) SetData() error {
 		if r.SshPublicKey != nil {
 			nodePool["ssh_public_key"] = *r.SshPublicKey
 		}
+
+		nodePool["state"] = r.LifecycleState
 
 		nodePool["subnet_ids"] = r.SubnetIds
 

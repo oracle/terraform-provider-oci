@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package resourcemanager
@@ -6,12 +6,12 @@ package resourcemanager
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/client"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_resourcemanager "github.com/oracle/oci-go-sdk/v65/resourcemanager"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func ResourcemanagerPrivateEndpointReachableIpDataSource() *schema.Resource {
@@ -28,10 +28,6 @@ func ResourcemanagerPrivateEndpointReachableIpDataSource() *schema.Resource {
 			},
 			// Computed
 			"ip_address": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"reachable_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -90,10 +86,6 @@ func (s *ResourcemanagerPrivateEndpointReachableIpDataSourceCrud) SetData() erro
 
 	if s.Res.IpAddress != nil {
 		s.D.Set("ip_address", *s.Res.IpAddress)
-	}
-
-	if s.Res.ReachableIp.ReachableIp != nil {
-		s.D.Set("reachable_ip", *s.Res.ReachableIp.ReachableIp)
 	}
 
 	return nil

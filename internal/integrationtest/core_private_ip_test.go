@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -15,34 +15,34 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	PrivateIpRequiredOnlyResource = PrivateIpResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", acctest.Required, acctest.Create, privateIpRepresentation)
+	CorePrivateIpRequiredOnlyResource = CorePrivateIpResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", acctest.Required, acctest.Create, CorePrivateIpRepresentation)
 
-	PrivateIpResourceConfig = PrivateIpResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", acctest.Optional, acctest.Update, privateIpRepresentation)
+	CorePrivateIpResourceConfig = CorePrivateIpResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", acctest.Optional, acctest.Update, CorePrivateIpRepresentation)
 
 	privateIpSingularDataSourceRepresentation = map[string]interface{}{
 		"private_ip_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_private_ip.test_private_ip.id}`},
 	}
 
-	privateIpDataSourceRepresentation = map[string]interface{}{
+	CoreCorePrivateIpDataSourceRepresentation = map[string]interface{}{
 		"vnic_id": acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}`},
-		"filter":  acctest.RepresentationGroup{RepType: acctest.Required, Group: privateIpDataSourceFilterRepresentation}}
-	privateIpDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":  acctest.RepresentationGroup{RepType: acctest.Required, Group: CorePrivateIpDataSourceFilterRepresentation}}
+	CorePrivateIpDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_private_ip.test_private_ip.id}`}},
 	}
 
-	privateIpRepresentation = map[string]interface{}{
+	CorePrivateIpRepresentation = map[string]interface{}{
 		"vnic_id":        acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
@@ -51,12 +51,12 @@ var (
 		"ip_address":     acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.5`},
 	}
 
-	PrivateIpResourceDependencies = utils.OciImageIdsVariable +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, instanceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+	CorePrivateIpResourceDependencies = utils.OciImageIdsVariable +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
 			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 		})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 		})) +
 		AvailabilityDomainConfig +
@@ -86,14 +86,14 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+PrivateIpResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", acctest.Optional, acctest.Create, privateIpRepresentation), "core", "privateIp", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CorePrivateIpResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", acctest.Optional, acctest.Create, CorePrivateIpRepresentation), "core", "privateIp", t)
 
 	acctest.ResourceTest(t, testAccCheckCorePrivateIpDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + PrivateIpResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", acctest.Required, acctest.Create, privateIpRepresentation),
+			Config: config + compartmentIdVariableStr + CorePrivateIpResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", acctest.Required, acctest.Create, CorePrivateIpRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
@@ -106,12 +106,12 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + PrivateIpResourceDependencies,
+			Config: config + compartmentIdVariableStr + CorePrivateIpResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + PrivateIpResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", acctest.Optional, acctest.Create, privateIpRepresentation),
+			Config: config + compartmentIdVariableStr + CorePrivateIpResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", acctest.Optional, acctest.Create, CorePrivateIpRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -133,8 +133,8 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + PrivateIpResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", acctest.Optional, acctest.Update, privateIpRepresentation),
+			Config: config + compartmentIdVariableStr + CorePrivateIpResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", acctest.Optional, acctest.Update, CorePrivateIpRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -154,9 +154,9 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_private_ips", "test_private_ips", acctest.Optional, acctest.Update, privateIpDataSourceRepresentation) +
-				compartmentIdVariableStr + PrivateIpResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", acctest.Optional, acctest.Update, privateIpRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_private_ips", "test_private_ips", acctest.Optional, acctest.Update, CoreCorePrivateIpDataSourceRepresentation) +
+				compartmentIdVariableStr + CorePrivateIpResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", acctest.Optional, acctest.Update, CorePrivateIpRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "vnic_id"),
 
@@ -179,7 +179,7 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", acctest.Required, acctest.Create, privateIpSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + PrivateIpResourceConfig,
+				compartmentIdVariableStr + CorePrivateIpResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip_id"),
 
@@ -196,7 +196,7 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + PrivateIpRequiredOnlyResource,
+			Config:                  config + CorePrivateIpRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -252,7 +252,7 @@ func init() {
 
 func sweepCorePrivateIpResource(compartment string) error {
 	virtualNetworkClient := acctest.GetTestClients(&schema.ResourceData{}).VirtualNetworkClient()
-	privateIpIds, err := getPrivateIpIds(compartment)
+	privateIpIds, err := getCorePrivateIpIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -273,7 +273,7 @@ func sweepCorePrivateIpResource(compartment string) error {
 	return nil
 }
 
-func getPrivateIpIds(compartment string) ([]string, error) {
+func getCorePrivateIpIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "PrivateIpId")
 	if ids != nil {
 		return ids, nil
@@ -284,7 +284,7 @@ func getPrivateIpIds(compartment string) ([]string, error) {
 
 	listPrivateIpsRequest := oci_core.ListPrivateIpsRequest{}
 
-	subnetIds, err := getSubnetIds(compartment)
+	subnetIds, err := getCoreSubnetIds(compartment)
 	if err != nil {
 		return resourceIds, fmt.Errorf("Error getting SubnetId list for compartment id : %s , %s \n", compartmentId, err)
 	}

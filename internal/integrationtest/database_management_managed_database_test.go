@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,20 +7,20 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	managedDatabaseSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseManagementDatabaseManagementManagedDatabaseSingularDataSourceRepresentation = map[string]interface{}{
 		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}testManagedDatabase0`},
 	}
 
-	managedDatabaseDataSourceRepresentation = map[string]interface{}{
+	DatabaseManagementDatabaseManagementManagedDatabaseDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"deployment_type":   acctest.Representation{RepType: acctest.Optional, Create: `ONPREMISE`},
 		"id":                acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_management_managed_database.test_managed_database.id}`},
@@ -28,7 +28,7 @@ var (
 		"name":              acctest.Representation{RepType: acctest.Optional, Create: `name`},
 	}
 
-	ManagedDatabaseResourceConfig = ""
+	DatabaseManagementManagedDatabaseResourceConfig = ""
 )
 
 // issue-routing-tag: database_management/default
@@ -51,8 +51,8 @@ func TestDatabaseManagementManagedDatabaseResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_databases", "test_managed_databases", acctest.Required, acctest.Create, managedDatabaseDataSourceRepresentation) +
-				compartmentIdVariableStr + ManagedDatabaseResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_databases", "test_managed_databases", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseManagementManagedDatabaseResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "managed_database_collection.0.items.0.id"),
@@ -66,8 +66,8 @@ func TestDatabaseManagementManagedDatabaseResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database", "test_managed_database", acctest.Required, acctest.Create, managedDatabaseSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ManagedDatabaseResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database", "test_managed_database", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseManagementManagedDatabaseResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_database_id"),
 

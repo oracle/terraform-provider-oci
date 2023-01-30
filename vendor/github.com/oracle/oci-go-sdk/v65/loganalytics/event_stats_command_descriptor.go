@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -34,6 +34,9 @@ type EventStatsCommandDescriptor struct {
 	// Fields declared in command fragment from user specified query string.
 	DeclaredFields []AbstractField `mandatory:"false" json:"declaredFields"`
 
+	// Field denoting if this is a hidden command that is not shown in the query string.
+	IsHidden *bool `mandatory:"false" json:"isHidden"`
+
 	// Group by fields if specified in the query string.
 	GroupByFields []AbstractField `mandatory:"false" json:"groupByFields"`
 
@@ -64,6 +67,11 @@ func (m EventStatsCommandDescriptor) GetReferencedFields() []AbstractField {
 //GetDeclaredFields returns DeclaredFields
 func (m EventStatsCommandDescriptor) GetDeclaredFields() []AbstractField {
 	return m.DeclaredFields
+}
+
+//GetIsHidden returns IsHidden
+func (m EventStatsCommandDescriptor) GetIsHidden() *bool {
+	return m.IsHidden
 }
 
 func (m EventStatsCommandDescriptor) String() string {
@@ -102,6 +110,7 @@ func (m *EventStatsCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 		Category            *string         `json:"category"`
 		ReferencedFields    []abstractfield `json:"referencedFields"`
 		DeclaredFields      []abstractfield `json:"declaredFields"`
+		IsHidden            *bool           `json:"isHidden"`
 		GroupByFields       []abstractfield `json:"groupByFields"`
 		Functions           []FunctionField `json:"functions"`
 		DisplayQueryString  *string         `json:"displayQueryString"`
@@ -140,6 +149,8 @@ func (m *EventStatsCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 			m.DeclaredFields[i] = nil
 		}
 	}
+
+	m.IsHidden = model.IsHidden
 
 	m.GroupByFields = make([]AbstractField, len(model.GroupByFields))
 	for i, n := range model.GroupByFields {

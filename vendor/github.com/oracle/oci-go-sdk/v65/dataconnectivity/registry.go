@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -15,16 +15,16 @@ import (
 	"strings"
 )
 
-// Registry A registry is an organizational construct to keep multiple data Connectivity Management solutions and their resources (data assets, data flows, tasks, and so on) separate from each other, helping you to stay organized. For example, you could have separate registries for development, testing, and production.
+// Registry A registry is an organizational construct to keep multiple data connectivity management solutions and their resources (data assets, data flows, tasks, and so on) separate from each other, helping you to stay organized. For example, you could have separate registries for development, testing, and production.
 type Registry struct {
 
-	// Data Connectivity Management Registry display name, registries can be renamed
+	// Data Connectivity Management registry display name; registries can be renamed.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Unique identifier that is immutable on creation
+	// A unique identifier that is immutable on creation.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
+	// Simple key-value pair that is applied without any predefined name, type, or scope. Exists only for cross-compatibility.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
@@ -35,27 +35,27 @@ type Registry struct {
 	// Registry description
 	Description *string `mandatory:"false" json:"description"`
 
-	// Name of the user who updated the DCMS Registry.
+	// Name of the user who updated the DCMS registry.
 	UpdatedBy *string `mandatory:"false" json:"updatedBy"`
 
 	// Compartment Identifier
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// The time the Data Connectivity Management Registry was created. An RFC3339 formatted datetime string
+	// Time when the Data Connectivity Management registry was created. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The time the Data Connectivity Management Registry was updated. An RFC3339 formatted datetime string
+	// Time when the Data Connectivity Management registry was updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// Lifecycle states for registries in Data Connectivity Management Service
-	// CREATING - The resource is being created and may not be usable until the entire metadata is defined
-	// UPDATING - The resource is being updated and may not be usable until all changes are commited
+	// Lifecycle states for registries in the Data Connectivity Management Service
+	// CREATING - The resource is being created and may not be usable until the entire metadata is defined.
+	// UPDATING - The resource is being updated and may not be usable until all changes are commited.
 	// DELETING - The resource is being deleted and might require deep cleanup of children.
-	// ACTIVE   - The resource is valid and available for access
+	// ACTIVE   - The resource is valid and available for access.
 	// INACTIVE - The resource might be incomplete in its definition or might have been made unavailable for
-	//          administrative reasons
-	// DELETED  - The resource has been deleted and isn't available
-	// FAILED   - The resource is in a failed state due to validation or other errors
+	//          administrative reasons.
+	// DELETED  - The resource has been deleted and isn't available.
+	// FAILED   - The resource is in a failed state due to validation or other errors.
 	LifecycleState RegistryLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

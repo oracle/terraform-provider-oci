@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -31,7 +31,9 @@ type UpdateApplicationDetails struct {
 	// The Spark language.
 	Language ApplicationLanguageEnum `mandatory:"false" json:"language,omitempty"`
 
-	// An Oracle Cloud Infrastructure URI of an archive.zip file containing custom dependencies that may be used to support the execution a Python, Java, or Scala application.
+	ApplicationLogConfig *ApplicationLogConfig `mandatory:"false" json:"applicationLogConfig"`
+
+	// A comma separated list of one or more archive files as Oracle Cloud Infrastructure URIs. For example, ``oci://path/to/a.zip,oci://path/to/b.zip``. An Oracle Cloud Infrastructure URI of an archive.zip file containing custom dependencies that may be used to support the execution of a Python, Java, or Scala application.
 	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
 	ArchiveUri *string `mandatory:"false" json:"archiveUri"`
 
@@ -65,6 +67,8 @@ type UpdateApplicationDetails struct {
 	// The VM shape for the driver. Sets the driver cores and memory.
 	DriverShape *string `mandatory:"false" json:"driverShape"`
 
+	DriverShapeConfig *ShapeConfig `mandatory:"false" json:"driverShapeConfig"`
+
 	// The input used for spark-submit command. For more details see https://spark.apache.org/docs/latest/submitting-applications.html#launching-applications-with-spark-submit.
 	// Supported options include ``--class``, ``--file``, ``--jars``, ``--conf``, ``--py-files``, and main application file with arguments.
 	// Example: ``--jars oci://path/to/a.jar,oci://path/to/b.jar --files oci://path/to/a.json,oci://path/to/b.csv --py-files oci://path/to/a.py,oci://path/to/b.py --conf spark.sql.crossJoin.enabled=true --class org.apache.spark.examples.SparkPi oci://path/to/main.jar 10``
@@ -74,6 +78,8 @@ type UpdateApplicationDetails struct {
 
 	// The VM shape for the executors. Sets the executor cores and memory.
 	ExecutorShape *string `mandatory:"false" json:"executorShape"`
+
+	ExecutorShapeConfig *ShapeConfig `mandatory:"false" json:"executorShapeConfig"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -103,6 +109,14 @@ type UpdateApplicationDetails struct {
 	// for BATCH SQL runs.
 	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
 	WarehouseBucketUri *string `mandatory:"false" json:"warehouseBucketUri"`
+
+	// The maximum duration in minutes for which an Application should run. Data Flow Run would be terminated
+	// once it reaches this duration from the time it transitions to `IN_PROGRESS` state.
+	MaxDurationInMinutes *int64 `mandatory:"false" json:"maxDurationInMinutes"`
+
+	// The timeout value in minutes used to manage Runs. A Run would be stopped after inactivity for this amount of time period.
+	// Note: This parameter is currently only applicable for Runs of type `SESSION`. Default value is 2880 minutes (2 days)
+	IdleTimeoutInMinutes *int64 `mandatory:"false" json:"idleTimeoutInMinutes"`
 }
 
 func (m UpdateApplicationDetails) String() string {

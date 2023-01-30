@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -8,14 +8,14 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -24,7 +24,7 @@ var (
 		"security_assessment_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_security_assessment.test_security_assessment2.id}`},
 	}
 
-	CompareSecurityAssessmentResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment1", acctest.Required, acctest.Create, securityAssessmentRepresentation) +
+	DataSafeCompareSecurityAssessmentResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment1", acctest.Required, acctest.Create, securityAssessmentRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment2", acctest.Required, acctest.Create, securityAssessmentRepresentation)
 )
 
@@ -45,13 +45,13 @@ func TestDataSafeCompareSecurityAssessmentResource_basic(t *testing.T) {
 
 	var resId string
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+CompareSecurityAssessmentResourceDependencies+targetIdVariableStr+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DataSafeCompareSecurityAssessmentResourceDependencies+targetIdVariableStr+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_compare_security_assessment", "test_compare_security_assessment", acctest.Required, acctest.Create, compareSecurityAssessmentRepresentation), "datasafe", "compareSecurityAssessment", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + CompareSecurityAssessmentResourceDependencies + targetIdVariableStr +
+			Config: config + compartmentIdVariableStr + DataSafeCompareSecurityAssessmentResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_compare_security_assessment", "test_compare_security_assessment", acctest.Required, acctest.Create, compareSecurityAssessmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "comparison_security_assessment_id"),

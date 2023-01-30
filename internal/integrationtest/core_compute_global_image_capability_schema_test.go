@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,19 +9,19 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	computeGlobalImageCapabilitySchemaSingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreComputeGlobalImageCapabilitySchemaSingularDataSourceRepresentation = map[string]interface{}{
 		"compute_global_image_capability_schema_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_core_compute_global_image_capability_schemas.test_compute_global_image_capability_schemas.compute_global_image_capability_schemas.0.id}`},
 	}
 
-	computeGlobalImageCapabilitySchemaDataSourceRepresentation = map[string]interface{}{}
+	CoreCoreComputeGlobalImageCapabilitySchemaDataSourceRepresentation = map[string]interface{}{}
 
-	ComputeGlobalImageCapabilitySchemaResourceConfig = ""
+	CoreComputeGlobalImageCapabilitySchemaResourceConfig = ""
 )
 
 // issue-routing-tag: core/computeImaging
@@ -43,8 +43,8 @@ func TestCoreComputeGlobalImageCapabilitySchemaResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_global_image_capability_schemas", "test_compute_global_image_capability_schemas", acctest.Required, acctest.Create, computeGlobalImageCapabilitySchemaDataSourceRepresentation) +
-				compartmentIdVariableStr + ComputeGlobalImageCapabilitySchemaResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_global_image_capability_schemas", "test_compute_global_image_capability_schemas", acctest.Required, acctest.Create, CoreCoreComputeGlobalImageCapabilitySchemaDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreComputeGlobalImageCapabilitySchemaResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 
 				resource.TestCheckResourceAttrSet(datasourceName, "compute_global_image_capability_schemas.#"),
@@ -57,9 +57,9 @@ func TestCoreComputeGlobalImageCapabilitySchemaResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_global_image_capability_schema", "test_compute_global_image_capability_schema", acctest.Required, acctest.Create, computeGlobalImageCapabilitySchemaSingularDataSourceRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_global_image_capability_schemas", "test_compute_global_image_capability_schemas", acctest.Required, acctest.Create, computeGlobalImageCapabilitySchemaDataSourceRepresentation) +
-				compartmentIdVariableStr + ComputeGlobalImageCapabilitySchemaResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_global_image_capability_schema", "test_compute_global_image_capability_schema", acctest.Required, acctest.Create, CoreCoreComputeGlobalImageCapabilitySchemaSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_global_image_capability_schemas", "test_compute_global_image_capability_schemas", acctest.Required, acctest.Create, CoreCoreComputeGlobalImageCapabilitySchemaDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreComputeGlobalImageCapabilitySchemaResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_global_image_capability_schema_id"),
 

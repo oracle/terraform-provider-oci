@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// ADM API
+// Application Dependency Management API
 //
-// Use the ADM API to create ADM knowledge base and vulnerability audits.  For more information, see ADM (https://docs.cloud.oracle.com/Content/adm/using/home.htm).
+// Use the Application Dependency Management API to create knowledge bases and vulnerability audits.  For more information, see ADM (https://docs.cloud.oracle.com/Content/application-dependency-management/home.htm).
 //
 
 package adm
@@ -92,9 +92,10 @@ func (client *ApplicationDependencyManagementClient) ConfigurationProvider() *co
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
+// A default retry strategy applies to this operation CancelWorkRequest()
 func (client ApplicationDependencyManagementClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -135,7 +136,7 @@ func (client ApplicationDependencyManagementClient) cancelWorkRequest(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/WorkRequest/CancelWorkRequest"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -149,9 +150,10 @@ func (client ApplicationDependencyManagementClient) cancelWorkRequest(ctx contex
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ChangeKnowledgeBaseCompartment.go.html to see an example of how to use ChangeKnowledgeBaseCompartment API.
+// A default retry strategy applies to this operation ChangeKnowledgeBaseCompartment()
 func (client ApplicationDependencyManagementClient) ChangeKnowledgeBaseCompartment(ctx context.Context, request ChangeKnowledgeBaseCompartmentRequest) (response ChangeKnowledgeBaseCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -197,7 +199,7 @@ func (client ApplicationDependencyManagementClient) changeKnowledgeBaseCompartme
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/KnowledgeBase/ChangeKnowledgeBaseCompartment"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ChangeKnowledgeBaseCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -211,9 +213,10 @@ func (client ApplicationDependencyManagementClient) changeKnowledgeBaseCompartme
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ChangeVulnerabilityAuditCompartment.go.html to see an example of how to use ChangeVulnerabilityAuditCompartment API.
+// A default retry strategy applies to this operation ChangeVulnerabilityAuditCompartment()
 func (client ApplicationDependencyManagementClient) ChangeVulnerabilityAuditCompartment(ctx context.Context, request ChangeVulnerabilityAuditCompartmentRequest) (response ChangeVulnerabilityAuditCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -259,7 +262,7 @@ func (client ApplicationDependencyManagementClient) changeVulnerabilityAuditComp
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/VulnerabilityAudit/ChangeVulnerabilityAuditCompartment"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ChangeVulnerabilityAuditCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -273,9 +276,10 @@ func (client ApplicationDependencyManagementClient) changeVulnerabilityAuditComp
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/CreateKnowledgeBase.go.html to see an example of how to use CreateKnowledgeBase API.
+// A default retry strategy applies to this operation CreateKnowledgeBase()
 func (client ApplicationDependencyManagementClient) CreateKnowledgeBase(ctx context.Context, request CreateKnowledgeBaseRequest) (response CreateKnowledgeBaseResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -321,7 +325,7 @@ func (client ApplicationDependencyManagementClient) createKnowledgeBase(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/KnowledgeBase/CreateKnowledgeBase"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "CreateKnowledgeBase", apiReferenceLink)
 		return response, err
 	}
@@ -335,9 +339,10 @@ func (client ApplicationDependencyManagementClient) createKnowledgeBase(ctx cont
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/CreateVulnerabilityAudit.go.html to see an example of how to use CreateVulnerabilityAudit API.
+// A default retry strategy applies to this operation CreateVulnerabilityAudit()
 func (client ApplicationDependencyManagementClient) CreateVulnerabilityAudit(ctx context.Context, request CreateVulnerabilityAuditRequest) (response CreateVulnerabilityAuditResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -383,7 +388,7 @@ func (client ApplicationDependencyManagementClient) createVulnerabilityAudit(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/VulnerabilityAudit/CreateVulnerabilityAudit"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "CreateVulnerabilityAudit", apiReferenceLink)
 		return response, err
 	}
@@ -397,9 +402,10 @@ func (client ApplicationDependencyManagementClient) createVulnerabilityAudit(ctx
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/DeleteKnowledgeBase.go.html to see an example of how to use DeleteKnowledgeBase API.
+// A default retry strategy applies to this operation DeleteKnowledgeBase()
 func (client ApplicationDependencyManagementClient) DeleteKnowledgeBase(ctx context.Context, request DeleteKnowledgeBaseRequest) (response DeleteKnowledgeBaseResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -440,7 +446,7 @@ func (client ApplicationDependencyManagementClient) deleteKnowledgeBase(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/KnowledgeBase/DeleteKnowledgeBase"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "DeleteKnowledgeBase", apiReferenceLink)
 		return response, err
 	}
@@ -454,9 +460,10 @@ func (client ApplicationDependencyManagementClient) deleteKnowledgeBase(ctx cont
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/DeleteVulnerabilityAudit.go.html to see an example of how to use DeleteVulnerabilityAudit API.
+// A default retry strategy applies to this operation DeleteVulnerabilityAudit()
 func (client ApplicationDependencyManagementClient) DeleteVulnerabilityAudit(ctx context.Context, request DeleteVulnerabilityAuditRequest) (response DeleteVulnerabilityAuditResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -497,7 +504,7 @@ func (client ApplicationDependencyManagementClient) deleteVulnerabilityAudit(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/VulnerabilityAudit/DeleteVulnerabilityAudit"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "DeleteVulnerabilityAudit", apiReferenceLink)
 		return response, err
 	}
@@ -511,9 +518,10 @@ func (client ApplicationDependencyManagementClient) deleteVulnerabilityAudit(ctx
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/GetKnowledgeBase.go.html to see an example of how to use GetKnowledgeBase API.
+// A default retry strategy applies to this operation GetKnowledgeBase()
 func (client ApplicationDependencyManagementClient) GetKnowledgeBase(ctx context.Context, request GetKnowledgeBaseRequest) (response GetKnowledgeBaseResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -554,7 +562,7 @@ func (client ApplicationDependencyManagementClient) getKnowledgeBase(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/KnowledgeBase/GetKnowledgeBase"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "GetKnowledgeBase", apiReferenceLink)
 		return response, err
 	}
@@ -568,9 +576,10 @@ func (client ApplicationDependencyManagementClient) getKnowledgeBase(ctx context
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/GetVulnerabilityAudit.go.html to see an example of how to use GetVulnerabilityAudit API.
+// A default retry strategy applies to this operation GetVulnerabilityAudit()
 func (client ApplicationDependencyManagementClient) GetVulnerabilityAudit(ctx context.Context, request GetVulnerabilityAuditRequest) (response GetVulnerabilityAuditResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -611,7 +620,7 @@ func (client ApplicationDependencyManagementClient) getVulnerabilityAudit(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/VulnerabilityAudit/GetVulnerabilityAudit"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "GetVulnerabilityAudit", apiReferenceLink)
 		return response, err
 	}
@@ -625,9 +634,10 @@ func (client ApplicationDependencyManagementClient) getVulnerabilityAudit(ctx co
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client ApplicationDependencyManagementClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -668,7 +678,7 @@ func (client ApplicationDependencyManagementClient) getWorkRequest(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -682,9 +692,10 @@ func (client ApplicationDependencyManagementClient) getWorkRequest(ctx context.C
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListApplicationDependencyVulnerabilities.go.html to see an example of how to use ListApplicationDependencyVulnerabilities API.
+// A default retry strategy applies to this operation ListApplicationDependencyVulnerabilities()
 func (client ApplicationDependencyManagementClient) ListApplicationDependencyVulnerabilities(ctx context.Context, request ListApplicationDependencyVulnerabilitiesRequest) (response ListApplicationDependencyVulnerabilitiesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -725,7 +736,7 @@ func (client ApplicationDependencyManagementClient) listApplicationDependencyVul
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/VulnerabilityAudit/ListApplicationDependencyVulnerabilities"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListApplicationDependencyVulnerabilities", apiReferenceLink)
 		return response, err
 	}
@@ -740,9 +751,10 @@ func (client ApplicationDependencyManagementClient) listApplicationDependencyVul
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListKnowledgeBases.go.html to see an example of how to use ListKnowledgeBases API.
+// A default retry strategy applies to this operation ListKnowledgeBases()
 func (client ApplicationDependencyManagementClient) ListKnowledgeBases(ctx context.Context, request ListKnowledgeBasesRequest) (response ListKnowledgeBasesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -783,7 +795,7 @@ func (client ApplicationDependencyManagementClient) listKnowledgeBases(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/KnowledgeBase/ListKnowledgeBases"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListKnowledgeBases", apiReferenceLink)
 		return response, err
 	}
@@ -798,9 +810,10 @@ func (client ApplicationDependencyManagementClient) listKnowledgeBases(ctx conte
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListVulnerabilityAudits.go.html to see an example of how to use ListVulnerabilityAudits API.
+// A default retry strategy applies to this operation ListVulnerabilityAudits()
 func (client ApplicationDependencyManagementClient) ListVulnerabilityAudits(ctx context.Context, request ListVulnerabilityAuditsRequest) (response ListVulnerabilityAuditsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -841,7 +854,7 @@ func (client ApplicationDependencyManagementClient) listVulnerabilityAudits(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/VulnerabilityAudit/ListVulnerabilityAudits"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListVulnerabilityAudits", apiReferenceLink)
 		return response, err
 	}
@@ -855,9 +868,10 @@ func (client ApplicationDependencyManagementClient) listVulnerabilityAudits(ctx 
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client ApplicationDependencyManagementClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -898,7 +912,7 @@ func (client ApplicationDependencyManagementClient) listWorkRequestErrors(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -912,9 +926,10 @@ func (client ApplicationDependencyManagementClient) listWorkRequestErrors(ctx co
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client ApplicationDependencyManagementClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -955,7 +970,7 @@ func (client ApplicationDependencyManagementClient) listWorkRequestLogs(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -969,9 +984,10 @@ func (client ApplicationDependencyManagementClient) listWorkRequestLogs(ctx cont
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client ApplicationDependencyManagementClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1012,7 +1028,7 @@ func (client ApplicationDependencyManagementClient) listWorkRequests(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -1026,9 +1042,10 @@ func (client ApplicationDependencyManagementClient) listWorkRequests(ctx context
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/UpdateKnowledgeBase.go.html to see an example of how to use UpdateKnowledgeBase API.
+// A default retry strategy applies to this operation UpdateKnowledgeBase()
 func (client ApplicationDependencyManagementClient) UpdateKnowledgeBase(ctx context.Context, request UpdateKnowledgeBaseRequest) (response UpdateKnowledgeBaseResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1069,7 +1086,7 @@ func (client ApplicationDependencyManagementClient) updateKnowledgeBase(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/KnowledgeBase/UpdateKnowledgeBase"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "UpdateKnowledgeBase", apiReferenceLink)
 		return response, err
 	}
@@ -1083,9 +1100,10 @@ func (client ApplicationDependencyManagementClient) updateKnowledgeBase(ctx cont
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/UpdateVulnerabilityAudit.go.html to see an example of how to use UpdateVulnerabilityAudit API.
+// A default retry strategy applies to this operation UpdateVulnerabilityAudit()
 func (client ApplicationDependencyManagementClient) UpdateVulnerabilityAudit(ctx context.Context, request UpdateVulnerabilityAuditRequest) (response UpdateVulnerabilityAuditResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1126,7 +1144,7 @@ func (client ApplicationDependencyManagementClient) updateVulnerabilityAudit(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/VulnerabilityAudit/UpdateVulnerabilityAudit"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "UpdateVulnerabilityAudit", apiReferenceLink)
 		return response, err
 	}

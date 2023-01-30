@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -30,7 +30,7 @@ type CreateTableDetails struct {
 	// Complete CREATE TABLE DDL statement.
 	DdlStatement *string `mandatory:"true" json:"ddlStatement"`
 
-	TableLimits *TableLimits `mandatory:"true" json:"tableLimits"`
+	TableLimits *TableLimits `mandatory:"false" json:"tableLimits"`
 
 	// True if table can be reclaimed after an idle period.
 	IsAutoReclaimable *bool `mandatory:"false" json:"isAutoReclaimable"`

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,9 +10,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
@@ -27,7 +27,7 @@ var (
 		"subnet_id":                   acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
 
-	InstanceWithPreemptibleInstanceConfigResourceConfig = InstanceResourceDependenciesWithoutDHV +
+	InstanceWithPreemptibleInstanceConfigResourceConfig = CoreInstanceResourceDependenciesWithoutDHV +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, instanceWithPreemptibleInstanceConfigRepresentation)
 
 	instanceWithPreemtibleInstanceConfigDataSourceRepresentation = map[string]interface{}{
@@ -69,7 +69,7 @@ func TestResourceCoreInstancePreemptibleInstanceConfig_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckCoreInstanceDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: acctest.ProviderTestConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV +
+			Config: acctest.ProviderTestConfig() + compartmentIdVariableStr + CoreInstanceResourceDependenciesWithoutDHV +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, instanceWithPreemptibleInstanceConfigRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -93,7 +93,7 @@ func TestResourceCoreInstancePreemptibleInstanceConfig_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", acctest.Required, acctest.Create, instanceWithPreemtibleInstanceConfigDataSourceRepresentation) +
-				compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV +
+				compartmentIdVariableStr + CoreInstanceResourceDependenciesWithoutDHV +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, instanceWithPreemptibleInstanceConfigRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),

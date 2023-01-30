@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -55,6 +55,9 @@ type CreateDataGuardAssociationWithNewDbSystemDetails struct {
 	// The number of OCPU cores available for AMD-based virtual machine DB systems.
 	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
 
+	// The number of nodes to launch for the DB system of the standby in the Data Guard association. For a 2-node RAC virtual machine DB system, specify either 1 or 2. If you do not supply this parameter, the default is the node count of the primary DB system.
+	NodeCount *int `mandatory:"false" json:"nodeCount"`
+
 	// The OCID of the subnet the DB system is associated with.
 	// **Subnet Restrictions:**
 	// - For 1- and 2-node RAC DB systems, do not use a subnet that overlaps with 192.168.16.16/28
@@ -65,7 +68,7 @@ type CreateDataGuardAssociationWithNewDbSystemDetails struct {
 
 	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
 	// **NsgIds restrictions:**
-	// - Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds list cannot be empty.
+	// - A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// A list of the OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that the backup network of this DB system belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm). Applicable only to Exadata systems.
@@ -74,8 +77,53 @@ type CreateDataGuardAssociationWithNewDbSystemDetails struct {
 	// The hostname for the DB node.
 	Hostname *string `mandatory:"false" json:"hostname"`
 
+	// The time zone of the dataguard standby DB system. For details, see DB System Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
+	TimeZone *string `mandatory:"false" json:"timeZone"`
+
+	// A Fault Domain is a grouping of hardware and infrastructure within an availability domain.
+	// Fault Domains let you distribute your instances so that they are not on the same physical
+	// hardware within a single availability domain. A hardware failure or maintenance
+	// that affects one Fault Domain does not affect DB systems in other Fault Domains.
+	// If you do not specify the Fault Domain, the system selects one for you. To change the Fault
+	// Domain for a DB system, terminate it and launch a new DB system in the preferred Fault Domain.
+	// If the node count is greater than 1, you can specify which Fault Domains these nodes will be distributed into.
+	// The system assigns your nodes automatically to the Fault Domains you specify so that
+	// no Fault Domain contains more than one node.
+	// To get a list of Fault Domains, use the
+	// ListFaultDomains operation in the
+	// Identity and Access Management Service API.
+	// Example: `FAULT-DOMAIN-1`
+	FaultDomains []string `mandatory:"false" json:"faultDomains"`
+
+	// The IPv4 address from the provided OCI subnet which needs to be assigned to the VNIC. If not provided, it will
+	// be auto-assigned with an available IPv4 address from the subnet.
+	PrivateIp *string `mandatory:"false" json:"privateIp"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	DbSystemFreeformTags map[string]string `mandatory:"false" json:"dbSystemFreeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	DbSystemDefinedTags map[string]map[string]interface{} `mandatory:"false" json:"dbSystemDefinedTags"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	DatabaseFreeformTags map[string]string `mandatory:"false" json:"databaseFreeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	DatabaseDefinedTags map[string]map[string]interface{} `mandatory:"false" json:"databaseDefinedTags"`
+
+	DataCollectionOptions *DataCollectionOptions `mandatory:"false" json:"dataCollectionOptions"`
+
 	// The block storage volume performance level. Valid values are `BALANCED` and `HIGH_PERFORMANCE`. See Block Volume Performance (https://docs.cloud.oracle.com/Content/Block/Concepts/blockvolumeperformance.htm) for more information.
 	StorageVolumePerformanceMode CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum `mandatory:"false" json:"storageVolumePerformanceMode,omitempty"`
+
+	// The Oracle license model that applies to all the databases on the dataguard standby DB system. The default is LICENSE_INCLUDED.
+	LicenseModel CreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
 	// The protection mode to set up between the primary and standby databases. For more information, see
 	// Oracle Data Guard Protection Modes (http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000)
@@ -140,6 +188,9 @@ func (m CreateDataGuardAssociationWithNewDbSystemDetails) ValidateEnumValue() (b
 	errMessage := []string{}
 	if _, ok := GetMappingCreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum(string(m.StorageVolumePerformanceMode)); !ok && m.StorageVolumePerformanceMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for StorageVolumePerformanceMode: %s. Supported values are: %s.", m.StorageVolumePerformanceMode, strings.Join(GetCreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingCreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetCreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnumStringValues(), ",")))
 	}
 
 	if _, ok := GetMappingCreateDataGuardAssociationDetailsProtectionModeEnum(string(m.ProtectionMode)); !ok && m.ProtectionMode != "" {
@@ -207,5 +258,47 @@ func GetCreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformance
 // GetMappingCreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum(val string) (CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum, bool) {
 	enum, ok := mappingCreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnum Enum with underlying type: string
+type CreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnum string
+
+// Set of constants representing the allowable values for CreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnum
+const (
+	CreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelLicenseIncluded     CreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnum = "LICENSE_INCLUDED"
+	CreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelBringYourOwnLicense CreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
+)
+
+var mappingCreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnum = map[string]CreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnum{
+	"LICENSE_INCLUDED":       CreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelLicenseIncluded,
+	"BRING_YOUR_OWN_LICENSE": CreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelBringYourOwnLicense,
+}
+
+var mappingCreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnumLowerCase = map[string]CreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnum{
+	"license_included":       CreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelLicenseIncluded,
+	"bring_your_own_license": CreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelBringYourOwnLicense,
+}
+
+// GetCreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnumValues Enumerates the set of values for CreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnum
+func GetCreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnumValues() []CreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnum {
+	values := make([]CreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnum, 0)
+	for _, v := range mappingCreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnumStringValues Enumerates the set of values in String for CreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnum
+func GetCreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
+}
+
+// GetMappingCreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnum(val string) (CreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnum, bool) {
+	enum, ok := mappingCreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

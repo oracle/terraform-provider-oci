@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -97,14 +97,17 @@ type ListWorkRequestErrorsResponse struct {
 	// A list of []WorkRequestError instances
 	Items []WorkRequestError `presentIn:"body"`
 
+	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, please provide the request ID.
+	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
 	// When you are paging through a list, if this header appears in the response,
 	// then there might be additional items still to get. Include this value as the
 	// `page` query parameter for the subsequent GET request.
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 
-	// Unique Oracle-assigned identifier for the request. If you contact Oracle
-	// about this request, provide this request ID.
-	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+	// The total number of results that match the query.
+	OpcTotalItems *int `presentIn:"header" name:"opc-total-items"`
 }
 
 func (response ListWorkRequestErrorsResponse) String() string {

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,17 +10,18 @@ import (
 	"testing"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
@@ -31,8 +32,8 @@ var (
 		"compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":                acctest.Representation{RepType: acctest.Required, Create: `testVmClusterNw`},
 		"exadata_infrastructure_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
-		"scans":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: vmClusterNetworkScansRepresentation},
-		"vm_networks":                 []acctest.RepresentationGroup{{RepType: acctest.Required, Group: vmClusterNetworkBackupVmNetworkRepresentation}, {RepType: acctest.Required, Group: vmClusterNetworkClientVmNetworkRepresentation}},
+		"scans":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseVmClusterNetworkScansRepresentation},
+		"vm_networks":                 []acctest.RepresentationGroup{{RepType: acctest.Required, Group: DatabaseVmClusterNetworkBackupVmNetworkRepresentation}, {RepType: acctest.Required, Group: DatabaseVmClusterNetworkClientVmNetworkRepresentation}},
 		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"dns":                         acctest.Representation{RepType: acctest.Optional, Create: []string{`192.168.10.10`}, Update: []string{`192.168.10.12`}},
 		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
@@ -41,22 +42,24 @@ var (
 		"lifecycle":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: vmClusterNetworkIgnoreChangesRepresentation},
 	}
 	vmClusterNetworkIgnoreChangesRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`validate_vm_cluster_network`}},
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`validate_vm_cluster_network`, `vm_networks`}},
 	}
 	vmClusterNetworkValidateUpdateRepresentation = map[string]interface{}{
 		"compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":                acctest.Representation{RepType: acctest.Required, Create: `testVmClusterNw`},
 		"exadata_infrastructure_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
-		"scans":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: vmClusterNetworkScansRepresentation},
-		"vm_networks":                 []acctest.RepresentationGroup{{RepType: acctest.Required, Group: vmClusterNetworkBackupVmNetworkRepresentation}, {RepType: acctest.Required, Group: vmClusterNetworkClientVmNetworkRepresentation}},
+		"scans":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseVmClusterNetworkScansRepresentation},
+		"vm_networks":                 []acctest.RepresentationGroup{{RepType: acctest.Required, Group: DatabaseVmClusterNetworkBackupVmNetworkRepresentation}, {RepType: acctest.Required, Group: DatabaseVmClusterNetworkClientVmNetworkRepresentation}},
 		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"dns":                         acctest.Representation{RepType: acctest.Optional, Create: []string{`192.168.10.10`}, Update: []string{`192.168.10.12`}},
 		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"ntp":                         acctest.Representation{RepType: acctest.Optional, Create: []string{`192.168.10.20`}, Update: []string{`192.168.10.22`}},
 		"validate_vm_cluster_network": acctest.Representation{RepType: acctest.Optional, Create: "true", Update: "true"},
+		"lifecycle":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: vmClusterNetworkIgnoreNetworkRepresentation},
 	}
 
 	VmClusterNetworkValidateResourceDependencies = DefinedTagsDependencies +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Required, acctest.Create, DatabaseDatabaseDbServerDataSourceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Optional, acctest.Update,
 			acctest.RepresentationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{
 				"activation_file":    acctest.Representation{RepType: acctest.Optional, Update: activationFilePath},
@@ -81,7 +84,7 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create with validation
 		{
-			Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
+			Config: config + compartmentIdVariableStr + DatabaseVmClusterNetworkResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Optional, acctest.Update, vmClusterNetworkValidateRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -99,9 +102,6 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 					[]string{}),
 				resource.TestCheckResourceAttr(resourceName, "vm_networks.#", "2"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "vm_networks", map[string]string{
-					"domain_name":  "oracle.com",
-					"gateway":      "192.169.20.2",
-					"netmask":      "255.255.192.0",
 					"network_type": "BACKUP",
 					"nodes.#":      "2",
 				},
@@ -113,11 +113,11 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 		},
 		//  delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies,
+			Config: config + compartmentIdVariableStr + DatabaseVmClusterNetworkResourceDependencies,
 		},
 		// verify Create without validation
 		{
-			Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
+			Config: config + compartmentIdVariableStr + DatabaseVmClusterNetworkResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithRemovedProperties(vmClusterNetworkValidateRepresentation, []string{`validate_vm_cluster_network`})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -136,9 +136,6 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 					[]string{}),
 				resource.TestCheckResourceAttr(resourceName, "vm_networks.#", "2"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "vm_networks", map[string]string{
-					"domain_name":  "oracle.com",
-					"gateway":      "192.169.20.1",
-					"netmask":      "255.255.0.0",
 					"network_type": "BACKUP",
 					"nodes.#":      "2",
 				},
@@ -155,7 +152,7 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 		},
 		// verify validation
 		{
-			Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
+			Config: config + compartmentIdVariableStr + DatabaseVmClusterNetworkResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Optional, acctest.Update, vmClusterNetworkValidateUpdateRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -173,9 +170,6 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 					[]string{}),
 				resource.TestCheckResourceAttr(resourceName, "vm_networks.#", "2"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "vm_networks", map[string]string{
-					"domain_name":  "oracle.com",
-					"gateway":      "192.169.20.2",
-					"netmask":      "255.255.192.0",
 					"network_type": "BACKUP",
 					"nodes.#":      "2",
 				},
@@ -193,10 +187,10 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify Update after validation
+		//verify Update after validation
 		{
-			Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Optional, acctest.Create, vmClusterNetworkRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseVmClusterNetworkResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Optional, acctest.Create, DatabaseVmClusterNetworkRepresentation),
 			ExpectError: regexp.MustCompile("Update not allowed on validated vm cluster network"),
 		},
 	})
@@ -217,7 +211,7 @@ func init() {
 
 func sweepDatabaseValidatedVmClusterNetworkResource(compartment string) error {
 	databaseClient := acctest.GetTestClients(&schema.ResourceData{}).DatabaseClient()
-	vmClusterNetworkIds, err := getVmClusterNetworkIds(compartment)
+	vmClusterNetworkIds, err := getDatabaseVmClusterNetworkIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -233,8 +227,8 @@ func sweepDatabaseValidatedVmClusterNetworkResource(compartment string) error {
 				fmt.Printf("Error deleting VmClusterNetwork %s %s, It is possible that the resource is already deleted. Please verify manually \n", vmClusterNetworkId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &vmClusterNetworkId, vmClusterNetworkSweepWaitCondition, time.Duration(3*time.Minute),
-				vmClusterNetworkSweepResponseFetchOperation, "database", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &vmClusterNetworkId, DatabaseVmClusterNetworkSweepWaitCondition, time.Duration(3*time.Minute),
+				DatabaseVmClusterNetworkSweepResponseFetchOperation, "database", true)
 		}
 	}
 	return nil
@@ -252,7 +246,7 @@ func getValidatedVmClusterNetworkIds(compartment string) ([]string, error) {
 	listVmClusterNetworksRequest := oci_database.ListVmClusterNetworksRequest{}
 	listVmClusterNetworksRequest.CompartmentId = &compartmentId
 
-	exadataInfrastructureIds, error := getExadataInfrastructureIds(compartment)
+	exadataInfrastructureIds, error := getDatabaseExadataInfrastructureIds(compartment)
 	if error != nil {
 		return resourceIds, fmt.Errorf("Error getting exadataInfrastructureId required for VmClusterNetwork resource requests \n")
 	}

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -20,11 +20,17 @@ import (
 // DatabaseIoAggregateMetrics The database Input/Output metric details.
 type DatabaseIoAggregateMetrics struct {
 
-	// A list of the Input/Output Operations Per Second metrics grouped by IOType for a specific database.
+	// The Input/Output Operations Per Second metrics grouped by IOType for a specific Managed Database.
 	Iops []MetricDataPoint `mandatory:"false" json:"iops"`
 
-	// A list of the IOThroughput metrics grouped for a specific database.
+	// The IOThroughput metrics grouped by IOType for a specific Managed Database.
 	IoThroughput []MetricDataPoint `mandatory:"false" json:"ioThroughput"`
+
+	// The Input/Output metric statistics such as min, max, mean, lowerQuartile, and upperQuartile.
+	IopsStatistics []MetricStatisticsDefinition `mandatory:"false" json:"iopsStatistics"`
+
+	// The IOThroughput metric statistics such as min, max, mean, lowerQuartile, and upperQuartile.
+	IoThroughputStatistics []MetricStatisticsDefinition `mandatory:"false" json:"ioThroughputStatistics"`
 }
 
 func (m DatabaseIoAggregateMetrics) String() string {

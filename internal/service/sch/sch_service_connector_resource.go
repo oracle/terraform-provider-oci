@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package sch
@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -312,6 +312,11 @@ func SchServiceConnectorResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"log_source_identifier": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"metric": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -603,7 +608,7 @@ func (s *SchServiceConnectorResourceCrud) Create() error {
 	if target, ok := s.D.GetOkExists("target"); ok {
 		if tmpList := target.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "target", 0)
-			tmp, err := s.mapToTargetDetails(fieldKeyFormat)
+			tmp, err := s.mapToTargetDetails(fieldKeyFormat, "Create")
 			if err != nil {
 				return err
 			}
@@ -824,7 +829,7 @@ func (s *SchServiceConnectorResourceCrud) Update() error {
 	if target, ok := s.D.GetOkExists("target"); ok {
 		if tmpList := target.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "target", 0)
-			tmp, err := s.mapToTargetDetails(fieldKeyFormat)
+			tmp, err := s.mapToTargetDetails(fieldKeyFormat, "Update")
 			if err != nil {
 				return err
 			}
@@ -1444,7 +1449,7 @@ func StreamingCursorDetailsToMap(obj *oci_sch.StreamingCursorDetails) map[string
 	return result
 }
 
-func (s *SchServiceConnectorResourceCrud) mapToTargetDetails(fieldKeyFormat string) (oci_sch.TargetDetails, error) {
+func (s *SchServiceConnectorResourceCrud) mapToTargetDetails(fieldKeyFormat string, operationType string) (oci_sch.TargetDetails, error) {
 	var baseObject oci_sch.TargetDetails
 	//discriminator
 	kindRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kind"))
@@ -1467,6 +1472,11 @@ func (s *SchServiceConnectorResourceCrud) mapToTargetDetails(fieldKeyFormat stri
 		if logGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "log_group_id")); ok {
 			tmp := logGroupId.(string)
 			details.LogGroupId = &tmp
+		}
+		logSourceIdentifier, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "log_source_identifier"))
+		if ok && (operationType == "Create" || s.D.HasChange("log_source_identifier")) {
+			tmp := logSourceIdentifier.(string)
+			details.LogSourceIdentifier = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("monitoring"):
@@ -1561,6 +1571,10 @@ func TargetDetailsToMap(obj *oci_sch.TargetDetails) map[string]interface{} {
 
 		if v.LogGroupId != nil {
 			result["log_group_id"] = string(*v.LogGroupId)
+		}
+
+		if v.LogSourceIdentifier != nil {
+			result["log_source_identifier"] = string(*v.LogSourceIdentifier)
 		}
 	case oci_sch.MonitoringTargetDetails:
 		result["kind"] = "monitoring"

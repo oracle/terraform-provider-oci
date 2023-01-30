@@ -28,7 +28,8 @@ resource "oci_bastion_session" "test_session" {
 		session_type = var.session_target_resource_details_session_type
 
 		#Optional
-        target_resource_id = oci_bastion_target_resource.test_target_resource.id
+		target_resource_fqdn = var.session_target_resource_details_target_resource_fqdn
+		target_resource_id = oci_bastion_target_resource.test_target_resource.id
 		target_resource_operating_system_user_name = oci_identity_user.test_user.name
 		target_resource_port = var.session_target_resource_details_target_resource_port
 		target_resource_private_ip_address = var.session_target_resource_details_target_resource_private_ip_address
@@ -53,12 +54,11 @@ The following arguments are supported:
 * `session_ttl_in_seconds` - (Optional) The amount of time the session can remain active.
 * `target_resource_details` - (Required) Details about a bastion session's target resource.
 	* `session_type` - (Required) The session type.
-	* `target_resource_id` - (Optional) The unique identifier (OCID) of the target resource (a Compute instance, for example) that the session connects to. It's optional depends on the type of session you want to create.
-		* (Required) For MANAGED_SSH session type, we can only use target_resource_id to create session.
-		* (Optional) For PORT_FORWARDING session type, you must either use target_resource_id or target_resource_private_ip_address
+	* `target_resource_fqdn` - (Applicable when session_type=PORT_FORWARDING) The Fully Qualified Domain Name of the target resource that the session connects to.
+	* `target_resource_id` - (Required when session_type=MANAGED_SSH | PORT_FORWARDING) The unique identifier (OCID) of the target resource (a Compute instance, for example) that the session connects to.
 	* `target_resource_operating_system_user_name` - (Required when session_type=MANAGED_SSH) The name of the user on the target resource operating system that the session uses for the connection.
-	* `target_resource_port` - (Optional) The port number to connect to on the target resource.
-	* `target_resource_private_ip_address` - (Optional) The private IP address of the target resource that the session connects to. For PORT_FORWARDING session type, you must either use target_resource_id or target_resource_private_ip_address
+	* `target_resource_port` - (Applicable when session_type=MANAGED_SSH | PORT_FORWARDING) The port number to connect to on the target resource.
+	* `target_resource_private_ip_address` - (Applicable when session_type=MANAGED_SSH | PORT_FORWARDING) The private IP address of the target resource that the session connects to.
 
 
 ** IMPORTANT **
@@ -82,8 +82,9 @@ The following attributes are exported:
 * `ssh_metadata` - The connection message for the session.
 * `state` - The current state of the session.
 * `target_resource_details` - Details about a bastion session's target resource.
-	* `session_type` - The Bastion service recognizes two types of sessions, managed SSH sessions and SSH port forwarding sessions. Managed SSH sessions require that the target resource has an OpenSSH server and the Oracle Cloud Agent both running.
+	* `session_type` - The Bastion service recognizes three types of sessions, managed SSH sessions, SSH port forwarding sessions, and Dynamic SSH port forwarding sessions. Managed SSH sessions require that the target resource has an OpenSSH server and the Oracle Cloud Agent both running.
 	* `target_resource_display_name` - The display name of the target Compute instance that the session connects to.
+	* `target_resource_fqdn` - The Fully Qualified Domain Name of the target resource that the session connects to.
 	* `target_resource_id` - The unique identifier (OCID) of the target resource (a Compute instance, for example) that the session connects to.
 	* `target_resource_operating_system_user_name` - The name of the user on the target resource operating system that the session uses for the connection.
 	* `target_resource_port` - The port number to connect to on the target resource.
@@ -93,7 +94,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Session
 	* `update` - (Defaults to 20 minutes), when updating the Session
 	* `delete` - (Defaults to 20 minutes), when destroying the Session

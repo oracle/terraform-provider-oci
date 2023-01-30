@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database
@@ -6,8 +6,8 @@ package database
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -70,6 +70,8 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
+	request.ExcludedFields = []oci_database.ListExadataInfrastructuresExcludedFieldsEnum{"multiRackConfigurationFile"}
+
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_database.ExadataInfrastructureSummaryLifecycleStateEnum(state.(string))
 	}
@@ -113,6 +115,12 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 		if r.ActivatedStorageCount != nil {
 			exadataInfrastructure["activated_storage_count"] = *r.ActivatedStorageCount
 		}
+
+		if r.AdditionalComputeCount != nil {
+			exadataInfrastructure["additional_compute_count"] = *r.AdditionalComputeCount
+		}
+
+		exadataInfrastructure["additional_compute_system_model"] = r.AdditionalComputeSystemModel
 
 		if r.AdditionalStorageCount != nil {
 			exadataInfrastructure["additional_storage_count"] = *r.AdditionalStorageCount
@@ -188,6 +196,14 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 			exadataInfrastructure["infini_band_network_cidr"] = *r.InfiniBandNetworkCIDR
 		}
 
+		if r.IsCpsOfflineReportEnabled != nil {
+			exadataInfrastructure["is_cps_offline_report_enabled"] = *r.IsCpsOfflineReportEnabled
+		}
+
+		if r.IsMultiRackDeployment != nil {
+			exadataInfrastructure["is_multi_rack_deployment"] = *r.IsMultiRackDeployment
+		}
+
 		if r.LifecycleDetails != nil {
 			exadataInfrastructure["lifecycle_details"] = *r.LifecycleDetails
 		}
@@ -220,11 +236,23 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 			exadataInfrastructure["memory_size_in_gbs"] = *r.MemorySizeInGBs
 		}
 
+		if r.MonthlyDbServerVersion != nil {
+			exadataInfrastructure["monthly_db_server_version"] = *r.MonthlyDbServerVersion
+		}
+
+		if r.MultiRackConfigurationFile != nil {
+			exadataInfrastructure["multi_rack_configuration_file"] = string(r.MultiRackConfigurationFile)
+		}
+
 		if r.Netmask != nil {
 			exadataInfrastructure["netmask"] = *r.Netmask
 		}
 
 		exadataInfrastructure["ntp_server"] = r.NtpServer
+
+		if r.RackSerialNumber != nil {
+			exadataInfrastructure["rack_serial_number"] = *r.RackSerialNumber
+		}
 
 		if r.Shape != nil {
 			exadataInfrastructure["shape"] = *r.Shape

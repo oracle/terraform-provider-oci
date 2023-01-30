@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -8,42 +8,42 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	repositoryMirrorRecordSingularDataSourceRepresentation = map[string]interface{}{
+	DevopsDevopsRepositoryMirrorRecordSingularDataSourceRepresentation = map[string]interface{}{
 		"mirror_record_type": acctest.Representation{RepType: acctest.Required, Create: `lastSuccessful`},
 		"repository_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_repository.test_repository.id}`},
 	}
 
-	repositoryMirrorRecordDataSourceRepresentation = map[string]interface{}{
+	DevopsDevopsRepositoryMirrorRecordDataSourceRepresentation = map[string]interface{}{
 		"repository_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_repository.test_repository.id}`},
 	}
 
-	MirrorRecordRepositoryConfigTriggerScheduleRepresentation = map[string]interface{}{
+	DevopsMirrorRecordRepositoryConfigTriggerScheduleRepresentation = map[string]interface{}{
 		"schedule_type": acctest.Representation{RepType: acctest.Required, Create: `NONE`},
 	}
 
-	devopsMirrorRecordRepositoryRepresentation = map[string]interface{}{
+	DevopsMirrorRecordRepositoryRepresentation = map[string]interface{}{
 		"name":                     acctest.Representation{RepType: acctest.Required, Create: `name`},
 		"project_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_project.test_project.id}`},
 		"repository_type":          acctest.Representation{RepType: acctest.Required, Create: `MIRRORED`},
-		"mirror_repository_config": acctest.RepresentationGroup{RepType: acctest.Required, Group: repositoryMirrorRecordRepositoryConfigRepresentation},
+		"mirror_repository_config": acctest.RepresentationGroup{RepType: acctest.Required, Group: DevopsRepositoryMirrorRecordRepositoryConfigRepresentation},
 	}
 
-	repositoryMirrorRecordRepositoryConfigRepresentation = map[string]interface{}{
+	DevopsRepositoryMirrorRecordRepositoryConfigRepresentation = map[string]interface{}{
 		"connector_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_connection.test_connection.id}`},
 		"repository_url":   acctest.Representation{RepType: acctest.Required, Create: `${var.mirror_repository_url}`},
-		"trigger_schedule": acctest.RepresentationGroup{RepType: acctest.Required, Group: MirrorRecordRepositoryConfigTriggerScheduleRepresentation},
+		"trigger_schedule": acctest.RepresentationGroup{RepType: acctest.Required, Group: DevopsMirrorRecordRepositoryConfigTriggerScheduleRepresentation},
 	}
 
-	devopsConnectionRepresentationMirrorRecord = map[string]interface{}{
+	DevopsConnectionRepresentationMirrorRecord = map[string]interface{}{
 		"access_token":    acctest.Representation{RepType: acctest.Required, Create: `${var.github_access_token_vault_id}`},
 		"connection_type": acctest.Representation{RepType: acctest.Required, Create: `GITHUB_ACCESS_TOKEN`},
 		"project_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_project.test_project.id}`},
@@ -53,10 +53,10 @@ var (
 		"freeform_tags":   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	RepositoryMirrorRecordResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, devopsProjectRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Required, acctest.Create, devopsMirrorRecordRepositoryRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_connection", "test_connection", acctest.Required, acctest.Create, devopsConnectionRepresentationMirrorRecord) +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, notificationTopicRepresentation)
+	DevopsRepositoryMirrorRecordResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Required, acctest.Create, DevopsMirrorRecordRepositoryRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_connection", "test_connection", acctest.Required, acctest.Create, DevopsConnectionRepresentationMirrorRecord) +
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation)
 )
 
 // issue-routing-tag: devops/default
@@ -86,8 +86,8 @@ func TestDevopsRepositoryMirrorRecordResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
-			Config: config + compartmentIdVariableStr + githubAccessTokenVaultIdStr + mirrorRepositoryUrlStr + RepositoryMirrorRecordResourceConfig +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repository_mirror_records", "test_repository_mirror_records", acctest.Required, acctest.Create, repositoryMirrorRecordDataSourceRepresentation),
+			Config: config + compartmentIdVariableStr + githubAccessTokenVaultIdStr + mirrorRepositoryUrlStr + DevopsRepositoryMirrorRecordResourceConfig +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repository_mirror_records", "test_repository_mirror_records", acctest.Required, acctest.Create, DevopsDevopsRepositoryMirrorRecordDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "repository_id"),
 
@@ -96,8 +96,8 @@ func TestDevopsRepositoryMirrorRecordResource_basic(t *testing.T) {
 		},
 		// verify singular datasource
 		{
-			Config: config + compartmentIdVariableStr + githubAccessTokenVaultIdStr + mirrorRepositoryUrlStr + RepositoryMirrorRecordResourceConfig +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repository_mirror_record", "test_repository_mirror_record", acctest.Required, acctest.Create, repositoryMirrorRecordSingularDataSourceRepresentation),
+			Config: config + compartmentIdVariableStr + githubAccessTokenVaultIdStr + mirrorRepositoryUrlStr + DevopsRepositoryMirrorRecordResourceConfig +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repository_mirror_record", "test_repository_mirror_record", acctest.Required, acctest.Create, DevopsDevopsRepositoryMirrorRecordSingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "mirror_record_type", "current"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "repository_id"),

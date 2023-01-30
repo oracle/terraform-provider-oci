@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -18,11 +18,15 @@ import (
 
 // AbstractDataOperationConfig The information about the data operation.
 type AbstractDataOperationConfig interface {
+
+	// this map is used for passing BIP report/REST parameter values.
+	GetDerivedAttributes() map[string]string
 }
 
 type abstractdataoperationconfig struct {
-	JsonData  []byte
-	ModelType string `json:"modelType"`
+	JsonData          []byte
+	DerivedAttributes map[string]string `mandatory:"false" json:"derivedAttributes"`
+	ModelType         string            `json:"modelType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -36,6 +40,7 @@ func (m *abstractdataoperationconfig) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	m.DerivedAttributes = s.Model.DerivedAttributes
 	m.ModelType = s.Model.ModelType
 
 	return err
@@ -61,6 +66,11 @@ func (m *abstractdataoperationconfig) UnmarshalPolymorphicJSON(data []byte) (int
 	default:
 		return *m, nil
 	}
+}
+
+//GetDerivedAttributes returns DerivedAttributes
+func (m abstractdataoperationconfig) GetDerivedAttributes() map[string]string {
+	return m.DerivedAttributes
 }
 
 func (m abstractdataoperationconfig) String() string {

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package client
@@ -14,6 +14,8 @@ func init() {
 	RegisterOracleClient("oci_apigateway.WorkRequestsClient", &OracleClient{InitClientFn: initApigatewayWorkRequestsClient})
 	RegisterOracleClient("oci_apigateway.DeploymentClient", &OracleClient{InitClientFn: initApigatewayDeploymentClient})
 	RegisterOracleClient("oci_apigateway.GatewayClient", &OracleClient{InitClientFn: initApigatewayGatewayClient})
+	RegisterOracleClient("oci_apigateway.SubscribersClient", &OracleClient{InitClientFn: initApigatewaySubscribersClient})
+	RegisterOracleClient("oci_apigateway.UsagePlansClient", &OracleClient{InitClientFn: initApigatewayUsagePlansClient})
 }
 
 func initApigatewayApiGatewayClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
@@ -94,4 +96,44 @@ func initApigatewayGatewayClient(configProvider oci_common.ConfigurationProvider
 
 func (m *OracleClients) GatewayClient() *oci_apigateway.GatewayClient {
 	return m.GetClient("oci_apigateway.GatewayClient").(*oci_apigateway.GatewayClient)
+}
+
+func initApigatewaySubscribersClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_apigateway.NewSubscribersClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) SubscribersClient() *oci_apigateway.SubscribersClient {
+	return m.GetClient("oci_apigateway.SubscribersClient").(*oci_apigateway.SubscribersClient)
+}
+
+func initApigatewayUsagePlansClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_apigateway.NewUsagePlansClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) UsagePlansClient() *oci_apigateway.UsagePlansClient {
+	return m.GetClient("oci_apigateway.UsagePlansClient").(*oci_apigateway.UsagePlansClient)
 }

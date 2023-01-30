@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -23,14 +23,14 @@ import (
 // CreateDrgAttachmentDetails The representation of CreateDrgAttachmentDetails
 type CreateDrgAttachmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DRG.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.
 	DrgId *string `mandatory:"true" json:"drgId"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DRG route table that is assigned to this attachment.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table that is assigned to this attachment.
 	// The DRG route table manages traffic inside the DRG.
 	DrgRouteTableId *string `mandatory:"false" json:"drgRouteTableId"`
 
@@ -46,7 +46,7 @@ type CreateDrgAttachmentDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the route table used by the DRG attachment.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table used by the DRG attachment.
 	// If you don't specify a route table here, the DRG attachment is created without an associated route
 	// table. The Networking service does NOT automatically associate the attached VCN's default route table
 	// with the DRG attachment.
@@ -56,8 +56,8 @@ type CreateDrgAttachmentDetails struct {
 	// This field is deprecated. Instead, use the networkDetails field to specify the VCN route table for this attachment.
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VCN.
-	// This field is deprecated. Instead, use the `networkDetails` field to specify the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the attached resource.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
+	// This field is deprecated. Instead, use the `networkDetails` field to specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the attached resource.
 	VcnId *string `mandatory:"false" json:"vcnId"`
 }
 

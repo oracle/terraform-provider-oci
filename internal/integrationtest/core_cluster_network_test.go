@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,93 +16,93 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	ClusterNetworkRequiredOnlyResource = ClusterNetworkResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Required, acctest.Create, clusterNetworkRepresentation)
+	CoreClusterNetworkRequiredOnlyResource = CoreClusterNetworkResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Required, acctest.Create, CoreClusterNetworkRepresentation)
 
-	ClusterNetworkResourceConfig = ClusterNetworkResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Optional, acctest.Update, clusterNetworkRepresentation)
+	CoreClusterNetworkResourceConfig = CoreClusterNetworkResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Optional, acctest.Update, CoreClusterNetworkRepresentation)
 
-	clusterNetworkSingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreClusterNetworkSingularDataSourceRepresentation = map[string]interface{}{
 		"cluster_network_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_cluster_network.test_cluster_network.id}`},
 	}
 
-	clusterNetworkDataSourceRepresentation = map[string]interface{}{
+	CoreCoreClusterNetworkDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `hpc-cluster-network`, Update: `displayName2`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: clusterNetworkDataSourceFilterRepresentation}}
-	clusterNetworkDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreClusterNetworkDataSourceFilterRepresentation}}
+	CoreClusterNetworkDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_cluster_network.test_cluster_network.id}`}},
 	}
 
-	clusterNetworkRepresentation = map[string]interface{}{
+	CoreClusterNetworkRepresentation = map[string]interface{}{
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"instance_pools":          acctest.RepresentationGroup{RepType: acctest.Required, Group: clusterNetworkInstancePoolsRepresentation},
-		"placement_configuration": acctest.RepresentationGroup{RepType: acctest.Required, Group: clusterNetworkPlacementConfigurationRepresentation},
+		"instance_pools":          acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreClusterNetworkInstancePoolsRepresentation},
+		"placement_configuration": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreClusterNetworkPlacementConfigurationRepresentation},
 		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `hpc-cluster-network`, Update: `displayName2`},
 		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
-	clusterNetworkInstancePoolsRepresentation = map[string]interface{}{
+	CoreClusterNetworkInstancePoolsRepresentation = map[string]interface{}{
 		"instance_configuration_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance_configuration.test_instance_configuration.id}`, Update: `${oci_core_instance_configuration.test_instance_configuration.id}`},
 		"size":                      acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
 		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `hpc-cluster-network-pool`, Update: `hpc-cluster-network-pool2`},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
-	clusterNetworkPlacementConfigurationRepresentation = map[string]interface{}{
+	CoreClusterNetworkPlacementConfigurationRepresentation = map[string]interface{}{
 		"availability_domain":    acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"primary_subnet_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"secondary_vnic_subnets": acctest.RepresentationGroup{RepType: acctest.Optional, Group: clusterNetworkPlacementConfigurationSecondaryVnicSubnetsRepresentation},
+		"secondary_vnic_subnets": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreClusterNetworkPlacementConfigurationSecondaryVnicSubnetsRepresentation},
 	}
-	clusterNetworkPlacementConfigurationSecondaryVnicSubnetsRepresentation = map[string]interface{}{
+	CoreClusterNetworkPlacementConfigurationSecondaryVnicSubnetsRepresentation = map[string]interface{}{
 		"subnet_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
 	}
-	instanceConfigurationInstanceDetailsClusterNetworkRepresentation = map[string]interface{}{
+	CoreClusterNetworkInstanceConfigurationInstanceDetailsClusterNetworkRepresentation = map[string]interface{}{
 		"instance_type":   acctest.Representation{RepType: acctest.Required, Create: `compute`},
-		"secondary_vnics": acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsSecondaryVnicsRepresentation},
-		"launch_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsLaunchDetailsClusterNetworkRepresentation},
+		"secondary_vnics": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsSecondaryVnicsRepresentation},
+		"launch_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreClusterNetworkInstanceConfigurationInstanceDetailsLaunchDetailsClusterNetworkRepresentation},
 	}
 
-	availabilityDomainDataSourceClusterNetworkRepresentation = map[string]interface{}{
+	CoreClusterNetworkAvailabilityDomainDataSourceClusterNetworkRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: availabilityDomainDataSourceFilterRepresentation}}
-	availabilityDomainDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreClusterNetworkAvailabilityDomainDataSourceFilterRepresentation}}
+	CoreClusterNetworkAvailabilityDomainDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `name`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${var.logical_ad}`}},
 	}
 
-	AvailabilityDomainClusterNetworkConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains", acctest.Required, acctest.Create, availabilityDomainDataSourceClusterNetworkRepresentation)
+	CoreClusterNetworkAvailabilityDomainClusterNetworkConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains", acctest.Required, acctest.Create, CoreClusterNetworkAvailabilityDomainDataSourceClusterNetworkRepresentation)
 
-	instanceConfigurationInstanceDetailsLaunchDetailsClusterNetworkRepresentation = acctest.RepresentationCopyWithRemovedProperties(acctest.GetMultipleUpdatedRepresenationCopy(
+	CoreClusterNetworkInstanceConfigurationInstanceDetailsLaunchDetailsClusterNetworkRepresentation = acctest.RepresentationCopyWithRemovedProperties(acctest.GetMultipleUpdatedRepresenationCopy(
 		[]string{"shape", "source_details"}, []interface{}{
 			acctest.Representation{RepType: acctest.Optional, Create: `BM.HPC2.36`},
-			acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.GetUpdatedRepresentationCopy("image_id", acctest.Representation{RepType: acctest.Optional, Create: `${var.image_id}`}, instanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation)},
-		}, instanceConfigurationInstanceDetailsLaunchDetailsRepresentation),
+			acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.GetUpdatedRepresentationCopy("image_id", acctest.Representation{RepType: acctest.Optional, Create: `${var.image_id}`}, CoreInstanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation)},
+		}, CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentation),
 		[]string{"shape_config", "dedicated_vm_host_id", "is_pv_encryption_in_transit_enabled", "preferred_maintenance_action"})
 
-	ClusterNetworkResourceRequiredOnlyDependencies = AvailabilityDomainClusterNetworkConfig + DefinedTagsDependencies + VcnResourceConfig + DhcpOptionsRequiredOnlyResource + AnotherSecurityListRequiredOnlyResource +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, routeTableRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Update, acctest.GetUpdatedRepresentationCopy("cidr_block", acctest.Representation{RepType: acctest.Required, Create: `10.0.2.0/24`}, subnetRepresentation)) +
+	ClusterNetworkResourceRequiredOnlyDependencies = CoreClusterNetworkAvailabilityDomainClusterNetworkConfig + DefinedTagsDependencies + CoreVcnResourceConfig + CoreDhcpOptionsRequiredOnlyResource + AnotherSecurityListRequiredOnlyResource +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, CoreRouteTableRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Update, acctest.GetUpdatedRepresentationCopy("cidr_block", acctest.Representation{RepType: acctest.Required, Create: `10.0.2.0/24`}, CoreSubnetRepresentation)) +
 		utils.OciImageIdsVariable +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, networkSecurityGroupRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation)
 
-	ClusterNetworkResourceDependencies = ClusterNetworkResourceRequiredOnlyDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsClusterNetworkRepresentation}, instanceConfigurationRepresentation))
+	CoreClusterNetworkResourceDependencies = ClusterNetworkResourceRequiredOnlyDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreClusterNetworkInstanceConfigurationInstanceDetailsClusterNetworkRepresentation}, CoreInstanceConfigurationRepresentation))
 
 	ClusterNetworkResourceDependenciesWithoutSecondaryVnic = ClusterNetworkResourceRequiredOnlyDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
-			acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithRemovedProperties(instanceConfigurationInstanceDetailsClusterNetworkRepresentation, []string{"secondary_vnics"})}, instanceConfigurationPoolRepresentation))
+			acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithRemovedProperties(CoreClusterNetworkInstanceConfigurationInstanceDetailsClusterNetworkRepresentation, []string{"secondary_vnics"})}, CoreInstancePoolConfigurationPoolRepresentation))
 )
 
 // issue-routing-tag: core/computeManagement
@@ -131,13 +131,13 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create" step in the test.
 	acctest.SaveConfigContent(config+logicalAdVariableStr+compartmentIdVariableStr+imageIdVariableStr+ClusterNetworkResourceDependenciesWithoutSecondaryVnic+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Required, acctest.Create, clusterNetworkRepresentation), "core", "clusterNetwork", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Required, acctest.Create, CoreClusterNetworkRepresentation), "core", "clusterNetwork", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreClusterNetworkDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependenciesWithoutSecondaryVnic +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Required, acctest.Create, clusterNetworkRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Required, acctest.Create, CoreClusterNetworkRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "instance_pools.#", "1"),
@@ -160,8 +160,8 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 		},
 		// verify Create with optionals
 		{
-			Config: config + logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Optional, acctest.Create, clusterNetworkRepresentation),
+			Config: config + logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + CoreClusterNetworkResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Optional, acctest.Create, CoreClusterNetworkRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "hpc-cluster-network"),
@@ -204,9 +204,9 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + logicalAdVariableStr + compartmentIdVariableStr + compartmentIdUVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies +
+			Config: config + logicalAdVariableStr + compartmentIdVariableStr + compartmentIdUVariableStr + imageIdVariableStr + CoreClusterNetworkResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(clusterNetworkRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CoreClusterNetworkRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -249,8 +249,8 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Optional, acctest.Update, clusterNetworkRepresentation),
+			Config: config + logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + CoreClusterNetworkResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Optional, acctest.Update, CoreClusterNetworkRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -291,9 +291,9 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cluster_networks", "test_cluster_networks", acctest.Optional, acctest.Update, clusterNetworkDataSourceRepresentation) +
-				logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Optional, acctest.Update, clusterNetworkRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cluster_networks", "test_cluster_networks", acctest.Optional, acctest.Update, CoreCoreClusterNetworkDataSourceRepresentation) +
+				logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + CoreClusterNetworkResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Optional, acctest.Update, CoreClusterNetworkRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -322,8 +322,8 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Required, acctest.Create, clusterNetworkSingularDataSourceRepresentation) +
-				logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Required, acctest.Create, CoreCoreClusterNetworkSingularDataSourceRepresentation) +
+				logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + CoreClusterNetworkResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_network_id"),
 
@@ -355,7 +355,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ClusterNetworkRequiredOnlyResource,
+			Config:                  config + CoreClusterNetworkRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

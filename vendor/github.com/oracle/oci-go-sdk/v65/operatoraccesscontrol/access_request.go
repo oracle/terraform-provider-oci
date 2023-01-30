@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -77,6 +77,9 @@ type AccessRequest struct {
 
 	// The current state of the AccessRequest.
 	LifecycleState AccessRequestLifecycleStatesEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// more in detail about the lifeCycleState.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// Time when the access request was created in RFC 3339 (https://tools.ietf.org/html/rfc3339)timestamp format. Example: '2020-05-22T21:10:29.600Z'
 	TimeOfCreation *common.SDKTime `mandatory:"false" json:"timeOfCreation"`

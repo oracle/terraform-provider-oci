@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,36 +22,36 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	JobRunRequiredOnlyResource = JobRunResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", acctest.Required, acctest.Create, jobRunRepresentation)
+	DatascienceJobRunRequiredOnlyResource = DatascienceJobRunResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", acctest.Required, acctest.Create, DatascienceJobRunRepresentation)
 
-	JobRunResourceConfig = JobRunResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", acctest.Optional, acctest.Update, jobRunRepresentation)
+	DatascienceJobRunResourceConfig = DatascienceJobRunResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", acctest.Optional, acctest.Update, DatascienceJobRunRepresentation)
 
-	jobRunSingularDataSourceRepresentation = map[string]interface{}{
+	DatascienceDatascienceJobRunSingularDataSourceRepresentation = map[string]interface{}{
 		"job_run_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_job_run.test_job_run.id}`},
 	}
 
-	jobRunDataSourceRepresentation = map[string]interface{}{
+	DatascienceDatascienceJobRunDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"created_by":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_datascience_job_run.test_job_run.created_by}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_datascience_job_run.test_job_run.id}`},
 		"job_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_datascience_job.test_job.id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `SUCCEEDED`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: jobRunDataSourceFilterRepresentation},
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceJobRunDataSourceFilterRepresentation},
 	}
 
-	jobRunDataSourceFilterRepresentation = map[string]interface{}{
+	DatascienceJobRunDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_datascience_job_run.test_job_run.id}`}},
 	}
 
-	jobRunRepresentation = map[string]interface{}{
+	DatascienceJobRunRepresentation = map[string]interface{}{
 		"compartment_id":                     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"job_id":                             acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_job.test_job.id}`},
 		"project_id":                         acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
@@ -59,10 +59,10 @@ var (
 		"display_name":                       acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":                      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"asynchronous":                       acctest.Representation{RepType: acctest.Required, Create: `false`},
-		"job_configuration_override_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: jobRunJobConfigurationOverrideDetailsRepresentation},
+		"job_configuration_override_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceJobRunJobConfigurationOverrideDetailsRepresentation},
 		"lifecycle":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreJobRunDefinedTagsChangesRepresentation},
 	}
-	jobRunJobConfigurationOverrideDetailsRepresentation = map[string]interface{}{
+	DatascienceJobRunJobConfigurationOverrideDetailsRepresentation = map[string]interface{}{
 		"job_type":                   acctest.Representation{RepType: acctest.Required, Create: `DEFAULT`},
 		"command_line_arguments":     acctest.Representation{RepType: acctest.Optional, Create: `commandLineArguments`},
 		"environment_variables":      acctest.Representation{RepType: acctest.Required, Create: map[string]string{"environmentVariables": "environmentVariables"}},
@@ -73,11 +73,11 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
-	JobRunResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", acctest.Required, acctest.Create, shapeDataSourceRepresentation) +
+	DatascienceJobRunResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", acctest.Required, acctest.Create, CoreCoreShapeDataSourceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_datascience_job", "test_job", acctest.Required, acctest.Create, mlJobWithArtifactNoLogging) +
-		acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, projectRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, DatascienceDatascienceJobShapeDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -98,8 +98,8 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+JobRunResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", acctest.Optional, acctest.Create, jobRunRepresentation), "datascience", "jobRun", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatascienceJobRunResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", acctest.Optional, acctest.Create, DatascienceJobRunRepresentation), "datascience", "jobRun", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { acctest.TestAccPreCheck(t) },
@@ -110,8 +110,8 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify Create
 			{
-				Config: config + compartmentIdVariableStr + JobRunResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", acctest.Required, acctest.Create, jobRunRepresentation),
+				Config: config + compartmentIdVariableStr + DatascienceJobRunResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", acctest.Required, acctest.Create, DatascienceJobRunRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "job_id"),
@@ -126,13 +126,13 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 
 			// delete before next Create
 			{
-				Config: config + compartmentIdVariableStr + JobRunResourceDependencies,
+				Config: config + compartmentIdVariableStr + DatascienceJobRunResourceDependencies,
 			},
 
 			// verify Create with optionals
 			{
-				Config: config + compartmentIdVariableStr + JobRunResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", acctest.Optional, acctest.Create, jobRunRepresentation),
+				Config: config + compartmentIdVariableStr + DatascienceJobRunResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", acctest.Optional, acctest.Create, DatascienceJobRunRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
@@ -165,8 +165,8 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + JobRunResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", acctest.Optional, acctest.Update, jobRunRepresentation),
+				Config: config + compartmentIdVariableStr + DatascienceJobRunResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", acctest.Optional, acctest.Update, DatascienceJobRunRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
@@ -198,9 +198,9 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_job_runs", "test_job_runs", acctest.Optional, acctest.Update, jobRunDataSourceRepresentation) +
-					compartmentIdVariableStr + JobRunResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", acctest.Optional, acctest.Update, jobRunRepresentation),
+					acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_job_runs", "test_job_runs", acctest.Optional, acctest.Update, DatascienceDatascienceJobRunDataSourceRepresentation) +
+					compartmentIdVariableStr + DatascienceJobRunResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", acctest.Optional, acctest.Update, DatascienceJobRunRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "created_by"),
@@ -226,8 +226,8 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", acctest.Required, acctest.Create, jobRunSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + JobRunResourceConfig,
+					acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", acctest.Required, acctest.Create, DatascienceDatascienceJobRunSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + DatascienceJobRunResourceConfig,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "job_run_id"),
 
@@ -250,7 +250,7 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config + JobRunRequiredOnlyResource,
+				Config:            config + DatascienceJobRunRequiredOnlyResource,
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
@@ -317,7 +317,7 @@ func init() {
 
 func sweepDatascienceJobRunResource(compartment string) error {
 	dataScienceClient := acctest.GetTestClients(&schema.ResourceData{}).DataScienceClient()
-	jobRunIds, err := getJobRunIds(compartment)
+	jobRunIds, err := getDatascienceJobRunIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -333,14 +333,14 @@ func sweepDatascienceJobRunResource(compartment string) error {
 				fmt.Printf("Error deleting JobRun %s %s, It is possible that the resource is already deleted. Please verify manually \n", jobRunId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &jobRunId, jobRunSweepWaitCondition, time.Duration(3*time.Minute),
-				jobRunSweepResponseFetchOperation, "datascience", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &jobRunId, DatascienceJobRunSweepWaitCondition, time.Duration(3*time.Minute),
+				DatascienceJobRunSweepResponseFetchOperation, "datascience", true)
 		}
 	}
 	return nil
 }
 
-func getJobRunIds(compartment string) ([]string, error) {
+func getDatascienceJobRunIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "JobRunId")
 	if ids != nil {
 		return ids, nil
@@ -365,7 +365,7 @@ func getJobRunIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func jobRunSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DatascienceJobRunSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if jobRunResponse, ok := response.Response.(oci_datascience.GetJobRunResponse); ok {
 		return jobRunResponse.LifecycleState != oci_datascience.JobRunLifecycleStateDeleted
@@ -373,7 +373,7 @@ func jobRunSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func jobRunSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DatascienceJobRunSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DataScienceClient().GetJobRun(context.Background(), oci_datascience.GetJobRunRequest{
 		JobRunId: resourceId,
 		RequestMetadata: common.RequestMetadata{

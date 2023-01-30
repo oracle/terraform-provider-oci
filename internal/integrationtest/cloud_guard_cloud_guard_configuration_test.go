@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -8,30 +8,30 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
 )
 
 var (
-	CloudGuardConfigurationRequiredOnlyResource = CloudGuardConfigurationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", acctest.Required, acctest.Create, cloudGuardConfigurationRepresentation)
+	CloudGuardCloudGuardConfigurationRequiredOnlyResource = CloudGuardCloudGuardConfigurationResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", acctest.Required, acctest.Create, CloudGuardCloudGuardConfigurationRepresentation)
 
-	CloudGuardConfigurationResourceConfig = CloudGuardConfigurationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", acctest.Optional, acctest.Update, cloudGuardConfigurationRepresentation)
+	CloudGuardCloudGuardConfigurationResourceConfig = CloudGuardCloudGuardConfigurationResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", acctest.Optional, acctest.Update, CloudGuardCloudGuardConfigurationRepresentation)
 
-	cloudGuardConfigurationSingularDataSourceRepresentation = map[string]interface{}{
+	CloudGuardCloudGuardCloudGuardConfigurationSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
 	//Has to be a valid reporting region where the tenant is subscribed to
-	reportingRegion                       = utils.GetEnvSettingWithDefault("region", "us-phoenix-1")
-	cloudGuardConfigurationRepresentation = map[string]interface{}{
+	reportingRegion                                 = utils.GetEnvSettingWithDefault("region", "us-phoenix-1")
+	CloudGuardCloudGuardConfigurationRepresentation = map[string]interface{}{
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"reporting_region": acctest.Representation{RepType: acctest.Required, Create: reportingRegion, Update: reportingRegion},
 		//Only "ENABLED" and "DISABLED" status fields are allowed, the latter will off-board the customer; soft deleting CP components and disallowing ops which we dont want.
@@ -39,7 +39,7 @@ var (
 		"self_manage_resources": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: nil},
 	}
 
-	CloudGuardConfigurationResourceDependencies = ""
+	CloudGuardCloudGuardConfigurationResourceDependencies = ""
 )
 
 // issue-routing-tag: cloud_guard/default
@@ -59,14 +59,14 @@ func TestCloudGuardCloudGuardConfigurationResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+CloudGuardConfigurationResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", acctest.Optional, acctest.Create, cloudGuardConfigurationRepresentation), "cloudguard", "cloudGuardConfiguration", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CloudGuardCloudGuardConfigurationResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", acctest.Optional, acctest.Create, CloudGuardCloudGuardConfigurationRepresentation), "cloudguard", "cloudGuardConfiguration", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + CloudGuardConfigurationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", acctest.Required, acctest.Create, cloudGuardConfigurationRepresentation),
+			Config: config + compartmentIdVariableStr + CloudGuardCloudGuardConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", acctest.Required, acctest.Create, CloudGuardCloudGuardConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "reporting_region", reportingRegion),
@@ -81,12 +81,12 @@ func TestCloudGuardCloudGuardConfigurationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + CloudGuardConfigurationResourceDependencies,
+			Config: config + compartmentIdVariableStr + CloudGuardCloudGuardConfigurationResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + CloudGuardConfigurationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", acctest.Optional, acctest.Create, cloudGuardConfigurationRepresentation),
+			Config: config + compartmentIdVariableStr + CloudGuardCloudGuardConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", acctest.Optional, acctest.Create, CloudGuardCloudGuardConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "reporting_region", reportingRegion),
@@ -107,8 +107,8 @@ func TestCloudGuardCloudGuardConfigurationResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + CloudGuardConfigurationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", acctest.Optional, acctest.Update, cloudGuardConfigurationRepresentation),
+			Config: config + compartmentIdVariableStr + CloudGuardCloudGuardConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", acctest.Optional, acctest.Update, CloudGuardCloudGuardConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "reporting_region", reportingRegion),
@@ -127,8 +127,8 @@ func TestCloudGuardCloudGuardConfigurationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", acctest.Required, acctest.Create, cloudGuardConfigurationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + CloudGuardConfigurationResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", acctest.Required, acctest.Create, CloudGuardCloudGuardCloudGuardConfigurationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CloudGuardCloudGuardConfigurationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 

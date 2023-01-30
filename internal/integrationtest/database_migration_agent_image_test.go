@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,18 +7,18 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	agentImageDataSourceRepresentation = map[string]interface{}{}
+	DatabaseMigrationAgentImageDataSourceRepresentation = map[string]interface{}{}
 
-	AgentImageResourceConfig = ""
+	DatabaseMigrationAgentImageResourceConfig = ""
 )
 
 // issue-routing-tag: database_migration/default
@@ -39,8 +39,8 @@ func TestDatabaseMigrationAgentImageResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_agent_images", "test_agent_images", acctest.Required, acctest.Create, agentImageDataSourceRepresentation) +
-				compartmentIdVariableStr + AgentImageResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_agent_images", "test_agent_images", acctest.Required, acctest.Create, DatabaseMigrationAgentImageDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseMigrationAgentImageResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 
 				resource.TestCheckResourceAttrSet(datasourceName, "agent_image_collection.#"),

@@ -50,13 +50,13 @@ The following attributes are exported:
 * `name` - The name of the User.
 * `oracle_maintained` - Indicates whether the user was created and is maintained by Oracle-supplied scripts (such as catalog.sql or catproc.sql).
 * `password_versions` - The list of existing versions of the password hashes (also known as "verifiers") for the account.
-* `profile` - The User resource profile name.
+* `profile` - The profile name of the user.
 * `proxy_connect` - Indicates whether a user can connect directly (N) or whether the account can only be proxied (Y) by users who have proxy privileges for this account (that is, by users who have been granted the "connect through" privilege for this account). 
 * `status` - The status of the user account.
 * `temp_tablespace` - The name of the default tablespace for temporary tables or the name of a tablespace group.
 * `time_created` - The date and time the user was created.
 * `time_expiring` - The date and time of the expiration of the user account.
 * `time_last_login` - The date and time of the last user login. This column is not populated when a user connects to the database with administrative privileges, that is, AS { SYSASM | SYSBACKUP | SYSDBA | SYSDG | SYSOPER | SYSRAC | SYSKM }. 
-* `time_locked` - The date the account was locked if account status was LOCKED.
+* `time_locked` - The date the account was locked, if the status of the account is LOCKED.
 * `time_password_changed` - The date and time when the user password was last set. This column is populated only when the value of the AUTHENTICATION_TYPE column is PASSWORD. Otherwise, this column is null. 
 

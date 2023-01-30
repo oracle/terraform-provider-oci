@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -95,9 +95,10 @@ func (client *NosqlClient) ConfigurationProvider() *common.ConfigurationProvider
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/ChangeTableCompartment.go.html to see an example of how to use ChangeTableCompartment API.
+// A default retry strategy applies to this operation ChangeTableCompartment()
 func (client NosqlClient) ChangeTableCompartment(ctx context.Context, request ChangeTableCompartmentRequest) (response ChangeTableCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -157,9 +158,10 @@ func (client NosqlClient) changeTableCompartment(ctx context.Context, request co
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/CreateIndex.go.html to see an example of how to use CreateIndex API.
+// A default retry strategy applies to this operation CreateIndex()
 func (client NosqlClient) CreateIndex(ctx context.Context, request CreateIndexRequest) (response CreateIndexResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -219,9 +221,10 @@ func (client NosqlClient) createIndex(ctx context.Context, request common.OCIReq
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/CreateTable.go.html to see an example of how to use CreateTable API.
+// A default retry strategy applies to this operation CreateTable()
 func (client NosqlClient) CreateTable(ctx context.Context, request CreateTableRequest) (response CreateTableResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -509,9 +512,10 @@ func (client NosqlClient) deleteWorkRequest(ctx context.Context, request common.
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/GetIndex.go.html to see an example of how to use GetIndex API.
+// A default retry strategy applies to this operation GetIndex()
 func (client NosqlClient) GetIndex(ctx context.Context, request GetIndexRequest) (response GetIndexResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -566,9 +570,10 @@ func (client NosqlClient) getIndex(ctx context.Context, request common.OCIReques
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/GetRow.go.html to see an example of how to use GetRow API.
+// A default retry strategy applies to this operation GetRow()
 func (client NosqlClient) GetRow(ctx context.Context, request GetRowRequest) (response GetRowResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -623,9 +628,10 @@ func (client NosqlClient) getRow(ctx context.Context, request common.OCIRequest,
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/GetTable.go.html to see an example of how to use GetTable API.
+// A default retry strategy applies to this operation GetTable()
 func (client NosqlClient) GetTable(ctx context.Context, request GetTableRequest) (response GetTableResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -680,9 +686,10 @@ func (client NosqlClient) getTable(ctx context.Context, request common.OCIReques
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client NosqlClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -737,9 +744,10 @@ func (client NosqlClient) getWorkRequest(ctx context.Context, request common.OCI
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/ListIndexes.go.html to see an example of how to use ListIndexes API.
+// A default retry strategy applies to this operation ListIndexes()
 func (client NosqlClient) ListIndexes(ctx context.Context, request ListIndexesRequest) (response ListIndexesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -794,9 +802,10 @@ func (client NosqlClient) listIndexes(ctx context.Context, request common.OCIReq
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/ListTableUsage.go.html to see an example of how to use ListTableUsage API.
+// A default retry strategy applies to this operation ListTableUsage()
 func (client NosqlClient) ListTableUsage(ctx context.Context, request ListTableUsageRequest) (response ListTableUsageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -851,9 +860,10 @@ func (client NosqlClient) listTableUsage(ctx context.Context, request common.OCI
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/ListTables.go.html to see an example of how to use ListTables API.
+// A default retry strategy applies to this operation ListTables()
 func (client NosqlClient) ListTables(ctx context.Context, request ListTablesRequest) (response ListTablesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -908,9 +918,10 @@ func (client NosqlClient) listTables(ctx context.Context, request common.OCIRequ
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client NosqlClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -965,9 +976,10 @@ func (client NosqlClient) listWorkRequestErrors(ctx context.Context, request com
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client NosqlClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1022,9 +1034,10 @@ func (client NosqlClient) listWorkRequestLogs(ctx context.Context, request commo
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client NosqlClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1079,9 +1092,10 @@ func (client NosqlClient) listWorkRequests(ctx context.Context, request common.O
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/PrepareStatement.go.html to see an example of how to use PrepareStatement API.
+// A default retry strategy applies to this operation PrepareStatement()
 func (client NosqlClient) PrepareStatement(ctx context.Context, request PrepareStatementRequest) (response PrepareStatementResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1193,9 +1207,10 @@ func (client NosqlClient) query(ctx context.Context, request common.OCIRequest, 
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/SummarizeStatement.go.html to see an example of how to use SummarizeStatement API.
+// A default retry strategy applies to this operation SummarizeStatement()
 func (client NosqlClient) SummarizeStatement(ctx context.Context, request SummarizeStatementRequest) (response SummarizeStatementResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

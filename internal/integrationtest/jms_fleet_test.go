@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,50 +22,75 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_jms "github.com/oracle/oci-go-sdk/v65/jms"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	FleetRequiredOnlyResource = FleetResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", acctest.Required, acctest.Create, fleetRepresentation)
+	JmsFleetResourceDependencies = DefinedTagsDependencies
 
-	FleetResourceConfig = FleetResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", acctest.Optional, acctest.Update, fleetRepresentation)
+	// before running tests, ensure to set up environment variables used below.
+	JmsFleetCompartmentId         = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	JmsFleetCompartmentIdToUpdate = utils.GetEnvSettingWithBlankDefault("compartment_id_for_update")
+	JmsFleetLogGroupId            = utils.GetEnvSettingWithBlankDefault("fleet_log_group_ocid")
+	JmsFleetInventoryLogId        = utils.GetEnvSettingWithBlankDefault("fleet_inventory_log_ocid")
+	JmsFleetOperationLogId        = utils.GetEnvSettingWithBlankDefault("fleet_operation_log_ocid")
 
-	fleetSingularDataSourceRepresentation = map[string]interface{}{
+	JmsFleetRepresentation = map[string]interface{}{
+		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: JmsFleetCompartmentId},
+		"display_name":                 acctest.Representation{RepType: acctest.Required, Create: `Created Fleet`, Update: `displayName2`},
+		"description":                  acctest.Representation{RepType: acctest.Optional, Create: `Created Fleet`, Update: `description2`},
+		"is_advanced_features_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+		"lifecycle": acctest.RepresentationGroup{
+			RepType: acctest.Required,
+			Group: map[string]interface{}{
+				"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+			},
+		},
+		"freeform_tags": acctest.Representation{
+			RepType: acctest.Optional,
+			Create:  map[string]string{"bar-key": "value"},
+			Update:  map[string]string{"Department": "Accounting"},
+		},
+		"inventory_log": acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
+			"log_group_id": acctest.Representation{RepType: acctest.Required, Create: JmsFleetLogGroupId, Update: JmsFleetLogGroupId},
+			"log_id":       acctest.Representation{RepType: acctest.Required, Create: JmsFleetInventoryLogId, Update: JmsFleetInventoryLogId},
+		}},
+		"operation_log": acctest.RepresentationGroup{RepType: acctest.Optional, Group: map[string]interface{}{
+			"log_group_id": acctest.Representation{RepType: acctest.Required, Create: JmsFleetLogGroupId, Update: JmsFleetLogGroupId},
+			"log_id":       acctest.Representation{RepType: acctest.Required, Create: JmsFleetOperationLogId, Update: JmsFleetOperationLogId},
+		}},
+		"defined_tags": acctest.Representation{
+			RepType: acctest.Optional,
+			Create:  `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`,
+			Update:  `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`,
+		},
+	}
+
+	JmsFeetRepresentationWithAnotherCompartment = acctest.RepresentationCopyWithNewProperties(
+		JmsFleetRepresentation,
+		map[string]interface{}{
+			"compartment_id": acctest.Representation{RepType: acctest.Required, Create: JmsFleetCompartmentIdToUpdate},
+		},
+	)
+
+	JmsFleetSingularDataSourceRepresentation = map[string]interface{}{
 		"fleet_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_jms_fleet.test_fleet.id}`},
 	}
 
-	fleetDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `Created Fleet`, Update: `displayName2`},
-		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_jms_fleet.test_fleet.id}`},
-		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: fleetDataSourceFilterRepresentation}}
-	fleetDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
-		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_jms_fleet.test_fleet.id}`}},
+	JmsFleetDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":        acctest.Representation{RepType: acctest.Optional, Create: JmsFleetCompartmentId},
+		"display_name":          acctest.Representation{RepType: acctest.Optional, Create: `Created Fleet`, Update: `displayName2`},
+		"display_name_contains": acctest.Representation{RepType: acctest.Optional, Create: `displayName2`},
+		"id":                    acctest.Representation{RepType: acctest.Optional, Create: `${oci_jms_fleet.test_fleet.id}`},
+		"state":                 acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"filter": acctest.RepresentationGroup{
+			RepType: acctest.Required,
+			Group: map[string]interface{}{
+				"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
+				"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_jms_fleet.test_fleet.id}`}},
+			},
+		},
 	}
-
-	fleetRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `Created Fleet`, Update: `displayName2`},
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    acctest.Representation{RepType: acctest.Optional, Create: `Created Fleet`, Update: `description2`},
-		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"inventory_log":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: fleetInventoryLogRepresentation},
-		"operation_log":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: fleetOperationLogRepresentation},
-	}
-	fleetInventoryLogRepresentation = map[string]interface{}{
-		"log_group_id": acctest.Representation{RepType: acctest.Required, Create: `test-inventory-log-group-id`, Update: `update-inventory-log-group-id`},
-		"log_id":       acctest.Representation{RepType: acctest.Required, Create: `test-inventory-log-id`, Update: `update-inventory-log-id`},
-	}
-	fleetOperationLogRepresentation = map[string]interface{}{
-		"log_group_id": acctest.Representation{RepType: acctest.Required, Create: `test-operation-log-group-id`, Update: `update-operation-log-group-id`},
-		"log_id":       acctest.Representation{RepType: acctest.Required, Create: `test-operation-log-id`, Update: `update-operation-log-id`},
-	}
-
-	FleetResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: jms/default
@@ -75,29 +100,45 @@ func TestJmsFleetResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-
-	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
-	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
-
 	resourceName := "oci_jms_fleet.test_fleet"
 	datasourceName := "data.oci_jms_fleets.test_fleets"
 	singularDatasourceName := "data.oci_jms_fleet.test_fleet"
 
 	var resId, resId2 string
-	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+FleetResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", acctest.Optional, acctest.Create, fleetRepresentation), "jms", "fleet", t)
+	// Save TF content to Create resource with optional properties.
+	// This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	acctest.SaveConfigContent(config+
+		JmsFleetResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap(
+			"oci_jms_fleet",
+			"test_fleet",
+			acctest.Optional,
+			acctest.Create,
+			JmsFleetRepresentation,
+		),
+		"jms",
+		"fleet",
+		t,
+	)
 
 	acctest.ResourceTest(t, testAccCheckJmsFleetDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + FleetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", acctest.Required, acctest.Create, fleetRepresentation),
+			Config: config +
+				JmsFleetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap(
+					"oci_jms_fleet",
+					"test_fleet",
+					acctest.Required,
+					acctest.Create,
+					JmsFleetRepresentation,
+				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", JmsFleetCompartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Created Fleet"),
+				resource.TestCheckResourceAttr(resourceName, "inventory_log.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "inventory_log.0.log_group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "inventory_log.0.log_id"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -106,20 +147,29 @@ func TestJmsFleetResource_basic(t *testing.T) {
 			),
 		},
 
-		// delete before next Create
+		// delete before next create
 		{
-			Config: config + compartmentIdVariableStr + FleetResourceDependencies,
+			Config: config + JmsFleetResourceDependencies,
 		},
+
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + FleetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", acctest.Optional, acctest.Create, fleetRepresentation),
+			Config: config +
+				JmsFleetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap(
+					"oci_jms_fleet",
+					"test_fleet",
+					acctest.Optional,
+					acctest.Create,
+					JmsFleetRepresentation,
+				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "approximate_application_count"),
 				resource.TestCheckResourceAttrSet(resourceName, "approximate_installation_count"),
+				resource.TestCheckResourceAttrSet(resourceName, "approximate_java_server_count"),
 				resource.TestCheckResourceAttrSet(resourceName, "approximate_jre_count"),
 				resource.TestCheckResourceAttrSet(resourceName, "approximate_managed_instance_count"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", JmsFleetCompartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "Created Fleet"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Created Fleet"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -127,6 +177,7 @@ func TestJmsFleetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "inventory_log.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "inventory_log.0.log_group_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "inventory_log.0.log_id"),
+				resource.TestCheckResourceAttr(resourceName, "is_advanced_features_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "operation_log.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "operation_log.0.log_group_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "operation_log.0.log_id"),
@@ -136,7 +187,7 @@ func TestJmsFleetResource_basic(t *testing.T) {
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &JmsFleetCompartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -147,29 +198,17 @@ func TestJmsFleetResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + FleetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(fleetRepresentation, map[string]interface{}{
-						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
-					})),
+			Config: config +
+				JmsFleetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap(
+					"oci_jms_fleet",
+					"test_fleet",
+					acctest.Optional,
+					acctest.Create,
+					JmsFeetRepresentationWithAnotherCompartment,
+				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "approximate_application_count"),
-				resource.TestCheckResourceAttrSet(resourceName, "approximate_installation_count"),
-				resource.TestCheckResourceAttrSet(resourceName, "approximate_jre_count"),
-				resource.TestCheckResourceAttrSet(resourceName, "approximate_managed_instance_count"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "description", "Created Fleet"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "Created Fleet"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "inventory_log.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "inventory_log.0.log_group_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "inventory_log.0.log_id"),
-				resource.TestCheckResourceAttr(resourceName, "operation_log.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "operation_log.0.log_group_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "operation_log.0.log_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", JmsFleetCompartmentIdToUpdate),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -183,26 +222,19 @@ func TestJmsFleetResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + FleetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", acctest.Optional, acctest.Update, fleetRepresentation),
+			Config: config +
+				JmsFleetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap(
+					"oci_jms_fleet",
+					"test_fleet",
+					acctest.Optional,
+					acctest.Update,
+					JmsFleetRepresentation,
+				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "approximate_application_count"),
-				resource.TestCheckResourceAttrSet(resourceName, "approximate_installation_count"),
-				resource.TestCheckResourceAttrSet(resourceName, "approximate_jre_count"),
-				resource.TestCheckResourceAttrSet(resourceName, "approximate_managed_instance_count"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", JmsFleetCompartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "inventory_log.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "inventory_log.0.log_group_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "inventory_log.0.log_id"),
-				resource.TestCheckResourceAttr(resourceName, "operation_log.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "operation_log.0.log_group_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "operation_log.0.log_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -213,38 +245,69 @@ func TestJmsFleetResource_basic(t *testing.T) {
 				},
 			),
 		},
+
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_jms_fleets", "test_fleets", acctest.Optional, acctest.Update, fleetDataSourceRepresentation) +
-				compartmentIdVariableStr + FleetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", acctest.Optional, acctest.Update, fleetRepresentation),
+				JmsFleetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap(
+					"oci_jms_fleet",
+					"test_fleet",
+					acctest.Optional,
+					acctest.Update,
+					JmsFleetRepresentation,
+				) +
+				acctest.GenerateDataSourceFromRepresentationMap(
+					"oci_jms_fleets",
+					"test_fleets",
+					acctest.Optional,
+					acctest.Update,
+					JmsFleetDataSourceRepresentation,
+				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", JmsFleetCompartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttrSet(datasourceName, "id"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name_contains", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-
 				resource.TestCheckResourceAttr(datasourceName, "fleet_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "fleet_collection.0.items.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 			),
 		},
+
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_jms_fleet", "test_fleet", acctest.Required, acctest.Create, fleetSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + FleetResourceConfig,
+				JmsFleetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap(
+					"oci_jms_fleet",
+					"test_fleet",
+					acctest.Optional,
+					acctest.Update,
+					JmsFleetRepresentation,
+				) +
+				acctest.GenerateDataSourceFromRepresentationMap(
+					"oci_jms_fleet",
+					"test_fleet",
+					acctest.Required,
+					acctest.Create,
+					JmsFleetSingularDataSourceRepresentation,
+				),
+
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "fleet_id"),
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_application_count"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_installation_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_java_server_count"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_jre_count"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_managed_instance_count"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", JmsFleetCompartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "inventory_log.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "operation_log.#", "1"),
@@ -252,9 +315,18 @@ func TestJmsFleetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 			),
 		},
+
 		// verify resource import
 		{
-			Config:                  config + FleetRequiredOnlyResource,
+			Config: config +
+				JmsFleetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap(
+					"oci_jms_fleet",
+					"test_fleet",
+					acctest.Required,
+					acctest.Create,
+					JmsFleetRepresentation,
+				),
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -318,7 +390,7 @@ func init() {
 
 func sweepJmsFleetResource(compartment string) error {
 	javaManagementServiceClient := acctest.GetTestClients(&schema.ResourceData{}).JavaManagementServiceClient()
-	fleetIds, err := getFleetIds(compartment)
+	fleetIds, err := getJmsFleetIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -334,14 +406,14 @@ func sweepJmsFleetResource(compartment string) error {
 				fmt.Printf("Error deleting Fleet %s %s, It is possible that the resource is already deleted. Please verify manually \n", fleetId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &fleetId, fleetSweepWaitCondition, time.Duration(3*time.Minute),
-				fleetSweepResponseFetchOperation, "jms", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &fleetId, JmsFleetSweepWaitCondition, time.Duration(3*time.Minute),
+				JmsFleetSweepResponseFetchOperation, "jms", true)
 		}
 	}
 	return nil
 }
 
-func getFleetIds(compartment string) ([]string, error) {
+func getJmsFleetIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "FleetId")
 	if ids != nil {
 		return ids, nil
@@ -366,7 +438,7 @@ func getFleetIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func fleetSweepWaitCondition(response common.OCIOperationResponse) bool {
+func JmsFleetSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if fleetResponse, ok := response.Response.(oci_jms.GetFleetResponse); ok {
 		return fleetResponse.LifecycleState != oci_jms.LifecycleStateDeleted
@@ -374,7 +446,7 @@ func fleetSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func fleetSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func JmsFleetSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.JavaManagementServiceClient().GetFleet(context.Background(), oci_jms.GetFleetRequest{
 		FleetId: resourceId,
 		RequestMetadata: common.RequestMetadata{

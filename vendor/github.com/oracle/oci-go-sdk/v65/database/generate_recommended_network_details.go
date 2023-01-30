@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -26,6 +26,9 @@ type GenerateRecommendedNetworkDetails struct {
 
 	// List of parameters for generation of the client and backup networks.
 	Networks []InfoForNetworkGenDetails `mandatory:"true" json:"networks"`
+
+	// The list of Db server Ids to configure network.
+	DbServers []string `mandatory:"false" json:"dbServers"`
 
 	// The SCAN TCPIP port. Default is 1521.
 	ScanListenerPortTcp *int `mandatory:"false" json:"scanListenerPortTcp"`

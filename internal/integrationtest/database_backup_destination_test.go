@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,30 +22,30 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	BackupDestinationRequiredOnlyResource = BackupDestinationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Required, acctest.Create, backupDestinationRepresentation)
+	DatabaseBackupDestinationRequiredOnlyResource = DatabaseBackupDestinationResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Required, acctest.Create, DatabaseBackupDestinationRepresentation)
 
-	BackupDestinationResourceConfig = BackupDestinationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Update, backupDestinationRepresentation)
+	DatabaseBackupDestinationResourceConfig = DatabaseBackupDestinationResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Update, DatabaseBackupDestinationRepresentation)
 
-	backupDestinationSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseBackupDestinationSingularDataSourceRepresentation = map[string]interface{}{
 		"backup_destination_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_backup_destination.test_backup_destination.id}`},
 	}
 
-	backupDestinationDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseBackupDestinationDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"type":           acctest.Representation{RepType: acctest.Optional, Create: `RECOVERY_APPLIANCE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: backupDestinationDataSourceFilterRepresentation}}
-	backupDestinationDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseBackupDestinationDataSourceFilterRepresentation}}
+	DatabaseBackupDestinationDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_backup_destination.test_backup_destination.id}`}},
 	}
 
-	backupDestinationRepresentation = map[string]interface{}{
+	DatabaseBackupDestinationRepresentation = map[string]interface{}{
 		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":      acctest.Representation{RepType: acctest.Required, Create: `Recovery Appliance1`},
 		"type":              acctest.Representation{RepType: acctest.Required, Create: `RECOVERY_APPLIANCE`},
@@ -55,7 +55,7 @@ var (
 		"vpc_users":         acctest.Representation{RepType: acctest.Optional, Create: []string{`bkupUser1`}, Update: []string{`bkupUser1`, `bkupUser2`}},
 	}
 
-	BackupDestinationResourceDependencies = DefinedTagsDependencies
+	DatabaseBackupDestinationResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: database/ExaCC
@@ -77,14 +77,14 @@ func TestDatabaseBackupDestinationResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+BackupDestinationResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Create, backupDestinationRepresentation), "database", "backupDestination", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseBackupDestinationResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Create, DatabaseBackupDestinationRepresentation), "database", "backupDestination", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseBackupDestinationDestroy, []resource.TestStep{
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + BackupDestinationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Create, backupDestinationRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseBackupDestinationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Create, DatabaseBackupDestinationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "connection_string", "connectionString"),
@@ -107,9 +107,9 @@ func TestDatabaseBackupDestinationResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + BackupDestinationResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseBackupDestinationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(backupDestinationRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(DatabaseBackupDestinationRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -132,8 +132,8 @@ func TestDatabaseBackupDestinationResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + BackupDestinationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Update, backupDestinationRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseBackupDestinationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Update, DatabaseBackupDestinationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "connection_string", "connectionString2"),
@@ -154,9 +154,9 @@ func TestDatabaseBackupDestinationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_backup_destinations", "test_backup_destinations", acctest.Optional, acctest.Update, backupDestinationDataSourceRepresentation) +
-				compartmentIdVariableStr + BackupDestinationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Update, backupDestinationRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_backup_destinations", "test_backup_destinations", acctest.Optional, acctest.Update, DatabaseDatabaseBackupDestinationDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseBackupDestinationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Update, DatabaseBackupDestinationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
@@ -176,8 +176,8 @@ func TestDatabaseBackupDestinationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Required, acctest.Create, backupDestinationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + BackupDestinationResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Required, acctest.Create, DatabaseDatabaseBackupDestinationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseBackupDestinationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_destination_id"),
 
@@ -195,7 +195,7 @@ func TestDatabaseBackupDestinationResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + BackupDestinationRequiredOnlyResource,
+			Config:            config + DatabaseBackupDestinationRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -261,7 +261,7 @@ func init() {
 
 func sweepDatabaseBackupDestinationResource(compartment string) error {
 	databaseClient := acctest.GetTestClients(&schema.ResourceData{}).DatabaseClient()
-	backupDestinationIds, err := getBackupDestinationIds(compartment)
+	backupDestinationIds, err := getDatabaseBackupDestinationIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -277,14 +277,14 @@ func sweepDatabaseBackupDestinationResource(compartment string) error {
 				fmt.Printf("Error deleting BackupDestination %s %s, It is possible that the resource is already deleted. Please verify manually \n", backupDestinationId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &backupDestinationId, backupDestinationSweepWaitCondition, time.Duration(3*time.Minute),
-				backupDestinationSweepResponseFetchOperation, "database", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &backupDestinationId, DatabaseBackupDestinationSweepWaitCondition, time.Duration(3*time.Minute),
+				DatabaseBackupDestinationSweepResponseFetchOperation, "database", true)
 		}
 	}
 	return nil
 }
 
-func getBackupDestinationIds(compartment string) ([]string, error) {
+func getDatabaseBackupDestinationIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "BackupDestinationId")
 	if ids != nil {
 		return ids, nil
@@ -308,7 +308,7 @@ func getBackupDestinationIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func backupDestinationSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DatabaseBackupDestinationSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if backupDestinationResponse, ok := response.Response.(oci_database.GetBackupDestinationResponse); ok {
 		return backupDestinationResponse.LifecycleState != oci_database.BackupDestinationLifecycleStateDeleted
@@ -316,7 +316,7 @@ func backupDestinationSweepWaitCondition(response common.OCIOperationResponse) b
 	return false
 }
 
-func backupDestinationSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DatabaseBackupDestinationSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DatabaseClient().GetBackupDestination(context.Background(), oci_database.GetBackupDestinationRequest{
 		BackupDestinationId: resourceId,
 		RequestMetadata: common.RequestMetadata{

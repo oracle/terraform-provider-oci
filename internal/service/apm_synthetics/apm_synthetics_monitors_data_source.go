@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package apm_synthetics
@@ -10,8 +10,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v65/apmsynthetics"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func ApmSyntheticsMonitorsDataSource() *schema.Resource {
@@ -25,6 +25,14 @@ func ApmSyntheticsMonitorsDataSource() *schema.Resource {
 			},
 			"display_name": {
 				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"is_maintenance_window_active": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"is_maintenance_window_set": {
+				Type:     schema.TypeBool,
 				Optional: true,
 			},
 			"monitor_type": {
@@ -90,6 +98,16 @@ func (s *ApmSyntheticsMonitorsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if isMaintenanceWindowActive, ok := s.D.GetOkExists("is_maintenance_window_active"); ok {
+		tmp := isMaintenanceWindowActive.(bool)
+		request.IsMaintenanceWindowActive = &tmp
+	}
+
+	if isMaintenanceWindowSet, ok := s.D.GetOkExists("is_maintenance_window_set"); ok {
+		tmp := isMaintenanceWindowSet.(bool)
+		request.IsMaintenanceWindowSet = &tmp
 	}
 
 	if monitorType, ok := s.D.GetOkExists("monitor_type"); ok {

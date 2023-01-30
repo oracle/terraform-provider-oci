@@ -39,9 +39,9 @@ The following arguments are supported:
 * `compartment_id_in_subtree` - (Optional) A flag to search all resources within a given compartment and all sub-compartments. 
 * `enterprise_manager_bridge_id` - (Applicable when entity_source=EM_MANAGED_EXTERNAL_HOST) Unique Enterprise Manager bridge identifier
 * `exadata_insight_id` - (Applicable when entity_source=EM_MANAGED_EXTERNAL_HOST) [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of exadata insight resource. 
-* `host_type` - (Optional) Filter by one or more host types. Possible value is EXTERNAL-HOST.
+* `host_type` - (Optional) Filter by one or more host types. Possible values are CLOUD-HOST, EXTERNAL-HOST 
 * `id` - (Optional) Optional list of host insight resource [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
-* `platform_type` - (Optional) Filter by one or more platform types. Supported platformType(s) for MACS-managed external host insight: [LINUX]. Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
+* `platform_type` - (Optional) Filter by one or more platform types. Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS]. Supported platformType(s) for MACS-managed cloud host insight: [LINUX]. Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS].
 * `state` - (Optional) Lifecycle states
 * `status` - (Optional) Resource Status
 
@@ -57,6 +57,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `compute_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Compute Instance
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `enterprise_manager_bridge_id` - OPSI Enterprise Manager Bridge OCID
 * `enterprise_manager_entity_display_name` - Enterprise Manager Entity Display Name
@@ -74,7 +75,7 @@ The following attributes are exported:
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `management_agent_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Management Agent
 * `platform_name` - Platform name.
-* `platform_type` - Platform type. Supported platformType(s) for MACS-managed external host insight: [LINUX]. Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX]. 
+* `platform_type` - Platform type. Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS]. Supported platformType(s) for MACS-managed cloud host insight: [LINUX]. Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS]. 
 * `platform_version` - Platform version.
 * `processor_count` - Processor count. This is the OCPU count for Autonomous Database and CPU core count for other database types.
 * `state` - The current state of the host.

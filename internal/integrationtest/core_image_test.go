@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,53 +16,53 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	ImageRequiredOnlyResource = ImageResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_image", "test_image", acctest.Required, acctest.Create, imageRepresentation)
+	CoreImageRequiredOnlyResource = CoreImageResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_image", "test_image", acctest.Required, acctest.Create, CoreImageRepresentation)
 
-	ImageResourceConfig = ImageResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_image", "test_image", acctest.Optional, acctest.Update, imageRepresentation)
+	CoreImageResourceConfig = CoreImageResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_image", "test_image", acctest.Optional, acctest.Update, CoreImageRepresentation)
 
-	imageSingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreImageSingularDataSourceRepresentation = map[string]interface{}{
 		"image_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_image.test_image.id}`},
 	}
 
-	imageDataSourceRepresentation = map[string]interface{}{
+	CoreCoreImageDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `MyCustomImage`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: imageDataSourceFilterRepresentation}}
-	imageDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreImageDataSourceFilterRepresentation}}
+	CoreImageDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_image.test_image.id}`}},
 	}
 
-	imageRepresentation = map[string]interface{}{
+	CoreImageRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `MyCustomImage`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"instance_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance.test_instance.id}`},
 		"launch_mode":    acctest.Representation{RepType: acctest.Optional, Create: `NATIVE`},
-		"timeouts":       acctest.RepresentationGroup{RepType: acctest.Required, Group: timeoutsRepresentation},
+		"timeouts":       acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreImageTimeoutsRepresentation},
 	}
 
-	timeoutsRepresentation = map[string]interface{}{
+	CoreImageTimeoutsRepresentation = map[string]interface{}{
 		"create": acctest.Representation{RepType: acctest.Required, Create: `30m`},
 	}
 
-	ImageResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	CoreImageResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		utils.OciImageIdsVariable +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, instanceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
 )
@@ -86,14 +86,14 @@ func TestCoreImageResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ImageResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_image", "test_image", acctest.Optional, acctest.Create, imageRepresentation), "core", "image", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreImageResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_image", "test_image", acctest.Optional, acctest.Create, CoreImageRepresentation), "core", "image", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreImageDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ImageResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_image", "test_image", acctest.Required, acctest.Create, imageRepresentation),
+			Config: config + compartmentIdVariableStr + CoreImageResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_image", "test_image", acctest.Required, acctest.Create, CoreImageRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
@@ -107,12 +107,12 @@ func TestCoreImageResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ImageResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreImageResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ImageResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_image", "test_image", acctest.Optional, acctest.Create, imageRepresentation),
+			Config: config + compartmentIdVariableStr + CoreImageResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_image", "test_image", acctest.Optional, acctest.Create, CoreImageRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
@@ -140,9 +140,9 @@ func TestCoreImageResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ImageResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreImageResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_image", "test_image", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(imageRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CoreImageRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -170,8 +170,8 @@ func TestCoreImageResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ImageResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_image", "test_image", acctest.Optional, acctest.Update, imageRepresentation),
+			Config: config + compartmentIdVariableStr + CoreImageResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_image", "test_image", acctest.Optional, acctest.Update, CoreImageRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
@@ -197,9 +197,9 @@ func TestCoreImageResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_images", "test_images", acctest.Optional, acctest.Update, imageDataSourceRepresentation) +
-				compartmentIdVariableStr + ImageResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_image", "test_image", acctest.Optional, acctest.Update, imageRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_images", "test_images", acctest.Optional, acctest.Update, CoreCoreImageDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreImageResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_image", "test_image", acctest.Optional, acctest.Update, CoreImageRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -226,8 +226,8 @@ func TestCoreImageResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_image", "test_image", acctest.Required, acctest.Create, imageSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ImageResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_image", "test_image", acctest.Required, acctest.Create, CoreCoreImageSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreImageResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "image_id"),
 
@@ -250,7 +250,7 @@ func TestCoreImageResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + ImageRequiredOnlyResource,
+			Config:            config + CoreImageRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -317,7 +317,7 @@ func init() {
 
 func sweepCoreImageResource(compartment string) error {
 	computeClient := acctest.GetTestClients(&schema.ResourceData{}).ComputeClient()
-	imageIds, err := getImageIds(compartment)
+	imageIds, err := getCoreImageIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -333,14 +333,14 @@ func sweepCoreImageResource(compartment string) error {
 				fmt.Printf("Error deleting Image %s %s, It is possible that the resource is already deleted. Please verify manually \n", imageId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &imageId, imageSweepWaitCondition, time.Duration(3*time.Minute),
-				imageSweepResponseFetchOperation, "core", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &imageId, CoreImageSweepWaitCondition, time.Duration(3*time.Minute),
+				CoreImageSweepResponseFetchOperation, "core", true)
 		}
 	}
 	return nil
 }
 
-func getImageIds(compartment string) ([]string, error) {
+func getCoreImageIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ImageId")
 	if ids != nil {
 		return ids, nil
@@ -367,7 +367,7 @@ func getImageIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func imageSweepWaitCondition(response common.OCIOperationResponse) bool {
+func CoreImageSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if imageResponse, ok := response.Response.(oci_core.GetImageResponse); ok {
 		return imageResponse.LifecycleState != oci_core.ImageLifecycleStateDeleted
@@ -375,7 +375,7 @@ func imageSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func imageSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CoreImageSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.ComputeClient().GetImage(context.Background(), oci_core.GetImageRequest{
 		ImageId: resourceId,
 		RequestMetadata: common.RequestMetadata{

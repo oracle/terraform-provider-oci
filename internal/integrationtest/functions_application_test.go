@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,61 +22,61 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_functions "github.com/oracle/oci-go-sdk/v65/functions"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	ApplicationRequiredOnlyResource = ApplicationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, applicationRepresentation)
+	FunctionsApplicationRequiredOnlyResource = FunctionsApplicationResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsApplicationRepresentation)
 
-	ApplicationResourceConfig = ApplicationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Optional, acctest.Update, applicationRepresentation)
+	FunctionsApplicationResourceConfig = FunctionsApplicationResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Optional, acctest.Update, FunctionsApplicationRepresentation)
 
-	applicationSingularDataSourceRepresentation = map[string]interface{}{
+	FunctionsFunctionsApplicationSingularDataSourceRepresentation = map[string]interface{}{
 		"application_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_functions_application.test_application.id}`},
 	}
 
-	applicationDataSourceRepresentation = map[string]interface{}{
+	FunctionsFunctionsApplicationDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: applicationDisplayName},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_functions_application.test_application.id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: applicationDataSourceFilterRepresentation}}
-	applicationDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: FunctionsApplicationDataSourceFilterRepresentation}}
+	FunctionsApplicationDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_functions_application.test_application.id}`}},
 	}
 
 	applicationDisplayName = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(13, utils.Charset)
 
-	applicationRepresentation = map[string]interface{}{
+	FunctionsApplicationRepresentation = map[string]interface{}{
 		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":               acctest.Representation{RepType: acctest.Required, Create: applicationDisplayName},
 		"subnet_ids":                 acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_subnet.test_subnet.id}`}},
 		"config":                     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"MY_FUNCTION_CONFIG": "ConfVal"}},
 		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"image_policy_config":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: applicationImagePolicyConfigRepresentation},
+		"image_policy_config":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: FunctionsApplicationImagePolicyConfigRepresentation},
 		"network_security_group_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, Update: []string{`${oci_core_network_security_group.test_network_security_group2.id}`}},
 		"syslog_url":                 acctest.Representation{RepType: acctest.Optional, Create: `tcp://syslog.test:80`, Update: `tcp://syslog2.test:80`},
-		"trace_config":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: applicationTraceConfigRepresentation},
+		"trace_config":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: FunctionsApplicationTraceConfigRepresentation},
 	}
-	applicationImagePolicyConfigRepresentation = map[string]interface{}{
+	FunctionsApplicationImagePolicyConfigRepresentation = map[string]interface{}{
 		"is_policy_enabled": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
-		"key_details":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: applicationImagePolicyConfigKeyDetailsRepresentation},
+		"key_details":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: FunctionsApplicationImagePolicyConfigKeyDetailsRepresentation},
 	}
-	applicationTraceConfigRepresentation = map[string]interface{}{
+	FunctionsApplicationTraceConfigRepresentation = map[string]interface{}{
 		"domain_id":  acctest.Representation{RepType: acctest.Optional, Create: "${oci_apm_apm_domain.test_apm_domain.id}"},
 		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
-	applicationImagePolicyConfigKeyDetailsRepresentation = map[string]interface{}{
+	FunctionsApplicationImagePolicyConfigKeyDetailsRepresentation = map[string]interface{}{
 		"kms_key_id": acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 	}
 
-	ApplicationResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", acctest.Required, acctest.Create, networkSecurityGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", acctest.Required, acctest.Create, networkSecurityGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	FunctionsApplicationResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", acctest.Required, acctest.Create, apmDomainRepresentation) +
 		DefinedTagsDependencies +
 		KeyResourceDependencyConfig
@@ -101,14 +101,14 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ApplicationResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Optional, acctest.Create, applicationRepresentation), "functions", "application", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+FunctionsApplicationResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Optional, acctest.Create, FunctionsApplicationRepresentation), "functions", "application", t)
 
 	acctest.ResourceTest(t, testAccCheckFunctionsApplicationDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ApplicationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, applicationRepresentation),
+			Config: config + compartmentIdVariableStr + FunctionsApplicationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsApplicationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", applicationDisplayName),
@@ -123,12 +123,12 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ApplicationResourceDependencies,
+			Config: config + compartmentIdVariableStr + FunctionsApplicationResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ApplicationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Optional, acctest.Create, applicationRepresentation),
+			Config: config + compartmentIdVariableStr + FunctionsApplicationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Optional, acctest.Create, FunctionsApplicationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
@@ -159,9 +159,9 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ApplicationResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + FunctionsApplicationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(applicationRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(FunctionsApplicationRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -192,8 +192,8 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ApplicationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Optional, acctest.Update, applicationRepresentation),
+			Config: config + compartmentIdVariableStr + FunctionsApplicationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Optional, acctest.Update, FunctionsApplicationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
@@ -222,9 +222,9 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_functions_applications", "test_applications", acctest.Optional, acctest.Update, applicationDataSourceRepresentation) +
-				compartmentIdVariableStr + ApplicationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Optional, acctest.Update, applicationRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_functions_applications", "test_applications", acctest.Optional, acctest.Update, FunctionsFunctionsApplicationDataSourceRepresentation) +
+				compartmentIdVariableStr + FunctionsApplicationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Optional, acctest.Update, FunctionsApplicationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", applicationDisplayName),
@@ -252,8 +252,8 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, applicationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ApplicationResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsFunctionsApplicationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + FunctionsApplicationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "application_id"),
 
@@ -276,7 +276,7 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ApplicationRequiredOnlyResource,
+			Config:                  config + FunctionsApplicationRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -340,7 +340,7 @@ func init() {
 
 func sweepFunctionsApplicationResource(compartment string) error {
 	functionsManagementClient := acctest.GetTestClients(&schema.ResourceData{}).FunctionsManagementClient()
-	applicationIds, err := getApplicationIds(compartment)
+	applicationIds, err := getFunctionsApplicationIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -356,14 +356,14 @@ func sweepFunctionsApplicationResource(compartment string) error {
 				fmt.Printf("Error deleting Application %s %s, It is possible that the resource is already deleted. Please verify manually \n", applicationId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &applicationId, applicationSweepWaitCondition, time.Duration(3*time.Minute),
-				applicationSweepResponseFetchOperation, "functions", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &applicationId, FunctionsApplicationSweepWaitCondition, time.Duration(3*time.Minute),
+				FunctionsApplicationSweepResponseFetchOperation, "functions", true)
 		}
 	}
 	return nil
 }
 
-func getApplicationIds(compartment string) ([]string, error) {
+func getFunctionsApplicationIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ApplicationId")
 	if ids != nil {
 		return ids, nil
@@ -388,7 +388,7 @@ func getApplicationIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func applicationSweepWaitCondition(response common.OCIOperationResponse) bool {
+func FunctionsApplicationSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if applicationResponse, ok := response.Response.(oci_functions.GetApplicationResponse); ok {
 		return applicationResponse.LifecycleState != oci_functions.ApplicationLifecycleStateDeleted
@@ -396,7 +396,7 @@ func applicationSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func applicationSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func FunctionsApplicationSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.FunctionsManagementClient().GetApplication(context.Background(), oci_functions.GetApplicationRequest{
 		ApplicationId: resourceId,
 		RequestMetadata: common.RequestMetadata{

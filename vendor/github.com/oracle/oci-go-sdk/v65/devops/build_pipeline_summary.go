@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -38,6 +38,9 @@ type BuildPipelineSummary struct {
 
 	// The time the build pipeline was updated. Format defined by RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339).
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	// A detailed message describing the current state. For example, can be used to provide actionable information for a resource in Failed state.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// The current state of the build pipeline.
 	LifecycleState BuildPipelineLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -60,12 +60,16 @@ type InstanceConfigurationCreateVolumeDetails struct {
 	//   * `10`: Represents Balanced option.
 	//   * `20`: Represents Higher Performance option.
 	//   * `30`-`120`: Represents the Ultra High Performance option.
+	// For performance autotune enabled volumes, it would be the Default(Minimum) VPUs/GB.
 	VpusPerGB *int64 `mandatory:"false" json:"vpusPerGB"`
 
 	// The size of the volume in GBs.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
 
 	SourceDetails InstanceConfigurationVolumeSourceDetails `mandatory:"false" json:"sourceDetails"`
+
+	// The list of autotune policies enabled for this volume.
+	AutotunePolicies []InstanceConfigurationAutotunePolicy `mandatory:"false" json:"autotunePolicies"`
 }
 
 func (m InstanceConfigurationCreateVolumeDetails) String() string {
@@ -97,6 +101,7 @@ func (m *InstanceConfigurationCreateVolumeDetails) UnmarshalJSON(data []byte) (e
 		VpusPerGB          *int64                                   `json:"vpusPerGB"`
 		SizeInGBs          *int64                                   `json:"sizeInGBs"`
 		SourceDetails      instanceconfigurationvolumesourcedetails `json:"sourceDetails"`
+		AutotunePolicies   []instanceconfigurationautotunepolicy    `json:"autotunePolicies"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -130,6 +135,19 @@ func (m *InstanceConfigurationCreateVolumeDetails) UnmarshalJSON(data []byte) (e
 		m.SourceDetails = nn.(InstanceConfigurationVolumeSourceDetails)
 	} else {
 		m.SourceDetails = nil
+	}
+
+	m.AutotunePolicies = make([]InstanceConfigurationAutotunePolicy, len(model.AutotunePolicies))
+	for i, n := range model.AutotunePolicies {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.AutotunePolicies[i] = nn.(InstanceConfigurationAutotunePolicy)
+		} else {
+			m.AutotunePolicies[i] = nil
+		}
 	}
 
 	return

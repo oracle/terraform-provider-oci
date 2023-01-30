@@ -1,16 +1,17 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package devops
 
 import (
 	"context"
+	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func DevopsTriggerDataSource() *schema.Resource {
@@ -116,11 +117,31 @@ func (s *DevopsTriggerDataSourceCrud) SetData() error {
 	case oci_devops.GithubTrigger:
 		s.D.Set("trigger_source", "GITHUB")
 
+		if v.ConnectionId != nil {
+			s.D.Set("connection_id", v.ConnectionId)
+		}
+
 		if v.TriggerUrl != nil {
 			s.D.Set("trigger_url", v.TriggerUrl)
 		}
 	case oci_devops.GitlabTrigger:
 		s.D.Set("trigger_source", "GITLAB")
+
+		if v.ConnectionId != nil {
+			s.D.Set("connection_id", v.ConnectionId)
+		}
+
+		if v.TriggerUrl != nil {
+			s.D.Set("trigger_url", v.TriggerUrl)
+		}
+	case oci_devops.BitbucketServerTrigger:
+		s.D.Set("trigger_source", "BITBUCKET_SERVER")
+
+		if v.TriggerUrl != nil {
+			s.D.Set("trigger_url", v.TriggerUrl)
+		}
+	case oci_devops.GitlabServerTrigger:
+		s.D.Set("trigger_source", "GITLAB_SERVER")
 
 		if v.TriggerUrl != nil {
 			s.D.Set("trigger_url", v.TriggerUrl)
@@ -128,12 +149,29 @@ func (s *DevopsTriggerDataSourceCrud) SetData() error {
 	case oci_devops.BitbucketCloudTrigger:
 		s.D.Set("trigger_source", "BITBUCKET_CLOUD")
 
+		if v.ConnectionId != nil {
+			s.D.Set("connection_id", v.ConnectionId)
+		}
+
 		if v.TriggerUrl != nil {
 			s.D.Set("trigger_url", v.TriggerUrl)
 		}
 	case oci_devops.DevopsCodeRepositoryTrigger:
 		s.D.Set("trigger_source", "DEVOPS_CODE_REPOSITORY")
 
+	case oci_devops.VbsTrigger:
+		s.D.Set("trigger_source", "VBS")
+
+		if v.ConnectionId != nil {
+			s.D.Set("connection_id", *v.ConnectionId)
+		}
+
+		if v.TriggerUrl != nil {
+			s.D.Set("trigger_url", *v.TriggerUrl)
+		}
+	default:
+		log.Printf("[WARN] Received 'trigger_source' of unknown type %v", s.Res.Trigger)
+		return nil
 	}
 
 	return nil

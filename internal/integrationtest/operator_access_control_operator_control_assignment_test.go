@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,41 +16,41 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_operator_access_control "github.com/oracle/oci-go-sdk/v65/operatoraccesscontrol"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
 	resourceId  = `ocid1.exadatainfrastructure.test..` + utils.RandomString(50, utils.CharsetWithoutDigits)
 	resourceIdO = `ocid1.exadatainfrastructure.test..` + utils.RandomString(50, utils.CharsetWithoutDigits)
 
-	OperatorControlAssignmentRequiredOnlyResource = OperatorControlAssignmentResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_operator_access_control_operator_control_assignment", "test_operator_control_assignment", acctest.Required, acctest.Create, operatorControlAssignmentRepresentation)
+	OperatorAccessControlOperatorControlAssignmentRequiredOnlyResource = OperatorAccessControlOperatorControlAssignmentResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_operator_access_control_operator_control_assignment", "test_operator_control_assignment", acctest.Required, acctest.Create, OperatorAccessControlOperatorControlAssignmentRepresentation)
 
-	OperatorControlAssignmentResourceConfig = OperatorControlAssignmentResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_operator_access_control_operator_control_assignment", "test_operator_control_assignment", acctest.Optional, acctest.Update, operatorControlAssignmentRepresentation)
+	OperatorAccessControlOperatorControlAssignmentResourceConfig = OperatorAccessControlOperatorControlAssignmentResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_operator_access_control_operator_control_assignment", "test_operator_control_assignment", acctest.Optional, acctest.Update, OperatorAccessControlOperatorControlAssignmentRepresentation)
 
-	operatorControlAssignmentSingularDataSourceRepresentation = map[string]interface{}{
+	OperatorAccessControlOperatorAccessControlOperatorControlAssignmentSingularDataSourceRepresentation = map[string]interface{}{
 		"operator_control_assignment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_operator_access_control_operator_control_assignment.test_operator_control_assignment.id}`},
 	}
 
-	operatorControlAssignmentDataSourceRepresentation = map[string]interface{}{
+	OperatorAccessControlOperatorAccessControlOperatorControlAssignmentDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"operator_control_name": acctest.Representation{RepType: acctest.Optional, Create: `${oci_operator_access_control_operator_control.test_operator_control.operator_control_name}`},
 		"resource_name":         acctest.Representation{RepType: acctest.Optional, Create: `resourceName`},
 		"resource_type":         acctest.Representation{RepType: acctest.Required, Create: `EXADATAINFRASTRUCTURE`},
 		"state":                 acctest.Representation{RepType: acctest.Optional, Create: `CREATED`},
-		"filter":                acctest.RepresentationGroup{RepType: acctest.Required, Group: operatorControlAssignmentDataSourceFilterRepresentation}}
-	operatorControlAssignmentDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                acctest.RepresentationGroup{RepType: acctest.Required, Group: OperatorAccessControlOperatorControlAssignmentDataSourceFilterRepresentation}}
+	OperatorAccessControlOperatorControlAssignmentDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_operator_access_control_operator_control_assignment.test_operator_control_assignment.id}`}},
 	}
 
-	operatorControlAssignmentRepresentation = map[string]interface{}{
+	OperatorAccessControlOperatorControlAssignmentRepresentation = map[string]interface{}{
 		"compartment_id":                     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"is_enforced_always":                 acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
 		"operator_control_id":                acctest.Representation{RepType: acctest.Required, Create: `${oci_operator_access_control_operator_control.test_operator_control.id}`},
@@ -70,8 +70,8 @@ var (
 		"time_assignment_to":                 acctest.Representation{RepType: acctest.Optional, Create: nil, Update: nil},
 	}
 
-	OperatorControlAssignmentResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_operator_access_control_operator_control", "test_operator_control", acctest.Required, acctest.Create, operatorControlRepresentation)
+	OperatorAccessControlOperatorControlAssignmentResourceDependencies = DefinedTagsDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_operator_access_control_operator_control", "test_operator_control", acctest.Required, acctest.Create, OperatorAccessControlOperatorControlRepresentation)
 )
 
 func getTime(s string) time.Time {
@@ -99,14 +99,14 @@ func TestOperatorAccessControlOperatorControlAssignmentResource_basic(t *testing
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+OperatorControlAssignmentResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_operator_access_control_operator_control_assignment", "test_operator_control_assignmentO", acctest.Optional, acctest.Create, operatorControlAssignmentRepresentation), "operatoraccesscontrol", "operatorControlAssignment", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+OperatorAccessControlOperatorControlAssignmentResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_operator_access_control_operator_control_assignment", "test_operator_control_assignmentO", acctest.Optional, acctest.Create, OperatorAccessControlOperatorControlAssignmentRepresentation), "operatoraccesscontrol", "operatorControlAssignment", t)
 
 	acctest.ResourceTest(t, testAccCheckOperatorAccessControlOperatorControlAssignmentDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + OperatorControlAssignmentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_operator_access_control_operator_control_assignment", "test_operator_control_assignment", acctest.Required, acctest.Create, operatorControlAssignmentRepresentation),
+			Config: config + compartmentIdVariableStr + OperatorAccessControlOperatorControlAssignmentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_operator_access_control_operator_control_assignment", "test_operator_control_assignment", acctest.Required, acctest.Create, OperatorAccessControlOperatorControlAssignmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "is_enforced_always", "true"),
@@ -126,13 +126,13 @@ func TestOperatorAccessControlOperatorControlAssignmentResource_basic(t *testing
 		// delete before next Create
 		{
 			ExpectNonEmptyPlan: true,
-			Config:             config + compartmentIdVariableStr + OperatorControlAssignmentResourceDependencies,
+			Config:             config + compartmentIdVariableStr + OperatorAccessControlOperatorControlAssignmentResourceDependencies,
 		},
 		// verify Create with optionals
 		{
 			ExpectNonEmptyPlan: true,
-			Config: config + compartmentIdVariableStr + OperatorControlAssignmentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_operator_access_control_operator_control_assignment", "test_operator_control_assignment", acctest.Optional, acctest.Create, operatorControlAssignmentRepresentation),
+			Config: config + compartmentIdVariableStr + OperatorAccessControlOperatorControlAssignmentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_operator_access_control_operator_control_assignment", "test_operator_control_assignment", acctest.Optional, acctest.Create, OperatorAccessControlOperatorControlAssignmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "comment", "comment"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -167,8 +167,8 @@ func TestOperatorAccessControlOperatorControlAssignmentResource_basic(t *testing
 		// verify updates to updatable parameters
 		{
 			ExpectNonEmptyPlan: true,
-			Config: config + compartmentIdVariableStr + OperatorControlAssignmentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_operator_access_control_operator_control_assignment", "test_operator_control_assignment", acctest.Optional, acctest.Update, operatorControlAssignmentRepresentation),
+			Config: config + compartmentIdVariableStr + OperatorAccessControlOperatorControlAssignmentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_operator_access_control_operator_control_assignment", "test_operator_control_assignment", acctest.Optional, acctest.Update, OperatorAccessControlOperatorControlAssignmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "comment", "comment2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -201,9 +201,9 @@ func TestOperatorAccessControlOperatorControlAssignmentResource_basic(t *testing
 		{
 			ExpectNonEmptyPlan: true,
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_operator_access_control_operator_control_assignments", "test_operator_control_assignments", acctest.Optional, acctest.Update, operatorControlAssignmentDataSourceRepresentation) +
-				compartmentIdVariableStr + OperatorControlAssignmentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_operator_access_control_operator_control_assignment", "test_operator_control_assignment", acctest.Optional, acctest.Update, operatorControlAssignmentRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_operator_access_control_operator_control_assignments", "test_operator_control_assignments", acctest.Optional, acctest.Update, OperatorAccessControlOperatorAccessControlOperatorControlAssignmentDataSourceRepresentation) +
+				compartmentIdVariableStr + OperatorAccessControlOperatorControlAssignmentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_operator_access_control_operator_control_assignment", "test_operator_control_assignment", acctest.Optional, acctest.Update, OperatorAccessControlOperatorControlAssignmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "operator_control_name"),
@@ -216,8 +216,8 @@ func TestOperatorAccessControlOperatorControlAssignmentResource_basic(t *testing
 		{
 			ExpectNonEmptyPlan: true,
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_operator_access_control_operator_control_assignment", "test_operator_control_assignment", acctest.Required, acctest.Create, operatorControlAssignmentSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + OperatorControlAssignmentResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_operator_access_control_operator_control_assignment", "test_operator_control_assignment", acctest.Required, acctest.Create, OperatorAccessControlOperatorAccessControlOperatorControlAssignmentSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + OperatorAccessControlOperatorControlAssignmentResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "operator_control_assignment_id"),
 
@@ -246,7 +246,7 @@ func TestOperatorAccessControlOperatorControlAssignmentResource_basic(t *testing
 		// verify resource import
 		{
 			ExpectNonEmptyPlan:      true,
-			Config:                  config + OperatorControlAssignmentRequiredOnlyResource,
+			Config:                  config + OperatorAccessControlOperatorControlAssignmentRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{"defined_tags"},
@@ -308,7 +308,7 @@ func init() {
 
 func sweepOperatorAccessControlOperatorControlAssignmentResource(compartment string) error {
 	operatorControlAssignmentClient := acctest.GetTestClients(&schema.ResourceData{}).OperatorControlAssignmentClient()
-	operatorControlAssignmentIds, err := getOperatorControlAssignmentIds(compartment)
+	operatorControlAssignmentIds, err := getOperatorAccessControlOperatorControlAssignmentIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -324,14 +324,14 @@ func sweepOperatorAccessControlOperatorControlAssignmentResource(compartment str
 				fmt.Printf("Error deleting OperatorControlAssignment %s %s, It is possible that the resource is already deleted. Please verify manually \n", operatorControlAssignmentId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &operatorControlAssignmentId, operatorControlAssignmentSweepWaitCondition, time.Duration(3*time.Minute),
-				operatorControlAssignmentSweepResponseFetchOperation, "operator_access_control", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &operatorControlAssignmentId, OperatorAccessControlOperatorControlAssignmentSweepWaitCondition, time.Duration(3*time.Minute),
+				OperatorAccessControlOperatorControlAssignmentSweepResponseFetchOperation, "operator_access_control", true)
 		}
 	}
 	return nil
 }
 
-func getOperatorControlAssignmentIds(compartment string) ([]string, error) {
+func getOperatorAccessControlOperatorControlAssignmentIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "OperatorControlAssignmentId")
 	if ids != nil {
 		return ids, nil
@@ -356,7 +356,7 @@ func getOperatorControlAssignmentIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func operatorControlAssignmentSweepWaitCondition(response common.OCIOperationResponse) bool {
+func OperatorAccessControlOperatorControlAssignmentSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if operatorControlAssignmentResponse, ok := response.Response.(oci_operator_access_control.GetOperatorControlAssignmentResponse); ok {
 		return operatorControlAssignmentResponse.LifecycleState != oci_operator_access_control.OperatorControlAssignmentLifecycleStatesDeleted
@@ -364,7 +364,7 @@ func operatorControlAssignmentSweepWaitCondition(response common.OCIOperationRes
 	return false
 }
 
-func operatorControlAssignmentSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func OperatorAccessControlOperatorControlAssignmentSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.OperatorControlAssignmentClient().GetOperatorControlAssignment(context.Background(), oci_operator_access_control.GetOperatorControlAssignmentRequest{
 		OperatorControlAssignmentId: resourceId,
 		RequestMetadata: common.RequestMetadata{

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database
@@ -7,8 +7,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -23,6 +23,13 @@ func DatabaseVmClusterRecommendedNetworkDataSource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"db_servers": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -185,11 +192,19 @@ func DatabaseVmClusterRecommendedNetworkDataSource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"db_server_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"hostname": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 									"ip": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"state": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -239,6 +254,19 @@ func (s *DatabaseVmClusterRecommendedNetworkDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if dbServers, ok := s.D.GetOkExists("db_servers"); ok {
+		interfaces := dbServers.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("db_servers") {
+			request.DbServers = tmp
+		}
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {

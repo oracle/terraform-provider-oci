@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,9 +10,9 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
@@ -71,7 +71,7 @@ func TestResourceKmsVaultRestore_default(t *testing.T) {
 
 	acctest.ResourceTest(t, testAccCheckKMSVaultDestroy, []resource.TestStep{
 		{
-			Config: config + compartmentIdVariableStr + VaultResourceDependencies +
+			Config: config + compartmentIdVariableStr + KmsVaultResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_kms_vault", "private-vault-kms", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(vaultRestoreRepresentation, map[string]interface{}{
 						"restore_from_file": acctest.RepresentationGroup{RepType: acctest.Optional, Group: vaultRestoreFromFileRepresentation}})),
@@ -81,7 +81,7 @@ func TestResourceKmsVaultRestore_default(t *testing.T) {
 			),
 		},
 		{
-			Config: config + compartmentIdVariableStr + VaultResourceDependencies +
+			Config: config + compartmentIdVariableStr + KmsVaultResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_kms_vault", "private-vault-kms", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(vaultRestoreRepresentation, map[string]interface{}{
 						"restore_from_object_store": acctest.RepresentationGroup{RepType: acctest.Optional, Group: vaultRestoreFromObjectBackupLocationRepresentation}})),
@@ -91,7 +91,7 @@ func TestResourceKmsVaultRestore_default(t *testing.T) {
 			),
 		},
 		{
-			Config: config + compartmentIdVariableStr + VaultResourceDependencies +
+			Config: config + compartmentIdVariableStr + KmsVaultResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_kms_vault", "private-vault-kms", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(vaultRestoreRepresentation, map[string]interface{}{
 						"restore_from_object_store": acctest.RepresentationGroup{RepType: acctest.Optional, Group: vaultRestoreFromObjecUriBackupLocationRepresentation}})),

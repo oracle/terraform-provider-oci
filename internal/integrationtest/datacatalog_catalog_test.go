@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,52 +16,52 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_datacatalog "github.com/oracle/oci-go-sdk/v65/datacatalog"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	CatalogRequiredOnlyResource = CatalogResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", acctest.Required, acctest.Create, catalogRepresentation)
+	DatacatalogCatalogRequiredOnlyResource = DatacatalogCatalogResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", acctest.Required, acctest.Create, DatacatalogCatalogRepresentation)
 
-	CatalogResourceConfig = CatalogResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", acctest.Optional, acctest.Update, catalogRepresentation)
+	DatacatalogCatalogResourceConfig = DatacatalogCatalogResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", acctest.Optional, acctest.Update, DatacatalogCatalogRepresentation)
 
-	catalogSingularDataSourceRepresentation = map[string]interface{}{
+	DatacatalogDatacatalogCatalogSingularDataSourceRepresentation = map[string]interface{}{
 		"catalog_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_datacatalog_catalog.test_catalog.id}`},
 	}
 
-	catalogDataSourceRepresentation = map[string]interface{}{
+	DatacatalogDatacatalogCatalogDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: catalogDataSourceFilterRepresentation}}
-	catalogDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatacatalogCatalogDataSourceFilterRepresentation}}
+	DatacatalogCatalogDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_datacatalog_catalog.test_catalog.id}`}},
 	}
 
-	catalogRepresentation = map[string]interface{}{
+	DatacatalogCatalogRepresentation = map[string]interface{}{
 		"compartment_id":                     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"defined_tags":                       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":                       acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":                      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"attached_catalog_private_endpoints": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_datacatalog_catalog_private_endpoint.test_catalog_private_endpoint.id}`}},
-		"lifecycle":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDatacatalogDefinedTagsChangesRepresentation},
+		"lifecycle":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: DatacatalogCatalogIgnoreDatacatalogDefinedTagsChangesRepresentation},
 	}
 
 	// need to ignore the defined tags created by the OCI service tenancy
-	ignoreDatacatalogDefinedTagsChangesRepresentation = map[string]interface{}{
+	DatacatalogCatalogIgnoreDatacatalogDefinedTagsChangesRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
-	CatalogResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", acctest.Required, acctest.Create, catalogPrivateEndpointRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	DatacatalogCatalogResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", acctest.Required, acctest.Create, catalogPrivateEndpointRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -84,14 +84,14 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+CatalogResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", acctest.Optional, acctest.Create, catalogRepresentation), "datacatalog", "catalog", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatacatalogCatalogResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", acctest.Optional, acctest.Create, DatacatalogCatalogRepresentation), "datacatalog", "catalog", t)
 
 	acctest.ResourceTest(t, testAccCheckDatacatalogCatalogDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + CatalogResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", acctest.Required, acctest.Create, catalogRepresentation),
+			Config: config + compartmentIdVariableStr + DatacatalogCatalogResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", acctest.Required, acctest.Create, DatacatalogCatalogRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
@@ -104,12 +104,12 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + CatalogResourceDependencies,
+			Config: config + compartmentIdVariableStr + DatacatalogCatalogResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + CatalogResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", acctest.Optional, acctest.Create, catalogRepresentation),
+			Config: config + compartmentIdVariableStr + DatacatalogCatalogResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", acctest.Optional, acctest.Create, DatacatalogCatalogRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -131,9 +131,9 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CatalogResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatacatalogCatalogResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(catalogRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(DatacatalogCatalogRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -155,8 +155,8 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + CatalogResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", acctest.Optional, acctest.Update, catalogRepresentation),
+			Config: config + compartmentIdVariableStr + DatacatalogCatalogResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", acctest.Optional, acctest.Update, DatacatalogCatalogRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -176,9 +176,9 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_datacatalog_catalogs", "test_catalogs", acctest.Optional, acctest.Update, catalogDataSourceRepresentation) +
-				compartmentIdVariableStr + CatalogResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", acctest.Optional, acctest.Update, catalogRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_datacatalog_catalogs", "test_catalogs", acctest.Optional, acctest.Update, DatacatalogDatacatalogCatalogDataSourceRepresentation) +
+				compartmentIdVariableStr + DatacatalogCatalogResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", acctest.Optional, acctest.Update, DatacatalogCatalogRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -199,8 +199,8 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", acctest.Required, acctest.Create, catalogSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + CatalogResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", acctest.Required, acctest.Create, DatacatalogDatacatalogCatalogSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatacatalogCatalogResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "catalog_id"),
 
@@ -218,7 +218,7 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + CatalogRequiredOnlyResource,
+			Config:                  config + DatacatalogCatalogRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -282,7 +282,7 @@ func init() {
 
 func sweepDatacatalogCatalogResource(compartment string) error {
 	dataCatalogClient := acctest.GetTestClients(&schema.ResourceData{}).DataCatalogClient()
-	catalogIds, err := getCatalogIds(compartment)
+	catalogIds, err := getDatacatalogCatalogIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -298,14 +298,14 @@ func sweepDatacatalogCatalogResource(compartment string) error {
 				fmt.Printf("Error deleting Catalog %s %s, It is possible that the resource is already deleted. Please verify manually \n", catalogId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &catalogId, catalogSweepWaitCondition, time.Duration(3*time.Minute),
-				catalogSweepResponseFetchOperation, "datacatalog", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &catalogId, DatacatalogCatalogSweepWaitCondition, time.Duration(3*time.Minute),
+				DatacatalogCatalogSweepResponseFetchOperation, "datacatalog", true)
 		}
 	}
 	return nil
 }
 
-func getCatalogIds(compartment string) ([]string, error) {
+func getDatacatalogCatalogIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "CatalogId")
 	if ids != nil {
 		return ids, nil
@@ -330,7 +330,7 @@ func getCatalogIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func catalogSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DatacatalogCatalogSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if catalogResponse, ok := response.Response.(oci_datacatalog.GetCatalogResponse); ok {
 		return catalogResponse.LifecycleState != oci_datacatalog.LifecycleStateDeleted
@@ -338,7 +338,7 @@ func catalogSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func catalogSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DatacatalogCatalogSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DataCatalogClient().GetCatalog(context.Background(), oci_datacatalog.GetCatalogRequest{
 		CatalogId: resourceId,
 		RequestMetadata: common.RequestMetadata{

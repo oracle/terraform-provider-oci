@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database_management
@@ -6,8 +6,8 @@ package database_management
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
@@ -68,6 +68,7 @@ func DatabaseManagementJobExecutionsStatusDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_database_management_job_executions_status", "oci_database_management_job_executions_statuses"),
 	}
 }
 
@@ -152,16 +153,4 @@ func (s *DatabaseManagementJobExecutionsStatusDataSourceCrud) SetData() error {
 	s.D.Set("items", items)
 
 	return nil
-}
-
-func JobExecutionsStatusSummaryToMap(obj oci_database_management.JobExecutionsStatusSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Count != nil {
-		result["count"] = int(*obj.Count)
-	}
-
-	result["status"] = string(obj.Status)
-
-	return result
 }

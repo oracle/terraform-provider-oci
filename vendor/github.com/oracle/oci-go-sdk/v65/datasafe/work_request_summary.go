@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -164,6 +164,10 @@ const (
 	WorkRequestSummaryOperationTypeUpdateLibraryMaskingFormat            WorkRequestSummaryOperationTypeEnum = "UPDATE_LIBRARY_MASKING_FORMAT"
 	WorkRequestSummaryOperationTypeAddColumnsFromSdm                     WorkRequestSummaryOperationTypeEnum = "ADD_COLUMNS_FROM_SDM"
 	WorkRequestSummaryOperationTypeMaskingJob                            WorkRequestSummaryOperationTypeEnum = "MASKING_JOB"
+	WorkRequestSummaryOperationTypeCreateSchedule                        WorkRequestSummaryOperationTypeEnum = "CREATE_SCHEDULE"
+	WorkRequestSummaryOperationTypeRemoveScheduleReport                  WorkRequestSummaryOperationTypeEnum = "REMOVE_SCHEDULE_REPORT"
+	WorkRequestSummaryOperationTypeUpdateAllAlert                        WorkRequestSummaryOperationTypeEnum = "UPDATE_ALL_ALERT"
+	WorkRequestSummaryOperationTypePatchTargetAlertPolicyAssociation     WorkRequestSummaryOperationTypeEnum = "PATCH_TARGET_ALERT_POLICY_ASSOCIATION"
 )
 
 var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOperationTypeEnum{
@@ -258,6 +262,10 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"UPDATE_LIBRARY_MASKING_FORMAT":              WorkRequestSummaryOperationTypeUpdateLibraryMaskingFormat,
 	"ADD_COLUMNS_FROM_SDM":                       WorkRequestSummaryOperationTypeAddColumnsFromSdm,
 	"MASKING_JOB":                                WorkRequestSummaryOperationTypeMaskingJob,
+	"CREATE_SCHEDULE":                            WorkRequestSummaryOperationTypeCreateSchedule,
+	"REMOVE_SCHEDULE_REPORT":                     WorkRequestSummaryOperationTypeRemoveScheduleReport,
+	"UPDATE_ALL_ALERT":                           WorkRequestSummaryOperationTypeUpdateAllAlert,
+	"PATCH_TARGET_ALERT_POLICY_ASSOCIATION":      WorkRequestSummaryOperationTypePatchTargetAlertPolicyAssociation,
 }
 
 var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequestSummaryOperationTypeEnum{
@@ -352,6 +360,10 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"update_library_masking_format":              WorkRequestSummaryOperationTypeUpdateLibraryMaskingFormat,
 	"add_columns_from_sdm":                       WorkRequestSummaryOperationTypeAddColumnsFromSdm,
 	"masking_job":                                WorkRequestSummaryOperationTypeMaskingJob,
+	"create_schedule":                            WorkRequestSummaryOperationTypeCreateSchedule,
+	"remove_schedule_report":                     WorkRequestSummaryOperationTypeRemoveScheduleReport,
+	"update_all_alert":                           WorkRequestSummaryOperationTypeUpdateAllAlert,
+	"patch_target_alert_policy_association":      WorkRequestSummaryOperationTypePatchTargetAlertPolicyAssociation,
 }
 
 // GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestSummaryOperationTypeEnum
@@ -457,6 +469,10 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"UPDATE_LIBRARY_MASKING_FORMAT",
 		"ADD_COLUMNS_FROM_SDM",
 		"MASKING_JOB",
+		"CREATE_SCHEDULE",
+		"REMOVE_SCHEDULE_REPORT",
+		"UPDATE_ALL_ALERT",
+		"PATCH_TARGET_ALERT_POLICY_ASSOCIATION",
 	}
 }
 

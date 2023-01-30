@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,15 +22,15 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	VolumeGroupRequiredOnlyResource = VolumeGroupRequiredOnlyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", acctest.Required, acctest.Create, volumeGroupRepresentation)
+	CoreVolumeGroupRequiredOnlyResource = VolumeGroupRequiredOnlyResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", acctest.Required, acctest.Create, CoreVolumeGroupRepresentation)
 
-	VolumeGroupResourceConfig = VolumeGroupResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", acctest.Optional, acctest.Create, volumeGroupRepresentation)
+	CoreVolumeGroupResourceConfig = VolumeGroupResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", acctest.Optional, acctest.Create, CoreVolumeGroupRepresentation)
 
 	volumeGroupDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -43,35 +43,35 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_volume_group.test_volume_group.id}`}},
 	}
 
-	volumeGroupRepresentation = map[string]interface{}{
+	CoreVolumeGroupRepresentation = map[string]interface{}{
 		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"source_details":      acctest.RepresentationGroup{RepType: acctest.Required, Group: volumeGroupSourceDetailsRepresentation},
+		"source_details":      acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreVolumeGroupSourceDetailsRepresentation},
 		"backup_policy_id":    acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_core_volume_backup_policies.test_volume_user_defined_backup_policies.volume_backup_policies.0.id}`},
 		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
-	volumeGroupSourceDetailsRepresentation = map[string]interface{}{
+	CoreVolumeGroupSourceDetailsRepresentation = map[string]interface{}{
 		"type":       acctest.Representation{RepType: acctest.Required, Create: `volumeIds`},
 		"volume_ids": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_volume.source_volume_list.*.id}`},
 	}
-	sourceDetailsJumbledVolumeIdsRepresentation = map[string]interface{}{
+	CoreVolumeSourceDetailsJumbledVolumeIdsRepresentation = map[string]interface{}{
 		"type":       acctest.Representation{RepType: acctest.Required, Create: `volumeIds`},
 		"volume_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_volume.source_volume_list.*.id[1]}`, `${oci_core_volume.source_volume_list.*.id[0]}`}},
 	}
-	sourceDetailsSingleVolumeIdSourceDetailsRepresentation = map[string]interface{}{
+	CoreVolumeSourceDetailsSingleVolumeIdSourceDetailsRepresentation = map[string]interface{}{
 		"type":       acctest.Representation{RepType: acctest.Required, Create: `volumeIds`},
 		"volume_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_volume.source_volume_list.*.id[1]}`}},
 	}
 
-	VolumeGroupResourceConfigJumbledVolumeIds = VolumeGroupResourceDependencies +
+	CoreVolumeGroupResourceConfigJumbledVolumeIds = VolumeGroupResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", acctest.Required, acctest.Create,
-			acctest.GetUpdatedRepresentationCopy("source_details", acctest.RepresentationGroup{RepType: acctest.Required, Group: sourceDetailsJumbledVolumeIdsRepresentation}, volumeGroupRepresentation))
+			acctest.GetUpdatedRepresentationCopy("source_details", acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreVolumeSourceDetailsJumbledVolumeIdsRepresentation}, CoreVolumeGroupRepresentation))
 
-	VolumeGroupResourceConfigSingleVolumeId = VolumeGroupResourceDependencies +
+	CoreVolumeGroupResourceConfigSingleVolumeId = VolumeGroupResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", acctest.Required, acctest.Create,
-			acctest.GetUpdatedRepresentationCopy("source_details", acctest.RepresentationGroup{RepType: acctest.Required, Group: sourceDetailsSingleVolumeIdSourceDetailsRepresentation}, volumeGroupRepresentation))
+			acctest.GetUpdatedRepresentationCopy("source_details", acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreVolumeSourceDetailsSingleVolumeIdSourceDetailsRepresentation}, CoreVolumeGroupRepresentation))
 
 	VolumeGroupResourceDependencies = SourceVolumeListDependency +
 		`
@@ -81,9 +81,9 @@ var (
 	` +
 		AvailabilityDomainConfig +
 		utils.VolumeBackupPolicyDependency +
-		VolumeBackupPolicyRequiredOnlyResource
+		CoreVolumeBackupPolicyRequiredOnlyResource
 	VolumeGroupRequiredOnlyResourceDependencies = AvailabilityDomainConfig + SourceVolumeListDependency
-	VolumeGroupAsDependency                     = acctest.GenerateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", acctest.Required, acctest.Create, volumeGroupRepresentation) + SourceVolumeListDependency
+	VolumeGroupAsDependency                     = acctest.GenerateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", acctest.Required, acctest.Create, CoreVolumeGroupRepresentation) + SourceVolumeListDependency
 	SourceVolumeListDependency                  = `
 resource "oci_core_volume" "source_volume_list" {
 	count = 2
@@ -119,13 +119,13 @@ func TestCoreVolumeGroupResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+VolumeGroupResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", acctest.Optional, acctest.Create, volumeGroupRepresentation), "core", "volumeGroup", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", acctest.Optional, acctest.Create, CoreVolumeGroupRepresentation), "core", "volumeGroup", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreVolumeGroupDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + VolumeGroupRequiredOnlyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", acctest.Required, acctest.Create, volumeGroupRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", acctest.Required, acctest.Create, CoreVolumeGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -143,7 +143,7 @@ func TestCoreVolumeGroupResource_basic(t *testing.T) {
 		// Group id property populated correctly. Since the TF framework doesn't have a RefreshOnly directive, we are
 		// using PlanOnly to trigger a refresh, and then assert on the value
 		{
-			Config:   config + compartmentIdVariableStr + VolumeGroupRequiredOnlyResource,
+			Config:   config + compartmentIdVariableStr + CoreVolumeGroupRequiredOnlyResource,
 			PlanOnly: true,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet("oci_core_volume.source_volume_list.0", "volume_group_id"),
@@ -156,7 +156,7 @@ func TestCoreVolumeGroupResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + VolumeGroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", acctest.Optional, acctest.Create, volumeGroupRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", acctest.Optional, acctest.Create, CoreVolumeGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
@@ -186,7 +186,7 @@ func TestCoreVolumeGroupResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VolumeGroupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(volumeGroupRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CoreVolumeGroupRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -215,7 +215,7 @@ func TestCoreVolumeGroupResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + VolumeGroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", acctest.Optional, acctest.Update, volumeGroupRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", acctest.Optional, acctest.Update, CoreVolumeGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
@@ -240,13 +240,13 @@ func TestCoreVolumeGroupResource_basic(t *testing.T) {
 		},
 		// verify that the change in order of the volume ids doesn't result in a new resource
 		{
-			Config:             config + compartmentIdVariableStr + VolumeGroupResourceConfigJumbledVolumeIds,
+			Config:             config + compartmentIdVariableStr + CoreVolumeGroupResourceConfigJumbledVolumeIds,
 			PlanOnly:           true,
 			ExpectNonEmptyPlan: false,
 		},
 		// verify that the change in list of volume ids does cause a change in the plan
 		{
-			Config:             config + compartmentIdVariableStr + VolumeGroupResourceConfigSingleVolumeId,
+			Config:             config + compartmentIdVariableStr + CoreVolumeGroupResourceConfigSingleVolumeId,
 			PlanOnly:           true,
 			ExpectNonEmptyPlan: true,
 		},
@@ -255,7 +255,7 @@ func TestCoreVolumeGroupResource_basic(t *testing.T) {
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_core_volume_groups", "test_volume_groups", acctest.Optional, acctest.Update, volumeGroupDataSourceRepresentation) +
 				compartmentIdVariableStr + VolumeGroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", acctest.Optional, acctest.Update, volumeGroupRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", acctest.Optional, acctest.Update, CoreVolumeGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -280,7 +280,7 @@ func TestCoreVolumeGroupResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + VolumeGroupRequiredOnlyResource,
+			Config:            config + CoreVolumeGroupRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -346,7 +346,7 @@ func init() {
 
 func sweepCoreVolumeGroupResource(compartment string) error {
 	blockstorageClient := acctest.GetTestClients(&schema.ResourceData{}).BlockstorageClient()
-	volumeGroupIds, err := getVolumeGroupIds(compartment)
+	volumeGroupIds, err := getCoreVolumeGroupIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -362,14 +362,14 @@ func sweepCoreVolumeGroupResource(compartment string) error {
 				fmt.Printf("Error deleting VolumeGroup %s %s, It is possible that the resource is already deleted. Please verify manually \n", volumeGroupId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &volumeGroupId, volumeGroupSweepWaitCondition, time.Duration(3*time.Minute),
-				volumeGroupSweepResponseFetchOperation, "core", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &volumeGroupId, CoreVolumeGroupSweepWaitCondition, time.Duration(3*time.Minute),
+				CoreVolumeGroupSweepResponseFetchOperation, "core", true)
 		}
 	}
 	return nil
 }
 
-func getVolumeGroupIds(compartment string) ([]string, error) {
+func getCoreVolumeGroupIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "VolumeGroupId")
 	if ids != nil {
 		return ids, nil
@@ -394,7 +394,7 @@ func getVolumeGroupIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func volumeGroupSweepWaitCondition(response common.OCIOperationResponse) bool {
+func CoreVolumeGroupSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if volumeGroupResponse, ok := response.Response.(oci_core.GetVolumeGroupResponse); ok {
 		return volumeGroupResponse.LifecycleState != oci_core.VolumeGroupLifecycleStateTerminated
@@ -402,7 +402,7 @@ func volumeGroupSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func volumeGroupSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CoreVolumeGroupSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.BlockstorageClient().GetVolumeGroup(context.Background(), oci_core.GetVolumeGroupRequest{
 		VolumeGroupId: resourceId,
 		RequestMetadata: common.RequestMetadata{

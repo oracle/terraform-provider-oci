@@ -252,10 +252,24 @@ resource "oci_devops_trigger" "test_trigger" {
 
       #Optional
       events = ["PUSH"]
+      exclude {
+
+        #Optional
+        file_filter {
+
+          #Optional
+          file_paths = ["**/*.md"]
+        }
+      }
       include {
 
         #Optional
         base_ref = "baseRef"
+        file_filter {
+
+          #Optional
+          file_paths = ["**/*.txt"]
+        }
         head_ref = "headRef"
       }
     }
@@ -282,10 +296,24 @@ resource "oci_devops_trigger" "test_gitlab_trigger" {
 
       #Optional
       events = ["PUSH"]
+      exclude {
+
+        #Optional
+        file_filter {
+
+          #Optional
+          file_paths = ["**/*.md"]
+        }
+      }
       include {
 
         #Optional
         base_ref = "baseRef"
+        file_filter {
+
+          #Optional
+          file_paths = ["**/*.txt"]
+        }
         head_ref = "headRef"
       }
     }
@@ -312,10 +340,24 @@ resource "oci_devops_trigger" "test_code_repo_trigger" {
 
       #Optional
       events = ["PUSH"]
+      exclude {
+
+        #Optional
+        file_filter {
+
+          #Optional
+          file_paths = ["**/*.md"]
+        }
+      }
       include {
 
         #Optional
         base_ref = "baseRef"
+        file_filter {
+
+          #Optional
+          file_paths = ["**/*.txt"]
+        }
         head_ref = "headRef"
       }
     }

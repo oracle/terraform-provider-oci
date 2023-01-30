@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database
@@ -7,8 +7,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 
@@ -143,6 +143,11 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"is_monthly_patching_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"lead_time_in_weeks": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -247,6 +252,10 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 							},
 						},
 						"is_custom_action_timeout_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_monthly_patching_enabled": {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
@@ -646,7 +655,7 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) SetData() error {
 	}
 
 	if s.Res.MaintenanceWindow != nil {
-		s.D.Set("maintenance_window", []interface{}{MaintenanceWindowToMap(s.Res.MaintenanceWindow)})
+		s.D.Set("maintenance_window", []interface{}{MaintenanceWindowToMapAvm(s.Res.MaintenanceWindow)})
 	} else {
 		s.D.Set("maintenance_window", nil)
 	}
@@ -698,7 +707,7 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) mapToDayOfWeek(fie
 	return result, nil
 }
 
-func DayOfWeekToMap(obj oci_database.DayOfWeek) map[string]interface{} {
+func DayOfWeekToMapAvm(obj oci_database.DayOfWeek) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	result["name"] = string(obj.Name)
@@ -757,6 +766,11 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) mapToMaintenanceWi
 		result.IsCustomActionTimeoutEnabled = &tmp
 	}
 
+	if isMonthlyPatchingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_monthly_patching_enabled")); ok {
+		tmp := isMonthlyPatchingEnabled.(bool)
+		result.IsMonthlyPatchingEnabled = &tmp
+	}
+
 	if leadTimeInWeeks, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lead_time_in_weeks")); ok {
 		tmp := leadTimeInWeeks.(int)
 		if tmp > 0 {
@@ -805,7 +819,7 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) mapToMaintenanceWi
 	return result, nil
 }
 
-func MaintenanceWindowToMap(obj *oci_database.MaintenanceWindow) map[string]interface{} {
+func MaintenanceWindowToMapAvm(obj *oci_database.MaintenanceWindow) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.CustomActionTimeoutInMins != nil {
@@ -814,7 +828,7 @@ func MaintenanceWindowToMap(obj *oci_database.MaintenanceWindow) map[string]inte
 
 	daysOfWeek := []interface{}{}
 	for _, item := range obj.DaysOfWeek {
-		daysOfWeek = append(daysOfWeek, DayOfWeekToMap(item))
+		daysOfWeek = append(daysOfWeek, DayOfWeekToMapAvm(item))
 	}
 	result["days_of_week"] = daysOfWeek
 
@@ -824,13 +838,17 @@ func MaintenanceWindowToMap(obj *oci_database.MaintenanceWindow) map[string]inte
 		result["is_custom_action_timeout_enabled"] = bool(*obj.IsCustomActionTimeoutEnabled)
 	}
 
+	if obj.IsMonthlyPatchingEnabled != nil {
+		result["is_monthly_patching_enabled"] = bool(*obj.IsMonthlyPatchingEnabled)
+	}
+
 	if obj.LeadTimeInWeeks != nil {
 		result["lead_time_in_weeks"] = int(*obj.LeadTimeInWeeks)
 	}
 
 	months := []interface{}{}
 	for _, item := range obj.Months {
-		months = append(months, MonthToMap(item))
+		months = append(months, MonthToMapAvm(item))
 	}
 	result["months"] = months
 
@@ -853,7 +871,7 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) mapToMonth(fieldKe
 	return result, nil
 }
 
-func MonthToMap(obj oci_database.Month) map[string]interface{} {
+func MonthToMapAvm(obj oci_database.Month) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	result["name"] = string(obj.Name)

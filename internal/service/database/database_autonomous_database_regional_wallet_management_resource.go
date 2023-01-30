@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database
@@ -6,8 +6,8 @@ package database
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -29,6 +29,11 @@ func DatabaseAutonomousDatabaseRegionalWalletManagementResource() *schema.Resour
 			// Required
 
 			// Optional
+			"grace_period": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"should_rotate": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -146,6 +151,11 @@ func (s *DatabaseAutonomousDatabaseRegionalWalletManagementResourceCrud) Get() e
 
 func (s *DatabaseAutonomousDatabaseRegionalWalletManagementResourceCrud) Update() error {
 	request := oci_database.UpdateAutonomousDatabaseRegionalWalletRequest{}
+
+	if gracePeriod, ok := s.D.GetOkExists("grace_period"); ok {
+		tmp := gracePeriod.(int)
+		request.GracePeriod = &tmp
+	}
 
 	if shouldRotate, ok := s.D.GetOkExists("should_rotate"); ok {
 		tmp := shouldRotate.(bool)

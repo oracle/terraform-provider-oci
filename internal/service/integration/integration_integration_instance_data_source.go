@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integration
@@ -6,8 +6,8 @@ package integration
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_integration "github.com/oracle/oci-go-sdk/v65/integration"
@@ -72,6 +72,12 @@ func (s *IntegrationIntegrationInstanceDataSourceCrud) SetData() error {
 	}
 	s.D.Set("alternate_custom_endpoints", alternateCustomEndpoints)
 
+	attachments := []interface{}{}
+	for _, item := range s.Res.Attachments {
+		attachments = append(attachments, AttachmentDetailsToMap(item))
+	}
+	s.D.Set("attachments", attachments)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -93,6 +99,12 @@ func (s *IntegrationIntegrationInstanceDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.IdcsInfo != nil {
+		s.D.Set("idcs_info", []interface{}{IdcsInfoDetailsToMap(s.Res.IdcsInfo)})
+	} else {
+		s.D.Set("idcs_info", nil)
+	}
 
 	if s.Res.InstanceUrl != nil {
 		s.D.Set("instance_url", *s.Res.InstanceUrl)

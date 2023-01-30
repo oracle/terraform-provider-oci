@@ -28,6 +28,8 @@ resource "oci_database_maintenance_run" "test_maintenance_run" {
 	is_resume_patching = var.maintenance_run_is_resume_patching
 	patch_id = oci_database_patch.test_patch.id
 	patching_mode = var.maintenance_run_patching_mode
+	target_db_server_version = var.maintenance_run_target_db_server_version
+	target_storage_server_version = var.maintenance_run_target_storage_server_version
 	time_scheduled = var.maintenance_run_time_scheduled
 }
 ```
@@ -47,6 +49,8 @@ The following arguments are supported:
 * `patching_mode` - (Optional) (Updatable) Cloud Exadata infrastructure node patching method, either "ROLLING" or "NONROLLING". Default value is ROLLING.
 
 	*IMPORTANT*: Non-rolling infrastructure patching involves system down time. See [Oracle-Managed Infrastructure Maintenance Updates](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/examaintenance.htm#Oracle) for more information. 
+* `target_db_server_version` - (Optional) (Updatable) The target database server system software version for the patching operation.
+* `target_storage_server_version` - (Optional) (Updatable) The target storage cell system software version for the patching operation.
 * `time_scheduled` - (Optional) (Updatable) The scheduled date and time of the maintenance run to update.
 
 
@@ -94,7 +98,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Maintenance Run
 	* `update` - (Defaults to 20 minutes), when updating the Maintenance Run
 	* `delete` - (Defaults to 20 minutes), when destroying the Maintenance Run

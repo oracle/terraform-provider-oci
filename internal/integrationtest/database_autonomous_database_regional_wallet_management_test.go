@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -8,27 +8,28 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	AutonomousDatabaseRegionalWalletManagementResourceConfig = AutonomousDatabaseRegionalWalletManagementResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", acctest.Optional, acctest.Update, autonomousDatabaseRegionalWalletManagementRepresentation)
+	DatabaseAutonomousDatabaseRegionalWalletManagementResourceConfig = DatabaseAutonomousDatabaseRegionalWalletManagementResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", acctest.Optional, acctest.Update, DatabaseAutonomousDatabaseRegionalWalletManagementRepresentation)
 
-	autonomousDatabaseRegionalWalletManagementSingularDataSourceRepresentation = map[string]interface{}{}
+	DatabaseDatabaseAutonomousDatabaseRegionalWalletManagementSingularDataSourceRepresentation = map[string]interface{}{}
 
-	autonomousDatabaseRegionalWalletManagementRepresentation = map[string]interface{}{
+	DatabaseAutonomousDatabaseRegionalWalletManagementRepresentation = map[string]interface{}{
+		"grace_period":  acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"should_rotate": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
-	AutonomousDatabaseRegionalWalletManagementResourceDependencies = ""
+	DatabaseAutonomousDatabaseRegionalWalletManagementResourceDependencies = ""
 )
 
 // issue-routing-tag: database/dbaas-adb
@@ -47,15 +48,34 @@ func TestDatabaseAutonomousDatabaseRegionalWalletManagementResource_basic(t *tes
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+AutonomousDatabaseRegionalWalletManagementResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", acctest.Optional, acctest.Create, autonomousDatabaseRegionalWalletManagementRepresentation), "database", "autonomousDatabaseRegionalWalletManagement", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseAutonomousDatabaseRegionalWalletManagementResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", acctest.Optional, acctest.Create, DatabaseAutonomousDatabaseRegionalWalletManagementRepresentation), "database", "autonomousDatabaseRegionalWalletManagement", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		//0. verify create
 		{
-			Config: config + compartmentIdVariableStr + AutonomousDatabaseRegionalWalletManagementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", acctest.Required, acctest.Create, autonomousDatabaseRegionalWalletManagementRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseRegionalWalletManagementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", acctest.Required, acctest.Create, DatabaseAutonomousDatabaseRegionalWalletManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseRegionalWalletManagementResourceDependencies,
+		},
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseRegionalWalletManagementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", acctest.Optional, acctest.Create, DatabaseAutonomousDatabaseRegionalWalletManagementRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "grace_period", "10"),
+				resource.TestCheckResourceAttr(resourceName, "should_rotate", "false"),
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -70,9 +90,11 @@ func TestDatabaseAutonomousDatabaseRegionalWalletManagementResource_basic(t *tes
 		},
 		//1. verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + AutonomousDatabaseRegionalWalletManagementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", acctest.Optional, acctest.Update, autonomousDatabaseRegionalWalletManagementRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseRegionalWalletManagementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", acctest.Optional, acctest.Update, DatabaseAutonomousDatabaseRegionalWalletManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "grace_period", "11"),
+				resource.TestCheckResourceAttr(resourceName, "should_rotate", "true"),
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_rotated"),
 				func(s *terraform.State) (err error) {
@@ -87,8 +109,8 @@ func TestDatabaseAutonomousDatabaseRegionalWalletManagementResource_basic(t *tes
 		//2. verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", acctest.Required, acctest.Create, autonomousDatabaseRegionalWalletManagementSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + AutonomousDatabaseRegionalWalletManagementResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", acctest.Required, acctest.Create, DatabaseDatabaseAutonomousDatabaseRegionalWalletManagementSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseAutonomousDatabaseRegionalWalletManagementResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),

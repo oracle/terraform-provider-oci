@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package service_mesh
@@ -9,8 +9,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_service_mesh "github.com/oracle/oci-go-sdk/v65/servicemesh"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func ServiceMeshVirtualServiceRouteTablesDataSource() *schema.Resource {
@@ -93,8 +93,7 @@ func (s *ServiceMeshVirtualServiceRouteTablesDataSourceCrud) Get() error {
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
-		tmp := state.(string)
-		request.LifecycleState = &tmp
+		request.LifecycleState = oci_service_mesh.VirtualServiceRouteTableLifecycleStateEnum(state.(string))
 	}
 
 	if virtualServiceId, ok := s.D.GetOkExists("virtual_service_id"); ok {

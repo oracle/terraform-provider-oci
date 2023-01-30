@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,21 +7,21 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
 	metricDataEndTimeStr   string
 	metricDataStartTimeStr string
 
-	metricDataDataSourceRepresentation = map[string]interface{}{
+	MonitoringMonitoringMetricDataDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"namespace":                 acctest.Representation{RepType: acctest.Required, Create: `oci_vcn`},
 		"query":                     acctest.Representation{RepType: acctest.Required, Create: `VnicToNetworkPackets[4m].max()`},
@@ -32,7 +32,7 @@ var (
 		"start_time":                acctest.Representation{RepType: acctest.Optional, Create: metricDataStartTimeStr},
 	}
 
-	MetricDataResourceConfig = AvailabilityDomainConfig
+	MonitoringMetricDataResourceConfig = AvailabilityDomainConfig
 )
 
 func generateMetricDataRepresentationWithCurrentTimeInputs() map[string]interface{} {
@@ -40,7 +40,7 @@ func generateMetricDataRepresentationWithCurrentTimeInputs() map[string]interfac
 	startTime := endTime.Add(-2 * time.Hour)
 	metricDataEndTimeStr = endTime.Format(time.RFC3339Nano)
 	metricDataStartTimeStr = startTime.Format(time.RFC3339Nano)
-	return acctest.RepresentationCopyWithNewProperties(metricDataDataSourceRepresentation, map[string]interface{}{
+	return acctest.RepresentationCopyWithNewProperties(MonitoringMonitoringMetricDataDataSourceRepresentation, map[string]interface{}{
 		"end_time":   acctest.Representation{RepType: acctest.Optional, Create: metricDataEndTimeStr},
 		"start_time": acctest.Representation{RepType: acctest.Optional, Create: metricDataStartTimeStr},
 	})
@@ -65,7 +65,7 @@ func TestMonitoringMetricDataResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_monitoring_metric_data", "test_metric_data", acctest.Optional, acctest.Create, generateMetricDataRepresentationWithCurrentTimeInputs()) +
-				compartmentIdVariableStr + MetricDataResourceConfig,
+				compartmentIdVariableStr + MonitoringMetricDataResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),

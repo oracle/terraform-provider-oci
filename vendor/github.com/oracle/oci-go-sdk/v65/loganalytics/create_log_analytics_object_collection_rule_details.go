@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -65,6 +65,23 @@ type CreateLogAnalyticsObjectCollectionRuleDetails struct {
 	// Whether or not this rule is currently enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
+	// Timezone to be used when processing log entries whose timestamps do not include an explicit timezone.
+	// When this property is not specified, the timezone of the entity specified is used.
+	// If the entity is also not specified or do not have a valid timezone then UTC is used.
+	Timezone *string `mandatory:"false" json:"timezone"`
+
+	// The logSet to be associated with the processed logs. The logSet feature can be used by customers with high volume of data
+	// and this feature has to be enabled for a given tenancy prior to its usage.
+	// When logSetExtRegex value is provided, it will take precedence over this logSet value and logSet will be computed dynamically
+	// using logSetKey and logSetExtRegex.
+	LogSet *string `mandatory:"false" json:"logSet"`
+
+	// An optional parameter to indicate from where the logSet to be extracted using logSetExtRegex. Default value is OBJECT_PATH (e.g. /n/<namespace>/b/<bucketname>/o/<objectname>).
+	LogSetKey LogSetKeyTypesEnum `mandatory:"false" json:"logSetKey,omitempty"`
+
+	// The regex to be applied against given logSetKey. Regex has to be in string escaped format.
+	LogSetExtRegex *string `mandatory:"false" json:"logSetExtRegex"`
+
 	// The override is used to modify some important configuration properties for objects matching a specific pattern inside the bucket.
 	// Supported propeties for override are: logSourceName, charEncoding, entityId.
 	// Supported matchType for override are "contains".
@@ -96,6 +113,9 @@ func (m CreateLogAnalyticsObjectCollectionRuleDetails) ValidateEnumValue() (bool
 
 	if _, ok := GetMappingObjectCollectionRuleCollectionTypesEnum(string(m.CollectionType)); !ok && m.CollectionType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CollectionType: %s. Supported values are: %s.", m.CollectionType, strings.Join(GetObjectCollectionRuleCollectionTypesEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingLogSetKeyTypesEnum(string(m.LogSetKey)); !ok && m.LogSetKey != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LogSetKey: %s. Supported values are: %s.", m.LogSetKey, strings.Join(GetLogSetKeyTypesEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

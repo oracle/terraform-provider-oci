@@ -78,9 +78,9 @@ resource "oci_core_virtual_circuit" "test_virtual_circuit" {
 
 The following arguments are supported:
 
-* `bandwidth_shape_name` - (Optional) (Updatable) The provisioned data rate of the connection. To get a list of the available bandwidth levels (that is, shapes), see [ListFastConnectProviderServiceVirtualCircuitBandwidthShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/FastConnectProviderService/ListFastConnectProviderVirtualCircuitBandwidthShapes).  Example: `10 Gbps`
-* `bgp_admin_state` - (Optional) (Updatable) Set to ENABLED to activate the bgp session of virtual circuit, DISABLED to deactivate. 
-* `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the virtual circuit.
+* `bandwidth_shape_name` - (Optional) (Updatable) The provisioned data rate of the connection. To get a list of the available bandwidth levels (that is, shapes), see [ListFastConnectProviderServiceVirtualCircuitBandwidthShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/FastConnectProviderService/ListFastConnectProviderVirtualCircuitBandwidthShapes).  Example: `10 Gbps` 
+* `bgp_admin_state` - (Optional) (Updatable) Set to `ENABLED` (the default) to activate the BGP session of the virtual circuit, set to `DISABLED` to deactivate the virtual circuit. 
+* `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the virtual circuit. 
 * `cross_connect_mappings` - (Optional) (Updatable) Create a `CrossConnectMapping` for each cross-connect or cross-connect group this virtual circuit will run on. 
 	* `bgp_md5auth_key` - (Optional) (Updatable) The key for BGP MD5 authentication. Only applicable if your system requires MD5 authentication. If empty or not set (null), that means you don't use BGP MD5 authentication. 
 	* `cross_connect_or_cross_connect_group_id` - (Optional) (Updatable) The OCID of the cross-connect or cross-connect group for this mapping. Specified by the owner of the cross-connect or cross-connect group (the customer if the customer is colocated with Oracle, or the provider if the customer is connecting via provider). 
@@ -116,8 +116,8 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
 * `gateway_id` - (Optional) (Updatable) For private virtual circuits only. The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the [dynamic routing gateway (DRG)](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Drg) that this virtual circuit uses. 
 * `ip_mtu` - (Optional) (Updatable) The layer 3 IP MTU to use with this virtual circuit.
-* `is_bfd_enabled` - (Optional) (Updatable) Set to true to enable BFD for ipv4 Bgp Peering, false to disable. If not set, default is false 
-* `provider_service_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service offered by the provider (if you're connecting via a provider). To get a list of the available service offerings, see [ListFastConnectProviderServices](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/FastConnectProviderService/ListFastConnectProviderServices).
+* `is_bfd_enabled` - (Optional) (Updatable) Set to `true` to enable BFD for IPv4 BGP peering, or set to `false` to disable BFD. If this is not set, the default is `false`. 
+* `provider_service_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service offered by the provider (if you're connecting via a provider). To get a list of the available service offerings, see [ListFastConnectProviderServices](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/FastConnectProviderService/ListFastConnectProviderServices). 
 * `provider_service_key_name` - (Optional) (Updatable) The service key name offered by the provider (if the customer is connecting via a provider). 
 * `public_prefixes` - (Optional) (Updatable) For a public virtual circuit. The public IP prefixes (CIDRs) the customer wants to advertise across the connection. 
 	* `cidr_block` - (Required) (Updatable) An individual public IP prefix (CIDR) to add to the public virtual circuit. All prefix sizes are allowed. 
@@ -134,7 +134,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `bandwidth_shape_name` - The provisioned data rate of the connection. To get a list of the available bandwidth levels (that is, shapes), see [ListFastConnectProviderServiceVirtualCircuitBandwidthShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/FastConnectProviderService/ListFastConnectProviderVirtualCircuitBandwidthShapes).  Example: `10 Gbps` 
-* `bgp_admin_state` - Set to ENABLED to activate the  bgp session of virtual circuit, DISABLED to deactivate. 
+* `bgp_admin_state` - Set to `ENABLED` (the default) to activate the BGP session of the virtual circuit, set to `DISABLED` to deactivate the virtual circuit. 
 * `bgp_ipv6session_state` - The state of the Ipv6 BGP session associated with the virtual circuit.
 * `bgp_management` - Deprecated. Instead use the information in [FastConnectProviderService](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/FastConnectProviderService/). 
 * `bgp_session_state` - The state of the Ipv4 BGP session associated with the virtual circuit.
@@ -175,7 +175,7 @@ The following attributes are exported:
 * `gateway_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer's [dynamic routing gateway (DRG)](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Drg) that this virtual circuit uses. Applicable only to private virtual circuits. 
 * `id` - The virtual circuit's Oracle ID ([OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
 * `ip_mtu` - The layer 3 IP MTU to use on this virtual circuit.
-* `is_bfd_enabled` - Set to true to enable BFD for ipv4 Bgp Peering, false to disable. If not set, default is false
+* `is_bfd_enabled` - Set to `true` to enable BFD for IPv4 BGP peering, or set to `false` to disable BFD. If this is not set, the default is `false`. 
 * `oracle_bgp_asn` - The Oracle BGP ASN.
 * `provider_service_id` - The OCID of the service offered by the provider (if the customer is connecting via a provider). 
 * `provider_service_key_name` - The service key name offered by the provider (if the customer is connecting via a provider). 
@@ -191,7 +191,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Virtual Circuit
 	* `update` - (Defaults to 20 minutes), when updating the Virtual Circuit
 	* `delete` - (Defaults to 20 minutes), when destroying the Virtual Circuit

@@ -1,10 +1,11 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package cloud_guard
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"time"
@@ -14,8 +15,8 @@ import (
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func CloudGuardTargetResource() *schema.Resource {
@@ -215,6 +216,10 @@ func CloudGuardTargetResource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"data_source_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"description": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -226,6 +231,31 @@ func CloudGuardTargetResource() *schema.Resource {
 									"display_name": {
 										Type:     schema.TypeString,
 										Computed: true,
+									},
+									"entities_mappings": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"display_name": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"entity_type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"query_field": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
 									},
 									"lifecycle_details": {
 										Type:     schema.TypeString,
@@ -293,6 +323,10 @@ func CloudGuardTargetResource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"data_source_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"description": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -415,6 +449,31 @@ func CloudGuardTargetResource() *schema.Resource {
 									"display_name": {
 										Type:     schema.TypeString,
 										Computed: true,
+									},
+									"entities_mappings": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"display_name": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"entity_type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"query_field": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
 									},
 									"lifecycle_details": {
 										Type:     schema.TypeString,
@@ -1228,10 +1287,8 @@ func ConditionGroupToMap(obj oci_cloud_guard.ConditionGroup) map[string]interfac
 	}
 
 	if obj.Condition != nil {
-		condition, err := tfresource.ConvertObjectToJsonString(obj.Condition)
-		if err == nil {
-			result["condition"] = condition
-		}
+		tmp, _ := json.Marshal(obj.Condition)
+		result["condition"] = string(tmp)
 	}
 
 	return result
@@ -1389,6 +1446,34 @@ func TargetResponderRecipeToMap(obj oci_cloud_guard.TargetResponderRecipe) map[s
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
 	}
+
+	return result
+}
+
+func DetectorConfigurationToMap(obj oci_cloud_guard.DetectorConfiguration) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ConfigKey != nil {
+		result["config_key"] = string(*obj.ConfigKey)
+	}
+
+	if obj.DataType != nil {
+		result["data_type"] = string(*obj.DataType)
+	}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.Value != nil {
+		result["value"] = string(*obj.Value)
+	}
+
+	values := []interface{}{}
+	for _, item := range obj.Values {
+		values = append(values, ConfigValueToMap(item))
+	}
+	result["values"] = values
 
 	return result
 }
@@ -1649,8 +1734,12 @@ func TargetDetectorDetailsToMap(obj *oci_cloud_guard.TargetDetectorDetails) map[
 	return result
 }
 
-func TargetDetectorRecipeDetectorRuleToMap(obj oci_cloud_guard.TargetDetectorRecipeDetectorRule) map[string]interface{} {
+/*func TargetDetectorRecipeDetectorRuleToMap(obj oci_cloud_guard.TargetDetectorRecipeDetectorRule) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.DataSourceId != nil {
+		result["data_source_id"] = string(*obj.DataSourceId)
+	}
 
 	if obj.Description != nil {
 		result["description"] = string(*obj.Description)
@@ -1669,6 +1758,12 @@ func TargetDetectorRecipeDetectorRuleToMap(obj oci_cloud_guard.TargetDetectorRec
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
+
+	entitiesMappings := []interface{}{}
+	for _, item := range obj.EntitiesMappings {
+		entitiesMappings = append(entitiesMappings, EntitiesMappingToMap(item))
+	}
+	result["entities_mappings"] = entitiesMappings
 
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
@@ -1699,7 +1794,7 @@ func TargetDetectorRecipeDetectorRuleToMap(obj oci_cloud_guard.TargetDetectorRec
 	}
 
 	return result
-}
+}*/
 
 func TargetResponderRecipeResponderRuleToMap(obj oci_cloud_guard.TargetResponderRecipeResponderRule) map[string]interface{} {
 	result := map[string]interface{}{}
@@ -1844,6 +1939,69 @@ func (s *CloudGuardTargetResourceCrud) mapToUpdateTargetRecipeDetectorRuleDetail
 	return result, nil
 }
 
+func TargetDetectorRecipeDetectorRuleToMap(obj oci_cloud_guard.TargetDetectorRecipeDetectorRule) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DataSourceId != nil {
+		result["data_source_id"] = string(*obj.DataSourceId)
+	}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
+	if obj.Details != nil {
+		result["details"] = []interface{}{TargetDetectorDetailsToMap(obj.Details)}
+	}
+
+	result["detector"] = string(obj.Detector)
+
+	if obj.DetectorRuleId != nil {
+		result["detector_rule_id"] = string(*obj.DetectorRuleId)
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	entitiesMappings := []interface{}{}
+	for _, item := range obj.EntitiesMappings {
+		entitiesMappings = append(entitiesMappings, EntitiesMappingToMap(item))
+	}
+	result["entities_mappings"] = entitiesMappings
+
+	if obj.LifecycleDetails != nil {
+		result["lifecycle_details"] = string(*obj.LifecycleDetails)
+	}
+
+	result["managed_list_types"] = obj.ManagedListTypes
+	result["managed_list_types"] = obj.ManagedListTypes
+
+	if obj.Recommendation != nil {
+		result["recommendation"] = string(*obj.Recommendation)
+	}
+
+	if obj.ResourceType != nil {
+		result["resource_type"] = string(*obj.ResourceType)
+	}
+
+	if obj.ServiceType != nil {
+		result["service_type"] = string(*obj.ServiceType)
+	}
+
+	result["state"] = string(obj.LifecycleState)
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeUpdated != nil {
+		result["time_updated"] = obj.TimeUpdated.String()
+	}
+
+	return result
+}
+
 func (s *CloudGuardTargetResourceCrud) mapToUpdateTargetRecipeResponderRuleDetails(fieldKeyFormat string) (oci_cloud_guard.UpdateTargetRecipeResponderRuleDetails, error) {
 	result := oci_cloud_guard.UpdateTargetRecipeResponderRuleDetails{}
 
@@ -1871,13 +2029,13 @@ func (s *CloudGuardTargetResourceCrud) mapToUpdateTargetResponderRuleDetails(fie
 
 	if condition, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "condition")); ok {
 		tmp := condition.(string)
-		if len(tmp) > 0 {
-			var err error
-			result.Condition, err = jsonToCondition(tmp)
-			if err != nil {
-				return result, err
-			}
+		var conditionObj oci_cloud_guard.Condition
+		err := json.Unmarshal([]byte(tmp), &conditionObj)
+
+		if err != nil {
+			return result, err
 		}
+		result.Condition = &conditionObj
 	}
 
 	if configurations, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "configurations")); ok {
@@ -1970,13 +2128,13 @@ func (s *CloudGuardTargetResourceCrud) mapToConditionGroup(fieldKeyFormat string
 
 	if condition, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "condition")); ok {
 		tmp := condition.(string)
-		if len(tmp) > 0 {
-			var err error
-			result.Condition, err = jsonToCondition(tmp)
-			if err != nil {
-				return result, err
-			}
+		var conditionObj oci_cloud_guard.Condition
+		err := json.Unmarshal([]byte(tmp), &conditionObj)
+
+		if err != nil {
+			return result, err
 		}
+		result.Condition = &conditionObj
 	}
 
 	return result, nil

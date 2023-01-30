@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -6,13 +6,15 @@ package integrationtest
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -20,48 +22,48 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_dns "github.com/oracle/oci-go-sdk/v65/dns"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	ViewRequiredOnlyResource = ViewResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", acctest.Required, acctest.Create, viewRepresentation)
+	DnsViewRequiredOnlyResource = DnsViewResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", acctest.Required, acctest.Create, DnsViewRepresentation)
 
-	ViewResourceConfig = ViewResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", acctest.Optional, acctest.Update, viewRepresentation)
+	DnsViewResourceConfig = DnsViewResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", acctest.Optional, acctest.Update, DnsViewRepresentation)
 
-	viewSingularDataSourceRepresentation = map[string]interface{}{
+	DnsDnsViewSingularDataSourceRepresentation = map[string]interface{}{
 		"view_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_view.test_view.id}`},
-		"scope":   acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
+		"scope":   acctest.Representation{RepType: acctest.Optional, Create: `PRIVATE`},
 	}
 
-	viewDataSourceRepresentation = map[string]interface{}{
+	DnsDnsViewDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_dns_view.test_view.id}`},
-		"scope":          acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
+		"scope":          acctest.Representation{RepType: acctest.Optional, Create: `PRIVATE`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: viewDataSourceFilterRepresentation}}
-	viewDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DnsViewDataSourceFilterRepresentation}}
+	DnsViewDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_dns_view.test_view.id}`}},
 	}
 
-	viewRepresentation = map[string]interface{}{
+	DnsViewRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
-		"scope":          acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
+		"scope":          acctest.Representation{RepType: acctest.Optional, Create: `PRIVATE`},
 	}
-	viewRepresentationDefault = map[string]interface{}{
+	DnsViewRepresentationDefault = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
 	}
 
-	ViewResourceDependencies = DefinedTagsDependencies
+	DnsViewResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: dns/default
@@ -83,14 +85,14 @@ func TestDnsViewResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ViewResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", acctest.Optional, acctest.Create, viewRepresentation), "dns", "view", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DnsViewResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", acctest.Optional, acctest.Create, DnsViewRepresentation), "dns", "view", t)
 
 	acctest.ResourceTest(t, testAccCheckDnsViewDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ViewResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", acctest.Required, acctest.Create, viewRepresentation),
+			Config: config + compartmentIdVariableStr + DnsViewResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", acctest.Required, acctest.Create, DnsViewRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
@@ -103,19 +105,18 @@ func TestDnsViewResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ViewResourceDependencies,
+			Config: config + compartmentIdVariableStr + DnsViewResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ViewResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", acctest.Optional, acctest.Create, viewRepresentation),
+			Config: config + compartmentIdVariableStr + DnsViewResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", acctest.Optional, acctest.Create, DnsViewRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
-				resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
 				resource.TestCheckResourceAttrSet(resourceName, "self"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -123,12 +124,11 @@ func TestDnsViewResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					// Resource discovery is disabled for Views
-					//if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-					//	if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-					//		return errExport
-					//	}
-					//}
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
 					return err
 				},
 			),
@@ -136,9 +136,9 @@ func TestDnsViewResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ViewResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DnsViewResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(viewRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(DnsViewRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -147,7 +147,6 @@ func TestDnsViewResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
-				resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
 				resource.TestCheckResourceAttrSet(resourceName, "self"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -165,15 +164,14 @@ func TestDnsViewResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ViewResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", acctest.Optional, acctest.Update, viewRepresentation),
+			Config: config + compartmentIdVariableStr + DnsViewResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", acctest.Optional, acctest.Update, DnsViewRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
-				resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
 				resource.TestCheckResourceAttrSet(resourceName, "self"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -191,13 +189,12 @@ func TestDnsViewResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_views", "test_views", acctest.Optional, acctest.Update, viewDataSourceRepresentation) +
-				compartmentIdVariableStr + ViewResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", acctest.Optional, acctest.Update, viewRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_views", "test_views", acctest.Optional, acctest.Update, DnsDnsViewDataSourceRepresentation) +
+				compartmentIdVariableStr + DnsViewResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", acctest.Optional, acctest.Update, DnsViewRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(datasourceName, "scope", "PRIVATE"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttr(datasourceName, "views.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "views.0.compartment_id", compartmentId),
@@ -214,10 +211,9 @@ func TestDnsViewResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_view", "test_view", acctest.Required, acctest.Create, viewSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ViewResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_view", "test_view", acctest.Required, acctest.Create, DnsDnsViewSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DnsViewResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(singularDatasourceName, "scope", "PRIVATE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "view_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
@@ -232,26 +228,15 @@ func TestDnsViewResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + ViewRequiredOnlyResource,
+			Config:            config + DnsViewRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
-			ImportStateIdFunc: getDnsViewImportId(resourceName),
 			ImportStateVerifyIgnore: []string{
 				"scope",
 			},
 			ResourceName: resourceName,
 		},
 	})
-}
-
-func getDnsViewImportId(resourceName string) resource.ImportStateIdFunc {
-	return func(s *terraform.State) (string, error) {
-		rs, ok := s.RootModule().Resources[resourceName]
-		if !ok {
-			return "", fmt.Errorf("not found: %s", resourceName)
-		}
-		return fmt.Sprintf("viewId/" + rs.Primary.Attributes["id"] + "/scope/" + rs.Primary.Attributes["scope"]), nil
-	}
 }
 
 func testAccCheckDnsViewDestroy(s *terraform.State) error {
@@ -305,7 +290,7 @@ func init() {
 
 func sweepDnsViewResource(compartment string) error {
 	dnsClient := acctest.GetTestClients(&schema.ResourceData{}).DnsClient()
-	viewIds, err := getViewIds(compartment)
+	viewIds, err := getDnsViewIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -321,14 +306,14 @@ func sweepDnsViewResource(compartment string) error {
 				fmt.Printf("Error deleting View %s %s, It is possible that the resource is already deleted. Please verify manually \n", viewId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &viewId, viewSweepWaitCondition, time.Duration(3*time.Minute),
-				viewSweepResponseFetchOperation, "dns", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &viewId, DnsViewSweepWaitCondition, time.Duration(3*time.Minute),
+				DnsViewSweepResponseFetchOperation, "dns", true)
 		}
 	}
 	return nil
 }
 
-func getViewIds(compartment string) ([]string, error) {
+func getDnsViewIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ViewId")
 	if ids != nil {
 		return ids, nil
@@ -353,7 +338,7 @@ func getViewIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func viewSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DnsViewSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if viewResponse, ok := response.Response.(oci_dns.GetViewResponse); ok {
 		return viewResponse.LifecycleState != oci_dns.ViewLifecycleStateDeleted
@@ -361,7 +346,7 @@ func viewSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func viewSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DnsViewSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DnsClient().GetView(context.Background(), oci_dns.GetViewRequest{
 		ViewId: resourceId,
 		RequestMetadata: common.RequestMetadata{

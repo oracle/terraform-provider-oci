@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,21 +22,21 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_waf "github.com/oracle/oci-go-sdk/v65/waf"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	NetworkAddressListVcnRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list_vcn", acctest.Required, acctest.Create, networkAddressListRepresentationVcn)
+	NetworkAddressListVcnRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list_vcn", acctest.Required, acctest.Create, WafNetworkAddressListRepresentationVcn)
 
-	NetworkAddressListRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list", acctest.Required, acctest.Create, networkAddressListRepresentation)
+	WafNetworkAddressListRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list", acctest.Required, acctest.Create, WafNetworkAddressListRepresentation)
 
-	NetworkAddressListResourceConfig = NetworkAddressListResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list", acctest.Optional, acctest.Update, networkAddressListRepresentation)
+	WafNetworkAddressListResourceConfig = WafNetworkAddressListResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list", acctest.Optional, acctest.Update, WafNetworkAddressListRepresentation)
 
 	NetworkAddressListVcnResourceConfig = NetworkAddressListResourceDependenciesVcn +
-		acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list_vcn", acctest.Optional, acctest.Update, networkAddressListRepresentationVcn)
+		acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list_vcn", acctest.Optional, acctest.Update, WafNetworkAddressListRepresentationVcn)
 
-	networkAddressListSingularDataSourceRepresentation = map[string]interface{}{
+	WafWafNetworkAddressListSingularDataSourceRepresentation = map[string]interface{}{
 		"network_address_list_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_waf_network_address_list.test_network_address_list.id}`},
 	}
 
@@ -56,19 +56,19 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_waf_network_address_list.test_network_address_list_vcn.id}`}},
 	}
 
-	networkAddressListDataSourceRepresentation = map[string]interface{}{
+	WafWafNetworkAddressListDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_waf_network_address_list.test_network_address_list.id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: []string{`ACTIVE`}},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: networkAddressListDataSourceFilterRepresentation}}
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: WafNetworkAddressListDataSourceFilterRepresentation}}
 
-	networkAddressListDataSourceFilterRepresentation = map[string]interface{}{
+	WafNetworkAddressListDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_waf_network_address_list.test_network_address_list.id}`}},
 	}
 
-	networkAddressListRepresentation = map[string]interface{}{
+	WafNetworkAddressListRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"type":           acctest.Representation{RepType: acctest.Required, Create: `ADDRESSES`},
 		"addresses":      acctest.Representation{RepType: acctest.Required, Create: []string{`10.1.2.3`}, Update: []string{`10.1.2.4`}},
@@ -77,24 +77,24 @@ var (
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	networkAddressListRepresentationVcn = map[string]interface{}{
+	WafNetworkAddressListRepresentationVcn = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"type":           acctest.Representation{RepType: acctest.Required, Create: `VCN_ADDRESSES`},
 		//"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: "displayName2"},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"addresses":     acctest.Representation{RepType: acctest.Required, Create: []string{`10.1.2.3`}},
-		"vcn_addresses": acctest.RepresentationGroup{RepType: acctest.Required, Group: networkAddressListVcnAddressesRepresentation},
+		"vcn_addresses": acctest.RepresentationGroup{RepType: acctest.Required, Group: WafNetworkAddressListVcnAddressesRepresentation},
 	}
 
-	networkAddressListVcnAddressesRepresentation = map[string]interface{}{
+	WafNetworkAddressListVcnAddressesRepresentation = map[string]interface{}{
 		"addresses": acctest.Representation{RepType: acctest.Required, Create: `10.1.2.3`, Update: `10.1.2.0/24`},
 		"vcn_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
 	}
 
-	NetworkAddressListResourceDependencies = ""
+	WafNetworkAddressListResourceDependencies = ""
 
-	NetworkAddressListResourceDependenciesVcn = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation)
+	NetworkAddressListResourceDependenciesVcn = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation)
 	//+DefinedTagsDependencies
 )
 
@@ -121,15 +121,15 @@ func TestWafNetworkAddressListResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+NetworkAddressListResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list", acctest.Optional, acctest.Create, networkAddressListRepresentation), "waf", "networkAddressList", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+WafNetworkAddressListResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list", acctest.Optional, acctest.Create, WafNetworkAddressListRepresentation), "waf", "networkAddressList", t)
 
 	acctest.ResourceTest(t, testAccCheckWafNetworkAddressListDestroy, []resource.TestStep{
 		// WAF Network Address List VCN_ADDRESSES tests
 		// verify Create VCN_Addresses
 		{
 			Config: config + compartmentIdVariableStr + NetworkAddressListResourceDependenciesVcn +
-				acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list_vcn", acctest.Required, acctest.Create, networkAddressListRepresentationVcn),
+				acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list_vcn", acctest.Required, acctest.Create, WafNetworkAddressListRepresentationVcn),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceNameVcn, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceNameVcn, "type", "VCN_ADDRESSES"),
@@ -152,7 +152,7 @@ func TestWafNetworkAddressListResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + NetworkAddressListResourceDependenciesVcn +
-				acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list_vcn", acctest.Optional, acctest.Create, networkAddressListRepresentationVcn),
+				acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list_vcn", acctest.Optional, acctest.Create, WafNetworkAddressListRepresentationVcn),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceNameVcn, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceNameVcn, "display_name", "displayName"),
@@ -182,7 +182,7 @@ func TestWafNetworkAddressListResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + NetworkAddressListResourceDependenciesVcn +
 				acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list_vcn", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(networkAddressListRepresentationVcn, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(WafNetworkAddressListRepresentationVcn, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -211,7 +211,7 @@ func TestWafNetworkAddressListResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + NetworkAddressListResourceDependenciesVcn +
-				acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list_vcn", acctest.Optional, acctest.Update, networkAddressListRepresentationVcn),
+				acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list_vcn", acctest.Optional, acctest.Update, WafNetworkAddressListRepresentationVcn),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceNameVcn, "addresses.#", "1"),
 				resource.TestCheckResourceAttr(resourceNameVcn, "compartment_id", compartmentId),
@@ -241,7 +241,7 @@ func TestWafNetworkAddressListResource_basic(t *testing.T) {
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_waf_network_address_lists", "test_network_address_lists_vcn", acctest.Optional, acctest.Update, networkAddressListVcnDataSourceRepresentation) +
 				compartmentIdVariableStr + NetworkAddressListResourceDependenciesVcn +
-				acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list_vcn", acctest.Optional, acctest.Update, networkAddressListRepresentationVcn),
+				acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list_vcn", acctest.Optional, acctest.Update, WafNetworkAddressListRepresentationVcn),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceNameVcn, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceNameVcn, "display_name", "displayName2"),
@@ -287,8 +287,8 @@ func TestWafNetworkAddressListResource_basic(t *testing.T) {
 		// WAF Network Address List ADDRESSES tests
 		// verify Create Addresses
 		{
-			Config: config + compartmentIdVariableStr + NetworkAddressListResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list", acctest.Required, acctest.Create, networkAddressListRepresentation),
+			Config: config + compartmentIdVariableStr + WafNetworkAddressListResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list", acctest.Required, acctest.Create, WafNetworkAddressListRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "addresses.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -303,13 +303,13 @@ func TestWafNetworkAddressListResource_basic(t *testing.T) {
 
 		// delete Addresses before next Create
 		{
-			Config: config + compartmentIdVariableStr + NetworkAddressListResourceDependencies,
+			Config: config + compartmentIdVariableStr + WafNetworkAddressListResourceDependencies,
 		},
 
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + NetworkAddressListResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list", acctest.Optional, acctest.Create, networkAddressListRepresentation),
+			Config: config + compartmentIdVariableStr + WafNetworkAddressListResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list", acctest.Optional, acctest.Create, WafNetworkAddressListRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "addresses.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -335,9 +335,9 @@ func TestWafNetworkAddressListResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + NetworkAddressListResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + WafNetworkAddressListResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(networkAddressListRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(WafNetworkAddressListRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -363,8 +363,8 @@ func TestWafNetworkAddressListResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + NetworkAddressListResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list", acctest.Optional, acctest.Update, networkAddressListRepresentation),
+			Config: config + compartmentIdVariableStr + WafNetworkAddressListResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list", acctest.Optional, acctest.Update, WafNetworkAddressListRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "addresses.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -389,9 +389,9 @@ func TestWafNetworkAddressListResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_waf_network_address_lists", "test_network_address_lists", acctest.Optional, acctest.Update, networkAddressListDataSourceRepresentation) +
-				compartmentIdVariableStr + NetworkAddressListResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list", acctest.Optional, acctest.Update, networkAddressListRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_waf_network_address_lists", "test_network_address_lists", acctest.Optional, acctest.Update, WafWafNetworkAddressListDataSourceRepresentation) +
+				compartmentIdVariableStr + WafNetworkAddressListResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list", acctest.Optional, acctest.Update, WafNetworkAddressListRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -406,8 +406,8 @@ func TestWafNetworkAddressListResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list", acctest.Required, acctest.Create, networkAddressListSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + NetworkAddressListResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list", acctest.Required, acctest.Create, WafWafNetworkAddressListSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + WafNetworkAddressListResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_address_list_id"),
 
@@ -425,7 +425,7 @@ func TestWafNetworkAddressListResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + NetworkAddressListRequiredOnlyResource,
+			Config:                  config + WafNetworkAddressListRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -489,7 +489,7 @@ func init() {
 
 func sweepWafNetworkAddressListResource(compartment string) error {
 	wafClient := acctest.GetTestClients(&schema.ResourceData{}).WafClient()
-	networkAddressListIds, err := getNetworkAddressListIds(compartment)
+	networkAddressListIds, err := getWafNetworkAddressListIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -505,14 +505,14 @@ func sweepWafNetworkAddressListResource(compartment string) error {
 				fmt.Printf("Error deleting NetworkAddressList %s %s, It is possible that the resource is already deleted. Please verify manually \n", networkAddressListId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &networkAddressListId, networkAddressListSweepWaitCondition, time.Duration(3*time.Minute),
-				networkAddressListSweepResponseFetchOperation, "waf", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &networkAddressListId, WafNetworkAddressListSweepWaitCondition, time.Duration(3*time.Minute),
+				WafNetworkAddressListSweepResponseFetchOperation, "waf", true)
 		}
 	}
 	return nil
 }
 
-func getNetworkAddressListIds(compartment string) ([]string, error) {
+func getWafNetworkAddressListIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "NetworkAddressListId")
 	if ids != nil {
 		return ids, nil
@@ -537,7 +537,7 @@ func getNetworkAddressListIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func networkAddressListSweepWaitCondition(response common.OCIOperationResponse) bool {
+func WafNetworkAddressListSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if networkAddressListResponse, ok := response.Response.(oci_waf.GetNetworkAddressListResponse); ok {
 		return networkAddressListResponse.GetLifecycleState() != oci_waf.NetworkAddressListLifecycleStateDeleted
@@ -545,7 +545,7 @@ func networkAddressListSweepWaitCondition(response common.OCIOperationResponse) 
 	return false
 }
 
-func networkAddressListSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func WafNetworkAddressListSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.WafClient().GetNetworkAddressList(context.Background(), oci_waf.GetNetworkAddressListRequest{
 		NetworkAddressListId: resourceId,
 		RequestMetadata: common.RequestMetadata{

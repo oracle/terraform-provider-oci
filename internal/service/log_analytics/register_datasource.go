@@ -1,0 +1,32 @@
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
+
+package log_analytics
+
+import "github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+func RegisterDatasource() {
+	tfresource.RegisterDatasource("oci_log_analytics_log_analytics_categories_list", LogAnalyticsLogAnalyticsCategoriesListDataSource())
+	tfresource.RegisterDatasource("oci_log_analytics_log_analytics_category", LogAnalyticsLogAnalyticsCategoryDataSource())
+	tfresource.RegisterDatasource("oci_log_analytics_log_analytics_entities", LogAnalyticsLogAnalyticsEntitiesDataSource())
+	tfresource.RegisterDatasource("oci_log_analytics_log_analytics_entities_summary", LogAnalyticsLogAnalyticsEntitiesSummaryDataSource())
+	tfresource.RegisterDatasource("oci_log_analytics_log_analytics_entity", LogAnalyticsLogAnalyticsEntityDataSource())
+	tfresource.RegisterDatasource("oci_log_analytics_log_analytics_entity_topology", LogAnalyticsLogAnalyticsEntityTopologyDataSource())
+	tfresource.RegisterDatasource("oci_log_analytics_log_analytics_log_group", LogAnalyticsLogAnalyticsLogGroupDataSource())
+	tfresource.RegisterDatasource("oci_log_analytics_log_analytics_log_groups", LogAnalyticsLogAnalyticsLogGroupsDataSource())
+	tfresource.RegisterDatasource("oci_log_analytics_log_analytics_log_groups_summary", LogAnalyticsLogAnalyticsLogGroupsSummaryDataSource())
+	tfresource.RegisterDatasource("oci_log_analytics_log_analytics_object_collection_rule", LogAnalyticsLogAnalyticsObjectCollectionRuleDataSource())
+	tfresource.RegisterDatasource("oci_log_analytics_log_analytics_object_collection_rules", LogAnalyticsLogAnalyticsObjectCollectionRulesDataSource())
+	tfresource.RegisterDatasource("oci_log_analytics_log_analytics_preference", LogAnalyticsLogAnalyticsPreferenceDataSource())
+	tfresource.RegisterDatasource("oci_log_analytics_log_analytics_resource_categories_list", LogAnalyticsLogAnalyticsResourceCategoriesListDataSource())
+	tfresource.RegisterDatasource("oci_log_analytics_log_analytics_unprocessed_data_bucket", LogAnalyticsLogAnalyticsUnprocessedDataBucketDataSource())
+	tfresource.RegisterDatasource("oci_log_analytics_log_sets_count", LogAnalyticsLogSetsCountDataSource())
+	tfresource.RegisterDatasource("oci_log_analytics_namespace", LogAnalyticsNamespaceDataSource())
+	tfresource.RegisterDatasource("oci_log_analytics_namespace_ingest_time_rule", LogAnalyticsNamespaceIngestTimeRuleDataSource())
+	tfresource.RegisterDatasource("oci_log_analytics_namespace_ingest_time_rules", LogAnalyticsNamespaceIngestTimeRulesDataSource())
+	tfresource.RegisterDatasource("oci_log_analytics_namespace_rules", LogAnalyticsNamespaceRulesDataSource())
+	tfresource.RegisterDatasource("oci_log_analytics_namespace_scheduled_task", LogAnalyticsNamespaceScheduledTaskDataSource())
+	tfresource.RegisterDatasource("oci_log_analytics_namespace_scheduled_tasks", LogAnalyticsNamespaceScheduledTasksDataSource())
+	tfresource.RegisterDatasource("oci_log_analytics_namespace_storage_encryption_key_info", LogAnalyticsNamespaceStorageEncryptionKeyInfoDataSource())
+	tfresource.RegisterDatasource("oci_log_analytics_namespaces", LogAnalyticsNamespacesDataSource())
+}

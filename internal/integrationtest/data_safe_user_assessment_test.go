@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,11 +9,11 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -21,21 +21,21 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	UserAssessmentRequiredOnlyResource = UserAssessmentResourceDependencies +
+	DataSafeUserAssessmentRequiredOnlyResource = DataSafeUserAssessmentResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", acctest.Required, acctest.Create, userAssessmentRepresentation)
 
-	UserAssessmentResourceConfig = UserAssessmentResourceDependencies +
+	DataSafeUserAssessmentResourceConfig = DataSafeUserAssessmentResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", acctest.Optional, acctest.Update, userAssessmentRepresentation)
 
-	userAssessmentSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafeuserAssessmentSingularDataSourceRepresentation = map[string]interface{}{
 		"user_assessment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_user_assessment.test_user_assessment.id}`},
 	}
 
-	userAssessmentDataSourceRepresentation = map[string]interface{}{
+	DataSafeuserAssessmentDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"target_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.target_id}`},
 		"type":           acctest.Representation{RepType: acctest.Optional, Create: `SAVED`},
@@ -70,7 +70,7 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
-	UserAssessmentResourceDependencies = DefinedTagsDependencies
+	DataSafeUserAssessmentResourceDependencies = DefinedTagsDependencies
 )
 
 //issue-routing-tag: data_safe/default
@@ -95,13 +95,13 @@ func TestDataSafeUserAssessmentResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+UserAssessmentResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DataSafeUserAssessmentResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", acctest.Optional, acctest.Create, userAssessmentRepresentation), "datasafe", "userassessment", t)
 
 	acctest.ResourceTest(t, testAccCheckDataSafeUserAssessmentDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + UserAssessmentResourceDependencies + targetIdVariableStr +
+			Config: config + compartmentIdVariableStr + DataSafeUserAssessmentResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", acctest.Required, acctest.Create, userAssessmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -116,11 +116,11 @@ func TestDataSafeUserAssessmentResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + UserAssessmentResourceDependencies + targetIdVariableStr,
+			Config: config + compartmentIdVariableStr + DataSafeUserAssessmentResourceDependencies + targetIdVariableStr,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + UserAssessmentResourceDependencies + targetIdVariableStr +
+			Config: config + compartmentIdVariableStr + DataSafeUserAssessmentResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", acctest.Optional, acctest.Create, userAssessmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -148,7 +148,7 @@ func TestDataSafeUserAssessmentResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + UserAssessmentResourceDependencies + targetIdVariableStr +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DataSafeUserAssessmentResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(userAssessmentRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -176,7 +176,7 @@ func TestDataSafeUserAssessmentResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + UserAssessmentResourceDependencies + targetIdVariableStr +
+			Config: config + compartmentIdVariableStr + DataSafeUserAssessmentResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", acctest.Required, acctest.Update, userAssessmentChangeCompartmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -200,8 +200,8 @@ func TestDataSafeUserAssessmentResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_user_assessments", "test_user_assessments", acctest.Optional, acctest.Update, userAssessmentDataSourceRepresentation) +
-				compartmentIdVariableStr + UserAssessmentResourceDependencies + targetIdVariableStr +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_user_assessments", "test_user_assessments", acctest.Optional, acctest.Update, DataSafeuserAssessmentDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeUserAssessmentResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", acctest.Optional, acctest.Update, userAssessmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -224,8 +224,8 @@ func TestDataSafeUserAssessmentResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", acctest.Required, acctest.Create, userAssessmentSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + UserAssessmentRequiredOnlyResource + targetIdVariableStr,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", acctest.Required, acctest.Create, DataSafeuserAssessmentSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeUserAssessmentRequiredOnlyResource + targetIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "user_assessment_id"),
 
@@ -245,7 +245,7 @@ func TestDataSafeUserAssessmentResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + UserAssessmentRequiredOnlyResource + targetIdVariableStr,
+			Config:            config + DataSafeUserAssessmentRequiredOnlyResource + targetIdVariableStr,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -303,7 +303,7 @@ func init() {
 
 func sweepDataSafeUserAssessmentResource(compartment string) error {
 	dataSafeClient := acctest.GetTestClients(&schema.ResourceData{}).DataSafeClient()
-	userAssessmentIds, err := getUserAssessmentIds(compartment)
+	userAssessmentIds, err := getDataSafeUserAssessmentIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -324,7 +324,7 @@ func sweepDataSafeUserAssessmentResource(compartment string) error {
 	return nil
 }
 
-func getUserAssessmentIds(compartment string) ([]string, error) {
+func getDataSafeUserAssessmentIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "UserAssessmentId")
 	if ids != nil {
 		return ids, nil

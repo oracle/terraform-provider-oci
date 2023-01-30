@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -47,6 +47,9 @@ type ExadataDatabaseMachineConfigurationSummary struct {
 	// OPSI Enterprise Manager Bridge OCID
 	EnterpriseManagerBridgeId *string `mandatory:"true" json:"enterpriseManagerBridgeId"`
 
+	// Array of objects containing VM cluster information.
+	VmclusterDetails []VmClusterSummary `mandatory:"false" json:"vmclusterDetails"`
+
 	// Operations Insights internal representation of the the Exadata system type.
 	ExadataType ExadataTypeEnum `mandatory:"true" json:"exadataType"`
 
@@ -92,6 +95,11 @@ func (m ExadataDatabaseMachineConfigurationSummary) GetDefinedTags() map[string]
 //GetFreeformTags returns FreeformTags
 func (m ExadataDatabaseMachineConfigurationSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
+}
+
+//GetVmclusterDetails returns VmclusterDetails
+func (m ExadataDatabaseMachineConfigurationSummary) GetVmclusterDetails() []VmClusterSummary {
+	return m.VmclusterDetails
 }
 
 func (m ExadataDatabaseMachineConfigurationSummary) String() string {

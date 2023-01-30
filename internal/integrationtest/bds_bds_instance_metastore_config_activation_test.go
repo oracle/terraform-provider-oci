@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,17 +9,17 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	oci_bds "github.com/oracle/oci-go-sdk/v65/bds"
 	"github.com/oracle/oci-go-sdk/v65/common"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -50,13 +50,13 @@ var (
 		"user_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.id}`},
 	}
 
-	bdsInstanceMetastoreConfigActivateRepresentation1 = acctest.RepresentationCopyWithNewProperties(bdsInstanceMetastoreConfigRepresentation,
+	bdsInstanceMetastoreConfigActivateRepresentation1 = acctest.RepresentationCopyWithNewProperties(BdsbdsInstanceMetastoreConfigRepresentation,
 		map[string]interface{}{
 			"display_name":     acctest.Representation{RepType: acctest.Required, Create: `metastoreActivation1`},
 			"activate_trigger": acctest.Representation{RepType: acctest.Optional, Create: `1`}, // Added during optional param test step
 		})
 
-	bdsInstanceMetastoreConfigActivateRepresentation2 = acctest.RepresentationCopyWithNewProperties(bdsInstanceMetastoreConfigRepresentation,
+	bdsInstanceMetastoreConfigActivateRepresentation2 = acctest.RepresentationCopyWithNewProperties(BdsbdsInstanceMetastoreConfigRepresentation,
 		map[string]interface{}{
 			"display_name": acctest.Representation{RepType: acctest.Required, Create: `metastoreActivation2`},
 			"depends_on":   acctest.Representation{RepType: acctest.Required, Create: []string{`oci_bds_bds_instance_metastore_config.test_bds_instance_metastore_config_activation1`}},
@@ -90,13 +90,13 @@ func TestBdsBdsInstanceMetastoreConfigResource_activation(t *testing.T) {
 
 	var bdsId string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+BdsInstanceMetastoreConfigResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_metastore_config", "test_bds_instance_metastore_config", acctest.Optional, acctest.Create, bdsInstanceMetastoreConfigRepresentation), "bds", "bdsInstanceMetastoreConfig", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+BdsBdsInstanceMetastoreConfigResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_metastore_config", "test_bds_instance_metastore_config", acctest.Optional, acctest.Create, BdsbdsInstanceMetastoreConfigRepresentation), "bds", "bdsInstanceMetastoreConfig", t)
 
 	acctest.ResourceTest(t, testAccCheckBdsBdsInstanceMetastoreConfigDestroy, []resource.TestStep{
 		// Create resource1 followed by resource2, order ensured with depends_on definition in resource2.
 		{
-			Config: config + compartmentIdVariableStr + BdsInstanceMetastoreConfigResourceDependencies +
+			Config: config + compartmentIdVariableStr + BdsBdsInstanceMetastoreConfigResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_metastore_config", "test_bds_instance_metastore_config_activation1", acctest.Required, acctest.Create, bdsInstanceMetastoreConfigActivateRepresentation1) +
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_metastore_config", "test_bds_instance_metastore_config_activation2", acctest.Required, acctest.Create, bdsInstanceMetastoreConfigActivateRepresentation2) +
 				metastoreIdVariableStr,
@@ -113,7 +113,7 @@ func TestBdsBdsInstanceMetastoreConfigResource_activation(t *testing.T) {
 
 		// Add optional field activate_trigger to resource1 in order to activate it back.
 		{
-			Config: config + compartmentIdVariableStr + BdsInstanceMetastoreConfigResourceDependencies +
+			Config: config + compartmentIdVariableStr + BdsBdsInstanceMetastoreConfigResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_metastore_config", "test_bds_instance_metastore_config_activation1", acctest.Optional, acctest.Create, bdsInstanceMetastoreConfigActivateRepresentation1) +
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_metastore_config", "test_bds_instance_metastore_config_activation2", acctest.Required, acctest.Create, bdsInstanceMetastoreConfigActivateRepresentation2) +
 				metastoreIdVariableStr,
@@ -129,7 +129,7 @@ func TestBdsBdsInstanceMetastoreConfigResource_activation(t *testing.T) {
 			PreConfig: func() {
 				activateLocalMetastore(bdsId) // So that metastore config 1 is deactivated allowing deletion of all test resources
 			},
-			Config: config + compartmentIdVariableStr + BdsInstanceMetastoreConfigResourceDependencies +
+			Config: config + compartmentIdVariableStr + BdsBdsInstanceMetastoreConfigResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_metastore_config", "test_bds_instance_metastore_config_activation1", acctest.Optional, acctest.Create, bdsInstanceMetastoreConfigActivateRepresentation1) +
 				metastoreIdVariableStr,
 		},

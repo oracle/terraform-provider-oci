@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {
@@ -46,7 +46,7 @@ variable "deployment_freeform_tags" {
 }
 
 variable "application_state" {
-  default = "AVAILABLE"
+  default = "ACTIVE"
 }
 
 variable "config" {
@@ -302,7 +302,7 @@ data "oci_functions_functions" "test_functions" {
   #Optional
   display_name = "example-function"
   id           = oci_functions_function.test_function.id
-  state        = "AVAILABLE"
+  state        = "ACTIVE"
 }
 
 resource "oci_apigateway_gateway" "test_gateway" {

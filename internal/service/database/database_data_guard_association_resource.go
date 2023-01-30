@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database
@@ -6,17 +6,16 @@ package database
 import (
 	"context"
 	"fmt"
-	"log"
 	"strings"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -97,16 +96,83 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"database_defined_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				ForceNew: true,
+				Elem:     schema.TypeString,
+			},
+			"database_freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				ForceNew: true,
+				Elem:     schema.TypeString,
+			},
+			"data_collection_options": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"is_diagnostics_events_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"is_health_monitoring_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"is_incident_logs_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"database_software_image_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
+			},
+			"db_system_defined_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				ForceNew: true,
+				Elem:     schema.TypeString,
+			},
+			"db_system_freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				ForceNew: true,
+				Elem:     schema.TypeString,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"fault_domains": {
+				Type:     schema.TypeList,
+				Optional: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"hostname": {
 				Type:     schema.TypeString,
@@ -117,7 +183,16 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 			"is_active_data_guard_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
-				Computed: true,
+			},
+			"license_model": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+			},
+			"node_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				ForceNew: true,
 			},
 			"nsg_ids": {
 				Type:     schema.TypeSet,
@@ -156,6 +231,11 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"private_ip": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+			},
 			"shape": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -172,6 +252,11 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+				ForceNew: true,
+			},
+			"time_zone": {
+				Type:     schema.TypeString,
+				Optional: true,
 				ForceNew: true,
 			},
 
@@ -282,7 +367,6 @@ func (s *DatabaseDataGuardAssociationResourceCrud) CreatedTarget() []string {
 
 func (s *DatabaseDataGuardAssociationResourceCrud) DeletedPending() []string {
 	return []string{
-		string(oci_database.DataGuardAssociationLifecycleStateAvailable),
 		string(oci_database.DataGuardAssociationLifecycleStateTerminating),
 	}
 }
@@ -440,6 +524,27 @@ func (s *DatabaseDataGuardAssociationResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *DatabaseDataGuardAssociationResourceCrud) mapToDataCollectionOptions(fieldKeyFormat string) (oci_database.DataCollectionOptions, error) {
+	result := oci_database.DataCollectionOptions{}
+
+	if isDiagnosticsEventsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_diagnostics_events_enabled")); ok {
+		tmp := isDiagnosticsEventsEnabled.(bool)
+		result.IsDiagnosticsEventsEnabled = &tmp
+	}
+
+	if isHealthMonitoringEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_health_monitoring_enabled")); ok {
+		tmp := isHealthMonitoringEnabled.(bool)
+		result.IsHealthMonitoringEnabled = &tmp
+	}
+
+	if isIncidentLogsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_incident_logs_enabled")); ok {
+		tmp := isIncidentLogsEnabled.(bool)
+		result.IsIncidentLogsEnabled = &tmp
+	}
+
+	return result, nil
+}
+
 func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCreateDataGuardAssociationRequest(request *oci_database.CreateDataGuardAssociationRequest) error {
 	//discriminator
 	creationTypeRaw, ok := s.D.GetOkExists("creation_type")
@@ -559,13 +664,66 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 			tmp := cpuCoreCount.(int)
 			details.CpuCoreCount = &tmp
 		}
+		if databaseDefinedTags, ok := s.D.GetOkExists("database_defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(databaseDefinedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DatabaseDefinedTags = convertedDefinedTags
+		}
+		if databaseFreeformTags, ok := s.D.GetOkExists("database_freeform_tags"); ok {
+			details.DatabaseFreeformTags = tfresource.ObjectMapToStringMap(databaseFreeformTags.(map[string]interface{}))
+		}
+		if dbSystemDefinedTags, ok := s.D.GetOkExists("db_system_defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(dbSystemDefinedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DbSystemDefinedTags = convertedDefinedTags
+		}
+		if dbSystemFreeformTags, ok := s.D.GetOkExists("db_system_freeform_tags"); ok {
+			details.DbSystemFreeformTags = tfresource.ObjectMapToStringMap(dbSystemFreeformTags.(map[string]interface{}))
+		}
+		if dataCollectionOptions, ok := s.D.GetOkExists("data_collection_options"); ok {
+			if tmpList := dataCollectionOptions.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "data_collection_options", 0)
+				tmp, err := s.mapToDataCollectionOptions(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DataCollectionOptions = &tmp
+			}
+		}
 		if displayName, ok := s.D.GetOkExists("display_name"); ok {
 			tmp := displayName.(string)
 			details.DisplayName = &tmp
 		}
+		if faultDomains, ok := s.D.GetOkExists("fault_domains"); ok {
+			interfaces := faultDomains.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("fault_domains") {
+				details.FaultDomains = tmp
+			}
+		}
 		if hostname, ok := s.D.GetOkExists("hostname"); ok {
 			tmp := hostname.(string)
 			details.Hostname = &tmp
+		}
+		if isActiveDataGuardEnabled, ok := s.D.GetOkExists("is_active_data_guard_enabled"); ok {
+			tmp := isActiveDataGuardEnabled.(bool)
+			details.IsActiveDataGuardEnabled = &tmp
+		}
+		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
+			details.LicenseModel = oci_database.CreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnum(licenseModel.(string))
+		}
+		if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
+			tmp := nodeCount.(int)
+			details.NodeCount = &tmp
 		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
@@ -580,6 +738,10 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 				details.NsgIds = tmp
 			}
 		}
+		if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
+			tmp := privateIp.(string)
+			details.PrivateIp = &tmp
+		}
 		if shape, ok := s.D.GetOkExists("shape"); ok {
 			tmp := shape.(string)
 			details.Shape = &tmp
@@ -590,6 +752,10 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if timeZone, ok := s.D.GetOkExists("time_zone"); ok {
+			tmp := timeZone.(string)
+			details.TimeZone = &tmp
 		}
 		if databaseAdminPassword, ok := s.D.GetOkExists("database_admin_password"); ok {
 			tmp := databaseAdminPassword.(string)
@@ -642,69 +808,34 @@ func (s *DatabaseDataGuardAssociationResourceCrud) Delete() error {
 		return fmt.Errorf("creation_type could not be established during the delete")
 	}
 	if strings.ToLower(creationType.(string)) == strings.ToLower("ExistingDbSystem") {
-
-		var standbyDatabaseId *string
+		deleteDbHomeRequest := oci_database.DeleteDbHomeRequest{}
+		var standbyDbHomeId *string
 		if s.Res.PeerRole == oci_database.DataGuardAssociationPeerRoleStandby {
-			standbyDatabaseId = s.Res.PeerDatabaseId
+			standbyDbHomeId = s.Res.PeerDbHomeId
 		} else if s.Res.Role == oci_database.DataGuardAssociationRoleStandby {
-			standbyDatabaseId = s.Res.DatabaseId
+			standbyDbHomeId, _ = s.GetDbHomeIdFromDatabaseId(s.Res.DatabaseId)
 		} else {
-			return fmt.Errorf("could not delete the dataguard association as it is not possible to determine the standby database Id")
+			return fmt.Errorf("could not delete the dataguard association as it is not possible to determine the standby db home")
 		}
 
-		if standbyDatabaseId == nil {
-			return fmt.Errorf("could not delete the dataguard association as the standby Database Id could not be obtained")
+		if standbyDbHomeId == nil {
+			return fmt.Errorf("could not delete the dataguard association as the standby Db Home Id could not be obtained")
 		}
 
-		var dbSystemId, err = s.GetDbSystemIdFromDatabaseId(standbyDatabaseId)
+		deleteDbHomeRequest.DbHomeId = standbyDbHomeId
+		deleteDbHomeRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-		if err != nil {
-			log.Printf("failed to get the standby dbSystemId")
-			return err
+		if _, err = s.Client.DeleteDbHome(context.Background(), deleteDbHomeRequest); err != nil {
+			return fmt.Errorf("failed to delete the standby db home")
 		}
 
-		getDbSystemRequest := oci_database.GetDbSystemRequest{}
-		getDbSystemRequest.DbSystemId = dbSystemId
-		getDbSystemRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
-		dbSystem, err := s.Client.GetDbSystem(context.Background(), getDbSystemRequest)
+		getDbHomeRequest := oci_database.GetDbHomeRequest{}
+		getDbHomeRequest.DbHomeId = standbyDbHomeId
+		getDbHomeRequest.RequestMetadata.RetryPolicy = waitForDbHomeToTerminateRetryPolicy(2 * time.Hour)
+		getDbHomeResponse, err := s.Client.GetDbHome(context.Background(), getDbHomeRequest)
 
-		if err != nil {
-			log.Printf("failed to get the standby dbSystem")
-			return err
-		}
-
-		fmt.Printf("Trying to delete the standby DbHome with shape : %s \n", *dbSystem.Shape)
-
-		if strings.Contains(*dbSystem.Shape, "BM") {
-			dbHomeId, err := s.GetDbHomeIdFromDatabaseId(standbyDatabaseId)
-			if err != nil {
-				log.Printf("failed to get the standby dbHomeId")
-				return err
-			}
-			deleteDbHomeRequest := oci_database.DeleteDbHomeRequest{}
-			deleteDbHomeRequest.DbHomeId = dbHomeId
-			deleteDbHomeRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
-			if _, err = s.Client.DeleteDbHome(context.Background(), deleteDbHomeRequest); err != nil {
-				log.Printf("failed to delete the standby DbHome on BM")
-				return err
-			}
-		} else {
-			deleteDBrequest := oci_database.DeleteDatabaseRequest{}
-			deleteDBrequest.DatabaseId = standbyDatabaseId
-			deleteDBrequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
-
-			if _, err = s.Client.DeleteDatabase(context.Background(), deleteDBrequest); err != nil {
-				return fmt.Errorf("failed to delete the standby database")
-			}
-		}
-
-		getDatabaseRequest := oci_database.GetDatabaseRequest{}
-		getDatabaseRequest.DatabaseId = standbyDatabaseId
-		getDatabaseRequest.RequestMetadata.RetryPolicy = waitForDatabaseToTerminateRetryPolicy(2 * time.Hour)
-		getDatabaseResponse, err := s.Client.GetDatabase(context.Background(), getDatabaseRequest)
-
-		if getDatabaseResponse.LifecycleState == oci_database.DatabaseLifecycleStateAvailable {
-			return fmt.Errorf("could not delete the dataguard association as the standby database could not be deleted")
+		if getDbHomeResponse.LifecycleState == oci_database.DbHomeLifecycleStateAvailable {
+			return fmt.Errorf("could not delete the dataguard association as the standby db home could not be deleted")
 		}
 
 		return err

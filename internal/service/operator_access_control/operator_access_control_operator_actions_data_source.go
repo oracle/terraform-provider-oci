@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package operator_access_control
@@ -9,8 +9,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_operator_access_control "github.com/oracle/oci-go-sdk/v65/operatoraccesscontrol"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func OperatorAccessControlOperatorActionsDataSource() *schema.Resource {
@@ -202,6 +202,50 @@ func OperatorActionsPropertiesToMap(obj oci_operator_access_control.OperatorActi
 }
 
 func OperatorActionsSummaryToMap(obj oci_operator_access_control.OperatorActionSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.Component != nil {
+		result["component"] = string(*obj.Component)
+	}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	result["resource_type"] = string(obj.ResourceType)
+
+	result["state"] = string(obj.LifecycleState)
+
+	return result
+}
+
+func OperatorActionPropertiesToMap(obj oci_operator_access_control.OperatorActionProperties) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.Value != nil {
+		result["value"] = string(*obj.Value)
+	}
+
+	return result
+}
+
+func OperatorActionSummaryToMap(obj oci_operator_access_control.OperatorActionSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.CompartmentId != nil {

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,41 +10,47 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	ipSecConnectionTunnelRequiredOnlyResource = IpSecConnectionTunnelResourceConfig +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", acctest.Required, acctest.Create, ipSecConnectionRepresentation)
+	CoreIpSecConnectionTunnelRequiredOnlyResource = CoreIpSecConnectionTunnelResourceConfig +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", acctest.Required, acctest.Create, CoreIpSecConnectionRepresentation)
 
-	ipSecConnectionTunnelSingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreIpSecConnectionTunnelDataSourceRepresentation = map[string]interface{}{
 		"ipsec_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_core_ipsec.test_ip_sec_connection.id}`},
 		"tunnel_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_core_ipsec_connection_tunnels.test_ip_sec_connection_tunnels.ip_sec_connection_tunnels.0.id}`},
 	}
 
-	ipSecConnectionTunnelDataSourceRepresentation = map[string]interface{}{
+	CoreIpSecConnectionTunnelDataSourceRepresentation = map[string]interface{}{
 		"ipsec_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_ipsec.test_ip_sec_connection.id}`},
 	}
 
-	ipSecConnectionTunnelRepresentation = map[string]interface{}{
+	CoreIpSecConnectionTunnelRepresentation = map[string]interface{}{
 		"ipsec_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_ipsec.test_ip_sec_connection.id}`},
 		"tunnel_id":        acctest.Representation{RepType: acctest.Required, Create: `${data.oci_core_ipsec_connection_tunnels.test_ip_sec_connection_tunnels.ip_sec_connection_tunnels.0.id}`},
 		"routing":          acctest.Representation{RepType: acctest.Required, Create: `STATIC`, Update: `BGP`},
 		"ike_version":      acctest.Representation{RepType: acctest.Optional, Create: `V1`, Update: `V2`},
 		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `MyIPSecConnectionTunnel`, Update: `displayName2`},
-		"bgp_session_info": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ipSecConnectionTunnelConfigurationBgpSessionInfoRepresentation},
+		"bgp_session_info": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreIpSecConnectionTunnelConfigurationBgpSessionInfoRepresentation},
 		"shared_secret":    acctest.Representation{RepType: acctest.Optional, Create: `sharedsecret1`, Update: `sharedsecret2`},
+		"dpd_config":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: ipSecConnectionTunnelConfigurationDpdConfigRepresentation},
 	}
 
-	ipSecConnectionTunnelConfigurationBgpSessionInfoRepresentation = map[string]interface{}{
+	CoreIpSecConnectionTunnelConfigurationBgpSessionInfoRepresentation = map[string]interface{}{
 		"customer_bgp_asn":      acctest.Representation{RepType: acctest.Optional, Update: `1587232876`},
 		"customer_interface_ip": acctest.Representation{RepType: acctest.Optional, Update: `10.0.0.16/31`},
 		"oracle_interface_ip":   acctest.Representation{RepType: acctest.Optional, Update: `10.0.0.17/31`},
 	}
 
-	IpSecConnectionTunnelResourceConfig = IpSecConnectionOptionalResource
+	ipSecConnectionTunnelConfigurationDpdConfigRepresentation = map[string]interface{}{
+		"dpd_mode":           acctest.Representation{RepType: acctest.Optional, Update: `RESPOND_ONLY`},
+		"dpd_timeout_in_sec": acctest.Representation{RepType: acctest.Optional, Update: `200`},
+	}
+
+	CoreIpSecConnectionTunnelResourceConfig = IpSecConnectionOptionalResource
 )
 
 // issue-routing-tag: core/default
@@ -68,9 +74,9 @@ func TestCoreIpSecConnectionTunnelResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + IpSecConnectionTunnelResourceConfig +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", acctest.Required, acctest.Create, ipSecConnectionTunnelDataSourceRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec_connection_tunnel_management", "test_ip_sec_connection_tunnel_management", acctest.Required, acctest.Create, ipSecConnectionTunnelRepresentation),
+			Config: config + compartmentIdVariableStr + CoreIpSecConnectionTunnelResourceConfig +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", acctest.Required, acctest.Create, CoreIpSecConnectionTunnelDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec_connection_tunnel_management", "test_ip_sec_connection_tunnel_management", acctest.Required, acctest.Create, CoreIpSecConnectionTunnelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "cpe_ip"),
@@ -86,9 +92,9 @@ func TestCoreIpSecConnectionTunnelResource_basic(t *testing.T) {
 
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + IpSecConnectionTunnelResourceConfig +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", acctest.Required, acctest.Create, ipSecConnectionTunnelDataSourceRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec_connection_tunnel_management", "test_ip_sec_connection_tunnel_management", acctest.Optional, acctest.Create, ipSecConnectionTunnelRepresentation),
+			Config: config + compartmentIdVariableStr + CoreIpSecConnectionTunnelResourceConfig +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", acctest.Required, acctest.Create, CoreIpSecConnectionTunnelDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec_connection_tunnel_management", "test_ip_sec_connection_tunnel_management", acctest.Optional, acctest.Create, CoreIpSecConnectionTunnelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "cpe_ip"),
@@ -104,9 +110,9 @@ func TestCoreIpSecConnectionTunnelResource_basic(t *testing.T) {
 		},
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + IpSecConnectionTunnelResourceConfig +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", acctest.Required, acctest.Create, ipSecConnectionTunnelDataSourceRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec_connection_tunnel_management", "test_ip_sec_connection_tunnel_management", acctest.Optional, acctest.Update, ipSecConnectionTunnelRepresentation),
+			Config: config + compartmentIdVariableStr + CoreIpSecConnectionTunnelResourceConfig +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", acctest.Required, acctest.Create, CoreIpSecConnectionTunnelDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec_connection_tunnel_management", "test_ip_sec_connection_tunnel_management", acctest.Optional, acctest.Update, CoreIpSecConnectionTunnelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "shared_secret"),
@@ -118,6 +124,8 @@ func TestCoreIpSecConnectionTunnelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "bgp_session_info.0.customer_bgp_asn", "1587232876"),
 				resource.TestCheckResourceAttr(resourceName, "bgp_session_info.0.customer_interface_ip", "10.0.0.16/31"),
 				resource.TestCheckResourceAttr(resourceName, "bgp_session_info.0.oracle_interface_ip", "10.0.0.17/31"),
+				resource.TestCheckResourceAttr(resourceName, "dpd_config.0.dpd_mode", "RESPOND_ONLY"),
+				resource.TestCheckResourceAttr(resourceName, "dpd_config.0.dpd_timeout_in_sec", "200"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -131,8 +139,8 @@ func TestCoreIpSecConnectionTunnelResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", acctest.Required, acctest.Create, ipSecConnectionTunnelDataSourceRepresentation) +
-				compartmentIdVariableStr + IpSecConnectionTunnelResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", acctest.Required, acctest.Create, CoreIpSecConnectionTunnelDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreIpSecConnectionTunnelResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "ipsec_id"),
 
@@ -142,7 +150,6 @@ func TestCoreIpSecConnectionTunnelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "ip_sec_connection_tunnels.0.display_name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "ip_sec_connection_tunnels.0.dpd_mode"),
 				resource.TestCheckResourceAttrSet(datasourceName, "ip_sec_connection_tunnels.0.dpd_timeout_in_sec"),
-				resource.TestCheckResourceAttr(datasourceName, "ip_sec_connection_tunnels.0.encryption_domain_config.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "ip_sec_connection_tunnels.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "ip_sec_connection_tunnels.0.ike_version"),
 				resource.TestCheckResourceAttrSet(datasourceName, "ip_sec_connection_tunnels.0.nat_translation_enabled"),
@@ -160,9 +167,9 @@ func TestCoreIpSecConnectionTunnelResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnel", "test_ip_sec_connection_tunnel", acctest.Required, acctest.Create, ipSecConnectionTunnelSingularDataSourceRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", acctest.Required, acctest.Create, ipSecConnectionTunnelDataSourceRepresentation) +
-				compartmentIdVariableStr + IpSecConnectionTunnelResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnel", "test_ip_sec_connection_tunnel", acctest.Required, acctest.Create, CoreCoreIpSecConnectionTunnelDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", acctest.Required, acctest.Create, CoreIpSecConnectionTunnelDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreIpSecConnectionTunnelResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ipsec_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "tunnel_id"),

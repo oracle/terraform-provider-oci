@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package jms
@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -40,6 +40,29 @@ func JmsFleetResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"inventory_log": {
+				Type:     schema.TypeList,
+				Required: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"log_group_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"log_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
 
 			// Optional
 			"defined_tags": {
@@ -60,29 +83,10 @@ func JmsFleetResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-			"inventory_log": {
-				Type:     schema.TypeList,
+			"is_advanced_features_enabled": {
+				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-						"log_group_id": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
-						"log_id": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
-
-						// Optional
-
-						// Computed
-					},
-				},
 			},
 			"operation_log": {
 				Type:     schema.TypeList,
@@ -115,6 +119,10 @@ func JmsFleetResource() *schema.Resource {
 				Computed: true,
 			},
 			"approximate_installation_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"approximate_java_server_count": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
@@ -251,6 +259,11 @@ func (s *JmsFleetResourceCrud) Create() error {
 			}
 			request.InventoryLog = &tmp
 		}
+	}
+
+	if isAdvancedFeaturesEnabled, ok := s.D.GetOkExists("is_advanced_features_enabled"); ok {
+		tmp := isAdvancedFeaturesEnabled.(bool)
+		request.IsAdvancedFeaturesEnabled = &tmp
 	}
 
 	if operationLog, ok := s.D.GetOkExists("operation_log"); ok {
@@ -442,6 +455,11 @@ func (s *JmsFleetResourceCrud) Update() error {
 		}
 	}
 
+	if isAdvancedFeaturesEnabled, ok := s.D.GetOkExists("is_advanced_features_enabled"); ok {
+		tmp := isAdvancedFeaturesEnabled.(bool)
+		request.IsAdvancedFeaturesEnabled = &tmp
+	}
+
 	if operationLog, ok := s.D.GetOkExists("operation_log"); ok {
 		if tmpList := operationLog.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "operation_log", 0)
@@ -485,6 +503,10 @@ func (s *JmsFleetResourceCrud) SetData() error {
 		s.D.Set("approximate_installation_count", *s.Res.ApproximateInstallationCount)
 	}
 
+	if s.Res.ApproximateJavaServerCount != nil {
+		s.D.Set("approximate_java_server_count", *s.Res.ApproximateJavaServerCount)
+	}
+
 	if s.Res.ApproximateJreCount != nil {
 		s.D.Set("approximate_jre_count", *s.Res.ApproximateJreCount)
 	}
@@ -515,6 +537,10 @@ func (s *JmsFleetResourceCrud) SetData() error {
 		s.D.Set("inventory_log", []interface{}{CustomLogToMap(s.Res.InventoryLog)})
 	} else {
 		s.D.Set("inventory_log", nil)
+	}
+
+	if s.Res.IsAdvancedFeaturesEnabled != nil {
+		s.D.Set("is_advanced_features_enabled", *s.Res.IsAdvancedFeaturesEnabled)
 	}
 
 	if s.Res.OperationLog != nil {
@@ -577,6 +603,10 @@ func FleetSummaryToMap(obj oci_jms.FleetSummary) map[string]interface{} {
 		result["approximate_installation_count"] = int(*obj.ApproximateInstallationCount)
 	}
 
+	if obj.ApproximateJavaServerCount != nil {
+		result["approximate_java_server_count"] = int(*obj.ApproximateJavaServerCount)
+	}
+
 	if obj.ApproximateJreCount != nil {
 		result["approximate_jre_count"] = int(*obj.ApproximateJreCount)
 	}
@@ -609,6 +639,10 @@ func FleetSummaryToMap(obj oci_jms.FleetSummary) map[string]interface{} {
 
 	if obj.InventoryLog != nil {
 		result["inventory_log"] = []interface{}{CustomLogToMap(obj.InventoryLog)}
+	}
+
+	if obj.IsAdvancedFeaturesEnabled != nil {
+		result["is_advanced_features_enabled"] = bool(*obj.IsAdvancedFeaturesEnabled)
 	}
 
 	if obj.OperationLog != nil {

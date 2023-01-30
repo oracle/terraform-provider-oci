@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,33 +22,33 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	DbManagementPrivateEndpointRequiredOnlyResource = DbManagementPrivateEndpointResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", acctest.Required, acctest.Create, dbManagementPrivateEndpointRepresentation)
+	DatabaseManagementDbManagementPrivateEndpointRequiredOnlyResource = DatabaseManagementDbManagementPrivateEndpointResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", acctest.Required, acctest.Create, DatabaseManagementDbManagementPrivateEndpointRepresentation)
 
-	DbManagementPrivateEndpointResourceConfig = DbManagementPrivateEndpointResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", acctest.Optional, acctest.Update, dbManagementPrivateEndpointRepresentation)
+	DatabaseManagementDbManagementPrivateEndpointResourceConfig = DatabaseManagementDbManagementPrivateEndpointResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", acctest.Optional, acctest.Update, DatabaseManagementDbManagementPrivateEndpointRepresentation)
 
-	dbManagementPrivateEndpointSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseManagementDatabaseManagementDbManagementPrivateEndpointSingularDataSourceRepresentation = map[string]interface{}{
 		"db_management_private_endpoint_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_management_db_management_private_endpoint.test_db_management_private_endpoint.id}`},
 	}
 
-	dbManagementPrivateEndpointDataSourceRepresentation = map[string]interface{}{
+	DatabaseManagementDatabaseManagementDbManagementPrivateEndpointDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"is_cluster":     acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `name`, Update: `name2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"vcn_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.id}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: dbManagementPrivateEndpointDataSourceFilterRepresentation}}
-	dbManagementPrivateEndpointDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementDbManagementPrivateEndpointDataSourceFilterRepresentation}}
+	DatabaseManagementDbManagementPrivateEndpointDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_management_db_management_private_endpoint.test_db_management_private_endpoint.id}`}},
 	}
 
-	dbManagementPrivateEndpointRepresentation = map[string]interface{}{
+	DatabaseManagementDbManagementPrivateEndpointRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":           acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"subnet_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
@@ -57,9 +57,9 @@ var (
 		"nsg_ids":        acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
 	}
 
-	DbManagementPrivateEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, networkSecurityGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation)
+	DatabaseManagementDbManagementPrivateEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation)
 )
 
 // issue-routing-tag: database_management/default
@@ -82,8 +82,8 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DbManagementPrivateEndpointResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", acctest.Optional, acctest.Create, dbManagementPrivateEndpointRepresentation), "databasemanagement", "dbManagementPrivateEndpoint", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseManagementDbManagementPrivateEndpointResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", acctest.Optional, acctest.Create, DatabaseManagementDbManagementPrivateEndpointRepresentation), "databasemanagement", "dbManagementPrivateEndpoint", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { acctest.PreCheck(t) },
@@ -94,8 +94,8 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 		Steps: []resource.TestStep{
 			// verify Create
 			{
-				Config: config + compartmentIdVariableStr + DbManagementPrivateEndpointResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", acctest.Required, acctest.Create, dbManagementPrivateEndpointRepresentation),
+				Config: config + compartmentIdVariableStr + DatabaseManagementDbManagementPrivateEndpointResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", acctest.Required, acctest.Create, DatabaseManagementDbManagementPrivateEndpointRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
@@ -111,12 +111,12 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 
 			// delete before next Create
 			{
-				Config: config + compartmentIdVariableStr + DbManagementPrivateEndpointResourceDependencies,
+				Config: config + compartmentIdVariableStr + DatabaseManagementDbManagementPrivateEndpointResourceDependencies,
 			},
 			// verify Create with optionals
 			{
-				Config: config + compartmentIdVariableStr + DbManagementPrivateEndpointResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", acctest.Optional, acctest.Create, dbManagementPrivateEndpointRepresentation),
+				Config: config + compartmentIdVariableStr + DatabaseManagementDbManagementPrivateEndpointResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", acctest.Optional, acctest.Create, DatabaseManagementDbManagementPrivateEndpointRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -142,9 +142,9 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 
 			// verify Update to the compartment (the compartment will be switched back in the next step)
 			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DbManagementPrivateEndpointResourceDependencies +
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseManagementDbManagementPrivateEndpointResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", acctest.Optional, acctest.Create,
-						acctest.RepresentationCopyWithNewProperties(dbManagementPrivateEndpointRepresentation, map[string]interface{}{
+						acctest.RepresentationCopyWithNewProperties(DatabaseManagementDbManagementPrivateEndpointRepresentation, map[string]interface{}{
 							"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 						})),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -169,8 +169,8 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + DbManagementPrivateEndpointResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", acctest.Optional, acctest.Update, dbManagementPrivateEndpointRepresentation),
+				Config: config + compartmentIdVariableStr + DatabaseManagementDbManagementPrivateEndpointResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", acctest.Optional, acctest.Update, DatabaseManagementDbManagementPrivateEndpointRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -194,9 +194,9 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 			// verify datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_db_management_private_endpoints", "test_db_management_private_endpoints", acctest.Optional, acctest.Update, dbManagementPrivateEndpointDataSourceRepresentation) +
-					compartmentIdVariableStr + DbManagementPrivateEndpointResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", acctest.Optional, acctest.Update, dbManagementPrivateEndpointRepresentation),
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_db_management_private_endpoints", "test_db_management_private_endpoints", acctest.Optional, acctest.Update, DatabaseManagementDatabaseManagementDbManagementPrivateEndpointDataSourceRepresentation) +
+					compartmentIdVariableStr + DatabaseManagementDbManagementPrivateEndpointResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", acctest.Optional, acctest.Update, DatabaseManagementDbManagementPrivateEndpointRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "name", "name2"),
@@ -210,8 +210,8 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 			// verify singular datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", acctest.Required, acctest.Create, dbManagementPrivateEndpointSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + DbManagementPrivateEndpointResourceConfig,
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementDbManagementPrivateEndpointSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + DatabaseManagementDbManagementPrivateEndpointResourceConfig,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_management_private_endpoint_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
@@ -226,7 +226,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 			},
 			// verify resource import
 			{
-				Config:                  config + DbManagementPrivateEndpointRequiredOnlyResource,
+				Config:                  config + DatabaseManagementDbManagementPrivateEndpointRequiredOnlyResource,
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},
@@ -291,7 +291,7 @@ func init() {
 
 func sweepDatabaseManagementDbManagementPrivateEndpointResource(compartment string) error {
 	dbManagementClient := acctest.GetTestClients(&schema.ResourceData{}).DbManagementClient()
-	dbManagementPrivateEndpointIds, err := getDbManagementPrivateEndpointIds(compartment)
+	dbManagementPrivateEndpointIds, err := getDatabaseManagementDbManagementPrivateEndpointIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -307,14 +307,14 @@ func sweepDatabaseManagementDbManagementPrivateEndpointResource(compartment stri
 				fmt.Printf("Error deleting DbManagementPrivateEndpoint %s %s, It is possible that the resource is already deleted. Please verify manually \n", dbManagementPrivateEndpointId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &dbManagementPrivateEndpointId, dbManagementPrivateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
-				dbManagementPrivateEndpointSweepResponseFetchOperation, "database_management", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &dbManagementPrivateEndpointId, DatabaseManagementDbManagementPrivateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
+				DatabaseManagementDbManagementPrivateEndpointSweepResponseFetchOperation, "database_management", true)
 		}
 	}
 	return nil
 }
 
-func getDbManagementPrivateEndpointIds(compartment string) ([]string, error) {
+func getDatabaseManagementDbManagementPrivateEndpointIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "DbManagementPrivateEndpointId")
 	if ids != nil {
 		return ids, nil
@@ -339,7 +339,7 @@ func getDbManagementPrivateEndpointIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func dbManagementPrivateEndpointSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DatabaseManagementDbManagementPrivateEndpointSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if dbManagementPrivateEndpointResponse, ok := response.Response.(oci_database_management.GetDbManagementPrivateEndpointResponse); ok {
 		return dbManagementPrivateEndpointResponse.LifecycleState != oci_database_management.LifecycleStatesDeleted
@@ -347,7 +347,7 @@ func dbManagementPrivateEndpointSweepWaitCondition(response common.OCIOperationR
 	return false
 }
 
-func dbManagementPrivateEndpointSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DatabaseManagementDbManagementPrivateEndpointSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DbManagementClient().GetDbManagementPrivateEndpoint(context.Background(), oci_database_management.GetDbManagementPrivateEndpointRequest{
 		DbManagementPrivateEndpointId: resourceId,
 		RequestMetadata: common.RequestMetadata{

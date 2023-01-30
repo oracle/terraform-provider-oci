@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -8,23 +8,25 @@ import (
 	"regexp"
 	"strconv"
 	"testing"
+	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
+	zoneDataSourceTimeCreatedLessThanTime           = time.Now().Add(24 * time.Hour).Format(time.RFC3339)
 	zoneDataSourceRepresentationRequiredOnlyDefault = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 	zoneDataSourceRepresentationRequiredOnlyWithFilterDefault = acctest.RepresentationCopyWithNewProperties(zoneDataSourceRepresentationRequiredOnlyDefault, map[string]interface{}{
-		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: zoneDataSourceFilterRepresentation},
+		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: DnsDnsZoneDataSourceFilterRepresentation},
 	})
 	zoneDataSourceRepresentationWithNameOptionalDefault = acctest.RepresentationCopyWithNewProperties(zoneDataSourceRepresentationRequiredOnlyDefault, map[string]interface{}{
 		"name": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-zone-test`},
@@ -39,7 +41,7 @@ var (
 		"time_created_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `2018-01-01T00:00:00.000Z`},
 	})
 	zoneDataSourceRepresentationWithTimeCreatedLessThanOptionalDefault = acctest.RepresentationCopyWithNewProperties(zoneDataSourceRepresentationRequiredOnlyDefault, map[string]interface{}{
-		"time_created_less_than": acctest.Representation{RepType: acctest.Optional, Create: `2022-04-10T19:01:09.000-00:00`},
+		"time_created_less_than": acctest.Representation{RepType: acctest.Optional, Create: zoneDataSourceTimeCreatedLessThanTime},
 	})
 	zoneDataSourceRepresentationWithZoneTypeOptionalDefault = acctest.RepresentationCopyWithNewProperties(zoneDataSourceRepresentationRequiredOnlyDefault, map[string]interface{}{
 		"zone_type": acctest.Representation{RepType: acctest.Optional, Create: `PRIMARY`},
@@ -50,13 +52,13 @@ var (
 		"name":             acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-zone-test`},
 		"zone_type":        acctest.Representation{RepType: acctest.Required, Create: `PRIMARY`},
 		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"external_masters": acctest.RepresentationGroup{RepType: acctest.Optional, Group: zoneExternalMastersRepresentation},
+		"external_masters": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DnsZoneExternalMastersRepresentation},
 		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
 	}
 
 	zoneRepresentationDefault = acctest.GetUpdatedRepresentationCopy("zone_type", acctest.Representation{RepType: acctest.Required, Create: `SECONDARY`}, zoneRepresentationPrimaryDefault)
 
-	ZoneResourceDependenciesDefault = acctest.GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", acctest.Required, acctest.Create, tsigKeyRepresentation) +
+	ZoneResourceDependenciesDefault = acctest.GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", acctest.Required, acctest.Create, DnsTsigKeyRepresentation) +
 		DefinedTagsDependencies + `
 data "oci_identity_tenancy" "test_tenancy" {
 	tenancy_id = "${var.tenancy_ocid}"
@@ -295,14 +297,15 @@ func TestDnsZoneResource_default(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", acctest.Required, acctest.Create, zoneRepresentationPrimaryDefault), nil),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "time_created_less_than", "2022-04-10T19:01:09.000-00:00"),
+				resource.TestCheckResourceAttr(datasourceName, "time_created_less_than", zoneDataSourceTimeCreatedLessThanTime),
 				resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
 				resource.TestCheckResourceAttr(datasourceName, "zones.0.freeform_tags.%", "1"),
 			),
 		},
 		// verify resource import
 		{
-			Config:            tokenFn(config, nil),
+			Config: tokenFn(config+compartmentIdVariableStr+ZoneResourceDependenciesDefault+
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", acctest.Required, acctest.Create, zoneRepresentationPrimaryDefault), nil),
 			ImportState:       true,
 			ImportStateVerify: true,
 			ResourceName:      resourceName,

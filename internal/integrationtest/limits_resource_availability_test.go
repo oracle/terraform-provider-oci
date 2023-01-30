@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,21 +9,21 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	resourceAvailabilitySingularDataSourceRepresentation = map[string]interface{}{
+	LimitsLimitsResourceAvailabilitySingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"limit_name":          acctest.Representation{RepType: acctest.Required, Create: `adb-free-count`},
 		"service_name":        acctest.Representation{RepType: acctest.Required, Create: `database`},
 		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 	}
 
-	ResourceAvailabilityResourceConfig = AvailabilityDomainConfig +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_limits_services", "test_services", acctest.Required, acctest.Create, limitsServiceDataSourceRepresentation)
+	LimitsResourceAvailabilityResourceConfig = AvailabilityDomainConfig +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_limits_services", "test_services", acctest.Required, acctest.Create, LimitsLimitsServiceDataSourceRepresentation)
 )
 
 // issue-routing-tag: limits/default
@@ -45,8 +45,8 @@ func TestLimitsResourceAvailabilityResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_limits_resource_availability", "test_resource_availability", acctest.Required, acctest.Create, resourceAvailabilitySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ResourceAvailabilityResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_limits_resource_availability", "test_resource_availability", acctest.Required, acctest.Create, LimitsLimitsResourceAvailabilitySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + LimitsResourceAvailabilityResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "limit_name"),

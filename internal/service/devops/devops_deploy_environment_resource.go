@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package devops
@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -155,6 +155,7 @@ func DevopsDeployEnvironmentResource() *schema.Resource {
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"PRIVATE_ENDPOINT_CHANNEL",
+								"SERVICE_VNIC_CHANNEL",
 							}, true),
 						},
 						"subnet_id": {
@@ -834,6 +835,26 @@ func (s *DevopsDeployEnvironmentResourceCrud) mapToNetworkChannel(fieldKeyFormat
 			details.SubnetId = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("SERVICE_VNIC_CHANNEL"):
+		details := oci_devops.ServiceVnicChannel{}
+		if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "nsg_ids")) {
+				details.NsgIds = tmp
+			}
+		}
+		if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown network_channel_type '%v' was specified", networkChannelType)
 	}
@@ -845,6 +866,18 @@ func NetworkChannelToMap(obj *oci_devops.NetworkChannel) map[string]interface{} 
 	switch v := (*obj).(type) {
 	case oci_devops.PrivateEndpointChannel:
 		result["network_channel_type"] = "PRIVATE_ENDPOINT_CHANNEL"
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		result["nsg_ids"] = nsgIds
+
+		if v.SubnetId != nil {
+			result["subnet_id"] = string(*v.SubnetId)
+		}
+	case oci_devops.ServiceVnicChannel:
+		result["network_channel_type"] = "SERVICE_VNIC_CHANNEL"
 
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {

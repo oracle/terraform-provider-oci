@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,20 +9,20 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	virtualCircuitPublicPrefixDataSourceRepresentation = map[string]interface{}{
+	CoreCoreVirtualCircuitPublicPrefixDataSourceRepresentation = map[string]interface{}{
 		"virtual_circuit_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_virtual_circuit.test_virtual_circuit.id}`},
 		"verification_state": acctest.Representation{RepType: acctest.Optional, Create: `COMPLETED`},
 	}
 
-	VirtualCircuitPublicPrefixResourceConfig = VirtualCircuitPublicPropertyVariables +
+	CoreVirtualCircuitPublicPrefixResourceConfig = VirtualCircuitPublicPropertyVariables +
 		VirtualCircuitResourceDependenciesCopyForVC +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Required, acctest.Create, virtualCircuitPublicRequiredOnlyRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Required, acctest.Create, CoreVirtualCircuitPublicRequiredOnlyRepresentation)
 )
 
 // issue-routing-tag: core/default
@@ -55,8 +55,8 @@ func TestCoreVirtualCircuitPublicPrefixResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_virtual_circuit_public_prefixes", "test_virtual_circuit_public_prefixes", acctest.Required, acctest.Create, virtualCircuitPublicPrefixDataSourceRepresentation) +
-				compartmentIdVariableStr + VirtualCircuitPublicPrefixResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_virtual_circuit_public_prefixes", "test_virtual_circuit_public_prefixes", acctest.Required, acctest.Create, CoreCoreVirtualCircuitPublicPrefixDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreVirtualCircuitPublicPrefixResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 
 				resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuit_public_prefixes.#"),

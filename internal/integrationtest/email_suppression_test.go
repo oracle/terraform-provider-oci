@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,11 +9,11 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -21,36 +21,36 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_email "github.com/oracle/oci-go-sdk/v65/email"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	SuppressionRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", acctest.Required, acctest.Create, suppressionRepresentation)
+	EmailSuppressionRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", acctest.Required, acctest.Create, EmailSuppressionRepresentation)
 
-	SuppressionResourceConfig = SuppressionResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", acctest.Optional, acctest.Update, suppressionRepresentation)
+	EmailSuppressionResourceConfig = EmailSuppressionResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", acctest.Optional, acctest.Update, EmailSuppressionRepresentation)
 
-	suppressionSingularDataSourceRepresentation = map[string]interface{}{
+	EmailEmailSuppressionSingularDataSourceRepresentation = map[string]interface{}{
 		"suppression_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_email_suppression.test_suppression.id}`},
 	}
 
-	suppressionDataSourceRepresentation = map[string]interface{}{
+	EmailEmailSuppressionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":                        acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"email_address":                         acctest.Representation{RepType: acctest.Optional, Create: `johnsmithtester@example.com`},
 		"time_created_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `2018-01-01T00:00:00.000Z`},
 		"time_created_less_than":                acctest.Representation{RepType: acctest.Optional, Create: `2038-01-01T00:00:00.000Z`},
-		"filter":                                acctest.RepresentationGroup{RepType: acctest.Required, Group: suppressionDataSourceFilterRepresentation}}
-	suppressionDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                                acctest.RepresentationGroup{RepType: acctest.Required, Group: EmailSuppressionDataSourceFilterRepresentation}}
+	EmailSuppressionDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_email_suppression.test_suppression.id}`}},
 	}
 
-	suppressionRepresentation = map[string]interface{}{
+	EmailSuppressionRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"email_address":  acctest.Representation{RepType: acctest.Required, Create: `johnsmithtester@example.com`},
 	}
 
-	SuppressionResourceDependencies = ""
+	EmailSuppressionResourceDependencies = ""
 )
 
 // issue-routing-tag: email/default
@@ -70,14 +70,14 @@ func TestEmailSuppressionResource_basic(t *testing.T) {
 
 	var resId string
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+SuppressionResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", acctest.Required, acctest.Create, suppressionRepresentation), "email", "suppression", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+EmailSuppressionResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", acctest.Required, acctest.Create, EmailSuppressionRepresentation), "email", "suppression", t)
 
 	acctest.ResourceTest(t, testAccCheckEmailSuppressionDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + SuppressionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", acctest.Required, acctest.Create, suppressionRepresentation),
+			Config: config + compartmentIdVariableStr + EmailSuppressionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", acctest.Required, acctest.Create, EmailSuppressionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				// email address is converted to lower case by the service
@@ -98,9 +98,9 @@ func TestEmailSuppressionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_email_suppressions", "test_suppressions", acctest.Optional, acctest.Update, suppressionDataSourceRepresentation) +
-				compartmentIdVariableStr + SuppressionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", acctest.Optional, acctest.Update, suppressionRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_email_suppressions", "test_suppressions", acctest.Optional, acctest.Update, EmailEmailSuppressionDataSourceRepresentation) +
+				compartmentIdVariableStr + EmailSuppressionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", acctest.Optional, acctest.Update, EmailSuppressionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(datasourceName, "email_address", "johnsmithtester@example.com"),
@@ -119,8 +119,8 @@ func TestEmailSuppressionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_email_suppression", "test_suppression", acctest.Required, acctest.Create, suppressionSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + SuppressionResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_email_suppression", "test_suppression", acctest.Required, acctest.Create, EmailEmailSuppressionSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + EmailSuppressionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "suppression_id"),
 
@@ -134,7 +134,7 @@ func TestEmailSuppressionResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + SuppressionRequiredOnlyResource,
+			Config:                  config + EmailSuppressionRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -192,7 +192,7 @@ func sweepEmailSuppressionResource(compartment string) error {
 	emailClient := acctest.GetTestClients(&schema.ResourceData{}).EmailClient()
 	// EmailSuppressionResource can only run on root compartment
 	compartment = utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
-	suppressionIds, err := getSuppressionIds(compartment)
+	suppressionIds, err := getEmailSuppressionIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -213,7 +213,7 @@ func sweepEmailSuppressionResource(compartment string) error {
 	return nil
 }
 
-func getSuppressionIds(compartment string) ([]string, error) {
+func getEmailSuppressionIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "SuppressionId")
 	if ids != nil {
 		return ids, nil

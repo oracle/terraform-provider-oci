@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,20 +9,20 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	mysqlShapeDataSourceRepresentation = map[string]interface{}{
+	MysqlMysqlShapeDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"is_supported_for":    acctest.Representation{RepType: acctest.Optional, Create: []string{`DBSYSTEM`}},
 		"name":                acctest.Representation{RepType: acctest.Optional, Create: `MySQL.VM.Standard.E3.1.8GB`},
 	}
 
-	MySQLShapeResourceConfig = AvailabilityDomainConfig
+	MysqlShapeResourceConfig = AvailabilityDomainConfig
 )
 
 // issue-routing-tag: mysql/default
@@ -43,8 +43,8 @@ func TestMysqlShapeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_shapes", "test_shapes", acctest.Required, acctest.Create, mysqlShapeDataSourceRepresentation) +
-				compartmentIdVariableStr + MySQLShapeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_shapes", "test_shapes", acctest.Required, acctest.Create, MysqlMysqlShapeDataSourceRepresentation) +
+				compartmentIdVariableStr + MysqlShapeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
@@ -57,8 +57,8 @@ func TestMysqlShapeResource_basic(t *testing.T) {
 		// verify datasource with optionals
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_shapes", "test_shapes", acctest.Optional, acctest.Create, mysqlShapeDataSourceRepresentation) +
-				compartmentIdVariableStr + MySQLShapeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_shapes", "test_shapes", acctest.Optional, acctest.Create, MysqlMysqlShapeDataSourceRepresentation) +
+				compartmentIdVariableStr + MysqlShapeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

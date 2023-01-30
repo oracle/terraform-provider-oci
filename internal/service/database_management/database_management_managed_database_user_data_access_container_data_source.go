@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database_management
@@ -6,8 +6,8 @@ package database_management
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
@@ -48,6 +48,7 @@ func DatabaseManagementManagedDatabaseUserDataAccessContainerDataSource() *schem
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_database_management_managed_database_user_data_access_container", "oci_database_management_managed_database_user_data_access_containers"),
 	}
 }
 
@@ -112,14 +113,4 @@ func (s *DatabaseManagementManagedDatabaseUserDataAccessContainerDataSourceCrud)
 	s.D.Set("items", items)
 
 	return nil
-}
-
-func DataAccessContainerSummaryToMap(obj oci_database_management.DataAccessContainerSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Name != nil {
-		result["name"] = string(*obj.Name)
-	}
-
-	return result
 }

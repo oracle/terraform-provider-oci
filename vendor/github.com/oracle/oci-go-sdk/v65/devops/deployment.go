@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -52,6 +52,8 @@ type Deployment interface {
 
 	GetDeploymentArguments() *DeploymentArgumentCollection
 
+	GetDeployStageOverrideArguments() *DeployStageOverrideArgumentCollection
+
 	GetDeployArtifactOverrideArguments() *DeployArtifactOverrideArgumentCollection
 
 	GetDeploymentExecutionProgress() *DeploymentExecutionProgress
@@ -80,6 +82,7 @@ type deployment struct {
 	LifecycleState                  DeploymentLifecycleStateEnum              `mandatory:"false" json:"lifecycleState,omitempty"`
 	LifecycleDetails                *string                                   `mandatory:"false" json:"lifecycleDetails"`
 	DeploymentArguments             *DeploymentArgumentCollection             `mandatory:"false" json:"deploymentArguments"`
+	DeployStageOverrideArguments    *DeployStageOverrideArgumentCollection    `mandatory:"false" json:"deployStageOverrideArguments"`
 	DeployArtifactOverrideArguments *DeployArtifactOverrideArgumentCollection `mandatory:"false" json:"deployArtifactOverrideArguments"`
 	DeploymentExecutionProgress     *DeploymentExecutionProgress              `mandatory:"false" json:"deploymentExecutionProgress"`
 	FreeformTags                    map[string]string                         `mandatory:"false" json:"freeformTags"`
@@ -111,6 +114,7 @@ func (m *deployment) UnmarshalJSON(data []byte) error {
 	m.LifecycleState = s.Model.LifecycleState
 	m.LifecycleDetails = s.Model.LifecycleDetails
 	m.DeploymentArguments = s.Model.DeploymentArguments
+	m.DeployStageOverrideArguments = s.Model.DeployStageOverrideArguments
 	m.DeployArtifactOverrideArguments = s.Model.DeployArtifactOverrideArguments
 	m.DeploymentExecutionProgress = s.Model.DeploymentExecutionProgress
 	m.FreeformTags = s.Model.FreeformTags
@@ -209,6 +213,11 @@ func (m deployment) GetLifecycleDetails() *string {
 //GetDeploymentArguments returns DeploymentArguments
 func (m deployment) GetDeploymentArguments() *DeploymentArgumentCollection {
 	return m.DeploymentArguments
+}
+
+//GetDeployStageOverrideArguments returns DeployStageOverrideArguments
+func (m deployment) GetDeployStageOverrideArguments() *DeployStageOverrideArgumentCollection {
+	return m.DeployStageOverrideArguments
 }
 
 //GetDeployArtifactOverrideArguments returns DeployArtifactOverrideArguments

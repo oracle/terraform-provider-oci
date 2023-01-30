@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Database Tools
 //
-// Database Tools APIs to manage Connections and Private Endpoints.
+// Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
 //
 
 package databasetools
@@ -15,16 +15,16 @@ import (
 	"strings"
 )
 
-// CreateDatabaseToolsPrivateEndpointDetails The information about new DatabaseToolsPrivateEndpoint.
+// CreateDatabaseToolsPrivateEndpointDetails The details for the new Database Tools private endpoint.
 type CreateDatabaseToolsPrivateEndpointDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the containing Compartment.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the Database Tools private endpoint.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DatabaseToolsEndpointService.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the `DatabaseToolsEndpointService`.
 	EndpointServiceId *string `mandatory:"true" json:"endpointServiceId"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet that the private endpoint belongs to.
@@ -38,7 +38,7 @@ type CreateDatabaseToolsPrivateEndpointDetails struct {
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// A description of the DatabaseToolsPrivateEndpoint.
+	// A description of the Database Tools private endpoint.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The private IP address that represents the access point for the associated endpoint service.

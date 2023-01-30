@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,15 +22,15 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_file_storage "github.com/oracle/oci-go-sdk/v65/filestorage"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	FileSystemRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", acctest.Required, acctest.Create, fileSystemRepresentation)
+	FileStorageFileSystemRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", acctest.Required, acctest.Create, FileStorageFileSystemRepresentation)
 
-	FileSystem2RequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", acctest.Required, acctest.Create, fileSystemRepresentation)
+	FileStorageFileSystem2RequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", acctest.Required, acctest.Create, FileStorageFileSystemRepresentation)
 
-	fileSystemDataSourceRepresentation = map[string]interface{}{
+	FileStorageFileStorageFileSystemDataSourceRepresentation = map[string]interface{}{
 		"availability_domain":   acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":          acctest.Representation{RepType: acctest.Optional, Create: `media-files-1`, Update: `displayName2`},
@@ -38,27 +38,38 @@ var (
 		"parent_file_system_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_file_system.test_file_system.id}`},
 		"source_snapshot_id":    acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_snapshot.test_snapshot.id}`},
 		"state":                 acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":                acctest.RepresentationGroup{RepType: acctest.Required, Group: fileSystemDataSourceFilterRepresentation}}
-	fileSystemDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                acctest.RepresentationGroup{RepType: acctest.Required, Group: FileStorageFileSystemDataSourceFilterRepresentation}}
+	FileStorageFileSystemDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_file_storage_file_system.test_file_system2.id}`}},
 	}
 
-	fileSystemRepresentation = map[string]interface{}{
+	FileStorageFileSystemRepresentation = map[string]interface{}{
 		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `media-files-1`, Update: `displayName2`},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"source_snapshot_id":  acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_snapshot.test_snapshot.id}`},
-		"kms_key_id":          acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_id_for_create}`, Update: `${var.kms_key_id_for_update}`},
+		"kms_key_id":          acctest.Representation{RepType: acctest.Optional, Create: `${oci_kms_key.kms_key_id_for_create.id}`, Update: `${oci_kms_key.kms_key_id_for_update.id}`},
+		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 	}
 
-	FileSystemResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", acctest.Required, acctest.Create, fileSystemRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Required, acctest.Create, snapshotRepresentation) +
+	FileStorageFileSystemResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", acctest.Required, acctest.Create, FileStorageFileSystemRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Required, acctest.Create, FileStorageSnapshotRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
-		KeyResourceDependencyConfig + kmsKeyIdCreateVariableStr + kmsKeyIdUpdateVariableStr
+		acctest.GenerateResourceFromRepresentationMap("oci_kms_vault", "test_kms_vault", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(KmsVaultRepresentation, map[string]interface{}{
+			"vault_type": acctest.Representation{RepType: acctest.Required, Create: `DEFAULT`},
+		})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "kms_key_id_for_create", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(KmsKeyRepresentation, map[string]interface{}{
+			"management_endpoint": acctest.Representation{RepType: acctest.Required, Create: `${oci_kms_vault.test_kms_vault.management_endpoint}`},
+			"desired_state":       acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`},
+		})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "kms_key_id_for_update", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(KmsKeyRepresentation, map[string]interface{}{
+			"management_endpoint": acctest.Representation{RepType: acctest.Required, Create: `${oci_kms_vault.test_kms_vault.management_endpoint}`},
+			"desired_state":       acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`},
+		}))
 )
 
 // issue-routing-tag: file_storage/default
@@ -79,14 +90,14 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+FileSystemResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", acctest.Optional, acctest.Create, fileSystemRepresentation), "filestorage", "fileSystem", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+FileStorageFileSystemResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", acctest.Optional, acctest.Create, FileStorageFileSystemRepresentation), "filestorage", "fileSystem", t)
 
 	acctest.ResourceTest(t, testAccCheckFileStorageFileSystemDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + FileSystemResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", acctest.Required, acctest.Create, fileSystemRepresentation),
+			Config: config + compartmentIdVariableStr + FileStorageFileSystemResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", acctest.Required, acctest.Create, FileStorageFileSystemRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -100,12 +111,12 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + FileSystemResourceDependencies,
+			Config: config + compartmentIdVariableStr + FileStorageFileSystemResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + FileSystemResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", acctest.Optional, acctest.Create, fileSystemRepresentation),
+			Config: config + compartmentIdVariableStr + FileStorageFileSystemResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", acctest.Optional, acctest.Create, FileStorageFileSystemRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -132,9 +143,9 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + FileSystemResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + FileStorageFileSystemResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(fileSystemRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(FileStorageFileSystemRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -161,8 +172,8 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + FileSystemResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", acctest.Optional, acctest.Update, fileSystemRepresentation),
+			Config: config + compartmentIdVariableStr + FileStorageFileSystemResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", acctest.Optional, acctest.Update, FileStorageFileSystemRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -187,9 +198,9 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_file_storage_file_systems", "test_file_systems", acctest.Optional, acctest.Update, fileSystemDataSourceRepresentation) +
-				compartmentIdVariableStr + FileSystemResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", acctest.Optional, acctest.Update, fileSystemRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_file_storage_file_systems", "test_file_systems", acctest.Optional, acctest.Update, FileStorageFileStorageFileSystemDataSourceRepresentation) +
+				compartmentIdVariableStr + FileStorageFileSystemResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", acctest.Optional, acctest.Update, FileStorageFileSystemRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -217,7 +228,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + FileSystem2RequiredOnlyResource,
+			Config:                  config + FileStorageFileSystem2RequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{"source_snapshot_id", "parent_file_system_id"},
@@ -281,7 +292,7 @@ func init() {
 
 func sweepFileStorageFileSystemResource(compartment string) error {
 	fileStorageClient := acctest.GetTestClients(&schema.ResourceData{}).FileStorageClient()
-	fileSystemIds, err := getFileSystemIds(compartment)
+	fileSystemIds, err := getFileStorageFileSystemIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -297,14 +308,14 @@ func sweepFileStorageFileSystemResource(compartment string) error {
 				fmt.Printf("Error deleting FileSystem %s %s, It is possible that the resource is already deleted. Please verify manually \n", fileSystemId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &fileSystemId, fileSystemSweepWaitCondition, time.Duration(3*time.Minute),
-				fileSystemSweepResponseFetchOperation, "file_storage", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &fileSystemId, FileStorageFileSystemSweepWaitCondition, time.Duration(3*time.Minute),
+				FileStorageFileSystemSweepResponseFetchOperation, "file_storage", true)
 		}
 	}
 	return nil
 }
 
-func getFileSystemIds(compartment string) ([]string, error) {
+func getFileStorageFileSystemIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "FileSystemId")
 	if ids != nil {
 		return ids, nil
@@ -339,7 +350,7 @@ func getFileSystemIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func fileSystemSweepWaitCondition(response common.OCIOperationResponse) bool {
+func FileStorageFileSystemSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if fileSystemResponse, ok := response.Response.(oci_file_storage.GetFileSystemResponse); ok {
 		return fileSystemResponse.LifecycleState != oci_file_storage.FileSystemLifecycleStateDeleted
@@ -347,7 +358,7 @@ func fileSystemSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func fileSystemSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func FileStorageFileSystemSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.FileStorageClient().GetFileSystem(context.Background(), oci_file_storage.GetFileSystemRequest{
 		FileSystemId: resourceId,
 		RequestMetadata: common.RequestMetadata{

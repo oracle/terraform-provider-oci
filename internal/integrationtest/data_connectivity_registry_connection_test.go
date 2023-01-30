@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -15,56 +15,56 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_data_connectivity "github.com/oracle/oci-go-sdk/v65/dataconnectivity"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	RegistryConnectionRequiredOnlyResource = RegistryConnectionResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_data_connectivity_registry_connection", "test_registry_connection", acctest.Required, acctest.Create, registryConnectionRepresentation)
+	DataConnectivityRegistryConnectionRequiredOnlyResource = DataConnectivityRegistryConnectionResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_data_connectivity_registry_connection", "test_registry_connection", acctest.Required, acctest.Create, DataConnectivityRegistryConnectionRepresentation)
 
-	RegistryConnectionResourceConfig = RegistryConnectionResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_data_connectivity_registry_connection", "test_registry_connection", acctest.Optional, acctest.Update, registryConnectionRepresentation)
+	DataConnectivityRegistryConnectionResourceConfig = DataConnectivityRegistryConnectionResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_data_connectivity_registry_connection", "test_registry_connection", acctest.Optional, acctest.Update, DataConnectivityRegistryConnectionRepresentation)
 
-	registryConnectionSingularDataSourceRepresentation = map[string]interface{}{
+	DataConnectivityDataConnectivityRegistryConnectionSingularDataSourceRepresentation = map[string]interface{}{
 		"connection_key": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_connectivity_registry_connection.test_registry_connection.key}`},
 		"registry_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_data_connectivity_registry.test_registry.id}`},
 	}
 
-	registryConnectionDataSourceRepresentation = map[string]interface{}{
+	DataConnectivityDataConnectivityRegistryConnectionDataSourceRepresentation = map[string]interface{}{
 		"data_asset_key": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_connectivity_registry_data_asset.test_registry_data_asset.key}`},
 		"registry_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_data_connectivity_registry.test_registry.id}`}}
-	registryConnectionDataSourceFilterRepresentation = map[string]interface{}{
+	DataConnectivityRegistryConnectionDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `name`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_data_connectivity_registry_connection.test_registry_connection.name}`}},
 	}
 
-	registryConnectionRepresentation = map[string]interface{}{
+	DataConnectivityRegistryConnectionRepresentation = map[string]interface{}{
 		"identifier":            acctest.Representation{RepType: acctest.Required, Create: `CONNECTIONIDENTIFIER`, Update: `CONNECTIONIDENTIFIER2`},
 		"name":                  acctest.Representation{RepType: acctest.Required, Create: `connectionname`, Update: `connectionname2`},
 		"properties":            acctest.Representation{RepType: acctest.Required, Create: map[string]string{"username": "username", "password": "password"}, Update: map[string]string{"username": "username", "password": "password"}},
 		"registry_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_data_connectivity_registry.test_registry.id}`},
 		"type":                  acctest.Representation{RepType: acctest.Required, Create: `GENERIC_JDBC_CONNECTION`},
-		"connection_properties": acctest.RepresentationGroup{RepType: acctest.Optional, Group: registryConnectionConnectionPropertiesRepresentation},
+		"connection_properties": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataConnectivityRegistryConnectionConnectionPropertiesRepresentation},
 		"description":           acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"is_default":            acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `false`},
 		"model_type":            acctest.Representation{RepType: acctest.Required, Create: `GENERIC_CONNECTION`},
-		"registry_metadata":     acctest.RepresentationGroup{RepType: acctest.Required, Group: registryConnectionRegistryMetadataRepresentation},
+		"registry_metadata":     acctest.RepresentationGroup{RepType: acctest.Required, Group: DataConnectivityRegistryConnectionRegistryMetadataRepresentation},
 		"lifecycle":             acctest.RepresentationGroup{RepType: acctest.Required, Group: dcmsConnectionIgnoreChangesRepresentation},
 	}
 	dcmsConnectionIgnoreChangesRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`properties`}},
 	}
-	registryConnectionConnectionPropertiesRepresentation = map[string]interface{}{
+	DataConnectivityRegistryConnectionConnectionPropertiesRepresentation = map[string]interface{}{
 		"name":  acctest.Representation{RepType: acctest.Optional, Create: `name`, Update: `name2`},
 		"value": acctest.Representation{RepType: acctest.Optional, Create: `value`, Update: `value2`},
 	}
-	registryConnectionMetadataRepresentation = map[string]interface{}{
-		"aggregator":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: registryConnectionMetadataAggregatorRepresentation},
+	DataConnectivityRegistryConnectionMetadataRepresentation = map[string]interface{}{
+		"aggregator":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataConnectivityRegistryConnectionMetadataAggregatorRepresentation},
 		"aggregator_key":   acctest.Representation{RepType: acctest.Optional, Create: `aggregatorKey`, Update: `aggregatorKey2`},
 		"created_by":       acctest.Representation{RepType: acctest.Optional, Create: `createdBy`, Update: `createdBy2`},
 		"created_by_name":  acctest.Representation{RepType: acctest.Optional, Create: `createdByName`, Update: `createdByName2`},
@@ -78,7 +78,7 @@ var (
 		"updated_by":       acctest.Representation{RepType: acctest.Optional, Create: `updatedBy`, Update: `updatedBy2`},
 		"updated_by_name":  acctest.Representation{RepType: acctest.Optional, Create: `updatedByName`, Update: `updatedByName2`},
 	}
-	registryConnectionPrimarySchemaRepresentation = map[string]interface{}{
+	DataConnectivityRegistryConnectionPrimarySchemaRepresentation = map[string]interface{}{
 		"identifier":         acctest.Representation{RepType: acctest.Required, Create: `identifier`, Update: `identifier2`},
 		"key":                acctest.Representation{RepType: acctest.Required, Create: `key`, Update: `key2`},
 		"model_type":         acctest.Representation{RepType: acctest.Required, Create: `modelType`, Update: `modelType2`},
@@ -87,25 +87,25 @@ var (
 		"description":        acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"external_key":       acctest.Representation{RepType: acctest.Optional, Create: `externalKey`, Update: `externalKey2`},
 		"is_has_containers":  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"metadata":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: registryConnectionPrimarySchemaMetadataRepresentation},
+		"metadata":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataConnectivityRegistryConnectionPrimarySchemaMetadataRepresentation},
 		"model_version":      acctest.Representation{RepType: acctest.Optional, Create: `modelVersion`, Update: `modelVersion2`},
 		"object_status":      acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"object_version":     acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
-		"parent_ref":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: registryConnectionPrimarySchemaParentRefRepresentation},
+		"parent_ref":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataConnectivityRegistryConnectionPrimarySchemaParentRefRepresentation},
 		"resource_name":      acctest.Representation{RepType: acctest.Optional, Create: `resourceName`, Update: `resourceName2`},
 	}
-	registryConnectionRegistryMetadataRepresentation = map[string]interface{}{
+	DataConnectivityRegistryConnectionRegistryMetadataRepresentation = map[string]interface{}{
 		"aggregator_key": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_connectivity_registry_data_asset.test_registry_data_asset.key}`, Update: `${oci_data_connectivity_registry_data_asset.test_registry_data_asset.key}`},
 	}
-	registryConnectionMetadataAggregatorRepresentation = map[string]interface{}{
+	DataConnectivityRegistryConnectionMetadataAggregatorRepresentation = map[string]interface{}{
 		"description": acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"identifier":  acctest.Representation{RepType: acctest.Optional, Create: `identifier`, Update: `identifier2`},
 		"key":         acctest.Representation{RepType: acctest.Optional, Create: `key`, Update: `key2`},
 		"name":        acctest.Representation{RepType: acctest.Optional, Create: `name`, Update: `name2`},
 		"type":        acctest.Representation{RepType: acctest.Optional, Create: `type`, Update: `type2`},
 	}
-	registryConnectionPrimarySchemaMetadataRepresentation = map[string]interface{}{
-		"aggregator":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: registryConnectionPrimarySchemaMetadataAggregatorRepresentation},
+	DataConnectivityRegistryConnectionPrimarySchemaMetadataRepresentation = map[string]interface{}{
+		"aggregator":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataConnectivityRegistryConnectionPrimarySchemaMetadataAggregatorRepresentation},
 		"aggregator_key":   acctest.Representation{RepType: acctest.Optional, Create: `aggregatorKey`, Update: `aggregatorKey2`},
 		"created_by":       acctest.Representation{RepType: acctest.Optional, Create: `createdBy`, Update: `createdBy2`},
 		"created_by_name":  acctest.Representation{RepType: acctest.Optional, Create: `createdByName`, Update: `createdByName2`},
@@ -119,10 +119,10 @@ var (
 		"updated_by":       acctest.Representation{RepType: acctest.Optional, Create: `updatedBy`, Update: `updatedBy2`},
 		"updated_by_name":  acctest.Representation{RepType: acctest.Optional, Create: `updatedByName`, Update: `updatedByName2`},
 	}
-	registryConnectionPrimarySchemaParentRefRepresentation = map[string]interface{}{
+	DataConnectivityRegistryConnectionPrimarySchemaParentRefRepresentation = map[string]interface{}{
 		"parent": acctest.Representation{RepType: acctest.Optional, Create: `parent`, Update: `parent2`},
 	}
-	registryConnectionPrimarySchemaMetadataAggregatorRepresentation = map[string]interface{}{
+	DataConnectivityRegistryConnectionPrimarySchemaMetadataAggregatorRepresentation = map[string]interface{}{
 		"description": acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"identifier":  acctest.Representation{RepType: acctest.Optional, Create: `identifier`, Update: `identifier2`},
 		"key":         acctest.Representation{RepType: acctest.Optional, Create: `key`, Update: `key2`},
@@ -130,9 +130,9 @@ var (
 		"type":        acctest.Representation{RepType: acctest.Optional, Create: `type`, Update: `type2`},
 	}
 
-	RegistryConnectionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_data_connectivity_registry", "test_registry", acctest.Required, acctest.Create, registryRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, userRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_data_connectivity_registry_data_asset", "test_registry_data_asset", acctest.Required, acctest.Create, registryDataAssetRepresentation)
+	DataConnectivityRegistryConnectionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_data_connectivity_registry", "test_registry", acctest.Required, acctest.Create, DataConnectivityRegistryRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_data_connectivity_registry_data_asset", "test_registry_data_asset", acctest.Required, acctest.Create, DataConnectivityRegistryDataAssetRepresentation)
 )
 
 // issue-routing-tag: data_connectivity/default
@@ -151,14 +151,14 @@ func TestDataConnectivityRegistryConnectionResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+RegistryConnectionResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_data_connectivity_registry_connection", "test_registry_connection", acctest.Optional, acctest.Create, registryConnectionRepresentation), "dataconnectivity", "registryConnection", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DataConnectivityRegistryConnectionResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_data_connectivity_registry_connection", "test_registry_connection", acctest.Optional, acctest.Create, DataConnectivityRegistryConnectionRepresentation), "dataconnectivity", "registryConnection", t)
 
 	acctest.ResourceTest(t, testAccCheckDataConnectivityRegistryConnectionDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + RegistryConnectionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_data_connectivity_registry_connection", "test_registry_connection", acctest.Required, acctest.Create, registryConnectionRepresentation),
+			Config: config + compartmentIdVariableStr + DataConnectivityRegistryConnectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_data_connectivity_registry_connection", "test_registry_connection", acctest.Required, acctest.Create, DataConnectivityRegistryConnectionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "identifier", "CONNECTIONIDENTIFIER"),
 				resource.TestCheckResourceAttr(resourceName, "name", "connectionname"),
@@ -175,12 +175,12 @@ func TestDataConnectivityRegistryConnectionResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + RegistryConnectionResourceDependencies,
+			Config: config + compartmentIdVariableStr + DataConnectivityRegistryConnectionResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + RegistryConnectionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_data_connectivity_registry_connection", "test_registry_connection", acctest.Optional, acctest.Create, registryConnectionRepresentation),
+			Config: config + compartmentIdVariableStr + DataConnectivityRegistryConnectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_data_connectivity_registry_connection", "test_registry_connection", acctest.Optional, acctest.Create, DataConnectivityRegistryConnectionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "connection_properties.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "connection_properties.0.name", "name"),
@@ -209,8 +209,8 @@ func TestDataConnectivityRegistryConnectionResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + RegistryConnectionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_data_connectivity_registry_connection", "test_registry_connection", acctest.Optional, acctest.Update, registryConnectionRepresentation),
+			Config: config + compartmentIdVariableStr + DataConnectivityRegistryConnectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_data_connectivity_registry_connection", "test_registry_connection", acctest.Optional, acctest.Update, DataConnectivityRegistryConnectionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "connection_properties.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "connection_properties.0.name", "name2"),
@@ -234,9 +234,9 @@ func TestDataConnectivityRegistryConnectionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_connectivity_registry_connections", "test_registry_connections", acctest.Optional, acctest.Update, registryConnectionDataSourceRepresentation) +
-				compartmentIdVariableStr + RegistryConnectionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_data_connectivity_registry_connection", "test_registry_connection", acctest.Optional, acctest.Update, registryConnectionRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_connectivity_registry_connections", "test_registry_connections", acctest.Optional, acctest.Update, DataConnectivityDataConnectivityRegistryConnectionDataSourceRepresentation) +
+				compartmentIdVariableStr + DataConnectivityRegistryConnectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_data_connectivity_registry_connection", "test_registry_connection", acctest.Optional, acctest.Update, DataConnectivityRegistryConnectionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "connection_summary_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "connection_summary_collection.0.items.#", "2"),
@@ -245,8 +245,8 @@ func TestDataConnectivityRegistryConnectionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_connectivity_registry_connection", "test_registry_connection", acctest.Required, acctest.Create, registryConnectionSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + RegistryConnectionResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_connectivity_registry_connection", "test_registry_connection", acctest.Required, acctest.Create, DataConnectivityDataConnectivityRegistryConnectionSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DataConnectivityRegistryConnectionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_key"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "registry_id"),
@@ -260,7 +260,7 @@ func TestDataConnectivityRegistryConnectionResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + RegistryConnectionRequiredOnlyResource,
+			Config:                  config + DataConnectivityRegistryConnectionRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{"registry_metadata"},
@@ -321,7 +321,7 @@ func init() {
 
 func sweepDataConnectivityRegistryConnectionResource(compartment string) error {
 	dataConnectivityManagementClient := acctest.GetTestClients(&schema.ResourceData{}).DataConnectivityManagementClient()
-	registryConnectionIds, err := getRegistryConnectionIds(compartment)
+	registryConnectionIds, err := getDataConnectivityRegistryConnectionIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -340,7 +340,7 @@ func sweepDataConnectivityRegistryConnectionResource(compartment string) error {
 	return nil
 }
 
-func getRegistryConnectionIds(compartment string) ([]string, error) {
+func getDataConnectivityRegistryConnectionIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "RegistryConnectionId")
 	if ids != nil {
 		return ids, nil
@@ -351,14 +351,14 @@ func getRegistryConnectionIds(compartment string) ([]string, error) {
 
 	listConnectionsRequest := oci_data_connectivity.ListConnectionsRequest{}
 
-	dataAssetKeys, error := getRegistryDataAssetIds(compartment)
+	dataAssetKeys, error := getDataConnectivityRegistryDataAssetIds(compartment)
 	if error != nil {
 		return resourceIds, fmt.Errorf("Error getting dataAssetKey required for RegistryConnection resource requests \n")
 	}
 	for _, dataAssetKey := range dataAssetKeys {
 		listConnectionsRequest.DataAssetKey = &dataAssetKey
 
-		registryIds, error := getRegistryIds(compartment)
+		registryIds, error := getDataConnectivityRegistryIds(compartment)
 		if error != nil {
 			return resourceIds, fmt.Errorf("Error getting registryId required for RegistryConnection resource requests \n")
 		}

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package data_safe
@@ -9,8 +9,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func DataSafeReportsDataSource() *schema.Resource {
@@ -39,6 +39,10 @@ func DataSafeReportsDataSource() *schema.Resource {
 				Optional: true,
 			},
 			"state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"type": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -105,6 +109,10 @@ func DataSafeReportsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 								},
 							},
 						},
@@ -162,6 +170,10 @@ func (s *DataSafeReportsDataSourceCrud) Get() error {
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_data_safe.ListReportsLifecycleStateEnum(state.(string))
+	}
+
+	if type_, ok := s.D.GetOkExists("type"); ok {
+		request.Type = oci_data_safe.ListReportsTypeEnum(type_.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
@@ -251,6 +263,8 @@ func ReportSummaryToMap(obj oci_data_safe.ReportSummary) map[string]interface{} 
 	if obj.TimeGenerated != nil {
 		result["time_generated"] = obj.TimeGenerated.String()
 	}
+
+	result["type"] = string(obj.Type)
 
 	return result
 }

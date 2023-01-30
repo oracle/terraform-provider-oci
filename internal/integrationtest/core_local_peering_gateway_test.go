@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,37 +16,37 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	LocalPeeringGatewayRequiredOnlyResource = LocalPeeringGatewayResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", acctest.Required, acctest.Create, localPeeringGatewayRepresentation)
+	CoreLocalPeeringGatewayRequiredOnlyResource = CoreLocalPeeringGatewayResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", acctest.Required, acctest.Create, CoreLocalPeeringGatewayRepresentation)
 
-	localPeeringGatewayDataSourceRepresentation = map[string]interface{}{
+	CoreCoreLocalPeeringGatewayDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"vcn_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.id}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: localPeeringGatewayDataSourceFilterRepresentation}}
-	localPeeringGatewayDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreLocalPeeringGatewayDataSourceFilterRepresentation}}
+	CoreLocalPeeringGatewayDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_local_peering_gateway.test_local_peering_gateway.id}`}},
 	}
 
-	secondLocalPeeringGatewayDataSourceRepresentation = map[string]interface{}{
+	CoreSecondLocalPeeringGatewayDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"vcn_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn2.id}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: secondLocalPeeringGatewayDataSourceFilterRepresentation}}
-	secondLocalPeeringGatewayDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreSecondLocalPeeringGatewayDataSourceFilterRepresentation}}
+	CoreSecondLocalPeeringGatewayDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_local_peering_gateway.test_local_peering_gateway2.id}`}},
 	}
 
-	localPeeringGatewayRepresentation = map[string]interface{}{
+	CoreLocalPeeringGatewayRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"vcn_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -79,9 +79,9 @@ resource "oci_core_vcn" "test_vcn2" {
 	dns_label = "${var.vcn_dns_label2}"
 }
 `
-	LocalPeeringGatewayResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, internetGatewayRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, routeTableRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	CoreLocalPeeringGatewayResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, CoreInternetGatewayRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, CoreRouteTableRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -103,14 +103,14 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+LocalPeeringGatewayResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", acctest.Optional, acctest.Create, localPeeringGatewayRepresentation), "core", "localPeeringGateway", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreLocalPeeringGatewayResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", acctest.Optional, acctest.Create, CoreLocalPeeringGatewayRepresentation), "core", "localPeeringGateway", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreLocalPeeringGatewayDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + LocalPeeringGatewayResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", acctest.Required, acctest.Create, localPeeringGatewayRepresentation),
+			Config: config + compartmentIdVariableStr + CoreLocalPeeringGatewayResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", acctest.Required, acctest.Create, CoreLocalPeeringGatewayRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
@@ -125,12 +125,12 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + LocalPeeringGatewayResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreLocalPeeringGatewayResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + LocalPeeringGatewayResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", acctest.Optional, acctest.Create, localPeeringGatewayRepresentation),
+			Config: config + compartmentIdVariableStr + CoreLocalPeeringGatewayResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", acctest.Optional, acctest.Create, CoreLocalPeeringGatewayRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -157,9 +157,9 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + LocalPeeringGatewayResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreLocalPeeringGatewayResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(localPeeringGatewayRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CoreLocalPeeringGatewayRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -186,8 +186,8 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + LocalPeeringGatewayResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", acctest.Optional, acctest.Update, localPeeringGatewayRepresentation),
+			Config: config + compartmentIdVariableStr + CoreLocalPeeringGatewayResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", acctest.Optional, acctest.Update, CoreLocalPeeringGatewayRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -212,11 +212,11 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_local_peering_gateways", "test_local_peering_gateways", acctest.Optional, acctest.Update, localPeeringGatewayDataSourceRepresentation) +
-				compartmentIdVariableStr + LocalPeeringGatewayResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", acctest.Optional, acctest.Update, localPeeringGatewayRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_local_peering_gateways", "test_local_peering_gateways", acctest.Optional, acctest.Update, CoreCoreLocalPeeringGatewayDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreLocalPeeringGatewayResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", acctest.Optional, acctest.Update, CoreLocalPeeringGatewayRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway2", acctest.Optional, acctest.Update, secondLocalPeeringGatewayRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_local_peering_gateways", "test_local_peering_gateways2", acctest.Optional, acctest.Update, secondLocalPeeringGatewayDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_local_peering_gateways", "test_local_peering_gateways2", acctest.Optional, acctest.Update, CoreSecondLocalPeeringGatewayDataSourceRepresentation) +
 				secondLocalPeeringGatewayWithPeerId,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -239,7 +239,7 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + LocalPeeringGatewayRequiredOnlyResource,
+			Config:                  config + CoreLocalPeeringGatewayRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -247,8 +247,8 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 		},
 		// verify connect functionality
 		{
-			Config: config + compartmentIdVariableStr + LocalPeeringGatewayResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", acctest.Optional, acctest.Update, localPeeringGatewayRepresentation) +
+			Config: config + compartmentIdVariableStr + CoreLocalPeeringGatewayResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", acctest.Optional, acctest.Update, CoreLocalPeeringGatewayRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway2", acctest.Optional, acctest.Update, secondLocalPeeringGatewayRepresentation) +
 				secondLocalPeeringGatewayWithPeerId,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -330,7 +330,7 @@ func init() {
 
 func sweepCoreLocalPeeringGatewayResource(compartment string) error {
 	virtualNetworkClient := acctest.GetTestClients(&schema.ResourceData{}).VirtualNetworkClient()
-	localPeeringGatewayIds, err := getLocalPeeringGatewayIds(compartment)
+	localPeeringGatewayIds, err := getCoreLocalPeeringGatewayIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -346,14 +346,14 @@ func sweepCoreLocalPeeringGatewayResource(compartment string) error {
 				fmt.Printf("Error deleting LocalPeeringGateway %s %s, It is possible that the resource is already deleted. Please verify manually \n", localPeeringGatewayId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &localPeeringGatewayId, localPeeringGatewaySweepWaitCondition, time.Duration(3*time.Minute),
-				localPeeringGatewaySweepResponseFetchOperation, "core", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &localPeeringGatewayId, CoreLocalPeeringGatewaySweepWaitCondition, time.Duration(3*time.Minute),
+				CoreLocalPeeringGatewaySweepResponseFetchOperation, "core", true)
 		}
 	}
 	return nil
 }
 
-func getLocalPeeringGatewayIds(compartment string) ([]string, error) {
+func getCoreLocalPeeringGatewayIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "LocalPeeringGatewayId")
 	if ids != nil {
 		return ids, nil
@@ -377,7 +377,7 @@ func getLocalPeeringGatewayIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func localPeeringGatewaySweepWaitCondition(response common.OCIOperationResponse) bool {
+func CoreLocalPeeringGatewaySweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if localPeeringGatewayResponse, ok := response.Response.(oci_core.GetLocalPeeringGatewayResponse); ok {
 		return localPeeringGatewayResponse.LifecycleState != oci_core.LocalPeeringGatewayLifecycleStateTerminated
@@ -385,7 +385,7 @@ func localPeeringGatewaySweepWaitCondition(response common.OCIOperationResponse)
 	return false
 }
 
-func localPeeringGatewaySweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CoreLocalPeeringGatewaySweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.VirtualNetworkClient().GetLocalPeeringGateway(context.Background(), oci_core.GetLocalPeeringGatewayRequest{
 		LocalPeeringGatewayId: resourceId,
 		RequestMetadata: common.RequestMetadata{

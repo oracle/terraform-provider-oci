@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,31 +22,31 @@ import (
 	oci_bds "github.com/oracle/oci-go-sdk/v65/bds"
 	"github.com/oracle/oci-go-sdk/v65/common"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	BdsInstanceRequiredOnlyResource = BdsInstanceResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create, bdsInstanceRepresentation)
+	BdsBdsInstanceRequiredOnlyResource = BdsBdsInstanceResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create, BdsbdsInstanceRepresentation)
 
-	BdsInstanceResourceConfig = BdsInstanceResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Update, bdsInstanceRepresentation)
+	BdsBdsInstanceResourceConfig = BdsBdsInstanceResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Update, BdsbdsInstanceRepresentation)
 
-	bdsInstanceSingularDataSourceRepresentation = map[string]interface{}{
+	BdsBdsbdsInstanceSingularDataSourceRepresentation = map[string]interface{}{
 		"bds_instance_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_bds_bds_instance.test_bds_instance.id}`},
 	}
 
-	bdsInstanceDataSourceRepresentation = map[string]interface{}{
+	BdsbdsInstanceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceDataSourceFilterRepresentation}}
-	bdsInstanceDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: BdsbdsInstanceDataSourceFilterRepresentation}}
+	BdsbdsInstanceDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_bds_bds_instance.test_bds_instance.id}`}},
 	}
 
-	bdsInstanceRepresentation = map[string]interface{}{
+	BdsbdsInstanceRepresentation = map[string]interface{}{
 		"cluster_admin_password": acctest.Representation{RepType: acctest.Required, Create: `V2VsY29tZTE=`},
 		"cluster_public_key":     acctest.Representation{RepType: acctest.Required, Create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDpUa4zUZKyU3AkW9yoJTBDO550wpWZOXdHswfRq75gbJ2ZYlMtifvwiO3qUL/RIZSC6e1wA5OL2LQ97UaHrLLPXgjvKGVIDRHqPkzTOayjJ4ZA7NPNhcu6f/OxhKkCYF3TAQObhMJmUSMrWSUeufaRIujDz1HHqazxOgFk09fj4i2dcGnfPcm32t8a9MzlsHSmgexYCUwxGisuuWTsnMgxbqsj6DaY51l+SEPi5tf10iFmUWqziF0eKDDQ/jHkwLJ8wgBJef9FSOmwJReHcBY+NviwFTatGj7Cwtnks6CVomsFD+rAMJ9uzM8SCv5agYunx07hnEXbR9r/TXqgXGfN bdsclusterkey@oracleoci.com`},
 		"cluster_version":        acctest.Representation{RepType: acctest.Required, Create: `CDH6`},
@@ -54,47 +54,47 @@ var (
 		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"is_high_availability":   acctest.Representation{RepType: acctest.Required, Create: `false`},
 		"is_secure":              acctest.Representation{RepType: acctest.Required, Create: `false`},
-		"master_node":            acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesMasterRepresentation},
-		"util_node":              acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesUtilRepresentation},
-		"worker_node":            acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesWorkerRepresentation},
+		"master_node":            acctest.RepresentationGroup{RepType: acctest.Required, Group: BdsbdsInstanceNodesMasterRepresentation},
+		"util_node":              acctest.RepresentationGroup{RepType: acctest.Required, Group: BdsbdsInstanceNodesUtilRepresentation},
+		"worker_node":            acctest.RepresentationGroup{RepType: acctest.Required, Group: BdsbdsInstanceNodesWorkerRepresentation},
 
 		"is_cloud_sql_configured": acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		//"cloud_sql_details":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: bdsInstanceNodesCloudSqlRepresentation}, // capacity issue
+		//"cloud_sql_details":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: BdsbdsInstanceNodesCloudSqlRepresentation}, // capacity issue
 
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"network_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: bdsInstanceNetworkConfigRepresentation},
+		"network_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: BdsbdsInstanceNetworkConfigRepresentation},
 	}
 
-	bdsInstanceNodesCloudSqlRepresentation = map[string]interface{}{
+	BdsbdsInstanceNodesCloudSqlRepresentation = map[string]interface{}{
 		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.4`, Update: `VM.Standard2.8`},
 		"block_volume_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `1000`},
 	}
 
-	bdsInstanceNodesMasterRepresentation = map[string]interface{}{
+	BdsbdsInstanceNodesMasterRepresentation = map[string]interface{}{
 		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.4`, Update: `VM.Standard2.8`},
 		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"block_volume_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `150`},
 		"number_of_nodes":          acctest.Representation{RepType: acctest.Required, Create: `1`},
 	}
-	bdsInstanceNodesUtilRepresentation = map[string]interface{}{
+	BdsbdsInstanceNodesUtilRepresentation = map[string]interface{}{
 		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.4`, Update: `VM.Standard2.8`},
 		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"block_volume_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `150`},
 		"number_of_nodes":          acctest.Representation{RepType: acctest.Required, Create: `1`},
 	}
-	bdsInstanceNodesWorkerRepresentation = map[string]interface{}{
+	BdsbdsInstanceNodesWorkerRepresentation = map[string]interface{}{
 		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`, Update: `VM.Standard2.4`},
 		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"block_volume_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `150`},
 		"number_of_nodes":          acctest.Representation{RepType: acctest.Required, Create: `3`, Update: `4`},
 	}
-	bdsInstanceNetworkConfigRepresentation = map[string]interface{}{
+	BdsbdsInstanceNetworkConfigRepresentation = map[string]interface{}{
 		"cidr_block":              acctest.Representation{RepType: acctest.Optional, Create: `111.112.0.0/16`},
 		"is_nat_gateway_required": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
-	BdsInstanceResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create,
+	BdsBdsInstanceResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create,
 		acctest.GetMultipleUpdatedRepresenationCopy(
 			[]string{"cidr_block", "dns_label"},
 			[]interface{}{acctest.Representation{RepType: acctest.Required, Create: `111.111.0.0/24`}, acctest.Representation{RepType: acctest.Required, Create: `bdssubnet`}},
@@ -102,7 +102,7 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.GetMultipleUpdatedRepresenationCopy(
 			[]string{"cidr_block", "dns_label"},
 			[]interface{}{acctest.Representation{RepType: acctest.Required, Create: `111.111.0.0/16`}, acctest.Representation{RepType: acctest.Required, Create: `bdsvcn`}},
-			vcnRepresentation)) +
+			CoreVcnRepresentation)) +
 		DefinedTagsDependencies
 )
 
@@ -125,14 +125,14 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+BdsInstanceResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Create, bdsInstanceRepresentation), "bds", "bdsInstance", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+BdsBdsInstanceResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Create, BdsbdsInstanceRepresentation), "bds", "bdsInstance", t)
 
 	acctest.ResourceTest(t, testAccCheckBdsBdsInstanceDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + BdsInstanceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create, bdsInstanceRepresentation),
+			Config: config + compartmentIdVariableStr + BdsBdsInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create, BdsbdsInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
@@ -154,12 +154,12 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + BdsInstanceResourceDependencies,
+			Config: config + compartmentIdVariableStr + BdsBdsInstanceResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + BdsInstanceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Create, bdsInstanceRepresentation),
+			Config: config + compartmentIdVariableStr + BdsBdsInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Create, BdsbdsInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
@@ -200,9 +200,9 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + BdsInstanceResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + BdsBdsInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(bdsInstanceRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(BdsbdsInstanceRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -244,8 +244,8 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + BdsInstanceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Update, bdsInstanceRepresentation),
+			Config: config + compartmentIdVariableStr + BdsBdsInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Update, BdsbdsInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
@@ -288,9 +288,9 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_bds_bds_instances", "test_bds_instances", acctest.Optional, acctest.Update, bdsInstanceDataSourceRepresentation) +
-				compartmentIdVariableStr + BdsInstanceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Update, bdsInstanceRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_bds_bds_instances", "test_bds_instances", acctest.Optional, acctest.Update, BdsbdsInstanceDataSourceRepresentation) +
+				compartmentIdVariableStr + BdsBdsInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Update, BdsbdsInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -313,8 +313,8 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create, bdsInstanceSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + BdsInstanceResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create, BdsBdsbdsInstanceSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + BdsBdsInstanceResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "bds_instance_id"),
 
@@ -356,7 +356,7 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + BdsInstanceRequiredOnlyResource,
+			Config:            config + BdsBdsInstanceRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,60 +22,96 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_dataflow "github.com/oracle/oci-go-sdk/v65/dataflow"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	DataFlowApplicationRequiredOnlyResource = dataFlowApplicationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", acctest.Required, acctest.Create, dataFlowApplicationRepresentation)
+	DataFlowApplicationRequiredOnlyResource = DataFlowApplicationResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", acctest.Required, acctest.Create, DataflowApplicationRepresentation)
 
-	DataFlowApplicationResourceConfig = dataFlowApplicationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", acctest.Optional, acctest.Update, dataFlowApplicationRepresentation)
+	DataFlowApplicationResourceConfig = DataFlowApplicationResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", acctest.Optional, acctest.Update, DataflowApplicationRepresentation)
 
-	dataFlowApplicationSingularDataSourceRepresentation = map[string]interface{}{
+	DataflowDataflowApplicationSingularDataSourceRepresentation = map[string]interface{}{
 		"application_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_dataflow_application.test_application.id}`},
 	}
 
-	dataFlowApplicationDataSourceRepresentation = map[string]interface{}{
+	DataflowDataflowApplicationDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `test_wordcount_app`, Update: `displayName2`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: dataFlowApplicationDataSourceFilterRepresentation}}
-	dataFlowApplicationDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DataflowApplicationDataSourceFilterRepresentation}}
+	DataflowApplicationDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_dataflow_application.test_application.id}`}},
 	}
-
-	dataFlowApplicationRepresentation = map[string]interface{}{
-		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":         acctest.Representation{RepType: acctest.Required, Create: `test_wordcount_app`, Update: `displayName2`},
-		"driver_shape":         acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
-		"executor_shape":       acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
-		"file_uri":             acctest.Representation{RepType: acctest.Required, Create: `${var.dataflow_file_uri}`, Update: `${var.dataflow_file_uri_updated}`},
-		"language":             acctest.Representation{RepType: acctest.Required, Create: `PYTHON`, Update: `SCALA`},
-		"num_executors":        acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
-		"spark_version":        acctest.Representation{RepType: acctest.Required, Create: `2.4`, Update: `2.4.4`},
-		"archive_uri":          acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_archive_uri}`},
-		"arguments":            acctest.Representation{RepType: acctest.Optional, Create: []string{`arguments`}, Update: []string{`arguments2`}},
-		"configuration":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"spark.shuffle.io.maxRetries": "10"}, Update: map[string]string{"spark.shuffle.io.maxRetries": "11"}},
-		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":          acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"freeform_tags":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"logs_bucket_uri":      acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_logs_bucket_uri}`},
-		"metastore_id":         acctest.Representation{RepType: acctest.Optional, Create: `${var.metastore_id}`},
-		"parameters":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: applicationParametersRepresentation},
-		"private_endpoint_id":  acctest.Representation{RepType: acctest.Optional, Create: `${oci_dataflow_private_endpoint.test_private_endpoint.id}`},
-		"type":                 acctest.Representation{RepType: acctest.Optional, Create: `BATCH`},
-		"warehouse_bucket_uri": acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_warehouse_bucket_uri}`},
+	DataflowApplicationApplicationLogConfigRepresentation = map[string]interface{}{
+		"log_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_logging_log_group.test_log_group.id}`},
+		"log_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_logging_log.test_log.id}`},
 	}
-	applicationParametersRepresentation = map[string]interface{}{
+
+	DataflowApplicationRepresentation = map[string]interface{}{
+		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `test_wordcount_app`, Update: `displayName2`},
+		"driver_shape":           acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`, Update: `VM.Standard2.2`},
+		"executor_shape":         acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`, Update: `VM.Standard2.2`},
+		"file_uri":               acctest.Representation{RepType: acctest.Required, Create: `${var.dataflow_file_uri}`, Update: `${var.dataflow_file_uri_updated}`},
+		"language":               acctest.Representation{RepType: acctest.Required, Create: `PYTHON`, Update: `SCALA`},
+		"num_executors":          acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
+		"spark_version":          acctest.Representation{RepType: acctest.Required, Create: `2.4`, Update: `2.4.4`},
+		"application_log_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataflowApplicationApplicationLogConfigRepresentation},
+		"archive_uri":            acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_archive_uri}`},
+		"arguments":              acctest.Representation{RepType: acctest.Optional, Create: []string{`arguments`}, Update: []string{`arguments2`}},
+		"configuration":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"configuration": "configuration"}, Update: map[string]string{"configuration2": "configuration2"}},
+		"description":            acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"driver_shape_config":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataflowApplicationDriverShapeConfigRepresentation},
+		"executor_shape_config":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataflowApplicationExecutorShapeConfigRepresentation},
+		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"logs_bucket_uri":        acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_logs_bucket_uri}`},
+		"metastore_id":           acctest.Representation{RepType: acctest.Optional, Create: `${var.metastore_id}`},
+		"parameters":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataflowApplicationParametersRepresentation},
+		"private_endpoint_id":    acctest.Representation{RepType: acctest.Optional, Create: `${oci_dataflow_private_endpoint.test_private_endpoint.id}`},
+		"type":                   acctest.Representation{RepType: acctest.Optional, Create: `BATCH`},
+		"warehouse_bucket_uri":   acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_warehouse_bucket_uri}`},
+		"lifecycle":              acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForDataFlowResource},
+	}
+
+	ignoreDefinedTagsChangesForDataFlowResource = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{"defined_tags"}},
+	}
+
+	DataflowApplicationDriverShapeConfigRepresentation = map[string]interface{}{
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `15`, Update: `30`},
+		"ocpus":         acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `2`},
+	}
+	DataflowApplicationExecutorShapeConfigRepresentation = map[string]interface{}{
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `15`, Update: `30`},
+		"ocpus":         acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `2`},
+	}
+	DataflowApplicationParametersRepresentation = map[string]interface{}{
 		"name":  acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"value": acctest.Representation{RepType: acctest.Required, Create: `value`, Update: `value2`},
 	}
 
-	dataFlowApplicationResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", acctest.Required, acctest.Create, privateEndpointRepresentation) +
-		DefinedTagsDependencies
+	DataflowApplicationLogGroupRepresentation = acctest.RepresentationCopyWithNewProperties(LoggingLogGroupRepresentation, map[string]interface{}{
+		"display_name": acctest.Representation{RepType: acctest.Required, Create: `terraform_test_custom_log_group`},
+	})
+
+	DataflowApplicationLogRepresentation = map[string]interface{}{
+		"display_name":       acctest.Representation{RepType: acctest.Required, Create: `terraform_test_custom_log`},
+		"log_group_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_logging_log_group.test_log_group.id}`},
+		"log_type":           acctest.Representation{RepType: acctest.Required, Create: `CUSTOM`},
+		"is_enabled":         acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"retention_duration": acctest.Representation{RepType: acctest.Optional, Create: `30`},
+	}
+
+	DataFlowApplicationResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", acctest.Required, acctest.Create, DataflowPrivateEndpointRepresentation) +
+		DefinedTagsDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", acctest.Required, acctest.Create, DataflowApplicationLogRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", acctest.Required, acctest.Create, DataflowApplicationLogGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation)
 )
 
 // issue-routing-tag: dataflow/default
@@ -112,14 +148,14 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+dataFlowApplicationResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", acctest.Optional, acctest.Create, dataFlowApplicationRepresentation), "dataflow", "application", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DataFlowApplicationResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", acctest.Optional, acctest.Create, DataflowApplicationRepresentation), "dataflow", "application", t)
 
 	acctest.ResourceTest(t, testAccCheckDataflowApplicationDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", acctest.Required, acctest.Create, dataFlowApplicationRepresentation),
+			Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + DataFlowApplicationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", acctest.Required, acctest.Create, DataflowApplicationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "test_wordcount_app"),
@@ -139,13 +175,16 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationResourceDependencies,
+			Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + DataFlowApplicationResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", acctest.Optional, acctest.Create, dataFlowApplicationRepresentation),
+			Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + DataFlowApplicationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", acctest.Optional, acctest.Create, DataflowApplicationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "application_log_config.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "application_log_config.0.log_group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "application_log_config.0.log_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "archive_uri"),
 				resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -153,8 +192,14 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "test_wordcount_app"),
 				resource.TestCheckResourceAttr(resourceName, "driver_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "driver_shape_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "driver_shape_config.0.memory_in_gbs", "15"),
+				resource.TestCheckResourceAttr(resourceName, "driver_shape_config.0.ocpus", "1"),
 				resource.TestCheckResourceAttr(resourceName, "executor_shape", "VM.Standard2.1"),
-				resource.TestCheckResourceAttr(resourceName, "file_uri", fileUri),
+				resource.TestCheckResourceAttr(resourceName, "executor_shape_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "executor_shape_config.0.memory_in_gbs", "15"),
+				resource.TestCheckResourceAttr(resourceName, "executor_shape_config.0.ocpus", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "file_uri"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "language", "PYTHON"),
@@ -187,12 +232,15 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + dataFlowApplicationResourceDependencies + fileUriVariableStr + archiveUriVariableStr + warehouseBucketUriVariableStr + logsBucketUriVariableStr + metastoreIdVariableStr +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DataFlowApplicationResourceDependencies + fileUriVariableStr + archiveUriVariableStr + warehouseBucketUriVariableStr + logsBucketUriVariableStr + metastoreIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(dataFlowApplicationRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(DataflowApplicationRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "application_log_config.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "application_log_config.0.log_group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "application_log_config.0.log_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "archive_uri"),
 				resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -200,7 +248,13 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "test_wordcount_app"),
 				resource.TestCheckResourceAttr(resourceName, "driver_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "driver_shape_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "driver_shape_config.0.memory_in_gbs", "15"),
+				resource.TestCheckResourceAttr(resourceName, "driver_shape_config.0.ocpus", "1"),
 				resource.TestCheckResourceAttr(resourceName, "executor_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "executor_shape_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "executor_shape_config.0.memory_in_gbs", "15"),
+				resource.TestCheckResourceAttr(resourceName, "executor_shape_config.0.ocpus", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "file_uri"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -232,21 +286,30 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + fileUriVariableStr + classNameStrUpdated + fileUriVariableStrUpdated + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationResourceDependencies +
+			Config: config + compartmentIdVariableStr + fileUriVariableStr + classNameStrUpdated + fileUriVariableStrUpdated + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + DataFlowApplicationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", acctest.Optional, acctest.Update,
-					acctest.RepresentationCopyWithNewProperties(dataFlowApplicationRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(DataflowApplicationRepresentation, map[string]interface{}{
 						"class_name": acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_class_name_updated}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "application_log_config.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "application_log_config.0.log_group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "application_log_config.0.log_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "archive_uri"),
 				resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "configuration.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(resourceName, "driver_shape", "VM.Standard2.1"),
-				resource.TestCheckResourceAttr(resourceName, "executor_shape", "VM.Standard2.1"),
-				resource.TestCheckResourceAttr(resourceName, "file_uri", fileUriUpdated),
+				resource.TestCheckResourceAttr(resourceName, "driver_shape", "VM.Standard2.2"),
+				resource.TestCheckResourceAttr(resourceName, "driver_shape_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "driver_shape_config.0.memory_in_gbs", "30"),
+				resource.TestCheckResourceAttr(resourceName, "driver_shape_config.0.ocpus", "2"),
+				resource.TestCheckResourceAttr(resourceName, "executor_shape", "VM.Standard2.2"),
+				resource.TestCheckResourceAttr(resourceName, "executor_shape_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "executor_shape_config.0.memory_in_gbs", "30"),
+				resource.TestCheckResourceAttr(resourceName, "executor_shape_config.0.ocpus", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "file_uri"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "language", "SCALA"),
@@ -278,9 +341,9 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_dataflow_applications", "test_applications", acctest.Optional, acctest.Update, dataFlowApplicationDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_dataflow_applications", "test_applications", acctest.Optional, acctest.Update, DataflowDataflowApplicationDataSourceRepresentation) +
 				compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + fileUriVariableStrUpdated + logsBucketUriVariableStr + classNameStrUpdated + warehouseBucketUriVariableStr + metastoreIdVariableStr +
-				dataFlowApplicationResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(dataFlowApplicationRepresentation, map[string]interface{}{
+				DataFlowApplicationResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(DataflowApplicationRepresentation, map[string]interface{}{
 				"class_name": acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_class_name_updated}`},
 			})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -304,23 +367,30 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_dataflow_application", "test_application", acctest.Required, acctest.Create, dataFlowApplicationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + fileUriVariableStrUpdated + logsBucketUriVariableStr + classNameStrUpdated + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(dataFlowApplicationRepresentation, map[string]interface{}{
+				acctest.GenerateDataSourceFromRepresentationMap("oci_dataflow_application", "test_application", acctest.Required, acctest.Create, DataflowDataflowApplicationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + fileUriVariableStrUpdated + logsBucketUriVariableStr + classNameStrUpdated + warehouseBucketUriVariableStr + metastoreIdVariableStr + DataFlowApplicationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(DataflowApplicationRepresentation, map[string]interface{}{
 					"class_name": acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_class_name_updated}`},
 				})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "application_id"),
 
+				resource.TestCheckResourceAttr(singularDatasourceName, "application_log_config.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "archive_uri"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "arguments.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "driver_shape", "VM.Standard2.1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "executor_shape", "VM.Standard2.1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "file_uri", fileUriUpdated),
+				resource.TestCheckResourceAttr(singularDatasourceName, "driver_shape", "VM.Standard2.2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "driver_shape_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "driver_shape_config.0.memory_in_gbs", "30"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "driver_shape_config.0.ocpus", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "executor_shape", "VM.Standard2.2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "executor_shape_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "executor_shape_config.0.memory_in_gbs", "30"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "executor_shape_config.0.ocpus", "2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "file_uri"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "language", "SCALA"),
@@ -405,7 +475,7 @@ func init() {
 
 func sweepDataflowApplicationResource(compartment string) error {
 	dataFlowClient := acctest.GetTestClients(&schema.ResourceData{}).DataFlowClient()
-	applicationIds, err := dataFlowGetApplicationIds(compartment)
+	applicationIds, err := getDataflowApplicationIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -421,14 +491,14 @@ func sweepDataflowApplicationResource(compartment string) error {
 				fmt.Printf("Error deleting Application %s %s, It is possible that the resource is already deleted. Please verify manually \n", applicationId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &applicationId, dataFlowApplicationSweepWaitCondition, time.Duration(3*time.Minute),
-				dataFlowApplicationSweepResponseFetchOperation, "dataflow", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &applicationId, DataflowApplicationSweepWaitCondition, time.Duration(3*time.Minute),
+				DataflowApplicationSweepResponseFetchOperation, "dataflow", true)
 		}
 	}
 	return nil
 }
 
-func dataFlowGetApplicationIds(compartment string) ([]string, error) {
+func getDataflowApplicationIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ApplicationId")
 	if ids != nil {
 		return ids, nil
@@ -452,7 +522,7 @@ func dataFlowGetApplicationIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func dataFlowApplicationSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DataflowApplicationSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if applicationResponse, ok := response.Response.(oci_dataflow.GetApplicationResponse); ok {
 		return applicationResponse.LifecycleState != oci_dataflow.ApplicationLifecycleStateDeleted
@@ -460,7 +530,7 @@ func dataFlowApplicationSweepWaitCondition(response common.OCIOperationResponse)
 	return false
 }
 
-func dataFlowApplicationSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DataflowApplicationSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DataFlowClient().GetApplication(context.Background(), oci_dataflow.GetApplicationRequest{
 		ApplicationId: resourceId,
 		RequestMetadata: common.RequestMetadata{

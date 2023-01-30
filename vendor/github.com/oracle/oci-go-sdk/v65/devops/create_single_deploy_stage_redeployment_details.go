@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -22,6 +22,9 @@ type CreateSingleDeployStageRedeploymentDetails struct {
 	// The OCID of a pipeline.
 	DeployPipelineId *string `mandatory:"true" json:"deployPipelineId"`
 
+	// Specifies the OCID of the stage to be redeployed.
+	DeployStageId *string `mandatory:"true" json:"deployStageId"`
+
 	// Deployment display name. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -33,9 +36,6 @@ type CreateSingleDeployStageRedeploymentDetails struct {
 
 	// Specifies the OCID of the previous deployment to be redeployed.
 	PreviousDeploymentId *string `mandatory:"false" json:"previousDeploymentId"`
-
-	// Specifies the OCID of the stage to be redeployed.
-	DeployStageId *string `mandatory:"false" json:"deployStageId"`
 }
 
 //GetDeployPipelineId returns DeployPipelineId

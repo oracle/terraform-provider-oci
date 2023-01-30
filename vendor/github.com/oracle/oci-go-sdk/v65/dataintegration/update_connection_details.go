@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -110,12 +110,24 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := UpdateConnectionFromBicc{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "REST_NO_AUTH_CONNECTION":
+		mm := UpdateConnectionFromRestNoAuth{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AMAZON_S3_CONNECTION":
 		mm := UpdateConnectionFromAmazonS3{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE_ATP_CONNECTION":
 		mm := UpdateConnectionFromAtp{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "REST_BASIC_AUTH_CONNECTION":
+		mm := UpdateConnectionFromRestBasicAuth{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "LAKE_HOUSE_CONNECTION":
+		mm := UpdateConnectionFromLakehouse{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLEDB_CONNECTION":
@@ -219,6 +231,9 @@ const (
 	UpdateConnectionDetailsModelTypeBiccConnection                UpdateConnectionDetailsModelTypeEnum = "BICC_CONNECTION"
 	UpdateConnectionDetailsModelTypeAmazonS3Connection            UpdateConnectionDetailsModelTypeEnum = "AMAZON_S3_CONNECTION"
 	UpdateConnectionDetailsModelTypeBipConnection                 UpdateConnectionDetailsModelTypeEnum = "BIP_CONNECTION"
+	UpdateConnectionDetailsModelTypeLakeHouseConnection           UpdateConnectionDetailsModelTypeEnum = "LAKE_HOUSE_CONNECTION"
+	UpdateConnectionDetailsModelTypeRestNoAuthConnection          UpdateConnectionDetailsModelTypeEnum = "REST_NO_AUTH_CONNECTION"
+	UpdateConnectionDetailsModelTypeRestBasicAuthConnection       UpdateConnectionDetailsModelTypeEnum = "REST_BASIC_AUTH_CONNECTION"
 )
 
 var mappingUpdateConnectionDetailsModelTypeEnum = map[string]UpdateConnectionDetailsModelTypeEnum{
@@ -231,6 +246,9 @@ var mappingUpdateConnectionDetailsModelTypeEnum = map[string]UpdateConnectionDet
 	"BICC_CONNECTION":                  UpdateConnectionDetailsModelTypeBiccConnection,
 	"AMAZON_S3_CONNECTION":             UpdateConnectionDetailsModelTypeAmazonS3Connection,
 	"BIP_CONNECTION":                   UpdateConnectionDetailsModelTypeBipConnection,
+	"LAKE_HOUSE_CONNECTION":            UpdateConnectionDetailsModelTypeLakeHouseConnection,
+	"REST_NO_AUTH_CONNECTION":          UpdateConnectionDetailsModelTypeRestNoAuthConnection,
+	"REST_BASIC_AUTH_CONNECTION":       UpdateConnectionDetailsModelTypeRestBasicAuthConnection,
 }
 
 var mappingUpdateConnectionDetailsModelTypeEnumLowerCase = map[string]UpdateConnectionDetailsModelTypeEnum{
@@ -243,6 +261,9 @@ var mappingUpdateConnectionDetailsModelTypeEnumLowerCase = map[string]UpdateConn
 	"bicc_connection":                  UpdateConnectionDetailsModelTypeBiccConnection,
 	"amazon_s3_connection":             UpdateConnectionDetailsModelTypeAmazonS3Connection,
 	"bip_connection":                   UpdateConnectionDetailsModelTypeBipConnection,
+	"lake_house_connection":            UpdateConnectionDetailsModelTypeLakeHouseConnection,
+	"rest_no_auth_connection":          UpdateConnectionDetailsModelTypeRestNoAuthConnection,
+	"rest_basic_auth_connection":       UpdateConnectionDetailsModelTypeRestBasicAuthConnection,
 }
 
 // GetUpdateConnectionDetailsModelTypeEnumValues Enumerates the set of values for UpdateConnectionDetailsModelTypeEnum
@@ -266,6 +287,9 @@ func GetUpdateConnectionDetailsModelTypeEnumStringValues() []string {
 		"BICC_CONNECTION",
 		"AMAZON_S3_CONNECTION",
 		"BIP_CONNECTION",
+		"LAKE_HOUSE_CONNECTION",
+		"REST_NO_AUTH_CONNECTION",
+		"REST_BASIC_AUTH_CONNECTION",
 	}
 }
 

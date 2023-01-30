@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -90,6 +90,9 @@ type IScsiVolumeAttachment struct {
 
 	// A list of secondary multipath devices
 	MultipathDevices []MultipathDevice `mandatory:"false" json:"multipathDevices"`
+
+	// Whether Oracle Cloud Agent is enabled perform the iSCSI login and logout commands after the volume attach or detach operations for non multipath-enabled iSCSI attachments.
+	IsAgentAutoIscsiLoginEnabled *bool `mandatory:"false" json:"isAgentAutoIscsiLoginEnabled"`
 
 	// The current state of the volume attachment.
 	LifecycleState VolumeAttachmentLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`

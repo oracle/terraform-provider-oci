@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -93,7 +93,7 @@ type AutonomousContainerDatabaseSummary struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The role of the Autonomous Data Guard-enabled Autonomous Container Database.
+	// The Data Guard role of the Autonomous Container Database or Autonomous Database, if Autonomous Data Guard is enabled.
 	Role AutonomousContainerDatabaseSummaryRoleEnum `mandatory:"false" json:"role,omitempty"`
 
 	// The availability domain of the Autonomous Container Database.
@@ -113,13 +113,13 @@ type AutonomousContainerDatabaseSummary struct {
 	// The amount of memory (in GBs) enabled per each OCPU core in Autonomous VM Cluster.
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
 
-	// Sum of OCPUs available on the Autonomous VM Cluster + Sum of Fractional OCPUs available in the Autonomous Container Database.
+	// Sum of OCPUs available on the Autonomous VM Cluster + Sum of reclaimable OCPUs available in the Autonomous Container Database.
 	AvailableCpus *float32 `mandatory:"false" json:"availableCpus"`
 
 	// The number of CPU cores allocated to the Autonomous VM cluster.
 	TotalCpus *int `mandatory:"false" json:"totalCpus"`
 
-	// CPU cores that are not released to available pool after an Autonomous Database is terminated (Requires Autonomous Container Database restart).
+	// CPU cores that continue to be included in the count of OCPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available OCPUs at its parent AVMC level by restarting the Autonomous Container Database.
 	ReclaimableCpus *float32 `mandatory:"false" json:"reclaimableCpus"`
 
 	// An array of CPU values that can be used to successfully provision a single Autonomous Database.

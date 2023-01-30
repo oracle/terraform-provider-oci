@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,19 +9,19 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	computeCapacityReservationInstanceDataSourceRepresentation = map[string]interface{}{
+	CoreCoreComputeCapacityReservationInstanceDataSourceRepresentation = map[string]interface{}{
 		"capacity_reservation_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id}`},
 		"availability_domain":     acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":          acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 	}
 
-	capacityReservationInstanceRepresentation = map[string]interface{}{
+	CoreCoreComputeCapacityReservationInstanceRepresentation = map[string]interface{}{
 		"availability_domain":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"shape":                   acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
@@ -50,12 +50,12 @@ func TestCoreComputeCapacityReservationInstanceResource_basic(t *testing.T) {
 		{
 			Config: config +
 				utils.OciImageIdsVariable +
-				ComputeCapacityReservationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", acctest.Required, acctest.Create, computeCapacityReservationRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, capacityReservationInstanceRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservation_instances", "test_compute_capacity_reservation_instances", acctest.Required, acctest.Create, computeCapacityReservationInstanceDataSourceRepresentation) +
+				CoreComputeCapacityReservationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", acctest.Required, acctest.Create, CoreComputeCapacityReservationRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreCoreComputeCapacityReservationInstanceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservation_instances", "test_compute_capacity_reservation_instances", acctest.Required, acctest.Create, CoreCoreComputeCapacityReservationInstanceDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "capacity_reservation_id"),
@@ -72,12 +72,12 @@ func TestCoreComputeCapacityReservationInstanceResource_basic(t *testing.T) {
 		{
 			Config: config +
 				utils.OciImageIdsVariable +
-				ComputeCapacityReservationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", acctest.Required, acctest.Create, computeCapacityReservationRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, capacityReservationInstanceRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservation_instances", "test_compute_capacity_reservation_instances", acctest.Optional, acctest.Create, computeCapacityReservationInstanceDataSourceRepresentation) +
+				CoreComputeCapacityReservationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", acctest.Required, acctest.Create, CoreComputeCapacityReservationRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreCoreComputeCapacityReservationInstanceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservation_instances", "test_compute_capacity_reservation_instances", acctest.Optional, acctest.Create, CoreCoreComputeCapacityReservationInstanceDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),

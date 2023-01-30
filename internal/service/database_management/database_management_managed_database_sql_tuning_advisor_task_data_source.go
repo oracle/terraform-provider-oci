@@ -1,15 +1,14 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database_management
 
 import (
 	"context"
-	"strconv"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -103,6 +102,7 @@ func DatabaseManagementManagedDatabaseSqlTuningAdvisorTaskDataSource() *schema.R
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_database_management_managed_database_sql_tuning_advisor_task", "oci_database_management_managed_database_sql_tuning_advisor_tasks"),
 	}
 }
 
@@ -182,56 +182,4 @@ func (s *DatabaseManagementManagedDatabaseSqlTuningAdvisorTaskDataSourceCrud) Se
 	s.D.Set("items", items)
 
 	return nil
-}
-
-func SqlTuningAdvisorTaskSummaryToMap(obj oci_database_management.SqlTuningAdvisorTaskSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.DaysToExpire != nil {
-		result["days_to_expire"] = int(*obj.DaysToExpire)
-	}
-
-	if obj.Description != nil {
-		result["description"] = string(*obj.Description)
-	}
-
-	if obj.InstanceId != nil {
-		result["instance_id"] = int(*obj.InstanceId)
-	}
-
-	if obj.Name != nil {
-		result["name"] = string(*obj.Name)
-	}
-
-	if obj.Owner != nil {
-		result["owner"] = string(*obj.Owner)
-	}
-
-	if obj.RecommendationCount != nil {
-		result["recommendation_count"] = int(*obj.RecommendationCount)
-	}
-
-	if obj.SqlTuningAdvisorTaskId != nil {
-		result["sql_tuning_advisor_task_id"] = strconv.FormatInt(*obj.SqlTuningAdvisorTaskId, 10)
-	}
-
-	result["task_status"] = string(obj.TaskStatus)
-
-	if obj.TimeCreated != nil {
-		result["time_created"] = obj.TimeCreated.String()
-	}
-
-	if obj.TimeExecutionEnded != nil {
-		result["time_execution_ended"] = obj.TimeExecutionEnded.String()
-	}
-
-	if obj.TimeExecutionStarted != nil {
-		result["time_execution_started"] = obj.TimeExecutionStarted.String()
-	}
-
-	if obj.TotalSqlStatements != nil {
-		result["total_sql_statements"] = int(*obj.TotalSqlStatements)
-	}
-
-	return result
 }

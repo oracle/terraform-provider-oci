@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package management_agent
@@ -9,8 +9,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_management_agent "github.com/oracle/oci-go-sdk/v65/managementagent"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func ManagementAgentManagementAgentsDataSource() *schema.Resource {
@@ -18,6 +18,10 @@ func ManagementAgentManagementAgentsDataSource() *schema.Resource {
 		Read: readManagementAgentManagementAgents,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"access_level": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"availability_status": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -25,6 +29,10 @@ func ManagementAgentManagementAgentsDataSource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"compartment_id_in_subtree": {
+				Type:     schema.TypeBool,
+				Optional: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -97,6 +105,11 @@ func (s *ManagementAgentManagementAgentsDataSourceCrud) VoidState() {
 func (s *ManagementAgentManagementAgentsDataSourceCrud) Get() error {
 	request := oci_management_agent.ListManagementAgentsRequest{}
 
+	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
+		tmp := accessLevel.(string)
+		request.AccessLevel = &tmp
+	}
+
 	if availabilityStatus, ok := s.D.GetOkExists("availability_status"); ok {
 		request.AvailabilityStatus = oci_management_agent.ListManagementAgentsAvailabilityStatusEnum(availabilityStatus.(string))
 	}
@@ -104,6 +117,11 @@ func (s *ManagementAgentManagementAgentsDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if compartmentIdInSubtree, ok := s.D.GetOkExists("compartment_id_in_subtree"); ok {
+		tmp := compartmentIdInSubtree.(bool)
+		request.CompartmentIdInSubtree = &tmp
 	}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {

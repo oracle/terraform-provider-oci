@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package tfresource
@@ -274,6 +274,8 @@ func isValidSchemaType(fieldSchema *schema.Schema) bool {
 		if elemSchema, conversionOk := fieldSchema.Elem.(*schema.Schema); conversionOk && elemSchema.Type == schema.TypeString {
 			return true
 		} else if fieldSchema.MaxItems == 1 && fieldSchema.MinItems == 1 { //nested structures
+			return true
+		} else if fieldSchema.Computed && !fieldSchema.Optional && fieldSchema.MinItems <= 1 && fieldSchema.MaxItems <= 1 {
 			return true
 		}
 		return false

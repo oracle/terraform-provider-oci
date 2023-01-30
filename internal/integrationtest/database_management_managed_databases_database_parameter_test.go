@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,23 +7,23 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	managedDatabasesDatabaseParameterSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseManagementDatabaseManagementManagedDatabasesDatabaseParameterSingularDataSourceRepresentation = map[string]interface{}{
 		"managed_database_id":        acctest.Representation{RepType: acctest.Required, Create: "ocid.database.testId"},
 		"is_allowed_values_included": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"name":                       acctest.Representation{RepType: acctest.Required, Create: "open_cursors"},
 		"source":                     acctest.Representation{RepType: acctest.Optional, Create: `CURRENT`},
 	}
 
-	managedDatabasesDatabaseParameterDataSourceRepresentation = map[string]interface{}{
+	DatabaseManagementDatabaseManagementManagedDatabasesDatabaseParameterDataSourceRepresentation = map[string]interface{}{
 		"managed_database_id":        acctest.Representation{RepType: acctest.Required, Create: "ocid.database.testId"},
 		"is_allowed_values_included": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"name":                       acctest.Representation{RepType: acctest.Required, Create: `open_cursors`},
@@ -51,7 +51,7 @@ func TestDatabaseManagementManagedDatabasesDatabaseParameterResource_basic(t *te
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_databases_database_parameters", "test_managed_databases_database_parameters", acctest.Required, acctest.Create, managedDatabasesDatabaseParameterDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_databases_database_parameters", "test_managed_databases_database_parameters", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabasesDatabaseParameterDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "database_parameters_collection.#"),
@@ -65,7 +65,7 @@ func TestDatabaseManagementManagedDatabasesDatabaseParameterResource_basic(t *te
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_databases_database_parameter", "test_managed_databases_database_parameter", acctest.Required, acctest.Create, managedDatabasesDatabaseParameterSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_databases_database_parameter", "test_managed_databases_database_parameter", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabasesDatabaseParameterSingularDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_name"),

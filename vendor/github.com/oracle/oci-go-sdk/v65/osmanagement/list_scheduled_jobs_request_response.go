@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -149,24 +149,42 @@ type ListScheduledJobsOperationTypeEnum string
 
 // Set of constants representing the allowable values for ListScheduledJobsOperationTypeEnum
 const (
-	ListScheduledJobsOperationTypeInstall   ListScheduledJobsOperationTypeEnum = "INSTALL"
-	ListScheduledJobsOperationTypeUpdate    ListScheduledJobsOperationTypeEnum = "UPDATE"
-	ListScheduledJobsOperationTypeRemove    ListScheduledJobsOperationTypeEnum = "REMOVE"
-	ListScheduledJobsOperationTypeUpdateall ListScheduledJobsOperationTypeEnum = "UPDATEALL"
+	ListScheduledJobsOperationTypeInstall                    ListScheduledJobsOperationTypeEnum = "INSTALL"
+	ListScheduledJobsOperationTypeUpdate                     ListScheduledJobsOperationTypeEnum = "UPDATE"
+	ListScheduledJobsOperationTypeRemove                     ListScheduledJobsOperationTypeEnum = "REMOVE"
+	ListScheduledJobsOperationTypeUpdateall                  ListScheduledJobsOperationTypeEnum = "UPDATEALL"
+	ListScheduledJobsOperationTypeEnablemodulestream         ListScheduledJobsOperationTypeEnum = "ENABLEMODULESTREAM"
+	ListScheduledJobsOperationTypeDisablemodulestream        ListScheduledJobsOperationTypeEnum = "DISABLEMODULESTREAM"
+	ListScheduledJobsOperationTypeSwitchmodulestream         ListScheduledJobsOperationTypeEnum = "SWITCHMODULESTREAM"
+	ListScheduledJobsOperationTypeInstallmodulestreamprofile ListScheduledJobsOperationTypeEnum = "INSTALLMODULESTREAMPROFILE"
+	ListScheduledJobsOperationTypeRemovemodulestreamprofile  ListScheduledJobsOperationTypeEnum = "REMOVEMODULESTREAMPROFILE"
+	ListScheduledJobsOperationTypeCompound                   ListScheduledJobsOperationTypeEnum = "COMPOUND"
 )
 
 var mappingListScheduledJobsOperationTypeEnum = map[string]ListScheduledJobsOperationTypeEnum{
-	"INSTALL":   ListScheduledJobsOperationTypeInstall,
-	"UPDATE":    ListScheduledJobsOperationTypeUpdate,
-	"REMOVE":    ListScheduledJobsOperationTypeRemove,
-	"UPDATEALL": ListScheduledJobsOperationTypeUpdateall,
+	"INSTALL":                    ListScheduledJobsOperationTypeInstall,
+	"UPDATE":                     ListScheduledJobsOperationTypeUpdate,
+	"REMOVE":                     ListScheduledJobsOperationTypeRemove,
+	"UPDATEALL":                  ListScheduledJobsOperationTypeUpdateall,
+	"ENABLEMODULESTREAM":         ListScheduledJobsOperationTypeEnablemodulestream,
+	"DISABLEMODULESTREAM":        ListScheduledJobsOperationTypeDisablemodulestream,
+	"SWITCHMODULESTREAM":         ListScheduledJobsOperationTypeSwitchmodulestream,
+	"INSTALLMODULESTREAMPROFILE": ListScheduledJobsOperationTypeInstallmodulestreamprofile,
+	"REMOVEMODULESTREAMPROFILE":  ListScheduledJobsOperationTypeRemovemodulestreamprofile,
+	"COMPOUND":                   ListScheduledJobsOperationTypeCompound,
 }
 
 var mappingListScheduledJobsOperationTypeEnumLowerCase = map[string]ListScheduledJobsOperationTypeEnum{
-	"install":   ListScheduledJobsOperationTypeInstall,
-	"update":    ListScheduledJobsOperationTypeUpdate,
-	"remove":    ListScheduledJobsOperationTypeRemove,
-	"updateall": ListScheduledJobsOperationTypeUpdateall,
+	"install":                    ListScheduledJobsOperationTypeInstall,
+	"update":                     ListScheduledJobsOperationTypeUpdate,
+	"remove":                     ListScheduledJobsOperationTypeRemove,
+	"updateall":                  ListScheduledJobsOperationTypeUpdateall,
+	"enablemodulestream":         ListScheduledJobsOperationTypeEnablemodulestream,
+	"disablemodulestream":        ListScheduledJobsOperationTypeDisablemodulestream,
+	"switchmodulestream":         ListScheduledJobsOperationTypeSwitchmodulestream,
+	"installmodulestreamprofile": ListScheduledJobsOperationTypeInstallmodulestreamprofile,
+	"removemodulestreamprofile":  ListScheduledJobsOperationTypeRemovemodulestreamprofile,
+	"compound":                   ListScheduledJobsOperationTypeCompound,
 }
 
 // GetListScheduledJobsOperationTypeEnumValues Enumerates the set of values for ListScheduledJobsOperationTypeEnum
@@ -185,6 +203,12 @@ func GetListScheduledJobsOperationTypeEnumStringValues() []string {
 		"UPDATE",
 		"REMOVE",
 		"UPDATEALL",
+		"ENABLEMODULESTREAM",
+		"DISABLEMODULESTREAM",
+		"SWITCHMODULESTREAM",
+		"INSTALLMODULESTREAMPROFILE",
+		"REMOVEMODULESTREAMPROFILE",
+		"COMPOUND",
 	}
 }
 

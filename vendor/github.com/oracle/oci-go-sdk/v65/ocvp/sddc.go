@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -304,6 +304,9 @@ type Sddc struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeHcxLicenseStatusUpdated *common.SDKTime `mandatory:"false" json:"timeHcxLicenseStatusUpdated"`
 
+	// Indicates whether this SDDC is designated for only single ESXi host.
+	IsSingleHostSddc *bool `mandatory:"false" json:"isSingleHostSddc"`
+
 	// The date and time the SDDC was updated, in the format defined by
 	// RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
@@ -311,11 +314,23 @@ type Sddc struct {
 	// The current state of the SDDC.
 	LifecycleState LifecycleStatesEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
+	// The vSphere licenses to be used when upgrade SDDC.
+	UpgradeLicenses []VsphereLicense `mandatory:"false" json:"upgradeLicenses"`
+
+	// The link of guidance to upgrade vSphere.
+	VsphereUpgradeGuide *string `mandatory:"false" json:"vsphereUpgradeGuide"`
+
+	// The links of binary objects needed for upgrade vSphere.
+	VsphereUpgradeObjects []VsphereUpgradeObject `mandatory:"false" json:"vsphereUpgradeObjects"`
+
 	// The initial OCPU count of the SDDC's ESXi hosts.
 	InitialHostOcpuCount *float32 `mandatory:"false" json:"initialHostOcpuCount"`
 
 	// Indicates whether shielded instance is enabled at the SDDC level.
 	IsShieldedInstanceEnabled *bool `mandatory:"false" json:"isShieldedInstanceEnabled"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Capacity Reservation.
+	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
 }
 
 func (m Sddc) String() string {

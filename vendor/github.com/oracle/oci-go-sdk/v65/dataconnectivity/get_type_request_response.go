@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/GetType.go.html to see an example of how to use GetTypeRequest.
 type GetTypeRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
-	// key of the a specefic Type.
+	// Key of the a specific type.
 	TypeKey *string `mandatory:"true" contributesTo:"path" name:"typeKey"`
 
 	// Unique Oracle-assigned identifier for the request. If

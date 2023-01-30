@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -81,30 +81,33 @@ type ProjectLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ProjectLifecycleStateEnum
 const (
-	ProjectLifecycleStateCreating ProjectLifecycleStateEnum = "CREATING"
-	ProjectLifecycleStateUpdating ProjectLifecycleStateEnum = "UPDATING"
-	ProjectLifecycleStateActive   ProjectLifecycleStateEnum = "ACTIVE"
-	ProjectLifecycleStateDeleting ProjectLifecycleStateEnum = "DELETING"
-	ProjectLifecycleStateDeleted  ProjectLifecycleStateEnum = "DELETED"
-	ProjectLifecycleStateFailed   ProjectLifecycleStateEnum = "FAILED"
+	ProjectLifecycleStateCreating       ProjectLifecycleStateEnum = "CREATING"
+	ProjectLifecycleStateUpdating       ProjectLifecycleStateEnum = "UPDATING"
+	ProjectLifecycleStateActive         ProjectLifecycleStateEnum = "ACTIVE"
+	ProjectLifecycleStateDeleting       ProjectLifecycleStateEnum = "DELETING"
+	ProjectLifecycleStateDeleted        ProjectLifecycleStateEnum = "DELETED"
+	ProjectLifecycleStateFailed         ProjectLifecycleStateEnum = "FAILED"
+	ProjectLifecycleStateNeedsAttention ProjectLifecycleStateEnum = "NEEDS_ATTENTION"
 )
 
 var mappingProjectLifecycleStateEnum = map[string]ProjectLifecycleStateEnum{
-	"CREATING": ProjectLifecycleStateCreating,
-	"UPDATING": ProjectLifecycleStateUpdating,
-	"ACTIVE":   ProjectLifecycleStateActive,
-	"DELETING": ProjectLifecycleStateDeleting,
-	"DELETED":  ProjectLifecycleStateDeleted,
-	"FAILED":   ProjectLifecycleStateFailed,
+	"CREATING":        ProjectLifecycleStateCreating,
+	"UPDATING":        ProjectLifecycleStateUpdating,
+	"ACTIVE":          ProjectLifecycleStateActive,
+	"DELETING":        ProjectLifecycleStateDeleting,
+	"DELETED":         ProjectLifecycleStateDeleted,
+	"FAILED":          ProjectLifecycleStateFailed,
+	"NEEDS_ATTENTION": ProjectLifecycleStateNeedsAttention,
 }
 
 var mappingProjectLifecycleStateEnumLowerCase = map[string]ProjectLifecycleStateEnum{
-	"creating": ProjectLifecycleStateCreating,
-	"updating": ProjectLifecycleStateUpdating,
-	"active":   ProjectLifecycleStateActive,
-	"deleting": ProjectLifecycleStateDeleting,
-	"deleted":  ProjectLifecycleStateDeleted,
-	"failed":   ProjectLifecycleStateFailed,
+	"creating":        ProjectLifecycleStateCreating,
+	"updating":        ProjectLifecycleStateUpdating,
+	"active":          ProjectLifecycleStateActive,
+	"deleting":        ProjectLifecycleStateDeleting,
+	"deleted":         ProjectLifecycleStateDeleted,
+	"failed":          ProjectLifecycleStateFailed,
+	"needs_attention": ProjectLifecycleStateNeedsAttention,
 }
 
 // GetProjectLifecycleStateEnumValues Enumerates the set of values for ProjectLifecycleStateEnum
@@ -125,6 +128,7 @@ func GetProjectLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"NEEDS_ATTENTION",
 	}
 }
 

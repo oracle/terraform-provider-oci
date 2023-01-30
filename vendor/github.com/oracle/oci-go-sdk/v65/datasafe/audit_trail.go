@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -68,6 +68,10 @@ type AuditTrail struct {
 
 	// The OCID of the workrequest for audit trail which collects audit records.
 	WorkRequestId *string `mandatory:"false" json:"workRequestId"`
+
+	// The date and time until which the audit events are collected from target database by Data Safe audit trail
+	// collection process, in the format defined by RFC3339.
+	TimeLastCollected *common.SDKTime `mandatory:"false" json:"timeLastCollected"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`

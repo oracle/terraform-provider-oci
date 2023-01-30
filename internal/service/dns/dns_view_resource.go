@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package dns
@@ -11,8 +11,8 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -35,11 +35,6 @@ func DnsViewResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"scope": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 
 			// Optional
 			"defined_tags": {
@@ -59,6 +54,11 @@ func DnsViewResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"scope": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
 			},
 
 			// Computed
@@ -116,6 +116,15 @@ func deleteDnsView(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*client.OracleClients).DnsClient()
 	sync.DisableNotFoundRetries = true
 
+	// If the view is protected, attempting to delete it will fail, so
+	// just void the state and return.
+	if isProtected := d.Get("is_protected"); isProtected != nil {
+		if isProtectedBool, ok := isProtected.(bool); ok && isProtectedBool {
+			log.Printf("[WARN] Not attempting to delete protected view with ID %s", d.Id())
+			sync.VoidState()
+			return nil
+		}
+	}
 	return tfresource.DeleteResource(d, sync)
 }
 
@@ -135,6 +144,18 @@ func (s *DnsViewResourceCrud) CreatedPending() []string {
 }
 
 func (s *DnsViewResourceCrud) CreatedTarget() []string {
+	return []string{
+		string(oci_dns.ViewLifecycleStateActive),
+	}
+}
+
+func (s *DnsViewResourceCrud) UpdatedPending() []string {
+	return []string{
+		string(oci_dns.ViewLifecycleStateUpdating),
+	}
+}
+
+func (s *DnsViewResourceCrud) UpdatedTarget() []string {
 	return []string{
 		string(oci_dns.ViewLifecycleStateActive),
 	}

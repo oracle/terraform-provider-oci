@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// CreateConfigSourceDetails Property details for the configuration source used for the stack.
+// CreateConfigSourceDetails Creation details for a configuration source used with the stack.
 type CreateConfigSourceDetails interface {
 
 	// File path to the directory to use for running Terraform.
@@ -63,8 +63,20 @@ func (m *createconfigsourcedetails) UnmarshalPolymorphicJSON(data []byte) (inter
 
 	var err error
 	switch m.ConfigSourceType {
+	case "DEVOPS_CONFIG_SOURCE":
+		mm := CreateDevOpsConfigSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "BITBUCKET_CLOUD_CONFIG_SOURCE":
+		mm := CreateBitbucketCloudConfigSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ZIP_UPLOAD":
 		mm := CreateZipUploadConfigSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "BITBUCKET_SERVER_CONFIG_SOURCE":
+		mm := CreateBitbucketServerConfigSourceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "GIT_CONFIG_SOURCE":

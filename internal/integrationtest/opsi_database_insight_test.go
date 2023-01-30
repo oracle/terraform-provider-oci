@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,21 +22,21 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_opsi "github.com/oracle/oci-go-sdk/v65/opsi"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	DatabaseInsightRequiredOnlyResource = DatabaseInsightResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Required, acctest.Create, databaseInsightRepresentation)
+	OpsiDatabaseInsightRequiredOnlyResource = OpsiDatabaseInsightResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Required, acctest.Create, OpsiDatabaseInsightRepresentation)
 
-	DatabaseInsightResourceConfig = DatabaseInsightResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Update, databaseInsightRepresentation)
+	OpsiDatabaseInsightResourceConfig = OpsiDatabaseInsightResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Update, OpsiDatabaseInsightRepresentation)
 
-	databaseInsightSingularDataSourceRepresentation = map[string]interface{}{
+	OpsiOpsiDatabaseInsightSingularDataSourceRepresentation = map[string]interface{}{
 		"database_insight_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_opsi_database_insight.test_database_insight.id}`},
 	}
 
-	databaseInsightDataSourceRepresentation = map[string]interface{}{
+	OpsiOpsiDatabaseInsightDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":               acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"database_type":                acctest.Representation{RepType: acctest.Optional, Create: []string{`EXTERNAL-NONCDB`}},
@@ -45,15 +45,15 @@ var (
 		"id":                           acctest.Representation{RepType: acctest.Optional, Create: `${oci_opsi_database_insight.test_database_insight.id}`},
 		"state":                        acctest.Representation{RepType: acctest.Optional, Create: []string{`ACTIVE`}},
 		"status":                       acctest.Representation{RepType: acctest.Optional, Create: []string{`ENABLED`}, Update: []string{`DISABLED`}},
-		"filter":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseInsightDataSourceFilterRepresentation},
+		"filter":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: OpsiDatabaseInsightDataSourceFilterRepresentation},
 	}
 
-	databaseInsightDataSourceFilterRepresentation = map[string]interface{}{
+	OpsiDatabaseInsightDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_opsi_database_insight.test_database_insight.id}`}},
 	}
 
-	databaseInsightRepresentation = map[string]interface{}{
+	OpsiDatabaseInsightRepresentation = map[string]interface{}{
 		"compartment_id":                       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"enterprise_manager_bridge_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.enterprise_manager_bridge_id}`},
 		"enterprise_manager_entity_identifier": acctest.Representation{RepType: acctest.Required, Create: `${var.enterprise_manager_entity_id}`},
@@ -69,7 +69,7 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
-	DatabaseInsightResourceDependencies = DefinedTagsDependencies
+	OpsiDatabaseInsightResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: opsi/controlPlane
@@ -100,19 +100,15 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+emBridgeIdVariableStr+enterpriseManagerIdVariableStr+enterpriseManagerEntityIdVariableStr+DatabaseInsightResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Create, databaseInsightRepresentation), "opsi", "databaseInsight", t)
-
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+emBridgeIdVariableStr+enterpriseManagerIdVariableStr+enterpriseManagerEntityIdVariableStr+OpsiDatabaseInsightResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Create, OpsiDatabaseInsightRepresentation), "opsi", "databaseInsight", t)
 	acctest.ResourceTest(t, testAccCheckOpsiDatabaseInsightDestroy, []resource.TestStep{
 		// verify create with optional
 		{
-			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Create, databaseInsightRepresentation),
+			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + OpsiDatabaseInsightResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Create, OpsiDatabaseInsightRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				//resource.TestCheckResourceAttrSet(resourceName, "database_id"), // Won't be available for EM managed databases
-				//resource.TestCheckResourceAttrSet(resourceName, "database_name"),
-				//resource.TestCheckResourceAttrSet(resourceName, "database_resource_type"),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_bridge_id"),
 				resource.TestCheckResourceAttr(resourceName, "enterprise_manager_entity_identifier", enterpriseManagerEntityId),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_name"),
@@ -138,16 +134,13 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 		},
 		// verify update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + compartmentIdUVariableStr + DatabaseInsightResourceDependencies +
+			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + compartmentIdUVariableStr + OpsiDatabaseInsightResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(databaseInsightRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(OpsiDatabaseInsightRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				//resource.TestCheckResourceAttrSet(resourceName, "database_id"), // Won't be available for EM managed databases
-				//resource.TestCheckResourceAttrSet(resourceName, "database_name"),
-				//resource.TestCheckResourceAttrSet(resourceName, "database_resource_type"),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_bridge_id"),
 				resource.TestCheckResourceAttr(resourceName, "enterprise_manager_entity_identifier", enterpriseManagerEntityId),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_name"),
@@ -172,13 +165,10 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Update, databaseInsightRepresentation),
+			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + OpsiDatabaseInsightResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Update, OpsiDatabaseInsightRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				//resource.TestCheckResourceAttrSet(resourceName, "database_id"), // Won't be available for EM managed databases
-				//resource.TestCheckResourceAttrSet(resourceName, "database_name"),
-				//resource.TestCheckResourceAttrSet(resourceName, "database_resource_type"),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_bridge_id"),
 				resource.TestCheckResourceAttr(resourceName, "enterprise_manager_entity_identifier", enterpriseManagerEntityId),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_name"),
@@ -204,17 +194,15 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_database_insights", "test_database_insights", acctest.Optional, acctest.Update, databaseInsightDataSourceRepresentation) +
-				compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Update, databaseInsightRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_database_insights", "test_database_insights", acctest.Optional, acctest.Update, OpsiOpsiDatabaseInsightDataSourceRepresentation) +
+				compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + OpsiDatabaseInsightResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Update, OpsiDatabaseInsightRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
-				//resource.TestCheckResourceAttr(datasourceName, "database_id.#", "1"), // Won't be available for EM managed databases
 				resource.TestCheckResourceAttr(datasourceName, "database_type.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "enterprise_manager_bridge_id"),
 				resource.TestCheckResourceAttr(datasourceName, "fields.#", "6"),
-				//resource.TestCheckResourceAttr(datasourceName, "id.#", "1"), // id is no more list. It is a string
 				resource.TestCheckResourceAttr(datasourceName, "state.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "status.#", "1"),
 
@@ -225,19 +213,11 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Required, acctest.Create, databaseInsightSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Required, acctest.Create, OpsiOpsiDatabaseInsightSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + OpsiDatabaseInsightResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				//resource.TestCheckResourceAttr(singularDatasourceName, "connection_credential_details.#", "1"), //Won't be available for EM managed databses
-				//resource.TestCheckResourceAttr(singularDatasourceName, "connection_details.#", "1"),
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "connector_id"),
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "database_display_name"),
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "database_name"),
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "database_resource_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_type"),
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "database_version"),
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "db_additional_details"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "enterprise_manager_entity_display_name"),
 				resource.TestCheckResourceAttr(resourceName, "enterprise_manager_entity_identifier", enterpriseManagerEntityId),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_name"),
@@ -246,8 +226,6 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "entity_source", "EM_MANAGED_EXTERNAL_DATABASE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "management_agent_id"),
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "processor_count"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "status", "DISABLED"),
@@ -257,9 +235,9 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 		},
 		// verify enable
 		{
-			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceDependencies +
+			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + OpsiDatabaseInsightResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", acctest.Optional, acctest.Update,
-					acctest.RepresentationCopyWithNewProperties(databaseInsightRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(OpsiDatabaseInsightRepresentation, map[string]interface{}{
 						"status": acctest.Representation{RepType: acctest.Required, Update: `ENABLED`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -276,7 +254,7 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + DatabaseInsightRequiredOnlyResource,
+			Config:                  config + OpsiDatabaseInsightRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -340,7 +318,7 @@ func init() {
 
 func sweepOpsiDatabaseInsightResource(compartment string) error {
 	operationsInsightsClient := acctest.GetTestClients(&schema.ResourceData{}).OperationsInsightsClient()
-	databaseInsightIds, err := getDatabaseInsightIds(compartment)
+	databaseInsightIds, err := getOpsiDatabaseInsightIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -356,14 +334,14 @@ func sweepOpsiDatabaseInsightResource(compartment string) error {
 				fmt.Printf("Error deleting DatabaseInsight %s %s, It is possible that the resource is already deleted. Please verify manually \n", databaseInsightId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &databaseInsightId, databaseInsightSweepWaitCondition, time.Duration(3*time.Minute),
-				databaseInsightSweepResponseFetchOperation, "opsi", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &databaseInsightId, OpsiDatabaseInsightSweepWaitCondition, time.Duration(3*time.Minute),
+				OpsiDatabaseInsightSweepResponseFetchOperation, "opsi", true)
 		}
 	}
 	return nil
 }
 
-func getDatabaseInsightIds(compartment string) ([]string, error) {
+func getOpsiDatabaseInsightIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "DatabaseInsightId")
 	if ids != nil {
 		return ids, nil
@@ -388,7 +366,7 @@ func getDatabaseInsightIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func databaseInsightSweepWaitCondition(response common.OCIOperationResponse) bool {
+func OpsiDatabaseInsightSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if databaseInsightResponse, ok := response.Response.(oci_opsi.GetDatabaseInsightResponse); ok {
 		return databaseInsightResponse.GetLifecycleState() != oci_opsi.LifecycleStateDeleted
@@ -396,7 +374,7 @@ func databaseInsightSweepWaitCondition(response common.OCIOperationResponse) boo
 	return false
 }
 
-func databaseInsightSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func OpsiDatabaseInsightSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.OperationsInsightsClient().GetDatabaseInsight(context.Background(), oci_opsi.GetDatabaseInsightRequest{
 		DatabaseInsightId: resourceId,
 		RequestMetadata: common.RequestMetadata{

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package data_safe
@@ -10,8 +10,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func DataSafeMaskingReportsDataSource() *schema.Resource {
@@ -70,7 +70,15 @@ func DataSafeMaskingReportsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"target_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_created": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -229,6 +237,66 @@ func DataSafeMaskingReportSummaryToMap(obj oci_data_safe.MaskingReportSummary) m
 
 	if obj.TargetId != nil {
 		result["target_id"] = string(*obj.TargetId)
+	}
+
+	if obj.TimeMaskingFinished != nil {
+		result["time_masking_finished"] = obj.TimeMaskingFinished.String()
+	}
+
+	if obj.TimeMaskingStarted != nil {
+		result["time_masking_started"] = obj.TimeMaskingStarted.String()
+	}
+
+	if obj.TotalMaskedColumns != nil {
+		result["total_masked_columns"] = strconv.FormatInt(*obj.TotalMaskedColumns, 10)
+	}
+
+	if obj.TotalMaskedObjects != nil {
+		result["total_masked_objects"] = strconv.FormatInt(*obj.TotalMaskedObjects, 10)
+	}
+
+	if obj.TotalMaskedSchemas != nil {
+		result["total_masked_schemas"] = strconv.FormatInt(*obj.TotalMaskedSchemas, 10)
+	}
+
+	if obj.TotalMaskedSensitiveTypes != nil {
+		result["total_masked_sensitive_types"] = strconv.FormatInt(*obj.TotalMaskedSensitiveTypes, 10)
+	}
+
+	if obj.TotalMaskedValues != nil {
+		result["total_masked_values"] = strconv.FormatInt(*obj.TotalMaskedValues, 10)
+	}
+
+	return result
+}
+
+func MaskingReportSummaryToMap(obj oci_data_safe.MaskingReportSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.MaskingPolicyId != nil {
+		result["masking_policy_id"] = string(*obj.MaskingPolicyId)
+	}
+
+	if obj.MaskingWorkRequestId != nil {
+		result["masking_work_request_id"] = string(*obj.MaskingWorkRequestId)
+	}
+
+	result["state"] = string(obj.LifecycleState)
+
+	if obj.TargetId != nil {
+		result["target_id"] = string(*obj.TargetId)
+	}
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
 	}
 
 	if obj.TimeMaskingFinished != nil {

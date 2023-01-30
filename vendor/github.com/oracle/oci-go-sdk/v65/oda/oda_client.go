@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -152,7 +152,7 @@ func (client OdaClient) changeOdaInstanceCompartment(ctx context.Context, reques
 
 // CreateOdaInstance Starts an asynchronous job to create a Digital Assistant instance.
 // To monitor the status of the job, take the `opc-work-request-id` response
-// header value and use it to call `GET /workRequests/{workRequestID}`.
+// header value and use it to call `GET /workRequests/{workRequestId}`.
 //
 // See also
 //
@@ -214,8 +214,72 @@ func (client OdaClient) createOdaInstance(ctx context.Context, request common.OC
 	return response, err
 }
 
+// CreateOdaInstanceAttachment Starts an asynchronous job to create a Digital Assistant instance attachment.
+// To monitor the status of the job, take the `opc-work-request-id` response
+// header value and use it to call `GET /workRequests/{workRequestId}`.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateOdaInstanceAttachment.go.html to see an example of how to use CreateOdaInstanceAttachment API.
+func (client OdaClient) CreateOdaInstanceAttachment(ctx context.Context, request CreateOdaInstanceAttachmentRequest) (response CreateOdaInstanceAttachmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createOdaInstanceAttachment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateOdaInstanceAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateOdaInstanceAttachmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateOdaInstanceAttachmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateOdaInstanceAttachmentResponse")
+	}
+	return
+}
+
+// createOdaInstanceAttachment implements the OCIOperation interface (enables retrying operations)
+func (client OdaClient) createOdaInstanceAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/odaInstances/{odaInstanceId}/attachments", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateOdaInstanceAttachmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/OdaInstanceAttachment/CreateOdaInstanceAttachment"
+		err = common.PostProcessServiceError(err, "Oda", "CreateOdaInstanceAttachment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteOdaInstance Starts an asynchronous job to delete the specified Digital Assistant instance.
-// To monitor the status of the job, take the `opc-work-request-id` response header value and use it to call `GET /workRequests/{workRequestID}`.
+// To monitor the status of the job, take the `opc-work-request-id` response header value and use it to call `GET /workRequests/{workRequestId}`.
 //
 // See also
 //
@@ -265,6 +329,63 @@ func (client OdaClient) deleteOdaInstance(ctx context.Context, request common.OC
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/OdaInstance/DeleteOdaInstance"
 		err = common.PostProcessServiceError(err, "Oda", "DeleteOdaInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteOdaInstanceAttachment Starts an asynchronous job to delete the specified Digital Assistant instance attachment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteOdaInstanceAttachment.go.html to see an example of how to use DeleteOdaInstanceAttachment API.
+func (client OdaClient) DeleteOdaInstanceAttachment(ctx context.Context, request DeleteOdaInstanceAttachmentRequest) (response DeleteOdaInstanceAttachmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteOdaInstanceAttachment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteOdaInstanceAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteOdaInstanceAttachmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteOdaInstanceAttachmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteOdaInstanceAttachmentResponse")
+	}
+	return
+}
+
+// deleteOdaInstanceAttachment implements the OCIOperation interface (enables retrying operations)
+func (client OdaClient) deleteOdaInstanceAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/odaInstances/{odaInstanceId}/attachments/{attachmentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteOdaInstanceAttachmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/OdaInstanceAttachment/DeleteOdaInstanceAttachment"
+		err = common.PostProcessServiceError(err, "Oda", "DeleteOdaInstanceAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -329,6 +450,63 @@ func (client OdaClient) getOdaInstance(ctx context.Context, request common.OCIRe
 	return response, err
 }
 
+// GetOdaInstanceAttachment Gets an ODA instance attachment by identifier
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetOdaInstanceAttachment.go.html to see an example of how to use GetOdaInstanceAttachment API.
+func (client OdaClient) GetOdaInstanceAttachment(ctx context.Context, request GetOdaInstanceAttachmentRequest) (response GetOdaInstanceAttachmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getOdaInstanceAttachment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetOdaInstanceAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetOdaInstanceAttachmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetOdaInstanceAttachmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetOdaInstanceAttachmentResponse")
+	}
+	return
+}
+
+// getOdaInstanceAttachment implements the OCIOperation interface (enables retrying operations)
+func (client OdaClient) getOdaInstanceAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/odaInstances/{odaInstanceId}/attachments/{attachmentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetOdaInstanceAttachmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/OdaInstanceAttachment/GetOdaInstanceAttachment"
+		err = common.PostProcessServiceError(err, "Oda", "GetOdaInstanceAttachment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetWorkRequest Gets information about the work request with the specified ID, including its status.
 // You can use this operation to monitor the status of jobs that you
 // requested to create, delete, and update instances.
@@ -381,6 +559,63 @@ func (client OdaClient) getWorkRequest(ctx context.Context, request common.OCIRe
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "Oda", "GetWorkRequest", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListOdaInstanceAttachments Returns a list of ODA instance attachments
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListOdaInstanceAttachments.go.html to see an example of how to use ListOdaInstanceAttachments API.
+func (client OdaClient) ListOdaInstanceAttachments(ctx context.Context, request ListOdaInstanceAttachmentsRequest) (response ListOdaInstanceAttachmentsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listOdaInstanceAttachments, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListOdaInstanceAttachmentsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListOdaInstanceAttachmentsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListOdaInstanceAttachmentsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListOdaInstanceAttachmentsResponse")
+	}
+	return
+}
+
+// listOdaInstanceAttachments implements the OCIOperation interface (enables retrying operations)
+func (client OdaClient) listOdaInstanceAttachments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/odaInstances/{odaInstanceId}/attachments", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListOdaInstanceAttachmentsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/OdaInstanceAttachmentCollection/ListOdaInstanceAttachments"
+		err = common.PostProcessServiceError(err, "Oda", "ListOdaInstanceAttachments", apiReferenceLink)
 		return response, err
 	}
 
@@ -806,6 +1041,63 @@ func (client OdaClient) updateOdaInstance(ctx context.Context, request common.OC
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/OdaInstance/UpdateOdaInstance"
 		err = common.PostProcessServiceError(err, "Oda", "UpdateOdaInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateOdaInstanceAttachment Updates the ODA instance attachment
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateOdaInstanceAttachment.go.html to see an example of how to use UpdateOdaInstanceAttachment API.
+func (client OdaClient) UpdateOdaInstanceAttachment(ctx context.Context, request UpdateOdaInstanceAttachmentRequest) (response UpdateOdaInstanceAttachmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateOdaInstanceAttachment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateOdaInstanceAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateOdaInstanceAttachmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateOdaInstanceAttachmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateOdaInstanceAttachmentResponse")
+	}
+	return
+}
+
+// updateOdaInstanceAttachment implements the OCIOperation interface (enables retrying operations)
+func (client OdaClient) updateOdaInstanceAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/odaInstances/{odaInstanceId}/attachments/{attachmentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateOdaInstanceAttachmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/OdaInstanceAttachment/UpdateOdaInstanceAttachment"
+		err = common.PostProcessServiceError(err, "Oda", "UpdateOdaInstanceAttachment", apiReferenceLink)
 		return response, err
 	}
 

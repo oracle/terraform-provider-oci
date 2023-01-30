@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,13 +9,13 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	dbVersionDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseDbVersionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":                       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"db_system_id":                         acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_db_system.test_db_system.id}`},
 		"db_system_shape":                      acctest.Representation{RepType: acctest.Optional, Create: `BM.DenseIO2.52`},
@@ -39,7 +39,7 @@ var (
 	dbVersionDataSourceRepresentationWithStorageManagementOptional = acctest.RepresentationCopyWithNewProperties(dbVersionDataSourceRepresentationRequiredOnly, map[string]interface{}{
 		"storage_management": acctest.Representation{RepType: acctest.Optional, Create: `ASM`},
 	})
-	DbVersionResourceConfig = DbSystemResourceConfig
+	DatabaseDbVersionResourceConfig = DbSystemResourceConfig
 )
 
 // issue-routing-tag: database/default
@@ -65,7 +65,7 @@ func TestDatabaseDbVersionResource_basic(t *testing.T) {
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_versions", "test_db_versions_by_db_system_shape", acctest.Optional, acctest.Create, dbVersionDataSourceRepresentationWithDbSystemShapeOptional) +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_versions", "test_db_versions_by_is_upgrade_supported", acctest.Optional, acctest.Create, dbVersionDataSourceRepresentationWithUpgradeSupportedOptional) +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_versions", "test_db_versions_by_storage_management", acctest.Optional, acctest.Create, dbVersionDataSourceRepresentationWithStorageManagementOptional) +
-				compartmentIdVariableStr + DbVersionResourceConfig,
+				compartmentIdVariableStr + DatabaseDbVersionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

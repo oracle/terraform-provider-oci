@@ -1,16 +1,18 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package jms
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_jms "github.com/oracle/oci-go-sdk/v65/jms"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func JmsFleetInstallationSitesDataSource() *schema.Resource {
@@ -56,6 +58,18 @@ func JmsFleetInstallationSitesDataSource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+			},
+			"path_contains": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"time_end": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"time_start": {
+				Type:     schema.TypeString,
+				Optional: true,
 			},
 			"installation_site_collection": {
 				Type:     schema.TypeList,
@@ -160,6 +174,10 @@ func JmsFleetInstallationSitesDataSource() *schema.Resource {
 															},
 															"family": {
 																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"managed_instance_count": {
+																Type:     schema.TypeInt,
 																Computed: true,
 															},
 															"name": {
@@ -275,6 +293,27 @@ func (s *JmsFleetInstallationSitesDataSourceCrud) Get() error {
 		}
 	}
 
+	if pathContains, ok := s.D.GetOkExists("path_contains"); ok {
+		tmp := pathContains.(string)
+		request.PathContains = &tmp
+	}
+
+	if timeEnd, ok := s.D.GetOkExists("time_end"); ok {
+		tmp, err := time.Parse(time.RFC3339, timeEnd.(string))
+		if err != nil {
+			return err
+		}
+		request.TimeEnd = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if timeStart, ok := s.D.GetOkExists("time_start"); ok {
+		tmp, err := time.Parse(time.RFC3339, timeStart.(string))
+		if err != nil {
+			return err
+		}
+		request.TimeStart = &oci_common.SDKTime{Time: tmp}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "jms")
 
 	response, err := s.Client.ListInstallationSites(context.Background(), request)
@@ -324,4 +363,102 @@ func (s *JmsFleetInstallationSitesDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func BlocklistEntryToMap(obj oci_jms.BlocklistEntry) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["operation"] = string(obj.Operation)
+
+	if obj.Reason != nil {
+		result["reason"] = string(*obj.Reason)
+	}
+
+	return result
+}
+
+func InstallationSiteSummaryToMap(obj oci_jms.InstallationSiteSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ApproximateApplicationCount != nil {
+		result["approximate_application_count"] = int(*obj.ApproximateApplicationCount)
+	}
+
+	blocklist := []interface{}{}
+	for _, item := range obj.Blocklist {
+		blocklist = append(blocklist, BlocklistEntryToMap(item))
+	}
+	result["blocklist"] = blocklist
+
+	if obj.InstallationKey != nil {
+		result["installation_key"] = string(*obj.InstallationKey)
+	}
+
+	if obj.Jre != nil {
+		result["jre"] = []interface{}{JavaRuntimeIdToMap(obj.Jre)}
+	}
+
+	if obj.ManagedInstanceId != nil {
+		result["managed_instance_id"] = string(*obj.ManagedInstanceId)
+	}
+
+	if obj.OperatingSystem != nil {
+		result["operating_system"] = []interface{}{OperatingSystemToMap(obj.OperatingSystem)}
+	}
+
+	if obj.Path != nil {
+		result["path"] = string(*obj.Path)
+	}
+
+	result["security_status"] = string(obj.SecurityStatus)
+
+	result["state"] = string(obj.LifecycleState)
+
+	if obj.TimeLastSeen != nil {
+		result["time_last_seen"] = obj.TimeLastSeen.String()
+	}
+
+	return result
+}
+
+func JavaRuntimeIdToMap(obj *oci_jms.JavaRuntimeId) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Distribution != nil {
+		result["distribution"] = string(*obj.Distribution)
+	}
+
+	if obj.JreKey != nil {
+		result["jre_key"] = string(*obj.JreKey)
+	}
+
+	if obj.Vendor != nil {
+		result["vendor"] = string(*obj.Vendor)
+	}
+
+	if obj.Version != nil {
+		result["version"] = string(*obj.Version)
+	}
+
+	return result
+}
+
+func OperatingSystemToMap(obj *oci_jms.OperatingSystem) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Architecture != nil {
+		result["architecture"] = string(*obj.Architecture)
+	}
+
+	result["family"] = string(obj.Family)
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.Version != nil {
+		result["version"] = string(*obj.Version)
+	}
+
+	return result
 }

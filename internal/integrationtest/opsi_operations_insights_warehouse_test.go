@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,32 +22,32 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_opsi "github.com/oracle/oci-go-sdk/v65/opsi"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	OperationsInsightsWarehouseRequiredOnlyResource = OperationsInsightsWarehouseResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse", "test_operations_insights_warehouse", acctest.Required, acctest.Create, operationsInsightsWarehouseRepresentation)
+	OpsiOperationsInsightsWarehouseRequiredOnlyResource = OpsiOperationsInsightsWarehouseResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse", "test_operations_insights_warehouse", acctest.Required, acctest.Create, OpsiOperationsInsightsWarehouseRepresentation)
 
-	OperationsInsightsWarehouseResourceConfig = OperationsInsightsWarehouseResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse", "test_operations_insights_warehouse", acctest.Optional, acctest.Update, operationsInsightsWarehouseRepresentation)
+	OpsiOperationsInsightsWarehouseResourceConfig = OpsiOperationsInsightsWarehouseResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse", "test_operations_insights_warehouse", acctest.Optional, acctest.Update, OpsiOperationsInsightsWarehouseRepresentation)
 
-	operationsInsightsWarehouseSingularDataSourceRepresentation = map[string]interface{}{
+	OpsiOpsiOperationsInsightsWarehouseSingularDataSourceRepresentation = map[string]interface{}{
 		"operations_insights_warehouse_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_opsi_operations_insights_warehouse.test_operations_insights_warehouse.id}`},
 	}
 
-	operationsInsightsWarehouseDataSourceRepresentation = map[string]interface{}{
+	OpsiOpsiOperationsInsightsWarehouseDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_opsi_operations_insights_warehouse.test_operations_insights_warehouse.id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: []string{`ACTIVE`}},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: operationsInsightsWarehouseDataSourceFilterRepresentation}}
-	operationsInsightsWarehouseDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: OpsiOperationsInsightsWarehouseDataSourceFilterRepresentation}}
+	OpsiOperationsInsightsWarehouseDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_opsi_operations_insights_warehouse.test_operations_insights_warehouse.id}`}},
 	}
 
-	operationsInsightsWarehouseRepresentation = map[string]interface{}{
+	OpsiOperationsInsightsWarehouseRepresentation = map[string]interface{}{
 		"compartment_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"cpu_allocated":            acctest.Representation{RepType: acctest.Required, Create: `1.0`, Update: `2.0`},
 		"display_name":             acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
@@ -61,7 +61,7 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
-	OperationsInsightsWarehouseResourceDependencies = DefinedTagsDependencies
+	OpsiOperationsInsightsWarehouseResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: opsi/controlPlane
@@ -80,14 +80,14 @@ func TestOpsiOperationsInsightsWarehouseResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+OperationsInsightsWarehouseResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse", "test_operations_insights_warehouse", acctest.Optional, acctest.Create, operationsInsightsWarehouseRepresentation), "operationsinsights", "operationsInsightsWarehouse", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+OpsiOperationsInsightsWarehouseResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse", "test_operations_insights_warehouse", acctest.Optional, acctest.Create, OpsiOperationsInsightsWarehouseRepresentation), "operationsinsights", "operationsInsightsWarehouse", t)
 
 	acctest.ResourceTest(t, testAccCheckOpsiOperationsInsightsWarehouseDestroy, []resource.TestStep{
 		// verify create
 		{
-			Config: config + compartmentIdVariableStr + OperationsInsightsWarehouseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse", "test_operations_insights_warehouse", acctest.Required, acctest.Create, operationsInsightsWarehouseRepresentation),
+			Config: config + compartmentIdVariableStr + OpsiOperationsInsightsWarehouseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse", "test_operations_insights_warehouse", acctest.Required, acctest.Create, OpsiOperationsInsightsWarehouseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cpu_allocated", "1"),
@@ -102,12 +102,12 @@ func TestOpsiOperationsInsightsWarehouseResource_basic(t *testing.T) {
 
 		// delete before next create
 		{
-			Config: config + compartmentIdVariableStr + OperationsInsightsWarehouseResourceDependencies,
+			Config: config + compartmentIdVariableStr + OpsiOperationsInsightsWarehouseResourceDependencies,
 		},
 		// verify create with optionals
 		{
-			Config: config + compartmentIdVariableStr + OperationsInsightsWarehouseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse", "test_operations_insights_warehouse", acctest.Optional, acctest.Create, operationsInsightsWarehouseRepresentation),
+			Config: config + compartmentIdVariableStr + OpsiOperationsInsightsWarehouseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse", "test_operations_insights_warehouse", acctest.Optional, acctest.Create, OpsiOperationsInsightsWarehouseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cpu_allocated", "1"),
@@ -133,8 +133,8 @@ func TestOpsiOperationsInsightsWarehouseResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + OperationsInsightsWarehouseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse", "test_operations_insights_warehouse", acctest.Optional, acctest.Update, operationsInsightsWarehouseRepresentation),
+			Config: config + compartmentIdVariableStr + OpsiOperationsInsightsWarehouseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse", "test_operations_insights_warehouse", acctest.Optional, acctest.Update, OpsiOperationsInsightsWarehouseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cpu_allocated", "2"),
@@ -158,9 +158,9 @@ func TestOpsiOperationsInsightsWarehouseResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_operations_insights_warehouses", "test_operations_insights_warehouses", acctest.Optional, acctest.Update, operationsInsightsWarehouseDataSourceRepresentation) +
-				compartmentIdVariableStr + OperationsInsightsWarehouseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse", "test_operations_insights_warehouse", acctest.Optional, acctest.Update, operationsInsightsWarehouseRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_operations_insights_warehouses", "test_operations_insights_warehouses", acctest.Optional, acctest.Update, OpsiOpsiOperationsInsightsWarehouseDataSourceRepresentation) +
+				compartmentIdVariableStr + OpsiOperationsInsightsWarehouseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse", "test_operations_insights_warehouse", acctest.Optional, acctest.Update, OpsiOperationsInsightsWarehouseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -174,8 +174,8 @@ func TestOpsiOperationsInsightsWarehouseResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_operations_insights_warehouse", "test_operations_insights_warehouse", acctest.Required, acctest.Create, operationsInsightsWarehouseSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + OperationsInsightsWarehouseResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_operations_insights_warehouse", "test_operations_insights_warehouse", acctest.Required, acctest.Create, OpsiOpsiOperationsInsightsWarehouseSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + OpsiOperationsInsightsWarehouseResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "operations_insights_warehouse_id"),
 
@@ -198,7 +198,7 @@ func TestOpsiOperationsInsightsWarehouseResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + OperationsInsightsWarehouseRequiredOnlyResource,
+			Config:                  config + OpsiOperationsInsightsWarehouseRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -262,7 +262,7 @@ func init() {
 
 func sweepOpsiOperationsInsightsWarehouseResource(compartment string) error {
 	operationsInsightsClient := acctest.GetTestClients(&schema.ResourceData{}).OperationsInsightsClient()
-	operationsInsightsWarehouseIds, err := getOperationsInsightsWarehouseIds(compartment)
+	operationsInsightsWarehouseIds, err := getOpsiOperationsInsightsWarehouseIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -278,14 +278,14 @@ func sweepOpsiOperationsInsightsWarehouseResource(compartment string) error {
 				fmt.Printf("Error deleting OperationsInsightsWarehouse %s %s, It is possible that the resource is already deleted. Please verify manually \n", operationsInsightsWarehouseId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &operationsInsightsWarehouseId, operationsInsightsWarehouseSweepWaitCondition, time.Duration(3*time.Minute),
-				operationsInsightsWarehouseSweepResponseFetchOperation, "opsi", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &operationsInsightsWarehouseId, OpsiOperationsInsightsWarehouseSweepWaitCondition, time.Duration(3*time.Minute),
+				OpsiOperationsInsightsWarehouseSweepResponseFetchOperation, "opsi", true)
 		}
 	}
 	return nil
 }
 
-func getOperationsInsightsWarehouseIds(compartment string) ([]string, error) {
+func getOpsiOperationsInsightsWarehouseIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "OperationsInsightsWarehouseId")
 	if ids != nil {
 		return ids, nil
@@ -310,7 +310,7 @@ func getOperationsInsightsWarehouseIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func operationsInsightsWarehouseSweepWaitCondition(response common.OCIOperationResponse) bool {
+func OpsiOperationsInsightsWarehouseSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if operationsInsightsWarehouseResponse, ok := response.Response.(oci_opsi.GetOperationsInsightsWarehouseResponse); ok {
 		return operationsInsightsWarehouseResponse.LifecycleState != oci_opsi.OperationsInsightsWarehouseLifecycleStateDeleted
@@ -318,7 +318,7 @@ func operationsInsightsWarehouseSweepWaitCondition(response common.OCIOperationR
 	return false
 }
 
-func operationsInsightsWarehouseSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func OpsiOperationsInsightsWarehouseSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.OperationsInsightsClient().GetOperationsInsightsWarehouse(context.Background(), oci_opsi.GetOperationsInsightsWarehouseRequest{
 		OperationsInsightsWarehouseId: resourceId,
 		RequestMetadata: common.RequestMetadata{

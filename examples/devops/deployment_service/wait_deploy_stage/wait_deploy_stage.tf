@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {
@@ -20,7 +20,7 @@ variable "region" {
 }
 
 provider "oci" {
-  #version = "4.62.0"
+  #version = "4.98.0"
   region           = var.region
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -58,8 +58,8 @@ resource "oci_devops_deploy_pipeline" "test_deploy_pipeline" {
   #Required
   project_id = oci_devops_project.test_project.id
 
-  description   = "description"
-  display_name  = "displayName"
+  description  = "description"
+  display_name = "displayName"
 }
 
 resource "oci_devops_deploy_stage" "test_wait_deploy_stage" {
@@ -74,8 +74,8 @@ resource "oci_devops_deploy_stage" "test_wait_deploy_stage" {
   }
   deploy_stage_type = "WAIT"
 
-  description                                  = "description"
-  display_name                                 = "displayName"
+  description  = "description"
+  display_name = "displayName"
   wait_criteria {
     #Required
     wait_duration = "PT5S"
@@ -89,5 +89,15 @@ resource "oci_devops_deployment" "test_deployment" {
   deployment_type    = "PIPELINE_DEPLOYMENT"
 
   #Optional
-  display_name           = "test_deployment"
+  display_name                  = "test_deployment"
+  trigger_new_devops_deployment = false
+  deploy_stage_override_arguments {
+    #Required
+    items {
+      #Required
+      deploy_stage_id = oci_devops_deploy_stage.test_wait_deploy_stage.id
+      name            = "version"
+      value           = "1.0"
+    }
+  }
 }

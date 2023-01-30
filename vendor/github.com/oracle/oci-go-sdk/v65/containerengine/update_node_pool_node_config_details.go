@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -12,6 +12,7 @@
 package containerengine
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -48,6 +49,9 @@ type UpdateNodePoolNodeConfigDetails struct {
 	// each availability domain, and include the regional subnet in each placement
 	// configuration.
 	PlacementConfigs []NodePoolPlacementConfigDetails `mandatory:"false" json:"placementConfigs"`
+
+	// The CNI related configuration of pods in the node pool.
+	NodePoolPodNetworkOptionDetails NodePoolPodNetworkOptionDetails `mandatory:"false" json:"nodePoolPodNetworkOptionDetails"`
 }
 
 func (m UpdateNodePoolNodeConfigDetails) String() string {
@@ -64,4 +68,55 @@ func (m UpdateNodePoolNodeConfigDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *UpdateNodePoolNodeConfigDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Size                            *int                              `json:"size"`
+		NsgIds                          []string                          `json:"nsgIds"`
+		KmsKeyId                        *string                           `json:"kmsKeyId"`
+		IsPvEncryptionInTransitEnabled  *bool                             `json:"isPvEncryptionInTransitEnabled"`
+		FreeformTags                    map[string]string                 `json:"freeformTags"`
+		DefinedTags                     map[string]map[string]interface{} `json:"definedTags"`
+		PlacementConfigs                []NodePoolPlacementConfigDetails  `json:"placementConfigs"`
+		NodePoolPodNetworkOptionDetails nodepoolpodnetworkoptiondetails   `json:"nodePoolPodNetworkOptionDetails"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Size = model.Size
+
+	m.NsgIds = make([]string, len(model.NsgIds))
+	for i, n := range model.NsgIds {
+		m.NsgIds[i] = n
+	}
+
+	m.KmsKeyId = model.KmsKeyId
+
+	m.IsPvEncryptionInTransitEnabled = model.IsPvEncryptionInTransitEnabled
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.PlacementConfigs = make([]NodePoolPlacementConfigDetails, len(model.PlacementConfigs))
+	for i, n := range model.PlacementConfigs {
+		m.PlacementConfigs[i] = n
+	}
+
+	nn, e = model.NodePoolPodNetworkOptionDetails.UnmarshalPolymorphicJSON(model.NodePoolPodNetworkOptionDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.NodePoolPodNetworkOptionDetails = nn.(NodePoolPodNetworkOptionDetails)
+	} else {
+		m.NodePoolPodNetworkOptionDetails = nil
+	}
+
+	return
 }

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -15,96 +15,96 @@ import (
 	oci_auto_scaling "github.com/oracle/oci-go-sdk/v65/autoscaling"
 	"github.com/oracle/oci-go-sdk/v65/common"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	AutoScalingConfigurationRequiredOnlyResource = AutoScalingConfigurationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Required, acctest.Create, autoScalingConfigurationRepresentation)
+	AutoScalingAutoScalingConfigurationRequiredOnlyResource = AutoScalingAutoScalingConfigurationResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Required, acctest.Create, AutoScalingautoScalingConfigurationRepresentation)
 
-	AutoScalingConfigurationResourceConfig = AutoScalingConfigurationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Update, autoScalingConfigurationRepresentation)
+	AutoScalingAutoScalingConfigurationResourceConfig = AutoScalingAutoScalingConfigurationResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Update, AutoScalingautoScalingConfigurationRepresentation)
 
-	autoScalingConfigurationSingularDataSourceRepresentation = map[string]interface{}{
+	AutoScalingAutoScalingautoScalingConfigurationSingularDataSourceRepresentation = map[string]interface{}{
 		"auto_scaling_configuration_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_autoscaling_auto_scaling_configuration.test_auto_scaling_configuration.id}`},
 	}
 
-	autoScalingConfigurationDataSourceRepresentation = map[string]interface{}{
+	AutoScalingAutoScalingautoScalingConfigurationDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `example_threshold_autoscaling_configuration`, Update: `displayName2`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: autoScalingConfigurationDataSourceFilterRepresentation}}
-	autoScalingConfigurationDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationDataSourceFilterRepresentation}}
+	AutoScalingautoScalingConfigurationDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_autoscaling_auto_scaling_configuration.test_auto_scaling_configuration.id}`}},
 	}
 
-	autoScalingConfigurationRepresentation = map[string]interface{}{
-		"auto_scaling_resources": acctest.RepresentationGroup{RepType: acctest.Required, Group: autoScalingConfigurationAutoScalingResourcesRepresentation},
+	AutoScalingautoScalingConfigurationRepresentation = map[string]interface{}{
+		"auto_scaling_resources": acctest.RepresentationGroup{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationAutoScalingResourcesRepresentation},
 		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"policies":               acctest.RepresentationGroup{RepType: acctest.Required, Group: autoScalingConfigurationPoliciesRepresentation},
+		"policies":               acctest.RepresentationGroup{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesRepresentation},
 		"cool_down_in_seconds":   acctest.Representation{RepType: acctest.Optional, Create: `300`, Update: `400`},
 		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `example_threshold_autoscaling_configuration`, Update: `displayName2`},
 		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_enabled":             acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
-	autoScalingConfigurationAutoScalingResourcesRepresentation = map[string]interface{}{
+	AutoScalingautoScalingConfigurationAutoScalingResourcesRepresentation = map[string]interface{}{
 		"id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance_pool.test_instance_pool.id}`},
 		"type": acctest.Representation{RepType: acctest.Required, Create: `instancePool`},
 	}
-	autoScalingConfigurationPoliciesRepresentation = map[string]interface{}{
-		"capacity":     acctest.RepresentationGroup{RepType: acctest.Required, Group: autoScalingConfigurationPoliciesCapacityRepresentation},
+	AutoScalingautoScalingConfigurationPoliciesRepresentation = map[string]interface{}{
+		"capacity":     acctest.RepresentationGroup{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesCapacityRepresentation},
 		"policy_type":  acctest.Representation{RepType: acctest.Required, Create: `threshold`, Update: `threshold`},
-		"rules":        []acctest.RepresentationGroup{{RepType: acctest.Required, Group: autoScalingConfigurationPoliciesScaleOutRuleRepresentation}, {RepType: acctest.Required, Group: autoScalingConfigurationPoliciesScaleInRuleRepresentation}},
+		"rules":        []acctest.RepresentationGroup{{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesScaleOutRuleRepresentation}, {RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesScaleInRuleRepresentation}},
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `example_autoscaling_configuration`, Update: `displayName2`},
 	}
-	autoScalingConfigurationPoliciesCapacityRepresentation = map[string]interface{}{
+	AutoScalingautoScalingConfigurationPoliciesCapacityRepresentation = map[string]interface{}{
 		"initial": acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `4`},
 		"max":     acctest.Representation{RepType: acctest.Required, Create: `3`, Update: `5`},
 		"min":     acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
 	}
-	autoScalingConfigurationPoliciesScaleOutRuleRepresentation = map[string]interface{}{
-		"action":       acctest.RepresentationGroup{RepType: acctest.Required, Group: autoScalingConfigurationPoliciesScaleOutRuleActionRepresentation},
+	AutoScalingautoScalingConfigurationPoliciesScaleOutRuleRepresentation = map[string]interface{}{
+		"action":       acctest.RepresentationGroup{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesScaleOutRuleActionRepresentation},
 		"display_name": acctest.Representation{RepType: acctest.Required, Create: `scale out rule`, Update: `scale out rule - updated`},
-		"metric":       acctest.RepresentationGroup{RepType: acctest.Required, Group: autoScalingConfigurationPoliciesScaleOutRuleMetricRepresentation},
+		"metric":       acctest.RepresentationGroup{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesScaleOutRuleMetricRepresentation},
 	}
-	autoScalingConfigurationPoliciesScaleOutRuleActionRepresentation = map[string]interface{}{
+	AutoScalingautoScalingConfigurationPoliciesScaleOutRuleActionRepresentation = map[string]interface{}{
 		"type":  acctest.Representation{RepType: acctest.Required, Create: `CHANGE_COUNT_BY`, Update: `CHANGE_COUNT_BY`},
 		"value": acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
 	}
-	autoScalingConfigurationPoliciesScaleOutRuleMetricRepresentation = map[string]interface{}{
+	AutoScalingautoScalingConfigurationPoliciesScaleOutRuleMetricRepresentation = map[string]interface{}{
 		"metric_type": acctest.Representation{RepType: acctest.Required, Create: `CPU_UTILIZATION`, Update: `CPU_UTILIZATION`},
-		"threshold":   acctest.RepresentationGroup{RepType: acctest.Required, Group: autoScalingConfigurationPoliciesScaleOutRuleMetricThresholdRepresentation},
+		"threshold":   acctest.RepresentationGroup{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesScaleOutRuleMetricThresholdRepresentation},
 	}
-	autoScalingConfigurationPoliciesScaleOutRuleMetricThresholdRepresentation = map[string]interface{}{
+	AutoScalingautoScalingConfigurationPoliciesScaleOutRuleMetricThresholdRepresentation = map[string]interface{}{
 		"operator": acctest.Representation{RepType: acctest.Required, Create: `GT`, Update: `GT`},
 		"value":    acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `3`},
 	}
-	autoScalingConfigurationPoliciesScaleInRuleRepresentation = map[string]interface{}{
-		"action":       acctest.RepresentationGroup{RepType: acctest.Required, Group: autoScalingConfigurationPoliciesScaleInRuleActionRepresentation},
-		"metric":       acctest.RepresentationGroup{RepType: acctest.Required, Group: autoScalingConfigurationPoliciesScaleInRuleMetricRepresentation},
+	AutoScalingautoScalingConfigurationPoliciesScaleInRuleRepresentation = map[string]interface{}{
+		"action":       acctest.RepresentationGroup{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesScaleInRuleActionRepresentation},
+		"metric":       acctest.RepresentationGroup{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesScaleInRuleMetricRepresentation},
 		"display_name": acctest.Representation{RepType: acctest.Required, Create: `scale in rule`, Update: `scale in rule - updated`},
 	}
-	autoScalingConfigurationPoliciesScaleInRuleActionRepresentation = map[string]interface{}{
+	AutoScalingautoScalingConfigurationPoliciesScaleInRuleActionRepresentation = map[string]interface{}{
 		"type":  acctest.Representation{RepType: acctest.Required, Create: `CHANGE_COUNT_BY`, Update: `CHANGE_COUNT_BY`},
 		"value": acctest.Representation{RepType: acctest.Required, Create: `-1`, Update: `-3`},
 	}
-	autoScalingConfigurationPoliciesScaleInRuleMetricRepresentation = map[string]interface{}{
+	AutoScalingautoScalingConfigurationPoliciesScaleInRuleMetricRepresentation = map[string]interface{}{
 		"metric_type": acctest.Representation{RepType: acctest.Required, Create: `CPU_UTILIZATION`, Update: `CPU_UTILIZATION`},
-		"threshold":   acctest.RepresentationGroup{RepType: acctest.Required, Group: autoScalingConfigurationPoliciesScaleInRuleMetricThresholdRepresentation},
+		"threshold":   acctest.RepresentationGroup{RepType: acctest.Required, Group: AutoScalingautoScalingConfigurationPoliciesScaleInRuleMetricThresholdRepresentation},
 	}
-	autoScalingConfigurationPoliciesScaleInRuleMetricThresholdRepresentation = map[string]interface{}{
+	AutoScalingautoScalingConfigurationPoliciesScaleInRuleMetricThresholdRepresentation = map[string]interface{}{
 		"operator": acctest.Representation{RepType: acctest.Required, Create: `LT`, Update: `LT`},
 		"value":    acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `3`},
 	}
 
-	AutoScalingConfigurationResourceDependencies = InstancePoolResourceDependenciesWithoutSecondaryVnic +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Required, acctest.Create, instancePoolRepresentationWithLifecycleSizeIgnoreChanges)
+	AutoScalingAutoScalingConfigurationResourceDependencies = CoreInstancePoolResourceDependenciesWithoutSecondaryVnic +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Required, acctest.Create, CoreInstancePoolRepresentationWithLifecycleSizeIgnoreChanges)
 )
 
 // issue-routing-tag: auto_scaling/default
@@ -126,14 +126,14 @@ func TestAutoScalingAutoScalingConfigurationResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+AutoScalingConfigurationResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Create, autoScalingConfigurationRepresentation), "autoscaling", "autoScalingConfiguration", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+AutoScalingAutoScalingConfigurationResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Create, AutoScalingautoScalingConfigurationRepresentation), "autoscaling", "autoScalingConfiguration", t)
 
 	acctest.ResourceTest(t, testAccCheckAutoScalingAutoScalingConfigurationDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + AutoScalingConfigurationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Required, acctest.Create, autoScalingConfigurationRepresentation),
+			Config: config + compartmentIdVariableStr + AutoScalingAutoScalingConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Required, acctest.Create, AutoScalingautoScalingConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "auto_scaling_resources.0.id"),
@@ -178,12 +178,12 @@ func TestAutoScalingAutoScalingConfigurationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + AutoScalingConfigurationResourceDependencies,
+			Config: config + compartmentIdVariableStr + AutoScalingAutoScalingConfigurationResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + AutoScalingConfigurationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Create, autoScalingConfigurationRepresentation),
+			Config: config + compartmentIdVariableStr + AutoScalingAutoScalingConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Create, AutoScalingautoScalingConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "auto_scaling_resources.0.id"),
@@ -244,9 +244,9 @@ func TestAutoScalingAutoScalingConfigurationResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AutoScalingConfigurationResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AutoScalingAutoScalingConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(autoScalingConfigurationRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(AutoScalingautoScalingConfigurationRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -304,8 +304,8 @@ func TestAutoScalingAutoScalingConfigurationResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + AutoScalingConfigurationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Update, autoScalingConfigurationRepresentation),
+			Config: config + compartmentIdVariableStr + AutoScalingAutoScalingConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Update, AutoScalingautoScalingConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "auto_scaling_resources.0.id"),
@@ -364,9 +364,9 @@ func TestAutoScalingAutoScalingConfigurationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_autoscaling_auto_scaling_configurations", "test_auto_scaling_configurations", acctest.Optional, acctest.Update, autoScalingConfigurationDataSourceRepresentation) +
-				compartmentIdVariableStr + AutoScalingConfigurationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Update, autoScalingConfigurationRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_autoscaling_auto_scaling_configurations", "test_auto_scaling_configurations", acctest.Optional, acctest.Update, AutoScalingAutoScalingautoScalingConfigurationDataSourceRepresentation) +
+				compartmentIdVariableStr + AutoScalingAutoScalingConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Update, AutoScalingautoScalingConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -387,8 +387,8 @@ func TestAutoScalingAutoScalingConfigurationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Required, acctest.Create, autoScalingConfigurationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + AutoScalingConfigurationResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Required, acctest.Create, AutoScalingAutoScalingautoScalingConfigurationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + AutoScalingAutoScalingConfigurationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "auto_scaling_configuration_id"),
 
@@ -439,7 +439,7 @@ func TestAutoScalingAutoScalingConfigurationResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + AutoScalingConfigurationRequiredOnlyResource,
+			Config:                  config + AutoScalingAutoScalingConfigurationRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

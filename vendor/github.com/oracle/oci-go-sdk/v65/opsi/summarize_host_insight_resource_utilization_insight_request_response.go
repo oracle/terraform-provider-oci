@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -46,6 +46,7 @@ type SummarizeHostInsightResourceUtilizationInsightRequest struct {
 
 	// Filter by one or more platform types.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
+	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
 	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
 	PlatformType []SummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum `contributesTo:"query" name:"platformType" omitEmpty:"true" collectionFormat:"multi"`
 
@@ -94,6 +95,16 @@ type SummarizeHostInsightResourceUtilizationInsightRequest struct {
 
 	// A flag to search all resources within a given compartment and all sub-compartments.
 	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
+
+	// Filter by one or more host types.
+	// Possible values are CLOUD-HOST, EXTERNAL-HOST
+	HostType []string `contributesTo:"query" name:"hostType" collectionFormat:"multi"`
+
+	// Optional OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host (Compute Id)
+	HostId *string `mandatory:"false" contributesTo:"query" name:"hostId"`
+
+	// Optional list of Exadata Insight VM cluster name.
+	VmclusterName []string `contributesTo:"query" name:"vmclusterName" collectionFormat:"multi"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

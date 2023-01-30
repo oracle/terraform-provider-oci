@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -118,12 +118,24 @@ func (m *triggersummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		mm := GitlabTriggerSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "GITLAB_SERVER":
+		mm := GitlabServerTriggerSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GITHUB":
 		mm := GithubTriggerSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "DEVOPS_CODE_REPOSITORY":
 		mm := DevopsCodeRepositoryTriggerSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "BITBUCKET_SERVER":
+		mm := BitbucketServerTriggerSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "VBS":
+		mm := VbsTriggerSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

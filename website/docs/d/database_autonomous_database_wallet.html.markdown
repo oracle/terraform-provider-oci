@@ -8,7 +8,7 @@ description: |-
 ---
 
 # Data Source: oci_database_autonomous_database_wallet
-**Deprecated. Use [oci_database_autonomous_database_wallet](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/resources/database_autonomous_database_wallet) instead.**
+**Deprecated. Use [oci_database_autonomous_database_wallet](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/database_autonomous_database_wallet) instead.**
 
 This data source provides details about a specific Autonomous Database Wallet resource in Oracle Cloud Infrastructure Database service.
 
@@ -52,4 +52,4 @@ The following attributes are exported:
 * `content` - content of the downloaded zipped wallet for the Autonomous Database. If `base64_encode_content` is set to `true`, then this content will be base64 encoded.
 
 If passing the base64 encoded content to a `local_file` resource, please use the `content_base64` attribute of the `local_file` resource.
-See this [example](https://github.com/terraform-providers/terraform-provider-oci/blob/master/examples/database/adb/autonomous_data_warehouse_wallet.tf) for more details.
+See this [example](https://github.com/oracle/terraform-provider-oci/blob/master/examples/database/adb/autonomous_data_warehouse_wallet.tf) for more details.

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,20 +7,20 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	dbSystemPatchDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseDbSystemPatchDataSourceRepresentation = map[string]interface{}{
 		"db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_system.test_db_system.id}`},
 	}
 
-	DbSystemPatchResourceConfig = DbSystemResourceConfig
+	DatabaseDbSystemPatchResourceConfig = DbSystemResourceConfig
 )
 
 // issue-routing-tag: database/default
@@ -41,8 +41,8 @@ func TestDatabaseDbSystemPatchResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_system_patches", "test_db_system_patches", acctest.Required, acctest.Create, dbSystemPatchDataSourceRepresentation) +
-				compartmentIdVariableStr + DbSystemPatchResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_system_patches", "test_db_system_patches", acctest.Required, acctest.Create, DatabaseDatabaseDbSystemPatchDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseDbSystemPatchResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
 

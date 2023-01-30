@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,28 +22,28 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_log_analytics "github.com/oracle/oci-go-sdk/v65/loganalytics"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	LogAnalyticsObjectCollectionRuleRequiredOnlyResource = LogAnalyticsObjectCollectionRuleResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", acctest.Required, acctest.Create, logAnalyticsObjectCollectionRuleRepresentation)
+	LogAnalyticsLogAnalyticsObjectCollectionRuleRequiredOnlyResource = LogAnalyticsLogAnalyticsObjectCollectionRuleResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsObjectCollectionRuleRepresentation)
 
-	LogAnalyticsObjectCollectionRuleResourceConfig = LogAnalyticsObjectCollectionRuleResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", acctest.Optional, acctest.Update, logAnalyticsObjectCollectionRuleRepresentation)
+	LogAnalyticsLogAnalyticsObjectCollectionRuleResourceConfig = LogAnalyticsLogAnalyticsObjectCollectionRuleResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", acctest.Optional, acctest.Update, LogAnalyticsLogAnalyticsObjectCollectionRuleRepresentation)
 
-	logAnalyticsObjectCollectionRuleSingularDataSourceRepresentation = map[string]interface{}{
+	LogAnalyticsLogAnalyticsLogAnalyticsObjectCollectionRuleSingularDataSourceRepresentation = map[string]interface{}{
 		"log_analytics_object_collection_rule_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_log_analytics_log_analytics_object_collection_rule.test_log_analytics_object_collection_rule.id}`},
 		"namespace": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 	}
 
-	logAnalyticsObjectCollectionRuleDataSourceRepresentation = map[string]interface{}{
+	LogAnalyticsLogAnalyticsLogAnalyticsObjectCollectionRuleDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"namespace":      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `test_terraform_rule`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: logAnalyticsObjectCollectionRuleDataSourceFilterRepresentation}}
-	logAnalyticsObjectCollectionRuleDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: LogAnalyticsLogAnalyticsObjectCollectionRuleDataSourceFilterRepresentation}}
+	LogAnalyticsLogAnalyticsObjectCollectionRuleDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_log_analytics_log_analytics_object_collection_rule.test_log_analytics_object_collection_rule.id}`}},
 	}
@@ -55,7 +55,7 @@ var (
 		"property_value": acctest.Representation{RepType: acctest.Optional, Create: `utf-8`, Update: `utf-16`},
 	}
 
-	logAnalyticsObjectCollectionRuleRepresentation = map[string]interface{}{
+	LogAnalyticsLogAnalyticsObjectCollectionRuleRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"log_group_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_log_analytics_log_analytics_log_group.test_log_analytics_log_group.id}`},
 		"log_source_name":     acctest.Representation{RepType: acctest.Required, Create: `LinuxSyslogSource`, Update: `LinuxSyslogSource`},
@@ -69,16 +69,18 @@ var (
 		"description":         acctest.Representation{RepType: acctest.Optional, Create: `test terraform rule create`, Update: `test terraform rule update`},
 		"entity_id":           acctest.Representation{RepType: acctest.Optional, Create: `${oci_log_analytics_log_analytics_entity.test_log_analytics_entity.id}`},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"log_set":             acctest.Representation{RepType: acctest.Optional, Create: `logSet`, Update: `logSet2`},
 		"object_name_filters": acctest.Representation{RepType: acctest.Optional, Create: []string{`objectNameFilters`}, Update: []string{`objectNameFilters2`}},
+		"timezone":            acctest.Representation{RepType: acctest.Optional, Create: `Asia/Dhaka`, Update: `America/New_York`},
 		"overrides":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: logAnalyticsObjectCollectionRulePropertyOverridesRepresentation},
 	}
 
 	// Log Analytics Log Group and Log Analytics Entity dependencies are removed and values are provided as environment variables.
-	LogAnalyticsObjectCollectionRuleResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, bucketRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_log_group", "test_log_analytics_log_group", acctest.Required, acctest.Create, logAnalyticsLogGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", acctest.Optional, acctest.Create, logAnalyticsEntityRepresentation)
+	LogAnalyticsLogAnalyticsObjectCollectionRuleResourceDependencies = DefinedTagsDependencies +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_log_group", "test_log_analytics_log_group", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsLogGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", acctest.Optional, acctest.Create, LogAnalyticsLogAnalyticsEntityRepresentation)
 )
 
 func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T) {
@@ -105,14 +107,14 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+managementAgentIdVariableStr+LogAnalyticsObjectCollectionRuleResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", acctest.Optional, acctest.Create, logAnalyticsObjectCollectionRuleRepresentation), "loganalytics", "logAnalyticsObjectCollectionRule", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+managementAgentIdVariableStr+LogAnalyticsLogAnalyticsObjectCollectionRuleResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", acctest.Optional, acctest.Create, LogAnalyticsLogAnalyticsObjectCollectionRuleRepresentation), "loganalytics", "logAnalyticsObjectCollectionRule", t)
 
 	acctest.ResourceTest(t, testAccCheckLogAnalyticsLogAnalyticsObjectCollectionRuleDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", acctest.Required, acctest.Create, logAnalyticsObjectCollectionRuleRepresentation),
+			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsLogAnalyticsObjectCollectionRuleResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsObjectCollectionRuleRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
@@ -131,12 +133,12 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceDependencies,
+			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsLogAnalyticsObjectCollectionRuleResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", acctest.Optional, acctest.Create, logAnalyticsObjectCollectionRuleRepresentation),
+			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsLogAnalyticsObjectCollectionRuleResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", acctest.Optional, acctest.Create, LogAnalyticsLogAnalyticsObjectCollectionRuleRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "char_encoding", "utf-8"),
 				resource.TestCheckResourceAttr(resourceName, "collection_type", "LIVE"),
@@ -146,6 +148,8 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
+				resource.TestCheckResourceAttr(resourceName, "log_set", "logSet"),
+				resource.TestCheckResourceAttr(resourceName, "object_name_filters.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "log_source_name", "LinuxSyslogSource"),
 				resource.TestCheckResourceAttr(resourceName, "name", "test_terraform_rule"),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -159,6 +163,7 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "timezone", "Asia/Dhaka"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -174,9 +179,9 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + managementAgentIdVariableStr + LogAnalyticsLogAnalyticsObjectCollectionRuleResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(logAnalyticsObjectCollectionRuleRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(LogAnalyticsLogAnalyticsObjectCollectionRuleRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: resource.ComposeAggregateTestCheckFunc(
@@ -188,6 +193,8 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
+				resource.TestCheckResourceAttr(resourceName, "log_set", "logSet"),
+				resource.TestCheckResourceAttr(resourceName, "object_name_filters.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "log_source_name", "LinuxSyslogSource"),
 				resource.TestCheckResourceAttr(resourceName, "name", "test_terraform_rule"),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -201,6 +208,7 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "timezone", "Asia/Dhaka"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -215,8 +223,8 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", acctest.Optional, acctest.Update, logAnalyticsObjectCollectionRuleRepresentation),
+			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsLogAnalyticsObjectCollectionRuleResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", acctest.Optional, acctest.Update, LogAnalyticsLogAnalyticsObjectCollectionRuleRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "char_encoding", "utf-16"),
 				resource.TestCheckResourceAttr(resourceName, "collection_type", "LIVE"),
@@ -226,6 +234,8 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
+				resource.TestCheckResourceAttr(resourceName, "log_set", "logSet2"),
+				resource.TestCheckResourceAttr(resourceName, "object_name_filters.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "log_source_name", "LinuxSyslogSource"),
 				resource.TestCheckResourceAttr(resourceName, "name", "test_terraform_rule"),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -239,6 +249,7 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "timezone", "America/New_York"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -253,9 +264,9 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rules", "test_log_analytics_object_collection_rules", acctest.Optional, acctest.Update, logAnalyticsObjectCollectionRuleDataSourceRepresentation) +
-				compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", acctest.Optional, acctest.Update, logAnalyticsObjectCollectionRuleRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rules", "test_log_analytics_object_collection_rules", acctest.Optional, acctest.Update, LogAnalyticsLogAnalyticsLogAnalyticsObjectCollectionRuleDataSourceRepresentation) +
+				compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsLogAnalyticsObjectCollectionRuleResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", acctest.Optional, acctest.Update, LogAnalyticsLogAnalyticsObjectCollectionRuleRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "test_terraform_rule"),
@@ -269,8 +280,8 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", acctest.Required, acctest.Create, logAnalyticsObjectCollectionRuleSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsLogAnalyticsObjectCollectionRuleSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsLogAnalyticsObjectCollectionRuleResourceConfig,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "log_analytics_object_collection_rule_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
@@ -281,6 +292,8 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "test terraform rule update"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "log_set", "logSet2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "object_name_filters.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "log_source_name", "LinuxSyslogSource"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "test_terraform_rule"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "os_namespace"),
@@ -292,11 +305,12 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "timezone", "America/New_York"),
 			),
 		},
 		// verify resource import
 		{
-			Config:                  config + LogAnalyticsObjectCollectionRuleRequiredOnlyResource,
+			Config:                  config + LogAnalyticsLogAnalyticsObjectCollectionRuleRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateIdFunc:       getLogAnalyticsObjectCollectionRulesEndpointImportId(resourceName),
@@ -365,7 +379,7 @@ func init() {
 
 func sweepLogAnalyticsLogAnalyticsObjectCollectionRuleResource(compartment string) error {
 	logAnalyticsClient := acctest.GetTestClients(&schema.ResourceData{}).LogAnalyticsClient()
-	logAnalyticsObjectCollectionRuleIds, err := getLogAnalyticsObjectCollectionRuleIds(compartment)
+	logAnalyticsObjectCollectionRuleIds, err := getLogAnalyticsLogAnalyticsObjectCollectionRuleIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -381,14 +395,14 @@ func sweepLogAnalyticsLogAnalyticsObjectCollectionRuleResource(compartment strin
 				fmt.Printf("Error deleting LogAnalyticsObjectCollectionRule %s %s, It is possible that the resource is already deleted. Please verify manually \n", logAnalyticsObjectCollectionRuleId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &logAnalyticsObjectCollectionRuleId, logAnalyticsObjectCollectionRuleSweepWaitCondition, time.Duration(3*time.Minute),
-				logAnalyticsObjectCollectionRuleSweepResponseFetchOperation, "log_analytics", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &logAnalyticsObjectCollectionRuleId, LogAnalyticsLogAnalyticsObjectCollectionRuleSweepWaitCondition, time.Duration(3*time.Minute),
+				LogAnalyticsLogAnalyticsObjectCollectionRuleSweepResponseFetchOperation, "log_analytics", true)
 		}
 	}
 	return nil
 }
 
-func getLogAnalyticsObjectCollectionRuleIds(compartment string) ([]string, error) {
+func getLogAnalyticsLogAnalyticsObjectCollectionRuleIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "LogAnalyticsObjectCollectionRuleId")
 	if ids != nil {
 		return ids, nil
@@ -423,7 +437,7 @@ func getLogAnalyticsObjectCollectionRuleIds(compartment string) ([]string, error
 	return resourceIds, nil
 }
 
-func logAnalyticsObjectCollectionRuleSweepWaitCondition(response common.OCIOperationResponse) bool {
+func LogAnalyticsLogAnalyticsObjectCollectionRuleSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if logAnalyticsObjectCollectionRuleResponse, ok := response.Response.(oci_log_analytics.GetLogAnalyticsObjectCollectionRuleResponse); ok {
 		return logAnalyticsObjectCollectionRuleResponse.LifecycleState != oci_log_analytics.ObjectCollectionRuleLifecycleStatesDeleted
@@ -431,7 +445,7 @@ func logAnalyticsObjectCollectionRuleSweepWaitCondition(response common.OCIOpera
 	return false
 }
 
-func logAnalyticsObjectCollectionRuleSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func LogAnalyticsLogAnalyticsObjectCollectionRuleSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.LogAnalyticsClient().GetLogAnalyticsObjectCollectionRule(context.Background(), oci_log_analytics.GetLogAnalyticsObjectCollectionRuleRequest{
 		LogAnalyticsObjectCollectionRuleId: resourceId,
 		RequestMetadata: common.RequestMetadata{

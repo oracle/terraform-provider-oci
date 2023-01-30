@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -29,6 +29,16 @@ type InstanceConfigurationInstanceSourceViaImageDetails struct {
 
 	// The OCID of the image used to boot the instance.
 	ImageId *string `mandatory:"false" json:"imageId"`
+
+	// The number of volume performance units (VPUs) that will be applied to this volume per GB,
+	// representing the Block Volume service's elastic performance options.
+	// See Block Volume Performance Levels (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
+	// Allowed values:
+	//   * `10`: Represents Balanced option.
+	//   * `20`: Represents Higher Performance option.
+	//   * `30`-`120`: Represents the Ultra High Performance option.
+	// For performance autotune enabled volumes, it would be the Default(Minimum) VPUs/GB.
+	BootVolumeVpusPerGB *int64 `mandatory:"false" json:"bootVolumeVpusPerGB"`
 }
 
 func (m InstanceConfigurationInstanceSourceViaImageDetails) String() string {

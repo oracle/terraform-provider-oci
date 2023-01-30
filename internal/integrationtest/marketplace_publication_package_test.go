@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,25 +9,25 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	publicationPackageSingularDataSourceRepresentation = map[string]interface{}{
+	MarketplaceMarketplacePublicationPackageSingularDataSourceRepresentation = map[string]interface{}{
 		"package_version": acctest.Representation{RepType: acctest.Required, Create: `packageVersion`},
 		"publication_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_marketplace_publication.test_publication.id}`},
 	}
 
-	publicationPackageDataSourceRepresentation = map[string]interface{}{
+	MarketplaceMarketplacePublicationPackageDataSourceRepresentation = map[string]interface{}{
 		"publication_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_marketplace_publication.test_publication.id}`},
 		"package_type":    acctest.Representation{RepType: acctest.Optional, Create: `packageType`},
 		"package_version": acctest.Representation{RepType: acctest.Optional, Create: `packageVersion`},
 	}
 
-	PublicationPackageResourceConfig = PublicationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", acctest.Optional, acctest.Create, publicationRepresentation)
+	MarketplacePublicationPackageResourceConfig = MarketplacePublicationResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", acctest.Optional, acctest.Create, MarketplacePublicationRepresentation)
 )
 
 // issue-routing-tag: marketplace/default
@@ -48,8 +48,8 @@ func TestMarketplacePublicationPackageResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_publication_packages", "test_publication_packages", acctest.Required, acctest.Create, publicationPackageDataSourceRepresentation) +
-				compartmentIdVariableStr + PublicationPackageResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_publication_packages", "test_publication_packages", acctest.Required, acctest.Create, MarketplaceMarketplacePublicationPackageDataSourceRepresentation) +
+				compartmentIdVariableStr + MarketplacePublicationPackageResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "publication_id"),
 
@@ -63,8 +63,8 @@ func TestMarketplacePublicationPackageResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_publication_package", "test_publication_package", acctest.Required, acctest.Create, publicationPackageSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + PublicationPackageResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_publication_package", "test_publication_package", acctest.Required, acctest.Create, MarketplaceMarketplacePublicationPackageSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + MarketplacePublicationPackageResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "package_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "publication_id"),

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,10 +7,10 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"testing"
 
@@ -20,7 +20,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_functions "github.com/oracle/oci-go-sdk/v65/functions"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 // issue-routing-tag: containerengine/default
@@ -96,7 +96,7 @@ func TestFunctionsFunctionResource_digest(t *testing.T) {
 
 		steps = append(steps, resource.TestStep{
 			// Reset the function to A1@a1
-			Config: config + compartmentIdVariableStr + FunctionResourceDependencies +
+			Config: config + compartmentIdVariableStr + FunctionsFunctionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Optional, acctest.Create, functionBaseRepresentation(imageA1, &imageA1Digest)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
@@ -125,7 +125,7 @@ func TestFunctionsFunctionResource_digest(t *testing.T) {
 		})
 		steps = append(steps, resource.TestStep{
 			// Update the function with the new image coordinates
-			Config: config + compartmentIdVariableStr + FunctionResourceDependencies +
+			Config: config + compartmentIdVariableStr + FunctionsFunctionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Optional, acctest.Update, functionBaseRepresentation(tc2.newImage, tc2.newDigest)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
@@ -158,7 +158,7 @@ func TestFunctionsFunctionResource_digest(t *testing.T) {
 		})
 		steps = append(steps, resource.TestStep{
 			// delete before next step to reset all state
-			Config: config + compartmentIdVariableStr + FunctionResourceDependencies,
+			Config: config + compartmentIdVariableStr + FunctionsFunctionResourceDependencies,
 		})
 	}
 
@@ -274,7 +274,7 @@ func TestFunctionsFunctionResource_digest_create(t *testing.T) {
 	} {
 		steps = append(steps, resource.TestStep{
 			// Create a function at A1@a1, through one means or another
-			Config: config + compartmentIdVariableStr + FunctionResourceDependencies +
+			Config: config + compartmentIdVariableStr + FunctionsFunctionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Optional, acctest.Create, functionBaseRepresentation(imageA1, tc.newDigest)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
@@ -304,7 +304,7 @@ func TestFunctionsFunctionResource_digest_create(t *testing.T) {
 		})
 		steps = append(steps, resource.TestStep{
 			// delete before next step to reset all state
-			Config: config + compartmentIdVariableStr + FunctionResourceDependencies,
+			Config: config + compartmentIdVariableStr + FunctionsFunctionResourceDependencies,
 		})
 	}
 

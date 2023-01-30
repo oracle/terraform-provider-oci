@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database_tools
@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -44,8 +44,10 @@ func DatabaseToolsDatabaseToolsConnectionResource() *schema.Resource {
 			"type": {
 				Type:             schema.TypeString,
 				Required:         true,
+				ForceNew:         true,
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
+					"MYSQL",
 					"ORACLE_DATABASE",
 				}, true),
 			},
@@ -195,6 +197,10 @@ func DatabaseToolsDatabaseToolsConnectionResource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
+						"secret_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
 						"value_type": {
 							Type:             schema.TypeString,
 							Required:         true,
@@ -205,11 +211,6 @@ func DatabaseToolsDatabaseToolsConnectionResource() *schema.Resource {
 						},
 
 						// Optional
-						"secret_id": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
 
 						// Computed
 					},
@@ -333,7 +334,7 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) getDatabaseToolsConne
 	actionTypeEnum oci_database_tools.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	databaseToolsConnectionId, err := databaseToolsConnectionWaitForWorkRequest(workId, "databasetoolsconnection", // ""database_tools", // Rashik Bhasin indicates that it should match the entityType in the Work request Response
+	databaseToolsConnectionId, err := databaseToolsConnectionWaitForWorkRequest(workId, "databasetoolsconnection",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -510,6 +511,76 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) Delete() error {
 
 func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) SetData() error {
 	switch v := (*s.Res).(type) {
+	case oci_database_tools.DatabaseToolsConnectionMySql:
+		s.D.Set("type", "MYSQL")
+
+		s.D.Set("advanced_properties", v.AdvancedProperties)
+
+		if v.ConnectionString != nil {
+			s.D.Set("connection_string", *v.ConnectionString)
+		}
+
+		keyStores := []interface{}{}
+		for _, item := range v.KeyStores {
+			keyStores = append(keyStores, DatabaseToolsKeyStoreMySqlToMap(item))
+		}
+		s.D.Set("key_stores", keyStores)
+
+		if v.PrivateEndpointId != nil {
+			s.D.Set("private_endpoint_id", *v.PrivateEndpointId)
+		}
+
+		if v.RelatedResource != nil {
+			s.D.Set("related_resource", []interface{}{DatabaseToolsRelatedResourceMySqlToMap(v.RelatedResource)})
+		} else {
+			s.D.Set("related_resource", nil)
+		}
+
+		if v.UserName != nil {
+			s.D.Set("user_name", *v.UserName)
+		}
+
+		if v.UserPassword != nil {
+			userPasswordArray := []interface{}{}
+			if userPasswordMap := DatabaseToolsUserPasswordToMap(&v.UserPassword); userPasswordMap != nil {
+				userPasswordArray = append(userPasswordArray, userPasswordMap)
+			}
+			s.D.Set("user_password", userPasswordArray)
+		} else {
+			s.D.Set("user_password", nil)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_database_tools.DatabaseToolsConnectionOracleDatabase:
 		s.D.Set("type", "ORACLE_DATABASE")
 
@@ -587,6 +658,7 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) SetData() error {
 	return nil
 }
 
+// For type: ORACLE_DATABASE
 func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToCreateDatabaseToolsRelatedResourceDetails(fieldKeyFormat string) (oci_database_tools.CreateDatabaseToolsRelatedResourceDetails, error) {
 	result := oci_database_tools.CreateDatabaseToolsRelatedResourceDetails{}
 
@@ -602,7 +674,37 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToCreateDatabaseTo
 	return result, nil
 }
 
+// For type: ORACLE_DATABASE
 func CreateDatabaseToolsRelatedResourceDetailsToMap(obj *oci_database_tools.CreateDatabaseToolsRelatedResourceDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["entity_type"] = string(obj.EntityType)
+
+	if obj.Identifier != nil {
+		result["identifier"] = string(*obj.Identifier)
+	}
+
+	return result
+}
+
+// For type: MYSQL
+func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToCreateDatabaseToolsRelatedResourceMySqlDetails(fieldKeyFormat string) (oci_database_tools.CreateDatabaseToolsRelatedResourceMySqlDetails, error) {
+	result := oci_database_tools.CreateDatabaseToolsRelatedResourceMySqlDetails{}
+
+	if entityType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "entity_type")); ok {
+		result.EntityType = oci_database_tools.RelatedResourceEntityTypeMySqlEnum(entityType.(string))
+	}
+
+	if identifier, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "identifier")); ok {
+		tmp := identifier.(string)
+		result.Identifier = &tmp
+	}
+
+	return result, nil
+}
+
+// For type: MYSQL
+func CreateDatabaseToolsRelatedResourceMySqlDetailsToMap(obj *oci_database_tools.CreateDatabaseToolsRelatedResourceMySqlDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	result["entity_type"] = string(obj.EntityType)
@@ -617,6 +719,83 @@ func CreateDatabaseToolsRelatedResourceDetailsToMap(obj *oci_database_tools.Crea
 func DatabaseToolsConnectionSummaryToMap(obj oci_database_tools.DatabaseToolsConnectionSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (obj).(type) {
+	case oci_database_tools.DatabaseToolsConnectionMySqlSummary:
+		result["type"] = "MYSQL"
+
+		result["advanced_properties"] = v.AdvancedProperties
+
+		if v.ConnectionString != nil {
+			result["connection_string"] = string(*v.ConnectionString)
+		}
+
+		keyStores := []interface{}{}
+		for _, item := range v.KeyStores {
+			keyStores = append(keyStores, DatabaseToolsKeyStoreMySqlSummaryToMap(item))
+		}
+		result["key_stores"] = keyStores
+
+		if v.PrivateEndpointId != nil {
+			result["private_endpoint_id"] = string(*v.PrivateEndpointId)
+		}
+
+		if v.RelatedResource != nil {
+			result["related_resource"] = []interface{}{DatabaseToolsRelatedResourceMySqlToMap(v.RelatedResource)}
+		}
+
+		if v.UserName != nil {
+			result["user_name"] = string(*v.UserName)
+		}
+
+		if v.UserPassword != nil {
+			userPasswordArray := []interface{}{}
+			if userPasswordMap := DatabaseToolsUserPasswordSummaryToMap(&v.UserPassword); userPasswordMap != nil {
+				userPasswordArray = append(userPasswordArray, userPasswordMap)
+			}
+			result["user_password"] = userPasswordArray
+		}
+
+		// These missing fields correspond to the fields defined in parent DatabaseToolsConnectionSummary
+		if v.Id != nil {
+			result["id"] = string(*v.Id)
+		}
+
+		if v.DisplayName != nil {
+			result["display_name"] = string(*v.DisplayName)
+		}
+
+		if v.CompartmentId != nil {
+			result["compartment_id"] = string(*v.CompartmentId)
+		}
+
+		if v.TimeCreated != nil {
+			result["time_created"] = v.TimeCreated.String()
+		}
+
+		if v.TimeUpdated != nil {
+			result["time_updated"] = v.TimeUpdated.String()
+		}
+
+		if v.DefinedTags != nil {
+			result["defined_tags"] = tfresource.DefinedTagsToMap(v.DefinedTags)
+		}
+
+		if v.SystemTags != nil {
+			result["system_tags"] = tfresource.SystemTagsToMap(v.SystemTags)
+		}
+
+		if v.FreeformTags != nil {
+			result["freeform_tags"] = v.FreeformTags
+		}
+
+		if v.PrivateEndpointId != nil {
+			result["private_endpoint_id"] = string(*v.PrivateEndpointId)
+		}
+
+		result["state"] = string(v.LifecycleState)
+
+		if v.LifecycleDetails != nil {
+			result["lifecycle_details"] = string(*v.LifecycleDetails)
+		}
 	case oci_database_tools.DatabaseToolsConnectionOracleDatabaseSummary:
 		result["type"] = "ORACLE_DATABASE"
 
@@ -652,7 +831,6 @@ func DatabaseToolsConnectionSummaryToMap(obj oci_database_tools.DatabaseToolsCon
 			result["user_password"] = userPasswordArray
 		}
 
-		// frobert 2021-08-06
 		// These missing fields correspond to the fields defined in parent DatabaseToolsConnectionSummary as we
 		// only get the field defined in child DatabaseToolsConnectionOracleDatabaseSummary.
 
@@ -706,6 +884,7 @@ func DatabaseToolsConnectionSummaryToMap(obj oci_database_tools.DatabaseToolsCon
 	return result
 }
 
+// For type: ORACLE_DATABASE
 func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsKeyStore(fieldKeyFormat string) (oci_database_tools.DatabaseToolsKeyStore, error) {
 	result := oci_database_tools.DatabaseToolsKeyStore{}
 
@@ -738,6 +917,7 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsKey
 	return result, nil
 }
 
+// For type: ORACLE_DATABASE
 func DatabaseToolsKeyStoreToMap(obj oci_database_tools.DatabaseToolsKeyStore) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -762,6 +942,7 @@ func DatabaseToolsKeyStoreToMap(obj oci_database_tools.DatabaseToolsKeyStore) ma
 	return result
 }
 
+// For type: ORACLE_DATABASE
 func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsKeyStoreContent(fieldKeyFormat string) (oci_database_tools.DatabaseToolsKeyStoreContent, error) {
 	var baseObject oci_database_tools.DatabaseToolsKeyStoreContent
 	//discriminator
@@ -786,6 +967,7 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsKey
 	return baseObject, nil
 }
 
+// For type: ORACLE_DATABASE
 func DatabaseToolsKeyStoreContentToMap(obj *oci_database_tools.DatabaseToolsKeyStoreContent) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
@@ -803,6 +985,7 @@ func DatabaseToolsKeyStoreContentToMap(obj *oci_database_tools.DatabaseToolsKeyS
 	return result
 }
 
+// For type: ORACLE_DATABASE
 func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsKeyStoreContentDetails(fieldKeyFormat string) (oci_database_tools.DatabaseToolsKeyStoreContentDetails, error) {
 	var baseObject oci_database_tools.DatabaseToolsKeyStoreContentDetails
 	//discriminator
@@ -827,6 +1010,7 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsKey
 	return baseObject, nil
 }
 
+// For type: ORACLE_DATABASE
 func DatabaseToolsKeyStoreContentDetailsToMap(obj *oci_database_tools.DatabaseToolsKeyStoreContentDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
@@ -844,6 +1028,136 @@ func DatabaseToolsKeyStoreContentDetailsToMap(obj *oci_database_tools.DatabaseTo
 	return result
 }
 
+// For type: MYSQL
+func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsKeyStoreContentMySql(fieldKeyFormat string) (oci_database_tools.DatabaseToolsKeyStoreContentMySql, error) {
+	var baseObject oci_database_tools.DatabaseToolsKeyStoreContentMySql
+	//discriminator
+	valueTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value_type"))
+	var valueType string
+	if ok {
+		valueType = valueTypeRaw.(string)
+	} else {
+		valueType = "" // default value
+	}
+	switch strings.ToLower(valueType) {
+	case strings.ToLower("SECRETID"):
+		details := oci_database_tools.DatabaseToolsKeyStoreContentSecretIdMySql{}
+		if secretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_id")); ok {
+			tmp := secretId.(string)
+			details.SecretId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown value_type '%v' was specified", valueType)
+	}
+	return baseObject, nil
+}
+
+// For type: MYSQL
+func DatabaseToolsKeyStoreContentMySqlToMap(obj *oci_database_tools.DatabaseToolsKeyStoreContentMySql) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_database_tools.DatabaseToolsKeyStoreContentSecretIdMySql:
+		result["value_type"] = "SECRETID"
+
+		if v.SecretId != nil {
+			result["secret_id"] = string(*v.SecretId)
+		}
+	default:
+		log.Printf("[WARN] Received 'value_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+// For type: MYSQL
+func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsKeyStoreContentMySqlDetails(fieldKeyFormat string) (oci_database_tools.DatabaseToolsKeyStoreContentMySqlDetails, error) {
+	var baseObject oci_database_tools.DatabaseToolsKeyStoreContentMySqlDetails
+	//discriminator
+	valueTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value_type"))
+	var valueType string
+	if ok {
+		valueType = valueTypeRaw.(string)
+	} else {
+		valueType = "" // default value
+	}
+	switch strings.ToLower(valueType) {
+	case strings.ToLower("SECRETID"):
+		details := oci_database_tools.DatabaseToolsKeyStoreContentSecretIdMySqlDetails{}
+		if secretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_id")); ok {
+			tmp := secretId.(string)
+			details.SecretId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown value_type '%v' was specified", valueType)
+	}
+	return baseObject, nil
+}
+
+// For type: MYSQL
+func DatabaseToolsKeyStoreContentMySqlDetailsToMap(obj *oci_database_tools.DatabaseToolsKeyStoreContentMySqlDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_database_tools.DatabaseToolsKeyStoreContentSecretIdMySqlDetails:
+		result["value_type"] = "SECRETID"
+
+		if v.SecretId != nil {
+			result["secret_id"] = string(*v.SecretId)
+		}
+	default:
+		log.Printf("[WARN] Received 'value_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+// For type: MYSQL
+func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsKeyStoreContentMySqlSummary(fieldKeyFormat string) (oci_database_tools.DatabaseToolsKeyStoreContentMySqlSummary, error) {
+	var baseObject oci_database_tools.DatabaseToolsKeyStoreContentMySqlSummary
+	//discriminator
+	valueTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value_type"))
+	var valueType string
+	if ok {
+		valueType = valueTypeRaw.(string)
+	} else {
+		valueType = "" // default value
+	}
+	switch strings.ToLower(valueType) {
+	case strings.ToLower("SECRETID"):
+		details := oci_database_tools.DatabaseToolsKeyStoreContentSecretIdMySqlSummary{}
+		if secretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_id")); ok {
+			tmp := secretId.(string)
+			details.SecretId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown value_type '%v' was specified", valueType)
+	}
+	return baseObject, nil
+}
+
+// For type: MYSQL
+func DatabaseToolsKeyStoreContentMySqlSummaryToMap(obj *oci_database_tools.DatabaseToolsKeyStoreContentMySqlSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_database_tools.DatabaseToolsKeyStoreContentSecretIdMySqlSummary:
+		result["value_type"] = "SECRETID"
+
+		if v.SecretId != nil {
+			result["secret_id"] = string(*v.SecretId)
+		}
+	default:
+		log.Printf("[WARN] Received 'value_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+// For type: ORACLE_DATABASE
 func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsKeyStoreContentSummary(fieldKeyFormat string) (oci_database_tools.DatabaseToolsKeyStoreContentSummary, error) {
 	var baseObject oci_database_tools.DatabaseToolsKeyStoreContentSummary
 	//discriminator
@@ -868,6 +1182,7 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsKey
 	return baseObject, nil
 }
 
+// For type: ORACLE_DATABASE
 func DatabaseToolsKeyStoreContentSummaryToMap(obj *oci_database_tools.DatabaseToolsKeyStoreContentSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
@@ -885,6 +1200,7 @@ func DatabaseToolsKeyStoreContentSummaryToMap(obj *oci_database_tools.DatabaseTo
 	return result
 }
 
+// For type: ORACLE_DATABASE
 func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsKeyStoreDetails(fieldKeyFormat string) (oci_database_tools.DatabaseToolsKeyStoreDetails, error) {
 	result := oci_database_tools.DatabaseToolsKeyStoreDetails{}
 
@@ -917,6 +1233,7 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsKey
 	return result, nil
 }
 
+// For type: ORACLE_DATABASE
 func DatabaseToolsKeyStoreDetailsToMap(obj oci_database_tools.DatabaseToolsKeyStoreDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -941,6 +1258,181 @@ func DatabaseToolsKeyStoreDetailsToMap(obj oci_database_tools.DatabaseToolsKeySt
 	return result
 }
 
+// For type: MYSQL
+func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsKeyStoreMySql(fieldKeyFormat string) (oci_database_tools.DatabaseToolsKeyStoreMySql, error) {
+	result := oci_database_tools.DatabaseToolsKeyStoreMySql{}
+
+	if keyStoreContent, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_store_content")); ok {
+		if tmpList := keyStoreContent.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "key_store_content"), 0)
+			tmp, err := s.mapToDatabaseToolsKeyStoreContentMySql(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert key_store_content, encountered error: %v", err)
+			}
+			result.KeyStoreContent = tmp
+		}
+	}
+
+	if keyStorePassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_store_password")); ok {
+		if tmpList := keyStorePassword.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "key_store_password"), 0)
+			tmp, err := s.mapToDatabaseToolsKeyStorePasswordMySql(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert key_store_password, encountered error: %v", err)
+			}
+			result.KeyStorePassword = tmp
+		}
+	}
+
+	if keyStoreType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_store_type")); ok {
+		result.KeyStoreType = oci_database_tools.KeyStoreTypeMySqlEnum(keyStoreType.(string))
+	}
+
+	return result, nil
+}
+
+// For type: MYSQL
+func DatabaseToolsKeyStoreMySqlToMap(obj oci_database_tools.DatabaseToolsKeyStoreMySql) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.KeyStoreContent != nil {
+		keyStoreContentArray := []interface{}{}
+		if keyStoreContentMap := DatabaseToolsKeyStoreContentMySqlToMap(&obj.KeyStoreContent); keyStoreContentMap != nil {
+			keyStoreContentArray = append(keyStoreContentArray, keyStoreContentMap)
+		}
+		result["key_store_content"] = keyStoreContentArray
+	}
+
+	if obj.KeyStorePassword != nil {
+		keyStorePasswordArray := []interface{}{}
+		if keyStorePasswordMap := DatabaseToolsKeyStorePasswordMySqlToMap(&obj.KeyStorePassword); keyStorePasswordMap != nil {
+			keyStorePasswordArray = append(keyStorePasswordArray, keyStorePasswordMap)
+		}
+		result["key_store_password"] = keyStorePasswordArray
+	}
+
+	result["key_store_type"] = string(obj.KeyStoreType)
+
+	return result
+}
+
+// For type: MYSQL
+func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsKeyStoreMySqlDetails(fieldKeyFormat string) (oci_database_tools.DatabaseToolsKeyStoreMySqlDetails, error) {
+	result := oci_database_tools.DatabaseToolsKeyStoreMySqlDetails{}
+
+	if keyStoreContent, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_store_content")); ok {
+		if tmpList := keyStoreContent.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "key_store_content"), 0)
+			tmp, err := s.mapToDatabaseToolsKeyStoreContentMySqlDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert key_store_content, encountered error: %v", err)
+			}
+			result.KeyStoreContent = tmp
+		}
+	}
+
+	if keyStorePassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_store_password")); ok {
+		if tmpList := keyStorePassword.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "key_store_password"), 0)
+			tmp, err := s.mapToDatabaseToolsKeyStorePasswordMySqlDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert key_store_password, encountered error: %v", err)
+			}
+			result.KeyStorePassword = tmp
+		}
+	}
+
+	if keyStoreType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_store_type")); ok {
+		result.KeyStoreType = oci_database_tools.KeyStoreTypeMySqlEnum(keyStoreType.(string))
+	}
+
+	return result, nil
+}
+
+// For type: MYSQL
+func DatabaseToolsKeyStoreMySqlDetailsToMap(obj oci_database_tools.DatabaseToolsKeyStoreMySqlDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.KeyStoreContent != nil {
+		keyStoreContentArray := []interface{}{}
+		if keyStoreContentMap := DatabaseToolsKeyStoreContentMySqlDetailsToMap(&obj.KeyStoreContent); keyStoreContentMap != nil {
+			keyStoreContentArray = append(keyStoreContentArray, keyStoreContentMap)
+		}
+		result["key_store_content"] = keyStoreContentArray
+	}
+
+	if obj.KeyStorePassword != nil {
+		keyStorePasswordArray := []interface{}{}
+		if keyStorePasswordMap := DatabaseToolsKeyStorePasswordMySqlDetailsToMap(&obj.KeyStorePassword); keyStorePasswordMap != nil {
+			keyStorePasswordArray = append(keyStorePasswordArray, keyStorePasswordMap)
+		}
+		result["key_store_password"] = keyStorePasswordArray
+	}
+
+	result["key_store_type"] = string(obj.KeyStoreType)
+
+	return result
+}
+
+// For type: MYSQL
+func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsKeyStoreMySqlSummary(fieldKeyFormat string) (oci_database_tools.DatabaseToolsKeyStoreMySqlSummary, error) {
+	result := oci_database_tools.DatabaseToolsKeyStoreMySqlSummary{}
+
+	if keyStoreContent, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_store_content")); ok {
+		if tmpList := keyStoreContent.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "key_store_content"), 0)
+			tmp, err := s.mapToDatabaseToolsKeyStoreContentMySqlSummary(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert key_store_content, encountered error: %v", err)
+			}
+			result.KeyStoreContent = tmp
+		}
+	}
+
+	if keyStorePassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_store_password")); ok {
+		if tmpList := keyStorePassword.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "key_store_password"), 0)
+			tmp, err := s.mapToDatabaseToolsKeyStorePasswordMySqlSummary(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert key_store_password, encountered error: %v", err)
+			}
+			result.KeyStorePassword = tmp
+		}
+	}
+
+	if keyStoreType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_store_type")); ok {
+		result.KeyStoreType = oci_database_tools.KeyStoreTypeMySqlEnum(keyStoreType.(string))
+	}
+
+	return result, nil
+}
+
+// For type: MYSQL
+func DatabaseToolsKeyStoreMySqlSummaryToMap(obj oci_database_tools.DatabaseToolsKeyStoreMySqlSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.KeyStoreContent != nil {
+		keyStoreContentArray := []interface{}{}
+		if keyStoreContentMap := DatabaseToolsKeyStoreContentMySqlSummaryToMap(&obj.KeyStoreContent); keyStoreContentMap != nil {
+			keyStoreContentArray = append(keyStoreContentArray, keyStoreContentMap)
+		}
+		result["key_store_content"] = keyStoreContentArray
+	}
+
+	if obj.KeyStorePassword != nil {
+		keyStorePasswordArray := []interface{}{}
+		if keyStorePasswordMap := DatabaseToolsKeyStorePasswordMySqlSummaryToMap(&obj.KeyStorePassword); keyStorePasswordMap != nil {
+			keyStorePasswordArray = append(keyStorePasswordArray, keyStorePasswordMap)
+		}
+		result["key_store_password"] = keyStorePasswordArray
+	}
+
+	result["key_store_type"] = string(obj.KeyStoreType)
+
+	return result
+}
+
+// For type: ORACLE_DATABASE
 func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsKeyStorePassword(fieldKeyFormat string) (oci_database_tools.DatabaseToolsKeyStorePassword, error) {
 	var baseObject oci_database_tools.DatabaseToolsKeyStorePassword
 	//discriminator
@@ -965,6 +1457,7 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsKey
 	return baseObject, nil
 }
 
+// For type: ORACLE_DATABASE
 func DatabaseToolsKeyStorePasswordToMap(obj *oci_database_tools.DatabaseToolsKeyStorePassword) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
@@ -982,6 +1475,7 @@ func DatabaseToolsKeyStorePasswordToMap(obj *oci_database_tools.DatabaseToolsKey
 	return result
 }
 
+// For type: ORACLE_DATABASE
 func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsKeyStorePasswordDetails(fieldKeyFormat string) (oci_database_tools.DatabaseToolsKeyStorePasswordDetails, error) {
 	var baseObject oci_database_tools.DatabaseToolsKeyStorePasswordDetails
 	//discriminator
@@ -1006,6 +1500,7 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsKey
 	return baseObject, nil
 }
 
+// For type: ORACLE_DATABASE
 func DatabaseToolsKeyStorePasswordDetailsToMap(obj *oci_database_tools.DatabaseToolsKeyStorePasswordDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
@@ -1023,6 +1518,136 @@ func DatabaseToolsKeyStorePasswordDetailsToMap(obj *oci_database_tools.DatabaseT
 	return result
 }
 
+// For type: MYSQL
+func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsKeyStorePasswordMySql(fieldKeyFormat string) (oci_database_tools.DatabaseToolsKeyStorePasswordMySql, error) {
+	var baseObject oci_database_tools.DatabaseToolsKeyStorePasswordMySql
+	//discriminator
+	valueTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value_type"))
+	var valueType string
+	if ok {
+		valueType = valueTypeRaw.(string)
+	} else {
+		valueType = "" // default value
+	}
+	switch strings.ToLower(valueType) {
+	case strings.ToLower("SECRETID"):
+		details := oci_database_tools.DatabaseToolsKeyStorePasswordSecretIdMySql{}
+		if secretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_id")); ok {
+			tmp := secretId.(string)
+			details.SecretId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown value_type '%v' was specified", valueType)
+	}
+	return baseObject, nil
+}
+
+// For type: MYSQL
+func DatabaseToolsKeyStorePasswordMySqlToMap(obj *oci_database_tools.DatabaseToolsKeyStorePasswordMySql) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_database_tools.DatabaseToolsKeyStorePasswordSecretIdMySql:
+		result["value_type"] = "SECRETID"
+
+		if v.SecretId != nil {
+			result["secret_id"] = string(*v.SecretId)
+		}
+	default:
+		log.Printf("[WARN] Received 'value_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+// For type: MYSQL
+func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsKeyStorePasswordMySqlDetails(fieldKeyFormat string) (oci_database_tools.DatabaseToolsKeyStorePasswordMySqlDetails, error) {
+	var baseObject oci_database_tools.DatabaseToolsKeyStorePasswordMySqlDetails
+	//discriminator
+	valueTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value_type"))
+	var valueType string
+	if ok {
+		valueType = valueTypeRaw.(string)
+	} else {
+		valueType = "" // default value
+	}
+	switch strings.ToLower(valueType) {
+	case strings.ToLower("SECRETID"):
+		details := oci_database_tools.DatabaseToolsKeyStorePasswordSecretIdMySqlDetails{}
+		if secretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_id")); ok {
+			tmp := secretId.(string)
+			details.SecretId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown value_type '%v' was specified", valueType)
+	}
+	return baseObject, nil
+}
+
+// For type: MYSQL
+func DatabaseToolsKeyStorePasswordMySqlDetailsToMap(obj *oci_database_tools.DatabaseToolsKeyStorePasswordMySqlDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_database_tools.DatabaseToolsKeyStorePasswordSecretIdMySqlDetails:
+		result["value_type"] = "SECRETID"
+
+		if v.SecretId != nil {
+			result["secret_id"] = string(*v.SecretId)
+		}
+	default:
+		log.Printf("[WARN] Received 'value_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+// For type: MYSQL
+func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsKeyStorePasswordMySqlSummary(fieldKeyFormat string) (oci_database_tools.DatabaseToolsKeyStorePasswordMySqlSummary, error) {
+	var baseObject oci_database_tools.DatabaseToolsKeyStorePasswordMySqlSummary
+	//discriminator
+	valueTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value_type"))
+	var valueType string
+	if ok {
+		valueType = valueTypeRaw.(string)
+	} else {
+		valueType = "" // default value
+	}
+	switch strings.ToLower(valueType) {
+	case strings.ToLower("SECRETID"):
+		details := oci_database_tools.DatabaseToolsKeyStorePasswordSecretIdMySqlSummary{}
+		if secretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_id")); ok {
+			tmp := secretId.(string)
+			details.SecretId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown value_type '%v' was specified", valueType)
+	}
+	return baseObject, nil
+}
+
+// For type: MYSQL
+func DatabaseToolsKeyStorePasswordMySqlSummaryToMap(obj *oci_database_tools.DatabaseToolsKeyStorePasswordMySqlSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_database_tools.DatabaseToolsKeyStorePasswordSecretIdMySqlSummary:
+		result["value_type"] = "SECRETID"
+
+		if v.SecretId != nil {
+			result["secret_id"] = string(*v.SecretId)
+		}
+	default:
+		log.Printf("[WARN] Received 'value_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+// For type: ORACLE_DATABASE
 func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsKeyStorePasswordSummary(fieldKeyFormat string) (oci_database_tools.DatabaseToolsKeyStorePasswordSummary, error) {
 	var baseObject oci_database_tools.DatabaseToolsKeyStorePasswordSummary
 	//discriminator
@@ -1047,6 +1672,7 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsKey
 	return baseObject, nil
 }
 
+// For type: ORACLE_DATABASE
 func DatabaseToolsKeyStorePasswordSummaryToMap(obj *oci_database_tools.DatabaseToolsKeyStorePasswordSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
@@ -1064,6 +1690,7 @@ func DatabaseToolsKeyStorePasswordSummaryToMap(obj *oci_database_tools.DatabaseT
 	return result
 }
 
+// For type: ORACLE_DATABASE
 func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsKeyStoreSummary(fieldKeyFormat string) (oci_database_tools.DatabaseToolsKeyStoreSummary, error) {
 	result := oci_database_tools.DatabaseToolsKeyStoreSummary{}
 
@@ -1096,6 +1723,7 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsKey
 	return result, nil
 }
 
+// For type: ORACLE_DATABASE
 func DatabaseToolsKeyStoreSummaryToMap(obj oci_database_tools.DatabaseToolsKeyStoreSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -1120,6 +1748,7 @@ func DatabaseToolsKeyStoreSummaryToMap(obj oci_database_tools.DatabaseToolsKeySt
 	return result
 }
 
+// For type: ORACLE_DATABASE
 func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsRelatedResource(fieldKeyFormat string) (oci_database_tools.DatabaseToolsRelatedResource, error) {
 	result := oci_database_tools.DatabaseToolsRelatedResource{}
 
@@ -1135,7 +1764,37 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsRel
 	return result, nil
 }
 
+// For type: ORACLE_DATABASE
 func DatabaseToolsRelatedResourceToMap(obj *oci_database_tools.DatabaseToolsRelatedResource) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["entity_type"] = string(obj.EntityType)
+
+	if obj.Identifier != nil {
+		result["identifier"] = string(*obj.Identifier)
+	}
+
+	return result
+}
+
+// For type: MYSQL
+func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsRelatedResourceMySql(fieldKeyFormat string) (oci_database_tools.DatabaseToolsRelatedResourceMySql, error) {
+	result := oci_database_tools.DatabaseToolsRelatedResourceMySql{}
+
+	if entityType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "entity_type")); ok {
+		result.EntityType = oci_database_tools.RelatedResourceEntityTypeMySqlEnum(entityType.(string))
+	}
+
+	if identifier, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "identifier")); ok {
+		tmp := identifier.(string)
+		result.Identifier = &tmp
+	}
+
+	return result, nil
+}
+
+// For type: MYSQL
+func DatabaseToolsRelatedResourceMySqlToMap(obj *oci_database_tools.DatabaseToolsRelatedResourceMySql) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	result["entity_type"] = string(obj.EntityType)
@@ -1270,6 +1929,7 @@ func DatabaseToolsUserPasswordSummaryToMap(obj *oci_database_tools.DatabaseTools
 	return result
 }
 
+// For type: ORACLE_DATABASE
 func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToUpdateDatabaseToolsRelatedResourceDetails(fieldKeyFormat string) (oci_database_tools.UpdateDatabaseToolsRelatedResourceDetails, error) {
 	result := oci_database_tools.UpdateDatabaseToolsRelatedResourceDetails{}
 
@@ -1285,7 +1945,37 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToUpdateDatabaseTo
 	return result, nil
 }
 
+// For type: ORACLE_DATABASE
 func UpdateDatabaseToolsRelatedResourceDetailsToMap(obj *oci_database_tools.UpdateDatabaseToolsRelatedResourceDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["entity_type"] = string(obj.EntityType)
+
+	if obj.Identifier != nil {
+		result["identifier"] = string(*obj.Identifier)
+	}
+
+	return result
+}
+
+// For type: MYSQL
+func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToUpdateDatabaseToolsRelatedResourceMySqlDetails(fieldKeyFormat string) (oci_database_tools.UpdateDatabaseToolsRelatedResourceMySqlDetails, error) {
+	result := oci_database_tools.UpdateDatabaseToolsRelatedResourceMySqlDetails{}
+
+	if entityType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "entity_type")); ok {
+		result.EntityType = oci_database_tools.RelatedResourceEntityTypeMySqlEnum(entityType.(string))
+	}
+
+	if identifier, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "identifier")); ok {
+		tmp := identifier.(string)
+		result.Identifier = &tmp
+	}
+
+	return result, nil
+}
+
+// For type: MYSQL
+func UpdateDatabaseToolsRelatedResourceMySqlDetailsToMap(obj *oci_database_tools.UpdateDatabaseToolsRelatedResourceMySqlDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	result["entity_type"] = string(obj.EntityType)
@@ -1307,6 +1997,78 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) populateTopLevelPolym
 		type_ = "" // default value
 	}
 	switch strings.ToLower(type_) {
+	case strings.ToLower("MYSQL"):
+		details := oci_database_tools.CreateDatabaseToolsConnectionMySqlDetails{}
+		if advancedProperties, ok := s.D.GetOkExists("advanced_properties"); ok {
+			details.AdvancedProperties = tfresource.ObjectMapToStringMap(advancedProperties.(map[string]interface{}))
+		}
+		if connectionString, ok := s.D.GetOkExists("connection_string"); ok {
+			tmp := connectionString.(string)
+			details.ConnectionString = &tmp
+		}
+		if keyStores, ok := s.D.GetOkExists("key_stores"); ok {
+			interfaces := keyStores.([]interface{})
+			tmp := make([]oci_database_tools.DatabaseToolsKeyStoreMySqlDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "key_stores", stateDataIndex)
+				converted, err := s.mapToDatabaseToolsKeyStoreMySqlDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("key_stores") {
+				details.KeyStores = tmp
+			}
+		}
+		if privateEndpointId, ok := s.D.GetOkExists("private_endpoint_id"); ok {
+			tmp := privateEndpointId.(string)
+			details.PrivateEndpointId = &tmp
+		}
+		if relatedResource, ok := s.D.GetOkExists("related_resource"); ok {
+			if tmpList := relatedResource.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "related_resource", 0)
+				tmp, err := s.mapToCreateDatabaseToolsRelatedResourceMySqlDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.RelatedResource = &tmp
+			}
+		}
+		if userName, ok := s.D.GetOkExists("user_name"); ok {
+			tmp := userName.(string)
+			details.UserName = &tmp
+		}
+		if userPassword, ok := s.D.GetOkExists("user_password"); ok {
+			if tmpList := userPassword.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "user_password", 0)
+				tmp, err := s.mapToDatabaseToolsUserPasswordDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.UserPassword = tmp
+			}
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateDatabaseToolsConnectionDetails = details
 	case strings.ToLower("ORACLE_DATABASE"):
 		details := oci_database_tools.CreateDatabaseToolsConnectionOracleDatabaseDetails{}
 		if advancedProperties, ok := s.D.GetOkExists("advanced_properties"); ok {
@@ -1395,6 +2157,76 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) populateTopLevelPolym
 		type_ = "" // default value
 	}
 	switch strings.ToLower(type_) {
+	case strings.ToLower("MYSQL"):
+		details := oci_database_tools.UpdateDatabaseToolsConnectionMySqlDetails{}
+		if advancedProperties, ok := s.D.GetOkExists("advanced_properties"); ok {
+			details.AdvancedProperties = tfresource.ObjectMapToStringMap(advancedProperties.(map[string]interface{}))
+		}
+		if connectionString, ok := s.D.GetOkExists("connection_string"); ok {
+			tmp := connectionString.(string)
+			details.ConnectionString = &tmp
+		}
+		if keyStores, ok := s.D.GetOkExists("key_stores"); ok {
+			interfaces := keyStores.([]interface{})
+			tmp := make([]oci_database_tools.DatabaseToolsKeyStoreMySqlDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "key_stores", stateDataIndex)
+				converted, err := s.mapToDatabaseToolsKeyStoreMySqlDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("key_stores") {
+				details.KeyStores = tmp
+			}
+		}
+		if privateEndpointId, ok := s.D.GetOkExists("private_endpoint_id"); ok {
+			tmp := privateEndpointId.(string)
+			details.PrivateEndpointId = &tmp
+		}
+		if relatedResource, ok := s.D.GetOkExists("related_resource"); ok {
+			if tmpList := relatedResource.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "related_resource", 0)
+				tmp, err := s.mapToUpdateDatabaseToolsRelatedResourceMySqlDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.RelatedResource = &tmp
+			}
+		}
+		if userName, ok := s.D.GetOkExists("user_name"); ok {
+			tmp := userName.(string)
+			details.UserName = &tmp
+		}
+		if userPassword, ok := s.D.GetOkExists("user_password"); ok {
+			if tmpList := userPassword.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "user_password", 0)
+				tmp, err := s.mapToDatabaseToolsUserPasswordDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.UserPassword = tmp
+			}
+		}
+		tmp := s.D.Id()
+		request.DatabaseToolsConnectionId = &tmp
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateDatabaseToolsConnectionDetails = details
 	case strings.ToLower("ORACLE_DATABASE"):
 		details := oci_database_tools.UpdateDatabaseToolsConnectionOracleDatabaseDetails{}
 		if advancedProperties, ok := s.D.GetOkExists("advanced_properties"); ok {

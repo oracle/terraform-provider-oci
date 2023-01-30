@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
@@ -66,4 +66,8 @@ resource "oci_cloud_guard_security_recipe" "test_security_recipe" {
   #Optional
   description       = "${var.security_recipe_description}"
 
+  //Added only because we are testing this in a splat-disabled env
+  lifecycle {
+    ignore_changes = [system_tags]
+  }
 }

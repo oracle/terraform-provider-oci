@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -56,6 +56,8 @@ type Flatten struct {
 	FlattenDetails *FlattenDetails `mandatory:"false" json:"flattenDetails"`
 
 	FlattenField *DynamicProxyField `mandatory:"false" json:"flattenField"`
+
+	MaterializedFlattenField *MaterializedDynamicField `mandatory:"false" json:"materializedFlattenField"`
 }
 
 //GetKey returns Key
@@ -151,20 +153,21 @@ func (m Flatten) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *Flatten) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Key            *string            `json:"key"`
-		ModelVersion   *string            `json:"modelVersion"`
-		ParentRef      *ParentReference   `json:"parentRef"`
-		Name           *string            `json:"name"`
-		Description    *string            `json:"description"`
-		ObjectVersion  *int               `json:"objectVersion"`
-		InputPorts     []InputPort        `json:"inputPorts"`
-		OutputPorts    []typedobject      `json:"outputPorts"`
-		ObjectStatus   *int               `json:"objectStatus"`
-		Identifier     *string            `json:"identifier"`
-		Parameters     []Parameter        `json:"parameters"`
-		OpConfigValues *ConfigValues      `json:"opConfigValues"`
-		FlattenDetails *FlattenDetails    `json:"flattenDetails"`
-		FlattenField   *DynamicProxyField `json:"flattenField"`
+		Key                      *string                   `json:"key"`
+		ModelVersion             *string                   `json:"modelVersion"`
+		ParentRef                *ParentReference          `json:"parentRef"`
+		Name                     *string                   `json:"name"`
+		Description              *string                   `json:"description"`
+		ObjectVersion            *int                      `json:"objectVersion"`
+		InputPorts               []InputPort               `json:"inputPorts"`
+		OutputPorts              []typedobject             `json:"outputPorts"`
+		ObjectStatus             *int                      `json:"objectStatus"`
+		Identifier               *string                   `json:"identifier"`
+		Parameters               []Parameter               `json:"parameters"`
+		OpConfigValues           *ConfigValues             `json:"opConfigValues"`
+		FlattenDetails           *FlattenDetails           `json:"flattenDetails"`
+		FlattenField             *DynamicProxyField        `json:"flattenField"`
+		MaterializedFlattenField *MaterializedDynamicField `json:"materializedFlattenField"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -216,6 +219,8 @@ func (m *Flatten) UnmarshalJSON(data []byte) (e error) {
 	m.FlattenDetails = model.FlattenDetails
 
 	m.FlattenField = model.FlattenField
+
+	m.MaterializedFlattenField = model.MaterializedFlattenField
 
 	return
 }

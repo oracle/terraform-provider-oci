@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,32 +22,32 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	ProjectRequiredOnlyResource = ProjectResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, projectRepresentation)
+	DatascienceProjectRequiredOnlyResource = DatascienceProjectResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, DatascienceProjectRepresentation)
 
-	ProjectResourceConfig = ProjectResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Optional, acctest.Update, projectRepresentation)
+	DatascienceProjectResourceConfig = DatascienceProjectResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Optional, acctest.Update, DatascienceProjectRepresentation)
 
-	projectSingularDataSourceRepresentation = map[string]interface{}{
+	DatascienceDatascienceProjectSingularDataSourceRepresentation = map[string]interface{}{
 		"project_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
 	}
 
-	projectDataSourceRepresentation = map[string]interface{}{
+	DatascienceDatascienceProjectDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_datascience_project.test_project.id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: projectDataSourceFilterRepresentation}}
-	projectDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceProjectDataSourceFilterRepresentation}}
+	DatascienceProjectDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_datascience_project.test_project.id}`}},
 	}
 
-	projectRepresentation = map[string]interface{}{
+	DatascienceProjectRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
@@ -55,7 +55,7 @@ var (
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	ProjectResourceDependencies = DefinedTagsDependencies
+	DatascienceProjectResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: datascience/default
@@ -77,14 +77,14 @@ func TestDatascienceProjectResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ProjectResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Optional, acctest.Create, projectRepresentation), "datascience", "project", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatascienceProjectResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Optional, acctest.Create, DatascienceProjectRepresentation), "datascience", "project", t)
 
 	acctest.ResourceTest(t, testAccCheckDatascienceProjectDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ProjectResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, projectRepresentation),
+			Config: config + compartmentIdVariableStr + DatascienceProjectResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, DatascienceProjectRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
@@ -97,12 +97,12 @@ func TestDatascienceProjectResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ProjectResourceDependencies,
+			Config: config + compartmentIdVariableStr + DatascienceProjectResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ProjectResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Optional, acctest.Create, projectRepresentation),
+			Config: config + compartmentIdVariableStr + DatascienceProjectResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Optional, acctest.Create, DatascienceProjectRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
@@ -127,9 +127,9 @@ func TestDatascienceProjectResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ProjectResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatascienceProjectResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(projectRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(DatascienceProjectRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -154,8 +154,8 @@ func TestDatascienceProjectResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ProjectResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Optional, acctest.Update, projectRepresentation),
+			Config: config + compartmentIdVariableStr + DatascienceProjectResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Optional, acctest.Update, DatascienceProjectRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
@@ -178,9 +178,9 @@ func TestDatascienceProjectResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_projects", "test_projects", acctest.Optional, acctest.Update, projectDataSourceRepresentation) +
-				compartmentIdVariableStr + ProjectResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Optional, acctest.Update, projectRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_projects", "test_projects", acctest.Optional, acctest.Update, DatascienceDatascienceProjectDataSourceRepresentation) +
+				compartmentIdVariableStr + DatascienceProjectResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Optional, acctest.Update, DatascienceProjectRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -201,8 +201,8 @@ func TestDatascienceProjectResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, projectSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ProjectResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, DatascienceDatascienceProjectSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatascienceProjectResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "project_id"),
 
@@ -218,7 +218,7 @@ func TestDatascienceProjectResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ProjectRequiredOnlyResource,
+			Config:                  config + DatascienceProjectRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -282,7 +282,7 @@ func init() {
 
 func sweepDatascienceProjectResource(compartment string) error {
 	dataScienceClient := acctest.GetTestClients(&schema.ResourceData{}).DataScienceClient()
-	projectIds, err := getProjectIds(compartment)
+	projectIds, err := getDatascienceProjectIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -298,14 +298,14 @@ func sweepDatascienceProjectResource(compartment string) error {
 				fmt.Printf("Error deleting Project %s %s, It is possible that the resource is already deleted. Please verify manually \n", projectId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &projectId, projectSweepWaitCondition, time.Duration(3*time.Minute),
-				projectSweepResponseFetchOperation, "datascience", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &projectId, DatascienceProjectSweepWaitCondition, time.Duration(3*time.Minute),
+				DatascienceProjectSweepResponseFetchOperation, "datascience", true)
 		}
 	}
 	return nil
 }
 
-func getProjectIds(compartment string) ([]string, error) {
+func getDatascienceProjectIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ProjectId")
 	if ids != nil {
 		return ids, nil
@@ -330,7 +330,7 @@ func getProjectIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func projectSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DatascienceProjectSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if projectResponse, ok := response.Response.(oci_datascience.GetProjectResponse); ok {
 		return projectResponse.LifecycleState != oci_datascience.ProjectLifecycleStateDeleted
@@ -338,7 +338,7 @@ func projectSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func projectSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DatascienceProjectSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DataScienceClient().GetProject(context.Background(), oci_datascience.GetProjectRequest{
 		ProjectId: resourceId,
 		RequestMetadata: common.RequestMetadata{

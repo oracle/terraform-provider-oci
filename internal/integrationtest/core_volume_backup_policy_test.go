@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -15,35 +15,35 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	VolumeBackupPolicyRequiredOnlyResource = VolumeBackupPolicyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", acctest.Required, acctest.Create, volumeBackupPolicyRepresentation)
+	CoreVolumeBackupPolicyRequiredOnlyResource = CoreVolumeBackupPolicyResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", acctest.Required, acctest.Create, CoreVolumeBackupPolicyRepresentation)
 
-	volumeBackupPolicyDataSourceRepresentation = map[string]interface{}{
+	CoreCoreVolumeBackupPolicyDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: volumeBackupPolicyDataSourceFilterRepresentation}}
-	volumeBackupPolicyDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreVolumeBackupPolicyDataSourceFilterRepresentation}}
+	CoreVolumeBackupPolicyDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_volume_backup_policy.test_volume_backup_policy.id}`}},
 	}
 
-	volumeBackupPolicyRepresentation = map[string]interface{}{
+	CoreVolumeBackupPolicyRepresentation = map[string]interface{}{
 		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"destination_region": acctest.Representation{RepType: acctest.Optional, Create: `${var.destination_region}`},
 		"display_name":       acctest.Representation{RepType: acctest.Optional, Create: `BackupPolicy1`, Update: `BackupPolicy2`},
 		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"schedules":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: volumeBackupPolicySchedulesRepresentation},
+		"schedules":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreVolumeBackupPolicySchedulesRepresentation},
 	}
-	volumeBackupPolicySchedulesRepresentation = map[string]interface{}{
+	CoreVolumeBackupPolicySchedulesRepresentation = map[string]interface{}{
 		"backup_type":       acctest.Representation{RepType: acctest.Required, Create: `INCREMENTAL`, Update: `FULL`},
 		"period":            acctest.Representation{RepType: acctest.Required, Create: `ONE_DAY`, Update: `ONE_YEAR`},
 		"retention_seconds": acctest.Representation{RepType: acctest.Required, Create: `604800`, Update: `2592000`},
@@ -56,7 +56,7 @@ var (
 		"time_zone":         acctest.Representation{RepType: acctest.Optional, Create: `UTC`, Update: `REGIONAL_DATA_CENTER_TIME`},
 	}
 
-	VolumeBackupPolicyResourceDependencies = DefinedTagsDependencies
+	CoreVolumeBackupPolicyResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: core/blockStorage
@@ -77,14 +77,14 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+VolumeBackupPolicyResourceDependencies+destinationRegionVariableStr+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", acctest.Optional, acctest.Create, volumeBackupPolicyRepresentation), "core", "volumeBackupPolicy", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreVolumeBackupPolicyResourceDependencies+destinationRegionVariableStr+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", acctest.Optional, acctest.Create, CoreVolumeBackupPolicyRepresentation), "core", "volumeBackupPolicy", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreVolumeBackupPolicyDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", acctest.Required, acctest.Create, volumeBackupPolicyRepresentation),
+			Config: config + compartmentIdVariableStr + CoreVolumeBackupPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", acctest.Required, acctest.Create, CoreVolumeBackupPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
@@ -97,12 +97,12 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreVolumeBackupPolicyResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies + destinationRegionVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", acctest.Optional, acctest.Create, volumeBackupPolicyRepresentation),
+			Config: config + compartmentIdVariableStr + CoreVolumeBackupPolicyResourceDependencies + destinationRegionVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", acctest.Optional, acctest.Create, CoreVolumeBackupPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "destination_region"),
@@ -139,8 +139,8 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies + destinationRegionVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", acctest.Optional, acctest.Update, volumeBackupPolicyRepresentation),
+			Config: config + compartmentIdVariableStr + CoreVolumeBackupPolicyResourceDependencies + destinationRegionVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", acctest.Optional, acctest.Update, CoreVolumeBackupPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "destination_region"),
@@ -175,9 +175,9 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_volume_backup_policies", "test_volume_backup_policies", acctest.Optional, acctest.Update, volumeBackupPolicyDataSourceRepresentation) +
-				compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies + destinationRegionVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", acctest.Optional, acctest.Update, volumeBackupPolicyRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_volume_backup_policies", "test_volume_backup_policies", acctest.Optional, acctest.Update, CoreCoreVolumeBackupPolicyDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreVolumeBackupPolicyResourceDependencies + destinationRegionVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", acctest.Optional, acctest.Update, CoreVolumeBackupPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
@@ -206,7 +206,7 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + VolumeBackupPolicyRequiredOnlyResource,
+			Config:                  config + CoreVolumeBackupPolicyRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -262,7 +262,7 @@ func init() {
 
 func sweepCoreVolumeBackupPolicyResource(compartment string) error {
 	blockstorageClient := acctest.GetTestClients(&schema.ResourceData{}).BlockstorageClient()
-	volumeBackupPolicyIds, err := getVolumeBackupPolicyIds(compartment)
+	volumeBackupPolicyIds, err := getCoreVolumeBackupPolicyIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -283,7 +283,7 @@ func sweepCoreVolumeBackupPolicyResource(compartment string) error {
 	return nil
 }
 
-func getVolumeBackupPolicyIds(compartment string) ([]string, error) {
+func getCoreVolumeBackupPolicyIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "VolumeBackupPolicyId")
 	if ids != nil {
 		return ids, nil

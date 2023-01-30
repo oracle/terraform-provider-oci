@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -8,29 +8,29 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/oracle/oci-go-sdk/v65/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 
 	oci_dns "github.com/oracle/oci-go-sdk/v65/dns"
 )
 
 var (
-	RrsetRequiredOnlyResource = RrsetResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", acctest.Required, acctest.Create, rrsetRepresentation)
+	DnsRrsetRequiredOnlyResource = DnsRrsetResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", acctest.Required, acctest.Create, DnsRrsetRepresentation)
 
-	RrsetResourceConfig = RrsetResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", acctest.Optional, acctest.Update, rrsetRepresentation)
+	DnsRrsetResourceConfig = DnsRrsetResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", acctest.Optional, acctest.Update, DnsRrsetRepresentation)
 
-	rrsetSingularDataSourceRepresentation = map[string]interface{}{
+	DnsDnsRrsetSingularDataSourceRepresentation = map[string]interface{}{
 		"domain":          acctest.Representation{RepType: acctest.Required, Create: dnsDomainName},
 		"rtype":           acctest.Representation{RepType: acctest.Required, Create: `A`},
 		"zone_name_or_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_zone.test_zone.id}`},
@@ -39,29 +39,29 @@ var (
 		"view_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_view.test_view.id}`},
 	}
 
-	dnsDomainName       = utils.RandomString(5, utils.CharsetWithoutDigits) + ".token.oci-record-test"
-	rrsetRepresentation = map[string]interface{}{
+	dnsDomainName          = utils.RandomString(5, utils.CharsetWithoutDigits) + ".token.oci-record-test"
+	DnsRrsetRepresentation = map[string]interface{}{
 		"domain":          acctest.Representation{RepType: acctest.Required, Create: dnsDomainName},
 		"rtype":           acctest.Representation{RepType: acctest.Required, Create: `A`},
 		"zone_name_or_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_zone.test_zone.id}`},
 		"compartment_id":  acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"items":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: rrsetItemsRepresentation},
+		"items":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: DnsRrsetItemsRepresentation},
 		"scope":           acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
 		"view_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_view.test_view.id}`},
 	}
-	rrsetItemsRepresentation = map[string]interface{}{
+	DnsRrsetItemsRepresentation = map[string]interface{}{
 		"domain": acctest.Representation{RepType: acctest.Required, Create: dnsDomainName},
 		"rdata":  acctest.Representation{RepType: acctest.Required, Create: `192.168.0.1`, Update: `77.77.77.77`},
 		"rtype":  acctest.Representation{RepType: acctest.Required, Create: `A`},
 		"ttl":    acctest.Representation{RepType: acctest.Required, Create: `3600`, Update: `1000`},
 	}
 
-	RrsetResourceDependencies = `
+	DnsRrsetResourceDependencies = `
 	data "oci_identity_tenancy" "test_tenancy" {
 		tenancy_id = "${var.tenancy_ocid}"
 	}
-	` + acctest.GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", acctest.Required, acctest.Create, acctest.GetUpdatedRepresentationCopy("name", acctest.Representation{RepType: acctest.Required, Create: dnsDomainName}, zoneRepresentationPrimary)) +
-		acctest.GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", acctest.Required, acctest.Create, viewRepresentation)
+	` + acctest.GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", acctest.Required, acctest.Create, acctest.GetUpdatedRepresentationCopy("name", acctest.Representation{RepType: acctest.Required, Create: dnsDomainName}, DnsDnsZoneRepresentationPrimary)) +
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", acctest.Required, acctest.Create, DnsViewRepresentation)
 )
 
 // issue-routing-tag: dns/default
@@ -80,14 +80,14 @@ func TestDnsRrsetResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+RrsetResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", acctest.Optional, acctest.Create, rrsetRepresentation), "dns", "rrset", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DnsRrsetResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", acctest.Optional, acctest.Create, DnsRrsetRepresentation), "dns", "rrset", t)
 
 	acctest.ResourceTest(t, testAccCheckDnsRrsetDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", acctest.Required, acctest.Create, rrsetRepresentation),
+			Config: config + compartmentIdVariableStr + DnsRrsetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", acctest.Required, acctest.Create, DnsRrsetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
 				resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
@@ -102,12 +102,12 @@ func TestDnsRrsetResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + RrsetResourceDependencies,
+			Config: config + compartmentIdVariableStr + DnsRrsetResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", acctest.Optional, acctest.Create, rrsetRepresentation),
+			Config: config + compartmentIdVariableStr + DnsRrsetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", acctest.Optional, acctest.Create, DnsRrsetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
@@ -139,8 +139,8 @@ func TestDnsRrsetResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", acctest.Optional, acctest.Update, rrsetRepresentation),
+			Config: config + compartmentIdVariableStr + DnsRrsetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", acctest.Optional, acctest.Update, DnsRrsetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
@@ -169,8 +169,8 @@ func TestDnsRrsetResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_rrset", "test_rrset", acctest.Required, acctest.Create, rrsetSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + RrsetResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_rrset", "test_rrset", acctest.Required, acctest.Create, DnsDnsRrsetSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DnsRrsetResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "domain", dnsDomainName),
 				resource.TestCheckResourceAttr(singularDatasourceName, "rtype", "A"),
@@ -194,7 +194,7 @@ func TestDnsRrsetResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + RrsetRequiredOnlyResource,
+			Config:            config + DnsRrsetRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateIdFunc: getRrSetImportId(resourceName),

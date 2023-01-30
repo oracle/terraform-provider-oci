@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package bds
@@ -6,8 +6,8 @@ package bds
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_bds "github.com/oracle/oci-go-sdk/v65/bds"
@@ -66,6 +66,10 @@ func (s *BdsBdsInstanceDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.BootstrapScriptUrl != nil {
+		s.D.Set("bootstrap_script_url", *s.Res.BootstrapScriptUrl)
+	}
+
 	if s.Res.CloudSqlDetails != nil {
 		s.D.Set("cloud_sql_details", []interface{}{CloudSqlDetailsToMap(s.Res.CloudSqlDetails)})
 	} else {
@@ -77,6 +81,8 @@ func (s *BdsBdsInstanceDataSourceCrud) SetData() error {
 	} else {
 		s.D.Set("cluster_details", nil)
 	}
+
+	s.D.Set("cluster_profile", s.Res.ClusterProfile)
 
 	s.D.Set("cluster_version", s.Res.ClusterVersion)
 
@@ -110,6 +116,10 @@ func (s *BdsBdsInstanceDataSourceCrud) SetData() error {
 		s.D.Set("is_secure", *s.Res.IsSecure)
 	}
 
+	if s.Res.KmsKeyId != nil {
+		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
+	}
+
 	if s.Res.NetworkConfig != nil {
 		s.D.Set("network_config", []interface{}{NetworkConfigToMap(s.Res.NetworkConfig)})
 	} else {
@@ -127,6 +137,8 @@ func (s *BdsBdsInstanceDataSourceCrud) SetData() error {
 	s.D.Set("master_node", []interface{}{nodeMap["MASTER"]})
 	s.D.Set("util_node", []interface{}{nodeMap["UTILITY"]})
 	s.D.Set("worker_node", []interface{}{nodeMap["WORKER"]})
+	s.D.Set("compute_only_worker_node", []interface{}{nodeMap["COMPUTE_ONLY_WORKER"]})
+	s.D.Set("edge_node", []interface{}{nodeMap["EDGE"]})
 
 	if s.Res.NumberOfNodes != nil {
 		s.D.Set("number_of_nodes", *s.Res.NumberOfNodes)

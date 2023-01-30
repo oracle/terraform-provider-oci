@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package dns
@@ -7,8 +7,8 @@ import (
 	"context"
 	"log"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_dns "github.com/oracle/oci-go-sdk/v65/dns"
@@ -26,7 +26,7 @@ func DnsResolverEndpointDataSource() *schema.Resource {
 	}
 	fieldMap["scope"] = &schema.Schema{
 		Type:     schema.TypeString,
-		Required: true,
+		Optional: true,
 	}
 	return tfresource.GetSingularDataSourceItemSchema(DnsResolverEndpointResource(), fieldMap, readSingularDnsResolverEndpoint)
 }
@@ -129,7 +129,7 @@ func (s *DnsResolverEndpointDataSourceCrud) SetData() error {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
 	default:
-		log.Printf("[WARN] Received 'endpoint_type' of unknown type %v", *s.Res)
+		log.Printf("[WARN] Received 'endpoint_type' of unknown type %v", s.Res.ResolverEndpoint)
 		return nil
 	}
 

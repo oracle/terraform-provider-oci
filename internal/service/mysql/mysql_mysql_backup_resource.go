@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package mysql
@@ -8,8 +8,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	oci_mysql "github.com/oracle/oci-go-sdk/v65/mysql"
 )
@@ -133,6 +133,23 @@ func MysqlMysqlBackupResource() *schema.Resource {
 										Type:     schema.TypeBool,
 										Computed: true,
 									},
+									"pitr_policy": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"is_enabled": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+											},
+										},
+									},
 									"retention_in_days": {
 										Type:     schema.TypeInt,
 										Computed: true,
@@ -225,6 +242,14 @@ func MysqlMysqlBackupResource() *schema.Resource {
 									},
 									"port_x": {
 										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"resource_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"resource_type": {
+										Type:     schema.TypeString,
 										Computed: true,
 									},
 									"status": {
@@ -522,12 +547,13 @@ func (s *MysqlMysqlBackupResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
-	_, err := s.Client.UpdateBackup(context.Background(), request)
+	response, err := s.Client.UpdateBackup(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	return s.Get()
+	s.Res = &response.Backup
+	return nil
 }
 
 func (s *MysqlMysqlBackupResourceCrud) Delete() error {
@@ -625,6 +651,10 @@ func BackupPolicyToMap(obj *oci_mysql.BackupPolicy) map[string]interface{} {
 		result["is_enabled"] = bool(*obj.IsEnabled)
 	}
 
+	if obj.PitrPolicy != nil {
+		result["pitr_policy"] = []interface{}{PitrPolicyToMap(obj.PitrPolicy)}
+	}
+
 	if obj.RetentionInDays != nil {
 		result["retention_in_days"] = int(*obj.RetentionInDays)
 	}
@@ -656,6 +686,12 @@ func DbSystemEndpointToMap(obj oci_mysql.DbSystemEndpoint) map[string]interface{
 	if obj.PortX != nil {
 		result["port_x"] = int(*obj.PortX)
 	}
+
+	if obj.ResourceId != nil {
+		result["resource_id"] = string(*obj.ResourceId)
+	}
+
+	result["resource_type"] = string(obj.ResourceType)
 
 	result["status"] = string(obj.Status)
 

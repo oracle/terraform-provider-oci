@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataconnectivity/CreateTestNetworkConnectivity.go.html to see an example of how to use CreateTestNetworkConnectivityRequest.
 type CreateTestNetworkConnectivityRequest struct {
 
-	// The registry Ocid.
+	// The registry OCID.
 	RegistryId *string `mandatory:"true" contributesTo:"path" name:"registryId"`
 
-	// Request body parameters to execute network validation
+	// Request body parameters to execute network validation.
 	CreateTestNetworkConnectivityDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If
@@ -29,10 +29,10 @@ type CreateTestNetworkConnectivityRequest struct {
 	// please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without risk of executing that same action again.
+	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without the risk of executing that same action again.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
-	// Endpoint Id used for getDataAssetFullDetails.
+	// Endpoint ID used for getDataAssetFullDetails.
 	EndpointId *string `mandatory:"false" contributesTo:"query" name:"endpointId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match` parameter to the value of the `etag` from a previous GET or POST response for that resource.

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,49 +22,49 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_waf "github.com/oracle/oci-go-sdk/v65/waf"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	WebAppFirewallPolicyRequiredOnlyResource = WebAppFirewallPolicyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall_policy", "test_web_app_firewall_policy", acctest.Required, acctest.Create, webAppFirewallPolicyRepresentation)
+	WafWebAppFirewallPolicyRequiredOnlyResource = WafWebAppFirewallPolicyResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall_policy", "test_web_app_firewall_policy", acctest.Required, acctest.Create, WafWebAppFirewallPolicyRepresentation)
 
-	WebAppFirewallPolicyResourceConfig = WebAppFirewallPolicyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall_policy", "test_web_app_firewall_policy", acctest.Optional, acctest.Update, webAppFirewallPolicyRepresentation)
+	WafWebAppFirewallPolicyResourceConfig = WafWebAppFirewallPolicyResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall_policy", "test_web_app_firewall_policy", acctest.Optional, acctest.Update, WafWebAppFirewallPolicyRepresentation)
 
-	webAppFirewallPolicySingularDataSourceRepresentation = map[string]interface{}{
+	WafWafWebAppFirewallPolicySingularDataSourceRepresentation = map[string]interface{}{
 		"web_app_firewall_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_waf_web_app_firewall_policy.test_web_app_firewall_policy.id}`},
 	}
 
-	webAppFirewallPolicyDataSourceRepresentation = map[string]interface{}{
+	WafWafWebAppFirewallPolicyDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_waf_web_app_firewall_policy.test_web_app_firewall_policy.id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: []string{`ACTIVE`}},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: webAppFirewallPolicyDataSourceFilterRepresentation}}
-	webAppFirewallPolicyDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: WafWebAppFirewallPolicyDataSourceFilterRepresentation}}
+	WafWebAppFirewallPolicyDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_waf_web_app_firewall_policy.test_web_app_firewall_policy.id}`}},
 	}
 
-	webAppFirewallPolicyRepresentation = map[string]interface{}{
+	WafWebAppFirewallPolicyRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"actions":        []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: webAppFirewallPolicyActionsRepresentation1}, {RepType: acctest.Optional, Group: webAppFirewallPolicyActionsRepresentation2}, {RepType: acctest.Optional, Group: webAppFirewallPolicyActionsRepresentation3}},
+		"actions":        []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: WafWebAppFirewallPolicyActionsRepresentation}, {RepType: acctest.Optional, Group: webAppFirewallPolicyActionsRepresentation2}, {RepType: acctest.Optional, Group: webAppFirewallPolicyActionsRepresentation3}},
 		//"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"request_access_control":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppFirewallPolicyRequestAccessControlRepresentation},
-		"request_protection":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppFirewallPolicyRequestProtectionRepresentation},
-		"request_rate_limiting":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppFirewallPolicyRequestRateLimitingRepresentation},
-		"response_access_control": acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppFirewallPolicyResponseAccessControlRepresentation},
-		//"response_protection":     acctest.RepresentationGroup{RepType: acctest.Optional,Group: webAppFirewallPolicyResponseProtectionRepresentation}, // can not be created at this point
+		"request_access_control":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: WafWebAppFirewallPolicyRequestAccessControlRepresentation},
+		"request_protection":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: WafWebAppFirewallPolicyRequestProtectionRepresentation},
+		"request_rate_limiting":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: WafWebAppFirewallPolicyRequestRateLimitingRepresentation},
+		"response_access_control": acctest.RepresentationGroup{RepType: acctest.Optional, Group: WafWebAppFirewallPolicyResponseAccessControlRepresentation},
+		//"response_protection":     acctest.RepresentationGroup{RepType: acctest.Optional,Group: WafWebAppFirewallPolicyResponseProtectionRepresentation}, // can not be created at this point
 	}
-	webAppFirewallPolicyActionsRepresentation1 = map[string]interface{}{
+	WafWebAppFirewallPolicyActionsRepresentation = map[string]interface{}{
 		"name":    acctest.Representation{RepType: acctest.Required, Create: `actionName`, Update: `actionName2`},
 		"type":    acctest.Representation{RepType: acctest.Required, Create: `RETURN_HTTP_RESPONSE`, Update: `RETURN_HTTP_RESPONSE`},
 		"body":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppFirewallPolicyActionsBodyRepresentation},
 		"code":    acctest.Representation{RepType: acctest.Optional, Create: `400`, Update: `500`},
-		"headers": acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppFirewallPolicyActionsHeadersRepresentation},
+		"headers": acctest.RepresentationGroup{RepType: acctest.Optional, Group: WafWebAppFirewallPolicyActionsHeadersRepresentation},
 	}
 
 	webAppFirewallPolicyActionsRepresentation2 = map[string]interface{}{
@@ -77,83 +77,83 @@ var (
 		"type": acctest.Representation{RepType: acctest.Required, Create: `ALLOW`},
 	}
 
-	webAppFirewallPolicyRequestAccessControlRepresentation = map[string]interface{}{
+	WafWebAppFirewallPolicyRequestAccessControlRepresentation = map[string]interface{}{
 		"default_action_name": acctest.Representation{RepType: acctest.Required, Create: `allowAction`},
-		"rules":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppFirewallPolicyRequestAccessControlRulesRepresentation},
+		"rules":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: WafWebAppFirewallPolicyRequestAccessControlRulesRepresentation},
 	}
-	webAppFirewallPolicyRequestProtectionRepresentation = map[string]interface{}{
+	WafWebAppFirewallPolicyRequestProtectionRepresentation = map[string]interface{}{
 		"body_inspection_size_limit_exceeded_action_name": acctest.Representation{RepType: acctest.Optional, Create: `actionName`, Update: `actionName2`},
 		"body_inspection_size_limit_in_bytes":             acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
-		"rules":                                           acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppFirewallPolicyRequestProtectionRulesRepresentation},
+		"rules":                                           acctest.RepresentationGroup{RepType: acctest.Optional, Group: WafWebAppFirewallPolicyRequestProtectionRulesRepresentation},
 	}
-	webAppFirewallPolicyRequestRateLimitingRepresentation = map[string]interface{}{
-		"rules": acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppFirewallPolicyRequestRateLimitingRulesRepresentation},
+	WafWebAppFirewallPolicyRequestRateLimitingRepresentation = map[string]interface{}{
+		"rules": acctest.RepresentationGroup{RepType: acctest.Optional, Group: WafWebAppFirewallPolicyRequestRateLimitingRulesRepresentation},
 	}
-	webAppFirewallPolicyResponseAccessControlRepresentation = map[string]interface{}{
-		"rules": acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppFirewallPolicyResponseAccessControlRulesRepresentation},
+	WafWebAppFirewallPolicyResponseAccessControlRepresentation = map[string]interface{}{
+		"rules": acctest.RepresentationGroup{RepType: acctest.Optional, Group: WafWebAppFirewallPolicyResponseAccessControlRulesRepresentation},
 	}
-	//webAppFirewallPolicyResponseProtectionRepresentation = map[string]interface{}{
-	//	"rules": acctest.RepresentationGroup{RepType: acctest.Optional,Group: webAppFirewallPolicyResponseProtectionRulesRepresentation},
+	//WafWebAppFirewallPolicyResponseProtectionRepresentation = map[string]interface{}{
+	//	"rules": acctest.RepresentationGroup{RepType: acctest.Optional,Group: WafWebAppFirewallPolicyResponseProtectionRulesRepresentation},
 	//}
 	webAppFirewallPolicyActionsBodyRepresentation = map[string]interface{}{
 		"text": acctest.Representation{RepType: acctest.Required, Create: `text`, Update: `text2`},
 		"type": acctest.Representation{RepType: acctest.Required, Create: `STATIC_TEXT`},
 	}
-	webAppFirewallPolicyActionsHeadersRepresentation = map[string]interface{}{
+	WafWebAppFirewallPolicyActionsHeadersRepresentation = map[string]interface{}{
 		"name":  acctest.Representation{RepType: acctest.Optional, Create: `name`, Update: `name2`},
 		"value": acctest.Representation{RepType: acctest.Optional, Create: `value`, Update: `value2`},
 	}
-	webAppFirewallPolicyRequestAccessControlRulesRepresentation = map[string]interface{}{
+	WafWebAppFirewallPolicyRequestAccessControlRulesRepresentation = map[string]interface{}{
 		"action_name":        acctest.Representation{RepType: acctest.Required, Create: `actionName`, Update: `actionName2`},
 		"name":               acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"type":               acctest.Representation{RepType: acctest.Required, Create: `ACCESS_CONTROL`},
 		"condition":          acctest.Representation{RepType: acctest.Optional, Create: `i_contains(keys(http.request.headers), 'header1')`, Update: `i_contains(keys(http.request.headers), 'header2')`},
 		"condition_language": acctest.Representation{RepType: acctest.Optional, Create: `JMESPATH`},
 	}
-	webAppFirewallPolicyRequestProtectionRulesRepresentation = map[string]interface{}{
+	WafWebAppFirewallPolicyRequestProtectionRulesRepresentation = map[string]interface{}{
 		"action_name":                    acctest.Representation{RepType: acctest.Required, Create: `actionName`, Update: `actionName2`},
 		"name":                           acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
-		"protection_capabilities":        acctest.RepresentationGroup{RepType: acctest.Required, Group: webAppFirewallPolicyRequestProtectionRulesProtectionCapabilitiesRepresentation},
+		"protection_capabilities":        acctest.RepresentationGroup{RepType: acctest.Required, Group: WafWebAppFirewallPolicyRequestProtectionRulesProtectionCapabilitiesRepresentation},
 		"type":                           acctest.Representation{RepType: acctest.Required, Create: `PROTECTION`},
 		"condition":                      acctest.Representation{RepType: acctest.Optional, Create: `i_contains(keys(http.request.headers), 'header1')`, Update: `i_contains(keys(http.request.headers), 'header2')`},
 		"condition_language":             acctest.Representation{RepType: acctest.Optional, Create: `JMESPATH`},
 		"is_body_inspection_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"protection_capability_settings": acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppFirewallPolicyRequestProtectionRulesProtectionCapabilitySettingsRepresentation},
+		"protection_capability_settings": acctest.RepresentationGroup{RepType: acctest.Optional, Group: WafWebAppFirewallPolicyRequestProtectionRulesProtectionCapabilitySettingsRepresentation},
 	}
-	webAppFirewallPolicyRequestRateLimitingRulesRepresentation = map[string]interface{}{
+	WafWebAppFirewallPolicyRequestRateLimitingRulesRepresentation = map[string]interface{}{
 		"action_name":        acctest.Representation{RepType: acctest.Required, Create: `actionName`, Update: `actionName2`},
-		"configurations":     acctest.RepresentationGroup{RepType: acctest.Required, Group: webAppFirewallPolicyRequestRateLimitingRulesConfigurationsRepresentation},
+		"configurations":     acctest.RepresentationGroup{RepType: acctest.Required, Group: WafWebAppFirewallPolicyRequestRateLimitingRulesConfigurationsRepresentation},
 		"name":               acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"type":               acctest.Representation{RepType: acctest.Required, Create: `REQUEST_RATE_LIMITING`},
 		"condition":          acctest.Representation{RepType: acctest.Optional, Create: `i_contains(keys(http.request.headers), 'header1')`, Update: `i_contains(keys(http.request.headers), 'header2')`},
 		"condition_language": acctest.Representation{RepType: acctest.Optional, Create: `JMESPATH`},
 	}
-	webAppFirewallPolicyResponseAccessControlRulesRepresentation = map[string]interface{}{
+	WafWebAppFirewallPolicyResponseAccessControlRulesRepresentation = map[string]interface{}{
 		"action_name":        acctest.Representation{RepType: acctest.Required, Create: `actionName`, Update: `actionName2`},
 		"name":               acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"type":               acctest.Representation{RepType: acctest.Required, Create: `ACCESS_CONTROL`},
 		"condition":          acctest.Representation{RepType: acctest.Optional, Create: `i_contains(keys(http.response.headers), 'header1')`, Update: `i_contains(keys(http.response.headers), 'header2')`},
 		"condition_language": acctest.Representation{RepType: acctest.Optional, Create: `JMESPATH`},
 	}
-	//webAppFirewallPolicyResponseProtectionRulesRepresentation = map[string]interface{}{
+	//WafWebAppFirewallPolicyResponseProtectionRulesRepresentation = map[string]interface{}{
 	//	"action_name":                    acctest.Representation{RepType: acctest.Required, Create: `actionName`, Update: `actionName2`},
 	//	"name":                           acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
-	//	"protection_capabilities":        acctest.RepresentationGroup{RepType: acctest.Required,Group: webAppFirewallPolicyResponseProtectionRulesProtectionCapabilitiesRepresentation},
+	//	"protection_capabilities":        acctest.RepresentationGroup{RepType: acctest.Required,Group: WafWebAppFirewallPolicyResponseProtectionRulesProtectionCapabilitiesRepresentation},
 	//	"type":                           acctest.Representation{RepType: acctest.Required, Create: `ACCESS_CONTROL`, Update: `PROTECTION`},
 	//	"condition":                      acctest.Representation{RepType: acctest.Optional, Create: `condition`, Update: `condition2`},
 	//	"condition_language":             acctest.Representation{RepType: acctest.Optional, Create: `JMESPATH`},
 	//	"is_body_inspection_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-	//	"protection_capability_settings": acctest.RepresentationGroup{RepType: acctest.Optional,Group: webAppFirewallPolicyResponseProtectionRulesProtectionCapabilitySettingsRepresentation},
+	//	"protection_capability_settings": acctest.RepresentationGroup{RepType: acctest.Optional,Group: WafWebAppFirewallPolicyResponseProtectionRulesProtectionCapabilitySettingsRepresentation},
 	//}
-	webAppFirewallPolicyRequestProtectionRulesProtectionCapabilitiesRepresentation = map[string]interface{}{
+	WafWebAppFirewallPolicyRequestProtectionRulesProtectionCapabilitiesRepresentation = map[string]interface{}{
 		"key":                            acctest.Representation{RepType: acctest.Required, Create: `920360`, Update: `920350`},
 		"version":                        acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
 		"collaborative_action_threshold": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"action_name":                    acctest.Representation{RepType: acctest.Optional, Create: `checkAction`},
-		//"collaborative_weights":          acctest.RepresentationGroup{RepType: acctest.Optional,Group: webAppFirewallPolicyRequestProtectionRulesProtectionCapabilitiesCollaborativeWeightsRepresentation},
-		"exclusions": acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppFirewallPolicyRequestProtectionRulesProtectionCapabilitiesExclusionsRepresentation},
+		//"collaborative_weights":          acctest.RepresentationGroup{RepType: acctest.Optional,Group: WafWebAppFirewallPolicyRequestProtectionRulesProtectionCapabilitiesCollaborativeWeightsRepresentation},
+		"exclusions": acctest.RepresentationGroup{RepType: acctest.Optional, Group: WafWebAppFirewallPolicyRequestProtectionRulesProtectionCapabilitiesExclusionsRepresentation},
 	}
-	webAppFirewallPolicyRequestProtectionRulesProtectionCapabilitySettingsRepresentation = map[string]interface{}{
+	WafWebAppFirewallPolicyRequestProtectionRulesProtectionCapabilitySettingsRepresentation = map[string]interface{}{
 		"allowed_http_methods":           acctest.Representation{RepType: acctest.Optional, Create: []string{`GET`}, Update: []string{`POST`}},
 		"max_http_request_header_length": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"max_http_request_headers":       acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
@@ -161,20 +161,20 @@ var (
 		"max_single_argument_length":     acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"max_total_argument_length":      acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 	}
-	webAppFirewallPolicyRequestRateLimitingRulesConfigurationsRepresentation = map[string]interface{}{
+	WafWebAppFirewallPolicyRequestRateLimitingRulesConfigurationsRepresentation = map[string]interface{}{
 		"period_in_seconds":          acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"requests_limit":             acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"action_duration_in_seconds": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 	}
-	//webAppFirewallPolicyResponseProtectionRulesProtectionCapabilitiesRepresentation = map[string]interface{}{
+	//WafWebAppFirewallPolicyResponseProtectionRulesProtectionCapabilitiesRepresentation = map[string]interface{}{
 	//	"key":                            acctest.Representation{RepType: acctest.Required, Create: `key`, Update: `key2`},
 	//	"version":                        acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 	//	"action_name":                    acctest.Representation{RepType: acctest.Optional, Create: `actionName`, Update: `actionName2`},
 	//	"collaborative_action_threshold": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
-	//	"collaborative_weights":          acctest.RepresentationGroup{RepType: acctest.Optional,Group: webAppFirewallPolicyResponseProtectionRulesProtectionCapabilitiesCollaborativeWeightsRepresentation},
-	//	"exclusions":                     acctest.RepresentationGroup{RepType: acctest.Optional,Group: webAppFirewallPolicyResponseProtectionRulesProtectionCapabilitiesExclusionsRepresentation},
+	//	"collaborative_weights":          acctest.RepresentationGroup{RepType: acctest.Optional,Group: WafWebAppFirewallPolicyResponseProtectionRulesProtectionCapabilitiesCollaborativeWeightsRepresentation},
+	//	"exclusions":                     acctest.RepresentationGroup{RepType: acctest.Optional,Group: WafWebAppFirewallPolicyResponseProtectionRulesProtectionCapabilitiesExclusionsRepresentation},
 	//}
-	//webAppFirewallPolicyResponseProtectionRulesProtectionCapabilitySettingsRepresentation = map[string]interface{}{
+	//WafWebAppFirewallPolicyResponseProtectionRulesProtectionCapabilitySettingsRepresentation = map[string]interface{}{
 	//	"allowed_http_methods":           acctest.Representation{RepType: acctest.Optional, Create: []string{`GET`}, Update: []string{`POST`}},
 	//	"max_http_request_header_length": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 	//	"max_http_request_headers":       acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
@@ -182,24 +182,24 @@ var (
 	//	"max_single_argument_length":     acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 	//	"max_total_argument_length":      acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 	//}
-	//webAppFirewallPolicyRequestProtectionRulesProtectionCapabilitiesCollaborativeWeightsRepresentation = map[string]interface{}{
+	//WafWebAppFirewallPolicyRequestProtectionRulesProtectionCapabilitiesCollaborativeWeightsRepresentation = map[string]interface{}{
 	//	"key":    acctest.Representation{RepType: acctest.Required, Create: `key`, Update: `key2`},
 	//	"weight": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 	//}
-	webAppFirewallPolicyRequestProtectionRulesProtectionCapabilitiesExclusionsRepresentation = map[string]interface{}{
+	WafWebAppFirewallPolicyRequestProtectionRulesProtectionCapabilitiesExclusionsRepresentation = map[string]interface{}{
 		"args":            acctest.Representation{RepType: acctest.Optional, Create: []string{`args`}, Update: []string{`args2`}},
 		"request_cookies": acctest.Representation{RepType: acctest.Optional, Create: []string{`requestCookies`}, Update: []string{`requestCookies2`}},
 	}
-	//webAppFirewallPolicyResponseProtectionRulesProtectionCapabilitiesCollaborativeWeightsRepresentation = map[string]interface{}{
+	//WafWebAppFirewallPolicyResponseProtectionRulesProtectionCapabilitiesCollaborativeWeightsRepresentation = map[string]interface{}{
 	//	"key":    acctest.Representation{RepType: acctest.Required, Create: `key`, Update: `key2`},
 	//	"weight": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 	//}
-	//webAppFirewallPolicyResponseProtectionRulesProtectionCapabilitiesExclusionsRepresentation = map[string]interface{}{
+	//WafWebAppFirewallPolicyResponseProtectionRulesProtectionCapabilitiesExclusionsRepresentation = map[string]interface{}{
 	//	"args":            acctest.Representation{RepType: acctest.Optional, Create: []string{`args`}, Update: []string{`args2`}},
 	//	"request_cookies": acctest.Representation{RepType: acctest.Optional, Create: []string{`requestCookies`}, Update: []string{`requestCookies2`}},
 	//}
 
-	WebAppFirewallPolicyResourceDependencies = ""
+	WafWebAppFirewallPolicyResourceDependencies = ""
 	//DefinedTagsDependencies
 )
 
@@ -222,14 +222,14 @@ func TestWafWebAppFirewallPolicyResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+WebAppFirewallPolicyResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall_policy", "test_web_app_firewall_policy", acctest.Optional, acctest.Create, webAppFirewallPolicyRepresentation), "waf", "webAppFirewallPolicy", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+WafWebAppFirewallPolicyResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall_policy", "test_web_app_firewall_policy", acctest.Optional, acctest.Create, WafWebAppFirewallPolicyRepresentation), "waf", "webAppFirewallPolicy", t)
 
 	acctest.ResourceTest(t, testAccCheckWafWebAppFirewallPolicyDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + WebAppFirewallPolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall_policy", "test_web_app_firewall_policy", acctest.Required, acctest.Create, webAppFirewallPolicyRepresentation),
+			Config: config + compartmentIdVariableStr + WafWebAppFirewallPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall_policy", "test_web_app_firewall_policy", acctest.Required, acctest.Create, WafWebAppFirewallPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
@@ -242,12 +242,12 @@ func TestWafWebAppFirewallPolicyResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + WebAppFirewallPolicyResourceDependencies,
+			Config: config + compartmentIdVariableStr + WafWebAppFirewallPolicyResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + WebAppFirewallPolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall_policy", "test_web_app_firewall_policy", acctest.Optional, acctest.Create, webAppFirewallPolicyRepresentation),
+			Config: config + compartmentIdVariableStr + WafWebAppFirewallPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall_policy", "test_web_app_firewall_policy", acctest.Optional, acctest.Create, WafWebAppFirewallPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "actions.#", "3"),
 				resource.TestCheckResourceAttr(resourceName, "actions.0.body.#", "1"),
@@ -363,9 +363,9 @@ func TestWafWebAppFirewallPolicyResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + WebAppFirewallPolicyResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + WafWebAppFirewallPolicyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall_policy", "test_web_app_firewall_policy", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(webAppFirewallPolicyRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(WafWebAppFirewallPolicyRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -480,8 +480,8 @@ func TestWafWebAppFirewallPolicyResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + WebAppFirewallPolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall_policy", "test_web_app_firewall_policy", acctest.Optional, acctest.Update, webAppFirewallPolicyRepresentation),
+			Config: config + compartmentIdVariableStr + WafWebAppFirewallPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall_policy", "test_web_app_firewall_policy", acctest.Optional, acctest.Update, WafWebAppFirewallPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "actions.#", "3"),
 				resource.TestCheckResourceAttr(resourceName, "actions.0.body.#", "1"),
@@ -596,9 +596,9 @@ func TestWafWebAppFirewallPolicyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_waf_web_app_firewall_policies", "test_web_app_firewall_policies", acctest.Optional, acctest.Update, webAppFirewallPolicyDataSourceRepresentation) +
-				compartmentIdVariableStr + WebAppFirewallPolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall_policy", "test_web_app_firewall_policy", acctest.Optional, acctest.Update, webAppFirewallPolicyRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_waf_web_app_firewall_policies", "test_web_app_firewall_policies", acctest.Optional, acctest.Update, WafWafWebAppFirewallPolicyDataSourceRepresentation) +
+				compartmentIdVariableStr + WafWebAppFirewallPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall_policy", "test_web_app_firewall_policy", acctest.Optional, acctest.Update, WafWebAppFirewallPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -612,8 +612,8 @@ func TestWafWebAppFirewallPolicyResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_waf_web_app_firewall_policy", "test_web_app_firewall_policy", acctest.Required, acctest.Create, webAppFirewallPolicySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + WebAppFirewallPolicyResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_waf_web_app_firewall_policy", "test_web_app_firewall_policy", acctest.Required, acctest.Create, WafWafWebAppFirewallPolicySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + WafWebAppFirewallPolicyResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "web_app_firewall_policy_id"),
 
@@ -721,7 +721,7 @@ func TestWafWebAppFirewallPolicyResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + WebAppFirewallPolicyRequiredOnlyResource,
+			Config:                  config + WafWebAppFirewallPolicyRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -785,7 +785,7 @@ func init() {
 
 func sweepWafWebAppFirewallPolicyResource(compartment string) error {
 	wafClient := acctest.GetTestClients(&schema.ResourceData{}).WafClient()
-	webAppFirewallPolicyIds, err := getWebAppFirewallPolicyIds(compartment)
+	webAppFirewallPolicyIds, err := getWafWebAppFirewallPolicyIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -801,14 +801,14 @@ func sweepWafWebAppFirewallPolicyResource(compartment string) error {
 				fmt.Printf("Error deleting WebAppFirewallPolicy %s %s, It is possible that the resource is already deleted. Please verify manually \n", webAppFirewallPolicyId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &webAppFirewallPolicyId, webAppFirewallPolicySweepWaitCondition, time.Duration(3*time.Minute),
-				webAppFirewallPolicySweepResponseFetchOperation, "waf", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &webAppFirewallPolicyId, WafWebAppFirewallPolicySweepWaitCondition, time.Duration(3*time.Minute),
+				WafWebAppFirewallPolicySweepResponseFetchOperation, "waf", true)
 		}
 	}
 	return nil
 }
 
-func getWebAppFirewallPolicyIds(compartment string) ([]string, error) {
+func getWafWebAppFirewallPolicyIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "WebAppFirewallPolicyId")
 	if ids != nil {
 		return ids, nil
@@ -833,7 +833,7 @@ func getWebAppFirewallPolicyIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func webAppFirewallPolicySweepWaitCondition(response common.OCIOperationResponse) bool {
+func WafWebAppFirewallPolicySweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if webAppFirewallPolicyResponse, ok := response.Response.(oci_waf.GetWebAppFirewallPolicyResponse); ok {
 		return webAppFirewallPolicyResponse.LifecycleState != oci_waf.WebAppFirewallPolicyLifecycleStateDeleted
@@ -841,7 +841,7 @@ func webAppFirewallPolicySweepWaitCondition(response common.OCIOperationResponse
 	return false
 }
 
-func webAppFirewallPolicySweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func WafWebAppFirewallPolicySweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.WafClient().GetWebAppFirewallPolicy(context.Background(), oci_waf.GetWebAppFirewallPolicyRequest{
 		WebAppFirewallPolicyId: resourceId,
 		RequestMetadata: common.RequestMetadata{

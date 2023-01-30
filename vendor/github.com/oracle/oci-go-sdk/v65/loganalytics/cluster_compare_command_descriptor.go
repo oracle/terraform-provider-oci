@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -33,6 +33,9 @@ type ClusterCompareCommandDescriptor struct {
 
 	// Fields declared in command fragment from user specified query string.
 	DeclaredFields []AbstractField `mandatory:"false" json:"declaredFields"`
+
+	// Field denoting if this is a hidden command that is not shown in the query string.
+	IsHidden *bool `mandatory:"false" json:"isHidden"`
 
 	// To shift time range of main query backwards using a relative time expression e.g -24hrs. E.g compare against the previous 24 hrs.
 	TimeShift *string `mandatory:"false" json:"timeShift"`
@@ -78,6 +81,11 @@ func (m ClusterCompareCommandDescriptor) GetDeclaredFields() []AbstractField {
 	return m.DeclaredFields
 }
 
+//GetIsHidden returns IsHidden
+func (m ClusterCompareCommandDescriptor) GetIsHidden() *bool {
+	return m.IsHidden
+}
+
 func (m ClusterCompareCommandDescriptor) String() string {
 	return common.PointerString(m)
 }
@@ -114,6 +122,7 @@ func (m *ClusterCompareCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 		Category            *string         `json:"category"`
 		ReferencedFields    []abstractfield `json:"referencedFields"`
 		DeclaredFields      []abstractfield `json:"declaredFields"`
+		IsHidden            *bool           `json:"isHidden"`
 		TimeShift           *string         `json:"timeShift"`
 		TimeStart           *int64          `json:"timeStart"`
 		TimeEnd             *int64          `json:"timeEnd"`
@@ -156,6 +165,8 @@ func (m *ClusterCompareCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 			m.DeclaredFields[i] = nil
 		}
 	}
+
+	m.IsHidden = model.IsHidden
 
 	m.TimeShift = model.TimeShift
 

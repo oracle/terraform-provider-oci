@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,13 +10,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -24,21 +24,21 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	LibraryMaskingFormatRequiredOnlyResource = LibraryMaskingFormatResourceDependencies +
+	DataSafeLibraryMaskingFormatRequiredOnlyResource = DataSafeLibraryMaskingFormatResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_library_masking_format", "test_library_masking_format", acctest.Required, acctest.Create, libraryMaskingFormatRepresentation)
 
-	LibraryMaskingFormatResourceConfig = LibraryMaskingFormatResourceDependencies +
+	DataSafeLibraryMaskingFormatResourceConfig = DataSafeLibraryMaskingFormatResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_library_masking_format", "test_library_masking_format", acctest.Optional, acctest.Update, libraryMaskingFormatRepresentation)
 
-	libraryMaskingFormatSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafelibraryMaskingFormatSingularDataSourceRepresentation = map[string]interface{}{
 		"library_masking_format_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_library_masking_format.test_library_masking_format.id}`},
 	}
 
-	libraryMaskingFormatDataSourceRepresentation = map[string]interface{}{
+	DataSafelibraryMaskingFormatDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: libraryMaskingFormatDataSourceFilterRepresentation},
@@ -62,7 +62,7 @@ var (
 		"fixed_string": acctest.Representation{RepType: acctest.Optional, Create: ``, Update: `fixedString2`},
 	}
 
-	LibraryMaskingFormatResourceDependencies = DefinedTagsDependencies
+	DataSafeLibraryMaskingFormatResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: data_safe/default
@@ -85,13 +85,13 @@ func TestDataSafeLibraryMaskingFormatResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+
-		LibraryMaskingFormatResourceDependencies+
+		DataSafeLibraryMaskingFormatResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_library_masking_format", "test_library_masking_format", acctest.Optional, acctest.Create, libraryMaskingFormatRepresentation), "datasafe", "libraryMaskingFormat", t)
 
 	acctest.ResourceTest(t, testAccCheckDataSafeLibraryMaskingFormatDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + LibraryMaskingFormatResourceDependencies +
+			Config: config + compartmentIdVariableStr + DataSafeLibraryMaskingFormatResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_library_masking_format", "test_library_masking_format", acctest.Required, acctest.Create, libraryMaskingFormatRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -106,11 +106,11 @@ func TestDataSafeLibraryMaskingFormatResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + LibraryMaskingFormatResourceDependencies,
+			Config: config + compartmentIdVariableStr + DataSafeLibraryMaskingFormatResourceDependencies,
 		},
 		//verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + LibraryMaskingFormatResourceDependencies +
+			Config: config + compartmentIdVariableStr + DataSafeLibraryMaskingFormatResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_library_masking_format", "test_library_masking_format", acctest.Optional, acctest.Create, libraryMaskingFormatRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "format_entries.0.type", "DELETE_ROWS"),
@@ -133,7 +133,7 @@ func TestDataSafeLibraryMaskingFormatResource_basic(t *testing.T) {
 
 		//verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + LibraryMaskingFormatResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DataSafeLibraryMaskingFormatResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_library_masking_format", "test_library_masking_format", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(libraryMaskingFormatRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -163,7 +163,7 @@ func TestDataSafeLibraryMaskingFormatResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + LibraryMaskingFormatResourceDependencies +
+			Config: config + compartmentIdVariableStr + DataSafeLibraryMaskingFormatResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_library_masking_format", "test_library_masking_format", acctest.Optional, acctest.Update, libraryMaskingFormatRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -192,8 +192,8 @@ func TestDataSafeLibraryMaskingFormatResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_library_masking_formats", "test_library_masking_formats", acctest.Optional, acctest.Update, libraryMaskingFormatDataSourceRepresentation) +
-				compartmentIdVariableStr + LibraryMaskingFormatResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_library_masking_formats", "test_library_masking_formats", acctest.Optional, acctest.Update, DataSafelibraryMaskingFormatDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeLibraryMaskingFormatResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_library_masking_format", "test_library_masking_format", acctest.Optional, acctest.Update, libraryMaskingFormatRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -206,8 +206,8 @@ func TestDataSafeLibraryMaskingFormatResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_library_masking_format", "test_library_masking_format", acctest.Required, acctest.Create, libraryMaskingFormatSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + LibraryMaskingFormatResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_library_masking_format", "test_library_masking_format", acctest.Required, acctest.Create, DataSafelibraryMaskingFormatSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeLibraryMaskingFormatResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
@@ -225,7 +225,7 @@ func TestDataSafeLibraryMaskingFormatResource_basic(t *testing.T) {
 		},
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
-			Config: config + compartmentIdVariableStr + LibraryMaskingFormatResourceConfig,
+			Config: config + compartmentIdVariableStr + DataSafeLibraryMaskingFormatResourceConfig,
 		},
 		// verify resource import
 		{
@@ -293,7 +293,7 @@ func init() {
 
 func sweepDataSafeLibraryMaskingFormatResource(compartment string) error {
 	dataSafeClient := acctest.GetTestClients(&schema.ResourceData{}).DataSafeClient()
-	libraryMaskingFormatIds, err := getLibraryMaskingFormatIds(compartment)
+	libraryMaskingFormatIds, err := getDataSafeLibraryMaskingFormatIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -309,14 +309,14 @@ func sweepDataSafeLibraryMaskingFormatResource(compartment string) error {
 				fmt.Printf("Error deleting LibraryMaskingFormat %s %s, It is possible that the resource is already deleted. Please verify manually \n", libraryMaskingFormatId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &libraryMaskingFormatId, libraryMaskingFormatSweepWaitCondition, time.Duration(3*time.Minute),
-				libraryMaskingFormatSweepResponseFetchOperation, "data_safe", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &libraryMaskingFormatId, DataSafelibraryMaskingFormatsSweepWaitCondition, time.Duration(3*time.Minute),
+				DataSafelibraryMaskingFormatsSweepResponseFetchOperation, "data_safe", true)
 		}
 	}
 	return nil
 }
 
-func getLibraryMaskingFormatIds(compartment string) ([]string, error) {
+func getDataSafeLibraryMaskingFormatIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "LibraryMaskingFormatId")
 	if ids != nil {
 		return ids, nil
@@ -341,7 +341,7 @@ func getLibraryMaskingFormatIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func libraryMaskingFormatSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DataSafelibraryMaskingFormatsSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if libraryMaskingFormatResponse, ok := response.Response.(oci_data_safe.GetLibraryMaskingFormatResponse); ok {
 		return libraryMaskingFormatResponse.LifecycleState != oci_data_safe.MaskingLifecycleStateDeleted
@@ -349,7 +349,7 @@ func libraryMaskingFormatSweepWaitCondition(response common.OCIOperationResponse
 	return false
 }
 
-func libraryMaskingFormatSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DataSafelibraryMaskingFormatsSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DataSafeClient().GetLibraryMaskingFormat(context.Background(), oci_data_safe.GetLibraryMaskingFormatRequest{
 		LibraryMaskingFormatId: resourceId,
 		RequestMetadata: common.RequestMetadata{

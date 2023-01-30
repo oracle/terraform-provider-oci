@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database_management
@@ -6,8 +6,8 @@ package database_management
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
@@ -308,6 +308,116 @@ func Dbmgmt_DatabaseParameterSummaryToMap(obj oci_database_management.DatabasePa
 	allowedValues := []interface{}{}
 	for _, item := range obj.AllowedValues {
 		allowedValues = append(allowedValues, Dbmgmt_AllowedParameterValueToMap(item))
+	}
+	result["allowed_values"] = allowedValues
+
+	if obj.Category != nil {
+		result["category"] = string(*obj.Category)
+	}
+
+	result["constraint"] = string(obj.Constraint)
+
+	if obj.ContainerId != nil {
+		result["container_id"] = float32(*obj.ContainerId)
+	}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
+	if obj.DisplayValue != nil {
+		result["display_value"] = string(*obj.DisplayValue)
+	}
+
+	if obj.IsAdjusted != nil {
+		result["is_adjusted"] = bool(*obj.IsAdjusted)
+	}
+
+	if obj.IsBasic != nil {
+		result["is_basic"] = bool(*obj.IsBasic)
+	}
+
+	if obj.IsDefault != nil {
+		result["is_default"] = bool(*obj.IsDefault)
+	}
+
+	if obj.IsDeprecated != nil {
+		result["is_deprecated"] = bool(*obj.IsDeprecated)
+	}
+
+	if obj.IsInstanceModifiable != nil {
+		result["is_instance_modifiable"] = bool(*obj.IsInstanceModifiable)
+	}
+
+	result["is_modified"] = string(obj.IsModified)
+
+	if obj.IsPdbModifiable != nil {
+		result["is_pdb_modifiable"] = bool(*obj.IsPdbModifiable)
+	}
+
+	if obj.IsSessionModifiable != nil {
+		result["is_session_modifiable"] = bool(*obj.IsSessionModifiable)
+	}
+
+	if obj.IsSpecified != nil {
+		result["is_specified"] = bool(*obj.IsSpecified)
+	}
+
+	result["is_system_modifiable"] = string(obj.IsSystemModifiable)
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.Number != nil {
+		result["number"] = float32(*obj.Number)
+	}
+
+	if obj.Ordinal != nil {
+		result["ordinal"] = float32(*obj.Ordinal)
+	}
+
+	if obj.Sid != nil {
+		result["sid"] = string(*obj.Sid)
+	}
+
+	result["type"] = string(obj.Type)
+
+	if obj.UpdateComment != nil {
+		result["update_comment"] = string(*obj.UpdateComment)
+	}
+
+	if obj.Value != nil {
+		result["value"] = string(*obj.Value)
+	}
+
+	return result
+}
+
+func AllowedParameterValueToMap(obj oci_database_management.AllowedParameterValue) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsDefault != nil {
+		result["is_default"] = bool(*obj.IsDefault)
+	}
+
+	if obj.Ordinal != nil {
+		result["ordinal"] = float32(*obj.Ordinal)
+	}
+
+	if obj.Value != nil {
+		result["value"] = string(*obj.Value)
+	}
+
+	return result
+}
+
+func DatabaseParameterSummaryToMap(obj oci_database_management.DatabaseParameterSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	allowedValues := []interface{}{}
+	for _, item := range obj.AllowedValues {
+		allowedValues = append(allowedValues, AllowedParameterValueToMap(item))
 	}
 	result["allowed_values"] = allowedValues
 

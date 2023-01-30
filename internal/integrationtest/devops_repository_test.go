@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -11,11 +11,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -23,25 +23,25 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	DevopsRepositoryRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Required, acctest.Create, devopsRepositoryRepresentation)
+	DevopsRepositoryRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Required, acctest.Create, DevopsRepositoryRepresentation)
 
 	DevopsRepositoryResourceConfig = DevopsRepositoryResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Optional, acctest.Update, devopsRepositoryRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Optional, acctest.Update, DevopsRepositoryRepresentation)
 
-	devopsRepositorySingularDataSourceRepresentation = map[string]interface{}{
+	DevopsDevopsRepositorySingularDataSourceRepresentation = map[string]interface{}{
 		"repository_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_repository.test_repository.id}`},
 		"fields":        acctest.Representation{RepType: acctest.Required, Create: []string{`branchCount`, `commitCount`, `sizeInBytes`}},
 	}
 
-	devopsRepositoryDataSourceRepresentation = map[string]interface{}{
+	DevopsDevopsRepositoryDataSourceRepresentation = map[string]interface{}{
 		"repository_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_repository.test_repository.id}`},
 	}
 
-	devopsRepositoryRepresentation = map[string]interface{}{
+	DevopsRepositoryRepresentation = map[string]interface{}{
 		"name":       acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"project_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_project.test_project.id}`},
 		//"default_branch":  acctest.Representation{RepType: acctest.Optional, Create: `defaultBranch`},
@@ -56,10 +56,10 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
-	DevopsRepositoryResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, devopsProjectRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_connection", "test_connection", acctest.Required, acctest.Create, devopsConnectionRepresentation) +
+	DevopsRepositoryResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_connection", "test_connection", acctest.Required, acctest.Create, DevopsConnectionRepresentation) +
 		DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, notificationTopicRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation)
 )
 
 // issue-routing-tag: devops/default
@@ -82,13 +82,13 @@ func TestDevopsRepositoryResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+githubAccessTokenVaultIdStr+DevopsRepositoryResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Optional, acctest.Create, devopsRepositoryRepresentation), "devops", "repository", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Optional, acctest.Create, DevopsRepositoryRepresentation), "devops", "repository", t)
 
 	acctest.ResourceTest(t, testAccCheckDevopsRepositoryDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + githubAccessTokenVaultIdStr + DevopsRepositoryResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Required, acctest.Create, devopsRepositoryRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Required, acctest.Create, DevopsRepositoryRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "name", "name"),
 				resource.TestCheckResourceAttr(resourceName, "repository_type", "HOSTED"),
@@ -108,7 +108,7 @@ func TestDevopsRepositoryResource_basic(t *testing.T) {
 		//verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + githubAccessTokenVaultIdStr + DevopsRepositoryResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Optional, acctest.Create, devopsRepositoryRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Optional, acctest.Create, DevopsRepositoryRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				//resource.TestCheckResourceAttr(resourceName, "default_branch", "defaultBranch"),
@@ -134,7 +134,7 @@ func TestDevopsRepositoryResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + githubAccessTokenVaultIdStr + DevopsRepositoryResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Optional, acctest.Update, devopsRepositoryRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Optional, acctest.Update, DevopsRepositoryRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				//resource.TestCheckResourceAttr(resourceName, "default_branch", "defaultBranch"),
@@ -157,9 +157,9 @@ func TestDevopsRepositoryResource_basic(t *testing.T) {
 		//verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repositories", "test_repositories", acctest.Optional, acctest.Update, devopsRepositoryDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repositories", "test_repositories", acctest.Optional, acctest.Update, DevopsDevopsRepositoryDataSourceRepresentation) +
 				compartmentIdVariableStr + githubAccessTokenVaultIdStr + DevopsRepositoryResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Optional, acctest.Update, devopsRepositoryRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Optional, acctest.Update, DevopsRepositoryRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "repository_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "repository_collection.0.items.#", "1"),
@@ -168,7 +168,7 @@ func TestDevopsRepositoryResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Required, acctest.Create, devopsRepositorySingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Required, acctest.Create, DevopsDevopsRepositorySingularDataSourceRepresentation) +
 				compartmentIdVariableStr + githubAccessTokenVaultIdStr + DevopsRepositoryResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "repository_id"),
@@ -270,7 +270,7 @@ func init() {
 
 func sweepDevopsRepositoryResource(compartment string) error {
 	devopsClient := acctest.GetTestClients(&schema.ResourceData{}).DevopsClient()
-	repositoryIds, err := devopsGetRepositoryIds(compartment)
+	repositoryIds, err := getDevopsRepositoryIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -286,14 +286,14 @@ func sweepDevopsRepositoryResource(compartment string) error {
 				fmt.Printf("Error deleting Repository %s %s, It is possible that the resource is already deleted. Please verify manually \n", repositoryId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &repositoryId, devopsRepositorySweepWaitCondition, time.Duration(3*time.Minute),
+			acctest.WaitTillCondition(acctest.TestAccProvider, &repositoryId, DevopsRepositorySweepResponseFetchOperation, time.Duration(3*time.Minute),
 				devopsRepositorySweepResponseFetchOperation, "devops", true)
 		}
 	}
 	return nil
 }
 
-func devopsGetRepositoryIds(compartment string) ([]string, error) {
+func getDevopsRepositoryIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "RepositoryId")
 	if ids != nil {
 		return ids, nil
@@ -320,7 +320,7 @@ func devopsGetRepositoryIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func devopsRepositorySweepWaitCondition(response common.OCIOperationResponse) bool {
+func DevopsRepositorySweepResponseFetchOperation(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if repositoryResponse, ok := response.Response.(oci_devops.GetRepositoryResponse); ok {
 		return repositoryResponse.LifecycleState != oci_devops.RepositoryLifecycleStateDeleted

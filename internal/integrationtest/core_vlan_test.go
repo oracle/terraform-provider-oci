@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,37 +16,37 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	VlanRequiredOnlyResource = VlanResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", acctest.Required, acctest.Create, vlanRepresentation)
+	CoreVlanRequiredOnlyResource = CoreVlanResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", acctest.Required, acctest.Create, CoreVlanRepresentation)
 
-	VlanResourceConfig = VlanResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", acctest.Optional, acctest.Update, vlanRepresentation)
+	CoreVlanResourceConfig = CoreVlanResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", acctest.Optional, acctest.Update, CoreVlanRepresentation)
 
-	vlanSingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreVlanSingularDataSourceRepresentation = map[string]interface{}{
 		"vlan_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_vlan.id}`},
 	}
 
-	vlanDataSourceRepresentation = map[string]interface{}{
+	CoreCoreVlanDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 		"vcn_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.id}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: vlanDataSourceFilterRepresentation}}
-	vlanDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreVlanDataSourceFilterRepresentation}}
+	CoreVlanDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_vlan.test_vlan.id}`}},
 	}
 
-	vlanRepresentation = map[string]interface{}{
+	CoreVlanRepresentation = map[string]interface{}{
 		"cidr_block":          acctest.Representation{RepType: acctest.Required, Create: `10.0.0.0/24`, Update: "10.0.0.0/16"},
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"vcn_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
@@ -57,17 +57,17 @@ var (
 		"nsg_ids":             acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
 		"route_table_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_route_table.test_route_table.id}`},
 		"vlan_tag":            acctest.Representation{RepType: acctest.Optional, Create: `10`},
-		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesNsgRepresentation},
+		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreNetworkSecurityIgnoreChangesNsgRepresentation},
 	}
 
-	ignoreChangesVlanRepresentation = map[string]interface{}{
+	CoreVlanIgnoreChangesVlanRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
-	VlanResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, internetGatewayRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, networkSecurityGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, routeTableRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	CoreVlanResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, CoreInternetGatewayRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, CoreRouteTableRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
 )
@@ -91,14 +91,14 @@ func TestCoreVlanResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+VlanResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", acctest.Optional, acctest.Create, vlanRepresentation), "core", "vlan", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreVlanResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", acctest.Optional, acctest.Create, CoreVlanRepresentation), "core", "vlan", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreVlanDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + VlanResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", acctest.Required, acctest.Create, vlanRepresentation),
+			Config: config + compartmentIdVariableStr + CoreVlanResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", acctest.Required, acctest.Create, CoreVlanRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -113,12 +113,12 @@ func TestCoreVlanResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + VlanResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreVlanResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + VlanResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", acctest.Optional, acctest.Create, vlanRepresentation),
+			Config: config + compartmentIdVariableStr + CoreVlanResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", acctest.Optional, acctest.Create, CoreVlanRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
@@ -145,9 +145,9 @@ func TestCoreVlanResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VlanResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreVlanResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(vlanRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CoreVlanRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -174,8 +174,8 @@ func TestCoreVlanResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + VlanResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", acctest.Optional, acctest.Update, vlanRepresentation),
+			Config: config + compartmentIdVariableStr + CoreVlanResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", acctest.Optional, acctest.Update, CoreVlanRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
@@ -200,9 +200,9 @@ func TestCoreVlanResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vlans", "test_vlans", acctest.Optional, acctest.Update, vlanDataSourceRepresentation) +
-				compartmentIdVariableStr + VlanResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", acctest.Optional, acctest.Update, vlanRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vlans", "test_vlans", acctest.Optional, acctest.Update, CoreCoreVlanDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreVlanResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", acctest.Optional, acctest.Update, CoreVlanRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -226,8 +226,8 @@ func TestCoreVlanResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vlan", "test_vlan", acctest.Required, acctest.Create, vlanSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + VlanResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vlan", "test_vlan", acctest.Required, acctest.Create, CoreCoreVlanSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreVlanResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vlan_id"),
 
@@ -244,7 +244,7 @@ func TestCoreVlanResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + VlanRequiredOnlyResource,
+			Config:                  config + CoreVlanRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -308,7 +308,7 @@ func init() {
 
 func sweepCoreVlanResource(compartment string) error {
 	virtualNetworkClient := acctest.GetTestClients(&schema.ResourceData{}).VirtualNetworkClient()
-	vlanIds, err := getVlanIds(compartment)
+	vlanIds, err := getCoreVlanIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -324,14 +324,14 @@ func sweepCoreVlanResource(compartment string) error {
 				fmt.Printf("Error deleting Vlan %s %s, It is possible that the resource is already deleted. Please verify manually \n", vlanId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &vlanId, vlanSweepWaitCondition, time.Duration(3*time.Minute),
-				vlanSweepResponseFetchOperation, "core", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &vlanId, CoreVlanSweepWaitCondition, time.Duration(3*time.Minute),
+				CoreVlanSweepResponseFetchOperation, "core", true)
 		}
 	}
 	return nil
 }
 
-func getVlanIds(compartment string) ([]string, error) {
+func getCoreVlanIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "VlanId")
 	if ids != nil {
 		return ids, nil
@@ -356,7 +356,7 @@ func getVlanIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func vlanSweepWaitCondition(response common.OCIOperationResponse) bool {
+func CoreVlanSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if vlanResponse, ok := response.Response.(oci_core.GetVlanResponse); ok {
 		return vlanResponse.LifecycleState != oci_core.VlanLifecycleStateTerminated
@@ -364,7 +364,7 @@ func vlanSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func vlanSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CoreVlanSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.VirtualNetworkClient().GetVlan(context.Background(), oci_core.GetVlanRequest{
 		VlanId: resourceId,
 		RequestMetadata: common.RequestMetadata{

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database_tools
@@ -7,8 +7,8 @@ import (
 	"context"
 	"log"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_tools "github.com/oracle/oci-go-sdk/v65/databasetools"
@@ -34,7 +34,7 @@ func readSingularDatabaseToolsDatabaseToolsConnection(d *schema.ResourceData, m 
 type DatabaseToolsDatabaseToolsConnectionDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_database_tools.DatabaseToolsClient
-	Res    *oci_database_tools.DatabaseToolsConnection //Res *oci_database_tools.GetDatabaseToolsConnectionResponse
+	Res    *oci_database_tools.GetDatabaseToolsConnectionResponse //Res *oci_database_tools.GetDatabaseToolsConnectionResponse
 }
 
 func (s *DatabaseToolsDatabaseToolsConnectionDataSourceCrud) VoidState() {
@@ -56,7 +56,7 @@ func (s *DatabaseToolsDatabaseToolsConnectionDataSourceCrud) Get() error {
 		return err
 	}
 
-	s.Res = &response.DatabaseToolsConnection //s.Res = &response
+	s.Res = &response //s.Res = &response
 	return nil
 }
 
@@ -66,7 +66,7 @@ func (s *DatabaseToolsDatabaseToolsConnectionDataSourceCrud) SetData() error {
 	}
 	s.D.SetId(tfresource.GenerateDataSourceHashID("DatabaseToolsDatabaseToolsConnectionDataSource-", DatabaseToolsDatabaseToolsConnectionDataSource(), s.D))
 
-	switch v := (*s.Res).(type) {
+	switch v := (s.Res.DatabaseToolsConnection).(type) {
 	case oci_database_tools.DatabaseToolsConnectionOracleDatabase:
 		s.D.Set("type", "ORACLE_DATABASE")
 
@@ -138,8 +138,9 @@ func (s *DatabaseToolsDatabaseToolsConnectionDataSourceCrud) SetData() error {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
 	default:
-		log.Printf("[WARN] Received 'type' of unknown type %v", *s.Res)
+		log.Printf("[WARN] Received 'type' of unknown type %v", s.Res.DatabaseToolsConnection)
 		return nil
 	}
+
 	return nil
 }

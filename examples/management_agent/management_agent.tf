@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
@@ -7,7 +7,7 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
 variable "compartment_ocid" {}
-variable "managed_agent_id" {}
+variable "root_compartment_ocid" {}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -17,18 +17,52 @@ provider "oci" {
   region           = var.region
 }
 
-resource "oci_management_agent_management_agent" "test_management_agent" {
+
+data "oci_management_agent_management_agents" "find_agent" {
   #Required
-  managed_agent_id = var.managed_agent_id
+  compartment_id = var.compartment_ocid
 
   #Optional
-  display_name      = "TF_test_agent"
-  deploy_plugins_id = [data.oci_management_agent_management_agent_plugins.test_management_agent_plugins.management_agent_plugins.0.id]
+  availability_status = "ACTIVE"
+  display_name = "terraformTest"
+  state = "ACTIVE"
+}
+
+resource "oci_management_agent_management_agent" "test_management_agent" {
+  #Required
+  managed_agent_id = data.oci_management_agent_management_agents.find_agent.management_agents[0].id
+
+  #Optional
+  deploy_plugins_id = [data.oci_management_agent_management_agent_plugins.test_management_agent_plugins.management_agent_plugins.1.id]
+}
+
+
+data "oci_management_agent_management_agents" "test_management_agents_subtree" {
+  #Required
+  compartment_id = var.root_compartment_ocid
+
+  #Optional
+  access_level = "ACCESSIBLE"
+  availability_status = "ACTIVE"
+  compartment_id_in_subtree = true
 }
 
 data "oci_management_agent_management_agents" "test_management_agents" {
   #Required
   compartment_id = var.compartment_ocid
+
+  #Optional
+  access_level = "ACCESSIBLE"
+  availability_status = "ACTIVE"
+  compartment_id_in_subtree = false
+  display_name = "my agent"
+  host_id = "hostid"
+  install_type = "AGENT"
+  is_customer_deployed = true
+  platform_type = ["LINUX"]
+  plugin_name = ["Plugin Name"]
+  state = "ACTIVE"
+  version = ["210101.0101"]
 }
 
 resource "oci_management_agent_management_agent_install_key" "test_management_agent_install_key" {
@@ -37,8 +71,8 @@ resource "oci_management_agent_management_agent_install_key" "test_management_ag
 
   #Optional
   allowed_key_install_count = "200"
-  display_name              = "displayName"
-  time_expires              = "2022-05-27T17:27:44.398Z"
+  display_name              = "terraformTest"
+  time_expires              = "2023-05-27T17:27:44.398Z"
 }
 
 resource "oci_management_agent_management_agent_install_key" "test_management_agent_install_key_unlimited" {
@@ -46,7 +80,7 @@ resource "oci_management_agent_management_agent_install_key" "test_management_ag
   compartment_id = var.compartment_ocid
 
   #Optional
-  display_name              = "displayName"
+  display_name              = "terraformTest"
   is_unlimited              = true
 }
 
@@ -63,6 +97,10 @@ data "oci_management_agent_management_agent_install_key" "test_management_agent_
 data "oci_management_agent_management_agent_plugins" "test_management_agent_plugins" {
   #Required
   compartment_id = var.compartment_ocid
+
+  #Optional
+  agent_id = data.oci_management_agent_management_agents.find_agent.management_agents[0].id
+
 }
 
 data "oci_management_agent_management_agent_images" "test_management_agent_images" {
@@ -72,7 +110,7 @@ data "oci_management_agent_management_agent_images" "test_management_agent_image
 
 data "oci_management_agent_management_agent_available_histories" "test_management_agent_available_histories" {
   #Required
-  management_agent_id = var.managed_agent_id
+  management_agent_id = data.oci_management_agent_management_agents.find_agent.management_agents[0].id
 
   #Optional
   time_availability_status_ended_greater_than      = "2020-01-15T01:01:01.000Z"

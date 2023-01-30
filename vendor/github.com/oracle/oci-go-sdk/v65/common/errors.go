@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 package common
@@ -56,11 +56,27 @@ type ServiceErrorRichInfo interface {
 	GetErrorTroubleshootingLink() string
 }
 
+// ServiceErrorLocalizationMessage models all potential errors generated the service call and has localized error message info
+type ServiceErrorLocalizationMessage interface {
+	ServiceErrorRichInfo
+	// The original error message string as sent by the service
+	GetOriginalMessage() string
+
+	// The values to be substituted into the originalMessageTemplate, expressed as a string-to-string map.
+	GetMessageArgument() map[string]string
+
+	// Template in ICU MessageFormat for the human-readable error string in English, but without the values replaced
+	GetOriginalMessageTemplate() string
+}
+
 type servicefailure struct {
-	StatusCode   int
-	Code         string `json:"code,omitempty"`
-	Message      string `json:"message,omitempty"`
-	OpcRequestID string `json:"opc-request-id"`
+	StatusCode              int
+	Code                    string            `json:"code,omitempty"`
+	Message                 string            `json:"message,omitempty"`
+	OriginalMessage         string            `json:"originalMessage"`
+	OriginalMessageTemplate string            `json:"originalMessageTemplate"`
+	MessageArgument         map[string]string `json:"messageArguments"`
+	OpcRequestID            string            `json:"opc-request-id"`
 	// debugging information
 	TargetService string  `json:"target-service"`
 	OperationName string  `json:"operation-name"`
@@ -151,6 +167,18 @@ func (se servicefailure) GetMessage() string {
 	return se.Message
 }
 
+func (se servicefailure) GetOriginalMessage() string {
+	return se.OriginalMessage
+}
+
+func (se servicefailure) GetOriginalMessageTemplate() string {
+	return se.OriginalMessageTemplate
+}
+
+func (se servicefailure) GetMessageArgument() map[string]string {
+	return se.MessageArgument
+}
+
 func (se servicefailure) GetCode() string {
 	return se.Code
 }
@@ -201,6 +229,13 @@ func IsServiceErrorRichInfo(err error) (failure ServiceErrorRichInfo, ok bool) {
 	return
 }
 
+// IsServiceErrorLocalizationMessage returns false if the error is not service side, otherwise true
+// additionally it returns an interface representing the ServiceErrorOriginalMessage
+func IsServiceErrorLocalizationMessage(err error) (failure ServiceErrorLocalizationMessage, ok bool) {
+	failure, ok = err.(ServiceErrorLocalizationMessage)
+	return
+}
+
 type deadlineExceededByBackoffError struct{}
 
 func (deadlineExceededByBackoffError) Error() string {
@@ -227,7 +262,11 @@ func (ne NonSeekableRequestRetryFailure) Error() string {
 
 // IsNetworkError validates if an error is a net.Error and check if it's temporary or timeout
 func IsNetworkError(err error) bool {
-	if r, ok := err.(net.Error); ok && (r.Temporary() || r.Timeout()) {
+	if err == nil {
+		return false
+	}
+
+	if r, ok := err.(net.Error); ok && (r.Temporary() || r.Timeout()) || strings.Contains(err.Error(), "net/http: HTTP/1.x transport connection broken") {
 		return true
 	}
 	return false
@@ -235,6 +274,10 @@ func IsNetworkError(err error) bool {
 
 // IsCircuitBreakerError validates if an error's text is Open state ErrOpenState or HalfOpen state ErrTooManyRequests
 func IsCircuitBreakerError(err error) bool {
+	if err == nil {
+		return false
+	}
+
 	if err.Error() == gobreaker.ErrOpenState.Error() || err.Error() == gobreaker.ErrTooManyRequests.Error() {
 		return true
 	}

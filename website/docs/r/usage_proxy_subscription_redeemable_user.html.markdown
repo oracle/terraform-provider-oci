@@ -10,7 +10,7 @@ description: |-
 # oci_usage_proxy_subscription_redeemable_user
 This resource provides the Subscription Redeemable User resource in Oracle Cloud Infrastructure Usage Proxy service.
 
-Adds the list of redeemable user email IDs for a subscription ID.
+Adds the list of redeemable user summary for a subscription ID.
 
 
 ## Example Usage
@@ -25,6 +25,10 @@ resource "oci_usage_proxy_subscription_redeemable_user" "test_subscription_redee
 	items {
 		#Required
 		email_id = oci_usage_proxy_email.test_email.id
+
+		#Optional
+		first_name = var.subscription_redeemable_user_items_first_name
+		last_name = var.subscription_redeemable_user_items_last_name
 	}
 	user_id = oci_identity_user.test_user.id
 }
@@ -34,8 +38,10 @@ resource "oci_usage_proxy_subscription_redeemable_user" "test_subscription_redee
 
 The following arguments are supported:
 
-* `items` - (Optional) The list of email IDs to be added to the list of users that can redeem rewards.
+* `items` - (Optional) The list of new user to be added to the list of user that can redeem rewards.
 	* `email_id` - (Required) The email ID for a user that can redeem rewards.
+	* `first_name` - (Optional) The first name of the user that can redeem rewards.
+	* `last_name` - (Optional) The last name of the user that can redeem rewards.
 * `subscription_id` - (Required) The subscription ID for which rewards information is requested for.
 * `tenancy_id` - (Required) The OCID of the tenancy.
 * `user_id` - (Optional) The user ID of the person to send a copy of an email.
@@ -48,12 +54,14 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `items` - The list of user email IDs that can redeem rewards.
-	* `email_id` - The email ID of a user that can redeem rewards.
+* `items` - The list of user summary that can redeem rewards.
+	* `email_id` - The email ID of the user that can redeem rewards.
+	* `first_name` - The first name of the user that can redeem rewards.
+	* `last_name` - The last name of the user that can redeem rewards.
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Subscription Redeemable User
 	* `update` - (Defaults to 20 minutes), when updating the Subscription Redeemable User
 	* `delete` - (Defaults to 20 minutes), when destroying the Subscription Redeemable User

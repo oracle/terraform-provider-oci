@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package core
@@ -10,9 +10,9 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 )
@@ -91,6 +91,11 @@ func CoreRouteTableResource() *schema.Resource {
 							Computed: true,
 						},
 						"destination_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"route_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -411,6 +416,10 @@ func (s *CoreRouteTableResourceCrud) mapToRouteRule(fieldKeyFormat string) (oci_
 		result.NetworkEntityId = &tmp
 	}
 
+	if routeType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "route_type")); ok {
+		result.RouteType = oci_core.RouteRuleRouteTypeEnum(routeType.(string))
+	}
+
 	return result, nil
 }
 
@@ -470,7 +479,13 @@ func routeRulesHashCodeForSets(v interface{}) int {
 	if networkEntityId, ok := m["network_entity_id"]; ok && networkEntityId != "" {
 		buf.WriteString(fmt.Sprintf("%v-", networkEntityId))
 	}
+
+	if routeType, ok := m["route_type"]; ok && routeType != "" {
+		buf.WriteString(fmt.Sprintf("%v-", routeType))
+	}
+
 	return utils.GetStringHashcode(buf.String())
+
 }
 func (s *CoreRouteTableResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_core.ChangeRouteTableCompartmentRequest{}

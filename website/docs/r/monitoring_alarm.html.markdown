@@ -36,6 +36,7 @@ resource "oci_monitoring_alarm" "test_alarm" {
 	body = var.alarm_body
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
+	is_notifications_per_metric_dimension_enabled = var.alarm_is_notifications_per_metric_dimension_enabled
 	message_format = var.alarm_message_format
 	metric_compartment_id_in_subtree = var.alarm_metric_compartment_id_in_subtree
 	pending_duration = var.alarm_pending_duration
@@ -68,6 +69,7 @@ The following arguments are supported:
 	Example: `High CPU Utilization` 
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"Department": "Finance"}` 
 * `is_enabled` - (Required) (Updatable) Whether the alarm is enabled.  Example: `true` 
+* `is_notifications_per_metric_dimension_enabled` - (Optional) (Updatable) When set to `true`, splits notifications per metric stream. When set to `false`, groups notifications across metric streams. Example: `true` 
 * `message_format` - (Optional) (Updatable) The format to use for notification messages sent from this alarm. The formats are:
 	* `RAW` - Raw JSON blob. Default value.
 	* `PRETTY_JSON`: JSON with new lines and indents.
@@ -138,6 +140,7 @@ The following attributes are exported:
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the alarm. 
 * `is_enabled` - Whether the alarm is enabled.  Example: `true` 
+* `is_notifications_per_metric_dimension_enabled` - When set to `true`, splits notifications per metric stream. When set to `false`, groups notifications across metric streams. Example: `true` 
 * `message_format` - The format to use for notification messages sent from this alarm. The formats are:
 	* `RAW` - Raw JSON blob. Default value.
 	* `PRETTY_JSON`: JSON with new lines and indents.
@@ -193,7 +196,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Alarm
 	* `update` - (Defaults to 20 minutes), when updating the Alarm
 	* `delete` - (Defaults to 20 minutes), when destroying the Alarm

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database
@@ -6,8 +6,8 @@ package database
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -152,8 +152,16 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 			cloudAutonomousVmCluster["cloud_exadata_infrastructure_id"] = *r.CloudExadataInfrastructureId
 		}
 
+		if r.ClusterTimeZone != nil {
+			cloudAutonomousVmCluster["cluster_time_zone"] = *r.ClusterTimeZone
+		}
+
 		if r.CpuCoreCount != nil {
 			cloudAutonomousVmCluster["cpu_core_count"] = *r.CpuCoreCount
+		}
+
+		if r.CpuCoreCountPerNode != nil {
+			cloudAutonomousVmCluster["cpu_core_count_per_node"] = *r.CpuCoreCountPerNode
 		}
 
 		if r.DataStorageSizeInGBs != nil {
@@ -206,6 +214,12 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 
 		if r.LifecycleDetails != nil {
 			cloudAutonomousVmCluster["lifecycle_details"] = *r.LifecycleDetails
+		}
+
+		if r.MaintenanceWindow != nil {
+			cloudAutonomousVmCluster["maintenance_window"] = []interface{}{MaintenanceWindowToMap(r.MaintenanceWindow)}
+		} else {
+			cloudAutonomousVmCluster["maintenance_window"] = nil
 		}
 
 		if r.MemoryPerOracleComputeUnitInGBs != nil {

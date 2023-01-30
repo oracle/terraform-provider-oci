@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -6,80 +6,82 @@ package integrationtest
 import (
 	"context"
 	"fmt"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"testing"
 	"time"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_service_mesh "github.com/oracle/oci-go-sdk/v65/servicemesh"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	IngressGatewayRouteTableRequiredOnlyResource = IngressGatewayRouteTableResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway_route_table", "test_ingress_gateway_route_table", acctest.Required, acctest.Create, ingressGatewayRouteTableRepresentation)
+	ServiceMeshIngressGatewayRouteTableRequiredOnlyResource = ServiceMeshIngressGatewayRouteTableResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway_route_table", "test_ingress_gateway_route_table", acctest.Required, acctest.Create, ServiceMeshIngressGatewayRouteTableRepresentation)
 
-	IngressGatewayRouteTableResourceConfig = IngressGatewayRouteTableResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway_route_table", "test_ingress_gateway_route_table", acctest.Optional, acctest.Update, ingressGatewayRouteTableRepresentation)
+	ServiceMeshIngressGatewayRouteTableResourceConfig = ServiceMeshIngressGatewayRouteTableResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway_route_table", "test_ingress_gateway_route_table", acctest.Optional, acctest.Update, ServiceMeshIngressGatewayRouteTableRepresentation)
 
-	ingressGatewayRouteTableSingularDataSourceRepresentation = map[string]interface{}{
+	ServiceMeshServiceMeshIngressGatewayRouteTableSingularDataSourceRepresentation = map[string]interface{}{
 		"ingress_gateway_route_table_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_service_mesh_ingress_gateway_route_table.test_ingress_gateway_route_table.id}`},
 	}
 
-	ingressGatewayRouteTableDataSourceRepresentation = map[string]interface{}{
+	ServiceMeshServiceMeshIngressGatewayRouteTableDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_mesh_ingress_gateway_route_table.test_ingress_gateway_route_table.id}`},
 		"ingress_gateway_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_mesh_ingress_gateway.ingress_gateway_1.id}`},
 		"name":               acctest.Representation{RepType: acctest.Optional, Create: `name`},
-		"state":              acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
-		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: ingressGatewayRouteTableDataSourceFilterRepresentation}}
-	ingressGatewayRouteTableDataSourceFilterRepresentation = map[string]interface{}{
+		"state":              acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceMeshIngressGatewayRouteTableDataSourceFilterRepresentation}}
+	ServiceMeshIngressGatewayRouteTableDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_service_mesh_ingress_gateway_route_table.test_ingress_gateway_route_table.id}`}},
 	}
 
-	ingressGatewayRouteTableRepresentation = map[string]interface{}{
+	ServiceMeshIngressGatewayRouteTableRepresentation = map[string]interface{}{
 		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"ingress_gateway_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_service_mesh_ingress_gateway.ingress_gateway_1.id}`},
 		"name":               acctest.Representation{RepType: acctest.Required, Create: `name`},
-		"route_rules":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ingressGatewayRouteTableRouteRulesRepresentation},
+		"route_rules":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceMeshIngressGatewayRouteTableRouteRulesRepresentation},
 		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":        acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"priority":           acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 	}
-	ingressGatewayRouteTableRouteRulesRepresentation = map[string]interface{}{
-		"destinations":            acctest.RepresentationGroup{RepType: acctest.Required, Group: ingressGatewayRouteTableRouteRulesDestinationsRepresentation},
+	ServiceMeshIngressGatewayRouteTableRouteRulesRepresentation = map[string]interface{}{
+		"destinations":            acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceMeshIngressGatewayRouteTableRouteRulesDestinationsRepresentation},
 		"type":                    acctest.Representation{RepType: acctest.Required, Create: `TLS_PASSTHROUGH`, Update: `HTTP`},
-		"ingress_gateway_host":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: ingressGatewayRouteTableRouteRulesIngressGatewayHostRepresentation},
+		"ingress_gateway_host":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: ServiceMeshIngressGatewayRouteTableRouteRulesIngressGatewayHostRepresentation},
 		"is_grpc":                 acctest.Representation{RepType: acctest.Optional, Update: `true`},
 		"is_host_rewrite_enabled": acctest.Representation{RepType: acctest.Optional, Update: `true`},
 		"is_path_rewrite_enabled": acctest.Representation{RepType: acctest.Optional, Update: `true`},
 		"path":                    acctest.Representation{RepType: acctest.Optional, Update: `/path2`},
 		"path_type":               acctest.Representation{RepType: acctest.Optional, Update: `PREFIX`},
+		"request_timeout_in_ms":   acctest.Representation{RepType: acctest.Optional, Update: `11`},
 	}
-	ingressGatewayRouteTableRouteRulesDestinationsRepresentation = map[string]interface{}{
+	ServiceMeshIngressGatewayRouteTableRouteRulesDestinationsRepresentation = map[string]interface{}{
 		"virtual_service_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_service_mesh_virtual_service.virtual_service_1.id}`},
 		"port":               acctest.Representation{RepType: acctest.Optional, Create: `7010`, Update: `7011`},
 		"weight":             acctest.Representation{RepType: acctest.Optional, Create: `100`},
 	}
-	ingressGatewayRouteTableRouteRulesIngressGatewayHostRepresentation = map[string]interface{}{
+	ServiceMeshIngressGatewayRouteTableRouteRulesIngressGatewayHostRepresentation = map[string]interface{}{
 		"name": acctest.Representation{RepType: acctest.Required, Create: `name`},
 		"port": acctest.Representation{RepType: acctest.Optional, Create: `8010`, Update: `8011`},
 	}
 
-	IngressGatewayRouteTableResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_mesh", "mesh1", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(meshRepresentation, map[string]interface{}{
+	ServiceMeshIngressGatewayRouteTableResourceDependencies = DefinedTagsDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_mesh", "mesh1", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(ServiceMeshMeshRepresentation, map[string]interface{}{
 			"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreMeshDefinedTagsChangesRepresentation}})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway", "ingress_gateway_1", acctest.Required, acctest.Create, ingressGatewayRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_service", "virtual_service_1", acctest.Required, acctest.Create, virtualServiceRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway", "ingress_gateway_1", acctest.Required, acctest.Create, ServiceMeshIngressGatewayRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_virtual_service", "virtual_service_1", acctest.Required, acctest.Create, ServiceMeshVirtualServiceRepresentation)
 )
 
 // issue-routing-tag: service_mesh/default
@@ -104,14 +106,14 @@ func TestServiceMeshIngressGatewayRouteTableResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+certificateAuthorityIdVariableStr+compartmentIdVariableStr+IngressGatewayRouteTableResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway_route_table", "test_ingress_gateway_route_table", acctest.Optional, acctest.Create, ingressGatewayRouteTableRepresentation), "servicemesh", "ingressGatewayRouteTable", t)
+	acctest.SaveConfigContent(config+certificateAuthorityIdVariableStr+compartmentIdVariableStr+ServiceMeshIngressGatewayRouteTableResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway_route_table", "test_ingress_gateway_route_table", acctest.Optional, acctest.Create, ServiceMeshIngressGatewayRouteTableRepresentation), "servicemesh", "ingressGatewayRouteTable", t)
 
 	acctest.ResourceTest(t, testAccCheckServiceMeshIngressGatewayRouteTableDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + IngressGatewayRouteTableResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway_route_table", "test_ingress_gateway_route_table", acctest.Required, acctest.Create, ingressGatewayRouteTableRepresentation),
+			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshIngressGatewayRouteTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway_route_table", "test_ingress_gateway_route_table", acctest.Required, acctest.Create, ServiceMeshIngressGatewayRouteTableRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "ingress_gateway_id"),
@@ -132,12 +134,12 @@ func TestServiceMeshIngressGatewayRouteTableResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + IngressGatewayRouteTableResourceDependencies,
+			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshIngressGatewayRouteTableResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + IngressGatewayRouteTableResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway_route_table", "test_ingress_gateway_route_table", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(ingressGatewayRouteTableRepresentation, map[string]interface{}{
+			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshIngressGatewayRouteTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway_route_table", "test_ingress_gateway_route_table", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(ServiceMeshIngressGatewayRouteTableRepresentation, map[string]interface{}{
 					"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreMeshDefinedTagsChangesRepresentation}})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -167,9 +169,9 @@ func TestServiceMeshIngressGatewayRouteTableResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + compartmentIdUVariableStr + IngressGatewayRouteTableResourceDependencies +
+			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + compartmentIdUVariableStr + ServiceMeshIngressGatewayRouteTableResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway_route_table", "test_ingress_gateway_route_table", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(ingressGatewayRouteTableRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(ServiceMeshIngressGatewayRouteTableRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -203,8 +205,8 @@ func TestServiceMeshIngressGatewayRouteTableResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + IngressGatewayRouteTableResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway_route_table", "test_ingress_gateway_route_table", acctest.Optional, acctest.Update, ingressGatewayRouteTableRepresentation),
+			Config: config + certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshIngressGatewayRouteTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway_route_table", "test_ingress_gateway_route_table", acctest.Optional, acctest.Update, ServiceMeshIngressGatewayRouteTableRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -222,6 +224,7 @@ func TestServiceMeshIngressGatewayRouteTableResource_basic(t *testing.T) {
 					"is_path_rewrite_enabled": "true",
 					"path":                    "/path2",
 					"path_type":               "PREFIX",
+					"request_timeout_in_ms":   "11",
 					"type":                    "HTTP",
 				},
 					[]string{}),
@@ -241,15 +244,15 @@ func TestServiceMeshIngressGatewayRouteTableResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_service_mesh_ingress_gateway_route_tables", "test_ingress_gateway_route_tables", acctest.Optional, acctest.Update, ingressGatewayRouteTableDataSourceRepresentation) +
-				certificateAuthorityIdVariableStr + compartmentIdVariableStr + IngressGatewayRouteTableResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway_route_table", "test_ingress_gateway_route_table", acctest.Optional, acctest.Update, ingressGatewayRouteTableRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_service_mesh_ingress_gateway_route_tables", "test_ingress_gateway_route_tables", acctest.Optional, acctest.Update, ServiceMeshServiceMeshIngressGatewayRouteTableDataSourceRepresentation) +
+				certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshIngressGatewayRouteTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway_route_table", "test_ingress_gateway_route_table", acctest.Optional, acctest.Update, ServiceMeshIngressGatewayRouteTableRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "ingress_gateway_id"),
 				resource.TestCheckResourceAttr(datasourceName, "name", "name"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "ingress_gateway_route_table_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "ingress_gateway_route_table_collection.0.items.#", "0"),
@@ -258,8 +261,8 @@ func TestServiceMeshIngressGatewayRouteTableResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_service_mesh_ingress_gateway_route_table", "test_ingress_gateway_route_table", acctest.Required, acctest.Create, ingressGatewayRouteTableSingularDataSourceRepresentation) +
-				certificateAuthorityIdVariableStr + compartmentIdVariableStr + IngressGatewayRouteTableResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_service_mesh_ingress_gateway_route_table", "test_ingress_gateway_route_table", acctest.Required, acctest.Create, ServiceMeshServiceMeshIngressGatewayRouteTableSingularDataSourceRepresentation) +
+				certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshIngressGatewayRouteTableResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ingress_gateway_route_table_id"),
 
@@ -278,6 +281,7 @@ func TestServiceMeshIngressGatewayRouteTableResource_basic(t *testing.T) {
 					"is_path_rewrite_enabled": "true",
 					"path":                    "/path2",
 					"path_type":               "PREFIX",
+					"request_timeout_in_ms":   "11",
 					"type":                    "HTTP",
 				},
 					[]string{}),
@@ -288,7 +292,7 @@ func TestServiceMeshIngressGatewayRouteTableResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + IngressGatewayRouteTableRequiredOnlyResource,
+			Config:                  config + ServiceMeshIngressGatewayRouteTableRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -352,7 +356,7 @@ func init() {
 
 func sweepServiceMeshIngressGatewayRouteTableResource(compartment string) error {
 	serviceMeshClient := acctest.GetTestClients(&schema.ResourceData{}).ServiceMeshClient()
-	ingressGatewayRouteTableIds, err := getIngressGatewayRouteTableIds(compartment)
+	ingressGatewayRouteTableIds, err := getServiceMeshIngressGatewayRouteTableIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -368,14 +372,14 @@ func sweepServiceMeshIngressGatewayRouteTableResource(compartment string) error 
 				fmt.Printf("Error deleting IngressGatewayRouteTable %s %s, It is possible that the resource is already deleted. Please verify manually \n", ingressGatewayRouteTableId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &ingressGatewayRouteTableId, ingressGatewayRouteTableSweepWaitCondition, time.Duration(3*time.Minute),
-				ingressGatewayRouteTableSweepResponseFetchOperation, "service_mesh", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &ingressGatewayRouteTableId, ServiceMeshIngressGatewayRouteTableSweepWaitCondition, time.Duration(3*time.Minute),
+				ServiceMeshIngressGatewayRouteTableSweepResponseFetchOperation, "service_mesh", true)
 		}
 	}
 	return nil
 }
 
-func getIngressGatewayRouteTableIds(compartment string) ([]string, error) {
+func getServiceMeshIngressGatewayRouteTableIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "IngressGatewayRouteTableId")
 	if ids != nil {
 		return ids, nil
@@ -386,8 +390,7 @@ func getIngressGatewayRouteTableIds(compartment string) ([]string, error) {
 
 	listIngressGatewayRouteTablesRequest := oci_service_mesh.ListIngressGatewayRouteTablesRequest{}
 	listIngressGatewayRouteTablesRequest.CompartmentId = &compartmentId
-	active := "ACTIVE"
-	listIngressGatewayRouteTablesRequest.LifecycleState = &active
+	listIngressGatewayRouteTablesRequest.LifecycleState = oci_service_mesh.IngressGatewayRouteTableLifecycleStateActive
 	listIngressGatewayRouteTablesResponse, err := serviceMeshClient.ListIngressGatewayRouteTables(context.Background(), listIngressGatewayRouteTablesRequest)
 
 	if err != nil {
@@ -401,7 +404,7 @@ func getIngressGatewayRouteTableIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func ingressGatewayRouteTableSweepWaitCondition(response common.OCIOperationResponse) bool {
+func ServiceMeshIngressGatewayRouteTableSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if ingressGatewayRouteTableResponse, ok := response.Response.(oci_service_mesh.GetIngressGatewayRouteTableResponse); ok {
 		return ingressGatewayRouteTableResponse.LifecycleState != oci_service_mesh.IngressGatewayRouteTableLifecycleStateDeleted
@@ -409,7 +412,7 @@ func ingressGatewayRouteTableSweepWaitCondition(response common.OCIOperationResp
 	return false
 }
 
-func ingressGatewayRouteTableSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func ServiceMeshIngressGatewayRouteTableSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.ServiceMeshClient().GetIngressGatewayRouteTable(context.Background(), oci_service_mesh.GetIngressGatewayRouteTableRequest{
 		IngressGatewayRouteTableId: resourceId,
 		RequestMetadata: common.RequestMetadata{

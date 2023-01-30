@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -19,31 +19,44 @@ import (
 // Schedule The schedule.
 type Schedule struct {
 
-	// The OCID representing unique shedule
+	// The OCID representing a unique shedule.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The unique name of the schedule created by the user
+	// The unique name of the schedule created by the user.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The tenancy of the customer
+	// The customer tenancy.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	ResultLocation ResultLocation `mandatory:"true" json:"resultLocation"`
 
-	// In x-obmcs-recurring-time format shown here: https://datatracker.ietf.org/doc/html/rfc5545#section-3.3.10
-	// Describes the frequency of when the schedule will be run
+	// Specifies the frequency according to when the schedule will be run,
+	// in the x-obmcs-recurring-time format described in RFC 5545 section 3.3.10 (https://datatracker.ietf.org/doc/html/rfc5545#section-3.3.10).
+	// Supported values are : ONE_TIME, DAILY, WEEKLY and MONTHLY.
 	ScheduleRecurrences *string `mandatory:"true" json:"scheduleRecurrences"`
 
-	// The date and time of the first time job execution
+	// The date and time of the first time job execution.
 	TimeScheduled *common.SDKTime `mandatory:"true" json:"timeScheduled"`
 
-	QueryProperties *QueryProperties `mandatory:"true" json:"queryProperties"`
-
-	// The date and time of when the schedule was created
+	// The date and time the schedule was created.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The lifecycle state of the schedule
+	// The schedule lifecycle state.
 	LifecycleState ScheduleLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// The description of the schedule.
+	Description *string `mandatory:"false" json:"description"`
+
+	// The date and time of the next job execution.
+	TimeNextRun *common.SDKTime `mandatory:"false" json:"timeNextRun"`
+
+	// Specifies supported output file format.
+	OutputFileFormat ScheduleOutputFileFormatEnum `mandatory:"false" json:"outputFileFormat,omitempty"`
+
+	// The saved report id which can also be used to generate query.
+	SavedReportId *string `mandatory:"false" json:"savedReportId"`
+
+	QueryProperties *QueryProperties `mandatory:"false" json:"queryProperties"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`
@@ -69,6 +82,9 @@ func (m Schedule) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetScheduleLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingScheduleOutputFileFormatEnum(string(m.OutputFileFormat)); !ok && m.OutputFileFormat != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OutputFileFormat: %s. Supported values are: %s.", m.OutputFileFormat, strings.Join(GetScheduleOutputFileFormatEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -78,6 +94,11 @@ func (m Schedule) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *Schedule) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		Description         *string                           `json:"description"`
+		TimeNextRun         *common.SDKTime                   `json:"timeNextRun"`
+		OutputFileFormat    ScheduleOutputFileFormatEnum      `json:"outputFileFormat"`
+		SavedReportId       *string                           `json:"savedReportId"`
+		QueryProperties     *QueryProperties                  `json:"queryProperties"`
 		FreeformTags        map[string]string                 `json:"freeformTags"`
 		DefinedTags         map[string]map[string]interface{} `json:"definedTags"`
 		SystemTags          map[string]map[string]interface{} `json:"systemTags"`
@@ -87,7 +108,6 @@ func (m *Schedule) UnmarshalJSON(data []byte) (e error) {
 		ResultLocation      resultlocation                    `json:"resultLocation"`
 		ScheduleRecurrences *string                           `json:"scheduleRecurrences"`
 		TimeScheduled       *common.SDKTime                   `json:"timeScheduled"`
-		QueryProperties     *QueryProperties                  `json:"queryProperties"`
 		TimeCreated         *common.SDKTime                   `json:"timeCreated"`
 		LifecycleState      ScheduleLifecycleStateEnum        `json:"lifecycleState"`
 	}{}
@@ -97,6 +117,16 @@ func (m *Schedule) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.Description = model.Description
+
+	m.TimeNextRun = model.TimeNextRun
+
+	m.OutputFileFormat = model.OutputFileFormat
+
+	m.SavedReportId = model.SavedReportId
+
+	m.QueryProperties = model.QueryProperties
+
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
@@ -123,13 +153,53 @@ func (m *Schedule) UnmarshalJSON(data []byte) (e error) {
 
 	m.TimeScheduled = model.TimeScheduled
 
-	m.QueryProperties = model.QueryProperties
-
 	m.TimeCreated = model.TimeCreated
 
 	m.LifecycleState = model.LifecycleState
 
 	return
+}
+
+// ScheduleOutputFileFormatEnum Enum with underlying type: string
+type ScheduleOutputFileFormatEnum string
+
+// Set of constants representing the allowable values for ScheduleOutputFileFormatEnum
+const (
+	ScheduleOutputFileFormatCsv ScheduleOutputFileFormatEnum = "CSV"
+	ScheduleOutputFileFormatPdf ScheduleOutputFileFormatEnum = "PDF"
+)
+
+var mappingScheduleOutputFileFormatEnum = map[string]ScheduleOutputFileFormatEnum{
+	"CSV": ScheduleOutputFileFormatCsv,
+	"PDF": ScheduleOutputFileFormatPdf,
+}
+
+var mappingScheduleOutputFileFormatEnumLowerCase = map[string]ScheduleOutputFileFormatEnum{
+	"csv": ScheduleOutputFileFormatCsv,
+	"pdf": ScheduleOutputFileFormatPdf,
+}
+
+// GetScheduleOutputFileFormatEnumValues Enumerates the set of values for ScheduleOutputFileFormatEnum
+func GetScheduleOutputFileFormatEnumValues() []ScheduleOutputFileFormatEnum {
+	values := make([]ScheduleOutputFileFormatEnum, 0)
+	for _, v := range mappingScheduleOutputFileFormatEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetScheduleOutputFileFormatEnumStringValues Enumerates the set of values in String for ScheduleOutputFileFormatEnum
+func GetScheduleOutputFileFormatEnumStringValues() []string {
+	return []string{
+		"CSV",
+		"PDF",
+	}
+}
+
+// GetMappingScheduleOutputFileFormatEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingScheduleOutputFileFormatEnum(val string) (ScheduleOutputFileFormatEnum, bool) {
+	enum, ok := mappingScheduleOutputFileFormatEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // ScheduleLifecycleStateEnum Enum with underlying type: string

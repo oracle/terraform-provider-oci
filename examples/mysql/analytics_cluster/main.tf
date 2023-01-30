@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 
 variable "tenancy_ocid" {
 }
@@ -44,7 +44,7 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
   availability_domain     = data.oci_identity_availability_domains.test_availability_domains.availability_domains[0].name
   compartment_id          = var.compartment_ocid
   configuration_id        = data.oci_mysql_mysql_configurations.test_mysql_configurations.configurations[0].id
-  shape_name              = "VM.Standard.E2.2"
+  shape_name              = "MySQL.VM.Standard.E3.1.8GB"
   subnet_id               = oci_core_subnet.test_subnet.id
   data_storage_size_in_gb = "50"
 
@@ -75,7 +75,7 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 resource "oci_mysql_analytics_cluster" "test_analytics_cluster" {
   db_system_id = oci_mysql_mysql_db_system.test_mysql_db_system.id
   cluster_size = "2"
-  shape_name   = "VM.Standard.E2.2"
+  shape_name   = "MySQL.VM.Standard.E3.1.8GB"
 }
 
 data "oci_mysql_mysql_configurations" "test_mysql_configurations" {
@@ -83,8 +83,8 @@ data "oci_mysql_mysql_configurations" "test_mysql_configurations" {
 
   #Optional
   state        = "ACTIVE"
-  display_name = "VM.Standard.E2.2.Built-in"
-  shape_name   = "VM.Standard.E2.2"
+  display_name = "MySQL.VM.Standard.E3.1.8GB.Built-in"
+  shape_name   = "MySQL.VM.Standard.E3.1.8GB"
 }
 
 data "oci_mysql_shapes" "test_shapes" {

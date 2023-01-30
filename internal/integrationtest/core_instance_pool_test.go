@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,107 +16,107 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	InstancePoolRequiredOnlyResource = InstancePoolResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Required, acctest.Create, instancePoolRepresentation)
+	CoreInstancePoolRequiredOnlyResource = CoreInstancePoolResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Required, acctest.Create, CoreInstancePoolRepresentation)
 
-	InstancePoolResourceConfig = InstancePoolResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Optional, acctest.Update, instancePoolRepresentation)
+	CoreInstancePoolResourceConfig = CoreInstancePoolResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Optional, acctest.Update, CoreInstancePoolRepresentation)
 
-	instancePoolSingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreInstancePoolSingularDataSourceRepresentation = map[string]interface{}{
 		"instance_pool_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance_pool.test_instance_pool.id}`},
 	}
 
-	instancePoolDataSourceRepresentation = map[string]interface{}{
+	CoreCoreInstancePoolDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `backend-servers-pool`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `RUNNING`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: instancePoolDataSourceFilterRepresentation}}
-	instancePoolDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolDataSourceFilterRepresentation}}
+	CoreInstancePoolDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_instance_pool.test_instance_pool.id}`}},
 	}
 
-	instancePoolRepresentation = map[string]interface{}{
+	CoreInstancePoolRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"instance_configuration_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance_configuration.test_instance_configuration.id}`},
-		"placement_configurations":  acctest.RepresentationGroup{RepType: acctest.Required, Group: instancePoolPlacementConfigurationsRepresentation},
+		"placement_configurations":  acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolPlacementConfigurationsRepresentation},
 		"size":                      acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `Running`},
 		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `backend-servers-pool`, Update: `displayName2`},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"load_balancers":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: instancePoolLoadBalancersRepresentation},
+		"load_balancers":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolLoadBalancersRepresentation},
 	}
 
-	instancePoolRepresentationWithLifecycleSizeIgnoreChanges = map[string]interface{}{
+	CoreInstancePoolRepresentationWithLifecycleSizeIgnoreChanges = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"instance_configuration_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance_configuration.test_instance_configuration.id}`},
-		"placement_configurations":  acctest.RepresentationGroup{RepType: acctest.Required, Group: instancePoolPlacementConfigurationsRepresentation},
+		"placement_configurations":  acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolPlacementConfigurationsRepresentation},
 		"size":                      acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `Running`},
 		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `backend-servers-pool`, Update: `displayName2`},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"load_balancers":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: instancePoolLoadBalancersRepresentation},
-		"lifecycle":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: sizeIgnoreChangesRepresentation},
+		"load_balancers":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolLoadBalancersRepresentation},
+		"lifecycle":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolSizeIgnoreChangesRepresentation},
 	}
-	sizeIgnoreChangesRepresentation = map[string]interface{}{
+	CoreInstancePoolSizeIgnoreChangesRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`size`}},
 	}
 
-	instancePoolPlacementConfigurationsRepresentation = map[string]interface{}{
+	CoreInstancePoolPlacementConfigurationsRepresentation = map[string]interface{}{
 		"availability_domain":    acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"primary_subnet_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"fault_domains":          acctest.Representation{RepType: acctest.Optional, Create: []string{`FAULT-DOMAIN-1`}, Update: []string{`FAULT-DOMAIN-2`}},
-		"secondary_vnic_subnets": acctest.RepresentationGroup{RepType: acctest.Optional, Group: instancePoolPlacementConfigurationsSecondaryVnicSubnetsRepresentation},
+		"secondary_vnic_subnets": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolPlacementConfigurationsSecondaryVnicSubnetsRepresentation},
 	}
-	instancePoolLoadBalancersRepresentation = map[string]interface{}{
+	CoreInstancePoolLoadBalancersRepresentation = map[string]interface{}{
 		"backend_set_name": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_backend_set.test_backend_set.name}`},
 		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 		"port":             acctest.Representation{RepType: acctest.Required, Create: `10`},
 		"vnic_selection":   acctest.Representation{RepType: acctest.Required, Create: `PrimaryVnic`},
 	}
-	instancePoolLoadBalancers2Representation = map[string]interface{}{
+	CoreInstancePoolLoadBalancers2Representation = map[string]interface{}{
 		"backend_set_name": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_backend_set.test_backend_set2.name}`},
 		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer2.id}`},
 		"port":             acctest.Representation{RepType: acctest.Required, Create: `10`},
 		"vnic_selection":   acctest.Representation{RepType: acctest.Required, Create: `PrimaryVnic`},
 	}
-	instancePoolPlacementConfigurationsSecondaryVnicSubnetsRepresentation = map[string]interface{}{
+	CoreInstancePoolPlacementConfigurationsSecondaryVnicSubnetsRepresentation = map[string]interface{}{
 		"subnet_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		//the display_name should be the same as in the instance configuration
 		"display_name": acctest.Representation{RepType: acctest.Required, Create: `backend-servers-pool`},
 	}
 
-	instanceConfigurationPoolRepresentation = map[string]interface{}{
+	CoreInstancePoolConfigurationPoolRepresentation = map[string]interface{}{
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"instance_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: instanceConfigurationInstanceDetailsPoolRepresentation},
+		"instance_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolInstanceConfigurationInstanceDetailsPoolRepresentation},
 		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`, Update: `displayName2`},
 		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
-	instanceConfigurationInstanceDetailsPoolRepresentation = map[string]interface{}{
+	CoreInstancePoolInstanceConfigurationInstanceDetailsPoolRepresentation = map[string]interface{}{
 		"instance_type":   acctest.Representation{RepType: acctest.Required, Create: `compute`},
-		"secondary_vnics": acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsSecondaryVnicsPoolRepresentation},
-		"launch_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsLaunchDetailsPoolRepresentation},
+		"secondary_vnics": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolInstanceConfigurationInstanceDetailsSecondaryVnicsPoolRepresentation},
+		"launch_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolInstanceConfigurationInstanceDetailsLaunchDetailsPoolRepresentation},
 	}
-	instanceConfigurationInstanceDetailsSecondaryVnicsPoolRepresentation = map[string]interface{}{
-		"create_vnic_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsPoolRepresentation},
+	CoreInstancePoolInstanceConfigurationInstanceDetailsSecondaryVnicsPoolRepresentation = map[string]interface{}{
+		"create_vnic_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolInstanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsPoolRepresentation},
 		//the display_name should be the same as in the secondary_vnic_subnets
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `backend-servers-pool`},
 	}
-	instanceConfigurationInstanceDetailsLaunchDetailsPoolRepresentation = map[string]interface{}{
+	CoreInstancePoolInstanceConfigurationInstanceDetailsLaunchDetailsPoolRepresentation = map[string]interface{}{
 		"compartment_id":                      acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"create_vnic_details":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsPoolRepresentation},
+		"create_vnic_details":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolInstanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsPoolRepresentation},
 		"defined_tags":                        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":                        acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
 		"extended_metadata":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"extendedMetadata": "extendedMetadata"}, Update: map[string]string{"extendedMetadata2": "extendedMetadata2"}},
@@ -124,32 +124,32 @@ var (
 		"ipxe_script":                         acctest.Representation{RepType: acctest.Optional, Create: `ipxeScript`},
 		"metadata":                            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"metadata": "metadata"}, Update: map[string]string{"metadata2": "metadata2"}},
 		"shape":                               acctest.Representation{RepType: acctest.Optional, Create: InstanceConfigurationVmShape},
-		"source_details":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation},
-		"agent_config":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceAgentConfigRepresentation},
-		"launch_options":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceLaunchOptionsRepresentation},
+		"source_details":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation},
+		"agent_config":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceAgentConfigRepresentation},
+		"launch_options":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceLaunchOptionsRepresentationOnlyNetworkType},
 		"is_pv_encryption_in_transit_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"launch_mode":                         acctest.Representation{RepType: acctest.Optional, Create: `NATIVE`},
 		"preferred_maintenance_action":        acctest.Representation{RepType: acctest.Optional, Create: `LIVE_MIGRATE`},
-		"shape_config":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceShapeConfigRepresentation},
+		"shape_config":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceShapeConfigRepresentation},
 	}
-	instanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsPoolRepresentation = map[string]interface{}{
+	CoreInstancePoolInstanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsPoolRepresentation = map[string]interface{}{
 		"assign_public_ip":       acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
 		"skip_source_dest_check": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
-	InstancePoolResourceDependenciesWithoutSecondaryVnic = SubnetResourceConfig + utils.OciImageIdsVariable + `
+	CoreInstancePoolResourceDependenciesWithoutSecondaryVnic = CoreSubnetResourceConfig + utils.OciImageIdsVariable + `
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"
 	}` +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
-			acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithRemovedProperties(acctest.GetUpdatedRepresentationCopy("launch_details.launch_options", instanceLaunchOptionsRepresentationForInstanceConfiguration, instanceConfigurationInstanceDetailsPoolRepresentation), []string{"secondary_vnics"})}, instanceConfigurationPoolRepresentation))
+			acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithRemovedProperties(acctest.GetUpdatedRepresentationCopy("launch_details.launch_options", instanceLaunchOptionsRepresentationForInstanceConfiguration, CoreInstancePoolInstanceConfigurationInstanceDetailsPoolRepresentation), []string{"secondary_vnics"})}, CoreInstancePoolConfigurationPoolRepresentation))
 
-	InstancePoolResourceDependencies = utils.OciImageIdsVariable +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, acctest.GetUpdatedRepresentationCopy("instance_details.launch_details.launch_options", instanceLaunchOptionsRepresentationForInstanceConfiguration, instanceConfigurationPoolRepresentation)) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, instanceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	CoreInstancePoolResourceDependencies = utils.OciImageIdsVariable +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, acctest.GetUpdatedRepresentationCopy("instance_details.launch_details.launch_options", instanceLaunchOptionsRepresentationForInstanceConfiguration, CoreInstancePoolConfigurationPoolRepresentation)) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", acctest.Required, acctest.Create, backendSetRepresentation) +
@@ -179,14 +179,14 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+InstancePoolResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Optional, acctest.Create, instancePoolRepresentation), "core", "instancePool", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreInstancePoolResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Optional, acctest.Create, CoreInstancePoolRepresentation), "core", "instancePool", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreInstancePoolDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + InstancePoolResourceDependenciesWithoutSecondaryVnic +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Required, acctest.Create, instancePoolRepresentation),
+			Config: config + compartmentIdVariableStr + CoreInstancePoolResourceDependenciesWithoutSecondaryVnic +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Required, acctest.Create, CoreInstancePoolRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
@@ -208,8 +208,8 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Optional, acctest.Create, instancePoolRepresentation),
+			Config: config + compartmentIdVariableStr + CoreInstancePoolResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Optional, acctest.Create, CoreInstancePoolRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers-pool"),
@@ -249,9 +249,9 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + InstancePoolResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreInstancePoolResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(instancePoolRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CoreInstancePoolRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -288,8 +288,8 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Optional, acctest.Update, instancePoolRepresentation),
+			Config: config + compartmentIdVariableStr + CoreInstancePoolResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Optional, acctest.Update, CoreInstancePoolRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -323,9 +323,9 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 		},
 		// verify attach
 		{
-			Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(instancePoolRepresentation, map[string]interface{}{
-					"load_balancers": []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: instancePoolLoadBalancersRepresentation}, {RepType: acctest.Optional, Group: instancePoolLoadBalancers2Representation}},
+			Config: config + compartmentIdVariableStr + CoreInstancePoolResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(CoreInstancePoolRepresentation, map[string]interface{}{
+					"load_balancers": []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: CoreInstancePoolLoadBalancersRepresentation}, {RepType: acctest.Optional, Group: CoreInstancePoolLoadBalancers2Representation}},
 				})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -367,8 +367,8 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 		},
 		// verify detach
 		{
-			Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Optional, acctest.Update, instancePoolRepresentation),
+			Config: config + compartmentIdVariableStr + CoreInstancePoolResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Optional, acctest.Update, CoreInstancePoolRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -402,9 +402,9 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 		},
 		// verify stop the Instance Pool
 		{
-			Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
+			Config: config + compartmentIdVariableStr + CoreInstancePoolResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Optional, acctest.Update,
-					acctest.GetUpdatedRepresentationCopy("state", acctest.Representation{RepType: acctest.Optional, Create: "Stopped"}, instancePoolRepresentation)),
+					acctest.GetUpdatedRepresentationCopy("state", acctest.Representation{RepType: acctest.Optional, Create: "Stopped"}, CoreInstancePoolRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -429,8 +429,8 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 		},
 		// verify start the Instance Pool
 		{
-			Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Optional, acctest.Update, instancePoolRepresentation),
+			Config: config + compartmentIdVariableStr + CoreInstancePoolResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Optional, acctest.Update, CoreInstancePoolRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -456,9 +456,9 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 		// verify datasource the state will be updated to RUNNING
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance_pools", "test_instance_pools", acctest.Optional, acctest.Update, instancePoolDataSourceRepresentation) +
-				compartmentIdVariableStr + InstancePoolResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Optional, acctest.Update, instancePoolRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance_pools", "test_instance_pools", acctest.Optional, acctest.Update, CoreCoreInstancePoolDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreInstancePoolResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Optional, acctest.Update, CoreInstancePoolRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -477,8 +477,8 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Required, acctest.Create, instancePoolSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + InstancePoolResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Required, acctest.Create, CoreCoreInstancePoolSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreInstancePoolResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_configuration_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_pool_id"),
@@ -503,7 +503,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + InstancePoolRequiredOnlyResource,
+			Config:                  config + CoreInstancePoolRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,17 +9,17 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	usageapiConfigurationSingularDataSourceRepresentation = map[string]interface{}{
+	MeteringComputationMeteringComputationConfigurationSingularDataSourceRepresentation = map[string]interface{}{
 		"tenant_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_id}`},
 	}
 
-	usageapiConfigurationResourceConfig = ""
+	MeteringComputationConfigurationResourceConfig = ""
 )
 
 // issue-routing-tag: metering_computation/default
@@ -42,8 +42,8 @@ func TestMeteringComputationConfigurationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config + tenancyIdVariableStr +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_metering_computation_configuration", "test_configuration", acctest.Required, acctest.Create, usageapiConfigurationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + usageapiConfigurationResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_metering_computation_configuration", "test_configuration", acctest.Required, acctest.Create, MeteringComputationMeteringComputationConfigurationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + MeteringComputationConfigurationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "tenant_id"),
 

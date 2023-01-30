@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -15,16 +15,16 @@ import (
 	"strings"
 )
 
-// ObjectFreqStat One specific element. Its meaning changes in the context i.e. For ValueFrequency, the value represents a column value. For Patterns the value represents a pattern. For DataType the value represents a data type. For DataType formats (pertaining to date time) the value represent a format.
+// ObjectFreqStat One specific element. Its meaning changes according to the context. For example, for ValueFrequency, the value represents a column value. For Patterns the value represents a pattern. For DataType the value represents a data type. For DataType formats (pertaining to date time) the value represents a format.
 type ObjectFreqStat struct {
 
-	// Value of the confidence of the profile result
+	// Value of the confidence of the profile result.
 	Value *string `mandatory:"false" json:"value"`
 
 	// Placeholder for now, in future we will return the confidence of the profile result (because we are using sampled data and not whole data)
 	Confidence *int `mandatory:"false" json:"confidence"`
 
-	// How many times that value occurred.
+	// The number of times the value appeared.
 	Freq *int64 `mandatory:"false" json:"freq"`
 
 	// Frequency percentage across the sampled row counts (excluding nulls).

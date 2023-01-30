@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -19,13 +19,13 @@ import (
 // CreateEntityShapeDetails The data entity shape object.
 type CreateEntityShapeDetails interface {
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
+	// Free form text without any restriction on the permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	GetName() *string
 
 	// The object key.
 	GetKey() *string
 
-	// The object's model version.
+	// The model version of the object.
 	GetModelVersion() *string
 
 	GetParentRef() *ParentReference
@@ -33,7 +33,7 @@ type CreateEntityShapeDetails interface {
 	// The version of the object that is used to track changes in the object instance.
 	GetObjectVersion() *int
 
-	// The external key for the object.
+	// The external key of the object.
 	GetExternalKey() *string
 
 	GetShape() *Shape
@@ -59,7 +59,7 @@ type CreateEntityShapeDetails interface {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	GetObjectStatus() *int
 
-	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with an upper case letter or underscore. The value can be modified.
 	GetIdentifier() *string
 
 	GetTypes() *TypeLibrary
@@ -134,6 +134,10 @@ func (m *createentityshapedetails) UnmarshalPolymorphicJSON(data []byte) (interf
 	switch m.ModelType {
 	case "DATA_STORE_ENTITY":
 		mm := CreateEntityShapeFromDataStore{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MESSAGE_ENTITY":
+		mm := CreateEntityShapeFromMessage{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "TABLE_ENTITY":
@@ -266,24 +270,30 @@ type CreateEntityShapeDetailsEntityTypeEnum string
 
 // Set of constants representing the allowable values for CreateEntityShapeDetailsEntityTypeEnum
 const (
-	CreateEntityShapeDetailsEntityTypeTable CreateEntityShapeDetailsEntityTypeEnum = "TABLE"
-	CreateEntityShapeDetailsEntityTypeView  CreateEntityShapeDetailsEntityTypeEnum = "VIEW"
-	CreateEntityShapeDetailsEntityTypeFile  CreateEntityShapeDetailsEntityTypeEnum = "FILE"
-	CreateEntityShapeDetailsEntityTypeSql   CreateEntityShapeDetailsEntityTypeEnum = "SQL"
+	CreateEntityShapeDetailsEntityTypeTable     CreateEntityShapeDetailsEntityTypeEnum = "TABLE"
+	CreateEntityShapeDetailsEntityTypeView      CreateEntityShapeDetailsEntityTypeEnum = "VIEW"
+	CreateEntityShapeDetailsEntityTypeFile      CreateEntityShapeDetailsEntityTypeEnum = "FILE"
+	CreateEntityShapeDetailsEntityTypeSql       CreateEntityShapeDetailsEntityTypeEnum = "SQL"
+	CreateEntityShapeDetailsEntityTypeDataStore CreateEntityShapeDetailsEntityTypeEnum = "DATA_STORE"
+	CreateEntityShapeDetailsEntityTypeMessage   CreateEntityShapeDetailsEntityTypeEnum = "MESSAGE"
 )
 
 var mappingCreateEntityShapeDetailsEntityTypeEnum = map[string]CreateEntityShapeDetailsEntityTypeEnum{
-	"TABLE": CreateEntityShapeDetailsEntityTypeTable,
-	"VIEW":  CreateEntityShapeDetailsEntityTypeView,
-	"FILE":  CreateEntityShapeDetailsEntityTypeFile,
-	"SQL":   CreateEntityShapeDetailsEntityTypeSql,
+	"TABLE":      CreateEntityShapeDetailsEntityTypeTable,
+	"VIEW":       CreateEntityShapeDetailsEntityTypeView,
+	"FILE":       CreateEntityShapeDetailsEntityTypeFile,
+	"SQL":        CreateEntityShapeDetailsEntityTypeSql,
+	"DATA_STORE": CreateEntityShapeDetailsEntityTypeDataStore,
+	"MESSAGE":    CreateEntityShapeDetailsEntityTypeMessage,
 }
 
 var mappingCreateEntityShapeDetailsEntityTypeEnumLowerCase = map[string]CreateEntityShapeDetailsEntityTypeEnum{
-	"table": CreateEntityShapeDetailsEntityTypeTable,
-	"view":  CreateEntityShapeDetailsEntityTypeView,
-	"file":  CreateEntityShapeDetailsEntityTypeFile,
-	"sql":   CreateEntityShapeDetailsEntityTypeSql,
+	"table":      CreateEntityShapeDetailsEntityTypeTable,
+	"view":       CreateEntityShapeDetailsEntityTypeView,
+	"file":       CreateEntityShapeDetailsEntityTypeFile,
+	"sql":        CreateEntityShapeDetailsEntityTypeSql,
+	"data_store": CreateEntityShapeDetailsEntityTypeDataStore,
+	"message":    CreateEntityShapeDetailsEntityTypeMessage,
 }
 
 // GetCreateEntityShapeDetailsEntityTypeEnumValues Enumerates the set of values for CreateEntityShapeDetailsEntityTypeEnum
@@ -302,6 +312,8 @@ func GetCreateEntityShapeDetailsEntityTypeEnumStringValues() []string {
 		"VIEW",
 		"FILE",
 		"SQL",
+		"DATA_STORE",
+		"MESSAGE",
 	}
 }
 
@@ -321,6 +333,7 @@ const (
 	CreateEntityShapeDetailsModelTypeFileEntity      CreateEntityShapeDetailsModelTypeEnum = "FILE_ENTITY"
 	CreateEntityShapeDetailsModelTypeDataStoreEntity CreateEntityShapeDetailsModelTypeEnum = "DATA_STORE_ENTITY"
 	CreateEntityShapeDetailsModelTypeSqlEntity       CreateEntityShapeDetailsModelTypeEnum = "SQL_ENTITY"
+	CreateEntityShapeDetailsModelTypeMessageEntity   CreateEntityShapeDetailsModelTypeEnum = "MESSAGE_ENTITY"
 )
 
 var mappingCreateEntityShapeDetailsModelTypeEnum = map[string]CreateEntityShapeDetailsModelTypeEnum{
@@ -329,6 +342,7 @@ var mappingCreateEntityShapeDetailsModelTypeEnum = map[string]CreateEntityShapeD
 	"FILE_ENTITY":       CreateEntityShapeDetailsModelTypeFileEntity,
 	"DATA_STORE_ENTITY": CreateEntityShapeDetailsModelTypeDataStoreEntity,
 	"SQL_ENTITY":        CreateEntityShapeDetailsModelTypeSqlEntity,
+	"MESSAGE_ENTITY":    CreateEntityShapeDetailsModelTypeMessageEntity,
 }
 
 var mappingCreateEntityShapeDetailsModelTypeEnumLowerCase = map[string]CreateEntityShapeDetailsModelTypeEnum{
@@ -337,6 +351,7 @@ var mappingCreateEntityShapeDetailsModelTypeEnumLowerCase = map[string]CreateEnt
 	"file_entity":       CreateEntityShapeDetailsModelTypeFileEntity,
 	"data_store_entity": CreateEntityShapeDetailsModelTypeDataStoreEntity,
 	"sql_entity":        CreateEntityShapeDetailsModelTypeSqlEntity,
+	"message_entity":    CreateEntityShapeDetailsModelTypeMessageEntity,
 }
 
 // GetCreateEntityShapeDetailsModelTypeEnumValues Enumerates the set of values for CreateEntityShapeDetailsModelTypeEnum
@@ -356,6 +371,7 @@ func GetCreateEntityShapeDetailsModelTypeEnumStringValues() []string {
 		"FILE_ENTITY",
 		"DATA_STORE_ENTITY",
 		"SQL_ENTITY",
+		"MESSAGE_ENTITY",
 	}
 }
 

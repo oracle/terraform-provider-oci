@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -12,24 +12,24 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	availabilityDomainSingularDataSourceRepresentation = map[string]interface{}{
+	IdentityAvailabilityDomainSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"ad_number":      acctest.Representation{RepType: acctest.Optional, Create: `2`},
 	}
 
-	availabilityDomainDataSourceRepresentation = map[string]interface{}{
+	IdentityIdentityAvailabilityDomainDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 	}
 
-	AvailabilityDomainResourceConfig = ""
+	IdentityAvailabilityDomainResourceConfig = ""
 
-	AvailabilityDomainConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains", acctest.Required, acctest.Create, availabilityDomainDataSourceRepresentation)
+	AvailabilityDomainConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains", acctest.Required, acctest.Create, IdentityIdentityAvailabilityDomainDataSourceRepresentation)
 )
 
 // issue-routing-tag: identity/default
@@ -52,8 +52,8 @@ func TestIdentityAvailabilityDomainResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains", acctest.Required, acctest.Create, availabilityDomainDataSourceRepresentation) +
-				compartmentIdVariableStr + AvailabilityDomainResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains", acctest.Required, acctest.Create, IdentityIdentityAvailabilityDomainDataSourceRepresentation) +
+				compartmentIdVariableStr + IdentityAvailabilityDomainResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 
@@ -64,8 +64,8 @@ func TestIdentityAvailabilityDomainResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_availability_domain", "test_availability_domain", acctest.Optional, acctest.Create, availabilityDomainSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + AvailabilityDomainResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_availability_domain", "test_availability_domain", acctest.Optional, acctest.Create, IdentityAvailabilityDomainSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + IdentityAvailabilityDomainResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

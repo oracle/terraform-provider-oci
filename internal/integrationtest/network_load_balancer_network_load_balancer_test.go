@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,31 +22,31 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v65/networkloadbalancer"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	NetworkLoadBalancerRequiredOnlyResource = NetworkLoadBalancerResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Required, acctest.Create, networkLoadBalancerRepresentation)
+	NetworkLoadBalancerNetworkLoadBalancerRequiredOnlyResource = NetworkLoadBalancerNetworkLoadBalancerResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Required, acctest.Create, NetworkLoadBalancerNetworkLoadBalancerRepresentation)
 
-	NetworkLoadBalancerResourceConfig = NetworkLoadBalancerResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Optional, acctest.Update, networkLoadBalancerRepresentation)
+	NetworkLoadBalancerNetworkLoadBalancerResourceConfig = NetworkLoadBalancerNetworkLoadBalancerResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Optional, acctest.Update, NetworkLoadBalancerNetworkLoadBalancerRepresentation)
 
-	networkLoadBalancerSingularDataSourceRepresentation = map[string]interface{}{
+	NetworkLoadBalancerNetworkLoadBalancerNetworkLoadBalancerSingularDataSourceRepresentation = map[string]interface{}{
 		"network_load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
 	}
 
-	networkLoadBalancerDataSourceRepresentation = map[string]interface{}{
+	NetworkLoadBalancerNetworkLoadBalancerNetworkLoadBalancerDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: networkLoadBalancerDataSourceFilterRepresentation}}
-	networkLoadBalancerDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: NetworkLoadBalancerNetworkLoadBalancerDataSourceFilterRepresentation}}
+	NetworkLoadBalancerNetworkLoadBalancerDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`}},
 	}
 
-	networkLoadBalancerRepresentation = map[string]interface{}{
+	NetworkLoadBalancerNetworkLoadBalancerRepresentation = map[string]interface{}{
 		"compartment_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":                   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"subnet_id":                      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
@@ -73,13 +73,13 @@ var (
 		"id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_public_ip.test_public_ip.id}`},
 	}
 
-	NetworkLoadBalancerReservedIpDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", acctest.Required, acctest.Create, publicIpRepresentation)
+	NetworkLoadBalancerReservedIpDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", acctest.Required, acctest.Create, CorePublicIpRepresentation)
 
-	NetworkLoadBalancerResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, networkSecurityGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+	NetworkLoadBalancerNetworkLoadBalancerResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
 			"ipv6cidr_block": acctest.Representation{RepType: acctest.Optional, Create: `${substr(oci_core_vcn.test_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_vcn.ipv6cidr_blocks[0]) - 2)}${64}`},
 		})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 			"is_ipv6enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		})) +
 		AvailabilityDomainConfig + DefinedTagsDependencies
@@ -107,7 +107,7 @@ func TestNetworkLoadBalancerNetworkLoadBalancerResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckNetworkLoadBalancerNetworkLoadBalancerDestroy, []resource.TestStep{
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + NetworkLoadBalancerResourceDependencies + NetworkLoadBalancerReservedIpDependencies +
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerNetworkLoadBalancerResourceDependencies + NetworkLoadBalancerReservedIpDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Optional, acctest.Create, networkLoadBalancerRepresentationIpv6),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -139,13 +139,13 @@ func TestNetworkLoadBalancerNetworkLoadBalancerResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + NetworkLoadBalancerResourceDependencies,
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerNetworkLoadBalancerResourceDependencies,
 		},
 
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + NetworkLoadBalancerResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Required, acctest.Create, networkLoadBalancerRepresentation),
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerNetworkLoadBalancerResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Required, acctest.Create, NetworkLoadBalancerNetworkLoadBalancerRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -160,12 +160,12 @@ func TestNetworkLoadBalancerNetworkLoadBalancerResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + NetworkLoadBalancerResourceDependencies,
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerNetworkLoadBalancerResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + NetworkLoadBalancerResourceDependencies + NetworkLoadBalancerReservedIpDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Optional, acctest.Create, networkLoadBalancerRepresentation),
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerNetworkLoadBalancerResourceDependencies + NetworkLoadBalancerReservedIpDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Optional, acctest.Create, NetworkLoadBalancerNetworkLoadBalancerRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -197,9 +197,9 @@ func TestNetworkLoadBalancerNetworkLoadBalancerResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + NetworkLoadBalancerResourceDependencies + NetworkLoadBalancerReservedIpDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + NetworkLoadBalancerNetworkLoadBalancerResourceDependencies + NetworkLoadBalancerReservedIpDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(networkLoadBalancerRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(NetworkLoadBalancerNetworkLoadBalancerRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -229,8 +229,8 @@ func TestNetworkLoadBalancerNetworkLoadBalancerResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + NetworkLoadBalancerResourceDependencies + NetworkLoadBalancerReservedIpDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Optional, acctest.Update, networkLoadBalancerRepresentation),
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerNetworkLoadBalancerResourceDependencies + NetworkLoadBalancerReservedIpDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Optional, acctest.Update, NetworkLoadBalancerNetworkLoadBalancerRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -259,9 +259,9 @@ func TestNetworkLoadBalancerNetworkLoadBalancerResource_basic(t *testing.T) {
 
 		// verify removal of NSGs
 		{
-			Config: config + compartmentIdVariableStr + NetworkLoadBalancerResourceDependencies + NetworkLoadBalancerReservedIpDependencies +
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerNetworkLoadBalancerResourceDependencies + NetworkLoadBalancerReservedIpDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Optional, acctest.Update,
-					acctest.RepresentationCopyWithNewProperties(networkLoadBalancerRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(NetworkLoadBalancerNetworkLoadBalancerRepresentation, map[string]interface{}{
 						"network_security_group_ids": acctest.Representation{RepType: acctest.Required, Create: []string{}},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -292,9 +292,9 @@ func TestNetworkLoadBalancerNetworkLoadBalancerResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_network_load_balancer_network_load_balancers", "test_network_load_balancers", acctest.Optional, acctest.Update, networkLoadBalancerDataSourceRepresentation) +
-				compartmentIdVariableStr + NetworkLoadBalancerResourceDependencies + NetworkLoadBalancerReservedIpDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Optional, acctest.Update, networkLoadBalancerRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_network_load_balancer_network_load_balancers", "test_network_load_balancers", acctest.Optional, acctest.Update, NetworkLoadBalancerNetworkLoadBalancerNetworkLoadBalancerDataSourceRepresentation) +
+				compartmentIdVariableStr + NetworkLoadBalancerNetworkLoadBalancerResourceDependencies + NetworkLoadBalancerReservedIpDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Optional, acctest.Update, NetworkLoadBalancerNetworkLoadBalancerRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -307,8 +307,8 @@ func TestNetworkLoadBalancerNetworkLoadBalancerResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Required, acctest.Create, networkLoadBalancerSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + NetworkLoadBalancerResourceConfig + NetworkLoadBalancerReservedIpDependencies,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Required, acctest.Create, NetworkLoadBalancerNetworkLoadBalancerNetworkLoadBalancerSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + NetworkLoadBalancerNetworkLoadBalancerResourceConfig + NetworkLoadBalancerReservedIpDependencies,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_load_balancer_id"),
 
@@ -329,7 +329,7 @@ func TestNetworkLoadBalancerNetworkLoadBalancerResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + NetworkLoadBalancerRequiredOnlyResource,
+			Config:            config + NetworkLoadBalancerNetworkLoadBalancerRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -395,7 +395,7 @@ func init() {
 
 func sweepNetworkLoadBalancerNetworkLoadBalancerResource(compartment string) error {
 	networkLoadBalancerClient := acctest.GetTestClients(&schema.ResourceData{}).NetworkLoadBalancerClient()
-	networkLoadBalancerIds, err := getNetworkLoadBalancerIds(compartment)
+	networkLoadBalancerIds, err := getNetworkLoadBalancerNetworkLoadBalancerIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -411,14 +411,14 @@ func sweepNetworkLoadBalancerNetworkLoadBalancerResource(compartment string) err
 				fmt.Printf("Error deleting NetworkLoadBalancer %s %s, It is possible that the resource is already deleted. Please verify manually \n", networkLoadBalancerId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &networkLoadBalancerId, networkLoadBalancerSweepWaitCondition, time.Duration(3*time.Minute),
-				networkLoadBalancerSweepResponseFetchOperation, "network_load_balancer", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &networkLoadBalancerId, NetworkLoadBalancerNetworkLoadBalancerSweepWaitCondition, time.Duration(3*time.Minute),
+				NetworkLoadBalancerNetworkLoadBalancerSweepResponseFetchOperation, "network_load_balancer", true)
 		}
 	}
 	return nil
 }
 
-func getNetworkLoadBalancerIds(compartment string) ([]string, error) {
+func getNetworkLoadBalancerNetworkLoadBalancerIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "NetworkLoadBalancerId")
 	if ids != nil {
 		return ids, nil
@@ -443,7 +443,7 @@ func getNetworkLoadBalancerIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func networkLoadBalancerSweepWaitCondition(response common.OCIOperationResponse) bool {
+func NetworkLoadBalancerNetworkLoadBalancerSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if networkLoadBalancerResponse, ok := response.Response.(oci_network_load_balancer.GetNetworkLoadBalancerResponse); ok {
 		return networkLoadBalancerResponse.LifecycleState != oci_network_load_balancer.LifecycleStateDeleted
@@ -451,7 +451,7 @@ func networkLoadBalancerSweepWaitCondition(response common.OCIOperationResponse)
 	return false
 }
 
-func networkLoadBalancerSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func NetworkLoadBalancerNetworkLoadBalancerSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.NetworkLoadBalancerClient().GetNetworkLoadBalancer(context.Background(), oci_network_load_balancer.GetNetworkLoadBalancerRequest{
 		NetworkLoadBalancerId: resourceId,
 		RequestMetadata: common.RequestMetadata{

@@ -81,6 +81,7 @@ The following attributes are exported:
 * `is_auto_approve_during_maintenance` - The boolean if true would autoApprove during maintenance.
 * `is_enforced_always` - If set, then the target resource is always governed by the operator control.
 * `is_log_forwarded` - If set indicates that the audit logs are being forwarded to the relevant remote logging server
+* `lifecycle_details` - More in detail about the lifeCycleState.
 * `operator_control_id` - The OCID of the operator control.
 * `remote_syslog_server_address` - The address of the remote syslog server where the audit logs are being forwarded to. Address in host or IP format.
 * `remote_syslog_server_ca_cert` - The CA certificate of the remote syslog server.
@@ -98,7 +99,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Operator Control Assignment
 	* `update` - (Defaults to 20 minutes), when updating the Operator Control Assignment
 	* `delete` - (Defaults to 20 minutes), when destroying the Operator Control Assignment

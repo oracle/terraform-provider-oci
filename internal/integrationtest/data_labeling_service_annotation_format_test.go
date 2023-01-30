@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,17 +9,17 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	annotationFormatDataSourceRepresentation = map[string]interface{}{
+	DataLabelingServiceannotationFormatDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
-	AnnotationFormatResourceConfig = ""
+	DataLabelingServiceAnnotationFormatResourceConfig = ""
 )
 
 // issue-routing-tag: data_labeling_service/default
@@ -40,8 +40,8 @@ func TestDataLabelingServiceAnnotationFormatResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_labeling_service_annotation_formats", "test_annotation_formats", acctest.Required, acctest.Create, annotationFormatDataSourceRepresentation) +
-				compartmentIdVariableStr + AnnotationFormatResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_labeling_service_annotation_formats", "test_annotation_formats", acctest.Required, acctest.Create, DataLabelingServiceannotationFormatDataSourceRepresentation) +
+				compartmentIdVariableStr + DataLabelingServiceAnnotationFormatResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

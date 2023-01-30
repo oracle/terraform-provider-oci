@@ -7,24 +7,24 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	instanceAgentPluginDataSourceRepresentation = map[string]interface{}{
+	ComputeinstanceagentComputeinstanceagentInstanceAgentPluginDataSourceRepresentation = map[string]interface{}{
 		"instanceagent_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance.test_instance.id}`},
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
-	InstanceAgentPluginResourceConfig = SubnetResourceConfig + utils.OciImageIdsVariable +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, networkSecurityGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(instanceRepresentation, []string{"agent_config"}), map[string]interface{}{
-			"agent_config": acctest.RepresentationGroup{RepType: acctest.Required, Group: instanceAgentConfigRepresentation},
+	ComputeinstanceagentInstanceAgentPluginResourceConfig = CoreSubnetResourceConfig + utils.OciImageIdsVariable +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(CoreInstanceRepresentation, []string{"agent_config"}), map[string]interface{}{
+			"agent_config": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstanceAgentConfigRepresentation},
 		}))
 )
 
@@ -46,8 +46,8 @@ func TestComputeinstanceagentInstanceAgentPluginResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_computeinstanceagent_instance_agent_plugins", "test_instance_agent_plugins", acctest.Required, acctest.Create, instanceAgentPluginDataSourceRepresentation) +
-				compartmentIdVariableStr + InstanceAgentPluginResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_computeinstanceagent_instance_agent_plugins", "test_instance_agent_plugins", acctest.Required, acctest.Create, ComputeinstanceagentComputeinstanceagentInstanceAgentPluginDataSourceRepresentation) +
+				compartmentIdVariableStr + ComputeinstanceagentInstanceAgentPluginResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "instanceagent_id"),
 			),

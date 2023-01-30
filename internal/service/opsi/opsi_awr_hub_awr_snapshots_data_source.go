@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package opsi
@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -202,6 +202,40 @@ func (s *OpsiAwrHubAwrSnapshotsDataSourceCrud) SetData() error {
 }
 
 func AwrSnapshotsSummaryToMap(obj oci_opsi.AwrSnapshotSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AwrSourceDatabaseId != nil {
+		result["awr_source_database_id"] = string(*obj.AwrSourceDatabaseId)
+	}
+
+	if obj.ErrorCount != nil {
+		result["error_count"] = strconv.FormatInt(*obj.ErrorCount, 10)
+	}
+
+	if obj.InstanceNumber != nil {
+		result["instance_number"] = int(*obj.InstanceNumber)
+	}
+
+	if obj.SnapshotIdentifier != nil {
+		result["snapshot_identifier"] = int(*obj.SnapshotIdentifier)
+	}
+
+	if obj.TimeDbStartup != nil {
+		result["time_db_startup"] = obj.TimeDbStartup.String()
+	}
+
+	if obj.TimeSnapshotBegin != nil {
+		result["time_snapshot_begin"] = obj.TimeSnapshotBegin.String()
+	}
+
+	if obj.TimeSnapshotEnd != nil {
+		result["time_snapshot_end"] = obj.TimeSnapshotEnd.String()
+	}
+
+	return result
+}
+
+func AwrSnapshotSummaryToMap(obj oci_opsi.AwrSnapshotSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.AwrSourceDatabaseId != nil {

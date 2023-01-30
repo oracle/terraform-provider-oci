@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,41 +16,41 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	KeyStoreRequiredOnlyResource = KeyStoreResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Required, acctest.Create, keyStoreRepresentation)
+	DatabaseKeyStoreRequiredOnlyResource = DatabaseKeyStoreResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Required, acctest.Create, DatabaseKeyStoreRepresentation)
 
-	KeyStoreResourceConfig = KeyStoreResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Optional, acctest.Update, keyStoreRepresentation)
+	DatabaseKeyStoreResourceConfig = DatabaseKeyStoreResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Optional, acctest.Update, DatabaseKeyStoreRepresentation)
 
-	keyStoreSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseKeyStoreSingularDataSourceRepresentation = map[string]interface{}{
 		"key_store_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_key_store.test_key_store.id}`},
 	}
 
-	keyStoreDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseKeyStoreDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: keyStoreDataSourceFilterRepresentation}}
-	keyStoreDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseKeyStoreDataSourceFilterRepresentation}}
+	DatabaseKeyStoreDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_key_store.test_key_store.id}`}},
 	}
 
-	keyStoreRepresentation = map[string]interface{}{
+	DatabaseKeyStoreRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `Key Store1`},
-		"type_details":   acctest.RepresentationGroup{RepType: acctest.Required, Group: keyStoreTypeDetailsRepresentation},
+		"type_details":   acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseKeyStoreTypeDetailsRepresentation},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
-	keyStoreTypeDetailsRepresentation = map[string]interface{}{
+	DatabaseKeyStoreTypeDetailsRepresentation = map[string]interface{}{
 		"admin_username": acctest.Representation{RepType: acctest.Required, Create: `username1`, Update: `adminUsername2`},
 		"connection_ips": acctest.Representation{RepType: acctest.Required, Create: []string{`192.1.1.1`}, Update: []string{`192.1.1.1`, `192.1.1.2`}},
 		"secret_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.okv_secret}`},
@@ -61,7 +61,7 @@ var (
 	okvSecret            = utils.GetEnvSettingWithBlankDefault("okv_secret")
 	OkvSecretVariableStr = fmt.Sprintf("variable \"okv_secret\" { default = \"%s\" }\n", okvSecret)
 
-	KeyStoreResourceDependencies = DefinedTagsDependencies + KmsVaultIdVariableStr + OkvSecretVariableStr
+	DatabaseKeyStoreResourceDependencies = DefinedTagsDependencies + KmsVaultIdVariableStr + OkvSecretVariableStr
 )
 
 // issue-routing-tag: database/ExaCC
@@ -83,14 +83,14 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+KeyStoreResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Optional, acctest.Create, keyStoreRepresentation), "database", "keyStore", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseKeyStoreResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Optional, acctest.Create, DatabaseKeyStoreRepresentation), "database", "keyStore", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseKeyStoreDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + KeyStoreResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Required, acctest.Create, keyStoreRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseKeyStoreResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Required, acctest.Create, DatabaseKeyStoreRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Key Store1"),
@@ -109,12 +109,12 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + KeyStoreResourceDependencies,
+			Config: config + compartmentIdVariableStr + DatabaseKeyStoreResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + KeyStoreResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Optional, acctest.Create, keyStoreRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseKeyStoreResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Optional, acctest.Create, DatabaseKeyStoreRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Key Store1"),
@@ -141,9 +141,9 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + KeyStoreResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseKeyStoreResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(keyStoreRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(DatabaseKeyStoreRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -170,8 +170,8 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + KeyStoreResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Optional, acctest.Update, keyStoreRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseKeyStoreResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Optional, acctest.Update, DatabaseKeyStoreRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Key Store1"),
@@ -196,9 +196,9 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_key_stores", "test_key_stores", acctest.Optional, acctest.Update, keyStoreDataSourceRepresentation) +
-				compartmentIdVariableStr + KeyStoreResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Optional, acctest.Update, keyStoreRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_key_stores", "test_key_stores", acctest.Optional, acctest.Update, DatabaseDatabaseKeyStoreDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseKeyStoreResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Optional, acctest.Update, DatabaseKeyStoreRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
@@ -220,8 +220,8 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Required, acctest.Create, keyStoreSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + KeyStoreResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Required, acctest.Create, DatabaseDatabaseKeyStoreSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseKeyStoreResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "key_store_id"),
 
@@ -239,7 +239,7 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + KeyStoreRequiredOnlyResource,
+			Config:                  config + DatabaseKeyStoreRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -303,7 +303,7 @@ func init() {
 
 func sweepDatabaseKeyStoreResource(compartment string) error {
 	databaseClient := acctest.GetTestClients(&schema.ResourceData{}).DatabaseClient()
-	keyStoreIds, err := getKeyStoreIds(compartment)
+	keyStoreIds, err := getDatabaseKeyStoreIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -319,14 +319,14 @@ func sweepDatabaseKeyStoreResource(compartment string) error {
 				fmt.Printf("Error deleting KeyStore %s %s, It is possible that the resource is already deleted. Please verify manually \n", keyStoreId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &keyStoreId, keyStoreSweepWaitCondition, time.Duration(3*time.Minute),
-				keyStoreSweepResponseFetchOperation, "database", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &keyStoreId, DatabaseKeyStoreSweepWaitCondition, time.Duration(3*time.Minute),
+				DatabaseKeyStoreSweepResponseFetchOperation, "database", true)
 		}
 	}
 	return nil
 }
 
-func getKeyStoreIds(compartment string) ([]string, error) {
+func getDatabaseKeyStoreIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "KeyStoreId")
 	if ids != nil {
 		return ids, nil
@@ -350,7 +350,7 @@ func getKeyStoreIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func keyStoreSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DatabaseKeyStoreSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if keyStoreResponse, ok := response.Response.(oci_database.GetKeyStoreResponse); ok {
 		return keyStoreResponse.LifecycleState != oci_database.KeyStoreLifecycleStateDeleted
@@ -358,7 +358,7 @@ func keyStoreSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func keyStoreSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DatabaseKeyStoreSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DatabaseClient().GetKeyStore(context.Background(), oci_database.GetKeyStoreRequest{
 		KeyStoreId: resourceId,
 		RequestMetadata: common.RequestMetadata{

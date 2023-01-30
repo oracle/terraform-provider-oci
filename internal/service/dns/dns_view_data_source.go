@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package dns
@@ -6,8 +6,8 @@ package dns
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_dns "github.com/oracle/oci-go-sdk/v65/dns"
@@ -17,11 +17,11 @@ func DnsViewDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["scope"] = &schema.Schema{
 		Type:     schema.TypeString,
-		Required: true,
+		Optional: true,
 	}
 	fieldMap["view_id"] = &schema.Schema{
 		Type:     schema.TypeString,
-		Required: true,
+		Optional: true,
 	}
 	return tfresource.GetSingularDataSourceItemSchema(DnsViewResource(), fieldMap, readSingularDnsView)
 }

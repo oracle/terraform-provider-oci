@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,12 +9,12 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	tf_dns "github.com/terraform-providers/terraform-provider-oci/internal/service/dns"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	tf_dns "github.com/oracle/terraform-provider-oci/internal/service/dns"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -25,11 +25,11 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_dns "github.com/oracle/oci-go-sdk/v65/dns"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	recordDataSourceRepresentation = map[string]interface{}{
+	DnsDnsRecordDataSourceRepresentation = map[string]interface{}{
 		"zone_name_or_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_zone.test_global_zone.name}`},
 		"if_modified_since": acctest.Representation{RepType: acctest.Optional, Create: `ifModifiedSince`},
 		"if_none_match":     acctest.Representation{RepType: acctest.Optional, Create: `ifNoneMatch`},
@@ -38,13 +38,13 @@ var (
 		"domain_contains":   acctest.Representation{RepType: acctest.Optional, Create: `domainContains`},
 		"rtype":             acctest.Representation{RepType: acctest.Optional, Create: `rtype`},
 		"zone_version":      acctest.Representation{RepType: acctest.Optional, Create: `zoneVersion`},
-		"filter":            acctest.RepresentationGroup{RepType: acctest.Required, Group: recordDataSourceFilterRepresentation}}
-	recordDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":            acctest.RepresentationGroup{RepType: acctest.Required, Group: DnsRecordDataSourceFilterRepresentation}}
+	DnsRecordDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_dns_record.test_record.id}`}},
 	}
 
-	recordRepresentation = map[string]interface{}{
+	DnsRecordRepresentation = map[string]interface{}{
 		"domain":          acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test`},
 		"rdata":           acctest.Representation{RepType: acctest.Required, Create: `192.168.0.1`, Update: `77.77.77.77`},
 		"rtype":           acctest.Representation{RepType: acctest.Required, Create: `A`},
@@ -53,7 +53,7 @@ var (
 		"compartment_id":  acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 	}
 
-	RecordResourceDependencies = `
+	DnsRecordResourceDependencies = `
 data "oci_identity_tenancy" "test_tenancy" {
 	tenancy_id = "${var.tenancy_ocid}"
 }
@@ -81,14 +81,14 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 	_, tokenFn := acctest.TokenizeWithHttpReplay("dns_resource")
 	var resId, resId2 string
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_dns_record", "test_record", acctest.Required, acctest.Create, recordRepresentation), nil), "dns", "record", t)
+	acctest.SaveConfigContent(tokenFn(config+compartmentIdVariableStr+DnsRecordResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_record", "test_record", acctest.Required, acctest.Create, DnsRecordRepresentation), nil), "dns", "record", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_record", "test_record", acctest.Required, acctest.Create, recordRepresentation), nil),
+			Config: tokenFn(config+compartmentIdVariableStr+DnsRecordResourceDependencies+
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_record", "test_record", acctest.Required, acctest.Create, DnsRecordRepresentation), nil),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
 
@@ -106,12 +106,12 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies, nil),
+			Config: tokenFn(config+compartmentIdVariableStr+DnsRecordResourceDependencies, nil),
 		},
 		// verify Create with optionals
 		{
-			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_record", "test_record", acctest.Optional, acctest.Create, recordRepresentation), nil),
+			Config: tokenFn(config+compartmentIdVariableStr+DnsRecordResourceDependencies+
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_record", "test_record", acctest.Optional, acctest.Create, DnsRecordRepresentation), nil),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestMatchResourceAttr(resourceName, "domain", regexp.MustCompile("\\.oci-record-test")),
@@ -136,8 +136,8 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_record", "test_record", acctest.Optional, acctest.Update, recordRepresentation), nil),
+			Config: tokenFn(config+compartmentIdVariableStr+DnsRecordResourceDependencies+
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_record", "test_record", acctest.Optional, acctest.Update, DnsRecordRepresentation), nil),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestMatchResourceAttr(resourceName, "domain", regexp.MustCompile("\\.oci-record-test")),
@@ -180,7 +180,7 @@ func TestDnsRecordsResource_datasources(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
-			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
+			Config: tokenFn(config+compartmentIdVariableStr+DnsRecordResourceDependencies+`
 data "oci_dns_records" "test_records" {
   zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
 
@@ -196,7 +196,7 @@ data "oci_dns_records" "test_records" {
 			),
 		},
 		{
-			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
+			Config: tokenFn(config+compartmentIdVariableStr+DnsRecordResourceDependencies+`
 data "oci_dns_records" "test_records" {
   zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
   domain = "${oci_dns_zone.test_global_zone.name}"
@@ -228,7 +228,7 @@ func TestDnsRecordsResource_diffSuppression(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify AAAA ipv6 shortening does not cause diffs
 		{
-			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
+			Config: tokenFn(config+compartmentIdVariableStr+DnsRecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
 	zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
 	domain = "${oci_dns_zone.test_global_zone.name}"
@@ -247,7 +247,7 @@ resource "oci_dns_record" "test_record" {
 			),
 		},
 		{
-			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
+			Config: tokenFn(config+compartmentIdVariableStr+DnsRecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
 	zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
 	domain = "${oci_dns_zone.test_global_zone.name}"
@@ -269,7 +269,7 @@ resource "oci_dns_record" "test_record" {
 			),
 		},
 		{
-			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
+			Config: tokenFn(config+compartmentIdVariableStr+DnsRecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
 	zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
 	domain = "${oci_dns_zone.test_global_zone.name}"
@@ -282,7 +282,7 @@ resource "oci_dns_record" "test_record" {
 			),
 		},
 		{
-			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
+			Config: tokenFn(config+compartmentIdVariableStr+DnsRecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
 	zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
 	domain = "${oci_dns_zone.test_global_zone.name}"
@@ -295,7 +295,7 @@ resource "oci_dns_record" "test_record" {
 			),
 		},
 		{
-			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
+			Config: tokenFn(config+compartmentIdVariableStr+DnsRecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
 	zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
 	domain = "${oci_dns_zone.test_global_zone.name}"
@@ -309,7 +309,7 @@ resource "oci_dns_record" "test_record" {
 		},
 		// this tests represents several record types where the service appends a `.` to the rdata
 		{
-			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
+			Config: tokenFn(config+compartmentIdVariableStr+DnsRecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
 	zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
 	domain = "${oci_dns_zone.test_global_zone.name}"
@@ -338,7 +338,7 @@ func TestDnsRecordsResource_badUpdate(t *testing.T) {
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		{
-			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
+			Config: tokenFn(config+compartmentIdVariableStr+DnsRecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
 	zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
 	domain = "${oci_dns_zone.test_global_zone.name}"
@@ -351,7 +351,7 @@ resource "oci_dns_record" "test_record" {
 			),
 		},
 		{
-			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
+			Config: tokenFn(config+compartmentIdVariableStr+DnsRecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
 	zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
 	domain = "${oci_dns_zone.test_global_zone.name}"

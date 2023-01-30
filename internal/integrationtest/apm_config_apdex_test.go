@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,11 +9,11 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -21,13 +21,13 @@ import (
 	oci_apm_config "github.com/oracle/oci-go-sdk/v65/apmconfig"
 	"github.com/oracle/oci-go-sdk/v65/common"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
 	ConfigApdexRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_apdex", acctest.Required, acctest.Create, configApdexRepresentation)
 
-	ConfigResourceApdex = ConfigResourceDependencies +
+	ConfigResourceApdex = ApmConfigConfigResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_apdex", acctest.Optional, acctest.Update, configApdexRepresentation)
 
 	ConfigDataResourceApdex = acctest.GenerateDataSourceFromRepresentationMap("oci_apm_config_config", "test_apdex", acctest.Required, acctest.Create, configApdexSingularDataSourceRepresentation)
@@ -91,7 +91,7 @@ func TestApmConfigApdexResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ConfigResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ApmConfigConfigResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_apdex", acctest.Optional, acctest.Create, configApdexRepresentation), "apmconfig", "config", t)
 
 	resource.Test(t, resource.TestCase{
@@ -104,7 +104,7 @@ func TestApmConfigApdexResource_basic(t *testing.T) {
 			// Find these steps in the test log easily with "Executing step (number)"
 			// Step 0: verify create Apdex
 			{
-				Config: config + compartmentIdVariableStr + ConfigResourceDependencies +
+				Config: config + compartmentIdVariableStr + ApmConfigConfigResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_apdex", acctest.Required, acctest.Create, configApdexRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
@@ -123,11 +123,11 @@ func TestApmConfigApdexResource_basic(t *testing.T) {
 			},
 			// Step 1: delete Apdex before next create
 			{
-				Config: config + compartmentIdVariableStr + ConfigResourceDependencies,
+				Config: config + compartmentIdVariableStr + ApmConfigConfigResourceDependencies,
 			},
 			// Step 2: verify create Apdex with optionals
 			{
-				Config: config + compartmentIdVariableStr + ConfigResourceDependencies +
+				Config: config + compartmentIdVariableStr + ApmConfigConfigResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_apdex", acctest.Optional, acctest.Create, configApdexRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
@@ -157,7 +157,7 @@ func TestApmConfigApdexResource_basic(t *testing.T) {
 			},
 			// Step 3: verify updates to Apdex updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + ConfigResourceDependencies +
+				Config: config + compartmentIdVariableStr + ApmConfigConfigResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_apdex", acctest.Optional, acctest.Update, configApdexRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),

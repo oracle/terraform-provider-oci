@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,27 +9,27 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	securityPolicySingularDataSourceRepresentation = map[string]interface{}{
+	CloudGuardCloudGuardSecurityPolicySingularDataSourceRepresentation = map[string]interface{}{
 		"security_policy_id": acctest.Representation{RepType: acctest.Required, Create: securityPolicyId1},
 	}
 
-	securityPolicyDataSourceRepresentation = map[string]interface{}{
+	CloudGuardCloudGuardSecurityPolicyDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		//"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 		//"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_cloud_guard_security_policy.test_security_policy.id}`},
 		"state": acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 	}
 
-	SecurityPolicyResourceConfig     = ""
-	securityPolicyId1                = `${data.oci_cloud_guard_security_policies.test_security_policies.security_policy_collection.0.items.0.id}`
-	SecurityPolicyResourceDependency = acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_security_policies", "test_security_policies", acctest.Required, acctest.Create, securityPolicyDataSourceRepresentation)
+	CloudGuardSecurityPolicyResourceConfig = ""
+	securityPolicyId1                      = `${data.oci_cloud_guard_security_policies.test_security_policies.security_policy_collection.0.items.0.id}`
+	SecurityPolicyResourceDependency       = acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_security_policies", "test_security_policies", acctest.Required, acctest.Create, CloudGuardCloudGuardSecurityPolicyDataSourceRepresentation)
 )
 
 // issue-routing-tag: cloud_guard/default
@@ -51,8 +51,8 @@ func TestCloudGuardSecurityPolicyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_security_policies", "test_security_policies", acctest.Optional, acctest.Create, securityPolicyDataSourceRepresentation) +
-				compartmentIdVariableStr + SecurityPolicyResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_security_policies", "test_security_policies", acctest.Optional, acctest.Create, CloudGuardCloudGuardSecurityPolicyDataSourceRepresentation) +
+				compartmentIdVariableStr + CloudGuardSecurityPolicyResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				//resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
@@ -65,8 +65,8 @@ func TestCloudGuardSecurityPolicyResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config + SecurityPolicyResourceDependency +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_security_policy", "test_security_policy", acctest.Required, acctest.Create, securityPolicySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + SecurityPolicyResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_security_policy", "test_security_policy", acctest.Required, acctest.Create, CloudGuardCloudGuardSecurityPolicySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CloudGuardSecurityPolicyResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "security_policy_id"),
 

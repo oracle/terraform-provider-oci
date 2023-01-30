@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 resource "oci_database_cloud_exadata_infrastructure" "test_cloud_exadata_infrastructure" {
   #Required
@@ -19,16 +19,28 @@ resource "oci_database_cloud_vm_cluster" "test_cloud_vm_cluster" {
   compartment_id                  = var.compartment_ocid
   cpu_core_count                  = var.cloud_vm_cluster_cpu_core_count
   display_name                    = "MyTFVmClusterExaCs"
-  domain                          = oci_core_subnet.subnet.subnet_domain_name
+  domain                          = oci_dns_zone.test_zone.name
   gi_version                      = var.cloud_vm_cluster_gi_version
   hostname                        = var.cloud_vm_cluster_hostname
   ssh_public_keys                 = [var.ssh_public_key]
   subnet_id                       = oci_core_subnet.subnet.id
 
   #Optional
+  data_storage_size_in_tbs        = var.cloud_vm_cluster_data_storage_size_in_tbs
+  db_node_storage_size_in_gbs     = var.cloud_vm_cluster_db_node_storage_size_in_gbs
+  db_servers                      = [data.oci_database_db_servers.test_cloud_db_servers.db_servers.0.id, data.oci_database_db_servers.test_cloud_db_servers.db_servers.1.id]
+  memory_size_in_gbs              = var.cloud_vm_cluster_memory_size_in_gbs
   ocpu_count                      = var.cloud_vm_cluster_ocpu_count
   scan_listener_port_tcp          = var.cloud_vm_cluster_scan_listener_port_tcp
   scan_listener_port_tcp_ssl      = var.cloud_vm_cluster_scan_listener_port_tcp_ssl
+  private_zone_id                 = oci_dns_zone.test_zone.id
+
+  data_collection_options {
+    #Optional
+    is_diagnostics_events_enabled = "true"
+    is_health_monitoring_enabled = "true"
+    is_incident_logs_enabled = "true"
+  }
 }
 
 resource "oci_database_db_home" "test_db_home_vm_cluster" {

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package core
@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 )
@@ -161,6 +161,39 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 												// Required
 
 												// Optional
+												"autotune_policies": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"autotune_type": {
+																Type:             schema.TypeString,
+																Required:         true,
+																ForceNew:         true,
+																DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																ValidateFunc: validation.StringInSlice([]string{
+																	"DETACHED_VOLUME",
+																	"PERFORMANCE_BASED",
+																}, true),
+															},
+
+															// Optional
+															"max_vpus_per_gb": {
+																Type:             schema.TypeString,
+																Optional:         true,
+																Computed:         true,
+																ForceNew:         true,
+																ValidateFunc:     tfresource.ValidateInt64TypeString,
+																DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+															},
+
+															// Computed
+														},
+													},
+												},
 												"availability_domain": {
 													Type:             schema.TypeString,
 													Optional:         true,
@@ -629,13 +662,33 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													ValidateFunc: validation.StringInSlice([]string{
 														"AMD_MILAN_BM",
 														"AMD_ROME_BM",
+														"AMD_ROME_BM_GPU",
 														"AMD_VM",
+														"INTEL_ICELAKE_BM",
 														"INTEL_SKYLAKE_BM",
 														"INTEL_VM",
 													}, true),
 												},
 
 												// Optional
+												"are_virtual_instructions_enabled": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"is_access_control_service_enabled": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"is_input_output_memory_management_unit_enabled": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
 												"is_measured_boot_enabled": {
 													Type:     schema.TypeBool,
 													Optional: true,
@@ -643,6 +696,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													ForceNew: true,
 												},
 												"is_secure_boot_enabled": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"is_symmetric_multi_threading_enabled": {
 													Type:     schema.TypeBool,
 													Optional: true,
 													Computed: true,
@@ -656,6 +715,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 												},
 												"numa_nodes_per_socket": {
 													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"percentage_of_cores_enabled": {
+													Type:     schema.TypeInt,
 													Optional: true,
 													Computed: true,
 													ForceNew: true,
@@ -795,6 +860,14 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													ForceNew: true,
 												},
 												"boot_volume_size_in_gbs": {
+													Type:             schema.TypeString,
+													Optional:         true,
+													Computed:         true,
+													ForceNew:         true,
+													ValidateFunc:     tfresource.ValidateInt64TypeString,
+													DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+												},
+												"boot_volume_vpus_per_gb": {
 													Type:             schema.TypeString,
 													Optional:         true,
 													Computed:         true,
@@ -1325,6 +1398,56 @@ func InstanceConfigurationAttachVolumeDetailsToMap(obj *oci_core.InstanceConfigu
 	return result
 }
 
+func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationAutotunePolicy(fieldKeyFormat string) (oci_core.InstanceConfigurationAutotunePolicy, error) {
+	var baseObject oci_core.InstanceConfigurationAutotunePolicy
+	//discriminator
+	autotuneTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "autotune_type"))
+	var autotuneType string
+	if ok {
+		autotuneType = autotuneTypeRaw.(string)
+	} else {
+		autotuneType = "" // default value
+	}
+	switch strings.ToLower(autotuneType) {
+	case strings.ToLower("DETACHED_VOLUME"):
+		details := oci_core.InstanceConfigurationDetachedVolumeAutotunePolicy{}
+		baseObject = details
+	case strings.ToLower("PERFORMANCE_BASED"):
+		details := oci_core.InstanceConfigurationPerformanceBasedAutotunePolicy{}
+		if maxVpusPerGB, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_vpus_per_gb")); ok {
+			tmp := maxVpusPerGB.(string)
+			tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+			if err != nil {
+				return details, fmt.Errorf("unable to convert maxVpusPerGB string: %s to an int64 and encountered error: %v", tmp, err)
+			}
+			details.MaxVpusPerGB = &tmpInt64
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown autotune_type '%v' was specified", autotuneType)
+	}
+	return baseObject, nil
+}
+
+func InstanceConfigurationAutotunePolicyToMap(obj oci_core.InstanceConfigurationAutotunePolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (obj).(type) {
+	case oci_core.InstanceConfigurationDetachedVolumeAutotunePolicy:
+		result["autotune_type"] = "DETACHED_VOLUME"
+	case oci_core.InstanceConfigurationPerformanceBasedAutotunePolicy:
+		result["autotune_type"] = "PERFORMANCE_BASED"
+
+		if v.MaxVpusPerGB != nil {
+			result["max_vpus_per_gb"] = strconv.FormatInt(*v.MaxVpusPerGB, 10)
+		}
+	default:
+		log.Printf("[WARN] Received 'autotune_type' of unknown type %v", obj)
+		return nil
+	}
+
+	return result
+}
+
 func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationAvailabilityConfig(fieldKeyFormat string) (oci_core.InstanceConfigurationAvailabilityConfig, error) {
 	result := oci_core.InstanceConfigurationAvailabilityConfig{}
 
@@ -1520,6 +1643,23 @@ func InstanceConfigurationCreateVnicDetailsToMap(obj *oci_core.InstanceConfigura
 func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreateVolumeDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationCreateVolumeDetails, error) {
 	result := oci_core.InstanceConfigurationCreateVolumeDetails{}
 
+	if autotunePolicies, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "autotune_policies")); ok {
+		interfaces := autotunePolicies.([]interface{})
+		tmp := make([]oci_core.InstanceConfigurationAutotunePolicy, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "autotune_policies"), stateDataIndex)
+			converted, err := s.mapToInstanceConfigurationAutotunePolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "autotune_policies")) {
+			result.AutotunePolicies = tmp
+		}
+	}
+
 	if availabilityDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "availability_domain")); ok {
 		tmp := availabilityDomain.(string)
 		result.AvailabilityDomain = &tmp
@@ -1591,6 +1731,12 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 
 func InstanceConfigurationCreateVolumeDetailsToMap(obj *oci_core.InstanceConfigurationCreateVolumeDetails) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	autotunePolicies := []interface{}{}
+	for _, item := range obj.AutotunePolicies {
+		autotunePolicies = append(autotunePolicies, InstanceConfigurationAutotunePolicyToMap(item))
+	}
+	result["autotune_policies"] = autotunePolicies
 
 	if obj.AvailabilityDomain != nil {
 		result["availability_domain"] = string(*obj.AvailabilityDomain)
@@ -1754,6 +1900,7 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationInstan
 	//discriminator
 	sourceTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_type"))
 	var sourceType string
+	var defaultVpusPerGb int64 = 10
 	if ok {
 		sourceType = sourceTypeRaw.(string)
 	} else {
@@ -1776,6 +1923,22 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationInstan
 				return details, fmt.Errorf("unable to convert bootVolumeSizeInGBs string: %s to an int64 and encountered error: %v", tmp, err)
 			}
 			details.BootVolumeSizeInGBs = &tmpInt64
+		}
+
+		bootVolumeVpusPerGB, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "boot_volume_vpus_per_gb"))
+		if ok {
+			tmp := bootVolumeVpusPerGB.(string)
+			if tmp != "" {
+				tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert bootVolumeVpusPerGB string: %s to an int64 and encountered error: %v", tmp, err)
+				}
+				details.BootVolumeVpusPerGB = &tmpInt64
+			} else {
+				details.BootVolumeVpusPerGB = &defaultVpusPerGb
+			}
+		} else {
+			details.BootVolumeVpusPerGB = &defaultVpusPerGb
 		}
 		if imageId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image_id")); ok {
 			tmp := imageId.(string)
@@ -1802,6 +1965,10 @@ func InstanceConfigurationInstanceSourceDetailsToMap(obj *oci_core.InstanceConfi
 
 		if v.BootVolumeSizeInGBs != nil {
 			result["boot_volume_size_in_gbs"] = strconv.FormatInt(*v.BootVolumeSizeInGBs, 10)
+		}
+
+		if v.BootVolumeVpusPerGB != nil {
+			result["boot_volume_vpus_per_gb"] = strconv.FormatInt(*v.BootVolumeVpusPerGB, 10)
 		}
 
 		if v.ImageId != nil {
@@ -2172,8 +2339,28 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 	switch strings.ToLower(type_) {
 	case strings.ToLower("AMD_MILAN_BM"):
 		details := oci_core.InstanceConfigurationAmdMilanBmLaunchInstancePlatformConfig{}
+		if areVirtualInstructionsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "are_virtual_instructions_enabled")); ok {
+			tmp := areVirtualInstructionsEnabled.(bool)
+			details.AreVirtualInstructionsEnabled = &tmp
+		}
+		if isAccessControlServiceEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_access_control_service_enabled")); ok {
+			tmp := isAccessControlServiceEnabled.(bool)
+			details.IsAccessControlServiceEnabled = &tmp
+		}
+		if isInputOutputMemoryManagementUnitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_input_output_memory_management_unit_enabled")); ok {
+			tmp := isInputOutputMemoryManagementUnitEnabled.(bool)
+			details.IsInputOutputMemoryManagementUnitEnabled = &tmp
+		}
+		if isSymmetricMultiThreadingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_symmetric_multi_threading_enabled")); ok {
+			tmp := isSymmetricMultiThreadingEnabled.(bool)
+			details.IsSymmetricMultiThreadingEnabled = &tmp
+		}
 		if numaNodesPerSocket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "numa_nodes_per_socket")); ok {
 			details.NumaNodesPerSocket = oci_core.InstanceConfigurationAmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum(numaNodesPerSocket.(string))
+		}
+		if percentageOfCoresEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "percentage_of_cores_enabled")); ok {
+			tmp := percentageOfCoresEnabled.(int)
+			details.PercentageOfCoresEnabled = &tmp
 		}
 		if isMeasuredBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_measured_boot_enabled")); ok {
 			tmp := isMeasuredBootEnabled.(bool)
@@ -2190,6 +2377,63 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 		baseObject = details
 	case strings.ToLower("AMD_ROME_BM"):
 		details := oci_core.InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfig{}
+		if areVirtualInstructionsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "are_virtual_instructions_enabled")); ok {
+			tmp := areVirtualInstructionsEnabled.(bool)
+			details.AreVirtualInstructionsEnabled = &tmp
+		}
+		if isAccessControlServiceEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_access_control_service_enabled")); ok {
+			tmp := isAccessControlServiceEnabled.(bool)
+			details.IsAccessControlServiceEnabled = &tmp
+		}
+		if isInputOutputMemoryManagementUnitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_input_output_memory_management_unit_enabled")); ok {
+			tmp := isInputOutputMemoryManagementUnitEnabled.(bool)
+			details.IsInputOutputMemoryManagementUnitEnabled = &tmp
+		}
+		if isSymmetricMultiThreadingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_symmetric_multi_threading_enabled")); ok {
+			tmp := isSymmetricMultiThreadingEnabled.(bool)
+			details.IsSymmetricMultiThreadingEnabled = &tmp
+		}
+		if numaNodesPerSocket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "numa_nodes_per_socket")); ok {
+			details.NumaNodesPerSocket = oci_core.InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum(numaNodesPerSocket.(string))
+		}
+		if percentageOfCoresEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "percentage_of_cores_enabled")); ok {
+			tmp := percentageOfCoresEnabled.(int)
+			details.PercentageOfCoresEnabled = &tmp
+		}
+		if isMeasuredBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_measured_boot_enabled")); ok {
+			tmp := isMeasuredBootEnabled.(bool)
+			details.IsMeasuredBootEnabled = &tmp
+		}
+		if isSecureBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_secure_boot_enabled")); ok {
+			tmp := isSecureBootEnabled.(bool)
+			details.IsSecureBootEnabled = &tmp
+		}
+		if isTrustedPlatformModuleEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_trusted_platform_module_enabled")); ok {
+			tmp := isTrustedPlatformModuleEnabled.(bool)
+			details.IsTrustedPlatformModuleEnabled = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("AMD_ROME_BM_GPU"):
+		details := oci_core.InstanceConfigurationAmdRomeBmGpuLaunchInstancePlatformConfig{}
+		if areVirtualInstructionsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "are_virtual_instructions_enabled")); ok {
+			tmp := areVirtualInstructionsEnabled.(bool)
+			details.AreVirtualInstructionsEnabled = &tmp
+		}
+		if isAccessControlServiceEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_access_control_service_enabled")); ok {
+			tmp := isAccessControlServiceEnabled.(bool)
+			details.IsAccessControlServiceEnabled = &tmp
+		}
+		if isInputOutputMemoryManagementUnitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_input_output_memory_management_unit_enabled")); ok {
+			tmp := isInputOutputMemoryManagementUnitEnabled.(bool)
+			details.IsInputOutputMemoryManagementUnitEnabled = &tmp
+		}
+		if isSymmetricMultiThreadingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_symmetric_multi_threading_enabled")); ok {
+			tmp := isSymmetricMultiThreadingEnabled.(bool)
+			details.IsSymmetricMultiThreadingEnabled = &tmp
+		}
+		if numaNodesPerSocket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "numa_nodes_per_socket")); ok {
+			details.NumaNodesPerSocket = oci_core.InstanceConfigurationAmdRomeBmGpuLaunchInstancePlatformConfigNumaNodesPerSocketEnum(numaNodesPerSocket.(string))
+		}
 		if isMeasuredBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_measured_boot_enabled")); ok {
 			tmp := isMeasuredBootEnabled.(bool)
 			details.IsMeasuredBootEnabled = &tmp
@@ -2205,6 +2449,36 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 		baseObject = details
 	case strings.ToLower("AMD_VM"):
 		details := oci_core.InstanceConfigurationAmdVmLaunchInstancePlatformConfig{}
+		if isMeasuredBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_measured_boot_enabled")); ok {
+			tmp := isMeasuredBootEnabled.(bool)
+			details.IsMeasuredBootEnabled = &tmp
+		}
+		if isSecureBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_secure_boot_enabled")); ok {
+			tmp := isSecureBootEnabled.(bool)
+			details.IsSecureBootEnabled = &tmp
+		}
+		if isTrustedPlatformModuleEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_trusted_platform_module_enabled")); ok {
+			tmp := isTrustedPlatformModuleEnabled.(bool)
+			details.IsTrustedPlatformModuleEnabled = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("INTEL_ICELAKE_BM"):
+		details := oci_core.InstanceConfigurationIntelIcelakeBmLaunchInstancePlatformConfig{}
+		if isInputOutputMemoryManagementUnitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_input_output_memory_management_unit_enabled")); ok {
+			tmp := isInputOutputMemoryManagementUnitEnabled.(bool)
+			details.IsInputOutputMemoryManagementUnitEnabled = &tmp
+		}
+		if isSymmetricMultiThreadingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_symmetric_multi_threading_enabled")); ok {
+			tmp := isSymmetricMultiThreadingEnabled.(bool)
+			details.IsSymmetricMultiThreadingEnabled = &tmp
+		}
+		if numaNodesPerSocket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "numa_nodes_per_socket")); ok {
+			details.NumaNodesPerSocket = oci_core.InstanceConfigurationIntelIcelakeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum(numaNodesPerSocket.(string))
+		}
+		if percentageOfCoresEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "percentage_of_cores_enabled")); ok {
+			tmp := percentageOfCoresEnabled.(int)
+			details.PercentageOfCoresEnabled = &tmp
+		}
 		if isMeasuredBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_measured_boot_enabled")); ok {
 			tmp := isMeasuredBootEnabled.(bool)
 			details.IsMeasuredBootEnabled = &tmp
@@ -2260,11 +2534,89 @@ func InstanceConfigurationLaunchInstancePlatformConfigToMap(obj *oci_core.Instan
 	case oci_core.InstanceConfigurationAmdMilanBmLaunchInstancePlatformConfig:
 		result["type"] = "AMD_MILAN_BM"
 
+		if v.AreVirtualInstructionsEnabled != nil {
+			result["are_virtual_instructions_enabled"] = bool(*v.AreVirtualInstructionsEnabled)
+		}
+
+		if v.IsAccessControlServiceEnabled != nil {
+			result["is_access_control_service_enabled"] = bool(*v.IsAccessControlServiceEnabled)
+		}
+
+		if v.IsInputOutputMemoryManagementUnitEnabled != nil {
+			result["is_input_output_memory_management_unit_enabled"] = bool(*v.IsInputOutputMemoryManagementUnitEnabled)
+		}
+
+		if v.IsSymmetricMultiThreadingEnabled != nil {
+			result["is_symmetric_multi_threading_enabled"] = bool(*v.IsSymmetricMultiThreadingEnabled)
+		}
+
 		result["numa_nodes_per_socket"] = string(v.NumaNodesPerSocket)
+
+		if v.PercentageOfCoresEnabled != nil {
+			result["percentage_of_cores_enabled"] = int(*v.PercentageOfCoresEnabled)
+		}
 	case oci_core.InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfig:
 		result["type"] = "AMD_ROME_BM"
+
+		if v.AreVirtualInstructionsEnabled != nil {
+			result["are_virtual_instructions_enabled"] = bool(*v.AreVirtualInstructionsEnabled)
+		}
+
+		if v.IsAccessControlServiceEnabled != nil {
+			result["is_access_control_service_enabled"] = bool(*v.IsAccessControlServiceEnabled)
+		}
+
+		if v.IsInputOutputMemoryManagementUnitEnabled != nil {
+			result["is_input_output_memory_management_unit_enabled"] = bool(*v.IsInputOutputMemoryManagementUnitEnabled)
+		}
+
+		if v.IsSymmetricMultiThreadingEnabled != nil {
+			result["is_symmetric_multi_threading_enabled"] = bool(*v.IsSymmetricMultiThreadingEnabled)
+		}
+
+		result["numa_nodes_per_socket"] = string(v.NumaNodesPerSocket)
+
+		if v.PercentageOfCoresEnabled != nil {
+			result["percentage_of_cores_enabled"] = int(*v.PercentageOfCoresEnabled)
+		}
+	case oci_core.InstanceConfigurationAmdRomeBmGpuLaunchInstancePlatformConfig:
+		result["type"] = "AMD_ROME_BM_GPU"
+
+		if v.AreVirtualInstructionsEnabled != nil {
+			result["are_virtual_instructions_enabled"] = bool(*v.AreVirtualInstructionsEnabled)
+		}
+
+		if v.IsAccessControlServiceEnabled != nil {
+			result["is_access_control_service_enabled"] = bool(*v.IsAccessControlServiceEnabled)
+		}
+
+		if v.IsInputOutputMemoryManagementUnitEnabled != nil {
+			result["is_input_output_memory_management_unit_enabled"] = bool(*v.IsInputOutputMemoryManagementUnitEnabled)
+		}
+
+		if v.IsSymmetricMultiThreadingEnabled != nil {
+			result["is_symmetric_multi_threading_enabled"] = bool(*v.IsSymmetricMultiThreadingEnabled)
+		}
+
+		result["numa_nodes_per_socket"] = string(v.NumaNodesPerSocket)
 	case oci_core.InstanceConfigurationAmdVmLaunchInstancePlatformConfig:
 		result["type"] = "AMD_VM"
+	case oci_core.InstanceConfigurationIntelIcelakeBmLaunchInstancePlatformConfig:
+		result["type"] = "INTEL_ICELAKE_BM"
+
+		if v.IsInputOutputMemoryManagementUnitEnabled != nil {
+			result["is_input_output_memory_management_unit_enabled"] = bool(*v.IsInputOutputMemoryManagementUnitEnabled)
+		}
+
+		if v.IsSymmetricMultiThreadingEnabled != nil {
+			result["is_symmetric_multi_threading_enabled"] = bool(*v.IsSymmetricMultiThreadingEnabled)
+		}
+
+		result["numa_nodes_per_socket"] = string(v.NumaNodesPerSocket)
+
+		if v.PercentageOfCoresEnabled != nil {
+			result["percentage_of_cores_enabled"] = int(*v.PercentageOfCoresEnabled)
+		}
 	case oci_core.InstanceConfigurationIntelSkylakeBmLaunchInstancePlatformConfig:
 		result["type"] = "INTEL_SKYLAKE_BM"
 	case oci_core.InstanceConfigurationIntelVmLaunchInstancePlatformConfig:

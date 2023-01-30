@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -30,6 +30,15 @@ type WorkRequestResource struct {
 
 	// The identifier of the resource the work request affects.
 	Identifier *string `mandatory:"true" json:"identifier"`
+
+	// The identifier of the source the work request is requesting.
+	SourceId *string `mandatory:"false" json:"sourceId"`
+
+	// The name of the source the work request is requesting.
+	SourceName *string `mandatory:"false" json:"sourceName"`
+
+	// The version of the source the work request is requesting.
+	SourceVersion *string `mandatory:"false" json:"sourceVersion"`
 
 	// The URI path that the user can do a GET on to access the resource metadata
 	EntityUri *string `mandatory:"false" json:"entityUri"`

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -12,11 +12,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	oci_analytics "github.com/oracle/oci-go-sdk/v65/analytics"
 	"github.com/oracle/oci-go-sdk/v65/common"
@@ -24,10 +24,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
+	AnalyticsAnalyticsInstanceVanityUrlRequiredOnlyResource = AnalyticsAnalyticsInstanceVanityUrlResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance_vanity_url", "test_analytics_instance_vanity_url", acctest.Required, acctest.Create, analyticsInstanceVanityUrlRepresentation1)
 	ca_cert1              = utils.GetEnvSettingWithBlankDefault("ca_cert1")
 	private_key_1_no_pass = utils.GetEnvSettingWithBlankDefault("private_key_1_no_pass")
 	public_cert_1_no_pass = utils.GetEnvSettingWithBlankDefault("public_cert_1_no_pass")
@@ -45,9 +47,6 @@ var (
 	private_key_2_pass_val = getEnvWithNewlineExpansion("private_key_2_pass")
 	public_cert_2_pass_val = getEnvWithNewlineExpansion("public_cert_2_pass")
 	passphrase_2_val       = getEnvWithNewlineExpansion("passphrase_2")
-
-	AnalyticsInstanceVanityUrlRequiredOnlyResource = AnalyticsInstanceVanityUrlResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance_vanity_url", "test_analytics_instance_vanity_url", acctest.Required, acctest.Create, analyticsInstanceVanityUrlRepresentation1)
 
 	analyticsInstanceVanityUrlRepresentation1 = map[string]interface{}{
 		"analytics_instance_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_analytics_analytics_instance.test_analytics_instance.id}`},
@@ -70,7 +69,7 @@ var (
 		"passphrase":            acctest.Representation{RepType: acctest.Optional, Create: passphrase_2, Update: ``},
 	}
 
-	AnalyticsInstanceVanityUrlResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Required, acctest.Create, analyticsInstanceRepresentation)
+	AnalyticsAnalyticsInstanceVanityUrlResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Required, acctest.Create, analyticsInstanceRepresentation)
 )
 
 func getEnvWithNewlineExpansion(env_variable string) string {
@@ -95,14 +94,14 @@ func TestAnalyticsAnalyticsInstanceVanityUrlResource_basic(t *testing.T) {
 	resourceName := "oci_analytics_analytics_instance_vanity_url.test_analytics_instance_vanity_url"
 
 	var resId, resId2 string
-	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+AnalyticsInstanceVanityUrlResourceDependencies+
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+AnalyticsAnalyticsInstanceVanityUrlResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance_vanity_url", "test_analytics_instance_vanity_url", acctest.Optional, acctest.Create, analyticsInstanceVanityUrlRepresentation2), "analytics", "analyticsInstanceVanityUrl", t)
 
 	acctest.ResourceTest(t, testAccCheckAnalyticsAnalyticsInstanceVanityUrlDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceVanityUrlResourceDependencies +
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsAnalyticsInstanceVanityUrlResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance_vanity_url", "test_analytics_instance_vanity_url", acctest.Required, acctest.Create, analyticsInstanceVanityUrlRepresentation1),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "analytics_instance_id"),
@@ -120,11 +119,15 @@ func TestAnalyticsAnalyticsInstanceVanityUrlResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceVanityUrlResourceDependencies,
+			Config: config + compartmentIdVariableStr + AnalyticsAnalyticsInstanceVanityUrlResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceVanityUrlResourceDependencies +
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsAnalyticsInstanceVanityUrlResourceDependencies,
+		},
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsAnalyticsInstanceVanityUrlResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance_vanity_url", "test_analytics_instance_vanity_url", acctest.Optional, acctest.Create, analyticsInstanceVanityUrlRepresentation2),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "analytics_instance_id"),
@@ -149,7 +152,7 @@ func TestAnalyticsAnalyticsInstanceVanityUrlResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceVanityUrlResourceDependencies +
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsAnalyticsInstanceVanityUrlResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance_vanity_url", "test_analytics_instance_vanity_url", acctest.Optional, acctest.Update, analyticsInstanceVanityUrlRepresentation2),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "analytics_instance_id"),
@@ -170,7 +173,7 @@ func TestAnalyticsAnalyticsInstanceVanityUrlResource_basic(t *testing.T) {
 			),
 		},
 		{
-			Config:            config + AnalyticsInstanceVanityUrlRequiredOnlyResource,
+			Config:            config + AnalyticsAnalyticsInstanceVanityUrlRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

@@ -28,6 +28,10 @@ resource "oci_database_cloud_database_management" "test" {
     password_secret_id  = var.database_cloud_database_management_details_password_secret_id
   }
   enable_management     = var.database_cloud_database_management_details_enable_management
+  port = var.cloud_database_management_port
+  protocol = var.cloud_database_management_protocol
+  role = var.cloud_database_management_role
+  ssl_secret_id = oci_vault_secret.test_secret.id
 }
 ```
 
@@ -36,8 +40,12 @@ resource "oci_database_cloud_database_management" "test" {
 The following arguments are supported:
 
 * `database_id` - (Required) The database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-* `private_end_point_id` - (Required) (Updatable) The private end point [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-* `service_name` - (Required) (Updatable) Database service name
+* `port` - (Optional) The port used to connect to the database.
+* `protocol` - (Optional) Protocol used by the database connection.
+* `role` - (Optional) The role of the user that will be connecting to the database.
+* `ssl_secret_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [secret](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
+* `private_end_point_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private endpoint.
+* `service_name` - (Required) The name of the Oracle Database service that will be used to connect to the database.
 * `management_type` - (Required) (Updatable) Specifies database management type
   enum:
   - `BASIC`
@@ -83,28 +91,14 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
 * `is_cdb` - True if the database is a container database.
-* `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
-* `kms_key_version_id` - The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. 
-* `last_backup_timestamp` - The date and time when the latest database backup was created.
-* `lifecycle_details` - Additional information about the current lifecycle state.
-* `ncharacter_set` - The national character set for the database.
-* `pdb_name` - The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
-* `sid_prefix` - Specifies a prefix for the `Oracle SID` of the database to be created. 
-* `source_database_point_in_time_recovery_timestamp` - Point in time recovery timeStamp of the source database at which cloned database system is cloned from the source database system, as described in [RFC 3339](https://tools.ietf.org/rfc/rfc3339)
-* `state` - The current state of the database.
-* `time_created` - The date and time the database was created.
-* `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
-* `vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
-* `create` - (Defaults to 20 minutes), when creating the Database Management
-* `update` - (Defaults to 20 minutes), when updating the Database Management
-* `delete` - (Defaults to 20 minutes), when destroying the Database Management
-
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Cloud Database Management
+	* `update` - (Defaults to 20 minutes), when updating the Cloud Database Management
+	* `delete` - (Defaults to 20 minutes), when destroying the Cloud Database Management
 
 ## Import
 
 Import is not supported for this resource.
-

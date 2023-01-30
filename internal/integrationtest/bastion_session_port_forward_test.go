@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -8,14 +8,14 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -59,23 +59,23 @@ var (
 		"public_key_content": acctest.Representation{RepType: acctest.Required, Create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCsIMv3VTcvJeEQCz6+0Lyj4m6G02b6tGMgYwjyciXZY+GDpQhTq1RhY66dHgHP1Y6OWqpHL6lcs+OFx6iFWjNGwJmqDtR5T0/3kU7qZmPSQhe//Y4VU71wU15EA4LkbmwEX+9HIqUpPnD3XNoI+QLK7WTan3fqprK0DSc0XuRSA3H+H5meTxriFt8xbUHfo/qPBQJ0MKf9GOBQRKR+Cs6X2R0XxvF7XOmBv7NnapCpV2r7Yffkd1732m0g6i4lj2DNb1qQDDyws9TfGxH2OMlr1Rm71EYKQx3vO5Qhgszvpircxu+viADohSxTucwDii29ZaNDO8d3WZ11JSA/QH4h bastion`},
 	}
 
-	PortForwardSessionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", acctest.Required, acctest.Create, bastionRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	PortForwardSessionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", acctest.Required, acctest.Create, BastionbastionRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		AvailabilityDomainConfig +
 		seestionImageInstanceDependencies +
 		// Create instance as target host
 		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create,
-			acctest.RepresentationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
+			acctest.RepresentationCopyWithNewProperties(CoreInstanceRepresentation, map[string]interface{}{
 				"shape":        acctest.Representation{RepType: acctest.Required, Create: `VM.Standard1.1`},
 				"image":        acctest.Representation{RepType: acctest.Required, Create: `${var.InstanceImageOCID[var.region]}`},
 				"agent_config": acctest.RepresentationGroup{RepType: acctest.Required, Group: bastionEnabledInstanceAgentConfigRepresentation},
 				"metadata":     acctest.Representation{RepType: acctest.Required, Create: map[string]string{"ssh_authorized_keys": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDjk96o3uQcgHId6l/gkCwiid5J48CxKEiyk+1tPQugfhzgIIBs2Xr4xLX/rb5Xkr7MIeXuU3gdYrrMPLuMhOvthIKj6U5ROJWiZ67X00pOLq64dFyam1lQ+S/R/SaQ4W0KhKfkVskRhg7V96U07BGo8lDwYRGnvJsNb7rt3oHgnXtTFs7cy3IbzH5Sl7XBZv7yePu9sY39FrxktHw7Avz9BDZQbNYFC/cpj5eVvtPX/sMbc/D1yfrvhAIrYarhcAjEmWkjOJvkVlyKBxaSA7+mnOqFcj99hj5ZQN69h2B4TtHw2G8WEsU/nlyzBAj1iGQEvCLKnyp7Lxviy81jyKt91NQ7W6qh4tcs1mOFBsTGx/mBsNPwZhGRe4jWH15T++qnBAp6Zzw8ydPrJTgHLK+h1AMGFKMQZKYnMRV+6JYaNbnCVmLlxXoxhGsufXZMMS4qmjAQUBakZQsfiwLUxZBd0ZXmDCaZBxf6KP7HgL2x0Gb8IF38F7ryaOg9oxifqI8= chiweng@chiweng-mac"}},
 			})) +
 		// Create Routable, Service Gateway, Internet Gateway for testing
-		acctest.GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", acctest.Required, acctest.Create, serviceDataSourceRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", acctest.Required, acctest.Create, CoreCoreServiceDataSourceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", acctest.Required, acctest.Create,
-			acctest.RepresentationCopyWithNewProperties(serviceGatewayRepresentation, map[string]interface{}{
+			acctest.RepresentationCopyWithNewProperties(CoreServiceGatewayRepresentation, map[string]interface{}{
 				"services": acctest.RepresentationGroup{RepType: acctest.Required, Group: allOCIServiceGatewayServicesRepresentation},
 			})) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_default_route_table", "default_route_table", acctest.Required, acctest.Create,

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// CreateConfigurationSourceProviderDetails The details for creating a configuration source provider.
+// CreateConfigurationSourceProviderDetails Creation details for a configuration source provider.
 type CreateConfigurationSourceProviderDetails interface {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where
@@ -91,8 +91,16 @@ func (m *createconfigurationsourceproviderdetails) UnmarshalPolymorphicJSON(data
 		mm := CreateGitlabAccessTokenConfigurationSourceProviderDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "BITBUCKET_CLOUD_USERNAME_APPPASSWORD":
+		mm := CreateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GITHUB_ACCESS_TOKEN":
 		mm := CreateGithubAccessTokenConfigurationSourceProviderDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "BITBUCKET_SERVER_ACCESS_TOKEN":
+		mm := CreateBitbucketServerAccessTokenConfigurationSourceProviderDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

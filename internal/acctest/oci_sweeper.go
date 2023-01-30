@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package acctest
@@ -15,7 +15,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	utils "github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	utils "github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 /* This map holds the list of ocids for a given resourceType by compartment

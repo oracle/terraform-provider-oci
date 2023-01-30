@@ -1,17 +1,17 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database
 
 import (
 	"context"
-	"strconv"
-
 	"fmt"
 	"log"
+	"strconv"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -103,11 +103,61 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"data_collection_options": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"is_diagnostics_events_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_health_monitoring_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_incident_logs_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"data_storage_percentage": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"data_storage_size_in_tbs": {
+				Type:     schema.TypeFloat,
+				Optional: true,
+				Computed: true,
+			},
+			"db_node_storage_size_in_gbs": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
+			"db_servers": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -145,6 +195,11 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"memory_size_in_gbs": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"nsg_ids": {
 				Type:     schema.TypeSet,
 				Optional: true,
@@ -158,6 +213,12 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Type:     schema.TypeFloat,
 				Optional: true,
 				Computed: true,
+			},
+			"private_zone_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"scan_listener_port_tcp": {
 				Type:     schema.TypeInt,
@@ -441,9 +502,43 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 		request.CpuCoreCount = &tmp
 	}
 
+	if dataCollectionOptions, ok := s.D.GetOkExists("data_collection_options"); ok {
+		if tmpList := dataCollectionOptions.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "data_collection_options", 0)
+			tmp, err := s.mapToDataCollectionOptions(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.DataCollectionOptions = &tmp
+		}
+	}
+
 	if dataStoragePercentage, ok := s.D.GetOkExists("data_storage_percentage"); ok {
 		tmp := dataStoragePercentage.(int)
 		request.DataStoragePercentage = &tmp
+	}
+
+	if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
+		tmp := dataStorageSizeInTBs.(float64)
+		request.DataStorageSizeInTBs = &tmp
+	}
+
+	if dbNodeStorageSizeInGBs, ok := s.D.GetOkExists("db_node_storage_size_in_gbs"); ok {
+		tmp := dbNodeStorageSizeInGBs.(int)
+		request.DbNodeStorageSizeInGBs = &tmp
+	}
+
+	if dbServers, ok := s.D.GetOkExists("db_servers"); ok {
+		interfaces := dbServers.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("db_servers") {
+			request.DbServers = tmp
+		}
 	}
 
 	if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
@@ -497,6 +592,11 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 		request.LicenseModel = oci_database.CreateCloudVmClusterDetailsLicenseModelEnum(licenseModel.(string))
 	}
 
+	if memorySizeInGBs, ok := s.D.GetOkExists("memory_size_in_gbs"); ok {
+		tmp := memorySizeInGBs.(int)
+		request.MemorySizeInGBs = &tmp
+	}
+
 	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 		set := nsgIds.(*schema.Set)
 		interfaces := set.List()
@@ -509,6 +609,11 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 			request.NsgIds = tmp
 		}
+	}
+
+	if privateZoneId, ok := s.D.GetOkExists("private_zone_id"); ok {
+		tmp := privateZoneId.(string)
+		request.PrivateZoneId = &tmp
 	}
 
 	if scanListenerPortTcp, ok := s.D.GetOkExists("scan_listener_port_tcp"); ok {
@@ -617,22 +722,23 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 			}
 		}
 	}
+	if !utils.IsMultiVm(*s.Infra.Shape, s.Infra.MaxDataStorageInTBs) {
+		if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
+			if *s.Infra.ComputeCount != nodeCount {
+				request.ComputeNodes = []string{"ALL"}
+			} else {
+				request.ComputeNodes = []string{}
+				if shape, ok := s.D.GetOkExists("shape"); ok {
+					flexShape := shape.(string) + ".StorageServer"
 
-	if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
-		if *s.Infra.ComputeCount != nodeCount {
-			request.ComputeNodes = []string{"ALL"}
-		} else {
-			request.ComputeNodes = []string{}
-			if shape, ok := s.D.GetOkExists("shape"); ok {
-				flexShape := shape.(string) + ".StorageServer"
+					if compartmentId, compOk := s.D.GetOkExists("compartment_id"); compOk {
+						flex, err := s.flexAvailableDbStorageInGBs(compartmentId.(string), flexShape)
 
-				if compartmentId, compOk := s.D.GetOkExists("compartment_id"); compOk {
-					flex, err := s.flexAvailableDbStorageInGBs(compartmentId.(string), flexShape)
-
-					if err == nil {
-						if storageSizeInGBs, ok := s.D.GetOkExists("storage_size_in_gbs"); ok {
-							tmp := flex**s.Infra.StorageCount - storageSizeInGBs.(int)
-							request.StorageSizeInGBs = &tmp
+						if err == nil {
+							if storageSizeInGBs, ok := s.D.GetOkExists("storage_size_in_gbs"); ok {
+								tmp := flex**s.Infra.StorageCount - storageSizeInGBs.(int)
+								request.StorageSizeInGBs = &tmp
+							}
 						}
 					}
 				}
@@ -643,6 +749,27 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 	if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok && s.D.HasChange("cpu_core_count") {
 		tmp := cpuCoreCount.(int)
 		request.CpuCoreCount = &tmp
+	}
+
+	if dataCollectionOptions, ok := s.D.GetOkExists("data_collection_options"); ok {
+		if tmpList := dataCollectionOptions.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "data_collection_options", 0)
+			tmp, err := s.mapToDataCollectionOptions(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.DataCollectionOptions = &tmp
+		}
+	}
+
+	if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
+		tmp := dataStorageSizeInTBs.(float64)
+		request.DataStorageSizeInTBs = &tmp
+	}
+
+	if dbNodeStorageSizeInGBs, ok := s.D.GetOkExists("db_node_storage_size_in_gbs"); ok {
+		tmp := dbNodeStorageSizeInGBs.(int)
+		request.DbNodeStorageSizeInGBs = &tmp
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -664,6 +791,11 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok && s.D.HasChange("license_model") {
 		request.LicenseModel = oci_database.UpdateCloudVmClusterDetailsLicenseModelEnum(licenseModel.(string))
+	}
+
+	if memorySizeInGBs, ok := s.D.GetOkExists("memory_size_in_gbs"); ok {
+		tmp := memorySizeInGBs.(int)
+		request.MemorySizeInGBs = &tmp
 	}
 
 	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
@@ -760,6 +892,11 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 		s.D.Set("cpu_core_count", *s.Res.CpuCoreCount)
 	}
 
+	if s.Res.DataCollectionOptions != nil {
+		s.D.Set("data_collection_options", []interface{}{DataCollectionOptionsToMap(s.Res.DataCollectionOptions)})
+	} else {
+		s.D.Set("data_collection_options", nil)
+	}
 	if s.Res.OcpuCount != nil {
 		s.D.Set("ocpu_count", *s.Res.OcpuCount)
 	}
@@ -767,6 +904,17 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 	if s.Res.DataStoragePercentage != nil {
 		s.D.Set("data_storage_percentage", *s.Res.DataStoragePercentage)
 	}
+
+	if s.Res.DataStorageSizeInTBs != nil {
+		s.D.Set("data_storage_size_in_tbs", *s.Res.DataStorageSizeInTBs)
+	}
+
+	if s.Res.DbNodeStorageSizeInGBs != nil {
+		s.D.Set("db_node_storage_size_in_gbs", *s.Res.DbNodeStorageSizeInGBs)
+	}
+
+	s.D.Set("db_servers", s.Res.DbServers)
+	s.D.Set("db_servers", s.Res.DbServers)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
@@ -818,6 +966,10 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 
 	if s.Res.ListenerPort != nil {
 		s.D.Set("listener_port", strconv.FormatInt(*s.Res.ListenerPort, 10))
+	}
+
+	if s.Res.MemorySizeInGBs != nil {
+		s.D.Set("memory_size_in_gbs", *s.Res.MemorySizeInGBs)
 	}
 
 	if s.Res.NodeCount != nil {
@@ -883,6 +1035,27 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *DatabaseCloudVmClusterResourceCrud) mapToDataCollectionOptions(fieldKeyFormat string) (oci_database.DataCollectionOptions, error) {
+	result := oci_database.DataCollectionOptions{}
+
+	if isDiagnosticsEventsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_diagnostics_events_enabled")); ok {
+		tmp := isDiagnosticsEventsEnabled.(bool)
+		result.IsDiagnosticsEventsEnabled = &tmp
+	}
+
+	if isHealthMonitoringEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_health_monitoring_enabled")); ok {
+		tmp := isHealthMonitoringEnabled.(bool)
+		result.IsHealthMonitoringEnabled = &tmp
+	}
+
+	if isIncidentLogsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_incident_logs_enabled")); ok {
+		tmp := isIncidentLogsEnabled.(bool)
+		result.IsIncidentLogsEnabled = &tmp
+	}
+
+	return result, nil
 }
 
 func (s *DatabaseCloudVmClusterResourceCrud) updateCompartment(compartment interface{}) error {

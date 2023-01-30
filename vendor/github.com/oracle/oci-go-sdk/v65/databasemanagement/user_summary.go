@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -35,11 +35,14 @@ type UserSummary struct {
 	// The date and time the user was created.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The User resource profile name.
+	// The profile name of the user.
 	Profile *string `mandatory:"true" json:"profile"`
 
 	// The date and time of the expiration of the user account.
 	TimeExpiring *common.SDKTime `mandatory:"false" json:"timeExpiring"`
+
+	// The date the account was locked, if the status of the account is LOCKED.
+	TimeLocked *common.SDKTime `mandatory:"false" json:"timeLocked"`
 }
 
 func (m UserSummary) String() string {

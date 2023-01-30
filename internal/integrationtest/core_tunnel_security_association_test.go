@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,21 +9,21 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	ipSecConnectionTunnelSecurityAssociationRequiredOnlyResource = TunnelSecurityAssociationResourceConfig +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", acctest.Required, acctest.Create, ipSecConnectionRepresentationCopy)
+	ipSecConnectionTunnelSecurityAssociationRequiredOnlyResource = CoreTunnelSecurityAssociationResourceConfig +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", acctest.Required, acctest.Create, CoreIpSecConnectionRepresentationCopy)
 
-	tunnelSecurityAssociationDataSourceRepresentation = map[string]interface{}{
+	CoreCoreTunnelSecurityAssociationDataSourceRepresentation = map[string]interface{}{
 		"ipsec_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_core_ipsec.test_ip_sec_connection.id}`},
 		"tunnel_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_core_ipsec_connection_tunnels.test_ip_sec_connection_tunnels.ip_sec_connection_tunnels.0.id}`},
 	}
 
-	TunnelSecurityAssociationResourceConfig = IpSecConnectionOptionalResourceCopy
+	CoreTunnelSecurityAssociationResourceConfig = CoreIpSecConnectionOptionalResourceCopy
 )
 
 // issue-routing-tag: core/default
@@ -43,9 +43,9 @@ func TestCoreTunnelSecurityAssociationResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
-			Config: config + compartmentIdVariableStr + TunnelSecurityAssociationResourceConfig +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", acctest.Required, acctest.Create, ipSecConnectionTunnelDataSourceRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_tunnel_security_associations", "test_tunnel_security_associations", acctest.Required, acctest.Create, tunnelSecurityAssociationDataSourceRepresentation),
+			Config: config + compartmentIdVariableStr + CoreTunnelSecurityAssociationResourceConfig +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", acctest.Required, acctest.Create, CoreIpSecConnectionTunnelDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_tunnel_security_associations", "test_tunnel_security_associations", acctest.Required, acctest.Create, CoreCoreTunnelSecurityAssociationDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "ipsec_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "tunnel_id"),

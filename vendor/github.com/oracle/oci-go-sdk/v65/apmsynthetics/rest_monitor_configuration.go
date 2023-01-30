@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -21,6 +21,8 @@ type RestMonitorConfiguration struct {
 
 	// If isFailureRetried is enabled, then a failed call will be retried.
 	IsFailureRetried *bool `mandatory:"false" json:"isFailureRetried"`
+
+	DnsConfiguration *DnsConfiguration `mandatory:"false" json:"dnsConfiguration"`
 
 	// If redirection enabled, then redirects will be allowed while accessing target URL.
 	IsRedirectionEnabled *bool `mandatory:"false" json:"isRedirectionEnabled"`
@@ -58,6 +60,11 @@ type RestMonitorConfiguration struct {
 //GetIsFailureRetried returns IsFailureRetried
 func (m RestMonitorConfiguration) GetIsFailureRetried() *bool {
 	return m.IsFailureRetried
+}
+
+//GetDnsConfiguration returns DnsConfiguration
+func (m RestMonitorConfiguration) GetDnsConfiguration() *DnsConfiguration {
+	return m.DnsConfiguration
 }
 
 func (m RestMonitorConfiguration) String() string {

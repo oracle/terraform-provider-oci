@@ -5,9 +5,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
@@ -60,7 +60,7 @@ func TestDatabaseDatabaseUpgradeResource_DbSoftwareImage(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// Create dependencies
 		{
-			Config: ResourceDatabaseBaseConfig + dbSystemForDbUpgradeRepresentation,
+			Config: ResourceDatabaseBaseConfig + DatabaseSystemForDbUpgradeRepresentation,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				// DB System Resource tests
 				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
@@ -89,7 +89,7 @@ func TestDatabaseDatabaseUpgradeResource_DbSoftwareImage(t *testing.T) {
 		},
 		// verify PRECHECK action on database with source=DB_SOFTWARE_IMAGE
 		{
-			Config: ResourceDatabaseBaseConfig + DatabasePrecheckResourceRep + dbSystemForDbUpgradeRepresentation,
+			Config: ResourceDatabaseBaseConfig + DatabasePrecheckResourceRep + DatabaseSystemForDbUpgradeRepresentation,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				// DBHome
 				resource.TestCheckResourceAttrSet("data.oci_database_db_home.t", "db_home_id"),
@@ -105,7 +105,7 @@ func TestDatabaseDatabaseUpgradeResource_DbSoftwareImage(t *testing.T) {
 		},
 		// verify upgrade history entries singular and plural datasources after PRECHECK action on database
 		{
-			Config: ResourceDatabaseBaseConfig + DatabasePrecheckResourceRep + dbSystemForDbUpgradeRepresentation + ResourceDatabaseTokenFn(`
+			Config: ResourceDatabaseBaseConfig + DatabasePrecheckResourceRep + DatabaseSystemForDbUpgradeRepresentation + ResourceDatabaseTokenFn(`
 				data "oci_database_database_upgrade_history_entries" "t" {
 					database_id = "${data.oci_database_databases.t.databases.0.id}"
 				}
@@ -140,7 +140,7 @@ func TestDatabaseDatabaseUpgradeResource_DbSoftwareImage(t *testing.T) {
 		},
 		// verify UPGRADE action on database with source=DB_SOFTWARE_IMAGE
 		{
-			Config: ResourceDatabaseBaseConfig + DatabaseUpgradeResourceRep + dbSystemForDbUpgradeRepresentation,
+			Config: ResourceDatabaseBaseConfig + DatabaseUpgradeResourceRep + DatabaseSystemForDbUpgradeRepresentation,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				// Database
 				resource.TestCheckResourceAttrSet("data.oci_database_database.t", "id"),
@@ -156,7 +156,7 @@ func TestDatabaseDatabaseUpgradeResource_DbSoftwareImage(t *testing.T) {
 		},
 		// verify upgrade history entries singular and plural datasources after UPGRADE action on database
 		{
-			Config: ResourceDatabaseBaseConfig + DatabaseUpgradeResourceRep + dbSystemForDbUpgradeRepresentation + ResourceDatabaseTokenFn(`
+			Config: ResourceDatabaseBaseConfig + DatabaseUpgradeResourceRep + DatabaseSystemForDbUpgradeRepresentation + ResourceDatabaseTokenFn(`
 				data "oci_database_database_upgrade_history_entries" "t" {
 					database_id = "${data.oci_database_databases.t.databases.0.id}"
 				}

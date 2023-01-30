@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -58,6 +58,10 @@ func (m *authenticationpolicy) UnmarshalPolymorphicJSON(data []byte) (interface{
 
 	var err error
 	switch m.Type {
+	case "TOKEN_AUTHENTICATION":
+		mm := TokenAuthenticationPolicy{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "JWT_AUTHENTICATION":
 		mm := JwtAuthenticationPolicy{}
 		err = json.Unmarshal(data, &mm)
@@ -99,16 +103,19 @@ type AuthenticationPolicyTypeEnum string
 const (
 	AuthenticationPolicyTypeCustomAuthentication AuthenticationPolicyTypeEnum = "CUSTOM_AUTHENTICATION"
 	AuthenticationPolicyTypeJwtAuthentication    AuthenticationPolicyTypeEnum = "JWT_AUTHENTICATION"
+	AuthenticationPolicyTypeTokenAuthentication  AuthenticationPolicyTypeEnum = "TOKEN_AUTHENTICATION"
 )
 
 var mappingAuthenticationPolicyTypeEnum = map[string]AuthenticationPolicyTypeEnum{
 	"CUSTOM_AUTHENTICATION": AuthenticationPolicyTypeCustomAuthentication,
 	"JWT_AUTHENTICATION":    AuthenticationPolicyTypeJwtAuthentication,
+	"TOKEN_AUTHENTICATION":  AuthenticationPolicyTypeTokenAuthentication,
 }
 
 var mappingAuthenticationPolicyTypeEnumLowerCase = map[string]AuthenticationPolicyTypeEnum{
 	"custom_authentication": AuthenticationPolicyTypeCustomAuthentication,
 	"jwt_authentication":    AuthenticationPolicyTypeJwtAuthentication,
+	"token_authentication":  AuthenticationPolicyTypeTokenAuthentication,
 }
 
 // GetAuthenticationPolicyTypeEnumValues Enumerates the set of values for AuthenticationPolicyTypeEnum
@@ -125,6 +132,7 @@ func GetAuthenticationPolicyTypeEnumStringValues() []string {
 	return []string{
 		"CUSTOM_AUTHENTICATION",
 		"JWT_AUTHENTICATION",
+		"TOKEN_AUTHENTICATION",
 	}
 }
 

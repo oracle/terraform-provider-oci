@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database
@@ -9,8 +9,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func DatabaseAutonomousDatabaseCharacterSetsDataSource() *schema.Resource {
@@ -18,6 +18,14 @@ func DatabaseAutonomousDatabaseCharacterSetsDataSource() *schema.Resource {
 		Read: readDatabaseAutonomousDatabaseCharacterSets,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"character_set_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"is_shared": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"autonomous_database_character_sets": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -59,6 +67,15 @@ func (s *DatabaseAutonomousDatabaseCharacterSetsDataSourceCrud) VoidState() {
 
 func (s *DatabaseAutonomousDatabaseCharacterSetsDataSourceCrud) Get() error {
 	request := oci_database.ListAutonomousDatabaseCharacterSetsRequest{}
+
+	if characterSetType, ok := s.D.GetOkExists("character_set_type"); ok {
+		request.CharacterSetType = oci_database.ListAutonomousDatabaseCharacterSetsCharacterSetTypeEnum(characterSetType.(string))
+	}
+
+	if isShared, ok := s.D.GetOkExists("is_shared"); ok {
+		tmp := isShared.(bool)
+		request.IsShared = &tmp
+	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 

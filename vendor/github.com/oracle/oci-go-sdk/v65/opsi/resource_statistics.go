@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -23,7 +23,7 @@ type ResourceStatistics struct {
 	// Total amount used of the resource metric type (CPU, STORAGE).
 	Usage *float64 `mandatory:"true" json:"usage"`
 
-	// The maximum allocated amount of the resource metric type  (CPU, STORAGE).
+	// The maximum allocated amount of the resource metric type  (CPU, STORAGE) for a set of databases.
 	Capacity *float64 `mandatory:"true" json:"capacity"`
 
 	// Resource utilization in percentage
@@ -32,7 +32,7 @@ type ResourceStatistics struct {
 	// Change in resource utilization in percentage
 	UsageChangePercent *float64 `mandatory:"true" json:"usageChangePercent"`
 
-	// The base allocated amount of the resource metric type  (CPU, STORAGE).
+	// The base allocated amount of the resource metric type  (CPU, STORAGE) for a set of databases.
 	BaseCapacity *float64 `mandatory:"false" json:"baseCapacity"`
 
 	// Indicates if auto scaling feature is enabled or disabled on a database. It will be false for all metrics other than CPU.
@@ -40,6 +40,9 @@ type ResourceStatistics struct {
 
 	// Array of instance metrics
 	InstanceMetrics []InstanceMetrics `mandatory:"false" json:"instanceMetrics"`
+
+	// The maximum host CPUs (cores x threads/core) on the underlying infrastructure. This only applies to CPU and does not not apply for Autonomous Databases.
+	TotalHostCapacity *float64 `mandatory:"false" json:"totalHostCapacity"`
 }
 
 func (m ResourceStatistics) String() string {

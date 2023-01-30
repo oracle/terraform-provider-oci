@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -18,13 +18,13 @@ import (
 	"strings"
 )
 
-// PrivateEndpoint A private endpoint. For more information about private endpoints, see About Private Endpoints (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/privateaccess.htm#private-endpoints).
+// PrivateEndpoint A private endpoint allowing Resource Manager to access nonpublic cloud resources. For more information about private endpoints, see Private Endpoint Management (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/private-endpoints.htm).
 type PrivateEndpoint struct {
 
-	// Unique identifier (OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the private endpoint details.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private endpoint.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing this private endpoint details.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing this private endpoint.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN for the private endpoint.
@@ -39,16 +39,24 @@ type PrivateEndpoint struct {
 	// Description of the private endpoint. Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The source IPs which resource manager service will use to connect to customer's network. Automatically assigned by Resource Manager Service.
+	// The source IP addresses that Resource Manager uses to connect to your network. Automatically assigned by Resource Manager.
 	SourceIps []string `mandatory:"false" json:"sourceIps"`
 
-	// An array of network security groups (NSG) that the customer can optionally provide.
+	// The OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of
+	// network security groups (NSGs) (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/networksecuritygroups.htm)
+	// for the private endpoint.
+	// Order does not matter.
 	NsgIdList []string `mandatory:"false" json:"nsgIdList"`
 
 	// When `true`, allows the private endpoint to be used with a configuration source provider.
 	IsUsedWithConfigurationSourceProvider *bool `mandatory:"false" json:"isUsedWithConfigurationSourceProvider"`
 
-	// DNS Proxy forwards any DNS FQDN queries over into the consumer DNS resolver if the DNS FQDN is included in the dns zones list otherwise it goes to service provider VCN resolver.
+	// DNS zones to use for accessing private Git servers.
+	// For private Git server instructions, see
+	// Private Git Server (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/private-endpoints.htm#private-git).
+	// Specify DNS fully qualified domain names (FQDNs); DNS Proxy forwards related DNS FQDN queries to the consumer DNS resolver.
+	// For DNS FQDNs not specified, queries go to service provider VCN resolver.
+	// Example: `abc.oraclevcn.com`
 	DnsZones []string `mandatory:"false" json:"dnsZones"`
 
 	// The date and time at which the private endpoint was created.

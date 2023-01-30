@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database
@@ -6,8 +6,8 @@ package database
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -48,6 +48,8 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) Get() error {
 		request.ExadataInfrastructureId = &tmp
 	}
 
+	request.ExcludedFields = []oci_database.GetExadataInfrastructureExcludedFieldsEnum{"multiRackConfigurationFile"}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
 	response, err := s.Client.GetExadataInfrastructure(context.Background(), request)
@@ -69,6 +71,12 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) SetData() error {
 	if s.Res.ActivatedStorageCount != nil {
 		s.D.Set("activated_storage_count", *s.Res.ActivatedStorageCount)
 	}
+
+	if s.Res.AdditionalComputeCount != nil {
+		s.D.Set("additional_compute_count", *s.Res.AdditionalComputeCount)
+	}
+
+	s.D.Set("additional_compute_system_model", s.Res.AdditionalComputeSystemModel)
 
 	if s.Res.AdditionalStorageCount != nil {
 		s.D.Set("additional_storage_count", *s.Res.AdditionalStorageCount)
@@ -144,6 +152,14 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) SetData() error {
 		s.D.Set("infini_band_network_cidr", *s.Res.InfiniBandNetworkCIDR)
 	}
 
+	if s.Res.IsCpsOfflineReportEnabled != nil {
+		s.D.Set("is_cps_offline_report_enabled", *s.Res.IsCpsOfflineReportEnabled)
+	}
+
+	if s.Res.IsMultiRackDeployment != nil {
+		s.D.Set("is_multi_rack_deployment", *s.Res.IsMultiRackDeployment)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
@@ -176,11 +192,23 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) SetData() error {
 		s.D.Set("memory_size_in_gbs", *s.Res.MemorySizeInGBs)
 	}
 
+	if s.Res.MonthlyDbServerVersion != nil {
+		s.D.Set("monthly_db_server_version", *s.Res.MonthlyDbServerVersion)
+	}
+
+	if s.Res.MultiRackConfigurationFile != nil {
+		s.D.Set("multi_rack_configuration_file", string(s.Res.MultiRackConfigurationFile))
+	}
+
 	if s.Res.Netmask != nil {
 		s.D.Set("netmask", *s.Res.Netmask)
 	}
 
 	s.D.Set("ntp_server", s.Res.NtpServer)
+
+	if s.Res.RackSerialNumber != nil {
+		s.D.Set("rack_serial_number", *s.Res.RackSerialNumber)
+	}
 
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)

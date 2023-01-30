@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package data_safe
@@ -10,8 +10,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func DataSafeDiscoveryAnalyticsDataSource() *schema.Resource {
@@ -209,6 +209,36 @@ func DataSafeDimensionsToMap(obj *oci_data_safe.Dimensions) map[string]interface
 }
 
 func DataSafeDiscoveryAnalyticsSummaryToMap(obj oci_data_safe.DiscoveryAnalyticsSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Count != nil {
+		result["count"] = strconv.FormatInt(*obj.Count, 10)
+	}
+
+	if obj.Dimensions != nil {
+		result["dimensions"] = []interface{}{DimensionsToMap(obj.Dimensions)}
+	}
+
+	result["metric_name"] = string(obj.MetricName)
+
+	return result
+}
+
+func DimensionsToMap(obj *oci_data_safe.Dimensions) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.SensitiveDataModelId != nil {
+		result["sensitive_data_model_id"] = string(*obj.SensitiveDataModelId)
+	}
+
+	if obj.TargetId != nil {
+		result["target_id"] = string(*obj.TargetId)
+	}
+
+	return result
+}
+
+func DiscoveryAnalyticsSummaryToMap(obj oci_data_safe.DiscoveryAnalyticsSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.Count != nil {

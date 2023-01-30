@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package dataintegration
@@ -6,8 +6,8 @@ package dataintegration
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_dataintegration "github.com/oracle/oci-go-sdk/v65/dataintegration"
@@ -90,10 +90,22 @@ func (s *DataintegrationWorkspaceDataSourceCrud) SetData() error {
 		s.D.Set("dns_server_zone", *s.Res.DnsServerZone)
 	}
 
+	if s.Res.EndpointId != nil {
+		s.D.Set("endpoint_id", *s.Res.EndpointId)
+	}
+
+	if s.Res.EndpointName != nil {
+		s.D.Set("endpoint_name", *s.Res.EndpointName)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsPrivateNetworkEnabled != nil {
 		s.D.Set("is_private_network_enabled", *s.Res.IsPrivateNetworkEnabled)
+	}
+
+	if s.Res.RegistryId != nil {
+		s.D.Set("registry_id", *s.Res.RegistryId)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

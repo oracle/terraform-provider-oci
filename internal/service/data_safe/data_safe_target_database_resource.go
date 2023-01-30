@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package data_safe
@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -832,6 +832,10 @@ func (s *DataSafeTargetDatabaseResourceCrud) mapToDatabaseDetails(fieldKeyFormat
 			tmp := dbSystemId.(string)
 			details.DbSystemId = &tmp
 		}
+		if listenerPort, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "listener_port")); ok {
+			tmp := listenerPort.(int)
+			details.ListenerPort = &tmp
+		}
 		if serviceName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "service_name")); ok {
 			tmp := serviceName.(string)
 			details.ServiceName = &tmp
@@ -892,6 +896,10 @@ func DatabaseDetailsToMap(obj *oci_data_safe.DatabaseDetails) map[string]interfa
 
 		if v.DbSystemId != nil {
 			result["db_system_id"] = string(*v.DbSystemId)
+		}
+
+		if v.ListenerPort != nil {
+			result["listener_port"] = int(*v.ListenerPort)
 		}
 
 		if v.ServiceName != nil {

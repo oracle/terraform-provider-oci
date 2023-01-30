@@ -74,9 +74,10 @@ The following attributes are exported:
 		* `display_name` - The display name of the Responder rule
 		* `id` - The unique identifier of the Responder rule
 		* `is_preferred` - Preferred state
+	* `data_source_id` - The id of the attached DataSource.
 	* `description` - Description for DetectorRecipeDetectorRule.
 	* `details` - Details of a Detector Rule
-		* `condition` - 
+		* `condition` - Base condition object
 		* `configurations` - Configuration details
 			* `config_key` - Unique name of the configuration
 			* `data_type` - configuration data type
@@ -93,6 +94,10 @@ The following attributes are exported:
 	* `detector` - detector for the rule
 	* `detector_rule_id` - The unique identifier of the detector rule.
 	* `display_name` - Display name for DetectorRecipeDetectorRule.
+	* `entities_mappings` - Data Source entities mapping for a Detector Rule
+		* `display_name` - The display name of entity
+		* `entity_type` - Possible type of entity
+		* `query_field` - The entity value mapped to a data source query
 	* `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	* `managed_list_types` - List of cloudguard managed list types related to this rule
 	* `recommendation` - Recommendation for DetectorRecipeDetectorRule
@@ -107,9 +112,10 @@ The following attributes are exported:
 		* `display_name` - The display name of the Responder rule
 		* `id` - The unique identifier of the Responder rule
 		* `is_preferred` - Preferred state
+	* `data_source_id` - The id of the attached DataSource.
 	* `description` - Description for DetectorRecipeDetectorRule.
 	* `details` - Details of a Detector Rule
-		* `condition` - 
+		* `condition` - Base condition object
 		* `configurations` - Configuration details
 			* `config_key` - Unique name of the configuration
 			* `data_type` - configuration data type
@@ -126,6 +132,10 @@ The following attributes are exported:
 	* `detector` - detector for the rule
 	* `detector_rule_id` - The unique identifier of the detector rule.
 	* `display_name` - Display name for DetectorRecipeDetectorRule.
+	* `entities_mappings` - Data Source entities mapping for a Detector Rule
+		* `display_name` - The display name of entity
+		* `entity_type` - Possible type of entity
+		* `query_field` - The entity value mapped to a data source query
 	* `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	* `managed_list_types` - List of cloudguard managed list types related to this rule
 	* `recommendation` - Recommendation for DetectorRecipeDetectorRule
@@ -142,6 +152,7 @@ The following attributes are exported:
 * `source_detector_recipe_id` - Recipe Ocid of the Source Recipe to be cloned
 * `state` - The current state of the resource.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). System tags can be viewed by users, but can only be created by the system.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+* `target_ids` - The recipe attached to targets
 * `time_created` - The date and time the detector recipe was created. Format defined by RFC3339.
 * `time_updated` - The date and time the detector recipe was updated. Format defined by RFC3339.
 

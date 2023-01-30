@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package load_balancer
@@ -15,7 +15,7 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v65/loadbalancer"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var lbBackendSetMutexes SafeMutexMap

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package containerengine
@@ -6,8 +6,8 @@ package containerengine
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_containerengine "github.com/oracle/oci-go-sdk/v65/containerengine"
@@ -26,6 +26,23 @@ func ContainerengineClusterOptionDataSource() *schema.Resource {
 				Optional: true,
 			},
 			// Computed
+			"cluster_pod_network_options": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"cni_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"kubernetes_versions": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -85,6 +102,12 @@ func (s *ContainerengineClusterOptionDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(tfresource.GenerateDataSourceHashID("ContainerengineClusterOptionDataSource-", ContainerengineClusterOptionDataSource(), s.D))
+
+	clusterPodNetworkOptions := []interface{}{}
+	for _, item := range s.Res.ClusterPodNetworkOptions {
+		clusterPodNetworkOptions = append(clusterPodNetworkOptions, ClusterPodNetworkOptionDetailsToMap(item))
+	}
+	s.D.Set("cluster_pod_network_options", clusterPodNetworkOptions)
 
 	s.D.Set("kubernetes_versions", s.Res.KubernetesVersions)
 

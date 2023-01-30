@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,13 +10,13 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	VcnRealmOptionalsResource = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+	VcnRealmOptionalsResource = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 		"is_ipv6enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`}}))
 )
 
@@ -43,7 +43,7 @@ func TestGovSpecificCoreVcnResource_basic(t *testing.T) {
 		// verify Create with optionals which includes IPV6 parameters
 		{
 			Config: config + compartmentIdVariableStr + VcnResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 					"is_ipv6enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 				})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -66,7 +66,7 @@ func TestGovSpecificCoreVcnResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + VcnResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 					"is_ipv6enabled": acctest.Representation{RepType: acctest.Optional, Update: `true`},
 				})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -92,9 +92,9 @@ func TestGovSpecificCoreVcnResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcns", "test_vcns", acctest.Optional, acctest.Update, vcnDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcns", "test_vcns", acctest.Optional, acctest.Update, CoreCoreVcnDataSourceRepresentation) +
 				compartmentIdVariableStr + VcnResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 					"is_ipv6enabled": acctest.Representation{RepType: acctest.Optional, Update: `true`},
 				})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -121,9 +121,9 @@ func TestGovSpecificCoreVcnResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreCoreVcnSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + VcnResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 					"is_ipv6enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 				})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(

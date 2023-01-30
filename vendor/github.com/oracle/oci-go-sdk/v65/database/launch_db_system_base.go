@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -90,7 +90,7 @@ type LaunchDbSystemBase interface {
 
 	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
 	// **NsgIds restrictions:**
-	// - Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds list cannot be empty.
+	// - A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.
 	GetNsgIds() []string
 
 	// A list of the OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that the backup network of this DB system belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm). Applicable only to Exadata systems.
@@ -144,6 +144,8 @@ type LaunchDbSystemBase interface {
 	// A private IP address of your choice. Must be an available IP address within the subnet's CIDR.
 	// If you don't specify a value, Oracle automatically assigns a private IP address from the subnet.
 	GetPrivateIp() *string
+
+	GetDataCollectionOptions() *DataCollectionOptions
 }
 
 type launchdbsystembase struct {
@@ -174,6 +176,7 @@ type launchdbsystembase struct {
 	FreeformTags                 map[string]string                                  `mandatory:"false" json:"freeformTags"`
 	DefinedTags                  map[string]map[string]interface{}                  `mandatory:"false" json:"definedTags"`
 	PrivateIp                    *string                                            `mandatory:"false" json:"privateIp"`
+	DataCollectionOptions        *DataCollectionOptions                             `mandatory:"false" json:"dataCollectionOptions"`
 	Source                       string                                             `json:"source"`
 }
 
@@ -214,6 +217,7 @@ func (m *launchdbsystembase) UnmarshalJSON(data []byte) error {
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.PrivateIp = s.Model.PrivateIp
+	m.DataCollectionOptions = s.Model.DataCollectionOptions
 	m.Source = s.Model.Source
 
 	return err
@@ -377,6 +381,11 @@ func (m launchdbsystembase) GetDefinedTags() map[string]map[string]interface{} {
 //GetPrivateIp returns PrivateIp
 func (m launchdbsystembase) GetPrivateIp() *string {
 	return m.PrivateIp
+}
+
+//GetDataCollectionOptions returns DataCollectionOptions
+func (m launchdbsystembase) GetDataCollectionOptions() *DataCollectionOptions {
+	return m.DataCollectionOptions
 }
 
 func (m launchdbsystembase) String() string {

@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -23,21 +23,21 @@ type EntityShapeFromTable struct {
 	// The object key.
 	Key *string `mandatory:"false" json:"key"`
 
-	// The object's model version.
+	// The model version of the object.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
+	// Free form text without any restriction on the permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
-	// Detailed description for the object.
+	// Detailed description of the object.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The version of the object that is used to track changes in the object instance.
 	ObjectVersion *int `mandatory:"false" json:"objectVersion"`
 
-	// The external key for the object.
+	// The external key of the object.
 	ExternalKey *string `mandatory:"false" json:"externalKey"`
 
 	Shape *Shape `mandatory:"false" json:"shape"`
@@ -62,8 +62,11 @@ type EntityShapeFromTable struct {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be modified.
+	// Value can only contain upper case letters, underscore and numbers. It should begin with an upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`
+
+	// Map<String, String> for entity properties
+	EntityProperties map[string]string `mandatory:"false" json:"entityProperties"`
 
 	// The entity type.
 	EntityType EntityShapeFromTableEntityTypeEnum `mandatory:"false" json:"entityType,omitempty"`
@@ -110,24 +113,25 @@ func (m EntityShapeFromTable) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *EntityShapeFromTable) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Metadata       *ObjectMetadata                    `json:"metadata"`
-		Key            *string                            `json:"key"`
-		ModelVersion   *string                            `json:"modelVersion"`
-		ParentRef      *ParentReference                   `json:"parentRef"`
-		Name           *string                            `json:"name"`
-		Description    *string                            `json:"description"`
-		ObjectVersion  *int                               `json:"objectVersion"`
-		ExternalKey    *string                            `json:"externalKey"`
-		Shape          *Shape                             `json:"shape"`
-		ShapeId        *string                            `json:"shapeId"`
-		EntityType     EntityShapeFromTableEntityTypeEnum `json:"entityType"`
-		OtherTypeLabel *string                            `json:"otherTypeLabel"`
-		UniqueKeys     []uniquekey                        `json:"uniqueKeys"`
-		ForeignKeys    []ForeignKey                       `json:"foreignKeys"`
-		ResourceName   *string                            `json:"resourceName"`
-		DataFormat     *DataFormat                        `json:"dataFormat"`
-		ObjectStatus   *int                               `json:"objectStatus"`
-		Identifier     *string                            `json:"identifier"`
+		Metadata         *ObjectMetadata                    `json:"metadata"`
+		Key              *string                            `json:"key"`
+		ModelVersion     *string                            `json:"modelVersion"`
+		ParentRef        *ParentReference                   `json:"parentRef"`
+		Name             *string                            `json:"name"`
+		Description      *string                            `json:"description"`
+		ObjectVersion    *int                               `json:"objectVersion"`
+		ExternalKey      *string                            `json:"externalKey"`
+		Shape            *Shape                             `json:"shape"`
+		ShapeId          *string                            `json:"shapeId"`
+		EntityType       EntityShapeFromTableEntityTypeEnum `json:"entityType"`
+		OtherTypeLabel   *string                            `json:"otherTypeLabel"`
+		UniqueKeys       []uniquekey                        `json:"uniqueKeys"`
+		ForeignKeys      []ForeignKey                       `json:"foreignKeys"`
+		ResourceName     *string                            `json:"resourceName"`
+		DataFormat       *DataFormat                        `json:"dataFormat"`
+		ObjectStatus     *int                               `json:"objectStatus"`
+		Identifier       *string                            `json:"identifier"`
+		EntityProperties map[string]string                  `json:"entityProperties"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -185,6 +189,8 @@ func (m *EntityShapeFromTable) UnmarshalJSON(data []byte) (e error) {
 
 	m.Identifier = model.Identifier
 
+	m.EntityProperties = model.EntityProperties
+
 	return
 }
 
@@ -198,6 +204,7 @@ const (
 	EntityShapeFromTableEntityTypeFile      EntityShapeFromTableEntityTypeEnum = "FILE"
 	EntityShapeFromTableEntityTypeSql       EntityShapeFromTableEntityTypeEnum = "SQL"
 	EntityShapeFromTableEntityTypeDataStore EntityShapeFromTableEntityTypeEnum = "DATA_STORE"
+	EntityShapeFromTableEntityTypeMessage   EntityShapeFromTableEntityTypeEnum = "MESSAGE"
 )
 
 var mappingEntityShapeFromTableEntityTypeEnum = map[string]EntityShapeFromTableEntityTypeEnum{
@@ -206,6 +213,7 @@ var mappingEntityShapeFromTableEntityTypeEnum = map[string]EntityShapeFromTableE
 	"FILE":       EntityShapeFromTableEntityTypeFile,
 	"SQL":        EntityShapeFromTableEntityTypeSql,
 	"DATA_STORE": EntityShapeFromTableEntityTypeDataStore,
+	"MESSAGE":    EntityShapeFromTableEntityTypeMessage,
 }
 
 var mappingEntityShapeFromTableEntityTypeEnumLowerCase = map[string]EntityShapeFromTableEntityTypeEnum{
@@ -214,6 +222,7 @@ var mappingEntityShapeFromTableEntityTypeEnumLowerCase = map[string]EntityShapeF
 	"file":       EntityShapeFromTableEntityTypeFile,
 	"sql":        EntityShapeFromTableEntityTypeSql,
 	"data_store": EntityShapeFromTableEntityTypeDataStore,
+	"message":    EntityShapeFromTableEntityTypeMessage,
 }
 
 // GetEntityShapeFromTableEntityTypeEnumValues Enumerates the set of values for EntityShapeFromTableEntityTypeEnum
@@ -233,6 +242,7 @@ func GetEntityShapeFromTableEntityTypeEnumStringValues() []string {
 		"FILE",
 		"SQL",
 		"DATA_STORE",
+		"MESSAGE",
 	}
 }
 

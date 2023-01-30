@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -26,7 +26,9 @@ type UpdateLoadBalancerShapeDetails struct {
 	//   *  400Mbps
 	//   *  8000Mbps
 	//   *  Flexible
-	//   Example: `Flexible`
+	//   Example: `flexible`
+	//   * NOTE: Fixed shapes 10Mbps, 100Mbps, 400Mbps, 8000Mbps will be deprecated from May 2023. This api
+	//   * will only support `Flexible` shape after that date.
 	ShapeName *string `mandatory:"true" json:"shapeName"`
 
 	// The configuration details to update load balancer to a different profile.

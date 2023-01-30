@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -325,6 +325,122 @@ func (client ConfigClient) listConfigs(ctx context.Context, request common.OCIRe
 	return response, err
 }
 
+// RetrieveNamespaceMetrics Returns all metrics associated with the specified namespace.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/RetrieveNamespaceMetrics.go.html to see an example of how to use RetrieveNamespaceMetrics API.
+// A default retry strategy applies to this operation RetrieveNamespaceMetrics()
+func (client ConfigClient) RetrieveNamespaceMetrics(ctx context.Context, request RetrieveNamespaceMetricsRequest) (response RetrieveNamespaceMetricsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.retrieveNamespaceMetrics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RetrieveNamespaceMetricsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RetrieveNamespaceMetricsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RetrieveNamespaceMetricsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RetrieveNamespaceMetricsResponse")
+	}
+	return
+}
+
+// retrieveNamespaceMetrics implements the OCIOperation interface (enables retrying operations)
+func (client ConfigClient) retrieveNamespaceMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/actions/retrieveNamespaceMetrics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RetrieveNamespaceMetricsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-config/20210201/MetricGroup/RetrieveNamespaceMetrics"
+		err = common.PostProcessServiceError(err, "Config", "RetrieveNamespaceMetrics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RetrieveNamespaces Returns all namespaces available in APM.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/RetrieveNamespaces.go.html to see an example of how to use RetrieveNamespaces API.
+// A default retry strategy applies to this operation RetrieveNamespaces()
+func (client ConfigClient) RetrieveNamespaces(ctx context.Context, request RetrieveNamespacesRequest) (response RetrieveNamespacesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.retrieveNamespaces, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RetrieveNamespacesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RetrieveNamespacesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RetrieveNamespacesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RetrieveNamespacesResponse")
+	}
+	return
+}
+
+// retrieveNamespaces implements the OCIOperation interface (enables retrying operations)
+func (client ConfigClient) retrieveNamespaces(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/actions/retrieveNamespaces", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RetrieveNamespacesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-config/20210201/MetricGroup/RetrieveNamespaces"
+		err = common.PostProcessServiceError(err, "Config", "RetrieveNamespaces", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateConfig Updates the details of the configuration item identified by the OCID.
 //
 // See also
@@ -380,5 +496,64 @@ func (client ConfigClient) updateConfig(ctx context.Context, request common.OCIR
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &config{})
+	return response, err
+}
+
+// ValidateSpanFilterPattern Validates the Span Filter pattern (filterText) for syntactic correctness.
+// Returns 204 on success, 422 when validation fails.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/ValidateSpanFilterPattern.go.html to see an example of how to use ValidateSpanFilterPattern API.
+// A default retry strategy applies to this operation ValidateSpanFilterPattern()
+func (client ConfigClient) ValidateSpanFilterPattern(ctx context.Context, request ValidateSpanFilterPatternRequest) (response ValidateSpanFilterPatternResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.validateSpanFilterPattern, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ValidateSpanFilterPatternResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ValidateSpanFilterPatternResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ValidateSpanFilterPatternResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ValidateSpanFilterPatternResponse")
+	}
+	return
+}
+
+// validateSpanFilterPattern implements the OCIOperation interface (enables retrying operations)
+func (client ConfigClient) validateSpanFilterPattern(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/actions/validateSpanFilterPattern", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ValidateSpanFilterPatternResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-config/20210201/SpanFilter/ValidateSpanFilterPattern"
+		err = common.PostProcessServiceError(err, "Config", "ValidateSpanFilterPattern", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }

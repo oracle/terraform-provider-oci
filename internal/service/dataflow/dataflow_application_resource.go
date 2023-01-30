@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package dataflow
@@ -6,9 +6,10 @@ package dataflow
 import (
 	"context"
 	"fmt"
+	"strconv"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -43,10 +44,6 @@ func DataflowApplicationResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"file_uri": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
 			"language": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -61,6 +58,30 @@ func DataflowApplicationResource() *schema.Resource {
 			},
 
 			// Optional
+			"application_log_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"log_group_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"log_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
 			"archive_uri": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -95,7 +116,64 @@ func DataflowApplicationResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"driver_shape_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"memory_in_gbs": {
+							Type:     schema.TypeFloat,
+							Optional: true,
+							Computed: true,
+						},
+						"ocpus": {
+							Type:     schema.TypeFloat,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"execute": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"executor_shape_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"memory_in_gbs": {
+							Type:     schema.TypeFloat,
+							Optional: true,
+							Computed: true,
+						},
+						"ocpus": {
+							Type:     schema.TypeFloat,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"file_uri": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -106,10 +184,24 @@ func DataflowApplicationResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"idle_timeout_in_minutes": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ValidateFunc:     tfresource.ValidateInt64TypeString,
+				DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+			},
 			"logs_bucket_uri": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"max_duration_in_minutes": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ValidateFunc:     tfresource.ValidateInt64TypeString,
+				DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 			},
 			"metastore_id": {
 				Type:     schema.TypeString,
@@ -247,6 +339,17 @@ func (s *DataflowApplicationResourceCrud) DeletedTarget() []string {
 func (s *DataflowApplicationResourceCrud) Create() error {
 	request := oci_dataflow.CreateApplicationRequest{}
 
+	if applicationLogConfig, ok := s.D.GetOkExists("application_log_config"); ok {
+		if tmpList := applicationLogConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "application_log_config", 0)
+			tmp, err := s.mapToApplicationLogConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ApplicationLogConfig = &tmp
+		}
+	}
+
 	if archiveUri, ok := s.D.GetOkExists("archive_uri"); ok {
 		tmp := archiveUri.(string)
 		request.ArchiveUri = &tmp
@@ -302,6 +405,17 @@ func (s *DataflowApplicationResourceCrud) Create() error {
 		request.DriverShape = &tmp
 	}
 
+	if driverShapeConfig, ok := s.D.GetOkExists("driver_shape_config"); ok {
+		if tmpList := driverShapeConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "driver_shape_config", 0)
+			tmp, err := s.mapToShapeConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.DriverShapeConfig = &tmp
+		}
+	}
+
 	if execute, ok := s.D.GetOkExists("execute"); ok {
 		tmp := execute.(string)
 		request.Execute = &tmp
@@ -310,6 +424,17 @@ func (s *DataflowApplicationResourceCrud) Create() error {
 	if executorShape, ok := s.D.GetOkExists("executor_shape"); ok {
 		tmp := executorShape.(string)
 		request.ExecutorShape = &tmp
+	}
+
+	if executorShapeConfig, ok := s.D.GetOkExists("executor_shape_config"); ok {
+		if tmpList := executorShapeConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "executor_shape_config", 0)
+			tmp, err := s.mapToShapeConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ExecutorShapeConfig = &tmp
+		}
 	}
 
 	if fileUri, ok := s.D.GetOkExists("file_uri"); ok {
@@ -321,6 +446,15 @@ func (s *DataflowApplicationResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if idleTimeoutInMinutes, ok := s.D.GetOkExists("idle_timeout_in_minutes"); ok {
+		tmp := idleTimeoutInMinutes.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert idleTimeoutInMinutes string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		request.IdleTimeoutInMinutes = &tmpInt64
+	}
+
 	if language, ok := s.D.GetOkExists("language"); ok {
 		request.Language = oci_dataflow.ApplicationLanguageEnum(language.(string))
 	}
@@ -328,6 +462,15 @@ func (s *DataflowApplicationResourceCrud) Create() error {
 	if logsBucketUri, ok := s.D.GetOkExists("logs_bucket_uri"); ok {
 		tmp := logsBucketUri.(string)
 		request.LogsBucketUri = &tmp
+	}
+
+	if maxDurationInMinutes, ok := s.D.GetOkExists("max_duration_in_minutes"); ok {
+		tmp := maxDurationInMinutes.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert maxDurationInMinutes string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		request.MaxDurationInMinutes = &tmpInt64
 	}
 
 	if metastoreId, ok := s.D.GetOkExists("metastore_id"); ok {
@@ -419,6 +562,17 @@ func (s *DataflowApplicationResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.ApplicationId = &tmp
 
+	if applicationLogConfig, ok := s.D.GetOkExists("application_log_config"); ok {
+		if tmpList := applicationLogConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "application_log_config", 0)
+			tmp, err := s.mapToApplicationLogConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ApplicationLogConfig = &tmp
+		}
+	}
+
 	if archiveUri, ok := s.D.GetOkExists("archive_uri"); ok {
 		tmp := archiveUri.(string)
 		request.ArchiveUri = &tmp
@@ -469,6 +623,17 @@ func (s *DataflowApplicationResourceCrud) Update() error {
 		request.DriverShape = &tmp
 	}
 
+	if driverShapeConfig, ok := s.D.GetOkExists("driver_shape_config"); ok {
+		if tmpList := driverShapeConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "driver_shape_config", 0)
+			tmp, err := s.mapToShapeConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.DriverShapeConfig = &tmp
+		}
+	}
+
 	if execute, ok := s.D.GetOkExists("execute"); ok {
 		tmp := execute.(string)
 		request.Execute = &tmp
@@ -477,6 +642,17 @@ func (s *DataflowApplicationResourceCrud) Update() error {
 	if executorShape, ok := s.D.GetOkExists("executor_shape"); ok {
 		tmp := executorShape.(string)
 		request.ExecutorShape = &tmp
+	}
+
+	if executorShapeConfig, ok := s.D.GetOkExists("executor_shape_config"); ok {
+		if tmpList := executorShapeConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "executor_shape_config", 0)
+			tmp, err := s.mapToShapeConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ExecutorShapeConfig = &tmp
+		}
 	}
 
 	if fileUri, ok := s.D.GetOkExists("file_uri"); ok {
@@ -488,6 +664,15 @@ func (s *DataflowApplicationResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if idleTimeoutInMinutes, ok := s.D.GetOkExists("idle_timeout_in_minutes"); ok {
+		tmp := idleTimeoutInMinutes.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert idleTimeoutInMinutes string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		request.IdleTimeoutInMinutes = &tmpInt64
+	}
+
 	if language, ok := s.D.GetOkExists("language"); ok {
 		request.Language = oci_dataflow.ApplicationLanguageEnum(language.(string))
 	}
@@ -495,6 +680,15 @@ func (s *DataflowApplicationResourceCrud) Update() error {
 	if logsBucketUri, ok := s.D.GetOkExists("logs_bucket_uri"); ok {
 		tmp := logsBucketUri.(string)
 		request.LogsBucketUri = &tmp
+	}
+
+	if maxDurationInMinutes, ok := s.D.GetOkExists("max_duration_in_minutes"); ok {
+		tmp := maxDurationInMinutes.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert maxDurationInMinutes string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		request.MaxDurationInMinutes = &tmpInt64
 	}
 
 	if metastoreId, ok := s.D.GetOkExists("metastore_id"); ok {
@@ -563,6 +757,12 @@ func (s *DataflowApplicationResourceCrud) Delete() error {
 }
 
 func (s *DataflowApplicationResourceCrud) SetData() error {
+	if s.Res.ApplicationLogConfig != nil {
+		s.D.Set("application_log_config", []interface{}{ApplicationLogConfigToMap(s.Res.ApplicationLogConfig)})
+	} else {
+		s.D.Set("application_log_config", nil)
+	}
+
 	if s.Res.ArchiveUri != nil {
 		s.D.Set("archive_uri", *s.Res.ArchiveUri)
 	}
@@ -595,6 +795,12 @@ func (s *DataflowApplicationResourceCrud) SetData() error {
 		s.D.Set("driver_shape", *s.Res.DriverShape)
 	}
 
+	if s.Res.DriverShapeConfig != nil {
+		s.D.Set("driver_shape_config", []interface{}{ShapeConfigToMap(s.Res.DriverShapeConfig)})
+	} else {
+		s.D.Set("driver_shape_config", nil)
+	}
+
 	if s.Res.Execute != nil {
 		s.D.Set("execute", *s.Res.Execute)
 	}
@@ -603,16 +809,30 @@ func (s *DataflowApplicationResourceCrud) SetData() error {
 		s.D.Set("executor_shape", *s.Res.ExecutorShape)
 	}
 
+	if s.Res.ExecutorShapeConfig != nil {
+		s.D.Set("executor_shape_config", []interface{}{ShapeConfigToMap(s.Res.ExecutorShapeConfig)})
+	} else {
+		s.D.Set("executor_shape_config", nil)
+	}
+
 	if s.Res.FileUri != nil {
 		s.D.Set("file_uri", *s.Res.FileUri)
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IdleTimeoutInMinutes != nil {
+		s.D.Set("idle_timeout_in_minutes", strconv.FormatInt(*s.Res.IdleTimeoutInMinutes, 10))
+	}
+
 	s.D.Set("language", s.Res.Language)
 
 	if s.Res.LogsBucketUri != nil {
 		s.D.Set("logs_bucket_uri", *s.Res.LogsBucketUri)
+	}
+
+	if s.Res.MaxDurationInMinutes != nil {
+		s.D.Set("max_duration_in_minutes", strconv.FormatInt(*s.Res.MaxDurationInMinutes, 10))
 	}
 
 	if s.Res.MetastoreId != nil {
@@ -664,6 +884,36 @@ func (s *DataflowApplicationResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *DataflowApplicationResourceCrud) mapToApplicationLogConfig(fieldKeyFormat string) (oci_dataflow.ApplicationLogConfig, error) {
+	result := oci_dataflow.ApplicationLogConfig{}
+
+	if logGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "log_group_id")); ok {
+		tmp := logGroupId.(string)
+		result.LogGroupId = &tmp
+	}
+
+	if logId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "log_id")); ok {
+		tmp := logId.(string)
+		result.LogId = &tmp
+	}
+
+	return result, nil
+}
+
+func ApplicationLogConfigToMap(obj *oci_dataflow.ApplicationLogConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.LogGroupId != nil {
+		result["log_group_id"] = string(*obj.LogGroupId)
+	}
+
+	if obj.LogId != nil {
+		result["log_id"] = string(*obj.LogId)
+	}
+
+	return result
+}
+
 func (s *DataflowApplicationResourceCrud) mapToApplicationParameter(fieldKeyFormat string) (oci_dataflow.ApplicationParameter, error) {
 	result := oci_dataflow.ApplicationParameter{}
 
@@ -689,6 +939,36 @@ func ApplicationParameterToMap(obj oci_dataflow.ApplicationParameter) map[string
 
 	if obj.Value != nil {
 		result["value"] = string(*obj.Value)
+	}
+
+	return result
+}
+
+func (s *DataflowApplicationResourceCrud) mapToShapeConfig(fieldKeyFormat string) (oci_dataflow.ShapeConfig, error) {
+	result := oci_dataflow.ShapeConfig{}
+
+	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
+		tmp := float32(memoryInGBs.(float64))
+		result.MemoryInGBs = &tmp
+	}
+
+	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
+		tmp := float32(ocpus.(float64))
+		result.Ocpus = &tmp
+	}
+
+	return result, nil
+}
+
+func ShapeConfigToMap(obj *oci_dataflow.ShapeConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.MemoryInGBs != nil {
+		result["memory_in_gbs"] = float32(*obj.MemoryInGBs)
+	}
+
+	if obj.Ocpus != nil {
+		result["ocpus"] = float32(*obj.Ocpus)
 	}
 
 	return result

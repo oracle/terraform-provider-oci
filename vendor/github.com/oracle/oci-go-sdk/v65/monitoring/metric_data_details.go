@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -37,8 +37,8 @@ type MetricDataDetails struct {
 
 	// Qualifiers provided in a metric definition. Available dimensions vary by metric namespace.
 	// Each dimension takes the form of a key-value pair.
-	// A valid dimension key includes only printable ASCII, excluding periods (.) and spaces. The character limit for a dimension key is 256.
-	// A valid dimension value includes only Unicode characters. The character limit for a dimension value is 256.
+	// A valid dimension key includes only printable ASCII, excluding spaces. The character limit for a dimension key is 256.
+	// A valid dimension value includes only Unicode characters. The character limit for a dimension value is 512.
 	// Empty strings are not allowed for keys or values. Avoid entering confidential information.
 	// Example: `"resourceId": "ocid1.instance.region1.phx.exampleuniqueID"`
 	Dimensions map[string]string `mandatory:"true" json:"dimensions"`

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database_management
@@ -6,8 +6,8 @@ package database_management
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
@@ -176,4 +176,38 @@ func (s *DatabaseManagementManagedDatabaseUserObjectPrivilegesDataSourceCrud) Se
 	}
 
 	return nil
+}
+
+func ObjectPrivilegeSummaryToMap(obj oci_database_management.ObjectPrivilegeSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["common"] = string(obj.Common)
+
+	result["grant_option"] = string(obj.GrantOption)
+
+	if obj.Grantor != nil {
+		result["grantor"] = string(*obj.Grantor)
+	}
+
+	result["hierarchy"] = string(obj.Hierarchy)
+
+	result["inherited"] = string(obj.Inherited)
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.Object != nil {
+		result["object"] = string(*obj.Object)
+	}
+
+	if obj.Owner != nil {
+		result["owner"] = string(*obj.Owner)
+	}
+
+	if obj.SchemaType != nil {
+		result["schema_type"] = string(*obj.SchemaType)
+	}
+
+	return result
 }

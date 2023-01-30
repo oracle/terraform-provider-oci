@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package core
@@ -10,8 +10,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func CoreVolumeGroupReplicasDataSource() *schema.Resource {
@@ -76,11 +76,11 @@ func CoreVolumeGroupReplicasDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
 									// Computed
+									"membership_state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"volume_replica_id": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -242,4 +242,15 @@ func (s *CoreVolumeGroupReplicasDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func MemberReplicaToMap(obj oci_core.MemberReplica) map[string]interface{} {
+	result := map[string]interface{}{}
+	result["membership_state"] = string(obj.MembershipState)
+
+	if obj.VolumeReplicaId != nil {
+		result["volume_replica_id"] = string(*obj.VolumeReplicaId)
+	}
+
+	return result
 }

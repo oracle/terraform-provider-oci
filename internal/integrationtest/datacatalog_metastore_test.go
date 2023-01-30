@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -18,31 +18,31 @@ import (
 	oci_datacatalog "github.com/oracle/oci-go-sdk/v65/datacatalog"
 	"github.com/oracle/oci-go-sdk/v65/objectstorage"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	MetastoreRequiredOnlyResource = MetastoreResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Required, acctest.Create, metastoreRepresentation)
+	DatacatalogMetastoreRequiredOnlyResource = DatacatalogMetastoreResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Required, acctest.Create, DatacatalogMetastoreRepresentation)
 
-	MetastoreResourceConfig = MetastoreResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Optional, acctest.Update, metastoreRepresentation)
+	DatacatalogMetastoreResourceConfig = DatacatalogMetastoreResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Optional, acctest.Update, DatacatalogMetastoreRepresentation)
 
-	metastoreSingularDataSourceRepresentation = map[string]interface{}{
+	DatacatalogDatacatalogMetastoreSingularDataSourceRepresentation = map[string]interface{}{
 		"metastore_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_datacatalog_metastore.test_metastore.id}`},
 	}
 
-	metastoreDataSourceRepresentation = map[string]interface{}{
+	DatacatalogDatacatalogMetastoreDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: metastoreDataSourceFilterRepresentation}}
-	metastoreDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatacatalogMetastoreDataSourceFilterRepresentation}}
+	DatacatalogMetastoreDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_datacatalog_metastore.test_metastore.id}`}},
 	}
@@ -75,7 +75,7 @@ var (
 	defaultExternalTableLocationvar = "oci://" + objectstoragebucket + "@" + objectstoragenamespace + "/" + "External"
 	defaultManagedTableLocationvar  = "oci://" + objectstoragebucket + "@" + objectstoragenamespace + "/" + "Default"
 
-	metastoreRepresentation = map[string]interface{}{
+	DatacatalogMetastoreRepresentation = map[string]interface{}{
 		"compartment_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"default_external_table_location": acctest.Representation{RepType: acctest.Required, Create: defaultExternalTableLocationvar},
 		"default_managed_table_location":  acctest.Representation{RepType: acctest.Required, Create: defaultManagedTableLocationvar},
@@ -88,8 +88,8 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 	//Changes made for Create dependency resources
-	MetastoreResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, bucketRepresentationMetastore) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation) +
+	DatacatalogMetastoreResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, bucketRepresentationMetastore) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "object1", acctest.Required, acctest.Create, objectRepresentationDefault) +
 		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "object2", acctest.Required, acctest.Create, objectRepresentationExternal) +
 		DefinedTagsDependencies
@@ -120,8 +120,8 @@ func TestDatacatalogMetastoreResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+MetastoreResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Optional, acctest.Create, metastoreRepresentation), "datacatalog", "metastore", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatacatalogMetastoreResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Optional, acctest.Create, DatacatalogMetastoreRepresentation), "datacatalog", "metastore", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { acctest.TestAccPreCheck(t) },
@@ -132,8 +132,8 @@ func TestDatacatalogMetastoreResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify Create
 			{
-				Config: config + compartmentIdVariableStr + MetastoreResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Required, acctest.Create, metastoreRepresentation),
+				Config: config + compartmentIdVariableStr + DatacatalogMetastoreResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Required, acctest.Create, DatacatalogMetastoreRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "default_external_table_location", defaultExternalTableLocation),
@@ -147,12 +147,12 @@ func TestDatacatalogMetastoreResource_basic(t *testing.T) {
 			},
 			// delete before next Create
 			{
-				Config: config + compartmentIdVariableStr + MetastoreResourceDependencies,
+				Config: config + compartmentIdVariableStr + DatacatalogMetastoreResourceDependencies,
 			},
 			// verify Create with optionals
 			{
-				Config: config + compartmentIdVariableStr + MetastoreResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Optional, acctest.Create, metastoreRepresentation),
+				Config: config + compartmentIdVariableStr + DatacatalogMetastoreResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Optional, acctest.Create, DatacatalogMetastoreRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "default_external_table_location", defaultExternalTableLocation),
@@ -175,9 +175,9 @@ func TestDatacatalogMetastoreResource_basic(t *testing.T) {
 
 			// verify Update to the compartment (the compartment will be switched back in the next step)
 			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + MetastoreResourceDependencies +
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatacatalogMetastoreResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Optional, acctest.Create,
-						acctest.RepresentationCopyWithNewProperties(metastoreRepresentation, map[string]interface{}{
+						acctest.RepresentationCopyWithNewProperties(DatacatalogMetastoreRepresentation, map[string]interface{}{
 							"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 						})),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -200,8 +200,8 @@ func TestDatacatalogMetastoreResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + MetastoreResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Optional, acctest.Update, metastoreRepresentation),
+				Config: config + compartmentIdVariableStr + DatacatalogMetastoreResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Optional, acctest.Update, DatacatalogMetastoreRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "default_external_table_location", defaultExternalTableLocation),
@@ -222,9 +222,9 @@ func TestDatacatalogMetastoreResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_datacatalog_metastores", "test_metastores", acctest.Optional, acctest.Update, metastoreDataSourceRepresentation) +
-					compartmentIdVariableStr + MetastoreResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Optional, acctest.Update, metastoreRepresentation),
+					acctest.GenerateDataSourceFromRepresentationMap("oci_datacatalog_metastores", "test_metastores", acctest.Optional, acctest.Update, DatacatalogDatacatalogMetastoreDataSourceRepresentation) +
+					compartmentIdVariableStr + DatacatalogMetastoreResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Optional, acctest.Update, DatacatalogMetastoreRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -243,8 +243,8 @@ func TestDatacatalogMetastoreResource_basic(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Required, acctest.Create, metastoreSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + MetastoreResourceConfig,
+					acctest.GenerateDataSourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Required, acctest.Create, DatacatalogDatacatalogMetastoreSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + DatacatalogMetastoreResourceConfig,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "metastore_id"),
 
@@ -261,7 +261,7 @@ func TestDatacatalogMetastoreResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config + MetastoreRequiredOnlyResource,
+				Config:                  config + DatacatalogMetastoreRequiredOnlyResource,
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},
@@ -326,7 +326,7 @@ func init() {
 
 func sweepDatacatalogMetastoreResource(compartment string) error {
 	dataCatalogClient := acctest.GetTestClients(&schema.ResourceData{}).DataCatalogClient()
-	metastoreIds, err := getMetastoreIds(compartment)
+	metastoreIds, err := getDatacatalogMetastoreIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -342,14 +342,14 @@ func sweepDatacatalogMetastoreResource(compartment string) error {
 				fmt.Printf("Error deleting Metastore %s %s, It is possible that the resource is already deleted. Please verify manually \n", metastoreId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &metastoreId, metastoreSweepWaitCondition, time.Duration(3*time.Minute),
-				metastoreSweepResponseFetchOperation, "datacatalog", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &metastoreId, DatacatalogMetastoreSweepWaitCondition, time.Duration(3*time.Minute),
+				DatacatalogMetastoreSweepResponseFetchOperation, "datacatalog", true)
 		}
 	}
 	return nil
 }
 
-func getMetastoreIds(compartment string) ([]string, error) {
+func getDatacatalogMetastoreIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "MetastoreId")
 	if ids != nil {
 		return ids, nil
@@ -377,7 +377,7 @@ func getMetastoreIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func metastoreSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DatacatalogMetastoreSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if metastoreResponse, ok := response.Response.(oci_datacatalog.GetMetastoreResponse); ok {
 		return metastoreResponse.LifecycleState != oci_datacatalog.LifecycleStateDeleted
@@ -385,7 +385,7 @@ func metastoreSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func metastoreSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DatacatalogMetastoreSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DataCatalogClient().GetMetastore(context.Background(), oci_datacatalog.GetMetastoreRequest{
 		MetastoreId: resourceId,
 		RequestMetadata: common.RequestMetadata{

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package data_safe
@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -113,6 +113,10 @@ func DataSafeAuditTrailResource() *schema.Resource {
 				Computed: true,
 			},
 			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_last_collected": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -570,6 +574,10 @@ func (s *DataSafeAuditTrailResourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeLastCollected != nil {
+		s.D.Set("time_last_collected", s.Res.TimeLastCollected.String())
 	}
 
 	if s.Res.TimeUpdated != nil {

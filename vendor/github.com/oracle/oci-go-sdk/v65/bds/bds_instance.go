@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -73,6 +73,12 @@ type BdsInstance struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For example, `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The OCID of the Key Management master encryption key.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
+	// Profile of the Big Data Service cluster.
+	ClusterProfile BdsInstanceClusterProfileEnum `mandatory:"false" json:"clusterProfile,omitempty"`
 }
 
 func (m BdsInstance) String() string {
@@ -90,6 +96,9 @@ func (m BdsInstance) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingBdsInstanceClusterVersionEnum(string(m.ClusterVersion)); !ok && m.ClusterVersion != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ClusterVersion: %s. Supported values are: %s.", m.ClusterVersion, strings.Join(GetBdsInstanceClusterVersionEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingBdsInstanceClusterProfileEnum(string(m.ClusterProfile)); !ok && m.ClusterProfile != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ClusterProfile: %s. Supported values are: %s.", m.ClusterProfile, strings.Join(GetBdsInstanceClusterProfileEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -111,6 +120,7 @@ const (
 	BdsInstanceLifecycleStateDeleting   BdsInstanceLifecycleStateEnum = "DELETING"
 	BdsInstanceLifecycleStateDeleted    BdsInstanceLifecycleStateEnum = "DELETED"
 	BdsInstanceLifecycleStateFailed     BdsInstanceLifecycleStateEnum = "FAILED"
+	BdsInstanceLifecycleStateInactive   BdsInstanceLifecycleStateEnum = "INACTIVE"
 )
 
 var mappingBdsInstanceLifecycleStateEnum = map[string]BdsInstanceLifecycleStateEnum{
@@ -123,6 +133,7 @@ var mappingBdsInstanceLifecycleStateEnum = map[string]BdsInstanceLifecycleStateE
 	"DELETING":   BdsInstanceLifecycleStateDeleting,
 	"DELETED":    BdsInstanceLifecycleStateDeleted,
 	"FAILED":     BdsInstanceLifecycleStateFailed,
+	"INACTIVE":   BdsInstanceLifecycleStateInactive,
 }
 
 var mappingBdsInstanceLifecycleStateEnumLowerCase = map[string]BdsInstanceLifecycleStateEnum{
@@ -135,6 +146,7 @@ var mappingBdsInstanceLifecycleStateEnumLowerCase = map[string]BdsInstanceLifecy
 	"deleting":   BdsInstanceLifecycleStateDeleting,
 	"deleted":    BdsInstanceLifecycleStateDeleted,
 	"failed":     BdsInstanceLifecycleStateFailed,
+	"inactive":   BdsInstanceLifecycleStateInactive,
 }
 
 // GetBdsInstanceLifecycleStateEnumValues Enumerates the set of values for BdsInstanceLifecycleStateEnum
@@ -158,6 +170,7 @@ func GetBdsInstanceLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"INACTIVE",
 	}
 }
 
@@ -176,6 +189,7 @@ const (
 	BdsInstanceClusterVersionCdh6  BdsInstanceClusterVersionEnum = "CDH6"
 	BdsInstanceClusterVersionOdh1  BdsInstanceClusterVersionEnum = "ODH1"
 	BdsInstanceClusterVersionOdh09 BdsInstanceClusterVersionEnum = "ODH0_9"
+	BdsInstanceClusterVersionOdh20 BdsInstanceClusterVersionEnum = "ODH2_0"
 )
 
 var mappingBdsInstanceClusterVersionEnum = map[string]BdsInstanceClusterVersionEnum{
@@ -183,6 +197,7 @@ var mappingBdsInstanceClusterVersionEnum = map[string]BdsInstanceClusterVersionE
 	"CDH6":   BdsInstanceClusterVersionCdh6,
 	"ODH1":   BdsInstanceClusterVersionOdh1,
 	"ODH0_9": BdsInstanceClusterVersionOdh09,
+	"ODH2_0": BdsInstanceClusterVersionOdh20,
 }
 
 var mappingBdsInstanceClusterVersionEnumLowerCase = map[string]BdsInstanceClusterVersionEnum{
@@ -190,6 +205,7 @@ var mappingBdsInstanceClusterVersionEnumLowerCase = map[string]BdsInstanceCluste
 	"cdh6":   BdsInstanceClusterVersionCdh6,
 	"odh1":   BdsInstanceClusterVersionOdh1,
 	"odh0_9": BdsInstanceClusterVersionOdh09,
+	"odh2_0": BdsInstanceClusterVersionOdh20,
 }
 
 // GetBdsInstanceClusterVersionEnumValues Enumerates the set of values for BdsInstanceClusterVersionEnum
@@ -208,11 +224,70 @@ func GetBdsInstanceClusterVersionEnumStringValues() []string {
 		"CDH6",
 		"ODH1",
 		"ODH0_9",
+		"ODH2_0",
 	}
 }
 
 // GetMappingBdsInstanceClusterVersionEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingBdsInstanceClusterVersionEnum(val string) (BdsInstanceClusterVersionEnum, bool) {
 	enum, ok := mappingBdsInstanceClusterVersionEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// BdsInstanceClusterProfileEnum Enum with underlying type: string
+type BdsInstanceClusterProfileEnum string
+
+// Set of constants representing the allowable values for BdsInstanceClusterProfileEnum
+const (
+	BdsInstanceClusterProfileHadoopExtended BdsInstanceClusterProfileEnum = "HADOOP_EXTENDED"
+	BdsInstanceClusterProfileHadoop         BdsInstanceClusterProfileEnum = "HADOOP"
+	BdsInstanceClusterProfileHive           BdsInstanceClusterProfileEnum = "HIVE"
+	BdsInstanceClusterProfileSpark          BdsInstanceClusterProfileEnum = "SPARK"
+	BdsInstanceClusterProfileHbase          BdsInstanceClusterProfileEnum = "HBASE"
+	BdsInstanceClusterProfileTrino          BdsInstanceClusterProfileEnum = "TRINO"
+)
+
+var mappingBdsInstanceClusterProfileEnum = map[string]BdsInstanceClusterProfileEnum{
+	"HADOOP_EXTENDED": BdsInstanceClusterProfileHadoopExtended,
+	"HADOOP":          BdsInstanceClusterProfileHadoop,
+	"HIVE":            BdsInstanceClusterProfileHive,
+	"SPARK":           BdsInstanceClusterProfileSpark,
+	"HBASE":           BdsInstanceClusterProfileHbase,
+	"TRINO":           BdsInstanceClusterProfileTrino,
+}
+
+var mappingBdsInstanceClusterProfileEnumLowerCase = map[string]BdsInstanceClusterProfileEnum{
+	"hadoop_extended": BdsInstanceClusterProfileHadoopExtended,
+	"hadoop":          BdsInstanceClusterProfileHadoop,
+	"hive":            BdsInstanceClusterProfileHive,
+	"spark":           BdsInstanceClusterProfileSpark,
+	"hbase":           BdsInstanceClusterProfileHbase,
+	"trino":           BdsInstanceClusterProfileTrino,
+}
+
+// GetBdsInstanceClusterProfileEnumValues Enumerates the set of values for BdsInstanceClusterProfileEnum
+func GetBdsInstanceClusterProfileEnumValues() []BdsInstanceClusterProfileEnum {
+	values := make([]BdsInstanceClusterProfileEnum, 0)
+	for _, v := range mappingBdsInstanceClusterProfileEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetBdsInstanceClusterProfileEnumStringValues Enumerates the set of values in String for BdsInstanceClusterProfileEnum
+func GetBdsInstanceClusterProfileEnumStringValues() []string {
+	return []string{
+		"HADOOP_EXTENDED",
+		"HADOOP",
+		"HIVE",
+		"SPARK",
+		"HBASE",
+		"TRINO",
+	}
+}
+
+// GetMappingBdsInstanceClusterProfileEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingBdsInstanceClusterProfileEnum(val string) (BdsInstanceClusterProfileEnum, bool) {
+	enum, ok := mappingBdsInstanceClusterProfileEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

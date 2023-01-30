@@ -60,7 +60,7 @@ The following attributes are exported:
 * `autonomous_exadata_infrastructure_id` - **No longer used.** For Autonomous Database on dedicated Exadata infrastructure, the container database is created within a specified `cloudAutonomousVmCluster`.  
 * `autonomous_vm_cluster_id` - The OCID of the Autonomous VM Cluster.
 * `availability_domain` - The availability domain of the Autonomous Container Database.
-* `available_cpus` - Sum of OCPUs available on the Autonomous VM Cluster + Sum of Fractional OCPUs available in the Autonomous Container Database.
+* `available_cpus` - Sum of OCPUs available on the Autonomous VM Cluster + Sum of reclaimable OCPUs available in the Autonomous Container Database.
 * `backup_config` - Backup options for the Autonomous Container Database. 
 	* `backup_destination_details` - Backup destination details.
 		* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
@@ -96,6 +96,7 @@ The following attributes are exported:
 	* `hours_of_day` - The window of hours during the day when maintenance should be performed. The window is a 4 hour slot. Valid values are
 		* 0 - represents time slot 0:00 - 3:59 UTC - 4 - represents time slot 4:00 - 7:59 UTC - 8 - represents time slot 8:00 - 11:59 UTC - 12 - represents time slot 12:00 - 15:59 UTC - 16 - represents time slot 16:00 - 19:59 UTC - 20 - represents time slot 20:00 - 23:59 UTC
 	* `is_custom_action_timeout_enabled` - If true, enables the configuration of a custom action timeout (waiting period) between database server patching operations.
+	* `is_monthly_patching_enabled` - If true, enables the monthly patching option.
 	* `lead_time_in_weeks` - Lead time window allows user to set a lead time to prepare for a down time. The lead time is in weeks and valid value is between 1 to 4. 
 	* `months` - Months during the year when maintenance should be performed.
 		* `name` - Name of the month of the year.
@@ -109,8 +110,8 @@ The following attributes are exported:
 * `patch_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last patch applied on the system.
 * `patch_model` - Database patch model preference.
 * `provisionable_cpus` - An array of CPU values that can be used to successfully provision a single Autonomous Database.
-* `reclaimable_cpus` - CPU cores that are not released to available pool after an Autonomous Database is terminated (Requires Autonomous Container Database restart).
-* `role` - The role of the Autonomous Data Guard-enabled Autonomous Container Database.
+* `reclaimable_cpus` - CPU cores that continue to be included in the count of OCPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available OCPUs at its parent AVMC level by restarting the Autonomous Container Database.
+* `role` - The Data Guard role of the Autonomous Container Database or Autonomous Database, if Autonomous Data Guard is enabled. 
 * `service_level_agreement_type` - The service level agreement type of the container database. The default is STANDARD.
 * `standby_maintenance_buffer_in_days` - The scheduling detail for the quarterly maintenance window of the standby Autonomous Container Database. This value represents the number of days before scheduled maintenance of the primary database. 
 * `state` - The current state of the Autonomous Container Database.

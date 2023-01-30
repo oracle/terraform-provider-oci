@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -31,9 +31,10 @@ type CreateSddcDetails struct {
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The number of ESXi hosts to create in the SDDC. You can add more hosts later
-	// (see CreateEsxiHost).
-	// **Note:** If you later delete EXSi hosts from the SDDC to total less than 3,
-	// you are still billed for the 3 minimum recommended ESXi hosts. Also,
+	// (see CreateEsxiHost). Creating
+	// a SDDC with a ESXi host count of 1 will be considered a single ESXi host SDDC.
+	// **Note:** If you later delete EXSi hosts from a production SDDC to total less
+	// than 3, you are still billed for the 3 minimum recommended ESXi hosts. Also,
 	// you cannot add more VMware workloads to the SDDC until it again has at least
 	// 3 ESXi hosts.
 	EsxiHostsCount *int `mandatory:"true" json:"esxiHostsCount"`
@@ -101,6 +102,9 @@ type CreateSddcDetails struct {
 	// Indicates whether to enable HCX Enterprise for this SDDC.
 	IsHcxEnterpriseEnabled *bool `mandatory:"false" json:"isHcxEnterpriseEnabled"`
 
+	// Indicates whether this SDDC is designated for only single ESXi host.
+	IsSingleHostSddc *bool `mandatory:"false" json:"isSingleHostSddc"`
+
 	// The CIDR block for the IP addresses that VMware VMs in the SDDC use to run application
 	// workloads.
 	WorkloadNetworkCidr *string `mandatory:"false" json:"workloadNetworkCidr"`
@@ -122,6 +126,9 @@ type CreateSddcDetails struct {
 
 	// Indicates whether shielded instance is enabled for this SDDC.
 	IsShieldedInstanceEnabled *bool `mandatory:"false" json:"isShieldedInstanceEnabled"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Capacity Reservation.
+	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).

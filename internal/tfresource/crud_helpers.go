@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package tfresource
@@ -21,7 +21,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"sync"
 
@@ -31,7 +31,7 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v65/loadbalancer"
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -518,29 +518,10 @@ func MySqlVersionDiffSuppress(key string, old string, new string, d *schema.Reso
 func LoadBalancersSuppressDiff(key string, old string, new string, d *schema.ResourceData) bool {
 	return loadBalancersSuppressDiff(d)
 }
+
+// Removed custom logic for diffs because we should update the lb details for nay change on the existing lb.
 func loadBalancersSuppressDiff(d schemaResourceData) bool {
-	if !d.HasChange("load_balancers") {
-		return true
-	}
-	oldRaw, newRaw := d.GetChange("load_balancers")
-	interfaces := oldRaw.([]interface{})
-	oldBalancers := make(map[string]bool, len(interfaces))
-	for _, item := range interfaces {
-		oldBalancers[item.(map[string]interface{})["load_balancer_id"].(string)] = true
-	}
-
-	interfaces = newRaw.([]interface{})
-	if len(interfaces) != len(oldBalancers) {
-		return false
-	}
-
-	for _, item := range interfaces {
-		converted := item.(map[string]interface{})["load_balancer_id"].(string)
-		if _, ok := oldBalancers[converted]; !ok {
-			return false
-		}
-	}
-	return true
+	return !d.HasChange("load_balancers")
 }
 
 func EqualIgnoreCaseSuppressDiff(key string, old string, new string, d *schema.ResourceData) bool {
@@ -576,10 +557,18 @@ func ResourceDeprecatedForAnother(deprecatedResourceName string, newResourceName
 	return fmt.Sprintf("The '%s' resource has been deprecated. Please use '%s' instead.", deprecatedResourceName, newResourceName)
 }
 
+func ResourceDeprecated(deprecatedResourceName string) string {
+	return fmt.Sprintf("The '%s' resource has been deprecated. It is no longer supported.", deprecatedResourceName)
+}
+
 func ResourceNotFoundErrorMessage(resourceName string, reason string) error {
 	// Use this function to generate an error message for any resource that is not found.  The message is specially
 	// formatted so that it is detected by the handleMissingResourceError function correctly.  Do not change the message format.
 	return fmt.Errorf("%s not found. %s \n", resourceName, reason)
+}
+
+func DatasourceDeprecatedForAnother(deprecatedDatasourceName string, newDatasourceName string) string {
+	return fmt.Sprintf("The '%s' datasource has been deprecated. Please use '%s' instead.", deprecatedDatasourceName, newDatasourceName)
 }
 
 // GenerateDataSourceID generates an ID for the data source based on the current time stamp.

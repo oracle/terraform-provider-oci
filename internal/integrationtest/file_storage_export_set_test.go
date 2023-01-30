@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -8,42 +8,42 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	ExportSetRequiredOnlyResource = ExportSetResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", acctest.Required, acctest.Create, exportSetRepresentation)
+	FileStorageExportSetRequiredOnlyResource = FileStorageExportSetResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", acctest.Required, acctest.Create, FileStorageExportSetRepresentation)
 
-	exportSetDataSourceRepresentation = map[string]interface{}{
+	FileStorageFileStorageExportSetDataSourceRepresentation = map[string]interface{}{
 		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":                  acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_export_set.test_export_set.id}`},
 		"state":               acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: exportSetDataSourceFilterRepresentation}}
-	exportSetDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: FileStorageExportSetDataSourceFilterRepresentation}}
+	FileStorageExportSetDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_file_storage_export_set.test_export_set.id}`}},
 	}
 
-	exportSetRepresentation = map[string]interface{}{
+	FileStorageExportSetRepresentation = map[string]interface{}{
 		"mount_target_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_file_storage_mount_target.test_mount_target.id}`},
 		"display_name":      acctest.Representation{RepType: acctest.Optional, Create: `export set display name`},
 		"max_fs_stat_bytes": acctest.Representation{RepType: acctest.Optional, Create: `23843202333`},
 		"max_fs_stat_files": acctest.Representation{RepType: acctest.Optional, Create: `9223372036854775807`},
 	}
 
-	ExportSetResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Required, acctest.Create, mountTargetRepresentation) +
+	FileStorageExportSetResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Required, acctest.Create, FileStorageMountTargetRepresentation) +
 		AvailabilityDomainConfig
 )
 
@@ -62,14 +62,14 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ExportSetResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", acctest.Required, acctest.Create, exportSetRepresentation), "filestorage", "exportSet", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+FileStorageExportSetResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", acctest.Required, acctest.Create, FileStorageExportSetRepresentation), "filestorage", "exportSet", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ExportSetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", acctest.Required, acctest.Create, exportSetRepresentation),
+			Config: config + compartmentIdVariableStr + FileStorageExportSetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", acctest.Required, acctest.Create, FileStorageExportSetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -93,8 +93,8 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ExportSetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", acctest.Optional, acctest.Update, exportSetRepresentation),
+			Config: config + compartmentIdVariableStr + FileStorageExportSetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", acctest.Optional, acctest.Update, FileStorageExportSetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -117,9 +117,9 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_file_storage_export_sets", "test_export_sets", acctest.Optional, acctest.Update, exportSetDataSourceRepresentation) +
-				compartmentIdVariableStr + ExportSetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", acctest.Optional, acctest.Update, exportSetRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_file_storage_export_sets", "test_export_sets", acctest.Optional, acctest.Update, FileStorageFileStorageExportSetDataSourceRepresentation) +
+				compartmentIdVariableStr + FileStorageExportSetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", acctest.Optional, acctest.Update, FileStorageExportSetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -135,7 +135,7 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + ExportSetRequiredOnlyResource,
+			Config:            config + FileStorageExportSetRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

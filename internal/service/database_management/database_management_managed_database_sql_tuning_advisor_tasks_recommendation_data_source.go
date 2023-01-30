@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database_management
@@ -8,8 +8,8 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
@@ -58,6 +58,10 @@ func DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksRecommendationDataSou
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"is_parallel_execution": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"rationale": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -86,6 +90,7 @@ func DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksRecommendationDataSou
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_database_management_managed_database_sql_tuning_advisor_tasks_recommendation", "oci_database_management_managed_database_sql_tuning_advisor_tasks_recommendations"),
 	}
 }
 
@@ -167,44 +172,4 @@ func (s *DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksRecommendationDat
 	s.D.Set("items", items)
 
 	return nil
-}
-
-func SqlTuningAdvisorTaskRecommendationSummaryToMap(obj oci_database_management.SqlTuningAdvisorTaskRecommendationSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Benefit != nil {
-		result["benefit"] = float32(*obj.Benefit)
-	}
-
-	if obj.Finding != nil {
-		result["finding"] = string(*obj.Finding)
-	}
-
-	if obj.ImplementActionSql != nil {
-		result["implement_action_sql"] = string(*obj.ImplementActionSql)
-	}
-
-	if obj.Rationale != nil {
-		result["rationale"] = string(*obj.Rationale)
-	}
-
-	if obj.Recommendation != nil {
-		result["recommendation"] = string(*obj.Recommendation)
-	}
-
-	if obj.RecommendationKey != nil {
-		result["recommendation_key"] = int(*obj.RecommendationKey)
-	}
-
-	result["recommendation_type"] = string(obj.RecommendationType)
-
-	if obj.SqlTuningAdvisorTaskId != nil {
-		result["sql_tuning_advisor_task_id"] = strconv.FormatInt(*obj.SqlTuningAdvisorTaskId, 10)
-	}
-
-	if obj.SqlTuningAdvisorTaskObjectId != nil {
-		result["sql_tuning_advisor_task_object_id"] = strconv.FormatInt(*obj.SqlTuningAdvisorTaskObjectId, 10)
-	}
-
-	return result
 }

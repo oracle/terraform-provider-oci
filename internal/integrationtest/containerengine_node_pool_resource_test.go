@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -11,18 +11,35 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	NodePoolRegionalRequiredOnlyResource = NodePoolResourceDependencies +
+	NodePoolRegionalRequiredOnlyResource = ContainerengineNodePoolResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", acctest.Required, acctest.Create, nodePoolRegionalSubnetRepresentation)
 
-	NodePoolRegionalResourceConfig = NodePoolResourceDependencies +
+	NodePoolRegionalResourceConfig = ContainerengineNodePoolResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", acctest.Optional, acctest.Update, nodePoolRegionalSubnetRepresentation)
+
+	NodePoolNonReginalResourceDependencies = ContainerengineNodePoolResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", acctest.Optional, acctest.Update, nodePoolNonRegionalSubnetRepresentation)
+
+	nodePoolNonRegionalSubnetRepresentation = map[string]interface{}{
+		"cluster_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_cluster.test_cluster.id}`},
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"kubernetes_version":  acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_cluster.test_cluster.kubernetes_version}`},
+		"name":                acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
+		"node_image_name":     acctest.Representation{RepType: acctest.Required, Create: `Oracle-Linux-7.6`},
+		"node_shape":          acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
+		"initial_node_labels": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineNodePoolInitialNodeLabelsRepresentation},
+		"node_metadata":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"nodeMetadata": "nodeMetadata"}, Update: map[string]string{"nodeMetadata2": "nodeMetadata2"}},
+		"ssh_public_key":      acctest.Representation{RepType: acctest.Optional, Create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`},
+		"quantity_per_subnet": acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
+		"subnet_ids":          acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_subnet.nodePool_Subnet_1.id}`}, Update: []string{`${oci_core_subnet.nodePool_Subnet_2.id}`}},
+	}
 
 	nodePoolRegionalSubnetRepresentation = map[string]interface{}{
 		"cluster_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_cluster.test_cluster.id}`},
@@ -32,7 +49,7 @@ var (
 		"node_image_name":     acctest.Representation{RepType: acctest.Required, Create: `Oracle-Linux-7.6`},
 		"node_shape":          acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
 		"node_config_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: nodePoolNodeConfigDetailsRepresentation},
-		"initial_node_labels": acctest.RepresentationGroup{RepType: acctest.Optional, Group: nodePoolInitialNodeLabelsRepresentation},
+		"initial_node_labels": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineNodePoolInitialNodeLabelsRepresentation},
 		"node_metadata":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"nodeMetadata": "nodeMetadata"}, Update: map[string]string{"nodeMetadata2": "nodeMetadata2"}},
 		"ssh_public_key":      acctest.Representation{RepType: acctest.Optional, Create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`},
 	}
@@ -44,6 +61,7 @@ var (
 	nodePoolNodeConfigDetailsPlacementConfigsRepresentation = map[string]interface{}{
 		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`, Update: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"subnet_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.node_pool_regional_subnet_1.id}`, Update: `${oci_core_subnet.node_pool_regional_subnet_2.id}`},
+		"fault_domains":       acctest.Representation{RepType: acctest.Optional, Create: []string{"FAULT-DOMAIN-1"}, Update: []string{"FAULT-DOMAIN-1"}},
 	}
 
 	nodePoolSingularDataSourceRepresentationForImageId = map[string]interface{}{
@@ -96,7 +114,7 @@ var (
 		"node_image_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.InstanceImageOCID[var.region]}`},
 		"node_shape":          acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
 		"subnet_ids":          acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_subnet.nodePool_Subnet_1.id}`, `${oci_core_subnet.nodePool_Subnet_2.id}`}},
-		"initial_node_labels": acctest.RepresentationGroup{RepType: acctest.Optional, Group: nodePoolInitialNodeLabelsRepresentation},
+		"initial_node_labels": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineNodePoolInitialNodeLabelsRepresentation},
 		"quantity_per_subnet": acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `2`},
 		"ssh_public_key":      acctest.Representation{RepType: acctest.Optional, Create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`},
 	}
@@ -109,7 +127,7 @@ var (
 		"name":                acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"node_shape":          acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
 		"subnet_ids":          acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_subnet.nodePool_Subnet_1.id}`, `${oci_core_subnet.nodePool_Subnet_2.id}`}},
-		"initial_node_labels": acctest.RepresentationGroup{RepType: acctest.Optional, Group: nodePoolInitialNodeLabelsRepresentation},
+		"initial_node_labels": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineNodePoolInitialNodeLabelsRepresentation},
 		"node_source_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: nodePoolNodeSourceDetailsRepresentation},
 		"quantity_per_subnet": acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `2`},
 		"ssh_public_key":      acctest.Representation{RepType: acctest.Optional, Create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`},
@@ -140,24 +158,24 @@ var (
 		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `32.0`, Update: `36.0`},
 	}
 
-	NodePoolReginalResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_node_pool_option", "test_node_pool_option", acctest.Required, acctest.Create, nodePoolOptionSingularDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, internetGatewayRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(routeTableRepresentation, map[string]interface{}{
-			"route_rules": acctest.RepresentationGroup{RepType: acctest.Required, Group: routeTableRouteRulesforNodePoolRepresentation},
+	NodePoolReginalResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_node_pool_option", "test_node_pool_option", acctest.Required, acctest.Create, ContainerengineContainerengineNodePoolOptionSingularDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, CoreInternetGatewayRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreRouteTableRepresentation, map[string]interface{}{
+			"route_rules": acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerengineRouteTableRouteRulesforNodePoolRepresentation},
 		})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(securityListRepresentation, map[string]interface{}{
-			"ingress_security_rules": []acctest.RepresentationGroup{{RepType: acctest.Required, Group: securityListIngressSecurityRulesICMP2forNodePoolRepresentation}, {RepType: acctest.Required, Group: securityListIngressSecurityRulesALLforNodePoolRepresentation}, {RepType: acctest.Required, Group: securityListIngressSecurityRulesICMPforNodePoolRepresentation}, {RepType: acctest.Required, Group: securityListIngressSecurityRulesTCPforNodePoolRepresentation}},
-			"egress_security_rules":  []acctest.RepresentationGroup{{RepType: acctest.Required, Group: securityListEgressSecurityRulesAllforNodePoolRepresentation}},
+		acctest.GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSecurityListRepresentation, map[string]interface{}{
+			"ingress_security_rules": []acctest.RepresentationGroup{{RepType: acctest.Required, Group: ContainerengineSecurityListIngressSecurityRulesICMP2forNodePoolRepresentation}, {RepType: acctest.Required, Group: ContainerengineSecurityListIngressSecurityRulesALLforNodePoolRepresentation}, {RepType: acctest.Required, Group: ContainerengineSecurityListIngressSecurityRulesICMPforNodePoolRepresentation}, {RepType: acctest.Required, Group: ContainerengineSecurityListIngressSecurityRulesTCPforNodePoolRepresentation}},
+			"egress_security_rules":  []acctest.RepresentationGroup{{RepType: acctest.Required, Group: ContainerengineSecurityListEgressSecurityRulesAllforNodePoolRepresentation}},
 		})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "node_pool_regional_subnet_1", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"security_list_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_security_list.test_security_list.id}`}}, "route_table_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_route_table.test_route_table.id}`}, "availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.24.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `nodepool1`}})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "node_pool_regional_subnet_2", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"security_list_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_security_list.test_security_list.id}`}}, "route_table_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_route_table.test_route_table.id}`}, "availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.25.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `nodepool2`}})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Required, acctest.Create, clusterRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_1", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"security_list_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_security_list.test_security_list.id}`}}, "route_table_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_route_table.test_route_table.id}`}, "availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.20.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `cluster1`}})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_2", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"security_list_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_security_list.test_security_list.id}`}}, "route_table_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_route_table.test_route_table.id}`}, "availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.21.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `cluster2`}})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "node_pool_regional_subnet_1", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{"security_list_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_security_list.test_security_list.id}`}}, "route_table_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_route_table.test_route_table.id}`}, "availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.24.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `nodepool1`}})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "node_pool_regional_subnet_2", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{"security_list_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_security_list.test_security_list.id}`}}, "route_table_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_route_table.test_route_table.id}`}, "availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.25.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `nodepool2`}})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Required, acctest.Create, ContainerengineClusterRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_1", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{"security_list_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_security_list.test_security_list.id}`}}, "route_table_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_route_table.test_route_table.id}`}, "availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.20.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `cluster1`}})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_2", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{"security_list_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_security_list.test_security_list.id}`}}, "route_table_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_route_table.test_route_table.id}`}, "availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.21.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `cluster2`}})) +
 		AvailabilityDomainConfig +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_cluster_option", "test_cluster_option", acctest.Required, acctest.Create, clusterOptionSingularDataSourceRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_cluster_option", "test_cluster_option", acctest.Required, acctest.Create, ContainerengineContainerengineClusterOptionSingularDataSourceRepresentation) +
 		utils.OciImageIdsVariable +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 		}))
 )
@@ -203,6 +221,8 @@ func TestResourceContainerengineNodePool_regionalsubnet(t *testing.T) {
 				//resource.TestCheckResourceAttr(resourceName, "quantity_per_subnet", "2"),
 				resource.TestCheckResourceAttr(resourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
 				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_config_details.0.placement_configs.0.fault_domains.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_config_details.0.placement_configs.0.fault_domains.0", "FAULT-DOMAIN-1"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -238,6 +258,8 @@ func TestResourceContainerengineNodePool_regionalsubnet(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
 				resource.TestCheckResourceAttr(resourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
 				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_config_details.0.placement_configs.0.fault_domains.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_config_details.0.placement_configs.0.fault_domains.0", "FAULT-DOMAIN-1"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -252,7 +274,7 @@ func TestResourceContainerengineNodePool_regionalsubnet(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_node_pools", "test_node_pools", acctest.Optional, acctest.Update, nodePoolDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_node_pools", "test_node_pools", acctest.Optional, acctest.Update, ContainerengineContainerengineNodePoolDataSourceRepresentation) +
 				compartmentIdVariableStr + NodePoolReginalResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", acctest.Optional, acctest.Update, nodePoolRegionalSubnetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -284,7 +306,7 @@ func TestResourceContainerengineNodePool_regionalsubnet(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", acctest.Required, acctest.Create, nodePoolSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", acctest.Required, acctest.Create, ContainerengineContainerengineNodePoolSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + NodePoolReginalResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", acctest.Optional, acctest.Update, nodePoolRegionalSubnetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -336,7 +358,7 @@ func TestContainerengineNodePoolResource_image(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckContainerengineNodePoolDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
+			Config: config + compartmentIdVariableStr + ContainerengineNodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
 				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_imageId", acctest.Required, acctest.Create, nodePoolRepresentationForImageId),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				//Asserting Resource created with Image Id
@@ -358,11 +380,11 @@ func TestContainerengineNodePoolResource_image(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + NodePoolResourceDependencies,
+			Config: config + compartmentIdVariableStr + ContainerengineNodePoolResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
+			Config: config + compartmentIdVariableStr + ContainerengineNodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
 				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_imageId", acctest.Optional, acctest.Create, nodePoolRepresentationForImageId),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				//Asserting Resource created with Image Id
@@ -388,7 +410,7 @@ func TestContainerengineNodePoolResource_image(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
+			Config: config + compartmentIdVariableStr + ContainerengineNodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
 				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_imageId", acctest.Optional, acctest.Update, nodePoolRepresentationForImageId),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				//Asserting Resource created with Image Id
@@ -418,7 +440,7 @@ func TestContainerengineNodePoolResource_image(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_node_pools", "test_node_pools_imageId", acctest.Optional, acctest.Update, nodePoolDataSourceRepresentationForImageId) +
-				compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
+				compartmentIdVariableStr + ContainerengineNodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
 				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_imageId", acctest.Optional, acctest.Update, nodePoolRepresentationForImageId),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				//Asserting Datasource for NodePool created with Image Id
@@ -446,7 +468,7 @@ func TestContainerengineNodePoolResource_image(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_imageId", acctest.Required, acctest.Create, nodePoolSingularDataSourceRepresentationForImageId) +
-				compartmentIdVariableStr + NodePoolResourceConfig + nodePoolResourceConfigForVMStandard +
+				compartmentIdVariableStr + ContainerengineNodePoolResourceConfig + nodePoolResourceConfigForVMStandard +
 				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_imageId", acctest.Optional, acctest.Update, nodePoolRepresentationForImageId),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				//Asserting Singular Datasource for NodePool created with Image Id
@@ -491,7 +513,7 @@ func TestContainerengineNodePoolResource_nodeSourceDetails(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckContainerengineNodePoolDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
+			Config: config + compartmentIdVariableStr + ContainerengineNodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
 				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_node_source_details", acctest.Required, acctest.Create, nodePoolRepresentationForNodeSourceDetails),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				//Asserting Resource created with Node Source Details
@@ -516,11 +538,11 @@ func TestContainerengineNodePoolResource_nodeSourceDetails(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + NodePoolResourceDependencies,
+			Config: config + compartmentIdVariableStr + ContainerengineNodePoolResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
+			Config: config + compartmentIdVariableStr + ContainerengineNodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
 				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_node_source_details", acctest.Optional, acctest.Create, nodePoolRepresentationForNodeSourceDetails),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				//Asserting Resource created with Node Source Details
@@ -550,7 +572,7 @@ func TestContainerengineNodePoolResource_nodeSourceDetails(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
+			Config: config + compartmentIdVariableStr + ContainerengineNodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
 				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_node_source_details", acctest.Optional, acctest.Update, nodePoolRepresentationForNodeSourceDetails),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				//Asserting Resource created with Node Source Details
@@ -584,7 +606,7 @@ func TestContainerengineNodePoolResource_nodeSourceDetails(t *testing.T) {
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_node_pools",
 					"test_node_pools_node_source_details", acctest.Optional, acctest.Update, nodePoolDataSourceRepresentationForNodeSourceDetails) + nodePoolResourceConfigForVMStandard +
-				compartmentIdVariableStr + NodePoolResourceDependencies +
+				compartmentIdVariableStr + ContainerengineNodePoolResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_node_source_details", acctest.Optional, acctest.Update, nodePoolRepresentationForNodeSourceDetails),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				//Asserting Datasource for NodePool created with Node Source Details
@@ -614,7 +636,7 @@ func TestContainerengineNodePoolResource_nodeSourceDetails(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_node_source_details", acctest.Required, acctest.Create, nodePoolSingularDataSourceRepresentationForNodeSourceDetails) +
-				compartmentIdVariableStr + NodePoolResourceConfig + nodePoolResourceConfigForVMStandard +
+				compartmentIdVariableStr + ContainerengineNodePoolResourceConfig + nodePoolResourceConfigForVMStandard +
 				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_node_source_details", acctest.Optional, acctest.Update, nodePoolRepresentationForNodeSourceDetails),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				//Asserting Singular Datasource for NodePool created with Image Name
@@ -661,7 +683,7 @@ func TestContainerengineNodePoolResource_flexibleShapes(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckContainerengineNodePoolDestroy, []resource.TestStep{
 		// verify creation of flex node pool
 		{
-			Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForFlexShapes + acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_flexible_shapes", acctest.Required, acctest.Create, nodePoolRepresentationForFlexShapes),
+			Config: config + compartmentIdVariableStr + ContainerengineNodePoolResourceDependencies + nodePoolResourceConfigForFlexShapes + acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_flexible_shapes", acctest.Required, acctest.Create, nodePoolRepresentationForFlexShapes),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceNameForFlexibleShapes, "cluster_id"),
 				resource.TestCheckResourceAttr(resourceNameForFlexibleShapes, "compartment_id", compartmentId),
@@ -681,7 +703,7 @@ func TestContainerengineNodePoolResource_flexibleShapes(t *testing.T) {
 
 		// verify flex Update
 		{
-			Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForFlexShapes +
+			Config: config + compartmentIdVariableStr + ContainerengineNodePoolResourceDependencies + nodePoolResourceConfigForFlexShapes +
 				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_flexible_shapes", acctest.Optional, acctest.Update, nodePoolRepresentationForFlexShapes),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceNameForFlexibleShapes, "cluster_id"),
@@ -707,7 +729,7 @@ func TestContainerengineNodePoolResource_flexibleShapes(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_node_pools", "test_node_pools_flexible_shapes", acctest.Optional, acctest.Update, nodePoolDataSourceRepresentationForFlexShapes) +
-				compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForFlexShapes +
+				compartmentIdVariableStr + ContainerengineNodePoolResourceDependencies + nodePoolResourceConfigForFlexShapes +
 				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_flexible_shapes", acctest.Optional, acctest.Update, nodePoolRepresentationForFlexShapes),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				//Asserting Datasource for NodePool created with Flexible Shape
@@ -732,7 +754,7 @@ func TestContainerengineNodePoolResource_flexibleShapes(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_flexible_shapes", acctest.Required, acctest.Create, nodePoolSingularDataSourceRepresentationForFlexShapes) +
-				compartmentIdVariableStr + NodePoolResourceConfig + nodePoolResourceConfigForFlexShapes +
+				compartmentIdVariableStr + ContainerengineNodePoolResourceConfig + nodePoolResourceConfigForFlexShapes +
 				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_flexible_shapes", acctest.Optional, acctest.Update, nodePoolRepresentationForFlexShapes),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				//Asserting Singular Datasource for NodePool created with Flex Shape
@@ -747,6 +769,146 @@ func TestContainerengineNodePoolResource_flexibleShapes(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceNameForFlexibleShapes, "node_shape_config.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceNameForFlexibleShapes, "node_shape_config.0.ocpus", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceNameForFlexibleShapes, "node_shape_config.0.memory_in_gbs", "36"),
+			),
+		},
+	})
+}
+
+// issue-routing-tag: containerengine/default
+func TestResourceContainerengineNodePool_qps(t *testing.T) {
+	httpreplay.SetScenario("TestResourceContainerengineNodePool_qps")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_containerengine_node_pool.test_node_pool_qps"
+	datasourceName := "data.oci_containerengine_node_pools.test_node_pool_qps"
+	singularDatasourceName := "data.oci_containerengine_node_pool.test_node_pool_qps"
+
+	var resId, resId2 string
+
+	acctest.ResourceTest(t, testAccCheckContainerengineNodePoolDestroy, []resource.TestStep{
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + NodePoolNonReginalResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_qps", acctest.Optional, acctest.Create, nodePoolNonRegionalSubnetRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				//Asserting Resource created with Image Name
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "initial_node_labels.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.key", "key"),
+				resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.value", "value"),
+				resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
+				resource.TestCheckResourceAttr(resourceName, "name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "node_image_name", "Oracle-Linux-7.6"),
+				resource.TestCheckResourceAttr(resourceName, "node_metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "quantity_per_subnet", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
+				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + NodePoolNonReginalResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_qps", acctest.Optional, acctest.Update, acctest.GetUpdatedRepresentationCopy("node_metadata", acctest.Representation{RepType: acctest.Optional, Update: map[string]string{"nodeMetadata": "nodeMetadata"}}, nodePoolNonRegionalSubnetRepresentation)),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				//Asserting Resource created with Image Name
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "initial_node_labels.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.key", "key2"),
+				resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.value", "value2"),
+				resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
+				resource.TestCheckResourceAttr(resourceName, "name", "name2"),
+				resource.TestCheckResourceAttr(resourceName, "node_image_name", "Oracle-Linux-7.6"),
+				resource.TestCheckResourceAttr(resourceName, "node_metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
+				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "quantity_per_subnet", "2"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_node_pools", "test_node_pool_qps", acctest.Optional, acctest.Update, ContainerengineContainerengineNodePoolDataSourceRepresentation) +
+				compartmentIdVariableStr + NodePoolNonReginalResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_qps", acctest.Optional, acctest.Update, acctest.GetUpdatedRepresentationCopy("node_metadata", acctest.Representation{RepType: acctest.Optional, Update: map[string]string{"nodeMetadata": "nodeMetadata"}}, nodePoolNonRegionalSubnetRepresentation)),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				//Asserting Datasource for NodePool created with Image Name
+				resource.TestCheckResourceAttrSet(datasourceName, "cluster_id"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "name", "name2"),
+
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.cluster_id"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.initial_node_labels.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.initial_node_labels.0.key", "key2"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.initial_node_labels.0.value", "value2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.kubernetes_version"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.name", "name2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.node_image_id"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_image_name", "Oracle-Linux-7.6"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.subnet_ids.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.quantity_per_subnet", "2"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_qps", acctest.Required, acctest.Create, ContainerengineContainerengineNodePoolSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + NodePoolNonReginalResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_qps", acctest.Optional, acctest.Update, nodePoolNonRegionalSubnetRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				//Asserting Singular Datasource for NodePool created with Image Name
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "node_pool_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_node_labels.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_node_labels.0.key", "key2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_node_labels.0.value", "value2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "kubernetes_version"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "node_image_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "node_image_name", "Oracle-Linux-7.6"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "node_metadata.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "node_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "subnet_ids.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "quantity_per_subnet", "2"),
+				// "nodes" is not set until the instances in the node_pool are "Available" so we can't assert the nodes property
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes"),
 			),
 		},
 	})

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -20,7 +20,10 @@ import (
 type PatchAlertsDetails struct {
 
 	// Array of patch instructions.
-	Items []PatchInstruction `mandatory:"false" json:"items"`
+	Items []PatchInstruction `mandatory:"true" json:"items"`
+
+	// The OCID of the compartment that contains the alerts.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 
 func (m PatchAlertsDetails) String() string {
@@ -42,7 +45,8 @@ func (m PatchAlertsDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *PatchAlertsDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Items []patchinstruction `json:"items"`
+		Items         []patchinstruction `json:"items"`
+		CompartmentId *string            `json:"compartmentId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -62,6 +66,8 @@ func (m *PatchAlertsDetails) UnmarshalJSON(data []byte) (e error) {
 			m.Items[i] = nil
 		}
 	}
+
+	m.CompartmentId = model.CompartmentId
 
 	return
 }

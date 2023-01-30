@@ -1,6 +1,8 @@
 package globalvar
 
-import "time"
+import (
+	"time"
+)
 
 const (
 	AuthAPIKeySetting                     = "ApiKey"
@@ -45,6 +47,7 @@ const (
 	DefaultConfigDirName     = ".oci"
 	ColonDelimiter           = ";"
 	EqualToOperatorDelimiter = "="
+	DotDelimiter             = "."
 
 	// Resource Discovery
 	ExportUserAgentFormatter        = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform-oci-exporter/%s)"
@@ -74,5 +77,8 @@ const (
 	TfEnvPrefix    = "TF_VAR_"
 	OciEnvPrefix   = "OCI_"
 )
-
+const (
+	DebugTestSteps               = "DEBUG_TEST_STEPS"
+	DebugTestStepsShowConfigOnly = "DEBUG_TEST_STEPS_SHOW_CONFIG_ONLY"
+)
 const TerraformDocumentLink = "https://registry.terraform.io/providers/oracle/oci/latest/docs/"

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,16 +7,16 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	auditProfileAvailableAuditVolumeSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafeauditProfileAvailableAuditVolumeSingularDataSourceRepresentation = map[string]interface{}{
 		"audit_profile_id":                    acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_audit_profile.test_audit_profile.id}`},
 		"work_request_id":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_work_request.test_work_request.id}`},
 		"month_in_consideration_greater_than": acctest.Representation{RepType: acctest.Optional, Create: `monthInConsiderationGreaterThan`},
@@ -24,7 +24,7 @@ var (
 		"trail_location":                      acctest.Representation{RepType: acctest.Optional, Create: `trailLocation`},
 	}
 
-	auditProfileAvailableAuditVolumeDataSourceRepresentation = map[string]interface{}{
+	DataSafeauditProfileAvailableAuditVolumeDataSourceRepresentation = map[string]interface{}{
 		"audit_profile_id":                    acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_audit_profile.test_audit_profile.id}`},
 		"work_request_id":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_work_request.test_work_request.id}`},
 		"month_in_consideration_greater_than": acctest.Representation{RepType: acctest.Optional, Create: `monthInConsiderationGreaterThan`},
@@ -32,7 +32,7 @@ var (
 		"trail_location":                      acctest.Representation{RepType: acctest.Optional, Create: `trailLocation`},
 	}
 
-	AuditProfileAvailableAuditVolumeResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_work_requests", "test_work_requests", acctest.Required, acctest.Create, workRequestDataSourceRepresentation) +
+	DataSafeAuditProfileAvailableAuditVolumeResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_work_requests", "test_work_requests", acctest.Required, acctest.Create, ContainerengineContainerengineWorkRequestDataSourceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_profile", "test_audit_profile", acctest.Required, acctest.Create, auditProfileRepresentation)
 )
 
@@ -55,8 +55,8 @@ func TestDataSafeAuditProfileAvailableAuditVolumeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_profile_available_audit_volumes", "test_audit_profile_available_audit_volumes", acctest.Required, acctest.Create, auditProfileAvailableAuditVolumeDataSourceRepresentation) +
-				compartmentIdVariableStr + AuditProfileAvailableAuditVolumeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_profile_available_audit_volumes", "test_audit_profile_available_audit_volumes", acctest.Required, acctest.Create, DataSafeauditProfileAvailableAuditVolumeDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeAuditProfileAvailableAuditVolumeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "audit_profile_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "month_in_consideration_greater_than"),
@@ -70,8 +70,8 @@ func TestDataSafeAuditProfileAvailableAuditVolumeResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_profile_available_audit_volume", "test_audit_profile_available_audit_volume", acctest.Required, acctest.Create, auditProfileAvailableAuditVolumeSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + AuditProfileAvailableAuditVolumeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_profile_available_audit_volume", "test_audit_profile_available_audit_volume", acctest.Required, acctest.Create, DataSafeauditProfileAvailableAuditVolumeSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeAuditProfileAvailableAuditVolumeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "audit_profile_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "month_in_consideration_greater_than", "monthInConsiderationGreaterThan"),

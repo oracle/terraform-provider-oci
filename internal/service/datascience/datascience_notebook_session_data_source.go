@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package datascience
@@ -6,8 +6,8 @@ package datascience
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
@@ -98,6 +98,12 @@ func (s *DatascienceNotebookSessionDataSourceCrud) SetData() error {
 		s.D.Set("notebook_session_configuration_details", []interface{}{NotebookSessionConfigurationDetailsToMap(s.Res.NotebookSessionConfigurationDetails)})
 	} else {
 		s.D.Set("notebook_session_configuration_details", nil)
+	}
+
+	if s.Res.NotebookSessionRuntimeConfigDetails != nil {
+		s.D.Set("notebook_session_runtime_config_details", []interface{}{NotebookSessionRuntimeConfigDetailsToMap(s.Res.NotebookSessionRuntimeConfigDetails)})
+	} else {
+		s.D.Set("notebook_session_runtime_config_details", nil)
 	}
 
 	if s.Res.NotebookSessionUrl != nil {

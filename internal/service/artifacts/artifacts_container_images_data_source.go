@@ -1,16 +1,17 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package artifacts
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_artifacts "github.com/oracle/oci-go-sdk/v65/artifacts"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func ArtifactsContainerImagesDataSource() *schema.Resource {
@@ -309,4 +310,80 @@ func (s *ArtifactsContainerImagesDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func ContainerImageLayerToMap(obj oci_artifacts.ContainerImageLayer) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Digest != nil {
+		result["digest"] = string(*obj.Digest)
+	}
+
+	if obj.SizeInBytes != nil {
+		result["size_in_bytes"] = strconv.FormatInt(*obj.SizeInBytes, 10)
+	}
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	return result
+}
+
+func ContainerImageSummaryToMap(obj oci_artifacts.ContainerImageSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.Digest != nil {
+		result["digest"] = string(*obj.Digest)
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.RepositoryId != nil {
+		result["repository_id"] = string(*obj.RepositoryId)
+	}
+
+	if obj.RepositoryName != nil {
+		result["repository_name"] = string(*obj.RepositoryName)
+	}
+
+	result["state"] = string(obj.LifecycleState)
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.Version != nil {
+		result["version"] = string(*obj.Version)
+	}
+
+	return result
+}
+
+func ContainerVersionToMap(obj oci_artifacts.ContainerVersion) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CreatedBy != nil {
+		result["created_by"] = string(*obj.CreatedBy)
+	}
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.Version != nil {
+		result["version"] = string(*obj.Version)
+	}
+
+	return result
 }

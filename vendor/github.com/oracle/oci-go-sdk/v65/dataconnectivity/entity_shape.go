@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -55,6 +55,10 @@ func (m *entityshape) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 	switch m.ModelType {
 	case "DATA_STORE_ENTITY":
 		mm := EntityShapeFromDataStore{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MESSAGE_ENTITY":
+		mm := EntityShapeFromMessage{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "TABLE_ENTITY":
@@ -109,6 +113,7 @@ const (
 	EntityShapeModelTypeFileEntity      EntityShapeModelTypeEnum = "FILE_ENTITY"
 	EntityShapeModelTypeSqlEntity       EntityShapeModelTypeEnum = "SQL_ENTITY"
 	EntityShapeModelTypeDataStoreEntity EntityShapeModelTypeEnum = "DATA_STORE_ENTITY"
+	EntityShapeModelTypeMessageEntity   EntityShapeModelTypeEnum = "MESSAGE_ENTITY"
 )
 
 var mappingEntityShapeModelTypeEnum = map[string]EntityShapeModelTypeEnum{
@@ -117,6 +122,7 @@ var mappingEntityShapeModelTypeEnum = map[string]EntityShapeModelTypeEnum{
 	"FILE_ENTITY":       EntityShapeModelTypeFileEntity,
 	"SQL_ENTITY":        EntityShapeModelTypeSqlEntity,
 	"DATA_STORE_ENTITY": EntityShapeModelTypeDataStoreEntity,
+	"MESSAGE_ENTITY":    EntityShapeModelTypeMessageEntity,
 }
 
 var mappingEntityShapeModelTypeEnumLowerCase = map[string]EntityShapeModelTypeEnum{
@@ -125,6 +131,7 @@ var mappingEntityShapeModelTypeEnumLowerCase = map[string]EntityShapeModelTypeEn
 	"file_entity":       EntityShapeModelTypeFileEntity,
 	"sql_entity":        EntityShapeModelTypeSqlEntity,
 	"data_store_entity": EntityShapeModelTypeDataStoreEntity,
+	"message_entity":    EntityShapeModelTypeMessageEntity,
 }
 
 // GetEntityShapeModelTypeEnumValues Enumerates the set of values for EntityShapeModelTypeEnum
@@ -144,6 +151,7 @@ func GetEntityShapeModelTypeEnumStringValues() []string {
 		"FILE_ENTITY",
 		"SQL_ENTITY",
 		"DATA_STORE_ENTITY",
+		"MESSAGE_ENTITY",
 	}
 }
 

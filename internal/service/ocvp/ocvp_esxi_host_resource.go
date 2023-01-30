@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package ocvp
@@ -15,8 +15,8 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_ocvp "github.com/oracle/oci-go-sdk/v65/ocvp"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func OcvpEsxiHostResource() *schema.Resource {
@@ -40,6 +40,12 @@ func OcvpEsxiHostResource() *schema.Resource {
 			},
 
 			// Optional
+			"capacity_reservation_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"compute_availability_domain": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -93,6 +99,12 @@ func OcvpEsxiHostResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"non_upgraded_esxi_host_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"billing_contract_end_date": {
@@ -124,6 +136,14 @@ func OcvpEsxiHostResource() *schema.Resource {
 				Computed: true,
 			},
 			"time_updated": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"upgraded_replacement_esxi_host_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"vmware_software_version": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -206,6 +226,11 @@ func (s *OcvpEsxiHostResourceCrud) DeletedTarget() []string {
 func (s *OcvpEsxiHostResourceCrud) Create() error {
 	request := oci_ocvp.CreateEsxiHostRequest{}
 
+	if capacityReservationId, ok := s.D.GetOkExists("capacity_reservation_id"); ok {
+		tmp := capacityReservationId.(string)
+		request.CapacityReservationId = &tmp
+	}
+
 	if computeAvailabilityDomain, ok := s.D.GetOkExists("compute_availability_domain"); ok {
 		tmp := computeAvailabilityDomain.(string)
 		request.ComputeAvailabilityDomain = &tmp
@@ -249,6 +274,11 @@ func (s *OcvpEsxiHostResourceCrud) Create() error {
 
 	if nextSku, ok := s.D.GetOkExists("next_sku"); ok {
 		request.NextSku = oci_ocvp.SkuEnum(nextSku.(string))
+	}
+
+	if nonUpgradedEsxiHostId, ok := s.D.GetOkExists("non_upgraded_esxi_host_id"); ok {
+		tmp := nonUpgradedEsxiHostId.(string)
+		request.NonUpgradedEsxiHostId = &tmp
 	}
 
 	if sddcId, ok := s.D.GetOkExists("sddc_id"); ok {
@@ -462,6 +492,10 @@ func (s *OcvpEsxiHostResourceCrud) SetData() error {
 		s.D.Set("billing_contract_end_date", s.Res.BillingContractEndDate.String())
 	}
 
+	if s.Res.CapacityReservationId != nil {
+		s.D.Set("capacity_reservation_id", *s.Res.CapacityReservationId)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -504,6 +538,10 @@ func (s *OcvpEsxiHostResourceCrud) SetData() error {
 
 	s.D.Set("next_sku", s.Res.NextSku)
 
+	if s.Res.NonUpgradedEsxiHostId != nil {
+		s.D.Set("non_upgraded_esxi_host_id", *s.Res.NonUpgradedEsxiHostId)
+	}
+
 	if s.Res.ReplacementEsxiHostId != nil {
 		s.D.Set("replacement_esxi_host_id", *s.Res.ReplacementEsxiHostId)
 	}
@@ -520,6 +558,14 @@ func (s *OcvpEsxiHostResourceCrud) SetData() error {
 
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	}
+
+	if s.Res.UpgradedReplacementEsxiHostId != nil {
+		s.D.Set("upgraded_replacement_esxi_host_id", *s.Res.UpgradedReplacementEsxiHostId)
+	}
+
+	if s.Res.VmwareSoftwareVersion != nil {
+		s.D.Set("vmware_software_version", *s.Res.VmwareSoftwareVersion)
 	}
 
 	return nil
@@ -578,6 +624,10 @@ func EsxiHostSummaryToMap(obj oci_ocvp.EsxiHostSummary) map[string]interface{} {
 
 	result["next_sku"] = string(obj.NextSku)
 
+	if obj.NonUpgradedEsxiHostId != nil {
+		result["non_upgraded_esxi_host_id"] = string(*obj.NonUpgradedEsxiHostId)
+	}
+
 	if obj.ReplacementEsxiHostId != nil {
 		result["replacement_esxi_host_id"] = string(*obj.ReplacementEsxiHostId)
 	}
@@ -594,6 +644,14 @@ func EsxiHostSummaryToMap(obj oci_ocvp.EsxiHostSummary) map[string]interface{} {
 
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
+	}
+
+	if obj.UpgradedReplacementEsxiHostId != nil {
+		result["upgraded_replacement_esxi_host_id"] = string(*obj.UpgradedReplacementEsxiHostId)
+	}
+
+	if obj.VmwareSoftwareVersion != nil {
+		result["vmware_software_version"] = string(*obj.VmwareSoftwareVersion)
 	}
 
 	return result

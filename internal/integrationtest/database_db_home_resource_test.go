@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 
 package integrationtest
 
@@ -9,10 +9,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
@@ -148,8 +148,8 @@ func TestDatabaseDbHomeResource_createFromCloudVmCluster(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckDatabaseCloudVmClusterDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Required, acctest.Create, cloudVmClusterRepresentation) +
+			Config: config + compartmentIdVariableStr + DatabaseCloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Required, acctest.Create, DatabaseCloudVmClusterRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Required, acctest.Create, dbHomeRepresentationSourceCloudVmClusterNew),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "source", "VM_CLUSTER_NEW"),
@@ -168,7 +168,7 @@ func TestDatabaseDbHomeResource_createFromCloudVmCluster(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + DbHomeRequiredOnlyResource,
+			Config:                  config + DatabaseDbHomeRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{"database.0.admin_password", "source"}, // Db passwords and Source of Db Home creation are not made visible by services

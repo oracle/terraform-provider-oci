@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -18,19 +18,19 @@ import (
 // ProfileConfig Profiling configuration.
 type ProfileConfig struct {
 
-	// Array of column names to profile. If empty all columns in the entity are profiled.
+	// Array of column names to profile. If empty, all the columns in the entity are profiled.
 	Attributes []string `mandatory:"false" json:"attributes"`
 
-	// Array of enum Strings basically what all profile functions to run. If empty, all supported functions are run.
+	// Array of enum strings to decide which profile functions to run. If empty, all the supported functions are run.
 	Functions []ProfileConfigFunctionsEnum `mandatory:"false" json:"functions,omitempty"`
 
-	// The maximum number of value frequencies to return per column. The VFs are sorted descending on frequency and ascending on value and then topN are returned and rest discarded.
+	// The maximum number of value frequencies to return per column. The VFs are sorted descending on frequency, and ascending on value, and then topN are returned and rest discarded.
 	TopNValFreq *int `mandatory:"false" json:"topNValFreq"`
 
-	// A pattern has to qualify minumum this percentage threshold to be considered a legitimate pattern on its own. All patterns which does not qualify this will be clubbed together into a single 'Others' pattern.
+	// A pattern has to qualify at least this percentage threshold to be considered a pattern on its own. Patterns that do not qualify are clubbed together into 'Others' pattern.
 	PatternThreshold *int `mandatory:"false" json:"patternThreshold"`
 
-	// A data type has to qualify minimum this percentage threshold to be considered an infrred data type for a column.
+	// A data type has to qualify at least this percentage threshold to be considered an inferred data type for a column.
 	DataTypeThreshold *int `mandatory:"false" json:"dataTypeThreshold"`
 }
 

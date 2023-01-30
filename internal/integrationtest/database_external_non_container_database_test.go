@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,43 +16,43 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	ExternalNonContainerDatabaseRequiredOnlyResource = ExternalNonContainerDatabaseResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", acctest.Required, acctest.Create, externalNonContainerDatabaseRepresentation)
+	DatabaseExternalNonContainerDatabaseRequiredOnlyResource = DatabaseExternalNonContainerDatabaseResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", acctest.Required, acctest.Create, DatabaseExternalNonContainerDatabaseRepresentation)
 
-	ExternalNonContainerDatabaseResourceConfig = ExternalNonContainerDatabaseResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", acctest.Optional, acctest.Update, externalNonContainerDatabaseRepresentation)
+	DatabaseExternalNonContainerDatabaseResourceConfig = DatabaseExternalNonContainerDatabaseResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", acctest.Optional, acctest.Update, DatabaseExternalNonContainerDatabaseRepresentation)
 
-	externalNonContainerDatabaseSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseExternalNonContainerDatabaseSingularDataSourceRepresentation = map[string]interface{}{
 		"external_non_container_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_external_non_container_database.test_external_non_container_database.id}`},
 	}
 
-	externalNonContainerDatabaseDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseExternalNonContainerDatabaseDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `myTestExternalNonCdb`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `NOT_CONNECTED`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: externalNonContainerDatabaseDataSourceFilterRepresentation}}
-	externalNonContainerDatabaseDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseExternalNonContainerDatabaseDataSourceFilterRepresentation}}
+	DatabaseExternalNonContainerDatabaseDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_external_non_container_database.test_external_non_container_database.id}`}},
 	}
 
-	externalNonContainerDatabaseRepresentation = map[string]interface{}{
+	DatabaseExternalNonContainerDatabaseRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `myTestExternalNonCdb`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	ExternalNonContainerDatabaseResourceDependencies = DefinedTagsDependencies
+	DatabaseExternalNonContainerDatabaseResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: database/default
@@ -74,14 +74,14 @@ func TestDatabaseExternalNonContainerDatabaseResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ExternalNonContainerDatabaseResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", acctest.Optional, acctest.Create, externalNonContainerDatabaseRepresentation), "database", "externalNonContainerDatabase", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseExternalNonContainerDatabaseResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", acctest.Optional, acctest.Create, DatabaseExternalNonContainerDatabaseRepresentation), "database", "externalNonContainerDatabase", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseExternalNonContainerDatabaseDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", acctest.Required, acctest.Create, externalNonContainerDatabaseRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseExternalNonContainerDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", acctest.Required, acctest.Create, DatabaseExternalNonContainerDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalNonCdb"),
@@ -95,12 +95,12 @@ func TestDatabaseExternalNonContainerDatabaseResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseResourceDependencies,
+			Config: config + compartmentIdVariableStr + DatabaseExternalNonContainerDatabaseResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", acctest.Optional, acctest.Create, externalNonContainerDatabaseRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseExternalNonContainerDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", acctest.Optional, acctest.Create, DatabaseExternalNonContainerDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalNonCdb"),
@@ -123,9 +123,9 @@ func TestDatabaseExternalNonContainerDatabaseResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ExternalNonContainerDatabaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseExternalNonContainerDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(externalNonContainerDatabaseRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(DatabaseExternalNonContainerDatabaseRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -148,8 +148,8 @@ func TestDatabaseExternalNonContainerDatabaseResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", acctest.Optional, acctest.Update, externalNonContainerDatabaseRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseExternalNonContainerDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", acctest.Optional, acctest.Update, DatabaseExternalNonContainerDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalNonCdb"),
@@ -170,9 +170,9 @@ func TestDatabaseExternalNonContainerDatabaseResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_external_non_container_databases", "test_external_non_container_databases", acctest.Optional, acctest.Update, externalNonContainerDatabaseDataSourceRepresentation) +
-				compartmentIdVariableStr + ExternalNonContainerDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", acctest.Optional, acctest.Update, externalNonContainerDatabaseRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_external_non_container_databases", "test_external_non_container_databases", acctest.Optional, acctest.Update, DatabaseDatabaseExternalNonContainerDatabaseDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseExternalNonContainerDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", acctest.Optional, acctest.Update, DatabaseExternalNonContainerDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "myTestExternalNonCdb"),
@@ -193,8 +193,8 @@ func TestDatabaseExternalNonContainerDatabaseResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", acctest.Required, acctest.Create, externalNonContainerDatabaseSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ExternalNonContainerDatabaseResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", acctest.Required, acctest.Create, DatabaseDatabaseExternalNonContainerDatabaseSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseExternalNonContainerDatabaseResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "external_non_container_database_id"),
 
@@ -211,7 +211,7 @@ func TestDatabaseExternalNonContainerDatabaseResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ExternalNonContainerDatabaseRequiredOnlyResource,
+			Config:                  config + DatabaseExternalNonContainerDatabaseRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -275,7 +275,7 @@ func init() {
 
 func sweepDatabaseExternalNonContainerDatabaseResource(compartment string) error {
 	databaseClient := acctest.GetTestClients(&schema.ResourceData{}).DatabaseClient()
-	externalNonContainerDatabaseIds, err := getExternalNonContainerDatabaseIds(compartment)
+	externalNonContainerDatabaseIds, err := getDatabaseExternalNonContainerDatabaseIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -291,14 +291,14 @@ func sweepDatabaseExternalNonContainerDatabaseResource(compartment string) error
 				fmt.Printf("Error deleting ExternalNonContainerDatabase %s %s, It is possible that the resource is already deleted. Please verify manually \n", externalNonContainerDatabaseId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &externalNonContainerDatabaseId, externalNonContainerDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
-				externalNonContainerDatabaseSweepResponseFetchOperation, "database", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &externalNonContainerDatabaseId, DatabaseExternalNonContainerDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
+				DatabaseExternalNonContainerDatabaseSweepResponseFetchOperation, "database", true)
 		}
 	}
 	return nil
 }
 
-func getExternalNonContainerDatabaseIds(compartment string) ([]string, error) {
+func getDatabaseExternalNonContainerDatabaseIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ExternalNonContainerDatabaseId")
 	if ids != nil {
 		return ids, nil
@@ -323,7 +323,7 @@ func getExternalNonContainerDatabaseIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func externalNonContainerDatabaseSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DatabaseExternalNonContainerDatabaseSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if externalNonContainerDatabaseResponse, ok := response.Response.(oci_database.GetExternalNonContainerDatabaseResponse); ok {
 		return externalNonContainerDatabaseResponse.LifecycleState != oci_database.ExternalNonContainerDatabaseLifecycleStateTerminated
@@ -331,7 +331,7 @@ func externalNonContainerDatabaseSweepWaitCondition(response common.OCIOperation
 	return false
 }
 
-func externalNonContainerDatabaseSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DatabaseExternalNonContainerDatabaseSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DatabaseClient().GetExternalNonContainerDatabase(context.Background(), oci_database.GetExternalNonContainerDatabaseRequest{
 		ExternalNonContainerDatabaseId: resourceId,
 		RequestMetadata: common.RequestMetadata{

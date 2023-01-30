@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,18 +9,18 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	secretbundleVersionDataSourceRepresentation = map[string]interface{}{
+	SecretsSecretsSecretbundleVersionDataSourceRepresentation = map[string]interface{}{
 		"secret_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_vault_secret.test_secret.id}`},
 	}
 
-	SecretbundleVersionResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Required, acctest.Create, secretRepresentation)
+	SecretsSecretbundleVersionResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Required, acctest.Create, VaultSecretRepresentation)
 )
 
 // issue-routing-tag: secrets/default
@@ -47,8 +47,8 @@ func TestSecretsSecretbundleVersionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + vaultIdVariableStr + keyIdVariableStr +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_secrets_secretbundle_versions", "test_secretbundle_versions", acctest.Required, acctest.Create, secretbundleVersionDataSourceRepresentation) +
-				compartmentIdVariableStr + SecretbundleVersionResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_secrets_secretbundle_versions", "test_secretbundle_versions", acctest.Required, acctest.Create, SecretsSecretsSecretbundleVersionDataSourceRepresentation) +
+				compartmentIdVariableStr + SecretsSecretbundleVersionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "secret_id"),
 

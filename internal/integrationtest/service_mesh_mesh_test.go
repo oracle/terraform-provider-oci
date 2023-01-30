@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -6,66 +6,67 @@ package integrationtest
 import (
 	"context"
 	"fmt"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"strconv"
 	"testing"
 	"time"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_service_mesh "github.com/oracle/oci-go-sdk/v65/servicemesh"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
 	ignoreMeshDefinedTagsChangesRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
-	MeshRequiredOnlyResource = MeshResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_mesh", "test_mesh", acctest.Required, acctest.Create, meshRepresentation)
+	ServiceMeshMeshRequiredOnlyResource = ServiceMeshMeshResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_mesh", "test_mesh", acctest.Required, acctest.Create, ServiceMeshMeshRepresentation)
 
-	MeshResourceConfig = MeshResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_mesh", "test_mesh", acctest.Optional, acctest.Update, meshRepresentation)
+	MeshResourceConfig = ServiceMeshMeshResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_mesh", "test_mesh", acctest.Optional, acctest.Update, ServiceMeshMeshRepresentation)
 
-	meshSingularDataSourceRepresentation = map[string]interface{}{
+	ServiceMeshServiceMeshMeshSingularDataSourceRepresentation = map[string]interface{}{
 		"mesh_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_service_mesh_mesh.test_mesh.id}`},
 	}
 
-	meshDataSourceRepresentation = map[string]interface{}{
+	ServiceMeshServiceMeshMeshDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_mesh_mesh.test_mesh.id}`},
-		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: meshDataSourceFilterRepresentation}}
 	meshDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_service_mesh_mesh.test_mesh.id}`}},
 	}
 
-	meshRepresentation = map[string]interface{}{
-		"certificate_authorities": acctest.RepresentationGroup{RepType: acctest.Required, Group: meshCertificateAuthoritiesRepresentation},
+	ServiceMeshMeshRepresentation = map[string]interface{}{
+		"certificate_authorities": acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceMeshMeshCertificateAuthoritiesRepresentation},
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":            acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":             acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"mtls":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: meshMtlsRepresentation},
+		"mtls":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: ServiceMeshMeshMtlsRepresentation},
 	}
-	meshCertificateAuthoritiesRepresentation = map[string]interface{}{
+	ServiceMeshMeshCertificateAuthoritiesRepresentation = map[string]interface{}{
 		"id": acctest.Representation{RepType: acctest.Required, Create: `${var.certificate_authority_id}`},
 	}
-	meshMtlsRepresentation = map[string]interface{}{
+	ServiceMeshMeshMtlsRepresentation = map[string]interface{}{
 		"minimum": acctest.Representation{RepType: acctest.Required, Create: `DISABLED`, Update: `PERMISSIVE`},
 	}
 
-	MeshResourceDependencies = DefinedTagsDependencies
+	ServiceMeshMeshResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: service_mesh/default
@@ -90,14 +91,14 @@ func TestServiceMeshMeshResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+MeshResourceDependencies+certificateAuthorityIdVariableStr+
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_mesh", "test_mesh", acctest.Optional, acctest.Create, meshRepresentation), "servicemesh", "mesh", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ServiceMeshMeshResourceDependencies+certificateAuthorityIdVariableStr+
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_mesh", "test_mesh", acctest.Optional, acctest.Create, ServiceMeshMeshRepresentation), "servicemesh", "mesh", t)
 
 	acctest.ResourceTest(t, testAccCheckServiceMeshMeshDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + certificateAuthorityIdVariableStr + MeshResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_mesh", "test_mesh", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(meshRepresentation, map[string]interface{}{
+			Config: config + compartmentIdVariableStr + certificateAuthorityIdVariableStr + ServiceMeshMeshResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_mesh", "test_mesh", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(ServiceMeshMeshRepresentation, map[string]interface{}{
 					"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreMeshDefinedTagsChangesRepresentation}})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "certificate_authorities.#", "1"),
@@ -114,12 +115,12 @@ func TestServiceMeshMeshResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + certificateAuthorityIdVariableStr + MeshResourceDependencies,
+			Config: config + compartmentIdVariableStr + certificateAuthorityIdVariableStr + ServiceMeshMeshResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + certificateAuthorityIdVariableStr + MeshResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_mesh", "test_mesh", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(meshRepresentation, map[string]interface{}{
+			Config: config + compartmentIdVariableStr + certificateAuthorityIdVariableStr + ServiceMeshMeshResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_mesh", "test_mesh", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(ServiceMeshMeshRepresentation, map[string]interface{}{
 					"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreMeshDefinedTagsChangesRepresentation}})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "certificate_authorities.#", "1"),
@@ -149,9 +150,9 @@ func TestServiceMeshMeshResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + MeshResourceDependencies + certificateAuthorityIdVariableStr +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ServiceMeshMeshResourceDependencies + certificateAuthorityIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_mesh", "test_mesh", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(meshRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(ServiceMeshMeshRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 						"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreMeshDefinedTagsChangesRepresentation},
 					})),
@@ -181,8 +182,8 @@ func TestServiceMeshMeshResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + MeshResourceDependencies + certificateAuthorityIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_mesh", "test_mesh", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(meshRepresentation, map[string]interface{}{
+			Config: config + compartmentIdVariableStr + ServiceMeshMeshResourceDependencies + certificateAuthorityIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_mesh", "test_mesh", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(ServiceMeshMeshRepresentation, map[string]interface{}{
 					"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreMeshDefinedTagsChangesRepresentation}})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "certificate_authorities.#", "1"),
@@ -210,14 +211,14 @@ func TestServiceMeshMeshResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_service_mesh_meshes", "test_meshes", acctest.Optional, acctest.Update, meshDataSourceRepresentation) +
-				compartmentIdVariableStr + MeshResourceDependencies + certificateAuthorityIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_mesh", "test_mesh", acctest.Optional, acctest.Update, meshRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_service_mesh_meshes", "test_meshes", acctest.Optional, acctest.Update, ServiceMeshServiceMeshMeshDataSourceRepresentation) +
+				compartmentIdVariableStr + ServiceMeshMeshResourceDependencies + certificateAuthorityIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_mesh", "test_mesh", acctest.Optional, acctest.Update, ServiceMeshMeshRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "mesh_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "mesh_collection.0.items.#", "0"),
@@ -226,7 +227,7 @@ func TestServiceMeshMeshResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_service_mesh_mesh", "test_mesh", acctest.Required, acctest.Create, meshSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_service_mesh_mesh", "test_mesh", acctest.Required, acctest.Create, ServiceMeshServiceMeshMeshSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + MeshResourceConfig + certificateAuthorityIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "mesh_id"),
@@ -247,7 +248,7 @@ func TestServiceMeshMeshResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + MeshRequiredOnlyResource,
+			Config:                  config + ServiceMeshMeshRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -311,7 +312,7 @@ func init() {
 
 func sweepServiceMeshMeshResource(compartment string) error {
 	serviceMeshClient := acctest.GetTestClients(&schema.ResourceData{}).ServiceMeshClient()
-	meshIds, err := getMeshIds(compartment)
+	meshIds, err := getServiceMeshMeshIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -327,14 +328,14 @@ func sweepServiceMeshMeshResource(compartment string) error {
 				fmt.Printf("Error deleting Mesh %s %s, It is possible that the resource is already deleted. Please verify manually \n", meshId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &meshId, meshSweepWaitCondition, time.Duration(3*time.Minute),
-				meshSweepResponseFetchOperation, "service_mesh", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &meshId, ServiceMeshMeshSweepWaitCondition, time.Duration(3*time.Minute),
+				ServiceMeshMeshSweepResponseFetchOperation, "service_mesh", true)
 		}
 	}
 	return nil
 }
 
-func getMeshIds(compartment string) ([]string, error) {
+func getServiceMeshMeshIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "MeshId")
 	if ids != nil {
 		return ids, nil
@@ -345,8 +346,7 @@ func getMeshIds(compartment string) ([]string, error) {
 
 	listMeshesRequest := oci_service_mesh.ListMeshesRequest{}
 	listMeshesRequest.CompartmentId = &compartmentId
-	active := "ACTIVE"
-	listMeshesRequest.LifecycleState = &active
+	listMeshesRequest.LifecycleState = oci_service_mesh.MeshLifecycleStateActive
 	listMeshesResponse, err := serviceMeshClient.ListMeshes(context.Background(), listMeshesRequest)
 
 	if err != nil {
@@ -360,7 +360,7 @@ func getMeshIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func meshSweepWaitCondition(response common.OCIOperationResponse) bool {
+func ServiceMeshMeshSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if meshResponse, ok := response.Response.(oci_service_mesh.GetMeshResponse); ok {
 		return meshResponse.LifecycleState != oci_service_mesh.MeshLifecycleStateDeleted
@@ -368,7 +368,7 @@ func meshSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func meshSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func ServiceMeshMeshSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.ServiceMeshClient().GetMesh(context.Background(), oci_service_mesh.GetMeshRequest{
 		MeshId: resourceId,
 		RequestMetadata: common.RequestMetadata{

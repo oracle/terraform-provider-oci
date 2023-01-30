@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -15,70 +15,70 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_marketplace "github.com/oracle/oci-go-sdk/v65/marketplace"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	PublicationRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", acctest.Required, acctest.Create, publicationRepresentation)
+	MarketplacePublicationRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", acctest.Required, acctest.Create, MarketplacePublicationRepresentation)
 
-	PublicationResourceConfig = PublicationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", acctest.Optional, acctest.Update, publicationRepresentation)
+	MarketplacePublicationResourceConfig = MarketplacePublicationResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", acctest.Optional, acctest.Update, MarketplacePublicationRepresentation)
 
-	publicationSingularDataSourceRepresentation = map[string]interface{}{
+	MarketplaceMarketplacePublicationSingularDataSourceRepresentation = map[string]interface{}{
 		"publication_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_marketplace_publication.test_publication.id}`},
 	}
 
-	publicationDataSourceRepresentation = map[string]interface{}{
+	MarketplaceMarketplacePublicationDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"listing_type":      acctest.Representation{RepType: acctest.Required, Create: `COMMUNITY`},
 		"name":              acctest.Representation{RepType: acctest.Optional, Create: []string{`name`}, Update: []string{`name2`}},
 		"operating_systems": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_image.test_image.operating_system}`}},
 		"publication_id":    acctest.Representation{RepType: acctest.Optional, Create: `${oci_marketplace_publication.test_publication.id}`},
-		"filter":            acctest.RepresentationGroup{RepType: acctest.Required, Group: publicationDataSourceFilterRepresentation}}
-	publicationDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":            acctest.RepresentationGroup{RepType: acctest.Required, Group: MarketplacePublicationDataSourceFilterRepresentation}}
+	MarketplacePublicationDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_marketplace_publication.test_publication.id}`}},
 	}
 
-	publicationRepresentation = map[string]interface{}{
+	MarketplacePublicationRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"is_agreement_acknowledged": acctest.Representation{RepType: acctest.Required, Create: `true`},
 		"listing_type":              acctest.Representation{RepType: acctest.Required, Create: `COMMUNITY`},
 		"name":                      acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
-		"package_details":           acctest.RepresentationGroup{RepType: acctest.Required, Group: publicationPackageDetailsRepresentation},
+		"package_details":           acctest.RepresentationGroup{RepType: acctest.Required, Group: MarketplacePublicationPackageDetailsRepresentation},
 		"short_description":         acctest.Representation{RepType: acctest.Required, Create: `shortDescription`, Update: `shortDescription2`},
-		"support_contacts":          acctest.RepresentationGroup{RepType: acctest.Required, Group: publicationSupportContactsRepresentation},
+		"support_contacts":          acctest.RepresentationGroup{RepType: acctest.Required, Group: MarketplacePublicationSupportContactsRepresentation},
 		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"long_description":          acctest.Representation{RepType: acctest.Optional, Create: `longDescription`, Update: `longDescription2`},
 	}
-	publicationPackageDetailsRepresentation = map[string]interface{}{
-		"eula":             acctest.RepresentationGroup{RepType: acctest.Required, Group: publicationPackageDetailsEulaRepresentation},
-		"operating_system": acctest.RepresentationGroup{RepType: acctest.Required, Group: publicationPackageDetailsOperatingSystemRepresentation},
+	MarketplacePublicationPackageDetailsRepresentation = map[string]interface{}{
+		"eula":             acctest.RepresentationGroup{RepType: acctest.Required, Group: MarketplacePublicationPackageDetailsEulaRepresentation},
+		"operating_system": acctest.RepresentationGroup{RepType: acctest.Required, Group: MarketplacePublicationPackageDetailsOperatingSystemRepresentation},
 		"package_type":     acctest.Representation{RepType: acctest.Required, Create: `IMAGE`},
 		"package_version":  acctest.Representation{RepType: acctest.Required, Create: `packageVersion`},
 		"image_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_image.test_image.id}`},
 	}
-	publicationSupportContactsRepresentation = map[string]interface{}{
+	MarketplacePublicationSupportContactsRepresentation = map[string]interface{}{
 		"email":   acctest.Representation{RepType: acctest.Required, Create: `email`, Update: `email2`},
 		"name":    acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"phone":   acctest.Representation{RepType: acctest.Optional, Create: `phone`, Update: `phone2`},
 		"subject": acctest.Representation{RepType: acctest.Optional, Create: `subject`, Update: `subject2`},
 	}
-	publicationPackageDetailsEulaRepresentation = map[string]interface{}{
+	MarketplacePublicationPackageDetailsEulaRepresentation = map[string]interface{}{
 		"eula_type":    acctest.Representation{RepType: acctest.Required, Create: `TEXT`},
 		"license_text": acctest.Representation{RepType: acctest.Required, Create: `licenseText`},
 	}
-	publicationPackageDetailsOperatingSystemRepresentation = map[string]interface{}{
+	MarketplacePublicationPackageDetailsOperatingSystemRepresentation = map[string]interface{}{
 		"name": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_image.test_image.operating_system}`},
 	}
 
-	PublicationResourceDependencies = ImageRequiredOnlyResource
+	MarketplacePublicationResourceDependencies = CoreImageRequiredOnlyResource
 )
 
 // issue-routing-tag: marketplace/default
@@ -105,8 +105,8 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckMarketplacePublicationDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + PublicationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", acctest.Required, acctest.Create, publicationRepresentation),
+			Config: config + compartmentIdVariableStr + MarketplacePublicationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", acctest.Required, acctest.Create, MarketplacePublicationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "is_agreement_acknowledged", "true"),
@@ -135,12 +135,12 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + PublicationResourceDependencies,
+			Config: config + compartmentIdVariableStr + MarketplacePublicationResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + PublicationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", acctest.Optional, acctest.Create, publicationRepresentation),
+			Config: config + compartmentIdVariableStr + MarketplacePublicationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", acctest.Optional, acctest.Create, MarketplacePublicationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -186,9 +186,9 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + PublicationResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + MarketplacePublicationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(publicationRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(MarketplacePublicationRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -234,8 +234,8 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + PublicationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", acctest.Optional, acctest.Update, publicationRepresentation),
+			Config: config + compartmentIdVariableStr + MarketplacePublicationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", acctest.Optional, acctest.Update, MarketplacePublicationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -279,9 +279,9 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_publications", "test_publications", acctest.Optional, acctest.Update, publicationDataSourceRepresentation) +
-				compartmentIdVariableStr + PublicationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", acctest.Optional, acctest.Update, publicationRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_publications", "test_publications", acctest.Optional, acctest.Update, MarketplaceMarketplacePublicationDataSourceRepresentation) +
+				compartmentIdVariableStr + MarketplacePublicationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", acctest.Optional, acctest.Update, MarketplacePublicationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "listing_type", "COMMUNITY"),
@@ -304,8 +304,8 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_publication", "test_publication", acctest.Required, acctest.Create, publicationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + PublicationResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_publication", "test_publication", acctest.Required, acctest.Create, MarketplaceMarketplacePublicationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + MarketplacePublicationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "publication_id"),
 
@@ -332,7 +332,7 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + PublicationRequiredOnlyResource,
+			Config:            config + MarketplacePublicationRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -399,7 +399,7 @@ func init() {
 
 func sweepMarketplacePublicationResource(compartment string) error {
 	marketplaceClient := acctest.GetTestClients(&schema.ResourceData{}).MarketplaceClient()
-	publicationIds, err := getPublicationIds(compartment)
+	publicationIds, err := getMarketplacePublicationIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -415,14 +415,14 @@ func sweepMarketplacePublicationResource(compartment string) error {
 				fmt.Printf("Error deleting Publication %s %s, It is possible that the resource is already deleted. Please verify manually \n", publicationId, error)
 				continue
 			}
-			//acctest.WaitTillCondition(acctest.TestAccProvider, &publicationId, publicationSweepWaitCondition, time.Duration(3*time.Minute),
-			//	publicationSweepResponseFetchOperation, "marketplace", true)
+			//acctest.WaitTillCondition(acctest.TestAccProvider, &publicationId, MarketplacePublicationSweepWaitCondition, time.Duration(3*time.Minute),
+			//	MarketplacePublicationSweepResponseFetchOperation, "marketplace", true)
 		}
 	}
 	return nil
 }
 
-func getPublicationIds(compartment string) ([]string, error) {
+func getMarketplacePublicationIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "PublicationId")
 	if ids != nil {
 		return ids, nil
@@ -453,7 +453,7 @@ func getPublicationIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func publicationSweepWaitCondition(response common.OCIOperationResponse) bool {
+func MarketplacePublicationSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if publicationResponse, ok := response.Response.(oci_marketplace.GetPublicationResponse); ok {
 		return publicationResponse.LifecycleState != oci_marketplace.PublicationLifecycleStateDeleted
@@ -461,7 +461,7 @@ func publicationSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func publicationSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func MarketplacePublicationSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.MarketplaceClient().GetPublication(context.Background(), oci_marketplace.GetPublicationRequest{
 		PublicationId: resourceId,
 		RequestMetadata: common.RequestMetadata{

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,21 +22,21 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_database_migration "github.com/oracle/oci-go-sdk/v65/databasemigration"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	MigrationRequiredOnlyResource = MigrationResourceDependenciesMig +
+	DatabaseMigrationMigrationRequiredOnlyResource = DatabaseMigrationMigrationResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Required, acctest.Create, migrationRepresentationMig)
 
-	MigrationResourceConfig = MigrationResourceDependenciesMig +
+	DatabaseMigrationMigrationResourceConfig = DatabaseMigrationMigrationResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Update, migrationRepresentationMig)
 
-	migrationSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseMigrationmigrationSingularDataSourceRepresentation = map[string]interface{}{
 		"migration_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_migration_migration.test_migration.id}`},
 	}
 
-	migrationDataSourceRepresentation = map[string]interface{}{
+	DatabaseMigrationmigrationDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
@@ -165,7 +165,7 @@ var (
 		"min_apply_parallelism": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 	}
 
-	MigrationResourceDependenciesMig = ConnectionResourceDependenciesTargetCommon +
+	DatabaseMigrationMigrationResourceDependencies = ConnectionResourceDependenciesTargetCommon +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Required, acctest.Create, connectionRepresentationTarget) +
 		ConnectionResourceDependenciesSource +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection_source", acctest.Required, acctest.Create, connectionRepresentationSource)
@@ -188,13 +188,13 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 	datasourceName := "data.oci_database_migration_migrations.test_migrations"
 	singularDatasourceName := "data.oci_database_migration_migration.test_migration"
 	var resId, resId2 string
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+MigrationResourceDependenciesMig+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseMigrationMigrationResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Create, migrationRepresentationMig), "databasemigration", "migration", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseMigrationMigrationDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + MigrationResourceDependenciesMig +
+			Config: config + compartmentIdVariableStr + DatabaseMigrationMigrationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Required, acctest.Create, migrationRepresentationMig),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -210,11 +210,11 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr, //+ MigrationResourceDependenciesMig,
+			Config: config + compartmentIdVariableStr, //+ DatabaseMigrationMigrationResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + MigrationResourceDependenciesMig +
+			Config: config + compartmentIdVariableStr + DatabaseMigrationMigrationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Create, migrationRepresentationMig),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -276,7 +276,7 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + MigrationResourceDependenciesMig +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseMigrationMigrationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(migrationRepresentationMig, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -344,7 +344,7 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + MigrationResourceDependenciesMig +
+			Config: config + compartmentIdVariableStr + DatabaseMigrationMigrationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Update, migrationRepresentationMig),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -407,8 +407,8 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_migrations", "test_migrations", acctest.Optional, acctest.Update, migrationDataSourceRepresentation) +
-				compartmentIdVariableStr + MigrationResourceDependenciesMig +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_migrations", "test_migrations", acctest.Optional, acctest.Update, DatabaseMigrationmigrationDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseMigrationMigrationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Update, migrationRepresentationMig),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -421,8 +421,8 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Required, acctest.Create, migrationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + MigrationResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Required, acctest.Create, DatabaseMigrationmigrationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseMigrationMigrationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "migration_id"),
@@ -467,7 +467,7 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + MigrationRequiredOnlyResource,
+			Config:            config + DatabaseMigrationMigrationRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			//ImportStateVerifyIgnore: []string{},
@@ -537,7 +537,7 @@ func init() {
 
 func sweepDatabaseMigrationMigrationResource(compartment string) error {
 	databaseMigrationClient := acctest.GetTestClients(&schema.ResourceData{}).DatabaseMigrationClient()
-	migrationIds, err := getMigrationIds(compartment)
+	migrationIds, err := getDatabaseMigrationMigrationIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -553,14 +553,14 @@ func sweepDatabaseMigrationMigrationResource(compartment string) error {
 				fmt.Printf("Error deleting Migration %s %s, It is possible that the resource is already deleted. Please verify manually \n", migrationId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &migrationId, migrationSweepWaitCondition, time.Duration(3*time.Minute),
-				migrationSweepResponseFetchOperation, "database_migration", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &migrationId, DatabaseMigrationmigrationsSweepWaitCondition, time.Duration(3*time.Minute),
+				DatabaseMigrationmigrationsSweepResponseFetchOperation, "database_migration", true)
 		}
 	}
 	return nil
 }
 
-func getMigrationIds(compartment string) ([]string, error) {
+func getDatabaseMigrationMigrationIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "MigrationId")
 	if ids != nil {
 		return ids, nil
@@ -585,7 +585,7 @@ func getMigrationIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func migrationSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DatabaseMigrationmigrationsSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	/*if migrationResponse, ok := response.Response.(oci_database_migration.GetMigrationResponse); ok {
 		return migrationResponse.LifecycleState != oci_database_migration.LifecycleStatesDeleted
@@ -593,7 +593,7 @@ func migrationSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func migrationSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DatabaseMigrationmigrationsSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DatabaseMigrationClient().GetMigration(context.Background(), oci_database_migration.GetMigrationRequest{
 		MigrationId: resourceId,
 		RequestMetadata: common.RequestMetadata{

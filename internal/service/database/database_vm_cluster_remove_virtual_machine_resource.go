@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database
@@ -7,8 +7,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -73,6 +73,14 @@ func DatabaseVmClusterRemoveVirtualMachineResource() *schema.Resource {
 
 						// Computed
 						"is_diagnostics_events_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_health_monitoring_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_incident_logs_enabled": {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},

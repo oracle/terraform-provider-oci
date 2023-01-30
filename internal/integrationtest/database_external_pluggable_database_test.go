@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,37 +16,37 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	ExternalPluggableDatabaseRequiredOnlyResource = ExternalPluggableDatabaseResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", acctest.Required, acctest.Create, externalPluggableDatabaseRepresentation)
+	DatabaseExternalPluggableDatabaseRequiredOnlyResource = DatabaseExternalPluggableDatabaseResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", acctest.Required, acctest.Create, DatabaseExternalPluggableDatabaseRepresentation)
 
-	ExternalPluggableDatabaseResourceConfig = ExternalPluggableDatabaseResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", acctest.Optional, acctest.Update, externalPluggableDatabaseRepresentation)
+	DatabaseExternalPluggableDatabaseResourceConfig = DatabaseExternalPluggableDatabaseResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", acctest.Optional, acctest.Update, DatabaseExternalPluggableDatabaseRepresentation)
 
-	externalPluggableDatabaseSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseExternalPluggableDatabaseSingularDataSourceRepresentation = map[string]interface{}{
 		"external_pluggable_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_external_pluggable_database.test_external_pluggable_database.id}`},
 	}
 
-	externalPluggableDatabaseDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseExternalPluggableDatabaseDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":                   acctest.Representation{RepType: acctest.Optional, Create: `myTestExternalPdb`},
 		"external_container_database_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_external_container_database.test_external_container_database.id}`},
 		"state":                          acctest.Representation{RepType: acctest.Optional, Create: `NOT_CONNECTED`},
-		"filter":                         acctest.RepresentationGroup{RepType: acctest.Required, Group: externalPluggableDatabaseDataSourceFilterRepresentation}}
-	externalPluggableDatabaseDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseExternalPluggableDatabaseDataSourceFilterRepresentation}}
+	DatabaseExternalPluggableDatabaseDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_external_pluggable_database.test_external_pluggable_database.id}`}},
 	}
 
-	externalPluggableDatabaseRepresentation = map[string]interface{}{
+	DatabaseExternalPluggableDatabaseRepresentation = map[string]interface{}{
 		"compartment_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":                   acctest.Representation{RepType: acctest.Required, Create: `myTestExternalCdb`, Update: `displayName2`},
 		"external_container_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_external_container_database.test_external_container_database.id}`},
@@ -55,7 +55,7 @@ var (
 		"source_id":                      acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_source.test_source.id}`},
 	}
 
-	ExternalPluggableDatabaseResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", acctest.Required, acctest.Create, externalContainerDatabaseRepresentation) +
+	DatabaseExternalPluggableDatabaseResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", acctest.Required, acctest.Create, DatabaseExternalContainerDatabaseRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -78,14 +78,14 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ExternalPluggableDatabaseResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", acctest.Optional, acctest.Create, externalPluggableDatabaseRepresentation), "database", "externalPluggableDatabase", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseExternalPluggableDatabaseResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", acctest.Optional, acctest.Create, DatabaseExternalPluggableDatabaseRepresentation), "database", "externalPluggableDatabase", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseExternalPluggableDatabaseDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", acctest.Required, acctest.Create, externalPluggableDatabaseRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseExternalPluggableDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", acctest.Required, acctest.Create, DatabaseExternalPluggableDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalPdb"),
@@ -100,12 +100,12 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseResourceDependencies,
+			Config: config + compartmentIdVariableStr + DatabaseExternalPluggableDatabaseResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", acctest.Optional, acctest.Create, externalPluggableDatabaseRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseExternalPluggableDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", acctest.Optional, acctest.Create, DatabaseExternalPluggableDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalPdb"),
@@ -130,9 +130,9 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ExternalPluggableDatabaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseExternalPluggableDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(externalPluggableDatabaseRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(DatabaseExternalPluggableDatabaseRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -157,8 +157,8 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", acctest.Optional, acctest.Update, externalPluggableDatabaseRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseExternalPluggableDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", acctest.Optional, acctest.Update, DatabaseExternalPluggableDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalPdb"),
@@ -181,9 +181,9 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_external_pluggable_databases", "test_external_pluggable_databases", acctest.Optional, acctest.Update, externalPluggableDatabaseDataSourceRepresentation) +
-				compartmentIdVariableStr + ExternalPluggableDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", acctest.Optional, acctest.Update, externalPluggableDatabaseRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_external_pluggable_databases", "test_external_pluggable_databases", acctest.Optional, acctest.Update, DatabaseDatabaseExternalPluggableDatabaseDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseExternalPluggableDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", acctest.Optional, acctest.Update, DatabaseExternalPluggableDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "myTestExternalPdb"),
@@ -208,8 +208,8 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", acctest.Required, acctest.Create, externalPluggableDatabaseSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ExternalPluggableDatabaseResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", acctest.Required, acctest.Create, DatabaseDatabaseExternalPluggableDatabaseSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseExternalPluggableDatabaseResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "external_pluggable_database_id"),
 
@@ -226,7 +226,7 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ExternalPluggableDatabaseRequiredOnlyResource,
+			Config:                  config + DatabaseExternalPluggableDatabaseRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -290,7 +290,7 @@ func init() {
 
 func sweepDatabaseExternalPluggableDatabaseResource(compartment string) error {
 	databaseClient := acctest.GetTestClients(&schema.ResourceData{}).DatabaseClient()
-	externalPluggableDatabaseIds, err := getExternalPluggableDatabaseIds(compartment)
+	externalPluggableDatabaseIds, err := getDatabaseExternalPluggableDatabaseIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -306,14 +306,14 @@ func sweepDatabaseExternalPluggableDatabaseResource(compartment string) error {
 				fmt.Printf("Error deleting ExternalPluggableDatabase %s %s, It is possible that the resource is already deleted. Please verify manually \n", externalPluggableDatabaseId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &externalPluggableDatabaseId, externalPluggableDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
-				externalPluggableDatabaseSweepResponseFetchOperation, "database", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &externalPluggableDatabaseId, DatabaseExternalPluggableDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
+				DatabaseExternalPluggableDatabaseSweepResponseFetchOperation, "database", true)
 		}
 	}
 	return nil
 }
 
-func getExternalPluggableDatabaseIds(compartment string) ([]string, error) {
+func getDatabaseExternalPluggableDatabaseIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ExternalPluggableDatabaseId")
 	if ids != nil {
 		return ids, nil
@@ -338,7 +338,7 @@ func getExternalPluggableDatabaseIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func externalPluggableDatabaseSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DatabaseExternalPluggableDatabaseSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if externalPluggableDatabaseResponse, ok := response.Response.(oci_database.GetExternalPluggableDatabaseResponse); ok {
 		return externalPluggableDatabaseResponse.LifecycleState != oci_database.ExternalPluggableDatabaseLifecycleStateTerminated
@@ -346,7 +346,7 @@ func externalPluggableDatabaseSweepWaitCondition(response common.OCIOperationRes
 	return false
 }
 
-func externalPluggableDatabaseSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DatabaseExternalPluggableDatabaseSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DatabaseClient().GetExternalPluggableDatabase(context.Background(), oci_database.GetExternalPluggableDatabaseRequest{
 		ExternalPluggableDatabaseId: resourceId,
 		RequestMetadata: common.RequestMetadata{

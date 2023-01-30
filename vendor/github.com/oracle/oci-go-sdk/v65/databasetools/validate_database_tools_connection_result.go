@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Database Tools
 //
-// Database Tools APIs to manage Connections and Private Endpoints.
+// Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
 //
 
 package databasetools
@@ -19,7 +19,7 @@ import (
 // ValidateDatabaseToolsConnectionResult Connection validation result.
 type ValidateDatabaseToolsConnectionResult interface {
 
-	// A short code that defines the result of the validation, meant for programmatic parsing.
+	// A short code that defines the result of the validation, meant for programmatic parsing. The value OK indicates that the validation was successful.
 	GetCode() *string
 
 	// A human-readable message that describes the result of the validation.
@@ -72,6 +72,10 @@ func (m *validatedatabasetoolsconnectionresult) UnmarshalPolymorphicJSON(data []
 	switch m.Type {
 	case "ORACLE_DATABASE":
 		mm := ValidateDatabaseToolsConnectionOracleDatabaseResult{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MYSQL":
+		mm := ValidateDatabaseToolsConnectionMySqlResult{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

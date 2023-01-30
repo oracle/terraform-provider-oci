@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -11,11 +11,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -23,34 +23,34 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_waas "github.com/oracle/oci-go-sdk/v65/waas"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
 	WaasCertificateRequiredOnlyResource = WaasCertificateResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", acctest.Required, acctest.Create, waasCertificateRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", acctest.Required, acctest.Create, WaasCertificateRepresentation)
 
 	WaasCertificateResourceConfig = WaasCertificateResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", acctest.Optional, acctest.Update, waasCertificateRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", acctest.Optional, acctest.Update, WaasCertificateRepresentation)
 
-	waasCertificateSingularDataSourceRepresentation = map[string]interface{}{
+	WaasWaasCertificateSingularDataSourceRepresentation = map[string]interface{}{
 		"certificate_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_waas_certificate.test_certificate.id}`},
 	}
 
-	waasCertificateDataSourceRepresentation = map[string]interface{}{
+	WaasWaasCertificateDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":                        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_names":                         acctest.Representation{RepType: acctest.Optional, Create: []string{`displayName2`}},
 		"ids":                                   acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_waas_certificate.test_certificate.id}`}},
 		"states":                                acctest.Representation{RepType: acctest.Optional, Create: []string{`ACTIVE`}},
 		"time_created_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `2018-01-01T00:00:00.000Z`},
 		"time_created_less_than":                acctest.Representation{RepType: acctest.Optional, Create: `${timestamp()}`},
-		"filter":                                acctest.RepresentationGroup{RepType: acctest.Required, Group: waasCertificateDataSourceFilterRepresentation}}
-	waasCertificateDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                                acctest.RepresentationGroup{RepType: acctest.Required, Group: WaasCertificateDataSourceFilterRepresentation}}
+	WaasCertificateDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_waas_certificate.test_certificate.id}`}},
 	}
 
-	waasCertificateRepresentation = map[string]interface{}{
+	WaasCertificateRepresentation = map[string]interface{}{
 		"certificate_data":               acctest.Representation{RepType: acctest.Required, Create: "${var.ca_certificate_value}"},
 		"compartment_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"private_key_data":               acctest.Representation{RepType: acctest.Required, Create: "${var.private_key_value}"},
@@ -58,10 +58,10 @@ var (
 		"display_name":                   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":                  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_trust_verification_disabled": acctest.Representation{RepType: acctest.Required, Create: `true`},
-		"timeouts":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: waasCertificateTimeoutsRepresentation},
+		"timeouts":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: WaasCertificateTimeoutsRepresentation},
 	}
 	// Add timeout for delete upto the same time as the dependency to ensure clean delete
-	waasCertificateTimeoutsRepresentation = map[string]interface{}{
+	WaasCertificateTimeoutsRepresentation = map[string]interface{}{
 		"delete": acctest.Representation{RepType: acctest.Required, Create: `60m`},
 	}
 
@@ -94,7 +94,7 @@ func TestWaasCertificateResource_basic(t *testing.T) {
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + WaasCertificateResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", acctest.Required, acctest.Create, waasCertificateRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", acctest.Required, acctest.Create, WaasCertificateRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestMatchResourceAttr(resourceName, "certificate_data", regexp.MustCompile("-----BEGIN CERT.*")),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -114,7 +114,7 @@ func TestWaasCertificateResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + WaasCertificateResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", acctest.Optional, acctest.Create, waasCertificateRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", acctest.Optional, acctest.Create, WaasCertificateRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestMatchResourceAttr(resourceName, "certificate_data", regexp.MustCompile("-----BEGIN CERT.*")),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -146,7 +146,7 @@ func TestWaasCertificateResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + WaasCertificateResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(waasCertificateRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(WaasCertificateRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -177,7 +177,7 @@ func TestWaasCertificateResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + WaasCertificateResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", acctest.Optional, acctest.Update, waasCertificateRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", acctest.Optional, acctest.Update, WaasCertificateRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestMatchResourceAttr(resourceName, "certificate_data", regexp.MustCompile("-----BEGIN CERT.*")),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -205,9 +205,9 @@ func TestWaasCertificateResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_waas_certificates", "test_certificates", acctest.Optional, acctest.Update, waasCertificateDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_waas_certificates", "test_certificates", acctest.Optional, acctest.Update, WaasWaasCertificateDataSourceRepresentation) +
 				compartmentIdVariableStr + WaasCertificateResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", acctest.Optional, acctest.Update, waasCertificateRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", acctest.Optional, acctest.Update, WaasCertificateRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_names.#", "1"),
@@ -232,7 +232,7 @@ func TestWaasCertificateResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_waas_certificate", "test_certificate", acctest.Required, acctest.Create, waasCertificateSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_waas_certificate", "test_certificate", acctest.Required, acctest.Create, WaasWaasCertificateSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + WaasCertificateResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "certificate_id"),
@@ -312,7 +312,7 @@ func init() {
 
 func sweepWaasCertificateResource(compartment string) error {
 	waasClient := acctest.GetTestClients(&schema.ResourceData{}).WaasClient()
-	certificateIds, err := getCertificateIds(compartment)
+	certificateIds, err := getWaasCertificateIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -328,14 +328,14 @@ func sweepWaasCertificateResource(compartment string) error {
 				fmt.Printf("Error deleting Certificate %s %s, It is possible that the resource is already deleted. Please verify manually \n", certificateId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &certificateId, certificateSweepWaitCondition, time.Duration(3*time.Minute),
-				certificateSweepResponseFetchOperation, "waas", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &certificateId, WaasCertificateSweepWaitCondition, time.Duration(3*time.Minute),
+				WaasCertificateSweepResponseFetchOperation, "waas", true)
 		}
 	}
 	return nil
 }
 
-func getCertificateIds(compartment string) ([]string, error) {
+func getWaasCertificateIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "CertificateId")
 	if ids != nil {
 		return ids, nil
@@ -359,7 +359,7 @@ func getCertificateIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func certificateSweepWaitCondition(response common.OCIOperationResponse) bool {
+func WaasCertificateSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if certificateResponse, ok := response.Response.(oci_waas.GetCertificateResponse); ok {
 		return certificateResponse.LifecycleState != oci_waas.CertificateLifecycleStateDeleted
@@ -367,7 +367,7 @@ func certificateSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func certificateSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func WaasCertificateSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.WaasClient().GetCertificate(context.Background(), oci_waas.GetCertificateRequest{
 		CertificateId: resourceId,
 		RequestMetadata: common.RequestMetadata{

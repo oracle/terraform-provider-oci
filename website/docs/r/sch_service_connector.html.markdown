@@ -100,6 +100,7 @@ resource "oci_sch_service_connector" "test_service_connector" {
 		enable_formatted_messaging = var.service_connector_target_enable_formatted_messaging
 		function_id = oci_functions_function.test_function.id
 		log_group_id = oci_logging_log_group.test_log_group.id
+		log_source_identifier = var.service_connector_target_log_source_identifier
 		metric = var.service_connector_target_metric
 		metric_namespace = var.service_connector_target_metric_namespace
 		namespace = var.service_connector_target_namespace
@@ -166,6 +167,7 @@ The following arguments are supported:
 	* `function_id` - (Required when kind=functions) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the function. 
 	* `kind` - (Required) (Updatable) The type descriminator. 
 	* `log_group_id` - (Required when kind=loggingAnalytics) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Logging Analytics log group. 
+	* `log_source_identifier` - (Applicable when kind=loggingAnalytics) (Updatable) Identifier of the log source that you want to use for processing data received from the service connector source. Applies to `StreamingSource` only. Equivalent to `name` at [LogAnalyticsSource](https://docs.cloud.oracle.com/iaas/api/#/en/logan-api-spec/latest/LogAnalyticsSource/). 
 	* `metric` - (Required when kind=monitoring) (Updatable) The name of the metric.  Example: `CpuUtilization` 
 	* `metric_namespace` - (Required when kind=monitoring) (Updatable) The namespace of the metric.  Example: `oci_computeagent` 
 	* `namespace` - (Applicable when kind=objectStorage) (Updatable) The namespace. 
@@ -229,6 +231,7 @@ The following attributes are exported:
 	* `function_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the function. 
 	* `kind` - The type descriminator. 
 	* `log_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Logging Analytics log group. 
+	* `log_source_identifier` - Identifier of the log source that you want to use for processing data received from the service connector source. Applies to `StreamingSource` only. Equivalent to `name` at [LogAnalyticsSource](https://docs.cloud.oracle.com/iaas/api/#/en/logan-api-spec/latest/LogAnalyticsSource/). 
 	* `metric` - The name of the metric.  Example: `CpuUtilization` 
 	* `metric_namespace` - The namespace of the metric.  Example: `oci_computeagent` 
 	* `namespace` - The namespace. 
@@ -246,7 +249,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Service Connector
 	* `update` - (Defaults to 20 minutes), when updating the Service Connector
 	* `delete` - (Defaults to 20 minutes), when destroying the Service Connector

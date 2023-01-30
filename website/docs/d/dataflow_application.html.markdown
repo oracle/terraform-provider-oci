@@ -33,7 +33,10 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `archive_uri` - An Oracle Cloud Infrastructure URI of an archive.zip file containing custom dependencies that may be used to support the execution a Python, Java, or Scala application. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat. 
+* `application_log_config` - Logging details of Application logs for Data Flow Run. 
+	* `log_group_id` - The log group id for where log objects will be for Data Flow Runs. 
+	* `log_id` - The log id of the log object the Application Logs of Data Flow Run will be shipped to. 
+* `archive_uri` - A comma separated list of one or more archive files as Oracle Cloud Infrastructure URIs. For example, ``oci://path/to/a.zip,oci://path/to/b.zip``. An Oracle Cloud Infrastructure URI of an archive.zip file containing custom dependencies that may be used to support the execution of a Python, Java, or Scala application. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat. 
 * `arguments` - The arguments passed to the running application as command line arguments.  An argument is either a plain text or a placeholder. Placeholders are replaced using values from the parameters map.  Each placeholder specified must be represented in the parameters map else the request (POST or PUT) will fail with a HTTP 400 status code.  Placeholders are specified as `Service Api Spec`, where `name` is the name of the parameter. Example:  `[ "--input", "${input_file}", "--name", "John Doe" ]` If "input_file" has a value of "mydata.xml", then the value above will be translated to `--input mydata.xml --name "John Doe"` 
 * `class_name` - The class for the application. 
 * `compartment_id` - The OCID of a compartment. 
@@ -42,13 +45,21 @@ The following attributes are exported:
 * `description` - A user-friendly description. 
 * `display_name` - A user-friendly name. This name is not necessarily unique. 
 * `driver_shape` - The VM shape for the driver. Sets the driver cores and memory. 
+* `driver_shape_config` - This is used to configure the shape of the driver or executor if a flexible shape is used. 
+	* `memory_in_gbs` - The amount of memory used for the driver or executors. 
+	* `ocpus` - The total number of OCPUs used for the driver or executors. See [here](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Shape/) for details. 
 * `execute` - The input used for spark-submit command. For more details see https://spark.apache.org/docs/latest/submitting-applications.html#launching-applications-with-spark-submit. Supported options include ``--class``, ``--file``, ``--jars``, ``--conf``, ``--py-files``, and main application file with arguments. Example: ``--jars oci://path/to/a.jar,oci://path/to/b.jar --files oci://path/to/a.json,oci://path/to/b.csv --py-files oci://path/to/a.py,oci://path/to/b.py --conf spark.sql.crossJoin.enabled=true --class org.apache.spark.examples.SparkPi oci://path/to/main.jar 10`` Note: If execute is specified together with applicationId, className, configuration, fileUri, language, arguments, parameters during application create/update, or run create/submit, Data Flow service will use derived information from execute input only. 
 * `executor_shape` - The VM shape for the executors. Sets the executor cores and memory. 
+* `executor_shape_config` - This is used to configure the shape of the driver or executor if a flexible shape is used. 
+	* `memory_in_gbs` - The amount of memory used for the driver or executors. 
+	* `ocpus` - The total number of OCPUs used for the driver or executors. See [here](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Shape/) for details. 
 * `file_uri` - An Oracle Cloud Infrastructure URI of the file containing the application to execute. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The application ID. 
+* `idle_timeout_in_minutes` - The timeout value in minutes used to manage Runs. A Run would be stopped after inactivity for this amount of time period. Note: This parameter is currently only applicable for Runs of type `SESSION`. Default value is 2880 minutes (2 days) 
 * `language` - The Spark language. 
 * `logs_bucket_uri` - An Oracle Cloud Infrastructure URI of the bucket where the Spark job logs are to be uploaded. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat. 
+* `max_duration_in_minutes` - The maximum duration in minutes for which an Application should run. Data Flow Run would be terminated once it reaches this duration from the time it transitions to `IN_PROGRESS` state. 
 * `metastore_id` - The OCID of Oracle Cloud Infrastructure Hive Metastore. 
 * `num_executors` - The number of executor VMs requested. 
 * `owner_principal_id` - The OCID of the user who created the resource. 

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package certificates_management
@@ -6,8 +6,8 @@ package certificates_management
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_certificates_management "github.com/oracle/oci-go-sdk/v65/certificatesmanagement"
@@ -206,4 +206,38 @@ func (s *CertificatesManagementAssociationsDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func AssociationSummaryToMap(obj oci_certificates_management.AssociationSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AssociatedResourceId != nil {
+		result["associated_resource_id"] = string(*obj.AssociatedResourceId)
+	}
+
+	result["association_type"] = string(obj.AssociationType)
+
+	if obj.CertificatesResourceId != nil {
+		result["certificates_resource_id"] = string(*obj.CertificatesResourceId)
+	}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	result["state"] = string(obj.LifecycleState)
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	return result
 }

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,31 +7,31 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	awrHubAwrSourcesSummarySingularDataSourceRepresentation = map[string]interface{}{
+	OpsiOpsiAwrHubAwrSourcesSummarySingularDataSourceRepresentation = map[string]interface{}{
 		"awr_hub_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_opsi_awr_hub.test_awr_hub.id}`},
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `name`},
 	}
 
-	awrHubAwrSourcesSummaryDataSourceRepresentation = map[string]interface{}{
+	OpsiOpsiAwrHubAwrSourcesSummaryDataSourceRepresentation = map[string]interface{}{
 		"awr_hub_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_opsi_awr_hub.test_awr_hub.id}`},
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `name`},
 	}
 
-	AwrHubAwrSourcesSummaryResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, bucketRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_awr_hub", "test_awr_hub", acctest.Required, acctest.Create, awrHubRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse", "test_operations_insights_warehouse", acctest.Required, acctest.Create, operationsInsightsWarehouseRepresentation)
+	OpsiAwrHubAwrSourcesSummaryResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_awr_hub", "test_awr_hub", acctest.Required, acctest.Create, OpsiAwrHubRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse", "test_operations_insights_warehouse", acctest.Required, acctest.Create, OpsiOperationsInsightsWarehouseRepresentation)
 )
 
 // issue-routing-tag: opsi/controlPlane
@@ -57,8 +57,8 @@ func TestOpsiAwrHubAwrSourcesSummaryResource_basic(t *testing.T) {
 			//Source configuration is a manual step and requires a user to login to each Oracle database and run SQL queries.
 
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_awr_hub_awr_sources_summary", "test_awr_hub_awr_sources_summary", acctest.Required, acctest.Create, awrHubAwrSourcesSummaryDataSourceRepresentation) +
-				compartmentIdVariableStr + AwrHubAwrSourcesSummaryResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_awr_hub_awr_sources_summary", "test_awr_hub_awr_sources_summary", acctest.Required, acctest.Create, OpsiOpsiAwrHubAwrSourcesSummaryDataSourceRepresentation) +
+				compartmentIdVariableStr + OpsiAwrHubAwrSourcesSummaryResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				/*resource.TestCheckResourceAttrSet(datasourceName, "awr_hub_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -71,8 +71,8 @@ func TestOpsiAwrHubAwrSourcesSummaryResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_awr_hub_awr_sources_summary", "test_awr_hub_awr_sources_summary", acctest.Required, acctest.Create, awrHubAwrSourcesSummarySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + AwrHubAwrSourcesSummaryResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_awr_hub_awr_sources_summary", "test_awr_hub_awr_sources_summary", acctest.Required, acctest.Create, OpsiOpsiAwrHubAwrSourcesSummarySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + OpsiAwrHubAwrSourcesSummaryResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				/*resource.TestCheckResourceAttrSet(singularDatasourceName, "awr_hub_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

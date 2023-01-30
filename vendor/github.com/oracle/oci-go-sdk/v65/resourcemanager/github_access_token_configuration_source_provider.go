@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -41,6 +41,12 @@ type GithubAccessTokenConfigurationSourceProvider struct {
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
 	PrivateServerConfigDetails *PrivateServerConfigDetails `mandatory:"false" json:"privateServerConfigDetails"`
+
+	// Username which is used to authorize the user.
+	Username *string `mandatory:"false" json:"username"`
+
+	// Secret ocid which is used to authorize the user.
+	SecretId *string `mandatory:"false" json:"secretId"`
 
 	// Free-form tags associated with this resource. Each tag is a key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -95,6 +101,16 @@ func (m GithubAccessTokenConfigurationSourceProvider) GetLifecycleState() Config
 //GetPrivateServerConfigDetails returns PrivateServerConfigDetails
 func (m GithubAccessTokenConfigurationSourceProvider) GetPrivateServerConfigDetails() *PrivateServerConfigDetails {
 	return m.PrivateServerConfigDetails
+}
+
+//GetUsername returns Username
+func (m GithubAccessTokenConfigurationSourceProvider) GetUsername() *string {
+	return m.Username
+}
+
+//GetSecretId returns SecretId
+func (m GithubAccessTokenConfigurationSourceProvider) GetSecretId() *string {
+	return m.SecretId
 }
 
 //GetFreeformTags returns FreeformTags

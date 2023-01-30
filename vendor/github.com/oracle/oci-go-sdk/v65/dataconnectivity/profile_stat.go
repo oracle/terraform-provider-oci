@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// ProfileStat To capture all the statistical data related to profiling
+// ProfileStat To capture all the statistical data related to profiling.
 type ProfileStat struct {
 
 	// Placeholder for now, in future we will return the confidence of the profile result (because we are using sampled data and not whole data)
 	Confidence *int `mandatory:"false" json:"confidence"`
 
-	// Value of the confidence of the profile result
+	// Value of the confidence of the profile result.
 	Value *string `mandatory:"false" json:"value"`
 }
 

@@ -9,21 +9,21 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	externalNonContainerDatabaseManagementRepresentation = map[string]interface{}{
+	DatabaseExternalNonContainerDatabaseManagementRepresentation = map[string]interface{}{
 		"external_database_connector_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_database_external_database_connector.test_external_database_connector.id}`},
 		"external_non_container_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_external_non_container_database.test_external_non_container_database.id}`},
 		"license_model":                      acctest.Representation{RepType: acctest.Required, Create: `BRING_YOUR_OWN_LICENSE`},
 		"enable_management":                  acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `false`},
 	}
 
-	ExternalNonContainerDatabaseManagementResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", acctest.Required, acctest.Create, externalNonContainerDatabaseRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", acctest.Required, acctest.Create, externalDatabaseConnectorRepresentation)
+	DatabaseExternalNonContainerDatabaseManagementResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", acctest.Required, acctest.Create, DatabaseExternalNonContainerDatabaseRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", acctest.Required, acctest.Create, DatabaseExternalDatabaseConnectorRepresentation)
 )
 
 // issue-routing-tag: database/default
@@ -40,14 +40,14 @@ func TestDatabaseExternalNonContainerDatabaseManagementResource_basic(t *testing
 	resourceNonCDB := "oci_database_external_non_container_database.test_external_non_container_database"
 
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ExternalNonContainerDatabaseManagementResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", acctest.Required, acctest.Create, externalNonContainerDatabaseManagementRepresentation), "database", "externalNonContainerDatabaseManagement", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseExternalNonContainerDatabaseManagementResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", acctest.Required, acctest.Create, DatabaseExternalNonContainerDatabaseManagementRepresentation), "database", "externalNonContainerDatabaseManagement", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create (Enable Database Management)
 		{
-			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseManagementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", acctest.Required, acctest.Create, externalNonContainerDatabaseManagementRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseExternalNonContainerDatabaseManagementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", acctest.Required, acctest.Create, DatabaseExternalNonContainerDatabaseManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "external_non_container_database_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
@@ -55,8 +55,8 @@ func TestDatabaseExternalNonContainerDatabaseManagementResource_basic(t *testing
 		},
 		// Verify Enablement
 		{
-			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseManagementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", acctest.Required, acctest.Create, externalNonContainerDatabaseManagementRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseExternalNonContainerDatabaseManagementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", acctest.Required, acctest.Create, DatabaseExternalNonContainerDatabaseManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceNonCDB, "database_management_config.0.database_management_status", "ENABLED"),
 			),
@@ -64,12 +64,12 @@ func TestDatabaseExternalNonContainerDatabaseManagementResource_basic(t *testing
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseManagementResourceDependencies,
+			Config: config + compartmentIdVariableStr + DatabaseExternalNonContainerDatabaseManagementResourceDependencies,
 		},
 		// verify Update (Enable Database Management)
 		{
-			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseManagementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", acctest.Optional, acctest.Create, externalNonContainerDatabaseManagementRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseExternalNonContainerDatabaseManagementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", acctest.Optional, acctest.Create, DatabaseExternalNonContainerDatabaseManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "external_non_container_database_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
@@ -77,8 +77,8 @@ func TestDatabaseExternalNonContainerDatabaseManagementResource_basic(t *testing
 		},
 		// verify Update (Disable Database Management)
 		{
-			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseManagementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", acctest.Optional, acctest.Update, externalNonContainerDatabaseManagementRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseExternalNonContainerDatabaseManagementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", acctest.Optional, acctest.Update, DatabaseExternalNonContainerDatabaseManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "external_non_container_database_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
@@ -86,8 +86,8 @@ func TestDatabaseExternalNonContainerDatabaseManagementResource_basic(t *testing
 		},
 		// Verify Disablement
 		{
-			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseManagementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", acctest.Optional, acctest.Update, externalNonContainerDatabaseManagementRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseExternalNonContainerDatabaseManagementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", acctest.Optional, acctest.Update, DatabaseExternalNonContainerDatabaseManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceNonCDB, "database_management_config.0.database_management_status", "NOT_ENABLED"),
 			),

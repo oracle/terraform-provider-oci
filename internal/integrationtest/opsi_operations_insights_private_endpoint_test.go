@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -17,26 +17,26 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_opsi "github.com/oracle/oci-go-sdk/v65/opsi"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	OperationsInsightsPrivateEndpointRequiredOnlyResource = OperationsInsightsPrivateEndpointResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_private_endpoint", "test_operations_insights_private_endpoint", acctest.Required, acctest.Create, operationsInsightsPrivateEndpointRepresentation)
+	OpsiOperationsInsightsPrivateEndpointRequiredOnlyResource = OpsiOperationsInsightsPrivateEndpointResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_private_endpoint", "test_operations_insights_private_endpoint", acctest.Required, acctest.Create, OpsiOperationsInsightsPrivateEndpointRepresentation)
 
-	OperationsInsightsPrivateEndpointResourceConfig = OperationsInsightsPrivateEndpointResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_private_endpoint", "test_operations_insights_private_endpoint", acctest.Optional, acctest.Update, operationsInsightsPrivateEndpointRepresentation)
+	OpsiOperationsInsightsPrivateEndpointResourceConfig = OpsiOperationsInsightsPrivateEndpointResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_private_endpoint", "test_operations_insights_private_endpoint", acctest.Optional, acctest.Update, OpsiOperationsInsightsPrivateEndpointRepresentation)
 
-	operationsInsightsPrivateEndpointSingularDataSourceRepresentation = map[string]interface{}{
+	OpsiOpsiOperationsInsightsPrivateEndpointSingularDataSourceRepresentation = map[string]interface{}{
 		"operations_insights_private_endpoint_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_opsi_operations_insights_private_endpoint.test_operations_insights_private_endpoint.id}`},
 	}
 
-	operationsInsightsPrivateEndpointDataSourceRepresentation = map[string]interface{}{
+	OpsiOpsiOperationsInsightsPrivateEndpointDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `TerraformPe`, Update: `TerraformPe2`},
@@ -44,13 +44,13 @@ var (
 		"opsi_private_endpoint_id":  acctest.Representation{RepType: acctest.Optional, Create: `${oci_opsi_operations_insights_private_endpoint.test_operations_insights_private_endpoint.id}`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: []string{`ACTIVE`}},
 		"vcn_id":                    acctest.Representation{RepType: acctest.Optional, Create: `${var.vcn_id}`},
-		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: operationsInsightsPrivateEndpointDataSourceFilterRepresentation}}
-	operationsInsightsPrivateEndpointDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: OpsiOperationsInsightsPrivateEndpointDataSourceFilterRepresentation}}
+	OpsiOperationsInsightsPrivateEndpointDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_opsi_operations_insights_private_endpoint.test_operations_insights_private_endpoint.id}`}},
 	}
 
-	operationsInsightsPrivateEndpointRepresentation = map[string]interface{}{
+	OpsiOperationsInsightsPrivateEndpointRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":        acctest.Representation{RepType: acctest.Required, Create: `TerraformPe`, Update: `TerraformPe2`},
 		"description":         acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
@@ -66,7 +66,7 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
-	OperationsInsightsPrivateEndpointResourceDependencies = DefinedTagsDependencies
+	OpsiOperationsInsightsPrivateEndpointResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: opsi/controlPlane
@@ -96,14 +96,14 @@ func TestOpsiOperationsInsightsPrivateEndpointResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+OperationsInsightsPrivateEndpointResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_private_endpoint", "test_operations_insights_private_endpoint", acctest.Optional, acctest.Create, operationsInsightsPrivateEndpointRepresentation), "operationsinsights", "operationsInsightsPrivateEndpoint", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+OpsiOperationsInsightsPrivateEndpointResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_private_endpoint", "test_operations_insights_private_endpoint", acctest.Optional, acctest.Create, OpsiOperationsInsightsPrivateEndpointRepresentation), "operationsinsights", "operationsInsightsPrivateEndpoint", t)
 
 	acctest.ResourceTest(t, testAccCheckOpsiOperationsInsightsPrivateEndpointDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + OperationsInsightsPrivateEndpointResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_private_endpoint", "test_operations_insights_private_endpoint", acctest.Required, acctest.Create, operationsInsightsPrivateEndpointRepresentation),
+			Config: config + compartmentIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + OpsiOperationsInsightsPrivateEndpointResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_private_endpoint", "test_operations_insights_private_endpoint", acctest.Required, acctest.Create, OpsiOperationsInsightsPrivateEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "TerraformPe"),
@@ -120,12 +120,12 @@ func TestOpsiOperationsInsightsPrivateEndpointResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + OperationsInsightsPrivateEndpointResourceDependencies,
+			Config: config + compartmentIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + OpsiOperationsInsightsPrivateEndpointResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + OperationsInsightsPrivateEndpointResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_private_endpoint", "test_operations_insights_private_endpoint", acctest.Optional, acctest.Create, operationsInsightsPrivateEndpointRepresentation),
+			Config: config + compartmentIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + OpsiOperationsInsightsPrivateEndpointResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_private_endpoint", "test_operations_insights_private_endpoint", acctest.Optional, acctest.Create, OpsiOperationsInsightsPrivateEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -151,9 +151,9 @@ func TestOpsiOperationsInsightsPrivateEndpointResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + vcnIdVariableStr + subnetIdVariableStr + OperationsInsightsPrivateEndpointResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + vcnIdVariableStr + subnetIdVariableStr + OpsiOperationsInsightsPrivateEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_private_endpoint", "test_operations_insights_private_endpoint", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(operationsInsightsPrivateEndpointRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(OpsiOperationsInsightsPrivateEndpointRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -179,8 +179,8 @@ func TestOpsiOperationsInsightsPrivateEndpointResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + OperationsInsightsPrivateEndpointResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_private_endpoint", "test_operations_insights_private_endpoint", acctest.Optional, acctest.Update, operationsInsightsPrivateEndpointRepresentation),
+			Config: config + compartmentIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + OpsiOperationsInsightsPrivateEndpointResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_private_endpoint", "test_operations_insights_private_endpoint", acctest.Optional, acctest.Update, OpsiOperationsInsightsPrivateEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -204,9 +204,9 @@ func TestOpsiOperationsInsightsPrivateEndpointResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_operations_insights_private_endpoints", "test_operations_insights_private_endpoints", acctest.Optional, acctest.Update, operationsInsightsPrivateEndpointDataSourceRepresentation) +
-				compartmentIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + OperationsInsightsPrivateEndpointResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_private_endpoint", "test_operations_insights_private_endpoint", acctest.Optional, acctest.Update, operationsInsightsPrivateEndpointRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_operations_insights_private_endpoints", "test_operations_insights_private_endpoints", acctest.Optional, acctest.Update, OpsiOpsiOperationsInsightsPrivateEndpointDataSourceRepresentation) +
+				compartmentIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + OpsiOperationsInsightsPrivateEndpointResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_private_endpoint", "test_operations_insights_private_endpoint", acctest.Optional, acctest.Update, OpsiOperationsInsightsPrivateEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
@@ -223,8 +223,8 @@ func TestOpsiOperationsInsightsPrivateEndpointResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_operations_insights_private_endpoint", "test_operations_insights_private_endpoint", acctest.Required, acctest.Create, operationsInsightsPrivateEndpointSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + OperationsInsightsPrivateEndpointResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_operations_insights_private_endpoint", "test_operations_insights_private_endpoint", acctest.Required, acctest.Create, OpsiOpsiOperationsInsightsPrivateEndpointSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + OpsiOperationsInsightsPrivateEndpointResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "operations_insights_private_endpoint_id"),
 
@@ -242,11 +242,11 @@ func TestOpsiOperationsInsightsPrivateEndpointResource_basic(t *testing.T) {
 		},
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
-			Config: config + compartmentIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + OperationsInsightsPrivateEndpointResourceConfig,
+			Config: config + compartmentIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + OpsiOperationsInsightsPrivateEndpointResourceConfig,
 		},
 		// verify resource import
 		{
-			Config:                  config + OperationsInsightsPrivateEndpointRequiredOnlyResource,
+			Config:                  config + OpsiOperationsInsightsPrivateEndpointRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -310,7 +310,7 @@ func init() {
 
 func sweepOpsiOperationsInsightsPrivateEndpointResource(compartment string) error {
 	operationsInsightsClient := acctest.GetTestClients(&schema.ResourceData{}).OperationsInsightsClient()
-	operationsInsightsPrivateEndpointIds, err := getOperationsInsightsPrivateEndpointIds(compartment)
+	operationsInsightsPrivateEndpointIds, err := getOpsiOperationsInsightsPrivateEndpointIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -326,14 +326,14 @@ func sweepOpsiOperationsInsightsPrivateEndpointResource(compartment string) erro
 				fmt.Printf("Error deleting OperationsInsightsPrivateEndpoint %s %s, It is possible that the resource is already deleted. Please verify manually \n", operationsInsightsPrivateEndpointId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &operationsInsightsPrivateEndpointId, operationsInsightsPrivateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
-				operationsInsightsPrivateEndpointSweepResponseFetchOperation, "opsi", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &operationsInsightsPrivateEndpointId, OpsiOperationsInsightsPrivateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
+				OpsiOperationsInsightsPrivateEndpointSweepResponseFetchOperation, "opsi", true)
 		}
 	}
 	return nil
 }
 
-func getOperationsInsightsPrivateEndpointIds(compartment string) ([]string, error) {
+func getOpsiOperationsInsightsPrivateEndpointIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "OperationsInsightsPrivateEndpointId")
 	if ids != nil {
 		return ids, nil
@@ -359,7 +359,7 @@ func getOperationsInsightsPrivateEndpointIds(compartment string) ([]string, erro
 	return resourceIds, nil
 }
 
-func operationsInsightsPrivateEndpointSweepWaitCondition(response common.OCIOperationResponse) bool {
+func OpsiOperationsInsightsPrivateEndpointSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if operationsInsightsPrivateEndpointResponse, ok := response.Response.(oci_opsi.GetOperationsInsightsPrivateEndpointResponse); ok {
 		return operationsInsightsPrivateEndpointResponse.LifecycleState != oci_opsi.OperationsInsightsPrivateEndpointLifecycleStateDeleted
@@ -367,7 +367,7 @@ func operationsInsightsPrivateEndpointSweepWaitCondition(response common.OCIOper
 	return false
 }
 
-func operationsInsightsPrivateEndpointSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func OpsiOperationsInsightsPrivateEndpointSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.OperationsInsightsClient().GetOperationsInsightsPrivateEndpoint(context.Background(), oci_opsi.GetOperationsInsightsPrivateEndpointRequest{
 		OperationsInsightsPrivateEndpointId: resourceId,
 		RequestMetadata: common.RequestMetadata{

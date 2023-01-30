@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,22 +7,22 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	organizationSubscriptionDataSourceRepresentation = map[string]interface{}{
+	OsubOrganizationSubscriptionOsubOrganizationSubscriptionOrganizationSubscriptionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"subscription_ids":    acctest.Representation{RepType: acctest.Required, Create: `subscriptionIds`},
 		"x_one_origin_region": acctest.Representation{RepType: acctest.Required, Create: `${var.region}`},
 	}
 
-	OrganizationSubscriptionResourceConfig = ""
+	OsubOrganizationSubscriptionOrganizationSubscriptionResourceConfig = ""
 )
 
 // issue-routing-tag: osub_organization_subscription/default
@@ -46,8 +46,8 @@ func TestOsubOrganizationSubscriptionOrganizationSubscriptionResource_basic(t *t
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_osub_organization_subscription_organization_subscriptions", "test_organization_subscriptions", acctest.Required, acctest.Create, organizationSubscriptionDataSourceRepresentation) +
-				compartmentIdVariableStr + oneRegionVariableStr + OrganizationSubscriptionResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_osub_organization_subscription_organization_subscriptions", "test_organization_subscriptions", acctest.Required, acctest.Create, OsubOrganizationSubscriptionOsubOrganizationSubscriptionOrganizationSubscriptionDataSourceRepresentation) +
+				compartmentIdVariableStr + oneRegionVariableStr + OsubOrganizationSubscriptionOrganizationSubscriptionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "subscription_ids", "subscriptionIds"),

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -45,6 +45,8 @@ const (
 	OperationTypesTestMetastoreConfig       OperationTypesEnum = "TEST_METASTORE_CONFIG"
 	OperationTypesPatchBds                  OperationTypesEnum = "PATCH_BDS"
 	OperationTypesPatchOdh                  OperationTypesEnum = "PATCH_ODH"
+	OperationTypesStopBds                   OperationTypesEnum = "STOP_BDS"
+	OperationTypesStartBds                  OperationTypesEnum = "START_BDS"
 )
 
 var mappingOperationTypesEnum = map[string]OperationTypesEnum{
@@ -75,6 +77,8 @@ var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"TEST_METASTORE_CONFIG":        OperationTypesTestMetastoreConfig,
 	"PATCH_BDS":                    OperationTypesPatchBds,
 	"PATCH_ODH":                    OperationTypesPatchOdh,
+	"STOP_BDS":                     OperationTypesStopBds,
+	"START_BDS":                    OperationTypesStartBds,
 }
 
 var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
@@ -105,6 +109,8 @@ var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
 	"test_metastore_config":        OperationTypesTestMetastoreConfig,
 	"patch_bds":                    OperationTypesPatchBds,
 	"patch_odh":                    OperationTypesPatchOdh,
+	"stop_bds":                     OperationTypesStopBds,
+	"start_bds":                    OperationTypesStartBds,
 }
 
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum
@@ -146,6 +152,8 @@ func GetOperationTypesEnumStringValues() []string {
 		"TEST_METASTORE_CONFIG",
 		"PATCH_BDS",
 		"PATCH_ODH",
+		"STOP_BDS",
+		"START_BDS",
 	}
 }
 

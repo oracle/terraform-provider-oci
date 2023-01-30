@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package file_storage
@@ -6,8 +6,8 @@ package file_storage
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_file_storage "github.com/oracle/oci-go-sdk/v65/filestorage"
@@ -135,6 +135,12 @@ func (s *FileStorageSnapshotsDataSourceCrud) SetData() error {
 		if r.ProvenanceId != nil {
 			snapshot["provenance_id"] = *r.ProvenanceId
 		}
+
+		if r.SnapshotTime != nil {
+			snapshot["snapshot_time"] = r.SnapshotTime.String()
+		}
+
+		snapshot["snapshot_type"] = r.SnapshotType
 
 		snapshot["state"] = r.LifecycleState
 

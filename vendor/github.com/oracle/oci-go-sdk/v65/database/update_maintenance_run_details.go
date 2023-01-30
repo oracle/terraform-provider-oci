@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -46,6 +46,12 @@ type UpdateMaintenanceRunDetails struct {
 
 	// If true, then the patching is resumed and the next component will be patched immediately.
 	IsResumePatching *bool `mandatory:"false" json:"isResumePatching"`
+
+	// The target database server system software version for the patching operation.
+	TargetDbServerVersion *string `mandatory:"false" json:"targetDbServerVersion"`
+
+	// The target storage cell system software version for the patching operation.
+	TargetStorageServerVersion *string `mandatory:"false" json:"targetStorageServerVersion"`
 }
 
 func (m UpdateMaintenanceRunDetails) String() string {

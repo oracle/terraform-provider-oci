@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -99,6 +99,10 @@ func (m *projectionrule) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		mm := NamePatternRule{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "GROUPED_NAME_PATTERN_RULE":
+		mm := GroupedNamePatternRule{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "NAME_LIST_RULE":
 		mm := NameListRule{}
 		err = json.Unmarshal(data, &mm)
@@ -164,27 +168,30 @@ type ProjectionRuleModelTypeEnum string
 
 // Set of constants representing the allowable values for ProjectionRuleModelTypeEnum
 const (
-	ProjectionRuleModelTypeNamePatternRule      ProjectionRuleModelTypeEnum = "NAME_PATTERN_RULE"
-	ProjectionRuleModelTypeTypeListRule         ProjectionRuleModelTypeEnum = "TYPE_LIST_RULE"
-	ProjectionRuleModelTypeNameListRule         ProjectionRuleModelTypeEnum = "NAME_LIST_RULE"
-	ProjectionRuleModelTypeTypedNamePatternRule ProjectionRuleModelTypeEnum = "TYPED_NAME_PATTERN_RULE"
-	ProjectionRuleModelTypeRenameRule           ProjectionRuleModelTypeEnum = "RENAME_RULE"
+	ProjectionRuleModelTypeNamePatternRule        ProjectionRuleModelTypeEnum = "NAME_PATTERN_RULE"
+	ProjectionRuleModelTypeTypeListRule           ProjectionRuleModelTypeEnum = "TYPE_LIST_RULE"
+	ProjectionRuleModelTypeNameListRule           ProjectionRuleModelTypeEnum = "NAME_LIST_RULE"
+	ProjectionRuleModelTypeTypedNamePatternRule   ProjectionRuleModelTypeEnum = "TYPED_NAME_PATTERN_RULE"
+	ProjectionRuleModelTypeRenameRule             ProjectionRuleModelTypeEnum = "RENAME_RULE"
+	ProjectionRuleModelTypeGroupedNamePatternRule ProjectionRuleModelTypeEnum = "GROUPED_NAME_PATTERN_RULE"
 )
 
 var mappingProjectionRuleModelTypeEnum = map[string]ProjectionRuleModelTypeEnum{
-	"NAME_PATTERN_RULE":       ProjectionRuleModelTypeNamePatternRule,
-	"TYPE_LIST_RULE":          ProjectionRuleModelTypeTypeListRule,
-	"NAME_LIST_RULE":          ProjectionRuleModelTypeNameListRule,
-	"TYPED_NAME_PATTERN_RULE": ProjectionRuleModelTypeTypedNamePatternRule,
-	"RENAME_RULE":             ProjectionRuleModelTypeRenameRule,
+	"NAME_PATTERN_RULE":         ProjectionRuleModelTypeNamePatternRule,
+	"TYPE_LIST_RULE":            ProjectionRuleModelTypeTypeListRule,
+	"NAME_LIST_RULE":            ProjectionRuleModelTypeNameListRule,
+	"TYPED_NAME_PATTERN_RULE":   ProjectionRuleModelTypeTypedNamePatternRule,
+	"RENAME_RULE":               ProjectionRuleModelTypeRenameRule,
+	"GROUPED_NAME_PATTERN_RULE": ProjectionRuleModelTypeGroupedNamePatternRule,
 }
 
 var mappingProjectionRuleModelTypeEnumLowerCase = map[string]ProjectionRuleModelTypeEnum{
-	"name_pattern_rule":       ProjectionRuleModelTypeNamePatternRule,
-	"type_list_rule":          ProjectionRuleModelTypeTypeListRule,
-	"name_list_rule":          ProjectionRuleModelTypeNameListRule,
-	"typed_name_pattern_rule": ProjectionRuleModelTypeTypedNamePatternRule,
-	"rename_rule":             ProjectionRuleModelTypeRenameRule,
+	"name_pattern_rule":         ProjectionRuleModelTypeNamePatternRule,
+	"type_list_rule":            ProjectionRuleModelTypeTypeListRule,
+	"name_list_rule":            ProjectionRuleModelTypeNameListRule,
+	"typed_name_pattern_rule":   ProjectionRuleModelTypeTypedNamePatternRule,
+	"rename_rule":               ProjectionRuleModelTypeRenameRule,
+	"grouped_name_pattern_rule": ProjectionRuleModelTypeGroupedNamePatternRule,
 }
 
 // GetProjectionRuleModelTypeEnumValues Enumerates the set of values for ProjectionRuleModelTypeEnum
@@ -204,6 +211,7 @@ func GetProjectionRuleModelTypeEnumStringValues() []string {
 		"NAME_LIST_RULE",
 		"TYPED_NAME_PATTERN_RULE",
 		"RENAME_RULE",
+		"GROUPED_NAME_PATTERN_RULE",
 	}
 }
 

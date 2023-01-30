@@ -3,8 +3,10 @@ package service_mesh
 import (
 	"bytes"
 	"fmt"
+
 	oci_service_mesh "github.com/oracle/oci-go-sdk/v65/servicemesh"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 func AccessLoggingConfigurationToMap(obj *oci_service_mesh.AccessLoggingConfiguration) map[string]interface{} {
@@ -31,6 +33,9 @@ func routeRulesHashCodeForSets(v interface{}) int {
 	}
 	if pathType, ok := m["path_type"]; ok && pathType != "" {
 		buf.WriteString(fmt.Sprintf("%v-", pathType))
+	}
+	if requestTimeoutInMs, ok := m["request_timeout_in_ms"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", requestTimeoutInMs))
 	}
 	if type_, ok := m["type"]; ok && type_ != "" {
 		buf.WriteString(fmt.Sprintf("%v-", type_))

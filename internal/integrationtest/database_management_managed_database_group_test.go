@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,32 +22,32 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	ManagedDatabaseGroupRequiredOnlyResource = ManagedDatabaseGroupResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", acctest.Required, acctest.Create, managedDatabaseGroupRepresentation)
+	DatabaseManagementManagedDatabaseGroupRequiredOnlyResource = DatabaseManagementManagedDatabaseGroupResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", acctest.Required, acctest.Create, DatabaseManagementManagedDatabaseGroupRepresentation)
 
-	ManagedDatabaseGroupResourceConfig = ManagedDatabaseGroupResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", acctest.Optional, acctest.Update, managedDatabaseGroupRepresentation)
+	DatabaseManagementManagedDatabaseGroupResourceConfig = DatabaseManagementManagedDatabaseGroupResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", acctest.Optional, acctest.Update, DatabaseManagementManagedDatabaseGroupRepresentation)
 
-	managedDatabaseGroupSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseManagementDatabaseManagementManagedDatabaseGroupSingularDataSourceRepresentation = map[string]interface{}{
 		"managed_database_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_management_managed_database_group.test_managed_database_group.id}`},
 	}
 
-	managedDatabaseGroupDataSourceRepresentation = map[string]interface{}{
+	DatabaseManagementDatabaseManagementManagedDatabaseGroupDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_management_managed_database_group.test_managed_database_group.id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: managedDatabaseGroupDataSourceFilterRepresentation}}
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementManagedDatabaseGroupDataSourceFilterRepresentation}}
 
-	managedDatabaseGroupDataSourceFilterRepresentation = map[string]interface{}{
+	DatabaseManagementManagedDatabaseGroupDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_management_managed_database_group.test_managed_database_group.id}`}},
 	}
 
-	managedDatabaseGroupRepresentation = map[string]interface{}{
+	DatabaseManagementManagedDatabaseGroupRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":           acctest.Representation{RepType: acctest.Required, Create: `TestGroup`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `Sales test database Group`, Update: `description2`},
@@ -80,7 +80,7 @@ var (
 		"managed_databases": []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: managedDatabaseId0Representation}, {RepType: acctest.Optional, Group: managedDatabaseId1Representation}},
 	}
 
-	ManagedDatabaseGroupResourceDependencies = ""
+	DatabaseManagementManagedDatabaseGroupResourceDependencies = ""
 )
 
 // issue-routing-tag: database_management/default
@@ -102,14 +102,14 @@ func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ManagedDatabaseGroupResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", acctest.Optional, acctest.Create, managedDatabaseGroupRepresentation), "databasemanagement", "managedDatabaseGroup", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseManagementManagedDatabaseGroupResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", acctest.Optional, acctest.Create, DatabaseManagementManagedDatabaseGroupRepresentation), "databasemanagement", "managedDatabaseGroup", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseManagementManagedDatabaseGroupDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ManagedDatabaseGroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", acctest.Required, acctest.Create, managedDatabaseGroupRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseManagementManagedDatabaseGroupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", acctest.Required, acctest.Create, DatabaseManagementManagedDatabaseGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "name", "TestGroup"),
@@ -123,11 +123,11 @@ func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ManagedDatabaseGroupResourceDependencies,
+			Config: config + compartmentIdVariableStr + DatabaseManagementManagedDatabaseGroupResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ManagedDatabaseGroupResourceDependencies +
+			Config: config + compartmentIdVariableStr + DatabaseManagementManagedDatabaseGroupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", acctest.Optional, acctest.Create, managedDatabaseGroupRepresentationWithManagedDatabases),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -151,7 +151,7 @@ func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 		},
 		// verify Update with updated managed_databases list
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ManagedDatabaseGroupResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseManagementManagedDatabaseGroupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(managedDatabaseGroupRepresentationWithManagedDatabases, map[string]interface{}{
 						"managed_databases": []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: managedDatabaseId2Representation}, {RepType: acctest.Optional, Group: managedDatabaseId3Representation}},
@@ -178,7 +178,7 @@ func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 		},
 		// verify Update after removing entry from managed_databases
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ManagedDatabaseGroupResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseManagementManagedDatabaseGroupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(managedDatabaseGroupRepresentationWithManagedDatabases, map[string]interface{}{
 						"managed_databases": []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: managedDatabaseId2Representation}, {RepType: acctest.Optional, Group: managedDatabaseId3Representation}},
@@ -205,7 +205,7 @@ func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 		},
 		// verify Update after adding entry to managed_databases
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ManagedDatabaseGroupResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseManagementManagedDatabaseGroupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(managedDatabaseGroupRepresentationWithManagedDatabases, map[string]interface{}{
 						"managed_databases": []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: managedDatabaseId2Representation}, {RepType: acctest.Optional, Group: managedDatabaseId4Representation}},
@@ -232,9 +232,9 @@ func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 		},
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ManagedDatabaseGroupResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseManagementManagedDatabaseGroupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(managedDatabaseGroupRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(DatabaseManagementManagedDatabaseGroupRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -257,8 +257,8 @@ func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 		},
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ManagedDatabaseGroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", acctest.Optional, acctest.Update, managedDatabaseGroupRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseManagementManagedDatabaseGroupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", acctest.Optional, acctest.Update, DatabaseManagementManagedDatabaseGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -280,9 +280,9 @@ func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_groups", "test_managed_database_groups", acctest.Optional, acctest.Update, managedDatabaseGroupDataSourceRepresentation) +
-				compartmentIdVariableStr + ManagedDatabaseGroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", acctest.Optional, acctest.Update, managedDatabaseGroupRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_groups", "test_managed_database_groups", acctest.Optional, acctest.Update, DatabaseManagementDatabaseManagementManagedDatabaseGroupDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseManagementManagedDatabaseGroupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", acctest.Optional, acctest.Update, DatabaseManagementManagedDatabaseGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -295,8 +295,8 @@ func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", acctest.Required, acctest.Create, managedDatabaseGroupSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ManagedDatabaseGroupResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseGroupSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseManagementManagedDatabaseGroupResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_database_group_id"),
 
@@ -312,7 +312,7 @@ func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ManagedDatabaseGroupRequiredOnlyResource,
+			Config:                  config + DatabaseManagementManagedDatabaseGroupRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -376,7 +376,7 @@ func init() {
 
 func sweepDatabaseManagementManagedDatabaseGroupResource(compartment string) error {
 	dbManagementClient := acctest.GetTestClients(&schema.ResourceData{}).DbManagementClient()
-	managedDatabaseGroupIds, err := getManagedDatabaseGroupIds(compartment)
+	managedDatabaseGroupIds, err := getDatabaseManagementManagedDatabaseGroupIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -392,14 +392,14 @@ func sweepDatabaseManagementManagedDatabaseGroupResource(compartment string) err
 				fmt.Printf("Error deleting ManagedDatabaseGroup %s %s, It is possible that the resource is already deleted. Please verify manually \n", managedDatabaseGroupId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &managedDatabaseGroupId, managedDatabaseGroupSweepWaitCondition, time.Duration(3*time.Minute),
-				managedDatabaseGroupSweepResponseFetchOperation, "database_management", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &managedDatabaseGroupId, DatabaseManagementManagedDatabaseGroupSweepWaitCondition, time.Duration(3*time.Minute),
+				DatabaseManagementManagedDatabaseGroupSweepResponseFetchOperation, "database_management", true)
 		}
 	}
 	return nil
 }
 
-func getManagedDatabaseGroupIds(compartment string) ([]string, error) {
+func getDatabaseManagementManagedDatabaseGroupIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ManagedDatabaseGroupId")
 	if ids != nil {
 		return ids, nil
@@ -424,7 +424,7 @@ func getManagedDatabaseGroupIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func managedDatabaseGroupSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DatabaseManagementManagedDatabaseGroupSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if managedDatabaseGroupResponse, ok := response.Response.(oci_database_management.GetManagedDatabaseGroupResponse); ok {
 		return managedDatabaseGroupResponse.LifecycleState != oci_database_management.LifecycleStatesDeleted
@@ -432,7 +432,7 @@ func managedDatabaseGroupSweepWaitCondition(response common.OCIOperationResponse
 	return false
 }
 
-func managedDatabaseGroupSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DatabaseManagementManagedDatabaseGroupSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DbManagementClient().GetManagedDatabaseGroup(context.Background(), oci_database_management.GetManagedDatabaseGroupRequest{
 		ManagedDatabaseGroupId: resourceId,
 		RequestMetadata: common.RequestMetadata{

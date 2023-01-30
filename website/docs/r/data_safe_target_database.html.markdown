@@ -74,20 +74,20 @@ The following arguments are supported:
 	* `connection_type` - (Required) (Updatable) The connection type used to connect to the database. Allowed values:
 		* PRIVATE_ENDPOINT - Represents connection through private endpoint in Data Safe.
 		* ONPREM_CONNECTOR - Represents connection through on-premises connector in Data Safe. 
-	* `datasafe_private_endpoint_id` - (Applicable when connection_type=PRIVATE_ENDPOINT) (Updatable) The OCID of the Data Safe private endpoint.
-	* `on_prem_connector_id` - (Applicable when connection_type=ONPREM_CONNECTOR) (Updatable) The OCID of the on-premises connector.
+	* `datasafe_private_endpoint_id` - (Required when connection_type=PRIVATE_ENDPOINT) (Updatable) The OCID of the Data Safe private endpoint.
+	* `on_prem_connector_id` - (Required when connection_type=ONPREM_CONNECTOR) (Updatable) The OCID of the on-premises connector.
 * `credentials` - (Optional) (Updatable) The database credentials required for Data Safe to connect to the database.
 	* `password` - (Required) (Updatable) The password of the database user.
 	* `user_name` - (Required) (Updatable) The database user name.
 * `database_details` - (Required) (Updatable) Details of the database for the registration in Data Safe. To choose applicable database type and infrastructure type refer to  https://confluence.oci.oraclecorp.com/display/DATASAFE/Target+V2+Design 
-	* `autonomous_database_id` - (Applicable when database_type=AUTONOMOUS_DATABASE) (Updatable) The OCID of the autonomous database registered as a target database in Data Safe.
+	* `autonomous_database_id` - (Required when database_type=AUTONOMOUS_DATABASE) (Updatable) The OCID of the autonomous database registered as a target database in Data Safe.
 	* `database_type` - (Required) (Updatable) The database type.
 	* `db_system_id` - (Applicable when database_type=DATABASE_CLOUD_SERVICE) (Updatable) The OCID of the cloud database system registered as a target database in Data Safe.
 	* `infrastructure_type` - (Required) (Updatable) The infrastructure type the database is running on.
 	* `instance_id` - (Applicable when database_type=INSTALLED_DATABASE) (Updatable) The OCID of the compute instance on which the database is running.
 	* `ip_addresses` - (Applicable when database_type=INSTALLED_DATABASE) (Updatable) The list of database host IP Addresses. Fully qualified domain names can be used if connectionType is 'ONPREM_CONNECTOR'. 
-	* `listener_port` - (Applicable when database_type=INSTALLED_DATABASE) (Updatable) The port number of the database listener.
-	* `service_name` - (Applicable when database_type=DATABASE_CLOUD_SERVICE | INSTALLED_DATABASE) (Updatable) The service name of the database registered as target database.
+	* `listener_port` - (Required when database_type=DATABASE_CLOUD_SERVICE | INSTALLED_DATABASE) (Updatable) The port number of the database listener.
+	* `service_name` - (Required when database_type=DATABASE_CLOUD_SERVICE | INSTALLED_DATABASE) (Updatable) The service name of the database registered as target database.
 	* `vm_cluster_id` - (Applicable when database_type=DATABASE_CLOUD_SERVICE) (Updatable) The OCID of the VM cluster in which the database is running.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Optional) (Updatable) The description of the target database in Data Safe.
@@ -148,7 +148,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Target Database
 	* `update` - (Defaults to 20 minutes), when updating the Target Database
 	* `delete` - (Defaults to 20 minutes), when destroying the Target Database

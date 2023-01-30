@@ -1,11 +1,11 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Cloud Guard and Security Zones API
 //
 // Use the Cloud Guard and Security Zones API to automate processes that you would otherwise perform through the Cloud Guard Console or the Security Zones Console. For more information on these services, see the Cloud Guard (https://docs.cloud.oracle.com/iaas/cloud-guard/home.htm) and Security Zones (https://docs.cloud.oracle.com/iaas/security-zone/home.htm) documentation.
-// **Note:** For Cloud Guard, you can perform Create, Update, and Delete operations only from the reporting region of your Cloud Guard tenancy. You can perform Read operations in Cloud Guard from any region.
+// **Note:** For Cloud Guard, you can perform Create, Update, and Delete operations only from the reporting region of your Cloud Guard tenancy. You can perform Read operations from any region.
 //
 
 package cloudguard
@@ -19,26 +19,26 @@ type ClassificationStatusEnum string
 
 // Set of constants representing the allowable values for ClassificationStatusEnum
 const (
-	ClassificationStatusFalsePositive ClassificationStatusEnum = "FALSE_POSITIVE"
 	ClassificationStatusFalseNegative ClassificationStatusEnum = "FALSE_NEGATIVE"
-	ClassificationStatusTruePositive  ClassificationStatusEnum = "TRUE_POSITIVE"
 	ClassificationStatusTrueNegative  ClassificationStatusEnum = "TRUE_NEGATIVE"
+	ClassificationStatusFalsePositive ClassificationStatusEnum = "FALSE_POSITIVE"
+	ClassificationStatusTruePositive  ClassificationStatusEnum = "TRUE_POSITIVE"
 	ClassificationStatusNotClassified ClassificationStatusEnum = "NOT_CLASSIFIED"
 )
 
 var mappingClassificationStatusEnum = map[string]ClassificationStatusEnum{
-	"FALSE_POSITIVE": ClassificationStatusFalsePositive,
 	"FALSE_NEGATIVE": ClassificationStatusFalseNegative,
-	"TRUE_POSITIVE":  ClassificationStatusTruePositive,
 	"TRUE_NEGATIVE":  ClassificationStatusTrueNegative,
+	"FALSE_POSITIVE": ClassificationStatusFalsePositive,
+	"TRUE_POSITIVE":  ClassificationStatusTruePositive,
 	"NOT_CLASSIFIED": ClassificationStatusNotClassified,
 }
 
 var mappingClassificationStatusEnumLowerCase = map[string]ClassificationStatusEnum{
-	"false_positive": ClassificationStatusFalsePositive,
 	"false_negative": ClassificationStatusFalseNegative,
-	"true_positive":  ClassificationStatusTruePositive,
 	"true_negative":  ClassificationStatusTrueNegative,
+	"false_positive": ClassificationStatusFalsePositive,
+	"true_positive":  ClassificationStatusTruePositive,
 	"not_classified": ClassificationStatusNotClassified,
 }
 
@@ -54,10 +54,10 @@ func GetClassificationStatusEnumValues() []ClassificationStatusEnum {
 // GetClassificationStatusEnumStringValues Enumerates the set of values in String for ClassificationStatusEnum
 func GetClassificationStatusEnumStringValues() []string {
 	return []string{
-		"FALSE_POSITIVE",
 		"FALSE_NEGATIVE",
-		"TRUE_POSITIVE",
 		"TRUE_NEGATIVE",
+		"FALSE_POSITIVE",
+		"TRUE_POSITIVE",
 		"NOT_CLASSIFIED",
 	}
 }

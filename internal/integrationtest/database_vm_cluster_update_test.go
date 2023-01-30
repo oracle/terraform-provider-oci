@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -8,28 +8,28 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	vmClusterUpdateSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseVmClusterUpdateSingularDataSourceRepresentation = map[string]interface{}{
 		"update_id":     acctest.Representation{RepType: acctest.Required, Create: `{}`},
 		"vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
 	}
 
-	vmClusterUpdateDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseVmClusterUpdateDataSourceRepresentation = map[string]interface{}{
 		"vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
 		"state":         acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 		"update_type":   acctest.Representation{RepType: acctest.Optional, Create: `GI_UPGRADE`},
 	}
 
-	VmClusterUpdateResourceConfig = VmClusterNetworkValidatedResourceConfig +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Required, acctest.Create, vmClusterRepresentation)
+	DatabaseVmClusterUpdateResourceConfig = VmClusterNetworkValidatedResourceConfig +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Required, acctest.Create, DatabaseCloudAutonomousVmClusterRepresentation)
 )
 
 // issue-routing-tag: database/default
@@ -53,8 +53,8 @@ func TestDatabaseVmClusterUpdateResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_updates", "test_vm_cluster_updates", acctest.Required, acctest.Create, vmClusterUpdateDataSourceRepresentation) +
-				compartmentIdVariableStr + VmClusterUpdateResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_updates", "test_vm_cluster_updates", acctest.Required, acctest.Create, DatabaseDatabaseVmClusterUpdateDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseVmClusterUpdateResourceConfig,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 				resource.TestCheckResourceAttr(datasourceName, "update_type", "GI_UPGRADE"),
@@ -74,8 +74,8 @@ func TestDatabaseVmClusterUpdateResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_update", "test_vm_cluster_update", acctest.Required, acctest.Create, vmClusterUpdateSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + VmClusterUpdateResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_update", "test_vm_cluster_update", acctest.Required, acctest.Create, DatabaseDatabaseVmClusterUpdateSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseVmClusterUpdateResourceConfig,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "update_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vm_cluster_id"),

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package containerengine
@@ -12,15 +12,15 @@ import (
 	"strings"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_containerengine "github.com/oracle/oci-go-sdk/v65/containerengine"
@@ -51,10 +51,6 @@ func ContainerengineNodePoolResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
-			},
-			"kubernetes_version": {
-				Type:     schema.TypeString,
-				Required: true,
 			},
 			"name": {
 				Type:     schema.TypeString,
@@ -103,6 +99,11 @@ func ContainerengineNodePoolResource() *schema.Resource {
 					},
 				},
 			},
+			"kubernetes_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"node_config_details": {
 				Type:          schema.TypeList,
 				Optional:      true,
@@ -135,6 +136,14 @@ func ContainerengineNodePoolResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
+									},
+									"fault_domains": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
 									},
 
 									// Computed
@@ -170,6 +179,52 @@ func ContainerengineNodePoolResource() *schema.Resource {
 							Computed: true,
 							Elem:     schema.TypeString,
 						},
+						"node_pool_pod_network_option_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"cni_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"FLANNEL_OVERLAY",
+											"OCI_VCN_IP_NATIVE",
+										}, true),
+									},
+
+									// Optional
+									"max_pods_per_node": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"pod_nsg_ids": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"pod_subnet_ids": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
 						"nsg_ids": {
 							Type:     schema.TypeSet,
 							Optional: true,
@@ -178,6 +233,32 @@ func ContainerengineNodePoolResource() *schema.Resource {
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
+						},
+
+						// Computed
+					},
+				},
+			},
+			"node_eviction_node_pool_settings": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"eviction_grace_duration": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"is_force_delete_after_grace_duration": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
 						},
 
 						// Computed
@@ -291,6 +372,10 @@ func ContainerengineNodePoolResource() *schema.Resource {
 			},
 
 			// Computed
+			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"node_source": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -408,6 +493,10 @@ func ContainerengineNodePoolResource() *schema.Resource {
 					},
 				},
 			},
+			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
@@ -454,6 +543,31 @@ type ContainerengineNodePoolResourceCrud struct {
 
 func (s *ContainerengineNodePoolResourceCrud) ID() string {
 	return *s.Res.Id
+}
+
+func (s *ContainerengineNodePoolResourceCrud) CreatedPending() []string {
+	return []string{
+		string(oci_containerengine.NodePoolLifecycleStateCreating),
+	}
+}
+
+func (s *ContainerengineNodePoolResourceCrud) CreatedTarget() []string {
+	return []string{
+		string(oci_containerengine.NodePoolLifecycleStateActive),
+		string(oci_containerengine.NodePoolLifecycleStateNeedsAttention),
+	}
+}
+
+func (s *ContainerengineNodePoolResourceCrud) DeletedPending() []string {
+	return []string{
+		string(oci_containerengine.NodePoolLifecycleStateDeleting),
+	}
+}
+
+func (s *ContainerengineNodePoolResourceCrud) DeletedTarget() []string {
+	return []string{
+		string(oci_containerengine.NodePoolLifecycleStateDeleted),
+	}
 }
 
 func (s *ContainerengineNodePoolResourceCrud) Create() error {
@@ -519,6 +633,16 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 		}
 	}
 
+	if nodeEvictionNodePoolSettings, ok := s.D.GetOkExists("node_eviction_node_pool_settings"); ok {
+		if tmpList := nodeEvictionNodePoolSettings.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "node_eviction_node_pool_settings", 0)
+			tmp, err := s.mapToNodeEvictionNodePoolSettings(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.NodeEvictionNodePoolSettings = &tmp
+		}
+	}
 	if nodeImageId, ok := s.D.GetOkExists("node_image_id"); ok {
 		tmp := nodeImageId.(string)
 		request.NodeImageName = &tmp
@@ -860,6 +984,11 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 		}
 	}
 
+	if isForceDeletionAfterOverrideGraceDuration, ok := s.D.GetOkExists("is_force_deletion_after_override_grace_duration"); ok {
+		tmp := isForceDeletionAfterOverrideGraceDuration.(bool)
+		request.IsForceDeletionAfterOverrideGraceDuration = &tmp
+	}
+
 	if kubernetesVersion, ok := s.D.GetOkExists("kubernetes_version"); ok {
 		tmp := kubernetesVersion.(string)
 		request.KubernetesVersion = &tmp
@@ -870,18 +999,27 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 		request.Name = &tmp
 	}
 
-	if nodeConfigDetails, ok := s.D.GetOkExists("node_config_details"); ok && s.D.HasChange("node_config_details") {
-		if tmpList := nodeConfigDetails.([]interface{}); len(tmpList) > 0 {
+	if nodeConfigDetails, ok := s.D.GetOkExists("node_config_details"); ok {
+		if feildNameList := nodeConfigDetails.([]interface{}); len(feildNameList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "node_config_details", 0)
-			_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "placement_configs"))
-			_, exists := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "size"))
-			if (ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "placement_configs"))) || (exists && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "size"))) {
+			if ok := s.hasNodeConfigDetailsChange(fieldKeyFormat, feildNameList); ok {
 				tmp, err := s.mapToUpdateNodePoolNodeConfigDetails(fieldKeyFormat)
 				if err != nil {
 					return err
 				}
 				request.NodeConfigDetails = &tmp
 			}
+		}
+	}
+
+	if nodeEvictionNodePoolSettings, ok := s.D.GetOkExists("node_eviction_node_pool_settings"); ok {
+		if tmpList := nodeEvictionNodePoolSettings.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "node_eviction_node_pool_settings", 0)
+			tmp, err := s.mapToNodeEvictionNodePoolSettings(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.NodeEvictionNodePoolSettings = &tmp
 		}
 	}
 
@@ -917,6 +1055,11 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 			}
 			request.NodeSourceDetails = tmp
 		}
+	}
+
+	if overrideEvictionGraceDuration, ok := s.D.GetOkExists("override_eviction_grace_duration"); ok {
+		tmp := overrideEvictionGraceDuration.(string)
+		request.OverrideEvictionGraceDuration = &tmp
 	}
 
 	if quantityPerSubnet, ok := s.D.GetOkExists("quantity_per_subnet"); ok && s.D.HasChange("quantity_per_subnet") {
@@ -955,8 +1098,18 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 func (s *ContainerengineNodePoolResourceCrud) Delete() error {
 	request := oci_containerengine.DeleteNodePoolRequest{}
 
+	if isForceDeletionAfterOverrideGraceDuration, ok := s.D.GetOkExists("is_force_deletion_after_override_grace_duration"); ok {
+		tmp := isForceDeletionAfterOverrideGraceDuration.(bool)
+		request.IsForceDeletionAfterOverrideGraceDuration = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.NodePoolId = &tmp
+
+	if overrideEvictionGraceDuration, ok := s.D.GetOkExists("override_eviction_grace_duration"); ok {
+		tmp := overrideEvictionGraceDuration.(string)
+		request.OverrideEvictionGraceDuration = &tmp
+	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
@@ -997,6 +1150,10 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 		s.D.Set("kubernetes_version", *s.Res.KubernetesVersion)
 	}
 
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
@@ -1005,6 +1162,12 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 		s.D.Set("node_config_details", []interface{}{NodePoolNodeConfigDetailsToMap(s.Res.NodeConfigDetails, false)})
 	} else {
 		s.D.Set("node_config_details", nil)
+	}
+
+	if s.Res.NodeEvictionNodePoolSettings != nil {
+		s.D.Set("node_eviction_node_pool_settings", []interface{}{NodeEvictionNodePoolSettingsToMap(s.Res.NodeEvictionNodePoolSettings)})
+	} else {
+		s.D.Set("node_eviction_node_pool_settings", nil)
 	}
 
 	if s.Res.NodeImageId != nil {
@@ -1061,6 +1224,14 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 		s.D.Set("ssh_public_key", *s.Res.SshPublicKey)
 	}
 
+	s.D.Set("state", s.Res.LifecycleState)
+
+	subnetIds := []interface{}{}
+	for _, item := range s.Res.SubnetIds {
+		subnetIds = append(subnetIds, item)
+	}
+	s.D.Set("subnet_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, subnetIds))
+
 	if s.Res.SubnetIds != nil {
 		subnetIds := []interface{}{}
 		for _, item := range s.Res.SubnetIds {
@@ -1096,6 +1267,17 @@ func (s *ContainerengineNodePoolResourceCrud) mapToCreateNodePoolNodeConfigDetai
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
 		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if nodePoolPodNetworkOptionDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "node_pool_pod_network_option_details")); ok {
+		if tmpList := nodePoolPodNetworkOptionDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "node_pool_pod_network_option_details"), 0)
+			tmp, err := s.mapToNodePoolPodNetworkOptionDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert node_pool_pod_network_option_details, encountered error: %v", err)
+			}
+			result.NodePoolPodNetworkOptionDetails = tmp
+		}
 	}
 
 	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
@@ -1153,6 +1335,14 @@ func NodePoolNodeConfigDetailsToMap(obj *oci_containerengine.NodePoolNodeConfigD
 	}
 
 	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.NodePoolPodNetworkOptionDetails != nil {
+		nodePoolPodNetworkOptionDetailsArray := []interface{}{}
+		if nodePoolPodNetworkOptionDetailsMap := NodePoolPodNetworkOptionDetailsToMap(&obj.NodePoolPodNetworkOptionDetails); nodePoolPodNetworkOptionDetailsMap != nil {
+			nodePoolPodNetworkOptionDetailsArray = append(nodePoolPodNetworkOptionDetailsArray, nodePoolPodNetworkOptionDetailsMap)
+		}
+		result["node_pool_pod_network_option_details"] = nodePoolPodNetworkOptionDetailsArray
+	}
 
 	nsgIds := []interface{}{}
 	for _, item := range obj.NsgIds {
@@ -1343,6 +1533,36 @@ func NodeErrorToMap(obj *oci_containerengine.NodeError) map[string]interface{} {
 	return result
 }
 
+func (s *ContainerengineNodePoolResourceCrud) mapToNodeEvictionNodePoolSettings(fieldKeyFormat string) (oci_containerengine.NodeEvictionNodePoolSettings, error) {
+	result := oci_containerengine.NodeEvictionNodePoolSettings{}
+
+	if evictionGraceDuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "eviction_grace_duration")); ok {
+		tmp := evictionGraceDuration.(string)
+		result.EvictionGraceDuration = &tmp
+	}
+
+	if isForceDeleteAfterGraceDuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_force_delete_after_grace_duration")); ok {
+		tmp := isForceDeleteAfterGraceDuration.(bool)
+		result.IsForceDeleteAfterGraceDuration = &tmp
+	}
+
+	return result, nil
+}
+
+func NodeEvictionNodePoolSettingsToMap(obj *oci_containerengine.NodeEvictionNodePoolSettings) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.EvictionGraceDuration != nil {
+		result["eviction_grace_duration"] = string(*obj.EvictionGraceDuration)
+	}
+
+	if obj.IsForceDeleteAfterGraceDuration != nil {
+		result["is_force_delete_after_grace_duration"] = bool(*obj.IsForceDeleteAfterGraceDuration)
+	}
+
+	return result
+}
+
 func (s *ContainerengineNodePoolResourceCrud) mapToNodePoolPlacementConfigDetails(fieldKeyFormat string) (oci_containerengine.NodePoolPlacementConfigDetails, error) {
 	result := oci_containerengine.NodePoolPlacementConfigDetails{}
 
@@ -1354,6 +1574,19 @@ func (s *ContainerengineNodePoolResourceCrud) mapToNodePoolPlacementConfigDetail
 	if capacityReservationId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "capacity_reservation_id")); ok {
 		tmp := capacityReservationId.(string)
 		result.CapacityReservationId = &tmp
+	}
+
+	if faultDomains, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "fault_domains")); ok {
+		interfaces := faultDomains.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "fault_domains")) {
+			result.FaultDomains = tmp
+		}
 	}
 
 	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
@@ -1375,8 +1608,84 @@ func NodePoolPlacementConfigDetailsToMap(obj oci_containerengine.NodePoolPlaceme
 		result["capacity_reservation_id"] = string(*obj.CapacityReservationId)
 	}
 
+	result["fault_domains"] = obj.FaultDomains
+
 	if obj.SubnetId != nil {
 		result["subnet_id"] = string(*obj.SubnetId)
+	}
+
+	return result
+}
+
+func (s *ContainerengineNodePoolResourceCrud) mapToNodePoolPodNetworkOptionDetails(fieldKeyFormat string) (oci_containerengine.NodePoolPodNetworkOptionDetails, error) {
+	var baseObject oci_containerengine.NodePoolPodNetworkOptionDetails
+	//discriminator
+	cniTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cni_type"))
+	var cniType string
+	if ok {
+		cniType = cniTypeRaw.(string)
+	} else {
+		cniType = "" // default value
+	}
+	switch strings.ToLower(cniType) {
+	case strings.ToLower("FLANNEL_OVERLAY"):
+		details := oci_containerengine.FlannelOverlayNodePoolPodNetworkOptionDetails{}
+		baseObject = details
+	case strings.ToLower("OCI_VCN_IP_NATIVE"):
+		details := oci_containerengine.OciVcnIpNativeNodePoolPodNetworkOptionDetails{}
+		if maxPodsPerNode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_pods_per_node")); ok {
+			tmp := maxPodsPerNode.(int)
+			details.MaxPodsPerNode = &tmp
+		}
+		if podNsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pod_nsg_ids")); ok {
+			interfaces := podNsgIds.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "pod_nsg_ids")) {
+				details.PodNsgIds = tmp
+			}
+		}
+		if podSubnetIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pod_subnet_ids")); ok {
+			interfaces := podSubnetIds.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "pod_subnet_ids")) {
+				details.PodSubnetIds = tmp
+			}
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown cni_type '%v' was specified", cniType)
+	}
+	return baseObject, nil
+}
+
+func NodePoolPodNetworkOptionDetailsToMap(obj *oci_containerengine.NodePoolPodNetworkOptionDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_containerengine.FlannelOverlayNodePoolPodNetworkOptionDetails:
+		result["cni_type"] = "FLANNEL_OVERLAY"
+	case oci_containerengine.OciVcnIpNativeNodePoolPodNetworkOptionDetails:
+		result["cni_type"] = "OCI_VCN_IP_NATIVE"
+
+		if v.MaxPodsPerNode != nil {
+			result["max_pods_per_node"] = int(*v.MaxPodsPerNode)
+		}
+
+		result["pod_nsg_ids"] = v.PodNsgIds
+
+		result["pod_subnet_ids"] = v.PodSubnetIds
+	default:
+		log.Printf("[WARN] Received 'cni_type' of unknown type %v", *obj)
+		return nil
 	}
 
 	return result
@@ -1473,6 +1782,19 @@ func placementConfigsHashCodeForSets(v interface{}) int {
 	return utils.GetStringHashcode(buf.String())
 }
 
+func (s *ContainerengineNodePoolResourceCrud) hasNodeConfigDetailsChange(fieldKeyFormat string, fieldNameList []interface{}) bool {
+	for _, fieldName := range fieldNameList {
+		if rec, ok := fieldName.(map[string]interface{}); ok {
+			for key := range rec {
+				if _, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, key)); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, key)) {
+					return true
+				}
+			}
+		}
+	}
+	return false
+}
+
 func (s *ContainerengineNodePoolResourceCrud) mapToUpdateNodePoolNodeConfigDetails(fieldKeyFormat string) (oci_containerengine.UpdateNodePoolNodeConfigDetails, error) {
 	result := oci_containerengine.UpdateNodePoolNodeConfigDetails{}
 
@@ -1498,6 +1820,41 @@ func (s *ContainerengineNodePoolResourceCrud) mapToUpdateNodePoolNodeConfigDetai
 	if size, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "size")); ok {
 		tmp := size.(int)
 		result.Size = &tmp
+	}
+
+	if isPvEncryptionInTransitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_pv_encryption_in_transit_enabled")); ok {
+		tmp := isPvEncryptionInTransitEnabled.(bool)
+		result.IsPvEncryptionInTransitEnabled = &tmp
+	}
+
+	if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
+		tmp := kmsKeyId.(string)
+		result.KmsKeyId = &tmp
+	}
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
+		tmp, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
+		}
+		result.DefinedTags = tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
+		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "nsg_ids")) {
+			result.NsgIds = tmp
+		}
 	}
 
 	return result, nil

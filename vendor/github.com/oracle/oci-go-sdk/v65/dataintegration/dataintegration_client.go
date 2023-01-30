@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -4153,6 +4153,120 @@ func (client DataIntegrationClient) getReference(ctx context.Context, request co
 	return response, err
 }
 
+// GetRuntimeOperator Retrieves a runtime operator using the specified identifier.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetRuntimeOperator.go.html to see an example of how to use GetRuntimeOperator API.
+func (client DataIntegrationClient) GetRuntimeOperator(ctx context.Context, request GetRuntimeOperatorRequest) (response GetRuntimeOperatorResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getRuntimeOperator, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetRuntimeOperatorResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetRuntimeOperatorResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetRuntimeOperatorResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetRuntimeOperatorResponse")
+	}
+	return
+}
+
+// getRuntimeOperator implements the OCIOperation interface (enables retrying operations)
+func (client DataIntegrationClient) getRuntimeOperator(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/runtimePipelines/{runtimePipelineKey}/runtimeOperators/{runtimeOperatorKey}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetRuntimeOperatorResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/RuntimeOperator/GetRuntimeOperator"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetRuntimeOperator", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetRuntimePipeline Retrieves a runtime pipeline using the specified identifier.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetRuntimePipeline.go.html to see an example of how to use GetRuntimePipeline API.
+func (client DataIntegrationClient) GetRuntimePipeline(ctx context.Context, request GetRuntimePipelineRequest) (response GetRuntimePipelineResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getRuntimePipeline, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetRuntimePipelineResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetRuntimePipelineResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetRuntimePipelineResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetRuntimePipelineResponse")
+	}
+	return
+}
+
+// getRuntimePipeline implements the OCIOperation interface (enables retrying operations)
+func (client DataIntegrationClient) getRuntimePipeline(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/runtimePipelines/{runtimePipelineKey}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetRuntimePipelineResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/RuntimePipeline/GetRuntimePipeline"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetRuntimePipeline", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetSchedule Retrieves schedule by schedule key
 //
 // See also
@@ -5179,6 +5293,63 @@ func (client DataIntegrationClient) listDependentObjects(ctx context.Context, re
 	return response, err
 }
 
+// ListDisApplicationTaskRunLineages This endpoint can be used to list Task Run Lineages within a given time window.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListDisApplicationTaskRunLineages.go.html to see an example of how to use ListDisApplicationTaskRunLineages API.
+func (client DataIntegrationClient) ListDisApplicationTaskRunLineages(ctx context.Context, request ListDisApplicationTaskRunLineagesRequest) (response ListDisApplicationTaskRunLineagesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDisApplicationTaskRunLineages, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDisApplicationTaskRunLineagesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDisApplicationTaskRunLineagesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDisApplicationTaskRunLineagesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDisApplicationTaskRunLineagesResponse")
+	}
+	return
+}
+
+// listDisApplicationTaskRunLineages implements the OCIOperation interface (enables retrying operations)
+func (client DataIntegrationClient) listDisApplicationTaskRunLineages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/disApplications/{disApplicationId}/taskRunLineages", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDisApplicationTaskRunLineagesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/TaskRunLineageSummaryCollection/ListDisApplicationTaskRunLineages"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListDisApplicationTaskRunLineages", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListDisApplications Retrieves a list of DIS Applications in a compartment and provides options to filter the list.
 //
 // See also
@@ -5863,6 +6034,120 @@ func (client DataIntegrationClient) listReferences(ctx context.Context, request 
 	return response, err
 }
 
+// ListRuntimeOperators This endpoint can be used to list runtime operators with filtering options
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListRuntimeOperators.go.html to see an example of how to use ListRuntimeOperators API.
+func (client DataIntegrationClient) ListRuntimeOperators(ctx context.Context, request ListRuntimeOperatorsRequest) (response ListRuntimeOperatorsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listRuntimeOperators, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListRuntimeOperatorsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListRuntimeOperatorsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListRuntimeOperatorsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListRuntimeOperatorsResponse")
+	}
+	return
+}
+
+// listRuntimeOperators implements the OCIOperation interface (enables retrying operations)
+func (client DataIntegrationClient) listRuntimeOperators(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/runtimePipelines/{runtimePipelineKey}/runtimeOperators", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListRuntimeOperatorsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/RuntimeOperatorSummaryCollection/ListRuntimeOperators"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListRuntimeOperators", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListRuntimePipelines This endpoint can be used to list runtime pipelines with filtering options
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListRuntimePipelines.go.html to see an example of how to use ListRuntimePipelines API.
+func (client DataIntegrationClient) ListRuntimePipelines(ctx context.Context, request ListRuntimePipelinesRequest) (response ListRuntimePipelinesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listRuntimePipelines, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListRuntimePipelinesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListRuntimePipelinesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListRuntimePipelinesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListRuntimePipelinesResponse")
+	}
+	return
+}
+
+// listRuntimePipelines implements the OCIOperation interface (enables retrying operations)
+func (client DataIntegrationClient) listRuntimePipelines(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/runtimePipelines", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListRuntimePipelinesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/RuntimePipelineSummaryCollection/ListRuntimePipelines"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListRuntimePipelines", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListSchedules Use this endpoint to list schedules.
 //
 // See also
@@ -5970,6 +6255,63 @@ func (client DataIntegrationClient) listSchemas(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Schema/ListSchemas"
 		err = common.PostProcessServiceError(err, "DataIntegration", "ListSchemas", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListTaskRunLineages This endpoint can be used to list Task Run Lineages within a given time window.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListTaskRunLineages.go.html to see an example of how to use ListTaskRunLineages API.
+func (client DataIntegrationClient) ListTaskRunLineages(ctx context.Context, request ListTaskRunLineagesRequest) (response ListTaskRunLineagesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listTaskRunLineages, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListTaskRunLineagesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListTaskRunLineagesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListTaskRunLineagesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListTaskRunLineagesResponse")
+	}
+	return
+}
+
+// listTaskRunLineages implements the OCIOperation interface (enables retrying operations)
+func (client DataIntegrationClient) listTaskRunLineages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/taskRunLineages", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListTaskRunLineagesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/TaskRunLineageSummaryCollection/ListTaskRunLineages"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListTaskRunLineages", apiReferenceLink)
 		return response, err
 	}
 

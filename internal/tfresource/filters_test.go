@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package tfresource
@@ -185,6 +185,50 @@ func TestUnitApplyFilters_duplicates(t *testing.T) {
 	res := ApplyFilters(filters, items, testSchema)
 	if len(res) != 2 {
 		t.Errorf("Expected 2 results, got %d", len(res))
+	}
+}
+
+func TestUnitIsValidSchemaType(t *testing.T) {
+	type _tests struct {
+		schema  *schema.Schema
+		isValid bool
+		message string
+	}
+
+	tests := []_tests{
+		{
+			schema: &schema.Schema{
+
+				Type:     schema.TypeList,
+				Optional: true,
+			},
+			isValid: false,
+			message: "MaxItems and MinItems should be 1",
+		},
+		{
+			schema: &schema.Schema{
+
+				Type:     schema.TypeList,
+				Computed: true,
+			},
+
+			isValid: true,
+			message: "computed fields shouldn't have MaxItems and MinItems",
+		},
+		{
+			schema: &schema.Schema{
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			isValid: true,
+			message: "string type is valid filters",
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.message, func(t *testing.T) {
+			assert.Equal(t, test.isValid, isValidSchemaType(test.schema))
+		})
 	}
 }
 

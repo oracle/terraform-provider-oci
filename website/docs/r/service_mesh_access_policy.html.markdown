@@ -21,11 +21,6 @@ resource "oci_service_mesh_access_policy" "test_access_policy" {
 	compartment_id = var.compartment_id
 	mesh_id = oci_service_mesh_mesh.test_mesh.id
 	name = var.access_policy_name
-
-	#Optional
-	defined_tags = {"foo-namespace.bar-key"= "value"}
-	description = var.access_policy_description
-	freeform_tags = {"bar-key"= "value"}
 	rules {
 		#Required
 		action = var.access_policy_rules_action
@@ -54,6 +49,11 @@ resource "oci_service_mesh_access_policy" "test_access_policy" {
 			virtual_service_id = oci_service_mesh_virtual_service.test_virtual_service.id
 		}
 	}
+
+	#Optional
+	defined_tags = {"foo-namespace.bar-key"= "value"}
+	description = var.access_policy_description
+	freeform_tags = {"bar-key"= "value"}
 }
 ```
 
@@ -67,7 +67,7 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `mesh_id` - (Required) The OCID of the service mesh in which this access policy is created.
 * `name` - (Required) A user-friendly name. The name has to be unique within the same service mesh and cannot be changed after creation. Avoid entering confidential information.  Example: `My unique resource name` 
-* `rules` - (Optional) (Updatable) List of applicable rules
+* `rules` - (Required) (Updatable) List of applicable rules
 	* `action` - (Required) (Updatable) Action for the traffic between the source and the destination.
 	* `destination` - (Required) (Updatable) Target of the access policy. This can either be the source or the destination of the traffic.
 		* `hostnames` - (Applicable when type=EXTERNAL_SERVICE) (Updatable) The hostnames of the external service. Only applicable for HTTP and HTTPS protocols. Wildcard hostnames are supported in the prefix form. Examples of valid hostnames are "www.example.com", "*.example.com", "*.com", "*". Hostname "*" can be used to allow all hosts. 
@@ -127,7 +127,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Access Policy
 	* `update` - (Defaults to 20 minutes), when updating the Access Policy
 	* `delete` - (Defaults to 20 minutes), when destroying the Access Policy

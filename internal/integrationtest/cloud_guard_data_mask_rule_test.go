@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,26 +16,26 @@ import (
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 	"github.com/oracle/oci-go-sdk/v65/common"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	DataMaskRuleRequiredOnlyResource = DataMaskRuleResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", acctest.Required, acctest.Create, dataMaskRuleRepresentation)
+	CloudGuardDataMaskRuleRequiredOnlyResource = CloudGuardDataMaskRuleResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", acctest.Required, acctest.Create, CloudGuardDataMaskRuleRepresentation)
 
-	DataMaskRuleResourceConfig = DataMaskRuleResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", acctest.Optional, acctest.Update, dataMaskRuleRepresentation)
+	CloudGuardDataMaskRuleResourceConfig = CloudGuardDataMaskRuleResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", acctest.Optional, acctest.Update, CloudGuardDataMaskRuleRepresentation)
 
-	dataMaskRuleSingularDataSourceRepresentation = map[string]interface{}{
+	CloudGuardCloudGuardDataMaskRuleSingularDataSourceRepresentation = map[string]interface{}{
 		"data_mask_rule_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_cloud_guard_data_mask_rule.test_data_mask_rule.id}`},
 	}
 
-	dataMaskRuleDataSourceRepresentation = map[string]interface{}{
+	CloudGuardCloudGuardDataMaskRuleDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"access_level":          acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
 		"data_mask_rule_status": acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
@@ -44,35 +44,35 @@ var (
 		"state":                 acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"target_id":             acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"target_type":           acctest.Representation{RepType: acctest.Optional, Create: `targetType`},
-		"filter":                acctest.RepresentationGroup{RepType: acctest.Required, Group: dataMaskRuleDataSourceFilterRepresentation}}
-	dataMaskRuleDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                acctest.RepresentationGroup{RepType: acctest.Required, Group: CloudGuardDataMaskRuleDataSourceFilterRepresentation}}
+	CloudGuardDataMaskRuleDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_cloud_guard_data_mask_rule.test_data_mask_rule.id}`}},
 	}
 
-	dataMaskRuleRepresentation = map[string]interface{}{
+	CloudGuardDataMaskRuleRepresentation = map[string]interface{}{
 		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"data_mask_categories":  acctest.Representation{RepType: acctest.Required, Create: []string{`PII`}, Update: []string{`PHI`}},
 		"display_name":          acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"iam_group_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_group.test_group.id}`},
-		"target_selected":       acctest.RepresentationGroup{RepType: acctest.Required, Group: dataMaskRuleTargetSelectedRepresentation},
+		"target_selected":       acctest.RepresentationGroup{RepType: acctest.Required, Group: CloudGuardDataMaskRuleTargetSelectedRepresentation},
 		"data_mask_rule_status": acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
-		"defined_tags":          acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":          acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":           acctest.Representation{RepType: acctest.Optional, Create: `description`},
 		"freeform_tags":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"state":                 acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 	}
 
-	dataMaskRuleTargetSelectedRepresentation = map[string]interface{}{
+	CloudGuardDataMaskRuleTargetSelectedRepresentation = map[string]interface{}{
 		"kind":   acctest.Representation{RepType: acctest.Required, Create: `ALL`, Update: `ALL`},
 		"values": acctest.Representation{RepType: acctest.Optional, Create: []string{}, Update: []string{}},
 	}
 
-	DataMaskRuleResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Required, acctest.Create, groupRepresentation)
+	CloudGuardDataMaskRuleResourceDependencies = DefinedTagsDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Required, acctest.Create, IdentityGroupRepresentation)
 )
 
-// issue-routing-tag: cloud_guard/default
+//issue-routing-tag: cloud_guard/default
 func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCloudGuardDataMaskRuleResource_basic")
 	defer httpreplay.SaveScenario()
@@ -89,14 +89,14 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DataMaskRuleResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", acctest.Optional, acctest.Create, dataMaskRuleRepresentation), "cloudguard", "dataMaskRule", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CloudGuardDataMaskRuleResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", acctest.Optional, acctest.Create, CloudGuardDataMaskRuleRepresentation), "cloudguard", "dataMaskRule", t)
 
 	acctest.ResourceTest(t, testAccCheckCloudGuardDataMaskRuleDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DataMaskRuleResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", acctest.Required, acctest.Create, dataMaskRuleRepresentation),
+			Config: config + compartmentIdVariableStr + CloudGuardDataMaskRuleResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", acctest.Required, acctest.Create, CloudGuardDataMaskRuleRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "data_mask_categories.#", "1"),
@@ -114,12 +114,12 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DataMaskRuleResourceDependencies,
+			Config: config + compartmentIdVariableStr + CloudGuardDataMaskRuleResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DataMaskRuleResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", acctest.Optional, acctest.Create, dataMaskRuleRepresentation),
+			Config: config + compartmentIdVariableStr + CloudGuardDataMaskRuleResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", acctest.Optional, acctest.Create, CloudGuardDataMaskRuleRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "data_mask_categories.#", "1"),
@@ -148,8 +148,8 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DataMaskRuleResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", acctest.Optional, acctest.Update, dataMaskRuleRepresentation),
+			Config: config + compartmentIdVariableStr + CloudGuardDataMaskRuleResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", acctest.Optional, acctest.Update, CloudGuardDataMaskRuleRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "data_mask_categories.#", "1"),
@@ -176,9 +176,9 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_data_mask_rules", "test_data_mask_rules", acctest.Optional, acctest.Update, dataMaskRuleDataSourceRepresentation) +
-				compartmentIdVariableStr + DataMaskRuleResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", acctest.Optional, acctest.Update, dataMaskRuleRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_data_mask_rules", "test_data_mask_rules", acctest.Optional, acctest.Update, CloudGuardCloudGuardDataMaskRuleDataSourceRepresentation) +
+				compartmentIdVariableStr + CloudGuardDataMaskRuleResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", acctest.Optional, acctest.Update, CloudGuardDataMaskRuleRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
@@ -195,8 +195,8 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", acctest.Required, acctest.Create, dataMaskRuleSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DataMaskRuleResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", acctest.Required, acctest.Create, CloudGuardCloudGuardDataMaskRuleSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CloudGuardDataMaskRuleResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_mask_rule_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
@@ -216,7 +216,7 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + DataMaskRuleRequiredOnlyResource,
+			Config:                  config + CloudGuardDataMaskRuleRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -280,7 +280,7 @@ func init() {
 
 func sweepCloudGuardDataMaskRuleResource(compartment string) error {
 	cloudGuardClient := acctest.GetTestClients(&schema.ResourceData{}).CloudGuardClient()
-	dataMaskRuleIds, err := getDataMaskRuleIds(compartment)
+	dataMaskRuleIds, err := getCloudGuardDataMaskRuleIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -296,14 +296,14 @@ func sweepCloudGuardDataMaskRuleResource(compartment string) error {
 				fmt.Printf("Error deleting DataMaskRule %s %s, It is possible that the resource is already deleted. Please verify manually \n", dataMaskRuleId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &dataMaskRuleId, dataMaskRuleSweepWaitCondition, time.Duration(3*time.Minute),
-				dataMaskRuleSweepResponseFetchOperation, "cloud_guard", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &dataMaskRuleId, CloudGuardDataMaskRuleSweepWaitCondition, time.Duration(3*time.Minute),
+				CloudGuardDataMaskRuleSweepResponseFetchOperation, "cloud_guard", true)
 		}
 	}
 	return nil
 }
 
-func getDataMaskRuleIds(compartment string) ([]string, error) {
+func getCloudGuardDataMaskRuleIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "DataMaskRuleId")
 	if ids != nil {
 		return ids, nil
@@ -328,7 +328,7 @@ func getDataMaskRuleIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func dataMaskRuleSweepWaitCondition(response common.OCIOperationResponse) bool {
+func CloudGuardDataMaskRuleSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if dataMaskRuleResponse, ok := response.Response.(oci_cloud_guard.GetDataMaskRuleResponse); ok {
 		return dataMaskRuleResponse.LifecycleState != oci_cloud_guard.LifecycleStateDeleted
@@ -336,7 +336,7 @@ func dataMaskRuleSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func dataMaskRuleSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CloudGuardDataMaskRuleSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.CloudGuardClient().GetDataMaskRule(context.Background(), oci_cloud_guard.GetDataMaskRuleRequest{
 		DataMaskRuleId: resourceId,
 		RequestMetadata: common.RequestMetadata{

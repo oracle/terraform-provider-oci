@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,23 +7,23 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	logAnalyticsUnprocessedDataBucketSingularDataSourceRepresentation = map[string]interface{}{
+	LogAnalyticsLogAnalyticsLogAnalyticsUnprocessedDataBucketSingularDataSourceRepresentation = map[string]interface{}{
 		"namespace": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 	}
 
 	LogAnalyticsUnprocessedDataBucketDependencies = "" +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation)
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsNamespaceSingularDataSourceRepresentation)
 
-	LogAnalyticsUnprocessedDataBucketResourceConfig = ""
+	LogAnalyticsLogAnalyticsUnprocessedDataBucketResourceConfig = ""
 )
 
 // issue-routing-tag: log_analytics/default
@@ -45,7 +45,7 @@ func TestLogAnalyticsLogAnalyticsUnprocessedDataBucketResource_basic(t *testing.
 		// set unprocessed data bucket
 		{
 			Config: config + compartmentIdVariableStr + LogAnalyticsUnprocessedDataBucketDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_unprocessed_data_bucket_management", "test_log_analytics_unprocessed_data_bucket_management", acctest.Required, acctest.Update, logAnalyticsUnprocessedDataBucketManagementRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_unprocessed_data_bucket_management", "test_log_analytics_unprocessed_data_bucket_management", acctest.Required, acctest.Update, LogAnalyticsLogAnalyticsUnprocessedDataBucketManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bucket", "udb_tf"),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -56,8 +56,8 @@ func TestLogAnalyticsLogAnalyticsUnprocessedDataBucketResource_basic(t *testing.
 		// verify singular datasource
 		{
 			Config: config + compartmentIdVariableStr + LogAnalyticsUnprocessedDataBucketDependencies +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_unprocessed_data_bucket", "test_log_analytics_unprocessed_data_bucket", acctest.Required, acctest.Create, logAnalyticsUnprocessedDataBucketSingularDataSourceRepresentation) +
-				LogAnalyticsUnprocessedDataBucketResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_unprocessed_data_bucket", "test_log_analytics_unprocessed_data_bucket", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsLogAnalyticsUnprocessedDataBucketSingularDataSourceRepresentation) +
+				LogAnalyticsLogAnalyticsUnprocessedDataBucketResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "bucket", "udb_tf"),

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -50,6 +50,10 @@ func (m *filter) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 
 	var err error
 	switch m.TriggerSource {
+	case "VBS":
+		mm := VbsFilter{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DEVOPS_CODE_REPOSITORY":
 		mm := DevopsCodeRepositoryFilter{}
 		err = json.Unmarshal(data, &mm)
@@ -58,12 +62,20 @@ func (m *filter) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := BitbucketCloudFilter{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "BITBUCKET_SERVER":
+		mm := BitbucketServerFilter{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GITLAB":
 		mm := GitlabFilter{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "GITHUB":
 		mm := GithubFilter{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GITLAB_SERVER":
+		mm := GitlabServerFilter{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -30,11 +30,11 @@ type CreateNodePoolDetails struct {
 	// The name of the node pool. Avoid entering confidential information.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The version of Kubernetes to install on the nodes in the node pool.
-	KubernetesVersion *string `mandatory:"true" json:"kubernetesVersion"`
-
 	// The name of the node shape of the nodes in the node pool.
 	NodeShape *string `mandatory:"true" json:"nodeShape"`
+
+	// The version of Kubernetes to install on the nodes in the node pool.
+	KubernetesVersion *string `mandatory:"false" json:"kubernetesVersion"`
 
 	// A list of key/value pairs to add to each underlying OCI instance in the node pool on launch.
 	NodeMetadata map[string]string `mandatory:"false" json:"nodeMetadata"`
@@ -78,6 +78,8 @@ type CreateNodePoolDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	NodeEvictionNodePoolSettings *NodeEvictionNodePoolSettings `mandatory:"false" json:"nodeEvictionNodePoolSettings"`
 }
 
 func (m CreateNodePoolDetails) String() string {
@@ -99,22 +101,23 @@ func (m CreateNodePoolDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateNodePoolDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		NodeMetadata      map[string]string                 `json:"nodeMetadata"`
-		NodeImageName     *string                           `json:"nodeImageName"`
-		NodeSourceDetails nodesourcedetails                 `json:"nodeSourceDetails"`
-		NodeShapeConfig   *CreateNodeShapeConfigDetails     `json:"nodeShapeConfig"`
-		InitialNodeLabels []KeyValue                        `json:"initialNodeLabels"`
-		SshPublicKey      *string                           `json:"sshPublicKey"`
-		QuantityPerSubnet *int                              `json:"quantityPerSubnet"`
-		SubnetIds         []string                          `json:"subnetIds"`
-		NodeConfigDetails *CreateNodePoolNodeConfigDetails  `json:"nodeConfigDetails"`
-		FreeformTags      map[string]string                 `json:"freeformTags"`
-		DefinedTags       map[string]map[string]interface{} `json:"definedTags"`
-		CompartmentId     *string                           `json:"compartmentId"`
-		ClusterId         *string                           `json:"clusterId"`
-		Name              *string                           `json:"name"`
-		KubernetesVersion *string                           `json:"kubernetesVersion"`
-		NodeShape         *string                           `json:"nodeShape"`
+		KubernetesVersion            *string                           `json:"kubernetesVersion"`
+		NodeMetadata                 map[string]string                 `json:"nodeMetadata"`
+		NodeImageName                *string                           `json:"nodeImageName"`
+		NodeSourceDetails            nodesourcedetails                 `json:"nodeSourceDetails"`
+		NodeShapeConfig              *CreateNodeShapeConfigDetails     `json:"nodeShapeConfig"`
+		InitialNodeLabels            []KeyValue                        `json:"initialNodeLabels"`
+		SshPublicKey                 *string                           `json:"sshPublicKey"`
+		QuantityPerSubnet            *int                              `json:"quantityPerSubnet"`
+		SubnetIds                    []string                          `json:"subnetIds"`
+		NodeConfigDetails            *CreateNodePoolNodeConfigDetails  `json:"nodeConfigDetails"`
+		FreeformTags                 map[string]string                 `json:"freeformTags"`
+		DefinedTags                  map[string]map[string]interface{} `json:"definedTags"`
+		NodeEvictionNodePoolSettings *NodeEvictionNodePoolSettings     `json:"nodeEvictionNodePoolSettings"`
+		CompartmentId                *string                           `json:"compartmentId"`
+		ClusterId                    *string                           `json:"clusterId"`
+		Name                         *string                           `json:"name"`
+		NodeShape                    *string                           `json:"nodeShape"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -122,6 +125,8 @@ func (m *CreateNodePoolDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.KubernetesVersion = model.KubernetesVersion
+
 	m.NodeMetadata = model.NodeMetadata
 
 	m.NodeImageName = model.NodeImageName
@@ -158,13 +163,13 @@ func (m *CreateNodePoolDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.DefinedTags = model.DefinedTags
 
+	m.NodeEvictionNodePoolSettings = model.NodeEvictionNodePoolSettings
+
 	m.CompartmentId = model.CompartmentId
 
 	m.ClusterId = model.ClusterId
 
 	m.Name = model.Name
-
-	m.KubernetesVersion = model.KubernetesVersion
 
 	m.NodeShape = model.NodeShape
 

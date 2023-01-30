@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -179,16 +179,19 @@ type ListFunctionLibrariesSortByEnum string
 const (
 	ListFunctionLibrariesSortByTimeCreated ListFunctionLibrariesSortByEnum = "TIME_CREATED"
 	ListFunctionLibrariesSortByDisplayName ListFunctionLibrariesSortByEnum = "DISPLAY_NAME"
+	ListFunctionLibrariesSortByTimeUpdated ListFunctionLibrariesSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListFunctionLibrariesSortByEnum = map[string]ListFunctionLibrariesSortByEnum{
 	"TIME_CREATED": ListFunctionLibrariesSortByTimeCreated,
 	"DISPLAY_NAME": ListFunctionLibrariesSortByDisplayName,
+	"TIME_UPDATED": ListFunctionLibrariesSortByTimeUpdated,
 }
 
 var mappingListFunctionLibrariesSortByEnumLowerCase = map[string]ListFunctionLibrariesSortByEnum{
 	"time_created": ListFunctionLibrariesSortByTimeCreated,
 	"display_name": ListFunctionLibrariesSortByDisplayName,
+	"time_updated": ListFunctionLibrariesSortByTimeUpdated,
 }
 
 // GetListFunctionLibrariesSortByEnumValues Enumerates the set of values for ListFunctionLibrariesSortByEnum
@@ -205,6 +208,7 @@ func GetListFunctionLibrariesSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 

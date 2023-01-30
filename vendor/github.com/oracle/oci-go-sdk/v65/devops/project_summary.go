@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -41,7 +41,10 @@ type ProjectSummary struct {
 	// Time the project was updated. Format defined by RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339).
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current state of the deployment.
+	// A detailed message describing the current state. For example, can be used to provide actionable information for a resource in Failed state.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// The current state of the project.
 	LifecycleState ProjectLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`

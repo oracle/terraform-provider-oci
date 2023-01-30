@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package dataflow
@@ -6,8 +6,8 @@ package dataflow
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_dataflow "github.com/oracle/oci-go-sdk/v65/dataflow"
@@ -103,6 +103,12 @@ func (s *DataflowPrivateEndpointDataSourceCrud) SetData() error {
 	if s.Res.OwnerUserName != nil {
 		s.D.Set("owner_user_name", *s.Res.OwnerUserName)
 	}
+
+	scanDetails := []interface{}{}
+	for _, item := range s.Res.ScanDetails {
+		scanDetails = append(scanDetails, ScanToMap(item))
+	}
+	s.D.Set("scan_details", scanDetails)
 
 	s.D.Set("state", s.Res.LifecycleState)
 

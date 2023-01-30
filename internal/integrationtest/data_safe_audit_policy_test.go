@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -8,29 +8,29 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	AuditPolicyRequiredOnlyResource = AuditPolicyResourceDependencies +
+	DataSafeAuditPolicyRequiredOnlyResource = DataSafeAuditPolicyResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_policy", "test_audit_policy", acctest.Required, acctest.Create, auditPolicyRepresentation)
 
-	AuditPolicyResourceConfig = AuditPolicyResourceDependencies +
+	DataSafeAuditPolicyResourceConfig = DataSafeAuditPolicyResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_policy", "test_audit_policy", acctest.Optional, acctest.Update, auditPolicyRepresentation)
 
-	auditPolicySingularDataSourceRepresentation = map[string]interface{}{
+	DataSafeauditPolicySingularDataSourceRepresentation = map[string]interface{}{
 		"audit_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${var.policy_id}`},
 	}
 
-	auditPolicyDataSourceRepresentation = map[string]interface{}{
+	DataSafeauditPolicyDataSourceRepresentation = map[string]interface{}{
 		"audit_policy_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.policy_id}`},
 	}
 
@@ -44,7 +44,7 @@ var (
 		"retrieve_from_target_trigger": acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
 	}
 
-	AuditPolicyResourceDependencies = DefinedTagsDependencies
+	DataSafeAuditPolicyResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: data_safe/default
@@ -70,7 +70,7 @@ func TestDataSafeAuditPolicyResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+policyIdVariableStr+compartmentIdUVariableStr+AuditPolicyResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+policyIdVariableStr+compartmentIdUVariableStr+DataSafeAuditPolicyResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_policy", "test_audit_policy", acctest.Optional, acctest.Create,
 			acctest.RepresentationCopyWithNewProperties(auditPolicyRepresentation, map[string]interface{}{
 				"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -81,7 +81,7 @@ func TestDataSafeAuditPolicyResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + policyIdVariableStr + AuditPolicyResourceDependencies +
+			Config: config + compartmentIdVariableStr + policyIdVariableStr + DataSafeAuditPolicyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_policy", "test_audit_policy", acctest.Required, acctest.Create, auditPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "audit_policy_id"),
@@ -95,11 +95,11 @@ func TestDataSafeAuditPolicyResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + policyIdVariableStr + AuditPolicyResourceDependencies,
+			Config: config + compartmentIdVariableStr + policyIdVariableStr + DataSafeAuditPolicyResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + policyIdVariableStr + compartmentIdUVariableStr + AuditPolicyResourceDependencies +
+			Config: config + compartmentIdVariableStr + policyIdVariableStr + compartmentIdUVariableStr + DataSafeAuditPolicyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_policy", "test_audit_policy", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(auditPolicyRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -127,7 +127,7 @@ func TestDataSafeAuditPolicyResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + policyIdVariableStr + AuditPolicyResourceDependencies +
+			Config: config + compartmentIdVariableStr + policyIdVariableStr + DataSafeAuditPolicyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_policy", "test_audit_policy", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithNewProperties(auditPolicyRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -153,8 +153,8 @@ func TestDataSafeAuditPolicyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_policy", "test_audit_policy", acctest.Optional, acctest.Update, auditPolicyDataSourceRepresentation) +
-				compartmentIdVariableStr + policyIdVariableStr + AuditPolicyResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_policy", "test_audit_policy", acctest.Optional, acctest.Update, DataSafeauditPolicyDataSourceRepresentation) +
+				compartmentIdVariableStr + policyIdVariableStr + DataSafeAuditPolicyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_audit_policy", "test_audit_policy", acctest.Optional, acctest.Update, auditPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "audit_policy_id"),
@@ -165,8 +165,8 @@ func TestDataSafeAuditPolicyResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_policy", "test_audit_policy", acctest.Required, acctest.Create, auditPolicySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + policyIdVariableStr + AuditPolicyResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_audit_policy", "test_audit_policy", acctest.Required, acctest.Create, DataSafeauditPolicySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + policyIdVariableStr + DataSafeAuditPolicyResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "audit_policy_id"),
 
@@ -186,7 +186,7 @@ func TestDataSafeAuditPolicyResource_basic(t *testing.T) {
 		},
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
-			Config: config + compartmentIdVariableStr + policyIdVariableStr + AuditPolicyResourceConfig,
+			Config: config + compartmentIdVariableStr + policyIdVariableStr + DataSafeAuditPolicyResourceConfig,
 		},
 		// verify resource import
 		{

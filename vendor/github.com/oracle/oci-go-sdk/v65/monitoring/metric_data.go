@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -26,7 +26,7 @@ import (
 // * Time range returned for 1-hour resolution: 90 days.
 // * Time range returned for 5-minute resolution: 30 days.
 // * Time range returned for 1-minute resolution: 7 days.
-// *A metric stream is an individual set of aggregated data for a metric, typically specific to a single resource.
+// *A metric stream is an individual set of aggregated data for a metric with zero or more dimension values.
 // Metric streams cannot be aggregated across metric groups.
 // A metric group is the combination of a given metric, metric namespace, and tenancy for the purpose of determining limits.
 // For more information about metric-related concepts, see Monitoring Concepts (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#concepts).

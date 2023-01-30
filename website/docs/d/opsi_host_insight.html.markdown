@@ -33,6 +33,8 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `compute_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Compute Instance
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}`
 * `enterprise_manager_bridge_id` - OPSI Enterprise Manager Bridge OCID
 * `enterprise_manager_entity_display_name` - Enterprise Manager Entity Display Name
 * `enterprise_manager_entity_identifier` - Enterprise Manager Entity Unique Identifier
@@ -40,7 +42,6 @@ The following attributes are exported:
 * `enterprise_manager_entity_type` - Enterprise Manager Entity Type
 * `enterprise_manager_identifier` - Enterprise Manager Unique Identifier
 * `management_agent_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Management Agent
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}`
 * `entity_source` - Source of the host entity.
 * `exadata_insight_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata insight.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
@@ -50,7 +51,7 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host insight resource.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `platform_name` - Platform name.
-* `platform_type` - Platform type. Supported platformType(s) for MACS-managed external host insight: [LINUX]. Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX]. 
+* `platform_type` - Platform type. Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS]. Supported platformType(s) for MACS-managed cloud host insight: [LINUX]. Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS]. 
 * `platform_version` - Platform version.
 * `processor_count` - Processor count. This is the OCPU count for Autonomous Database and CPU core count for other database types.
 * `state` - The current state of the host.

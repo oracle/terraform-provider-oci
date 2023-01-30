@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,21 +22,21 @@ import (
 	oci_ai_vision "github.com/oracle/oci-go-sdk/v65/aivision"
 	"github.com/oracle/oci-go-sdk/v65/common"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	VisionProjectRequiredOnlyResource = VisionProjectResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_ai_vision_project", "test_project", acctest.Required, acctest.Create, visionProjectRepresentation)
+	AiVisionProjectRequiredOnlyResource = AiVisionProjectResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_ai_vision_project", "test_project", acctest.Required, acctest.Create, visionvisionProjectRepresentation)
 
-	VisionProjectResourceConfig = VisionProjectResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_ai_vision_project", "test_project", acctest.Optional, acctest.Update, visionProjectRepresentation)
+	AiVisionProjectResourceConfig = AiVisionProjectResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_ai_vision_project", "test_project", acctest.Optional, acctest.Update, visionvisionProjectRepresentation)
 
-	visionProjectSingularDataSourceRepresentation = map[string]interface{}{
+	AiVisionprojectSingularDataSourceRepresentation = map[string]interface{}{
 		"project_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_ai_vision_project.test_project.id}`},
 	}
 
-	visionProjectDataSourceRepresentation = map[string]interface{}{
+	AiVisionprojectDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_ai_vision_project.test_project.id}`},
@@ -47,14 +47,14 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_ai_vision_project.test_project.id}`}},
 	}
 
-	visionProjectRepresentation = map[string]interface{}{
+	visionvisionProjectRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	VisionProjectResourceDependencies = "" //DefinedTagsDependencies
+	AiVisionProjectResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: ai_vision/default
@@ -76,14 +76,14 @@ func TestAiVisionProjectResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+VisionProjectResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_ai_vision_project", "test_project", acctest.Optional, acctest.Create, visionProjectRepresentation), "aivision", "project", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+AiVisionProjectResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_ai_vision_project", "test_project", acctest.Optional, acctest.Create, visionvisionProjectRepresentation), "aivision", "project", t)
 
 	acctest.ResourceTest(t, testAccCheckAiVisionProjectDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + VisionProjectResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_ai_vision_project", "test_project", acctest.Required, acctest.Create, visionProjectRepresentation),
+			Config: config + compartmentIdVariableStr + AiVisionProjectResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_ai_vision_project", "test_project", acctest.Required, acctest.Create, visionvisionProjectRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
@@ -96,12 +96,12 @@ func TestAiVisionProjectResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + VisionProjectResourceDependencies,
+			Config: config + compartmentIdVariableStr + AiVisionProjectResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + VisionProjectResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_ai_vision_project", "test_project", acctest.Optional, acctest.Create, visionProjectRepresentation),
+			Config: config + compartmentIdVariableStr + AiVisionProjectResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_ai_vision_project", "test_project", acctest.Optional, acctest.Create, visionvisionProjectRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -125,9 +125,9 @@ func TestAiVisionProjectResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VisionProjectResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AiVisionProjectResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_ai_vision_project", "test_project", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(visionProjectRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(visionvisionProjectRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -151,8 +151,8 @@ func TestAiVisionProjectResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + VisionProjectResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_ai_vision_project", "test_project", acctest.Optional, acctest.Update, visionProjectRepresentation),
+			Config: config + compartmentIdVariableStr + AiVisionProjectResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_ai_vision_project", "test_project", acctest.Optional, acctest.Update, visionvisionProjectRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -174,9 +174,9 @@ func TestAiVisionProjectResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_ai_vision_projects", "test_projects", acctest.Optional, acctest.Update, visionProjectDataSourceRepresentation) +
-				compartmentIdVariableStr + VisionProjectResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_ai_vision_project", "test_project", acctest.Optional, acctest.Update, visionProjectRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_ai_vision_projects", "test_projects", acctest.Optional, acctest.Update, AiVisionprojectDataSourceRepresentation) +
+				compartmentIdVariableStr + AiVisionProjectResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_ai_vision_project", "test_project", acctest.Optional, acctest.Update, visionvisionProjectRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -189,8 +189,8 @@ func TestAiVisionProjectResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_ai_vision_project", "test_project", acctest.Required, acctest.Create, visionProjectSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + VisionProjectResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_ai_vision_project", "test_project", acctest.Required, acctest.Create, AiVisionprojectSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + AiVisionProjectResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "project_id"),
 
@@ -206,7 +206,7 @@ func TestAiVisionProjectResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + VisionProjectRequiredOnlyResource,
+			Config:                  config + AiVisionProjectRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -270,7 +270,7 @@ func init() {
 
 func sweepAiVisionProjectResource(compartment string) error {
 	aiServiceVisionClient := acctest.GetTestClients(&schema.ResourceData{}).AiServiceVisionClient()
-	projectIds, err := getVisionProjectIds(compartment)
+	projectIds, err := getAiVisionProjectIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -286,14 +286,14 @@ func sweepAiVisionProjectResource(compartment string) error {
 				fmt.Printf("Error deleting Project %s %s, It is possible that the resource is already deleted. Please verify manually \n", projectId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &projectId, visionProjectSweepWaitCondition, time.Duration(3*time.Minute),
-				visionProjectSweepResponseFetchOperation, "ai_vision", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &projectId, AiVisionprojectsSweepWaitCondition, time.Duration(3*time.Minute),
+				AiVisionprojectsSweepResponseFetchOperation, "ai_vision", true)
 		}
 	}
 	return nil
 }
 
-func getVisionProjectIds(compartment string) ([]string, error) {
+func getAiVisionProjectIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ProjectId")
 	if ids != nil {
 		return ids, nil
@@ -318,7 +318,7 @@ func getVisionProjectIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func visionProjectSweepWaitCondition(response common.OCIOperationResponse) bool {
+func AiVisionprojectsSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if projectResponse, ok := response.Response.(oci_ai_vision.GetProjectResponse); ok {
 		return projectResponse.LifecycleState != oci_ai_vision.ProjectLifecycleStateDeleted
@@ -326,7 +326,7 @@ func visionProjectSweepWaitCondition(response common.OCIOperationResponse) bool 
 	return false
 }
 
-func visionProjectSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func AiVisionprojectsSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.AiServiceVisionClient().GetProject(context.Background(), oci_ai_vision.GetProjectRequest{
 		ProjectId: resourceId,
 		RequestMetadata: common.RequestMetadata{

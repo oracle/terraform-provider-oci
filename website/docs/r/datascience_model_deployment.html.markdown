@@ -26,6 +26,14 @@ resource "oci_datascience_model_deployment" "test_model_deployment" {
 			instance_configuration {
 				#Required
 				instance_shape_name = oci_core_shape.test_shape.name
+
+				#Optional
+				model_deployment_instance_shape_config_details {
+
+					#Optional
+					memory_in_gbs = var.model_deployment_model_deployment_configuration_details_model_configuration_details_instance_configuration_model_deployment_instance_shape_config_details_memory_in_gbs
+					ocpus = var.model_deployment_model_deployment_configuration_details_model_configuration_details_instance_configuration_model_deployment_instance_shape_config_details_ocpus
+				}
 			}
 			model_id = oci_datascience_model.test_model.id
 
@@ -74,21 +82,25 @@ The following arguments are supported:
 		* `log_group_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a log group to work with.
 		* `log_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a log to work with.
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the model deployment.
-* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}`
 * `description` - (Optional) (Updatable) A short description of the model deployment.
-* `display_name` - (Optional) (Updatable) A user-friendly display name for the resource. Does not have to be unique, and can be modified. Avoid entering confidential information. Example: `My ModelDeployment` 
-* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+* `display_name` - (Optional) (Updatable) A user-friendly display name for the resource. Does not have to be unique, and can be modified. Avoid entering confidential information. Example: `My ModelDeployment`
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}`
 * `model_deployment_configuration_details` - (Required) (Updatable) The model deployment configuration details.
 	* `deployment_type` - (Required) (Updatable) The type of the model deployment.
 	* `model_configuration_details` - (Required) (Updatable) The model configuration details.
 		* `bandwidth_mbps` - (Optional) (Updatable) The network bandwidth for the model.
 		* `instance_configuration` - (Required) (Updatable) The model deployment instance configuration
 			* `instance_shape_name` - (Required) (Updatable) The shape used to launch the model deployment instances.
+			* `model_deployment_instance_shape_config_details` - (Optional) (Updatable) Details for the model-deployment instance shape configuration.
+				* `memory_in_gbs` - (Optional) (Updatable) A model-deployment instance of type VM.Standard.E3.Flex or VM.Standard.E4.Flex allows the memory to be specified with in the range of 6 to 1024 GB. VM.Standard3.Flex memory range is between 6 to 512 GB and VM.Optimized3.Flex memory range is between 6 to 256 GB. 
+				* `ocpus` - (Optional) (Updatable) A model-deployment instance of type VM.Standard.E3.Flex or VM.Standard.E4.Flex allows the ocpu count to be specified with in the range of 1 to 64 ocpu. VM.Standard3.Flex OCPU range is between 1 to 32 ocpu and for VM.Optimized3.Flex OCPU range is 1 to 18 ocpu. 
 		* `model_id` - (Required) (Updatable) The OCID of the model you want to deploy.
 		* `scaling_policy` - (Optional) (Updatable) The scaling policy to apply to each model of the deployment.
 			* `instance_count` - (Required) (Updatable) The number of instances for the model deployment.
 			* `policy_type` - (Required) (Updatable) The type of scaling policy.
 * `project_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate with the model deployment.
+* `state` - (Optional) (Updatable) The target state for the Model Deployment. Could be set to `ACTIVE` or `INACTIVE`. 
 
 
 ** IMPORTANT **
@@ -107,10 +119,10 @@ The following attributes are exported:
 		* `log_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a log to work with.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model deployment's compartment.
 * `created_by` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the user who created the model deployment.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}`
 * `description` - A short description of the model deployment.
-* `display_name` - A user-friendly display name for the resource. Does not have to be unique, and can be modified. Avoid entering confidential information. Example: `My ModelDeployment` 
-* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+* `display_name` - A user-friendly display name for the resource. Does not have to be unique, and can be modified. Avoid entering confidential information. Example: `My ModelDeployment`
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}`
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model deployment.
 * `lifecycle_details` - Details about the state of the model deployment.
 * `model_deployment_configuration_details` - The model deployment configuration details.
@@ -119,6 +131,9 @@ The following attributes are exported:
 		* `bandwidth_mbps` - The network bandwidth for the model.
 		* `instance_configuration` - The model deployment instance configuration
 			* `instance_shape_name` - The shape used to launch the model deployment instances.
+			* `model_deployment_instance_shape_config_details` - Details for the model-deployment instance shape configuration.
+				* `memory_in_gbs` - A model-deployment instance of type VM.Standard.E3.Flex or VM.Standard.E4.Flex allows the memory to be specified with in the range of 6 to 1024 GB. VM.Standard3.Flex memory range is between 6 to 512 GB and VM.Optimized3.Flex memory range is between 6 to 256 GB. 
+				* `ocpus` - A model-deployment instance of type VM.Standard.E3.Flex or VM.Standard.E4.Flex allows the ocpu count to be specified with in the range of 1 to 64 ocpu. VM.Standard3.Flex OCPU range is between 1 to 32 ocpu and for VM.Optimized3.Flex OCPU range is 1 to 18 ocpu. 
 		* `model_id` - The OCID of the model you want to deploy.
 		* `scaling_policy` - The scaling policy to apply to each model of the deployment.
 			* `instance_count` - The number of instances for the model deployment.
@@ -126,11 +141,11 @@ The following attributes are exported:
 * `model_deployment_url` - The URL to interact with the model deployment.
 * `project_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project associated with the model deployment.
 * `state` - The state of the model deployment.
-* `time_created` - The date and time the resource was created, in the timestamp format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Example: 2019-08-25T21:10:29.41Z 
+* `time_created` - The date and time the resource was created, in the timestamp format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Example: 2019-08-25T21:10:29.41Z
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Model Deployment
 	* `update` - (Defaults to 20 minutes), when updating the Model Deployment
 	* `delete` - (Defaults to 20 minutes), when destroying the Model Deployment
@@ -143,4 +158,3 @@ ModelDeployments can be imported using the `id`, e.g.
 ```
 $ terraform import oci_datascience_model_deployment.test_model_deployment "id"
 ```
-

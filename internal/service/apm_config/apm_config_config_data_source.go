@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package apm_config
@@ -7,8 +7,8 @@ import (
 	"context"
 	"log"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_apm_config "github.com/oracle/oci-go-sdk/v65/apmconfig"
@@ -38,7 +38,7 @@ func readSingularApmConfigConfig(d *schema.ResourceData, m interface{}) error {
 type ApmConfigConfigDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_apm_config.ConfigClient
-	Res    *oci_apm_config.Config
+	Res    *oci_apm_config.GetConfigResponse
 }
 
 func (s *ApmConfigConfigDataSourceCrud) VoidState() {
@@ -72,19 +72,18 @@ func (s *ApmConfigConfigDataSourceCrud) Get() error {
 		return err
 	}
 
-	s.Res = &(response.Config)
+	s.Res = &response
 	return nil
 }
 
 func (s *ApmConfigConfigDataSourceCrud) SetData() error {
-
 	if s.Res == nil {
 		return nil
 	}
 
-	s.D.SetId(*(*s.Res).GetId())
+	s.D.SetId(*s.Res.GetId())
 
-	switch v := (*s.Res).(type) {
+	switch v := (s.Res.Config).(type) {
 	case oci_apm_config.ApdexRules:
 		s.D.Set("config_type", "APDEX")
 
@@ -115,7 +114,6 @@ func (s *ApmConfigConfigDataSourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
-
 	case oci_apm_config.MetricGroup:
 		s.D.Set("config_type", "METRIC_GROUP")
 
@@ -135,7 +133,7 @@ func (s *ApmConfigConfigDataSourceCrud) SetData() error {
 
 		metrics := []interface{}{}
 		for _, item := range v.Metrics {
-			metrics = append(metrics, ApmConfigMetricToMap(item))
+			metrics = append(metrics, MetricToMap(item))
 		}
 		s.D.Set("metrics", metrics)
 
@@ -160,7 +158,6 @@ func (s *ApmConfigConfigDataSourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
-
 	case oci_apm_config.SpanFilter:
 		s.D.Set("config_type", "SPAN_FILTER")
 
@@ -193,8 +190,51 @@ func (s *ApmConfigConfigDataSourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+
+	case oci_apm_config.Options:
+		s.D.Set("config_type", "OPTIONS")
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.Options != nil {
+			s.D.Set("options", optionsToMap(v.Options))
+		} else {
+			s.D.Set("options", nil)
+		}
+
+		if v.Group != nil {
+			s.D.Set("group", *v.Group)
+		}
+
+		if v.Group != nil {
+			s.D.Set("filter_text", *v.Group)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	default:
-		log.Printf("[WARN] Received 'config_type' of unknown type %v", *s.Res)
+		log.Printf("[WARN] Received 'config_type' of unknown type %v", s.Res.Config)
 		return nil
 	}
 

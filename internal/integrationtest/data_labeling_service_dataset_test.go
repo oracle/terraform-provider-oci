@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -23,17 +23,17 @@ import (
 	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v65/datalabelingservice"
 	"github.com/oracle/oci-go-sdk/v65/objectstorage"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	DatasetRequiredOnlyResource = DatasetResourceDependencies +
+	DataLabelingServiceDatasetRequiredOnlyResource = DataLabelingServiceDatasetResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_labeling_service_dataset", "test_dataset", acctest.Required, acctest.Create, datasetRepresentation)
 
-	DatasetResourceConfig = DatasetResourceDependencies +
+	DatasetResourceConfig = DataLabelingServiceDatasetResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_labeling_service_dataset", "test_dataset", acctest.Optional, acctest.Update, datasetRepresentation)
 
-	datasetSingularDataSourceRepresentation = map[string]interface{}{
+	DataLabelingServicedatasetSingularDataSourceRepresentation = map[string]interface{}{
 		"dataset_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_labeling_service_dataset.test_dataset.id}`},
 	}
 
@@ -94,8 +94,8 @@ var (
 	objectstorageNamespace = "${data.oci_objectstorage_namespace.test_namespace.namespace}"
 	objectstorageBucket    = "tf_dataset_objectstoragebucket"
 
-	DatasetResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, bucketRepresentationDataset) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation) +
+	DataLabelingServiceDatasetResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, bucketRepresentationDataset) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -122,13 +122,13 @@ func TestDataLabelingServiceDatasetResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional propeTestCheckResourceAttrrties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatasetResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DataLabelingServiceDatasetResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_labeling_service_dataset", "test_dataset", acctest.Optional, acctest.Create, datasetRepresentation), "datalabelingservice", "dataset", t)
 
 	acctest.ResourceTest(t, testAccCheckDataLabelingServiceDatasetDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DatasetResourceDependencies +
+			Config: config + compartmentIdVariableStr + DataLabelingServiceDatasetResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_labeling_service_dataset", "test_dataset", acctest.Required, acctest.Create, datasetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "annotation_format", "BOUNDING_BOX"),
@@ -152,11 +152,11 @@ func TestDataLabelingServiceDatasetResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DatasetResourceDependencies,
+			Config: config + compartmentIdVariableStr + DataLabelingServiceDatasetResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DatasetResourceDependencies +
+			Config: config + compartmentIdVariableStr + DataLabelingServiceDatasetResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_labeling_service_dataset", "test_dataset", acctest.Optional, acctest.Create, datasetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "annotation_format", "BOUNDING_BOX"),
@@ -195,7 +195,7 @@ func TestDataLabelingServiceDatasetResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatasetResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DataLabelingServiceDatasetResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_labeling_service_dataset", "test_dataset", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(datasetRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_Update}`},
@@ -235,7 +235,7 @@ func TestDataLabelingServiceDatasetResource_basic(t *testing.T) {
 
 		// verify Updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DatasetResourceDependencies +
+			Config: config + compartmentIdVariableStr + DataLabelingServiceDatasetResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_labeling_service_dataset", "test_dataset", acctest.Optional, acctest.Update, datasetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "annotation_format", "BOUNDING_BOX"),
@@ -273,7 +273,7 @@ func TestDataLabelingServiceDatasetResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_labeling_service_datasets", "test_datasets", acctest.Optional, acctest.Update, datasetDataSourceRepresentation) +
-				compartmentIdVariableStr + DatasetResourceDependencies +
+				compartmentIdVariableStr + DataLabelingServiceDatasetResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_labeling_service_dataset", "test_dataset", acctest.Optional, acctest.Update, datasetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "annotation_format", "BOUNDING_BOX"),
@@ -289,7 +289,7 @@ func TestDataLabelingServiceDatasetResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_labeling_service_dataset", "test_dataset", acctest.Required, acctest.Create, datasetSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_labeling_service_dataset", "test_dataset", acctest.Required, acctest.Create, DataLabelingServicedatasetSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DatasetResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "dataset_id"),
@@ -319,7 +319,7 @@ func TestDataLabelingServiceDatasetResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + DatasetRequiredOnlyResource,
+			Config:                  config + DataLabelingServiceDatasetRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -383,11 +383,11 @@ func init() {
 
 func sweepDataLabelingServiceDatasetResource(compartment string) error {
 	dataLabelingManagementClient := acctest.GetTestClients(&schema.ResourceData{}).DataLabelingManagementClient()
-	activeDatasetIds, err := getDatasetIds(compartment, oci_data_labeling_service.DatasetLifecycleStateActive)
+	activeDatasetIds, err := getDataLabelingServiceDatasetIds(compartment, oci_data_labeling_service.DatasetLifecycleStateActive)
 	if err != nil {
 		return err
 	}
-	nonActiveDatasetIds, err := getDatasetIds(compartment, oci_data_labeling_service.DatasetLifecycleStateNeedsAttention)
+	nonActiveDatasetIds, err := getDataLabelingServiceDatasetIds(compartment, oci_data_labeling_service.DatasetLifecycleStateNeedsAttention)
 	if err != nil {
 		return err
 	}
@@ -404,14 +404,14 @@ func sweepDataLabelingServiceDatasetResource(compartment string) error {
 				fmt.Printf("Error deleting Dataset %s %s, It is possible that the resource is already deleted. Please verify manually \n", datasetId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &datasetId, datasetSweepWaitCondition, time.Duration(3*time.Minute),
-				datasetSweepResponseFetchOperation, "data_labeling_service", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &datasetId, DataLabelingServicedatasetsSweepWaitCondition, time.Duration(3*time.Minute),
+				DataLabelingServicedatasetsSweepResponseFetchOperation, "data_labeling_service", true)
 		}
 	}
 	return nil
 }
 
-func getDatasetIds(compartment string, lifecycleState oci_data_labeling_service.DatasetLifecycleStateEnum) ([]string, error) {
+func getDataLabelingServiceDatasetIds(compartment string, lifecycleState oci_data_labeling_service.DatasetLifecycleStateEnum) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "DatasetId")
 	if ids != nil {
 		return ids, nil
@@ -436,7 +436,7 @@ func getDatasetIds(compartment string, lifecycleState oci_data_labeling_service.
 	return resourceIds, nil
 }
 
-func datasetSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DataLabelingServicedatasetsSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if datasetResponse, ok := response.Response.(oci_data_labeling_service.GetDatasetResponse); ok {
 		return datasetResponse.LifecycleState != oci_data_labeling_service.DatasetLifecycleStateDeleted
@@ -444,7 +444,7 @@ func datasetSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func datasetSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DataLabelingServicedatasetsSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DataLabelingManagementClient().GetDataset(context.Background(), oci_data_labeling_service.GetDatasetRequest{
 		DatasetId: resourceId,
 		RequestMetadata: common.RequestMetadata{

@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Bastion API
 //
-// Oracle Cloud Infrastructure Bastion provides restricted and time-limited access to target resources that don't have public endpoints. Through the configuration of a bastion, you can let authorized users connect from specific IP addresses to target resources by way of Secure Shell (SSH) sessions hosted on the bastion.
+// Use the Bastion API to provide restricted and time-limited access to target resources that don't have public endpoints. Bastions let authorized users connect from specific IP addresses to target resources using Secure Shell (SSH) sessions. For more information, see the Bastion documentation (https://docs.cloud.oracle.com/iaas/Content/Bastion/home.htm).
 //
 
 package bastion
@@ -61,6 +61,9 @@ type Bastion struct {
 	// The maximum number of active sessions allowed on the bastion.
 	MaxSessionsAllowed *int `mandatory:"false" json:"maxSessionsAllowed"`
 
+	// The current dns proxy status of the bastion.
+	DnsProxyStatus BastionDnsProxyStatusEnum `mandatory:"false" json:"dnsProxyStatus,omitempty"`
+
 	// The time the bastion was updated. Format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2020-01-25T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
@@ -94,6 +97,9 @@ func (m Bastion) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetBastionLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingBastionDnsProxyStatusEnum(string(m.DnsProxyStatus)); !ok && m.DnsProxyStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DnsProxyStatus: %s. Supported values are: %s.", m.DnsProxyStatus, strings.Join(GetBastionDnsProxyStatusEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

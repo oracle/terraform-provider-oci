@@ -1,4 +1,4 @@
-module github.com/terraform-providers/terraform-provider-oci
+module github.com/oracle/terraform-provider-oci
 
 require (
 	github.com/fatih/color v1.7.0
@@ -8,7 +8,7 @@ require (
 	github.com/hashicorp/terraform-exec v0.14.0
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.7.0
 	github.com/stretchr/testify v1.7.0
-	golang.org/x/mod v0.4.2
+	golang.org/x/mod v0.6.0-dev.0.20220419223038-86c51ed26bb4
 	gopkg.in/yaml.v2 v2.3.0
 )
 
@@ -35,7 +35,7 @@ require (
 	github.com/hashicorp/go-plugin v1.4.1 // indirect
 	github.com/hashicorp/go-safetemp v1.0.0 // indirect
 	github.com/hashicorp/go-uuid v1.0.1 // indirect
-	github.com/hashicorp/go-version v1.3.0 // indirect
+	github.com/hashicorp/go-version v1.3.0
 	github.com/hashicorp/hcl/v2 v2.8.2 // indirect
 	github.com/hashicorp/logutils v1.0.0 // indirect
 	github.com/hashicorp/terraform-json v0.12.0 // indirect
@@ -53,21 +53,20 @@ require (
 	github.com/mitchellh/mapstructure v1.1.2 // indirect
 	github.com/mitchellh/reflectwalk v1.0.2 // indirect
 	github.com/oklog/run v1.0.0 // indirect
-	github.com/oracle/oci-go-sdk/v65 v65.6.0
+	github.com/oracle/oci-go-sdk/v65 v65.28.2
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/sony/gobreaker v0.5.0 // indirect
 	github.com/ulikunitz/xz v0.5.8 // indirect
 	github.com/vmihailenco/msgpack v4.0.4+incompatible // indirect
 	github.com/zclconf/go-cty v1.8.4 // indirect
 	go.opencensus.io v0.22.4 // indirect
-	golang.org/x/crypto v0.0.0-20210421170649-83a5a9bb288b // indirect
-	golang.org/x/lint v0.0.0-20200302205851-738671d3881b // indirect
-	golang.org/x/net v0.0.0-20210326060303-6b1517762897 // indirect
+	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 // indirect
+	golang.org/x/lint v0.0.0-20210508222113-6edffad5e616 // indirect
+	golang.org/x/net v0.0.0-20211015210444-4f30a5c0130f // indirect
 	golang.org/x/oauth2 v0.0.0-20200902213428-5d25da1a8d43 // indirect
 	golang.org/x/sys v0.0.0-20220209214540-3681064d5158 // indirect
-	golang.org/x/text v0.3.5 // indirect
-	golang.org/x/tools v0.0.0-20201028111035-eafbe7b904eb // indirect
-	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
+	golang.org/x/text v0.3.7 // indirect
+	golang.org/x/tools v0.1.11 // indirect
 	google.golang.org/api v0.34.0 // indirect
 	google.golang.org/appengine v1.6.6 // indirect
 	google.golang.org/genproto v0.0.0-20200904004341-0bd0a958aa1d // indirect
@@ -79,4 +78,4 @@ require (
 // Uncomment this line to get OCI Go SDK from local source instead of github
 //replace github.com/oracle/oci-go-sdk => ../../oracle/oci-go-sdk
 
-go 1.17
+go 1.18

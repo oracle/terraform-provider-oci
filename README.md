@@ -8,9 +8,9 @@ Terraform Provider for Oracle Cloud Infrastructure
 ==================
 
 - [Documentation](https://www.terraform.io/docs/providers/oci/index.html)
-- [Examples](https://github.com/terraform-providers/terraform-provider-oci/tree/master/examples)
+- [Examples](https://github.com/oracle/terraform-provider-oci/tree/master/examples)
 - [OCI forums](https://cloudcustomerconnect.oracle.com/resources/9c8fa8f96f/summary)
-- [Github issues](https://github.com/terraform-providers/terraform-provider-oci/issues)
+- [Github issues](https://github.com/oracle/terraform-provider-oci/issues)
 - [Troubleshooting](https://www.terraform.io/docs/providers/oci/guides/troubleshooting.html)
 
 [![wercker status](https://app.wercker.com/status/666d2ee10f45dde41189bb03248aadf9/s/master "wercker status")](https://app.wercker.com/project/byKey/666d2ee10f45dde41189bb03248aadf9)
@@ -19,16 +19,14 @@ Terraform Provider for Oracle Cloud Infrastructure
 Requirements
 ------------
 
-- [Terraform](https://www.terraform.io/downloads.html) v0.10.1 or greater
-- [Go](https://golang.org/doc/install) 1.15.5 (recommended)
-
-Note: You may use any version 1.8 or above to build the provider. However, the `goimports`, `go vet`, and `gofmt` code checks will only pass when using version 1.15.
+- [Terraform](https://www.terraform.io/downloads.html) v0.12.31 or greater
+- [Go](https://golang.org/doc/install) 1.18.8 (recommended)
 
 
 Building the Provider
 ---------------------
 
-Clone repository to: `$GOPATH/src/github.com/terraform-providers/terraform-provider-oci`
+Clone repository to: `$GOPATH/src/terraform-provider-oci`
 
 ```sh
 $ mkdir -p $GOPATH/src/github.com/terraform-providers; cd $GOPATH/src/github.com/terraform-providers
@@ -38,7 +36,7 @@ $ git clone git@github.com:terraform-providers/terraform-provider-oci
 Enter the provider directory and build the provider
 
 ```sh
-$ cd $GOPATH/src/github.com/terraform-providers/terraform-provider-oci
+$ cd $GOPATH/src/terraform-provider-oci
 $ make build
 ```
 

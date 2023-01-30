@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package dns
@@ -11,8 +11,8 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -57,11 +57,6 @@ func DnsResolverEndpointResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"scope": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 
 			// Optional
 			"endpoint_type": {
@@ -93,6 +88,11 @@ func DnsResolverEndpointResource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+			},
+			"scope": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
 			},
 
 			// Computed
@@ -161,7 +161,7 @@ type DnsResolverEndpointResourceCrud struct {
 }
 
 func (s *DnsResolverEndpointResourceCrud) ID() string {
-	return getResolverEndpointCompositeId(s.D.Get("name").(string), s.D.Get("resolver_id").(string))
+	return GetResolverEndpointCompositeId(s.D.Get("name").(string), s.D.Get("resolver_id").(string))
 }
 
 func (s *DnsResolverEndpointResourceCrud) CreatedPending() []string {
@@ -171,6 +171,18 @@ func (s *DnsResolverEndpointResourceCrud) CreatedPending() []string {
 }
 
 func (s *DnsResolverEndpointResourceCrud) CreatedTarget() []string {
+	return []string{
+		string(oci_dns.ResolverEndpointLifecycleStateActive),
+	}
+}
+
+func (s *DnsResolverEndpointResourceCrud) UpdatedPending() []string {
+	return []string{
+		string(oci_dns.ResolverEndpointLifecycleStateUpdating),
+	}
+}
+
+func (s *DnsResolverEndpointResourceCrud) UpdatedTarget() []string {
 	return []string{
 		string(oci_dns.ResolverEndpointLifecycleStateActive),
 	}
@@ -292,7 +304,7 @@ func (s *DnsResolverEndpointResourceCrud) SetData() error {
 	if err == nil {
 		s.D.Set("name", &resolverEndpointName)
 		s.D.Set("resolver_id", &resolverId)
-		s.D.SetId(getResolverEndpointCompositeId(resolverEndpointName, resolverId))
+		s.D.SetId(GetResolverEndpointCompositeId(resolverEndpointName, resolverId))
 		if scope != "" {
 			s.D.Set("scope", scope)
 		}
@@ -358,7 +370,7 @@ func (s *DnsResolverEndpointResourceCrud) SetData() error {
 	return nil
 }
 
-func getResolverEndpointCompositeId(resolverEndpointName string, resolverId string) string {
+func GetResolverEndpointCompositeId(resolverEndpointName string, resolverId string) string {
 	resolverEndpointName = url.PathEscape(resolverEndpointName)
 	resolverId = url.PathEscape(resolverId)
 	compositeId := "resolverId/" + resolverId + "/name/" + resolverEndpointName

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,17 +9,17 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	ipSecConnectionDeviceStatusSingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreIpSecConnectionDeviceStatusSingularDataSourceRepresentation = map[string]interface{}{
 		"ipsec_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_ipsec.test_ip_sec_connection.id}`},
 	}
 
-	IpSecConnectionDeviceStatusResourceConfig = IpSecConnectionRequiredOnlyResource
+	CoreIpSecConnectionDeviceStatusResourceConfig = CoreIpSecConnectionRequiredOnlyResource
 )
 
 // issue-routing-tag: core/default
@@ -40,8 +40,8 @@ func TestCoreIpSecConnectionDeviceStatusResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_status", "test_ip_sec_connection_device_status", acctest.Required, acctest.Create, ipSecConnectionDeviceStatusSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + IpSecConnectionDeviceStatusResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_status", "test_ip_sec_connection_device_status", acctest.Required, acctest.Create, CoreCoreIpSecConnectionDeviceStatusSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreIpSecConnectionDeviceStatusResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ipsec_id"),
 

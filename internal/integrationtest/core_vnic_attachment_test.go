@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,38 +16,38 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	VnicAttachmentRequiredOnlyResource = VnicAttachmentResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", acctest.Required, acctest.Create, vnicAttachmentRepresentation)
+	CoreVnicAttachmentRequiredOnlyResource = CoreVnicAttachmentResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", acctest.Required, acctest.Create, CoreVnicAttachmentRepresentation)
 
-	VnicAttachmentResourceConfig = VnicAttachmentResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", acctest.Optional, acctest.Create, vnicAttachmentRepresentation)
+	CoreVnicAttachmentResourceConfig = CoreVnicAttachmentResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", acctest.Optional, acctest.Create, CoreVnicAttachmentRepresentation)
 
-	vnicAttachmentDataSourceRepresentation = map[string]interface{}{
+	CoreCoreVnicAttachmentDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"instance_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_instance.test_instance.id}`},
-		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: vnicAttachmentDataSourceFilterRepresentation}}
-	vnicAttachmentDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreVnicAttachmentDataSourceFilterRepresentation}}
+	CoreVnicAttachmentDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_vnic_attachment.test_vnic_attachment.id}`}},
 	}
 
-	vnicAttachmentRepresentation = map[string]interface{}{
-		"create_vnic_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: vnicAttachmentCreateVnicDetailsRepresentation},
+	CoreVnicAttachmentRepresentation = map[string]interface{}{
+		"create_vnic_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreVnicAttachmentCreateVnicDetailsRepresentation},
 		"instance_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance.test_instance.id}`},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 		"nic_index":           acctest.Representation{RepType: acctest.Optional, Create: `0`},
 	}
-	vnicAttachmentCreateVnicDetailsRepresentation = map[string]interface{}{
+	CoreVnicAttachmentCreateVnicDetailsRepresentation = map[string]interface{}{
 		"assign_private_dns_record": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"subnet_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"assign_public_ip":          acctest.Representation{RepType: acctest.Optional, Create: `false`},
@@ -60,13 +60,13 @@ var (
 		"skip_source_dest_check":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
-	VnicAttachmentResourceDependencies = utils.OciImageIdsVariable +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, instanceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, networkSecurityGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+	CoreVnicAttachmentResourceDependencies = utils.OciImageIdsVariable +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
 			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 		})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 		})) +
 		AvailabilityDomainConfig +
@@ -88,14 +88,14 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 
 	var resId string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+VnicAttachmentResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", acctest.Optional, acctest.Create, vnicAttachmentRepresentation), "core", "vnicAttachment", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreVnicAttachmentResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", acctest.Optional, acctest.Create, CoreVnicAttachmentRepresentation), "core", "vnicAttachment", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreVnicAttachmentDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + VnicAttachmentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", acctest.Required, acctest.Create, vnicAttachmentRepresentation),
+			Config: config + compartmentIdVariableStr + CoreVnicAttachmentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", acctest.Required, acctest.Create, CoreVnicAttachmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
@@ -105,12 +105,12 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + VnicAttachmentResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreVnicAttachmentResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + VnicAttachmentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", acctest.Optional, acctest.Create, vnicAttachmentRepresentation),
+			Config: config + compartmentIdVariableStr + CoreVnicAttachmentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", acctest.Optional, acctest.Create, CoreVnicAttachmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -146,9 +146,9 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vnic_attachments", "test_vnic_attachments", acctest.Optional, acctest.Update, vnicAttachmentDataSourceRepresentation) +
-				compartmentIdVariableStr + VnicAttachmentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", acctest.Optional, acctest.Update, vnicAttachmentRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vnic_attachments", "test_vnic_attachments", acctest.Optional, acctest.Update, CoreCoreVnicAttachmentDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreVnicAttachmentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", acctest.Optional, acctest.Update, CoreVnicAttachmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "instance_id"),
@@ -169,7 +169,7 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + VnicAttachmentRequiredOnlyResource,
+			Config:            config + CoreVnicAttachmentRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -235,7 +235,7 @@ func init() {
 
 func sweepCoreVnicAttachmentResource(compartment string) error {
 	computeClient := acctest.GetTestClients(&schema.ResourceData{}).ComputeClient()
-	vnicAttachmentIds, err := getVnicAttachmentIds(compartment)
+	vnicAttachmentIds, err := getCoreVnicAttachmentIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -251,14 +251,14 @@ func sweepCoreVnicAttachmentResource(compartment string) error {
 				fmt.Printf("Error deleting VnicAttachment %s %s, It is possible that the resource is already deleted. Please verify manually \n", vnicAttachmentId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &vnicAttachmentId, vnicAttachmentSweepWaitCondition, time.Duration(3*time.Minute),
-				vnicAttachmentSweepResponseFetchOperation, "core", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &vnicAttachmentId, CoreVnicAttachmentSweepWaitCondition, time.Duration(3*time.Minute),
+				CoreVnicAttachmentSweepResponseFetchOperation, "core", true)
 		}
 	}
 	return nil
 }
 
-func getVnicAttachmentIds(compartment string) ([]string, error) {
+func getCoreVnicAttachmentIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "VnicAttachmentId")
 	if ids != nil {
 		return ids, nil
@@ -282,7 +282,7 @@ func getVnicAttachmentIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func vnicAttachmentSweepWaitCondition(response common.OCIOperationResponse) bool {
+func CoreVnicAttachmentSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if vnicAttachmentResponse, ok := response.Response.(oci_core.GetVnicAttachmentResponse); ok {
 		return vnicAttachmentResponse.LifecycleState != oci_core.VnicAttachmentLifecycleStateDetached
@@ -290,7 +290,7 @@ func vnicAttachmentSweepWaitCondition(response common.OCIOperationResponse) bool
 	return false
 }
 
-func vnicAttachmentSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CoreVnicAttachmentSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.ComputeClient().GetVnicAttachment(context.Background(), oci_core.GetVnicAttachmentRequest{
 		VnicAttachmentId: resourceId,
 		RequestMetadata: common.RequestMetadata{

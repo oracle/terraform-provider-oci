@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -208,6 +208,64 @@ func (client DbManagementClient) addManagedDatabaseToManagedDatabaseGroup(ctx co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabaseGroup/AddManagedDatabaseToManagedDatabaseGroup"
 		err = common.PostProcessServiceError(err, "DbManagement", "AddManagedDatabaseToManagedDatabaseGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// AddmTasks Lists the metadata for each ADDM task who's end snapshot time falls within the provided start and end time. Details include
+// the name of the ADDM task, description, user, status and creation date time.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/AddmTasks.go.html to see an example of how to use AddmTasks API.
+func (client DbManagementClient) AddmTasks(ctx context.Context, request AddmTasksRequest) (response AddmTasksResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.addmTasks, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddmTasksResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddmTasksResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddmTasksResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddmTasksResponse")
+	}
+	return
+}
+
+// addmTasks implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) addmTasks(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/addmTasks", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddmTasksResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/AddmTasksCollection/AddmTasks"
+		err = common.PostProcessServiceError(err, "DbManagement", "AddmTasks", apiReferenceLink)
 		return response, err
 	}
 
@@ -898,6 +956,63 @@ func (client DbManagementClient) deleteManagedDatabaseGroup(ctx context.Context,
 	return response, err
 }
 
+// DeletePreferredCredential Deletes the preferred credential based on the credentialName.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DeletePreferredCredential.go.html to see an example of how to use DeletePreferredCredential API.
+func (client DbManagementClient) DeletePreferredCredential(ctx context.Context, request DeletePreferredCredentialRequest) (response DeletePreferredCredentialResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deletePreferredCredential, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeletePreferredCredentialResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeletePreferredCredentialResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeletePreferredCredentialResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeletePreferredCredentialResponse")
+	}
+	return
+}
+
+// deletePreferredCredential implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) deletePreferredCredential(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/managedDatabases/{managedDatabaseId}/preferredCredentials/{credentialName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeletePreferredCredentialResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/PreferredCredential/DeletePreferredCredential"
+		err = common.PostProcessServiceError(err, "DbManagement", "DeletePreferredCredential", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DropTablespace Drops the tablespace specified by tablespaceName within the Managed Database specified by managedDatabaseId.
 //
 // See also
@@ -953,6 +1068,68 @@ func (client DbManagementClient) dropTablespace(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/Tablespace/DropTablespace"
 		err = common.PostProcessServiceError(err, "DbManagement", "DropTablespace", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GenerateAwrSnapshot Creates an AWR snapshot for the target database.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GenerateAwrSnapshot.go.html to see an example of how to use GenerateAwrSnapshot API.
+func (client DbManagementClient) GenerateAwrSnapshot(ctx context.Context, request GenerateAwrSnapshotRequest) (response GenerateAwrSnapshotResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.generateAwrSnapshot, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GenerateAwrSnapshotResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GenerateAwrSnapshotResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GenerateAwrSnapshotResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GenerateAwrSnapshotResponse")
+	}
+	return
+}
+
+// generateAwrSnapshot implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) generateAwrSnapshot(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/actions/generateAwrSnapshot", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GenerateAwrSnapshotResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/SnapshotDetails/GenerateAwrSnapshot"
+		err = common.PostProcessServiceError(err, "DbManagement", "GenerateAwrSnapshot", apiReferenceLink)
 		return response, err
 	}
 
@@ -1600,6 +1777,178 @@ func (client DbManagementClient) getManagedDatabaseGroup(ctx context.Context, re
 	return response, err
 }
 
+// GetOptimizerStatisticsAdvisorExecution Gets a comprehensive report of the Optimizer Statistics Advisor execution, which includes details of the
+// Managed Database, findings, recommendations, rationale, and examples.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetOptimizerStatisticsAdvisorExecution.go.html to see an example of how to use GetOptimizerStatisticsAdvisorExecution API.
+func (client DbManagementClient) GetOptimizerStatisticsAdvisorExecution(ctx context.Context, request GetOptimizerStatisticsAdvisorExecutionRequest) (response GetOptimizerStatisticsAdvisorExecutionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getOptimizerStatisticsAdvisorExecution, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetOptimizerStatisticsAdvisorExecutionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetOptimizerStatisticsAdvisorExecutionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetOptimizerStatisticsAdvisorExecutionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetOptimizerStatisticsAdvisorExecutionResponse")
+	}
+	return
+}
+
+// getOptimizerStatisticsAdvisorExecution implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getOptimizerStatisticsAdvisorExecution(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/optimizerStatisticsAdvisorExecutions/{executionName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetOptimizerStatisticsAdvisorExecutionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/GetOptimizerStatisticsAdvisorExecution"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetOptimizerStatisticsAdvisorExecution", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetOptimizerStatisticsAdvisorExecutionScript Gets the Oracle system-generated script for the specified Optimizer Statistics Advisor execution.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetOptimizerStatisticsAdvisorExecutionScript.go.html to see an example of how to use GetOptimizerStatisticsAdvisorExecutionScript API.
+func (client DbManagementClient) GetOptimizerStatisticsAdvisorExecutionScript(ctx context.Context, request GetOptimizerStatisticsAdvisorExecutionScriptRequest) (response GetOptimizerStatisticsAdvisorExecutionScriptResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getOptimizerStatisticsAdvisorExecutionScript, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetOptimizerStatisticsAdvisorExecutionScriptResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetOptimizerStatisticsAdvisorExecutionScriptResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetOptimizerStatisticsAdvisorExecutionScriptResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetOptimizerStatisticsAdvisorExecutionScriptResponse")
+	}
+	return
+}
+
+// getOptimizerStatisticsAdvisorExecutionScript implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getOptimizerStatisticsAdvisorExecutionScript(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/optimizerStatisticsAdvisorExecutions/{executionName}/script", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetOptimizerStatisticsAdvisorExecutionScriptResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/GetOptimizerStatisticsAdvisorExecutionScript"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetOptimizerStatisticsAdvisorExecutionScript", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetOptimizerStatisticsCollectionOperation Gets a detailed report of the Optimizer Statistics Collection operation for the specified Managed Database.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetOptimizerStatisticsCollectionOperation.go.html to see an example of how to use GetOptimizerStatisticsCollectionOperation API.
+func (client DbManagementClient) GetOptimizerStatisticsCollectionOperation(ctx context.Context, request GetOptimizerStatisticsCollectionOperationRequest) (response GetOptimizerStatisticsCollectionOperationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getOptimizerStatisticsCollectionOperation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetOptimizerStatisticsCollectionOperationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetOptimizerStatisticsCollectionOperationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetOptimizerStatisticsCollectionOperationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetOptimizerStatisticsCollectionOperationResponse")
+	}
+	return
+}
+
+// getOptimizerStatisticsCollectionOperation implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getOptimizerStatisticsCollectionOperation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/optimizerStatisticsCollectionOperations/{optimizerStatisticsCollectionOperationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetOptimizerStatisticsCollectionOperationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/GetOptimizerStatisticsCollectionOperation"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetOptimizerStatisticsCollectionOperation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetPdbMetrics Gets a summary of the resource usage metrics such as CPU, User I/O, and Storage for each
 // PDB within a specific CDB. If comparmentId is specified, then the metrics for
 // each PDB (within the CDB) in the specified compartment are retrieved.
@@ -1657,6 +2006,63 @@ func (client DbManagementClient) getPdbMetrics(ctx context.Context, request comm
 	}
 
 	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetPreferredCredential Gets the preferred credential details for a Managed Database based on credentialName.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetPreferredCredential.go.html to see an example of how to use GetPreferredCredential API.
+func (client DbManagementClient) GetPreferredCredential(ctx context.Context, request GetPreferredCredentialRequest) (response GetPreferredCredentialResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getPreferredCredential, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetPreferredCredentialResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetPreferredCredentialResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetPreferredCredentialResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetPreferredCredentialResponse")
+	}
+	return
+}
+
+// getPreferredCredential implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getPreferredCredential(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/preferredCredentials/{credentialName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetPreferredCredentialResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/PreferredCredential/GetPreferredCredential"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetPreferredCredential", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &preferredcredential{})
 	return response, err
 }
 
@@ -1828,6 +2234,63 @@ func (client DbManagementClient) getWorkRequest(ctx context.Context, request com
 	}
 
 	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ImplementOptimizerStatisticsAdvisorRecommendations Asynchronously implements the findings and recommendations of the Optimizer Statistics Advisor execution.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ImplementOptimizerStatisticsAdvisorRecommendations.go.html to see an example of how to use ImplementOptimizerStatisticsAdvisorRecommendations API.
+func (client DbManagementClient) ImplementOptimizerStatisticsAdvisorRecommendations(ctx context.Context, request ImplementOptimizerStatisticsAdvisorRecommendationsRequest) (response ImplementOptimizerStatisticsAdvisorRecommendationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.implementOptimizerStatisticsAdvisorRecommendations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ImplementOptimizerStatisticsAdvisorRecommendationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ImplementOptimizerStatisticsAdvisorRecommendationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ImplementOptimizerStatisticsAdvisorRecommendationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ImplementOptimizerStatisticsAdvisorRecommendationsResponse")
+	}
+	return
+}
+
+// implementOptimizerStatisticsAdvisorRecommendations implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) implementOptimizerStatisticsAdvisorRecommendations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/optimizerStatisticsAdvisorExecutions/{executionName}/actions/implementRecommendations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ImplementOptimizerStatisticsAdvisorRecommendationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ImplementOptimizerStatisticsAdvisorRecommendations"
+		err = common.PostProcessServiceError(err, "DbManagement", "ImplementOptimizerStatisticsAdvisorRecommendations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &job{})
 	return response, err
 }
 
@@ -2656,6 +3119,247 @@ func (client DbManagementClient) listObjectPrivileges(ctx context.Context, reque
 	return response, err
 }
 
+// ListOptimizerStatisticsAdvisorExecutions Lists the details of the Optimizer Statistics Advisor task executions, such as their duration, and the number of findings, if any.
+// Optionally, you can specify a date-time range (of seven days) to obtain the list of executions that fall within the specified time range.
+// If the date-time range is not specified, then the executions in the last seven days are listed.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListOptimizerStatisticsAdvisorExecutions.go.html to see an example of how to use ListOptimizerStatisticsAdvisorExecutions API.
+func (client DbManagementClient) ListOptimizerStatisticsAdvisorExecutions(ctx context.Context, request ListOptimizerStatisticsAdvisorExecutionsRequest) (response ListOptimizerStatisticsAdvisorExecutionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listOptimizerStatisticsAdvisorExecutions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListOptimizerStatisticsAdvisorExecutionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListOptimizerStatisticsAdvisorExecutionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListOptimizerStatisticsAdvisorExecutionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListOptimizerStatisticsAdvisorExecutionsResponse")
+	}
+	return
+}
+
+// listOptimizerStatisticsAdvisorExecutions implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) listOptimizerStatisticsAdvisorExecutions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/optimizerStatisticsAdvisorExecutions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListOptimizerStatisticsAdvisorExecutionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListOptimizerStatisticsAdvisorExecutions"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListOptimizerStatisticsAdvisorExecutions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListOptimizerStatisticsCollectionAggregations Gets a list of the optimizer statistics collection operations per hour, grouped by task or object status for the specified Managed Database.
+// You must specify a value for GroupByQueryParam to determine whether the data should be grouped by task status or task object status.
+// Optionally, you can specify a date-time range (of seven days) to obtain collection aggregations within the specified time range.
+// If the date-time range is not specified, then the operations in the last seven days are listed.
+// You can further filter the results by providing the optional type of TaskTypeQueryParam.
+// If the task type not provided, then both Auto and Manual tasks are considered for aggregation.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListOptimizerStatisticsCollectionAggregations.go.html to see an example of how to use ListOptimizerStatisticsCollectionAggregations API.
+func (client DbManagementClient) ListOptimizerStatisticsCollectionAggregations(ctx context.Context, request ListOptimizerStatisticsCollectionAggregationsRequest) (response ListOptimizerStatisticsCollectionAggregationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listOptimizerStatisticsCollectionAggregations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListOptimizerStatisticsCollectionAggregationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListOptimizerStatisticsCollectionAggregationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListOptimizerStatisticsCollectionAggregationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListOptimizerStatisticsCollectionAggregationsResponse")
+	}
+	return
+}
+
+// listOptimizerStatisticsCollectionAggregations implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) listOptimizerStatisticsCollectionAggregations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/optimizerStatisticsCollectionAggregations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListOptimizerStatisticsCollectionAggregationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListOptimizerStatisticsCollectionAggregations"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListOptimizerStatisticsCollectionAggregations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListOptimizerStatisticsCollectionOperations Lists the Optimizer Statistics Collection (Auto and Manual) task operation summary for the specified Managed Database.
+// The summary includes the details of each operation and the number of tasks grouped by status: Completed, In Progress, Failed, and so on.
+// Optionally, you can specify a date-time range (of seven days) to obtain the list of operations that fall within the specified time range.
+// If the date-time range is not specified, then the operations in the last seven days are listed.
+// This API also enables the pagination of results and the opc-next-page response header indicates whether there is a next page.
+// If you use the same header value in a consecutive request, the next page records are returned.
+// To obtain the required results, you can apply the different types of filters supported by this API.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListOptimizerStatisticsCollectionOperations.go.html to see an example of how to use ListOptimizerStatisticsCollectionOperations API.
+func (client DbManagementClient) ListOptimizerStatisticsCollectionOperations(ctx context.Context, request ListOptimizerStatisticsCollectionOperationsRequest) (response ListOptimizerStatisticsCollectionOperationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listOptimizerStatisticsCollectionOperations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListOptimizerStatisticsCollectionOperationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListOptimizerStatisticsCollectionOperationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListOptimizerStatisticsCollectionOperationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListOptimizerStatisticsCollectionOperationsResponse")
+	}
+	return
+}
+
+// listOptimizerStatisticsCollectionOperations implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) listOptimizerStatisticsCollectionOperations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/optimizerStatisticsCollectionOperations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListOptimizerStatisticsCollectionOperationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListOptimizerStatisticsCollectionOperations"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListOptimizerStatisticsCollectionOperations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListPreferredCredentials Gets the list of preferred credentials for a given Managed Database.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListPreferredCredentials.go.html to see an example of how to use ListPreferredCredentials API.
+func (client DbManagementClient) ListPreferredCredentials(ctx context.Context, request ListPreferredCredentialsRequest) (response ListPreferredCredentialsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listPreferredCredentials, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListPreferredCredentialsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListPreferredCredentialsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListPreferredCredentialsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListPreferredCredentialsResponse")
+	}
+	return
+}
+
+// listPreferredCredentials implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) listPreferredCredentials(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/preferredCredentials", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListPreferredCredentialsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/PreferredCredential/ListPreferredCredentials"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListPreferredCredentials", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListProxiedForUsers Gets the list of users on whose behalf the current user acts as proxy.
 //
 // See also
@@ -2877,6 +3581,64 @@ func (client DbManagementClient) listSystemPrivileges(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListSystemPrivileges"
 		err = common.PostProcessServiceError(err, "DbManagement", "ListSystemPrivileges", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListTableStatistics Lists the database table statistics grouped by different statuses such as Not Stale Stats, Stale Stats, and No Stats.
+// This also includes the percentage of each status.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListTableStatistics.go.html to see an example of how to use ListTableStatistics API.
+func (client DbManagementClient) ListTableStatistics(ctx context.Context, request ListTableStatisticsRequest) (response ListTableStatisticsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listTableStatistics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListTableStatisticsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListTableStatisticsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListTableStatisticsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListTableStatisticsResponse")
+	}
+	return
+}
+
+// listTableStatistics implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) listTableStatistics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/tableStatistics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListTableStatisticsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListTableStatistics"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListTableStatistics", apiReferenceLink)
 		return response, err
 	}
 
@@ -3413,6 +4175,69 @@ func (client DbManagementClient) resizeDataFile(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/Tablespace/ResizeDataFile"
 		err = common.PostProcessServiceError(err, "DbManagement", "ResizeDataFile", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RunHistoricAddm Creates and executes a historic ADDM task using the specified AWR snapshot IDs. If an existing ADDM task
+// uses the provided awr snapshot IDs, the existing task will be returned.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/RunHistoricAddm.go.html to see an example of how to use RunHistoricAddm API.
+func (client DbManagementClient) RunHistoricAddm(ctx context.Context, request RunHistoricAddmRequest) (response RunHistoricAddmResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.runHistoricAddm, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RunHistoricAddmResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RunHistoricAddmResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RunHistoricAddmResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RunHistoricAddmResponse")
+	}
+	return
+}
+
+// runHistoricAddm implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) runHistoricAddm(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/actions/runHistoricAddm", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RunHistoricAddmResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/HistoricAddmResult/RunHistoricAddm"
+		err = common.PostProcessServiceError(err, "DbManagement", "RunHistoricAddm", apiReferenceLink)
 		return response, err
 	}
 
@@ -4047,6 +4872,63 @@ func (client DbManagementClient) summarizeJobExecutionsStatuses(ctx context.Cont
 	return response, err
 }
 
+// TestPreferredCredential Tests the preferred credential.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/TestPreferredCredential.go.html to see an example of how to use TestPreferredCredential API.
+func (client DbManagementClient) TestPreferredCredential(ctx context.Context, request TestPreferredCredentialRequest) (response TestPreferredCredentialResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.testPreferredCredential, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = TestPreferredCredentialResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = TestPreferredCredentialResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(TestPreferredCredentialResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into TestPreferredCredentialResponse")
+	}
+	return
+}
+
+// testPreferredCredential implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) testPreferredCredential(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/preferredCredentials/{credentialName}/actions/test", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response TestPreferredCredentialResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/PreferredCredential/TestPreferredCredential"
+		err = common.PostProcessServiceError(err, "DbManagement", "TestPreferredCredential", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateDbManagementPrivateEndpoint Updates one or more attributes of a specific Database Management private endpoint.
 //
 // See also
@@ -4215,6 +5097,63 @@ func (client DbManagementClient) updateManagedDatabaseGroup(ctx context.Context,
 	}
 
 	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdatePreferredCredential Updates the preferred credential based on the credentialName.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdatePreferredCredential.go.html to see an example of how to use UpdatePreferredCredential API.
+func (client DbManagementClient) UpdatePreferredCredential(ctx context.Context, request UpdatePreferredCredentialRequest) (response UpdatePreferredCredentialResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updatePreferredCredential, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdatePreferredCredentialResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdatePreferredCredentialResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdatePreferredCredentialResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdatePreferredCredentialResponse")
+	}
+	return
+}
+
+// updatePreferredCredential implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) updatePreferredCredential(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/managedDatabases/{managedDatabaseId}/preferredCredentials/{credentialName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdatePreferredCredentialResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/PreferredCredential/UpdatePreferredCredential"
+		err = common.PostProcessServiceError(err, "DbManagement", "UpdatePreferredCredential", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &preferredcredential{})
 	return response, err
 }
 

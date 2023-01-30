@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,19 +9,19 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	appCatalogListingSingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreAppCatalogListingSingularDataSourceRepresentation = map[string]interface{}{
 		"listing_id": acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_core_app_catalog_listings.test_app_catalog_listings.app_catalog_listings[0],"listing_id")}`},
 	}
 
-	appCatalogListingDataSourceRepresentation = map[string]interface{}{}
+	CoreCoreAppCatalogListingDataSourceRepresentation = map[string]interface{}{}
 
-	AppCatalogListingResourceConfig = ""
+	CoreAppCatalogListingResourceConfig = ""
 )
 
 // issue-routing-tag: core/computeImaging
@@ -43,8 +43,8 @@ func TestCoreAppCatalogListingResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_app_catalog_listings", "test_app_catalog_listings", acctest.Required, acctest.Create, appCatalogListingDataSourceRepresentation) +
-				compartmentIdVariableStr + AppCatalogListingResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_app_catalog_listings", "test_app_catalog_listings", acctest.Required, acctest.Create, CoreCoreAppCatalogListingDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreAppCatalogListingResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listings.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listings.0.display_name"),
@@ -56,9 +56,9 @@ func TestCoreAppCatalogListingResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_app_catalog_listings", "test_app_catalog_listings", acctest.Required, acctest.Create, appCatalogListingDataSourceRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_app_catalog_listing", "test_app_catalog_listing", acctest.Required, acctest.Create, appCatalogListingSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + AppCatalogListingResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_app_catalog_listings", "test_app_catalog_listings", acctest.Required, acctest.Create, CoreCoreAppCatalogListingDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_app_catalog_listing", "test_app_catalog_listing", acctest.Required, acctest.Create, CoreCoreAppCatalogListingSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreAppCatalogListingResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "listing_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "contact_url"),

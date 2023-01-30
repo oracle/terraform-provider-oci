@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package mysql
@@ -6,8 +6,8 @@ package mysql
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_mysql "github.com/oracle/oci-go-sdk/v65/mysql"
@@ -176,6 +176,12 @@ func (s *MysqlMysqlDbSystemDataSourceCrud) SetData() error {
 
 	if s.Res.MysqlVersion != nil {
 		s.D.Set("mysql_version", *s.Res.MysqlVersion)
+	}
+
+	if s.Res.PointInTimeRecoveryDetails != nil {
+		s.D.Set("point_in_time_recovery_details", []interface{}{PointInTimeRecoveryDetailsToMap(s.Res.PointInTimeRecoveryDetails)})
+	} else {
+		s.D.Set("point_in_time_recovery_details", nil)
 	}
 
 	if s.Res.Port != nil {

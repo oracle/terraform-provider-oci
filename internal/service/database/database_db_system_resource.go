@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database
@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 
@@ -404,6 +404,37 @@ func DatabaseDbSystemResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"data_collection_options": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"is_diagnostics_events_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_health_monitoring_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_incident_logs_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"data_storage_percentage": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -550,6 +581,11 @@ func DatabaseDbSystemResource() *schema.Resource {
 							},
 						},
 						"is_custom_action_timeout_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_monthly_patching_enabled": {
 							Type:     schema.TypeBool,
 							Optional: true,
 							Computed: true,
@@ -771,6 +807,10 @@ func DatabaseDbSystemResource() *schema.Resource {
 							},
 						},
 						"is_custom_action_timeout_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_monthly_patching_enabled": {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
@@ -1056,6 +1096,17 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 		request.CpuCoreCount = &tmp
 	}
 
+	if dataCollectionOptions, ok := s.D.GetOkExists("data_collection_options"); ok {
+		if tmpList := dataCollectionOptions.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "data_collection_options", 0)
+			tmp, err := s.mapToDataCollectionOptions(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.DataCollectionOptions = &tmp
+		}
+	}
+
 	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok && s.D.HasChange("data_storage_size_in_gb") {
 		tmp := dataStorageSizeInGB.(int)
 		request.DataStorageSizeInGBs = &tmp
@@ -1216,6 +1267,12 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 
 	if s.Res.CpuCoreCount != nil {
 		s.D.Set("cpu_core_count", *s.Res.CpuCoreCount)
+	}
+
+	if s.Res.DataCollectionOptions != nil {
+		s.D.Set("data_collection_options", []interface{}{DataCollectionOptionsToMap(s.Res.DataCollectionOptions)})
+	} else {
+		s.D.Set("data_collection_options", nil)
 	}
 
 	if s.Res.DataStoragePercentage != nil {
@@ -1936,6 +1993,27 @@ func CreateDbHomeFromDatabaseDetailsToMap(obj *oci_database.CreateDbHomeFromData
 	return result
 }
 
+func (s *DatabaseDbSystemResourceCrud) mapToDataCollectionOptions(fieldKeyFormat string) (oci_database.DataCollectionOptions, error) {
+	result := oci_database.DataCollectionOptions{}
+
+	if isDiagnosticsEventsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_diagnostics_events_enabled")); ok {
+		tmp := isDiagnosticsEventsEnabled.(bool)
+		result.IsDiagnosticsEventsEnabled = &tmp
+	}
+
+	if isHealthMonitoringEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_health_monitoring_enabled")); ok {
+		tmp := isHealthMonitoringEnabled.(bool)
+		result.IsHealthMonitoringEnabled = &tmp
+	}
+
+	if isIncidentLogsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_incident_logs_enabled")); ok {
+		tmp := isIncidentLogsEnabled.(bool)
+		result.IsIncidentLogsEnabled = &tmp
+	}
+
+	return result, nil
+}
+
 func (s *DatabaseDbSystemResourceCrud) mapToDayOfWeek(fieldKeyFormat string) (oci_database.DayOfWeek, error) {
 	result := oci_database.DayOfWeek{}
 
@@ -2096,6 +2174,11 @@ func (s *DatabaseDbSystemResourceCrud) mapToMaintenanceWindow(fieldKeyFormat str
 		result.IsCustomActionTimeoutEnabled = &tmp
 	}
 
+	if isMonthlyPatchingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_monthly_patching_enabled")); ok {
+		tmp := isMonthlyPatchingEnabled.(bool)
+		result.IsMonthlyPatchingEnabled = &tmp
+	}
+
 	if leadTimeInWeeks, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lead_time_in_weeks")); ok {
 		tmp := leadTimeInWeeks.(int)
 		result.LeadTimeInWeeks = &tmp
@@ -2215,6 +2298,16 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
 			tmp := cpuCoreCount.(int)
 			details.CpuCoreCount = &tmp
+		}
+		if dataCollectionOptions, ok := s.D.GetOkExists("data_collection_options"); ok {
+			if tmpList := dataCollectionOptions.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "data_collection_options", 0)
+				tmp, err := s.mapToDataCollectionOptions(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DataCollectionOptions = &tmp
+			}
 		}
 		if dataStoragePercentage, ok := s.D.GetOkExists("data_storage_percentage"); ok {
 			tmp := dataStoragePercentage.(int)
@@ -2387,6 +2480,16 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := cpuCoreCount.(int)
 			details.CpuCoreCount = &tmp
 		}
+		if dataCollectionOptions, ok := s.D.GetOkExists("data_collection_options"); ok {
+			if tmpList := dataCollectionOptions.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "data_collection_options", 0)
+				tmp, err := s.mapToDataCollectionOptions(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DataCollectionOptions = &tmp
+			}
+		}
 		if dataStoragePercentage, ok := s.D.GetOkExists("data_storage_percentage"); ok {
 			tmp := dataStoragePercentage.(int)
 			details.DataStoragePercentage = &tmp
@@ -2555,6 +2658,16 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
 			tmp := cpuCoreCount.(int)
 			details.CpuCoreCount = &tmp
+		}
+		if dataCollectionOptions, ok := s.D.GetOkExists("data_collection_options"); ok {
+			if tmpList := dataCollectionOptions.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "data_collection_options", 0)
+				tmp, err := s.mapToDataCollectionOptions(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DataCollectionOptions = &tmp
+			}
 		}
 		if dataStoragePercentage, ok := s.D.GetOkExists("data_storage_percentage"); ok {
 			tmp := dataStoragePercentage.(int)
@@ -2726,6 +2839,16 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
 			tmp := cpuCoreCount.(int)
 			details.CpuCoreCount = &tmp
+		}
+		if dataCollectionOptions, ok := s.D.GetOkExists("data_collection_options"); ok {
+			if tmpList := dataCollectionOptions.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "data_collection_options", 0)
+				tmp, err := s.mapToDataCollectionOptions(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DataCollectionOptions = &tmp
+			}
 		}
 		if dataStoragePercentage, ok := s.D.GetOkExists("data_storage_percentage"); ok {
 			tmp := dataStoragePercentage.(int)
@@ -2914,7 +3037,7 @@ func (s *DatabaseDbSystemResourceCrud) mapToUpdateDbBackupConfig(fieldKeyFormat 
 	}
 
 	if autoBackupWindow, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_backup_window")); ok {
-		if result.AutoBackupEnabled != nil && *result.AutoBackupEnabled == true {
+		if autoBackupEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_backup_enabled")); ok && autoBackupEnabled.(bool) == true {
 			result.AutoBackupWindow = oci_database.DbBackupConfigAutoBackupWindowEnum(autoBackupWindow.(string))
 		}
 	}

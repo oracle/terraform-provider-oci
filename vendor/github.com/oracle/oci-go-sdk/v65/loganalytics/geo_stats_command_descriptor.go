@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -34,13 +34,31 @@ type GeoStatsCommandDescriptor struct {
 	// Fields declared in command fragment from user specified query string.
 	DeclaredFields []AbstractField `mandatory:"false" json:"declaredFields"`
 
-	// Group by fields if specified in the query string.
+	// Field denoting if this is a hidden command that is not shown in the query string.
+	IsHidden *bool `mandatory:"false" json:"isHidden"`
+
+	// The city field to use. Only applicable when include = CUSTOM.
+	CityField AbstractField `mandatory:"false" json:"cityField"`
+
+	// The region field to use. Only applicable when include = CUSTOM.
+	RegionField AbstractField `mandatory:"false" json:"regionField"`
+
+	// The country field to use. Only applicable when include = CUSTOM.
+	CountryField AbstractField `mandatory:"false" json:"countryField"`
+
+	// The continent field to use. Only applicable when include = CUSTOM.
+	ContinentField AbstractField `mandatory:"false" json:"continentField"`
+
+	// The coordinates field to use. Only applicable when include = CUSTOM.
+	CoordinatesField AbstractField `mandatory:"false" json:"coordinatesField"`
+
+	// Group by fields if specified in the query string.  Required if include = CUSTOM.
 	GroupByFields []AbstractField `mandatory:"false" json:"groupByFields"`
 
-	// Statistical functions specified in the query string. Atleast 1 is required for a GEOSTATS command.
+	// Statistical functions specified in the query string. At least 1 is required for a GEOSTATS command.
 	Functions []FunctionField `mandatory:"false" json:"functions"`
 
-	// Indicates which coordinates to show.  Either client, server or both.  Defaults to client.
+	// Indicates which coordinates to show.  Either client, server, client and server or custom. If custom is specified at least one of  coordinatesField, regionField or countryField is required. Defaults to client.
 	Include GeoStatsCommandDescriptorIncludeEnum `mandatory:"false" json:"include,omitempty"`
 }
 
@@ -67,6 +85,11 @@ func (m GeoStatsCommandDescriptor) GetReferencedFields() []AbstractField {
 //GetDeclaredFields returns DeclaredFields
 func (m GeoStatsCommandDescriptor) GetDeclaredFields() []AbstractField {
 	return m.DeclaredFields
+}
+
+//GetIsHidden returns IsHidden
+func (m GeoStatsCommandDescriptor) GetIsHidden() *bool {
+	return m.IsHidden
 }
 
 func (m GeoStatsCommandDescriptor) String() string {
@@ -108,7 +131,13 @@ func (m *GeoStatsCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 		Category            *string                              `json:"category"`
 		ReferencedFields    []abstractfield                      `json:"referencedFields"`
 		DeclaredFields      []abstractfield                      `json:"declaredFields"`
+		IsHidden            *bool                                `json:"isHidden"`
 		Include             GeoStatsCommandDescriptorIncludeEnum `json:"include"`
+		CityField           abstractfield                        `json:"cityField"`
+		RegionField         abstractfield                        `json:"regionField"`
+		CountryField        abstractfield                        `json:"countryField"`
+		ContinentField      abstractfield                        `json:"continentField"`
+		CoordinatesField    abstractfield                        `json:"coordinatesField"`
 		GroupByFields       []abstractfield                      `json:"groupByFields"`
 		Functions           []FunctionField                      `json:"functions"`
 		DisplayQueryString  *string                              `json:"displayQueryString"`
@@ -148,7 +177,59 @@ func (m *GeoStatsCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 		}
 	}
 
+	m.IsHidden = model.IsHidden
+
 	m.Include = model.Include
+
+	nn, e = model.CityField.UnmarshalPolymorphicJSON(model.CityField.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.CityField = nn.(AbstractField)
+	} else {
+		m.CityField = nil
+	}
+
+	nn, e = model.RegionField.UnmarshalPolymorphicJSON(model.RegionField.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.RegionField = nn.(AbstractField)
+	} else {
+		m.RegionField = nil
+	}
+
+	nn, e = model.CountryField.UnmarshalPolymorphicJSON(model.CountryField.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.CountryField = nn.(AbstractField)
+	} else {
+		m.CountryField = nil
+	}
+
+	nn, e = model.ContinentField.UnmarshalPolymorphicJSON(model.ContinentField.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ContinentField = nn.(AbstractField)
+	} else {
+		m.ContinentField = nil
+	}
+
+	nn, e = model.CoordinatesField.UnmarshalPolymorphicJSON(model.CoordinatesField.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.CoordinatesField = nn.(AbstractField)
+	} else {
+		m.CoordinatesField = nil
+	}
 
 	m.GroupByFields = make([]AbstractField, len(model.GroupByFields))
 	for i, n := range model.GroupByFields {
@@ -183,18 +264,21 @@ const (
 	GeoStatsCommandDescriptorIncludeClient          GeoStatsCommandDescriptorIncludeEnum = "CLIENT"
 	GeoStatsCommandDescriptorIncludeServer          GeoStatsCommandDescriptorIncludeEnum = "SERVER"
 	GeoStatsCommandDescriptorIncludeClientAndServer GeoStatsCommandDescriptorIncludeEnum = "CLIENT_AND_SERVER"
+	GeoStatsCommandDescriptorIncludeCustom          GeoStatsCommandDescriptorIncludeEnum = "CUSTOM"
 )
 
 var mappingGeoStatsCommandDescriptorIncludeEnum = map[string]GeoStatsCommandDescriptorIncludeEnum{
 	"CLIENT":            GeoStatsCommandDescriptorIncludeClient,
 	"SERVER":            GeoStatsCommandDescriptorIncludeServer,
 	"CLIENT_AND_SERVER": GeoStatsCommandDescriptorIncludeClientAndServer,
+	"CUSTOM":            GeoStatsCommandDescriptorIncludeCustom,
 }
 
 var mappingGeoStatsCommandDescriptorIncludeEnumLowerCase = map[string]GeoStatsCommandDescriptorIncludeEnum{
 	"client":            GeoStatsCommandDescriptorIncludeClient,
 	"server":            GeoStatsCommandDescriptorIncludeServer,
 	"client_and_server": GeoStatsCommandDescriptorIncludeClientAndServer,
+	"custom":            GeoStatsCommandDescriptorIncludeCustom,
 }
 
 // GetGeoStatsCommandDescriptorIncludeEnumValues Enumerates the set of values for GeoStatsCommandDescriptorIncludeEnum
@@ -212,6 +296,7 @@ func GetGeoStatsCommandDescriptorIncludeEnumStringValues() []string {
 		"CLIENT",
 		"SERVER",
 		"CLIENT_AND_SERVER",
+		"CUSTOM",
 	}
 }
 

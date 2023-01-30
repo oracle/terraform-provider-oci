@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -179,16 +179,19 @@ type ListExternalPublicationValidationsSortByEnum string
 const (
 	ListExternalPublicationValidationsSortByTimeCreated ListExternalPublicationValidationsSortByEnum = "TIME_CREATED"
 	ListExternalPublicationValidationsSortByDisplayName ListExternalPublicationValidationsSortByEnum = "DISPLAY_NAME"
+	ListExternalPublicationValidationsSortByTimeUpdated ListExternalPublicationValidationsSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListExternalPublicationValidationsSortByEnum = map[string]ListExternalPublicationValidationsSortByEnum{
 	"TIME_CREATED": ListExternalPublicationValidationsSortByTimeCreated,
 	"DISPLAY_NAME": ListExternalPublicationValidationsSortByDisplayName,
+	"TIME_UPDATED": ListExternalPublicationValidationsSortByTimeUpdated,
 }
 
 var mappingListExternalPublicationValidationsSortByEnumLowerCase = map[string]ListExternalPublicationValidationsSortByEnum{
 	"time_created": ListExternalPublicationValidationsSortByTimeCreated,
 	"display_name": ListExternalPublicationValidationsSortByDisplayName,
+	"time_updated": ListExternalPublicationValidationsSortByTimeUpdated,
 }
 
 // GetListExternalPublicationValidationsSortByEnumValues Enumerates the set of values for ListExternalPublicationValidationsSortByEnum
@@ -205,6 +208,7 @@ func GetListExternalPublicationValidationsSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 

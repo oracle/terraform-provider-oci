@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package oda
@@ -9,8 +9,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_oda "github.com/oracle/oci-go-sdk/v65/oda"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func OdaOdaInstanceDataSource() *schema.Resource {
@@ -66,6 +66,10 @@ func (s *OdaOdaInstanceDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	s.D.Set("attachment_ids", s.Res.AttachmentIds)
+
+	s.D.Set("attachment_types", s.Res.AttachmentTypes)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -88,7 +92,33 @@ func (s *OdaOdaInstanceDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IdentityAppConsoleUrl != nil {
+		s.D.Set("identity_app_console_url", *s.Res.IdentityAppConsoleUrl)
+	}
+
+	if s.Res.IdentityAppGuid != nil {
+		s.D.Set("identity_app_guid", *s.Res.IdentityAppGuid)
+	}
+
+	if s.Res.IdentityDomain != nil {
+		s.D.Set("identity_domain", *s.Res.IdentityDomain)
+	}
+
+	s.D.Set("imported_package_ids", s.Res.ImportedPackageIds)
+
+	s.D.Set("imported_package_names", s.Res.ImportedPackageNames)
+
+	if s.Res.IsRoleBasedAccess != nil {
+		s.D.Set("is_role_based_access", *s.Res.IsRoleBasedAccess)
+	}
+
 	s.D.Set("lifecycle_sub_state", s.Res.LifecycleSubState)
+
+	restrictedOperations := []interface{}{}
+	for _, item := range s.Res.RestrictedOperations {
+		restrictedOperations = append(restrictedOperations, RestrictedOperationToMap(item))
+	}
+	s.D.Set("restricted_operations", restrictedOperations)
 
 	s.D.Set("shape_name", s.Res.ShapeName)
 

@@ -1,4 +1,4 @@
-# Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 
 TEST?=./...
 GOFMT_FILES?=$(if $(SERVICE), $$(find . -name '$(SERVICE)*.go' |grep -v vendor), $$(find . -name '*.go' |grep -v vendor))
@@ -24,6 +24,9 @@ default: build
 ## IMPORTANT: Do not modify the following `build` target. The following steps are a requirement of the provider release process.
 build: fmtcheck gomodenv
 	go install
+
+buildnovcs: fmtcheck errcheck gomodenv
+	go install -buildvcs=false
 
 ### TODO: Fix this so that only unit tests are running
 test: fmtcheck
@@ -51,7 +54,7 @@ vet:
 
 fmt:
 	gofmt -w $(GOFMT_FILES)
-	goimports -w -local github.com/terraform-providers/terraform-provider-oci $(GOFMT_FILES)
+	goimports -w -local terraform-provider-oci $(GOFMT_FILES)
 	@if [ -x "$$(command -v terraform)" ]; then \
 		terraform fmt; \
 	else \
@@ -155,3 +158,6 @@ endif
 
 check-untagged-tests:
 	@sh -c "'$(CURDIR)/scripts/check-untagged-tests.sh' -s ''$(SERVICE)"
+
+check-module-name:
+	@sh -c "'$(CURDIR)/scripts/gomodnamecheck.sh'"

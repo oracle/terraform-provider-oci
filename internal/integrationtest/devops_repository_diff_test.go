@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -8,31 +8,31 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	repositoryDiffSingularDataSourceRepresentation = map[string]interface{}{
+	DevopsDevopsRepositoryDiffSingularDataSourceRepresentation = map[string]interface{}{
 		"base_version":   acctest.Representation{RepType: acctest.Required, Create: `main`},
 		"file_path":      acctest.Representation{RepType: acctest.Required, Create: ``},
 		"repository_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_repository.test_repository.id}`},
 		"target_version": acctest.Representation{RepType: acctest.Required, Create: `main`},
 	}
 
-	repositoryDiffDataSourceRepresentation = map[string]interface{}{
+	DevopsRepositoryDiffDataSourceRepresentation = map[string]interface{}{
 		"base_version":   acctest.Representation{RepType: acctest.Required, Create: `main`},
 		"repository_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_repository.test_repository.id}`},
 		"target_version": acctest.Representation{RepType: acctest.Required, Create: `main`},
 	}
 
-	RepositoryDiffResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, devopsProjectRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Required, acctest.Create, devopsRepositoryRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, notificationTopicRepresentation)
+	DevopsRepositoryDiffResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Required, acctest.Create, DevopsRepositoryRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation)
 )
 
 // issue-routing-tag: devops/default
@@ -57,8 +57,8 @@ func TestDevopsRepositoryDiffResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repository_diffs", "test_repository_diffs", acctest.Required, acctest.Create, repositoryDiffDataSourceRepresentation) +
-				compartmentIdVariableStr + RepositoryDiffResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repository_diffs", "test_repository_diffs", acctest.Required, acctest.Create, DevopsRepositoryDiffDataSourceRepresentation) +
+				compartmentIdVariableStr + DevopsRepositoryDiffResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "base_version", "baseVersion"),
 				resource.TestCheckResourceAttr(datasourceName, "is_comparison_from_merge_base", "false"),
@@ -71,8 +71,8 @@ func TestDevopsRepositoryDiffResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repository_diff", "test_repository_diff", acctest.Required, acctest.Create, repositoryDiffSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + RepositoryDiffResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repository_diff", "test_repository_diff", acctest.Required, acctest.Create, DevopsDevopsRepositoryDiffSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DevopsRepositoryDiffResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "base_version", "baseVersion"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "file_path", "filePath"),

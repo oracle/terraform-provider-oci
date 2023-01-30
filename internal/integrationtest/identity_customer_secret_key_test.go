@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -15,31 +15,31 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_identity "github.com/oracle/oci-go-sdk/v65/identity"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	CustomerSecretKeyRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", acctest.Required, acctest.Create, customerSecretKeyRepresentation)
+	CustomerSecretKeyRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", acctest.Required, acctest.Create, IdentityCustomerSecretKeyRepresentation)
 
-	customerSecretKeyDataSourceRepresentation = map[string]interface{}{
+	IdentityIdentityCustomerSecretKeyDataSourceRepresentation = map[string]interface{}{
 		"user_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.id}`},
-		"filter":  acctest.RepresentationGroup{RepType: acctest.Required, Group: customerSecretKeyDataSourceFilterRepresentation}}
-	customerSecretKeyDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":  acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityCustomerSecretKeyDataSourceFilterRepresentation}}
+	IdentityCustomerSecretKeyDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_identity_customer_secret_key.test_customer_secret_key.id}`}},
 	}
 
-	customerSecretKeyRepresentation = map[string]interface{}{
+	IdentityCustomerSecretKeyRepresentation = map[string]interface{}{
 		"display_name": acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"user_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.id}`},
 	}
 
-	CustomerSecretKeyResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, userRepresentation)
+	IdentityCustomerSecretKeyResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation)
 )
 
 // issue-routing-tag: identity/default
@@ -59,14 +59,14 @@ func TestIdentityCustomerSecretKeyResource_basic(t *testing.T) {
 	var compositeId string
 
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+CustomerSecretKeyResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", acctest.Required, acctest.Create, customerSecretKeyRepresentation), "identity", "customerSecretKey", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+IdentityCustomerSecretKeyResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", acctest.Required, acctest.Create, IdentityCustomerSecretKeyRepresentation), "identity", "customerSecretKey", t)
 
 	acctest.ResourceTest(t, testAccCheckIdentityCustomerSecretKeyDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + CustomerSecretKeyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", acctest.Required, acctest.Create, customerSecretKeyRepresentation),
+			Config: config + compartmentIdVariableStr + IdentityCustomerSecretKeyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", acctest.Required, acctest.Create, IdentityCustomerSecretKeyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
@@ -92,8 +92,8 @@ func TestIdentityCustomerSecretKeyResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + CustomerSecretKeyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", acctest.Optional, acctest.Update, customerSecretKeyRepresentation),
+			Config: config + compartmentIdVariableStr + IdentityCustomerSecretKeyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", acctest.Optional, acctest.Update, IdentityCustomerSecretKeyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
@@ -110,9 +110,9 @@ func TestIdentityCustomerSecretKeyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_customer_secret_keys", "test_customer_secret_keys", acctest.Optional, acctest.Update, customerSecretKeyDataSourceRepresentation) +
-				compartmentIdVariableStr + CustomerSecretKeyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", acctest.Optional, acctest.Update, customerSecretKeyRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_customer_secret_keys", "test_customer_secret_keys", acctest.Optional, acctest.Update, IdentityIdentityCustomerSecretKeyDataSourceRepresentation) +
+				compartmentIdVariableStr + IdentityCustomerSecretKeyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", acctest.Optional, acctest.Update, IdentityCustomerSecretKeyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 

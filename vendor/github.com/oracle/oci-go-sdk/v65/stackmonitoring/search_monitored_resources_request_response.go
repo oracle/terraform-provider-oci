@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -30,6 +30,30 @@ type SearchMonitoredResourcesRequest struct {
 	// previous "List" call. For important details about how pagination works, see
 	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
+
+	// Partial response refers to an optimization technique offered
+	// by the RESTful web APIs, to return only the information
+	// (fields) required by the client. In this mechanism, the client
+	// sends the required field names as the query parameters for
+	// an API to the server, and the server trims down the default
+	// response content by removing the fields that are not required
+	// by the client. The parameter controls which fields to
+	// return and should be a query string parameter called "fields" of
+	// an array type, provide the values as enums, and use collectionFormat.
+	Fields []string `contributesTo:"query" name:"fields" collectionFormat:"multi"`
+
+	// Partial response refers to an optimization technique offered
+	// by the RESTful web APIs, to return all the information except
+	// the fields requested to be excluded (excludeFields) by the client.
+	// In this mechanism, the client
+	// sends the exclude field names as the query parameters for
+	// an API to the server, and the server trims down the default
+	// response content by removing the fields that are not required
+	// by the client. The parameter controls which fields to
+	// exlude and to return and should be a query string parameter
+	// called "excludeFields" of an array type, provide the values
+	// as enums, and use collectionFormat.
+	ExcludeFields []string `contributesTo:"query" name:"excludeFields" collectionFormat:"multi"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
 	// particular request, please provide the request ID.

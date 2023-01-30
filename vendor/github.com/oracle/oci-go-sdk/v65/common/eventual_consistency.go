@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 package common
@@ -7,7 +7,6 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"github.com/gofrs/flock"
 	"os"
 	"runtime"
 	"strconv"
@@ -15,6 +14,8 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+
+	"github.com/gofrs/flock"
 )
 
 const (
@@ -51,6 +52,7 @@ var (
 		{404, "NotAuthorizedOrNotFound"}:                true,
 		{409, "NotAuthorizedOrResourceAlreadyExists"}:   true,
 		{400, "InsufficientServicePermissions"}:         true,
+		{400, "ResourceDisabled"}:                       true,
 	}
 )
 
@@ -391,8 +393,8 @@ func getGID() uint64 {
 // initialized yet.
 func initLogIfNecessary() {
 	if defaultLogger == nil {
-		l, _ := newSDKLogger()
-		setSDKLogger(l)
+		l, _ := NewSDKLogger()
+		SetSDKLogger(l)
 	}
 }
 

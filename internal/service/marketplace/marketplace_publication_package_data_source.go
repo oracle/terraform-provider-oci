@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package marketplace
@@ -10,8 +10,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_marketplace "github.com/oracle/oci-go-sdk/v65/marketplace"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func MarketplacePublicationPackageDataSource() *schema.Resource {
@@ -175,34 +175,26 @@ func (s *MarketplacePublicationPackageDataSourceCrud) SetData() error {
 	s.D.SetId(tfresource.GenerateDataSourceHashID("MarketplacePublicationPackageDataSource-", MarketplacePublicationPackageDataSource(), s.D))
 	switch v := (s.Res.PublicationPackage).(type) {
 	case oci_marketplace.ImagePublicationPackage:
+		s.D.Set("package_type", "IMAGE")
+
 		if v.AppCatalogListingId != nil {
-			s.D.Set("app_catalog_listing_id", v.AppCatalogListingId)
+			s.D.Set("app_catalog_listing_id", *v.AppCatalogListingId)
 		}
 
 		if v.AppCatalogListingResourceVersion != nil {
-			s.D.Set("app_catalog_listing_resource_version", v.AppCatalogListingResourceVersion)
+			s.D.Set("app_catalog_listing_resource_version", *v.AppCatalogListingResourceVersion)
 		}
 
 		if v.ImageId != nil {
-			s.D.Set("image_id", v.ImageId)
+			s.D.Set("image_id", *v.ImageId)
 		}
 
 		if v.Description != nil {
-			s.D.Set("description", v.Description)
+			s.D.Set("description", *v.Description)
 		}
 
 		if v.ListingId != nil {
-			s.D.Set("listing_id", v.ListingId)
-		}
-
-		s.D.Set("package_type", oci_marketplace.PackageTypeEnumImage)
-
-		if v.ResourceId != nil {
-			s.D.Set("resource_id", v.ResourceId)
-		}
-
-		if v.TimeCreated != nil {
-			s.D.Set("time_created", v.TimeCreated.String())
+			s.D.Set("listing_id", *v.ListingId)
 		}
 
 		if v.OperatingSystem != nil {
@@ -211,31 +203,36 @@ func (s *MarketplacePublicationPackageDataSourceCrud) SetData() error {
 			s.D.Set("operating_system", nil)
 		}
 
-		if v.Version != nil {
-			s.D.Set("version", v.Version)
-		}
-
-	case oci_marketplace.OrchestrationPublicationPackage:
-		if v.Description != nil {
-			s.D.Set("description", v.Description)
-		}
-
-		if v.ListingId != nil {
-			s.D.Set("Listing_id", v.ListingId)
-		}
-
-		s.D.Set("package_type", oci_marketplace.PackageTypeEnumOrchestration)
-
 		if v.ResourceId != nil {
-			s.D.Set("resource_id", v.ResourceId)
+			s.D.Set("resource_id", *v.ResourceId)
 		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.Version != nil {
+			s.D.Set("version", *v.Version)
+		}
+	case oci_marketplace.OrchestrationPublicationPackage:
+		s.D.Set("package_type", "ORCHESTRATION")
 
 		if v.ResourceLink != nil {
-			s.D.Set("resource_link", v.ResourceLink)
+			s.D.Set("resource_link", *v.ResourceLink)
 		}
 
-		if v.TimeCreated != nil {
-			s.D.Set("time_created", v.TimeCreated.String())
+		variables := []interface{}{}
+		for _, item := range v.Variables {
+			variables = append(variables, MarketplacePublicationPackageOrchestrationVariableToMap(item))
+		}
+		s.D.Set("variables", variables)
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.ListingId != nil {
+			s.D.Set("listing_id", *v.ListingId)
 		}
 
 		if v.OperatingSystem != nil {
@@ -244,60 +241,21 @@ func (s *MarketplacePublicationPackageDataSourceCrud) SetData() error {
 			s.D.Set("operating_system", nil)
 		}
 
-		if v.Variables != nil {
-			variables := []interface{}{}
-			for _, item := range v.Variables {
-				variables = append(variables, MarketplacePublicationPackageOrchestrationVariableToMap(item))
-			}
-			s.D.Set("variables", variables)
+		if v.ResourceId != nil {
+			s.D.Set("resource_id", *v.ResourceId)
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
 		}
 
 		if v.Version != nil {
-			s.D.Set("version", v.Version)
+			s.D.Set("version", *v.Version)
 		}
-
 	default:
-		log.Printf("[WARN] Received 'ListingPackage' of unknown type %v", *s.Res)
+		log.Printf("[WARN] Received 'package_type' of unknown type %v", s.Res.PublicationPackage)
 		return nil
 	}
 
 	return nil
-}
-
-func MarketplacePublicationPackageOperatingSystemToMap(obj *oci_marketplace.OperatingSystem) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Name != nil {
-		result["name"] = string(*obj.Name)
-	}
-
-	return result
-}
-
-func MarketplacePublicationPackageOrchestrationVariableToMap(obj oci_marketplace.OrchestrationVariable) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	result["data_type"] = string(obj.DataType)
-
-	if obj.DefaultValue != nil {
-		result["default_value"] = string(*obj.DefaultValue)
-	}
-
-	if obj.Description != nil {
-		result["description"] = string(*obj.Description)
-	}
-
-	if obj.HintMessage != nil {
-		result["hint_message"] = string(*obj.HintMessage)
-	}
-
-	if obj.IsMandatory != nil {
-		result["is_mandatory"] = bool(*obj.IsMandatory)
-	}
-
-	if obj.Name != nil {
-		result["name"] = string(*obj.Name)
-	}
-
-	return result
 }

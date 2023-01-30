@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,16 +7,16 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	targetDatabaseRoleDataSourceRepresentation = map[string]interface{}{
+	DataSafetargetDatabaseRoleDataSourceRepresentation = map[string]interface{}{
 		"target_database_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.target_id}`},
 		"authentication_type":  acctest.Representation{RepType: acctest.Optional, Create: `authenticationType`},
 		"is_oracle_maintained": acctest.Representation{RepType: acctest.Optional, Create: `false`},
@@ -46,7 +46,7 @@ func TestDataSafeTargetDatabaseRoleResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_target_database_roles", "test_target_database_roles", acctest.Required, acctest.Create, targetDatabaseRoleDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_target_database_roles", "test_target_database_roles", acctest.Required, acctest.Create, DataSafetargetDatabaseRoleDataSourceRepresentation) +
 				compartmentIdVariableStr + targetIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "target_database_id"),

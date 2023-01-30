@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,65 +16,65 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_metering_computation "github.com/oracle/oci-go-sdk/v65/usageapi"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	QueryRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", acctest.Required, acctest.Create, queryRepresentation)
+	QueryRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", acctest.Required, acctest.Create, MeteringComputationQueryRepresentation)
 
-	QueryResourceConfig = QueryResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", acctest.Optional, acctest.Update, queryRepresentation)
+	MeteringComputationQueryResourceConfig = MeteringComputationQueryResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", acctest.Optional, acctest.Update, MeteringComputationQueryRepresentation)
 
-	querySingularDataSourceRepresentation = map[string]interface{}{
+	MeteringComputationMeteringComputationQuerySingularDataSourceRepresentation = map[string]interface{}{
 		"query_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_metering_computation_query.test_query.id}`},
 	}
 
-	queryDataSourceRepresentation = map[string]interface{}{
+	MeteringComputationMeteringComputationQueryDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_id}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: queryDataSourceFilterRepresentation}}
-	queryDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: MeteringComputationQueryDataSourceFilterRepresentation}}
+	MeteringComputationQueryDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_metering_computation_query.test_query.id}`}},
 	}
 
-	queryRepresentation = map[string]interface{}{
+	MeteringComputationQueryRepresentation = map[string]interface{}{
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_id}`},
-		"query_definition": acctest.RepresentationGroup{RepType: acctest.Required, Group: queryQueryDefinitionRepresentation},
+		"query_definition": acctest.RepresentationGroup{RepType: acctest.Required, Group: MeteringComputationQueryQueryDefinitionRepresentation},
 	}
-	queryQueryDefinitionRepresentation = map[string]interface{}{
-		"cost_analysis_ui": acctest.RepresentationGroup{RepType: acctest.Required, Group: queryQueryDefinitionCostAnalysisUIRepresentation},
+	MeteringComputationQueryQueryDefinitionRepresentation = map[string]interface{}{
+		"cost_analysis_ui": acctest.RepresentationGroup{RepType: acctest.Required, Group: MeteringComputationQueryQueryDefinitionCostAnalysisUIRepresentation},
 		"display_name":     acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"report_query":     acctest.RepresentationGroup{RepType: acctest.Required, Group: queryQueryDefinitionReportQueryRepresentation},
+		"report_query":     acctest.RepresentationGroup{RepType: acctest.Required, Group: MeteringComputationQueryQueryDefinitionReportQueryRepresentation},
 		"version":          acctest.Representation{RepType: acctest.Required, Create: `1.0`, Update: `1.0`},
 	}
-	queryQueryDefinitionCostAnalysisUIRepresentation = map[string]interface{}{
+	MeteringComputationQueryQueryDefinitionCostAnalysisUIRepresentation = map[string]interface{}{
 		"graph":               acctest.Representation{RepType: acctest.Optional, Create: `BARS`, Update: `LINES`},
 		"is_cumulative_graph": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
-	queryQueryDefinitionReportQueryRepresentation = map[string]interface{}{
-		"forecast":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: queryQueryDefinitionReportQueryForecastRepresentation},
+	MeteringComputationQueryQueryDefinitionReportQueryRepresentation = map[string]interface{}{
+		"forecast":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: MeteringComputationQueryQueryDefinitionReportQueryForecastRepresentation},
 		"granularity":          acctest.Representation{RepType: acctest.Required, Create: `DAILY`, Update: `MONTHLY`},
 		"tenant_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"compartment_depth":    acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `2.0`},
 		"filter":               acctest.Representation{RepType: acctest.Optional, Create: `{\"operator\":\"AND\",\"dimensions\":[{\"key\":\"compartmentName\",\"value\":\"compartmentNameValue\"}],\"tags\":[],\"filters\":[]}`, Update: `{\"operator\":\"AND\",\"dimensions\":[{\"key\":\"compartmentName\",\"value\":\"compartmentNameValue2\"}],\"tags\":[],\"filters\":[]}`},
 		"group_by":             acctest.Representation{RepType: acctest.Optional, Create: []string{`compartmentPath`}, Update: []string{`compartmentName`}},
-		"group_by_tag":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: queryQueryDefinitionReportQueryGroupByTagRepresentation},
+		"group_by_tag":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: MeteringComputationQueryQueryDefinitionReportQueryGroupByTagRepresentation},
 		"is_aggregate_by_time": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"query_type":           acctest.Representation{RepType: acctest.Optional, Create: `USAGE`, Update: `COST`},
 		"time_usage_ended":     acctest.Representation{RepType: acctest.Required, Create: timeUsageEnded.Format(time.RFC3339Nano), Update: timeUsageEnded.Format(time.RFC3339Nano)},
 		"time_usage_started":   acctest.Representation{RepType: acctest.Required, Create: timeUsageStarted.Format(time.RFC3339Nano), Update: timeUsageStarted.Format(time.RFC3339Nano)},
 	}
-	queryQueryDefinitionReportQueryForecastRepresentation = map[string]interface{}{
+	MeteringComputationQueryQueryDefinitionReportQueryForecastRepresentation = map[string]interface{}{
 		"time_forecast_ended":   acctest.Representation{RepType: acctest.Required, Create: timeForecastEnded.Format(time.RFC3339Nano), Update: timeForecastEnded.Format(time.RFC3339Nano)},
 		"forecast_type":         acctest.Representation{RepType: acctest.Optional, Create: `BASIC`},
 		"time_forecast_started": acctest.Representation{RepType: acctest.Optional, Create: timeUsageEnded.Format(time.RFC3339Nano), Update: timeUsageEnded.Format(time.RFC3339Nano)},
 	}
-	queryQueryDefinitionReportQueryGroupByTagRepresentation = map[string]interface{}{
+	MeteringComputationQueryQueryDefinitionReportQueryGroupByTagRepresentation = map[string]interface{}{
 		"key":       acctest.Representation{RepType: acctest.Optional, Create: `key`, Update: `key2`},
 		"namespace": acctest.Representation{RepType: acctest.Optional, Create: `namespace`, Update: `namespace2`},
 		"value":     acctest.Representation{RepType: acctest.Optional, Create: `value`, Update: `value2`},
@@ -83,7 +83,7 @@ var (
 	timeUsageEnded    = StartOfDay(time.Now().UTC().AddDate(0, 0, 1).Truncate(time.Millisecond))
 	timeForecastEnded = StartOfDay(time.Now().UTC().AddDate(0, 0, 2).Truncate(time.Millisecond))
 
-	QueryResourceDependencies = ""
+	MeteringComputationQueryResourceDependencies = ""
 )
 
 func StartOfDay(t time.Time) time.Time {
@@ -110,8 +110,8 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckMeteringComputationQueryDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + tenancyIdVariableStr + QueryResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", acctest.Required, acctest.Create, queryRepresentation),
+			Config: config + tenancyIdVariableStr + MeteringComputationQueryResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", acctest.Required, acctest.Create, MeteringComputationQueryRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "query_definition.#", "1"),
@@ -136,8 +136,8 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + tenancyIdVariableStr + QueryResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", acctest.Optional, acctest.Update, queryRepresentation),
+			Config: config + tenancyIdVariableStr + MeteringComputationQueryResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", acctest.Optional, acctest.Update, MeteringComputationQueryRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -178,9 +178,9 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_metering_computation_queries", "test_queries", acctest.Optional, acctest.Update, queryDataSourceRepresentation) +
-				tenancyIdVariableStr + QueryResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", acctest.Optional, acctest.Update, queryRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_metering_computation_queries", "test_queries", acctest.Optional, acctest.Update, MeteringComputationMeteringComputationQueryDataSourceRepresentation) +
+				tenancyIdVariableStr + MeteringComputationQueryResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", acctest.Optional, acctest.Update, MeteringComputationQueryRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 
@@ -191,8 +191,8 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_metering_computation_query", "test_query", acctest.Required, acctest.Create, querySingularDataSourceRepresentation) +
-				tenancyIdVariableStr + QueryResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_metering_computation_query", "test_query", acctest.Required, acctest.Create, MeteringComputationMeteringComputationQuerySingularDataSourceRepresentation) +
+				tenancyIdVariableStr + MeteringComputationQueryResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "query_id"),
 
@@ -279,7 +279,7 @@ func init() {
 
 func sweepMeteringComputationQueryResource(compartment string) error {
 	usageapiClient := acctest.GetTestClients(&schema.ResourceData{}).UsageapiClient()
-	queryIds, err := getQueryIds(compartment)
+	queryIds, err := getMeteringComputationQueryIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -300,7 +300,7 @@ func sweepMeteringComputationQueryResource(compartment string) error {
 	return nil
 }
 
-func getQueryIds(compartment string) ([]string, error) {
+func getMeteringComputationQueryIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "QueryId")
 	if ids != nil {
 		return ids, nil

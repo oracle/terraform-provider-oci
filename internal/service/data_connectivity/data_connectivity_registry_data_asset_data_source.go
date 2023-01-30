@@ -1,13 +1,14 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package data_connectivity
 
 import (
 	"context"
+	"encoding/json"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_connectivity "github.com/oracle/oci-go-sdk/v65/dataconnectivity"
@@ -85,6 +86,11 @@ func (s *DataConnectivityRegistryDataAssetDataSourceCrud) SetData() error {
 
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
+	}
+
+	if s.Res.EndPoints != nil {
+		tmp, _ := json.Marshal(s.Res.EndPoints)
+		s.D.Set("end_points", string(tmp))
 	}
 
 	if s.Res.ExternalKey != nil {

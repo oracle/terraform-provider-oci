@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,9 +10,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
@@ -41,7 +41,7 @@ var (
 	onDemandToPrevisonTableRepresentation  = acctest.RepresentationCopyWithNewProperties(
 		onDemandNoLfcTableLimitsRepresentation,
 		map[string]interface{}{
-			"table_limits": acctest.RepresentationGroup{RepType: acctest.Required, Group: tableTableLimitsRepresentation},
+			"table_limits": acctest.RepresentationGroup{RepType: acctest.Required, Group: NosqlTableTableLimitsRepresentation},
 		},
 	)
 
@@ -59,6 +59,35 @@ var (
 		"table_name_or_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_nosql_table.test_ondemand.id}`},
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
+
+	ChildTableResourceConfig = ChildTableResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_child", acctest.Required, acctest.Create, childTableRepresentation)
+
+	childTableDdlStatement = "CREATE TABLE IF NOT EXISTS test_table.test_child(idc INTEGER, cname STRING, PRIMARY KEY(idc))"
+
+	childTableRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"ddl_statement":  acctest.Representation{RepType: acctest.Required, Create: childTableDdlStatement},
+		"name":           acctest.Representation{RepType: acctest.Required, Create: "test_table.test_child"},
+		"depends_on":     acctest.Representation{RepType: acctest.Required, Create: []string{"oci_nosql_table.test_table"}},
+	}
+	childTableSingularDataSourceRepresentation = map[string]interface{}{
+		"table_name_or_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_nosql_table.test_child.id}`},
+		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+	}
+
+	childTableDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"name":           acctest.Representation{RepType: acctest.Optional, Create: `test_table.test_child`},
+		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: childTableDataSourceFilterRepresentation},
+	}
+	childTableDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
+		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_nosql_table.test_child.id}`}},
+	}
+
+	ChildTableResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", acctest.Required, acctest.Create, NosqlTableRepresentation)
 )
 
 // issue-routing-tag: nosql/default
@@ -72,9 +101,13 @@ func TestNosqlTableResource_test(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	resourceName := "oci_nosql_table.test_ondemand"
-	datasourceName := "data.oci_nosql_tables.test_tables"
-	singularDatasourceName := "data.oci_nosql_table.test_ondemand"
+	ondemandResourceName := "oci_nosql_table.test_ondemand"
+	ondemandDatasourceName := "data.oci_nosql_tables.test_tables"
+	ondemandSingularDatasourceName := "data.oci_nosql_table.test_ondemand"
+
+	childResourceName := "oci_nosql_table.test_child"
+	childDataResourceName := "data.oci_nosql_tables.test_child"
+	singularChildDatasourceName := "data.oci_nosql_table.test_child"
 
 	resource.Test(t, resource.TestCase{
 		Providers: map[string]*schema.Provider{
@@ -88,14 +121,14 @@ func TestNosqlTableResource_test(t *testing.T) {
 				Config: config + compartmentIdVariableStr +
 					acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_ondemand", acctest.Required, acctest.Create, onDemandTableRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "ddl_statement", onDemandTableDdlStatement),
-					resource.TestCheckResourceAttr(resourceName, "name", "test_ondemand"),
-					resource.TestCheckResourceAttr(resourceName, "table_limits.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "table_limits.0.max_read_units"),
-					resource.TestCheckResourceAttrSet(resourceName, "table_limits.0.max_write_units"),
-					resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_storage_in_gbs", "5"),
-					resource.TestCheckResourceAttr(resourceName, "table_limits.0.capacity_mode", "ON_DEMAND"),
+					resource.TestCheckResourceAttr(ondemandResourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(ondemandResourceName, "ddl_statement", onDemandTableDdlStatement),
+					resource.TestCheckResourceAttr(ondemandResourceName, "name", "test_ondemand"),
+					resource.TestCheckResourceAttr(ondemandResourceName, "table_limits.#", "1"),
+					resource.TestCheckResourceAttrSet(ondemandResourceName, "table_limits.0.max_read_units"),
+					resource.TestCheckResourceAttrSet(ondemandResourceName, "table_limits.0.max_write_units"),
+					resource.TestCheckResourceAttr(ondemandResourceName, "table_limits.0.max_storage_in_gbs", "5"),
+					resource.TestCheckResourceAttr(ondemandResourceName, "table_limits.0.capacity_mode", "ON_DEMAND"),
 				),
 			},
 
@@ -106,12 +139,12 @@ func TestNosqlTableResource_test(t *testing.T) {
 					compartmentIdVariableStr +
 					acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_ondemand", acctest.Required, acctest.Create, onDemandTableRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "name", "test_ondemand"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+					resource.TestCheckResourceAttr(ondemandDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(ondemandDatasourceName, "name", "test_ondemand"),
+					resource.TestCheckResourceAttr(ondemandDatasourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "table_collection.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "table_collection.0.id"),
+					resource.TestCheckResourceAttr(ondemandDatasourceName, "table_collection.#", "1"),
+					resource.TestCheckResourceAttrSet(ondemandDatasourceName, "table_collection.0.id"),
 				),
 			},
 
@@ -121,20 +154,20 @@ func TestNosqlTableResource_test(t *testing.T) {
 					acctest.GenerateDataSourceFromRepresentationMap("oci_nosql_table", "test_ondemand", acctest.Required, acctest.Create, onDemandTableSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + OnDemandTableResourceConfig,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "table_name_or_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", "test_ondemand"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "ddl_statement", onDemandTableDdlStatement),
-					resource.TestCheckResourceAttr(singularDatasourceName, "schema.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "table_limits.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "table_limits.0.max_read_units"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "table_limits.0.max_write_units"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "table_limits.0.max_storage_in_gbs", "5"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "table_limits.0.capacity_mode", "ON_DEMAND"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+					resource.TestCheckResourceAttr(ondemandSingularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(ondemandSingularDatasourceName, "table_name_or_id"),
+					resource.TestCheckResourceAttrSet(ondemandSingularDatasourceName, "id"),
+					resource.TestCheckResourceAttr(ondemandSingularDatasourceName, "name", "test_ondemand"),
+					resource.TestCheckResourceAttr(ondemandSingularDatasourceName, "ddl_statement", onDemandTableDdlStatement),
+					resource.TestCheckResourceAttr(ondemandSingularDatasourceName, "schema.#", "1"),
+					resource.TestCheckResourceAttr(ondemandSingularDatasourceName, "state", "ACTIVE"),
+					resource.TestCheckResourceAttr(ondemandSingularDatasourceName, "table_limits.#", "1"),
+					resource.TestCheckResourceAttrSet(ondemandSingularDatasourceName, "table_limits.0.max_read_units"),
+					resource.TestCheckResourceAttrSet(ondemandSingularDatasourceName, "table_limits.0.max_write_units"),
+					resource.TestCheckResourceAttr(ondemandSingularDatasourceName, "table_limits.0.max_storage_in_gbs", "5"),
+					resource.TestCheckResourceAttr(ondemandSingularDatasourceName, "table_limits.0.capacity_mode", "ON_DEMAND"),
+					resource.TestCheckResourceAttrSet(ondemandSingularDatasourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(ondemandSingularDatasourceName, "time_updated"),
 				),
 			},
 
@@ -143,15 +176,68 @@ func TestNosqlTableResource_test(t *testing.T) {
 				Config: config + compartmentIdVariableStr +
 					acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_ondemand", acctest.Optional, acctest.Create, onDemandToPrevisonTableRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "ddl_statement", onDemandTableDdlStatement),
-					resource.TestCheckResourceAttr(resourceName, "name", "test_ondemand"),
-					resource.TestCheckResourceAttr(resourceName, "table_limits.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_read_units", "10"),
-					resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_storage_in_gbs", "10"),
-					resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_write_units", "10"),
-					resource.TestCheckResourceAttr(resourceName, "table_limits.0.capacity_mode", "PROVISIONED"),
+					resource.TestCheckResourceAttr(ondemandResourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(ondemandResourceName, "ddl_statement", onDemandTableDdlStatement),
+					resource.TestCheckResourceAttr(ondemandResourceName, "name", "test_ondemand"),
+					resource.TestCheckResourceAttr(ondemandResourceName, "table_limits.#", "1"),
+					resource.TestCheckResourceAttr(ondemandResourceName, "table_limits.0.max_read_units", "10"),
+					resource.TestCheckResourceAttr(ondemandResourceName, "table_limits.0.max_storage_in_gbs", "10"),
+					resource.TestCheckResourceAttr(ondemandResourceName, "table_limits.0.max_write_units", "10"),
+					resource.TestCheckResourceAttr(ondemandResourceName, "table_limits.0.capacity_mode", "PROVISIONED"),
 				),
+			},
+
+			// verify create table: child table table "test_table.test_child"
+			{
+				Config: config + compartmentIdVariableStr + ChildTableResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_child", acctest.Required, acctest.Create, childTableRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(childResourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(childResourceName, "ddl_statement", childTableDdlStatement),
+					resource.TestCheckResourceAttr(childResourceName, "name", "test_table.test_child"),
+					resource.TestCheckNoResourceAttr(childResourceName, "table_limits"),
+				),
+			},
+
+			// verify datasource: test_child
+			{
+				Config: config +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_nosql_tables", "test_child", acctest.Optional, acctest.Create, childTableDataSourceRepresentation) +
+					compartmentIdVariableStr + ChildTableResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(childDataResourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(childDataResourceName, "name", "test_table.test_child"),
+					resource.TestCheckResourceAttr(childDataResourceName, "state", "ACTIVE"),
+					resource.TestCheckResourceAttr(childDataResourceName, "table_collection.#", "1"),
+					resource.TestCheckResourceAttrSet(childDataResourceName, "table_collection.0.id"),
+					resource.TestCheckResourceAttr(childDataResourceName, "table_collection.0.name", "test_table.test_child"),
+					resource.TestCheckResourceAttr(childDataResourceName, "table_collection.0.state", "ACTIVE"),
+					resource.TestCheckNoResourceAttr(childDataResourceName, "table_limits"),
+				),
+			},
+
+			// verify singular datasource: test_child
+			{
+				Config: config +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_nosql_table", "test_child", acctest.Required, acctest.Create, childTableSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + ChildTableResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(singularChildDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(singularChildDatasourceName, "table_name_or_id"),
+					resource.TestCheckResourceAttrSet(singularChildDatasourceName, "id"),
+					resource.TestCheckResourceAttr(singularChildDatasourceName, "name", "test_table.test_child"),
+					resource.TestCheckResourceAttr(singularChildDatasourceName, "ddl_statement", childTableDdlStatement),
+					resource.TestCheckResourceAttr(singularChildDatasourceName, "schema.#", "1"),
+					resource.TestCheckResourceAttr(singularChildDatasourceName, "state", "ACTIVE"),
+					resource.TestCheckResourceAttrSet(singularChildDatasourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(singularChildDatasourceName, "time_updated"),
+					resource.TestCheckNoResourceAttr(singularChildDatasourceName, "table_limits"),
+				),
+			},
+
+			// remove the child table resource
+			{
+				Config: config + compartmentIdVariableStr + ChildTableResourceConfig,
 			},
 		},
 	})

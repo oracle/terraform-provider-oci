@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,36 +16,36 @@ import (
 	oci_apigateway "github.com/oracle/oci-go-sdk/v65/apigateway"
 	"github.com/oracle/oci-go-sdk/v65/common"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	ApiRequiredOnlyResource = ApiResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_api", "test_api", acctest.Required, acctest.Create, apiRepresentation)
+	ApigatewayApiRequiredOnlyResource = ApigatewayApiResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_api", "test_api", acctest.Required, acctest.Create, ApigatewayApiRepresentation)
 
-	ApiResourceConfig = ApiResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_api", "test_api", acctest.Optional, acctest.Update, apiRepresentation)
+	ApigatewayApiResourceConfig = ApigatewayApiResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_api", "test_api", acctest.Optional, acctest.Update, ApigatewayApiRepresentation)
 
-	apiSingularDataSourceRepresentation = map[string]interface{}{
+	ApigatewayApiSingularDataSourceRepresentation = map[string]interface{}{
 		"api_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apigateway_api.test_api.id}`},
 	}
 
-	apiDataSourceRepresentation = map[string]interface{}{
+	ApigatewayApiDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: apiDataSourceFilterRepresentation}}
-	apiDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayApiDataSourceFilterRepresentation}}
+	ApigatewayApiDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_apigateway_api.test_api.id}`}},
 	}
 
-	apiRepresentation = map[string]interface{}{
+	ApigatewayApiRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
@@ -55,7 +55,7 @@ var (
 			Update: `{\"openapi\":\"3.0.0\",\"info\":{\"version\":\"1.0.0\",\"title\":\"test\"}}`},
 	}
 
-	ApiResourceDependencies = DefinedTagsDependencies
+	ApigatewayApiResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: apigateway/default
@@ -77,14 +77,14 @@ func TestApigatewayApiResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ApiResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_api", "test_api", acctest.Optional, acctest.Create, apiRepresentation), "apigateway", "api", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ApigatewayApiResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_api", "test_api", acctest.Optional, acctest.Create, ApigatewayApiRepresentation), "apigateway", "api", t)
 
 	acctest.ResourceTest(t, testAccCheckApigatewayApiDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ApiResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_api", "test_api", acctest.Required, acctest.Create, apiRepresentation),
+			Config: config + compartmentIdVariableStr + ApigatewayApiResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_api", "test_api", acctest.Required, acctest.Create, ApigatewayApiRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
@@ -97,12 +97,12 @@ func TestApigatewayApiResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ApiResourceDependencies,
+			Config: config + compartmentIdVariableStr + ApigatewayApiResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ApiResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_api", "test_api", acctest.Optional, acctest.Create, apiRepresentation),
+			Config: config + compartmentIdVariableStr + ApigatewayApiResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_api", "test_api", acctest.Optional, acctest.Create, ApigatewayApiRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -123,9 +123,9 @@ func TestApigatewayApiResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ApiResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ApigatewayApiResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_api", "test_api", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(apiRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(ApigatewayApiRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -146,8 +146,8 @@ func TestApigatewayApiResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ApiResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_api", "test_api", acctest.Optional, acctest.Update, apiRepresentation),
+			Config: config + compartmentIdVariableStr + ApigatewayApiResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_api", "test_api", acctest.Optional, acctest.Update, ApigatewayApiRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -166,9 +166,9 @@ func TestApigatewayApiResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_apis", "test_apis", acctest.Optional, acctest.Update, apiDataSourceRepresentation) +
-				compartmentIdVariableStr + ApiResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_api", "test_api", acctest.Optional, acctest.Update, apiRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_apis", "test_apis", acctest.Optional, acctest.Update, ApigatewayApiDataSourceRepresentation) +
+				compartmentIdVariableStr + ApigatewayApiResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_api", "test_api", acctest.Optional, acctest.Update, ApigatewayApiRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -180,8 +180,8 @@ func TestApigatewayApiResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_api", "test_api", acctest.Required, acctest.Create, apiSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ApiResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_api", "test_api", acctest.Required, acctest.Create, ApigatewayApiSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ApigatewayApiResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "api_id"),
 
@@ -197,7 +197,7 @@ func TestApigatewayApiResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + ApiRequiredOnlyResource,
+			Config:            config + ApigatewayApiRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,28 +7,28 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	publicVantagePointSingularDataSourceRepresentation = map[string]interface{}{
+	ApmSyntheticsApmSyntheticspublicVantagePointSingularDataSourceRepresentation = map[string]interface{}{
 		"apm_domain_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
 		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `US East (Ashburn)`},
 		"name":          acctest.Representation{RepType: acctest.Optional, Create: `OraclePublic-us-ashburn-1`},
 	}
 
-	publicVantagePointDataSourceRepresentation = map[string]interface{}{
+	ApmSyntheticsApmSyntheticspublicVantagePointDataSourceRepresentation = map[string]interface{}{
 		"apm_domain_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
 		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `US East (Ashburn)`},
 		"name":          acctest.Representation{RepType: acctest.Optional, Create: `OraclePublic-us-ashburn-1`},
 	}
 
-	PublicVantagePointResourceConfig = ""
+	ApmSyntheticsPublicVantagePointResourceConfig = ""
 )
 
 // issue-routing-tag: apm_synthetics/default
@@ -50,8 +50,8 @@ func TestApmSyntheticsPublicVantagePointResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + acctest.GenerateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", acctest.Required, acctest.Create, apmDomainRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_public_vantage_points", "test_public_vantage_points", acctest.Optional, acctest.Create, publicVantagePointDataSourceRepresentation) +
-				compartmentIdVariableStr + PublicVantagePointResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_public_vantage_points", "test_public_vantage_points", acctest.Optional, acctest.Create, ApmSyntheticsApmSyntheticspublicVantagePointDataSourceRepresentation) +
+				compartmentIdVariableStr + ApmSyntheticsPublicVantagePointResourceConfig,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(datasourceName, "apm_domain_id"),
 				resource.TestCheckResourceAttr(datasourceName, "name", "OraclePublic-us-ashburn-1"),
@@ -63,8 +63,8 @@ func TestApmSyntheticsPublicVantagePointResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config + acctest.GenerateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", acctest.Required, acctest.Create, apmDomainRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_public_vantage_point", "test_public_vantage_point", acctest.Optional, acctest.Create, publicVantagePointSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + PublicVantagePointResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_public_vantage_point", "test_public_vantage_point", acctest.Optional, acctest.Create, ApmSyntheticsApmSyntheticspublicVantagePointSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ApmSyntheticsPublicVantagePointResourceConfig,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "OraclePublic-us-ashburn-1"),

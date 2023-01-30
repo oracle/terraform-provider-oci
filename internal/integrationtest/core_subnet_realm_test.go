@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,18 +10,18 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	SubnetRealmOptionalOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, subnetRepresentation)
+	SubnetRealmOptionalOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, CoreSubnetRepresentation)
 
-	govSubnetResourceDependencies = AvailabilityDomainConfig + DhcpOptionsRequiredOnlyResource + AnotherSecurityListRequiredOnlyResource + VcnResourceDependencies + ObjectStorageCoreService +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", acctest.Required, acctest.Create, localPeeringGatewayRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, routeTableRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+	govSubnetResourceDependencies = AvailabilityDomainConfig + CoreDhcpOptionsRequiredOnlyResource + AnotherSecurityListRequiredOnlyResource + VcnResourceDependencies + ObjectStorageCoreService +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", acctest.Required, acctest.Create, CoreLocalPeeringGatewayRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, CoreRouteTableRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 			"is_ipv6enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		}))
 )
@@ -49,7 +49,7 @@ func TestGovSpecificCoreSubnetResource_basic(t *testing.T) {
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + govSubnetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, subnetRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, CoreSubnetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
@@ -77,7 +77,7 @@ func TestGovSpecificCoreSubnetResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + govSubnetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+				acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
 					"ipv6cidr_block": acctest.Representation{RepType: acctest.Optional, Update: subnetCidrBlock},
 				})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -111,9 +111,9 @@ func TestGovSpecificCoreSubnetResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_subnets", "test_subnets", acctest.Optional, acctest.Update, subnetDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_subnets", "test_subnets", acctest.Optional, acctest.Update, CoreCoreSubnetDataSourceRepresentation) +
 				compartmentIdVariableStr + govSubnetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Update, subnetRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Update, CoreSubnetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -145,8 +145,8 @@ func TestGovSpecificCoreSubnetResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + SubnetResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreCoreSubnetSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreSubnetResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
 

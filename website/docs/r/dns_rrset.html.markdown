@@ -10,9 +10,8 @@ description: |-
 # oci_dns_rrset
 This resource provides the Rrset resource in Oracle Cloud Infrastructure DNS service.
 
-Replaces records in the specified RRSet. For private zones, the scope query parameter is required with a
-value of `PRIVATE`. When the zone name is provided as a path parameter and `PRIVATE` is used for the scope
-query parameter then the viewId query parameter is required.
+Replaces records in the specified RRSet. When the zone name is provided as a path parameter
+and the zone has a scope of `PRIVATE` then the viewId query parameter is required.
 
 ## Example Usage
 
@@ -74,7 +73,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Rrset
 	* `update` - (Defaults to 20 minutes), when updating the Rrset
 	* `delete` - (Defaults to 20 minutes), when destroying the Rrset

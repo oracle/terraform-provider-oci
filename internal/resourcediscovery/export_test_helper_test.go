@@ -6,7 +6,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	tf_export "github.com/oracle/terraform-provider-oci/internal/commonexport"
+
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-exec/tfexec"
 	"github.com/hashicorp/terraform-exec/tfinstall"
@@ -54,7 +56,7 @@ func TestUnitExportCompartment(t *testing.T) {
 		gotError  error
 	}
 
-	var exportCommandArgs ExportCommandArgs
+	var exportCommandArgs tf_export.ExportCommandArgs
 	var compartmentId = ""
 
 	tests := []struct {
@@ -79,7 +81,7 @@ func TestUnitExportCompartment(t *testing.T) {
 				newTerraformVar = func(workingDir string, execPath string) (*tfexec.Terraform, error) {
 					return nil, nil
 				}
-				RunExportCommandVar = func(args *ExportCommandArgs) (err error, status Status) {
+				RunExportCommandVar = func(args *tf_export.ExportCommandArgs) (err error, status Status) {
 					return nil, 404
 				}
 
@@ -101,7 +103,7 @@ func TestUnitExportCompartment(t *testing.T) {
 				newTerraformVar = func(workingDir string, execPath string) (*tfexec.Terraform, error) {
 					return nil, fmt.Errorf("Error during new terraform")
 				}
-				RunExportCommandVar = func(args *ExportCommandArgs) (err error, status Status) {
+				RunExportCommandVar = func(args *tf_export.ExportCommandArgs) (err error, status Status) {
 					return nil, 404
 				}
 
@@ -124,7 +126,7 @@ func TestUnitExportCompartment(t *testing.T) {
 				newTerraformVar = func(workingDir string, execPath string) (*tfexec.Terraform, error) {
 					return nil, nil
 				}
-				RunExportCommandVar = func(args *ExportCommandArgs) (err error, status Status) {
+				RunExportCommandVar = func(args *tf_export.ExportCommandArgs) (err error, status Status) {
 					return nil, 404
 				}
 				getEnvSettingWithBlankDefaultVar = func(path string) string {
@@ -151,7 +153,7 @@ func TestUnitExportCompartment(t *testing.T) {
 				newTerraformVar = func(workingDir string, execPath string) (*tfexec.Terraform, error) {
 					return nil, nil
 				}
-				RunExportCommandVar = func(args *ExportCommandArgs) (err error, status Status) {
+				RunExportCommandVar = func(args *tf_export.ExportCommandArgs) (err error, status Status) {
 					return nil, 404
 				}
 				os.Setenv("GOPATH", "")
@@ -162,7 +164,7 @@ func TestUnitExportCompartment(t *testing.T) {
 	for _, test := range tests {
 		t.Logf("Running %s", test.name)
 		test.mockFunc()
-		res := testExportCompartment(&compartmentId, &exportCommandArgs)
+		res := TestExportCompartment(&compartmentId, &exportCommandArgs)
 		if test.name != "Test response with no resource name, empty go path" && test.name != "Test response with new terraform struct" && res != nil {
 			t.Errorf("Output %v not equal to expected %v", res, test.expected)
 		} else if test.name == "Test response with new terraform struct" {
@@ -195,7 +197,7 @@ func TestUnitExportCompartmentWithResourceName(t *testing.T) {
 		{
 			name: "Test response with no resource",
 			mockFunc: func() {
-				testExportCompartmentVar = func(compartmentId *string, exportCommandArgs *ExportCommandArgs) error {
+				testExportCompartmentVar = func(compartmentId *string, exportCommandArgs *tf_export.ExportCommandArgs) error {
 					return nil
 				}
 				isResourceSupportImportVar = func(string) (support bool, err error) {
@@ -207,7 +209,7 @@ func TestUnitExportCompartmentWithResourceName(t *testing.T) {
 				tfInitVar = func(tf *tfexec.Terraform, initArgs []tfexec.InitOption) error {
 					return nil
 				}
-				RunExportCommandVar = func(args *ExportCommandArgs) (err error, status Status) {
+				RunExportCommandVar = func(args *tf_export.ExportCommandArgs) (err error, status Status) {
 					return nil, 404
 				}
 				newTerraformVar = func(workingDir string, execPath string) (*tfexec.Terraform, error) {
@@ -221,7 +223,7 @@ func TestUnitExportCompartmentWithResourceName(t *testing.T) {
 		{
 			name: "Test response with valid resource name",
 			mockFunc: func() {
-				testExportCompartmentVar = func(compartmentId *string, exportCommandArgs *ExportCommandArgs) error {
+				testExportCompartmentVar = func(compartmentId *string, exportCommandArgs *tf_export.ExportCommandArgs) error {
 					return nil
 				}
 				isResourceSupportImportVar = func(string) (support bool, err error) {
@@ -244,7 +246,7 @@ func TestUnitExportCompartmentWithResourceName(t *testing.T) {
 		{
 			name: "Test validation of hint for resource name",
 			mockFunc: func() {
-				testExportCompartmentVar = func(compartmentId *string, exportCommandArgs *ExportCommandArgs) error {
+				testExportCompartmentVar = func(compartmentId *string, exportCommandArgs *tf_export.ExportCommandArgs) error {
 					return nil
 				}
 				isResourceSupportImportVar = func(string) (support bool, err error) {

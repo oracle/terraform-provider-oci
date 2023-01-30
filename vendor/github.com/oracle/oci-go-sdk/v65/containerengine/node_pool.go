@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -23,6 +23,12 @@ type NodePool struct {
 
 	// The OCID of the node pool.
 	Id *string `mandatory:"false" json:"id"`
+
+	// The state of the nodepool.
+	LifecycleState NodePoolLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// Details about the state of the nodepool.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// The OCID of the compartment in which the node pool exists.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
@@ -88,6 +94,8 @@ type NodePool struct {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	NodeEvictionNodePoolSettings *NodeEvictionNodePoolSettings `mandatory:"false" json:"nodeEvictionNodePoolSettings"`
 }
 
 func (m NodePool) String() string {
@@ -100,6 +108,9 @@ func (m NodePool) String() string {
 func (m NodePool) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingNodePoolLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetNodePoolLifecycleStateEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -109,27 +120,30 @@ func (m NodePool) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *NodePool) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Id                *string                           `json:"id"`
-		CompartmentId     *string                           `json:"compartmentId"`
-		ClusterId         *string                           `json:"clusterId"`
-		Name              *string                           `json:"name"`
-		KubernetesVersion *string                           `json:"kubernetesVersion"`
-		NodeMetadata      map[string]string                 `json:"nodeMetadata"`
-		NodeImageId       *string                           `json:"nodeImageId"`
-		NodeImageName     *string                           `json:"nodeImageName"`
-		NodeShapeConfig   *NodeShapeConfig                  `json:"nodeShapeConfig"`
-		NodeSource        nodesourceoption                  `json:"nodeSource"`
-		NodeSourceDetails nodesourcedetails                 `json:"nodeSourceDetails"`
-		NodeShape         *string                           `json:"nodeShape"`
-		InitialNodeLabels []KeyValue                        `json:"initialNodeLabels"`
-		SshPublicKey      *string                           `json:"sshPublicKey"`
-		QuantityPerSubnet *int                              `json:"quantityPerSubnet"`
-		SubnetIds         []string                          `json:"subnetIds"`
-		Nodes             []Node                            `json:"nodes"`
-		NodeConfigDetails *NodePoolNodeConfigDetails        `json:"nodeConfigDetails"`
-		FreeformTags      map[string]string                 `json:"freeformTags"`
-		DefinedTags       map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags        map[string]map[string]interface{} `json:"systemTags"`
+		Id                           *string                           `json:"id"`
+		LifecycleState               NodePoolLifecycleStateEnum        `json:"lifecycleState"`
+		LifecycleDetails             *string                           `json:"lifecycleDetails"`
+		CompartmentId                *string                           `json:"compartmentId"`
+		ClusterId                    *string                           `json:"clusterId"`
+		Name                         *string                           `json:"name"`
+		KubernetesVersion            *string                           `json:"kubernetesVersion"`
+		NodeMetadata                 map[string]string                 `json:"nodeMetadata"`
+		NodeImageId                  *string                           `json:"nodeImageId"`
+		NodeImageName                *string                           `json:"nodeImageName"`
+		NodeShapeConfig              *NodeShapeConfig                  `json:"nodeShapeConfig"`
+		NodeSource                   nodesourceoption                  `json:"nodeSource"`
+		NodeSourceDetails            nodesourcedetails                 `json:"nodeSourceDetails"`
+		NodeShape                    *string                           `json:"nodeShape"`
+		InitialNodeLabels            []KeyValue                        `json:"initialNodeLabels"`
+		SshPublicKey                 *string                           `json:"sshPublicKey"`
+		QuantityPerSubnet            *int                              `json:"quantityPerSubnet"`
+		SubnetIds                    []string                          `json:"subnetIds"`
+		Nodes                        []Node                            `json:"nodes"`
+		NodeConfigDetails            *NodePoolNodeConfigDetails        `json:"nodeConfigDetails"`
+		FreeformTags                 map[string]string                 `json:"freeformTags"`
+		DefinedTags                  map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags                   map[string]map[string]interface{} `json:"systemTags"`
+		NodeEvictionNodePoolSettings *NodeEvictionNodePoolSettings     `json:"nodeEvictionNodePoolSettings"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -138,6 +152,10 @@ func (m *NodePool) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.Id = model.Id
+
+	m.LifecycleState = model.LifecycleState
+
+	m.LifecycleDetails = model.LifecycleDetails
 
 	m.CompartmentId = model.CompartmentId
 
@@ -203,6 +221,8 @@ func (m *NodePool) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.SystemTags = model.SystemTags
+
+	m.NodeEvictionNodePoolSettings = model.NodeEvictionNodePoolSettings
 
 	return
 }

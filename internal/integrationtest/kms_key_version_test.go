@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -12,28 +12,28 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
 	KeyVersionRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_kms_key_version", "test_key_version", acctest.Required, acctest.Create, keyVersionRepresentation)
 
-	KeyVersionResourceConfig = KeyVersionResourceDependencies +
+	KmsKeyVersionResourceConfig = KmsKeyVersionResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_kms_key_version", "test_key_version", acctest.Required, acctest.Create, keyVersionRepresentation)
 
-	keyVersionSingularDataSourceRepresentation = map[string]interface{}{
+	KmsKmsKeyVersionSingularDataSourceRepresentation = map[string]interface{}{
 		"key_id":              acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"key_version_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_kms_key_version.test_key_version.key_version_id}`},
 		"management_endpoint": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
 	}
 
-	keyVersionDataSourceRepresentation = map[string]interface{}{
+	KmsKmsKeyVersionDataSourceRepresentation = map[string]interface{}{
 		"key_id":              acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"management_endpoint": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
-		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: keyVersionDataSourceFilterRepresentation}}
-	keyVersionDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: KmsKeyVersionDataSourceFilterRepresentation}}
+	KmsKeyVersionDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `key_version_id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_kms_key_version.test_key_version.key_version_id}`}},
 	}
@@ -46,7 +46,7 @@ var (
 		"time_of_deletion":    acctest.Representation{RepType: acctest.Required, Create: keyVersionDeletionTime.Format(time.RFC3339Nano)},
 	}
 
-	KeyVersionResourceDependencies = KeyResourceDependencyConfig
+	KmsKeyVersionResourceDependencies = KeyResourceDependencyConfig
 )
 
 // issue-routing-tag: kms/default
@@ -66,13 +66,13 @@ func TestKmsKeyVersionResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_kms_key_version.test_key_version"
 
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+KeyVersionResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+KmsKeyVersionResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_kms_key_version", "test_key_version", acctest.Required, acctest.Create, keyVersionRepresentation), "keymanagement", "keyVersion", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + KeyVersionResourceDependencies +
+			Config: config + compartmentIdVariableStr + KmsKeyVersionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_kms_key_version", "test_key_version", acctest.Required, acctest.Create, keyVersionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "key_id"),
@@ -88,8 +88,8 @@ func TestKmsKeyVersionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_kms_key_versions", "test_key_versions", acctest.Optional, acctest.Update, keyVersionDataSourceRepresentation) +
-				compartmentIdVariableStr + KeyVersionResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_kms_key_versions", "test_key_versions", acctest.Optional, acctest.Update, KmsKmsKeyVersionDataSourceRepresentation) +
+				compartmentIdVariableStr + KmsKeyVersionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_kms_key_version", "test_key_version", acctest.Optional, acctest.Update, keyVersionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "key_id"),
@@ -107,8 +107,8 @@ func TestKmsKeyVersionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_kms_key_version", "test_key_version", acctest.Required, acctest.Create, keyVersionSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + KeyVersionResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_kms_key_version", "test_key_version", acctest.Required, acctest.Create, KmsKmsKeyVersionSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + KmsKeyVersionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "key_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "key_version_id"),

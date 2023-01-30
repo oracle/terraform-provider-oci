@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,32 +16,32 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	IpSecConnectionRequiredOnlyResource = IpSecConnectionResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", acctest.Required, acctest.Create, ipSecConnectionRepresentation)
+	CoreIpSecConnectionRequiredOnlyResource = CoreIpSecConnectionResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", acctest.Required, acctest.Create, CoreIpSecConnectionRepresentation)
 
-	IpSecConnectionOptionalResource = IpSecConnectionResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", acctest.Optional, acctest.Create, ipSecConnectionRepresentation)
+	IpSecConnectionOptionalResource = CoreIpSecConnectionResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", acctest.Optional, acctest.Create, CoreIpSecConnectionRepresentation)
 
-	ipSecConnectionDataSourceRepresentation = map[string]interface{}{
+	CoreCoreIpSecConnectionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"cpe_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_cpe.test_cpe.id}`},
 		"drg_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_drg.test_drg.id}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ipSecConnectionDataSourceFilterRepresentation}}
-	ipSecConnectionDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreIpSecConnectionDataSourceFilterRepresentation}}
+	CoreIpSecConnectionDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_ipsec.test_ip_sec_connection.id}`}},
 	}
 
-	ipSecConnectionRepresentation = map[string]interface{}{
+	CoreIpSecConnectionRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"cpe_id":                    acctest.Representation{RepType: acctest.Required, Create: `${oci_core_cpe.test_cpe.id}`},
 		"drg_id":                    acctest.Representation{RepType: acctest.Required, Create: `${oci_core_drg.test_drg.id}`},
@@ -51,10 +51,15 @@ var (
 		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `MyIPSecConnection`, Update: `displayName2`},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTags},
 	}
 
-	IpSecConnectionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", acctest.Required, acctest.Create, cpeRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", acctest.Required, acctest.Create, drgRepresentation) +
+	ignoreDefinedTags = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+	}
+
+	CoreIpSecConnectionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", acctest.Required, acctest.Create, CoreCpeRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", acctest.Required, acctest.Create, CoreDrgRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -76,14 +81,14 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+IpSecConnectionResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", acctest.Optional, acctest.Create, ipSecConnectionRepresentation), "core", "ipSecConnection", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreIpSecConnectionResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", acctest.Optional, acctest.Create, CoreIpSecConnectionRepresentation), "core", "ipSecConnection", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreIpSecConnectionDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + IpSecConnectionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", acctest.Required, acctest.Create, ipSecConnectionRepresentation),
+			Config: config + compartmentIdVariableStr + CoreIpSecConnectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", acctest.Required, acctest.Create, CoreIpSecConnectionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
@@ -99,12 +104,12 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + IpSecConnectionResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreIpSecConnectionResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + IpSecConnectionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", acctest.Optional, acctest.Create, ipSecConnectionRepresentation),
+			Config: config + compartmentIdVariableStr + CoreIpSecConnectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", acctest.Optional, acctest.Create, CoreIpSecConnectionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
@@ -131,9 +136,9 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + IpSecConnectionResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreIpSecConnectionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(ipSecConnectionRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CoreIpSecConnectionRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -160,8 +165,8 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + IpSecConnectionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", acctest.Optional, acctest.Update, ipSecConnectionRepresentation),
+			Config: config + compartmentIdVariableStr + CoreIpSecConnectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", acctest.Optional, acctest.Update, CoreIpSecConnectionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
@@ -186,9 +191,9 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connections", "test_ip_sec_connections", acctest.Optional, acctest.Update, ipSecConnectionDataSourceRepresentation) +
-				compartmentIdVariableStr + IpSecConnectionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", acctest.Optional, acctest.Update, ipSecConnectionRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connections", "test_ip_sec_connections", acctest.Optional, acctest.Update, CoreCoreIpSecConnectionDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreIpSecConnectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", acctest.Optional, acctest.Update, CoreIpSecConnectionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "cpe_id"),
@@ -210,7 +215,7 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + IpSecConnectionRequiredOnlyResource,
+			Config:                  config + CoreIpSecConnectionRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -274,7 +279,7 @@ func init() {
 
 func sweepCoreIpSecConnectionResource(compartment string) error {
 	virtualNetworkClient := acctest.GetTestClients(&schema.ResourceData{}).VirtualNetworkClient()
-	ipSecConnectionIds, err := getIpSecConnectionIds(compartment)
+	ipSecConnectionIds, err := getCoreIpSecConnectionIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -290,14 +295,14 @@ func sweepCoreIpSecConnectionResource(compartment string) error {
 				fmt.Printf("Error deleting IpSecConnection %s %s, It is possible that the resource is already deleted. Please verify manually \n", ipSecConnectionId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &ipSecConnectionId, ipSecConnectionSweepWaitCondition, time.Duration(3*time.Minute),
-				ipSecConnectionSweepResponseFetchOperation, "core", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &ipSecConnectionId, CoreIpSecConnectionSweepWaitCondition, time.Duration(3*time.Minute),
+				CoreIpSecConnectionSweepResponseFetchOperation, "core", true)
 		}
 	}
 	return nil
 }
 
-func getIpSecConnectionIds(compartment string) ([]string, error) {
+func getCoreIpSecConnectionIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "IpSecConnectionId")
 	if ids != nil {
 		return ids, nil
@@ -321,7 +326,7 @@ func getIpSecConnectionIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func ipSecConnectionSweepWaitCondition(response common.OCIOperationResponse) bool {
+func CoreIpSecConnectionSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if ipSecConnectionResponse, ok := response.Response.(oci_core.GetIPSecConnectionResponse); ok {
 		return ipSecConnectionResponse.LifecycleState != oci_core.IpSecConnectionLifecycleStateTerminated
@@ -329,7 +334,7 @@ func ipSecConnectionSweepWaitCondition(response common.OCIOperationResponse) boo
 	return false
 }
 
-func ipSecConnectionSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CoreIpSecConnectionSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.VirtualNetworkClient().GetIPSecConnection(context.Background(), oci_core.GetIPSecConnectionRequest{
 		IpscId: resourceId,
 		RequestMetadata: common.RequestMetadata{

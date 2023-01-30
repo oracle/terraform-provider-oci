@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// CreateStackDetails The configuration details for creating a stack.
+// CreateStackDetails Creation details for a stack.
 type CreateStackDetails struct {
 
 	// Unique identifier (OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the compartment in which the stack resides.
@@ -33,8 +33,7 @@ type CreateStackDetails struct {
 	// Description of the stack.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of private endpoints associated with the stack.
-	PrivateEndpointIds []string `mandatory:"false" json:"privateEndpointIds"`
+	CustomTerraformProvider *CustomTerraformProvider `mandatory:"false" json:"customTerraformProvider"`
 
 	// Terraform variables associated with this resource.
 	// Maximum number of variables supported is 250.
@@ -75,15 +74,15 @@ func (m CreateStackDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateStackDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName        *string                           `json:"displayName"`
-		Description        *string                           `json:"description"`
-		PrivateEndpointIds []string                          `json:"privateEndpointIds"`
-		Variables          map[string]string                 `json:"variables"`
-		TerraformVersion   *string                           `json:"terraformVersion"`
-		FreeformTags       map[string]string                 `json:"freeformTags"`
-		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
-		CompartmentId      *string                           `json:"compartmentId"`
-		ConfigSource       createconfigsourcedetails         `json:"configSource"`
+		DisplayName             *string                           `json:"displayName"`
+		Description             *string                           `json:"description"`
+		CustomTerraformProvider *CustomTerraformProvider          `json:"customTerraformProvider"`
+		Variables               map[string]string                 `json:"variables"`
+		TerraformVersion        *string                           `json:"terraformVersion"`
+		FreeformTags            map[string]string                 `json:"freeformTags"`
+		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
+		CompartmentId           *string                           `json:"compartmentId"`
+		ConfigSource            createconfigsourcedetails         `json:"configSource"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -95,10 +94,7 @@ func (m *CreateStackDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.Description = model.Description
 
-	m.PrivateEndpointIds = make([]string, len(model.PrivateEndpointIds))
-	for i, n := range model.PrivateEndpointIds {
-		m.PrivateEndpointIds[i] = n
-	}
+	m.CustomTerraformProvider = model.CustomTerraformProvider
 
 	m.Variables = model.Variables
 

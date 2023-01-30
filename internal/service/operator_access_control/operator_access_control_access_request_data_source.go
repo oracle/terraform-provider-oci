@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package operator_access_control
@@ -9,8 +9,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_operator_access_control "github.com/oracle/oci-go-sdk/v65/operatoraccesscontrol"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func OperatorAccessControlAccessRequestDataSource() *schema.Resource {
@@ -72,6 +72,10 @@ func OperatorAccessControlAccessRequestDataSource() *schema.Resource {
 			},
 			"is_auto_approved": {
 				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"lifecycle_details": {
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"opctl_additional_message": {
@@ -231,6 +235,10 @@ func (s *OperatorAccessControlAccessRequestDataSourceCrud) SetData() error {
 		s.D.Set("is_auto_approved", *s.Res.IsAutoApproved)
 	}
 
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
 	if s.Res.OpctlAdditionalMessage != nil {
 		s.D.Set("opctl_additional_message", *s.Res.OpctlAdditionalMessage)
 	}
@@ -325,6 +333,10 @@ func AccessRequestSummaryToMap(obj oci_operator_access_control.AccessRequestSumm
 
 	if obj.IsAutoApproved != nil {
 		result["is_auto_approved"] = bool(*obj.IsAutoApproved)
+	}
+
+	if obj.LifecycleDetails != nil {
+		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
 
 	if obj.RequestId != nil {

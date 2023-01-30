@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// UpdateStackDetails Specifies which fields and the data for each to update on the specified stack.
+// UpdateStackDetails Update  details for a stack.
 type UpdateStackDetails struct {
 
 	// The name of the stack.
@@ -30,8 +30,16 @@ type UpdateStackDetails struct {
 
 	ConfigSource UpdateConfigSourceDetails `mandatory:"false" json:"configSource"`
 
-	// The OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of private endpoints associated with the stack.
-	PrivateEndpointIds []string `mandatory:"false" json:"privateEndpointIds"`
+	CustomTerraformProvider *CustomTerraformProvider `mandatory:"false" json:"customTerraformProvider"`
+
+	// When `true`, changes the stack's sourcing of third-party Terraform providers to
+	// Terraform Registry (https://registry.terraform.io/browse/providers) and allows
+	// CustomTerraformProvider.
+	// Applies to older stacks.
+	// Once set to `true`, cannot be reverted.
+	// For more information about stack sourcing of third-party Terraform providers, see
+	// Third-party Provider Configuration (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/terraformconfigresourcemanager.htm#third-party-providers).
+	IsThirdPartyProviderExperienceEnabled *bool `mandatory:"false" json:"isThirdPartyProviderExperienceEnabled"`
 
 	// Terraform variables associated with this resource.
 	// The maximum number of variables supported is 250.
@@ -72,14 +80,15 @@ func (m UpdateStackDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateStackDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName        *string                           `json:"displayName"`
-		Description        *string                           `json:"description"`
-		ConfigSource       updateconfigsourcedetails         `json:"configSource"`
-		PrivateEndpointIds []string                          `json:"privateEndpointIds"`
-		Variables          map[string]string                 `json:"variables"`
-		TerraformVersion   *string                           `json:"terraformVersion"`
-		FreeformTags       map[string]string                 `json:"freeformTags"`
-		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
+		DisplayName                           *string                           `json:"displayName"`
+		Description                           *string                           `json:"description"`
+		ConfigSource                          updateconfigsourcedetails         `json:"configSource"`
+		CustomTerraformProvider               *CustomTerraformProvider          `json:"customTerraformProvider"`
+		IsThirdPartyProviderExperienceEnabled *bool                             `json:"isThirdPartyProviderExperienceEnabled"`
+		Variables                             map[string]string                 `json:"variables"`
+		TerraformVersion                      *string                           `json:"terraformVersion"`
+		FreeformTags                          map[string]string                 `json:"freeformTags"`
+		DefinedTags                           map[string]map[string]interface{} `json:"definedTags"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -101,10 +110,9 @@ func (m *UpdateStackDetails) UnmarshalJSON(data []byte) (e error) {
 		m.ConfigSource = nil
 	}
 
-	m.PrivateEndpointIds = make([]string, len(model.PrivateEndpointIds))
-	for i, n := range model.PrivateEndpointIds {
-		m.PrivateEndpointIds[i] = n
-	}
+	m.CustomTerraformProvider = model.CustomTerraformProvider
+
+	m.IsThirdPartyProviderExperienceEnabled = model.IsThirdPartyProviderExperienceEnabled
 
 	m.Variables = model.Variables
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package core
@@ -9,8 +9,8 @@ import (
 	"net"
 	"strings"
 
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
@@ -154,8 +154,26 @@ func ipv6CompressionDiffSuppressFunction(key string, old string, new string, d *
 	oldParsedIp := net.ParseIP(oldIp[0])
 	oldSubnetMask := oldIp[1]
 	newParsedIp := net.ParseIP(newIp[0])
-	newSubnetMask := oldIp[1]
+	newSubnetMask := newIp[1]
 	return strings.EqualFold(oldParsedIp.String(), newParsedIp.String()) && strings.EqualFold(oldSubnetMask, newSubnetMask)
+}
+
+func ipv6Cidr_blocksSuppressFunction(key string, old string, new string, d *schema.ResourceData) bool {
+	if key == "ipv6cidr_blocks.#" {
+		if old == "" || new == "" {
+			return false
+		}
+
+		// old and new should represent size of list
+		// if there is a difference in size between old and new values, we have a diff
+		if old != new {
+			return false
+		}
+
+		return true
+	}
+
+	return ipv6CompressionDiffSuppressFunction(key, old, new, d)
 }
 
 func Abs(x int) int {

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package ocvp
@@ -9,8 +9,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ocvp "github.com/oracle/oci-go-sdk/v65/ocvp"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func OcvpSddcDataSource() *schema.Resource {
@@ -65,6 +65,10 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(*s.Res.Id)
+
+	if s.Res.CapacityReservationId != nil {
+		s.D.Set("capacity_reservation_id", *s.Res.CapacityReservationId)
+	}
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
@@ -145,6 +149,10 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 		s.D.Set("is_shielded_instance_enabled", *s.Res.IsShieldedInstanceEnabled)
 	}
 
+	if s.Res.IsSingleHostSddc != nil {
+		s.D.Set("is_single_host_sddc", *s.Res.IsSingleHostSddc)
+	}
+
 	if s.Res.NsxEdgeUplink1VlanId != nil {
 		s.D.Set("nsx_edge_uplink1vlan_id", *s.Res.NsxEdgeUplink1VlanId)
 	}
@@ -219,6 +227,12 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
+	upgradeLicenses := []interface{}{}
+	for _, item := range s.Res.UpgradeLicenses {
+		upgradeLicenses = append(upgradeLicenses, VsphereLicenseToMap(item))
+	}
+	s.D.Set("upgrade_licenses", upgradeLicenses)
+
 	if s.Res.VcenterFqdn != nil {
 		s.D.Set("vcenter_fqdn", *s.Res.VcenterFqdn)
 	}
@@ -246,6 +260,16 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 	if s.Res.VsanVlanId != nil {
 		s.D.Set("vsan_vlan_id", *s.Res.VsanVlanId)
 	}
+
+	if s.Res.VsphereUpgradeGuide != nil {
+		s.D.Set("vsphere_upgrade_guide", *s.Res.VsphereUpgradeGuide)
+	}
+
+	vsphereUpgradeObjects := []interface{}{}
+	for _, item := range s.Res.VsphereUpgradeObjects {
+		vsphereUpgradeObjects = append(vsphereUpgradeObjects, VsphereUpgradeObjectToMap(item))
+	}
+	s.D.Set("vsphere_upgrade_objects", vsphereUpgradeObjects)
 
 	if s.Res.VsphereVlanId != nil {
 		s.D.Set("vsphere_vlan_id", *s.Res.VsphereVlanId)

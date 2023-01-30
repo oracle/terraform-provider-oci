@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package apm_synthetics
@@ -7,8 +7,8 @@ import (
 	"context"
 	"log"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v65/apmsynthetics"
@@ -83,6 +83,16 @@ func (s *ApmSyntheticsMonitorDataSourceCrud) SetData() error {
 
 	s.D.SetId(GetMonitorCompositeId(*s.Res.Id, s.D.Get("apm_domain_id").(string)))
 
+	if s.Res.AvailabilityConfiguration != nil {
+		s.D.Set("availability_configuration", []interface{}{AvailabilityConfigurationToMap(s.Res.AvailabilityConfiguration)})
+	} else {
+		s.D.Set("availability_configuration", nil)
+	}
+
+	if s.Res.BatchIntervalInSeconds != nil {
+		s.D.Set("batch_interval_in_seconds", *s.Res.BatchIntervalInSeconds)
+	}
+
 	if s.Res.Configuration != nil {
 		configurationArray := []interface{}{}
 		if configurationMap := MonitorConfigurationToMap(&s.Res.Configuration); configurationMap != nil {
@@ -103,8 +113,18 @@ func (s *ApmSyntheticsMonitorDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsRunNow != nil {
+		s.D.Set("is_run_now", *s.Res.IsRunNow)
+	}
+
 	if s.Res.IsRunOnce != nil {
 		s.D.Set("is_run_once", *s.Res.IsRunOnce)
+	}
+
+	if s.Res.MaintenanceWindowSchedule != nil {
+		s.D.Set("maintenance_window_schedule", []interface{}{MaintenanceWindowScheduleToMap(s.Res.MaintenanceWindowSchedule)})
+	} else {
+		s.D.Set("maintenance_window_schedule", nil)
 	}
 
 	s.D.Set("monitor_type", s.Res.MonitorType)
@@ -112,6 +132,8 @@ func (s *ApmSyntheticsMonitorDataSourceCrud) SetData() error {
 	if s.Res.RepeatIntervalInSeconds != nil {
 		s.D.Set("repeat_interval_in_seconds", *s.Res.RepeatIntervalInSeconds)
 	}
+
+	s.D.Set("scheduling_policy", s.Res.SchedulingPolicy)
 
 	if s.Res.ScriptId != nil {
 		s.D.Set("script_id", GetMonitorCompositeId(*s.Res.ScriptId, s.D.Get("apm_domain_id").(string)))

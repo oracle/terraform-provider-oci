@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package dataflow
@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -85,6 +85,30 @@ func DataflowPrivateEndpointResource() *schema.Resource {
 				Set:      tfresource.LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
+				},
+			},
+			"scan_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"fqdn": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"port": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
 				},
 			},
 
@@ -244,6 +268,23 @@ func (s *DataflowPrivateEndpointResourceCrud) Create() error {
 		}
 		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 			request.NsgIds = tmp
+		}
+	}
+
+	if scanDetails, ok := s.D.GetOkExists("scan_details"); ok {
+		interfaces := scanDetails.([]interface{})
+		tmp := make([]oci_dataflow.Scan, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "scan_details", stateDataIndex)
+			converted, err := s.mapToScan(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("scan_details") {
+			request.ScanDetails = tmp
 		}
 	}
 
@@ -466,6 +507,23 @@ func (s *DataflowPrivateEndpointResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.PrivateEndpointId = &tmp
 
+	if scanDetails, ok := s.D.GetOkExists("scan_details"); ok {
+		interfaces := scanDetails.([]interface{})
+		tmp := make([]oci_dataflow.Scan, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "scan_details", stateDataIndex)
+			converted, err := s.mapToScan(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("scan_details") {
+			request.ScanDetails = tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
 
 	response, err := s.Client.UpdatePrivateEndpoint(context.Background(), request)
@@ -540,6 +598,12 @@ func (s *DataflowPrivateEndpointResourceCrud) SetData() error {
 		s.D.Set("owner_user_name", *s.Res.OwnerUserName)
 	}
 
+	scanDetails := []interface{}{}
+	for _, item := range s.Res.ScanDetails {
+		scanDetails = append(scanDetails, ScanToMap(item))
+	}
+	s.D.Set("scan_details", scanDetails)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SubnetId != nil {
@@ -602,6 +666,12 @@ func PrivateEndpointSummaryToMap(obj oci_dataflow.PrivateEndpointSummary, dataso
 		result["owner_user_name"] = string(*obj.OwnerUserName)
 	}
 
+	scanDetails := []interface{}{}
+	for _, item := range obj.ScanDetails {
+		scanDetails = append(scanDetails, ScanToMap(item))
+	}
+	result["scan_details"] = scanDetails
+
 	result["state"] = string(obj.LifecycleState)
 
 	if obj.SubnetId != nil {
@@ -614,6 +684,36 @@ func PrivateEndpointSummaryToMap(obj oci_dataflow.PrivateEndpointSummary, dataso
 
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
+	}
+
+	return result
+}
+
+func (s *DataflowPrivateEndpointResourceCrud) mapToScan(fieldKeyFormat string) (oci_dataflow.Scan, error) {
+	result := oci_dataflow.Scan{}
+
+	if fqdn, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "fqdn")); ok {
+		tmp := fqdn.(string)
+		result.Fqdn = &tmp
+	}
+
+	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
+		tmp := port.(string)
+		result.Port = &tmp
+	}
+
+	return result, nil
+}
+
+func ScanToMap(obj oci_dataflow.Scan) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Fqdn != nil {
+		result["fqdn"] = string(*obj.Fqdn)
+	}
+
+	if obj.Port != nil {
+		result["port"] = string(*obj.Port)
 	}
 
 	return result

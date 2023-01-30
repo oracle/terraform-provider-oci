@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package golden_gate
@@ -6,8 +6,8 @@ package golden_gate
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
@@ -18,6 +18,14 @@ func GoldenGateDeploymentsDataSource() *schema.Resource {
 		Read: readGoldenGateDeployments,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"assignable_connection_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"assigned_connection_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -35,6 +43,10 @@ func GoldenGateDeploymentsDataSource() *schema.Resource {
 				Optional: true,
 			},
 			"state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"supported_connection_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -77,6 +89,16 @@ func (s *GoldenGateDeploymentsDataSourceCrud) VoidState() {
 func (s *GoldenGateDeploymentsDataSourceCrud) Get() error {
 	request := oci_golden_gate.ListDeploymentsRequest{}
 
+	if assignableConnectionId, ok := s.D.GetOkExists("assignable_connection_id"); ok {
+		tmp := assignableConnectionId.(string)
+		request.AssignableConnectionId = &tmp
+	}
+
+	if assignedConnectionId, ok := s.D.GetOkExists("assigned_connection_id"); ok {
+		tmp := assignedConnectionId.(string)
+		request.AssignedConnectionId = &tmp
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -98,6 +120,10 @@ func (s *GoldenGateDeploymentsDataSourceCrud) Get() error {
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_golden_gate.ListDeploymentsLifecycleStateEnum(state.(string))
+	}
+
+	if supportedConnectionType, ok := s.D.GetOkExists("supported_connection_type"); ok {
+		request.SupportedConnectionType = oci_golden_gate.ListDeploymentsSupportedConnectionTypeEnum(supportedConnectionType.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "golden_gate")

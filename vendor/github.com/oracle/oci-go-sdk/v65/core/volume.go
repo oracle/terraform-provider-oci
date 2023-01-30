@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -82,6 +82,7 @@ type Volume struct {
 	//   * `10`: Represents Balanced option.
 	//   * `20`: Represents Higher Performance option.
 	//   * `30`-`120`: Represents the Ultra High Performance option.
+	// For performance autotune enabled volumes, It would be the Default(Minimum) VPUs/GB.
 	VpusPerGB *int64 `mandatory:"false" json:"vpusPerGB"`
 
 	// The size of the volume in GBs.
@@ -92,14 +93,18 @@ type Volume struct {
 	// The OCID of the source volume group.
 	VolumeGroupId *string `mandatory:"false" json:"volumeGroupId"`
 
-	// Specifies whether the auto-tune performance is enabled for this volume.
+	// Specifies whether the auto-tune performance is enabled for this volume. This field is deprecated.
+	// Use the `DetachedVolumeAutotunePolicy` instead to enable the volume for detached autotune.
 	IsAutoTuneEnabled *bool `mandatory:"false" json:"isAutoTuneEnabled"`
 
-	// The number of Volume Performance Units per GB that this volume is effectively tuned to when it's idle.
+	// The number of Volume Performance Units per GB that this volume is effectively tuned to.
 	AutoTunedVpusPerGB *int64 `mandatory:"false" json:"autoTunedVpusPerGB"`
 
 	// The list of block volume replicas of this volume.
 	BlockVolumeReplicas []BlockVolumeReplicaInfo `mandatory:"false" json:"blockVolumeReplicas"`
+
+	// The list of autotune policies enabled for this volume.
+	AutotunePolicies []AutotunePolicy `mandatory:"false" json:"autotunePolicies"`
 }
 
 func (m Volume) String() string {
@@ -136,6 +141,7 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 		IsAutoTuneEnabled   *bool                             `json:"isAutoTuneEnabled"`
 		AutoTunedVpusPerGB  *int64                            `json:"autoTunedVpusPerGB"`
 		BlockVolumeReplicas []BlockVolumeReplicaInfo          `json:"blockVolumeReplicas"`
+		AutotunePolicies    []autotunepolicy                  `json:"autotunePolicies"`
 		AvailabilityDomain  *string                           `json:"availabilityDomain"`
 		CompartmentId       *string                           `json:"compartmentId"`
 		DisplayName         *string                           `json:"displayName"`
@@ -183,6 +189,19 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 	m.BlockVolumeReplicas = make([]BlockVolumeReplicaInfo, len(model.BlockVolumeReplicas))
 	for i, n := range model.BlockVolumeReplicas {
 		m.BlockVolumeReplicas[i] = n
+	}
+
+	m.AutotunePolicies = make([]AutotunePolicy, len(model.AutotunePolicies))
+	for i, n := range model.AutotunePolicies {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.AutotunePolicies[i] = nn.(AutotunePolicy)
+		} else {
+			m.AutotunePolicies[i] = nil
+		}
 	}
 
 	m.AvailabilityDomain = model.AvailabilityDomain

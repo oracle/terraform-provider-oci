@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package service_mesh
@@ -6,6 +6,7 @@ package service_mesh
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -15,8 +16,8 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_service_mesh "github.com/oracle/oci-go-sdk/v65/servicemesh"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func ServiceMeshMeshResource() *schema.Resource {
@@ -270,6 +271,18 @@ func (s *ServiceMeshMeshResourceCrud) getMeshFromWorkRequest(workId *string, ret
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
+		// Try to cancel the work request
+		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, meshId)
+		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+			oci_service_mesh.CancelWorkRequestRequest{
+				WorkRequestId: workId,
+				RequestMetadata: oci_common.RequestMetadata{
+					RetryPolicy: retryPolicy,
+				},
+			})
+		if cancelErr != nil {
+			log.Printf("[DEBUG] cleanup cancelWorkRequest failed with the error: %v\n", cancelErr)
+		}
 		return err
 	}
 	s.D.SetId(*meshId)

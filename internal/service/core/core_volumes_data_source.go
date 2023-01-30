@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package core
@@ -10,8 +10,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func CoreVolumesDataSource() *schema.Resource {
@@ -25,7 +25,7 @@ func CoreVolumesDataSource() *schema.Resource {
 			},
 			"compartment_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -125,13 +125,17 @@ func (s *CoreVolumesDataSourceCrud) SetData() error {
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
-		volume := map[string]interface{}{
-			"compartment_id": *r.CompartmentId,
-		}
+		volume := map[string]interface{}{}
 
 		if r.AutoTunedVpusPerGB != nil {
 			volume["auto_tuned_vpus_per_gb"] = strconv.FormatInt(*r.AutoTunedVpusPerGB, 10)
 		}
+
+		autotunePolicies := []interface{}{}
+		for _, item := range r.AutotunePolicies {
+			autotunePolicies = append(autotunePolicies, BlockVolumeAutotunePolicyToMap(item))
+		}
+		volume["autotune_policies"] = autotunePolicies
 
 		if r.AvailabilityDomain != nil {
 			volume["availability_domain"] = *r.AvailabilityDomain
@@ -142,6 +146,10 @@ func (s *CoreVolumesDataSourceCrud) SetData() error {
 			blockVolumeReplicas = append(blockVolumeReplicas, BlockVolumeReplicaInfoToMap(item))
 		}
 		volume["block_volume_replicas"] = blockVolumeReplicas
+
+		if r.CompartmentId != nil {
+			volume["compartment_id"] = *r.CompartmentId
+		}
 
 		if r.DefinedTags != nil {
 			volume["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,37 +16,37 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_mysql "github.com/oracle/oci-go-sdk/v65/mysql"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	ChannelRequiredOnlyResource = ChannelResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", acctest.Required, acctest.Create, channelRepresentation)
+	MysqlChannelRequiredOnlyResource = MysqlChannelResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", acctest.Required, acctest.Create, MysqlChannelRepresentation)
 
-	channelSingularDataSourceRepresentation = map[string]interface{}{
+	MysqlMysqlChannelSingularDataSourceRepresentation = map[string]interface{}{
 		"channel_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_mysql_channel.test_channel.id}`},
 	}
 
-	channelDataSourceRepresentation = map[string]interface{}{
+	MysqlMysqlChannelDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"channel_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_mysql_channel.test_channel.id}`},
 		"db_system_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"is_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: channelDataSourceFilterRepresentation}}
-	channelDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: MysqlChannelDataSourceFilterRepresentation}}
+	MysqlChannelDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_mysql_channel.test_channel.id}`}},
 	}
 
-	channelRepresentation = map[string]interface{}{
-		"source":         acctest.RepresentationGroup{RepType: acctest.Required, Group: channelSourceRepresentation},
-		"target":         acctest.RepresentationGroup{RepType: acctest.Required, Group: channelTargetRepresentation},
+	MysqlChannelRepresentation = map[string]interface{}{
+		"source":         acctest.RepresentationGroup{RepType: acctest.Required, Group: MysqlChannelSourceRepresentation},
+		"target":         acctest.RepresentationGroup{RepType: acctest.Required, Group: MysqlChannelTargetRepresentation},
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
@@ -60,47 +60,59 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{"defined_tags"}},
 	}
 
-	sslCaCertificateRepresentation = map[string]interface{}{
-		"certificate_type": acctest.Representation{RepType: acctest.Optional, Update: "PEM"},
-		"contents":         acctest.Representation{RepType: acctest.Optional, Update: "${var.ca_certificate_value}"},
-	}
-
-	channelSourceRepresentation = map[string]interface{}{
-		"hostname":    acctest.Representation{RepType: acctest.Required, Create: `hostname.my.company.com`, Update: `hostname2.my.company.com`},
-		"password":    acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
-		"source_type": acctest.Representation{RepType: acctest.Required, Create: `MYSQL`},
-		"username":    acctest.Representation{RepType: acctest.Required, Create: `username`, Update: `username2`},
-		"ssl_mode":    acctest.Representation{RepType: acctest.Required, Create: `REQUIRED`, Update: `VERIFY_CA`},
-		"port":        acctest.Representation{RepType: acctest.Optional, Create: `3300`, Update: `3306`},
+	MysqlChannelSourceRepresentation = map[string]interface{}{
+		"hostname":                        acctest.Representation{RepType: acctest.Required, Create: `hostname.my.company.com`, Update: `hostname2.my.company.com`},
+		"password":                        acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
+		"source_type":                     acctest.Representation{RepType: acctest.Required, Create: `MYSQL`},
+		"ssl_mode":                        acctest.Representation{RepType: acctest.Required, Create: `REQUIRED`, Update: `VERIFY_CA`},
+		"username":                        acctest.Representation{RepType: acctest.Required, Create: `username`, Update: `username2`},
+		"anonymous_transactions_handling": acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlChannelSourceAnonymousTransactionsHandlingRepresentation},
+		"port":                            acctest.Representation{RepType: acctest.Optional, Create: `3300`, Update: `3306`},
 	}
 	channelSourceWithCertificateRepresentation = map[string]interface{}{
-		"hostname":           acctest.Representation{RepType: acctest.Optional, Update: `hostname2.my.company.com`},
-		"password":           acctest.Representation{RepType: acctest.Optional, Update: `BEstrO0ng_#12`},
-		"source_type":        acctest.Representation{RepType: acctest.Optional, Update: `MYSQL`},
-		"username":           acctest.Representation{RepType: acctest.Optional, Update: `username2`},
-		"ssl_mode":           acctest.Representation{RepType: acctest.Optional, Update: `VERIFY_CA`},
-		"ssl_ca_certificate": acctest.RepresentationGroup{RepType: acctest.Optional, Group: sslCaCertificateRepresentation},
-		"port":               acctest.Representation{RepType: acctest.Optional, Update: `3306`},
+		"hostname":                        acctest.Representation{RepType: acctest.Optional, Update: `hostname2.my.company.com`},
+		"password":                        acctest.Representation{RepType: acctest.Optional, Update: `BEstrO0ng_#12`},
+		"source_type":                     acctest.Representation{RepType: acctest.Optional, Update: `MYSQL`},
+		"username":                        acctest.Representation{RepType: acctest.Optional, Update: `username2`},
+		"ssl_mode":                        acctest.Representation{RepType: acctest.Optional, Update: `VERIFY_CA`},
+		"ssl_ca_certificate":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlChannelSourceSslCaCertificateRepresentation},
+		"anonymous_transactions_handling": acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlChannelSourceAnonymousTransactionsHandlingRepresentation},
+		"port":                            acctest.Representation{RepType: acctest.Optional, Update: `3306`},
 	}
 
-	channelTargetRepresentation = map[string]interface{}{
+	MysqlChannelTargetRepresentation = map[string]interface{}{
 		"db_system_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
 		"target_type":      acctest.Representation{RepType: acctest.Required, Create: `DBSYSTEM`},
 		"applier_username": acctest.Representation{RepType: acctest.Optional, Create: `adminUser`},
 		"channel_name":     acctest.Representation{RepType: acctest.Optional, Create: `channelname`, Update: `channelname2`},
+		"filters":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlChannelTargetFiltersRepresentation},
+	}
+	MysqlChannelSourceAnonymousTransactionsHandlingRepresentation = map[string]interface{}{
+		"policy":                       acctest.Representation{RepType: acctest.Required, Create: `ERROR_ON_ANONYMOUS`, Update: `ASSIGN_MANUAL_UUID`},
+		"last_configured_log_filename": acctest.Representation{RepType: acctest.Optional, Update: `lastConfiguredLogFilename2`},
+		"last_configured_log_offset":   acctest.Representation{RepType: acctest.Optional, Update: `11`},
+		"uuid":                         acctest.Representation{RepType: acctest.Optional, Update: `ae1b699d-0036-49c4-900c-4fc43335dfb2`},
+	}
+	MysqlChannelSourceSslCaCertificateRepresentation = map[string]interface{}{
+		"certificate_type": acctest.Representation{RepType: acctest.Required, Update: "PEM"},
+		"contents":         acctest.Representation{RepType: acctest.Required, Update: "${var.ca_certificate_value}"},
+	}
+	MysqlChannelTargetFiltersRepresentation = map[string]interface{}{
+		"type":  acctest.Representation{RepType: acctest.Required, Create: `REPLICATE_DO_DB`, Update: `REPLICATE_IGNORE_DB`},
+		"value": acctest.Representation{RepType: acctest.Required, Create: `value`, Update: `value2`},
 	}
 
-	ChannelWithOptionalsResource = ChannelResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", acctest.Optional, acctest.Create, channelRepresentation)
+	ChannelWithOptionalsResource = MysqlChannelResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", acctest.Optional, acctest.Create, MysqlChannelRepresentation)
 
-	ChannelUpdateResource = ChannelResourceDependencies +
+	ChannelUpdateResource = MysqlChannelResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", acctest.Optional, acctest.Update,
-			acctest.GetUpdatedRepresentationCopy("source", acctest.RepresentationGroup{RepType: acctest.Optional, Group: channelSourceWithCertificateRepresentation}, channelRepresentation))
+			acctest.GetUpdatedRepresentationCopy("source", acctest.RepresentationGroup{RepType: acctest.Optional, Group: channelSourceWithCertificateRepresentation}, MysqlChannelRepresentation))
 
 	ChannelResourceConfig = ChannelUpdateResource
 
-	ChannelResourceDependencies = MysqlDbSystemResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Required, acctest.Create, mysqlDbSystemRepresentation) + caCertificateVariableStr
+	MysqlChannelResourceDependencies = MysqlMysqlDbSystemResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Required, acctest.Create, MysqlMysqlDbSystemRepresentation) + caCertificateVariableStr
 )
 
 // issue-routing-tag: mysql/default
@@ -119,13 +131,13 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ChannelResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", acctest.Optional, acctest.Create, channelRepresentation), "mysql", "channel", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+MysqlChannelResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", acctest.Optional, acctest.Create, MysqlChannelRepresentation), "mysql", "channel", t)
 
 	acctest.ResourceTest(t, testAccCheckMysqlChannelDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ChannelRequiredOnlyResource,
+			Config: config + compartmentIdVariableStr + MysqlChannelRequiredOnlyResource,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.hostname", "hostname.my.company.com"),
@@ -146,7 +158,7 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ChannelResourceDependencies,
+			Config: config + compartmentIdVariableStr + MysqlChannelResourceDependencies,
 		},
 		// verify Create with optionals
 		{
@@ -158,6 +170,8 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.anonymous_transactions_handling.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.anonymous_transactions_handling.0.policy", "ERROR_ON_ANONYMOUS"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.hostname", "hostname.my.company.com"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.port", "3300"),
@@ -169,6 +183,9 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "target.0.applier_username", "adminUser"),
 				resource.TestCheckResourceAttrSet(resourceName, "target.0.channel_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "target.0.db_system_id"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.filters.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.filters.0.type", "REPLICATE_DO_DB"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.filters.0.value", "value"),
 				resource.TestCheckResourceAttr(resourceName, "target.0.target_type", "DBSYSTEM"),
 
 				func(s *terraform.State) (err error) {
@@ -193,6 +210,11 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.anonymous_transactions_handling.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.anonymous_transactions_handling.0.last_configured_log_filename", "lastConfiguredLogFilename2"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.anonymous_transactions_handling.0.last_configured_log_offset", "11"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.anonymous_transactions_handling.0.policy", "ASSIGN_MANUAL_UUID"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.anonymous_transactions_handling.0.uuid", "ae1b699d-0036-49c4-900c-4fc43335dfb2"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.hostname", "hostname2.my.company.com"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.port", "3306"),
@@ -204,6 +226,9 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "target.0.applier_username", "adminUser"),
 				resource.TestCheckResourceAttrSet(resourceName, "target.0.channel_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "target.0.db_system_id"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.filters.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.filters.0.type", "REPLICATE_IGNORE_DB"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.filters.0.value", "value2"),
 				resource.TestCheckResourceAttr(resourceName, "target.0.target_type", "DBSYSTEM"),
 
 				func(s *terraform.State) (err error) {
@@ -218,7 +243,7 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_channels", "test_channels", acctest.Optional, acctest.Update, channelDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_channels", "test_channels", acctest.Optional, acctest.Update, MysqlMysqlChannelDataSourceRepresentation) +
 				compartmentIdVariableStr + ChannelUpdateResource,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "channel_id"),
@@ -228,20 +253,78 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "is_enabled", "false"),
 
 				resource.TestCheckResourceAttr(datasourceName, "channels.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "channels.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "channels.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "channels.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "channels.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "channels.0.is_enabled", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "channels.0.source.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "channels.0.source.0.anonymous_transactions_handling.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "channels.0.source.0.anonymous_transactions_handling.0.last_configured_log_filename", "lastConfiguredLogFilename2"),
+				resource.TestCheckResourceAttr(datasourceName, "channels.0.source.0.anonymous_transactions_handling.0.last_configured_log_offset", "11"),
+				resource.TestCheckResourceAttr(datasourceName, "channels.0.source.0.anonymous_transactions_handling.0.policy", "ASSIGN_MANUAL_UUID"),
+				resource.TestCheckResourceAttr(datasourceName, "channels.0.source.0.anonymous_transactions_handling.0.uuid", "ae1b699d-0036-49c4-900c-4fc43335dfb2"),
+				resource.TestCheckResourceAttr(datasourceName, "channels.0.source.0.hostname", "hostname2.my.company.com"),
+				resource.TestCheckResourceAttr(datasourceName, "channels.0.source.0.port", "3306"),
+				resource.TestCheckResourceAttr(datasourceName, "channels.0.source.0.source_type", "MYSQL"),
+				resource.TestCheckResourceAttr(datasourceName, "channels.0.source.0.ssl_ca_certificate.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "channels.0.source.0.ssl_ca_certificate.0.certificate_type", "PEM"),
+				resource.TestCheckResourceAttr(datasourceName, "channels.0.source.0.ssl_mode", "VERIFY_CA"),
+				resource.TestCheckResourceAttr(datasourceName, "channels.0.source.0.username", "username2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "channels.0.state"),
+				resource.TestCheckResourceAttr(datasourceName, "channels.0.target.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "channels.0.target.0.applier_username", "adminUser"),
+				resource.TestCheckResourceAttrSet(datasourceName, "channels.0.target.0.channel_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "channels.0.target.0.db_system_id"),
+				resource.TestCheckResourceAttr(datasourceName, "channels.0.target.0.filters.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "channels.0.target.0.filters.0.type", "REPLICATE_IGNORE_DB"),
+				resource.TestCheckResourceAttr(datasourceName, "channels.0.target.0.filters.0.value", "value2"),
+				resource.TestCheckResourceAttr(datasourceName, "channels.0.target.0.target_type", "DBSYSTEM"),
+				resource.TestCheckResourceAttrSet(datasourceName, "channels.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "channels.0.time_updated"),
 			),
 		},
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_channel", "test_channel", acctest.Required, acctest.Create, channelSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_channel", "test_channel", acctest.Required, acctest.Create, MysqlMysqlChannelSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ChannelUpdateResource,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "channel_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_enabled", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "source.0.anonymous_transactions_handling.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "source.0.anonymous_transactions_handling.0.last_configured_log_filename", "lastConfiguredLogFilename2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "source.0.anonymous_transactions_handling.0.last_configured_log_offset", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "source.0.anonymous_transactions_handling.0.policy", "ASSIGN_MANUAL_UUID"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "source.0.anonymous_transactions_handling.0.uuid", "ae1b699d-0036-49c4-900c-4fc43335dfb2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "source.0.hostname", "hostname2.my.company.com"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "source.0.port", "3306"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "source.0.source_type", "MYSQL"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "source.0.ssl_ca_certificate.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "source.0.ssl_ca_certificate.0.certificate_type", "PEM"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "source.0.ssl_mode", "VERIFY_CA"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "source.0.username", "username2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target.0.applier_username", "adminUser"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target.0.filters.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target.0.filters.0.type", "REPLICATE_IGNORE_DB"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target.0.filters.0.value", "value2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target.0.target_type", "DBSYSTEM"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
 		},
 		// verify resource import
 		{
-			Config:            config + ChannelRequiredOnlyResource,
+			Config:            config + MysqlChannelRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -308,7 +391,7 @@ func init() {
 
 func sweepMysqlChannelResource(compartment string) error {
 	channelsClient := acctest.GetTestClients(&schema.ResourceData{}).ChannelsClient()
-	channelIds, err := getChannelIds(compartment)
+	channelIds, err := getMysqlChannelIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -324,14 +407,14 @@ func sweepMysqlChannelResource(compartment string) error {
 				fmt.Printf("Error deleting Channel %s %s, It is possible that the resource is already deleted. Please verify manually \n", channelId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &channelId, channelSweepWaitCondition, time.Duration(3*time.Minute),
-				channelSweepResponseFetchOperation, "mysql", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &channelId, MysqlChannelSweepWaitCondition, time.Duration(3*time.Minute),
+				MysqlChannelSweepResponseFetchOperation, "mysql", true)
 		}
 	}
 	return nil
 }
 
-func getChannelIds(compartment string) ([]string, error) {
+func getMysqlChannelIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ChannelId")
 	if ids != nil {
 		return ids, nil
@@ -356,7 +439,7 @@ func getChannelIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func channelSweepWaitCondition(response common.OCIOperationResponse) bool {
+func MysqlChannelSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if channelResponse, ok := response.Response.(oci_mysql.GetChannelResponse); ok {
 		return channelResponse.LifecycleState != oci_mysql.ChannelLifecycleStateDeleted
@@ -364,7 +447,7 @@ func channelSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func channelSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func MysqlChannelSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.ChannelsClient().GetChannel(context.Background(), oci_mysql.GetChannelRequest{
 		ChannelId: resourceId,
 		RequestMetadata: common.RequestMetadata{

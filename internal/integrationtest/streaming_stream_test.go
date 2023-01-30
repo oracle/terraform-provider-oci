@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,32 +22,32 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_streaming "github.com/oracle/oci-go-sdk/v65/streaming"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	StreamRequiredOnlyResource = StreamResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Required, acctest.Create, streamRepresentation)
+	StreamingStreamRequiredOnlyResource = StreamingStreamResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Required, acctest.Create, StreamingStreamRepresentation)
 
-	StreamResourceConfig = StreamResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Optional, acctest.Update, streamRepresentation)
+	StreamingStreamResourceConfig = StreamingStreamResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Optional, acctest.Update, StreamingStreamRepresentation)
 
-	streamSingularDataSourceRepresentation = map[string]interface{}{
+	StreamingStreamingStreamSingularDataSourceRepresentation = map[string]interface{}{
 		"stream_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_streaming_stream.test_stream.id}`},
 	}
 
-	streamDataSourceRepresentation = map[string]interface{}{
+	StreamingStreamingStreamDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_streaming_stream.test_stream.id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `mynewstream`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: streamDataSourceFilterRepresentation}}
-	streamDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: StreamingStreamDataSourceFilterRepresentation}}
+	StreamingStreamDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_streaming_stream.test_stream.id}`}},
 	}
 
-	streamRepresentation = map[string]interface{}{
+	StreamingStreamRepresentation = map[string]interface{}{
 		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":               acctest.Representation{RepType: acctest.Required, Create: `mynewstream`},
 		"partitions":         acctest.Representation{RepType: acctest.Required, Create: `1`},
@@ -56,7 +56,7 @@ var (
 		"retention_in_hours": acctest.Representation{RepType: acctest.Optional, Create: `24`},
 	}
 
-	StreamResourceDependencies = DefinedTagsDependencies
+	StreamingStreamResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: streaming/default
@@ -78,14 +78,14 @@ func TestStreamingStreamResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+StreamResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Optional, acctest.Create, streamRepresentation), "streaming", "stream", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+StreamingStreamResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Optional, acctest.Create, StreamingStreamRepresentation), "streaming", "stream", t)
 
 	acctest.ResourceTest(t, testAccCheckStreamingStreamDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + StreamResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Required, acctest.Create, streamRepresentation),
+			Config: config + compartmentIdVariableStr + StreamingStreamResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Required, acctest.Create, StreamingStreamRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "name", "mynewstream"),
@@ -99,8 +99,8 @@ func TestStreamingStreamResource_basic(t *testing.T) {
 		},
 		// Verify that stream's compartment_id can be removed and stream_pool_id can be used
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + StreamResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(streamPoolRepresentation, map[string]interface{}{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + StreamingStreamResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(StreamingStreamPoolRepresentation, map[string]interface{}{
 					"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 				})) +
 				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Optional, acctest.Create, streampoolidRepresentation),
@@ -118,12 +118,12 @@ func TestStreamingStreamResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + StreamResourceDependencies,
+			Config: config + compartmentIdVariableStr + StreamingStreamResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + StreamResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Optional, acctest.Create, streamRepresentation),
+			Config: config + compartmentIdVariableStr + StreamingStreamResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Optional, acctest.Create, StreamingStreamRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -149,9 +149,9 @@ func TestStreamingStreamResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + StreamResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + StreamingStreamResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(streamRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(StreamingStreamRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -177,8 +177,8 @@ func TestStreamingStreamResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + StreamResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Optional, acctest.Update, streamRepresentation),
+			Config: config + compartmentIdVariableStr + StreamingStreamResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Optional, acctest.Update, StreamingStreamRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -202,9 +202,9 @@ func TestStreamingStreamResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_streaming_streams", "test_streams", acctest.Optional, acctest.Update, streamDataSourceRepresentation) +
-				compartmentIdVariableStr + StreamResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Optional, acctest.Update, streamRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_streaming_streams", "test_streams", acctest.Optional, acctest.Update, StreamingStreamingStreamDataSourceRepresentation) +
+				compartmentIdVariableStr + StreamingStreamResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Optional, acctest.Update, StreamingStreamRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -225,8 +225,8 @@ func TestStreamingStreamResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Required, acctest.Create, streamSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + StreamResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Required, acctest.Create, StreamingStreamingStreamSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + StreamingStreamResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "stream_id"),
 
@@ -243,7 +243,7 @@ func TestStreamingStreamResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + StreamRequiredOnlyResource,
+			Config:                  config + StreamingStreamRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -307,7 +307,7 @@ func init() {
 
 func sweepStreamingStreamResource(compartment string) error {
 	streamAdminClient := acctest.GetTestClients(&schema.ResourceData{}).StreamAdminClient()
-	streamIds, err := getStreamIds(compartment)
+	streamIds, err := getStreamingStreamIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -323,14 +323,14 @@ func sweepStreamingStreamResource(compartment string) error {
 				fmt.Printf("Error deleting Stream %s %s, It is possible that the resource is already deleted. Please verify manually \n", streamId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &streamId, streamSweepWaitCondition, time.Duration(3*time.Minute),
-				streamSweepResponseFetchOperation, "streaming", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &streamId, StreamingStreamSweepWaitCondition, time.Duration(3*time.Minute),
+				StreamingStreamSweepResponseFetchOperation, "streaming", true)
 		}
 	}
 	return nil
 }
 
-func getStreamIds(compartment string) ([]string, error) {
+func getStreamingStreamIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "StreamId")
 	if ids != nil {
 		return ids, nil
@@ -355,7 +355,7 @@ func getStreamIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func streamSweepWaitCondition(response common.OCIOperationResponse) bool {
+func StreamingStreamSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if streamResponse, ok := response.Response.(oci_streaming.GetStreamResponse); ok {
 		return streamResponse.LifecycleState != oci_streaming.StreamLifecycleStateDeleted
@@ -363,7 +363,7 @@ func streamSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func streamSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func StreamingStreamSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.StreamAdminClient().GetStream(context.Background(), oci_streaming.GetStreamRequest{
 		StreamId: resourceId,
 		RequestMetadata: common.RequestMetadata{

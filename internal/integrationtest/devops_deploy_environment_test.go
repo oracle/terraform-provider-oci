@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,34 +22,34 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	DeployEnvironmentRequiredOnlyResource = DeployEnvironmentResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", acctest.Required, acctest.Create, deployEnvironmentRepresentation)
+	DevopsDeployEnvironmentRequiredOnlyResource = DevopsDeployEnvironmentResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", acctest.Required, acctest.Create, DevopsdeployEnvironmentRepresentation)
 
-	DeployEnvironmentResourceConfig = DeployEnvironmentResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", acctest.Optional, acctest.Update, deployEnvironmentRepresentation)
+	DevopsDeployEnvironmentResourceConfig = DevopsDeployEnvironmentResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", acctest.Optional, acctest.Update, DevopsdeployEnvironmentRepresentation)
 
-	deployEnvironmentSingularDataSourceRepresentation = map[string]interface{}{
+	DevopsDevopsDeployEnvironmentSingularDataSourceRepresentation = map[string]interface{}{
 		"deploy_environment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_deploy_environment.test_deploy_environment.id}`},
 	}
 
-	deployEnvironmentDataSourceRepresentation = map[string]interface{}{
+	DevopsDevopsDeployEnvironmentDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_deploy_environment.test_deploy_environment.id}`},
 		"project_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_project.test_project.id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: deployEnvironmentDataSourceFilterRepresentation}}
-	deployEnvironmentDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DevopsDeployEnvironmentDataSourceFilterRepresentation}}
+	DevopsDeployEnvironmentDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_devops_deploy_environment.test_deploy_environment.id}`}},
 	}
 
-	cluster_fake_id                 = "ocid1.cluster.oc1.us-ashburn-1.aaaaaaaaafqtkm3fg4zwgnlggmywkzdemi2dcyzymfrdqojygcstocluster1"
-	deployEnvironmentRepresentation = map[string]interface{}{
+	cluster_fake_id                       = "ocid1.cluster.oc1.us-ashburn-1.aaaaaaaaafqtkm3fg4zwgnlggmywkzdemi2dcyzymfrdqojygcstocluster1"
+	DevopsdeployEnvironmentRepresentation = map[string]interface{}{
 		"deploy_environment_type": acctest.Representation{RepType: acctest.Required, Create: `OKE_CLUSTER`},
 		"project_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_project.test_project.id}`},
 		"cluster_id":              acctest.Representation{RepType: acctest.Required, Create: cluster_fake_id},
@@ -60,10 +60,10 @@ var (
 		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 	}
 
-	DeployEnvironmentResourceDependencies = AvailabilityDomainConfig +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, devopsProjectRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_devops_log_group", acctest.Required, acctest.Create, devopsLogGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, notificationTopicRepresentation) +
+	DevopsDeployEnvironmentResourceDependencies = AvailabilityDomainConfig +
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_devops_log_group", acctest.Required, acctest.Create, DevopsLogGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -83,14 +83,14 @@ func TestDevopsDeployEnvironmentResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DeployEnvironmentResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", acctest.Optional, acctest.Create, deployEnvironmentRepresentation), "devops", "deployEnvironment", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DevopsDeployEnvironmentResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", acctest.Optional, acctest.Create, DevopsdeployEnvironmentRepresentation), "devops", "deployEnvironment", t)
 
 	acctest.ResourceTest(t, testAccCheckDevopsDeployEnvironmentDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DeployEnvironmentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", acctest.Required, acctest.Create, deployEnvironmentRepresentation),
+			Config: config + compartmentIdVariableStr + DevopsDeployEnvironmentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", acctest.Required, acctest.Create, DevopsdeployEnvironmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_environment_type", "OKE_CLUSTER"),
@@ -105,12 +105,12 @@ func TestDevopsDeployEnvironmentResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DeployEnvironmentResourceDependencies,
+			Config: config + compartmentIdVariableStr + DevopsDeployEnvironmentResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DeployEnvironmentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", acctest.Optional, acctest.Create, deployEnvironmentRepresentation),
+			Config: config + compartmentIdVariableStr + DevopsDeployEnvironmentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", acctest.Optional, acctest.Create, DevopsdeployEnvironmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -136,8 +136,8 @@ func TestDevopsDeployEnvironmentResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DeployEnvironmentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", acctest.Optional, acctest.Update, deployEnvironmentRepresentation),
+			Config: config + compartmentIdVariableStr + DevopsDeployEnvironmentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", acctest.Optional, acctest.Update, DevopsdeployEnvironmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -161,9 +161,9 @@ func TestDevopsDeployEnvironmentResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_environments", "test_deploy_environments", acctest.Optional, acctest.Update, deployEnvironmentDataSourceRepresentation) +
-				compartmentIdVariableStr + DeployEnvironmentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", acctest.Optional, acctest.Update, deployEnvironmentRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_environments", "test_deploy_environments", acctest.Optional, acctest.Update, DevopsDevopsDeployEnvironmentDataSourceRepresentation) +
+				compartmentIdVariableStr + DevopsDeployEnvironmentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", acctest.Optional, acctest.Update, DevopsdeployEnvironmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -177,8 +177,8 @@ func TestDevopsDeployEnvironmentResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", acctest.Required, acctest.Create, deployEnvironmentSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DeployEnvironmentResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", acctest.Required, acctest.Create, DevopsDevopsDeployEnvironmentSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DevopsDeployEnvironmentResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deploy_environment_id"),
 
@@ -196,7 +196,7 @@ func TestDevopsDeployEnvironmentResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + DeployEnvironmentRequiredOnlyResource,
+			Config:                  config + DevopsDeployEnvironmentRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -260,7 +260,7 @@ func init() {
 
 func sweepDevopsDeployEnvironmentResource(compartment string) error {
 	deployEnvironmentClient := acctest.GetTestClients(&schema.ResourceData{}).DevopsClient()
-	deployEnvironmentIds, err := getDeployEnvironmentIds(compartment)
+	deployEnvironmentIds, err := getDevopsDeployEnvironmentIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -276,14 +276,14 @@ func sweepDevopsDeployEnvironmentResource(compartment string) error {
 				fmt.Printf("Error deleting DeployEnvironment %s %s, It is possible that the resource is already deleted. Please verify manually \n", deployEnvironmentId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &deployEnvironmentId, deployEnvironmentSweepWaitCondition, time.Duration(3*time.Minute),
-				deployEnvironmentSweepResponseFetchOperation, "devops", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &deployEnvironmentId, DevopsDeployEnvironmentSweepWaitCondition, time.Duration(3*time.Minute),
+				DevopsDeployEnvironmentSweepResponseFetchOperation, "devops", true)
 		}
 	}
 	return nil
 }
 
-func getDeployEnvironmentIds(compartment string) ([]string, error) {
+func getDevopsDeployEnvironmentIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "DeployEnvironmentId")
 	if ids != nil {
 		return ids, nil
@@ -308,7 +308,7 @@ func getDeployEnvironmentIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func deployEnvironmentSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DevopsDeployEnvironmentSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if deployEnvironmentResponse, ok := response.Response.(oci_devops.GetDeployEnvironmentResponse); ok {
 		return deployEnvironmentResponse.GetLifecycleState() != oci_devops.DeployEnvironmentLifecycleStateDeleted
@@ -316,7 +316,7 @@ func deployEnvironmentSweepWaitCondition(response common.OCIOperationResponse) b
 	return false
 }
 
-func deployEnvironmentSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DevopsDeployEnvironmentSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DevopsClient().GetDeployEnvironment(context.Background(), oci_devops.GetDeployEnvironmentRequest{
 		DeployEnvironmentId: resourceId,
 		RequestMetadata: common.RequestMetadata{

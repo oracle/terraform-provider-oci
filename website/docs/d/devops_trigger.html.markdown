@@ -36,9 +36,10 @@ The following attributes are exported:
 	* `build_pipeline_id` - The OCID of the build pipeline to be triggered.
 	* `filter` - The filters for the trigger.
 		* `events` - The events, for example, PUSH, PULL_REQUEST_MERGE.
-		* `include` - Attributes to filter DevOps code repository events.
+		* `include` - Attributes to filter GitLab self-hosted server events.
 			* `base_ref` - The target branch for pull requests; not applicable for push requests.
 			* `head_ref` - Branch for push event; source branch for pull requests.
+			* `repository_name` - The repository name for trigger events.
 		* `trigger_source` - Source of the trigger. Allowed values are, GITHUB and GITLAB.
 	* `type` - The type of action that will be taken. Allowed value is TRIGGER_BUILD_PIPELINE.
 * `compartment_id` - The OCID of the compartment that contains the trigger.

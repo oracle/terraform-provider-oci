@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -15,53 +15,53 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_metering_computation "github.com/oracle/oci-go-sdk/v65/usageapi"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	CustomTableRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", acctest.Required, acctest.Create, customTableRepresentation)
+	CustomTableRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", acctest.Required, acctest.Create, MeteringComputationCustomTableRepresentation)
 
-	CustomTableResourceConfig = CustomTableResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", acctest.Optional, acctest.Update, customTableRepresentation)
+	MeteringComputationCustomTableResourceConfig = MeteringComputationCustomTableResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", acctest.Optional, acctest.Update, MeteringComputationCustomTableRepresentation)
 
-	customTableSingularDataSourceRepresentation = map[string]interface{}{
+	MeteringComputationMeteringComputationCustomTableSingularDataSourceRepresentation = map[string]interface{}{
 		"custom_table_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_metering_computation_custom_table.test_custom_table.id}`},
 	}
 
-	customTableDataSourceRepresentation = map[string]interface{}{
+	MeteringComputationMeteringComputationCustomTableDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"saved_report_id": acctest.Representation{RepType: acctest.Required, Create: `savedReportId`},
-		"filter":          acctest.RepresentationGroup{RepType: acctest.Required, Group: customTableDataSourceFilterRepresentation}}
-	customTableDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":          acctest.RepresentationGroup{RepType: acctest.Required, Group: MeteringComputationCustomTableDataSourceFilterRepresentation}}
+	MeteringComputationCustomTableDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_metering_computation_custom_table.test_custom_table.id}`}},
 	}
 
-	customTableRepresentation = map[string]interface{}{
+	MeteringComputationCustomTableRepresentation = map[string]interface{}{
 		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"saved_custom_table": acctest.RepresentationGroup{RepType: acctest.Required, Group: customTableSavedCustomTableRepresentation},
+		"saved_custom_table": acctest.RepresentationGroup{RepType: acctest.Required, Group: MeteringComputationCustomTableSavedCustomTableRepresentation},
 		"saved_report_id":    acctest.Representation{RepType: acctest.Required, Create: `savedReportId`},
 	}
-	customTableSavedCustomTableRepresentation = map[string]interface{}{
+	MeteringComputationCustomTableSavedCustomTableRepresentation = map[string]interface{}{
 		"display_name":      acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"column_group_by":   acctest.Representation{RepType: acctest.Required, Create: []string{`columnGroupBy`}, Update: []string{`columnGroupBy2`}},
 		"compartment_depth": acctest.Representation{RepType: acctest.Required, Create: `1.0`, Update: `2.0`},
-		"group_by_tag":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: customTableSavedCustomTableGroupByTagRepresentation},
+		"group_by_tag":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: MeteringComputationCustomTableSavedCustomTableGroupByTagRepresentation},
 		"row_group_by":      acctest.Representation{RepType: acctest.Required, Create: []string{`rowGroupBy`}, Update: []string{}},
 		"version":           acctest.Representation{RepType: acctest.Required, Create: `1.0`, Update: `1.0`},
 	}
-	customTableSavedCustomTableGroupByTagRepresentation = map[string]interface{}{
+	MeteringComputationCustomTableSavedCustomTableGroupByTagRepresentation = map[string]interface{}{
 		"key":       acctest.Representation{RepType: acctest.Optional, Create: `key`, Update: `key2`},
 		"namespace": acctest.Representation{RepType: acctest.Optional, Create: `namespace`, Update: `namespace2`},
 		"value":     acctest.Representation{RepType: acctest.Optional, Create: `value`, Update: `value2`},
 	}
 
-	CustomTableResourceDependencies = ""
+	MeteringComputationCustomTableResourceDependencies = ""
 )
 
 func TestMeteringComputationCustomTableResource_basic(t *testing.T) {
@@ -79,14 +79,14 @@ func TestMeteringComputationCustomTableResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+CustomTableResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", acctest.Required, acctest.Create, customTableRepresentation), "usageapi", "customTable", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+MeteringComputationCustomTableResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", acctest.Required, acctest.Create, MeteringComputationCustomTableRepresentation), "usageapi", "customTable", t)
 
 	acctest.ResourceTest(t, testAccCheckMeteringComputationCustomTableDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + CustomTableResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", acctest.Required, acctest.Create, customTableRepresentation),
+			Config: config + compartmentIdVariableStr + MeteringComputationCustomTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", acctest.Required, acctest.Create, MeteringComputationCustomTableRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "saved_custom_table.#", "1"),
@@ -107,8 +107,8 @@ func TestMeteringComputationCustomTableResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + CustomTableResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", acctest.Optional, acctest.Update, customTableRepresentation),
+			Config: config + compartmentIdVariableStr + MeteringComputationCustomTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", acctest.Optional, acctest.Update, MeteringComputationCustomTableRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -134,9 +134,9 @@ func TestMeteringComputationCustomTableResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_metering_computation_custom_tables", "test_custom_tables", acctest.Optional, acctest.Update, customTableDataSourceRepresentation) +
-				compartmentIdVariableStr + CustomTableResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", acctest.Optional, acctest.Update, customTableRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_metering_computation_custom_tables", "test_custom_tables", acctest.Optional, acctest.Update, MeteringComputationMeteringComputationCustomTableDataSourceRepresentation) +
+				compartmentIdVariableStr + MeteringComputationCustomTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", acctest.Optional, acctest.Update, MeteringComputationCustomTableRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "saved_report_id"),
@@ -148,8 +148,8 @@ func TestMeteringComputationCustomTableResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", acctest.Required, acctest.Create, customTableSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + CustomTableResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", acctest.Required, acctest.Create, MeteringComputationMeteringComputationCustomTableSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + MeteringComputationCustomTableResourceConfig,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "custom_table_id"),
 
@@ -224,7 +224,7 @@ func init() {
 
 func sweepMeteringComputationCustomTableResource(compartment string) error {
 	usageapiClient := acctest.GetTestClients(&schema.ResourceData{}).UsageapiClient()
-	customTableIds, err := getCustomTableIds(compartment)
+	customTableIds, err := getMeteringComputationCustomTableIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -245,7 +245,7 @@ func sweepMeteringComputationCustomTableResource(compartment string) error {
 	return nil
 }
 
-func getCustomTableIds(compartment string) ([]string, error) {
+func getMeteringComputationCustomTableIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "CustomTableId")
 	if ids != nil {
 		return ids, nil
@@ -257,7 +257,7 @@ func getCustomTableIds(compartment string) ([]string, error) {
 	listCustomTablesRequest := oci_metering_computation.ListCustomTablesRequest{}
 	listCustomTablesRequest.CompartmentId = &compartmentId
 
-	savedReportIds, error := getQueryIds(compartment)
+	savedReportIds, error := getMeteringComputationQueryIds(compartment)
 	if error != nil {
 		return resourceIds, fmt.Errorf("Error getting savedReportId required for CustomTable resource requests \n")
 	}

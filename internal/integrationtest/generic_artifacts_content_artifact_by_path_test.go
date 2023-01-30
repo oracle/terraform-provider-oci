@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -14,10 +14,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
@@ -37,9 +37,9 @@ var (
 		"content":       acctest.Representation{RepType: acctest.Required, Create: `<a1>content</a1>`},
 	}
 
-	ArtifactByPathResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", acctest.Required, acctest.Create, repositoryRepresentation)
+	ArtifactByPathResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", acctest.Required, acctest.Create, ArtifactsrepositoryRepresentation)
 	// the deletion of oci_generic_artifacts_content_artifact_by_path is done by oci_artifacts_generic_artifact
-	GenericArtifactManager = acctest.GenerateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", acctest.Required, acctest.Create, genericArtifactRepresentation)
+	GenericArtifactManager = acctest.GenerateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", acctest.Required, acctest.Create, ArtifactsGenericArtifactRepresentation)
 )
 
 // issue-routing-tag: generic_artifacts_content/default

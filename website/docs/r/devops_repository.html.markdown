@@ -55,7 +55,7 @@ The following arguments are supported:
 	* `connector_id` - (Optional) (Updatable) Upstream git repository connection identifer.
 	* `repository_url` - (Optional) (Updatable) URL of external repository you want to mirror.
 	* `trigger_schedule` - (Optional) (Updatable) Specifies a trigger schedule. Timing information for when to initiate automated syncs.
-		* `custom_schedule` - (Optional) (Updatable) Valid if type is CUSTOM. Following RFC 5545 recurrence rules, we can specify starting time, occurrence frequency, and interval size. Example for frequency could be DAILY/WEEKLY/HOURLY or any RFC 5545 supported frequency, which is followed by start time of this window.  You can control the start time with BYHOUR, BYMINUTE and BYSECONDS. It is followed by the interval size. 
+		* `custom_schedule` - (Optional) (Updatable) Valid if type is CUSTOM. Following RFC 5545 recurrence rules, we can specify starting time, occurrence frequency, and interval size. Example for frequency could be DAILY/WEEKLY/HOURLY or any RFC 5545 supported frequency, which is followed by start time of this window. You can control the start time with BYHOUR, BYMINUTE and BYSECONDS. It is followed by the interval size. 
 		* `schedule_type` - (Required) (Updatable) Different types of trigger schedule: NONE - No automated synchronization schedule. DEFAULT - Trigger schedule is every 30 minutes. CUSTOM - Custom triggering schedule. 
 * `name` - (Required) (Updatable) Unique name of a repository.
 * `project_id` - (Required) The OCID of the DevOps project containing the repository.
@@ -83,7 +83,7 @@ The following attributes are exported:
 	* `connector_id` - Upstream git repository connection identifer.
 	* `repository_url` - URL of external repository you want to mirror.
 	* `trigger_schedule` - Specifies a trigger schedule. Timing information for when to initiate automated syncs.
-		* `custom_schedule` - Valid if type is CUSTOM. Following RFC 5545 recurrence rules, we can specify starting time, occurrence frequency, and interval size. Example for frequency could be DAILY/WEEKLY/HOURLY or any RFC 5545 supported frequency, which is followed by start time of this window.  You can control the start time with BYHOUR, BYMINUTE and BYSECONDS. It is followed by the interval size. 
+		* `custom_schedule` - Valid if type is CUSTOM. Following RFC 5545 recurrence rules, we can specify starting time, occurrence frequency, and interval size. Example for frequency could be DAILY/WEEKLY/HOURLY or any RFC 5545 supported frequency, which is followed by start time of this window. You can control the start time with BYHOUR, BYMINUTE and BYSECONDS. It is followed by the interval size. 
 		* `schedule_type` - Different types of trigger schedule: NONE - No automated synchronization schedule. DEFAULT - Trigger schedule is every 30 minutes. CUSTOM - Custom triggering schedule. 
 * `name` - Unique name of a repository. This value is mutable.
 * `namespace` - Tenancy unique namespace.
@@ -100,7 +100,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Repository
 	* `update` - (Defaults to 20 minutes), when updating the Repository
 	* `delete` - (Defaults to 20 minutes), when destroying the Repository

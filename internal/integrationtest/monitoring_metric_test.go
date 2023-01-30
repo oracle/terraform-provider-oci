@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,16 +7,16 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	metricDataSourceRepresentation = map[string]interface{}{
+	MonitoringMonitoringMetricDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"dimension_filters":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"resourceId": "${oci_load_balancer_load_balancer.test_load_balancer.id}"}},
@@ -25,7 +25,7 @@ var (
 		"resource_group":            acctest.Representation{RepType: acctest.Optional, Create: `resourceGroup`},
 	}
 
-	MetricResourceConfig = LoadBalancerResourceConfig
+	MonitoringMetricResourceConfig = LoadBalancerResourceConfig
 )
 
 // issue-routing-tag: monitoring/default
@@ -46,11 +46,11 @@ func TestMonitoringMetricResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_monitoring_metrics", "test_metrics", acctest.Optional, acctest.Create, metricDataSourceRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_monitoring_metrics", "test_metrics_with_group_by", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(metricDataSourceRepresentation, map[string]interface{}{
+				acctest.GenerateDataSourceFromRepresentationMap("oci_monitoring_metrics", "test_metrics", acctest.Optional, acctest.Create, MonitoringMonitoringMetricDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_monitoring_metrics", "test_metrics_with_group_by", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(MonitoringMonitoringMetricDataSourceRepresentation, map[string]interface{}{
 					"group_by": acctest.Representation{RepType: acctest.Required, Create: []string{`namespace`}},
 				})) +
-				compartmentIdVariableStr + MetricResourceConfig,
+				compartmentIdVariableStr + MonitoringMetricResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),

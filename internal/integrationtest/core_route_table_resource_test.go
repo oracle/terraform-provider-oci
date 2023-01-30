@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -11,9 +11,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/oracle/oci-go-sdk/v65/core"
 )
@@ -29,8 +29,8 @@ resource "oci_core_default_route_table" "default" {
 }
 `
 
-	RouteTableScenarioTestDependencies = VcnResourceConfig + VcnResourceDependencies + ObjectStorageCoreService +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", acctest.Required, acctest.Create, localPeeringGatewayRepresentation) +
+	RouteTableScenarioTestDependencies = CoreVcnResourceConfig + VcnResourceDependencies + ObjectStorageCoreService +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", acctest.Required, acctest.Create, CoreLocalPeeringGatewayRepresentation) +
 		`
 	resource "oci_core_internet_gateway" "test_internet_gateway" {
 		compartment_id = "${var.compartment_id}"
@@ -81,7 +81,7 @@ resource "oci_core_default_route_table" "default" {
 		{RepType: acctest.Required, Group: routeTableRouteRulesRepresentationWithCidrBlock}},
 		routeTableRepresentationWithRouteRulesReqired,
 	)
-	routeTableRepresentationWithRouteRulesReqired = acctest.RepresentationCopyWithNewProperties(routeTableRepresentation, map[string]interface{}{
+	routeTableRepresentationWithRouteRulesReqired = acctest.RepresentationCopyWithNewProperties(CoreRouteTableRepresentation, map[string]interface{}{
 		"route_rules": acctest.RepresentationGroup{RepType: acctest.Required, Group: routeTableRouteRulesRepresentationWithCidrBlock},
 	})
 )
@@ -220,7 +220,7 @@ func TestResourceCoreRouteTable_deprecatedCidrBlock(t *testing.T) {
 		//Create with optionals and destination
 		{
 			Config: config + compartmentIdVariableStr + RouteTableScenarioTestDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Optional, acctest.Update, routeTableRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Optional, acctest.Update, CoreRouteTableRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -248,7 +248,7 @@ func TestResourceCoreRouteTable_deprecatedCidrBlock(t *testing.T) {
 			Config: config + compartmentIdVariableStr + RouteTableScenarioTestDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Optional, acctest.Update,
 					acctest.GetUpdatedRepresentationCopy("route_rules.network_entity_id", acctest.Representation{RepType: acctest.Required, Create: `${oci_core_local_peering_gateway.test_local_peering_gateway.id}`},
-						routeTableRepresentation,
+						CoreRouteTableRepresentation,
 					)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),

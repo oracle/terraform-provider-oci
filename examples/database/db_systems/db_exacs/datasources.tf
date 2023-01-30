@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 data "oci_identity_availability_domain" "ad" {
@@ -18,4 +18,14 @@ data "oci_database_db_system_shapes" "test_db_system_shapes" {
 
 data "oci_database_cloud_vm_cluster_iorm_config" "test_cloud_vm_cluster_iorm_config" {
   cloud_vm_cluster_id = oci_database_cloud_vm_cluster_iorm_config.test_cloud_vm_cluster_iorm_config.cloud_vm_cluster_id
+}
+
+data "oci_identity_tenancy" "tenancy" {
+  tenancy_id = var.tenancy_ocid
+}
+
+data "oci_database_db_servers" "test_cloud_db_servers" {
+  #Required
+  compartment_id            = var.compartment_ocid
+  exadata_infrastructure_id = oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id
 }

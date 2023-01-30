@@ -3,10 +3,6 @@ resource "oci_service_mesh_access_policy" "test_access_policy" {
   compartment_id = var.compartment_ocid
   mesh_id        = oci_service_mesh_mesh.test_mesh.id
   name           = local.access_policy_name
-
-  #Optional
-  description   = local.access_policy_description
-  freeform_tags = { "bar-key" = "value" }
   rules {
     #Required
     action = local.access_policy_rules_action
@@ -28,6 +24,10 @@ resource "oci_service_mesh_access_policy" "test_access_policy" {
       virtual_service_id = oci_service_mesh_virtual_service.test_virtual_service.id
     }
   }
+
+  #Optional
+  description   = local.access_policy_description
+  freeform_tags = { "bar-key" = "value" }
 }
 
 data "oci_service_mesh_access_policy" "test_access_policy" {

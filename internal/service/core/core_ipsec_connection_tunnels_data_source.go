@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package core
@@ -10,8 +10,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func CoreIpSecConnectionTunnelsDataSource() *schema.Resource {
@@ -172,7 +172,7 @@ func CoreIpSecConnectionTunnelsDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"lifetime": {
-										Type:     schema.TypeString,
+										Type:     schema.TypeInt,
 										Computed: true,
 									},
 									"negotiated_authentication_algorithm": {
@@ -233,7 +233,7 @@ func CoreIpSecConnectionTunnelsDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"lifetime": {
-										Type:     schema.TypeString,
+										Type:     schema.TypeInt,
 										Computed: true,
 									},
 									"negotiated_authentication_algorithm": {
@@ -468,7 +468,7 @@ func TunnelPhaseOneDetailsToMap(obj *oci_core.TunnelPhaseOneDetails) map[string]
 	}
 
 	if obj.Lifetime != nil {
-		result["lifetime"] = strconv.FormatInt(*obj.Lifetime, 10)
+		result["lifetime"] = int(*obj.Lifetime)
 	}
 
 	if obj.NegotiatedAuthenticationAlgorithm != nil {
@@ -522,7 +522,7 @@ func TunnelPhaseTwoDetailsToMap(obj *oci_core.TunnelPhaseTwoDetails) map[string]
 	}
 
 	if obj.Lifetime != nil {
-		result["lifetime"] = strconv.FormatInt(*obj.Lifetime, 10)
+		result["lifetime"] = int(*obj.Lifetime)
 	}
 
 	if obj.NegotiatedAuthenticationAlgorithm != nil {

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -20,21 +20,24 @@ type ResourceTypesEnum string
 
 // Set of constants representing the allowable values for ResourceTypesEnum
 const (
-	ResourceTypesExacc                 ResourceTypesEnum = "EXACC"
-	ResourceTypesExadatainfrastructure ResourceTypesEnum = "EXADATAINFRASTRUCTURE"
-	ResourceTypesAutonomousvmcluster   ResourceTypesEnum = "AUTONOMOUSVMCLUSTER"
+	ResourceTypesExacc                    ResourceTypesEnum = "EXACC"
+	ResourceTypesExadatainfrastructure    ResourceTypesEnum = "EXADATAINFRASTRUCTURE"
+	ResourceTypesAutonomousvmcluster      ResourceTypesEnum = "AUTONOMOUSVMCLUSTER"
+	ResourceTypesCloudautonomousvmcluster ResourceTypesEnum = "CLOUDAUTONOMOUSVMCLUSTER"
 )
 
 var mappingResourceTypesEnum = map[string]ResourceTypesEnum{
-	"EXACC":                 ResourceTypesExacc,
-	"EXADATAINFRASTRUCTURE": ResourceTypesExadatainfrastructure,
-	"AUTONOMOUSVMCLUSTER":   ResourceTypesAutonomousvmcluster,
+	"EXACC":                    ResourceTypesExacc,
+	"EXADATAINFRASTRUCTURE":    ResourceTypesExadatainfrastructure,
+	"AUTONOMOUSVMCLUSTER":      ResourceTypesAutonomousvmcluster,
+	"CLOUDAUTONOMOUSVMCLUSTER": ResourceTypesCloudautonomousvmcluster,
 }
 
 var mappingResourceTypesEnumLowerCase = map[string]ResourceTypesEnum{
-	"exacc":                 ResourceTypesExacc,
-	"exadatainfrastructure": ResourceTypesExadatainfrastructure,
-	"autonomousvmcluster":   ResourceTypesAutonomousvmcluster,
+	"exacc":                    ResourceTypesExacc,
+	"exadatainfrastructure":    ResourceTypesExadatainfrastructure,
+	"autonomousvmcluster":      ResourceTypesAutonomousvmcluster,
+	"cloudautonomousvmcluster": ResourceTypesCloudautonomousvmcluster,
 }
 
 // GetResourceTypesEnumValues Enumerates the set of values for ResourceTypesEnum
@@ -52,6 +55,7 @@ func GetResourceTypesEnumStringValues() []string {
 		"EXACC",
 		"EXADATAINFRASTRUCTURE",
 		"AUTONOMOUSVMCLUSTER",
+		"CLOUDAUTONOMOUSVMCLUSTER",
 	}
 }
 

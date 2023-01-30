@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,11 +9,11 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -21,32 +21,32 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_logging "github.com/oracle/oci-go-sdk/v65/logging"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	LogSavedSearchRequiredOnlyResource = LogSavedSearchResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", acctest.Required, acctest.Create, logSavedSearchRepresentation)
+	LoggingLogSavedSearchRequiredOnlyResource = LoggingLogSavedSearchResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", acctest.Required, acctest.Create, LoggingLogSavedSearchRepresentation)
 
-	LogSavedSearchResourceConfig = LogSavedSearchResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", acctest.Optional, acctest.Update, logSavedSearchRepresentation)
+	LoggingLogSavedSearchResourceConfig = LoggingLogSavedSearchResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", acctest.Optional, acctest.Update, LoggingLogSavedSearchRepresentation)
 
-	logSavedSearchSingularDataSourceRepresentation = map[string]interface{}{
+	LoggingLoggingLogSavedSearchSingularDataSourceRepresentation = map[string]interface{}{
 		"log_saved_search_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_logging_log_saved_search.test_log_saved_search.id}`},
 	}
 
-	logSavedSearchDataSourceRepresentation = map[string]interface{}{
+	LoggingLoggingLogSavedSearchDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"log_saved_search_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_logging_log_saved_search.test_log_saved_search.id}`},
 		"name":                acctest.Representation{RepType: acctest.Optional, Create: `name`, Update: `name2`},
-		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: logSavedSearchDataSourceFilterRepresentation}}
+		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: LoggingLogSavedSearchDataSourceFilterRepresentation}}
 
-	logSavedSearchDataSourceFilterRepresentation = map[string]interface{}{
+	LoggingLogSavedSearchDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_logging_log_saved_search.test_log_saved_search.id}`}},
 	}
 
-	logSavedSearchRepresentation = map[string]interface{}{
+	LoggingLogSavedSearchRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":           acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"query":          acctest.Representation{RepType: acctest.Required, Create: `query`, Update: `query2`},
@@ -55,7 +55,7 @@ var (
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	LogSavedSearchResourceDependencies = DefinedTagsDependencies
+	LoggingLogSavedSearchResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: logging/default
@@ -77,14 +77,14 @@ func TestLoggingLogSavedSearchResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+LogSavedSearchResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", acctest.Optional, acctest.Create, logSavedSearchRepresentation), "logging", "logSavedSearch", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+LoggingLogSavedSearchResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", acctest.Optional, acctest.Create, LoggingLogSavedSearchRepresentation), "logging", "logSavedSearch", t)
 
 	acctest.ResourceTest(t, testAccCheckLoggingLogSavedSearchDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + LogSavedSearchResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", acctest.Required, acctest.Create, logSavedSearchRepresentation),
+			Config: config + compartmentIdVariableStr + LoggingLogSavedSearchResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", acctest.Required, acctest.Create, LoggingLogSavedSearchRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "name", "name"),
@@ -99,12 +99,12 @@ func TestLoggingLogSavedSearchResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + LogSavedSearchResourceDependencies,
+			Config: config + compartmentIdVariableStr + LoggingLogSavedSearchResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + LogSavedSearchResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", acctest.Optional, acctest.Create, logSavedSearchRepresentation),
+			Config: config + compartmentIdVariableStr + LoggingLogSavedSearchResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", acctest.Optional, acctest.Create, LoggingLogSavedSearchRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -127,9 +127,9 @@ func TestLoggingLogSavedSearchResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + LogSavedSearchResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + LoggingLogSavedSearchResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(logSavedSearchRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(LoggingLogSavedSearchRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -152,8 +152,8 @@ func TestLoggingLogSavedSearchResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + LogSavedSearchResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", acctest.Optional, acctest.Update, logSavedSearchRepresentation),
+			Config: config + compartmentIdVariableStr + LoggingLogSavedSearchResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", acctest.Optional, acctest.Update, LoggingLogSavedSearchRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -174,9 +174,9 @@ func TestLoggingLogSavedSearchResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_logging_log_saved_searches", "test_log_saved_searches", acctest.Optional, acctest.Update, logSavedSearchDataSourceRepresentation) +
-				compartmentIdVariableStr + LogSavedSearchResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", acctest.Optional, acctest.Update, logSavedSearchRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_logging_log_saved_searches", "test_log_saved_searches", acctest.Optional, acctest.Update, LoggingLoggingLogSavedSearchDataSourceRepresentation) +
+				compartmentIdVariableStr + LoggingLogSavedSearchResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", acctest.Optional, acctest.Update, LoggingLogSavedSearchRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "log_saved_search_id"),
@@ -189,8 +189,8 @@ func TestLoggingLogSavedSearchResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", acctest.Required, acctest.Create, logSavedSearchSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + LogSavedSearchResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", acctest.Required, acctest.Create, LoggingLoggingLogSavedSearchSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + LoggingLogSavedSearchResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "log_saved_search_id"),
 
@@ -207,7 +207,7 @@ func TestLoggingLogSavedSearchResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + LogSavedSearchRequiredOnlyResource,
+			Config:                  config + LoggingLogSavedSearchRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -263,7 +263,7 @@ func init() {
 
 func sweepLoggingLogSavedSearchResource(compartment string) error {
 	loggingManagementClient := acctest.GetTestClients(&schema.ResourceData{}).LoggingManagementClient()
-	logSavedSearchIds, err := getLogSavedSearchIds(compartment)
+	logSavedSearchIds, err := getLoggingLogSavedSearchIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -284,7 +284,7 @@ func sweepLoggingLogSavedSearchResource(compartment string) error {
 	return nil
 }
 
-func getLogSavedSearchIds(compartment string) ([]string, error) {
+func getLoggingLogSavedSearchIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "LogSavedSearchId")
 	if ids != nil {
 		return ids, nil

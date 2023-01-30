@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -119,6 +119,18 @@ func (m *trigger) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := GitlabTrigger{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "VBS":
+		mm := VbsTrigger{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "BITBUCKET_SERVER":
+		mm := BitbucketServerTrigger{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GITLAB_SERVER":
+		mm := GitlabServerTrigger{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GITHUB":
 		mm := GithubTrigger{}
 		err = json.Unmarshal(data, &mm)
@@ -225,15 +237,18 @@ type TriggerLifecycleStateEnum string
 
 // Set of constants representing the allowable values for TriggerLifecycleStateEnum
 const (
-	TriggerLifecycleStateActive TriggerLifecycleStateEnum = "ACTIVE"
+	TriggerLifecycleStateActive   TriggerLifecycleStateEnum = "ACTIVE"
+	TriggerLifecycleStateDeleting TriggerLifecycleStateEnum = "DELETING"
 )
 
 var mappingTriggerLifecycleStateEnum = map[string]TriggerLifecycleStateEnum{
-	"ACTIVE": TriggerLifecycleStateActive,
+	"ACTIVE":   TriggerLifecycleStateActive,
+	"DELETING": TriggerLifecycleStateDeleting,
 }
 
 var mappingTriggerLifecycleStateEnumLowerCase = map[string]TriggerLifecycleStateEnum{
-	"active": TriggerLifecycleStateActive,
+	"active":   TriggerLifecycleStateActive,
+	"deleting": TriggerLifecycleStateDeleting,
 }
 
 // GetTriggerLifecycleStateEnumValues Enumerates the set of values for TriggerLifecycleStateEnum
@@ -249,6 +264,7 @@ func GetTriggerLifecycleStateEnumValues() []TriggerLifecycleStateEnum {
 func GetTriggerLifecycleStateEnumStringValues() []string {
 	return []string{
 		"ACTIVE",
+		"DELETING",
 	}
 }
 
@@ -265,21 +281,30 @@ type TriggerTriggerSourceEnum string
 const (
 	TriggerTriggerSourceGithub               TriggerTriggerSourceEnum = "GITHUB"
 	TriggerTriggerSourceGitlab               TriggerTriggerSourceEnum = "GITLAB"
+	TriggerTriggerSourceGitlabServer         TriggerTriggerSourceEnum = "GITLAB_SERVER"
 	TriggerTriggerSourceBitbucketCloud       TriggerTriggerSourceEnum = "BITBUCKET_CLOUD"
+	TriggerTriggerSourceBitbucketServer      TriggerTriggerSourceEnum = "BITBUCKET_SERVER"
+	TriggerTriggerSourceVbs                  TriggerTriggerSourceEnum = "VBS"
 	TriggerTriggerSourceDevopsCodeRepository TriggerTriggerSourceEnum = "DEVOPS_CODE_REPOSITORY"
 )
 
 var mappingTriggerTriggerSourceEnum = map[string]TriggerTriggerSourceEnum{
 	"GITHUB":                 TriggerTriggerSourceGithub,
 	"GITLAB":                 TriggerTriggerSourceGitlab,
+	"GITLAB_SERVER":          TriggerTriggerSourceGitlabServer,
 	"BITBUCKET_CLOUD":        TriggerTriggerSourceBitbucketCloud,
+	"BITBUCKET_SERVER":       TriggerTriggerSourceBitbucketServer,
+	"VBS":                    TriggerTriggerSourceVbs,
 	"DEVOPS_CODE_REPOSITORY": TriggerTriggerSourceDevopsCodeRepository,
 }
 
 var mappingTriggerTriggerSourceEnumLowerCase = map[string]TriggerTriggerSourceEnum{
 	"github":                 TriggerTriggerSourceGithub,
 	"gitlab":                 TriggerTriggerSourceGitlab,
+	"gitlab_server":          TriggerTriggerSourceGitlabServer,
 	"bitbucket_cloud":        TriggerTriggerSourceBitbucketCloud,
+	"bitbucket_server":       TriggerTriggerSourceBitbucketServer,
+	"vbs":                    TriggerTriggerSourceVbs,
 	"devops_code_repository": TriggerTriggerSourceDevopsCodeRepository,
 }
 
@@ -297,7 +322,10 @@ func GetTriggerTriggerSourceEnumStringValues() []string {
 	return []string{
 		"GITHUB",
 		"GITLAB",
+		"GITLAB_SERVER",
 		"BITBUCKET_CLOUD",
+		"BITBUCKET_SERVER",
+		"VBS",
 		"DEVOPS_CODE_REPOSITORY",
 	}
 }

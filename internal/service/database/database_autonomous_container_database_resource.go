@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database
@@ -7,8 +7,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 
@@ -211,6 +211,11 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 							},
 						},
 						"is_custom_action_timeout_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_monthly_patching_enabled": {
 							Type:     schema.TypeBool,
 							Optional: true,
 							Computed: true,
@@ -488,6 +493,10 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 							},
 						},
 						"is_custom_action_timeout_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_monthly_patching_enabled": {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
@@ -1253,6 +1262,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToMaintenanceWindow
 	if isCustomActionTimeoutEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_custom_action_timeout_enabled")); ok {
 		tmp := isCustomActionTimeoutEnabled.(bool)
 		result.IsCustomActionTimeoutEnabled = &tmp
+	}
+
+	if isMonthlyPatchingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_monthly_patching_enabled")); ok {
+		tmp := isMonthlyPatchingEnabled.(bool)
+		result.IsMonthlyPatchingEnabled = &tmp
 	}
 
 	if leadTimeInWeeks, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lead_time_in_weeks")); ok {

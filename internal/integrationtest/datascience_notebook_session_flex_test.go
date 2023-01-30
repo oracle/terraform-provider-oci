@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,19 +7,19 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	DatascienceNotebookSessionRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", acctest.Required, acctest.Create, notebookSessionFlexRepresentation)
+	DatascienceNotebookSessionFlexRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", acctest.Required, acctest.Create, notebookSessionFlexRepresentation)
 
-	NotebookSessionResourceFlexConfig = NotebookSessionConfigDetailsResourceDependencies +
+	NotebookSessionResourceFlexConfig = DatascienceNotebookSessionResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", acctest.Optional, acctest.Update, notebookSessionFlexRepresentation)
 
 	notebookSessionFlexRepresentation = map[string]interface{}{
@@ -57,13 +57,13 @@ func TestDatascienceNotebookSessionResource_flex(t *testing.T) {
 	singularDatasourceName := "data.oci_datascience_notebook_session.test_notebook_session"
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+NotebookSessionConfigDetailsResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatascienceNotebookSessionResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", acctest.Optional, acctest.Create, notebookSessionFlexRepresentation), "datascience", "notebookSession", t)
 
 	acctest.ResourceTest(t, testAccCheckDatascienceNotebookSessionDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + NotebookSessionConfigDetailsResourceDependencies +
+			Config: config + compartmentIdVariableStr + DatascienceNotebookSessionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", acctest.Required, acctest.Create, notebookSessionFlexRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -78,7 +78,7 @@ func TestDatascienceNotebookSessionResource_flex(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + NotebookSessionConfigDetailsResourceDependencies,
+			Config: config + compartmentIdVariableStr + DatascienceNotebookSessionResourceDependencies,
 		},
 
 		// verify singular datasource
@@ -99,7 +99,7 @@ func TestDatascienceNotebookSessionResource_flex(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + DatascienceNotebookSessionRequiredOnlyResource,
+			Config:                  config + DatascienceNotebookSessionFlexRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

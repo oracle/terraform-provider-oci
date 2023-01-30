@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -28,7 +28,9 @@ type IntegrationInstance struct {
 	// Compartment Identifier.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Standard or Enterprise type
+	// Standard or Enterprise type,
+	// Oracle Integration Generation 2 uses ENTERPRISE and STANDARD,
+	// Oracle Integration 3 uses ENTERPRISEX and STANDARDX
 	IntegrationInstanceType IntegrationInstanceIntegrationInstanceTypeEnum `mandatory:"true" json:"integrationInstanceType"`
 
 	// Bring your own license.
@@ -77,6 +79,14 @@ type IntegrationInstance struct {
 	ConsumptionModel IntegrationInstanceConsumptionModelEnum `mandatory:"false" json:"consumptionModel,omitempty"`
 
 	NetworkEndpointDetails NetworkEndpointDetails `mandatory:"false" json:"networkEndpointDetails"`
+
+	IdcsInfo *IdcsInfoDetails `mandatory:"false" json:"idcsInfo"`
+
+	// A list of associated attachments to other services
+	Attachments []AttachmentDetails `mandatory:"false" json:"attachments"`
+
+	// Shape
+	Shape IntegrationInstanceShapeEnum `mandatory:"false" json:"shape,omitempty"`
 }
 
 func (m IntegrationInstance) String() string {
@@ -97,6 +107,9 @@ func (m IntegrationInstance) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingIntegrationInstanceConsumptionModelEnum(string(m.ConsumptionModel)); !ok && m.ConsumptionModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConsumptionModel: %s. Supported values are: %s.", m.ConsumptionModel, strings.Join(GetIntegrationInstanceConsumptionModelEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingIntegrationInstanceShapeEnum(string(m.Shape)); !ok && m.Shape != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Shape: %s. Supported values are: %s.", m.Shape, strings.Join(GetIntegrationInstanceShapeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -119,6 +132,9 @@ func (m *IntegrationInstance) UnmarshalJSON(data []byte) (e error) {
 		AlternateCustomEndpoints []CustomEndpointDetails                        `json:"alternateCustomEndpoints"`
 		ConsumptionModel         IntegrationInstanceConsumptionModelEnum        `json:"consumptionModel"`
 		NetworkEndpointDetails   networkendpointdetails                         `json:"networkEndpointDetails"`
+		IdcsInfo                 *IdcsInfoDetails                               `json:"idcsInfo"`
+		Attachments              []AttachmentDetails                            `json:"attachments"`
+		Shape                    IntegrationInstanceShapeEnum                   `json:"shape"`
 		Id                       *string                                        `json:"id"`
 		DisplayName              *string                                        `json:"displayName"`
 		CompartmentId            *string                                        `json:"compartmentId"`
@@ -168,6 +184,15 @@ func (m *IntegrationInstance) UnmarshalJSON(data []byte) (e error) {
 		m.NetworkEndpointDetails = nil
 	}
 
+	m.IdcsInfo = model.IdcsInfo
+
+	m.Attachments = make([]AttachmentDetails, len(model.Attachments))
+	for i, n := range model.Attachments {
+		m.Attachments[i] = n
+	}
+
+	m.Shape = model.Shape
+
 	m.Id = model.Id
 
 	m.DisplayName = model.DisplayName
@@ -190,18 +215,24 @@ type IntegrationInstanceIntegrationInstanceTypeEnum string
 
 // Set of constants representing the allowable values for IntegrationInstanceIntegrationInstanceTypeEnum
 const (
-	IntegrationInstanceIntegrationInstanceTypeStandard   IntegrationInstanceIntegrationInstanceTypeEnum = "STANDARD"
-	IntegrationInstanceIntegrationInstanceTypeEnterprise IntegrationInstanceIntegrationInstanceTypeEnum = "ENTERPRISE"
+	IntegrationInstanceIntegrationInstanceTypeStandard    IntegrationInstanceIntegrationInstanceTypeEnum = "STANDARD"
+	IntegrationInstanceIntegrationInstanceTypeEnterprise  IntegrationInstanceIntegrationInstanceTypeEnum = "ENTERPRISE"
+	IntegrationInstanceIntegrationInstanceTypeStandardx   IntegrationInstanceIntegrationInstanceTypeEnum = "STANDARDX"
+	IntegrationInstanceIntegrationInstanceTypeEnterprisex IntegrationInstanceIntegrationInstanceTypeEnum = "ENTERPRISEX"
 )
 
 var mappingIntegrationInstanceIntegrationInstanceTypeEnum = map[string]IntegrationInstanceIntegrationInstanceTypeEnum{
-	"STANDARD":   IntegrationInstanceIntegrationInstanceTypeStandard,
-	"ENTERPRISE": IntegrationInstanceIntegrationInstanceTypeEnterprise,
+	"STANDARD":    IntegrationInstanceIntegrationInstanceTypeStandard,
+	"ENTERPRISE":  IntegrationInstanceIntegrationInstanceTypeEnterprise,
+	"STANDARDX":   IntegrationInstanceIntegrationInstanceTypeStandardx,
+	"ENTERPRISEX": IntegrationInstanceIntegrationInstanceTypeEnterprisex,
 }
 
 var mappingIntegrationInstanceIntegrationInstanceTypeEnumLowerCase = map[string]IntegrationInstanceIntegrationInstanceTypeEnum{
-	"standard":   IntegrationInstanceIntegrationInstanceTypeStandard,
-	"enterprise": IntegrationInstanceIntegrationInstanceTypeEnterprise,
+	"standard":    IntegrationInstanceIntegrationInstanceTypeStandard,
+	"enterprise":  IntegrationInstanceIntegrationInstanceTypeEnterprise,
+	"standardx":   IntegrationInstanceIntegrationInstanceTypeStandardx,
+	"enterprisex": IntegrationInstanceIntegrationInstanceTypeEnterprisex,
 }
 
 // GetIntegrationInstanceIntegrationInstanceTypeEnumValues Enumerates the set of values for IntegrationInstanceIntegrationInstanceTypeEnum
@@ -218,6 +249,8 @@ func GetIntegrationInstanceIntegrationInstanceTypeEnumStringValues() []string {
 	return []string{
 		"STANDARD",
 		"ENTERPRISE",
+		"STANDARDX",
+		"ENTERPRISEX",
 	}
 }
 
@@ -332,5 +365,47 @@ func GetIntegrationInstanceConsumptionModelEnumStringValues() []string {
 // GetMappingIntegrationInstanceConsumptionModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingIntegrationInstanceConsumptionModelEnum(val string) (IntegrationInstanceConsumptionModelEnum, bool) {
 	enum, ok := mappingIntegrationInstanceConsumptionModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// IntegrationInstanceShapeEnum Enum with underlying type: string
+type IntegrationInstanceShapeEnum string
+
+// Set of constants representing the allowable values for IntegrationInstanceShapeEnum
+const (
+	IntegrationInstanceShapeDevelopment IntegrationInstanceShapeEnum = "DEVELOPMENT"
+	IntegrationInstanceShapeProduction  IntegrationInstanceShapeEnum = "PRODUCTION"
+)
+
+var mappingIntegrationInstanceShapeEnum = map[string]IntegrationInstanceShapeEnum{
+	"DEVELOPMENT": IntegrationInstanceShapeDevelopment,
+	"PRODUCTION":  IntegrationInstanceShapeProduction,
+}
+
+var mappingIntegrationInstanceShapeEnumLowerCase = map[string]IntegrationInstanceShapeEnum{
+	"development": IntegrationInstanceShapeDevelopment,
+	"production":  IntegrationInstanceShapeProduction,
+}
+
+// GetIntegrationInstanceShapeEnumValues Enumerates the set of values for IntegrationInstanceShapeEnum
+func GetIntegrationInstanceShapeEnumValues() []IntegrationInstanceShapeEnum {
+	values := make([]IntegrationInstanceShapeEnum, 0)
+	for _, v := range mappingIntegrationInstanceShapeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetIntegrationInstanceShapeEnumStringValues Enumerates the set of values in String for IntegrationInstanceShapeEnum
+func GetIntegrationInstanceShapeEnumStringValues() []string {
+	return []string{
+		"DEVELOPMENT",
+		"PRODUCTION",
+	}
+}
+
+// GetMappingIntegrationInstanceShapeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingIntegrationInstanceShapeEnum(val string) (IntegrationInstanceShapeEnum, bool) {
+	enum, ok := mappingIntegrationInstanceShapeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

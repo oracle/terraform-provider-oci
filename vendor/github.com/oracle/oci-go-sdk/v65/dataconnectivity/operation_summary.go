@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// OperationSummary The operation summary object
+// OperationSummary The operation summary object.
 type OperationSummary interface {
 	GetMetadata() *ObjectMetadata
 }
@@ -57,6 +57,10 @@ func (m *operationsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 		mm := OperationSummaryFromProcedure{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "API":
+		mm := OperationSummaryFromApi{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}
@@ -89,14 +93,17 @@ type OperationSummaryModelTypeEnum string
 // Set of constants representing the allowable values for OperationSummaryModelTypeEnum
 const (
 	OperationSummaryModelTypeProcedure OperationSummaryModelTypeEnum = "PROCEDURE"
+	OperationSummaryModelTypeApi       OperationSummaryModelTypeEnum = "API"
 )
 
 var mappingOperationSummaryModelTypeEnum = map[string]OperationSummaryModelTypeEnum{
 	"PROCEDURE": OperationSummaryModelTypeProcedure,
+	"API":       OperationSummaryModelTypeApi,
 }
 
 var mappingOperationSummaryModelTypeEnumLowerCase = map[string]OperationSummaryModelTypeEnum{
 	"procedure": OperationSummaryModelTypeProcedure,
+	"api":       OperationSummaryModelTypeApi,
 }
 
 // GetOperationSummaryModelTypeEnumValues Enumerates the set of values for OperationSummaryModelTypeEnum
@@ -112,6 +119,7 @@ func GetOperationSummaryModelTypeEnumValues() []OperationSummaryModelTypeEnum {
 func GetOperationSummaryModelTypeEnumStringValues() []string {
 	return []string{
 		"PROCEDURE",
+		"API",
 	}
 }
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -8,21 +8,21 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	DeployInstanceGroupEnvironmentRequiredOnlyResource = DeployEnvironmentResourceDependencies +
+	DeployInstanceGroupEnvironmentRequiredOnlyResource = DevopsDeployEnvironmentResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", acctest.Required, acctest.Create, deployInstanceGroupEnvironmentRepresentation)
 
-	DeployInstanceGroupEnvironmentResourceConfig = DeployEnvironmentResourceDependencies +
+	DeployInstanceGroupEnvironmentResourceConfig = DevopsDeployEnvironmentResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", acctest.Optional, acctest.Update, deployInstanceGroupEnvironmentRepresentation)
 
 	deployInstanceGroupEnvironmentSingularDataSourceRepresentation = map[string]interface{}{
@@ -30,7 +30,7 @@ var (
 	}
 
 	deployInstanceGroupEnvironmentRepresentation = acctest.GetUpdatedRepresentationCopy("deploy_environment_type", acctest.Representation{RepType: acctest.Required, Create: `COMPUTE_INSTANCE_GROUP`},
-		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(deployEnvironmentRepresentation, []string{"cluster_id"}), map[string]interface{}{
+		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DevopsdeployEnvironmentRepresentation, []string{"cluster_id"}), map[string]interface{}{
 			"compute_instance_group_selectors": acctest.RepresentationGroup{RepType: acctest.Required, Group: deployComputeInstanceGroupEnvironmentSelectorCollectionRepresentation},
 		}))
 
@@ -58,13 +58,13 @@ func TestDevopsDeployEnvironmentResource_instanceGroup(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DeployEnvironmentResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DevopsDeployEnvironmentResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", acctest.Optional, acctest.Create, deployInstanceGroupEnvironmentRepresentation), "devops", "deployEnvironment", t)
 
 	acctest.ResourceTest(t, testAccCheckDevopsDeployEnvironmentDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DeployEnvironmentResourceDependencies +
+			Config: config + compartmentIdVariableStr + DevopsDeployEnvironmentResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", acctest.Required, acctest.Create, deployInstanceGroupEnvironmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compute_instance_group_selectors.#", "1"),
@@ -81,11 +81,11 @@ func TestDevopsDeployEnvironmentResource_instanceGroup(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DeployEnvironmentResourceDependencies,
+			Config: config + compartmentIdVariableStr + DevopsDeployEnvironmentResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DeployEnvironmentResourceDependencies +
+			Config: config + compartmentIdVariableStr + DevopsDeployEnvironmentResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", acctest.Optional, acctest.Create, deployInstanceGroupEnvironmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compute_instance_group_selectors.#", "1"),
@@ -113,7 +113,7 @@ func TestDevopsDeployEnvironmentResource_instanceGroup(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DeployEnvironmentResourceDependencies +
+			Config: config + compartmentIdVariableStr + DevopsDeployEnvironmentResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", acctest.Optional, acctest.Update, deployInstanceGroupEnvironmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compute_instance_group_selectors.#", "1"),
@@ -139,8 +139,8 @@ func TestDevopsDeployEnvironmentResource_instanceGroup(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_environments", "test_deploy_environments", acctest.Optional, acctest.Update, deployEnvironmentDataSourceRepresentation) +
-				compartmentIdVariableStr + DeployEnvironmentResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_environments", "test_deploy_environments", acctest.Optional, acctest.Update, DevopsDevopsDeployEnvironmentDataSourceRepresentation) +
+				compartmentIdVariableStr + DevopsDeployEnvironmentResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", acctest.Optional, acctest.Update, deployInstanceGroupEnvironmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,12 +16,12 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v65/loadbalancer"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
@@ -43,11 +43,15 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", acctest.Optional, acctest.Create, loadBalancerRepresentation)
 
 	loadBalancerRepresentation = map[string]interface{}{
-		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":               acctest.Representation{RepType: acctest.Required, Create: `example_load_balancer`, Update: `displayName2`},
-		"shape":                      acctest.Representation{RepType: acctest.Required, Create: `100Mbps`, Update: `400Mbps`},
-		"subnet_ids":                 acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_subnet.lb_test_subnet_1.id}`, `${oci_core_subnet.lb_test_subnet_2.id}`}},
-		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `example_load_balancer`, Update: `displayName2`},
+		"shape":          acctest.Representation{RepType: acctest.Required, Create: `100Mbps`, Update: `400Mbps`},
+		"subnet_ids":     acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_subnet.lb_test_subnet_1.id}`, `${oci_core_subnet.lb_test_subnet_2.id}`}},
+
+		// For laptop testing, comment this defined_tags out along with the DefinedTagsDependencies + line below
+		// Failure to do so results in test failures:  Error: Reference to undeclared resource
+		"defined_tags": acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+
 		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_private":                 acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"reserved_ips":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: loadBalancerReservedIpsRepresentation},
@@ -71,14 +75,14 @@ var (
 		"id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_public_ip.test_public_ip.id}`},
 	}
 
-	LoadBalancerSubnetDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_lb_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+	LoadBalancerSubnetDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_lb_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 		"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 	})) +
 		`
 	data "oci_load_balancer_shapes" "t" {
 		compartment_id = "${var.compartment_id}"
 	}
-	
+
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"
 	}
@@ -92,7 +96,7 @@ var (
 		display_name        = "lbTestSubnet"
 		security_list_ids = ["${oci_core_vcn.test_lb_vcn.default_security_list_id}"]
 	}
-	
+
 	resource "oci_core_subnet" "lb_test_subnet_2" {
 		#Required
 		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.1.name}"
@@ -111,7 +115,7 @@ var (
 		display_name        = "lbTestSubnet3"
 		security_list_ids = ["${oci_core_vcn.test_lb_vcn.default_security_list_id}"]
 	}
-	
+
 	resource "oci_core_subnet" "lb_test_subnet_4" {
 		#Required
 		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.1.name}"
@@ -123,13 +127,19 @@ var (
 	}
 `
 
-	LoadBalancerReservedIpDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", acctest.Required, acctest.Create, publicIpRepresentation)
+	LoadBalancerReservedIpDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", acctest.Required, acctest.Create, CorePublicIpRepresentation)
 
 	LoadBalancerResourceDependencies = LoadBalancerSubnetDependencies + LoadBalancerReservedIpDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group",
-			"test_network_security_group1", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(networkSecurityGroupRepresentation, map[string]interface{}{
+			"test_network_security_group1", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreNetworkSecurityGroupRepresentation, map[string]interface{}{
 				"vcn_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_lb_vcn.id}`},
 			})) +
+		// For laptop testing comment out this line
+		// Failure to do so results in
+		//     test_helpers.go:535: Step 1/7 error: Error running apply: exit status 1
+		//       [DEBUG] Using modified User-Agent: Terraform/0.12.31 HashiCorp-terraform-exec/0.14.0
+		//       Error: 404-NotAuthorizedOrNotFound, Authorization failed or requested resource not found.
+		//       Suggestion: Either the resource has been deleted or service Identity Tag Namespace need policy to access this resource.
 		DefinedTagsDependencies
 )
 

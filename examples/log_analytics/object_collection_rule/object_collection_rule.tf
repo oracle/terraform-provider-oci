@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 /*
@@ -68,6 +68,18 @@ variable "object_collection_rule_char_encoding_override_property_value" {
 variable "object_collection_rule_object_name_filter" {
   default = "*"
 }
+variable "object_collection_rule_log_set" {
+  default = "logSet2"
+}
+variable "object_collection_rule_log_set_ext_regex" {
+  default = "^(.+)\\/([^\\/]+)$"
+}
+variable "object_collection_rule_log_set_key" {
+  default = "OBJECT_PATH"
+}
+variable "object_collection_rule_timezone" {
+  default = "Asia/Dhaka"
+}
 
 # Create a object collection rule with required parameters
 resource "oci_log_analytics_log_analytics_object_collection_rule" "objectCollectionRuleRequired" {
@@ -97,6 +109,10 @@ resource "oci_log_analytics_log_analytics_object_collection_rule" "objectCollect
   os_namespace               = data.oci_objectstorage_namespace.ns.namespace
   description                = var.object_collection_rule_description
   collection_type            = var.object_collection_rule_collection_type
+  log_set                    = var.object_collection_rule_log_set
+  log_set_ext_regex          = var.object_collection_rule_log_set_ext_regex
+  log_set_key                = var.object_collection_rule_log_set_key
+  timezone                   = var.object_collection_rule_timezone
   poll_since                 = var.object_collection_rule_poll_since
   poll_till                  = var.object_collection_rule_poll_till
   char_encoding              = var.object_collection_rule_char_encoding

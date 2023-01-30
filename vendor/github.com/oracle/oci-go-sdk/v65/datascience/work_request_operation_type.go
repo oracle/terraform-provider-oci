@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -22,6 +22,9 @@ const (
 	WorkRequestOperationTypeNotebookSessionDelete     WorkRequestOperationTypeEnum = "NOTEBOOK_SESSION_DELETE"
 	WorkRequestOperationTypeNotebookSessionActivate   WorkRequestOperationTypeEnum = "NOTEBOOK_SESSION_ACTIVATE"
 	WorkRequestOperationTypeNotebookSessionDeactivate WorkRequestOperationTypeEnum = "NOTEBOOK_SESSION_DEACTIVATE"
+	WorkRequestOperationTypeModelversionsetDelete     WorkRequestOperationTypeEnum = "MODELVERSIONSET_DELETE"
+	WorkRequestOperationTypeExportModelArtifact       WorkRequestOperationTypeEnum = "EXPORT_MODEL_ARTIFACT"
+	WorkRequestOperationTypeImportModelArtifact       WorkRequestOperationTypeEnum = "IMPORT_MODEL_ARTIFACT"
 	WorkRequestOperationTypeModelDeploymentCreate     WorkRequestOperationTypeEnum = "MODEL_DEPLOYMENT_CREATE"
 	WorkRequestOperationTypeModelDeploymentDelete     WorkRequestOperationTypeEnum = "MODEL_DEPLOYMENT_DELETE"
 	WorkRequestOperationTypeModelDeploymentActivate   WorkRequestOperationTypeEnum = "MODEL_DEPLOYMENT_ACTIVATE"
@@ -30,6 +33,11 @@ const (
 	WorkRequestOperationTypeProjectDelete             WorkRequestOperationTypeEnum = "PROJECT_DELETE"
 	WorkRequestOperationTypeWorkrequestCancel         WorkRequestOperationTypeEnum = "WORKREQUEST_CANCEL"
 	WorkRequestOperationTypeJobDelete                 WorkRequestOperationTypeEnum = "JOB_DELETE"
+	WorkRequestOperationTypePipelineCreate            WorkRequestOperationTypeEnum = "PIPELINE_CREATE"
+	WorkRequestOperationTypePipelineDelete            WorkRequestOperationTypeEnum = "PIPELINE_DELETE"
+	WorkRequestOperationTypePipelineRunCreate         WorkRequestOperationTypeEnum = "PIPELINE_RUN_CREATE"
+	WorkRequestOperationTypePipelineRunCancel         WorkRequestOperationTypeEnum = "PIPELINE_RUN_CANCEL"
+	WorkRequestOperationTypePipelineRunDelete         WorkRequestOperationTypeEnum = "PIPELINE_RUN_DELETE"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -37,6 +45,9 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"NOTEBOOK_SESSION_DELETE":     WorkRequestOperationTypeNotebookSessionDelete,
 	"NOTEBOOK_SESSION_ACTIVATE":   WorkRequestOperationTypeNotebookSessionActivate,
 	"NOTEBOOK_SESSION_DEACTIVATE": WorkRequestOperationTypeNotebookSessionDeactivate,
+	"MODELVERSIONSET_DELETE":      WorkRequestOperationTypeModelversionsetDelete,
+	"EXPORT_MODEL_ARTIFACT":       WorkRequestOperationTypeExportModelArtifact,
+	"IMPORT_MODEL_ARTIFACT":       WorkRequestOperationTypeImportModelArtifact,
 	"MODEL_DEPLOYMENT_CREATE":     WorkRequestOperationTypeModelDeploymentCreate,
 	"MODEL_DEPLOYMENT_DELETE":     WorkRequestOperationTypeModelDeploymentDelete,
 	"MODEL_DEPLOYMENT_ACTIVATE":   WorkRequestOperationTypeModelDeploymentActivate,
@@ -45,6 +56,11 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"PROJECT_DELETE":              WorkRequestOperationTypeProjectDelete,
 	"WORKREQUEST_CANCEL":          WorkRequestOperationTypeWorkrequestCancel,
 	"JOB_DELETE":                  WorkRequestOperationTypeJobDelete,
+	"PIPELINE_CREATE":             WorkRequestOperationTypePipelineCreate,
+	"PIPELINE_DELETE":             WorkRequestOperationTypePipelineDelete,
+	"PIPELINE_RUN_CREATE":         WorkRequestOperationTypePipelineRunCreate,
+	"PIPELINE_RUN_CANCEL":         WorkRequestOperationTypePipelineRunCancel,
+	"PIPELINE_RUN_DELETE":         WorkRequestOperationTypePipelineRunDelete,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -52,6 +68,9 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"notebook_session_delete":     WorkRequestOperationTypeNotebookSessionDelete,
 	"notebook_session_activate":   WorkRequestOperationTypeNotebookSessionActivate,
 	"notebook_session_deactivate": WorkRequestOperationTypeNotebookSessionDeactivate,
+	"modelversionset_delete":      WorkRequestOperationTypeModelversionsetDelete,
+	"export_model_artifact":       WorkRequestOperationTypeExportModelArtifact,
+	"import_model_artifact":       WorkRequestOperationTypeImportModelArtifact,
 	"model_deployment_create":     WorkRequestOperationTypeModelDeploymentCreate,
 	"model_deployment_delete":     WorkRequestOperationTypeModelDeploymentDelete,
 	"model_deployment_activate":   WorkRequestOperationTypeModelDeploymentActivate,
@@ -60,6 +79,11 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"project_delete":              WorkRequestOperationTypeProjectDelete,
 	"workrequest_cancel":          WorkRequestOperationTypeWorkrequestCancel,
 	"job_delete":                  WorkRequestOperationTypeJobDelete,
+	"pipeline_create":             WorkRequestOperationTypePipelineCreate,
+	"pipeline_delete":             WorkRequestOperationTypePipelineDelete,
+	"pipeline_run_create":         WorkRequestOperationTypePipelineRunCreate,
+	"pipeline_run_cancel":         WorkRequestOperationTypePipelineRunCancel,
+	"pipeline_run_delete":         WorkRequestOperationTypePipelineRunDelete,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -78,6 +102,9 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"NOTEBOOK_SESSION_DELETE",
 		"NOTEBOOK_SESSION_ACTIVATE",
 		"NOTEBOOK_SESSION_DEACTIVATE",
+		"MODELVERSIONSET_DELETE",
+		"EXPORT_MODEL_ARTIFACT",
+		"IMPORT_MODEL_ARTIFACT",
 		"MODEL_DEPLOYMENT_CREATE",
 		"MODEL_DEPLOYMENT_DELETE",
 		"MODEL_DEPLOYMENT_ACTIVATE",
@@ -86,6 +113,11 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"PROJECT_DELETE",
 		"WORKREQUEST_CANCEL",
 		"JOB_DELETE",
+		"PIPELINE_CREATE",
+		"PIPELINE_DELETE",
+		"PIPELINE_RUN_CREATE",
+		"PIPELINE_RUN_CANCEL",
+		"PIPELINE_RUN_DELETE",
 	}
 }
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,52 +16,52 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	CaptureFilterRequiredOnlyResource = CaptureFilterResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_capture_filter", "test_capture_filter", acctest.Required, acctest.Create, captureFilterRepresentation)
+	CoreCaptureFilterRequiredOnlyResource = CoreCaptureFilterResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_capture_filter", "test_capture_filter", acctest.Required, acctest.Create, CoreCaptureFilterRepresentation)
 
-	CaptureFilterResourceConfig = CaptureFilterResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_capture_filter", "test_capture_filter", acctest.Optional, acctest.Update, captureFilterRepresentation)
+	CoreCaptureFilterResourceConfig = CoreCaptureFilterResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_capture_filter", "test_capture_filter", acctest.Optional, acctest.Update, CoreCaptureFilterRepresentation)
 
-	captureFilterSingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreCaptureFilterSingularDataSourceRepresentation = map[string]interface{}{
 		"capture_filter_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_capture_filter.test_capture_filter.id}`},
 	}
 
-	captureFilterDataSourceRepresentation = map[string]interface{}{
+	CoreCoreCaptureFilterDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `MyCaptureFilter`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: captureFilterDataSourceFilterRepresentation}}
-	captureFilterDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreCaptureFilterDataSourceFilterRepresentation}}
+	CoreCaptureFilterDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_capture_filter.test_capture_filter.id}`}},
 	}
 
-	captureFilterRepresentation = map[string]interface{}{
+	CoreCaptureFilterRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"filter_type":               acctest.Representation{RepType: acctest.Required, Create: `VTAP`},
 		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `MyCaptureFilter`, Update: `displayName2`},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"vtap_capture_filter_rules": acctest.RepresentationGroup{RepType: acctest.Required, Group: captureFilterVtapCaptureFilterRulesRepresentation},
+		"vtap_capture_filter_rules": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreCaptureFilterVtapCaptureFilterRulesRepresentation},
 	}
-	captureFilterVtapCaptureFilterRulesRepresentation = map[string]interface{}{
+	CoreCaptureFilterVtapCaptureFilterRulesRepresentation = map[string]interface{}{
 		"traffic_direction": acctest.Representation{RepType: acctest.Required, Create: `INGRESS`, Update: `EGRESS`},
 		"destination_cidr":  acctest.Representation{RepType: acctest.Optional, Create: `10.3.0.0/16`, Update: `10.4.0.0/16`},
-		"icmp_options":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: captureFilterVtapCaptureFilterRulesIcmpOptionsRepresentation},
+		"icmp_options":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreCaptureFilterVtapCaptureFilterRulesIcmpOptionsRepresentation},
 		"protocol":          acctest.Representation{RepType: acctest.Optional, Create: `1`},
 		"rule_action":       acctest.Representation{RepType: acctest.Optional, Create: `INCLUDE`, Update: `EXCLUDE`},
 		"source_cidr":       acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.1/32`, Update: `10.0.0.2/32`},
 	}
-	captureFilterVtapCaptureFilterRulesIcmpOptionsRepresentation = map[string]interface{}{
+	CoreCaptureFilterVtapCaptureFilterRulesIcmpOptionsRepresentation = map[string]interface{}{
 		"type": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"code": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 	}
@@ -98,7 +98,7 @@ var (
 			}
 	*/
 
-	CaptureFilterResourceDependencies = DefinedTagsDependencies
+	CoreCaptureFilterResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: core/virtualNetwork
@@ -120,14 +120,14 @@ func TestCoreCaptureFilterResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+CaptureFilterResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_capture_filter", "test_capture_filter", acctest.Optional, acctest.Create, captureFilterRepresentation), "core", "captureFilter", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreCaptureFilterResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_capture_filter", "test_capture_filter", acctest.Optional, acctest.Create, CoreCaptureFilterRepresentation), "core", "captureFilter", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreCaptureFilterDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + CaptureFilterResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_capture_filter", "test_capture_filter", acctest.Required, acctest.Create, captureFilterRepresentation),
+			Config: config + compartmentIdVariableStr + CoreCaptureFilterResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_capture_filter", "test_capture_filter", acctest.Required, acctest.Create, CoreCaptureFilterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "filter_type", "VTAP"),
@@ -141,12 +141,12 @@ func TestCoreCaptureFilterResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + CaptureFilterResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreCaptureFilterResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + CaptureFilterResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_capture_filter", "test_capture_filter", acctest.Optional, acctest.Create, captureFilterRepresentation),
+			Config: config + compartmentIdVariableStr + CoreCaptureFilterResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_capture_filter", "test_capture_filter", acctest.Optional, acctest.Create, CoreCaptureFilterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "MyCaptureFilter"),
@@ -178,9 +178,9 @@ func TestCoreCaptureFilterResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CaptureFilterResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreCaptureFilterResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_capture_filter", "test_capture_filter", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(captureFilterRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CoreCaptureFilterRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -212,8 +212,8 @@ func TestCoreCaptureFilterResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + CaptureFilterResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_capture_filter", "test_capture_filter", acctest.Optional, acctest.Update, captureFilterRepresentation),
+			Config: config + compartmentIdVariableStr + CoreCaptureFilterResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_capture_filter", "test_capture_filter", acctest.Optional, acctest.Update, CoreCaptureFilterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -243,9 +243,9 @@ func TestCoreCaptureFilterResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_capture_filters", "test_capture_filters", acctest.Optional, acctest.Update, captureFilterDataSourceRepresentation) +
-				compartmentIdVariableStr + CaptureFilterResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_capture_filter", "test_capture_filter", acctest.Optional, acctest.Update, captureFilterRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_capture_filters", "test_capture_filters", acctest.Optional, acctest.Update, CoreCoreCaptureFilterDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreCaptureFilterResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_capture_filter", "test_capture_filter", acctest.Optional, acctest.Update, CoreCaptureFilterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -273,8 +273,8 @@ func TestCoreCaptureFilterResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_capture_filter", "test_capture_filter", acctest.Required, acctest.Create, captureFilterSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + CaptureFilterResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_capture_filter", "test_capture_filter", acctest.Required, acctest.Create, CoreCoreCaptureFilterSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreCaptureFilterResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "capture_filter_id"),
 
@@ -298,7 +298,7 @@ func TestCoreCaptureFilterResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + CaptureFilterRequiredOnlyResource,
+			Config:                  config + CoreCaptureFilterRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -362,7 +362,7 @@ func init() {
 
 func sweepCoreCaptureFilterResource(compartment string) error {
 	virtualNetworkClient := acctest.GetTestClients(&schema.ResourceData{}).VirtualNetworkClient()
-	captureFilterIds, err := getCaptureFilterIds(compartment)
+	captureFilterIds, err := getCoreCaptureFilterIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -378,14 +378,14 @@ func sweepCoreCaptureFilterResource(compartment string) error {
 				fmt.Printf("Error deleting CaptureFilter %s %s, It is possible that the resource is already deleted. Please verify manually \n", captureFilterId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &captureFilterId, captureFilterSweepWaitCondition, time.Duration(3*time.Minute),
-				captureFilterSweepResponseFetchOperation, "core", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &captureFilterId, CoreCaptureFilterSweepWaitCondition, time.Duration(3*time.Minute),
+				CoreCaptureFilterSweepResponseFetchOperation, "core", true)
 		}
 	}
 	return nil
 }
 
-func getCaptureFilterIds(compartment string) ([]string, error) {
+func getCoreCaptureFilterIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "CaptureFilterId")
 	if ids != nil {
 		return ids, nil
@@ -410,7 +410,7 @@ func getCaptureFilterIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func captureFilterSweepWaitCondition(response common.OCIOperationResponse) bool {
+func CoreCaptureFilterSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if captureFilterResponse, ok := response.Response.(oci_core.GetCaptureFilterResponse); ok {
 		return captureFilterResponse.LifecycleState != oci_core.CaptureFilterLifecycleStateTerminated
@@ -418,7 +418,7 @@ func captureFilterSweepWaitCondition(response common.OCIOperationResponse) bool 
 	return false
 }
 
-func captureFilterSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CoreCaptureFilterSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.VirtualNetworkClient().GetCaptureFilter(context.Background(), oci_core.GetCaptureFilterRequest{
 		CaptureFilterId: resourceId,
 		RequestMetadata: common.RequestMetadata{

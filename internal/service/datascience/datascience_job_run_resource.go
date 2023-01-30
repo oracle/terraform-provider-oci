@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package datascience
@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 )
@@ -181,6 +181,27 @@ func DatascienceJobRunResource() *schema.Resource {
 						"job_infrastructure_type": {
 							Type:     schema.TypeString,
 							Computed: true,
+						},
+						"job_shape_config_details": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"memory_in_gbs": {
+										Type:     schema.TypeFloat,
+										Computed: true,
+									},
+									"ocpus": {
+										Type:     schema.TypeFloat,
+										Computed: true,
+									},
+								},
+							},
 						},
 						"shape_name": {
 							Type:     schema.TypeString,
@@ -621,6 +642,22 @@ func JobRunLogDetailsToMap(obj *oci_datascience.JobRunLogDetails) map[string]int
 	}
 
 	return result
+}
+
+func (s *DatascienceJobRunResourceCrud) mapToJobShapeConfigDetails(fieldKeyFormat string) (oci_datascience.JobShapeConfigDetails, error) {
+	result := oci_datascience.JobShapeConfigDetails{}
+
+	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
+		tmp := memoryInGBs.(float32)
+		result.MemoryInGBs = &tmp
+	}
+
+	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
+		tmp := ocpus.(float32)
+		result.Ocpus = &tmp
+	}
+
+	return result, nil
 }
 
 func (s *DatascienceJobRunResourceCrud) updateCompartment(compartment interface{}) error {

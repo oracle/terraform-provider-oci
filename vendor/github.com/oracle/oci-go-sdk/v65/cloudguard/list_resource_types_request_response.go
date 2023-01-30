@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -132,18 +132,21 @@ const (
 	ListResourceTypesDetectorIdActivityDetector      ListResourceTypesDetectorIdEnum = "IAAS_ACTIVITY_DETECTOR"
 	ListResourceTypesDetectorIdConfigurationDetector ListResourceTypesDetectorIdEnum = "IAAS_CONFIGURATION_DETECTOR"
 	ListResourceTypesDetectorIdThreatDetector        ListResourceTypesDetectorIdEnum = "IAAS_THREAT_DETECTOR"
+	ListResourceTypesDetectorIdLogInsightDetector    ListResourceTypesDetectorIdEnum = "IAAS_LOG_INSIGHT_DETECTOR"
 )
 
 var mappingListResourceTypesDetectorIdEnum = map[string]ListResourceTypesDetectorIdEnum{
 	"IAAS_ACTIVITY_DETECTOR":      ListResourceTypesDetectorIdActivityDetector,
 	"IAAS_CONFIGURATION_DETECTOR": ListResourceTypesDetectorIdConfigurationDetector,
 	"IAAS_THREAT_DETECTOR":        ListResourceTypesDetectorIdThreatDetector,
+	"IAAS_LOG_INSIGHT_DETECTOR":   ListResourceTypesDetectorIdLogInsightDetector,
 }
 
 var mappingListResourceTypesDetectorIdEnumLowerCase = map[string]ListResourceTypesDetectorIdEnum{
 	"iaas_activity_detector":      ListResourceTypesDetectorIdActivityDetector,
 	"iaas_configuration_detector": ListResourceTypesDetectorIdConfigurationDetector,
 	"iaas_threat_detector":        ListResourceTypesDetectorIdThreatDetector,
+	"iaas_log_insight_detector":   ListResourceTypesDetectorIdLogInsightDetector,
 }
 
 // GetListResourceTypesDetectorIdEnumValues Enumerates the set of values for ListResourceTypesDetectorIdEnum
@@ -161,6 +164,7 @@ func GetListResourceTypesDetectorIdEnumStringValues() []string {
 		"IAAS_ACTIVITY_DETECTOR",
 		"IAAS_CONFIGURATION_DETECTOR",
 		"IAAS_THREAT_DETECTOR",
+		"IAAS_LOG_INSIGHT_DETECTOR",
 	}
 }
 

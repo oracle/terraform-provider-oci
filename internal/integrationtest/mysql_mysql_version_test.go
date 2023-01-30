@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,17 +9,17 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	mysqlVersionDataSourceRepresentation = map[string]interface{}{
+	MysqlMysqlMysqlVersionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
-	MysqlVersionResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_mysql_versions", "test_mysql_versions", acctest.Required, acctest.Create, mysqlVersionDataSourceRepresentation)
+	MysqlMysqlVersionResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_mysql_versions", "test_mysql_versions", acctest.Required, acctest.Create, MysqlMysqlMysqlVersionDataSourceRepresentation)
 )
 
 // issue-routing-tag: mysql/default
@@ -39,7 +39,7 @@ func TestMysqlMysqlVersionResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
-			Config: config + compartmentIdVariableStr + MysqlVersionResourceConfig,
+			Config: config + compartmentIdVariableStr + MysqlMysqlVersionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

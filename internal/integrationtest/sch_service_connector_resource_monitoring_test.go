@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,13 +7,13 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -50,7 +50,7 @@ func TestSchServiceConnectorResource_monitoring(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckSchServiceConnectorDestroy, []resource.TestStep{
 		//  verify logging as source with monitoring as target
 		{
-			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Required, acctest.Create, serviceConnectorMonitoringTargetLoggingSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -74,12 +74,12 @@ func TestSchServiceConnectorResource_monitoring(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr,
+			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr,
 		},
 
 		// verify logging as source and monitoring with dimensions as target
 		{
-			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Required, acctest.Create, serviceConnectorMonitoringTargetJmesPathLoggingSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -108,11 +108,11 @@ func TestSchServiceConnectorResource_monitoring(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr,
+			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr,
 		},
 
 		{
-			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Required, acctest.Create, serviceConnectorMonitoringTargetStaticDimLoggingSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -141,11 +141,11 @@ func TestSchServiceConnectorResource_monitoring(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr,
+			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr,
 		},
 		//Testing create connector with monitoring target for 4 dimensions -> 2 jmespath and 2 static
 		{
-			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Required, acctest.Create, serviceConnectorMonitoringTargetStaticAndJmesPathLoggingSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -186,12 +186,12 @@ func TestSchServiceConnectorResource_monitoring(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr,
+			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr,
 		},
 
 		//  verify monitoring as source with object storage as target
 		{
-			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Required, acctest.Create, serviceConnectorMonitoringSourceObjectStorageTargetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -221,12 +221,12 @@ func TestSchServiceConnectorResource_monitoring(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr,
+			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr,
 		},
 
 		//  verify monitoring as source with object storage as target with multiple namespaces
 		{
-			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Required, acctest.Create, serviceConnectorMonitoringSourceMultipleNameSpacesObjectStorageTargetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -258,7 +258,7 @@ func TestSchServiceConnectorResource_monitoring(t *testing.T) {
 
 		// verify resource import
 		{
-			Config:                  config + ServiceConnectorRequiredOnlyResource,
+			Config:                  config + SchServiceConnectorRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

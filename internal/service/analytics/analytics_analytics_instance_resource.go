@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package analytics
@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -110,6 +110,11 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"kms_key_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Default:  "",
+			},
 			"network_endpoint_details": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -132,6 +137,16 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 						},
 
 						// Optional
+						"network_security_group_ids": {
+							Type:     schema.TypeSet,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Set:      tfresource.LiteralTypeHashCodeForSets,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"subnet_id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -145,6 +160,15 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 							ForceNew: true,
 						},
 						"whitelisted_ips": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"whitelisted_services": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Computed: true,
@@ -200,11 +224,6 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 			},
 
 			// Computed
-			"private_access_channels": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
 			"service_url": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -216,11 +235,6 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 			"time_updated": {
 				Type:     schema.TypeString,
 				Computed: true,
-			},
-			"vanity_url_details": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
 			},
 		},
 	}
@@ -252,6 +266,25 @@ func createAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) err
 
 }
 
+func (s *AnalyticsAnalyticsInstanceResourceCrud) SetKmsKey(kmsKeyId *string) error {
+	request := oci_analytics.SetKmsKeyRequest{}
+
+	tmp := s.D.Id()
+	request.AnalyticsInstanceId = &tmp
+	request.KmsKeyId = kmsKeyId
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
+
+	response, err := s.Client.SetKmsKey(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	_, err = analyticsInstanceWaitForWorkRequest(workId, "analytics",
+		oci_analytics.WorkRequestActionResultCreated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
+	return err
+}
+
 func readAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstanceResourceCrud{}
 	sync.D = d
@@ -281,6 +314,16 @@ func updateAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) err
 			return err
 		}
 		sync.D.Set("state", oci_analytics.AnalyticsInstanceLifecycleStateActive)
+	}
+	if sync.D.HasChange("kms_key_id") {
+		wantedKmsKeyId := sync.D.Get("kms_key_id").(string)
+		if err := sync.SetKmsKey(&wantedKmsKeyId); err != nil {
+			// Re-read the instance to update the state file with correct values after failure
+			err = tfresource.ReadResource(sync)
+			return err
+		}
+
+		sync.D.Set("kms_key_id", wantedKmsKeyId)
 	}
 
 	if err := tfresource.UpdateResource(d, sync); err != nil {
@@ -389,6 +432,11 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Create() error {
 	if idcsAccessToken, ok := s.D.GetOkExists("idcs_access_token"); ok {
 		tmp := idcsAccessToken.(string)
 		request.IdcsAccessToken = &tmp
+	}
+
+	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+		tmp := kmsKeyId.(string)
+		request.KmsKeyId = &tmp
 	}
 
 	if licenseType, ok := s.D.GetOkExists("license_type"); ok {
@@ -514,7 +562,7 @@ func analyticsInstanceWaitForWorkRequest(wId *string, entityType string, action 
 
 	var identifier *string
 	// The work request response contains an array of objects that finished the operation
-	for _, res := range response.WorkRequest.Resources {
+	for _, res := range response.Resources {
 		if res.ResourceType == "ANALYTICS_INSTANCE" {
 			if res.ActionResult == action {
 				identifier = res.Identifier
@@ -660,6 +708,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Delete() error {
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.DeleteAnalyticsInstance(context.Background(), request)
+	time.Sleep(2 * time.Minute) //We add this to prevent 412-PreconditionFailed, NetworkSecurityGroup cannot be deleted since it still has vnics attached to it
 	if err != nil {
 		return err
 	}
@@ -698,6 +747,10 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.KmsKeyId != nil {
+		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
+	}
+
 	s.D.Set("license_type", s.Res.LicenseType)
 
 	if s.Res.Name != nil {
@@ -706,15 +759,13 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) SetData() error {
 
 	if s.Res.NetworkEndpointDetails != nil {
 		networkEndpointDetailsArray := []interface{}{}
-		if networkEndpointDetailsMap := NetworkEndpointDetailsToMap(&s.Res.NetworkEndpointDetails); networkEndpointDetailsMap != nil {
+		if networkEndpointDetailsMap := NetworkEndpointDetailsToMap(&s.Res.NetworkEndpointDetails, false); networkEndpointDetailsMap != nil {
 			networkEndpointDetailsArray = append(networkEndpointDetailsArray, networkEndpointDetailsMap)
 		}
 		s.D.Set("network_endpoint_details", networkEndpointDetailsArray)
 	} else {
 		s.D.Set("network_endpoint_details", nil)
 	}
-
-	s.D.Set("private_access_channels", s.Res.PrivateAccessChannels)
 
 	if s.Res.ServiceUrl != nil {
 		s.D.Set("service_url", *s.Res.ServiceUrl)
@@ -729,8 +780,6 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) SetData() error {
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
-
-	s.D.Set("vanity_url_details", s.Res.VanityUrlDetails)
 
 	return nil
 }
@@ -809,6 +858,19 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) mapToNetworkEndpointDetails(fie
 	switch strings.ToLower(networkEndpointType) {
 	case strings.ToLower("PRIVATE"):
 		details := oci_analytics.PrivateEndpointDetails{}
+		if networkSecurityGroupIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_security_group_ids")); ok {
+			set := networkSecurityGroupIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "network_security_group_ids")) {
+				details.NetworkSecurityGroupIds = tmp
+			}
+		}
 		if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -830,6 +892,18 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) mapToNetworkEndpointDetails(fie
 			}
 			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "whitelisted_ips")) {
 				details.WhitelistedIps = tmp
+			}
+		}
+		if whitelistedServices, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "whitelisted_services")); ok {
+			interfaces := whitelistedServices.([]interface{})
+			tmp := make([]oci_analytics.AccessControlServiceTypeEnum, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(oci_analytics.AccessControlServiceTypeEnum)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "whitelisted_services")) {
+				details.WhitelistedServices = tmp
 			}
 		}
 		if whitelistedVcns, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "whitelisted_vcns")); ok {
@@ -855,11 +929,21 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) mapToNetworkEndpointDetails(fie
 	return baseObject, nil
 }
 
-func NetworkEndpointDetailsToMap(obj *oci_analytics.NetworkEndpointDetails) map[string]interface{} {
+func NetworkEndpointDetailsToMap(obj *oci_analytics.NetworkEndpointDetails, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
 	case oci_analytics.PrivateEndpointDetails:
 		result["network_endpoint_type"] = "PRIVATE"
+
+		networkSecurityGroupIds := []interface{}{}
+		for _, item := range v.NetworkSecurityGroupIds {
+			networkSecurityGroupIds = append(networkSecurityGroupIds, item)
+		}
+		if datasource {
+			result["network_security_group_ids"] = networkSecurityGroupIds
+		} else {
+			result["network_security_group_ids"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, networkSecurityGroupIds)
+		}
 
 		if v.SubnetId != nil {
 			result["subnet_id"] = string(*v.SubnetId)
@@ -873,6 +957,8 @@ func NetworkEndpointDetailsToMap(obj *oci_analytics.NetworkEndpointDetails) map[
 
 		result["whitelisted_ips"] = v.WhitelistedIps
 
+		result["whitelisted_services"] = v.WhitelistedServices
+
 		whitelistedVcns := []interface{}{}
 		for _, item := range v.WhitelistedVcns {
 			whitelistedVcns = append(whitelistedVcns, VirtualCloudNetworkToMap(item))
@@ -881,20 +967,6 @@ func NetworkEndpointDetailsToMap(obj *oci_analytics.NetworkEndpointDetails) map[
 	default:
 		log.Printf("[WARN] Received 'network_endpoint_type' of unknown type %v", *obj)
 		return nil
-	}
-
-	return result
-}
-
-func PrivateSourceDnsZoneToMap(obj oci_analytics.PrivateSourceDnsZone) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Description != nil {
-		result["description"] = string(*obj.Description)
-	}
-
-	if obj.DnsZone != nil {
-		result["dns_zone"] = string(*obj.DnsZone)
 	}
 
 	return result

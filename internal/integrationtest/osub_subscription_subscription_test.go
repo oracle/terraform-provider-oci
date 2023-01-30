@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,14 +9,14 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	osubSubscriptionsDataSourceRepresentation = map[string]interface{}{
+	OsubSubscriptionOsubSubscriptionSubscriptionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"buyer_email":             acctest.Representation{RepType: acctest.Optional, Create: `buyerEmail`},
 		"is_commit_info_required": acctest.Representation{RepType: acctest.Optional, Create: `false`},
@@ -50,7 +50,7 @@ func TestOsubSubscriptionSubscriptionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_osub_subscription_subscriptions", "test_subscriptions", acctest.Required, acctest.Create, osubSubscriptionsDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_osub_subscription_subscriptions", "test_subscriptions", acctest.Required, acctest.Create, OsubSubscriptionOsubSubscriptionSubscriptionDataSourceRepresentation) +
 				compartmentIdVariableStr + subscriptionIdVariableStr + oneRegionVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

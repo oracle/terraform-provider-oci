@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -54,6 +54,10 @@ func (m *dbsystemsource) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		mm := DbSystemSourceFromBackup{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "PITR":
+		mm := DbSystemSourceFromPitr{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "NONE":
 		mm := DbSystemSourceFromNone{}
 		err = json.Unmarshal(data, &mm)
@@ -90,18 +94,21 @@ type DbSystemSourceSourceTypeEnum string
 const (
 	DbSystemSourceSourceTypeNone      DbSystemSourceSourceTypeEnum = "NONE"
 	DbSystemSourceSourceTypeBackup    DbSystemSourceSourceTypeEnum = "BACKUP"
+	DbSystemSourceSourceTypePitr      DbSystemSourceSourceTypeEnum = "PITR"
 	DbSystemSourceSourceTypeImporturl DbSystemSourceSourceTypeEnum = "IMPORTURL"
 )
 
 var mappingDbSystemSourceSourceTypeEnum = map[string]DbSystemSourceSourceTypeEnum{
 	"NONE":      DbSystemSourceSourceTypeNone,
 	"BACKUP":    DbSystemSourceSourceTypeBackup,
+	"PITR":      DbSystemSourceSourceTypePitr,
 	"IMPORTURL": DbSystemSourceSourceTypeImporturl,
 }
 
 var mappingDbSystemSourceSourceTypeEnumLowerCase = map[string]DbSystemSourceSourceTypeEnum{
 	"none":      DbSystemSourceSourceTypeNone,
 	"backup":    DbSystemSourceSourceTypeBackup,
+	"pitr":      DbSystemSourceSourceTypePitr,
 	"importurl": DbSystemSourceSourceTypeImporturl,
 }
 
@@ -119,6 +126,7 @@ func GetDbSystemSourceSourceTypeEnumStringValues() []string {
 	return []string{
 		"NONE",
 		"BACKUP",
+		"PITR",
 		"IMPORTURL",
 	}
 }

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 provider "oci" {
@@ -138,3 +138,7 @@ output "autonomous_container_databases" {
   value = data.oci_database_autonomous_container_databases.test_autonomous_container_databases.autonomous_container_databases
 }
 
+data "oci_database_cloud_exadata_infrastructure_un_allocated_resource" "test_cloud_exadata_infrastructure_un_allocated_resources" {
+  #Required
+  cloud_exadata_infrastructure_id = oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id
+}

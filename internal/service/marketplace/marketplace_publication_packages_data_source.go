@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package marketplace
@@ -9,8 +9,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_marketplace "github.com/oracle/oci-go-sdk/v65/marketplace"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func MarketplacePublicationPackagesDataSource() *schema.Resource {
@@ -167,4 +167,42 @@ func (s *MarketplacePublicationPackagesDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func MarketplacePublicationPackageOperatingSystemToMap(obj *oci_marketplace.OperatingSystem) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	return result
+}
+
+func MarketplacePublicationPackageOrchestrationVariableToMap(obj oci_marketplace.OrchestrationVariable) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["data_type"] = string(obj.DataType)
+
+	if obj.DefaultValue != nil {
+		result["default_value"] = string(*obj.DefaultValue)
+	}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
+	if obj.HintMessage != nil {
+		result["hint_message"] = string(*obj.HintMessage)
+	}
+
+	if obj.IsMandatory != nil {
+		result["is_mandatory"] = bool(*obj.IsMandatory)
+	}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	return result
 }

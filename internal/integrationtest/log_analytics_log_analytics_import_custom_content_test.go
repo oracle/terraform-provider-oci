@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,29 +7,29 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 const zipFile = "../examples/log_analytics/import_custom_content/files/TFSource1.zip"
 
 var (
-	LogAnalyticsImportCustomContentRequiredOnlyResource = LogAnalyticsImportCustomContentResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_import_custom_content", "test_log_analytics_import_custom_content", acctest.Required, acctest.Create, logAnalyticsImportCustomContentRepresentation)
+	LogAnalyticsLogAnalyticsImportCustomContentRequiredOnlyResource = LogAnalyticsLogAnalyticsImportCustomContentResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_import_custom_content", "test_log_analytics_import_custom_content", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsImportCustomContentRepresentation)
 
-	logAnalyticsImportCustomContentRepresentation = map[string]interface{}{
+	LogAnalyticsLogAnalyticsImportCustomContentRepresentation = map[string]interface{}{
 		"import_custom_content_file": acctest.Representation{RepType: acctest.Required, Create: zipFile},
 		"namespace":                  acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 		"is_overwrite":               acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"expect":                     acctest.Representation{RepType: acctest.Optional, Create: `100-Continue`},
 	}
 
-	LogAnalyticsImportCustomContentResourceDependencies = "" +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation)
+	LogAnalyticsLogAnalyticsImportCustomContentResourceDependencies = "" +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsNamespaceSingularDataSourceRepresentation)
 )
 
 // issue-routing-tag: log_analytics/default
@@ -45,14 +45,14 @@ func TestLogAnalyticsLogAnalyticsImportCustomContentResource_basic(t *testing.T)
 	resourceName := "oci_log_analytics_log_analytics_import_custom_content.test_log_analytics_import_custom_content"
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+LogAnalyticsImportCustomContentResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_import_custom_content", "test_log_analytics_import_custom_content", acctest.Optional, acctest.Create, logAnalyticsImportCustomContentRepresentation), "loganalytics", "logAnalyticsImportCustomContent", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+LogAnalyticsLogAnalyticsImportCustomContentResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_import_custom_content", "test_log_analytics_import_custom_content", acctest.Optional, acctest.Create, LogAnalyticsLogAnalyticsImportCustomContentRepresentation), "loganalytics", "logAnalyticsImportCustomContent", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + LogAnalyticsImportCustomContentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_import_custom_content", "test_log_analytics_import_custom_content", acctest.Required, acctest.Create, logAnalyticsImportCustomContentRepresentation),
+			Config: config + compartmentIdVariableStr + LogAnalyticsLogAnalyticsImportCustomContentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_import_custom_content", "test_log_analytics_import_custom_content", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsImportCustomContentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "import_custom_content_file", zipFile),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -61,12 +61,12 @@ func TestLogAnalyticsLogAnalyticsImportCustomContentResource_basic(t *testing.T)
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + LogAnalyticsImportCustomContentResourceDependencies,
+			Config: config + compartmentIdVariableStr + LogAnalyticsLogAnalyticsImportCustomContentResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + LogAnalyticsImportCustomContentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_import_custom_content", "test_log_analytics_import_custom_content", acctest.Optional, acctest.Create, logAnalyticsImportCustomContentRepresentation),
+			Config: config + compartmentIdVariableStr + LogAnalyticsLogAnalyticsImportCustomContentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_import_custom_content", "test_log_analytics_import_custom_content", acctest.Optional, acctest.Create, LogAnalyticsLogAnalyticsImportCustomContentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "import_custom_content_file", zipFile),
 				resource.TestCheckResourceAttr(resourceName, "is_overwrite", "true"),

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -220,6 +220,7 @@ const (
 	MaintenanceRunTargetResourceTypeExaccInfrastructure             MaintenanceRunTargetResourceTypeEnum = "EXACC_INFRASTRUCTURE"
 	MaintenanceRunTargetResourceTypeAutonomousVmCluster             MaintenanceRunTargetResourceTypeEnum = "AUTONOMOUS_VM_CLUSTER"
 	MaintenanceRunTargetResourceTypeAutonomousDatabase              MaintenanceRunTargetResourceTypeEnum = "AUTONOMOUS_DATABASE"
+	MaintenanceRunTargetResourceTypeCloudAutonomousVmCluster        MaintenanceRunTargetResourceTypeEnum = "CLOUD_AUTONOMOUS_VM_CLUSTER"
 )
 
 var mappingMaintenanceRunTargetResourceTypeEnum = map[string]MaintenanceRunTargetResourceTypeEnum{
@@ -230,6 +231,7 @@ var mappingMaintenanceRunTargetResourceTypeEnum = map[string]MaintenanceRunTarge
 	"EXACC_INFRASTRUCTURE":              MaintenanceRunTargetResourceTypeExaccInfrastructure,
 	"AUTONOMOUS_VM_CLUSTER":             MaintenanceRunTargetResourceTypeAutonomousVmCluster,
 	"AUTONOMOUS_DATABASE":               MaintenanceRunTargetResourceTypeAutonomousDatabase,
+	"CLOUD_AUTONOMOUS_VM_CLUSTER":       MaintenanceRunTargetResourceTypeCloudAutonomousVmCluster,
 }
 
 var mappingMaintenanceRunTargetResourceTypeEnumLowerCase = map[string]MaintenanceRunTargetResourceTypeEnum{
@@ -240,6 +242,7 @@ var mappingMaintenanceRunTargetResourceTypeEnumLowerCase = map[string]Maintenanc
 	"exacc_infrastructure":              MaintenanceRunTargetResourceTypeExaccInfrastructure,
 	"autonomous_vm_cluster":             MaintenanceRunTargetResourceTypeAutonomousVmCluster,
 	"autonomous_database":               MaintenanceRunTargetResourceTypeAutonomousDatabase,
+	"cloud_autonomous_vm_cluster":       MaintenanceRunTargetResourceTypeCloudAutonomousVmCluster,
 }
 
 // GetMaintenanceRunTargetResourceTypeEnumValues Enumerates the set of values for MaintenanceRunTargetResourceTypeEnum
@@ -261,6 +264,7 @@ func GetMaintenanceRunTargetResourceTypeEnumStringValues() []string {
 		"EXACC_INFRASTRUCTURE",
 		"AUTONOMOUS_VM_CLUSTER",
 		"AUTONOMOUS_DATABASE",
+		"CLOUD_AUTONOMOUS_VM_CLUSTER",
 	}
 }
 
@@ -317,30 +321,33 @@ type MaintenanceRunMaintenanceSubtypeEnum string
 
 // Set of constants representing the allowable values for MaintenanceRunMaintenanceSubtypeEnum
 const (
-	MaintenanceRunMaintenanceSubtypeQuarterly      MaintenanceRunMaintenanceSubtypeEnum = "QUARTERLY"
-	MaintenanceRunMaintenanceSubtypeHardware       MaintenanceRunMaintenanceSubtypeEnum = "HARDWARE"
-	MaintenanceRunMaintenanceSubtypeCritical       MaintenanceRunMaintenanceSubtypeEnum = "CRITICAL"
-	MaintenanceRunMaintenanceSubtypeInfrastructure MaintenanceRunMaintenanceSubtypeEnum = "INFRASTRUCTURE"
-	MaintenanceRunMaintenanceSubtypeDatabase       MaintenanceRunMaintenanceSubtypeEnum = "DATABASE"
-	MaintenanceRunMaintenanceSubtypeOneoff         MaintenanceRunMaintenanceSubtypeEnum = "ONEOFF"
+	MaintenanceRunMaintenanceSubtypeQuarterly       MaintenanceRunMaintenanceSubtypeEnum = "QUARTERLY"
+	MaintenanceRunMaintenanceSubtypeHardware        MaintenanceRunMaintenanceSubtypeEnum = "HARDWARE"
+	MaintenanceRunMaintenanceSubtypeCritical        MaintenanceRunMaintenanceSubtypeEnum = "CRITICAL"
+	MaintenanceRunMaintenanceSubtypeInfrastructure  MaintenanceRunMaintenanceSubtypeEnum = "INFRASTRUCTURE"
+	MaintenanceRunMaintenanceSubtypeDatabase        MaintenanceRunMaintenanceSubtypeEnum = "DATABASE"
+	MaintenanceRunMaintenanceSubtypeOneoff          MaintenanceRunMaintenanceSubtypeEnum = "ONEOFF"
+	MaintenanceRunMaintenanceSubtypeSecurityMonthly MaintenanceRunMaintenanceSubtypeEnum = "SECURITY_MONTHLY"
 )
 
 var mappingMaintenanceRunMaintenanceSubtypeEnum = map[string]MaintenanceRunMaintenanceSubtypeEnum{
-	"QUARTERLY":      MaintenanceRunMaintenanceSubtypeQuarterly,
-	"HARDWARE":       MaintenanceRunMaintenanceSubtypeHardware,
-	"CRITICAL":       MaintenanceRunMaintenanceSubtypeCritical,
-	"INFRASTRUCTURE": MaintenanceRunMaintenanceSubtypeInfrastructure,
-	"DATABASE":       MaintenanceRunMaintenanceSubtypeDatabase,
-	"ONEOFF":         MaintenanceRunMaintenanceSubtypeOneoff,
+	"QUARTERLY":        MaintenanceRunMaintenanceSubtypeQuarterly,
+	"HARDWARE":         MaintenanceRunMaintenanceSubtypeHardware,
+	"CRITICAL":         MaintenanceRunMaintenanceSubtypeCritical,
+	"INFRASTRUCTURE":   MaintenanceRunMaintenanceSubtypeInfrastructure,
+	"DATABASE":         MaintenanceRunMaintenanceSubtypeDatabase,
+	"ONEOFF":           MaintenanceRunMaintenanceSubtypeOneoff,
+	"SECURITY_MONTHLY": MaintenanceRunMaintenanceSubtypeSecurityMonthly,
 }
 
 var mappingMaintenanceRunMaintenanceSubtypeEnumLowerCase = map[string]MaintenanceRunMaintenanceSubtypeEnum{
-	"quarterly":      MaintenanceRunMaintenanceSubtypeQuarterly,
-	"hardware":       MaintenanceRunMaintenanceSubtypeHardware,
-	"critical":       MaintenanceRunMaintenanceSubtypeCritical,
-	"infrastructure": MaintenanceRunMaintenanceSubtypeInfrastructure,
-	"database":       MaintenanceRunMaintenanceSubtypeDatabase,
-	"oneoff":         MaintenanceRunMaintenanceSubtypeOneoff,
+	"quarterly":        MaintenanceRunMaintenanceSubtypeQuarterly,
+	"hardware":         MaintenanceRunMaintenanceSubtypeHardware,
+	"critical":         MaintenanceRunMaintenanceSubtypeCritical,
+	"infrastructure":   MaintenanceRunMaintenanceSubtypeInfrastructure,
+	"database":         MaintenanceRunMaintenanceSubtypeDatabase,
+	"oneoff":           MaintenanceRunMaintenanceSubtypeOneoff,
+	"security_monthly": MaintenanceRunMaintenanceSubtypeSecurityMonthly,
 }
 
 // GetMaintenanceRunMaintenanceSubtypeEnumValues Enumerates the set of values for MaintenanceRunMaintenanceSubtypeEnum
@@ -361,6 +368,7 @@ func GetMaintenanceRunMaintenanceSubtypeEnumStringValues() []string {
 		"INFRASTRUCTURE",
 		"DATABASE",
 		"ONEOFF",
+		"SECURITY_MONTHLY",
 	}
 }
 

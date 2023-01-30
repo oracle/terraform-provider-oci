@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,13 +9,13 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	pluggableDatabasesLocalCloneRepresentation = map[string]interface{}{
+	DatabasePluggableDatabasesLocalCloneRepresentation = map[string]interface{}{
 		"cloned_pdb_name":                    acctest.Representation{RepType: acctest.Required, Create: `NewSalesPdb`},
 		"pdb_admin_password":                 acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 		"pluggable_database_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_database_pluggable_database.test_pluggable_database.id}`},
@@ -38,15 +38,15 @@ func TestDatabasePluggableDatabasesLocalCloneResource_basic(t *testing.T) {
 	resourceName := "oci_database_pluggable_databases_local_clone.test_pluggable_databases_local_clone"
 
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+PluggableDatabaseResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_databases_local_clone", "test_pluggable_databases_local_clone", acctest.Optional, acctest.Create, pluggableDatabasesLocalCloneRepresentation), "database", "pluggableDatabasesLocalClone", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabasePluggableDatabaseResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_databases_local_clone", "test_pluggable_databases_local_clone", acctest.Optional, acctest.Create, DatabasePluggableDatabasesLocalCloneRepresentation), "database", "pluggableDatabasesLocalClone", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify local clone
 		{
-			Config: config + compartmentIdVariableStr + PluggableDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Optional, acctest.Update, pluggableDatabaseRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_databases_local_clone", "test_pluggable_databases_local_clone", acctest.Optional, acctest.Create, pluggableDatabasesLocalCloneRepresentation),
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Optional, acctest.Update, DatabasePluggableDatabaseRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_databases_local_clone", "test_pluggable_databases_local_clone", acctest.Optional, acctest.Create, DatabasePluggableDatabasesLocalCloneRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cloned_pdb_name", "NewSalesPdb"),
 				resource.TestCheckResourceAttrSet(resourceName, "pluggable_database_id"),

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -36,13 +36,13 @@ type AppCatalogListingResourceVersion struct {
 	ListingResourceVersion *string `mandatory:"false" json:"listingResourceVersion"`
 
 	// List of regions that this listing resource version is available.
-	// For information about Regions, see
-	// Regions (https://docs.cloud.oracle.comGeneral/Concepts/regions.htm).
+	// For information about regions, see
+	// Regions and Availability Domains (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm).
 	// Example: `["us-ashburn-1", "us-phoenix-1"]`
 	AvailableRegions []string `mandatory:"false" json:"availableRegions"`
 
 	// Array of shapes compatible with this resource.
-	// You may enumerate all available shapes by calling listShapes.
+	// You can enumerate all available shapes by calling ListShapes.
 	// Example: `["VM.Standard1.1", "VM.Standard1.2"]`
 	CompatibleShapes []string `mandatory:"false" json:"compatibleShapes"`
 

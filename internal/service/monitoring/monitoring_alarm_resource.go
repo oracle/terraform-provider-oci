@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package monitoring
@@ -8,8 +8,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -83,6 +83,11 @@ func MonitoringAlarmResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"is_notifications_per_metric_dimension_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
 			},
 			"message_format": {
 				Type:     schema.TypeString,
@@ -277,6 +282,11 @@ func (s *MonitoringAlarmResourceCrud) Create() error {
 		request.IsEnabled = &tmp
 	}
 
+	if isNotificationsPerMetricDimensionEnabled, ok := s.D.GetOkExists("is_notifications_per_metric_dimension_enabled"); ok {
+		tmp := isNotificationsPerMetricDimensionEnabled.(bool)
+		request.IsNotificationsPerMetricDimensionEnabled = &tmp
+	}
+
 	if messageFormat, ok := s.D.GetOkExists("message_format"); ok {
 		request.MessageFormat = oci_monitoring.CreateAlarmDetailsMessageFormatEnum(messageFormat.(string))
 	}
@@ -424,6 +434,11 @@ func (s *MonitoringAlarmResourceCrud) Update() error {
 		request.IsEnabled = &tmp
 	}
 
+	if isNotificationsPerMetricDimensionEnabled, ok := s.D.GetOkExists("is_notifications_per_metric_dimension_enabled"); ok {
+		tmp := isNotificationsPerMetricDimensionEnabled.(bool)
+		request.IsNotificationsPerMetricDimensionEnabled = &tmp
+	}
+
 	if messageFormat, ok := s.D.GetOkExists("message_format"); ok {
 		request.MessageFormat = oci_monitoring.UpdateAlarmDetailsMessageFormatEnum(messageFormat.(string))
 	}
@@ -529,6 +544,10 @@ func (s *MonitoringAlarmResourceCrud) SetData() error {
 
 	if s.Res.IsEnabled != nil {
 		s.D.Set("is_enabled", *s.Res.IsEnabled)
+	}
+
+	if s.Res.IsNotificationsPerMetricDimensionEnabled != nil {
+		s.D.Set("is_notifications_per_metric_dimension_enabled", *s.Res.IsNotificationsPerMetricDimensionEnabled)
 	}
 
 	s.D.Set("message_format", s.Res.MessageFormat)

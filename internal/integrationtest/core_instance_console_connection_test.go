@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,38 +16,38 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	InstanceConsoleConnectionRequiredOnlyResource = InstanceConsoleConnectionResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_console_connection", "test_instance_console_connection", acctest.Required, acctest.Create, instanceConsoleConnectionRepresentation)
+	CoreInstanceConsoleConnectionRequiredOnlyResource = CoreInstanceConsoleConnectionResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_console_connection", "test_instance_console_connection", acctest.Required, acctest.Create, CoreInstanceConsoleConnectionRepresentation)
 
-	instanceConsoleConnectionDataSourceRepresentation = map[string]interface{}{
+	CoreCoreInstanceConsoleConnectionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"instance_id":    acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_instance.test_instance.id}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: instanceConsoleConnectionDataSourceFilterRepresentation}}
-	instanceConsoleConnectionDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstanceConsoleConnectionDataSourceFilterRepresentation}}
+	CoreInstanceConsoleConnectionDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_instance_console_connection.test_instance_console_connection.id}`}},
 	}
 
-	instanceConsoleConnectionRepresentation = map[string]interface{}{
+	CoreInstanceConsoleConnectionRepresentation = map[string]interface{}{
 		"instance_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance.test_instance.id}`},
 		"public_key":    acctest.Representation{RepType: acctest.Required, Create: `ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin`},
 		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	InstanceConsoleConnectionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	CoreInstanceConsoleConnectionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		utils.OciImageIdsVariable +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, instanceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
 )
@@ -67,14 +67,14 @@ func TestCoreInstanceConsoleConnectionResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+InstanceConsoleConnectionResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_console_connection", "test_instance_console_connection", acctest.Optional, acctest.Create, instanceConsoleConnectionRepresentation), "core", "instanceConsoleConnection", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreInstanceConsoleConnectionResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_console_connection", "test_instance_console_connection", acctest.Optional, acctest.Create, CoreInstanceConsoleConnectionRepresentation), "core", "instanceConsoleConnection", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreInstanceConsoleConnectionDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + InstanceConsoleConnectionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_console_connection", "test_instance_console_connection", acctest.Required, acctest.Create, instanceConsoleConnectionRepresentation),
+			Config: config + compartmentIdVariableStr + CoreInstanceConsoleConnectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_console_connection", "test_instance_console_connection", acctest.Required, acctest.Create, CoreInstanceConsoleConnectionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
 				resource.TestCheckResourceAttr(resourceName, "public_key", "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"),
@@ -88,12 +88,12 @@ func TestCoreInstanceConsoleConnectionResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + InstanceConsoleConnectionResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreInstanceConsoleConnectionResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + InstanceConsoleConnectionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_console_connection", "test_instance_console_connection", acctest.Optional, acctest.Create, instanceConsoleConnectionRepresentation),
+			Config: config + compartmentIdVariableStr + CoreInstanceConsoleConnectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_console_connection", "test_instance_console_connection", acctest.Optional, acctest.Create, CoreInstanceConsoleConnectionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
@@ -113,8 +113,8 @@ func TestCoreInstanceConsoleConnectionResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + InstanceConsoleConnectionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_console_connection", "test_instance_console_connection", acctest.Optional, acctest.Update, instanceConsoleConnectionRepresentation),
+			Config: config + compartmentIdVariableStr + CoreInstanceConsoleConnectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_console_connection", "test_instance_console_connection", acctest.Optional, acctest.Update, CoreInstanceConsoleConnectionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
@@ -132,9 +132,9 @@ func TestCoreInstanceConsoleConnectionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance_console_connections", "test_instance_console_connections", acctest.Optional, acctest.Update, instanceConsoleConnectionDataSourceRepresentation) +
-				compartmentIdVariableStr + InstanceConsoleConnectionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_console_connection", "test_instance_console_connection", acctest.Optional, acctest.Update, instanceConsoleConnectionRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance_console_connections", "test_instance_console_connections", acctest.Optional, acctest.Update, CoreCoreInstanceConsoleConnectionDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreInstanceConsoleConnectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_console_connection", "test_instance_console_connection", acctest.Optional, acctest.Update, CoreInstanceConsoleConnectionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "instance_id"),
@@ -153,7 +153,7 @@ func TestCoreInstanceConsoleConnectionResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + InstanceConsoleConnectionRequiredOnlyResource,
+			Config:            config + CoreInstanceConsoleConnectionRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -219,7 +219,7 @@ func init() {
 
 func sweepCoreInstanceConsoleConnectionResource(compartment string) error {
 	computeClient := acctest.GetTestClients(&schema.ResourceData{}).ComputeClient()
-	instanceConsoleConnectionIds, err := getInstanceConsoleConnectionIds(compartment)
+	instanceConsoleConnectionIds, err := getCoreInstanceConsoleConnectionIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -235,14 +235,14 @@ func sweepCoreInstanceConsoleConnectionResource(compartment string) error {
 				fmt.Printf("Error deleting InstanceConsoleConnection %s %s, It is possible that the resource is already deleted. Please verify manually \n", instanceConsoleConnectionId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &instanceConsoleConnectionId, instanceConsoleConnectionSweepWaitCondition, time.Duration(3*time.Minute),
-				instanceConsoleConnectionSweepResponseFetchOperation, "core", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &instanceConsoleConnectionId, CoreInstanceConsoleConnectionSweepWaitCondition, time.Duration(3*time.Minute),
+				CoreInstanceConsoleConnectionSweepResponseFetchOperation, "core", true)
 		}
 	}
 	return nil
 }
 
-func getInstanceConsoleConnectionIds(compartment string) ([]string, error) {
+func getCoreInstanceConsoleConnectionIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "InstanceConsoleConnectionId")
 	if ids != nil {
 		return ids, nil
@@ -269,7 +269,7 @@ func getInstanceConsoleConnectionIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func instanceConsoleConnectionSweepWaitCondition(response common.OCIOperationResponse) bool {
+func CoreInstanceConsoleConnectionSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if instanceConsoleConnectionResponse, ok := response.Response.(oci_core.GetInstanceConsoleConnectionResponse); ok {
 		return instanceConsoleConnectionResponse.LifecycleState != oci_core.InstanceConsoleConnectionLifecycleStateDeleted
@@ -277,7 +277,7 @@ func instanceConsoleConnectionSweepWaitCondition(response common.OCIOperationRes
 	return false
 }
 
-func instanceConsoleConnectionSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CoreInstanceConsoleConnectionSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.ComputeClient().GetInstanceConsoleConnection(context.Background(), oci_core.GetInstanceConsoleConnectionRequest{
 		InstanceConsoleConnectionId: resourceId,
 		RequestMetadata: common.RequestMetadata{

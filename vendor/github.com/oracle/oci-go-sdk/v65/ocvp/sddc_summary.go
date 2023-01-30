@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -97,6 +97,9 @@ type SddcSummary struct {
 
 	// The initial OCPU count of the SDDC's ESXi hosts.
 	InitialHostOcpuCount *float32 `mandatory:"false" json:"initialHostOcpuCount"`
+
+	// Indicates whether this SDDC is designated for only single ESXi host.
+	IsSingleHostSddc *bool `mandatory:"false" json:"isSingleHostSddc"`
 }
 
 func (m SddcSummary) String() string {

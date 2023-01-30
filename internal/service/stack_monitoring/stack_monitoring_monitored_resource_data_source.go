@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package stack_monitoring
@@ -9,8 +9,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_stack_monitoring "github.com/oracle/oci-go-sdk/v65/stackmonitoring"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func StackMonitoringMonitoredResourceDataSource() *schema.Resource {
@@ -98,6 +98,10 @@ func (s *StackMonitoringMonitoredResourceDataSourceCrud) SetData() error {
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.ExternalId != nil {
+		s.D.Set("external_id", *s.Res.ExternalId)
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)

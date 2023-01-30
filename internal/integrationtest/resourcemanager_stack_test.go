@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -17,27 +17,27 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_resourcemanager "github.com/oracle/oci-go-sdk/v65/resourcemanager"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/service/resourcemanager"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/service/resourcemanager"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	stackSingularDataSourceRepresentation = map[string]interface{}{
+	ResourcemanagerResourcemanagerStackSingularDataSourceRepresentation = map[string]interface{}{
 		"stack_id": acctest.Representation{RepType: acctest.Required, Create: `${var.resource_manager_stack_id}`},
 	}
 
-	stackDataSourceRepresentation = map[string]interface{}{
+	ResourcemanagerResourcemanagerStackDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `TestResourcemanagerStackResource_basic`, Update: `TestResourcemanagerStackResource_basic`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_resourcemanager_stack.test_stack.id}`},
 		"state":          acctest.Representation{RepType: acctest.Required, Create: `ACTIVE`}, // make `required` here so it can be asserted against in step 0
 	}
 
-	StackResourceConfig = DefinedTagsDependencies
+	ResourcemanagerStackResourceConfig = DefinedTagsDependencies
 )
 
 // issue-routing-tag: resourcemanager/default
@@ -82,8 +82,8 @@ func TestResourcemanagerStackResource_basic(t *testing.T) {
 				Config: config + `
 					variable "resource_manager_stack_id" { default = "` + resourceManagerStackId + `" }
 					` +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_resourcemanager_stacks", "test_stacks", acctest.Required, acctest.Create, stackDataSourceRepresentation) +
-					compartmentIdVariableStr + StackResourceConfig,
+					acctest.GenerateDataSourceFromRepresentationMap("oci_resourcemanager_stacks", "test_stacks", acctest.Required, acctest.Create, ResourcemanagerResourcemanagerStackDataSourceRepresentation) +
+					compartmentIdVariableStr + ResourcemanagerStackResourceConfig,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -104,9 +104,9 @@ func TestResourcemanagerStackResource_basic(t *testing.T) {
 				Config: config + `
 					variable "resource_manager_stack_id" { default = "` + resourceManagerStackId + `" }
 					` +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_resourcemanager_stacks", "test_stacks", acctest.Required, acctest.Create, stackDataSourceRepresentation) +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_resourcemanager_stack", "test_stack", acctest.Required, acctest.Create, stackSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + StackResourceConfig,
+					acctest.GenerateDataSourceFromRepresentationMap("oci_resourcemanager_stacks", "test_stacks", acctest.Required, acctest.Create, ResourcemanagerResourcemanagerStackDataSourceRepresentation) +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_resourcemanager_stack", "test_stack", acctest.Required, acctest.Create, ResourcemanagerResourcemanagerStackSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + ResourcemanagerStackResourceConfig,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "stack_id"),
 
@@ -141,7 +141,7 @@ func init() {
 
 func sweepResourcemanagerStackResource(compartment string) error {
 	resourceManagerClient := acctest.GetTestClients(&schema.ResourceData{}).ResourceManagerClient()
-	stackIds, err := getStackIds(compartment)
+	stackIds, err := getResourcemanagerStackIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -157,14 +157,14 @@ func sweepResourcemanagerStackResource(compartment string) error {
 				fmt.Printf("Error deleting Stack %s %s, It is possible that the resource is already deleted. Please verify manually \n", stackId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &stackId, stackSweepWaitCondition, time.Duration(3*time.Minute),
-				stackSweepResponseFetchOperation, "resourcemanager", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &stackId, ResourcemanagerStackSweepWaitCondition, time.Duration(3*time.Minute),
+				ResourcemanagerStackSweepResponseFetchOperation, "resourcemanager", true)
 		}
 	}
 	return nil
 }
 
-func getStackIds(compartment string) ([]string, error) {
+func getResourcemanagerStackIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "StackId")
 	if ids != nil {
 		return ids, nil
@@ -189,7 +189,7 @@ func getStackIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func stackSweepWaitCondition(response common.OCIOperationResponse) bool {
+func ResourcemanagerStackSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if stackResponse, ok := response.Response.(oci_resourcemanager.GetStackResponse); ok {
 		return stackResponse.LifecycleState != oci_resourcemanager.StackLifecycleStateDeleted
@@ -197,7 +197,7 @@ func stackSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func stackSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func ResourcemanagerStackSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.ResourceManagerClient().GetStack(context.Background(), oci_resourcemanager.GetStackRequest{
 		StackId: resourceId,
 		RequestMetadata: common.RequestMetadata{

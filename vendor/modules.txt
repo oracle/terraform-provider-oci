@@ -248,12 +248,13 @@ github.com/mitchellh/reflectwalk
 # github.com/oklog/run v1.0.0
 ## explicit
 github.com/oklog/run
-# github.com/oracle/oci-go-sdk/v65 v65.6.0
+# github.com/oracle/oci-go-sdk/v65 v65.28.2
 ## explicit; go 1.13
 github.com/oracle/oci-go-sdk/v65/adm
 github.com/oracle/oci-go-sdk/v65/aianomalydetection
 github.com/oracle/oci-go-sdk/v65/aivision
 github.com/oracle/oci-go-sdk/v65/analytics
+github.com/oracle/oci-go-sdk/v65/announcementsservice
 github.com/oracle/oci-go-sdk/v65/apigateway
 github.com/oracle/oci-go-sdk/v65/apmconfig
 github.com/oracle/oci-go-sdk/v65/apmcontrolplane
@@ -268,11 +269,14 @@ github.com/oracle/oci-go-sdk/v65/bds
 github.com/oracle/oci-go-sdk/v65/blockchain
 github.com/oracle/oci-go-sdk/v65/budget
 github.com/oracle/oci-go-sdk/v65/certificatesmanagement
+github.com/oracle/oci-go-sdk/v65/cloudbridge
 github.com/oracle/oci-go-sdk/v65/cloudguard
+github.com/oracle/oci-go-sdk/v65/cloudmigrations
 github.com/oracle/oci-go-sdk/v65/common
 github.com/oracle/oci-go-sdk/v65/common/auth
 github.com/oracle/oci-go-sdk/v65/computeinstanceagent
 github.com/oracle/oci-go-sdk/v65/containerengine
+github.com/oracle/oci-go-sdk/v65/containerinstances
 github.com/oracle/oci-go-sdk/v65/core
 github.com/oracle/oci-go-sdk/v65/database
 github.com/oracle/oci-go-sdk/v65/databasemanagement
@@ -286,11 +290,14 @@ github.com/oracle/oci-go-sdk/v65/datalabelingservice
 github.com/oracle/oci-go-sdk/v65/datasafe
 github.com/oracle/oci-go-sdk/v65/datascience
 github.com/oracle/oci-go-sdk/v65/devops
+github.com/oracle/oci-go-sdk/v65/disasterrecovery
 github.com/oracle/oci-go-sdk/v65/dns
 github.com/oracle/oci-go-sdk/v65/email
+github.com/oracle/oci-go-sdk/v65/emwarehouse
 github.com/oracle/oci-go-sdk/v65/events
 github.com/oracle/oci-go-sdk/v65/filestorage
 github.com/oracle/oci-go-sdk/v65/functions
+github.com/oracle/oci-go-sdk/v65/fusionapps
 github.com/oracle/oci-go-sdk/v65/genericartifactscontent
 github.com/oracle/oci-go-sdk/v65/goldengate
 github.com/oracle/oci-go-sdk/v65/healthchecks
@@ -299,6 +306,7 @@ github.com/oracle/oci-go-sdk/v65/identitydataplane
 github.com/oracle/oci-go-sdk/v65/integration
 github.com/oracle/oci-go-sdk/v65/jms
 github.com/oracle/oci-go-sdk/v65/keymanagement
+github.com/oracle/oci-go-sdk/v65/licensemanager
 github.com/oracle/oci-go-sdk/v65/limits
 github.com/oracle/oci-go-sdk/v65/loadbalancer
 github.com/oracle/oci-go-sdk/v65/loganalytics
@@ -306,15 +314,20 @@ github.com/oracle/oci-go-sdk/v65/logging
 github.com/oracle/oci-go-sdk/v65/managementagent
 github.com/oracle/oci-go-sdk/v65/managementdashboard
 github.com/oracle/oci-go-sdk/v65/marketplace
+github.com/oracle/oci-go-sdk/v65/mediaservices
 github.com/oracle/oci-go-sdk/v65/monitoring
 github.com/oracle/oci-go-sdk/v65/mysql
+github.com/oracle/oci-go-sdk/v65/networkfirewall
 github.com/oracle/oci-go-sdk/v65/networkloadbalancer
 github.com/oracle/oci-go-sdk/v65/nosql
 github.com/oracle/oci-go-sdk/v65/objectstorage
 github.com/oracle/oci-go-sdk/v65/oce
 github.com/oracle/oci-go-sdk/v65/ocvp
 github.com/oracle/oci-go-sdk/v65/oda
+github.com/oracle/oci-go-sdk/v65/onesubscription
 github.com/oracle/oci-go-sdk/v65/ons
+github.com/oracle/oci-go-sdk/v65/opa
+github.com/oracle/oci-go-sdk/v65/opensearch
 github.com/oracle/oci-go-sdk/v65/operatoraccesscontrol
 github.com/oracle/oci-go-sdk/v65/opsi
 github.com/oracle/oci-go-sdk/v65/optimizer
@@ -324,6 +337,7 @@ github.com/oracle/oci-go-sdk/v65/osubbillingschedule
 github.com/oracle/oci-go-sdk/v65/osuborganizationsubscription
 github.com/oracle/oci-go-sdk/v65/osubsubscription
 github.com/oracle/oci-go-sdk/v65/osubusage
+github.com/oracle/oci-go-sdk/v65/queue
 github.com/oracle/oci-go-sdk/v65/resourcemanager
 github.com/oracle/oci-go-sdk/v65/sch
 github.com/oracle/oci-go-sdk/v65/secrets
@@ -336,7 +350,9 @@ github.com/oracle/oci-go-sdk/v65/usage
 github.com/oracle/oci-go-sdk/v65/usageapi
 github.com/oracle/oci-go-sdk/v65/vault
 github.com/oracle/oci-go-sdk/v65/visualbuilder
+github.com/oracle/oci-go-sdk/v65/vnmonitoring
 github.com/oracle/oci-go-sdk/v65/vulnerabilityscanning
+github.com/oracle/oci-go-sdk/v65/waa
 github.com/oracle/oci-go-sdk/v65/waas
 github.com/oracle/oci-go-sdk/v65/waf
 github.com/oracle/oci-go-sdk/v65/workrequests
@@ -388,8 +404,8 @@ go.opencensus.io/trace
 go.opencensus.io/trace/internal
 go.opencensus.io/trace/propagation
 go.opencensus.io/trace/tracestate
-# golang.org/x/crypto v0.0.0-20210421170649-83a5a9bb288b
-## explicit; go 1.11
+# golang.org/x/crypto v0.0.0-20210921155107-089bfa567519
+## explicit; go 1.17
 golang.org/x/crypto/cast5
 golang.org/x/crypto/openpgp
 golang.org/x/crypto/openpgp/armor
@@ -397,16 +413,17 @@ golang.org/x/crypto/openpgp/elgamal
 golang.org/x/crypto/openpgp/errors
 golang.org/x/crypto/openpgp/packet
 golang.org/x/crypto/openpgp/s2k
-# golang.org/x/lint v0.0.0-20200302205851-738671d3881b
+# golang.org/x/lint v0.0.0-20210508222113-6edffad5e616
 ## explicit; go 1.11
 golang.org/x/lint
 golang.org/x/lint/golint
-# golang.org/x/mod v0.4.2
-## explicit; go 1.12
+# golang.org/x/mod v0.6.0-dev.0.20220419223038-86c51ed26bb4
+## explicit; go 1.17
+golang.org/x/mod/internal/lazyregexp
 golang.org/x/mod/module
 golang.org/x/mod/semver
-# golang.org/x/net v0.0.0-20210326060303-6b1517762897
-## explicit; go 1.11
+# golang.org/x/net v0.0.0-20211015210444-4f30a5c0130f
+## explicit; go 1.17
 golang.org/x/net/context
 golang.org/x/net/context/ctxhttp
 golang.org/x/net/http/httpguts
@@ -424,16 +441,17 @@ golang.org/x/oauth2/jws
 golang.org/x/oauth2/jwt
 # golang.org/x/sys v0.0.0-20220209214540-3681064d5158
 ## explicit; go 1.17
+golang.org/x/sys/execabs
 golang.org/x/sys/internal/unsafeheader
 golang.org/x/sys/unix
-# golang.org/x/text v0.3.5
-## explicit; go 1.11
+# golang.org/x/text v0.3.7
+## explicit; go 1.17
 golang.org/x/text/secure/bidirule
 golang.org/x/text/transform
 golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
-# golang.org/x/tools v0.0.0-20201028111035-eafbe7b904eb
-## explicit; go 1.12
+# golang.org/x/tools v0.1.11
+## explicit; go 1.17
 golang.org/x/tools/cmd/goimports
 golang.org/x/tools/go/ast/astutil
 golang.org/x/tools/go/gcexportdata
@@ -446,10 +464,7 @@ golang.org/x/tools/internal/fastwalk
 golang.org/x/tools/internal/gocommand
 golang.org/x/tools/internal/gopathwalk
 golang.org/x/tools/internal/imports
-# golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1
-## explicit; go 1.11
-golang.org/x/xerrors
-golang.org/x/xerrors/internal
+golang.org/x/tools/internal/typeparams
 # google.golang.org/api v0.34.0
 ## explicit; go 1.11
 google.golang.org/api/googleapi

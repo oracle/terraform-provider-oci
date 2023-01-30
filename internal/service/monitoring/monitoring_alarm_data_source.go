@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package monitoring
@@ -6,8 +6,8 @@ package monitoring
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_monitoring "github.com/oracle/oci-go-sdk/v65/monitoring"
@@ -88,6 +88,10 @@ func (s *MonitoringAlarmDataSourceCrud) SetData() error {
 
 	if s.Res.IsEnabled != nil {
 		s.D.Set("is_enabled", *s.Res.IsEnabled)
+	}
+
+	if s.Res.IsNotificationsPerMetricDimensionEnabled != nil {
+		s.D.Set("is_notifications_per_metric_dimension_enabled", *s.Res.IsNotificationsPerMetricDimensionEnabled)
 	}
 
 	s.D.Set("message_format", s.Res.MessageFormat)

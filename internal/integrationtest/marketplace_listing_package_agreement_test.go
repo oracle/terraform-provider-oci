@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,27 +9,27 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	listingPackageAgreementManagementRepresentation = map[string]interface{}{
+	MarketplaceListingPackageAgreementManagementRepresentation = map[string]interface{}{
 		"agreement_id":    acctest.Representation{RepType: acctest.Required, Create: `${data.oci_marketplace_listing_package_agreements.test_listing_package_agreements.agreements.0.id}`},
 		"listing_id":      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_marketplace_listing.test_listing.id}`},
 		"package_version": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_marketplace_listing.test_listing.default_package_version}`},
 		"compartment_id":  acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 	}
 
-	listingPackageAgreementDataSourceRepresentation = map[string]interface{}{
+	MarketplaceMarketplaceListingPackageAgreementDataSourceRepresentation = map[string]interface{}{
 		"listing_id":      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_marketplace_listing.test_listing.id}`},
 		"package_version": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_marketplace_listing.test_listing.default_package_version}`},
 		"compartment_id":  acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 	}
 
-	ListingPackageAgreementResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listing", "test_listing", acctest.Required, acctest.Create, listingSingularDataSourceRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listings", "test_listings", acctest.Required, acctest.Create, listingDataSourceRepresentation)
+	MarketplaceListingPackageAgreementResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listing", "test_listing", acctest.Required, acctest.Create, MarketplaceMarketplaceListingSingularDataSourceRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listings", "test_listings", acctest.Required, acctest.Create, MarketplaceMarketplaceListingDataSourceRepresentation)
 )
 
 // issue-routing-tag: marketplace/default
@@ -51,9 +51,9 @@ func TestMarketplaceListingPackageAgreementResource_basic(t *testing.T) {
 		// verify resource
 		{
 			Config: config +
-				acctest.GenerateResourceFromRepresentationMap("oci_marketplace_listing_package_agreement", "test_listing_package_agreement", acctest.Required, acctest.Create, listingPackageAgreementManagementRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listing_package_agreements", "test_listing_package_agreements", acctest.Required, acctest.Create, listingPackageAgreementDataSourceRepresentation) +
-				compartmentIdVariableStr + ListingPackageAgreementResourceConfig,
+				acctest.GenerateResourceFromRepresentationMap("oci_marketplace_listing_package_agreement", "test_listing_package_agreement", acctest.Required, acctest.Create, MarketplaceListingPackageAgreementManagementRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listing_package_agreements", "test_listing_package_agreements", acctest.Required, acctest.Create, MarketplaceMarketplaceListingPackageAgreementDataSourceRepresentation) +
+				compartmentIdVariableStr + MarketplaceListingPackageAgreementResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "agreement_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "listing_id"),
@@ -68,8 +68,8 @@ func TestMarketplaceListingPackageAgreementResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listing_package_agreements", "test_listing_package_agreements", acctest.Required, acctest.Create, listingPackageAgreementDataSourceRepresentation) +
-				compartmentIdVariableStr + ListingPackageAgreementResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listing_package_agreements", "test_listing_package_agreements", acctest.Required, acctest.Create, MarketplaceMarketplaceListingPackageAgreementDataSourceRepresentation) +
+				compartmentIdVariableStr + MarketplaceListingPackageAgreementResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "listing_id"),
 

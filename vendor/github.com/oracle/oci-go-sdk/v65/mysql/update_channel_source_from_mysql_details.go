@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -38,6 +38,8 @@ type UpdateChannelSourceFromMysqlDetails struct {
 	Password *string `mandatory:"false" json:"password"`
 
 	SslCaCertificate CaCertificate `mandatory:"false" json:"sslCaCertificate"`
+
+	AnonymousTransactionsHandling AnonymousTransactionsHandling `mandatory:"false" json:"anonymousTransactionsHandling"`
 
 	// The SSL mode of the Channel.
 	SslMode ChannelSourceMysqlSslModeEnum `mandatory:"false" json:"sslMode,omitempty"`
@@ -79,12 +81,13 @@ func (m UpdateChannelSourceFromMysqlDetails) MarshalJSON() (buff []byte, e error
 // UnmarshalJSON unmarshals from json
 func (m *UpdateChannelSourceFromMysqlDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Hostname         *string                       `json:"hostname"`
-		Port             *int                          `json:"port"`
-		Username         *string                       `json:"username"`
-		Password         *string                       `json:"password"`
-		SslMode          ChannelSourceMysqlSslModeEnum `json:"sslMode"`
-		SslCaCertificate cacertificate                 `json:"sslCaCertificate"`
+		Hostname                      *string                       `json:"hostname"`
+		Port                          *int                          `json:"port"`
+		Username                      *string                       `json:"username"`
+		Password                      *string                       `json:"password"`
+		SslMode                       ChannelSourceMysqlSslModeEnum `json:"sslMode"`
+		SslCaCertificate              cacertificate                 `json:"sslCaCertificate"`
+		AnonymousTransactionsHandling anonymoustransactionshandling `json:"anonymousTransactionsHandling"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -110,6 +113,16 @@ func (m *UpdateChannelSourceFromMysqlDetails) UnmarshalJSON(data []byte) (e erro
 		m.SslCaCertificate = nn.(CaCertificate)
 	} else {
 		m.SslCaCertificate = nil
+	}
+
+	nn, e = model.AnonymousTransactionsHandling.UnmarshalPolymorphicJSON(model.AnonymousTransactionsHandling.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.AnonymousTransactionsHandling = nn.(AnonymousTransactionsHandling)
+	} else {
+		m.AnonymousTransactionsHandling = nil
 	}
 
 	return

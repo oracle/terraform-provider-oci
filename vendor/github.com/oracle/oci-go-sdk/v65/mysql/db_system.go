@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -135,6 +135,8 @@ type DbSystem struct {
 	// Whether to run the DB System with InnoDB Redo Logs and the Double Write Buffer enabled or disabled,
 	// and whether to enable or disable syncing of the Binary Logs.
 	CrashRecovery CrashRecoveryStatusEnum `mandatory:"false" json:"crashRecovery,omitempty"`
+
+	PointInTimeRecoveryDetails *PointInTimeRecoveryDetails `mandatory:"false" json:"pointInTimeRecoveryDetails"`
 }
 
 func (m DbSystem) String() string {
@@ -185,6 +187,7 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags               map[string]string                 `json:"freeformTags"`
 		DefinedTags                map[string]map[string]interface{} `json:"definedTags"`
 		CrashRecovery              CrashRecoveryStatusEnum           `json:"crashRecovery"`
+		PointInTimeRecoveryDetails *PointInTimeRecoveryDetails       `json:"pointInTimeRecoveryDetails"`
 		Id                         *string                           `json:"id"`
 		DisplayName                *string                           `json:"displayName"`
 		CompartmentId              *string                           `json:"compartmentId"`
@@ -262,6 +265,8 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.CrashRecovery = model.CrashRecovery
+
+	m.PointInTimeRecoveryDetails = model.PointInTimeRecoveryDetails
 
 	m.Id = model.Id
 

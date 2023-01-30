@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,19 +7,19 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
 	caNameForCaVersionTests = "test-ca-version-ca-" + utils.RandomString(10, utils.CharsetWithoutDigits)
 
-	certificateAuthorityVersionSingularDataSourceRepresentation = map[string]interface{}{
+	CertificatesManagementcertificateAuthorityVersionSingularDataSourceRepresentation = map[string]interface{}{
 		"certificate_authority_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_certificates_management_certificate_authority.test_certificate_authority.id}`},
 		"certificate_authority_version_number": acctest.Representation{RepType: acctest.Required, Create: `1`},
 	}
@@ -29,7 +29,7 @@ var (
 		"version_number":           acctest.Representation{RepType: acctest.Optional, Create: `1`},
 	}
 
-	CertificateAuthorityVersionResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_certificates_management_certificate_authority", "test_certificate_authority", acctest.Required, acctest.Create,
+	CertificatesManagementCertificateAuthorityVersionResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_certificates_management_certificate_authority", "test_certificate_authority", acctest.Required, acctest.Create,
 		acctest.RepresentationCopyWithNewProperties(certificateAuthorityRepresentation, map[string]interface{}{
 			"name": acctest.Representation{RepType: acctest.Required, Create: caNameForCaVersionTests},
 		}))
@@ -60,7 +60,7 @@ func TestCertificatesManagementCertificateAuthorityVersionResource_basic(t *test
 			{
 				Config: config +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_certificates_management_certificate_authority_versions", "test_certificate_authority_versions", acctest.Optional, acctest.Create, certificateAuthorityVersionDataSourceRepresentation) +
-					compartmentIdVariableStr + CertificateAuthorityVersionResourceConfig,
+					compartmentIdVariableStr + CertificatesManagementCertificateAuthorityVersionResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "certificate_authority_id"),
 					resource.TestCheckResourceAttr(datasourceName, "version_number", "1"),
@@ -72,8 +72,8 @@ func TestCertificatesManagementCertificateAuthorityVersionResource_basic(t *test
 			// verify singular datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_certificates_management_certificate_authority_version", "test_certificate_authority_version", acctest.Required, acctest.Create, certificateAuthorityVersionSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + CertificateAuthorityVersionResourceConfig,
+					acctest.GenerateDataSourceFromRepresentationMap("oci_certificates_management_certificate_authority_version", "test_certificate_authority_version", acctest.Required, acctest.Create, CertificatesManagementcertificateAuthorityVersionSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + CertificatesManagementCertificateAuthorityVersionResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "certificate_authority_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "version_number", "1"),

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 
 # Check gofmt
 echo "==> Checking that code complies with gofmt requirements..."
@@ -27,7 +27,7 @@ done
 
 # Check goimports
 #echo "==> Checking that code complies with goimports requirements..."
-#goimports_files=$(find . -name '*.go' | grep -v vendor | xargs goimports -l -local github.com/terraform-providers/terraform-provider-oci)
+#goimports_files=$(find . -name '*.go' | grep -v vendor | xargs goimports -l -local terraform-provider-oci)
 #if [[ -n ${goimports_files} ]]; then
 #    echo 'goimports needs running on the following files:'
 #    echo "${goimports_files}"

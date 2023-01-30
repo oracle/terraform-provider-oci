@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -79,6 +79,10 @@ func (m *basetype) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 
 	var err error
 	switch m.ModelType {
+	case "ARRAY_TYPE":
+		mm := ArrayType{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "CONFIGURED_TYPE":
 		mm := ConfiguredType{}
 		err = json.Unmarshal(data, &mm)
@@ -97,6 +101,14 @@ func (m *basetype) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		return mm, err
 	case "DATA_TYPE":
 		mm := DataType{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MATERIALIZED_COMPOSITE_TYPE":
+		mm := MaterializedCompositeType{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MAP_TYPE":
+		mm := MapType{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "COMPOSITE_TYPE":
@@ -159,33 +171,42 @@ type BaseTypeModelTypeEnum string
 
 // Set of constants representing the allowable values for BaseTypeModelTypeEnum
 const (
-	BaseTypeModelTypeDynamicType    BaseTypeModelTypeEnum = "DYNAMIC_TYPE"
-	BaseTypeModelTypeStructuredType BaseTypeModelTypeEnum = "STRUCTURED_TYPE"
-	BaseTypeModelTypeDataType       BaseTypeModelTypeEnum = "DATA_TYPE"
-	BaseTypeModelTypeJavaType       BaseTypeModelTypeEnum = "JAVA_TYPE"
-	BaseTypeModelTypeConfiguredType BaseTypeModelTypeEnum = "CONFIGURED_TYPE"
-	BaseTypeModelTypeCompositeType  BaseTypeModelTypeEnum = "COMPOSITE_TYPE"
-	BaseTypeModelTypeDerivedType    BaseTypeModelTypeEnum = "DERIVED_TYPE"
+	BaseTypeModelTypeDynamicType               BaseTypeModelTypeEnum = "DYNAMIC_TYPE"
+	BaseTypeModelTypeStructuredType            BaseTypeModelTypeEnum = "STRUCTURED_TYPE"
+	BaseTypeModelTypeDataType                  BaseTypeModelTypeEnum = "DATA_TYPE"
+	BaseTypeModelTypeJavaType                  BaseTypeModelTypeEnum = "JAVA_TYPE"
+	BaseTypeModelTypeConfiguredType            BaseTypeModelTypeEnum = "CONFIGURED_TYPE"
+	BaseTypeModelTypeCompositeType             BaseTypeModelTypeEnum = "COMPOSITE_TYPE"
+	BaseTypeModelTypeDerivedType               BaseTypeModelTypeEnum = "DERIVED_TYPE"
+	BaseTypeModelTypeArrayType                 BaseTypeModelTypeEnum = "ARRAY_TYPE"
+	BaseTypeModelTypeMapType                   BaseTypeModelTypeEnum = "MAP_TYPE"
+	BaseTypeModelTypeMaterializedCompositeType BaseTypeModelTypeEnum = "MATERIALIZED_COMPOSITE_TYPE"
 )
 
 var mappingBaseTypeModelTypeEnum = map[string]BaseTypeModelTypeEnum{
-	"DYNAMIC_TYPE":    BaseTypeModelTypeDynamicType,
-	"STRUCTURED_TYPE": BaseTypeModelTypeStructuredType,
-	"DATA_TYPE":       BaseTypeModelTypeDataType,
-	"JAVA_TYPE":       BaseTypeModelTypeJavaType,
-	"CONFIGURED_TYPE": BaseTypeModelTypeConfiguredType,
-	"COMPOSITE_TYPE":  BaseTypeModelTypeCompositeType,
-	"DERIVED_TYPE":    BaseTypeModelTypeDerivedType,
+	"DYNAMIC_TYPE":                BaseTypeModelTypeDynamicType,
+	"STRUCTURED_TYPE":             BaseTypeModelTypeStructuredType,
+	"DATA_TYPE":                   BaseTypeModelTypeDataType,
+	"JAVA_TYPE":                   BaseTypeModelTypeJavaType,
+	"CONFIGURED_TYPE":             BaseTypeModelTypeConfiguredType,
+	"COMPOSITE_TYPE":              BaseTypeModelTypeCompositeType,
+	"DERIVED_TYPE":                BaseTypeModelTypeDerivedType,
+	"ARRAY_TYPE":                  BaseTypeModelTypeArrayType,
+	"MAP_TYPE":                    BaseTypeModelTypeMapType,
+	"MATERIALIZED_COMPOSITE_TYPE": BaseTypeModelTypeMaterializedCompositeType,
 }
 
 var mappingBaseTypeModelTypeEnumLowerCase = map[string]BaseTypeModelTypeEnum{
-	"dynamic_type":    BaseTypeModelTypeDynamicType,
-	"structured_type": BaseTypeModelTypeStructuredType,
-	"data_type":       BaseTypeModelTypeDataType,
-	"java_type":       BaseTypeModelTypeJavaType,
-	"configured_type": BaseTypeModelTypeConfiguredType,
-	"composite_type":  BaseTypeModelTypeCompositeType,
-	"derived_type":    BaseTypeModelTypeDerivedType,
+	"dynamic_type":                BaseTypeModelTypeDynamicType,
+	"structured_type":             BaseTypeModelTypeStructuredType,
+	"data_type":                   BaseTypeModelTypeDataType,
+	"java_type":                   BaseTypeModelTypeJavaType,
+	"configured_type":             BaseTypeModelTypeConfiguredType,
+	"composite_type":              BaseTypeModelTypeCompositeType,
+	"derived_type":                BaseTypeModelTypeDerivedType,
+	"array_type":                  BaseTypeModelTypeArrayType,
+	"map_type":                    BaseTypeModelTypeMapType,
+	"materialized_composite_type": BaseTypeModelTypeMaterializedCompositeType,
 }
 
 // GetBaseTypeModelTypeEnumValues Enumerates the set of values for BaseTypeModelTypeEnum
@@ -207,6 +228,9 @@ func GetBaseTypeModelTypeEnumStringValues() []string {
 		"CONFIGURED_TYPE",
 		"COMPOSITE_TYPE",
 		"DERIVED_TYPE",
+		"ARRAY_TYPE",
+		"MAP_TYPE",
+		"MATERIALIZED_COMPOSITE_TYPE",
 	}
 }
 

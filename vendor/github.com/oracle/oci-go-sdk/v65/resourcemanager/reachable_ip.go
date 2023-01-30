@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -18,14 +18,12 @@ import (
 	"strings"
 )
 
-// ReachableIp A reachableIp ip address used by Resource Manager Service to connect to the private resource.
+// ReachableIp The reachable, or alternative, IP address for a nonpublic IP address that is associated with the private endpoint.
+// Resource Manager uses this IP address to connect to nonpublic resources through the associated private endpoint.
 type ReachableIp struct {
 
-	// A reachableIp IP address used by Resource Manager Service to connect to the private resource.
-	ReachableIp *string `mandatory:"true" json:"reachableIp"`
-
-	// An IP address for the Resource Manager service to use for connection to the private resource.
-	IpAddress *string `mandatory:"false" json:"ipAddress"`
+	// Reachable IP address associated with the private endpoint.
+	IpAddress *string `mandatory:"true" json:"ipAddress"`
 }
 
 func (m ReachableIp) String() string {

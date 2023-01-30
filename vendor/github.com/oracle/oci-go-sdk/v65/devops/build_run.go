@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -170,6 +170,7 @@ const (
 	BuildRunLifecycleStateSucceeded  BuildRunLifecycleStateEnum = "SUCCEEDED"
 	BuildRunLifecycleStateCanceling  BuildRunLifecycleStateEnum = "CANCELING"
 	BuildRunLifecycleStateCanceled   BuildRunLifecycleStateEnum = "CANCELED"
+	BuildRunLifecycleStateDeleting   BuildRunLifecycleStateEnum = "DELETING"
 )
 
 var mappingBuildRunLifecycleStateEnum = map[string]BuildRunLifecycleStateEnum{
@@ -179,6 +180,7 @@ var mappingBuildRunLifecycleStateEnum = map[string]BuildRunLifecycleStateEnum{
 	"SUCCEEDED":   BuildRunLifecycleStateSucceeded,
 	"CANCELING":   BuildRunLifecycleStateCanceling,
 	"CANCELED":    BuildRunLifecycleStateCanceled,
+	"DELETING":    BuildRunLifecycleStateDeleting,
 }
 
 var mappingBuildRunLifecycleStateEnumLowerCase = map[string]BuildRunLifecycleStateEnum{
@@ -188,6 +190,7 @@ var mappingBuildRunLifecycleStateEnumLowerCase = map[string]BuildRunLifecycleSta
 	"succeeded":   BuildRunLifecycleStateSucceeded,
 	"canceling":   BuildRunLifecycleStateCanceling,
 	"canceled":    BuildRunLifecycleStateCanceled,
+	"deleting":    BuildRunLifecycleStateDeleting,
 }
 
 // GetBuildRunLifecycleStateEnumValues Enumerates the set of values for BuildRunLifecycleStateEnum
@@ -208,6 +211,7 @@ func GetBuildRunLifecycleStateEnumStringValues() []string {
 		"SUCCEEDED",
 		"CANCELING",
 		"CANCELED",
+		"DELETING",
 	}
 }
 

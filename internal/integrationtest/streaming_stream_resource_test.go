@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,13 +7,13 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -26,12 +26,12 @@ var (
 		"stream_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_streaming_stream.test_stream.id}`},
 	}
 
-	streampoolidDataSourceRepresentation = acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(streamDataSourceRepresentation, []string{"compartment_id"}), map[string]interface{}{"stream_pool_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_streaming_stream_pool.test_stream_pool.id}`}})
+	streampoolidDataSourceRepresentation = acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(StreamingStreamingStreamDataSourceRepresentation, []string{"compartment_id"}), map[string]interface{}{"stream_pool_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_streaming_stream_pool.test_stream_pool.id}`}})
 
-	streampoolidRepresentation = acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(streamRepresentation, []string{"compartment_id"}), map[string]interface{}{"stream_pool_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_streaming_stream_pool.test_stream_pool.id}`}})
+	streampoolidRepresentation = acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(StreamingStreamRepresentation, []string{"compartment_id"}), map[string]interface{}{"stream_pool_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_streaming_stream_pool.test_stream_pool.id}`}})
 
 	StreampoolidResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", acctest.Required, acctest.Create, streamPoolRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", acctest.Required, acctest.Create, StreamingStreamPoolRepresentation)
 )
 
 // issue-routing-tag: streaming/default
@@ -73,7 +73,7 @@ func TestStreamingStreamWithStreamPoolIdResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + StreampoolidResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(streamRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(StreamingStreamRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -116,7 +116,7 @@ func TestStreamingStreamWithStreamPoolIdResource_basic(t *testing.T) {
 		},
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + StreampoolidResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool_new", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(streamPoolRepresentation, map[string]interface{}{
+				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool_new", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(StreamingStreamPoolRepresentation, map[string]interface{}{
 					"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 				})) +
 				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Optional, acctest.Create, streampoolidRepresentation),
@@ -127,7 +127,7 @@ func TestStreamingStreamWithStreamPoolIdResource_basic(t *testing.T) {
 		// verify stream move to compartment_id_for_update when stream_pool_id is updated which is also present in compartment_id_for_update
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + StreampoolidResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool_new", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(streamPoolRepresentation, map[string]interface{}{
+				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool_new", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(StreamingStreamPoolRepresentation, map[string]interface{}{
 					"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 				})) +
 				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(streampoolidRepresentation, map[string]interface{}{
@@ -155,7 +155,7 @@ func TestStreamingStreamWithStreamPoolIdResource_basic(t *testing.T) {
 		// verify updates to updatable parameters and switch stream back to test_stream_pool in compartment_ocid
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + StreampoolidResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool_new", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(streamPoolRepresentation, map[string]interface{}{
+				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool_new", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(StreamingStreamPoolRepresentation, map[string]interface{}{
 					"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 				})) +
 				acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Optional, acctest.Update, streampoolidRepresentation),

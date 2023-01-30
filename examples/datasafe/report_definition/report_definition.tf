@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
@@ -38,23 +38,23 @@ variable "report_definition_column_filters_operator" {
 }
 
 variable "report_definition_column_info_data_type" {
-  default = "dataType"
+  default = "String"
 }
 
 variable "report_definition_column_info_display_name" {
-  default = "displayName"
+  default = "Target Id"
 }
 
 variable "report_definition_column_info_display_order" {
-  default = 10
+  default = 1
 }
 
 variable "report_definition_column_info_field_name" {
-  default = "targetName"
+  default = "targetId"
 }
 
 variable "report_definition_column_info_is_hidden" {
-  default = false
+  default = true
 }
 
 variable "report_definition_column_sortings_field_name" {
@@ -87,10 +87,6 @@ variable "report_definition_description" {
 
 variable "report_definition_display_name" {
   default = "displayName99"
-}
-
-variable "report_definition_freeform_tags" {
-  default = { "Department" = "Finance" }
 }
 
 variable "report_definition_is_seeded" {
@@ -178,7 +174,10 @@ resource "oci_data_safe_report_definition" "test_report_definition" {
 
   #Optional
   description   = var.report_definition_description
-  freeform_tags = var.report_definition_freeform_tags
+
+  lifecycle {
+      ignore_changes = [system_tags]
+    }
 }
 
 data "oci_data_safe_report_definitions" "test_report_definitions" {

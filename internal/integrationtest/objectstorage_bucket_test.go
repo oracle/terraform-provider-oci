@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,11 +9,11 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -21,35 +21,35 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_object_storage "github.com/oracle/oci-go-sdk/v65/objectstorage"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	BucketRequiredOnlyResource = BucketResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, bucketRepresentation)
+	ObjectStorageBucketRequiredOnlyResource = ObjectStorageBucketResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation)
 
-	BucketResourceConfig = BucketResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Optional, acctest.Update, bucketRepresentation)
+	ObjectStorageBucketResourceConfig = ObjectStorageBucketResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Optional, acctest.Update, ObjectStorageBucketRepresentation)
 
 	// Based on Bucket name specifications used in Object Storage Lifecycle policy
 	testBucketName  = utils.RandomStringOrHttpReplayValue(32, utils.Charset, "bucket")
 	testBucketName2 = testBucketName + "2"
 
-	bucketSingularDataSourceRepresentation = map[string]interface{}{
+	ObjectStorageObjectStorageBucketSingularDataSourceRepresentation = map[string]interface{}{
 		"name":      acctest.Representation{RepType: acctest.Required, Create: testBucketName2},
 		"namespace": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 	}
 
-	bucketDataSourceRepresentation = map[string]interface{}{
+	ObjectStorageObjectStorageBucketDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"namespace":      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: bucketDataSourceFilterRepresentation}}
-	bucketDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ObjectStorageBucketDataSourceFilterRepresentation}}
+	ObjectStorageBucketDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `name`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_objectstorage_bucket.test_bucket.name}`}},
 	}
 
-	bucketRepresentation = map[string]interface{}{
+	ObjectStorageBucketRepresentation = map[string]interface{}{
 		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":                  acctest.Representation{RepType: acctest.Required, Create: testBucketName, Update: testBucketName2},
 		"namespace":             acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
@@ -64,7 +64,7 @@ var (
 		"versioning":            acctest.Representation{RepType: acctest.Optional, Create: `Enabled`, Update: `Disabled`},
 	}
 
-	BucketResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation) +
+	ObjectStorageBucketResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
 		DefinedTagsDependencies +
 		KeyResourceDependencyConfig2
 )
@@ -88,14 +88,14 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+BucketResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Optional, acctest.Create, bucketRepresentation), "objectstorage", "bucket", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ObjectStorageBucketResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Optional, acctest.Create, ObjectStorageBucketRepresentation), "objectstorage", "bucket", t)
 
 	acctest.ResourceTest(t, testAccCheckObjectStorageBucketDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + BucketResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, bucketRepresentation),
+			Config: config + compartmentIdVariableStr + ObjectStorageBucketResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -111,12 +111,12 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + BucketResourceDependencies,
+			Config: config + compartmentIdVariableStr + ObjectStorageBucketResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + BucketResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Optional, acctest.Create, bucketRepresentation),
+			Config: config + compartmentIdVariableStr + ObjectStorageBucketResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Optional, acctest.Create, ObjectStorageBucketRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "access_type", "NoPublicAccess"),
 				resource.TestCheckResourceAttr(resourceName, "auto_tiering", "Disabled"),
@@ -146,8 +146,8 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 			),
 		},
 		{
-			Config: config + compartmentIdVariableStr + BucketResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Optional, acctest.Create, bucketRepresentation),
+			Config: config + compartmentIdVariableStr + ObjectStorageBucketResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Optional, acctest.Create, ObjectStorageBucketRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "approximate_count"),
 				resource.TestCheckResourceAttrSet(resourceName, "approximate_size"),
@@ -160,8 +160,8 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 		},
 		// verify updates to compartment
 		{
-			Config: config + compartmentId2VariableStr + BucketResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Optional, acctest.Create, bucketRepresentation),
+			Config: config + compartmentId2VariableStr + ObjectStorageBucketResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Optional, acctest.Create, ObjectStorageBucketRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "access_type", "NoPublicAccess"),
 				resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
@@ -188,8 +188,8 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 		},
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + BucketResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Optional, acctest.Update, bucketRepresentation),
+			Config: config + compartmentIdVariableStr + ObjectStorageBucketResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Optional, acctest.Update, ObjectStorageBucketRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
 				resource.TestCheckResourceAttr(resourceName, "auto_tiering", "InfrequentAccess"),
@@ -220,9 +220,9 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_bucket_summaries", "test_buckets", acctest.Optional, acctest.Update, bucketDataSourceRepresentation) +
-				compartmentIdVariableStr + BucketResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Optional, acctest.Update, bucketRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_bucket_summaries", "test_buckets", acctest.Optional, acctest.Update, ObjectStorageObjectStorageBucketDataSourceRepresentation) +
+				compartmentIdVariableStr + ObjectStorageBucketResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Optional, acctest.Update, ObjectStorageBucketRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
@@ -240,8 +240,8 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, bucketSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + BucketResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageObjectStorageBucketSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ObjectStorageBucketResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", testBucketName2),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
@@ -270,7 +270,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + BucketRequiredOnlyResource,
+			Config:                  config + ObjectStorageBucketRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -331,7 +331,7 @@ func init() {
 
 func sweepObjectStorageBucketResource(compartment string) error {
 	objectStorageClient := acctest.GetTestClients(&schema.ResourceData{}).ObjectStorageClient()
-	bucketIds, err := getBucketIds(compartment)
+	bucketIds, err := getObjectStorageBucketIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -350,7 +350,7 @@ func sweepObjectStorageBucketResource(compartment string) error {
 	return nil
 }
 
-func getBucketIds(compartment string) ([]string, error) {
+func getObjectStorageBucketIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "BucketId")
 	if ids != nil {
 		return ids, nil

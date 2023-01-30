@@ -26,6 +26,7 @@ resource "oci_core_volume_attachment" "test_volume_attachment" {
 	device = var.volume_attachment_device
 	display_name = var.volume_attachment_display_name
 	encryption_in_transit_type = var.volume_attachment_encryption_in_transit_type
+	is_agent_auto_iscsi_login_enabled = var.volume_attachment_is_agent_auto_iscsi_login_enabled
 	is_pv_encryption_in_transit_enabled = var.volume_attachment_is_pv_encryption_in_transit_enabled
 	is_read_only = var.volume_attachment_is_read_only
 	is_shareable = var.volume_attachment_is_shareable
@@ -42,6 +43,7 @@ The following arguments are supported:
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `encryption_in_transit_type` - (Applicable when attachment_type=iscsi) Refer the top-level definition of encryptionInTransitType. The default value is NONE.
 * `instance_id` - (Required) The OCID of the instance.
+* `is_agent_auto_iscsi_login_enabled` - (Applicable when attachment_type=iscsi) Whether to enable Oracle Cloud Agent to perform the iSCSI login and logout commands after the volume attach or detach operations for non multipath-enabled iSCSI attachments. 
 * `is_pv_encryption_in_transit_enabled` - (Applicable when attachment_type=paravirtualized) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
 * `is_read_only` - (Optional) Whether the attachment was created in read-only mode.
 * `is_shareable` - (Optional) Whether the attachment should be created in shareable mode. If an attachment is created in shareable mode, then other instances can attach the same volume, provided that they also create their attachments in shareable mode. Only certain volume types can be attached in shareable mode. Defaults to false if not specified.
@@ -66,8 +68,9 @@ The following attributes are exported:
 * `encryption_in_transit_type` - Refer the top-level definition of encryptionInTransitType. The default value is NONE.
 * `id` - The OCID of the volume attachment.
 * `instance_id` - The OCID of the instance the volume is attached to.
-* `ipv4` - The volume's iSCSI IP address.  Example: `169.254.0.2`
-* `iqn` - The target volume's iSCSI Qualified Name in the format defined by [RFC 3720](https://tools.ietf.org/html/rfc3720#page-32).  Example: `iqn.2015-12.us.oracle.com:<CHAP_username>`
+* `ipv4` - The volume's iSCSI IP address.  Example: `169.254.0.2` 
+* `iqn` - The target volume's iSCSI Qualified Name in the format defined by [RFC 3720](https://tools.ietf.org/html/rfc3720#page-32).  Example: `iqn.2015-12.us.oracle.com:<CHAP_username>` 
+* `is_agent_auto_iscsi_login_enabled` - Whether Oracle Cloud Agent is enabled perform the iSCSI login and logout commands after the volume attach or detach operations for non multipath-enabled iSCSI attachments. 
 * `is_multipath` - Whether the Iscsi or Paravirtualized attachment is multipath or not, it is not applicable to NVMe attachment.
 * `is_pv_encryption_in_transit_enabled` - Whether in-transit encryption for the data volume's paravirtualized attachment is enabled or not.
 * `is_read_only` - Whether the attachment was created in read-only mode.
@@ -83,10 +86,10 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
-* `create` - (Defaults to 20 minutes), when creating the Volume Attachment
-* `update` - (Defaults to 20 minutes), when updating the Volume Attachment
-* `delete` - (Defaults to 20 minutes), when destroying the Volume Attachment
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Volume Attachment
+	* `update` - (Defaults to 20 minutes), when updating the Volume Attachment
+	* `delete` - (Defaults to 20 minutes), when destroying the Volume Attachment
 
 
 ## Import

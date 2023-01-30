@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -31,6 +31,9 @@ type SingleDeployStageRedeploymentSummary struct {
 	// The OCID of a compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// Specifies the OCID of the stage to be redeployed.
+	DeployStageId *string `mandatory:"true" json:"deployStageId"`
+
 	// Deployment identifier which can be renamed and is not necessarily unique. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -41,6 +44,8 @@ type SingleDeployStageRedeploymentSummary struct {
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
 	DeploymentArguments *DeploymentArgumentCollection `mandatory:"false" json:"deploymentArguments"`
+
+	DeployStageOverrideArguments *DeployStageOverrideArgumentCollection `mandatory:"false" json:"deployStageOverrideArguments"`
 
 	DeployArtifactOverrideArguments *DeployArtifactOverrideArgumentCollection `mandatory:"false" json:"deployArtifactOverrideArguments"`
 
@@ -58,9 +63,6 @@ type SingleDeployStageRedeploymentSummary struct {
 
 	// Specifies the OCID of the previous deployment to be redeployed.
 	PreviousDeploymentId *string `mandatory:"false" json:"previousDeploymentId"`
-
-	// Specifies the OCID of the stage to be redeployed.
-	DeployStageId *string `mandatory:"false" json:"deployStageId"`
 
 	// The current state of the deployment.
 	LifecycleState DeploymentLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
@@ -109,6 +111,11 @@ func (m SingleDeployStageRedeploymentSummary) GetLifecycleState() DeploymentLife
 //GetDeploymentArguments returns DeploymentArguments
 func (m SingleDeployStageRedeploymentSummary) GetDeploymentArguments() *DeploymentArgumentCollection {
 	return m.DeploymentArguments
+}
+
+//GetDeployStageOverrideArguments returns DeployStageOverrideArguments
+func (m SingleDeployStageRedeploymentSummary) GetDeployStageOverrideArguments() *DeployStageOverrideArgumentCollection {
+	return m.DeployStageOverrideArguments
 }
 
 //GetDeployArtifactOverrideArguments returns DeployArtifactOverrideArguments

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,13 +10,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -24,21 +24,21 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	MaskingPolicyRequiredOnlyResource = MaskingPolicyResourceDependencies +
+	DataSafeMaskingPolicyRequiredOnlyResource = DataSafeMaskingPolicyResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_masking_policy", "test_masking_policy", acctest.Required, acctest.Create, maskingPolicyRepresentation)
 
-	MaskingPolicyResourceConfig = MaskingPolicyResourceDependencies +
+	DataSafeMaskingPolicyResourceConfig = DataSafeMaskingPolicyResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_masking_policy", "test_masking_policy", acctest.Optional, acctest.Update, maskingPolicyRepresentation)
 
-	maskingPolicySingularDataSourceRepresentation = map[string]interface{}{
+	DataSafemaskingPolicySingularDataSourceRepresentation = map[string]interface{}{
 		"masking_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_masking_policy.test_masking_policy.id}`},
 	}
 
-	maskingPolicyDataSourceRepresentation = map[string]interface{}{
+	DataSafemaskingPolicyDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: maskingPolicyDataSourceFilterRepresentation}}
@@ -67,7 +67,7 @@ var (
 		"sensitive_data_model_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_sensitive_data_model.test_sensitive_data_model1.id}`, Update: `${oci_data_safe_sensitive_data_model.test_sensitive_data_model2.id}`},
 	}
 
-	MaskingPolicyResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model1", acctest.Required, acctest.Create, sensitiveDataModelRepresentation) +
+	DataSafeMaskingPolicyResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model1", acctest.Required, acctest.Create, sensitiveDataModelRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model2", acctest.Required, acctest.Create, sensitiveDataModelRepresentation) +
 		DefinedTagsDependencies
 )
@@ -94,13 +94,13 @@ func TestDataSafeMaskingPolicyResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+MaskingPolicyResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DataSafeMaskingPolicyResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_masking_policy", "test_masking_policy", acctest.Optional, acctest.Create, maskingPolicyRepresentation), "datasafe", "maskingPolicy", t)
 
 	acctest.ResourceTest(t, testAccCheckDataSafeMaskingPolicyDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + MaskingPolicyResourceDependencies + targetIdVariableStr +
+			Config: config + compartmentIdVariableStr + DataSafeMaskingPolicyResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_masking_policy", "test_masking_policy", acctest.Required, acctest.Create, maskingPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "column_source.#", "1"),
@@ -117,11 +117,11 @@ func TestDataSafeMaskingPolicyResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + MaskingPolicyResourceDependencies + targetIdVariableStr,
+			Config: config + compartmentIdVariableStr + DataSafeMaskingPolicyResourceDependencies + targetIdVariableStr,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + MaskingPolicyResourceDependencies + targetIdVariableStr +
+			Config: config + compartmentIdVariableStr + DataSafeMaskingPolicyResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_masking_policy", "test_masking_policy", acctest.Optional, acctest.Create, maskingPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "column_source.#", "1"),
@@ -156,7 +156,7 @@ func TestDataSafeMaskingPolicyResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + MaskingPolicyResourceDependencies + targetIdVariableStr +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DataSafeMaskingPolicyResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_masking_policy", "test_masking_policy", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(maskingPolicyRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -192,7 +192,7 @@ func TestDataSafeMaskingPolicyResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + MaskingPolicyResourceDependencies + targetIdVariableStr +
+			Config: config + compartmentIdVariableStr + DataSafeMaskingPolicyResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_masking_policy", "test_masking_policy", acctest.Optional, acctest.Update, maskingPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "column_source.#", "1"),
@@ -225,8 +225,8 @@ func TestDataSafeMaskingPolicyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_masking_policies", "test_masking_policies", acctest.Optional, acctest.Update, maskingPolicyDataSourceRepresentation) +
-				compartmentIdVariableStr + MaskingPolicyResourceDependencies + targetIdVariableStr +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_masking_policies", "test_masking_policies", acctest.Optional, acctest.Update, DataSafemaskingPolicyDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeMaskingPolicyResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_masking_policy", "test_masking_policy", acctest.Optional, acctest.Update, maskingPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -239,8 +239,8 @@ func TestDataSafeMaskingPolicyResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_masking_policy", "test_masking_policy", acctest.Required, acctest.Create, maskingPolicySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + targetIdVariableStr + MaskingPolicyResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_masking_policy", "test_masking_policy", acctest.Required, acctest.Create, DataSafemaskingPolicySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + targetIdVariableStr + DataSafeMaskingPolicyResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "masking_policy_id"),
 
@@ -265,7 +265,7 @@ func TestDataSafeMaskingPolicyResource_basic(t *testing.T) {
 		},
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
-			Config: config + compartmentIdVariableStr + MaskingPolicyResourceConfig + targetIdVariableStr,
+			Config: config + compartmentIdVariableStr + DataSafeMaskingPolicyResourceConfig + targetIdVariableStr,
 		},
 		// verify resource import
 		{
@@ -333,7 +333,7 @@ func init() {
 
 func sweepDataSafeMaskingPolicyResource(compartment string) error {
 	dataSafeClient := acctest.GetTestClients(&schema.ResourceData{}).DataSafeClient()
-	maskingPolicyIds, err := getMaskingPolicyIds(compartment)
+	maskingPolicyIds, err := getDataSafeMaskingPolicyIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -349,14 +349,14 @@ func sweepDataSafeMaskingPolicyResource(compartment string) error {
 				fmt.Printf("Error deleting MaskingPolicy %s %s, It is possible that the resource is already deleted. Please verify manually \n", maskingPolicyId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &maskingPolicyId, maskingPolicySweepWaitCondition, time.Duration(3*time.Minute),
-				maskingPolicySweepResponseFetchOperation, "data_safe", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &maskingPolicyId, DataSafemaskingPoliciesSweepWaitCondition, time.Duration(3*time.Minute),
+				DataSafemaskingPoliciesSweepResponseFetchOperation, "data_safe", true)
 		}
 	}
 	return nil
 }
 
-func getMaskingPolicyIds(compartment string) ([]string, error) {
+func getDataSafeMaskingPolicyIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "MaskingPolicyId")
 	if ids != nil {
 		return ids, nil
@@ -381,7 +381,7 @@ func getMaskingPolicyIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func maskingPolicySweepWaitCondition(response common.OCIOperationResponse) bool {
+func DataSafemaskingPoliciesSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if maskingPolicyResponse, ok := response.Response.(oci_data_safe.GetMaskingPolicyResponse); ok {
 		return maskingPolicyResponse.LifecycleState != oci_data_safe.MaskingLifecycleStateDeleted
@@ -389,7 +389,7 @@ func maskingPolicySweepWaitCondition(response common.OCIOperationResponse) bool 
 	return false
 }
 
-func maskingPolicySweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DataSafemaskingPoliciesSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DataSafeClient().GetMaskingPolicy(context.Background(), oci_data_safe.GetMaskingPolicyRequest{
 		MaskingPolicyId: resourceId,
 		RequestMetadata: common.RequestMetadata{

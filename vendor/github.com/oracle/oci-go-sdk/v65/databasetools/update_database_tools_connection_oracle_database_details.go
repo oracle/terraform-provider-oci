@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Database Tools
 //
-// Database Tools APIs to manage Connections and Private Endpoints.
+// Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
 //
 
 package databasetools
@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UpdateDatabaseToolsConnectionOracleDatabaseDetails The information about new DatabaseToolsConnection for an Oracle Database.
+// UpdateDatabaseToolsConnectionOracleDatabaseDetails The update details for a Database Tools Oracle Database connection.
 type UpdateDatabaseToolsConnectionOracleDatabaseDetails struct {
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
@@ -32,15 +32,15 @@ type UpdateDatabaseToolsConnectionOracleDatabaseDetails struct {
 
 	RelatedResource *UpdateDatabaseToolsRelatedResourceDetails `mandatory:"false" json:"relatedResource"`
 
-	// Connect descriptor or Easy Connect Naming method to connect to the database.
+	// The connect descriptor or Easy Connect Naming method used to connect to the database.
 	ConnectionString *string `mandatory:"false" json:"connectionString"`
 
-	// Database user name.
+	// The database user name.
 	UserName *string `mandatory:"false" json:"userName"`
 
 	UserPassword DatabaseToolsUserPasswordDetails `mandatory:"false" json:"userPassword"`
 
-	// Advanced connection properties key-value pair (e.g., oracle.net.ssl_server_dn_match).
+	// The advanced connection properties key-value pair (e.g., `oracle.net.ssl_server_dn_match`).
 	AdvancedProperties map[string]string `mandatory:"false" json:"advancedProperties"`
 
 	// Oracle wallet or Java Keystores containing trusted certificates for authenticating the server's public certificate and

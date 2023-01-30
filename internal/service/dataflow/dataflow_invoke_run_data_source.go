@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package dataflow
@@ -7,8 +7,8 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_dataflow "github.com/oracle/oci-go-sdk/v65/dataflow"
@@ -71,6 +71,12 @@ func (s *DataflowInvokeRunDataSourceCrud) SetData() error {
 		s.D.Set("application_id", *s.Res.ApplicationId)
 	}
 
+	if s.Res.ApplicationLogConfig != nil {
+		s.D.Set("application_log_config", []interface{}{DataflowRunApplicationLogConfigToMap(s.Res.ApplicationLogConfig)})
+	} else {
+		s.D.Set("application_log_config", nil)
+	}
+
 	if s.Res.ArchiveUri != nil {
 		s.D.Set("archive_uri", *s.Res.ArchiveUri)
 	}
@@ -107,6 +113,12 @@ func (s *DataflowInvokeRunDataSourceCrud) SetData() error {
 		s.D.Set("driver_shape", *s.Res.DriverShape)
 	}
 
+	if s.Res.DriverShapeConfig != nil {
+		s.D.Set("driver_shape_config", []interface{}{ShapeConfigToMap(s.Res.DriverShapeConfig)})
+	} else {
+		s.D.Set("driver_shape_config", nil)
+	}
+
 	if s.Res.Execute != nil {
 		s.D.Set("execute", *s.Res.Execute)
 	}
@@ -115,11 +127,21 @@ func (s *DataflowInvokeRunDataSourceCrud) SetData() error {
 		s.D.Set("executor_shape", *s.Res.ExecutorShape)
 	}
 
+	if s.Res.ExecutorShapeConfig != nil {
+		s.D.Set("executor_shape_config", []interface{}{ShapeConfigToMap(s.Res.ExecutorShapeConfig)})
+	} else {
+		s.D.Set("executor_shape_config", nil)
+	}
+
 	if s.Res.FileUri != nil {
 		s.D.Set("file_uri", *s.Res.FileUri)
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.IdleTimeoutInMinutes != nil {
+		s.D.Set("idle_timeout_in_minutes", strconv.FormatInt(*s.Res.IdleTimeoutInMinutes, 10))
+	}
 
 	s.D.Set("language", s.Res.Language)
 
@@ -129,6 +151,10 @@ func (s *DataflowInvokeRunDataSourceCrud) SetData() error {
 
 	if s.Res.LogsBucketUri != nil {
 		s.D.Set("logs_bucket_uri", *s.Res.LogsBucketUri)
+	}
+
+	if s.Res.MaxDurationInMinutes != nil {
+		s.D.Set("max_duration_in_minutes", strconv.FormatInt(*s.Res.MaxDurationInMinutes, 10))
 	}
 
 	if s.Res.MetastoreId != nil {

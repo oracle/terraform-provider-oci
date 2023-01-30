@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,50 +16,50 @@ import (
 	oci_artifacts "github.com/oracle/oci-go-sdk/v65/artifacts"
 	"github.com/oracle/oci-go-sdk/v65/common"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	ContainerRepositoryRequiredOnlyResource = ContainerRepositoryResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", acctest.Required, acctest.Create, containerRepositoryRepresentation)
+	ArtifactsContainerRepositoryRequiredOnlyResource = ArtifactsContainerRepositoryResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", acctest.Required, acctest.Create, ArtifactscontainerRepositoryRepresentation)
 
-	ContainerRepositoryResourceConfig = ContainerRepositoryResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", acctest.Optional, acctest.Update, containerRepositoryRepresentation)
+	ArtifactsContainerRepositoryResourceConfig = ArtifactsContainerRepositoryResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", acctest.Optional, acctest.Update, ArtifactscontainerRepositoryRepresentation)
 
-	containerRepositorySingularDataSourceRepresentation = map[string]interface{}{
+	ArtifactsArtifactscontainerRepositorySingularDataSourceRepresentation = map[string]interface{}{
 		"repository_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_artifacts_container_repository.test_container_repository.id}`},
 	}
 
-	containerRepositoryDataSourceRepresentation = map[string]interface{}{
+	ArtifactsArtifactscontainerRepositoryDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_public":                 acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"repository_id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_artifacts_container_repository.test_container_repository.id}`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
-		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: containerRepositoryDataSourceFilterRepresentation}}
-	containerRepositoryDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: ArtifactscontainerRepositoryDataSourceFilterRepresentation}}
+	ArtifactscontainerRepositoryDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_artifacts_container_repository.test_container_repository.id}`}},
 	}
 
-	containerRepositoryRepresentation = map[string]interface{}{
+	ArtifactscontainerRepositoryRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: utils.RandomString(15, utils.CharsetLowerCaseWithoutDigits)},
 		"is_immutable":   acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
 		"is_public":      acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"readme":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: containerRepositoryReadmeRepresentation},
+		"readme":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: ArtifactscontainerRepositoryReadmeRepresentation},
 	}
-	containerRepositoryReadmeRepresentation = map[string]interface{}{
+	ArtifactscontainerRepositoryReadmeRepresentation = map[string]interface{}{
 		"content": acctest.Representation{RepType: acctest.Required, Create: `content`, Update: `content2`},
 		"format":  acctest.Representation{RepType: acctest.Required, Create: `TEXT_MARKDOWN`, Update: `TEXT_PLAIN`},
 	}
 
-	ContainerRepositoryResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", acctest.Required, acctest.Create, repositoryRepresentation)
+	ArtifactsContainerRepositoryResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", acctest.Required, acctest.Create, ArtifactsrepositoryRepresentation)
 )
 
 // issue-routing-tag: artifacts/default
@@ -81,14 +81,14 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ContainerRepositoryResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", acctest.Optional, acctest.Create, containerRepositoryRepresentation), "artifacts", "containerRepository", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ArtifactsContainerRepositoryResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", acctest.Optional, acctest.Create, ArtifactscontainerRepositoryRepresentation), "artifacts", "containerRepository", t)
 
 	acctest.ResourceTest(t, testAccCheckArtifactsContainerRepositoryDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ContainerRepositoryResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", acctest.Required, acctest.Create, containerRepositoryRepresentation),
+			Config: config + compartmentIdVariableStr + ArtifactsContainerRepositoryResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", acctest.Required, acctest.Create, ArtifactscontainerRepositoryRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
@@ -102,12 +102,12 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ContainerRepositoryResourceDependencies,
+			Config: config + compartmentIdVariableStr + ArtifactsContainerRepositoryResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ContainerRepositoryResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", acctest.Optional, acctest.Create, containerRepositoryRepresentation),
+			Config: config + compartmentIdVariableStr + ArtifactsContainerRepositoryResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", acctest.Optional, acctest.Create, ArtifactscontainerRepositoryRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "billable_size_in_gbs"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -139,9 +139,9 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ContainerRepositoryResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ArtifactsContainerRepositoryResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(containerRepositoryRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(ArtifactscontainerRepositoryRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -173,8 +173,8 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ContainerRepositoryResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", acctest.Optional, acctest.Update, containerRepositoryRepresentation),
+			Config: config + compartmentIdVariableStr + ArtifactsContainerRepositoryResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", acctest.Optional, acctest.Update, ArtifactscontainerRepositoryRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "billable_size_in_gbs"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -204,9 +204,9 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_artifacts_container_repositories", "test_container_repositories", acctest.Optional, acctest.Update, containerRepositoryDataSourceRepresentation) +
-				compartmentIdVariableStr + ContainerRepositoryResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", acctest.Optional, acctest.Update, containerRepositoryRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_artifacts_container_repositories", "test_container_repositories", acctest.Optional, acctest.Update, ArtifactsArtifactscontainerRepositoryDataSourceRepresentation) +
+				compartmentIdVariableStr + ArtifactsContainerRepositoryResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", acctest.Optional, acctest.Update, ArtifactscontainerRepositoryRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
@@ -225,8 +225,8 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", acctest.Required, acctest.Create, containerRepositorySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ContainerRepositoryResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", acctest.Required, acctest.Create, ArtifactsArtifactscontainerRepositorySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ArtifactsContainerRepositoryResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "repository_id"),
 
@@ -249,7 +249,7 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ContainerRepositoryRequiredOnlyResource,
+			Config:                  config + ArtifactsContainerRepositoryRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -314,7 +314,7 @@ func init() {
 
 func sweepArtifactsContainerRepositoryResource(compartment string) error {
 	artifactsClient := acctest.GetTestClients(&schema.ResourceData{}).ArtifactsClient()
-	containerRepositoryIds, err := getContainerRepositoryIds(compartment)
+	containerRepositoryIds, err := getArtifactsContainerRepositoryIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -328,14 +328,14 @@ func sweepArtifactsContainerRepositoryResource(compartment string) error {
 				fmt.Printf("Error deleting ContainerRepository %s %s, It is possible that the resource is already deleted. Please verify manually \n", containerRepositoryId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &containerRepositoryId, containerRepositorySweepWaitCondition, time.Duration(3*time.Minute),
-				containerRepositorySweepResponseFetchOperation, "artifacts", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &containerRepositoryId, ArtifactscontainerRepositoriesSweepWaitCondition, time.Duration(3*time.Minute),
+				ArtifactscontainerRepositoriesSweepResponseFetchOperation, "artifacts", true)
 		}
 	}
 	return nil
 }
 
-func getContainerRepositoryIds(compartment string) ([]string, error) {
+func getArtifactsContainerRepositoryIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ContainerRepositoryId")
 	if ids != nil {
 		return ids, nil
@@ -361,7 +361,7 @@ func getContainerRepositoryIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func containerRepositorySweepWaitCondition(response common.OCIOperationResponse) bool {
+func ArtifactscontainerRepositoriesSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if containerRepositoryResponse, ok := response.Response.(oci_artifacts.GetContainerRepositoryResponse); ok {
 		return containerRepositoryResponse.LifecycleState != oci_artifacts.ContainerRepositoryLifecycleStateDeleted
@@ -369,7 +369,7 @@ func containerRepositorySweepWaitCondition(response common.OCIOperationResponse)
 	return false
 }
 
-func containerRepositorySweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func ArtifactscontainerRepositoriesSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.ArtifactsClient().GetContainerRepository(context.Background(), oci_artifacts.GetContainerRepositoryRequest{RequestMetadata: common.RequestMetadata{
 		RetryPolicy: retryPolicy,
 	},

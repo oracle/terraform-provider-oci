@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
@@ -122,4 +122,20 @@ variable "data_storage_percentage" {
 
 variable "time_zone" {
   default = "US/Pacific"
+}
+
+variable "cloud_vm_cluster_memory_size_in_gbs" {
+  default = 60
+}
+
+variable "cloud_vm_cluster_data_storage_size_in_tbs" {
+  default = 2.0
+}
+
+variable "cloud_vm_cluster_db_node_storage_size_in_gbs" {
+  default = 120
+}
+
+variable "cloud_vm_cluster_db_servers" {
+  default = []
 }

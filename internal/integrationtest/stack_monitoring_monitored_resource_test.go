@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -14,12 +14,12 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_stack_monitoring "github.com/oracle/oci-go-sdk/v65/stackmonitoring"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 /**
@@ -30,82 +30,99 @@ import (
       management_agent_id2 = var.stack_mon_management_agent_id_resource2
 */
 var (
-	MonitoredResourceRequiredOnlyResource = MonitoredResourceResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource", "test_monitored_resource", acctest.Required, acctest.Create, monitoredResourceRepresentation)
+	StackMonitoringMonitoredResourceRequiredOnlyResource = StackMonitoringMonitoredResourceResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource", "test_monitored_resource", acctest.Required, acctest.Create, StackMonitoringMonitoredResourceRepresentation)
 
-	MonitoredResourceResourceConfig = MonitoredResourceResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource", "test_monitored_resource", acctest.Optional, acctest.Update, monitoredResourceRepresentation)
+	StackMonitoringMonitoredResourceResourceConfig = StackMonitoringMonitoredResourceResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource", "test_monitored_resource", acctest.Optional, acctest.Update, StackMonitoringMonitoredResourceRepresentation)
 
-	monitoredResourceSingularDataSourceRepresentation = map[string]interface{}{
+	StackMonitoringStackMonitoringMonitoredResourceSingularDataSourceRepresentation = map[string]interface{}{
 		"monitored_resource_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_stack_monitoring_monitored_resource.test_monitored_resource.id}`},
 	}
 
-	monitoredResourceRepresentation = map[string]interface{}{
+	StackMonitoringMonitoredResourceOSCreateProperty1 = map[string]interface{}{
+		"name":  acctest.Representation{RepType: acctest.Required, Create: `osName`},
+		"value": acctest.Representation{RepType: acctest.Required, Create: `Linux`},
+	}
+
+	StackMonitoringMonitoredResourceOSCreateProperty2 = map[string]interface{}{
+		"name":  acctest.Representation{RepType: acctest.Required, Create: `osVersion`},
+		"value": acctest.Representation{RepType: acctest.Required, Create: `7.0`},
+	}
+
+	StackMonitoringMonitoredResourceOSUpdateProperty1 = map[string]interface{}{
+		"name":  acctest.Representation{RepType: acctest.Required, Update: `osName`},
+		"value": acctest.Representation{RepType: acctest.Required, Update: `Linux`},
+	}
+
+	StackMonitoringMonitoredResourceOSUpdateProperty2 = map[string]interface{}{
+		"name":  acctest.Representation{RepType: acctest.Required, Update: `osVersion`},
+		"value": acctest.Representation{RepType: acctest.Required, Update: `7.0`},
+	}
+
+	StackMonitoringMonitoredResourceRepresentation = map[string]interface{}{
 		"compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":                        acctest.Representation{RepType: acctest.Required, Create: `terraformResource`},
 		"type":                        acctest.Representation{RepType: acctest.Required, Create: `host`},
 		"display_name":                acctest.Representation{RepType: acctest.Optional, Create: `displayNameTerra`, Update: `displayNameTerra2`},
 		"host_name":                   acctest.Representation{RepType: acctest.Optional, Create: `${var.stack_mon_hostname_resource1}`},
 		"management_agent_id":         acctest.Representation{RepType: acctest.Optional, Create: `${var.stack_mon_management_agent_id_resource1}`},
-		"credentials":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: monitoredResourceCredentialsRepresentation},
-		"database_connection_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: monitoredResourceDatabaseConnectionDetailsRepresentation},
-		"properties":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: monitoredResourcePropertiesRepresentation},
+		"credentials":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceCredentialsRepresentation},
+		"database_connection_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceDatabaseConnectionDetailsRepresentation},
+		"properties":                  []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceOSCreateProperty1}, {RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceOSCreateProperty2}},
 		"resource_time_zone":          acctest.Representation{RepType: acctest.Optional, Create: `en`},
 		"lifecycle":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreSensitiveDataRepresentation},
 	}
 	//Get API does not return sensitive data, it returns null
 	ignoreSensitiveDataRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`credentials`, `database_connection_details`}},
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`credentials`, `database_connection_details`, `properties`, `external_id`}},
 	}
 
-	monitoredResourceRepresentation2 = map[string]interface{}{
+	StackMonitoredResourceRepresentation2 = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":                acctest.Representation{RepType: acctest.Required, Create: `terraformSecondaryResource`},
 		"type":                acctest.Representation{RepType: acctest.Required, Create: `host`},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displaySecondaryNameTerra`, Update: `displaySecondaryNameTerra2`},
 		"host_name":           acctest.Representation{RepType: acctest.Optional, Create: `${var.stack_mon_hostname_resource2}`},
 		"management_agent_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.stack_mon_management_agent_id_resource2}`},
-		"properties":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: monitoredResourcePropertiesRepresentation},
+		"properties":          []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceOSCreateProperty1}, {RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceOSCreateProperty2}},
 		"resource_time_zone":  acctest.Representation{RepType: acctest.Optional, Create: `en`},
 	}
 
-	monitoredResourceAliasesRepresentation = map[string]interface{}{
-		"credential": acctest.RepresentationGroup{RepType: acctest.Required, Group: monitoredResourceAliasesCredentialRepresentation},
+	StackMonitoringMonitoredResourceAliasesRepresentation = map[string]interface{}{
+		"credential": acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringMonitoredResourceAliasesCredentialRepresentation},
 		"name":       acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"source":     acctest.Representation{RepType: acctest.Required, Create: `source`, Update: `source2`},
 	}
-	monitoredResourceCredentialsRepresentation = map[string]interface{}{
+	StackMonitoringMonitoredResourceCredentialsRepresentation = map[string]interface{}{
 		"credential_type": acctest.Representation{RepType: acctest.Optional, Create: `PLAINTEXT`, Update: `PLAINTEXT`},
 		"description":     acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"key_id":          acctest.Representation{RepType: acctest.Optional, Create: `somekeyid`},
 		"name":            acctest.Representation{RepType: acctest.Optional, Create: `name`, Update: `name2`},
-		"properties":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: monitoredResourceCredentialsPropertiesRepresentation},
+		"properties":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceCredentialsPropertiesRepresentation},
 		"source":          acctest.Representation{RepType: acctest.Optional, Create: `host.terraformName`},
 		"type":            acctest.Representation{RepType: acctest.Optional, Create: `type`, Update: `type2`},
 	}
-	monitoredResourceDatabaseConnectionDetailsRepresentation = map[string]interface{}{
+	StackMonitoringMonitoredResourceDatabaseConnectionDetailsRepresentation = map[string]interface{}{
 		"port":           acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"protocol":       acctest.Representation{RepType: acctest.Required, Create: `TCP`, Update: `TCPS`},
 		"service_name":   acctest.Representation{RepType: acctest.Required, Create: `service.name`},
 		"connector_id":   acctest.Representation{RepType: acctest.Optional, Create: `connector.id`},
 		"db_id":          acctest.Representation{RepType: acctest.Optional, Create: `db_id`},
 		"db_unique_name": acctest.Representation{RepType: acctest.Optional, Create: `dbUniqueName`, Update: `dbUniqueName2`},
+		"ssl_secret_id":  acctest.Representation{RepType: acctest.Optional, Create: `ssl_secret_id`},
 	}
-	monitoredResourcePropertiesRepresentation = map[string]interface{}{
-		"name":  acctest.Representation{RepType: acctest.Optional, Create: `OS`, Update: `OS`},
-		"value": acctest.Representation{RepType: acctest.Optional, Create: `Linux`, Update: `Linux`},
-	}
-	monitoredResourceAliasesCredentialRepresentation = map[string]interface{}{
+	StackMonitoringMonitoredResourceAliasesCredentialRepresentation = map[string]interface{}{
 		"name":    acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"service": acctest.Representation{RepType: acctest.Required, Create: `service`, Update: `service2`},
 		"source":  acctest.Representation{RepType: acctest.Required, Create: `source`, Update: `source2`},
 	}
-	monitoredResourceCredentialsPropertiesRepresentation = map[string]interface{}{
+	StackMonitoringMonitoredResourceCredentialsPropertiesRepresentation = map[string]interface{}{
 		"name":  acctest.Representation{RepType: acctest.Optional, Create: `name`, Update: `name2`},
 		"value": acctest.Representation{RepType: acctest.Optional, Create: `value`, Update: `value2`},
 	}
 
-	MonitoredResourceResourceDependencies = ""
+	StackMonitoringMonitoredResourceResourceDependencies = ""
 )
 
 // issue-routing-tag: stack_monitoring/default
@@ -139,14 +156,14 @@ func TestStackMonitoringMonitoredResourceResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+MonitoredResourceResourceDependencies+managementAgentId1VariableStr+hostname1VariableStr+
-		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource", "test_monitored_resource", acctest.Optional, acctest.Create, monitoredResourceRepresentation), "stackmonitoring", "monitoredResource", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+StackMonitoringMonitoredResourceResourceDependencies+managementAgentId1VariableStr+hostname1VariableStr+
+		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource", "test_monitored_resource", acctest.Optional, acctest.Create, StackMonitoringMonitoredResourceRepresentation), "stackmonitoring", "monitoredResource", t)
 
 	acctest.ResourceTest(t, testAccCheckStackMonitoringMonitoredResourceDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + MonitoredResourceResourceDependencies + managementAgentId1VariableStr + hostname1VariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource", "test_monitored_resource", acctest.Optional, acctest.Create, monitoredResourceRepresentation),
+			Config: config + compartmentIdVariableStr + StackMonitoringMonitoredResourceResourceDependencies + managementAgentId1VariableStr + hostname1VariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource", "test_monitored_resource", acctest.Optional, acctest.Create, StackMonitoringMonitoredResourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "name", "terraformResource"),
@@ -161,12 +178,12 @@ func TestStackMonitoringMonitoredResourceResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + MonitoredResourceResourceDependencies,
+			Config: config + compartmentIdVariableStr + StackMonitoringMonitoredResourceResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + MonitoredResourceResourceDependencies + managementAgentId1VariableStr + hostname1VariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource", "test_monitored_resource", acctest.Optional, acctest.Create, monitoredResourceRepresentation),
+			Config: config + compartmentIdVariableStr + StackMonitoringMonitoredResourceResourceDependencies + managementAgentId1VariableStr + hostname1VariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource", "test_monitored_resource", acctest.Optional, acctest.Create, StackMonitoringMonitoredResourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayNameTerra"),
@@ -174,9 +191,7 @@ func TestStackMonitoringMonitoredResourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "management_agent_id"),
 				resource.TestCheckResourceAttr(resourceName, "name", "terraformResource"),
-				resource.TestCheckResourceAttr(resourceName, "properties.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "properties.0.name", "OS"),
-				resource.TestCheckResourceAttr(resourceName, "properties.0.value", "Linux"),
+				resource.TestCheckResourceAttr(resourceName, "properties.#", "4"),
 				resource.TestCheckResourceAttr(resourceName, "resource_time_zone", "en"),
 				resource.TestCheckResourceAttr(resourceName, "type", "host"),
 
@@ -194,9 +209,9 @@ func TestStackMonitoringMonitoredResourceResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + MonitoredResourceResourceDependencies + managementAgentId1VariableStr + hostname1VariableStr +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + StackMonitoringMonitoredResourceResourceDependencies + managementAgentId1VariableStr + hostname1VariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource", "test_monitored_resource", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(monitoredResourceRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(StackMonitoringMonitoredResourceRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -205,9 +220,7 @@ func TestStackMonitoringMonitoredResourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "host_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "management_agent_id"),
-				resource.TestCheckResourceAttr(resourceName, "properties.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "properties.0.name", "OS"),
-				resource.TestCheckResourceAttr(resourceName, "properties.0.value", "Linux"),
+				resource.TestCheckResourceAttr(resourceName, "properties.#", "4"),
 				resource.TestCheckResourceAttr(resourceName, "resource_time_zone", "en"),
 				resource.TestCheckResourceAttrSet(resourceName, "tenant_id"),
 				resource.TestCheckResourceAttr(resourceName, "type", "host"),
@@ -224,8 +237,8 @@ func TestStackMonitoringMonitoredResourceResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + MonitoredResourceResourceDependencies + managementAgentId1VariableStr + hostname1VariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource", "test_monitored_resource", acctest.Optional, acctest.Update, monitoredResourceRepresentation),
+			Config: config + compartmentIdVariableStr + StackMonitoringMonitoredResourceResourceDependencies + managementAgentId1VariableStr + hostname1VariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource", "test_monitored_resource", acctest.Optional, acctest.Update, StackMonitoringMonitoredResourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayNameTerra2"),
@@ -233,9 +246,7 @@ func TestStackMonitoringMonitoredResourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "management_agent_id"),
 				resource.TestCheckResourceAttr(resourceName, "name", "terraformResource"),
-				resource.TestCheckResourceAttr(resourceName, "properties.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "properties.0.name", "OS"),
-				resource.TestCheckResourceAttr(resourceName, "properties.0.value", "Linux"),
+				resource.TestCheckResourceAttr(resourceName, "properties.#", "4"),
 				resource.TestCheckResourceAttr(resourceName, "resource_time_zone", "en"),
 				resource.TestCheckResourceAttrSet(resourceName, "tenant_id"),
 				resource.TestCheckResourceAttr(resourceName, "type", "host"),
@@ -253,8 +264,8 @@ func TestStackMonitoringMonitoredResourceResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_stack_monitoring_monitored_resource", "test_monitored_resource", acctest.Required, acctest.Create, monitoredResourceSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + managementAgentId1VariableStr + hostname1VariableStr + MonitoredResourceResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_stack_monitoring_monitored_resource", "test_monitored_resource", acctest.Required, acctest.Create, StackMonitoringStackMonitoringMonitoredResourceSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + managementAgentId1VariableStr + hostname1VariableStr + StackMonitoringMonitoredResourceResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "monitored_resource_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
@@ -262,9 +273,7 @@ func TestStackMonitoringMonitoredResourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "host_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "terraformResource"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "properties.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "properties.0.name", "OS"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "properties.0.value", "Linux"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "properties.#", "4"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "resource_time_zone", "en"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "tenant_id"),
@@ -275,11 +284,11 @@ func TestStackMonitoringMonitoredResourceResource_basic(t *testing.T) {
 		},
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
-			Config: config + compartmentIdVariableStr + managementAgentId1VariableStr + hostname1VariableStr + MonitoredResourceResourceConfig,
+			Config: config + compartmentIdVariableStr + managementAgentId1VariableStr + hostname1VariableStr + StackMonitoringMonitoredResourceResourceConfig,
 		},
 		// verify resource import
 		{
-			Config:            config + compartmentIdVariableStr + managementAgentId1VariableStr + hostname1VariableStr + MonitoredResourceResourceConfig,
+			Config:            config + compartmentIdVariableStr + managementAgentId1VariableStr + hostname1VariableStr + StackMonitoringMonitoredResourceResourceConfig,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package core
@@ -7,8 +7,8 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
@@ -21,17 +21,21 @@ func CoreBlockVolumeReplicasDataSource() *schema.Resource {
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"availability_domain": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"compartment_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"volume_group_replica_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -142,6 +146,11 @@ func (s *CoreBlockVolumeReplicasDataSourceCrud) Get() error {
 		request.LifecycleState = oci_core.BlockVolumeReplicaLifecycleStateEnum(state.(string))
 	}
 
+	if volumeGroupReplicaId, ok := s.D.GetOkExists("volume_group_replica_id"); ok {
+		tmp := volumeGroupReplicaId.(string)
+		request.VolumeGroupReplicaId = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListBlockVolumeReplicas(context.Background(), request)
@@ -174,13 +183,18 @@ func (s *CoreBlockVolumeReplicasDataSourceCrud) SetData() error {
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
-		blockVolumeReplica := map[string]interface{}{
-			"availability_domain": *r.AvailabilityDomain,
-			"compartment_id":      *r.CompartmentId,
+		blockVolumeReplica := map[string]interface{}{}
+
+		if r.AvailabilityDomain != nil {
+			blockVolumeReplica["availability_domain"] = *r.AvailabilityDomain
 		}
 
 		if r.BlockVolumeId != nil {
 			blockVolumeReplica["block_volume_id"] = *r.BlockVolumeId
+		}
+
+		if r.CompartmentId != nil {
+			blockVolumeReplica["compartment_id"] = *r.CompartmentId
 		}
 
 		if r.DefinedTags != nil {

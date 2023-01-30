@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -15,27 +15,27 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	CpeRequiredOnlyResource = CpeResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", acctest.Required, acctest.Create, cpeRepresentation)
+	CoreCpeRequiredOnlyResource = CoreCpeResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", acctest.Required, acctest.Create, CoreCpeRepresentation)
 
-	cpeDataSourceRepresentation = map[string]interface{}{
+	CoreCoreCpeDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: cpeDataSourceFilterRepresentation}}
-	cpeDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreCpeDataSourceFilterRepresentation}}
+	CoreCpeDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_cpe.test_cpe.id}`}},
 	}
 
-	cpeRepresentation = map[string]interface{}{
+	CoreCpeRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"ip_address":          acctest.Representation{RepType: acctest.Required, Create: `203.0.113.6`},
 		"cpe_device_shape_id": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_core_cpe_device_shapes.test_cpe_device_shapes.cpe_device_shapes.0.cpe_device_shape_id}`},
@@ -44,7 +44,7 @@ var (
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	CpeResourceDependencies = DefinedTagsDependencies
+	CoreCpeResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: core/default
@@ -65,15 +65,15 @@ func TestCoreCpeResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+CpeResourceDependencies+
-		acctest.GenerateDataSourceFromRepresentationMap("oci_core_cpe_device_shapes", "test_cpe_device_shapes", acctest.Required, acctest.Create, cpeDeviceShapeDataSourceRepresentation)+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", acctest.Optional, acctest.Create, cpeRepresentation), "core", "cpe", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreCpeResourceDependencies+
+		acctest.GenerateDataSourceFromRepresentationMap("oci_core_cpe_device_shapes", "test_cpe_device_shapes", acctest.Required, acctest.Create, CoreCoreCpeDeviceShapeDataSourceRepresentation)+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", acctest.Optional, acctest.Create, CoreCpeRepresentation), "core", "cpe", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreCpeDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + CpeResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", acctest.Required, acctest.Create, cpeRepresentation),
+			Config: config + compartmentIdVariableStr + CoreCpeResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", acctest.Required, acctest.Create, CoreCpeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "ip_address", "203.0.113.6"),
@@ -87,13 +87,13 @@ func TestCoreCpeResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + CpeResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreCpeResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + CpeResourceDependencies +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cpe_device_shapes", "test_cpe_device_shapes", acctest.Required, acctest.Create, cpeDeviceShapeDataSourceRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", acctest.Optional, acctest.Create, cpeRepresentation),
+			Config: config + compartmentIdVariableStr + CoreCpeResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cpe_device_shapes", "test_cpe_device_shapes", acctest.Required, acctest.Create, CoreCoreCpeDeviceShapeDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", acctest.Optional, acctest.Create, CoreCpeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "cpe_device_shape_id"),
@@ -116,10 +116,10 @@ func TestCoreCpeResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CpeResourceDependencies +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cpe_device_shapes", "test_cpe_device_shapes", acctest.Required, acctest.Create, cpeDeviceShapeDataSourceRepresentation) +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreCpeResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cpe_device_shapes", "test_cpe_device_shapes", acctest.Required, acctest.Create, CoreCoreCpeDeviceShapeDataSourceRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(cpeRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CoreCpeRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -142,9 +142,9 @@ func TestCoreCpeResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + CpeResourceDependencies +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cpe_device_shapes", "test_cpe_device_shapes", acctest.Required, acctest.Create, cpeDeviceShapeDataSourceRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", acctest.Optional, acctest.Update, cpeRepresentation),
+			Config: config + compartmentIdVariableStr + CoreCpeResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cpe_device_shapes", "test_cpe_device_shapes", acctest.Required, acctest.Create, CoreCoreCpeDeviceShapeDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", acctest.Optional, acctest.Update, CoreCpeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "cpe_device_shape_id"),
@@ -165,10 +165,10 @@ func TestCoreCpeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cpe_device_shapes", "test_cpe_device_shapes", acctest.Required, acctest.Create, cpeDeviceShapeDataSourceRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cpes", "test_cpes", acctest.Optional, acctest.Update, cpeDataSourceRepresentation) +
-				compartmentIdVariableStr + CpeResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", acctest.Optional, acctest.Update, cpeRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cpe_device_shapes", "test_cpe_device_shapes", acctest.Required, acctest.Create, CoreCoreCpeDeviceShapeDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cpes", "test_cpes", acctest.Optional, acctest.Update, CoreCoreCpeDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreCpeResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", acctest.Optional, acctest.Update, CoreCpeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
@@ -184,7 +184,7 @@ func TestCoreCpeResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + CpeRequiredOnlyResource,
+			Config:                  config + CoreCpeRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -240,7 +240,7 @@ func init() {
 
 func sweepCoreCpeResource(compartment string) error {
 	virtualNetworkClient := acctest.GetTestClients(&schema.ResourceData{}).VirtualNetworkClient()
-	cpeIds, err := getCpeIds(compartment)
+	cpeIds, err := getCoreCpeIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -261,7 +261,7 @@ func sweepCoreCpeResource(compartment string) error {
 	return nil
 }
 
-func getCpeIds(compartment string) ([]string, error) {
+func getCoreCpeIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "CpeId")
 	if ids != nil {
 		return ids, nil

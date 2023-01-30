@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -32,10 +32,10 @@ type Parameter struct {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
+	// Free form text without any restriction on the permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"false" json:"name"`
 
-	// Detailed description for the object.
+	// A detailed description of the object.
 	Description *string `mandatory:"false" json:"description"`
 
 	Type BaseType `mandatory:"false" json:"type"`
@@ -43,13 +43,13 @@ type Parameter struct {
 	// The default value of the parameter.
 	DefaultValue *interface{} `mandatory:"false" json:"defaultValue"`
 
-	// The default value of the parameter which can be an object in DIS, such as a data entity.
+	// The default value of the parameter, which can be an object in DIS, such as a data entity.
 	RootObjectDefaultValue *interface{} `mandatory:"false" json:"rootObjectDefaultValue"`
 
-	// Specifies whether the parameter is input value.
+	// Specifies whether the parameter is an input value.
 	IsInput *bool `mandatory:"false" json:"isInput"`
 
-	// Specifies whether the parameter is output value.
+	// Specifies whether the parameter is an output value.
 	IsOutput *bool `mandatory:"false" json:"isOutput"`
 
 	// The type of value the parameter was created for.

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -24,6 +24,7 @@ const (
 	ExadataRackTypeHalf    ExadataRackTypeEnum = "HALF"
 	ExadataRackTypeQuarter ExadataRackTypeEnum = "QUARTER"
 	ExadataRackTypeEighth  ExadataRackTypeEnum = "EIGHTH"
+	ExadataRackTypeFlex    ExadataRackTypeEnum = "FLEX"
 )
 
 var mappingExadataRackTypeEnum = map[string]ExadataRackTypeEnum{
@@ -31,6 +32,7 @@ var mappingExadataRackTypeEnum = map[string]ExadataRackTypeEnum{
 	"HALF":    ExadataRackTypeHalf,
 	"QUARTER": ExadataRackTypeQuarter,
 	"EIGHTH":  ExadataRackTypeEighth,
+	"FLEX":    ExadataRackTypeFlex,
 }
 
 var mappingExadataRackTypeEnumLowerCase = map[string]ExadataRackTypeEnum{
@@ -38,6 +40,7 @@ var mappingExadataRackTypeEnumLowerCase = map[string]ExadataRackTypeEnum{
 	"half":    ExadataRackTypeHalf,
 	"quarter": ExadataRackTypeQuarter,
 	"eighth":  ExadataRackTypeEighth,
+	"flex":    ExadataRackTypeFlex,
 }
 
 // GetExadataRackTypeEnumValues Enumerates the set of values for ExadataRackTypeEnum
@@ -56,6 +59,7 @@ func GetExadataRackTypeEnumStringValues() []string {
 		"HALF",
 		"QUARTER",
 		"EIGHTH",
+		"FLEX",
 	}
 }
 

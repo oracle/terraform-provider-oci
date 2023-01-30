@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,24 +9,24 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	managedInstanceEventReportSingularDataSourceRepresentation = map[string]interface{}{
+	OsmanagementOsmanagementManagedInstanceEventReportSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":                            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"managed_instance_id":                       acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance.test_instance.id}`},
 		"latest_timestamp_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `latestTimestampGreaterThanOrEqualTo`},
 		"latest_timestamp_less_than":                acctest.Representation{RepType: acctest.Optional, Create: `latestTimestampLessThan`},
 	}
 
-	ManagedInstanceEventReportResourceConfig = ManagedInstanceManagementResourceDependencies
+	OsmanagementManagedInstanceEventReportResourceConfig = ManagedInstanceManagementResourceDependencies
 )
 
 // issue-routing-tag: osmanagement/default
@@ -46,7 +46,7 @@ func TestOsmanagementManagedInstanceEventReportResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// Create dependencies
 		{
-			Config: config + compartmentIdVariableStr + ManagedInstanceEventReportResourceConfig,
+			Config: config + compartmentIdVariableStr + OsmanagementManagedInstanceEventReportResourceConfig,
 			Check: func(s *terraform.State) (err error) {
 				log.Printf("[DEBUG] OS Management Resource should be created after 2 minutes as OS Agent takes time to activate")
 				time.Sleep(5 * time.Minute)
@@ -56,7 +56,7 @@ func TestOsmanagementManagedInstanceEventReportResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config + compartmentIdVariableStr + ManagedInstanceManagementResourceDependencies +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_osmanagement_managed_instance_event_report", "test_managed_instance_event_report", acctest.Required, acctest.Create, managedInstanceEventReportSingularDataSourceRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_osmanagement_managed_instance_event_report", "test_managed_instance_event_report", acctest.Required, acctest.Create, OsmanagementOsmanagementManagedInstanceEventReportSingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_instance_id"),

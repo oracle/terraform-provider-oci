@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -15,40 +15,40 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_identity "github.com/oracle/oci-go-sdk/v65/identity"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	DomainRequiredOnlyResource = DomainResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_domain", "test_domain", acctest.Required, acctest.Create, domainRepresentation)
+	IdentityDomainRequiredOnlyResource = IdentityDomainResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_domain", "test_domain", acctest.Required, acctest.Create, IdentityDomainRepresentation)
 
-	DomainResourceConfig = DomainResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_domain", "test_domain", acctest.Optional, acctest.Update, domainRepresentation)
+	IdentityDomainResourceConfig = IdentityDomainResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_domain", "test_domain", acctest.Optional, acctest.Update, IdentityDomainRepresentation)
 
-	domainSingularDataSourceRepresentation = map[string]interface{}{
+	IdentityIdentityDomainSingularDataSourceRepresentation = map[string]interface{}{
 		"domain_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_domain.test_domain.id}`},
 	}
 
-	domainDataSourceRepresentation = map[string]interface{}{
+	IdentityIdentityDomainDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`, Update: `${var.compartment_id}`},
 		"display_name":       acctest.Representation{RepType: acctest.Optional, Create: `displayName9`, Update: `displayName9`},
 		"is_hidden_on_login": acctest.Representation{RepType: acctest.Optional, Update: `true`},
 		"license_type":       acctest.Representation{RepType: acctest.Optional, Create: `external-user`, Update: `external-user`},
 		"state":              acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`},
 		"type":               acctest.Representation{RepType: acctest.Optional, Create: string(oci_identity.DomainTypeSecondary), Update: string(oci_identity.DomainTypeSecondary)},
-		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: domainDataSourceFilterRepresentation},
+		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityDomainDataSourceFilterRepresentation},
 	}
-	domainDataSourceFilterRepresentation = map[string]interface{}{
+	IdentityDomainDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_identity_domain.test_domain.id}`}},
 	}
 
-	domainRepresentation = map[string]interface{}{
+	IdentityDomainRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"description":               acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
 		"display_name":              acctest.Representation{RepType: acctest.Required, Create: `displayName11`, Update: `displayName9`},
@@ -65,7 +65,7 @@ var (
 		"state":                     acctest.Representation{RepType: acctest.Optional, Update: `INACTIVE`},
 	}
 
-	DomainResourceDependencies = DefinedTagsDependencies
+	IdentityDomainResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: identity/default
@@ -88,15 +88,15 @@ func TestIdentityDomainResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DomainResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_domain", "test_domain", acctest.Optional, acctest.Create, domainRepresentation), "identity", "domain", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+IdentityDomainResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_domain", "test_domain", acctest.Optional, acctest.Create, IdentityDomainRepresentation), "identity", "domain", t)
 
 	acctest.ResourceTest(t, testAccCheckIdentityDomainDestroy, []resource.TestStep{
 		// verify Create and deactivate domain
 		{
-			Config: config + compartmentIdVariableStr + DomainResourceDependencies +
+			Config: config + compartmentIdVariableStr + IdentityDomainResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_identity_domain", "test_domain", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(domainRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(IdentityDomainRepresentation, map[string]interface{}{
 						"state": acctest.Representation{RepType: acctest.Required, Create: `inactive`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -116,12 +116,12 @@ func TestIdentityDomainResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DomainResourceDependencies,
+			Config: config + compartmentIdVariableStr + IdentityDomainResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DomainResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_domain", "test_domain", acctest.Optional, acctest.Create, domainRepresentation),
+			Config: config + compartmentIdVariableStr + IdentityDomainResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_domain", "test_domain", acctest.Optional, acctest.Create, IdentityDomainRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_email", "adminEmail@test.com"),
 				resource.TestCheckResourceAttr(resourceName, "admin_first_name", "adminFirstName"),
@@ -156,9 +156,9 @@ func TestIdentityDomainResource_basic(t *testing.T) {
 
 		// verify update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DomainResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + IdentityDomainResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_identity_domain", "test_domain", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(domainRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(IdentityDomainRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -193,8 +193,8 @@ func TestIdentityDomainResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DomainResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_domain", "test_domain", acctest.Optional, acctest.Update, domainRepresentation),
+			Config: config + compartmentIdVariableStr + IdentityDomainResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_domain", "test_domain", acctest.Optional, acctest.Update, IdentityDomainRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_email", "adminEmail@test.com"),
 				resource.TestCheckResourceAttr(resourceName, "admin_first_name", "adminFirstName"),
@@ -227,10 +227,10 @@ func TestIdentityDomainResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_domains", "test_domains", acctest.Optional, acctest.Update, domainDataSourceRepresentation) +
-				compartmentIdVariableStr + DomainResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_domains", "test_domains", acctest.Optional, acctest.Update, IdentityIdentityDomainDataSourceRepresentation) +
+				compartmentIdVariableStr + IdentityDomainResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_identity_domain", "test_domain", acctest.Optional, acctest.Update,
-					acctest.RepresentationCopyWithNewProperties(domainRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(IdentityDomainRepresentation, map[string]interface{}{
 						"type": acctest.Representation{RepType: acctest.Optional, Update: oci_identity.DomainTypeSecondary},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -259,8 +259,8 @@ func TestIdentityDomainResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_domain", "test_domain", acctest.Required, acctest.Create, domainSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DomainResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_domain", "test_domain", acctest.Required, acctest.Create, IdentityIdentityDomainSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + IdentityDomainResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "domain_id"),
 
@@ -280,7 +280,7 @@ func TestIdentityDomainResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + DomainRequiredOnlyResource,
+			Config:            config + IdentityDomainRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -343,7 +343,7 @@ func init() {
 
 func sweepIdentityDomainResource(compartment string) error {
 	identityClient := acctest.GetTestClients(&schema.ResourceData{}).IdentityClient()
-	domainIds, err := getDomainIds(compartment)
+	domainIds, err := getIdentityDomainIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -364,7 +364,7 @@ func sweepIdentityDomainResource(compartment string) error {
 	return nil
 }
 
-func getDomainIds(compartment string) ([]string, error) {
+func getIdentityDomainIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "DomainId")
 	if ids != nil {
 		return ids, nil

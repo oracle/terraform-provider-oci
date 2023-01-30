@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package core
@@ -7,8 +7,8 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
@@ -70,6 +70,12 @@ func (s *CoreBootVolumeDataSourceCrud) SetData() error {
 	if s.Res.AutoTunedVpusPerGB != nil {
 		s.D.Set("auto_tuned_vpus_per_gb", strconv.FormatInt(*s.Res.AutoTunedVpusPerGB, 10))
 	}
+
+	autotunePolicies := []interface{}{}
+	for _, item := range s.Res.AutotunePolicies {
+		autotunePolicies = append(autotunePolicies, BootVolumeAutotunePolicyToMap(item))
+	}
+	s.D.Set("autotune_policies", autotunePolicies)
 
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)

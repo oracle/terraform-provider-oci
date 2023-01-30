@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,28 +7,28 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	certNameForCertificateVersionTests                 = "test-certificate-version-cert-" + utils.RandomString(10, utils.CharsetWithoutDigits)
-	certificateVersionSingularDataSourceRepresentation = map[string]interface{}{
+	certNameForCertificateVersionTests                                       = "test-certificate-version-cert-" + utils.RandomString(10, utils.CharsetWithoutDigits)
+	CertificatesManagementcertificateVersionSingularDataSourceRepresentation = map[string]interface{}{
 		"certificate_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_certificates_management_certificate.test_certificate.id}`},
 		"certificate_version_number": acctest.Representation{RepType: acctest.Required, Create: `1`},
 	}
 
-	certificateVersionDataSourceRepresentation = map[string]interface{}{
+	CertificatesManagementcertificateVersionDataSourceRepresentation = map[string]interface{}{
 		"certificate_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_certificates_management_certificate.test_certificate.id}`},
 		"version_number": acctest.Representation{RepType: acctest.Optional, Create: `1`},
 	}
 
-	CertificateVersionResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_certificates_management_certificate", "test_certificate", acctest.Required, acctest.Create,
+	CertificatesManagementCertificateVersionResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_certificates_management_certificate", "test_certificate", acctest.Required, acctest.Create,
 		acctest.RepresentationCopyWithNewProperties(certificatesManagementCertificateRepresentation, map[string]interface{}{
 			"name": acctest.Representation{RepType: acctest.Required, Create: certNameForCertificateVersionTests},
 		}))
@@ -58,8 +58,8 @@ func TestCertificatesManagementCertificateVersionResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_certificates_management_certificate_versions", "test_certificate_versions", acctest.Optional, acctest.Create, certificateVersionDataSourceRepresentation) +
-					compartmentIdVariableStr + CertificateVersionResourceConfig,
+					acctest.GenerateDataSourceFromRepresentationMap("oci_certificates_management_certificate_versions", "test_certificate_versions", acctest.Optional, acctest.Create, CertificatesManagementcertificateVersionDataSourceRepresentation) +
+					compartmentIdVariableStr + CertificatesManagementCertificateVersionResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "certificate_id"),
 					resource.TestCheckResourceAttr(datasourceName, "version_number", "1"),
@@ -71,8 +71,8 @@ func TestCertificatesManagementCertificateVersionResource_basic(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_certificates_management_certificate_version", "test_certificate_version", acctest.Required, acctest.Create, certificateVersionSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + CertificateVersionResourceConfig,
+					acctest.GenerateDataSourceFromRepresentationMap("oci_certificates_management_certificate_version", "test_certificate_version", acctest.Required, acctest.Create, CertificatesManagementcertificateVersionSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + CertificatesManagementCertificateVersionResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "certificate_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "certificate_version_number", "1"),

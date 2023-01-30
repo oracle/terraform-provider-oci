@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -8,22 +8,22 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	UnifiedAgentConfigurationLogTailRequiredOnlyResource = UnifiedAgentConfigurationResourceDependencies +
+	UnifiedAgentConfigurationLogTailRequiredOnlyResource = LoggingUnifiedAgentConfigurationResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", acctest.Required, acctest.Create, unifiedAgentConfigurationLogTailRepresentation)
 
-	UnifiedAgentConfigurationLogTailResourceConfig = UnifiedAgentConfigurationResourceDependencies +
+	UnifiedAgentConfigurationLogTailResourceConfig = LoggingUnifiedAgentConfigurationResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", acctest.Optional, acctest.Update, unifiedAgentConfigurationLogTailRepresentation)
 
 	unifiedAgentConfigurationLogTailSingularDataSourceRepresentation = map[string]interface{}{
@@ -51,7 +51,7 @@ var (
 		"description":           acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
 		"display_name":          acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"group_association":     acctest.RepresentationGroup{RepType: acctest.Required, Group: unifiedAgentConfigurationGroupAssociationRepresentation},
+		"group_association":     acctest.RepresentationGroup{RepType: acctest.Required, Group: LoggingUnifiedAgentConfigurationGroupAssociationRepresentation},
 	}
 	unifiedAgentConfigurationServiceConfigurationLogTailRepresentation = map[string]interface{}{
 		"configuration_type": acctest.Representation{RepType: acctest.Required, Create: `LOGGING`},
@@ -65,12 +65,12 @@ var (
 	unifiedAgentConfigurationServiceConfigurationSourcesLogTailRepresentation = map[string]interface{}{
 		"source_type": acctest.Representation{RepType: acctest.Required, Create: `LOG_TAIL`},
 		"name":        acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
-		"parser":      acctest.RepresentationGroup{RepType: acctest.Required, Group: unifiedAgentConfigurationServiceConfigurationSourcesParserRepresentation},
+		"parser":      acctest.RepresentationGroup{RepType: acctest.Required, Group: LoggingUnifiedAgentConfigurationServiceConfigurationSourcesParserRepresentation},
 		"paths":       acctest.Representation{RepType: acctest.Optional, Create: []string{`paths`}},
 	}
 
 	unifiedAgentConfigurationServiceConfigurationSourcesJSONParserRepresentation = acctest.GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", acctest.Optional, acctest.Update,
-		acctest.GetUpdatedRepresentationCopy("service_configuration", acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.GetUpdatedRepresentationCopy("sources", acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.GetUpdatedRepresentationCopy("parser", acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithNewProperties(unifiedAgentConfigurationServiceConfigurationSourcesParserRepresentation, map[string]interface{}{
+		acctest.GetUpdatedRepresentationCopy("service_configuration", acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.GetUpdatedRepresentationCopy("sources", acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.GetUpdatedRepresentationCopy("parser", acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithNewProperties(LoggingUnifiedAgentConfigurationServiceConfigurationSourcesParserRepresentation, map[string]interface{}{
 			"parser_type":               acctest.Representation{RepType: acctest.Required, Update: `JSON`},
 			"field_time_key":            acctest.Representation{RepType: acctest.Optional, Update: `fieldTimeKey2`},
 			"is_estimate_current_event": acctest.Representation{RepType: acctest.Optional, Update: `true`},
@@ -86,7 +86,7 @@ var (
 			unifiedAgentConfigurationLogTailRepresentation))
 
 	unifiedAgentConfigurationServiceConfigurationSourcesCSVParserRepresentation = acctest.GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", acctest.Optional, acctest.Update,
-		acctest.GetUpdatedRepresentationCopy("service_configuration", acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.GetUpdatedRepresentationCopy("sources", acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.GetUpdatedRepresentationCopy("parser", acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithNewProperties(unifiedAgentConfigurationServiceConfigurationSourcesParserRepresentation, map[string]interface{}{
+		acctest.GetUpdatedRepresentationCopy("service_configuration", acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.GetUpdatedRepresentationCopy("sources", acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.GetUpdatedRepresentationCopy("parser", acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithNewProperties(LoggingUnifiedAgentConfigurationServiceConfigurationSourcesParserRepresentation, map[string]interface{}{
 			"parser_type": acctest.Representation{RepType: acctest.Required, Update: `CSV`},
 			"delimiter":   acctest.Representation{RepType: acctest.Optional, Update: `delimiter`},
 			"keys":        acctest.Representation{RepType: acctest.Optional, Update: []string{`key1`}}})},
@@ -95,7 +95,7 @@ var (
 			unifiedAgentConfigurationLogTailRepresentation))
 
 	unifiedAgentConfigurationServiceConfigurationSourcesGROKParserRepresentation = acctest.GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", acctest.Optional, acctest.Update,
-		acctest.GetUpdatedRepresentationCopy("service_configuration", acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.GetUpdatedRepresentationCopy("sources", acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.GetUpdatedRepresentationCopy("parser", acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithNewProperties(unifiedAgentConfigurationServiceConfigurationSourcesParserRepresentation, map[string]interface{}{
+		acctest.GetUpdatedRepresentationCopy("service_configuration", acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.GetUpdatedRepresentationCopy("sources", acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.GetUpdatedRepresentationCopy("parser", acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithNewProperties(LoggingUnifiedAgentConfigurationServiceConfigurationSourcesParserRepresentation, map[string]interface{}{
 			"parser_type":      acctest.Representation{RepType: acctest.Required, Update: `GROK`},
 			"grok_failure_key": acctest.Representation{RepType: acctest.Optional, Update: `grokFailureKey2`},
 			"grok_name_key":    acctest.Representation{RepType: acctest.Optional, Update: `grokNameKey2`},
@@ -106,7 +106,7 @@ var (
 			unifiedAgentConfigurationLogTailRepresentation))
 
 	unifiedAgentConfigurationServiceConfigurationSourcesMSGPACKParserRepresentation = acctest.GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", acctest.Optional, acctest.Update,
-		acctest.GetUpdatedRepresentationCopy("service_configuration", acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.GetUpdatedRepresentationCopy("sources", acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.GetUpdatedRepresentationCopy("parser", acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithNewProperties(unifiedAgentConfigurationServiceConfigurationSourcesParserRepresentation, map[string]interface{}{
+		acctest.GetUpdatedRepresentationCopy("service_configuration", acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.GetUpdatedRepresentationCopy("sources", acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.GetUpdatedRepresentationCopy("parser", acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithNewProperties(LoggingUnifiedAgentConfigurationServiceConfigurationSourcesParserRepresentation, map[string]interface{}{
 			"parser_type":               acctest.Representation{RepType: acctest.Required, Update: `MSGPACK`},
 			"field_time_key":            acctest.Representation{RepType: acctest.Optional, Update: `fieldTimeKey3`},
 			"is_estimate_current_event": acctest.Representation{RepType: acctest.Optional, Update: `true`},
@@ -122,7 +122,7 @@ var (
 
 	//MULTILINE
 	unifiedAgentConfigurationServiceConfigurationSourcesMULTILINEParserRepresentation = acctest.GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", acctest.Optional, acctest.Update,
-		acctest.GetUpdatedRepresentationCopy("service_configuration", acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.GetUpdatedRepresentationCopy("sources", acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.GetUpdatedRepresentationCopy("parser", acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithNewProperties(unifiedAgentConfigurationServiceConfigurationSourcesParserRepresentation, map[string]interface{}{
+		acctest.GetUpdatedRepresentationCopy("service_configuration", acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.GetUpdatedRepresentationCopy("sources", acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.GetUpdatedRepresentationCopy("parser", acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithNewProperties(LoggingUnifiedAgentConfigurationServiceConfigurationSourcesParserRepresentation, map[string]interface{}{
 			"parser_type":      acctest.Representation{RepType: acctest.Required, Update: `MULTILINE`},
 			"format":           acctest.Representation{RepType: acctest.Optional, Update: []string{`format2`}},
 			"format_firstline": acctest.Representation{RepType: acctest.Optional, Update: `formatFirstline2`},
@@ -132,7 +132,7 @@ var (
 			unifiedAgentConfigurationLogTailRepresentation))
 
 	unifiedAgentConfigurationServiceConfigurationSourcesMULTILINEGROKParserRepresentation = acctest.GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", acctest.Optional, acctest.Update,
-		acctest.GetUpdatedRepresentationCopy("service_configuration", acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.GetUpdatedRepresentationCopy("sources", acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.GetUpdatedRepresentationCopy("parser", acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithNewProperties(unifiedAgentConfigurationServiceConfigurationSourcesParserRepresentation, map[string]interface{}{
+		acctest.GetUpdatedRepresentationCopy("service_configuration", acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.GetUpdatedRepresentationCopy("sources", acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.GetUpdatedRepresentationCopy("parser", acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithNewProperties(LoggingUnifiedAgentConfigurationServiceConfigurationSourcesParserRepresentation, map[string]interface{}{
 			"parser_type":             acctest.Representation{RepType: acctest.Required, Update: `MULTILINE_GROK`},
 			"grok_failure_key":        acctest.Representation{RepType: acctest.Optional, Update: `grokFailureKey2`},
 			"grok_name_key":           acctest.Representation{RepType: acctest.Optional, Update: `grokNameKey2`},
@@ -181,7 +181,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify Create with optionals
 			{
-				Config: config + compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies +
+				Config: config + compartmentIdVariableStr + LoggingUnifiedAgentConfigurationResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", acctest.Optional, acctest.Create, unifiedAgentConfigurationLogTailRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -227,7 +227,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 
 			//verify Update to the compartment (the compartment will be switched back in the next step)
 			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + UnifiedAgentConfigurationResourceDependencies +
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + LoggingUnifiedAgentConfigurationResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", acctest.Optional, acctest.Create,
 						acctest.RepresentationCopyWithNewProperties(unifiedAgentConfigurationLogTailRepresentation, map[string]interface{}{
 							"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -273,7 +273,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies + unifiedAgentConfigurationServiceConfigurationSourcesJSONParserRepresentation,
+				Config: config + compartmentIdVariableStr + LoggingUnifiedAgentConfigurationResourceDependencies + unifiedAgentConfigurationServiceConfigurationSourcesJSONParserRepresentation,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
@@ -316,7 +316,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 
 			// verify updates to parser type CSV
 			{
-				Config: config + compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies + unifiedAgentConfigurationServiceConfigurationSourcesCSVParserRepresentation,
+				Config: config + compartmentIdVariableStr + LoggingUnifiedAgentConfigurationResourceDependencies + unifiedAgentConfigurationServiceConfigurationSourcesCSVParserRepresentation,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//Uncomment configuration_state once bug fixed
@@ -341,7 +341,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 
 			// verify updates to parser type GROK
 			{
-				Config: config + compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies + unifiedAgentConfigurationServiceConfigurationSourcesGROKParserRepresentation,
+				Config: config + compartmentIdVariableStr + LoggingUnifiedAgentConfigurationResourceDependencies + unifiedAgentConfigurationServiceConfigurationSourcesGROKParserRepresentation,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
@@ -371,7 +371,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 
 			//verify updates to parser type MSGPACK
 			{
-				Config: config + compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies + unifiedAgentConfigurationServiceConfigurationSourcesMSGPACKParserRepresentation,
+				Config: config + compartmentIdVariableStr + LoggingUnifiedAgentConfigurationResourceDependencies + unifiedAgentConfigurationServiceConfigurationSourcesMSGPACKParserRepresentation,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//Uncomment configuration_state once bug fixed
@@ -400,7 +400,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 
 			// verify updates to parser type MULTILINE
 			{
-				Config: config + compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies + unifiedAgentConfigurationServiceConfigurationSourcesMULTILINEParserRepresentation,
+				Config: config + compartmentIdVariableStr + LoggingUnifiedAgentConfigurationResourceDependencies + unifiedAgentConfigurationServiceConfigurationSourcesMULTILINEParserRepresentation,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//Uncomment configuration_state once bug fixed
@@ -425,7 +425,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 
 			// verify updates to parser type MULTILINEGROK
 			{
-				Config: config + compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies + unifiedAgentConfigurationServiceConfigurationSourcesMULTILINEGROKParserRepresentation,
+				Config: config + compartmentIdVariableStr + LoggingUnifiedAgentConfigurationResourceDependencies + unifiedAgentConfigurationServiceConfigurationSourcesMULTILINEGROKParserRepresentation,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
@@ -458,7 +458,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 			{
 				Config: config +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_logging_unified_agent_configurations", "test_unified_agent_configurations", acctest.Optional, acctest.Update, unifiedAgentConfigurationLogTailDataSourceRepresentation) +
-					compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies +
+					compartmentIdVariableStr + LoggingUnifiedAgentConfigurationResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", acctest.Optional, acctest.Update, unifiedAgentConfigurationLogTailRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -509,7 +509,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config + UnifiedAgentConfigurationRequiredOnlyResource,
+				Config:                  config + LoggingUnifiedAgentConfigurationRequiredOnlyResource,
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

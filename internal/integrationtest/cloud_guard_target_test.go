@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,51 +16,51 @@ import (
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 	"github.com/oracle/oci-go-sdk/v65/common"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	TargetRequiredOnlyResource = TargetResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", acctest.Required, acctest.Create, targetRepresentation)
+	CloudGuardTargetRequiredOnlyResource = CloudGuardTargetResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", acctest.Required, acctest.Create, CloudGuardTargetRepresentation)
 
-	TargetResourceConfig = TargetResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", acctest.Optional, acctest.Update, targetRepresentation)
+	CloudGuardTargetResourceConfig = CloudGuardTargetResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", acctest.Optional, acctest.Update, CloudGuardTargetRepresentation)
 
-	targetSingularDataSourceRepresentation = map[string]interface{}{
+	CloudGuardCloudGuardTargetSingularDataSourceRepresentation = map[string]interface{}{
 		"target_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_cloud_guard_target.test_target.id}`},
 	}
 
-	targetDataSourceRepresentation = map[string]interface{}{
+	CloudGuardCloudGuardTargetDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":                          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"access_level":                            acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
 		"compartment_id_in_subtree":               acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"display_name":                            acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"is_non_security_zone_targets_only_query": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"state":  acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`, Update: `ACTIVE`},
-		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: targetDataSourceFilterRepresentation}}
-	targetDataSourceFilterRepresentation = map[string]interface{}{
+		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: CloudGuardTargetDataSourceFilterRepresentation}}
+	CloudGuardTargetDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_cloud_guard_target.test_target.id}`}},
 	}
 
-	targetRepresentation = map[string]interface{}{
+	CloudGuardTargetRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		//For now can be equal to compartmentId only
 		"target_resource_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		//For now can be equal to COMPARTMENT only
 		"target_resource_type":     acctest.Representation{RepType: acctest.Required, Create: `COMPARTMENT`},
-		"defined_tags":             acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":             acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":              acctest.Representation{RepType: acctest.Optional, Create: `description`},
 		"freeform_tags":            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"state":                    acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`, Update: `ACTIVE`},
-		"target_detector_recipes":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: targetTargetDetectorRecipesRepresentation},
-		"target_responder_recipes": acctest.RepresentationGroup{RepType: acctest.Optional, Group: targetTargetResponderRecipesRepresentation},
+		"target_detector_recipes":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: CloudGuardTargetTargetDetectorRecipesRepresentation},
+		"target_responder_recipes": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CloudGuardTargetTargetResponderRecipesRepresentation},
 		//todo: remove this before raising the PR
 		// 		"lifecycle": acctest.RepresentationGroup{acctest.Required, ignoreTargetDefinedTagsChangesRep},
 	}
@@ -70,45 +70,44 @@ var (
 	// 	}
 
 	//Getting detectorRecipeId and responderRecipeId from a plural datasource call same as in detectorRecipeTest and responderRecipeTest
-	targetTargetDetectorRecipesRepresentation = map[string]interface{}{
+	CloudGuardTargetTargetDetectorRecipesRepresentation = map[string]interface{}{
 		"detector_recipe_id": acctest.Representation{RepType: acctest.Required, Create: detectorRecipeId},
-		"detector_rules":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: targetTargetDetectorRecipesDetectorRulesRepresentation},
+		"detector_rules":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: CloudGuardTargetTargetDetectorRecipesDetectorRulesRepresentation},
 	}
-	targetTargetResponderRecipesRepresentation = map[string]interface{}{
+	CloudGuardTargetTargetResponderRecipesRepresentation = map[string]interface{}{
 		"responder_recipe_id": acctest.Representation{RepType: acctest.Required, Create: responderRecipeId},
-		"responder_rules":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: targetTargetResponderRecipesResponderRulesRepresentation},
+		"responder_rules":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: CloudGuardTargetTargetResponderRecipesResponderRulesRepresentation},
 	}
 	//Hardcoding a detectorRuleId and responderRuleId as the condition and configuration are dependent on the rules, so hardcoding one for testing purposes.
-	targetTargetDetectorRecipesDetectorRulesRepresentation = map[string]interface{}{
-		"details":          acctest.RepresentationGroup{RepType: acctest.Required, Group: targetTargetDetectorRecipesDetectorRulesDetailsRepresentation},
+	CloudGuardTargetTargetDetectorRecipesDetectorRulesRepresentation = map[string]interface{}{
+		"details":          acctest.RepresentationGroup{RepType: acctest.Required, Group: CloudGuardTargetTargetDetectorRecipesDetectorRulesDetailsRepresentation},
 		"detector_rule_id": acctest.Representation{RepType: acctest.Required, Create: `LB_CERTIFICATE_EXPIRING_SOON`},
 	}
-	targetTargetResponderRecipesResponderRulesRepresentation = map[string]interface{}{
-		"details":           acctest.RepresentationGroup{RepType: acctest.Required, Group: targetTargetResponderRecipesResponderRulesDetailsRepresentation},
+	CloudGuardTargetTargetResponderRecipesResponderRulesRepresentation = map[string]interface{}{
+		"details":           acctest.RepresentationGroup{RepType: acctest.Required, Group: CloudGuardTargetTargetResponderRecipesResponderRulesDetailsRepresentation},
 		"responder_rule_id": acctest.Representation{RepType: acctest.Required, Create: `ENABLE_DB_BACKUP`},
 	}
-	targetTargetDetectorRecipesDetectorRulesDetailsRepresentation = map[string]interface{}{
-		"condition_groups": acctest.RepresentationGroup{RepType: acctest.Optional, Group: targetTargetDetectorRecipesDetectorRulesDetailsConditionGroupsRepresentation},
+	CloudGuardTargetTargetDetectorRecipesDetectorRulesDetailsRepresentation = map[string]interface{}{
+		"condition_groups": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CloudGuardTargetTargetDetectorRecipesDetectorRulesDetailsConditionGroupsRepresentation},
 	}
 	//Making correct conditions, mode and configuration Object for responder/detector rule
-	targetTargetResponderRecipesResponderRulesDetailsRepresentation = map[string]interface{}{
+	CloudGuardTargetTargetResponderRecipesResponderRulesDetailsRepresentation = map[string]interface{}{
 		"condition":      acctest.Representation{RepType: acctest.Optional, Create: `{\"kind\":\"SIMPLE\",\"parameter\":\"resourceName\",\"operator\":\"EQUALS\",\"value\":\"bucket1\",\"valueType\":\"CUSTOM\"}`, Update: `{\"kind\":\"COMPOSITE\",\"leftOperand\":{\"kind\" :\"COMPOSITE\",\"leftOperand\":{\"kind\":\"SIMPLE\",\"parameter\":\"resourceName\",\"operator\":\"EQUALS\",\"value\":\"bucket3\",\"valueType\":\"CUSTOM\"},\"compositeOperator\":\"AND\",\"rightOperand\":{\"kind\":\"SIMPLE\",\"parameter\":\"resourceName\",\"operator\":\"NOT_EQUALS\",\"value\":\"bucket12\",\"valueType\":\"CUSTOM\"}},\"compositeOperator\":\"AND\",\"rightOperand\":{\"kind\":\"SIMPLE\",\"parameter\":\"resourceName\",\"operator\":\"EQUALS\",\"value\":\"bucket101\",\"valueType\":\"CUSTOM\"}}`},
-		"configurations": acctest.RepresentationGroup{RepType: acctest.Optional, Group: targetTargetResponderRecipesResponderRulesDetailsConfigurationsRepresentation},
+		"configurations": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CloudGuardTargetTargetResponderRecipesResponderRulesDetailsConfigurationsRepresentation},
 		"mode":           acctest.Representation{RepType: acctest.Optional, Create: `USERACTION`, Update: `AUTOACTION`},
 	}
-	targetTargetDetectorRecipesDetectorRulesDetailsConditionGroupsRepresentation = map[string]interface{}{
+	CloudGuardTargetTargetDetectorRecipesDetectorRulesDetailsConditionGroupsRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"condition":      acctest.Representation{RepType: acctest.Required, Create: `{\"kind\":\"SIMPLE\",\"parameter\":\"lbCertificateExpiringSoonFilter\",\"operator\":\"EQUALS\",\"value\":\"10\",\"valueType\":\"CUSTOM\"}`, Update: `{\"kind\":\"COMPOSITE\",\"leftOperand\":{\"kind\" :\"COMPOSITE\",\"leftOperand\":{\"kind\":\"SIMPLE\",\"parameter\":\"lbCertificateExpiringSoonFilter\",\"operator\":\"EQUALS\",\"value\":\"12\",\"valueType\":\"CUSTOM\"},\"compositeOperator\":\"AND\",\"rightOperand\":{\"kind\":\"SIMPLE\",\"parameter\":\"lbCertificateExpiringSoonFilter\",\"operator\":\"NOT_EQUALS\",\"value\":\"12\",\"valueType\":\"CUSTOM\"}},\"compositeOperator\":\"AND\",\"rightOperand\":{\"kind\":\"SIMPLE\",\"parameter\":\"lbCertificateExpiringSoonFilter\",\"operator\":\"EQUALS\",\"value\":\"10\",\"valueType\":\"CUSTOM\"}}`},
 	}
-	targetTargetResponderRecipesResponderRulesDetailsConfigurationsRepresentation = map[string]interface{}{
+	CloudGuardTargetTargetResponderRecipesResponderRulesDetailsConfigurationsRepresentation = map[string]interface{}{
 		"config_key": acctest.Representation{RepType: acctest.Required, Create: `autoBackupWindowConfig`, Update: `recoveryWindowInDaysConfig`},
 		"name":       acctest.Representation{RepType: acctest.Required, Create: `Backup time window (Slot)`, Update: `Backup retention period in days`},
 		"value":      acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `20`},
 	}
 
 	//Correcting the dependencies
-	TargetResourceDependencies = ResponderRecipeResourceDependencies + DetectorRecipeResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", acctest.Required, acctest.Create,
-		detectorRecipeRepresentation)
+	CloudGuardTargetResourceDependencies = CloudGuardResponderRecipeResourceDependencies + CloudGuardDetectorRecipeResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", acctest.Required, acctest.Create, CloudGuardDetectorRecipeRepresentation)
 )
 
 // issue-routing-tag: cloud_guard/default
@@ -124,17 +123,16 @@ func TestCloudGuardTargetResource_basic(t *testing.T) {
 	resourceName := "oci_cloud_guard_target.test_target"
 	datasourceName := "data.oci_cloud_guard_targets.test_targets"
 	singularDatasourceName := "data.oci_cloud_guard_target.test_target"
-
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+TargetResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", acctest.Optional, acctest.Create, targetRepresentation), "cloudguard", "target", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CloudGuardTargetResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", acctest.Optional, acctest.Create, CloudGuardTargetRepresentation), "cloudguard", "target", t)
 
 	acctest.ResourceTest(t, testAccCheckCloudGuardTargetDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + TargetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", acctest.Required, acctest.Create, targetRepresentation),
+			Config: config + compartmentIdVariableStr + CloudGuardTargetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", acctest.Required, acctest.Create, CloudGuardTargetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -150,12 +148,12 @@ func TestCloudGuardTargetResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + TargetResourceDependencies,
+			Config: config + compartmentIdVariableStr + CloudGuardTargetResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + TargetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", acctest.Optional, acctest.Create, targetRepresentation),
+			Config: config + compartmentIdVariableStr + CloudGuardTargetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", acctest.Optional, acctest.Create, CloudGuardTargetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -217,8 +215,8 @@ func TestCloudGuardTargetResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + TargetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", acctest.Optional, acctest.Update, targetRepresentation),
+			Config: config + compartmentIdVariableStr + CloudGuardTargetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", acctest.Optional, acctest.Update, CloudGuardTargetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -278,9 +276,9 @@ func TestCloudGuardTargetResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_targets", "test_targets", acctest.Optional, acctest.Update, targetDataSourceRepresentation) +
-				compartmentIdVariableStr + TargetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", acctest.Optional, acctest.Update, targetRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_targets", "test_targets", acctest.Optional, acctest.Update, CloudGuardCloudGuardTargetDataSourceRepresentation) +
+				compartmentIdVariableStr + CloudGuardTargetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", acctest.Optional, acctest.Update, CloudGuardTargetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -295,8 +293,8 @@ func TestCloudGuardTargetResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_target", "test_target", acctest.Required, acctest.Create, targetSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + TargetResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_target", "test_target", acctest.Required, acctest.Create, CloudGuardCloudGuardTargetSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CloudGuardTargetResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_id"),
 
@@ -331,6 +329,7 @@ func TestCloudGuardTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.effective_detector_rules.0.details.0.risk_level"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.detector"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.display_name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.entities_mappings.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.managed_list_types.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.recommendation"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.resource_type"),
@@ -382,7 +381,7 @@ func TestCloudGuardTargetResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + TargetRequiredOnlyResource,
+			Config:                  config + CloudGuardTargetRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

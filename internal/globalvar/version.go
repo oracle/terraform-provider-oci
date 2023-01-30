@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package globalvar
@@ -7,8 +7,8 @@ import (
 	"log"
 )
 
-const Version = "4.76.0"
-const ReleaseDate = "2022-05-21"
+const Version = "4.105.0"
+const ReleaseDate = "2023-01-25"
 
 func PrintVersion() {
 	log.Printf("[INFO] terraform-provider-oci %s\n", Version)

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database
@@ -6,8 +6,8 @@ package database
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -128,6 +128,10 @@ func (s *DatabaseAutonomousVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("is_local_backup_enabled", *s.Res.IsLocalBackupEnabled)
 	}
 
+	if s.Res.IsMtlsEnabled != nil {
+		s.D.Set("is_mtls_enabled", *s.Res.IsMtlsEnabled)
+	}
+
 	if s.Res.LastMaintenanceRunId != nil {
 		s.D.Set("last_maintenance_run_id", *s.Res.LastMaintenanceRunId)
 	}
@@ -162,6 +166,14 @@ func (s *DatabaseAutonomousVmClusterDataSourceCrud) SetData() error {
 
 	if s.Res.ReclaimableCpus != nil {
 		s.D.Set("reclaimable_cpus", *s.Res.ReclaimableCpus)
+	}
+
+	if s.Res.ScanListenerPortNonTls != nil {
+		s.D.Set("scan_listener_port_non_tls", *s.Res.ScanListenerPortNonTls)
+	}
+
+	if s.Res.ScanListenerPortTls != nil {
+		s.D.Set("scan_listener_port_tls", *s.Res.ScanListenerPortTls)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

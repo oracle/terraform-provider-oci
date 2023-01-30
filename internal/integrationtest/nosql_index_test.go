@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -17,44 +17,44 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_nosql "github.com/oracle/oci-go-sdk/v65/nosql"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	IndexRequiredOnlyResource = IndexResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_nosql_index", "test_index", acctest.Required, acctest.Create, indexRepresentation)
+	NosqlIndexRequiredOnlyResource = NosqlIndexResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_nosql_index", "test_index", acctest.Required, acctest.Create, NosqlIndexRepresentation)
 
-	IndexResourceConfig = IndexResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_nosql_index", "test_index", acctest.Optional, acctest.Update, indexRepresentation)
+	NosqlIndexResourceConfig = NosqlIndexResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_nosql_index", "test_index", acctest.Optional, acctest.Update, NosqlIndexRepresentation)
 
-	indexSingularDataSourceRepresentation = map[string]interface{}{
+	NosqlNosqlIndexSingularDataSourceRepresentation = map[string]interface{}{
 		"index_name":       acctest.Representation{RepType: acctest.Required, Create: `${oci_nosql_index.test_index.id}`},
 		"table_name_or_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_nosql_table.test_table.id}`},
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
-	indexDataSourceRepresentation = map[string]interface{}{
+	NosqlNosqlIndexDataSourceRepresentation = map[string]interface{}{
 		"table_name_or_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_nosql_table.test_table.id}`},
 		"compartment_id":   acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"name":             acctest.Representation{RepType: acctest.Optional, Create: `test_index`},
 		"state":            acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":           acctest.RepresentationGroup{RepType: acctest.Required, Group: indexDataSourceFilterRepresentation}}
-	indexDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":           acctest.RepresentationGroup{RepType: acctest.Required, Group: NosqlIndexDataSourceFilterRepresentation}}
+	NosqlIndexDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `name`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_nosql_index.test_index.name}`}},
 	}
 
-	indexRepresentation = map[string]interface{}{
-		"keys":             acctest.RepresentationGroup{RepType: acctest.Required, Group: indexKeysRepresentation},
+	NosqlIndexRepresentation = map[string]interface{}{
+		"keys":             acctest.RepresentationGroup{RepType: acctest.Required, Group: NosqlIndexKeysRepresentation},
 		"name":             acctest.Representation{RepType: acctest.Required, Create: `test_index`},
 		"table_name_or_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_nosql_table.test_table.id}`},
 	}
-	indexKeysRepresentation = map[string]interface{}{
+	NosqlIndexKeysRepresentation = map[string]interface{}{
 		"column_name": acctest.Representation{RepType: acctest.Required, Create: `name`},
 	}
 
@@ -71,7 +71,7 @@ var (
 		"json_path":       acctest.Representation{RepType: acctest.Optional, Create: `info`},
 	}
 
-	IndexResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", acctest.Required, acctest.Create, tableRepresentation)
+	NosqlIndexResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", acctest.Required, acctest.Create, NosqlTableRepresentation)
 )
 
 // issue-routing-tag: nosql/default
@@ -92,14 +92,14 @@ func TestNosqlIndexResource_basic(t *testing.T) {
 	var compositeId string
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+IndexResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_nosql_index", "test_index", acctest.Optional, acctest.Create, indexRepresentation), "nosql", "index", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+NosqlIndexResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_nosql_index", "test_index", acctest.Optional, acctest.Create, NosqlIndexRepresentation), "nosql", "index", t)
 
 	acctest.ResourceTest(t, testAccCheckNosqlIndexDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + IndexResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_nosql_index", "test_index", acctest.Required, acctest.Create, indexRepresentation),
+			Config: config + compartmentIdVariableStr + NosqlIndexResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_nosql_index", "test_index", acctest.Required, acctest.Create, NosqlIndexRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "keys.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "keys.0.column_name", "name"),
@@ -110,11 +110,11 @@ func TestNosqlIndexResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + IndexResourceDependencies,
+			Config: config + compartmentIdVariableStr + NosqlIndexResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + IndexResourceDependencies +
+			Config: config + compartmentIdVariableStr + NosqlIndexResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_nosql_index", "test_index", acctest.Optional, acctest.Create, indexOptionalRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -144,9 +144,9 @@ func TestNosqlIndexResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_nosql_indexes", "test_indexes", acctest.Optional, acctest.Update, indexDataSourceRepresentation) +
-				compartmentIdVariableStr + IndexResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_nosql_index", "test_index", acctest.Optional, acctest.Update, indexRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_nosql_indexes", "test_indexes", acctest.Optional, acctest.Update, NosqlNosqlIndexDataSourceRepresentation) +
+				compartmentIdVariableStr + NosqlIndexResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_nosql_index", "test_index", acctest.Optional, acctest.Update, NosqlIndexRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "test_index"),
@@ -160,8 +160,8 @@ func TestNosqlIndexResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_nosql_index", "test_index", acctest.Required, acctest.Create, indexSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + IndexResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_nosql_index", "test_index", acctest.Required, acctest.Create, NosqlNosqlIndexSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + NosqlIndexResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "index_name"),
@@ -243,7 +243,7 @@ func init() {
 
 func sweepNosqlIndexResource(compartment string) error {
 	nosqlClient := acctest.GetTestClients(&schema.ResourceData{}).NosqlClient()
-	indexIds, err := getIndexIds(compartment)
+	indexIds, err := getNosqlIndexIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -257,14 +257,14 @@ func sweepNosqlIndexResource(compartment string) error {
 				fmt.Printf("Error deleting Index %s %s, It is possible that the resource is already deleted. Please verify manually \n", indexId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &indexId, indexSweepWaitCondition, time.Duration(3*time.Minute),
-				indexSweepResponseFetchOperation, "nosql", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &indexId, NosqlIndexSweepWaitCondition, time.Duration(3*time.Minute),
+				NosqlIndexSweepResponseFetchOperation, "nosql", true)
 		}
 	}
 	return nil
 }
 
-func getIndexIds(compartment string) ([]string, error) {
+func getNosqlIndexIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "IndexId")
 	if ids != nil {
 		return ids, nil
@@ -276,7 +276,7 @@ func getIndexIds(compartment string) ([]string, error) {
 	listIndexesRequest := oci_nosql.ListIndexesRequest{}
 	listIndexesRequest.CompartmentId = &compartmentId
 
-	tableNameOrIds, error := getTableIds(compartment)
+	tableNameOrIds, error := getNosqlTableIds(compartment)
 	if error != nil {
 		return resourceIds, fmt.Errorf("Error getting tableNameOrId required for Index resource requests \n")
 	}
@@ -299,7 +299,7 @@ func getIndexIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func indexSweepWaitCondition(response common.OCIOperationResponse) bool {
+func NosqlIndexSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if indexResponse, ok := response.Response.(oci_nosql.GetIndexResponse); ok {
 		return indexResponse.LifecycleState != oci_nosql.IndexLifecycleStateDeleted
@@ -307,7 +307,7 @@ func indexSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func indexSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func NosqlIndexSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.NosqlClient().GetIndex(context.Background(), oci_nosql.GetIndexRequest{RequestMetadata: common.RequestMetadata{
 		RetryPolicy: retryPolicy,
 	},

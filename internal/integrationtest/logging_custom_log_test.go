@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,12 +9,12 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/service/logging"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/service/logging"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,14 +22,14 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_logging "github.com/oracle/oci-go-sdk/v65/logging"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	CustomLogRequiredOnlyResource = LogResourceDependencies +
+	CustomLogRequiredOnlyResource = LoggingLogResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", acctest.Required, acctest.Create, customLogRepresentation)
 
-	CustomLogResourceConfig = LogResourceDependencies +
+	CustomLogResourceConfig = LoggingLogResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", acctest.Optional, acctest.Update, customLogRepresentation)
 
 	customLogDataSourceRepresentation = map[string]interface{}{
@@ -37,7 +37,7 @@ var (
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"log_type":     acctest.Representation{RepType: acctest.Optional, Create: `CUSTOM`},
 		"state":        acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":       acctest.RepresentationGroup{RepType: acctest.Required, Group: logDataSourceFilterRepresentation}}
+		"filter":       acctest.RepresentationGroup{RepType: acctest.Required, Group: LoggingLogDataSourceFilterRepresentation}}
 
 	customLogRepresentation = map[string]interface{}{
 		"display_name":       acctest.Representation{RepType: acctest.Required, Create: `log`, Update: `displayName2`},
@@ -50,7 +50,7 @@ var (
 	}
 
 	CustomLogResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", acctest.Required, acctest.Create, logGroupRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", acctest.Required, acctest.Create, DevopsLogGroupRepresentation)
 )
 
 // issue-routing-tag: logging/default
@@ -130,7 +130,7 @@ func TestLoggingCustomLogResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CustomLogResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", acctest.Optional, acctest.Update, customLogRepresentation) +
-					acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_update_log_group", acctest.Required, acctest.Update, logGroupRepresentation),
+					acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_update_log_group", acctest.Required, acctest.Update, DevopsLogGroupRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -154,7 +154,7 @@ func TestLoggingCustomLogResource_basic(t *testing.T) {
 			{
 				Config: config +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_logging_logs", "test_logs", acctest.Optional, acctest.Update, customLogDataSourceRepresentation) +
-					acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_update_log_group", acctest.Required, acctest.Update, logGroupRepresentation) +
+					acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_update_log_group", acctest.Required, acctest.Update, DevopsLogGroupRepresentation) +
 					compartmentIdVariableStr + CustomLogResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", acctest.Optional, acctest.Update, customLogRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -179,7 +179,7 @@ func TestLoggingCustomLogResource_basic(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_logging_log", "test_log", acctest.Required, acctest.Create, logSingularDataSourceRepresentation) +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_logging_log", "test_log", acctest.Required, acctest.Create, LoggingLoggingLogSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + CustomLogResourceConfig,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "log_group_id"),
@@ -261,7 +261,7 @@ func init() {
 
 func sweepLoggingCustomLogResource(compartment string) error {
 	loggingManagementClient := acctest.GetTestClients(&schema.ResourceData{}).LoggingManagementClient()
-	logIds, err := getLogIds(compartment)
+	logIds, err := getLoggingLogIds(compartment)
 	if err != nil {
 		return err
 	}

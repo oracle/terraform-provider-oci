@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 variable "tenancy_ocid" {
   default = "ocidv1:tenancy:oc1:phx:1458753575596:aaaaaaaavary4yqe4ljpv5wzp74eflkwpu"
@@ -33,6 +33,10 @@ variable "ssh_private_key" {
 }
 
 # DBSystem specific
+variable "display_name" {
+  default = "TFVMDBSystemForTCPSExample"
+}
+
 variable "db_system_shape" {
   default = "VM.Standard2.1"
 }
@@ -91,4 +95,32 @@ variable "license_model" {
 
 variable "node_count" {
   default = "1"
+}
+
+variable "ssl_secret_id" {
+  default = "secret_id"
+}
+
+variable "ssl_user_name" {
+  default = "dbsnmp"
+}
+
+variable "db_name" {
+  default = "TFPEforTCPSExample"
+}
+
+variable "enable_management" {
+  default = "true"
+}
+
+variable "protocol" {
+  default = "TCPS"
+}
+
+variable "port" {
+  default = "1521"
+}
+
+variable "role" {
+  default = "SYSDBA"
 }

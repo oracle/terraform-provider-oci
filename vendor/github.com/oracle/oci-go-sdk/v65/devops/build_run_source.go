@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -50,12 +50,24 @@ func (m *buildrunsource) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 
 	var err error
 	switch m.SourceType {
+	case "GITLAB_SERVER":
+		mm := GitlabServerBuildRunSource{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "BITBUCKET_SERVER":
+		mm := BitbucketServerBuildRunSource{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GITHUB":
 		mm := GithubBuildRunSource{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "DEVOPS_CODE_REPOSITORY":
 		mm := DevopsCodeRepositoryBuildRunSource{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "VBS":
+		mm := VbsBuildRunSource{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "MANUAL":
@@ -99,24 +111,33 @@ const (
 	BuildRunSourceSourceTypeManual               BuildRunSourceSourceTypeEnum = "MANUAL"
 	BuildRunSourceSourceTypeGithub               BuildRunSourceSourceTypeEnum = "GITHUB"
 	BuildRunSourceSourceTypeGitlab               BuildRunSourceSourceTypeEnum = "GITLAB"
+	BuildRunSourceSourceTypeGitlabServer         BuildRunSourceSourceTypeEnum = "GITLAB_SERVER"
 	BuildRunSourceSourceTypeBitbucketCloud       BuildRunSourceSourceTypeEnum = "BITBUCKET_CLOUD"
+	BuildRunSourceSourceTypeBitbucketServer      BuildRunSourceSourceTypeEnum = "BITBUCKET_SERVER"
 	BuildRunSourceSourceTypeDevopsCodeRepository BuildRunSourceSourceTypeEnum = "DEVOPS_CODE_REPOSITORY"
+	BuildRunSourceSourceTypeVbs                  BuildRunSourceSourceTypeEnum = "VBS"
 )
 
 var mappingBuildRunSourceSourceTypeEnum = map[string]BuildRunSourceSourceTypeEnum{
 	"MANUAL":                 BuildRunSourceSourceTypeManual,
 	"GITHUB":                 BuildRunSourceSourceTypeGithub,
 	"GITLAB":                 BuildRunSourceSourceTypeGitlab,
+	"GITLAB_SERVER":          BuildRunSourceSourceTypeGitlabServer,
 	"BITBUCKET_CLOUD":        BuildRunSourceSourceTypeBitbucketCloud,
+	"BITBUCKET_SERVER":       BuildRunSourceSourceTypeBitbucketServer,
 	"DEVOPS_CODE_REPOSITORY": BuildRunSourceSourceTypeDevopsCodeRepository,
+	"VBS":                    BuildRunSourceSourceTypeVbs,
 }
 
 var mappingBuildRunSourceSourceTypeEnumLowerCase = map[string]BuildRunSourceSourceTypeEnum{
 	"manual":                 BuildRunSourceSourceTypeManual,
 	"github":                 BuildRunSourceSourceTypeGithub,
 	"gitlab":                 BuildRunSourceSourceTypeGitlab,
+	"gitlab_server":          BuildRunSourceSourceTypeGitlabServer,
 	"bitbucket_cloud":        BuildRunSourceSourceTypeBitbucketCloud,
+	"bitbucket_server":       BuildRunSourceSourceTypeBitbucketServer,
 	"devops_code_repository": BuildRunSourceSourceTypeDevopsCodeRepository,
+	"vbs":                    BuildRunSourceSourceTypeVbs,
 }
 
 // GetBuildRunSourceSourceTypeEnumValues Enumerates the set of values for BuildRunSourceSourceTypeEnum
@@ -134,8 +155,11 @@ func GetBuildRunSourceSourceTypeEnumStringValues() []string {
 		"MANUAL",
 		"GITHUB",
 		"GITLAB",
+		"GITLAB_SERVER",
 		"BITBUCKET_CLOUD",
+		"BITBUCKET_SERVER",
 		"DEVOPS_CODE_REPOSITORY",
+		"VBS",
 	}
 }
 

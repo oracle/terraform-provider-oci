@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,26 +22,26 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	BackupRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Required, acctest.Create, backupRepresentation)
+	BackupRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Required, acctest.Create, DatabaseBackupRepresentation)
 
-	backupDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseBackupDataSourceRepresentation = map[string]interface{}{
 		"database_id": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_database_databases.db.databases.0.id}`},
-		"filter":      acctest.RepresentationGroup{RepType: acctest.Required, Group: backupDataSourceFilterRepresentation}}
-	backupDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":      acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseBackupDataSourceFilterRepresentation}}
+	DatabaseBackupDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_backup.test_backup.id}`}},
 	}
 
-	backupRepresentation = map[string]interface{}{
+	DatabaseBackupRepresentation = map[string]interface{}{
 		"database_id":  acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_databases.db.databases.0.id}`},
 		"display_name": acctest.Representation{RepType: acctest.Required, Create: `Monthly Backup`},
 	}
 
-	BackupResourceDependencies = DbSystemResourceConfig + `
+	DatabaseDatabaseBackupResourceDependencies = DbSystemResourceConfig + `
 data "oci_database_databases" "db" {
        compartment_id = "${var.compartment_id}"
        db_home_id = "${data.oci_database_db_homes.t.db_homes.0.db_home_id}"
@@ -72,14 +72,14 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 
 	var resId string
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+BackupResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Required, acctest.Create, backupRepresentation), "database", "backup", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseDatabaseBackupResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Required, acctest.Create, DatabaseBackupRepresentation), "database", "backup", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseBackupDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + kmsKeyIdVariableStr + kmsKeyVersionIdVariableStr + vaultIdVariableStr + compartmentIdVariableStr + BackupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Required, acctest.Create, backupRepresentation),
+			Config: config + kmsKeyIdVariableStr + kmsKeyVersionIdVariableStr + vaultIdVariableStr + compartmentIdVariableStr + DatabaseDatabaseBackupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Required, acctest.Create, DatabaseBackupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Monthly Backup"),
@@ -99,9 +99,9 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + kmsKeyIdVariableStr + kmsKeyVersionIdVariableStr + vaultIdVariableStr +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_backups", "test_backups", acctest.Optional, acctest.Update, backupDataSourceRepresentation) +
-				compartmentIdVariableStr + BackupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Optional, acctest.Update, backupRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_backups", "test_backups", acctest.Optional, acctest.Update, DatabaseDatabaseBackupDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseDatabaseBackupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Optional, acctest.Update, DatabaseBackupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
 
@@ -193,7 +193,7 @@ func init() {
 
 func sweepDatabaseBackupResource(compartment string) error {
 	databaseClient := acctest.GetTestClients(&schema.ResourceData{}).DatabaseClient()
-	backupIds, err := getBackupIds(compartment)
+	backupIds, err := getDatabaseBackupIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -209,14 +209,14 @@ func sweepDatabaseBackupResource(compartment string) error {
 				fmt.Printf("Error deleting Backup %s %s, It is possible that the resource is already deleted. Please verify manually \n", backupId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &backupId, backupSweepWaitCondition, time.Duration(3*time.Minute),
-				backupSweepResponseFetchOperation, "database", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &backupId, DatabaseBackupSweepWaitCondition, time.Duration(3*time.Minute),
+				DatabaseBackupSweepResponseFetchOperation, "database", true)
 		}
 	}
 	return nil
 }
 
-func getBackupIds(compartment string) ([]string, error) {
+func getDatabaseBackupIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "BackupId")
 	if ids != nil {
 		return ids, nil
@@ -240,7 +240,7 @@ func getBackupIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func backupSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DatabaseBackupSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if backupResponse, ok := response.Response.(oci_database.GetBackupResponse); ok {
 		return backupResponse.LifecycleState != oci_database.BackupLifecycleStateDeleted
@@ -248,7 +248,7 @@ func backupSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func backupSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DatabaseBackupSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DatabaseClient().GetBackup(context.Background(), oci_database.GetBackupRequest{
 		BackupId: resourceId,
 		RequestMetadata: common.RequestMetadata{

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package osub_usage
@@ -9,8 +9,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_osub_usage "github.com/oracle/oci-go-sdk/v65/osubusage"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func OsubUsageComputedUsageDataSource() *schema.Resource {
@@ -377,38 +377,4 @@ func (s *OsubUsageComputedUsageDataSourceCrud) SetData() error {
 	}
 
 	return nil
-}
-
-func ProductToMap(obj *oci_osub_usage.Product) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.BillingCategory != nil {
-		result["billing_category"] = string(*obj.BillingCategory)
-	}
-
-	if obj.Name != nil {
-		result["name"] = string(*obj.Name)
-	}
-
-	if obj.PartNumber != nil {
-		result["part_number"] = string(*obj.PartNumber)
-	}
-
-	if obj.ProductCategory != nil {
-		result["product_category"] = string(*obj.ProductCategory)
-	}
-
-	if obj.ProvisioningGroup != nil {
-		result["provisioning_group"] = string(*obj.ProvisioningGroup)
-	}
-
-	if obj.UcmRateCardPartType != nil {
-		result["ucm_rate_card_part_type"] = string(*obj.UcmRateCardPartType)
-	}
-
-	if obj.UnitOfMeasure != nil {
-		result["unit_of_measure"] = string(*obj.UnitOfMeasure)
-	}
-
-	return result
 }

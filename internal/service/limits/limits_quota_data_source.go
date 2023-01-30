@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package limits
@@ -6,12 +6,12 @@ package limits
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/client"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_limits "github.com/oracle/oci-go-sdk/v65/limits"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func LimitsQuotaDataSource() *schema.Resource {
@@ -80,6 +80,12 @@ func (s *LimitsQuotaDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
 
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)

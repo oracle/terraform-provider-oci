@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,13 +7,13 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -30,11 +30,11 @@ var (
 	associationId            = utils.GetEnvSettingWithBlankDefault("association_ocid")
 	associationIdVariableStr = fmt.Sprintf("variable \"association_ocid\" { default = \"%s\" }\n", associationId)
 
-	associationSingularDataSourceRepresentation = map[string]interface{}{
+	CertificatesManagementassociationSingularDataSourceRepresentation = map[string]interface{}{
 		"association_id": acctest.Representation{RepType: acctest.Required, Create: associationId},
 	}
 
-	associationDataSourceRepresentation = map[string]interface{}{
+	CertificatesManagementassociationDataSourceRepresentation = map[string]interface{}{
 		"association_id":   acctest.Representation{RepType: acctest.Optional, Create: associationId},
 		"association_type": acctest.Representation{RepType: acctest.Optional, Create: `CERTIFICATE`},
 	}
@@ -64,7 +64,7 @@ func TestCertificatesManagementAssociationResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_certificates_management_associations", "test_associations", acctest.Optional, acctest.Create, associationDataSourceRepresentation) +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_certificates_management_associations", "test_associations", acctest.Optional, acctest.Create, CertificatesManagementassociationDataSourceRepresentation) +
 					compartmentIdVariableStr,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "association_id"),
@@ -75,7 +75,7 @@ func TestCertificatesManagementAssociationResource_basic(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_certificates_management_association", "test_association", acctest.Required, acctest.Create, associationSingularDataSourceRepresentation) +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_certificates_management_association", "test_association", acctest.Required, acctest.Create, CertificatesManagementassociationSingularDataSourceRepresentation) +
 					compartmentIdVariableStr,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "association_id"),

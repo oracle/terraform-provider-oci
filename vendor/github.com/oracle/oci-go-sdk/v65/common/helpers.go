@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 package common
@@ -9,6 +9,7 @@ import (
 	"crypto/x509"
 	"encoding/pem"
 	"fmt"
+	"io/ioutil"
 	"net/textproto"
 	"os"
 	"reflect"
@@ -37,24 +38,24 @@ func Uint(value uint) *uint {
 	return &value
 }
 
-//Float32 returns a pointer to the provided float32
+// Float32 returns a pointer to the provided float32
 func Float32(value float32) *float32 {
 	return &value
 }
 
-//Float64 returns a pointer to the provided float64
+// Float64 returns a pointer to the provided float64
 func Float64(value float64) *float64 {
 	return &value
 }
 
-//Bool returns a pointer to the provided bool
+// Bool returns a pointer to the provided bool
 func Bool(value bool) *bool {
 	return &value
 }
 
-//PointerString prints the values of pointers in a struct
-//Producing a human friendly string for an struct with pointers.
-//useful when debugging the values of a struct
+// PointerString prints the values of pointers in a struct
+// Producing a human friendly string for an struct with pointers.
+// useful when debugging the values of a struct
 func PointerString(datastruct interface{}) (representation string) {
 	val := reflect.ValueOf(datastruct)
 	typ := reflect.TypeOf(datastruct)
@@ -123,7 +124,7 @@ var timeTypePtr = reflect.TypeOf(&SDKTime{})
 var sdkDateType = reflect.TypeOf(SDKDate{})
 var sdkDateTypePtr = reflect.TypeOf(&SDKDate{})
 
-//Formats for sdk supported time representations
+// Formats for sdk supported time representations
 const sdkTimeFormat = time.RFC3339Nano
 const rfc1123OptionalLeadingDigitsInDay = "Mon, _2 Jan 2006 15:04:05 MST"
 const sdkDateFormat = "2006-01-02"
@@ -286,7 +287,6 @@ func makeACopy(original []string) []string {
 
 // IsEnvVarFalse is used for checking if an environment variable is explicitly set to false, otherwise would set it true by default
 func IsEnvVarFalse(envVarKey string) bool {
-	return false
 	val, existed := os.LookupEnv(envVarKey)
 	return existed && strings.ToLower(val) == "false"
 }
@@ -295,4 +295,13 @@ func IsEnvVarFalse(envVarKey string) bool {
 func IsEnvVarTrue(envVarKey string) bool {
 	val, existed := os.LookupEnv(envVarKey)
 	return existed && strings.ToLower(val) == "true"
+}
+
+// Reads the certs from pem file pointed by the R1_CERT_PEM env variable
+func readCertPem(path string) []byte {
+	pem, err := ioutil.ReadFile(path)
+	if err != nil {
+		panic("can not read cert " + err.Error())
+	}
+	return pem
 }

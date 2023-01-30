@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package osp_gateway
@@ -9,8 +9,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_osp_gateway "github.com/oracle/oci-go-sdk/v65/ospgateway"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func OspGatewayInvoicesInvoiceLineDataSource() *schema.Resource {
@@ -109,6 +109,7 @@ func OspGatewayInvoicesInvoiceLineDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_osp_gateway_invoices_invoice_line", "oci_osp_gateway_invoices_invoice_lines"),
 	}
 }
 
@@ -173,72 +174,4 @@ func (s *OspGatewayInvoicesInvoiceLineDataSourceCrud) SetData() error {
 	s.D.Set("items", items)
 
 	return nil
-}
-
-func CurrencyToMap(obj *oci_osp_gateway.Currency) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.CurrencyCode != nil {
-		result["currency_code"] = string(*obj.CurrencyCode)
-	}
-
-	if obj.CurrencySymbol != nil {
-		result["currency_symbol"] = string(*obj.CurrencySymbol)
-	}
-
-	if obj.Name != nil {
-		result["name"] = string(*obj.Name)
-	}
-
-	if obj.RoundDecimalPoint != nil {
-		result["round_decimal_point"] = float32(*obj.RoundDecimalPoint)
-	}
-
-	if obj.UsdConversion != nil {
-		result["usd_conversion"] = float32(*obj.UsdConversion)
-	}
-
-	return result
-}
-
-func InvoiceLineSummaryToMap(obj oci_osp_gateway.InvoiceLineSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Currency != nil {
-		result["currency"] = []interface{}{CurrencyToMap(obj.Currency)}
-	}
-
-	if obj.NetUnitPrice != nil {
-		result["net_unit_price"] = float32(*obj.NetUnitPrice)
-	}
-
-	if obj.OrderNo != nil {
-		result["order_no"] = string(*obj.OrderNo)
-	}
-
-	if obj.PartNumber != nil {
-		result["part_number"] = string(*obj.PartNumber)
-	}
-
-	if obj.Product != nil {
-		result["product"] = string(*obj.Product)
-	}
-
-	if obj.Quantity != nil {
-		result["quantity"] = float32(*obj.Quantity)
-	}
-
-	if obj.TimeEnd != nil {
-		result["time_end"] = obj.TimeEnd.String()
-	}
-
-	if obj.TimeStart != nil {
-		result["time_start"] = obj.TimeStart.String()
-	}
-
-	if obj.TotalPrice != nil {
-		result["total_price"] = float32(*obj.TotalPrice)
-	}
-
-	return result
 }

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -18,13 +18,14 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogsRequest.
 type ListWorkRequestLogsRequest struct {
 
-	// The ID of the asynchronous request.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the asynchronous request.
 	WorkRequestId *string `mandatory:"true" contributesTo:"path" name:"workRequestId"`
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
+	// The page token representing the page at which to start retrieving results. This is usually
+	// retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// The maximum number of items to return.
@@ -81,10 +82,13 @@ type ListWorkRequestLogsResponse struct {
 	// A list of []WorkRequestLogEntry instances
 	Items []WorkRequestLogEntry `presentIn:"body"`
 
-	// For pagination of a list of items. When paging through a list, if this header appears in the response, then a partial list might have been returned. Include this value as the `page` parameter for the subsequent GET request to get the next batch of items.
+	// For pagination of a list of items. When paging through a list, if this header appears in the
+	// response, then a partial list might have been returned. Include this value as the `page`
+	// parameter for the subsequent GET request to get the next batch of items.
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 
-	// A unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please include the request ID.
+	// A unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+	// particular request, please include the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 

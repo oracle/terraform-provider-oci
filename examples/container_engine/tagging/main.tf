@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {
@@ -272,6 +272,8 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
       #Required
       availability_domain = data.oci_identity_availability_domain.ad1.name
       subnet_id           = oci_core_subnet.nodePool_Subnet_1.id
+      #optional
+      fault_domains = ["FAULT-DOMAIN-1", "FAULT-DOMAIN-3"]
     }
     size = var.node_pool_node_config_details_size
 

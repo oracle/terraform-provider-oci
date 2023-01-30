@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package data_safe
@@ -9,8 +9,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func DataSafeReportDefinitionDataSource() *schema.Resource {
@@ -90,6 +90,9 @@ func (s *DataSafeReportDefinitionDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	s.D.Set("compliance_standards", s.Res.ComplianceStandards)
+	s.D.Set("compliance_standards", s.Res.ComplianceStandards)
+
 	s.D.Set("data_source", s.Res.DataSource)
 
 	if s.Res.DefinedTags != nil {
@@ -116,6 +119,28 @@ func (s *DataSafeReportDefinitionDataSourceCrud) SetData() error {
 
 	if s.Res.ParentId != nil {
 		s.D.Set("parent_id", *s.Res.ParentId)
+	}
+
+	if s.Res.RecordTimeSpan != nil {
+		s.D.Set("record_time_span", *s.Res.RecordTimeSpan)
+	}
+
+	if s.Res.Schedule != nil {
+		s.D.Set("schedule", *s.Res.Schedule)
+	}
+
+	if s.Res.ScheduledReportCompartmentId != nil {
+		s.D.Set("scheduled_report_compartment_id", *s.Res.ScheduledReportCompartmentId)
+	}
+
+	s.D.Set("scheduled_report_mime_type", s.Res.ScheduledReportMimeType)
+
+	if s.Res.ScheduledReportName != nil {
+		s.D.Set("scheduled_report_name", *s.Res.ScheduledReportName)
+	}
+
+	if s.Res.ScheduledReportRowLimit != nil {
+		s.D.Set("scheduled_report_row_limit", *s.Res.ScheduledReportRowLimit)
 	}
 
 	if s.Res.ScimFilter != nil {

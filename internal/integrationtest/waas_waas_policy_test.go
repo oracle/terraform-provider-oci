@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -11,11 +11,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -23,7 +23,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_waas "github.com/oracle/oci-go-sdk/v65/waas"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -33,30 +33,30 @@ var (
 
 	waasPolicyDomain = waasPolicyDomainName + waasPolicyDomainSuffix
 
-	WaasPolicyRequiredOnlyResource = WaasPolicyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", acctest.Required, acctest.Create, waasPolicyRepresentation)
+	WaasWaasPolicyRequiredOnlyResource = WaasWaasPolicyResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", acctest.Required, acctest.Create, WaasWaasPolicyRepresentation)
 
-	WaasPolicyResourceConfig = WaasPolicyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", acctest.Optional, acctest.Update, waasPolicyRepresentation)
+	WaasWaasPolicyResourceConfig = WaasWaasPolicyResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", acctest.Optional, acctest.Update, WaasWaasPolicyRepresentation)
 
-	waasPolicySingularDataSourceRepresentation = map[string]interface{}{
+	WaasWaasWaasPolicySingularDataSourceRepresentation = map[string]interface{}{
 		"waas_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_waas_waas_policy.test_waas_policy.id}`},
 	}
 
-	waasPolicyDataSourceRepresentation = map[string]interface{}{
+	WaasWaasWaasPolicyDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":                        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_names":                         acctest.Representation{RepType: acctest.Optional, Create: []string{`displayName2`}},
 		"ids":                                   acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_waas_waas_policy.test_waas_policy.id}`}},
 		"states":                                acctest.Representation{RepType: acctest.Optional, Create: []string{`ACTIVE`}},
 		"time_created_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `2018-01-01T00:00:00.000Z`},
 		"time_created_less_than":                acctest.Representation{RepType: acctest.Optional, Create: `2038-01-01T00:00:00.000Z`},
-		"filter":                                acctest.RepresentationGroup{RepType: acctest.Required, Group: waasPolicyDataSourceFilterRepresentation}}
-	waasPolicyDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                                acctest.RepresentationGroup{RepType: acctest.Required, Group: WaasWaasPolicyDataSourceFilterRepresentation}}
+	WaasWaasPolicyDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_waas_waas_policy.test_waas_policy.id}`}},
 	}
 
-	waasPolicyRepresentation = map[string]interface{}{
+	WaasWaasPolicyRepresentation = map[string]interface{}{
 		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"domain":             acctest.Representation{RepType: acctest.Required, Create: waasPolicyDomain},
 		"additional_domains": acctest.Representation{RepType: acctest.Optional, Create: []string{waasPolicyDomainName + "3" + waasPolicyDomainSuffix, waasPolicyDomainName + "4" + waasPolicyDomainSuffix}, Update: []string{waasPolicyDomainName + "31" + waasPolicyDomainSuffix, waasPolicyDomainName + "41" + waasPolicyDomainSuffix}},
@@ -65,8 +65,8 @@ var (
 		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"origin_groups":      []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: waasOriginGroupsRepresentationMap1}, {RepType: acctest.Optional, Group: waasOriginGroupsRepresentationMap2}},
 		"origins":            []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: waasOriginRepresentationMap1}, {RepType: acctest.Optional, Group: waasOriginRepresentationMap2}},
-		"policy_config":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: waasPolicyPolicyConfigRepresentation},
-		"waf_config":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: waasPolicyWafConfigRepresentation},
+		"policy_config":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: WaasWaasPolicyPolicyConfigRepresentation},
+		"waf_config":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: WaasWaasPolicyWafConfigRepresentation},
 		"timeouts":           acctest.RepresentationGroup{RepType: acctest.Required, Group: waasPolicyTimeoutsRepresentation},
 	}
 	waasPolicyTimeoutsRepresentation = map[string]interface{}{
@@ -112,11 +112,11 @@ var (
 		"https_port":     acctest.Representation{RepType: acctest.Required, Create: 8443, Update: 8445},
 		"custom_headers": []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: waasCustomHeaderRepresentation1}, {RepType: acctest.Optional, Group: waasCustomHeaderRepresentation2}},
 	}
-	waasPolicyPolicyConfigRepresentation = map[string]interface{}{
+	WaasWaasPolicyPolicyConfigRepresentation = map[string]interface{}{
 		"certificate_id":                acctest.Representation{RepType: acctest.Optional, Create: `${oci_waas_certificate.test_certificate.id}`},
 		"cipher_group":                  acctest.Representation{RepType: acctest.Optional, Create: `DEFAULT`, Update: `DEFAULT`},
 		"client_address_header":         acctest.Representation{RepType: acctest.Optional, Create: ``, Update: `X_FORWARDED_FOR`},
-		"health_checks":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: waasPolicyPolicyConfigHealthChecksRepresentation},
+		"health_checks":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: WaasWaasPolicyPolicyConfigHealthChecksRepresentation},
 		"is_behind_cdn":                 acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_cache_control_respected":    acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_https_enabled":              acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
@@ -124,30 +124,30 @@ var (
 		"is_origin_compression_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_response_buffering_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_sni_enabled":                acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"load_balancing_method":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: waasPolicyPolicyConfigLoadBalancingMethodRepresentation},
+		"load_balancing_method":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: WaasWaasPolicyPolicyConfigLoadBalancingMethodRepresentation},
 		"tls_protocols":                 acctest.Representation{RepType: acctest.Optional, Create: []string{`TLS_V1_2`}, Update: []string{`TLS_V1_3`}},
 		"websocket_path_prefixes":       acctest.Representation{RepType: acctest.Optional, Create: []string{`/url1`}, Update: []string{`/url2`}},
 	}
-	waasPolicyWafConfigRepresentation = map[string]interface{}{
-		"access_rules":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: waasPolicyWafConfigAccessRulesRepresentation},
-		"address_rate_limiting": acctest.RepresentationGroup{RepType: acctest.Optional, Group: waasPolicyWafConfigAddressRateLimitingRepresentation},
-		"caching_rules":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: waasPolicyWafConfigCachingRulesRepresentation},
-		"captchas":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: waasPolicyWafConfigCaptchasRepresentation},
+	WaasWaasPolicyWafConfigRepresentation = map[string]interface{}{
+		"access_rules":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: WaasWaasPolicyWafConfigAccessRulesRepresentation},
+		"address_rate_limiting": acctest.RepresentationGroup{RepType: acctest.Optional, Group: WaasWaasPolicyWafConfigAddressRateLimitingRepresentation},
+		"caching_rules":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: WaasWaasPolicyWafConfigCachingRulesRepresentation},
+		"captchas":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: WaasWaasPolicyWafConfigCaptchasRepresentation},
 		//@Codegen: awaiting resolution for the known issue of deletion wait time for linked customProtectionRule to a policy
-		//"custom_protection_rules":      acctest.RepresentationGroup{RepType: acctest.Optional,Group: waasPolicyWafConfigCustomProtectionRulesRepresentation},
-		"device_fingerprint_challenge": acctest.RepresentationGroup{RepType: acctest.Optional, Group: waasPolicyWafConfigDeviceFingerprintChallengeRepresentation},
-		"human_interaction_challenge":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: waasPolicyWafConfigHumanInteractionChallengeRepresentation},
-		"js_challenge":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: waasPolicyWafConfigJsChallengeRepresentation},
+		//"custom_protection_rules":      acctest.RepresentationGroup{RepType: acctest.Optional,Group: WaasWaasPolicyWafConfigCustomProtectionRulesRepresentation},
+		"device_fingerprint_challenge": acctest.RepresentationGroup{RepType: acctest.Optional, Group: WaasWaasPolicyWafConfigDeviceFingerprintChallengeRepresentation},
+		"human_interaction_challenge":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: WaasWaasPolicyWafConfigHumanInteractionChallengeRepresentation},
+		"js_challenge":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: WaasWaasPolicyWafConfigJsChallengeRepresentation},
 		"origin":                       acctest.Representation{RepType: acctest.Optional, Create: `primary`, Update: `primary2`},
 		"origin_groups":                acctest.Representation{RepType: acctest.Optional, Create: []string{`originGroups1`}, Update: []string{`originGroups11`}},
-		"protection_settings":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: waasPolicyWafConfigProtectionSettingsRepresentation},
-		"whitelists":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: waasPolicyWafConfigWhitelistsRepresentation},
+		"protection_settings":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: WaasWaasPolicyWafConfigProtectionSettingsRepresentation},
+		"whitelists":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: WaasWaasPolicyWafConfigWhitelistsRepresentation},
 	}
-	waasPolicyOriginsCustomHeadersRepresentation = map[string]interface{}{
+	WaasWaasPolicyOriginsCustomHeadersRepresentation = map[string]interface{}{
 		"name":  acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"value": acctest.Representation{RepType: acctest.Required, Create: `value`, Update: `value2`},
 	}
-	waasPolicyPolicyConfigHealthChecksRepresentation = map[string]interface{}{
+	WaasWaasPolicyPolicyConfigHealthChecksRepresentation = map[string]interface{}{
 		"expected_response_code_group":   acctest.Representation{RepType: acctest.Optional, Create: []string{`2XX`}, Update: []string{`3XX`}},
 		"expected_response_text":         acctest.Representation{RepType: acctest.Optional, Create: `expectedResponseText`, Update: `expectedResponseText2`},
 		"headers":                        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Host": "oracle.com", "User-Agent": "Oracle-TerraformProvider"}},
@@ -160,15 +160,15 @@ var (
 		"timeout_in_seconds":             acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"unhealthy_threshold":            acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 	}
-	waasPolicyPolicyConfigLoadBalancingMethodRepresentation = map[string]interface{}{
+	WaasWaasPolicyPolicyConfigLoadBalancingMethodRepresentation = map[string]interface{}{
 		"method":                     acctest.Representation{RepType: acctest.Required, Create: `STICKY_COOKIE`},
 		"domain":                     acctest.Representation{RepType: acctest.Optional, Create: `example.com`, Update: `example2.com`},
 		"expiration_time_in_seconds": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"name":                       acctest.Representation{RepType: acctest.Optional, Create: `name`, Update: `name2`},
 	}
-	waasPolicyWafConfigAccessRulesRepresentation = map[string]interface{}{
+	WaasWaasPolicyWafConfigAccessRulesRepresentation = map[string]interface{}{
 		"action":                       acctest.Representation{RepType: acctest.Required, Create: `ALLOW`, Update: `DETECT`},
-		"criteria":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: waasPolicyWafConfigAccessRulesCriteriaRepresentation},
+		"criteria":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: WaasWaasPolicyWafConfigAccessRulesCriteriaRepresentation},
 		"name":                         acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"block_action":                 acctest.Representation{RepType: acctest.Optional, Create: `SET_RESPONSE_CODE`, Update: `SHOW_ERROR_PAGE`},
 		"block_error_page_code":        acctest.Representation{RepType: acctest.Optional, Create: `403`, Update: `401`},
@@ -182,24 +182,24 @@ var (
 		"captcha_title":                acctest.Representation{RepType: acctest.Optional, Create: `captchaTitle`, Update: `captchaTitle2`},
 		"redirect_response_code":       acctest.Representation{RepType: acctest.Optional, Create: `FOUND`, Update: `MOVED_PERMANENTLY`},
 		"redirect_url":                 acctest.Representation{RepType: acctest.Optional, Create: `http://0.0.0.0:80`, Update: `http://0.0.0.0:81`},
-		"response_header_manipulation": acctest.RepresentationGroup{RepType: acctest.Optional, Group: waasPolicyWafConfigAccessRulesResponseHeaderManipulationRepresentation},
+		"response_header_manipulation": acctest.RepresentationGroup{RepType: acctest.Optional, Group: WaasWaasPolicyWafConfigAccessRulesResponseHeaderManipulationRepresentation},
 	}
-	waasPolicyWafConfigAddressRateLimitingRepresentation = map[string]interface{}{
+	WaasWaasPolicyWafConfigAddressRateLimitingRepresentation = map[string]interface{}{
 		"is_enabled":                    acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
 		"allowed_rate_per_address":      acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"block_response_code":           acctest.Representation{RepType: acctest.Optional, Create: `403`, Update: `401`},
 		"max_delayed_count_per_address": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 	}
-	waasPolicyWafConfigCachingRulesRepresentation = map[string]interface{}{
+	WaasWaasPolicyWafConfigCachingRulesRepresentation = map[string]interface{}{
 		"action":                    acctest.Representation{RepType: acctest.Required, Create: `CACHE`, Update: `CACHE`},
-		"criteria":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: waasPolicyWafConfigCachingRulesCriteriaRepresentation},
+		"criteria":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: WaasWaasPolicyWafConfigCachingRulesCriteriaRepresentation},
 		"name":                      acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"caching_duration":          acctest.Representation{RepType: acctest.Optional, Create: `PT1S`, Update: `PT2S`},
 		"client_caching_duration":   acctest.Representation{RepType: acctest.Optional, Create: `PT1S`, Update: `PT2S`},
 		"is_client_caching_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"key":                       acctest.Representation{RepType: acctest.Optional, Create: `key`, Update: `key2`},
 	}
-	waasPolicyWafConfigCaptchasRepresentation = map[string]interface{}{
+	WaasWaasPolicyWafConfigCaptchasRepresentation = map[string]interface{}{
 		"failure_message":               acctest.Representation{RepType: acctest.Required, Create: `failureMessage`, Update: `failureMessage2`},
 		"session_expiration_in_seconds": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"submit_label":                  acctest.Representation{RepType: acctest.Required, Create: `submitLabel`, Update: `submitLabel2`},
@@ -208,45 +208,45 @@ var (
 		"footer_text":                   acctest.Representation{RepType: acctest.Optional, Create: `footerText`, Update: `footerText2`},
 		"header_text":                   acctest.Representation{RepType: acctest.Optional, Create: `headerText`, Update: `headerText2`},
 	}
-	waasPolicyWafConfigCustomProtectionRulesRepresentation = map[string]interface{}{
+	WaasWaasPolicyWafConfigCustomProtectionRulesRepresentation = map[string]interface{}{
 		"action":     acctest.Representation{RepType: acctest.Optional, Create: `DETECT`, Update: `BLOCK`},
-		"exclusions": acctest.RepresentationGroup{RepType: acctest.Optional, Group: waasPolicyWafConfigCustomProtectionRulesExclusionsRepresentation},
+		"exclusions": acctest.RepresentationGroup{RepType: acctest.Optional, Group: WaasWaasPolicyWafConfigCustomProtectionRulesExclusionsRepresentation},
 		"id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_waas_custom_protection_rule.test_custom_protection_rule.id}`, Update: `${oci_waas_custom_protection_rule.test_custom_protection_rule2.id}`},
 	}
-	waasPolicyWafConfigDeviceFingerprintChallengeRepresentation = map[string]interface{}{
+	WaasWaasPolicyWafConfigDeviceFingerprintChallengeRepresentation = map[string]interface{}{
 		"is_enabled":                   acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
 		"action":                       acctest.Representation{RepType: acctest.Optional, Create: `DETECT`, Update: `BLOCK`},
 		"action_expiration_in_seconds": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
-		"challenge_settings":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: waasPolicyWafConfigDeviceFingerprintChallengeChallengeSettingsRepresentation},
+		"challenge_settings":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: WaasWaasPolicyWafConfigDeviceFingerprintChallengeChallengeSettingsRepresentation},
 		"failure_threshold":            acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"failure_threshold_expiration_in_seconds": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"max_address_count":                       acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"max_address_count_expiration_in_seconds": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 	}
-	waasPolicyWafConfigHumanInteractionChallengeRepresentation = map[string]interface{}{
+	WaasWaasPolicyWafConfigHumanInteractionChallengeRepresentation = map[string]interface{}{
 		"is_enabled":                   acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
 		"action":                       acctest.Representation{RepType: acctest.Optional, Create: `DETECT`, Update: `BLOCK`},
 		"action_expiration_in_seconds": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
-		"challenge_settings":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: waasPolicyWafConfigHumanInteractionChallengeChallengeSettingsRepresentation},
+		"challenge_settings":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: WaasWaasPolicyWafConfigHumanInteractionChallengeChallengeSettingsRepresentation},
 		"failure_threshold":            acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"failure_threshold_expiration_in_seconds": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"interaction_threshold":                   acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"is_nat_enabled":                          acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"recording_period_in_seconds":             acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
-		"set_http_header":                         acctest.RepresentationGroup{RepType: acctest.Optional, Group: waasPolicyWafConfigHumanInteractionChallengeSetHttpHeaderRepresentation},
+		"set_http_header":                         acctest.RepresentationGroup{RepType: acctest.Optional, Group: WaasWaasPolicyWafConfigHumanInteractionChallengeSetHttpHeaderRepresentation},
 	}
-	waasPolicyWafConfigJsChallengeRepresentation = map[string]interface{}{
+	WaasWaasPolicyWafConfigJsChallengeRepresentation = map[string]interface{}{
 		"is_enabled":                   acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
 		"action":                       acctest.Representation{RepType: acctest.Optional, Create: `DETECT`, Update: `BLOCK`},
 		"action_expiration_in_seconds": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"are_redirects_challenged":     acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"challenge_settings":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: waasPolicyWafConfigJsChallengeChallengeSettingsRepresentation},
-		"criteria":                     acctest.RepresentationGroup{RepType: acctest.Optional, Group: waasPolicyWafConfigJsChallengeCriteriaRepresentation},
+		"challenge_settings":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: WaasWaasPolicyWafConfigJsChallengeChallengeSettingsRepresentation},
+		"criteria":                     acctest.RepresentationGroup{RepType: acctest.Optional, Group: WaasWaasPolicyWafConfigJsChallengeCriteriaRepresentation},
 		"failure_threshold":            acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"is_nat_enabled":               acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"set_http_header":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: waasPolicyWafConfigJsChallengeSetHttpHeaderRepresentation},
+		"set_http_header":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: WaasWaasPolicyWafConfigJsChallengeSetHttpHeaderRepresentation},
 	}
-	waasPolicyWafConfigProtectionSettingsRepresentation = map[string]interface{}{
+	WaasWaasPolicyWafConfigProtectionSettingsRepresentation = map[string]interface{}{
 		"allowed_http_methods":               acctest.Representation{RepType: acctest.Optional, Create: []string{`OPTIONS`}, Update: []string{`HEAD`}},
 		"block_action":                       acctest.Representation{RepType: acctest.Optional, Create: `SET_RESPONSE_CODE`, Update: `SHOW_ERROR_PAGE`},
 		"block_error_page_code":              acctest.Representation{RepType: acctest.Optional, Create: `403`, Update: `401`},
@@ -261,29 +261,29 @@ var (
 		"media_types":                        acctest.Representation{RepType: acctest.Optional, Create: []string{`application/plain`}, Update: []string{`application/json`}},
 		"recommendations_period_in_days":     acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 	}
-	waasPolicyWafConfigWhitelistsRepresentation = map[string]interface{}{
+	WaasWaasPolicyWafConfigWhitelistsRepresentation = map[string]interface{}{
 		"name":      acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"addresses": acctest.Representation{RepType: acctest.Optional, Create: []string{`192.168.127.127`}, Update: []string{`192.168.127.128`}},
 	}
-	waasPolicyWafConfigAccessRulesCriteriaRepresentation = map[string]interface{}{
+	WaasWaasPolicyWafConfigAccessRulesCriteriaRepresentation = map[string]interface{}{
 		"condition":         acctest.Representation{RepType: acctest.Required, Create: `URL_IS`, Update: `URL_IS_NOT`},
 		"value":             acctest.Representation{RepType: acctest.Required, Create: `/public`, Update: `/secret`},
 		"is_case_sensitive": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
-	waasPolicyWafConfigAccessRulesResponseHeaderManipulationRepresentation = map[string]interface{}{
+	WaasWaasPolicyWafConfigAccessRulesResponseHeaderManipulationRepresentation = map[string]interface{}{
 		"action": acctest.Representation{RepType: acctest.Required, Create: `EXTEND_HTTP_RESPONSE_HEADER`, Update: `ADD_HTTP_RESPONSE_HEADER`},
 		"header": acctest.Representation{RepType: acctest.Required, Create: `header`, Update: `header2`},
 		"value":  acctest.Representation{RepType: acctest.Optional, Create: `value`, Update: `value2`},
 	}
-	waasPolicyWafConfigCachingRulesCriteriaRepresentation = map[string]interface{}{
+	WaasWaasPolicyWafConfigCachingRulesCriteriaRepresentation = map[string]interface{}{
 		"condition": acctest.Representation{RepType: acctest.Required, Create: `URL_IS`, Update: `URL_STARTS_WITH`},
 		"value":     acctest.Representation{RepType: acctest.Required, Create: `/public`, Update: `/publ`},
 	}
-	waasPolicyWafConfigCustomProtectionRulesExclusionsRepresentation = map[string]interface{}{
+	WaasWaasPolicyWafConfigCustomProtectionRulesExclusionsRepresentation = map[string]interface{}{
 		"exclusions": acctest.Representation{RepType: acctest.Optional, Create: []string{`example.com`}, Update: []string{`example2.com`}},
 		"target":     acctest.Representation{RepType: acctest.Optional, Create: `REQUEST_COOKIES`, Update: `target2`},
 	}
-	waasPolicyWafConfigDeviceFingerprintChallengeChallengeSettingsRepresentation = map[string]interface{}{
+	WaasWaasPolicyWafConfigDeviceFingerprintChallengeChallengeSettingsRepresentation = map[string]interface{}{
 		"block_action":                 acctest.Representation{RepType: acctest.Optional, Create: `SET_RESPONSE_CODE`, Update: `SHOW_ERROR_PAGE`},
 		"block_error_page_code":        acctest.Representation{RepType: acctest.Optional, Create: `403`, Update: `401`},
 		"block_error_page_description": acctest.Representation{RepType: acctest.Optional, Create: `blockErrorPageDescription`, Update: `blockErrorPageDescription2`},
@@ -294,7 +294,7 @@ var (
 		"captcha_submit_label":         acctest.Representation{RepType: acctest.Optional, Create: `captchaSubmitLabel`, Update: `captchaSubmitLabel2`},
 		"captcha_title":                acctest.Representation{RepType: acctest.Optional, Create: `captchaTitle`, Update: `captchaTitle2`},
 	}
-	waasPolicyWafConfigHumanInteractionChallengeChallengeSettingsRepresentation = map[string]interface{}{
+	WaasWaasPolicyWafConfigHumanInteractionChallengeChallengeSettingsRepresentation = map[string]interface{}{
 		"block_action":                 acctest.Representation{RepType: acctest.Optional, Create: `SET_RESPONSE_CODE`, Update: `SHOW_ERROR_PAGE`},
 		"block_error_page_code":        acctest.Representation{RepType: acctest.Optional, Create: `403`, Update: `401`},
 		"block_error_page_description": acctest.Representation{RepType: acctest.Optional, Create: `blockErrorPageDescription`, Update: `blockErrorPageDescription2`},
@@ -305,11 +305,11 @@ var (
 		"captcha_submit_label":         acctest.Representation{RepType: acctest.Optional, Create: `captchaSubmitLabel`, Update: `captchaSubmitLabel2`},
 		"captcha_title":                acctest.Representation{RepType: acctest.Optional, Create: `captchaTitle`, Update: `captchaTitle2`},
 	}
-	waasPolicyWafConfigHumanInteractionChallengeSetHttpHeaderRepresentation = map[string]interface{}{
+	WaasWaasPolicyWafConfigHumanInteractionChallengeSetHttpHeaderRepresentation = map[string]interface{}{
 		"name":  acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"value": acctest.Representation{RepType: acctest.Required, Create: `value`, Update: `value2`},
 	}
-	waasPolicyWafConfigJsChallengeChallengeSettingsRepresentation = map[string]interface{}{
+	WaasWaasPolicyWafConfigJsChallengeChallengeSettingsRepresentation = map[string]interface{}{
 		"block_action":                 acctest.Representation{RepType: acctest.Optional, Create: `SET_RESPONSE_CODE`, Update: `SHOW_ERROR_PAGE`},
 		"block_error_page_code":        acctest.Representation{RepType: acctest.Optional, Create: `403`, Update: `401`},
 		"block_error_page_description": acctest.Representation{RepType: acctest.Optional, Create: `blockErrorPageDescription`, Update: `blockErrorPageDescription2`},
@@ -320,18 +320,18 @@ var (
 		"captcha_submit_label":         acctest.Representation{RepType: acctest.Optional, Create: `captchaSubmitLabel`, Update: `captchaSubmitLabel2`},
 		"captcha_title":                acctest.Representation{RepType: acctest.Optional, Create: `captchaTitle`, Update: `captchaTitle2`},
 	}
-	waasPolicyWafConfigJsChallengeCriteriaRepresentation = map[string]interface{}{
+	WaasWaasPolicyWafConfigJsChallengeCriteriaRepresentation = map[string]interface{}{
 		"condition":         acctest.Representation{RepType: acctest.Required, Create: `URL_IS`, Update: `URL_STARTS_WITH`},
 		"value":             acctest.Representation{RepType: acctest.Required, Create: `/public`, Update: `/publ`},
 		"is_case_sensitive": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
-	waasPolicyWafConfigJsChallengeSetHttpHeaderRepresentation = map[string]interface{}{
+	WaasWaasPolicyWafConfigJsChallengeSetHttpHeaderRepresentation = map[string]interface{}{
 		"name":  acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"value": acctest.Representation{RepType: acctest.Required, Create: `value`, Update: `value2`},
 	}
 
-	WaasPolicyResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", acctest.Required, acctest.Create, waasCertificateRepresentation) +
+	WaasWaasPolicyResourceDependencies = DefinedTagsDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", acctest.Required, acctest.Create, WaasCertificateRepresentation) +
 		caCertificateVariableStr +
 		privateKeyVariableStr +
 		CustomProtectionRuleRequiredResourceWithoutDependencies
@@ -357,14 +357,14 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 	var resId, resId2 string
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+WaasPolicyResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", acctest.Optional, acctest.Create, waasPolicyRepresentation), "waas", "waasPolicy", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+WaasWaasPolicyResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", acctest.Optional, acctest.Create, WaasWaasPolicyRepresentation), "waas", "waasPolicy", t)
 
 	acctest.ResourceTest(t, testAccCheckWaasWaasPolicyDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + WaasPolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", acctest.Required, acctest.Create, waasPolicyRepresentation),
+			Config: config + compartmentIdVariableStr + WaasWaasPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", acctest.Required, acctest.Create, WaasWaasPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "domain", waasPolicyDomain),
@@ -378,12 +378,12 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + WaasPolicyResourceDependencies,
+			Config: config + compartmentIdVariableStr + WaasWaasPolicyResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + WaasPolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", acctest.Optional, acctest.Create, waasPolicyRepresentation),
+			Config: config + compartmentIdVariableStr + WaasWaasPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", acctest.Optional, acctest.Create, WaasWaasPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "additional_domains.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -582,9 +582,9 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + WaasPolicyResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + WaasWaasPolicyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(waasPolicyRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(WaasWaasPolicyRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -782,8 +782,8 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + WaasPolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", acctest.Optional, acctest.Update, waasPolicyRepresentation),
+			Config: config + compartmentIdVariableStr + WaasWaasPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", acctest.Optional, acctest.Update, WaasWaasPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "additional_domains.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -980,9 +980,9 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_waas_waas_policies", "test_waas_policies", acctest.Optional, acctest.Update, waasPolicyDataSourceRepresentation) +
-				compartmentIdVariableStr + WaasPolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", acctest.Optional, acctest.Update, waasPolicyRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_waas_waas_policies", "test_waas_policies", acctest.Optional, acctest.Update, WaasWaasWaasPolicyDataSourceRepresentation) +
+				compartmentIdVariableStr + WaasWaasPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", acctest.Optional, acctest.Update, WaasWaasPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_names.#", "1"),
@@ -1004,8 +1004,8 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", acctest.Required, acctest.Create, waasPolicySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + WaasPolicyResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", acctest.Required, acctest.Create, WaasWaasWaasPolicySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + WaasWaasPolicyResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "waas_policy_id"),
 
@@ -1199,7 +1199,7 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + WaasPolicyRequiredOnlyResource,
+			Config:                  config + WaasWaasPolicyRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -1263,7 +1263,7 @@ func init() {
 
 func sweepWaasWaasPolicyResource(compartment string) error {
 	waasClient := acctest.GetTestClients(&schema.ResourceData{}).WaasClient()
-	waasPolicyIds, err := getWaasPolicyIds(compartment)
+	waasPolicyIds, err := getWaasWaasPolicyIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -1279,14 +1279,14 @@ func sweepWaasWaasPolicyResource(compartment string) error {
 				fmt.Printf("Error deleting WaasPolicy %s %s, It is possible that the resource is already deleted. Please verify manually \n", waasPolicyId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &waasPolicyId, waasPolicySweepWaitCondition, time.Duration(3*time.Minute),
-				waasPolicySweepResponseFetchOperation, "waas", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &waasPolicyId, WaasWaasPolicySweepWaitCondition, time.Duration(3*time.Minute),
+				WaasWaasPolicySweepResponseFetchOperation, "waas", true)
 		}
 	}
 	return nil
 }
 
-func getWaasPolicyIds(compartment string) ([]string, error) {
+func getWaasWaasPolicyIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "WaasPolicyId")
 	if ids != nil {
 		return ids, nil
@@ -1310,7 +1310,7 @@ func getWaasPolicyIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func waasPolicySweepWaitCondition(response common.OCIOperationResponse) bool {
+func WaasWaasPolicySweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if waasPolicyResponse, ok := response.Response.(oci_waas.GetWaasPolicyResponse); ok {
 		return waasPolicyResponse.LifecycleState != oci_waas.WaasPolicyLifecycleStateDeleted
@@ -1318,7 +1318,7 @@ func waasPolicySweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func waasPolicySweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func WaasWaasPolicySweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.WaasClient().GetWaasPolicy(context.Background(), oci_waas.GetWaasPolicyRequest{
 		WaasPolicyId: resourceId,
 		RequestMetadata: common.RequestMetadata{

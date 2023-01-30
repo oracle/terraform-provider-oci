@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -26,10 +26,6 @@ type Mesh struct {
 	// Example: `My new resource`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// A list of certificate authority resources to use for creating leaf certificates for mTLS authentication.
-	// Currently we only support one certificate authority, but this may expand in future releases.
-	CertificateAuthorities []CertificateAuthority `mandatory:"true" json:"certificateAuthorities"`
-
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
@@ -46,6 +42,11 @@ type Mesh struct {
 	// Avoid entering confidential information.
 	// Example: `This is my new resource`
 	Description *string `mandatory:"false" json:"description"`
+
+	// A list of certificate authority resources to use for creating leaf certificates for mTLS authentication.
+	// Currently we only support one certificate authority, but this may expand in future releases. Request with
+	// more than one certificate authority will be rejected.
+	CertificateAuthorities []CertificateAuthority `mandatory:"false" json:"certificateAuthorities"`
 
 	Mtls *MeshMutualTransportLayerSecurity `mandatory:"false" json:"mtls"`
 

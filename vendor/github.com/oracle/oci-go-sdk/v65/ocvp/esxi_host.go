@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -48,6 +48,9 @@ type EsxiHost struct {
 	// becomes the new `currentSKU` when the `contractEndDate` is reached.
 	// Example: `2016-08-25T21:10:29.600Z`
 	BillingContractEndDate *common.SDKTime `mandatory:"true" json:"billingContractEndDate"`
+
+	// The version of VMware software that the Oracle Cloud VMware Solution installed on the ESXi hosts.
+	VmwareSoftwareVersion *string `mandatory:"true" json:"vmwareSoftwareVersion"`
 
 	// The availability domain of the ESXi host.
 	ComputeAvailabilityDomain *string `mandatory:"true" json:"computeAvailabilityDomain"`
@@ -99,8 +102,19 @@ type EsxiHost struct {
 	// Example: `2021-07-25T21:10:29.600Z`
 	GracePeriodEndDate *common.SDKTime `mandatory:"false" json:"gracePeriodEndDate"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ESXi host that
+	// will be upgraded.
+	NonUpgradedEsxiHostId *string `mandatory:"false" json:"nonUpgradedEsxiHostId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ESXi host that
+	// is newly created to upgrade the original host.
+	UpgradedReplacementEsxiHostId *string `mandatory:"false" json:"upgradedReplacementEsxiHostId"`
+
 	// The OCPU count of the ESXi host.
 	HostOcpuCount *float32 `mandatory:"false" json:"hostOcpuCount"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Capacity Reservation.
+	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
 }
 
 func (m EsxiHost) String() string {

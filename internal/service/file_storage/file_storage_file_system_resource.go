@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package file_storage
@@ -7,8 +7,8 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -77,11 +77,19 @@ func FileStorageFileSystemResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
+			"is_targetable": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"metered_bytes": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"replication_target_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -345,6 +353,10 @@ func (s *FileStorageFileSystemResourceCrud) SetData() error {
 		s.D.Set("is_hydrated", *s.Res.IsHydrated)
 	}
 
+	if s.Res.IsTargetable != nil {
+		s.D.Set("is_targetable", *s.Res.IsTargetable)
+	}
+
 	if s.Res.KmsKeyId != nil {
 		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
 	}
@@ -355,6 +367,10 @@ func (s *FileStorageFileSystemResourceCrud) SetData() error {
 
 	if s.Res.MeteredBytes != nil {
 		s.D.Set("metered_bytes", strconv.FormatInt(*s.Res.MeteredBytes, 10))
+	}
+
+	if s.Res.ReplicationTargetId != nil {
+		s.D.Set("replication_target_id", *s.Res.ReplicationTargetId)
 	}
 
 	if s.Res.SourceDetails != nil {

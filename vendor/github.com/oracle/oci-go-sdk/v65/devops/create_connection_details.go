@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -75,6 +75,18 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 
 	var err error
 	switch m.ConnectionType {
+	case "VBS_ACCESS_TOKEN":
+		mm := CreateVbsAccessTokenConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GITLAB_SERVER_ACCESS_TOKEN":
+		mm := CreateGitlabServerAccessTokenConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "BITBUCKET_SERVER_ACCESS_TOKEN":
+		mm := CreateBitbucketServerAccessTokenConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GITHUB_ACCESS_TOKEN":
 		mm := CreateGithubAccessTokenConnectionDetails{}
 		err = json.Unmarshal(data, &mm)

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package nosql
@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -46,9 +46,31 @@ func NosqlTableResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
+
+			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
+			"is_auto_reclaimable": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"table_limits": {
 				Type:     schema.TypeList,
-				Required: true,
+				Optional: true,
+				Computed: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -77,27 +99,6 @@ func NosqlTableResource() *schema.Resource {
 						// Computed
 					},
 				},
-			},
-
-			// Optional
-			"defined_tags": {
-				Type:             schema.TypeMap,
-				Optional:         true,
-				Computed:         true,
-				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
-				Elem:             schema.TypeString,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Optional: true,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"is_auto_reclaimable": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
 			},
 
 			// Computed
@@ -129,6 +130,14 @@ func NosqlTableResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"is_as_uuid": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"is_generated": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
 									"is_nullable": {
 										Type:     schema.TypeBool,
 										Computed: true,
@@ -139,6 +148,31 @@ func NosqlTableResource() *schema.Resource {
 									},
 									"type": {
 										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"identity": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"column_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"is_always": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"is_null": {
+										Type:     schema.TypeBool,
 										Computed: true,
 									},
 								},
@@ -685,6 +719,14 @@ func ColumnToMap(obj oci_nosql.Column) map[string]interface{} {
 		result["default_value"] = string(*obj.DefaultValue)
 	}
 
+	if obj.IsAsUuid != nil {
+		result["is_as_uuid"] = bool(*obj.IsAsUuid)
+	}
+
+	if obj.IsGenerated != nil {
+		result["is_generated"] = bool(*obj.IsGenerated)
+	}
+
 	if obj.IsNullable != nil {
 		result["is_nullable"] = bool(*obj.IsNullable)
 	}
@@ -700,6 +742,24 @@ func ColumnToMap(obj oci_nosql.Column) map[string]interface{} {
 	return result
 }
 
+func IdentityToMap(obj *oci_nosql.Identity) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ColumnName != nil {
+		result["column_name"] = string(*obj.ColumnName)
+	}
+
+	if obj.IsAlways != nil {
+		result["is_always"] = bool(*obj.IsAlways)
+	}
+
+	if obj.IsNull != nil {
+		result["is_null"] = bool(*obj.IsNull)
+	}
+
+	return result
+}
+
 func SchemaToMap(obj *oci_nosql.Schema) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -708,6 +768,10 @@ func SchemaToMap(obj *oci_nosql.Schema) map[string]interface{} {
 		columns = append(columns, ColumnToMap(item))
 	}
 	result["columns"] = columns
+
+	if obj.Identity != nil {
+		result["identity"] = []interface{}{IdentityToMap(obj.Identity)}
+	}
 
 	result["primary_key"] = obj.PrimaryKey
 

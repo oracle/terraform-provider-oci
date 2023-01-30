@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -11,38 +11,39 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	recommendationDataSourceRepresentationForResourceAction = map[string]interface{}{
+	OptimizerOptimizerResourceRecommendationDataSourceRepresentationForResourceAction = map[string]interface{}{
 		"category_id":               acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_optimizer_categories.test_categories.category_collection.0.items[0], "id")}`},
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"include_organization":      acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"name":                      acctest.Representation{RepType: acctest.Optional, Create: `name`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"status":                    acctest.Representation{RepType: acctest.Optional, Create: `PENDING`, Update: `DISMISSED`},
-		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: recommendationDataSourceFilterForResourceAction}}
+		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: OptimizerOptimizerResourceRecommendationDataSourceFilterForResourceAction}}
 
-	recommendationDataSourceFilterForResourceAction = map[string]interface{}{
+	OptimizerOptimizerResourceRecommendationDataSourceFilterForResourceAction = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `name`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`cost-management-object-storage-enable-olm-name`}},
 	}
 
-	ResourceActionRequiredOnlyResource = ResourceActionResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", acctest.Required, acctest.Create, resourceActionRepresentation)
+	OptimizerOptimizerResourceActionRequiredOnlyResource = OptimizerResourceActionResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", acctest.Required, acctest.Create, OptimizerResourceActionRepresentation)
 
-	ResourceActionResourceConfig = ResourceActionResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", acctest.Optional, acctest.Update, resourceActionRepresentation)
+	ResourceActionResourceConfig = OptimizerResourceActionResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", acctest.Optional, acctest.Update, OptimizerResourceActionRepresentation)
 
-	resourceActionSingularDataSourceRepresentation = map[string]interface{}{
+	OptimizerOptimizerResourceActionSingularDataSourceRepresentation = map[string]interface{}{
 		"resource_action_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_optimizer_resource_actions.test_resource_actions.resource_action_collection.0.items.0.id}`},
 	}
 
-	resourceActionDataSourceRepresentation = map[string]interface{}{
+	OptimizerOptimizerResourceActionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Required, Create: `true`},
 		"recommendation_id":         acctest.Representation{RepType: acctest.Required, Create: `${data.oci_optimizer_recommendations.test_recommendations.recommendation_collection.0.items.0.id}`},
@@ -50,21 +51,21 @@ var (
 		"resource_type":             acctest.Representation{RepType: acctest.Optional, Create: `resourceType`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"status":                    acctest.Representation{RepType: acctest.Optional, Create: `PENDING`, Update: `DISMISSED`},
-		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: resourceActionDataSourceFilterRepresentation}}
+		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: OptimizerResourceActionDataSourceFilterRepresentation}}
 
-	resourceActionDataSourceFilterRepresentation = map[string]interface{}{
+	OptimizerResourceActionDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `status`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`PENDING`, `DISMISSED`, `POSTPONED`}},
 	}
 
-	resourceActionRepresentation = map[string]interface{}{
+	OptimizerResourceActionRepresentation = map[string]interface{}{
 		"resource_action_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_optimizer_resource_actions.test_resource_actions.resource_action_collection.0.items.0.id}`},
 		"status":             acctest.Representation{RepType: acctest.Required, Create: `PENDING`, Update: `DISMISSED`},
 	}
 
-	ResourceActionResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", acctest.Required, acctest.Create, optimizerCategoryDataSourceRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_recommendations", "test_recommendations", acctest.Required, acctest.Create, recommendationDataSourceRepresentationForResourceAction) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_resource_actions", "test_resource_actions", acctest.Required, acctest.Create, resourceActionDataSourceRepresentation)
+	OptimizerResourceActionResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", acctest.Required, acctest.Create, OptimizerOptimizerCategoryDataSourceRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_recommendations", "test_recommendations", acctest.Required, acctest.Create, OptimizerOptimizerResourceRecommendationDataSourceRepresentationForResourceAction) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_resource_actions", "test_resource_actions", acctest.Required, acctest.Create, OptimizerOptimizerResourceActionDataSourceRepresentation)
 )
 
 // issue-routing-tag: optimizer/default
@@ -83,14 +84,14 @@ func TestOptimizerResourceActionResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ResourceActionResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", acctest.Optional, acctest.Create, resourceActionRepresentation), "optimizer", "resourceAction", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+OptimizerResourceActionResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", acctest.Optional, acctest.Create, OptimizerResourceActionRepresentation), "optimizer", "resourceAction", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ResourceActionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", acctest.Required, acctest.Create, resourceActionRepresentation),
+			Config: config + compartmentIdVariableStr + OptimizerResourceActionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", acctest.Required, acctest.Create, OptimizerResourceActionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "resource_action_id"),
 				resource.TestCheckResourceAttr(resourceName, "status", "PENDING"),
@@ -104,12 +105,12 @@ func TestOptimizerResourceActionResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ResourceActionResourceDependencies,
+			Config: config + compartmentIdVariableStr + OptimizerResourceActionResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ResourceActionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", acctest.Optional, acctest.Create, resourceActionRepresentation),
+			Config: config + compartmentIdVariableStr + OptimizerResourceActionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", acctest.Optional, acctest.Create, OptimizerResourceActionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "action.#"),
 				resource.TestCheckResourceAttrSet(resourceName, "category_id"),
@@ -140,8 +141,8 @@ func TestOptimizerResourceActionResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ResourceActionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", acctest.Optional, acctest.Update, resourceActionRepresentation),
+			Config: config + compartmentIdVariableStr + OptimizerResourceActionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", acctest.Optional, acctest.Update, OptimizerResourceActionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "action.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "category_id"),
@@ -167,17 +168,20 @@ func TestOptimizerResourceActionResource_basic(t *testing.T) {
 				},
 			),
 		},
+
 		// verify datasource
 		{
-			Config: config + compartmentIdVariableStr + ResourceActionResourceDependencies,
+			Config: config + compartmentIdVariableStr + OptimizerResourceActionResourceDependencies,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
+				resource.TestCheckResourceAttrSet(datasourceName, "recommendation_id"),
+
+				resource.TestCheckResourceAttr(datasourceName, "resource_action_collection.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "resource_action_collection.0.items.0.name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "resource_action_collection.0.items.0.recommendation_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "resource_action_collection.0.items.0.resource_type"),
 				resource.TestCheckResourceAttr(datasourceName, "resource_action_collection.0.items.0.state", "ACTIVE"),
-				resource.TestCheckResourceAttr(datasourceName, "resource_action_collection.0.items.0.status", "DISMISSED"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "resource_action_collection.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "resource_action_collection.0.items.#"),
@@ -185,9 +189,8 @@ func TestOptimizerResourceActionResource_basic(t *testing.T) {
 		},
 		// verify singular datasource
 		{
-			Config: config + ResourceActionResourceDependencies +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", acctest.Required, acctest.Create, resourceActionSingularDataSourceRepresentation) +
-				compartmentIdVariableStr,
+			Config: config + compartmentIdVariableStr + ResourceActionResourceConfig +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", acctest.Required, acctest.Create, OptimizerOptimizerResourceActionSingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_action_id"),
 
@@ -201,7 +204,7 @@ func TestOptimizerResourceActionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "status", "DISMISSED"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_status_begin"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
@@ -209,7 +212,7 @@ func TestOptimizerResourceActionResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ResourceActionRequiredOnlyResource,
+			Config:                  config + OptimizerOptimizerResourceActionRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

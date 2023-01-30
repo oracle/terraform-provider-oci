@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -25,6 +25,8 @@ const (
 	OperationTypeEnableExternalDatabase  OperationTypeEnum = "ENABLE_EXTERNAL_DATABASE"
 	OperationTypeDisableExternalDatabase OperationTypeEnum = "DISABLE_EXTERNAL_DATABASE"
 	OperationTypeAddSourcesToAgent       OperationTypeEnum = "ADD_SOURCES_TO_AGENT"
+	OperationTypeBulkAddResources        OperationTypeEnum = "BULK_ADD_RESOURCES"
+	OperationTypeBulkDeleteResources     OperationTypeEnum = "BULK_DELETE_RESOURCES"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -35,6 +37,8 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"ENABLE_EXTERNAL_DATABASE":  OperationTypeEnableExternalDatabase,
 	"DISABLE_EXTERNAL_DATABASE": OperationTypeDisableExternalDatabase,
 	"ADD_SOURCES_TO_AGENT":      OperationTypeAddSourcesToAgent,
+	"BULK_ADD_RESOURCES":        OperationTypeBulkAddResources,
+	"BULK_DELETE_RESOURCES":     OperationTypeBulkDeleteResources,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -45,6 +49,8 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"enable_external_database":  OperationTypeEnableExternalDatabase,
 	"disable_external_database": OperationTypeDisableExternalDatabase,
 	"add_sources_to_agent":      OperationTypeAddSourcesToAgent,
+	"bulk_add_resources":        OperationTypeBulkAddResources,
+	"bulk_delete_resources":     OperationTypeBulkDeleteResources,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -66,6 +72,8 @@ func GetOperationTypeEnumStringValues() []string {
 		"ENABLE_EXTERNAL_DATABASE",
 		"DISABLE_EXTERNAL_DATABASE",
 		"ADD_SOURCES_TO_AGENT",
+		"BULK_ADD_RESOURCES",
+		"BULK_DELETE_RESOURCES",
 	}
 }
 

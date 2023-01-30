@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,25 +9,25 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	iamWorkRequestSingularDataSourceRepresentation = map[string]interface{}{
+	IdentityIdentityIamWorkRequestSingularDataSourceRepresentation = map[string]interface{}{
 		"iam_work_request_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_iam_work_requests.test_iam_work_requests.iam_work_requests.0.id}`},
 	}
 
-	iamWorkRequestDataSourceRepresentation = map[string]interface{}{
+	IdentityIdentityIamWorkRequestDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_domain.test_domain.compartment_id}`},
 		"resource_identifier": acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_domain.test_domain.id}`},
 	}
 
-	IamWorkRequestResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_identity_domain", "test_domain", acctest.Required, acctest.Create,
-		acctest.RepresentationCopyWithNewProperties(domainRepresentation, map[string]interface{}{
+	IdentityIamWorkRequestResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_identity_domain", "test_domain", acctest.Required, acctest.Create,
+		acctest.RepresentationCopyWithNewProperties(IdentityDomainRepresentation, map[string]interface{}{
 			"state": acctest.Representation{RepType: acctest.Required, Create: `inactive`},
-		})) + acctest.GenerateDataSourceFromRepresentationMap("oci_identity_iam_work_requests", "test_iam_work_requests", acctest.Required, acctest.Create, iamWorkRequestDataSourceRepresentation)
+		})) + acctest.GenerateDataSourceFromRepresentationMap("oci_identity_iam_work_requests", "test_iam_work_requests", acctest.Required, acctest.Create, IdentityIdentityIamWorkRequestDataSourceRepresentation)
 )
 
 // issue-routing-tag: identity/default
@@ -49,7 +49,7 @@ func TestIdentityIamWorkRequestResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
-			Config: config + compartmentIdVariableStr + IamWorkRequestResourceConfig,
+			Config: config + compartmentIdVariableStr + IdentityIamWorkRequestResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "resource_identifier"),
@@ -69,8 +69,8 @@ func TestIdentityIamWorkRequestResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_iam_work_request", "test_iam_work_request", acctest.Required, acctest.Create, iamWorkRequestSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + IamWorkRequestResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_iam_work_request", "test_iam_work_request", acctest.Required, acctest.Create, IdentityIdentityIamWorkRequestSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + IdentityIamWorkRequestResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "iam_work_request_id"),
 

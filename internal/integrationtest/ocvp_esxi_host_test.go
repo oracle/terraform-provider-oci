@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,59 +16,73 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_ocvp "github.com/oracle/oci-go-sdk/v65/ocvp"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	EsxiHostRequiredOnlyResource = EsxiHostResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", acctest.Required, acctest.Create, esxiHostRepresentation)
+	OcvpEsxiHostRequiredOnlyResource = EsxiHostResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", acctest.Required, acctest.Create, OcvpEsxiHostRepresentation)
 
-	EsxiHostResourceConfig = EsxiHostResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", acctest.Optional, acctest.Update, esxiHostRepresentation)
+	OcvpEsxiHostResourceConfig = EsxiHostUpgradeResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", acctest.Optional, acctest.Update, OcvpEsxiHostRepresentation)
 
 	ReplacementEsxiHostResourceConfig = EsxiHostResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", acctest.Optional, acctest.Create, replacementEsxiHostRepresentation)
 
-	esxiHostSingularDataSourceRepresentation = map[string]interface{}{
+	OcvpOcvpEsxiHostSingularDataSourceRepresentation = map[string]interface{}{
 		"esxi_host_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_ocvp_esxi_host.test_esxi_host.id}`},
 	}
-	esxiHostDataSourceRepresentation = map[string]interface{}{
+	OcvpOcvpEsxiHostDataSourceRepresentation = map[string]interface{}{
 		"compute_instance_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_ocvp_esxi_host.test_esxi_host.compute_instance_id}`},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"sddc_id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_ocvp_sddc.test_sddc.id}`},
 		"state":               acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: esxiHostDataSourceFilterRepresentation}}
-	esxiHostDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: OcvpEsxiHostDataSourceFilterRepresentation}}
+	OcvpEsxiHostDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_ocvp_esxi_host.test_esxi_host.id}`}},
 	}
-	existingEsxiHostDataSourceRepresentation = map[string]interface{}{
+	// for replace node
+	failedEsxiHostDataSourceRepresentation = map[string]interface{}{
 		"sddc_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_ocvp_sddc.test_sddc.id}`},
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `${oci_ocvp_sddc.test_sddc.display_name}-1`},
 	}
+	//for upgrade ESXi host
+	nonUpgradedEsxiHostDataSourceRepresentation = map[string]interface{}{
+		"sddc_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_ocvp_sddc.test_sddc.id}`},
+		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `${oci_ocvp_sddc.test_sddc.display_name}-2`},
+	}
 
-	esxiHostRepresentation = map[string]interface{}{
+	OcvpEsxiHostRepresentation = map[string]interface{}{
 		"sddc_id":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_ocvp_sddc.test_sddc.id}`},
+		"capacity_reservation_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id}`},
 		"compute_availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}`},
 		"current_sku":                 acctest.Representation{RepType: acctest.Optional, Create: `MONTH`},
 		"display_name":                acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"next_sku":                    acctest.Representation{RepType: acctest.Optional, Create: `MONTH`, Update: `HOUR`},
-		"host_ocpu_count":             acctest.Representation{RepType: acctest.Optional, Create: `8.0`},
-		"host_shape_name":             acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E3.Flex`},
+		"host_ocpu_count":             acctest.Representation{RepType: acctest.Optional, Create: `52`},
+		"host_shape_name":             acctest.Representation{RepType: acctest.Optional, Create: `BM.DenseIO2.52`},
 	}
 	replacementEsxiHostRepresentation = map[string]interface{}{
 		"sddc_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_ocvp_sddc.test_sddc.id}`},
-		"failed_esxi_host_id": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_ocvp_esxi_hosts.existing_esxi_hosts.esxi_host_collection[0].id}`},
+		"failed_esxi_host_id": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_ocvp_esxi_hosts.failed_esxi_hosts.esxi_host_collection[0].id}`},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `replacement`},
 	}
+	upgradedEsxiHostRepresentation = map[string]interface{}{
+		"sddc_id":                   acctest.Representation{RepType: acctest.Required, Create: `${oci_ocvp_sddc.test_sddc.id}`},
+		"non_upgraded_esxi_host_id": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_ocvp_esxi_hosts.non_upgraded_esxi_hosts.esxi_host_collection[0].id}`},
+		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `upgrade`},
+	}
 
-	EsxiHostResourceDependencies = SddcRequiredOnlyResource + acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_esxi_hosts", "existing_esxi_hosts", acctest.Optional, acctest.Create, existingEsxiHostDataSourceRepresentation)
+	EsxiHostResourceDependencies = OcvpSddcRequiredOnlyResource + acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_esxi_hosts", "failed_esxi_hosts", acctest.Optional, acctest.Create, failedEsxiHostDataSourceRepresentation)
+
+	EsxiHostUpgradeResourceDependencies = OcvpSddcUpgradeResource + acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_esxi_hosts", "non_upgraded_esxi_hosts", acctest.Optional, acctest.Create, nonUpgradedEsxiHostDataSourceRepresentation)
 )
 
 // issue-routing-tag: ocvp/default
@@ -87,14 +101,14 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+EsxiHostResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", acctest.Optional, acctest.Create, esxiHostRepresentation), "ocvp", "esxiHost", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+EsxiHostUpgradeResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", acctest.Optional, acctest.Create, OcvpEsxiHostRepresentation), "ocvp", "esxiHost", t)
 
 	acctest.ResourceTest(t, testAccCheckOcvpEsxiHostDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + EsxiHostResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", acctest.Required, acctest.Create, esxiHostRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", acctest.Required, acctest.Create, OcvpEsxiHostRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "billing_contract_end_date"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -130,7 +144,7 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_instance_id"),
-				resource.TestCheckResourceAttr(resourceName, "current_sku", "MONTH"),
+				resource.TestCheckResourceAttrSet(resourceName, "current_sku"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", `replacement`),
 				resource.TestCheckResourceAttrSet(resourceName, "failed_esxi_host_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "host_ocpu_count"),
@@ -156,50 +170,37 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 		// verify singular datasource for replace node
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", acctest.Required, acctest.Create, esxiHostSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", acctest.Required, acctest.Create, OcvpOcvpEsxiHostSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ReplacementEsxiHostResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "esxi_host_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_availability_domain"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_instance_id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "current_sku", "MONTH"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "current_sku"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", `replacement`),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "grace_period_end_date"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "host_ocpu_count", "8"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "host_shape_name", "VM.Standard.E3.Flex"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "host_ocpu_count", "52"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "host_shape_name", "BM.DenseIO2.52"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "next_sku", "MONTH"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "next_sku"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "sddc_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
 		},
-		// delete replace node before next Create
+		// delete replace node and upgrade SDDC before next Create
 		{
-			Config: config + compartmentIdVariableStr + EsxiHostResourceDependencies,
+			Config: config + compartmentIdVariableStr + EsxiHostUpgradeResourceDependencies,
 		},
-		// verify Create with optionals
+		// verify upgrade node
 		{
-			Config: config + compartmentIdVariableStr + EsxiHostResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", acctest.Optional, acctest.Create, esxiHostRepresentation),
+			Config: config + compartmentIdVariableStr + EsxiHostUpgradeResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", acctest.Optional, acctest.Create, upgradedEsxiHostRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "billing_contract_end_date"),
-				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
-				resource.TestCheckResourceAttrSet(resourceName, "compute_instance_id"),
-				resource.TestCheckResourceAttr(resourceName, "current_sku", "MONTH"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "host_ocpu_count", "8"),
-				resource.TestCheckResourceAttr(resourceName, "host_shape_name", "VM.Standard.E3.Flex"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "next_sku", "MONTH"),
-				resource.TestCheckResourceAttrSet(resourceName, "sddc_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttrSet(resourceName, "non_upgraded_esxi_host_id"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 update 3"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -212,27 +213,77 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 				},
 			),
 		},
-
-		// verify updates to updatable parameters
+		// verify singular datasource for upgrade node
 		{
-			Config: config + compartmentIdVariableStr + EsxiHostResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", acctest.Optional, acctest.Update, esxiHostRepresentation),
+			Config: config + compartmentIdVariableStr + EsxiHostUpgradeResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", acctest.Optional, acctest.Create, upgradedEsxiHostRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", acctest.Required, acctest.Create, OcvpOcvpEsxiHostSingularDataSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "non_upgraded_esxi_host_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "vmware_software_version", "7.0 update 3"),
+			),
+		},
+		// delete upgraded node before next Create
+		{
+			Config: config + compartmentIdVariableStr + EsxiHostUpgradeResourceDependencies,
+		},
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + EsxiHostUpgradeResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", acctest.Optional, acctest.Create, OcvpEsxiHostRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "billing_contract_end_date"),
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "capacity_reservation_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "compute_instance_id"),
+				resource.TestCheckResourceAttr(resourceName, "current_sku", "MONTH"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "freeform_tags.%"),
+				resource.TestCheckResourceAttr(resourceName, "host_ocpu_count", "52"),
+				resource.TestCheckResourceAttr(resourceName, "host_shape_name", "BM.DenseIO2.52"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "next_sku", "MONTH"),
+				resource.TestCheckResourceAttrSet(resourceName, "sddc_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 update 3"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + OcvpEsxiHostResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "billing_contract_end_date"),
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "capacity_reservation_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_instance_id"),
 				resource.TestCheckResourceAttr(resourceName, "current_sku", "MONTH"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "host_ocpu_count", "8"),
-				resource.TestCheckResourceAttr(resourceName, "host_shape_name", "VM.Standard.E3.Flex"),
+				resource.TestCheckResourceAttrSet(resourceName, "freeform_tags.%"),
+				resource.TestCheckResourceAttr(resourceName, "host_ocpu_count", "52"),
+				resource.TestCheckResourceAttr(resourceName, "host_shape_name", "BM.DenseIO2.52"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "next_sku", "HOUR"),
 				resource.TestCheckResourceAttrSet(resourceName, "sddc_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 update 3"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -246,9 +297,8 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_esxi_hosts", "test_esxi_hosts", acctest.Optional, acctest.Update, esxiHostDataSourceRepresentation) +
-				compartmentIdVariableStr + EsxiHostResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", acctest.Optional, acctest.Update, esxiHostRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_esxi_hosts", "test_esxi_hosts", acctest.Optional, acctest.Update, OcvpOcvpEsxiHostDataSourceRepresentation) +
+				compartmentIdVariableStr + OcvpEsxiHostResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "esxi_host_collection.0.compute_availability_domain"),
@@ -260,8 +310,8 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "esxi_host_collection.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "esxi_host_collection.0.sddc_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "esxi_host_collection.0.id"),
-				resource.TestCheckResourceAttr(datasourceName, "esxi_host_collection.0.host_ocpu_count", "8"),
-				resource.TestCheckResourceAttr(datasourceName, "esxi_host_collection.0.host_shape_name", "VM.Standard.E3.Flex"),
+				resource.TestCheckResourceAttr(datasourceName, "esxi_host_collection.0.host_ocpu_count", "52"),
+				resource.TestCheckResourceAttr(datasourceName, "esxi_host_collection.0.host_shape_name", "BM.DenseIO2.52"),
 				resource.TestCheckResourceAttrSet(datasourceName, "esxi_host_collection.0.compute_instance_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "esxi_host_collection.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "esxi_host_collection.0.time_updated"),
@@ -271,28 +321,31 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", acctest.Required, acctest.Create, esxiHostSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + EsxiHostResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", acctest.Required, acctest.Create, OcvpOcvpEsxiHostSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + OcvpEsxiHostResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "esxi_host_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "billing_contract_end_date"),
+				resource.TestCheckResourceAttrSet(resourceName, "capacity_reservation_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_availability_domain"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "current_sku", "MONTH"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "host_ocpu_count", "8"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "host_shape_name", "VM.Standard.E3.Flex"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "freeform_tags.%"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "host_ocpu_count", "52"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "host_shape_name", "BM.DenseIO2.52"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "next_sku", "HOUR"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "vmware_software_version"),
 			),
 		},
+
 		// verify resource import
 		{
-			Config:                  config + EsxiHostRequiredOnlyResource,
+			Config:                  config + OcvpEsxiHostRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -356,7 +409,7 @@ func init() {
 
 func sweepOcvpEsxiHostResource(compartment string) error {
 	esxiHostClient := acctest.GetTestClients(&schema.ResourceData{}).EsxiHostClient()
-	esxiHostIds, err := getEsxiHostIds(compartment)
+	esxiHostIds, err := getOcvpEsxiHostIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -372,14 +425,14 @@ func sweepOcvpEsxiHostResource(compartment string) error {
 				fmt.Printf("Error deleting EsxiHost %s %s, It is possible that the resource is already deleted. Please verify manually \n", esxiHostId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &esxiHostId, esxiHostSweepWaitCondition, time.Duration(3*time.Minute),
-				esxiHostSweepResponseFetchOperation, "ocvp", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &esxiHostId, OcvpEsxiHostSweepWaitCondition, time.Duration(3*time.Minute),
+				OcvpEsxiHostSweepResponseFetchOperation, "ocvp", true)
 		}
 	}
 	return nil
 }
 
-func getEsxiHostIds(compartment string) ([]string, error) {
+func getOcvpEsxiHostIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "EsxiHostId")
 	if ids != nil {
 		return ids, nil
@@ -403,7 +456,7 @@ func getEsxiHostIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func esxiHostSweepWaitCondition(response common.OCIOperationResponse) bool {
+func OcvpEsxiHostSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if esxiHostResponse, ok := response.Response.(oci_ocvp.GetEsxiHostResponse); ok {
 		return esxiHostResponse.LifecycleState != oci_ocvp.LifecycleStatesDeleted
@@ -411,7 +464,7 @@ func esxiHostSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func esxiHostSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func OcvpEsxiHostSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.EsxiHostClient().GetEsxiHost(context.Background(), oci_ocvp.GetEsxiHostRequest{
 		EsxiHostId: resourceId,
 		RequestMetadata: common.RequestMetadata{

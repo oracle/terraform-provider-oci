@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -463,6 +463,9 @@ func (client MonitoringClient) listAlarms(ctx context.Context, request common.OC
 }
 
 // ListAlarmsStatus List the status of each alarm in the specified compartment.
+// Status is collective, across all metric streams in the alarm.
+// To list alarm status for each metric stream, use RetrieveDimensionStates.
+// The alarm attribute `isNotificationsPerMetricDimensionEnabled` must be set to `true`.
 // For important limits information, see Limits on Monitoring (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
 // This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations.
 // Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
@@ -592,7 +595,7 @@ func (client MonitoringClient) listMetrics(ctx context.Context, request common.O
 // * Transactions Per Second (TPS) per-tenancy limit for this operation: 50.
 // *A metric group is the combination of a given metric, metric namespace, and tenancy for the purpose of determining limits.
 // A dimension is a qualifier provided in a metric definition.
-// A metric stream is an individual set of aggregated data for a metric, typically specific to a resource.
+// A metric stream is an individual set of aggregated data for a metric with zero or more dimension values.
 // For more information about metric-related concepts, see Monitoring Concepts (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#concepts).
 // The endpoints for this operation differ from other Monitoring operations. Replace the string `telemetry` with `telemetry-ingestion` in the endpoint, as in the following example:
 // https://telemetry-ingestion.eu-frankfurt-1.oraclecloud.com
@@ -706,6 +709,71 @@ func (client MonitoringClient) removeAlarmSuppression(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/monitoring/20180401/Suppression/RemoveAlarmSuppression"
 		err = common.PostProcessServiceError(err, "Monitoring", "RemoveAlarmSuppression", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RetrieveDimensionStates Lists the current alarm status of each metric stream, where status is derived from the metric stream's last associated transition.
+// Optionally filter by status value and one or more dimension key-value pairs.
+// This operation is only valid for alarms that have notifications per dimension enabled (`isNotificationsPerMetricDimensionEnabled=true`).
+//  If `isNotificationsPerMetricDimensionEnabled` for the alarm is false or null, then no results are returned.
+// For important limits information, see Limits on Monitoring (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
+//
+//  This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations.
+//  Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
+//  or transactions, per second (TPS) for a given tenancy.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/RetrieveDimensionStates.go.html to see an example of how to use RetrieveDimensionStates API.
+func (client MonitoringClient) RetrieveDimensionStates(ctx context.Context, request RetrieveDimensionStatesRequest) (response RetrieveDimensionStatesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.retrieveDimensionStates, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RetrieveDimensionStatesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RetrieveDimensionStatesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RetrieveDimensionStatesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RetrieveDimensionStatesResponse")
+	}
+	return
+}
+
+// retrieveDimensionStates implements the OCIOperation interface (enables retrying operations)
+func (client MonitoringClient) retrieveDimensionStates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/alarms/{alarmId}/actions/retrieveDimensionStates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RetrieveDimensionStatesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/monitoring/20180401/AlarmDimensionStatesCollection/RetrieveDimensionStates"
+		err = common.PostProcessServiceError(err, "Monitoring", "RetrieveDimensionStates", apiReferenceLink)
 		return response, err
 	}
 

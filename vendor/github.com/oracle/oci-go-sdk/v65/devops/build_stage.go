@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -67,6 +67,8 @@ type BuildStage struct {
 
 	// Name of the build source where the build_spec.yml file is located. If not specified, then the first entry in the build source collection is chosen as primary build source.
 	PrimaryBuildSource *string `mandatory:"false" json:"primaryBuildSource"`
+
+	PrivateAccessConfig NetworkChannel `mandatory:"false" json:"privateAccessConfig"`
 
 	// Image name for the build environment.
 	Image BuildStageImageEnum `mandatory:"true" json:"image"`
@@ -179,6 +181,87 @@ func (m BuildStage) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *BuildStage) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DisplayName                             *string                                  `json:"displayName"`
+		Description                             *string                                  `json:"description"`
+		TimeCreated                             *common.SDKTime                          `json:"timeCreated"`
+		TimeUpdated                             *common.SDKTime                          `json:"timeUpdated"`
+		LifecycleState                          BuildPipelineStageLifecycleStateEnum     `json:"lifecycleState"`
+		LifecycleDetails                        *string                                  `json:"lifecycleDetails"`
+		BuildPipelineStagePredecessorCollection *BuildPipelineStagePredecessorCollection `json:"buildPipelineStagePredecessorCollection"`
+		FreeformTags                            map[string]string                        `json:"freeformTags"`
+		DefinedTags                             map[string]map[string]interface{}        `json:"definedTags"`
+		SystemTags                              map[string]map[string]interface{}        `json:"systemTags"`
+		BuildSpecFile                           *string                                  `json:"buildSpecFile"`
+		StageExecutionTimeoutInSeconds          *int                                     `json:"stageExecutionTimeoutInSeconds"`
+		PrimaryBuildSource                      *string                                  `json:"primaryBuildSource"`
+		PrivateAccessConfig                     networkchannel                           `json:"privateAccessConfig"`
+		Id                                      *string                                  `json:"id"`
+		ProjectId                               *string                                  `json:"projectId"`
+		BuildPipelineId                         *string                                  `json:"buildPipelineId"`
+		CompartmentId                           *string                                  `json:"compartmentId"`
+		Image                                   BuildStageImageEnum                      `json:"image"`
+		BuildSourceCollection                   *BuildSourceCollection                   `json:"buildSourceCollection"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DisplayName = model.DisplayName
+
+	m.Description = model.Description
+
+	m.TimeCreated = model.TimeCreated
+
+	m.TimeUpdated = model.TimeUpdated
+
+	m.LifecycleState = model.LifecycleState
+
+	m.LifecycleDetails = model.LifecycleDetails
+
+	m.BuildPipelineStagePredecessorCollection = model.BuildPipelineStagePredecessorCollection
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
+
+	m.BuildSpecFile = model.BuildSpecFile
+
+	m.StageExecutionTimeoutInSeconds = model.StageExecutionTimeoutInSeconds
+
+	m.PrimaryBuildSource = model.PrimaryBuildSource
+
+	nn, e = model.PrivateAccessConfig.UnmarshalPolymorphicJSON(model.PrivateAccessConfig.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.PrivateAccessConfig = nn.(NetworkChannel)
+	} else {
+		m.PrivateAccessConfig = nil
+	}
+
+	m.Id = model.Id
+
+	m.ProjectId = model.ProjectId
+
+	m.BuildPipelineId = model.BuildPipelineId
+
+	m.CompartmentId = model.CompartmentId
+
+	m.Image = model.Image
+
+	m.BuildSourceCollection = model.BuildSourceCollection
+
+	return
 }
 
 // BuildStageImageEnum Enum with underlying type: string

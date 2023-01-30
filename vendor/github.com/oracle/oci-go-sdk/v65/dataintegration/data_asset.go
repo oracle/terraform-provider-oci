@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -128,6 +128,10 @@ func (m *dataasset) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := DataAssetFromAmazonS3{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "LAKE_HOUSE_DATA_ASSET":
+		mm := DataAssetFromLakehouseDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE_OBJECT_STORAGE_DATA_ASSET":
 		mm := DataAssetFromObjectStorageDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -142,6 +146,10 @@ func (m *dataasset) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		return mm, err
 	case "MYSQL_DATA_ASSET":
 		mm := DataAssetFromMySql{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "REST_DATA_ASSET":
+		mm := DataAssetFromRestDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -243,6 +251,8 @@ const (
 	DataAssetModelTypeGenericJdbcDataAsset         DataAssetModelTypeEnum = "GENERIC_JDBC_DATA_ASSET"
 	DataAssetModelTypeFusionAppDataAsset           DataAssetModelTypeEnum = "FUSION_APP_DATA_ASSET"
 	DataAssetModelTypeAmazonS3DataAsset            DataAssetModelTypeEnum = "AMAZON_S3_DATA_ASSET"
+	DataAssetModelTypeLakeHouseDataAsset           DataAssetModelTypeEnum = "LAKE_HOUSE_DATA_ASSET"
+	DataAssetModelTypeRestDataAsset                DataAssetModelTypeEnum = "REST_DATA_ASSET"
 )
 
 var mappingDataAssetModelTypeEnum = map[string]DataAssetModelTypeEnum{
@@ -254,6 +264,8 @@ var mappingDataAssetModelTypeEnum = map[string]DataAssetModelTypeEnum{
 	"GENERIC_JDBC_DATA_ASSET":          DataAssetModelTypeGenericJdbcDataAsset,
 	"FUSION_APP_DATA_ASSET":            DataAssetModelTypeFusionAppDataAsset,
 	"AMAZON_S3_DATA_ASSET":             DataAssetModelTypeAmazonS3DataAsset,
+	"LAKE_HOUSE_DATA_ASSET":            DataAssetModelTypeLakeHouseDataAsset,
+	"REST_DATA_ASSET":                  DataAssetModelTypeRestDataAsset,
 }
 
 var mappingDataAssetModelTypeEnumLowerCase = map[string]DataAssetModelTypeEnum{
@@ -265,6 +277,8 @@ var mappingDataAssetModelTypeEnumLowerCase = map[string]DataAssetModelTypeEnum{
 	"generic_jdbc_data_asset":          DataAssetModelTypeGenericJdbcDataAsset,
 	"fusion_app_data_asset":            DataAssetModelTypeFusionAppDataAsset,
 	"amazon_s3_data_asset":             DataAssetModelTypeAmazonS3DataAsset,
+	"lake_house_data_asset":            DataAssetModelTypeLakeHouseDataAsset,
+	"rest_data_asset":                  DataAssetModelTypeRestDataAsset,
 }
 
 // GetDataAssetModelTypeEnumValues Enumerates the set of values for DataAssetModelTypeEnum
@@ -287,6 +301,8 @@ func GetDataAssetModelTypeEnumStringValues() []string {
 		"GENERIC_JDBC_DATA_ASSET",
 		"FUSION_APP_DATA_ASSET",
 		"AMAZON_S3_DATA_ASSET",
+		"LAKE_HOUSE_DATA_ASSET",
+		"REST_DATA_ASSET",
 	}
 }
 

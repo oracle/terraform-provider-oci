@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,12 +10,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/service/log_analytics"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/service/log_analytics"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -23,17 +23,17 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_log_analytics "github.com/oracle/oci-go-sdk/v65/loganalytics"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	NamespaceScheduledTaskRequiredOnlyResource = NamespaceScheduledTaskResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_namespace_scheduled_task", "test_namespace_scheduled_task", acctest.Required, acctest.Create, purgeTaskRepresentation)
+	LogAnalyticsNamespaceScheduledTaskRequiredOnlyResource = LogAnalyticsNamespaceScheduledTaskResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_namespace_scheduled_task", "test_namespace_scheduled_task", acctest.Required, acctest.Create, LogAnalyticsPurgeTaskRepresentation)
 
-	NamespaceScheduledTaskResourceConfig = NamespaceScheduledTaskResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_namespace_scheduled_task", "test_namespace_scheduled_task", acctest.Optional, acctest.Update, purgeTaskRepresentation)
+	LogAnalyticsNamespaceScheduledTaskResourceConfig = LogAnalyticsNamespaceScheduledTaskResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_namespace_scheduled_task", "test_namespace_scheduled_task", acctest.Optional, acctest.Update, LogAnalyticsPurgeTaskRepresentation)
 
-	namespaceScheduledTaskSingularDataSourceRepresentation = map[string]interface{}{
+	LogAnalyticsLogAnalyticsNamespaceScheduledTaskSingularDataSourceRepresentation = map[string]interface{}{
 		"namespace":         acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 		"scheduled_task_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_log_analytics_namespace_scheduled_task.test_namespace_scheduled_task.scheduled_task_id}`},
 	}
@@ -43,26 +43,26 @@ var (
 		"namespace":      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `tfPurgeTask`, Update: `tfPurgeTask2`},
 		"task_type":      acctest.Representation{RepType: acctest.Optional, Create: `PURGE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: namespaceScheduledTaskDataSourceFilterRepresentation}}
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: LogAnalyticsNamespaceScheduledTaskDataSourceFilterRepresentation}}
 
-	namespaceScheduledTaskDataSourceFilterRepresentation = map[string]interface{}{
+	LogAnalyticsNamespaceScheduledTaskDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_log_analytics_namespace_scheduled_task.test_namespace_scheduled_task.id}`}},
 	}
 
-	purgeTaskRepresentation = map[string]interface{}{
+	LogAnalyticsPurgeTaskRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"kind":           acctest.Representation{RepType: acctest.Required, Create: `STANDARD`},
 		"namespace":      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 		"task_type":      acctest.Representation{RepType: acctest.Required, Create: `PURGE`},
-		"action":         acctest.RepresentationGroup{RepType: acctest.Required, Group: purgeActionRepresentation},
-		"schedules":      acctest.RepresentationGroup{RepType: acctest.Required, Group: schedulesRepresentation},
+		"action":         acctest.RepresentationGroup{RepType: acctest.Required, Group: LogAnalyticsPurgeActionRepresentation},
+		"schedules":      acctest.RepresentationGroup{RepType: acctest.Required, Group: LogAnalyticsSchedulesRepresentation},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `tfPurgeTask`, Update: `tfPurgeTask2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	purgeActionRepresentation = map[string]interface{}{
+	LogAnalyticsPurgeActionRepresentation = map[string]interface{}{
 		"type":                      acctest.Representation{RepType: acctest.Required, Create: `PURGE`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Required, Create: `false`},
 		"data_type":                 acctest.Representation{RepType: acctest.Required, Create: `LOG`},
@@ -71,7 +71,7 @@ var (
 		"query_string":              acctest.Representation{RepType: acctest.Required, Create: `fake_query`},
 	}
 
-	schedulesRepresentation = map[string]interface{}{
+	LogAnalyticsSchedulesRepresentation = map[string]interface{}{
 		"schedule": []acctest.RepresentationGroup{{RepType: acctest.Required, Group: fixedSchedulesRepresentation}},
 	}
 
@@ -95,8 +95,8 @@ var (
 		"time_zone":      acctest.Representation{RepType: acctest.Required, Create: `UTC`, Update: `UTC`},
 	}
 
-	NamespaceScheduledTaskResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation)
+	LogAnalyticsNamespaceScheduledTaskResourceDependencies = DefinedTagsDependencies +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsNamespaceSingularDataSourceRepresentation)
 )
 
 func TestLogAnalyticsNamespaceScheduledTaskResource_basic(t *testing.T) {
@@ -125,8 +125,8 @@ func TestLogAnalyticsNamespaceScheduledTaskResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify creation of purge task
 			{
-				Config: config + compartmentIdVariableStr + NamespaceScheduledTaskResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_namespace_scheduled_task", "test_namespace_scheduled_task", acctest.Required, acctest.Create, purgeTaskRepresentation),
+				Config: config + compartmentIdVariableStr + LogAnalyticsNamespaceScheduledTaskResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_namespace_scheduled_task", "test_namespace_scheduled_task", acctest.Required, acctest.Create, LogAnalyticsPurgeTaskRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "kind", "STANDARD"),
@@ -156,9 +156,9 @@ func TestLogAnalyticsNamespaceScheduledTaskResource_basic(t *testing.T) {
 			},
 			// verify update to the compartment (the compartment will be switched back in the next step) of purge task
 			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + NamespaceScheduledTaskResourceDependencies +
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + LogAnalyticsNamespaceScheduledTaskResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_namespace_scheduled_task", "test_namespace_scheduled_task", acctest.Required, acctest.Create,
-						acctest.RepresentationCopyWithNewProperties(purgeTaskRepresentation, map[string]interface{}{
+						acctest.RepresentationCopyWithNewProperties(LogAnalyticsPurgeTaskRepresentation, map[string]interface{}{
 							"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -193,12 +193,12 @@ func TestLogAnalyticsNamespaceScheduledTaskResource_basic(t *testing.T) {
 			},
 			// delete before next create
 			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + NamespaceScheduledTaskResourceDependencies,
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + LogAnalyticsNamespaceScheduledTaskResourceDependencies,
 			},
 			// verify creation of purge task with optionals
 			{
-				Config: config + compartmentIdVariableStr + NamespaceScheduledTaskResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_namespace_scheduled_task", "test_namespace_scheduled_task", acctest.Optional, acctest.Create, purgeTaskRepresentation),
+				Config: config + compartmentIdVariableStr + LogAnalyticsNamespaceScheduledTaskResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_namespace_scheduled_task", "test_namespace_scheduled_task", acctest.Optional, acctest.Create, LogAnalyticsPurgeTaskRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "kind", "STANDARD"),
@@ -234,8 +234,8 @@ func TestLogAnalyticsNamespaceScheduledTaskResource_basic(t *testing.T) {
 			},
 			// verify updates to updatable parameters of purge task
 			{
-				Config: config + compartmentIdVariableStr + NamespaceScheduledTaskResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_namespace_scheduled_task", "test_namespace_scheduled_task", acctest.Optional, acctest.Update, purgeTaskRepresentation),
+				Config: config + compartmentIdVariableStr + LogAnalyticsNamespaceScheduledTaskResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_namespace_scheduled_task", "test_namespace_scheduled_task", acctest.Optional, acctest.Update, LogAnalyticsPurgeTaskRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "kind", "STANDARD"),
@@ -273,8 +273,8 @@ func TestLogAnalyticsNamespaceScheduledTaskResource_basic(t *testing.T) {
 			{
 				Config: config +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_namespace_scheduled_tasks", "test_namespace_scheduled_tasks", acctest.Optional, acctest.Update, namespaceScheduledTaskDataSourceRepresentation) +
-					compartmentIdVariableStr + NamespaceScheduledTaskResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_namespace_scheduled_task", "test_namespace_scheduled_task", acctest.Optional, acctest.Update, purgeTaskRepresentation),
+					compartmentIdVariableStr + LogAnalyticsNamespaceScheduledTaskResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_namespace_scheduled_task", "test_namespace_scheduled_task", acctest.Optional, acctest.Update, LogAnalyticsPurgeTaskRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "tfPurgeTask2"),
@@ -286,8 +286,8 @@ func TestLogAnalyticsNamespaceScheduledTaskResource_basic(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_namespace_scheduled_task", "test_namespace_scheduled_task", acctest.Required, acctest.Create, namespaceScheduledTaskSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + NamespaceScheduledTaskResourceConfig,
+					acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_namespace_scheduled_task", "test_namespace_scheduled_task", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsNamespaceScheduledTaskSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + LogAnalyticsNamespaceScheduledTaskResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
@@ -318,7 +318,7 @@ func TestLogAnalyticsNamespaceScheduledTaskResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config + NamespaceScheduledTaskResourceConfig,
+				Config:            config + LogAnalyticsNamespaceScheduledTaskResourceConfig,
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateIdFunc: namespaceScheduledTaskImportId,
@@ -392,7 +392,7 @@ func init() {
 
 func sweepLogAnalyticsNamespaceScheduledTaskResource(compartment string) error {
 	logAnalyticsClient := acctest.GetTestClients(&schema.ResourceData{}).LogAnalyticsClient()
-	namespaceScheduledTaskIds, err := getNamespaceScheduledTaskIds(compartment)
+	namespaceScheduledTaskIds, err := getLogAnalyticsNamespaceScheduledTaskIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -406,14 +406,14 @@ func sweepLogAnalyticsNamespaceScheduledTaskResource(compartment string) error {
 				fmt.Printf("Error deleting NamespaceScheduledTask %s %s, It is possible that the resource is already deleted. Please verify manually \n", namespaceScheduledTaskId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &namespaceScheduledTaskId, namespaceScheduledTaskSweepWaitCondition, time.Duration(3*time.Minute),
-				namespaceScheduledTaskSweepResponseFetchOperation, "log_analytics", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &namespaceScheduledTaskId, LogAnalyticsNamespaceScheduledTaskSweepWaitCondition, time.Duration(3*time.Minute),
+				LogAnalyticsNamespaceScheduledTaskSweepResponseFetchOperation, "log_analytics", true)
 		}
 	}
 	return nil
 }
 
-func getNamespaceScheduledTaskIds(compartment string) ([]string, error) {
+func getLogAnalyticsNamespaceScheduledTaskIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "NamespaceScheduledTaskId")
 	if ids != nil {
 		return ids, nil
@@ -447,7 +447,7 @@ func getNamespaceScheduledTaskIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func namespaceScheduledTaskSweepWaitCondition(response common.OCIOperationResponse) bool {
+func LogAnalyticsNamespaceScheduledTaskSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if namespaceScheduledTaskResponse, ok := response.Response.(oci_log_analytics.GetScheduledTaskResponse); ok {
 		return namespaceScheduledTaskResponse.GetLifecycleState() != oci_log_analytics.ScheduledTaskLifecycleStateDeleted
@@ -455,7 +455,7 @@ func namespaceScheduledTaskSweepWaitCondition(response common.OCIOperationRespon
 	return false
 }
 
-func namespaceScheduledTaskSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func LogAnalyticsNamespaceScheduledTaskSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.LogAnalyticsClient().GetScheduledTask(context.Background(), oci_log_analytics.GetScheduledTaskRequest{RequestMetadata: common.RequestMetadata{
 		RetryPolicy: retryPolicy,
 	},

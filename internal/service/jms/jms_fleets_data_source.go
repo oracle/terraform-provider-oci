@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package jms
@@ -6,8 +6,8 @@ package jms
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_jms "github.com/oracle/oci-go-sdk/v65/jms"
@@ -23,6 +23,10 @@ func JmsFleetsDataSource() *schema.Resource {
 				Optional: true,
 			},
 			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"display_name_contains": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -81,6 +85,11 @@ func (s *JmsFleetsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if displayNameContains, ok := s.D.GetOkExists("display_name_contains"); ok {
+		tmp := displayNameContains.(string)
+		request.DisplayNameContains = &tmp
 	}
 
 	if id, ok := s.D.GetOkExists("id"); ok {

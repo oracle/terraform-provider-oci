@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -28,7 +28,7 @@ type UpdateIngressGatewayRouteTableDetails struct {
 	Priority *int `mandatory:"false" json:"priority"`
 
 	// The route rules for the ingress gateway.
-	RouteRules []IngressGatewayTrafficRouteRule `mandatory:"false" json:"routeRules"`
+	RouteRules []IngressGatewayTrafficRouteRuleDetails `mandatory:"false" json:"routeRules"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -58,11 +58,11 @@ func (m UpdateIngressGatewayRouteTableDetails) ValidateEnumValue() (bool, error)
 // UnmarshalJSON unmarshals from json
 func (m *UpdateIngressGatewayRouteTableDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description  *string                           `json:"description"`
-		Priority     *int                              `json:"priority"`
-		RouteRules   []ingressgatewaytrafficrouterule  `json:"routeRules"`
-		FreeformTags map[string]string                 `json:"freeformTags"`
-		DefinedTags  map[string]map[string]interface{} `json:"definedTags"`
+		Description  *string                                 `json:"description"`
+		Priority     *int                                    `json:"priority"`
+		RouteRules   []ingressgatewaytrafficrouteruledetails `json:"routeRules"`
+		FreeformTags map[string]string                       `json:"freeformTags"`
+		DefinedTags  map[string]map[string]interface{}       `json:"definedTags"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -74,14 +74,14 @@ func (m *UpdateIngressGatewayRouteTableDetails) UnmarshalJSON(data []byte) (e er
 
 	m.Priority = model.Priority
 
-	m.RouteRules = make([]IngressGatewayTrafficRouteRule, len(model.RouteRules))
+	m.RouteRules = make([]IngressGatewayTrafficRouteRuleDetails, len(model.RouteRules))
 	for i, n := range model.RouteRules {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
 		if e != nil {
 			return e
 		}
 		if nn != nil {
-			m.RouteRules[i] = nn.(IngressGatewayTrafficRouteRule)
+			m.RouteRules[i] = nn.(IngressGatewayTrafficRouteRuleDetails)
 		} else {
 			m.RouteRules[i] = nil
 		}

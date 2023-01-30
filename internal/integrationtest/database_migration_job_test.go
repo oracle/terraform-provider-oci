@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,21 +22,21 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_database_migration "github.com/oracle/oci-go-sdk/v65/databasemigration"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	JobRequiredOnlyResource = JobResourceDependencies +
+	DatabaseMigrationJobRequiredOnlyResource = DatabaseMigrationJobResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_job", "test_job", acctest.Required, acctest.Create, jobRepresentation)
 
-	JobResourceConfig = //JobResourceDependencies +
+	DatabaseMigrationJobResourceConfig = //DatabaseMigrationJobResourceDependencies +
 	acctest.GenerateResourceFromRepresentationMap("oci_database_migration_job", "test_job", acctest.Optional, acctest.Update, jobRepresentation2)
 
-	jobSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseMigrationjobSingularDataSourceRepresentation = map[string]interface{}{
 		"job_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_migration_job.test_job.id}`},
 	}
 
-	jobDataSourceRepresentation = map[string]interface{}{
+	DatabaseMigrationjobDataSourceRepresentation = map[string]interface{}{
 		"migration_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_migration_migration.test_migration.id}`},
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `TF_displayName`, Update: `TF_displayName2`},
 		"state":        acctest.Representation{RepType: acctest.Optional, Create: `Succeeded`},
@@ -56,20 +56,20 @@ var (
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `TF_displayName`, Update: `TF_displayName2`},
 	}
 
-	JobResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Required, acctest.Create, deploymentRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Required, acctest.Create, gatewayRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Required, acctest.Create, connectionRepresentation) +
+	DatabaseMigrationJobResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Required, acctest.Create, ApigatewayDeploymentRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Required, acctest.Create, ApigatewayRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Required, acctest.Create, connectionRepresentationCon) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_job", "test_job", acctest.Required, acctest.Create, jobRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Required, acctest.Create, migrationRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, applicationRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, functionRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsApplicationRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionRepresentation) +
 		DefinedTagsDependencies +
 		KeyResourceDependencyConfig +
-		acctest.GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", acctest.Required, acctest.Create, vaultRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, bucketRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", acctest.Required, acctest.Create, KmsVaultRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation)
 )
 
 // issue-routing-tag: database_migration/default
@@ -157,8 +157,8 @@ func TestDatabaseMigrationJobResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_jobs", "test_jobs", acctest.Optional, acctest.Update, jobDataSourceRepresentation) +
-				compartmentIdVariableStr + //JobResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_jobs", "test_jobs", acctest.Optional, acctest.Update, DatabaseMigrationjobDataSourceRepresentation) +
+				compartmentIdVariableStr + //DatabaseMigrationJobResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_job", "test_job", acctest.Optional, acctest.Update, jobRepresentation2),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "TF_displayName2"),
@@ -170,8 +170,8 @@ func TestDatabaseMigrationJobResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_job", "test_job", acctest.Required, acctest.Create, jobSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + JobResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_job", "test_job", acctest.Required, acctest.Create, DatabaseMigrationjobSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseMigrationJobResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "job_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "TF_displayName2"),
@@ -183,7 +183,7 @@ func TestDatabaseMigrationJobResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + JobRequiredOnlyResource,
+			Config:                  config + DatabaseMigrationJobRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       false,
 			ImportStateVerifyIgnore: []string{},
@@ -247,7 +247,7 @@ func init() {
 
 func sweepDatabaseMigrationJobResource(compartment string) error {
 	databaseMigrationClient := acctest.GetTestClients(&schema.ResourceData{}).DatabaseMigrationClient()
-	jobIds, err := getJobIds(compartment)
+	jobIds, err := getDatabaseMigrationJobIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -263,14 +263,14 @@ func sweepDatabaseMigrationJobResource(compartment string) error {
 				fmt.Printf("Error deleting Job %s %s, It is possible that the resource is already deleted. Please verify manually \n", jobId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &jobId, jobSweepWaitCondition, time.Duration(3*time.Minute),
-				jobSweepResponseFetchOperation, "database_migration", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &jobId, DatabaseMigrationjobsSweepWaitCondition, time.Duration(3*time.Minute),
+				DatabaseMigrationjobsSweepResponseFetchOperation, "database_migration", true)
 		}
 	}
 	return nil
 }
 
-func getJobIds(compartment string) ([]string, error) {
+func getDatabaseMigrationJobIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "JobId")
 	if ids != nil {
 		return ids, nil
@@ -280,7 +280,7 @@ func getJobIds(compartment string) ([]string, error) {
 	databaseMigrationClient := acctest.GetTestClients(&schema.ResourceData{}).DatabaseMigrationClient()
 
 	listJobsRequest := oci_database_migration.ListJobsRequest{}
-	migrationIds, error := getMigrationIds(compartment)
+	migrationIds, error := getDatabaseMigrationJobIds(compartment)
 	if error != nil {
 		return resourceIds, fmt.Errorf("Error getting migrationId required for Job resource requests \n")
 	}
@@ -303,7 +303,7 @@ func getJobIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func jobSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DatabaseMigrationjobsSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if jobResponse, ok := response.Response.(oci_database_migration.GetJobResponse); ok {
 		return jobResponse.LifecycleState != oci_database_migration.JobLifecycleStatesTerminated
@@ -311,7 +311,7 @@ func jobSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func jobSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DatabaseMigrationjobsSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DatabaseMigrationClient().GetJob(context.Background(), oci_database_migration.GetJobRequest{
 		JobId: resourceId,
 		RequestMetadata: common.RequestMetadata{

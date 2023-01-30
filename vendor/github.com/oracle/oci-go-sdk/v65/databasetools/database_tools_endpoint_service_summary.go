@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Database Tools
 //
-// Database Tools APIs to manage Connections and Private Endpoints.
+// Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
 //
 
 package databasetools
@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// DatabaseToolsEndpointServiceSummary Summary of the DatabaseToolsEndpointService.
+// DatabaseToolsEndpointServiceSummary Summary of the Database Tools Endpoint Service.
 type DatabaseToolsEndpointServiceSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DatabaseToolsEndpointService.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database Tools Endpoint Service.
 	Id *string `mandatory:"true" json:"id"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
@@ -27,7 +27,7 @@ type DatabaseToolsEndpointServiceSummary struct {
 	// A unique, non-changeable resource name.
 	Name *string `mandatory:"false" json:"name"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the containing Compartment.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the Database Tools Endpoint Service.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
@@ -42,19 +42,19 @@ type DatabaseToolsEndpointServiceSummary struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	// The time the DatabaseToolsEndpointService was created. An RFC3339 formatted datetime string
+	// The time the Database Tools Endpoint Service was created. An RFC3339 formatted datetime string
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The time the DatabaseToolsEndpointService was updated. An RFC3339 formatted datetime string
+	// The time the Database Tools Endpoint Service was updated. An RFC3339 formatted datetime string
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current state of the DatabaseToolsEndpointService.
+	// The current state of the Database Tools Endpoint Service.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// A description of the DatabaseToolsEndpointService.
+	// A description of the Database Tools Endpoint Service.
 	Description *string `mandatory:"false" json:"description"`
 }
 

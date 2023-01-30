@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,48 +16,48 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	DhcpOptionsRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", acctest.Required, acctest.Create, dhcpOptionsRepresentation)
+	CoreDhcpOptionsRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", acctest.Required, acctest.Create, CoreDhcpOptionsRepresentation)
 
-	dhcpOptionsDataSourceRepresentation = map[string]interface{}{
+	CoreCoreDhcpOptionsDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `MyDhcpOptions`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 		"vcn_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.id}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: dhcpOptionsDataSourceFilterRepresentation}}
-	dhcpOptionsDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreDhcpOptionsDataSourceFilterRepresentation}}
+	CoreDhcpOptionsDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_dhcp_options.test_dhcp_options.id}`}},
 	}
 
-	dhcpOptionsRepresentation = map[string]interface{}{
+	CoreDhcpOptionsRepresentation = map[string]interface{}{
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"options":          []acctest.RepresentationGroup{{RepType: acctest.Required, Group: optionsRepresentation1}, {RepType: acctest.Required, Group: optionsRepresentation2}},
+		"options":          []acctest.RepresentationGroup{{RepType: acctest.Required, Group: CoreDhcpOptionsRepresentation1}, {RepType: acctest.Required, Group: CoreDhcpOptionsRepresentation2}},
 		"vcn_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
 		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `MyDhcpOptions`, Update: `displayName2`},
 		"domain_name_type": acctest.Representation{RepType: acctest.Optional, Create: `CUSTOM_DOMAIN`, Update: `VCN_DOMAIN`},
 		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
-	optionsRepresentation1 = map[string]interface{}{
+	CoreDhcpOptionsRepresentation1 = map[string]interface{}{
 		"type":        acctest.Representation{RepType: acctest.Required, Create: `DomainNameServer`},
 		"server_type": acctest.Representation{RepType: acctest.Required, Create: `VcnLocalPlusInternet`},
 	}
 
-	optionsRepresentation2 = map[string]interface{}{
+	CoreDhcpOptionsRepresentation2 = map[string]interface{}{
 		"type":                acctest.Representation{RepType: acctest.Required, Create: `SearchDomain`},
 		"search_domain_names": acctest.Representation{RepType: acctest.Required, Create: []string{"test.com"}},
 	}
 
-	DhcpOptionsResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	CoreDhcpOptionsResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -79,14 +79,14 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DhcpOptionsResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", acctest.Optional, acctest.Create, dhcpOptionsRepresentation), "core", "dhcpOptions", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreDhcpOptionsResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", acctest.Optional, acctest.Create, CoreDhcpOptionsRepresentation), "core", "dhcpOptions", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreDhcpOptionsDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DhcpOptionsResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", acctest.Required, acctest.Create, dhcpOptionsRepresentation),
+			Config: config + compartmentIdVariableStr + CoreDhcpOptionsResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", acctest.Required, acctest.Create, CoreDhcpOptionsRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "options.#", "2"),
@@ -111,12 +111,12 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DhcpOptionsResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreDhcpOptionsResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DhcpOptionsResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", acctest.Optional, acctest.Create, dhcpOptionsRepresentation),
+			Config: config + compartmentIdVariableStr + CoreDhcpOptionsResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", acctest.Optional, acctest.Create, CoreDhcpOptionsRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "MyDhcpOptions"),
@@ -152,9 +152,9 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DhcpOptionsResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreDhcpOptionsResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(dhcpOptionsRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CoreDhcpOptionsRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -189,8 +189,8 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DhcpOptionsResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", acctest.Optional, acctest.Update, dhcpOptionsRepresentation),
+			Config: config + compartmentIdVariableStr + CoreDhcpOptionsResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", acctest.Optional, acctest.Update, CoreDhcpOptionsRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -223,9 +223,9 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", acctest.Optional, acctest.Update, dhcpOptionsDataSourceRepresentation) +
-				compartmentIdVariableStr + DhcpOptionsResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", acctest.Optional, acctest.Update, dhcpOptionsRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", acctest.Optional, acctest.Update, CoreCoreDhcpOptionsDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreDhcpOptionsResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", acctest.Optional, acctest.Update, CoreDhcpOptionsRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -248,7 +248,7 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + DhcpOptionsRequiredOnlyResource,
+			Config:                  config + CoreDhcpOptionsRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -312,7 +312,7 @@ func init() {
 
 func sweepCoreDhcpOptionsResource(compartment string) error {
 	virtualNetworkClient := acctest.GetTestClients(&schema.ResourceData{}).VirtualNetworkClient()
-	dhcpOptionsIds, err := getDhcpOptionsIds(compartment)
+	dhcpOptionsIds, err := getCoreDhcpOptionsIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -328,14 +328,14 @@ func sweepCoreDhcpOptionsResource(compartment string) error {
 				fmt.Printf("Error deleting DhcpOptions %s %s, It is possible that the resource is already deleted. Please verify manually \n", dhcpOptionsId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &dhcpOptionsId, dhcpOptionsSweepWaitCondition, time.Duration(3*time.Minute),
-				dhcpOptionsSweepResponseFetchOperation, "core", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &dhcpOptionsId, CoreDhcpOptionsSweepWaitCondition, time.Duration(3*time.Minute),
+				CoreDhcpOptionsSweepResponseFetchOperation, "core", true)
 		}
 	}
 	return nil
 }
 
-func getDhcpOptionsIds(compartment string) ([]string, error) {
+func getCoreDhcpOptionsIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "DhcpOptionsId")
 	if ids != nil {
 		return ids, nil
@@ -360,7 +360,7 @@ func getDhcpOptionsIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func dhcpOptionsSweepWaitCondition(response common.OCIOperationResponse) bool {
+func CoreDhcpOptionsSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if dhcpOptionsResponse, ok := response.Response.(oci_core.GetDhcpOptionsResponse); ok {
 		return dhcpOptionsResponse.LifecycleState != oci_core.DhcpOptionsLifecycleStateTerminated
@@ -368,7 +368,7 @@ func dhcpOptionsSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func dhcpOptionsSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CoreDhcpOptionsSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.VirtualNetworkClient().GetDhcpOptions(context.Background(), oci_core.GetDhcpOptionsRequest{
 		DhcpId: resourceId,
 		RequestMetadata: common.RequestMetadata{

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,15 +9,15 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	ipsecAlgorithmSingularDataSourceRepresentation = map[string]interface{}{}
+	CoreCoreIpsecAlgorithmSingularDataSourceRepresentation = map[string]interface{}{}
 
-	IpsecAlgorithmResourceConfig = ""
+	CoreIpsecAlgorithmResourceConfig = ""
 )
 
 // issue-routing-tag: core/default
@@ -38,8 +38,8 @@ func TestCoreIpsecAlgorithmResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_algorithm", "test_ipsec_algorithm", acctest.Required, acctest.Create, ipsecAlgorithmSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + IpsecAlgorithmResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_algorithm", "test_ipsec_algorithm", acctest.Required, acctest.Create, CoreCoreIpsecAlgorithmSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreIpsecAlgorithmResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "allowed_phase_one_parameters.#", "1"),

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -52,6 +52,9 @@ type ListSchemasRequest struct {
 
 	// Used to filter by the name of the object.
 	NameList []string `contributesTo:"query" name:"nameList" collectionFormat:"multi"`
+
+	// Artifact type which needs to be listed while listing Artifacts.
+	IncludeTypes []string `contributesTo:"query" name:"includeTypes" collectionFormat:"multi"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -140,16 +143,19 @@ type ListSchemasSortByEnum string
 const (
 	ListSchemasSortByTimeCreated ListSchemasSortByEnum = "TIME_CREATED"
 	ListSchemasSortByDisplayName ListSchemasSortByEnum = "DISPLAY_NAME"
+	ListSchemasSortByTimeUpdated ListSchemasSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListSchemasSortByEnum = map[string]ListSchemasSortByEnum{
 	"TIME_CREATED": ListSchemasSortByTimeCreated,
 	"DISPLAY_NAME": ListSchemasSortByDisplayName,
+	"TIME_UPDATED": ListSchemasSortByTimeUpdated,
 }
 
 var mappingListSchemasSortByEnumLowerCase = map[string]ListSchemasSortByEnum{
 	"time_created": ListSchemasSortByTimeCreated,
 	"display_name": ListSchemasSortByDisplayName,
+	"time_updated": ListSchemasSortByTimeUpdated,
 }
 
 // GetListSchemasSortByEnumValues Enumerates the set of values for ListSchemasSortByEnum
@@ -166,6 +172,7 @@ func GetListSchemasSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 

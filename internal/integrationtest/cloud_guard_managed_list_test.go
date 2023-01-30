@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,26 +16,26 @@ import (
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 	"github.com/oracle/oci-go-sdk/v65/common"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	ManagedListRequiredOnlyResource = ManagedListResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", acctest.Required, acctest.Create, managedListRepresentation)
+	CloudGuardManagedListRequiredOnlyResource = CloudGuardManagedListResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", acctest.Required, acctest.Create, CloudGuardManagedListRepresentation)
 
-	ManagedListResourceConfig = ManagedListResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", acctest.Optional, acctest.Update, managedListRepresentation)
+	CloudGuardManagedListResourceConfig = CloudGuardManagedListResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", acctest.Optional, acctest.Update, CloudGuardManagedListRepresentation)
 
-	managedListSingularDataSourceRepresentation = map[string]interface{}{
+	CloudGuardCloudGuardManagedListSingularDataSourceRepresentation = map[string]interface{}{
 		"managed_list_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_cloud_guard_managed_list.test_managed_list.id}`},
 	}
 
-	managedListDataSourceRepresentation = map[string]interface{}{
+	CloudGuardCloudGuardManagedListDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		//access_level has acceptable values as RESTRICTED and ACCESSIBLE, latter providing lenient access check.
 		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
@@ -46,16 +46,16 @@ var (
 		"resource_metadata_only": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		//Valid lifecyclestate is required
 		"state":  acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: managedListDataSourceFilterRepresentation}}
-	managedListDataSourceFilterRepresentation = map[string]interface{}{
+		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: CloudGuardManagedListDataSourceFilterRepresentation}}
+	CloudGuardManagedListDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_cloud_guard_managed_list.test_managed_list.id}`}},
 	}
 
-	managedListRepresentation = map[string]interface{}{
+	CloudGuardManagedListRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		//Below 2 params are marked as optional from api-spec but for testing purpose we will have that marked as required.
@@ -65,7 +65,7 @@ var (
 		"source_managed_list_id": acctest.Representation{RepType: acctest.Optional, Create: nil},
 	}
 
-	ManagedListResourceDependencies = DefinedTagsDependencies
+	CloudGuardManagedListResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: cloud_guard/default
@@ -87,14 +87,14 @@ func TestCloudGuardManagedListResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ManagedListResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", acctest.Optional, acctest.Create, managedListRepresentation), "cloudguard", "managedList", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CloudGuardManagedListResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", acctest.Optional, acctest.Create, CloudGuardManagedListRepresentation), "cloudguard", "managedList", t)
 
 	acctest.ResourceTest(t, testAccCheckCloudGuardManagedListDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ManagedListResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", acctest.Required, acctest.Create, managedListRepresentation),
+			Config: config + compartmentIdVariableStr + CloudGuardManagedListResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", acctest.Required, acctest.Create, CloudGuardManagedListRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -108,12 +108,12 @@ func TestCloudGuardManagedListResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ManagedListResourceDependencies,
+			Config: config + compartmentIdVariableStr + CloudGuardManagedListResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ManagedListResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", acctest.Optional, acctest.Create, managedListRepresentation),
+			Config: config + compartmentIdVariableStr + CloudGuardManagedListResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", acctest.Optional, acctest.Create, CloudGuardManagedListRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -137,9 +137,9 @@ func TestCloudGuardManagedListResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ManagedListResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CloudGuardManagedListResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(managedListRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CloudGuardManagedListRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -163,8 +163,8 @@ func TestCloudGuardManagedListResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ManagedListResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", acctest.Optional, acctest.Update, managedListRepresentation),
+			Config: config + compartmentIdVariableStr + CloudGuardManagedListResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", acctest.Optional, acctest.Update, CloudGuardManagedListRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -186,9 +186,9 @@ func TestCloudGuardManagedListResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_managed_lists", "test_managed_lists", acctest.Optional, acctest.Update, managedListDataSourceRepresentation) +
-				compartmentIdVariableStr + ManagedListResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", acctest.Optional, acctest.Update, managedListRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_managed_lists", "test_managed_lists", acctest.Optional, acctest.Update, CloudGuardCloudGuardManagedListDataSourceRepresentation) +
+				compartmentIdVariableStr + CloudGuardManagedListResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", acctest.Optional, acctest.Update, CloudGuardManagedListRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -205,8 +205,8 @@ func TestCloudGuardManagedListResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", acctest.Required, acctest.Create, managedListSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ManagedListResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", acctest.Required, acctest.Create, CloudGuardCloudGuardManagedListSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CloudGuardManagedListResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_list_id"),
 
@@ -227,7 +227,7 @@ func TestCloudGuardManagedListResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ManagedListRequiredOnlyResource,
+			Config:                  config + CloudGuardManagedListRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -291,7 +291,7 @@ func init() {
 
 func sweepCloudGuardManagedListResource(compartment string) error {
 	cloudGuardClient := acctest.GetTestClients(&schema.ResourceData{}).CloudGuardClient()
-	managedListIds, err := getManagedListIds(compartment)
+	managedListIds, err := getCloudGuardManagedListIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -307,14 +307,14 @@ func sweepCloudGuardManagedListResource(compartment string) error {
 				fmt.Printf("Error deleting ManagedList %s %s, It is possible that the resource is already deleted. Please verify manually \n", managedListId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &managedListId, managedListSweepWaitCondition, time.Duration(3*time.Minute),
-				managedListSweepResponseFetchOperation, "cloud_guard", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &managedListId, CloudGuardManagedListSweepWaitCondition, time.Duration(3*time.Minute),
+				CloudGuardManagedListSweepResponseFetchOperation, "cloud_guard", true)
 		}
 	}
 	return nil
 }
 
-func getManagedListIds(compartment string) ([]string, error) {
+func getCloudGuardManagedListIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ManagedListId")
 	if ids != nil {
 		return ids, nil
@@ -339,7 +339,7 @@ func getManagedListIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func managedListSweepWaitCondition(response common.OCIOperationResponse) bool {
+func CloudGuardManagedListSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if managedListResponse, ok := response.Response.(oci_cloud_guard.GetManagedListResponse); ok {
 		return managedListResponse.LifecycleState != oci_cloud_guard.LifecycleStateDeleted
@@ -347,7 +347,7 @@ func managedListSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func managedListSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CloudGuardManagedListSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.CloudGuardClient().GetManagedList(context.Background(), oci_cloud_guard.GetManagedListRequest{
 		ManagedListId: resourceId,
 		RequestMetadata: common.RequestMetadata{

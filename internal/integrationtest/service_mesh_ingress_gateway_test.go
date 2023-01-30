@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -6,89 +6,90 @@ package integrationtest
 import (
 	"context"
 	"fmt"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"strconv"
 	"testing"
 	"time"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_service_mesh "github.com/oracle/oci-go-sdk/v65/servicemesh"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	IngressGatewayRequiredOnlyResource = IngressGatewayResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway", "test_ingress_gateway", acctest.Required, acctest.Create, ingressGatewayRepresentation)
+	ServiceMeshIngressGatewayRequiredOnlyResource = ServiceMeshIngressGatewayResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway", "test_ingress_gateway", acctest.Required, acctest.Create, ServiceMeshIngressGatewayRepresentation)
 
-	IngressGatewayResourceConfig = IngressGatewayResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway", "test_ingress_gateway", acctest.Optional, acctest.Update, ingressGatewayRepresentation)
+	ServiceMeshIngressGatewayResourceConfig = ServiceMeshIngressGatewayResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway", "test_ingress_gateway", acctest.Optional, acctest.Update, ServiceMeshIngressGatewayRepresentation)
 
-	ingressGatewaySingularDataSourceRepresentation = map[string]interface{}{
+	ServiceMeshServiceMeshIngressGatewaySingularDataSourceRepresentation = map[string]interface{}{
 		"ingress_gateway_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_service_mesh_ingress_gateway.test_ingress_gateway.id}`},
 	}
 
-	ingressGatewayDataSourceRepresentation = map[string]interface{}{
+	ServiceMeshServiceMeshIngressGatewayDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_mesh_ingress_gateway.test_ingress_gateway.id}`},
 		"mesh_id":        acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_mesh_mesh.mesh1.id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `name`},
-		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ingressGatewayDataSourceFilterRepresentation}}
-	ingressGatewayDataSourceFilterRepresentation = map[string]interface{}{
+		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceMeshIngressGatewayDataSourceFilterRepresentation}}
+	ServiceMeshIngressGatewayDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_service_mesh_ingress_gateway.test_ingress_gateway.id}`}},
 	}
 
-	ingressGatewayRepresentation = map[string]interface{}{
+	ServiceMeshIngressGatewayRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"hosts":          acctest.RepresentationGroup{RepType: acctest.Required, Group: ingressGatewayHostsRepresentation},
+		"hosts":          acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceMeshIngressGatewayHostsRepresentation},
 		"mesh_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_service_mesh_mesh.mesh1.id}`},
 		"name":           acctest.Representation{RepType: acctest.Required, Create: `name`},
-		"access_logging": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ingressGatewayAccessLoggingRepresentation},
+		"access_logging": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ServiceMeshIngressGatewayAccessLoggingRepresentation},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"mtls":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: ingressGatewayMtlsRepresentation},
+		"mtls":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: ServiceMeshIngressGatewayMtlsRepresentation},
 	}
-	ingressGatewayHostsRepresentation = map[string]interface{}{
-		"listeners": acctest.RepresentationGroup{RepType: acctest.Required, Group: ingressGatewayHostsListenersRepresentation},
+	ServiceMeshIngressGatewayHostsRepresentation = map[string]interface{}{
+		"listeners": acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceMeshIngressGatewayHostsListenersRepresentation},
 		"name":      acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"hostnames": acctest.Representation{RepType: acctest.Optional, Create: []string{`hostnames`}, Update: []string{`hostnames2`}},
 	}
-	ingressGatewayAccessLoggingRepresentation = map[string]interface{}{
+	ServiceMeshIngressGatewayAccessLoggingRepresentation = map[string]interface{}{
 		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
-	ingressGatewayMtlsRepresentation = map[string]interface{}{
+	ServiceMeshIngressGatewayMtlsRepresentation = map[string]interface{}{
 		"maximum_validity": acctest.Representation{RepType: acctest.Optional, Create: `50`, Update: `51`},
 	}
-	ingressGatewayHostsListenersRepresentation = map[string]interface{}{
+	ServiceMeshIngressGatewayHostsListenersRepresentation = map[string]interface{}{
 		"port":     acctest.Representation{RepType: acctest.Required, Create: `8090`, Update: `8091`},
 		"protocol": acctest.Representation{RepType: acctest.Required, Create: `TCP`, Update: `TLS_PASSTHROUGH`},
 		"tls":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: ingressGatewayHostsListenersTlsRepresentation},
 	}
 	ingressGatewayHostsListenersTlsRepresentation = map[string]interface{}{
 		"mode":               acctest.Representation{RepType: acctest.Required, Create: `DISABLED`},
-		"client_validation":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ingressGatewayHostsListenersTlsClientValidationRepresentation},
-		"server_certificate": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ingressGatewayHostsListenersTlsServerCertificateRepresentation},
+		"client_validation":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ServiceMeshIngressGatewayHostsListenersTlsClientValidationRepresentation},
+		"server_certificate": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ServiceMeshIngressGatewayHostsListenersTlsServerCertificateRepresentation},
 	}
-	ingressGatewayHostsListenersTlsClientValidationRepresentation = map[string]interface{}{
+	ServiceMeshIngressGatewayHostsListenersTlsClientValidationRepresentation = map[string]interface{}{
 		"subject_alternate_names": acctest.Representation{RepType: acctest.Optional, Create: []string{`subjectAlternateNames`}, Update: []string{`subjectAlternateNames2`}},
-		"trusted_ca_bundle":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: ingressGatewayHostsListenersTlsClientValidationTrustedCaBundleRepresentation},
+		"trusted_ca_bundle":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: ServiceMeshIngressGatewayHostsListenersTlsClientValidationTrustedCaBundleRepresentation},
 	}
-	ingressGatewayHostsListenersTlsServerCertificateRepresentation = map[string]interface{}{
+	ServiceMeshIngressGatewayHostsListenersTlsServerCertificateRepresentation = map[string]interface{}{
 		"type":           acctest.Representation{RepType: acctest.Required, Create: `OCI_CERTIFICATES`, Update: `LOCAL_FILE`},
 		"certificate_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.certificate_id}`},
 		"secret_name":    acctest.Representation{RepType: acctest.Optional, Update: `${oci_vault_secret.secret_1.secret_name}`},
 	}
-	ingressGatewayHostsListenersTlsClientValidationTrustedCaBundleRepresentation = map[string]interface{}{
+	ServiceMeshIngressGatewayHostsListenersTlsClientValidationTrustedCaBundleRepresentation = map[string]interface{}{
 		"type":         acctest.Representation{RepType: acctest.Required, Create: `OCI_CERTIFICATES`, Update: `LOCAL_FILE`},
 		"ca_bundle_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_certificates_management_ca_bundle.ca_bundle_1.id}`},
 		"secret_name":  acctest.Representation{RepType: acctest.Optional, Update: `${oci_vault_secret.secret_1.secret_name}`},
@@ -108,11 +109,11 @@ var (
 		"time_of_absolute_expiry":                       acctest.Representation{RepType: acctest.Optional, Create: deletionTime.Format(time.RFC3339)},
 	}
 
-	IngressGatewayResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_mesh", "mesh1", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(meshRepresentation, map[string]interface{}{
+	ServiceMeshIngressGatewayResourceDependencies = DefinedTagsDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_mesh", "mesh1", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(ServiceMeshMeshRepresentation, map[string]interface{}{
 			"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreMeshDefinedTagsChangesRepresentation}})) +
 		acctest.GenerateResourceFromRepresentationMap("oci_certificates_management_ca_bundle", "ca_bundle_1", acctest.Required, acctest.Create, caBundleRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "secret_1", acctest.Required, acctest.Create, secretRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "secret_1", acctest.Required, acctest.Create, VaultSecretRepresentation)
 )
 
 // issue-routing-tag: service_mesh/default
@@ -146,14 +147,14 @@ func TestServiceMeshIngressGatewayResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+certificateIdVariableStr+certificateAuthorityIdVariableStr+vaultIdVariableStr+keyIdVariableStr+compartmentIdVariableStr+IngressGatewayResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway", "test_ingress_gateway", acctest.Optional, acctest.Create, ingressGatewayRepresentation), "servicemesh", "ingressGateway", t)
+	acctest.SaveConfigContent(config+certificateIdVariableStr+certificateAuthorityIdVariableStr+vaultIdVariableStr+keyIdVariableStr+compartmentIdVariableStr+ServiceMeshIngressGatewayResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway", "test_ingress_gateway", acctest.Optional, acctest.Create, ServiceMeshIngressGatewayRepresentation), "servicemesh", "ingressGateway", t)
 
 	acctest.ResourceTest(t, testAccCheckServiceMeshIngressGatewayDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + certificateIdVariableStr + certificateAuthorityIdVariableStr + vaultIdVariableStr + keyIdVariableStr + compartmentIdVariableStr + IngressGatewayResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway", "test_ingress_gateway", acctest.Required, acctest.Create, ingressGatewayRepresentation),
+			Config: config + certificateIdVariableStr + certificateAuthorityIdVariableStr + vaultIdVariableStr + keyIdVariableStr + compartmentIdVariableStr + ServiceMeshIngressGatewayResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway", "test_ingress_gateway", acctest.Required, acctest.Create, ServiceMeshIngressGatewayRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "hosts.#", "1"),
@@ -173,12 +174,12 @@ func TestServiceMeshIngressGatewayResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + certificateIdVariableStr + certificateAuthorityIdVariableStr + vaultIdVariableStr + keyIdVariableStr + compartmentIdVariableStr + IngressGatewayResourceDependencies,
+			Config: config + certificateIdVariableStr + certificateAuthorityIdVariableStr + vaultIdVariableStr + keyIdVariableStr + compartmentIdVariableStr + ServiceMeshIngressGatewayResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + certificateIdVariableStr + certificateAuthorityIdVariableStr + vaultIdVariableStr + keyIdVariableStr + compartmentIdVariableStr + IngressGatewayResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway", "test_ingress_gateway", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(ingressGatewayRepresentation, map[string]interface{}{
+			Config: config + certificateIdVariableStr + certificateAuthorityIdVariableStr + vaultIdVariableStr + keyIdVariableStr + compartmentIdVariableStr + ServiceMeshIngressGatewayResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway", "test_ingress_gateway", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(ServiceMeshIngressGatewayRepresentation, map[string]interface{}{
 					"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreMeshDefinedTagsChangesRepresentation}})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "access_logging.#", "1"),
@@ -226,9 +227,9 @@ func TestServiceMeshIngressGatewayResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + certificateIdVariableStr + certificateAuthorityIdVariableStr + vaultIdVariableStr + keyIdVariableStr + compartmentIdVariableStr + compartmentIdUVariableStr + IngressGatewayResourceDependencies +
+			Config: config + certificateIdVariableStr + certificateAuthorityIdVariableStr + vaultIdVariableStr + keyIdVariableStr + compartmentIdVariableStr + compartmentIdUVariableStr + ServiceMeshIngressGatewayResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway", "test_ingress_gateway", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(ingressGatewayRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(ServiceMeshIngressGatewayRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -275,8 +276,8 @@ func TestServiceMeshIngressGatewayResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + certificateIdVariableStr + certificateAuthorityIdVariableStr + vaultIdVariableStr + keyIdVariableStr + compartmentIdVariableStr + IngressGatewayResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway", "test_ingress_gateway", acctest.Optional, acctest.Update, acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{"hosts.listeners.tls.client_validation.trusted_ca_bundle.ca_bundle_id", "hosts.listeners.tls.server_certificate.certificate_id"}, ingressGatewayRepresentation)),
+			Config: config + certificateIdVariableStr + certificateAuthorityIdVariableStr + vaultIdVariableStr + keyIdVariableStr + compartmentIdVariableStr + ServiceMeshIngressGatewayResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway", "test_ingress_gateway", acctest.Optional, acctest.Update, acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{"hosts.listeners.tls.client_validation.trusted_ca_bundle.ca_bundle_id", "hosts.listeners.tls.server_certificate.certificate_id"}, ServiceMeshIngressGatewayRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "access_logging.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "access_logging.0.is_enabled", "true"),
@@ -321,15 +322,15 @@ func TestServiceMeshIngressGatewayResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_service_mesh_ingress_gateways", "test_ingress_gateways", acctest.Optional, acctest.Update, ingressGatewayDataSourceRepresentation) +
-				vaultIdVariableStr + keyIdVariableStr + certificateIdVariableStr + certificateAuthorityIdVariableStr + compartmentIdVariableStr + IngressGatewayResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway", "test_ingress_gateway", acctest.Optional, acctest.Update, acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{"hosts.listeners.tls.client_validation.trusted_ca_bundle.ca_bundle_id", "hosts.listeners.tls.server_certificate.certificate_id"}, ingressGatewayRepresentation)),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_service_mesh_ingress_gateways", "test_ingress_gateways", acctest.Optional, acctest.Update, ServiceMeshServiceMeshIngressGatewayDataSourceRepresentation) +
+				vaultIdVariableStr + keyIdVariableStr + certificateIdVariableStr + certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshIngressGatewayResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway", "test_ingress_gateway", acctest.Optional, acctest.Update, acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{"hosts.listeners.tls.client_validation.trusted_ca_bundle.ca_bundle_id", "hosts.listeners.tls.server_certificate.certificate_id"}, ServiceMeshIngressGatewayRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "mesh_id"),
 				resource.TestCheckResourceAttr(datasourceName, "name", "name"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "ingress_gateway_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "ingress_gateway_collection.0.items.#", "0"),
@@ -338,9 +339,8 @@ func TestServiceMeshIngressGatewayResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_service_mesh_ingress_gateway", "test_ingress_gateway", acctest.Required, acctest.Create, ingressGatewaySingularDataSourceRepresentation) +
-				vaultIdVariableStr + keyIdVariableStr + certificateIdVariableStr + certificateAuthorityIdVariableStr + compartmentIdVariableStr + IngressGatewayResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway", "test_ingress_gateway", acctest.Optional, acctest.Update, acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{"hosts.listeners.tls.client_validation.trusted_ca_bundle.ca_bundle_id", "hosts.listeners.tls.server_certificate.certificate_id"}, ingressGatewayRepresentation)),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_service_mesh_ingress_gateway", "test_ingress_gateway", acctest.Required, acctest.Create, ServiceMeshServiceMeshIngressGatewaySingularDataSourceRepresentation) +
+				vaultIdVariableStr + keyIdVariableStr + certificateIdVariableStr + certificateAuthorityIdVariableStr + compartmentIdVariableStr + ServiceMeshIngressGatewayResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_service_mesh_ingress_gateway", "test_ingress_gateway", acctest.Optional, acctest.Update, acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{"hosts.listeners.tls.client_validation.trusted_ca_bundle.ca_bundle_id", "hosts.listeners.tls.server_certificate.certificate_id"}, ServiceMeshIngressGatewayRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ingress_gateway_id"),
 
@@ -375,7 +375,7 @@ func TestServiceMeshIngressGatewayResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + IngressGatewayRequiredOnlyResource,
+			Config:                  config + ServiceMeshIngressGatewayRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -439,7 +439,7 @@ func init() {
 
 func sweepServiceMeshIngressGatewayResource(compartment string) error {
 	serviceMeshClient := acctest.GetTestClients(&schema.ResourceData{}).ServiceMeshClient()
-	ingressGatewayIds, err := getIngressGatewayIds(compartment)
+	ingressGatewayIds, err := getServiceMeshIngressGatewayIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -455,14 +455,14 @@ func sweepServiceMeshIngressGatewayResource(compartment string) error {
 				fmt.Printf("Error deleting IngressGateway %s %s, It is possible that the resource is already deleted. Please verify manually \n", ingressGatewayId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &ingressGatewayId, ingressGatewaySweepWaitCondition, time.Duration(3*time.Minute),
-				ingressGatewaySweepResponseFetchOperation, "service_mesh", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &ingressGatewayId, ServiceMeshIngressGatewaySweepWaitCondition, time.Duration(3*time.Minute),
+				ServiceMeshIngressGatewaySweepResponseFetchOperation, "service_mesh", true)
 		}
 	}
 	return nil
 }
 
-func getIngressGatewayIds(compartment string) ([]string, error) {
+func getServiceMeshIngressGatewayIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "IngressGatewayId")
 	if ids != nil {
 		return ids, nil
@@ -473,8 +473,7 @@ func getIngressGatewayIds(compartment string) ([]string, error) {
 
 	listIngressGatewaysRequest := oci_service_mesh.ListIngressGatewaysRequest{}
 	listIngressGatewaysRequest.CompartmentId = &compartmentId
-	active := "ACTIVE"
-	listIngressGatewaysRequest.LifecycleState = &active
+	listIngressGatewaysRequest.LifecycleState = oci_service_mesh.IngressGatewayLifecycleStateActive
 	listIngressGatewaysResponse, err := serviceMeshClient.ListIngressGateways(context.Background(), listIngressGatewaysRequest)
 
 	if err != nil {
@@ -488,7 +487,7 @@ func getIngressGatewayIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func ingressGatewaySweepWaitCondition(response common.OCIOperationResponse) bool {
+func ServiceMeshIngressGatewaySweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if ingressGatewayResponse, ok := response.Response.(oci_service_mesh.GetIngressGatewayResponse); ok {
 		return ingressGatewayResponse.LifecycleState != oci_service_mesh.IngressGatewayLifecycleStateDeleted
@@ -496,7 +495,7 @@ func ingressGatewaySweepWaitCondition(response common.OCIOperationResponse) bool
 	return false
 }
 
-func ingressGatewaySweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func ServiceMeshIngressGatewaySweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.ServiceMeshClient().GetIngressGateway(context.Background(), oci_service_mesh.GetIngressGatewayRequest{
 		IngressGatewayId: resourceId,
 		RequestMetadata: common.RequestMetadata{

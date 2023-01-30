@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -11,17 +11,17 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	HttpProbeRequiredOnlyResource = HttpProbeResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_health_checks_http_probe", "test_http_probe", acctest.Required, acctest.Create, httpProbeRepresentation)
+	HealthChecksHttpProbeRequiredOnlyResource = HealthChecksHttpProbeResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_health_checks_http_probe", "test_http_probe", acctest.Required, acctest.Create, HealthChecksHttpProbeRepresentation)
 
-	httpProbeRepresentation = map[string]interface{}{
+	HealthChecksHttpProbeRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"protocol":            acctest.Representation{RepType: acctest.Required, Create: `HTTP`},
 		"targets":             acctest.Representation{RepType: acctest.Required, Create: []string{`www.oracle.com`}},
@@ -33,7 +33,7 @@ var (
 		"vantage_point_names": acctest.Representation{RepType: acctest.Optional, Create: []string{`goo-chs`}},
 	}
 
-	HttpProbeResourceDependencies = ""
+	HealthChecksHttpProbeResourceDependencies = ""
 )
 
 // issue-routing-tag: health_checks/default
@@ -50,14 +50,14 @@ func TestHealthChecksHttpProbeResource_basic(t *testing.T) {
 
 	var resId string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+HttpProbeResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_health_checks_http_probe", "test_http_probe", acctest.Optional, acctest.Create, httpProbeRepresentation), "healthchecks", "httpProbe", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+HealthChecksHttpProbeResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_health_checks_http_probe", "test_http_probe", acctest.Optional, acctest.Create, HealthChecksHttpProbeRepresentation), "healthchecks", "httpProbe", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + HttpProbeResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_health_checks_http_probe", "test_http_probe", acctest.Required, acctest.Create, httpProbeRepresentation),
+			Config: config + compartmentIdVariableStr + HealthChecksHttpProbeResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_health_checks_http_probe", "test_http_probe", acctest.Required, acctest.Create, HealthChecksHttpProbeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
@@ -67,12 +67,12 @@ func TestHealthChecksHttpProbeResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + HttpProbeResourceDependencies,
+			Config: config + compartmentIdVariableStr + HealthChecksHttpProbeResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + HttpProbeResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_health_checks_http_probe", "test_http_probe", acctest.Optional, acctest.Create, httpProbeRepresentation),
+			Config: config + compartmentIdVariableStr + HealthChecksHttpProbeResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_health_checks_http_probe", "test_http_probe", acctest.Optional, acctest.Create, HealthChecksHttpProbeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "headers.%", "1"),

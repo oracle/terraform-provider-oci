@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -40,6 +40,9 @@ type ConnectionSummary interface {
 	// The time the connection was updated. Format defined by RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339).
 	GetTimeUpdated() *common.SDKTime
 
+	// A detailed message describing the current state. For example, can be used to provide actionable information for a resource in Failed state.
+	GetLifecycleDetails() *string
+
 	// The current state of the connection.
 	GetLifecycleState() ConnectionLifecycleStateEnum
 
@@ -54,19 +57,20 @@ type ConnectionSummary interface {
 }
 
 type connectionsummary struct {
-	JsonData       []byte
-	Id             *string                           `mandatory:"true" json:"id"`
-	CompartmentId  *string                           `mandatory:"true" json:"compartmentId"`
-	ProjectId      *string                           `mandatory:"true" json:"projectId"`
-	DisplayName    *string                           `mandatory:"false" json:"displayName"`
-	Description    *string                           `mandatory:"false" json:"description"`
-	TimeCreated    *common.SDKTime                   `mandatory:"false" json:"timeCreated"`
-	TimeUpdated    *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
-	LifecycleState ConnectionLifecycleStateEnum      `mandatory:"false" json:"lifecycleState,omitempty"`
-	FreeformTags   map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags    map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	SystemTags     map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-	ConnectionType string                            `json:"connectionType"`
+	JsonData         []byte
+	Id               *string                           `mandatory:"true" json:"id"`
+	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
+	ProjectId        *string                           `mandatory:"true" json:"projectId"`
+	DisplayName      *string                           `mandatory:"false" json:"displayName"`
+	Description      *string                           `mandatory:"false" json:"description"`
+	TimeCreated      *common.SDKTime                   `mandatory:"false" json:"timeCreated"`
+	TimeUpdated      *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
+	LifecycleDetails *string                           `mandatory:"false" json:"lifecycleDetails"`
+	LifecycleState   ConnectionLifecycleStateEnum      `mandatory:"false" json:"lifecycleState,omitempty"`
+	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	SystemTags       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	ConnectionType   string                            `json:"connectionType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -87,6 +91,7 @@ func (m *connectionsummary) UnmarshalJSON(data []byte) error {
 	m.Description = s.Model.Description
 	m.TimeCreated = s.Model.TimeCreated
 	m.TimeUpdated = s.Model.TimeUpdated
+	m.LifecycleDetails = s.Model.LifecycleDetails
 	m.LifecycleState = s.Model.LifecycleState
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
@@ -109,12 +114,24 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := BitbucketCloudAppPasswordConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "VBS_ACCESS_TOKEN":
+		mm := VbsAccessTokenConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GITHUB_ACCESS_TOKEN":
 		mm := GithubAccessTokenConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "GITLAB_ACCESS_TOKEN":
 		mm := GitlabAccessTokenConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "BITBUCKET_SERVER_ACCESS_TOKEN":
+		mm := BitbucketServerTokenConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GITLAB_SERVER_ACCESS_TOKEN":
+		mm := GitlabServerAccessTokenConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -155,6 +172,11 @@ func (m connectionsummary) GetTimeCreated() *common.SDKTime {
 //GetTimeUpdated returns TimeUpdated
 func (m connectionsummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
+}
+
+//GetLifecycleDetails returns LifecycleDetails
+func (m connectionsummary) GetLifecycleDetails() *string {
+	return m.LifecycleDetails
 }
 
 //GetLifecycleState returns LifecycleState

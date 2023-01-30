@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,32 +7,32 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	managedDatabasesResetDatabaseParameterRepresentation = map[string]interface{}{
-		"credentials":         acctest.RepresentationGroup{RepType: acctest.Required, Group: managedDatabasesResetDatabaseParameterCredentialsRepresentation},
+	DatabaseManagementManagedDatabasesResetDatabaseParameterRepresentation = map[string]interface{}{
+		"credentials":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementManagedDatabasesResetDatabaseParameterCredentialsRepresentation},
 		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: "ocid.database.testId"},
 		"parameters":          acctest.Representation{RepType: acctest.Required, Create: []string{"open_cursors"}},
 		"scope":               acctest.Representation{RepType: acctest.Required, Create: `BOTH`},
 	}
 
-	managedDatabasesResetDatabaseParameterCredentialsRepresentation = map[string]interface{}{
+	DatabaseManagementManagedDatabasesResetDatabaseParameterCredentialsRepresentation = map[string]interface{}{
 		"password":  acctest.Representation{RepType: acctest.Optional, Create: `system`},
 		"role":      acctest.Representation{RepType: acctest.Optional, Create: `NORMAL`},
 		"secret_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_vault_secret.test_secret.id}`},
 		"user_name": acctest.Representation{RepType: acctest.Optional, Create: `system`},
 	}
 
-	ManagedDatabasesResetDatabaseParameterResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_databases", "test_managed_databases", acctest.Required, acctest.Create, managedDatabaseDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", acctest.Required, acctest.Create, vaultRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_vault_secrets", "test_secrets", acctest.Required, acctest.Create, secretDataSourceRepresentation)
+	DatabaseManagementManagedDatabasesResetDatabaseParameterResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_databases", "test_managed_databases", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", acctest.Required, acctest.Create, KmsVaultRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_vault_secrets", "test_secrets", acctest.Required, acctest.Create, VaultVaultSecretDataSourceRepresentation)
 )
 
 // issue-routing-tag: database_management/default
@@ -49,12 +49,12 @@ func TestDatabaseManagementManagedDatabasesResetDatabaseParameterResource_basic(
 	resourceName := "oci_database_management_managed_databases_reset_database_parameter.test_managed_databases_reset_database_parameter"
 
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+acctest.GenerateResourceFromRepresentationMap("oci_database_management_managed_databases_reset_database_parameter", "test_managed_databases_reset_database_parameter", acctest.Required, acctest.Create, managedDatabasesResetDatabaseParameterRepresentation), "databasemanagement", "managedDatabasesResetDatabaseParameter", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+acctest.GenerateResourceFromRepresentationMap("oci_database_management_managed_databases_reset_database_parameter", "test_managed_databases_reset_database_parameter", acctest.Required, acctest.Create, DatabaseManagementManagedDatabasesResetDatabaseParameterRepresentation), "databasemanagement", "managedDatabasesResetDatabaseParameter", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + acctest.GenerateResourceFromRepresentationMap("oci_database_management_managed_databases_reset_database_parameter", "test_managed_databases_reset_database_parameter", acctest.Required, acctest.Create, managedDatabasesResetDatabaseParameterRepresentation),
+			Config: config + compartmentIdVariableStr + acctest.GenerateResourceFromRepresentationMap("oci_database_management_managed_databases_reset_database_parameter", "test_managed_databases_reset_database_parameter", acctest.Required, acctest.Create, DatabaseManagementManagedDatabasesResetDatabaseParameterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "credentials.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "managed_database_id"),

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,21 +22,21 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_events "github.com/oracle/oci-go-sdk/v65/events"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	RuleRequiredOnlyResource = RuleResourceDependencies +
+	EventsRuleRequiredOnlyResource = EventsRuleResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_events_rule", "test_rule", acctest.Required, acctest.Create, ruleRepresentation)
 
-	RuleResourceConfig = RuleResourceDependencies +
+	EventsRuleResourceConfig = EventsRuleResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_events_rule", "test_rule", acctest.Optional, acctest.Update, ruleRepresentation)
 
-	ruleSingularDataSourceRepresentation = map[string]interface{}{
+	EventsruleSingularDataSourceRepresentation = map[string]interface{}{
 		"rule_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_events_rule.test_rule.id}`},
 	}
 
-	ruleDataSourceRepresentation = map[string]interface{}{
+	EventsruleDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `This rule sends a notification upon completion of DbaaS backup`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`},
@@ -82,13 +82,13 @@ var (
 		"function_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_functions_function.test_function.id}`},
 	}
 
-	RuleResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, applicationRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, functionRepresentation) +
+	EventsRuleResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsApplicationRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionRepresentation) +
 		DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, notificationTopicRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Required, acctest.Create, streamRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Required, acctest.Create, StreamingStreamRepresentation)
 )
 
 // issue-routing-tag: events/default
@@ -113,13 +113,13 @@ func TestEventsRuleResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+RuleResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+EventsRuleResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_events_rule", "test_rule", acctest.Optional, acctest.Create, ruleRepresentation), "events", "rule", t)
 
 	acctest.ResourceTest(t, testAccCheckEventsRuleDestroy, []resource.TestStep{
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + imageVariableStr + RuleResourceDependencies +
+			Config: config + compartmentIdVariableStr + imageVariableStr + EventsRuleResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_events_rule", "test_rule", acctest.Optional, acctest.Create, ruleRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "actions.#", "1"),
@@ -158,7 +158,7 @@ func TestEventsRuleResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + imageVariableStr + compartmentIdUVariableStr + RuleResourceDependencies +
+			Config: config + compartmentIdVariableStr + imageVariableStr + compartmentIdUVariableStr + EventsRuleResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_events_rule", "test_rule", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(ruleRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -198,7 +198,7 @@ func TestEventsRuleResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + imageVariableStr + RuleResourceDependencies +
+			Config: config + compartmentIdVariableStr + imageVariableStr + EventsRuleResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_events_rule", "test_rule", acctest.Optional, acctest.Update,
 					acctest.GetUpdatedRepresentationCopy("actions", acctest.RepresentationGroup{RepType: acctest.Optional, Group: ruleActionsUpdateRepresentation}, ruleRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -256,8 +256,8 @@ func TestEventsRuleResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_events_rules", "test_rules", acctest.Optional, acctest.Update, ruleDataSourceRepresentation) +
-				compartmentIdVariableStr + imageVariableStr + RuleResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_events_rules", "test_rules", acctest.Optional, acctest.Update, EventsruleDataSourceRepresentation) +
+				compartmentIdVariableStr + imageVariableStr + EventsRuleResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_events_rule", "test_rule", acctest.Optional, acctest.Update, ruleRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -279,8 +279,8 @@ func TestEventsRuleResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_events_rule", "test_rule", acctest.Required, acctest.Create, ruleSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + imageVariableStr + RuleResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_events_rule", "test_rule", acctest.Required, acctest.Create, EventsruleSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + imageVariableStr + EventsRuleResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "rule_id"),
 
@@ -299,7 +299,7 @@ func TestEventsRuleResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + RuleRequiredOnlyResource,
+			Config:                  config + EventsRuleRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -363,7 +363,7 @@ func init() {
 
 func sweepEventsRuleResource(compartment string) error {
 	eventsClient := acctest.GetTestClients(&schema.ResourceData{}).EventsClient()
-	ruleIds, err := getRuleIds(compartment)
+	ruleIds, err := getEventsRuleIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -379,14 +379,14 @@ func sweepEventsRuleResource(compartment string) error {
 				fmt.Printf("Error deleting Rule %s %s, It is possible that the resource is already deleted. Please verify manually \n", ruleId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &ruleId, ruleSweepWaitCondition, time.Duration(3*time.Minute),
-				ruleSweepResponseFetchOperation, "events", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &ruleId, EventsrulesSweepWaitCondition, time.Duration(3*time.Minute),
+				EventsrulesSweepResponseFetchOperation, "events", true)
 		}
 	}
 	return nil
 }
 
-func getRuleIds(compartment string) ([]string, error) {
+func getEventsRuleIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "RuleId")
 	if ids != nil {
 		return ids, nil
@@ -411,7 +411,7 @@ func getRuleIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func ruleSweepWaitCondition(response common.OCIOperationResponse) bool {
+func EventsrulesSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if ruleResponse, ok := response.Response.(oci_events.GetRuleResponse); ok {
 		return ruleResponse.LifecycleState != oci_events.RuleLifecycleStateDeleted
@@ -419,7 +419,7 @@ func ruleSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func ruleSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func EventsrulesSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.EventsClient().GetRule(context.Background(), oci_events.GetRuleRequest{
 		RuleId: resourceId,
 		RequestMetadata: common.RequestMetadata{

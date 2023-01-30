@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,19 +9,19 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	vmClusterNetworkDownloadConfigFileSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseVmClusterNetworkDownloadConfigFileSingularDataSourceRepresentation = map[string]interface{}{
 		"exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
 		"vm_cluster_network_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster_network.test_vm_cluster_network.id}`},
 		"base64_encode_content":     acctest.Representation{RepType: acctest.Optional, Create: `true`},
 	}
 
-	VmClusterNetworkDownloadConfigFileResourceConfig = VmClusterNetworkValidatedResourceConfig
+	DatabaseVmClusterNetworkDownloadConfigFileResourceConfig = VmClusterNetworkValidatedResourceConfig
 )
 
 // issue-routing-tag: database/ExaCC
@@ -42,8 +42,8 @@ func TestDatabaseVmClusterNetworkDownloadConfigFileResource_basic(t *testing.T) 
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_network_download_config_file", "test_vm_cluster_network_download_config_file", acctest.Required, acctest.Create, vmClusterNetworkDownloadConfigFileSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + VmClusterNetworkDownloadConfigFileResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_network_download_config_file", "test_vm_cluster_network_download_config_file", acctest.Required, acctest.Create, DatabaseDatabaseVmClusterNetworkDownloadConfigFileSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseVmClusterNetworkDownloadConfigFileResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_infrastructure_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vm_cluster_network_id"),
@@ -54,8 +54,8 @@ func TestDatabaseVmClusterNetworkDownloadConfigFileResource_basic(t *testing.T) 
 
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_network_download_config_file", "test_vm_cluster_network_download_config_file", acctest.Optional, acctest.Create, vmClusterNetworkDownloadConfigFileSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + VmClusterNetworkDownloadConfigFileResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_network_download_config_file", "test_vm_cluster_network_download_config_file", acctest.Optional, acctest.Create, DatabaseDatabaseVmClusterNetworkDownloadConfigFileSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseVmClusterNetworkDownloadConfigFileResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_infrastructure_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vm_cluster_network_id"),

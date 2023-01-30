@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package data_safe
@@ -12,8 +12,8 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func DataSafeAuditProfileAvailableAuditVolumesDataSource() *schema.Resource {
@@ -199,6 +199,28 @@ func (s *DataSafeAuditProfileAvailableAuditVolumesDataSourceCrud) SetData() erro
 }
 
 func AvailableAuditVolumesSummaryToMap(obj oci_data_safe.AvailableAuditVolumeSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AuditProfileId != nil {
+		result["audit_profile_id"] = string(*obj.AuditProfileId)
+	}
+
+	if obj.MonthInConsideration != nil {
+		result["month_in_consideration"] = obj.MonthInConsideration.String()
+	}
+
+	if obj.TrailLocation != nil {
+		result["trail_location"] = string(*obj.TrailLocation)
+	}
+
+	if obj.Volume != nil {
+		result["volume"] = strconv.FormatInt(*obj.Volume, 10)
+	}
+
+	return result
+}
+
+func AvailableAuditVolumeSummaryToMap(obj oci_data_safe.AvailableAuditVolumeSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.AuditProfileId != nil {

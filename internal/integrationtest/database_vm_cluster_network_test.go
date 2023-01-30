@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,57 +22,59 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	VmClusterNetworkRequiredOnlyResource = VmClusterNetworkResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Required, acctest.Create, vmClusterNetworkRepresentation)
+	DatabaseVmClusterNetworkRequiredOnlyResource = DatabaseVmClusterNetworkResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Required, acctest.Create, DatabaseVmClusterNetworkRepresentation)
 
-	VmClusterNetworkResourceConfig = VmClusterNetworkResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Optional, acctest.Update, vmClusterNetworkRepresentation)
+	DatabaseVmClusterNetworkResourceConfig = DatabaseVmClusterNetworkResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Optional, acctest.Update, DatabaseVmClusterNetworkRepresentation)
 
-	vmClusterNetworkSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseVmClusterNetworkSingularDataSourceRepresentation = map[string]interface{}{
 		"exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
 		"vm_cluster_network_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster_network.test_vm_cluster_network.id}`},
 	}
 
-	vmClusterNetworkDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseVmClusterNetworkDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `testVmClusterNw`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `REQUIRES_VALIDATION`},
-		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: vmClusterNetworkDataSourceFilterRepresentation}}
-	vmClusterNetworkDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseVmClusterNetworkDataSourceFilterRepresentation}}
+	DatabaseVmClusterNetworkDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_vm_cluster_network.test_vm_cluster_network.id}`}},
 	}
 
-	vmClusterNetworkRepresentation = map[string]interface{}{
+	DatabaseVmClusterNetworkRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":              acctest.Representation{RepType: acctest.Required, Create: `testVmClusterNw`},
 		"exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
-		"scans":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: vmClusterNetworkScansRepresentation},
-		"vm_networks":               []acctest.RepresentationGroup{{RepType: acctest.Required, Group: vmClusterNetworkBackupVmNetworkRepresentation}, {RepType: acctest.Required, Group: vmClusterNetworkClientVmNetworkRepresentation}},
+		"scans":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseVmClusterNetworkScansRepresentation},
+		"vm_networks":               []acctest.RepresentationGroup{{RepType: acctest.Required, Group: DatabaseVmClusterNetworkBackupVmNetworkRepresentation}, {RepType: acctest.Required, Group: DatabaseVmClusterNetworkClientVmNetworkRepresentation}},
 		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"dns":                       acctest.Representation{RepType: acctest.Optional, Create: []string{`192.168.10.10`}, Update: []string{`192.168.10.12`}},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"ntp":                       acctest.Representation{RepType: acctest.Optional, Create: []string{`192.168.10.20`}, Update: []string{`192.168.10.22`}},
+		"lifecycle":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: vmClusterNetworkIgnoreNetworkRepresentation},
 	}
 
 	vmClusterNetwork2Representation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":              acctest.Representation{RepType: acctest.Required, Create: `testVmClusterNw`},
 		"exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
-		"scans":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: vmClusterNetwork2ScansRepresentation},
-		"vm_networks":               []acctest.RepresentationGroup{{RepType: acctest.Required, Group: vmClusterNetwork2BackupVmNetworkRepresentation}, {RepType: acctest.Required, Group: vmClusterNetwork2ClientVmNetworkRepresentation}},
+		"scans":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseVmClusterNetwork2ScansRepresentation},
+		"vm_networks":               []acctest.RepresentationGroup{{RepType: acctest.Required, Group: DatabaseVmClusterNetwork2BackupVmNetworkRepresentation}, {RepType: acctest.Required, Group: DatabaseVmClusterNetwork2ClientVmNetworkRepresentation}},
 		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"dns":                       acctest.Representation{RepType: acctest.Optional, Create: []string{`192.168.10.10`}, Update: []string{`192.168.10.12`}},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"ntp":                       acctest.Representation{RepType: acctest.Optional, Create: []string{`192.168.10.20`}, Update: []string{`192.168.10.22`}},
+		"lifecycle":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: vmClusterNetworkIgnoreNetworkRepresentation},
 	}
 
-	vmClusterNetworkScansRepresentation = map[string]interface{}{
+	DatabaseVmClusterNetworkScansRepresentation = map[string]interface{}{
 		"hostname":                   acctest.Representation{RepType: acctest.Required, Create: `myprefix1-ivmmj-scan`, Update: `myprefix2-ivmmj-scan`},
 		"ips":                        acctest.Representation{RepType: acctest.Required, Create: []string{`192.168.19.7`, `192.168.19.6`, `192.168.19.8`}, Update: []string{`192.168.19.7`, `192.168.19.8`, `192.168.19.9`}},
 		"port":                       acctest.Representation{RepType: acctest.Required, Create: `1521`, Update: `1522`},
@@ -80,7 +82,7 @@ var (
 		"scan_listener_port_tcp_ssl": acctest.Representation{RepType: acctest.Optional, Create: `2484`, Update: `2484`},
 	}
 
-	vmClusterNetwork2ScansRepresentation = map[string]interface{}{
+	DatabaseVmClusterNetwork2ScansRepresentation = map[string]interface{}{
 		"hostname":                   acctest.Representation{RepType: acctest.Required, Create: `myprefix4-ivmmj-scan`, Update: `myprefix3-ivmmj-scan`},
 		"ips":                        acctest.Representation{RepType: acctest.Required, Create: []string{`192.168.19.26`, `192.168.19.27`, `192.168.19.28`}, Update: []string{`192.168.19.27`, `192.168.19.28`, `192.168.19.29`}},
 		"port":                       acctest.Representation{RepType: acctest.Required, Create: `1521`, Update: `1522`},
@@ -88,92 +90,165 @@ var (
 		"scan_listener_port_tcp_ssl": acctest.Representation{RepType: acctest.Optional, Create: `2484`, Update: `2484`},
 	}
 
-	vmClusterNetworkBackupVmNetworkRepresentation = map[string]interface{}{
+	DatabaseVmClusterNetworkBackupVmNetworkRepresentation = map[string]interface{}{
 		"domain_name":  acctest.Representation{RepType: acctest.Required, Create: `oracle.com`, Update: `oracle.com`},
 		"gateway":      acctest.Representation{RepType: acctest.Required, Create: `192.169.20.1`, Update: `192.169.20.2`},
 		"netmask":      acctest.Representation{RepType: acctest.Required, Create: `255.255.0.0`, Update: `255.255.192.0`},
 		"network_type": acctest.Representation{RepType: acctest.Required, Create: `BACKUP`, Update: `BACKUP`},
-		"nodes":        []acctest.RepresentationGroup{{RepType: acctest.Required, Group: vmClusterNetworkVmNetworksBackupNodes1Representation}, {RepType: acctest.Required, Group: vmClusterNetworkVmNetworksBackupNodes2Representation}},
+		"nodes":        []acctest.RepresentationGroup{{RepType: acctest.Required, Group: DatabaseVmClusterNetworkVmNetworksBackupNodes1Representation}, {RepType: acctest.Required, Group: DatabaseVmClusterNetworkVmNetworksBackupNodes2Representation}},
 		"vlan_id":      acctest.Representation{RepType: acctest.Required, Create: `100`},
 	}
 
-	vmClusterNetwork2BackupVmNetworkRepresentation = map[string]interface{}{
+	DatabaseVmClusterNetwork2BackupVmNetworkRepresentation = map[string]interface{}{
 		"domain_name":  acctest.Representation{RepType: acctest.Required, Create: `oracle.com`, Update: `oracle.com`},
 		"gateway":      acctest.Representation{RepType: acctest.Required, Create: `192.169.20.2`, Update: `192.169.20.3`},
 		"netmask":      acctest.Representation{RepType: acctest.Required, Create: `255.255.0.0`, Update: `255.255.192.0`},
 		"network_type": acctest.Representation{RepType: acctest.Required, Create: `BACKUP`, Update: `BACKUP`},
-		"nodes":        []acctest.RepresentationGroup{{RepType: acctest.Required, Group: vmClusterNetwork2VmNetworksBackupNodes1Representation}, {RepType: acctest.Required, Group: vmClusterNetwork2VmNetworksBackupNodes2Representation}},
+		"nodes":        []acctest.RepresentationGroup{{RepType: acctest.Required, Group: DatabaseVmClusterNetwork2VmNetworksBackupNodes1Representation}, {RepType: acctest.Required, Group: DatabaseVmClusterNetwork2VmNetworksBackupNodes2Representation}},
 		"vlan_id":      acctest.Representation{RepType: acctest.Required, Create: `100`},
 	}
 
-	vmClusterNetworkClientVmNetworkRepresentation = map[string]interface{}{
+	DatabaseVmClusterNetworkClientVmNetworkRepresentation = map[string]interface{}{
 		"domain_name":  acctest.Representation{RepType: acctest.Required, Create: `oracle.com`, Update: `oracle.com`},
 		"gateway":      acctest.Representation{RepType: acctest.Required, Create: `192.168.20.1`, Update: `192.168.20.2`},
 		"netmask":      acctest.Representation{RepType: acctest.Required, Create: `255.255.0.0`, Update: `255.255.192.0`},
 		"network_type": acctest.Representation{RepType: acctest.Required, Create: `CLIENT`, Update: `CLIENT`},
-		"nodes":        []acctest.RepresentationGroup{{RepType: acctest.Required, Group: vmClusterNetworkVmNetworksClientNodes1Representation}, {RepType: acctest.Required, Group: vmClusterNetworkVmNetworksClientNodes2Representation}},
+		"nodes":        []acctest.RepresentationGroup{{RepType: acctest.Required, Group: DatabaseVmClusterNetworkVmNetworksClientNodes1Representation}, {RepType: acctest.Required, Group: DatabaseVmClusterNetworkVmNetworksClientNodes2Representation}},
 		"vlan_id":      acctest.Representation{RepType: acctest.Required, Create: `101`},
 	}
 
-	vmClusterNetwork2ClientVmNetworkRepresentation = map[string]interface{}{
+	DatabaseVmClusterNetwork2ClientVmNetworkRepresentation = map[string]interface{}{
 		"domain_name":  acctest.Representation{RepType: acctest.Required, Create: `oracle.com`, Update: `oracle.com`},
 		"gateway":      acctest.Representation{RepType: acctest.Required, Create: `192.168.20.2`, Update: `192.168.20.3`},
 		"netmask":      acctest.Representation{RepType: acctest.Required, Create: `255.255.0.0`, Update: `255.255.192.0`},
 		"network_type": acctest.Representation{RepType: acctest.Required, Create: `CLIENT`, Update: `CLIENT`},
-		"nodes":        []acctest.RepresentationGroup{{RepType: acctest.Required, Group: vmClusterNetwork2VmNetworksClientNodes1Representation}, {RepType: acctest.Required, Group: vmClusterNetwork2VmNetworksClientNodes2Representation}},
+		"nodes":        []acctest.RepresentationGroup{{RepType: acctest.Required, Group: DatabaseVmClusterNetwork2VmNetworksClientNodes1Representation}, {RepType: acctest.Required, Group: DatabaseVmClusterNetwork2VmNetworksClientNodes2Representation}},
 		"vlan_id":      acctest.Representation{RepType: acctest.Required, Create: `101`},
 	}
 
-	vmClusterNetworkVmNetworksClientNodes1Representation = map[string]interface{}{
+	DatabaseVmClusterNetworkVmNetworksClientNodes1Representation = map[string]interface{}{
 		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb21`, Update: `myprefix2-xapb22`},
 		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.168.19.10`, Update: `192.168.19.11`},
 		"vip":          acctest.Representation{RepType: acctest.Required, Create: `192.168.19.12`, Update: `192.168.19.13`},
 		"vip_hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb21-vip`, Update: `myprefix2-xapb22-vip`},
+		"db_server_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_servers.test_db_servers.db_servers.0.id}`},
 	}
 
-	vmClusterNetwork2VmNetworksClientNodes1Representation = map[string]interface{}{
+	DatabaseVmClusterNetwork2VmNetworksClientNodes1Representation = map[string]interface{}{
 		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb31`, Update: `myprefix2-xapb32`},
 		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.168.19.18`, Update: `192.168.19.19`},
 		"vip":          acctest.Representation{RepType: acctest.Required, Create: `192.168.19.20`, Update: `192.168.19.21`},
 		"vip_hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb31-vip`, Update: `myprefix2-xapb32-vip`},
+		"db_server_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_servers.test_db_servers.db_servers.0.id}`},
 	}
 
-	vmClusterNetworkVmNetworksClientNodes2Representation = map[string]interface{}{
+	DatabaseVmClusterNetworkVmNetworksClientNodes2Representation = map[string]interface{}{
 		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb25`, Update: `myprefix2-xapb26`},
 		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.168.19.14`, Update: `192.168.19.15`},
 		"vip":          acctest.Representation{RepType: acctest.Required, Create: `192.168.19.16`, Update: `192.168.19.17`},
 		"vip_hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb25-vip`, Update: `myprefix2-xapb26-vip`},
+		"db_server_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_servers.test_db_servers.db_servers.1.id}`},
 	}
 
-	vmClusterNetwork2VmNetworksClientNodes2Representation = map[string]interface{}{
+	DatabaseVmClusterNetwork2VmNetworksClientNodes2Representation = map[string]interface{}{
 		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb35`, Update: `myprefix2-xapb36`},
 		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.168.19.22`, Update: `192.168.19.23`},
 		"vip":          acctest.Representation{RepType: acctest.Required, Create: `192.168.19.24`, Update: `192.168.19.25`},
 		"vip_hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb35-vip`, Update: `myprefix2-xapb36-vip`},
+		"db_server_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_servers.test_db_servers.db_servers.1.id}`},
 	}
 
-	vmClusterNetworkVmNetworksBackupNodes1Representation = map[string]interface{}{
-		"hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb23`, Update: `myprefix2-xapb24`},
-		"ip":       acctest.Representation{RepType: acctest.Required, Create: `192.169.19.18`, Update: `192.169.19.19`},
+	DatabaseVmClusterNetworkVmNetworksBackupNodes1Representation = map[string]interface{}{
+		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb23`, Update: `myprefix2-xapb24`},
+		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.169.19.18`, Update: `192.169.19.19`},
+		"db_server_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_servers.test_db_servers.db_servers.0.id}`},
 	}
-	vmClusterNetworkVmNetworksBackupNodes2Representation = map[string]interface{}{
-		"hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb27`, Update: `myprefix2-xapb28`},
-		"ip":       acctest.Representation{RepType: acctest.Required, Create: `192.169.19.20`, Update: `192.169.19.21`},
-	}
-
-	vmClusterNetwork2VmNetworksBackupNodes1Representation = map[string]interface{}{
-		"hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb33`, Update: `myprefix2-xapb34`},
-		"ip":       acctest.Representation{RepType: acctest.Required, Create: `192.169.19.22`, Update: `192.169.19.23`},
+	DatabaseVmClusterNetworkVmNetworksBackupNodes2Representation = map[string]interface{}{
+		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb27`, Update: `myprefix2-xapb28`},
+		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.169.19.20`, Update: `192.169.19.21`},
+		"db_server_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_servers.test_db_servers.db_servers.1.id}`},
 	}
 
-	vmClusterNetwork2VmNetworksBackupNodes2Representation = map[string]interface{}{
-		"hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb37`, Update: `myprefix2-xapb38`},
-		"ip":       acctest.Representation{RepType: acctest.Required, Create: `192.169.19.24`, Update: `192.169.19.25`},
+	DatabaseVmClusterNetwork2VmNetworksBackupNodes1Representation = map[string]interface{}{
+		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb33`, Update: `myprefix2-xapb34`},
+		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.169.19.22`, Update: `192.169.19.23`},
+		"db_server_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_servers.test_db_servers.db_servers.0.id}`},
 	}
 
-	activationFilePath, _ = createTmpActivationFile()
+	DatabaseVmClusterNetwork2VmNetworksBackupNodes2Representation = map[string]interface{}{
+		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb37`, Update: `myprefix2-xapb38`},
+		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.169.19.24`, Update: `192.169.19.25`},
+		"db_server_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_servers.test_db_servers.db_servers.1.id}`},
+	}
 
-	VmClusterNetworkResourceDependencies = DefinedTagsDependencies +
+	vmClusterNetworkIgnoreNetworkRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`vm_networks`}},
+	}
+
+	// DG peer network related representations below
+	DatabasePeerVmClusterNetworkVmNetworksClientNodes1Representation = map[string]interface{}{
+		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb21`, Update: `myprefix2-xapb22`},
+		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.168.19.10`, Update: `192.168.19.11`},
+		"vip":          acctest.Representation{RepType: acctest.Required, Create: `192.168.19.12`, Update: `192.168.19.13`},
+		"vip_hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb21-vip`, Update: `myprefix2-xapb22-vip`},
+		"db_server_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_servers.peer_db_servers.db_servers.0.id}`},
+	}
+
+	DatabasePeerVmClusterNetworkVmNetworksClientNodes2Representation = map[string]interface{}{
+		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb25`, Update: `myprefix2-xapb26`},
+		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.168.19.14`, Update: `192.168.19.15`},
+		"vip":          acctest.Representation{RepType: acctest.Required, Create: `192.168.19.16`, Update: `192.168.19.17`},
+		"vip_hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb25-vip`, Update: `myprefix2-xapb26-vip`},
+		"db_server_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_servers.peer_db_servers.db_servers.1.id}`},
+	}
+
+	DatabasePeerVmClusterNetworkVmNetworksBackupNodes1Representation = map[string]interface{}{
+		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb23`, Update: `myprefix2-xapb24`},
+		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.169.19.18`, Update: `192.169.19.19`},
+		"db_server_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_servers.peer_db_servers.db_servers.0.id}`},
+	}
+	DatabasePeerVmClusterNetworkVmNetworksBackupNodes2Representation = map[string]interface{}{
+		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb27`, Update: `myprefix2-xapb28`},
+		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.169.19.20`, Update: `192.169.19.21`},
+		"db_server_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_db_servers.peer_db_servers.db_servers.1.id}`},
+	}
+
+	DatabasePeerVmClusterNetworkBackupVmNetworkRepresentation = map[string]interface{}{
+		"domain_name":  acctest.Representation{RepType: acctest.Required, Create: `oracle.com`, Update: `oracle.com`},
+		"gateway":      acctest.Representation{RepType: acctest.Required, Create: `192.169.20.1`, Update: `192.169.20.2`},
+		"netmask":      acctest.Representation{RepType: acctest.Required, Create: `255.255.0.0`, Update: `255.255.192.0`},
+		"network_type": acctest.Representation{RepType: acctest.Required, Create: `BACKUP`, Update: `BACKUP`},
+		"nodes":        []acctest.RepresentationGroup{{RepType: acctest.Required, Group: DatabasePeerVmClusterNetworkVmNetworksBackupNodes1Representation}, {RepType: acctest.Required, Group: DatabasePeerVmClusterNetworkVmNetworksBackupNodes2Representation}},
+		"vlan_id":      acctest.Representation{RepType: acctest.Required, Create: `100`},
+	}
+
+	DatabasePeerVmClusterNetworkClientVmNetworkRepresentation = map[string]interface{}{
+		"domain_name":  acctest.Representation{RepType: acctest.Required, Create: `oracle.com`, Update: `oracle.com`},
+		"gateway":      acctest.Representation{RepType: acctest.Required, Create: `192.168.20.1`, Update: `192.168.20.2`},
+		"netmask":      acctest.Representation{RepType: acctest.Required, Create: `255.255.0.0`, Update: `255.255.192.0`},
+		"network_type": acctest.Representation{RepType: acctest.Required, Create: `CLIENT`, Update: `CLIENT`},
+		"nodes":        []acctest.RepresentationGroup{{RepType: acctest.Required, Group: DatabasePeerVmClusterNetworkVmNetworksClientNodes1Representation}, {RepType: acctest.Required, Group: DatabasePeerVmClusterNetworkVmNetworksClientNodes2Representation}},
+		"vlan_id":      acctest.Representation{RepType: acctest.Required, Create: `101`},
+	}
+
+	DatabasePeerVmClusterNetworkRepresentation = map[string]interface{}{
+		"compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":                acctest.Representation{RepType: acctest.Required, Create: `peerVmClusterNw`},
+		"exadata_infrastructure_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.peer_exadata_infrastructure.id}`},
+		"scans":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseVmClusterNetworkScansRepresentation},
+		"vm_networks":                 []acctest.RepresentationGroup{{RepType: acctest.Required, Group: DatabasePeerVmClusterNetworkBackupVmNetworkRepresentation}, {RepType: acctest.Required, Group: DatabasePeerVmClusterNetworkClientVmNetworkRepresentation}},
+		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"dns":                         acctest.Representation{RepType: acctest.Optional, Create: []string{`192.168.10.10`}, Update: []string{`192.168.10.12`}},
+		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"ntp":                         acctest.Representation{RepType: acctest.Optional, Create: []string{`192.168.10.20`}, Update: []string{`192.168.10.22`}},
+		"lifecycle":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: vmClusterNetworkIgnoreNetworkRepresentation},
+		"validate_vm_cluster_network": acctest.Representation{RepType: acctest.Required, Create: "true"},
+	}
+	// End DG peer network related representations
+
+	activationFilePath, _                        = createTmpActivationFile()
+	DatabaseVmClusterNetworkResourceDependencies = DefinedTagsDependencies +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Required, acctest.Create, DatabaseDatabaseDbServerDataSourceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Optional, acctest.Update,
 			acctest.RepresentationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{
 				"activation_file":    acctest.Representation{RepType: acctest.Optional, Update: activationFilePath},
@@ -198,30 +273,27 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 	var resId, resId2, compositeId string
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+VmClusterNetworkResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Optional, acctest.Create, vmClusterNetworkRepresentation), "database", "vmClusterNetwork", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseVmClusterNetworkResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Optional, acctest.Create, DatabaseVmClusterNetworkRepresentation), "database", "vmClusterNetwork", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseVmClusterNetworkDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Required, acctest.Create, vmClusterNetworkRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseVmClusterNetworkResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Required, acctest.Create, vmClusterNetwork2Representation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "testVmClusterNw"),
 				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
 				resource.TestCheckResourceAttr(resourceName, "scans.#", "1"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scans", map[string]string{
-					"hostname": "myprefix1-ivmmj-scan",
+					"hostname": "myprefix4-ivmmj-scan",
 					"ips.#":    "3",
 					"port":     "1521",
 				},
 					[]string{}),
 				resource.TestCheckResourceAttr(resourceName, "vm_networks.#", "2"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "vm_networks", map[string]string{
-					"domain_name":  "oracle.com",
-					"gateway":      "192.168.20.1",
-					"netmask":      "255.255.0.0",
 					"network_type": "CLIENT",
 					"nodes.#":      "2",
 				},
@@ -238,12 +310,12 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies,
+			Config: config + compartmentIdVariableStr + DatabaseVmClusterNetworkResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Optional, acctest.Create, vmClusterNetworkRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseVmClusterNetworkResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Optional, acctest.Create, DatabaseVmClusterNetworkRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "testVmClusterNw"),
@@ -262,9 +334,6 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 					[]string{}),
 				resource.TestCheckResourceAttr(resourceName, "vm_networks.#", "2"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "vm_networks", map[string]string{
-					"domain_name":  "oracle.com",
-					"gateway":      "192.168.20.1",
-					"netmask":      "255.255.0.0",
 					"network_type": "CLIENT",
 					"nodes.#":      "2",
 				},
@@ -288,8 +357,8 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Optional, acctest.Update, vmClusterNetworkRepresentation),
+			Config: config + compartmentIdVariableStr + DatabaseVmClusterNetworkResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Optional, acctest.Update, DatabaseVmClusterNetworkRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "testVmClusterNw"),
@@ -308,9 +377,6 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 					[]string{}),
 				resource.TestCheckResourceAttr(resourceName, "vm_networks.#", "2"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "vm_networks", map[string]string{
-					"domain_name":  "oracle.com",
-					"gateway":      "192.169.20.2",
-					"netmask":      "255.255.192.0",
 					"network_type": "BACKUP",
 					"nodes.#":      "2",
 				},
@@ -330,9 +396,9 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_networks", "test_vm_cluster_networks", acctest.Optional, acctest.Update, vmClusterNetworkDataSourceRepresentation) +
-				compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Optional, acctest.Update, vmClusterNetworkRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_networks", "test_vm_cluster_networks", acctest.Optional, acctest.Update, DatabaseDatabaseVmClusterNetworkDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseVmClusterNetworkResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Optional, acctest.Update, DatabaseVmClusterNetworkRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "testVmClusterNw"),
@@ -360,9 +426,6 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_cluster_networks.0.time_created"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.vm_networks.#", "2"),
 				acctest.CheckResourceSetContainsElementWithProperties(datasourceName, "vm_cluster_networks.0.vm_networks", map[string]string{
-					"domain_name":  "oracle.com",
-					"gateway":      "192.169.20.2",
-					"netmask":      "255.255.192.0",
 					"network_type": "BACKUP",
 					"nodes.#":      "2",
 				},
@@ -374,8 +437,8 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Required, acctest.Create, vmClusterNetworkSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + VmClusterNetworkResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Required, acctest.Create, DatabaseDatabaseVmClusterNetworkSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseVmClusterNetworkResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_infrastructure_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vm_cluster_network_id"),
@@ -399,9 +462,6 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "vm_networks.#", "2"),
 				acctest.CheckResourceSetContainsElementWithProperties(singularDatasourceName, "vm_networks", map[string]string{
-					"domain_name":  "oracle.com",
-					"gateway":      "192.169.20.2",
-					"netmask":      "255.255.192.0",
 					"network_type": "BACKUP",
 					"nodes.#":      "2",
 				},
@@ -410,7 +470,7 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + VmClusterNetworkRequiredOnlyResource,
+			Config:            config + DatabaseVmClusterNetworkRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateIdFunc: getVmClusterNetworkImportId(resourceName),
 			ImportStateVerify: true,
@@ -481,7 +541,7 @@ func init() {
 
 func sweepDatabaseVmClusterNetworkResource(compartment string) error {
 	databaseClient := acctest.GetTestClients(&schema.ResourceData{}).DatabaseClient()
-	vmClusterNetworkIds, err := getVmClusterNetworkIds(compartment)
+	vmClusterNetworkIds, err := getDatabaseVmClusterNetworkIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -497,14 +557,14 @@ func sweepDatabaseVmClusterNetworkResource(compartment string) error {
 				fmt.Printf("Error deleting VmClusterNetwork %s %s, It is possible that the resource is already deleted. Please verify manually \n", vmClusterNetworkId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &vmClusterNetworkId, vmClusterNetworkSweepWaitCondition, time.Duration(3*time.Minute),
-				vmClusterNetworkSweepResponseFetchOperation, "database", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &vmClusterNetworkId, DatabaseVmClusterNetworkSweepWaitCondition, time.Duration(3*time.Minute),
+				DatabaseVmClusterNetworkSweepResponseFetchOperation, "database", true)
 		}
 	}
 	return nil
 }
 
-func getVmClusterNetworkIds(compartment string) ([]string, error) {
+func getDatabaseVmClusterNetworkIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "VmClusterNetworkId")
 	if ids != nil {
 		return ids, nil
@@ -516,13 +576,12 @@ func getVmClusterNetworkIds(compartment string) ([]string, error) {
 	listVmClusterNetworksRequest := oci_database.ListVmClusterNetworksRequest{}
 	listVmClusterNetworksRequest.CompartmentId = &compartmentId
 
-	exadataInfrastructureIds, error := getExadataInfrastructureIds(compartment)
+	exadataInfrastructureIds, error := getDatabaseExadataInfrastructureIds(compartment)
 	if error != nil {
 		return resourceIds, fmt.Errorf("Error getting exadataInfrastructureId required for VmClusterNetwork resource requests \n")
 	}
 	for _, exadataInfrastructureId := range exadataInfrastructureIds {
 		listVmClusterNetworksRequest.ExadataInfrastructureId = &exadataInfrastructureId
-
 		listVmClusterNetworksRequest.LifecycleState = oci_database.VmClusterNetworkSummaryLifecycleStateRequiresValidation
 		listVmClusterNetworksResponse, err := databaseClient.ListVmClusterNetworks(context.Background(), listVmClusterNetworksRequest)
 
@@ -539,7 +598,7 @@ func getVmClusterNetworkIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func vmClusterNetworkSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DatabaseVmClusterNetworkSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if vmClusterNetworkResponse, ok := response.Response.(oci_database.GetVmClusterNetworkResponse); ok {
 		return vmClusterNetworkResponse.LifecycleState != oci_database.VmClusterNetworkLifecycleStateTerminated
@@ -547,7 +606,7 @@ func vmClusterNetworkSweepWaitCondition(response common.OCIOperationResponse) bo
 	return false
 }
 
-func vmClusterNetworkSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DatabaseVmClusterNetworkSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DatabaseClient().GetVmClusterNetwork(context.Background(), oci_database.GetVmClusterNetworkRequest{
 		VmClusterNetworkId: resourceId,
 		RequestMetadata: common.RequestMetadata{

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -439,6 +439,7 @@ const (
 	ListSensitiveColumnsSortBySchemaname  ListSensitiveColumnsSortByEnum = "schemaName"
 	ListSensitiveColumnsSortByObjectname  ListSensitiveColumnsSortByEnum = "objectName"
 	ListSensitiveColumnsSortByColumnname  ListSensitiveColumnsSortByEnum = "columnName"
+	ListSensitiveColumnsSortByDatatype    ListSensitiveColumnsSortByEnum = "dataType"
 )
 
 var mappingListSensitiveColumnsSortByEnum = map[string]ListSensitiveColumnsSortByEnum{
@@ -446,6 +447,7 @@ var mappingListSensitiveColumnsSortByEnum = map[string]ListSensitiveColumnsSortB
 	"schemaName":  ListSensitiveColumnsSortBySchemaname,
 	"objectName":  ListSensitiveColumnsSortByObjectname,
 	"columnName":  ListSensitiveColumnsSortByColumnname,
+	"dataType":    ListSensitiveColumnsSortByDatatype,
 }
 
 var mappingListSensitiveColumnsSortByEnumLowerCase = map[string]ListSensitiveColumnsSortByEnum{
@@ -453,6 +455,7 @@ var mappingListSensitiveColumnsSortByEnumLowerCase = map[string]ListSensitiveCol
 	"schemaname":  ListSensitiveColumnsSortBySchemaname,
 	"objectname":  ListSensitiveColumnsSortByObjectname,
 	"columnname":  ListSensitiveColumnsSortByColumnname,
+	"datatype":    ListSensitiveColumnsSortByDatatype,
 }
 
 // GetListSensitiveColumnsSortByEnumValues Enumerates the set of values for ListSensitiveColumnsSortByEnum
@@ -471,6 +474,7 @@ func GetListSensitiveColumnsSortByEnumStringValues() []string {
 		"schemaName",
 		"objectName",
 		"columnName",
+		"dataType",
 	}
 }
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,26 +16,26 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_mysql "github.com/oracle/oci-go-sdk/v65/mysql"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	MysqlDbSystemRequiredOnlyResource = MysqlDbSystemResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Required, acctest.Create, mysqlDbSystemRepresentation)
+	MysqlMysqlDbSystemRequiredOnlyResource = MysqlMysqlDbSystemResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Required, acctest.Create, MysqlMysqlDbSystemRepresentation)
 
-	MysqlDbSystemResourceConfig = MysqlDbSystemResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Update, mysqlDbSystemRepresentation)
+	MysqlMysqlDbSystemResourceConfig = MysqlMysqlDbSystemResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Update, MysqlMysqlDbSystemRepresentation)
 
-	mysqlDbSystemSingularDataSourceRepresentation = map[string]interface{}{
+	MysqlMysqlMysqlDbSystemSingularDataSourceRepresentation = map[string]interface{}{
 		"db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
 	}
 
-	mysqlDbSystemDataSourceRepresentation = map[string]interface{}{
+	MysqlMysqlMysqlDbSystemDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"configuration_id":              acctest.Representation{RepType: acctest.Optional, Create: `${var.MysqlConfigurationOCID[var.region]}`},
 		"db_system_id":                  acctest.Representation{RepType: acctest.Optional, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
@@ -44,13 +44,13 @@ var (
 		"is_heat_wave_cluster_attached": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"is_up_to_date":                 acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"state":                         acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":                        acctest.RepresentationGroup{RepType: acctest.Required, Group: mysqlDbSystemDataSourceFilterRepresentation}}
-	mysqlDbSystemDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                        acctest.RepresentationGroup{RepType: acctest.Required, Group: MysqlMysqlDbSystemDataSourceFilterRepresentation}}
+	MysqlMysqlDbSystemDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_mysql_mysql_db_system.test_mysql_db_system.id}`}},
 	}
 
-	mysqlDbSystemRepresentation = map[string]interface{}{
+	MysqlMysqlDbSystemRepresentation = map[string]interface{}{
 		"admin_password":          acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 		"admin_username":          acctest.Representation{RepType: acctest.Required, Create: `adminUser`},
 		"availability_domain":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
@@ -58,7 +58,7 @@ var (
 		"configuration_id":        acctest.Representation{RepType: acctest.Optional, Create: `${var.MysqlConfigurationOCID[var.region]}`},
 		"shape_name":              acctest.Representation{RepType: acctest.Required, Create: `MySQL.VM.Standard.E3.1.8GB`},
 		"subnet_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"backup_policy":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemBackupPolicyRepresentation},
+		"backup_policy":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlDbSystemBackupPolicyRepresentation},
 		"crash_recovery":          acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`},
 		"data_storage_size_in_gb": acctest.Representation{RepType: acctest.Required, Create: `50`},
 		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -70,7 +70,7 @@ var (
 		"hostname_label":          acctest.Representation{RepType: acctest.Optional, Create: `hostnameLabel`},
 		"ip_address":              acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.3`},
 		"is_highly_available":     acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"maintenance":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemMaintenanceRepresentation},
+		"maintenance":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlDbSystemMaintenanceRepresentation},
 		"port":                    acctest.Representation{RepType: acctest.Optional, Create: `3306`},
 		"port_x":                  acctest.Representation{RepType: acctest.Optional, Create: `33306`},
 		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForMysqlRepBasic},
@@ -80,20 +80,30 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{"defined_tags", "backup_policy[0].defined_tags"}},
 	}
 
-	mysqlDbSystemBackupPolicyRepresentation = map[string]interface{}{
+	MysqlMysqlDbSystemBackupPolicyRepresentation = map[string]interface{}{
 		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_enabled":        acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"pitr_policy":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemBackupPolicyPitrPolicyRepresentation},
 		"retention_in_days": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"window_start_time": acctest.Representation{RepType: acctest.Optional, Create: `01:00-00:00`, Update: `02:00-00:00`},
 	}
 
-	mysqlDbSystemBackupPolicyNotUpdateableRepresentation = map[string]interface{}{
+	mysqlDbSystemBackupPolicyPitrPolicyRepresentation = map[string]interface{}{
+		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+	}
+
+	MysqlDbSystemBackupPolicyNotUpdateableRepresentation = map[string]interface{}{
 		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
 		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
 		"is_enabled":        acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"pitr_policy":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemBackupPolicyPitrPolicyNotUpdateableRepresentation},
 		"retention_in_days": acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"window_start_time": acctest.Representation{RepType: acctest.Optional, Create: `01:00-00:00`},
+	}
+
+	mysqlDbSystemBackupPolicyPitrPolicyNotUpdateableRepresentation = map[string]interface{}{
+		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
 	mysqlDbSystemDeletionPolicyRepresentation = map[string]interface{}{
@@ -105,16 +115,15 @@ var (
 		"is_delete_protected": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
-	mysqlDbSystemMaintenanceRepresentation = map[string]interface{}{
+	MysqlMysqlDbSystemMaintenanceRepresentation = map[string]interface{}{
 		"window_start_time": acctest.Representation{RepType: acctest.Required, Create: `sun 01:00`},
 	}
 
-	MysqlDbSystemResourceDependencies = MysqlConfigurationResourceConfig +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	MysqlMysqlDbSystemResourceDependencies = MysqlMysqlConfigurationResourceConfig +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		AvailabilityDomainConfig +
-		MysqlVersionResourceConfig +
-		DefinedTagsDependencies
+		MysqlMysqlVersionResourceConfig
 )
 
 // issue-routing-tag: mysql/default
@@ -133,14 +142,14 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+MysqlDbSystemResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Create, mysqlDbSystemRepresentation), "mysql", "mysqlDbSystem", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+MysqlMysqlDbSystemResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Create, MysqlMysqlDbSystemRepresentation), "mysql", "mysqlDbSystem", t)
 
 	acctest.ResourceTest(t, testAccCheckMysqlMysqlDbSystemDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + MysqlDbSystemResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Required, acctest.Create, mysqlDbSystemRepresentation),
+			Config: config + compartmentIdVariableStr + MysqlMysqlDbSystemResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Required, acctest.Create, MysqlMysqlDbSystemRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
@@ -158,14 +167,14 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + MysqlDbSystemResourceDependencies,
+			Config: config + compartmentIdVariableStr + MysqlMysqlDbSystemResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + MysqlDbSystemResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Create, mysqlDbSystemRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", acctest.Required, acctest.Create, analyticsClusterRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", acctest.Required, acctest.Create, channelRepresentation),
+			Config: config + compartmentIdVariableStr + MysqlMysqlDbSystemResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Create, MysqlMysqlDbSystemRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", acctest.Required, acctest.Create, MysqlAnalyticsClusterRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", acctest.Required, acctest.Create, MysqlChannelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
@@ -173,6 +182,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.is_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.pitr_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.pitr_policy.0.is_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.retention_in_days", "10"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.window_start_time", "01:00-00:00"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -217,16 +228,18 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + MysqlDbSystemResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Update, mysqlDbSystemRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", acctest.Required, acctest.Create, analyticsClusterRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", acctest.Required, acctest.Create, channelRepresentation),
+			Config: config + compartmentIdVariableStr + MysqlMysqlDbSystemResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Update, MysqlMysqlDbSystemRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", acctest.Required, acctest.Create, MysqlAnalyticsClusterRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", acctest.Required, acctest.Create, MysqlChannelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.is_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.pitr_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.pitr_policy.0.is_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.retention_in_days", "11"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.window_start_time", "02:00-00:00"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -268,11 +281,11 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_mysql_db_systems", "test_mysql_db_systems", acctest.Optional, acctest.Update, mysqlDbSystemDataSourceRepresentation) +
-				compartmentIdVariableStr + MysqlDbSystemResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Update, mysqlDbSystemRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", acctest.Required, acctest.Create, analyticsClusterRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", acctest.Required, acctest.Create, channelRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_mysql_db_systems", "test_mysql_db_systems", acctest.Optional, acctest.Update, MysqlMysqlMysqlDbSystemDataSourceRepresentation) +
+				compartmentIdVariableStr + MysqlMysqlDbSystemResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Update, MysqlMysqlDbSystemRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", acctest.Required, acctest.Create, MysqlAnalyticsClusterRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", acctest.Required, acctest.Create, MysqlChannelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "configuration_id"),
@@ -286,6 +299,11 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.analytics_cluster.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.availability_domain"),
+				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.backup_policy.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.backup_policy.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.backup_policy.0.is_enabled", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.backup_policy.0.retention_in_days", "11"),
+				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.backup_policy.0.window_start_time", "02:00-00:00"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.crash_recovery", "ENABLED"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.current_placement.#", "1"),
@@ -303,6 +321,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.is_analytics_cluster_attached", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.is_heat_wave_cluster_attached", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.is_highly_available", "false"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.shape_name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.time_updated"),
@@ -311,10 +330,10 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Required, acctest.Create, mysqlDbSystemSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + MysqlDbSystemResourceConfig +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", acctest.Required, acctest.Create, analyticsClusterRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", acctest.Required, acctest.Create, channelRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Required, acctest.Create, MysqlMysqlMysqlDbSystemSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + MysqlMysqlDbSystemResourceConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", acctest.Required, acctest.Create, MysqlAnalyticsClusterRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", acctest.Required, acctest.Create, MysqlChannelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
 
@@ -323,6 +342,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.is_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.pitr_policy.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.pitr_policy.0.is_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.retention_in_days", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.window_start_time", "02:00-00:00"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "channels.#", "1"),
@@ -348,6 +369,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_highly_available", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance.0.window_start_time", "sun 01:00"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "mysql_version"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "port", "3306"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "port_x", "33306"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "source.#", "1"),
@@ -359,7 +381,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + MysqlDbSystemRequiredOnlyResource,
+			Config:            config + MysqlMysqlDbSystemRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -427,7 +449,7 @@ func init() {
 
 func sweepMysqlMysqlDbSystemResource(compartment string) error {
 	dbSystemClient := acctest.GetTestClients(&schema.ResourceData{}).DbSystemClient()
-	mysqlDbSystemIds, err := getMysqlDbSystemIds(compartment)
+	mysqlDbSystemIds, err := getMysqlMysqlDbSystemIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -442,14 +464,14 @@ func sweepMysqlMysqlDbSystemResource(compartment string) error {
 				fmt.Printf("Error deleting MysqlDbSystem %s %s, It is possible that the resource is already deleted. Please verify manually \n", mysqlDbSystemId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &mysqlDbSystemId, mysqlDbSystemSweepWaitCondition, time.Duration(3*time.Minute),
-				mysqlDbSystemSweepResponseFetchOperation, "mysql", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &mysqlDbSystemId, MysqlMysqlDbSystemSweepWaitCondition, time.Duration(3*time.Minute),
+				MysqlMysqlDbSystemSweepResponseFetchOperation, "mysql", true)
 		}
 	}
 	return nil
 }
 
-func getMysqlDbSystemIds(compartment string) ([]string, error) {
+func getMysqlMysqlDbSystemIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "MysqlDbSystemId")
 	if ids != nil {
 		return ids, nil
@@ -474,7 +496,7 @@ func getMysqlDbSystemIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func mysqlDbSystemSweepWaitCondition(response common.OCIOperationResponse) bool {
+func MysqlMysqlDbSystemSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if mysqlDbSystemResponse, ok := response.Response.(oci_mysql.GetDbSystemResponse); ok {
 		return mysqlDbSystemResponse.LifecycleState != oci_mysql.DbSystemLifecycleStateDeleted
@@ -482,7 +504,7 @@ func mysqlDbSystemSweepWaitCondition(response common.OCIOperationResponse) bool 
 	return false
 }
 
-func mysqlDbSystemSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func MysqlMysqlDbSystemSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DbSystemClient().GetDbSystem(context.Background(), oci_mysql.GetDbSystemRequest{RequestMetadata: common.RequestMetadata{
 		RetryPolicy: retryPolicy,
 	},

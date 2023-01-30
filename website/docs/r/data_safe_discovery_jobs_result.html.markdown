@@ -8,6 +8,9 @@ description: |-
 ---
 
 # oci_data_safe_discovery_jobs_result
+
+**Deprecated. This resource does not support create and update operations.**
+
 This resource provides the Discovery Jobs Result resource in Oracle Cloud Infrastructure Data Safe service.
 
 
@@ -37,6 +40,7 @@ The following attributes are exported:
 * `column_name` - The name of the sensitive column.
 * `data_type` - The data type of the sensitive column.
 * `db_defined_child_column_keys` - Unique keys identifying the columns that are database-level (dictionary-defined) children of the sensitive column.
+* `discovery_job_id` - The OCID of the discovery job.
 * `discovery_type` - The type of the discovery result. It can be one of the following three types: NEW: A new sensitive column in the target database that is not in the sensitive data model. DELETED: A column that is present in the sensitive data model but has been deleted from the target database. MODIFIED: A column that is present in the target database as well as the sensitive data model but some of its attributes have been modified. 
 * `estimated_data_value_count` - The estimated number of data values the column has in the associated database.
 * `is_result_applied` - Indicates if the discovery result has been processed. You can update this attribute using the PatchDiscoveryJobResults operation to track whether the discovery result has already been processed and applied to the sensitive data model. 
@@ -56,7 +60,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Discovery Jobs Result
 	* `update` - (Defaults to 20 minutes), when updating the Discovery Jobs Result
 	* `delete` - (Defaults to 20 minutes), when destroying the Discovery Jobs Result

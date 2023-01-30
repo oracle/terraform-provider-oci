@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package service_mesh
@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strconv"
 	"strings"
 	"time"
 
@@ -17,8 +18,8 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_service_mesh "github.com/oracle/oci-go-sdk/v65/servicemesh"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func ServiceMeshVirtualServiceRouteTableResource() *schema.Resource {
@@ -101,6 +102,13 @@ func ServiceMeshVirtualServiceRouteTableResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
+						},
+						"request_timeout_in_ms": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 						},
 
 						// Computed
@@ -270,11 +278,11 @@ func (s *ServiceMeshVirtualServiceRouteTableResourceCrud) Create() error {
 	if routeRules, ok := s.D.GetOkExists("route_rules"); ok {
 		set := routeRules.(*schema.Set)
 		interfaces := set.List()
-		tmp := make([]oci_service_mesh.VirtualServiceTrafficRouteRule, len(interfaces))
+		tmp := make([]oci_service_mesh.VirtualServiceTrafficRouteRuleDetails, len(interfaces))
 		for i := range interfaces {
 			stateDataIndex := routeRulesHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "route_rules", stateDataIndex)
-			converted, err := s.mapToVirtualServiceTrafficRouteRule(fieldKeyFormat)
+			converted, err := s.mapToVirtualServiceTrafficRouteRuleDetails(fieldKeyFormat)
 			if err != nil {
 				return err
 			}
@@ -309,6 +317,18 @@ func (s *ServiceMeshVirtualServiceRouteTableResourceCrud) getVirtualServiceRoute
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
+		// Try to cancel the work request
+		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, virtualServiceRouteTableId)
+		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+			oci_service_mesh.CancelWorkRequestRequest{
+				WorkRequestId: workId,
+				RequestMetadata: oci_common.RequestMetadata{
+					RetryPolicy: retryPolicy,
+				},
+			})
+		if cancelErr != nil {
+			log.Printf("[DEBUG] cleanup cancelWorkRequest failed with the error: %v\n", cancelErr)
+		}
 		return err
 	}
 	s.D.SetId(*virtualServiceRouteTableId)
@@ -470,11 +490,11 @@ func (s *ServiceMeshVirtualServiceRouteTableResourceCrud) Update() error {
 	if routeRules, ok := s.D.GetOkExists("route_rules"); ok {
 		set := routeRules.(*schema.Set)
 		interfaces := set.List()
-		tmp := make([]oci_service_mesh.VirtualServiceTrafficRouteRule, len(interfaces))
+		tmp := make([]oci_service_mesh.VirtualServiceTrafficRouteRuleDetails, len(interfaces))
 		for i := range interfaces {
 			stateDataIndex := routeRulesHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "route_rules", stateDataIndex)
-			converted, err := s.mapToVirtualServiceTrafficRouteRule(fieldKeyFormat)
+			converted, err := s.mapToVirtualServiceTrafficRouteRuleDetails(fieldKeyFormat)
 			if err != nil {
 				return err
 			}
@@ -573,8 +593,8 @@ func (s *ServiceMeshVirtualServiceRouteTableResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *ServiceMeshVirtualServiceRouteTableResourceCrud) mapToVirtualDeploymentTrafficRuleTarget(fieldKeyFormat string) (oci_service_mesh.VirtualDeploymentTrafficRuleTarget, error) {
-	result := oci_service_mesh.VirtualDeploymentTrafficRuleTarget{}
+func (s *ServiceMeshVirtualServiceRouteTableResourceCrud) mapToVirtualDeploymentTrafficRuleTargetDetails(fieldKeyFormat string) (oci_service_mesh.VirtualDeploymentTrafficRuleTargetDetails, error) {
+	result := oci_service_mesh.VirtualDeploymentTrafficRuleTargetDetails{}
 
 	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
 		tmp := port.(int)
@@ -666,8 +686,8 @@ func VirtualServiceRouteTableSummaryToMap(obj oci_service_mesh.VirtualServiceRou
 	return result
 }
 
-func (s *ServiceMeshVirtualServiceRouteTableResourceCrud) mapToVirtualServiceTrafficRouteRule(fieldKeyFormat string) (oci_service_mesh.VirtualServiceTrafficRouteRule, error) {
-	var baseObject oci_service_mesh.VirtualServiceTrafficRouteRule
+func (s *ServiceMeshVirtualServiceRouteTableResourceCrud) mapToVirtualServiceTrafficRouteRuleDetails(fieldKeyFormat string) (oci_service_mesh.VirtualServiceTrafficRouteRuleDetails, error) {
+	var baseObject oci_service_mesh.VirtualServiceTrafficRouteRuleDetails
 	//discriminator
 	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
 	var type_ string
@@ -678,7 +698,7 @@ func (s *ServiceMeshVirtualServiceRouteTableResourceCrud) mapToVirtualServiceTra
 	}
 	switch strings.ToLower(type_) {
 	case strings.ToLower("HTTP"):
-		details := oci_service_mesh.HttpVirtualServiceTrafficRouteRule{}
+		details := oci_service_mesh.HttpVirtualServiceTrafficRouteRuleDetails{}
 		if isGrpc, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_grpc")); ok {
 			tmp := isGrpc.(bool)
 			details.IsGrpc = &tmp
@@ -688,15 +708,23 @@ func (s *ServiceMeshVirtualServiceRouteTableResourceCrud) mapToVirtualServiceTra
 			details.Path = &tmp
 		}
 		if pathType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path_type")); ok {
-			details.PathType = oci_service_mesh.HttpVirtualServiceTrafficRouteRulePathTypeEnum(pathType.(string))
+			details.PathType = oci_service_mesh.HttpVirtualServiceTrafficRouteRuleDetailsPathTypeEnum(pathType.(string))
+		}
+		if requestTimeoutInMs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "request_timeout_in_ms")); ok {
+			tmp := requestTimeoutInMs.(string)
+			tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+			if err != nil {
+				return details, fmt.Errorf("unable to convert requestTimeoutInMs string: %s to an int64 and encountered error: %v", tmp, err)
+			}
+			details.RequestTimeoutInMs = &tmpInt64
 		}
 		if destinations, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destinations")); ok {
 			interfaces := destinations.([]interface{})
-			tmp := make([]oci_service_mesh.VirtualDeploymentTrafficRuleTarget, len(interfaces))
+			tmp := make([]oci_service_mesh.VirtualDeploymentTrafficRuleTargetDetails, len(interfaces))
 			for i := range interfaces {
 				stateDataIndex := i
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "destinations"), stateDataIndex)
-				converted, err := s.mapToVirtualDeploymentTrafficRuleTarget(fieldKeyFormatNextLevel)
+				converted, err := s.mapToVirtualDeploymentTrafficRuleTargetDetails(fieldKeyFormatNextLevel)
 				if err != nil {
 					return details, err
 				}
@@ -708,14 +736,14 @@ func (s *ServiceMeshVirtualServiceRouteTableResourceCrud) mapToVirtualServiceTra
 		}
 		baseObject = details
 	case strings.ToLower("TCP"):
-		details := oci_service_mesh.TcpVirtualServiceTrafficRouteRule{}
+		details := oci_service_mesh.TcpVirtualServiceTrafficRouteRuleDetails{}
 		if destinations, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destinations")); ok {
 			interfaces := destinations.([]interface{})
-			tmp := make([]oci_service_mesh.VirtualDeploymentTrafficRuleTarget, len(interfaces))
+			tmp := make([]oci_service_mesh.VirtualDeploymentTrafficRuleTargetDetails, len(interfaces))
 			for i := range interfaces {
 				stateDataIndex := i
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "destinations"), stateDataIndex)
-				converted, err := s.mapToVirtualDeploymentTrafficRuleTarget(fieldKeyFormatNextLevel)
+				converted, err := s.mapToVirtualDeploymentTrafficRuleTargetDetails(fieldKeyFormatNextLevel)
 				if err != nil {
 					return details, err
 				}
@@ -727,14 +755,14 @@ func (s *ServiceMeshVirtualServiceRouteTableResourceCrud) mapToVirtualServiceTra
 		}
 		baseObject = details
 	case strings.ToLower("TLS_PASSTHROUGH"):
-		details := oci_service_mesh.TlsPassthroughVirtualServiceTrafficRouteRule{}
+		details := oci_service_mesh.TlsPassthroughVirtualServiceTrafficRouteRuleDetails{}
 		if destinations, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destinations")); ok {
 			interfaces := destinations.([]interface{})
-			tmp := make([]oci_service_mesh.VirtualDeploymentTrafficRuleTarget, len(interfaces))
+			tmp := make([]oci_service_mesh.VirtualDeploymentTrafficRuleTargetDetails, len(interfaces))
 			for i := range interfaces {
 				stateDataIndex := i
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "destinations"), stateDataIndex)
-				converted, err := s.mapToVirtualDeploymentTrafficRuleTarget(fieldKeyFormatNextLevel)
+				converted, err := s.mapToVirtualDeploymentTrafficRuleTargetDetails(fieldKeyFormatNextLevel)
 				if err != nil {
 					return details, err
 				}
@@ -766,6 +794,10 @@ func VirtualServiceTrafficRouteRuleToMap(obj oci_service_mesh.VirtualServiceTraf
 		}
 
 		result["path_type"] = string(v.PathType)
+
+		if v.RequestTimeoutInMs != nil {
+			result["request_timeout_in_ms"] = strconv.FormatInt(*v.RequestTimeoutInMs, 10)
+		}
 
 		destinations := []interface{}{}
 		for _, item := range v.Destinations {

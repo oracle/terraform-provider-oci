@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package operator_access_control
@@ -10,8 +10,8 @@ import (
 
 	oci_operator_access_control "github.com/oracle/oci-go-sdk/v65/operatoraccesscontrol"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func OperatorAccessControlOperatorControlResource() *schema.Resource {
@@ -184,6 +184,7 @@ func (s *OperatorAccessControlOperatorControlResourceCrud) CreatedTarget() []str
 	return []string{
 		string(oci_operator_access_control.OperatorControlLifecycleStatesCreated),
 		string(oci_operator_access_control.OperatorControlLifecycleStatesAssigned),
+		string(oci_operator_access_control.OperatorControlLifecycleStatesUnassigned),
 	}
 }
 
@@ -193,7 +194,6 @@ func (s *OperatorAccessControlOperatorControlResourceCrud) DeletedPending() []st
 
 func (s *OperatorAccessControlOperatorControlResourceCrud) DeletedTarget() []string {
 	return []string{
-		string(oci_operator_access_control.OperatorControlLifecycleStatesUnassigned),
 		string(oci_operator_access_control.OperatorControlLifecycleStatesDeleted),
 	}
 }

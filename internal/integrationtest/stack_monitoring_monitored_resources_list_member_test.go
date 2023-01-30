@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -11,23 +11,23 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	MonitoredResourcesListMemberRequiredOnlyResource = MonitoredResourcesListMemberResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resources_list_member", "test_monitored_resources_list_member", acctest.Required, acctest.Create, monitoredResourcesListMemberRepresentation)
+	StackMonitoringMonitoredResourcesListMemberRequiredOnlyResource = StackMonitoringMonitoredResourcesListMemberResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resources_list_member", "test_monitored_resources_list_member", acctest.Required, acctest.Create, StackMonitoringStackMonitoringMonitoredResourcesListMemberDataSourceRepresentation)
 
-	monitoredResourcesListMemberRepresentation = map[string]interface{}{
+	StackMonitoringStackMonitoringMonitoredResourcesListMemberDataSourceRepresentation = map[string]interface{}{
 		"monitored_resource_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_stack_monitoring_monitored_resource.test_source_resource.id}`},
 		"destination_resource_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_stack_monitoring_monitored_resource.test_destination_resource.id}`},
 	}
 
-	MonitoredResourcesListMemberResourceDependencies = MonitoredResourcesAssociateMonitoredResourceConfig
+	StackMonitoringMonitoredResourcesListMemberResourceDependencies = StackMonitoredResourcesAssociateMonitoredResourceConfig
 )
 
 // issue-routing-tag: stack_monitoring/default
@@ -68,14 +68,14 @@ func TestStackMonitoringMonitoredResourcesListMemberResource_basic(t *testing.T)
 
 	var resId string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+MonitoredResourcesListMemberResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resources_list_member", "test_monitored_resources_list_member", acctest.Optional, acctest.Create, monitoredResourcesListMemberRepresentation), "stackmonitoring", "monitoredResourcesListMember", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+StackMonitoringMonitoredResourcesListMemberResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resources_list_member", "test_monitored_resources_list_member", acctest.Optional, acctest.Create, StackMonitoringStackMonitoringMonitoredResourcesListMemberDataSourceRepresentation), "stackmonitoring", "monitoredResourcesListMember", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + managementAgentId1VariableStr + hostname1VariableStr + managementAgentId2VariableStr + hostname2VariableStr + MonitoredResourcesListMemberResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resources_list_member", "test_monitored_resources_list_member", acctest.Required, acctest.Create, monitoredResourcesListMemberRepresentation),
+			Config: config + compartmentIdVariableStr + managementAgentId1VariableStr + hostname1VariableStr + managementAgentId2VariableStr + hostname2VariableStr + StackMonitoringMonitoredResourcesListMemberResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resources_list_member", "test_monitored_resources_list_member", acctest.Required, acctest.Create, StackMonitoringStackMonitoringMonitoredResourcesListMemberDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "monitored_resource_id"),
 			),
@@ -83,12 +83,12 @@ func TestStackMonitoringMonitoredResourcesListMemberResource_basic(t *testing.T)
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + managementAgentId1VariableStr + hostname1VariableStr + managementAgentId2VariableStr + hostname2VariableStr + MonitoredResourcesListMemberResourceDependencies,
+			Config: config + compartmentIdVariableStr + managementAgentId1VariableStr + hostname1VariableStr + managementAgentId2VariableStr + hostname2VariableStr + StackMonitoringMonitoredResourcesListMemberResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + managementAgentId1VariableStr + hostname1VariableStr + managementAgentId2VariableStr + hostname2VariableStr + MonitoredResourcesListMemberResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resources_list_member", "test_monitored_resources_list_member", acctest.Optional, acctest.Create, monitoredResourcesListMemberRepresentation),
+			Config: config + compartmentIdVariableStr + managementAgentId1VariableStr + hostname1VariableStr + managementAgentId2VariableStr + hostname2VariableStr + StackMonitoringMonitoredResourcesListMemberResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resources_list_member", "test_monitored_resources_list_member", acctest.Optional, acctest.Create, StackMonitoringStackMonitoringMonitoredResourcesListMemberDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "destination_resource_id"),
 				resource.TestCheckResourceAttr(resourceName, "items.#", "1"),

@@ -19,7 +19,7 @@ Creates a new Virtual Cloud Network (VCN). For more information, see
 For the VCN, you specify a list of one or more IPv4 CIDR blocks that meet the following criteria:
 
 - The CIDR blocks must be valid.
-- They must not overlap with each other or with the on-premises network CIDR block. 
+- They must not overlap with each other or with the on-premises network CIDR block.
 - The number of CIDR blocks does not exceed the limit of CIDR blocks allowed per VCN.
 
 For a CIDR block, Oracle recommends that you use one of the private IP address ranges specified in [RFC 1918](https://tools.ietf.org/html/rfc1918) (10.0.0.0/8, 172.16/12, and 192.168/16). Example:
@@ -147,7 +147,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Vcn
 	* `update` - (Defaults to 20 minutes), when updating the Vcn
 	* `delete` - (Defaults to 20 minutes), when destroying the Vcn

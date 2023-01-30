@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,21 +7,21 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	autonomousExadataInfrastructureShapeDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseAutonomousExadataInfrastructureShapeDataSourceRepresentation = map[string]interface{}{
 		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
-	AutonomousExadataInfrastructureShapeResourceConfig = AvailabilityDomainConfig
+	DatabaseAutonomousExadataInfrastructureShapeResourceConfig = AvailabilityDomainConfig
 )
 
 // issue-routing-tag: database/dbaas-atp-d
@@ -44,8 +44,8 @@ func TestDatabaseAutonomousExadataInfrastructureShapeResource_basic(t *testing.T
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure_shapes", "test_autonomous_exadata_infrastructure_shapes", acctest.Required, acctest.Create, autonomousExadataInfrastructureShapeDataSourceRepresentation) +
-				compartmentIdVariableStr + AutonomousExadataInfrastructureShapeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure_shapes", "test_autonomous_exadata_infrastructure_shapes", acctest.Required, acctest.Create, DatabaseDatabaseAutonomousExadataInfrastructureShapeDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseAutonomousExadataInfrastructureShapeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

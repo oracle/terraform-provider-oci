@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database
@@ -7,8 +7,8 @@ import (
 	"context"
 	"log"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -126,7 +126,7 @@ func (s *DatabaseExternalDatabaseConnectorDataSourceCrud) SetData() error {
 			s.D.Set("time_created", v.TimeCreated.String())
 		}
 	default:
-		log.Printf("[WARN] Received 'connector_type' of unknown type %v", *s.Res)
+		log.Printf("[WARN] Received 'connector_type' of unknown type %v", s.Res.ExternalDatabaseConnector)
 		return nil
 	}
 

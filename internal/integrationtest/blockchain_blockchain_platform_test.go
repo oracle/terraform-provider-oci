@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,21 +22,21 @@ import (
 	oci_blockchain "github.com/oracle/oci-go-sdk/v65/blockchain"
 	"github.com/oracle/oci-go-sdk/v65/common"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	BlockchainPlatformRequiredOnlyResource = BlockchainPlatformResourceDependencies +
+	BlockchainBlockchainPlatformRequiredOnlyResource = BlockchainBlockchainPlatformResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", acctest.Required, acctest.Create, blockchainPlatformRepresentation)
 
-	BlockchainPlatformResourceConfig = BlockchainPlatformResourceDependencies +
+	BlockchainBlockchainPlatformResourceConfig = BlockchainBlockchainPlatformResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", acctest.Optional, acctest.Update, blockchainPlatformRepresentation)
 
-	blockchainPlatformSingularDataSourceRepresentation = map[string]interface{}{
+	BlockchainblockchainPlatformSingularDataSourceRepresentation = map[string]interface{}{
 		"blockchain_platform_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_blockchain_blockchain_platform.test_blockchain_platform.id}`},
 	}
 
-	blockchainPlatformDataSourceRepresentation = map[string]interface{}{
+	BlockchainblockchainPlatformDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: blockchainPlatformDisplayName},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
@@ -71,8 +71,8 @@ var (
 		"proxy_count":   acctest.Representation{RepType: acctest.Optional, Create: `3`, Update: `4`},
 	}
 
-	BlockchainPlatformResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, userRepresentation)
+	BlockchainBlockchainPlatformResourceDependencies = DefinedTagsDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation)
 )
 
 // issue-routing-tag: blockchain/default
@@ -97,13 +97,13 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+BlockchainPlatformResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+BlockchainBlockchainPlatformResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", acctest.Optional, acctest.Create, blockchainPlatformRepresentation), "blockchain", "blockchainPlatform", t)
 
 	acctest.ResourceTest(t, testAccCheckBlockchainBlockchainPlatformDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceDependencies +
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainBlockchainPlatformResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", acctest.Required, acctest.Create, blockchainPlatformRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -121,11 +121,11 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceDependencies,
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainBlockchainPlatformResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceDependencies +
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainBlockchainPlatformResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", acctest.Optional, acctest.Create, blockchainPlatformRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -160,7 +160,7 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + compartmentIdUVariableStr + BlockchainPlatformResourceDependencies +
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + compartmentIdUVariableStr + BlockchainBlockchainPlatformResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(blockchainPlatformRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -193,7 +193,7 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceDependencies +
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainBlockchainPlatformResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", acctest.Optional, acctest.Update, blockchainPlatformRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -226,8 +226,8 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_blockchain_blockchain_platforms", "test_blockchain_platforms", acctest.Optional, acctest.Update, blockchainPlatformDataSourceRepresentation) +
-				compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_blockchain_blockchain_platforms", "test_blockchain_platforms", acctest.Optional, acctest.Update, BlockchainblockchainPlatformDataSourceRepresentation) +
+				compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainBlockchainPlatformResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", acctest.Optional, acctest.Update, blockchainPlatformRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -241,8 +241,8 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", acctest.Required, acctest.Create, blockchainPlatformSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", acctest.Required, acctest.Create, BlockchainblockchainPlatformSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainBlockchainPlatformResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "blockchain_platform_id"),
 
@@ -276,7 +276,7 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + BlockchainPlatformRequiredOnlyResource,
+			Config:            config + BlockchainBlockchainPlatformRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

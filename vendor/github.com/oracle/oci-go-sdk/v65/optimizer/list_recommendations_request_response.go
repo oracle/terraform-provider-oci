@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -26,7 +26,33 @@ type ListRecommendationsRequest struct {
 	CompartmentIdInSubtree *bool `mandatory:"true" contributesTo:"query" name:"compartmentIdInSubtree"`
 
 	// The unique OCID associated with the category.
-	CategoryId *string `mandatory:"true" contributesTo:"query" name:"categoryId"`
+	CategoryId *string `mandatory:"false" contributesTo:"query" name:"categoryId"`
+
+	// Optional. A filter that returns results that match the category name specified.
+	CategoryName *string `mandatory:"false" contributesTo:"query" name:"categoryName"`
+
+	// A list of child tenancies for which the respective data will be returned. Please note that
+	// the parent tenancy id can also be included in this list. For example, if there is a parent P with two
+	// children A and B, to return results of only parent P and child A, this list should be populated with
+	// tenancy id of parent P and child A.
+	// If this list contains a tenancy id that isn't part of the organization of parent P, the request will
+	// fail. That is, let's say there is an organization with parent P with children A and B, and also one
+	// other tenant T that isn't part of the organization. If T is included in the list of
+	// childTenancyIds, the request will fail.
+	// It is important to note that if you are setting the includeOrganization parameter value as true and
+	// also populating the childTenancyIds parameter with a list of child tenancies, the request will fail.
+	// The childTenancyIds and includeOrganization should be used exclusively.
+	// When using this parameter, please make sure to set the compartmentId with the parent tenancy ID.
+	ChildTenancyIds []string `contributesTo:"query" name:"childTenancyIds" collectionFormat:"multi"`
+
+	// When set to true, the data for all child tenancies including the parent is returned. That is, if
+	// there is an organization with parent P and children A and B, to return the data for the parent P, child
+	// A and child B, this parameter value should be set to true.
+	// Please note that this parameter shouldn't be used along with childTenancyIds parameter. If you would like
+	// to get results specifically for parent P and only child A, use the childTenancyIds parameter and populate
+	// the list with tenancy id of P and A.
+	// When using this parameter, please make sure to set the compartmentId with the parent tenancy ID.
+	IncludeOrganization *bool `mandatory:"false" contributesTo:"query" name:"includeOrganization"`
 
 	// Optional. A filter that returns results that match the name specified.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`

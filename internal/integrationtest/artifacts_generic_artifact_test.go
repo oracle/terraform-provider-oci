@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,23 +16,25 @@ import (
 	oci_artifacts "github.com/oracle/oci-go-sdk/v65/artifacts"
 	"github.com/oracle/oci-go-sdk/v65/common"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	GenericArtifactResourceConfig = GenericArtifactResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", acctest.Optional, acctest.Update, genericArtifactRepresentation)
+	ArtifactsGenericArtifactRequiredOnlyResource = ArtifactsGenericArtifactResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", acctest.Required, acctest.Create, ArtifactsGenericArtifactRepresentation)
 
-	genericArtifactSingularDataSourceRepresentation = map[string]interface{}{
+	ArtifactsGenericArtifactResourceConfig = ArtifactsGenericArtifactResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", acctest.Optional, acctest.Update, ArtifactsGenericArtifactRepresentation)
+
+	ArtifactsArtifactsGenericArtifactSingularDataSourceRepresentation = map[string]interface{}{
 		"artifact_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_artifacts_generic_artifact.test_generic_artifact.id}`},
 	}
 
-	genericArtifactDataSourceRepresentation = map[string]interface{}{
+	ArtifactsArtifactsGenericArtifactDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"repository_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_artifacts_repository.test_repository.id}`},
 		"artifact_path":  acctest.Representation{RepType: acctest.Optional, Create: `artifactPath`},
@@ -41,20 +43,20 @@ var (
 		"sha256":         acctest.Representation{RepType: acctest.Optional, Create: `sha256`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 		"version":        acctest.Representation{RepType: acctest.Optional, Create: `1.0`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: genericArtifactDataSourceFilterRepresentation}}
-	genericArtifactDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ArtifactsGenericArtifactDataSourceFilterRepresentation}}
+	ArtifactsGenericArtifactDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_artifacts_generic_artifact.test_generic_artifact.id}`}},
 	}
 
-	genericArtifactRepresentation = map[string]interface{}{
+	ArtifactsGenericArtifactRepresentation = map[string]interface{}{
 		"artifact_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_generic_artifacts_content_artifact_by_path.test_artifact_by_path.id}`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 	}
 
-	GenericArtifactResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", acctest.Required, acctest.Create, repositoryRepresentation) +
+	ArtifactsGenericArtifactResourceDependencies = DefinedTagsDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", acctest.Required, acctest.Create, ArtifactsrepositoryRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", acctest.Required, acctest.Create, artifactByPathRepresentation)
 )
 
@@ -74,14 +76,14 @@ func TestArtifactsGenericArtifactResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+GenericArtifactResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", acctest.Required, acctest.Create, genericArtifactRepresentation), "artifacts", "genericArtifact", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ArtifactsGenericArtifactResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", acctest.Required, acctest.Create, ArtifactsGenericArtifactRepresentation), "artifacts", "genericArtifact", t)
 
 	acctest.ResourceTest(t, testAccCheckArtifactsGenericArtifactDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + GenericArtifactResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", acctest.Required, acctest.Create, genericArtifactRepresentation),
+			Config: config + compartmentIdVariableStr + ArtifactsGenericArtifactResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", acctest.Required, acctest.Create, ArtifactsGenericArtifactRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 
 				func(s *terraform.State) (err error) {
@@ -98,8 +100,8 @@ func TestArtifactsGenericArtifactResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + GenericArtifactResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", acctest.Optional, acctest.Update, genericArtifactRepresentation),
+			Config: config + compartmentIdVariableStr + ArtifactsGenericArtifactResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", acctest.Optional, acctest.Update, ArtifactsGenericArtifactRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "artifact_path"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -125,9 +127,9 @@ func TestArtifactsGenericArtifactResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_artifacts_generic_artifacts", "test_generic_artifacts", acctest.Optional, acctest.Update, genericArtifactDataSourceRepresentation) +
-				compartmentIdVariableStr + GenericArtifactResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", acctest.Optional, acctest.Update, genericArtifactRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_artifacts_generic_artifacts", "test_generic_artifacts", acctest.Optional, acctest.Update, ArtifactsArtifactsGenericArtifactDataSourceRepresentation) +
+				compartmentIdVariableStr + ArtifactsGenericArtifactResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", acctest.Optional, acctest.Update, ArtifactsGenericArtifactRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "artifact_path", "artifactPath"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -144,8 +146,8 @@ func TestArtifactsGenericArtifactResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", acctest.Required, acctest.Create, genericArtifactSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + GenericArtifactResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", acctest.Required, acctest.Create, ArtifactsArtifactsGenericArtifactSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ArtifactsGenericArtifactResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "artifact_path"),
@@ -158,6 +160,14 @@ func TestArtifactsGenericArtifactResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "version"),
 			),
+		},
+		// verify resource import
+		{
+			Config:                  config + ArtifactsGenericArtifactRequiredOnlyResource,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{"artifact_id"},
+			ResourceName:            resourceName,
 		},
 	})
 }
@@ -218,7 +228,7 @@ func init() {
 
 func sweepArtifactsGenericArtifactResource(compartment string) error {
 	artifactsClient := acctest.GetTestClients(&schema.ResourceData{}).ArtifactsClient()
-	genericArtifactIds, err := getGenericArtifactIds(compartment)
+	genericArtifactIds, err := getArtifactsGenericArtifactIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -232,14 +242,14 @@ func sweepArtifactsGenericArtifactResource(compartment string) error {
 				fmt.Printf("Error deleting GenericArtifact %s %s, It is possible that the resource is already deleted. Please verify manually \n", genericArtifactId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &genericArtifactId, genericArtifactSweepWaitCondition, time.Duration(3*time.Minute),
-				genericArtifactSweepResponseFetchOperation, "artifacts", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &genericArtifactId, ArtifactsgenericArtifactsSweepWaitCondition, time.Duration(3*time.Minute),
+				ArtifactsgenericArtifactsSweepResponseFetchOperation, "artifacts", true)
 		}
 	}
 	return nil
 }
 
-func getGenericArtifactIds(compartment string) ([]string, error) {
+func getArtifactsGenericArtifactIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "GenericArtifactId")
 	if ids != nil {
 		return ids, nil
@@ -251,7 +261,7 @@ func getGenericArtifactIds(compartment string) ([]string, error) {
 	listGenericArtifactsRequest := oci_artifacts.ListGenericArtifactsRequest{}
 	listGenericArtifactsRequest.CompartmentId = &compartmentId
 
-	repositoryIds, error := getRepositoryIds(compartment)
+	repositoryIds, error := getArtifactsRepositoryIds(compartment)
 	if error != nil {
 		return resourceIds, fmt.Errorf("Error getting repositoryId required for GenericArtifact resource requests \n")
 	}
@@ -275,7 +285,7 @@ func getGenericArtifactIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func genericArtifactSweepWaitCondition(response common.OCIOperationResponse) bool {
+func ArtifactsgenericArtifactsSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if genericArtifactResponse, ok := response.Response.(oci_artifacts.GetGenericArtifactResponse); ok {
 		return genericArtifactResponse.LifecycleState != oci_artifacts.GenericArtifactLifecycleStateDeleted
@@ -283,7 +293,7 @@ func genericArtifactSweepWaitCondition(response common.OCIOperationResponse) boo
 	return false
 }
 
-func genericArtifactSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func ArtifactsgenericArtifactsSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.ArtifactsClient().GetGenericArtifact(context.Background(), oci_artifacts.GetGenericArtifactRequest{RequestMetadata: common.RequestMetadata{
 		RetryPolicy: retryPolicy,
 	},

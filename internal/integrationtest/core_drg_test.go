@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,26 +16,26 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	DrgRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", acctest.Required, acctest.Create, drgRepresentation)
+	CoreDrgRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", acctest.Required, acctest.Create, CoreDrgRepresentation)
 
-	drgDataSourceRepresentation = map[string]interface{}{
+	CoreCoreDrgDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: drgDataSourceFilterRepresentation}}
-	drgDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreDrgDataSourceFilterRepresentation}}
+	CoreDrgDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_drg.test_drg.id}`}},
 	}
 
-	drgRepresentation = map[string]interface{}{
+	CoreDrgRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `MyDrg`, Update: `displayName2`},
@@ -43,7 +43,7 @@ var (
 		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesLBRepresentation},
 	}
 
-	DrgResourceDependencies = DefinedTagsDependencies
+	CoreDrgResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: core/virtualNetwork
@@ -64,14 +64,14 @@ func TestCoreDrgResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DrgResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", acctest.Optional, acctest.Create, drgRepresentation), "core", "drg", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreDrgResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", acctest.Optional, acctest.Create, CoreDrgRepresentation), "core", "drg", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreDrgDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DrgResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", acctest.Required, acctest.Create, drgRepresentation),
+			Config: config + compartmentIdVariableStr + CoreDrgResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", acctest.Required, acctest.Create, CoreDrgRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
@@ -84,12 +84,12 @@ func TestCoreDrgResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DrgResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreDrgResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DrgResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", acctest.Optional, acctest.Create, drgRepresentation),
+			Config: config + compartmentIdVariableStr + CoreDrgResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", acctest.Optional, acctest.Create, CoreDrgRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "MyDrg"),
@@ -112,9 +112,9 @@ func TestCoreDrgResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DrgResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreDrgResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(drgRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CoreDrgRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -137,8 +137,8 @@ func TestCoreDrgResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DrgResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", acctest.Optional, acctest.Update, drgRepresentation),
+			Config: config + compartmentIdVariableStr + CoreDrgResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", acctest.Optional, acctest.Update, CoreDrgRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -159,9 +159,9 @@ func TestCoreDrgResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_drgs", "test_drgs", acctest.Optional, acctest.Update, drgDataSourceRepresentation) +
-				compartmentIdVariableStr + DrgResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", acctest.Optional, acctest.Update, drgRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_drgs", "test_drgs", acctest.Optional, acctest.Update, CoreCoreDrgDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreDrgResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", acctest.Optional, acctest.Update, CoreDrgRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "redundancy_status"),
@@ -178,7 +178,7 @@ func TestCoreDrgResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + DrgRequiredOnlyResource,
+			Config:                  config + CoreDrgRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -242,7 +242,7 @@ func init() {
 
 func sweepCoreDrgResource(compartment string) error {
 	virtualNetworkClient := acctest.GetTestClients(&schema.ResourceData{}).VirtualNetworkClient()
-	drgIds, err := getDrgIds(compartment)
+	drgIds, err := getCoreDrgIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -258,14 +258,14 @@ func sweepCoreDrgResource(compartment string) error {
 				fmt.Printf("Error deleting Drg %s %s, It is possible that the resource is already deleted. Please verify manually \n", drgId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &drgId, drgSweepWaitCondition, time.Duration(3*time.Minute),
-				drgSweepResponseFetchOperation, "core", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &drgId, CoreDrgSweepWaitCondition, time.Duration(3*time.Minute),
+				CoreDrgSweepResponseFetchOperation, "core", true)
 		}
 	}
 	return nil
 }
 
-func getDrgIds(compartment string) ([]string, error) {
+func getCoreDrgIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "DrgId")
 	if ids != nil {
 		return ids, nil
@@ -291,7 +291,7 @@ func getDrgIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func drgSweepWaitCondition(response common.OCIOperationResponse) bool {
+func CoreDrgSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if drgResponse, ok := response.Response.(oci_core.GetDrgResponse); ok {
 		return drgResponse.LifecycleState != oci_core.DrgLifecycleStateTerminated
@@ -299,7 +299,7 @@ func drgSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func drgSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CoreDrgSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.VirtualNetworkClient().GetDrg(context.Background(), oci_core.GetDrgRequest{
 		DrgId: resourceId,
 		RequestMetadata: common.RequestMetadata{

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database
@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -259,6 +259,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"private_endpoint_ip": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"private_endpoint_label": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -359,6 +364,12 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed:         true,
 				ForceNew:         true,
 				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+			},
+			"use_latest_available_backup_time_stamp": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"vault_id": {
 				Type:     schema.TypeString,
@@ -698,10 +709,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional: true,
 			},
 			"private_endpoint": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"private_endpoint_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -1046,6 +1053,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) CreatedPending() []string {
 func (s *DatabaseAutonomousDatabaseResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_database.AutonomousDatabaseLifecycleStateAvailable),
+		string(oci_database.AutonomousDatabaseLifecycleStateStandby),
 	}
 }
 
@@ -1292,7 +1300,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.IsAutoScalingEnabled = &tmp
 	}
 
-	if isAutoScalingForStorageEnabled, ok := s.D.GetOkExists("is_auto_scaling_for_storage_enabled"); ok {
+	if isAutoScalingForStorageEnabled, ok := s.D.GetOkExists("is_auto_scaling_for_storage_enabled"); ok && s.D.HasChange("is_auto_scaling_for_storage_enabled") {
 		tmp := isAutoScalingForStorageEnabled.(bool)
 		request.IsAutoScalingForStorageEnabled = &tmp
 	}
@@ -1364,6 +1372,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 	if peerDbId, ok := s.D.GetOkExists("peer_db_id"); ok {
 		tmp := peerDbId.(string)
 		request.PeerDbId = &tmp
+	}
+
+	if privateEndpointIp, ok := s.D.GetOkExists("private_endpoint_ip"); ok {
+		tmp := privateEndpointIp.(string)
+		request.PrivateEndpointIp = &tmp
 	}
 
 	if refreshableMode, ok := s.D.GetOkExists("refreshable_mode"); ok && s.D.HasChange("refreshable_mode") {
@@ -2186,6 +2199,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := float32(ocpuCount.(float64))
 			details.OcpuCount = &tmp
 		}
+		if privateEndpointIp, ok := s.D.GetOkExists("private_endpoint_ip"); ok {
+			tmp := privateEndpointIp.(string)
+			details.PrivateEndpointIp = &tmp
+		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
 			tmp := privateEndpointLabel.(string)
 			details.PrivateEndpointLabel = &tmp
@@ -2256,6 +2273,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 				return err
 			}
 			details.Timestamp = &oci_common.SDKTime{Time: tmp}
+		}
+		if useLatestAvailableBackupTimeStamp, ok := s.D.GetOkExists("use_latest_available_backup_time_stamp"); ok {
+			tmp := useLatestAvailableBackupTimeStamp.(bool)
+			details.UseLatestAvailableBackupTimeStamp = &tmp
 		}
 		if adminPassword, ok := s.D.GetOkExists("admin_password"); ok {
 			tmp := adminPassword.(string)
@@ -2399,6 +2420,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
 			tmp := float32(ocpuCount.(float64))
 			details.OcpuCount = &tmp
+		}
+		if privateEndpointIp, ok := s.D.GetOkExists("private_endpoint_ip"); ok {
+			tmp := privateEndpointIp.(string)
+			details.PrivateEndpointIp = &tmp
 		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
 			tmp := privateEndpointLabel.(string)
@@ -2607,6 +2632,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := float32(ocpuCount.(float64))
 			details.OcpuCount = &tmp
 		}
+		if privateEndpointIp, ok := s.D.GetOkExists("private_endpoint_ip"); ok {
+			tmp := privateEndpointIp.(string)
+			details.PrivateEndpointIp = &tmp
+		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
 			tmp := privateEndpointLabel.(string)
 			details.PrivateEndpointLabel = &tmp
@@ -2798,6 +2827,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
 			tmp := ocpuCount.(float32)
 			details.OcpuCount = &tmp
+		}
+		if privateEndpointIp, ok := s.D.GetOkExists("private_endpoint_ip"); ok {
+			tmp := privateEndpointIp.(string)
+			details.PrivateEndpointIp = &tmp
 		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
 			tmp := privateEndpointLabel.(string)
@@ -3009,6 +3042,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := float32(ocpuCount.(float64))
 			details.OcpuCount = &tmp
 		}
+		if privateEndpointIp, ok := s.D.GetOkExists("private_endpoint_ip"); ok {
+			tmp := privateEndpointIp.(string)
+			details.PrivateEndpointIp = &tmp
+		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
 			tmp := privateEndpointLabel.(string)
 			details.PrivateEndpointLabel = &tmp
@@ -3210,6 +3247,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
 			tmp := float32(ocpuCount.(float64))
 			details.OcpuCount = &tmp
+		}
+		if privateEndpointIp, ok := s.D.GetOkExists("private_endpoint_ip"); ok {
+			tmp := privateEndpointIp.(string)
+			details.PrivateEndpointIp = &tmp
 		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
 			tmp := privateEndpointLabel.(string)

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -49,7 +49,7 @@ type CloudAutonomousVmCluster struct {
 
 	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
 	// **NsgIds restrictions:**
-	// - Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds list cannot be empty.
+	// - A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the last maintenance update history. This value is updated when a maintenance update starts.
@@ -60,6 +60,9 @@ type CloudAutonomousVmCluster struct {
 
 	// The last date and time that the cloud Autonomous VM cluster was updated.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	// The time zone of the Cloud Autonomous VM Cluster.
+	ClusterTimeZone *string `mandatory:"false" json:"clusterTimeZone"`
 
 	// Additional information about the current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
@@ -82,11 +85,14 @@ type CloudAutonomousVmCluster struct {
 	// The total data storage allocated, in gigabytes (GB).
 	DataStorageSizeInGBs *float64 `mandatory:"false" json:"dataStorageSizeInGBs"`
 
-	// The number of CPU cores enabled on the cloud Autonomous VM cluster.
+	// The number of CPU cores on the cloud Autonomous VM cluster.
 	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
 
-	// The number of CPU cores enabled on the cloud Autonomous VM cluster. Only 1 decimal place is allowed for the fractional part.
+	// The number of CPU cores on the cloud Autonomous VM cluster. Only 1 decimal place is allowed for the fractional part.
 	OcpuCount *float32 `mandatory:"false" json:"ocpuCount"`
+
+	// The number of OCPU cores enabled per VM cluster node.
+	CpuCoreCountPerNode *int `mandatory:"false" json:"cpuCoreCountPerNode"`
 
 	// The memory allocated in GBs.
 	MemorySizeInGBs *int `mandatory:"false" json:"memorySizeInGBs"`
@@ -103,6 +109,8 @@ type CloudAutonomousVmCluster struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the next maintenance run.
 	NextMaintenanceRunId *string `mandatory:"false" json:"nextMaintenanceRunId"`
 
+	MaintenanceWindow *MaintenanceWindow `mandatory:"false" json:"maintenanceWindow"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -115,7 +123,7 @@ type CloudAutonomousVmCluster struct {
 	// CPU cores available for allocation to Autonomous Databases.
 	AvailableCpus *float32 `mandatory:"false" json:"availableCpus"`
 
-	// CPU cores that are not released to available pool after an Autonomous Database is terminated (Requires Autonomous Container Database restart).
+	// CPU cores that continue to be included in the count of OCPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available OCPUs at its parent AVMC level by restarting the Autonomous Container Database.
 	ReclaimableCpus *float32 `mandatory:"false" json:"reclaimableCpus"`
 
 	// The number of Autonomous Container Databases that can be created with the currently available local storage.

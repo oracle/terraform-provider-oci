@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -23,6 +23,8 @@ type AddCloudSqlDetails struct {
 
 	// Base-64 encoded password for the cluster (and Cloudera Manager) admin user.
 	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
+
+	ShapeConfig *ShapeConfigDetails `mandatory:"false" json:"shapeConfig"`
 
 	// The size of block volume in GB to be attached to the given node. All details needed for attaching the block volume are managed by the service itself.
 	BlockVolumeSizeInGBs *int64 `mandatory:"false" json:"blockVolumeSizeInGBs"`

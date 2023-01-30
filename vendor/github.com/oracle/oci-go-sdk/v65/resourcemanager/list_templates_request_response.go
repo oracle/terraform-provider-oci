@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -12,6 +12,10 @@ import (
 )
 
 // ListTemplatesRequest wrapper for the ListTemplates operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListTemplates.go.html to see an example of how to use ListTemplatesRequest.
 type ListTemplatesRequest struct {
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -21,8 +25,11 @@ type ListTemplatesRequest struct {
 	// A filter to return only resources that exist in the compartment, identified by OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
-	// Unique identifier of the template category.
-	// Possible values are `0` (Quick Starts), `1` (Service), `2` (Architecture), and `3` (Private).
+	// Unique identifier for the template category.
+	// Possible values are `0` (Quickstarts), `1` (Service), `2` (Architecture), and `3` (Private).
+	// Template category labels are displayed in the Console page listing templates.
+	// Quickstarts, Service, and Architecture templates (categories 0, 1, and 2) are available in all compartments.
+	// Each private template (category 3) is available in the compartment where it was created.
 	TemplateCategoryId *string `mandatory:"false" contributesTo:"query" name:"templateCategoryId"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the template.

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package acctest
@@ -20,23 +20,23 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
+	"github.com/oracle/terraform-provider-oci/internal/globalvar"
 
 	"github.com/hashicorp/go-multierror"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	tf_provider "github.com/terraform-providers/terraform-provider-oci/internal/provider"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	tf_provider "github.com/oracle/terraform-provider-oci/internal/provider"
 
-	//tf_resource_discovery "github.com/terraform-providers/terraform-provider-oci/oci/resourcediscovery"
-	tf_resource "github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	//tf_resource_discovery "github.com/oracle/terraform-provider-oci/oci/resourcediscovery"
+	tf_resource "github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
@@ -401,9 +401,6 @@ func setEnvSetting(s, v string) error {
 	return nil
 }
 
-/*
-
- */
 func CheckJsonStringsEqual(expectedJsonString string, actualJsonString string) error {
 	if expectedJsonString == actualJsonString {
 		return nil
@@ -470,13 +467,39 @@ func WriteToFile(content string, service string, resource string) error {
 	return nil
 }
 
-func GenericTestStepPreConfiguration(stepNumber int) func() {
+func WriteToFileWithStepNumber(content string, step int, t *testing.T) error {
+	path, err := os.Getwd()
+	if err != nil {
+		return err
+	}
+	path = path + "/output/"
+	if err := os.MkdirAll(path, 0770); err != nil {
+		return err
+	}
+	fileName := fmt.Sprintf("%s%s-step-%d.tf", path, t.Name(), step)
+	f, err := os.OpenFile(fileName, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0755)
+	if err != nil {
+		return err
+	}
+	if _, err = f.WriteString(content); err != nil {
+		return err
+	}
+	log.Printf("Test Config saved to : %s", fileName)
+	return nil
+}
+
+func GenericTestStepPreConfiguration(steps []resource.TestStep, stepNumber int, t *testing.T) func() {
 	return func() {
 
 		// add logs for notifying execution
 		log.Println()
 		log.Printf("====================== Executing Test Step %d ===================", stepNumber)
 		log.Println()
+		if strings.ToLower(utils.GetEnvSettingWithBlankDefault(globalvar.DebugTestSteps)) == "true" || strings.ToLower(utils.GetEnvSettingWithBlankDefault(globalvar.DebugTestStepsShowConfigOnly)) == "true" {
+			if err := WriteToFileWithStepNumber(steps[stepNumber].Config, stepNumber, t); err != nil {
+				log.Printf("Failed to write TF content to file with error: %q", err)
+			}
+		}
 	}
 }
 
@@ -532,21 +555,27 @@ func (t *OciTestT) Failed() bool {
 }
 
 func (t *OciTestT) Fatalf(format string, args ...interface{}) {
+	defer func() {
+		str := fmt.Sprintf("%v", args)
+		t.ErrorMessages = append(t.ErrorMessages, str)
+	}()
 	t.T.Fatalf(format, args...)
-	str := fmt.Sprintf("%v", args)
-	t.ErrorMessages = append(t.ErrorMessages, str)
 }
 
 func (t *OciTestT) Log(args ...interface{}) {
+	defer func() {
+		str := fmt.Sprintf("%v", args)
+		t.ErrorMessages = append(t.ErrorMessages, str)
+	}()
 	t.T.Log(args...)
-	str := fmt.Sprintf("%v", args)
-	t.ErrorMessages = append(t.ErrorMessages, str)
 }
 
 func (t *OciTestT) Logf(format string, args ...interface{}) {
+	defer func() {
+		str := fmt.Sprintf("%v", args)
+		t.ErrorMessages = append(t.ErrorMessages, str)
+	}()
 	t.T.Logf(format, args...)
-	str := fmt.Sprintf("%v", args)
-	t.ErrorMessages = append(t.ErrorMessages, str)
 }
 
 func (t *OciTestT) SkipNow() {
@@ -554,9 +583,11 @@ func (t *OciTestT) SkipNow() {
 }
 
 func (t *OciTestT) Skipf(format string, args ...interface{}) {
+	defer func() {
+		str := fmt.Sprintf("%v", args)
+		t.ErrorMessages = append(t.ErrorMessages, str)
+	}()
 	t.T.Skipf(format, args...)
-	str := fmt.Sprintf("%v", args)
-	t.ErrorMessages = append(t.ErrorMessages, str)
 }
 
 func (t *OciTestT) Skipped() bool {
@@ -572,11 +603,29 @@ func ResourceTest(t *testing.T, checkDestroyFunc resource.TestCheckFunc, steps [
 	// set Generic preconfiguration method if not explicitly set
 	for index, _ := range steps {
 		if steps[index].PreConfig == nil {
-			steps[index].PreConfig = GenericTestStepPreConfiguration(index)
+			steps[index].PreConfig = GenericTestStepPreConfiguration(steps, index, t)
+			steps[index].SkipFunc = func() (bool, error) {
+				if strings.ToLower(utils.GetEnvSettingWithBlankDefault(globalvar.DebugTestStepsShowConfigOnly)) == "true" {
+					return true, nil
+				}
+				return false, nil
+			}
 		}
 	}
 
 	ociTest := OciTestT{t, make([]string, 0)}
+
+	defer func() {
+		// check if any error was logged
+		if len(ociTest.ErrorMessages) > 0 {
+			fmt.Println("================ Error Summary ================")
+			// print out the errors in an error summary
+			for _, error := range ociTest.ErrorMessages {
+				fmt.Println(error)
+			}
+		}
+	}()
+
 	resource.Test(&ociTest, resource.TestCase{
 		PreCheck: func() { PreCheck(t) },
 		Providers: map[string]*schema.Provider{
@@ -585,17 +634,6 @@ func ResourceTest(t *testing.T, checkDestroyFunc resource.TestCheckFunc, steps [
 		CheckDestroy: checkDestroyFunc,
 		Steps:        steps,
 	})
-
-	// check if any error was logged
-	if len(ociTest.ErrorMessages) <= 0 {
-		return
-	}
-
-	fmt.Println("================ Error Summary ================")
-	// print out the errors in an error summary
-	for _, error := range ociTest.ErrorMessages {
-		fmt.Println(error)
-	}
 }
 
 func PreCheck(t *testing.T) {

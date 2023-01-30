@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package logging
@@ -16,8 +16,8 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_logging "github.com/oracle/oci-go-sdk/v65/logging"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func LoggingUnifiedAgentConfigurationResource() *schema.Resource {
@@ -56,8 +56,6 @@ func LoggingUnifiedAgentConfigurationResource() *schema.Resource {
 								"LOGGING",
 							}, true),
 						},
-
-						// Optional
 						"destination": {
 							Type:     schema.TypeList,
 							Required: true,
@@ -1610,6 +1608,8 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 		}
 		if v.IsEstimateCurrentEvent != nil {
 			result["is_estimate_current_event"] = v.IsEstimateCurrentEvent
+		} else {
+			result["is_estimate_current_event"] = true
 		}
 		if v.IsKeepTimeKey != nil {
 			result["is_keep_time_key"] = v.IsKeepTimeKey
@@ -1633,6 +1633,8 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 		}
 		if v.IsEstimateCurrentEvent != nil {
 			result["is_estimate_current_event"] = v.IsEstimateCurrentEvent
+		} else {
+			result["is_estimate_current_event"] = true
 		}
 		if v.IsKeepTimeKey != nil {
 			result["is_keep_time_key"] = v.IsKeepTimeKey
@@ -1656,6 +1658,8 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 		}
 		if v.IsEstimateCurrentEvent != nil {
 			result["is_estimate_current_event"] = v.IsEstimateCurrentEvent
+		} else {
+			result["is_estimate_current_event"] = true
 		}
 		if v.IsKeepTimeKey != nil {
 			result["is_keep_time_key"] = v.IsKeepTimeKey
@@ -1679,6 +1683,8 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 		}
 		if v.IsEstimateCurrentEvent != nil {
 			result["is_estimate_current_event"] = v.IsEstimateCurrentEvent
+		} else {
+			result["is_estimate_current_event"] = true
 		}
 		if v.IsKeepTimeKey != nil {
 			result["is_keep_time_key"] = v.IsKeepTimeKey
@@ -1742,6 +1748,8 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 		}
 		if v.IsEstimateCurrentEvent != nil {
 			result["is_estimate_current_event"] = v.IsEstimateCurrentEvent
+		} else {
+			result["is_estimate_current_event"] = true
 		}
 		if v.IsKeepTimeKey != nil {
 			result["is_keep_time_key"] = v.IsKeepTimeKey
@@ -1770,6 +1778,8 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 		}
 		if v.IsEstimateCurrentEvent != nil {
 			result["is_estimate_current_event"] = v.IsEstimateCurrentEvent
+		} else {
+			result["is_estimate_current_event"] = true
 		}
 		if v.IsKeepTimeKey != nil {
 			result["is_keep_time_key"] = v.IsKeepTimeKey
@@ -1793,6 +1803,8 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 		}
 		if v.IsEstimateCurrentEvent != nil {
 			result["is_estimate_current_event"] = v.IsEstimateCurrentEvent
+		} else {
+			result["is_estimate_current_event"] = true
 		}
 		if v.IsKeepTimeKey != nil {
 			result["is_keep_time_key"] = v.IsKeepTimeKey
@@ -1821,6 +1833,8 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 		}
 		if v.IsEstimateCurrentEvent != nil {
 			result["is_estimate_current_event"] = v.IsEstimateCurrentEvent
+		} else {
+			result["is_estimate_current_event"] = true
 		}
 		if v.IsKeepTimeKey != nil {
 			result["is_keep_time_key"] = v.IsKeepTimeKey
@@ -1861,6 +1875,8 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 		}
 		if v.IsEstimateCurrentEvent != nil {
 			result["is_estimate_current_event"] = v.IsEstimateCurrentEvent
+		} else {
+			result["is_estimate_current_event"] = true
 		}
 		if v.IsKeepTimeKey != nil {
 			result["is_keep_time_key"] = v.IsKeepTimeKey
@@ -1887,6 +1903,8 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 		}
 		if v.IsEstimateCurrentEvent != nil {
 			result["is_estimate_current_event"] = v.IsEstimateCurrentEvent
+		} else {
+			result["is_estimate_current_event"] = true
 		}
 		if v.IsKeepTimeKey != nil {
 			result["is_keep_time_key"] = v.IsKeepTimeKey
@@ -1918,6 +1936,8 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 		}
 		if v.IsEstimateCurrentEvent != nil {
 			result["is_estimate_current_event"] = v.IsEstimateCurrentEvent
+		} else {
+			result["is_estimate_current_event"] = true
 		}
 		if v.IsKeepTimeKey != nil {
 			result["is_keep_time_key"] = v.IsKeepTimeKey
@@ -1961,6 +1981,8 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 		}
 		if v.IsEstimateCurrentEvent != nil {
 			result["is_estimate_current_event"] = v.IsEstimateCurrentEvent
+		} else {
+			result["is_estimate_current_event"] = true
 		}
 		if v.IsKeepTimeKey != nil {
 			result["is_keep_time_key"] = v.IsKeepTimeKey

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -44,6 +44,9 @@ type ListWorkRequestsRequest struct {
 
 	// The field to sort by. Only one sort order can be provided. Default sort order is descending and is based on the timeAccepted field.
 	SortBy ListWorkRequestsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
+
+	// A filter to return only resources where their Operation Types matches the parameter operation types
+	OperationTypeMultiValueQuery []string `contributesTo:"query" name:"operationTypeMultiValueQuery" collectionFormat:"multi"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -126,30 +129,36 @@ type ListWorkRequestsStatusEnum string
 
 // Set of constants representing the allowable values for ListWorkRequestsStatusEnum
 const (
-	ListWorkRequestsStatusAccepted   ListWorkRequestsStatusEnum = "ACCEPTED"
-	ListWorkRequestsStatusInProgress ListWorkRequestsStatusEnum = "IN_PROGRESS"
-	ListWorkRequestsStatusFailed     ListWorkRequestsStatusEnum = "FAILED"
-	ListWorkRequestsStatusSucceeded  ListWorkRequestsStatusEnum = "SUCCEEDED"
-	ListWorkRequestsStatusCanceling  ListWorkRequestsStatusEnum = "CANCELING"
-	ListWorkRequestsStatusCanceled   ListWorkRequestsStatusEnum = "CANCELED"
+	ListWorkRequestsStatusAccepted       ListWorkRequestsStatusEnum = "ACCEPTED"
+	ListWorkRequestsStatusInProgress     ListWorkRequestsStatusEnum = "IN_PROGRESS"
+	ListWorkRequestsStatusFailed         ListWorkRequestsStatusEnum = "FAILED"
+	ListWorkRequestsStatusSucceeded      ListWorkRequestsStatusEnum = "SUCCEEDED"
+	ListWorkRequestsStatusCanceling      ListWorkRequestsStatusEnum = "CANCELING"
+	ListWorkRequestsStatusCanceled       ListWorkRequestsStatusEnum = "CANCELED"
+	ListWorkRequestsStatusWaiting        ListWorkRequestsStatusEnum = "WAITING"
+	ListWorkRequestsStatusNeedsAttention ListWorkRequestsStatusEnum = "NEEDS_ATTENTION"
 )
 
 var mappingListWorkRequestsStatusEnum = map[string]ListWorkRequestsStatusEnum{
-	"ACCEPTED":    ListWorkRequestsStatusAccepted,
-	"IN_PROGRESS": ListWorkRequestsStatusInProgress,
-	"FAILED":      ListWorkRequestsStatusFailed,
-	"SUCCEEDED":   ListWorkRequestsStatusSucceeded,
-	"CANCELING":   ListWorkRequestsStatusCanceling,
-	"CANCELED":    ListWorkRequestsStatusCanceled,
+	"ACCEPTED":        ListWorkRequestsStatusAccepted,
+	"IN_PROGRESS":     ListWorkRequestsStatusInProgress,
+	"FAILED":          ListWorkRequestsStatusFailed,
+	"SUCCEEDED":       ListWorkRequestsStatusSucceeded,
+	"CANCELING":       ListWorkRequestsStatusCanceling,
+	"CANCELED":        ListWorkRequestsStatusCanceled,
+	"WAITING":         ListWorkRequestsStatusWaiting,
+	"NEEDS_ATTENTION": ListWorkRequestsStatusNeedsAttention,
 }
 
 var mappingListWorkRequestsStatusEnumLowerCase = map[string]ListWorkRequestsStatusEnum{
-	"accepted":    ListWorkRequestsStatusAccepted,
-	"in_progress": ListWorkRequestsStatusInProgress,
-	"failed":      ListWorkRequestsStatusFailed,
-	"succeeded":   ListWorkRequestsStatusSucceeded,
-	"canceling":   ListWorkRequestsStatusCanceling,
-	"canceled":    ListWorkRequestsStatusCanceled,
+	"accepted":        ListWorkRequestsStatusAccepted,
+	"in_progress":     ListWorkRequestsStatusInProgress,
+	"failed":          ListWorkRequestsStatusFailed,
+	"succeeded":       ListWorkRequestsStatusSucceeded,
+	"canceling":       ListWorkRequestsStatusCanceling,
+	"canceled":        ListWorkRequestsStatusCanceled,
+	"waiting":         ListWorkRequestsStatusWaiting,
+	"needs_attention": ListWorkRequestsStatusNeedsAttention,
 }
 
 // GetListWorkRequestsStatusEnumValues Enumerates the set of values for ListWorkRequestsStatusEnum
@@ -170,6 +179,8 @@ func GetListWorkRequestsStatusEnumStringValues() []string {
 		"SUCCEEDED",
 		"CANCELING",
 		"CANCELED",
+		"WAITING",
+		"NEEDS_ATTENTION",
 	}
 }
 

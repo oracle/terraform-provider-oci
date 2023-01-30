@@ -7,23 +7,23 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	logAnalyticsEntitiesSummarySingularDataSourceRepresentation = map[string]interface{}{
+	LogAnalyticsLogAnalyticsLogAnalyticsEntitiesSummarySingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"namespace":      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 	}
 
-	LogAnalyticsEntitiesSummaryResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation)
+	LogAnalyticsEntitiesSummaryResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsNamespaceSingularDataSourceRepresentation)
 
-	LogAnalyticsEntitiesSummaryResourceConfig = ""
+	LogAnalyticsLogAnalyticsEntitiesSummaryResourceConfig = ""
 )
 
 // issue-routing-tag: log_analytics/default
@@ -44,8 +44,8 @@ func TestLogAnalyticsLogAnalyticsEntitiesSummaryResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config + compartmentIdVariableStr + LogAnalyticsEntitiesSummaryResourceDependencies +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_entities_summary", "test_log_analytics_entities_summary", acctest.Required, acctest.Create, logAnalyticsEntitiesSummarySingularDataSourceRepresentation) +
-				LogAnalyticsEntitiesSummaryResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_entities_summary", "test_log_analytics_entities_summary", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsLogAnalyticsEntitiesSummarySingularDataSourceRepresentation) +
+				LogAnalyticsLogAnalyticsEntitiesSummaryResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),

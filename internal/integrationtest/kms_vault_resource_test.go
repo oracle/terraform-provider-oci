@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,9 +10,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
@@ -20,7 +20,7 @@ var (
 
 	virtualVaultRepresentation = acctest.GetMultipleUpdatedRepresenationCopy([]string{"display_name", "vault_type"},
 		[]interface{}{acctest.Representation{RepType: acctest.Required, Create: `DEFAULT_VAULT`, Update: `displayName2`},
-			acctest.Representation{RepType: acctest.Required, Create: `DEFAULT`}}, vaultRepresentation)
+			acctest.Representation{RepType: acctest.Required, Create: `DEFAULT`}}, KmsVaultRepresentation)
 )
 
 // issue-routing-tag: kms/default
@@ -47,7 +47,7 @@ func TestResourceKmsVaultResource_default(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckKMSVaultDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + VaultResourceDependencies +
+			Config: config + compartmentIdVariableStr + KmsVaultResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", acctest.Required, acctest.Create, virtualVaultRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -63,11 +63,11 @@ func TestResourceKmsVaultResource_default(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + VaultResourceDependencies,
+			Config: config + compartmentIdVariableStr + KmsVaultResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + VaultResourceDependencies +
+			Config: config + compartmentIdVariableStr + KmsVaultResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", acctest.Optional, acctest.Create, virtualVaultRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -89,7 +89,7 @@ func TestResourceKmsVaultResource_default(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VaultResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + KmsVaultResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(virtualVaultRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -117,7 +117,7 @@ func TestResourceKmsVaultResource_default(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + VaultResourceDependencies +
+			Config: config + compartmentIdVariableStr + KmsVaultResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", acctest.Optional, acctest.Update, virtualVaultRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -142,8 +142,8 @@ func TestResourceKmsVaultResource_default(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_kms_vaults", "test_vaults", acctest.Optional, acctest.Update, vaultDataSourceRepresentation) +
-				compartmentIdVariableStr + VaultResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_kms_vaults", "test_vaults", acctest.Optional, acctest.Update, KmsKmsVaultDataSourceRepresentation) +
+				compartmentIdVariableStr + KmsVaultResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", acctest.Optional, acctest.Update, virtualVaultRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -163,8 +163,8 @@ func TestResourceKmsVaultResource_default(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_kms_vault", "test_vault", acctest.Required, acctest.Create, vaultSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + VaultResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_kms_vault", "test_vault", acctest.Required, acctest.Create, KmsKmsVaultSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + KmsVaultResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", acctest.Optional, acctest.Update, virtualVaultRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vault_id"),

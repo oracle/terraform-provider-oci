@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package devops
@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -107,9 +107,12 @@ func DevopsBuildPipelineStageResource() *schema.Resource {
 										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 										ValidateFunc: validation.StringInSlice([]string{
 											"BITBUCKET_CLOUD",
+											"BITBUCKET_SERVER",
 											"DEVOPS_CODE_REPOSITORY",
 											"GITHUB",
 											"GITLAB",
+											"GITLAB_SERVER",
+											"VBS",
 										}, true),
 									},
 
@@ -236,6 +239,44 @@ func DevopsBuildPipelineStageResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"private_access_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"network_channel_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"PRIVATE_ENDPOINT_CHANNEL",
+								"SERVICE_VNIC_CHANNEL",
+							}, true),
+						},
+						"subnet_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"nsg_ids": {
+							Type:     schema.TypeSet,
+							Optional: true,
+							Computed: true,
+							Set:      tfresource.LiteralTypeHashCodeForSets,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+
+						// Computed
+					},
+				},
 			},
 			"stage_execution_timeout_in_seconds": {
 				Type:     schema.TypeInt,
@@ -583,6 +624,16 @@ func (s *DevopsBuildPipelineStageResourceCrud) SetData() error {
 			s.D.Set("primary_build_source", *v.PrimaryBuildSource)
 		}
 
+		if v.PrivateAccessConfig != nil {
+			privateAccessConfigArray := []interface{}{}
+			if privateAccessConfigMap := NetworkChannelToMapForBuildStage(&v.PrivateAccessConfig, false); privateAccessConfigMap != nil {
+				privateAccessConfigArray = append(privateAccessConfigArray, privateAccessConfigMap)
+			}
+			s.D.Set("private_access_config", privateAccessConfigArray)
+		} else {
+			s.D.Set("private_access_config", nil)
+		}
+
 		if v.StageExecutionTimeoutInSeconds != nil {
 			s.D.Set("stage_execution_timeout_in_seconds", *v.StageExecutionTimeoutInSeconds)
 		}
@@ -920,6 +971,14 @@ func BuildPipelineStageSummaryToMap(obj oci_devops.BuildPipelineStageSummary) ma
 			result["primary_build_source"] = string(*v.PrimaryBuildSource)
 		}
 
+		if v.PrivateAccessConfig != nil {
+			privateAccessConfigArray := []interface{}{}
+			if privateAccessConfigMap := NetworkChannelToMapForBuildStage(&v.PrivateAccessConfig, false); privateAccessConfigMap != nil {
+				privateAccessConfigArray = append(privateAccessConfigArray, privateAccessConfigMap)
+			}
+			result["private_access_config"] = privateAccessConfigArray
+		}
+
 		if v.StageExecutionTimeoutInSeconds != nil {
 			result["stage_execution_timeout_in_seconds"] = int(*v.StageExecutionTimeoutInSeconds)
 		}
@@ -970,6 +1029,25 @@ func (s *DevopsBuildPipelineStageResourceCrud) mapToBuildSource(fieldKeyFormat s
 	switch strings.ToLower(connectionType) {
 	case strings.ToLower("BITBUCKET_CLOUD"):
 		details := oci_devops.BitbucketCloudBuildSource{}
+		if connectionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connection_id")); ok {
+			tmp := connectionId.(string)
+			details.ConnectionId = &tmp
+		}
+		if branch, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "branch")); ok {
+			tmp := branch.(string)
+			details.Branch = &tmp
+		}
+		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+			tmp := name.(string)
+			details.Name = &tmp
+		}
+		if repositoryUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "repository_url")); ok {
+			tmp := repositoryUrl.(string)
+			details.RepositoryUrl = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("BITBUCKET_SERVER"):
+		details := oci_devops.BitbucketServerBuildSource{}
 		if connectionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connection_id")); ok {
 			tmp := connectionId.(string)
 			details.ConnectionId = &tmp
@@ -1044,6 +1122,44 @@ func (s *DevopsBuildPipelineStageResourceCrud) mapToBuildSource(fieldKeyFormat s
 			details.RepositoryUrl = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("GITLAB_SERVER"):
+		details := oci_devops.GitlabServerBuildSource{}
+		if connectionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connection_id")); ok {
+			tmp := connectionId.(string)
+			details.ConnectionId = &tmp
+		}
+		if branch, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "branch")); ok {
+			tmp := branch.(string)
+			details.Branch = &tmp
+		}
+		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+			tmp := name.(string)
+			details.Name = &tmp
+		}
+		if repositoryUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "repository_url")); ok {
+			tmp := repositoryUrl.(string)
+			details.RepositoryUrl = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("VBS"):
+		details := oci_devops.VbsBuildSource{}
+		if connectionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connection_id")); ok {
+			tmp := connectionId.(string)
+			details.ConnectionId = &tmp
+		}
+		if branch, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "branch")); ok {
+			tmp := branch.(string)
+			details.Branch = &tmp
+		}
+		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+			tmp := name.(string)
+			details.Name = &tmp
+		}
+		if repositoryUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "repository_url")); ok {
+			tmp := repositoryUrl.(string)
+			details.RepositoryUrl = &tmp
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown connection_type '%v' was specified", connectionType)
 	}
@@ -1072,6 +1188,12 @@ func BuildSourceToMap(obj oci_devops.BuildSource) map[string]interface{} {
 		if v.ConnectionId != nil {
 			result["connection_id"] = string(*v.ConnectionId)
 		}
+	case oci_devops.BitbucketServerBuildSource:
+		result["connection_type"] = "BITBUCKET_SERVER"
+
+		if v.ConnectionId != nil {
+			result["connection_id"] = string(*v.ConnectionId)
+		}
 	case oci_devops.DevopsCodeRepositoryBuildSource:
 		result["connection_type"] = "DEVOPS_CODE_REPOSITORY"
 
@@ -1086,6 +1208,18 @@ func BuildSourceToMap(obj oci_devops.BuildSource) map[string]interface{} {
 		}
 	case oci_devops.GitlabBuildSource:
 		result["connection_type"] = "GITLAB"
+
+		if v.ConnectionId != nil {
+			result["connection_id"] = string(*v.ConnectionId)
+		}
+	case oci_devops.GitlabServerBuildSource:
+		result["connection_type"] = "GITLAB_SERVER"
+
+		if v.ConnectionId != nil {
+			result["connection_id"] = string(*v.ConnectionId)
+		}
+	case oci_devops.VbsBuildSource:
+		result["connection_type"] = "VBS"
 
 		if v.ConnectionId != nil {
 			result["connection_id"] = string(*v.ConnectionId)
@@ -1239,6 +1373,63 @@ func DeliverArtifactCollectionToMap(obj *oci_devops.DeliverArtifactCollection) m
 	return result
 }
 
+func (s *DevopsBuildPipelineStageResourceCrud) mapToNetworkChannel(fieldKeyFormat string) (oci_devops.NetworkChannel, error) {
+	var baseObject oci_devops.NetworkChannel
+	//discriminator
+	networkChannelTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_channel_type"))
+	var networkChannelType string
+	if ok {
+		networkChannelType = networkChannelTypeRaw.(string)
+	} else {
+		networkChannelType = "" // default value
+	}
+	switch strings.ToLower(networkChannelType) {
+	case strings.ToLower("PRIVATE_ENDPOINT_CHANNEL"):
+		details := oci_devops.PrivateEndpointChannel{}
+		if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "nsg_ids")) {
+				details.NsgIds = tmp
+			}
+		}
+		if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("SERVICE_VNIC_CHANNEL"):
+		details := oci_devops.ServiceVnicChannel{}
+		if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "nsg_ids")) {
+				details.NsgIds = tmp
+			}
+		}
+		if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown network_channel_type '%v' was specified", networkChannelType)
+	}
+	return baseObject, nil
+}
+
 func (s *DevopsBuildPipelineStageResourceCrud) mapToUpdateWaitCriteriaDetails(fieldKeyFormat string) (oci_devops.UpdateWaitCriteriaDetails, error) {
 	var baseObject oci_devops.UpdateWaitCriteriaDetails
 	//discriminator
@@ -1353,6 +1544,16 @@ func (s *DevopsBuildPipelineStageResourceCrud) populateTopLevelPolymorphicCreate
 		if primaryBuildSource, ok := s.D.GetOkExists("primary_build_source"); ok {
 			tmp := primaryBuildSource.(string)
 			details.PrimaryBuildSource = &tmp
+		}
+		if privateAccessConfig, ok := s.D.GetOkExists("private_access_config"); ok {
+			if tmpList := privateAccessConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "private_access_config", 0)
+				tmp, err := s.mapToNetworkChannel(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.PrivateAccessConfig = tmp
+			}
 		}
 		if stageExecutionTimeoutInSeconds, ok := s.D.GetOkExists("stage_execution_timeout_in_seconds"); ok {
 			tmp := stageExecutionTimeoutInSeconds.(int)
@@ -1563,6 +1764,16 @@ func (s *DevopsBuildPipelineStageResourceCrud) populateTopLevelPolymorphicUpdate
 			tmp := primaryBuildSource.(string)
 			details.PrimaryBuildSource = &tmp
 		}
+		if privateAccessConfig, ok := s.D.GetOkExists("private_access_config"); ok {
+			if tmpList := privateAccessConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "private_access_config", 0)
+				tmp, err := s.mapToNetworkChannel(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.PrivateAccessConfig = tmp
+			}
+		}
 		if stageExecutionTimeoutInSeconds, ok := s.D.GetOkExists("stage_execution_timeout_in_seconds"); ok {
 			tmp := stageExecutionTimeoutInSeconds.(int)
 			details.StageExecutionTimeoutInSeconds = &tmp
@@ -1764,4 +1975,47 @@ func (s *DevopsBuildPipelineStageResourceCrud) mapToBuildPipelineStagePredecesso
 	}
 
 	return result, nil
+}
+
+func NetworkChannelToMapForBuildStage(obj *oci_devops.NetworkChannel, datasource bool) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_devops.PrivateEndpointChannel:
+		result["network_channel_type"] = "PRIVATE_ENDPOINT_CHANNEL"
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		if datasource {
+			result["nsg_ids"] = nsgIds
+		} else {
+			result["nsg_ids"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds)
+		}
+
+		if v.SubnetId != nil {
+			result["subnet_id"] = string(*v.SubnetId)
+		}
+	case oci_devops.ServiceVnicChannel:
+		result["network_channel_type"] = "SERVICE_VNIC_CHANNEL"
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		if datasource {
+			result["nsg_ids"] = nsgIds
+		} else {
+			result["nsg_ids"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds)
+		}
+
+		if v.SubnetId != nil {
+			result["subnet_id"] = string(*v.SubnetId)
+		}
+	default:
+		log.Printf("[WARN] Received 'network_channel_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
 }

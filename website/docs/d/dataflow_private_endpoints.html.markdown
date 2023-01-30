@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_dataflow_private_endpoints
 This data source provides the list of Private Endpoints in Oracle Cloud Infrastructure Data Flow service.
 
-Lists all private endpoints in the specified compartment.
+Lists all private endpoints in the specified compartment. The query must include compartmentId. The query may also include one other parameter. If the query does not include compartmentId, or includes compartmentId, but with two or more other parameters, an error is returned.
 
 
 ## Example Usage
@@ -61,6 +61,9 @@ The following attributes are exported:
 * `nsg_ids` - An array of network security group OCIDs. 
 * `owner_principal_id` - The OCID of the user who created the resource. 
 * `owner_user_name` - The username of the user who created the resource.  If the username of the owner does not exist, `null` will be returned and the caller should refer to the ownerPrincipalId value instead. 
+* `scan_details` - An array of fqdn/port pairs used to create private endpoint. Each object is a simple key-value pair with FQDN as key and port number as value. [ { fqdn: "scan1.oracle.com", port: "1521"}, { fqdn: "scan2.oracle.com", port: "1521" } ] 
+	* `fqdn` - A fully-qualified domain name (FQDN). 
+	* `port` - The port number of the FQDN 
 * `state` - The current state of this private endpoint. 
 * `subnet_id` - The OCID of a subnet. 
 * `time_created` - The date and time a application was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2018-04-03T21:10:29.600Z` 

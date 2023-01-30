@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -41,6 +41,8 @@ type DeployPipelineDeploymentSummary struct {
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
 	DeploymentArguments *DeploymentArgumentCollection `mandatory:"false" json:"deploymentArguments"`
+
+	DeployStageOverrideArguments *DeployStageOverrideArgumentCollection `mandatory:"false" json:"deployStageOverrideArguments"`
 
 	DeployArtifactOverrideArguments *DeployArtifactOverrideArgumentCollection `mandatory:"false" json:"deployArtifactOverrideArguments"`
 
@@ -103,6 +105,11 @@ func (m DeployPipelineDeploymentSummary) GetLifecycleState() DeploymentLifecycle
 //GetDeploymentArguments returns DeploymentArguments
 func (m DeployPipelineDeploymentSummary) GetDeploymentArguments() *DeploymentArgumentCollection {
 	return m.DeploymentArguments
+}
+
+//GetDeployStageOverrideArguments returns DeployStageOverrideArguments
+func (m DeployPipelineDeploymentSummary) GetDeployStageOverrideArguments() *DeployStageOverrideArgumentCollection {
+	return m.DeployStageOverrideArguments
 }
 
 //GetDeployArtifactOverrideArguments returns DeployArtifactOverrideArguments

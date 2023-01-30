@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,20 +7,20 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	alertPolicySingularDataSourceRepresentation = map[string]interface{}{
+	DataSafealertPolicySingularDataSourceRepresentation = map[string]interface{}{
 		"alert_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${var.policy_id}`},
 	}
 
-	alertPolicyDataSourceRepresentation = map[string]interface{}{
+	DataSafealertPolicyDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":                        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree":             acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"display_name":                          acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_alert_policy.test_alert_policy.display_name}`},
@@ -31,7 +31,7 @@ var (
 		"alert_policy_type":                     acctest.Representation{RepType: acctest.Optional, Create: `AUDITING`},
 	}
 
-	AlertPolicyResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_alert_policies", "test_alert_policies", acctest.Required, acctest.Create, alertPolicyDataSourceRepresentation)
+	DataSafeAlertPolicyResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_alert_policies", "test_alert_policies", acctest.Required, acctest.Create, DataSafealertPolicyDataSourceRepresentation)
 )
 
 // issue-routing-tag: data_safe/default
@@ -57,7 +57,7 @@ func TestDataSafeAlertPolicyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + compartmentIdVariableStr + policyIdVariableStr +
-				AlertPolicyResourceConfig,
+				DataSafeAlertPolicyResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -73,8 +73,8 @@ func TestDataSafeAlertPolicyResource_basic(t *testing.T) {
 
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_alert_policy", "test_alert_policy", acctest.Required, acctest.Create, alertPolicySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + policyIdVariableStr + AlertPolicyResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_alert_policy", "test_alert_policy", acctest.Required, acctest.Create, DataSafealertPolicySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + policyIdVariableStr + DataSafeAlertPolicyResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "alert_policy_type"),

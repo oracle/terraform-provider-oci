@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package devops
@@ -7,8 +7,8 @@ import (
 	"context"
 	"log"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
@@ -110,6 +110,35 @@ func (s *DevopsConnectionDataSourceCrud) SetData() error {
 		s.D.Set("connection_type", "GITLAB_ACCESS_TOKEN")
 	case oci_devops.BitbucketCloudAppPasswordConnection:
 		s.D.Set("connection_type", "BITBUCKET_CLOUD_APP_PASSWORD")
+	case oci_devops.BitbucketServerAccessTokenConnection:
+		s.D.Set("connection_type", "BITBUCKET_SERVER_ACCESS_TOKEN")
+		s.D.Set("base_url", v.BaseUrl)
+		if v.TlsVerifyConfig != nil {
+			tlsVerifyConfigArray := []interface{}{}
+			if tlsVerifyConfigMap := TlsVerifyConfigToMap(&v.TlsVerifyConfig); tlsVerifyConfigMap != nil {
+				tlsVerifyConfigArray = append(tlsVerifyConfigArray, tlsVerifyConfigMap)
+			}
+			s.D.Set("tls_verify_config", tlsVerifyConfigArray)
+		} else {
+			s.D.Set("tls_verify_config", nil)
+		}
+	case oci_devops.GitlabServerAccessTokenConnection:
+		s.D.Set("connection_type", "GITLAB_SERVER_ACCESS_TOKEN")
+		s.D.Set("base_url", v.BaseUrl)
+		if v.TlsVerifyConfig != nil {
+			tlsVerifyConfigArray := []interface{}{}
+			if tlsVerifyConfigMap := TlsVerifyConfigToMap(&v.TlsVerifyConfig); tlsVerifyConfigMap != nil {
+				tlsVerifyConfigArray = append(tlsVerifyConfigArray, tlsVerifyConfigMap)
+			}
+			s.D.Set("tls_verify_config", tlsVerifyConfigArray)
+		} else {
+			s.D.Set("tls_verify_config", nil)
+		}
+
+	case oci_devops.VbsAccessTokenConnection:
+		s.D.Set("connection_type", "VBS_ACCESS_TOKEN")
+		s.D.Set("base_url", v.BaseUrl)
+
 	default:
 		log.Printf("[WARN] Received 'connection_type' of unknown type %v", v)
 		return nil

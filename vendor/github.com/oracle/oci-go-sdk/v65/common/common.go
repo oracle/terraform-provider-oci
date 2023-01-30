@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 package common
@@ -15,7 +15,7 @@ import (
 	"time"
 )
 
-//Region type for regions
+// Region type for regions
 type Region string
 
 const (
@@ -80,12 +80,22 @@ func (region Region) EndpointForTemplate(service string, serviceEndpointTemplate
 	return endpoint
 }
 
-// EndpointForTemplateDottedRegion returns a endpoint for a service based on template, only unknown region name can fall back to "oc1", but not short code region name.
+// EndpointForTemplateDottedRegion returns a endpoint for a service based on the service name and EndpointTemplateForRegionWithDot template. If a service name is missing it is obtained from serviceEndpointTemplate and endpoint is constructed usingEndpointTemplateForRegionWithDot template.
 func (region Region) EndpointForTemplateDottedRegion(service string, serviceEndpointTemplate string, endpointServiceName string) (string, error) {
+	if !strings.Contains(string(region), ".") {
+		var endpoint = ""
+		if serviceEndpointTemplate != "" {
+			endpoint = region.EndpointForTemplate(service, serviceEndpointTemplate)
+			return endpoint, nil
+		}
+		endpoint = region.EndpointForTemplate(service, "")
+		return endpoint, nil
+	}
+
 	if endpointServiceName != "" {
 		endpoint := strings.Replace(EndpointTemplateForRegionWithDot, "{endpoint_service_name}", endpointServiceName, 1)
 		endpoint = strings.Replace(endpoint, "{region}", string(region), 1)
-		Debugf("Constructing endpoint from service name %s and region %s", endpointServiceName, region)
+		Debugf("Constructing endpoint from service name %s and region %s. Endpoint: %s", endpointServiceName, region, endpoint)
 		return endpoint, nil
 	}
 	if serviceEndpointTemplate != "" {
@@ -96,6 +106,7 @@ func (region Region) EndpointForTemplateDottedRegion(service string, serviceEndp
 			if len(res) > 1 {
 				endpoint = strings.Replace(EndpointTemplateForRegionWithDot, "{endpoint_service_name}", res[0], 1)
 				endpoint = strings.Replace(endpoint, "{region}", string(region), 1)
+				Debugf("Constructing endpoint from service endpoint template %s and region %s. Endpoint: %s", serviceEndpointTemplate, region, endpoint)
 			} else {
 				return endpoint, fmt.Errorf("Endpoint service name not present in endpoint template")
 			}
@@ -129,7 +140,7 @@ func (region Region) RealmID() (string, error) {
 	return "", fmt.Errorf("cannot find realm for region : %s", region)
 }
 
-//StringToRegion convert a string to Region type
+// StringToRegion convert a string to Region type
 func StringToRegion(stringRegion string) (r Region) {
 	regionStr := strings.ToLower(stringRegion)
 	// check if short region name provided

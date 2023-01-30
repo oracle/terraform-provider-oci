@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -28,7 +28,9 @@ type IntegrationInstanceSummary struct {
 	// Compartment Identifier.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Standard or Enterprise type
+	// Standard or Enterprise type,
+	// Oracle Integration Generation 2 uses ENTERPRISE and STANDARD,
+	// Oracle Integration 3 uses ENTERPRISEX and STANDARDX
 	IntegrationInstanceType IntegrationInstanceSummaryIntegrationInstanceTypeEnum `mandatory:"true" json:"integrationInstanceType"`
 
 	// Bring your own license.
@@ -67,6 +69,19 @@ type IntegrationInstanceSummary struct {
 	ConsumptionModel IntegrationInstanceSummaryConsumptionModelEnum `mandatory:"false" json:"consumptionModel,omitempty"`
 
 	NetworkEndpointDetails NetworkEndpointDetails `mandatory:"false" json:"networkEndpointDetails"`
+
+	// Simple key-value pair that is applied without any predefined name,
+	// type or scope. Exists for cross-compatibility only.
+	// Example: `{"bar-key": "value"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Usage of predefined tag keys. These predefined keys are scoped to
+	// namespaces.
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Shape
+	Shape IntegrationInstanceSummaryShapeEnum `mandatory:"false" json:"shape,omitempty"`
 }
 
 func (m IntegrationInstanceSummary) String() string {
@@ -88,6 +103,9 @@ func (m IntegrationInstanceSummary) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingIntegrationInstanceSummaryConsumptionModelEnum(string(m.ConsumptionModel)); !ok && m.ConsumptionModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConsumptionModel: %s. Supported values are: %s.", m.ConsumptionModel, strings.Join(GetIntegrationInstanceSummaryConsumptionModelEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingIntegrationInstanceSummaryShapeEnum(string(m.Shape)); !ok && m.Shape != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Shape: %s. Supported values are: %s.", m.Shape, strings.Join(GetIntegrationInstanceSummaryShapeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -107,6 +125,9 @@ func (m *IntegrationInstanceSummary) UnmarshalJSON(data []byte) (e error) {
 		AlternateCustomEndpoints []CustomEndpointDetails                               `json:"alternateCustomEndpoints"`
 		ConsumptionModel         IntegrationInstanceSummaryConsumptionModelEnum        `json:"consumptionModel"`
 		NetworkEndpointDetails   networkendpointdetails                                `json:"networkEndpointDetails"`
+		FreeformTags             map[string]string                                     `json:"freeformTags"`
+		DefinedTags              map[string]map[string]interface{}                     `json:"definedTags"`
+		Shape                    IntegrationInstanceSummaryShapeEnum                   `json:"shape"`
 		Id                       *string                                               `json:"id"`
 		DisplayName              *string                                               `json:"displayName"`
 		CompartmentId            *string                                               `json:"compartmentId"`
@@ -152,6 +173,12 @@ func (m *IntegrationInstanceSummary) UnmarshalJSON(data []byte) (e error) {
 		m.NetworkEndpointDetails = nil
 	}
 
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.Shape = model.Shape
+
 	m.Id = model.Id
 
 	m.DisplayName = model.DisplayName
@@ -174,18 +201,24 @@ type IntegrationInstanceSummaryIntegrationInstanceTypeEnum string
 
 // Set of constants representing the allowable values for IntegrationInstanceSummaryIntegrationInstanceTypeEnum
 const (
-	IntegrationInstanceSummaryIntegrationInstanceTypeStandard   IntegrationInstanceSummaryIntegrationInstanceTypeEnum = "STANDARD"
-	IntegrationInstanceSummaryIntegrationInstanceTypeEnterprise IntegrationInstanceSummaryIntegrationInstanceTypeEnum = "ENTERPRISE"
+	IntegrationInstanceSummaryIntegrationInstanceTypeStandard    IntegrationInstanceSummaryIntegrationInstanceTypeEnum = "STANDARD"
+	IntegrationInstanceSummaryIntegrationInstanceTypeEnterprise  IntegrationInstanceSummaryIntegrationInstanceTypeEnum = "ENTERPRISE"
+	IntegrationInstanceSummaryIntegrationInstanceTypeStandardx   IntegrationInstanceSummaryIntegrationInstanceTypeEnum = "STANDARDX"
+	IntegrationInstanceSummaryIntegrationInstanceTypeEnterprisex IntegrationInstanceSummaryIntegrationInstanceTypeEnum = "ENTERPRISEX"
 )
 
 var mappingIntegrationInstanceSummaryIntegrationInstanceTypeEnum = map[string]IntegrationInstanceSummaryIntegrationInstanceTypeEnum{
-	"STANDARD":   IntegrationInstanceSummaryIntegrationInstanceTypeStandard,
-	"ENTERPRISE": IntegrationInstanceSummaryIntegrationInstanceTypeEnterprise,
+	"STANDARD":    IntegrationInstanceSummaryIntegrationInstanceTypeStandard,
+	"ENTERPRISE":  IntegrationInstanceSummaryIntegrationInstanceTypeEnterprise,
+	"STANDARDX":   IntegrationInstanceSummaryIntegrationInstanceTypeStandardx,
+	"ENTERPRISEX": IntegrationInstanceSummaryIntegrationInstanceTypeEnterprisex,
 }
 
 var mappingIntegrationInstanceSummaryIntegrationInstanceTypeEnumLowerCase = map[string]IntegrationInstanceSummaryIntegrationInstanceTypeEnum{
-	"standard":   IntegrationInstanceSummaryIntegrationInstanceTypeStandard,
-	"enterprise": IntegrationInstanceSummaryIntegrationInstanceTypeEnterprise,
+	"standard":    IntegrationInstanceSummaryIntegrationInstanceTypeStandard,
+	"enterprise":  IntegrationInstanceSummaryIntegrationInstanceTypeEnterprise,
+	"standardx":   IntegrationInstanceSummaryIntegrationInstanceTypeStandardx,
+	"enterprisex": IntegrationInstanceSummaryIntegrationInstanceTypeEnterprisex,
 }
 
 // GetIntegrationInstanceSummaryIntegrationInstanceTypeEnumValues Enumerates the set of values for IntegrationInstanceSummaryIntegrationInstanceTypeEnum
@@ -202,6 +235,8 @@ func GetIntegrationInstanceSummaryIntegrationInstanceTypeEnumStringValues() []st
 	return []string{
 		"STANDARD",
 		"ENTERPRISE",
+		"STANDARDX",
+		"ENTERPRISEX",
 	}
 }
 
@@ -316,5 +351,47 @@ func GetIntegrationInstanceSummaryConsumptionModelEnumStringValues() []string {
 // GetMappingIntegrationInstanceSummaryConsumptionModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingIntegrationInstanceSummaryConsumptionModelEnum(val string) (IntegrationInstanceSummaryConsumptionModelEnum, bool) {
 	enum, ok := mappingIntegrationInstanceSummaryConsumptionModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// IntegrationInstanceSummaryShapeEnum Enum with underlying type: string
+type IntegrationInstanceSummaryShapeEnum string
+
+// Set of constants representing the allowable values for IntegrationInstanceSummaryShapeEnum
+const (
+	IntegrationInstanceSummaryShapeDevelopment IntegrationInstanceSummaryShapeEnum = "DEVELOPMENT"
+	IntegrationInstanceSummaryShapeProduction  IntegrationInstanceSummaryShapeEnum = "PRODUCTION"
+)
+
+var mappingIntegrationInstanceSummaryShapeEnum = map[string]IntegrationInstanceSummaryShapeEnum{
+	"DEVELOPMENT": IntegrationInstanceSummaryShapeDevelopment,
+	"PRODUCTION":  IntegrationInstanceSummaryShapeProduction,
+}
+
+var mappingIntegrationInstanceSummaryShapeEnumLowerCase = map[string]IntegrationInstanceSummaryShapeEnum{
+	"development": IntegrationInstanceSummaryShapeDevelopment,
+	"production":  IntegrationInstanceSummaryShapeProduction,
+}
+
+// GetIntegrationInstanceSummaryShapeEnumValues Enumerates the set of values for IntegrationInstanceSummaryShapeEnum
+func GetIntegrationInstanceSummaryShapeEnumValues() []IntegrationInstanceSummaryShapeEnum {
+	values := make([]IntegrationInstanceSummaryShapeEnum, 0)
+	for _, v := range mappingIntegrationInstanceSummaryShapeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetIntegrationInstanceSummaryShapeEnumStringValues Enumerates the set of values in String for IntegrationInstanceSummaryShapeEnum
+func GetIntegrationInstanceSummaryShapeEnumStringValues() []string {
+	return []string{
+		"DEVELOPMENT",
+		"PRODUCTION",
+	}
+}
+
+// GetMappingIntegrationInstanceSummaryShapeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingIntegrationInstanceSummaryShapeEnum(val string) (IntegrationInstanceSummaryShapeEnum, bool) {
+	enum, ok := mappingIntegrationInstanceSummaryShapeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

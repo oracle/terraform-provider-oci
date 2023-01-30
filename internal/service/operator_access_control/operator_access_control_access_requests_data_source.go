@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package operator_access_control
@@ -11,8 +11,8 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_operator_access_control "github.com/oracle/oci-go-sdk/v65/operatoraccesscontrol"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func OperatorAccessControlAccessRequestsDataSource() *schema.Resource {
@@ -108,6 +108,10 @@ func OperatorAccessControlAccessRequestsDataSource() *schema.Resource {
 									},
 									"is_auto_approved": {
 										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"lifecycle_details": {
+										Type:     schema.TypeString,
 										Computed: true,
 									},
 									"opctl_additional_message": {
@@ -317,6 +321,10 @@ func AccessRequestsSummaryToMap(obj oci_operator_access_control.AccessRequestSum
 
 	if obj.IsAutoApproved != nil {
 		result["is_auto_approved"] = bool(*obj.IsAutoApproved)
+	}
+
+	if obj.LifecycleDetails != nil {
+		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
 
 	if obj.RequestId != nil {

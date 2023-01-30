@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,9 +10,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
@@ -23,19 +23,19 @@ var (
 		"route_table_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_route_table.test_route_table.id}`},
 	}
 
-	RouteTableResourceAttachmentDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Update, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", acctest.Required, acctest.Create, dhcpOptionsRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, internetGatewayRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, routeTableRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", acctest.Required, acctest.Create, securityListRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", acctest.Required, acctest.Create, serviceDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+	RouteTableResourceAttachmentDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Update, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", acctest.Required, acctest.Create, CoreDhcpOptionsRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, CoreInternetGatewayRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, CoreRouteTableRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", acctest.Required, acctest.Create, CoreSecurityListRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", acctest.Required, acctest.Create, CoreCoreServiceDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 			"dns_label":      acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 			"is_ipv6enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		})) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table_2", acctest.Required, acctest.Create, routeTableRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table_2", acctest.Required, acctest.Create, CoreRouteTableRepresentation)
 )
 
 // issue-routing-tag: core/virtualNetwork
@@ -79,21 +79,21 @@ func TestCoreRouteTableAttachmentResource_basic(t *testing.T) {
 		// detach and attach another / recreate
 		{
 			Config: config + compartmentIdVariableStr + acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Update,
-				acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+				acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
 					"route_table_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_route_table.test_route_table_2.id}`},
 				})) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", acctest.Required, acctest.Create, dhcpOptionsRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, internetGatewayRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, routeTableRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", acctest.Required, acctest.Create, securityListRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", acctest.Required, acctest.Create, serviceDataSourceRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+				acctest.GenerateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", acctest.Required, acctest.Create, CoreDhcpOptionsRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, CoreInternetGatewayRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, CoreRouteTableRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", acctest.Required, acctest.Create, CoreSecurityListRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", acctest.Required, acctest.Create, CoreCoreServiceDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 					"dns_label":      acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 					"is_ipv6enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 				})) +
 				AvailabilityDomainConfig +
 				DefinedTagsDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table_2", acctest.Required, acctest.Create, routeTableRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table_2", acctest.Required, acctest.Create, CoreRouteTableRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_route_table_attachment", "test_route_table_attachment", acctest.Required, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(routeTableAttachmentRepresentation, map[string]interface{}{
 						"route_table_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_route_table.test_route_table_2.id}`},

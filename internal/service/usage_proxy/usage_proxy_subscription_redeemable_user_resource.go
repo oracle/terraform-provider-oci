@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package usage_proxy
@@ -15,8 +15,8 @@ import (
 
 	oci_usage_proxy "github.com/oracle/oci-go-sdk/v65/usage"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func UsageProxySubscriptionRedeemableUserResource() *schema.Resource {
@@ -56,6 +56,18 @@ func UsageProxySubscriptionRedeemableUserResource() *schema.Resource {
 						},
 
 						// Optional
+						"first_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"last_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 
 						// Computed
 					},
@@ -258,6 +270,16 @@ func (s *UsageProxySubscriptionRedeemableUserResourceCrud) mapToRedeemableUser(f
 		result.EmailId = &tmp
 	}
 
+	if firstName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "first_name")); ok {
+		tmp := firstName.(string)
+		result.FirstName = &tmp
+	}
+
+	if lastName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "last_name")); ok {
+		tmp := lastName.(string)
+		result.LastName = &tmp
+	}
+
 	return result, nil
 }
 
@@ -266,6 +288,14 @@ func RedeemableUserSummaryToMap(obj oci_usage_proxy.RedeemableUserSummary) map[s
 
 	if obj.EmailId != nil {
 		result["email_id"] = string(*obj.EmailId)
+	}
+
+	if obj.FirstName != nil {
+		result["first_name"] = string(*obj.FirstName)
+	}
+
+	if obj.LastName != nil {
+		result["last_name"] = string(*obj.LastName)
 	}
 
 	return result

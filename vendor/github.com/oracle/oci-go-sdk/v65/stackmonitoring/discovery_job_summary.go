@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -99,19 +99,40 @@ type DiscoveryJobSummaryResourceTypeEnum string
 const (
 	DiscoveryJobSummaryResourceTypeWeblogicDomain DiscoveryJobSummaryResourceTypeEnum = "WEBLOGIC_DOMAIN"
 	DiscoveryJobSummaryResourceTypeEbsInstance    DiscoveryJobSummaryResourceTypeEnum = "EBS_INSTANCE"
+	DiscoveryJobSummaryResourceTypeSqlServer      DiscoveryJobSummaryResourceTypeEnum = "SQL_SERVER"
+	DiscoveryJobSummaryResourceTypeApacheTomcat   DiscoveryJobSummaryResourceTypeEnum = "APACHE_TOMCAT"
 	DiscoveryJobSummaryResourceTypeOracleDatabase DiscoveryJobSummaryResourceTypeEnum = "ORACLE_DATABASE"
+	DiscoveryJobSummaryResourceTypeOciOracleDb    DiscoveryJobSummaryResourceTypeEnum = "OCI_ORACLE_DB"
+	DiscoveryJobSummaryResourceTypeOciOracleCdb   DiscoveryJobSummaryResourceTypeEnum = "OCI_ORACLE_CDB"
+	DiscoveryJobSummaryResourceTypeOciOraclePdb   DiscoveryJobSummaryResourceTypeEnum = "OCI_ORACLE_PDB"
+	DiscoveryJobSummaryResourceTypeHost           DiscoveryJobSummaryResourceTypeEnum = "HOST"
+	DiscoveryJobSummaryResourceTypeOraclePsft     DiscoveryJobSummaryResourceTypeEnum = "ORACLE_PSFT"
 )
 
 var mappingDiscoveryJobSummaryResourceTypeEnum = map[string]DiscoveryJobSummaryResourceTypeEnum{
 	"WEBLOGIC_DOMAIN": DiscoveryJobSummaryResourceTypeWeblogicDomain,
 	"EBS_INSTANCE":    DiscoveryJobSummaryResourceTypeEbsInstance,
+	"SQL_SERVER":      DiscoveryJobSummaryResourceTypeSqlServer,
+	"APACHE_TOMCAT":   DiscoveryJobSummaryResourceTypeApacheTomcat,
 	"ORACLE_DATABASE": DiscoveryJobSummaryResourceTypeOracleDatabase,
+	"OCI_ORACLE_DB":   DiscoveryJobSummaryResourceTypeOciOracleDb,
+	"OCI_ORACLE_CDB":  DiscoveryJobSummaryResourceTypeOciOracleCdb,
+	"OCI_ORACLE_PDB":  DiscoveryJobSummaryResourceTypeOciOraclePdb,
+	"HOST":            DiscoveryJobSummaryResourceTypeHost,
+	"ORACLE_PSFT":     DiscoveryJobSummaryResourceTypeOraclePsft,
 }
 
 var mappingDiscoveryJobSummaryResourceTypeEnumLowerCase = map[string]DiscoveryJobSummaryResourceTypeEnum{
 	"weblogic_domain": DiscoveryJobSummaryResourceTypeWeblogicDomain,
 	"ebs_instance":    DiscoveryJobSummaryResourceTypeEbsInstance,
+	"sql_server":      DiscoveryJobSummaryResourceTypeSqlServer,
+	"apache_tomcat":   DiscoveryJobSummaryResourceTypeApacheTomcat,
 	"oracle_database": DiscoveryJobSummaryResourceTypeOracleDatabase,
+	"oci_oracle_db":   DiscoveryJobSummaryResourceTypeOciOracleDb,
+	"oci_oracle_cdb":  DiscoveryJobSummaryResourceTypeOciOracleCdb,
+	"oci_oracle_pdb":  DiscoveryJobSummaryResourceTypeOciOraclePdb,
+	"host":            DiscoveryJobSummaryResourceTypeHost,
+	"oracle_psft":     DiscoveryJobSummaryResourceTypeOraclePsft,
 }
 
 // GetDiscoveryJobSummaryResourceTypeEnumValues Enumerates the set of values for DiscoveryJobSummaryResourceTypeEnum
@@ -128,7 +149,14 @@ func GetDiscoveryJobSummaryResourceTypeEnumStringValues() []string {
 	return []string{
 		"WEBLOGIC_DOMAIN",
 		"EBS_INSTANCE",
+		"SQL_SERVER",
+		"APACHE_TOMCAT",
 		"ORACLE_DATABASE",
+		"OCI_ORACLE_DB",
+		"OCI_ORACLE_CDB",
+		"OCI_ORACLE_PDB",
+		"HOST",
+		"ORACLE_PSFT",
 	}
 }
 

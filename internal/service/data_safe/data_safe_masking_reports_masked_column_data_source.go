@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package data_safe
@@ -11,8 +11,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/datasafe"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func DataSafeMaskingReportsMaskedColumnDataSource() *schema.Resource {
@@ -117,6 +117,7 @@ func DataSafeMaskingReportsMaskedColumnDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_data_safe_masking_reports_masked_column", "oci_data_safe_masking_reports_masked_columns"),
 	}
 }
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 // These variables would commonly be defined as environment variables or sourced in a .env file
@@ -72,6 +72,9 @@ variable "invoke_run_display_name" {
   default = "tf_run"
 }
 
+variable "statement_code" {
+}
+
 resource "oci_dataflow_application" "tf_application" {
   #Required
   compartment_id = var.compartment_id
@@ -93,6 +96,7 @@ resource "oci_dataflow_application" "tf_application" {
   #logs_bucket_uri = var.application_logs_bucket_uri}"
   type             = "BATCH"
   archive_uri = var.application_archive_uri
+  logs_bucket_uri = var.dataflow_logs_bucket_uri
   #parameters {
   #Required
   #name  = var.application_parameters_name}"
@@ -156,7 +160,11 @@ resource "oci_dataflow_private_endpoint" "test_private_endpoint" {
   description    = "description"
   display_name   = "pe_name"
   dns_zones      = ["custpvtsubnet.oraclevcn.com"]
-
+  scan_details {
+    #Optional
+    fqdn = "scan.test.com"
+    port = "1521"
+  }
   freeform_tags = {
     "Department" = "Finance"
   }
@@ -200,6 +208,130 @@ resource "oci_dataflow_application" "test_application" {
   metastore_id = var.metastore_id
 }
 
+resource "oci_dataflow_application" "test_flex_application" {
+  compartment_id = var.compartment_id
+
+  display_name   = "test_wordcount_app_flex"
+  driver_shape   = "VM.Standard.E4.Flex"
+  executor_shape = "VM.Standard.E4.Flex"
+
+  driver_shape_config {
+    ocpus = 1
+    memory_in_gbs = 16
+  }
+  executor_shape_config {
+    ocpus = 1
+    memory_in_gbs = 16
+  }
+
+  file_uri       = var.application_file_uri
+
+  language        = "PYTHON"
+  logs_bucket_uri = var.dataflow_logs_bucket_uri
+  num_executors   = "1"
+
+  spark_version        = "2.4"
+  warehouse_bucket_uri = var.dataflow_warehouse_bucket_uri
+}
+
+resource "oci_dataflow_application" "test_session_application" {
+  compartment_id  = var.compartment_id
+  description     = "description"
+  display_name    = "test_session_app"
+  driver_shape    = "VM.Standard2.1"
+  executor_shape  = "VM.Standard2.1"
+  type            = "SESSION"
+  language        = "PYTHON"
+  logs_bucket_uri = var.dataflow_logs_bucket_uri
+  num_executors   = "1"
+  spark_version   = "3.2.1"
+  max_duration_in_minutes = 60
+  idle_timeout_in_minutes = 30
+}
+
+resource "oci_dataflow_invoke_run" "test_invoke_session_run" {
+  application_id = oci_dataflow_application.test_session_application.id
+  compartment_id = var.compartment_id
+  display_name   = "test_session_run"
+}
+
+# Statement can only be created once the Session Run (test_invoke_session_run) is in "IN_PROGRESS" state.
+resource "oci_dataflow_run_statement" "test_run_statement" {
+  depends_on = [time_sleep.wait_session_run_active_state]
+  code   = var.statement_code
+  run_id = oci_dataflow_invoke_run.test_invoke_session_run.id
+}
+
+resource "time_sleep" "wait_session_run_active_state" {
+  depends_on = [oci_dataflow_invoke_run.test_invoke_session_run]
+  create_duration = "10m"
+}
+
+resource "oci_dataflow_application" "test_application_logging" {
+  archive_uri    = var.application_archive_uri
+  arguments      = ["arguments"]
+  compartment_id = var.compartment_id
+
+  configuration = {
+    "spark.shuffle.io.maxRetries" = "10"
+  }
+
+  description    = "description"
+  display_name   = "test_wordcount_oci_logging"
+  driver_shape   = "VM.Standard2.1"
+  executor_shape = "VM.Standard2.1"
+  file_uri       = var.application_file_uri
+
+  freeform_tags = {
+    "Department" = "Finance"
+  }
+
+  language        = "PYTHON"
+  logs_bucket_uri = var.dataflow_logs_bucket_uri
+  num_executors   = "1"
+
+  parameters {
+    name  = "name"
+    value = "value"
+  }
+
+  application_log_config {
+    log_group_id = oci_logging_log_group.test_dataflow_log_group.id
+    log_id       = oci_logging_log.test_dataflow_log.id
+  }
+
+  private_endpoint_id  = oci_dataflow_private_endpoint.test_private_endpoint.id
+  spark_version        = "2.4"
+  warehouse_bucket_uri = var.dataflow_warehouse_bucket_uri
+  metastore_id = var.metastore_id
+}
+
+resource "oci_logging_log_group" "test_dataflow_log_group" {
+  #Required
+  compartment_id = var.compartment_id
+  display_name   = "test_example_dataflow_log_group"
+
+  #Optional
+  description = "example log group for Data Flow logs"
+
+  freeform_tags = {
+    "Department" = "Finance"
+  }
+}
+
+resource "oci_logging_log" "test_dataflow_log" {
+  #Required
+  display_name = "test_example_dataflow_log"
+  log_group_id = oci_logging_log_group.test_dataflow_log_group.id
+  log_type     = "CUSTOM"
+  #Optional
+  freeform_tags = {
+    "Department" = "Finance"
+  }
+  is_enabled         = "true"
+  retention_duration = "30"
+}
+
 resource "oci_dataflow_invoke_run" "test_invoke_run" {
   application_id = oci_dataflow_application.test_application.id
   compartment_id = var.compartment_id
@@ -221,6 +353,7 @@ resource "oci_dataflow_application" "test_application_submit" {
   archive_uri    = var.application_archive_uri
   private_endpoint_id = oci_dataflow_private_endpoint.test_private_endpoint.id
   metastore_id = var.metastore_id
+  logs_bucket_uri = var.dataflow_logs_bucket_uri
 }
 
 resource "oci_dataflow_invoke_run" "test_invokey_run_submit" {
@@ -260,3 +393,21 @@ data "oci_dataflow_run_logs" "tf_run_logs" {
   run_id = oci_dataflow_invoke_run.tf_invoke_run.id
 }
 
+data "oci_logging_log_groups" "test_log_group" {
+  #Required
+  compartment_id = var.compartment_id
+
+  #Optional
+  display_name                 = "test_example_dataflow_log_group"
+  is_compartment_id_in_subtree = "true"
+}
+
+data "oci_logging_logs" "test_log" {
+  #Required
+  log_group_id = oci_logging_log_group.test_dataflow_log_group.id
+
+  #Optional
+  display_name    = "log_displayName"
+  log_type        = "CUSTOM"
+  state           = "ACTIVE"
+}

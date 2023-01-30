@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package mysql
@@ -7,13 +7,14 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strconv"
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	oci_mysql "github.com/oracle/oci-go-sdk/v65/mysql"
 )
@@ -69,6 +70,49 @@ func MysqlChannelResource() *schema.Resource {
 						},
 
 						// Optional
+						"anonymous_transactions_handling": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"policy": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"ASSIGN_MANUAL_UUID",
+											"ASSIGN_TARGET_UUID",
+											"ERROR_ON_ANONYMOUS",
+										}, true),
+									},
+
+									// Optional
+									"last_configured_log_filename": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"last_configured_log_offset": {
+										Type:             schema.TypeString,
+										Optional:         true,
+										Computed:         true,
+										ValidateFunc:     tfresource.ValidateInt64TypeString,
+										DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+									},
+									"uuid": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"port": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -139,6 +183,28 @@ func MysqlChannelResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
+						},
+						"filters": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"type": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"value": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
 						},
 
 						// Computed
@@ -513,51 +579,56 @@ func (s *MysqlChannelResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *MysqlChannelResourceCrud) mapToCreateChannelSourceDetails(fieldKeyFormat string) (oci_mysql.CreateChannelSourceDetails, error) {
-	var baseObject oci_mysql.CreateChannelSourceDetails
+func (s *MysqlChannelResourceCrud) mapToAnonymousTransactionsHandling(fieldKeyFormat string) (oci_mysql.AnonymousTransactionsHandling, error) {
+	var baseObject oci_mysql.AnonymousTransactionsHandling
 	//discriminator
-	sourceTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_type"))
-	var sourceType string
+	policyRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "policy"))
+	var policy string
 	if ok {
-		sourceType = sourceTypeRaw.(string)
+		policy = policyRaw.(string)
 	} else {
-		sourceType = "" // default value
+		policy = "" // default value
 	}
-	switch strings.ToLower(sourceType) {
-	case strings.ToLower("MYSQL"):
-		details := oci_mysql.CreateChannelSourceFromMysqlDetails{}
-		if hostname, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname")); ok {
-			tmp := hostname.(string)
-			details.Hostname = &tmp
+	switch strings.ToLower(policy) {
+	case strings.ToLower("ASSIGN_MANUAL_UUID"):
+		details := oci_mysql.AssignManualUuidHandling{}
+		if lastConfiguredLogFilename, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "last_configured_log_filename")); ok {
+			tmp := lastConfiguredLogFilename.(string)
+			details.LastConfiguredLogFilename = &tmp
 		}
-		if password, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password")); ok {
-			tmp := password.(string)
-			details.Password = &tmp
-		}
-		if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
-			tmp := port.(int)
-			details.Port = &tmp
-		}
-		if sslMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ssl_mode")); ok {
-			details.SslMode = oci_mysql.ChannelSourceMysqlSslModeEnum(sslMode.(string))
-		}
-		if sslCaCertificate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ssl_ca_certificate")); ok {
-			if tmpList := sslCaCertificate.([]interface{}); len(tmpList) > 0 {
-				certificateFieldKeyFormat := fmt.Sprintf(fieldKeyFormat, "ssl_ca_certificate.0.%s")
-				tmp, err := s.mapToCaCertificate(certificateFieldKeyFormat)
-				if err != nil {
-					return nil, err
-				}
-				details.SslCaCertificate = tmp
+		if lastConfiguredLogOffset, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "last_configured_log_offset")); ok {
+			tmp := lastConfiguredLogOffset.(string)
+			tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+			if err != nil {
+				return details, fmt.Errorf("unable to convert lastConfiguredLogOffset string: %s to an int64 and encountered error: %v", tmp, err)
 			}
+			details.LastConfiguredLogOffset = &tmpInt64
 		}
-		if username, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "username")); ok {
-			tmp := username.(string)
-			details.Username = &tmp
+		if uuid, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "uuid")); ok {
+			tmp := uuid.(string)
+			details.Uuid = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("ASSIGN_TARGET_UUID"):
+		details := oci_mysql.AssignTargetUuidHandling{}
+		if lastConfiguredLogFilename, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "last_configured_log_filename")); ok {
+			tmp := lastConfiguredLogFilename.(string)
+			details.LastConfiguredLogFilename = &tmp
+		}
+		if lastConfiguredLogOffset, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "last_configured_log_offset")); ok {
+			tmp := lastConfiguredLogOffset.(string)
+			tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+			if err != nil {
+				return details, fmt.Errorf("unable to convert lastConfiguredLogOffset string: %s to an int64 and encountered error: %v", tmp, err)
+			}
+			details.LastConfiguredLogOffset = &tmpInt64
+		}
+		baseObject = details
+	case strings.ToLower("ERROR_ON_ANONYMOUS"):
+		details := oci_mysql.ErrorOnAnonymousHandling{}
+		baseObject = details
 	default:
-		return nil, fmt.Errorf("unknown source_type '%v' was specified", sourceType)
+		return nil, fmt.Errorf("unknown policy '%v' was specified", policy)
 	}
 	return baseObject, nil
 }
@@ -603,6 +674,80 @@ func (s *MysqlChannelResourceCrud) CaCertificateToMap(obj *oci_mysql.CaCertifica
 	return result
 }
 
+func (s *MysqlChannelResourceCrud) mapToChannelFilter(fieldKeyFormat string) (oci_mysql.ChannelFilter, error) {
+	result := oci_mysql.ChannelFilter{}
+
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
+		result.Type = oci_mysql.ChannelFilterTypeEnum(type_.(string))
+	}
+
+	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+		tmp := value.(string)
+		result.Value = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *MysqlChannelResourceCrud) mapToCreateChannelSourceDetails(fieldKeyFormat string) (oci_mysql.CreateChannelSourceDetails, error) {
+	var baseObject oci_mysql.CreateChannelSourceDetails
+	//discriminator
+	sourceTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_type"))
+	var sourceType string
+	if ok {
+		sourceType = sourceTypeRaw.(string)
+	} else {
+		sourceType = "" // default value
+	}
+	switch strings.ToLower(sourceType) {
+	case strings.ToLower("MYSQL"):
+		details := oci_mysql.CreateChannelSourceFromMysqlDetails{}
+		if anonymousTransactionsHandling, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "anonymous_transactions_handling")); ok {
+			if tmpList := anonymousTransactionsHandling.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "anonymous_transactions_handling"), 0)
+				tmp, err := s.mapToAnonymousTransactionsHandling(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert anonymous_transactions_handling, encountered error: %v", err)
+				}
+				details.AnonymousTransactionsHandling = tmp
+			}
+		}
+		if hostname, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname")); ok {
+			tmp := hostname.(string)
+			details.Hostname = &tmp
+		}
+		if password, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password")); ok {
+			tmp := password.(string)
+			details.Password = &tmp
+		}
+		if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
+			tmp := port.(int)
+			details.Port = &tmp
+		}
+		if sslMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ssl_mode")); ok {
+			details.SslMode = oci_mysql.ChannelSourceMysqlSslModeEnum(sslMode.(string))
+		}
+		if sslCaCertificate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ssl_ca_certificate")); ok {
+			if tmpList := sslCaCertificate.([]interface{}); len(tmpList) > 0 {
+				certificateFieldKeyFormat := fmt.Sprintf(fieldKeyFormat, "ssl_ca_certificate.0.%s")
+				tmp, err := s.mapToCaCertificate(certificateFieldKeyFormat)
+				if err != nil {
+					return nil, err
+				}
+				details.SslCaCertificate = tmp
+			}
+		}
+		if username, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "username")); ok {
+			tmp := username.(string)
+			details.Username = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown source_type '%v' was specified", sourceType)
+	}
+	return baseObject, nil
+}
+
 func (s *MysqlChannelResourceCrud) mapToUpdateChannelSourceDetails(fieldKeyFormat string) (oci_mysql.UpdateChannelSourceDetails, error) {
 	var baseObject oci_mysql.UpdateChannelSourceDetails
 	//discriminator
@@ -616,6 +761,16 @@ func (s *MysqlChannelResourceCrud) mapToUpdateChannelSourceDetails(fieldKeyForma
 	switch strings.ToLower(sourceType) {
 	case strings.ToLower("MYSQL"):
 		details := oci_mysql.UpdateChannelSourceFromMysqlDetails{}
+		if anonymousTransactionsHandling, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "anonymous_transactions_handling")); ok {
+			if tmpList := anonymousTransactionsHandling.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "anonymous_transactions_handling"), 0)
+				tmp, err := s.mapToAnonymousTransactionsHandling(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert anonymous_transactions_handling, encountered error: %v", err)
+				}
+				details.AnonymousTransactionsHandling = tmp
+			}
+		}
 		if hostname, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname")); ok {
 			tmp := hostname.(string)
 			details.Hostname = &tmp
@@ -660,6 +815,14 @@ func (s *MysqlChannelResourceCrud) ChannelSourceToMap(obj *oci_mysql.ChannelSour
 	switch v := (*obj).(type) {
 	case oci_mysql.ChannelSourceMysql:
 		result["source_type"] = "MYSQL"
+
+		if v.AnonymousTransactionsHandling != nil {
+			anonymousTransactionsHandlingArray := []interface{}{}
+			if anonymousTransactionsHandlingMap := AnonymousTransactionsHandlingToMap(&v.AnonymousTransactionsHandling); anonymousTransactionsHandlingMap != nil {
+				anonymousTransactionsHandlingArray = append(anonymousTransactionsHandlingArray, anonymousTransactionsHandlingMap)
+			}
+			result["anonymous_transactions_handling"] = anonymousTransactionsHandlingArray
+		}
 
 		if v.Hostname != nil {
 			result["hostname"] = string(*v.Hostname)
@@ -720,6 +883,22 @@ func (s *MysqlChannelResourceCrud) mapToCreateChannelTargetDetails(fieldKeyForma
 			tmp := dbSystemId.(string)
 			details.DbSystemId = &tmp
 		}
+		if filters, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "filters")); ok {
+			interfaces := filters.([]interface{})
+			tmp := make([]oci_mysql.ChannelFilter, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "filters"), stateDataIndex)
+				converted, err := s.mapToChannelFilter(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "filters")) {
+				details.Filters = tmp
+			}
+		}
 		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown target_type '%v' was specified", targetType)
@@ -747,6 +926,22 @@ func (s *MysqlChannelResourceCrud) mapToUpdateChannelTargetDetails(fieldKeyForma
 		if channelName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "channel_name")); ok {
 			tmp := channelName.(string)
 			details.ChannelName = &tmp
+		}
+		if filters, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "filters")); ok {
+			interfaces := filters.([]interface{})
+			tmp := make([]oci_mysql.ChannelFilter, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "filters"), stateDataIndex)
+				converted, err := s.mapToChannelFilter(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "filters")) {
+				details.Filters = tmp
+			}
 		}
 		baseObject = details
 	default:

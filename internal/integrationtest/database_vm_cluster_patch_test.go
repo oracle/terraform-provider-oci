@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,23 +10,23 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	vmClusterPatchSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseVmClusterPatchSingularDataSourceRepresentation = map[string]interface{}{
 		"patch_id":      acctest.Representation{RepType: acctest.Required, Create: `{}`},
 		"vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
 	}
 
-	vmClusterPatchDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseVmClusterPatchDataSourceRepresentation = map[string]interface{}{
 		"vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
 	}
 
-	VmClusterPatchResourceConfig = VmClusterNetworkValidatedResourceConfig +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Required, acctest.Create, vmClusterRepresentation)
+	DatabaseVmClusterPatchResourceConfig = VmClusterNetworkValidatedResourceConfig +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Required, acctest.Create, DatabaseCloudAutonomousVmClusterRepresentation)
 )
 
 // issue-routing-tag: database/default
@@ -50,8 +50,8 @@ func TestDatabaseVmClusterPatchResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_patches", "test_vm_cluster_patches", acctest.Required, acctest.Create, vmClusterPatchDataSourceRepresentation) +
-				compartmentIdVariableStr + VmClusterPatchResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_patches", "test_vm_cluster_patches", acctest.Required, acctest.Create, DatabaseDatabaseVmClusterPatchDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseVmClusterPatchResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_cluster_id"),
 
@@ -68,8 +68,8 @@ func TestDatabaseVmClusterPatchResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_patch", "test_vm_cluster_patch", acctest.Required, acctest.Create, vmClusterPatchSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + VmClusterPatchResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_patch", "test_vm_cluster_patch", acctest.Required, acctest.Create, DatabaseDatabaseVmClusterPatchSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseVmClusterPatchResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "patch_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vm_cluster_id"),

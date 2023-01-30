@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -120,6 +120,10 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := ConnectionSummaryFromBicc{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "REST_NO_AUTH_CONNECTION":
+		mm := ConnectionSummaryFromRestNoAuth{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE_ATP_CONNECTION":
 		mm := ConnectionSummaryFromAtp{}
 		err = json.Unmarshal(data, &mm)
@@ -132,12 +136,20 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := ConnectionSummaryFromAmazonS3{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "REST_BASIC_AUTH_CONNECTION":
+		mm := ConnectionSummaryFromRestBasicAuth{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE_ADWC_CONNECTION":
 		mm := ConnectionSummaryFromAdwc{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "MYSQL_CONNECTION":
 		mm := ConnectionSummaryFromMySql{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "LAKE_HOUSE_CONNECTION":
+		mm := ConnectionSummaryFromLakehouse{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "BIP_CONNECTION":
@@ -248,6 +260,9 @@ const (
 	ConnectionSummaryModelTypeBiccConnection                ConnectionSummaryModelTypeEnum = "BICC_CONNECTION"
 	ConnectionSummaryModelTypeAmazonS3Connection            ConnectionSummaryModelTypeEnum = "AMAZON_S3_CONNECTION"
 	ConnectionSummaryModelTypeBipConnection                 ConnectionSummaryModelTypeEnum = "BIP_CONNECTION"
+	ConnectionSummaryModelTypeLakeHouseConnection           ConnectionSummaryModelTypeEnum = "LAKE_HOUSE_CONNECTION"
+	ConnectionSummaryModelTypeRestNoAuthConnection          ConnectionSummaryModelTypeEnum = "REST_NO_AUTH_CONNECTION"
+	ConnectionSummaryModelTypeRestBasicAuthConnection       ConnectionSummaryModelTypeEnum = "REST_BASIC_AUTH_CONNECTION"
 )
 
 var mappingConnectionSummaryModelTypeEnum = map[string]ConnectionSummaryModelTypeEnum{
@@ -260,6 +275,9 @@ var mappingConnectionSummaryModelTypeEnum = map[string]ConnectionSummaryModelTyp
 	"BICC_CONNECTION":                  ConnectionSummaryModelTypeBiccConnection,
 	"AMAZON_S3_CONNECTION":             ConnectionSummaryModelTypeAmazonS3Connection,
 	"BIP_CONNECTION":                   ConnectionSummaryModelTypeBipConnection,
+	"LAKE_HOUSE_CONNECTION":            ConnectionSummaryModelTypeLakeHouseConnection,
+	"REST_NO_AUTH_CONNECTION":          ConnectionSummaryModelTypeRestNoAuthConnection,
+	"REST_BASIC_AUTH_CONNECTION":       ConnectionSummaryModelTypeRestBasicAuthConnection,
 }
 
 var mappingConnectionSummaryModelTypeEnumLowerCase = map[string]ConnectionSummaryModelTypeEnum{
@@ -272,6 +290,9 @@ var mappingConnectionSummaryModelTypeEnumLowerCase = map[string]ConnectionSummar
 	"bicc_connection":                  ConnectionSummaryModelTypeBiccConnection,
 	"amazon_s3_connection":             ConnectionSummaryModelTypeAmazonS3Connection,
 	"bip_connection":                   ConnectionSummaryModelTypeBipConnection,
+	"lake_house_connection":            ConnectionSummaryModelTypeLakeHouseConnection,
+	"rest_no_auth_connection":          ConnectionSummaryModelTypeRestNoAuthConnection,
+	"rest_basic_auth_connection":       ConnectionSummaryModelTypeRestBasicAuthConnection,
 }
 
 // GetConnectionSummaryModelTypeEnumValues Enumerates the set of values for ConnectionSummaryModelTypeEnum
@@ -295,6 +316,9 @@ func GetConnectionSummaryModelTypeEnumStringValues() []string {
 		"BICC_CONNECTION",
 		"AMAZON_S3_CONNECTION",
 		"BIP_CONNECTION",
+		"LAKE_HOUSE_CONNECTION",
+		"REST_NO_AUTH_CONNECTION",
+		"REST_BASIC_AUTH_CONNECTION",
 	}
 }
 

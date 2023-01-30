@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -16,16 +16,16 @@ import (
 	"strings"
 )
 
-// ObjectStorageLocation The object storage location where usage/cost CSVs will be uploaded
+// ObjectStorageLocation The object storage location where usage or cost CSVs will be uploaded.
 type ObjectStorageLocation struct {
 
-	// The destination Object Store Region specified by customer
+	// The destination Object Store Region specified by the customer.
 	Region *string `mandatory:"true" json:"region"`
 
-	// The namespace needed to determine object storage bucket.
+	// The namespace needed to determine the object storage bucket.
 	Namespace *string `mandatory:"true" json:"namespace"`
 
-	// The bucket name where usage/cost CSVs will be uploaded
+	// The bucket name where usage or cost CSVs will be uploaded.
 	BucketName *string `mandatory:"true" json:"bucketName"`
 }
 

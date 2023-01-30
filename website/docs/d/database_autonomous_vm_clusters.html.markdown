@@ -51,9 +51,9 @@ The following attributes are exported:
 * `available_autonomous_data_storage_size_in_tbs` - The data disk group size available for Autonomous Databases, in TBs.
 * `available_container_databases` - The number of Autonomous Container Databases that can be created with the currently available local storage.
 * `available_cpus` - The numnber of CPU cores available.
-* `available_data_storage_size_in_tbs` - **Deprecated.** Use `availableAutonomousDataStorageSizeInTBs` for Autonomous Databases data storage available, in TBs. 
+* `available_data_storage_size_in_tbs` - **Deprecated.** Use `availableAutonomousDataStorageSizeInTBs` for Autonomous Databases' data storage availability in TBs. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-* `cpu_core_count_per_node` - The number of OCPU cores enabled per VM cluster node.
+* `cpu_core_count_per_node` - The number of CPU cores enabled per VM cluster node.
 * `cpus_enabled` - The number of enabled CPU cores.
 * `data_storage_size_in_gb` - The total data storage allocated in GBs.
 * `data_storage_size_in_tbs` - The total data storage allocated in TBs
@@ -64,6 +64,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous VM cluster.
 * `is_local_backup_enabled` - If true, database backup on local Exadata storage is configured for the Autonomous VM cluster. If false, database backup on local Exadata storage is not available in the Autonomous VM cluster. 
+* `is_mtls_enabled` - Enable mutual TLS(mTLS) authentication for database while provisioning a VMCluster. Default is TLS.
 * `last_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last maintenance run.
 * `license_model` - The Oracle license model that applies to the Autonomous VM cluster. The default is LICENSE_INCLUDED. 
 * `lifecycle_details` - Additional information about the current lifecycle state.
@@ -81,7 +82,9 @@ The following attributes are exported:
 * `memory_size_in_gbs` - The memory allocated in GBs.
 * `next_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next maintenance run.
 * `ocpus_enabled` - The number of enabled OCPU cores.
-* `reclaimable_cpus` - CPU cores that are not released to available pool after an Autonomous Database is terminated (Requires Autonomous Container Database restart).
+* `reclaimable_cpus` - CPU cores that continue to be included in the count of OCPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available OCPUs at its parent AVMC level by restarting the Autonomous Container Database.
+* `scan_listener_port_non_tls` - The SCAN Listener Non TLS port number. Default value is 1521.
+* `scan_listener_port_tls` - The SCAN Listener TLS port number. Default value is 2484.
 * `state` - The current state of the Autonomous VM cluster.
 * `time_created` - The date and time that the Autonomous VM cluster was created.
 * `time_zone` - The time zone to use for the Autonomous VM cluster. For details, see [DB System Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).

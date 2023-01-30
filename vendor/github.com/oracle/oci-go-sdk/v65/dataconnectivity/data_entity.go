@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -18,13 +18,18 @@ import (
 
 // DataEntity The data entity object.
 type DataEntity interface {
+
+	// Map<String, String> for entity properties
+	GetEntityProperties() map[string]string
+
 	GetMetadata() *ObjectMetadata
 }
 
 type dataentity struct {
-	JsonData  []byte
-	Metadata  *ObjectMetadata `mandatory:"false" json:"metadata"`
-	ModelType string          `json:"modelType"`
+	JsonData         []byte
+	EntityProperties map[string]string `mandatory:"false" json:"entityProperties"`
+	Metadata         *ObjectMetadata   `mandatory:"false" json:"metadata"`
+	ModelType        string            `json:"modelType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -38,6 +43,7 @@ func (m *dataentity) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	m.EntityProperties = s.Model.EntityProperties
 	m.Metadata = s.Model.Metadata
 	m.ModelType = s.Model.ModelType
 
@@ -73,9 +79,18 @@ func (m *dataentity) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := DataEntityFromFile{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DERIVED_ENTITY":
+		mm := DerivedEntity{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}
+}
+
+//GetEntityProperties returns EntityProperties
+func (m dataentity) GetEntityProperties() map[string]string {
+	return m.EntityProperties
 }
 
 //GetMetadata returns Metadata
@@ -109,6 +124,8 @@ const (
 	DataEntityModelTypeFileEntity      DataEntityModelTypeEnum = "FILE_ENTITY"
 	DataEntityModelTypeDataStoreEntity DataEntityModelTypeEnum = "DATA_STORE_ENTITY"
 	DataEntityModelTypeSqlEntity       DataEntityModelTypeEnum = "SQL_ENTITY"
+	DataEntityModelTypeDerivedEntity   DataEntityModelTypeEnum = "DERIVED_ENTITY"
+	DataEntityModelTypeMessageEntity   DataEntityModelTypeEnum = "MESSAGE_ENTITY"
 )
 
 var mappingDataEntityModelTypeEnum = map[string]DataEntityModelTypeEnum{
@@ -117,6 +134,8 @@ var mappingDataEntityModelTypeEnum = map[string]DataEntityModelTypeEnum{
 	"FILE_ENTITY":       DataEntityModelTypeFileEntity,
 	"DATA_STORE_ENTITY": DataEntityModelTypeDataStoreEntity,
 	"SQL_ENTITY":        DataEntityModelTypeSqlEntity,
+	"DERIVED_ENTITY":    DataEntityModelTypeDerivedEntity,
+	"MESSAGE_ENTITY":    DataEntityModelTypeMessageEntity,
 }
 
 var mappingDataEntityModelTypeEnumLowerCase = map[string]DataEntityModelTypeEnum{
@@ -125,6 +144,8 @@ var mappingDataEntityModelTypeEnumLowerCase = map[string]DataEntityModelTypeEnum
 	"file_entity":       DataEntityModelTypeFileEntity,
 	"data_store_entity": DataEntityModelTypeDataStoreEntity,
 	"sql_entity":        DataEntityModelTypeSqlEntity,
+	"derived_entity":    DataEntityModelTypeDerivedEntity,
+	"message_entity":    DataEntityModelTypeMessageEntity,
 }
 
 // GetDataEntityModelTypeEnumValues Enumerates the set of values for DataEntityModelTypeEnum
@@ -144,6 +165,8 @@ func GetDataEntityModelTypeEnumStringValues() []string {
 		"FILE_ENTITY",
 		"DATA_STORE_ENTITY",
 		"SQL_ENTITY",
+		"DERIVED_ENTITY",
+		"MESSAGE_ENTITY",
 	}
 }
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,22 +7,22 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	logAnalyticsResourceCategoriesListSingularDataSourceRepresentation = map[string]interface{}{
+	LogAnalyticsLogAnalyticsLogAnalyticsResourceCategoriesListSingularDataSourceRepresentation = map[string]interface{}{
 		"namespace":           acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 		"resource_categories": acctest.Representation{RepType: acctest.Optional, Create: `cat1,cat2`},
 	}
 
-	LogAnalyticsResourceCategoriesListResourceConfig = "" +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation)
+	LogAnalyticsLogAnalyticsResourceCategoriesListResourceConfig = "" +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsNamespaceSingularDataSourceRepresentation)
 )
 
 // issue-routing-tag: log_analytics/default
@@ -45,8 +45,8 @@ func TestLogAnalyticsLogAnalyticsResourceCategoriesListResource_basic(t *testing
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// Set categories to test data source
 		{
-			Config: config + compartmentIdVariableStr + LogAnalyticsResourceCategoriesListResourceConfig +
-				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_resource_categories_management", "test_log_analytics_resource_categories_management", acctest.Required, acctest.Create, logAnalyticsResourceCategoriesManagementRepresentation),
+			Config: config + compartmentIdVariableStr + LogAnalyticsLogAnalyticsResourceCategoriesListResourceConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_resource_categories_management", "test_log_analytics_resource_categories_management", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsResourceCategoriesManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 				resource.TestCheckResourceAttr(resourceName, "resource_id", "resource1"),
@@ -57,9 +57,9 @@ func TestLogAnalyticsLogAnalyticsResourceCategoriesListResource_basic(t *testing
 		// verify required input
 		{
 			Config: config +
-				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_resource_categories_management", "test_log_analytics_resource_categories_management", acctest.Required, acctest.Create, logAnalyticsResourceCategoriesManagementRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_resource_categories_list", "test_log_analytics_resource_categories_list_required", acctest.Required, acctest.Create, logAnalyticsResourceCategoriesListSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + LogAnalyticsResourceCategoriesListResourceConfig,
+				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_resource_categories_management", "test_log_analytics_resource_categories_management", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsResourceCategoriesManagementRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_resource_categories_list", "test_log_analytics_resource_categories_list_required", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsLogAnalyticsResourceCategoriesListSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + LogAnalyticsLogAnalyticsResourceCategoriesListResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(requiredDatasourceName, "namespace"),
 				resource.TestCheckResourceAttrSet(requiredDatasourceName, "items.0.resource_id"),
@@ -71,9 +71,9 @@ func TestLogAnalyticsLogAnalyticsResourceCategoriesListResource_basic(t *testing
 		// verify optionals
 		{
 			Config: config +
-				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_resource_categories_management", "test_log_analytics_resource_categories_management", acctest.Required, acctest.Create, logAnalyticsResourceCategoriesManagementRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_resource_categories_list", "test_log_analytics_resource_categories_list_optional", acctest.Optional, acctest.Create, logAnalyticsResourceCategoriesListSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + LogAnalyticsResourceCategoriesListResourceConfig,
+				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_resource_categories_management", "test_log_analytics_resource_categories_management", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsResourceCategoriesManagementRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_resource_categories_list", "test_log_analytics_resource_categories_list_optional", acctest.Optional, acctest.Create, LogAnalyticsLogAnalyticsLogAnalyticsResourceCategoriesListSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + LogAnalyticsLogAnalyticsResourceCategoriesListResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(optionalDatasourceName, "namespace"),
 				resource.TestCheckResourceAttr(optionalDatasourceName, "resource_categories", "cat1,cat2"),
@@ -86,7 +86,7 @@ func TestLogAnalyticsLogAnalyticsResourceCategoriesListResource_basic(t *testing
 		},
 		// verify delete
 		{
-			Config: config + compartmentIdVariableStr + LogAnalyticsResourceCategoriesListResourceConfig,
+			Config: config + compartmentIdVariableStr + LogAnalyticsLogAnalyticsResourceCategoriesListResourceConfig,
 		},
 	})
 }

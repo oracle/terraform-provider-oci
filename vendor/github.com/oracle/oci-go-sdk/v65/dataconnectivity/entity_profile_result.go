@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// EntityProfileResult A metadata details of a profiling entity result.
+// EntityProfileResult The metadata details of a profiling entity result.
 type EntityProfileResult struct {
 
-	// Number of columns in the DataFrame (arrow buffer) sent from Java layer. This value is not impacted by the List of attributes to profile as being passed via configuration.
+	// Number of columns in the DataFrame (arrow buffer) sent from Java layer. This value is not impacted by the list of attributes to profile as being passed via configuration.
 	AttributeCount *int `mandatory:"false" json:"attributeCount"`
 
-	// Number of rows were that were sampled
+	// Number of rows that are sampled.
 	SampledRowCount *int `mandatory:"false" json:"sampledRowCount"`
 
 	// The estimated row count in the source.

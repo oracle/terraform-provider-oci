@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 // Package auth provides supporting functions and structs for authentication
@@ -13,6 +13,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"math"
 	"net/http"
 	"os"
 	"strings"
@@ -282,22 +283,24 @@ func (c *x509FederationClient) renewSecurityToken() (err error) {
 }
 
 func (c *x509FederationClient) getSecurityToken() (securityToken, error) {
-	request := c.makeX509FederationRequest()
-
 	var err error
 	var httpRequest http.Request
-	if httpRequest, err = common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPost, "", request); err != nil {
-		return nil, fmt.Errorf("failed to make http request: %s", err.Error())
-	}
-
 	var httpResponse *http.Response
 	defer common.CloseBodyIfValid(httpResponse)
 
 	for retry := 0; retry < 5; retry++ {
+		request := c.makeX509FederationRequest()
+
+		if httpRequest, err = common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPost, "", request); err != nil {
+			return nil, fmt.Errorf("failed to make http request: %s", err.Error())
+		}
+
 		if httpResponse, err = c.authClient.Call(context.Background(), &httpRequest); err == nil {
 			break
 		}
-		time.Sleep(250 * time.Microsecond)
+
+		nextDuration := time.Duration(1000.0*(math.Pow(2.0, float64(retry)))) * time.Millisecond
+		time.Sleep(nextDuration)
 	}
 	if err != nil {
 		return nil, fmt.Errorf("failed to call: %s", err.Error())
@@ -373,7 +376,7 @@ type sessionKeySupplier interface {
 	PublicKeyPemRaw() []byte
 }
 
-//genericKeySupplier implements sessionKeySupplier and provides an arbitrary refresh mechanism
+// genericKeySupplier implements sessionKeySupplier and provides an arbitrary refresh mechanism
 type genericKeySupplier struct {
 	RefreshFn func() (*rsa.PrivateKey, []byte, error)
 

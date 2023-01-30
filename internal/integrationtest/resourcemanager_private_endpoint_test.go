@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -17,35 +17,35 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_resourcemanager "github.com/oracle/oci-go-sdk/v65/resourcemanager"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	ResourceManagerPrivateEndpointRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_resourcemanager_private_endpoint", "test_rms_private_endpoint", acctest.Required, acctest.Create, resourceManagerprivateEndpointRepresentation)
+	ResourcemanagerPrivateEndpointRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_resourcemanager_private_endpoint", "test_rms_private_endpoint", acctest.Required, acctest.Create, ResourceManagerprivateEndpointRepresentation)
 
-	ResourceManagerPrivateEndpointResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_resourcemanager_private_endpoint", "test_rms_private_endpoint", acctest.Optional, acctest.Update, resourceManagerprivateEndpointRepresentation)
+	ResourcemanagerPrivateEndpointResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_resourcemanager_private_endpoint", "test_rms_private_endpoint", acctest.Optional, acctest.Update, ResourceManagerprivateEndpointRepresentation)
 
-	resourceManagerprivateEndpointSingularDataSourceRepresentation = map[string]interface{}{
+	ResourcemanagerResourcemanagerPrivateEndpointSingularDataSourceRepresentation = map[string]interface{}{
 		"private_endpoint_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_resourcemanager_private_endpoint.test_rms_private_endpoint.id}`},
 	}
 
-	resourceManagerprivateEndpointDataSourceRepresentation = map[string]interface{}{
+	ResourcemanagerResourcemanagerPrivateEndpointDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `My Private Endpoint`, Update: `displayName2`},
 		"private_endpoint_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_resourcemanager_private_endpoint.test_rms_private_endpoint.id}`},
 		"vcn_id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.id}`},
-		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: resourceManagerprivateEndpointDataSourceFilterRepresentation}}
-	resourceManagerprivateEndpointDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: ResourcemanagerPrivateEndpointDataSourceFilterRepresentation}}
+	ResourcemanagerPrivateEndpointDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_resourcemanager_private_endpoint.test_rms_private_endpoint.id}`}},
 	}
 
-	resourceManagerprivateEndpointRepresentation = map[string]interface{}{
+	ResourceManagerprivateEndpointRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `My Private Endpoint`, Update: `displayName2`},
 		"subnet_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
@@ -58,10 +58,10 @@ var (
 		"nsg_id_list": acctest.Representation{RepType: acctest.Optional, Create: []string{`nsgIdList`}, Update: []string{`nsgIdList2`}},
 	}
 
-	ResourceManagerPrivateEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	ResourcemanagerPrivateEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_resourcemanager_private_endpoint", "test_rms_private_endpoint", acctest.Required, acctest.Create, resourceManagerprivateEndpointRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_resourcemanager_private_endpoint", "test_rms_private_endpoint", acctest.Required, acctest.Create, ResourceManagerprivateEndpointRepresentation)
 )
 
 // issue-routing-tag: resourcemanager/default
@@ -84,13 +84,13 @@ func TestResourcemanagerPrivateEndpointResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+
-		acctest.GenerateResourceFromRepresentationMap("oci_resourcemanager_private_endpoint", "test_rms_private_endpoint", acctest.Optional, acctest.Create, resourceManagerprivateEndpointRepresentation), "resourcemanager", "privateEndpoint", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_resourcemanager_private_endpoint", "test_rms_private_endpoint", acctest.Optional, acctest.Create, ResourceManagerprivateEndpointRepresentation), "resourcemanager", "privateEndpoint", t)
 
 	acctest.ResourceTest(t, testAccCheckResourcemanagerPrivateEndpointDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_resourcemanager_private_endpoint", "test_rms_private_endpoint", acctest.Required, acctest.Create, resourceManagerprivateEndpointRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_resourcemanager_private_endpoint", "test_rms_private_endpoint", acctest.Required, acctest.Create, ResourceManagerprivateEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "My Private Endpoint"),
@@ -106,12 +106,12 @@ func TestResourcemanagerPrivateEndpointResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ResourceManagerPrivateEndpointResourceDependencies,
+			Config: config + compartmentIdVariableStr + ResourcemanagerPrivateEndpointResourceDependencies,
 		},
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_resourcemanager_private_endpoint", "test_rms_private_endpoint", acctest.Optional, acctest.Create, resourceManagerprivateEndpointRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_resourcemanager_private_endpoint", "test_rms_private_endpoint", acctest.Optional, acctest.Create, ResourceManagerprivateEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "Example Private Endpoint"),
@@ -140,7 +140,7 @@ func TestResourcemanagerPrivateEndpointResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_resourcemanager_private_endpoint", "test_rms_private_endpoint", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(resourceManagerprivateEndpointRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(ResourceManagerprivateEndpointRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -168,7 +168,7 @@ func TestResourcemanagerPrivateEndpointResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_resourcemanager_private_endpoint", "test_rms_private_endpoint", acctest.Optional, acctest.Update, resourceManagerprivateEndpointRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_resourcemanager_private_endpoint", "test_rms_private_endpoint", acctest.Optional, acctest.Update, ResourceManagerprivateEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -193,9 +193,9 @@ func TestResourcemanagerPrivateEndpointResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_resourcemanager_private_endpoints", "test_private_endpoints", acctest.Optional, acctest.Update, resourceManagerprivateEndpointDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_resourcemanager_private_endpoints", "test_private_endpoints", acctest.Optional, acctest.Update, ResourcemanagerResourcemanagerPrivateEndpointDataSourceRepresentation) +
 				compartmentIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_resourcemanager_private_endpoint", "test_rms_private_endpoint", acctest.Optional, acctest.Update, resourceManagerprivateEndpointRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_resourcemanager_private_endpoint", "test_rms_private_endpoint", acctest.Optional, acctest.Update, ResourceManagerprivateEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -209,8 +209,8 @@ func TestResourcemanagerPrivateEndpointResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config + compartmentIdVariableStr +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_resourcemanager_private_endpoint", "test_rms_private_endpoint", acctest.Required, acctest.Create, resourceManagerprivateEndpointSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ResourceManagerPrivateEndpointResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_resourcemanager_private_endpoint", "test_rms_private_endpoint", acctest.Required, acctest.Create, ResourcemanagerResourcemanagerPrivateEndpointSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ResourcemanagerPrivateEndpointResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_id"),
 
@@ -229,7 +229,7 @@ func TestResourcemanagerPrivateEndpointResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ResourceManagerPrivateEndpointRequiredOnlyResource,
+			Config:                  config + ResourcemanagerPrivateEndpointRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -293,7 +293,7 @@ func init() {
 
 func sweepResourcemanagerPrivateEndpointResource(compartment string) error {
 	resourceManagerClient := acctest.GetTestClients(&schema.ResourceData{}).ResourceManagerClient()
-	privateEndpointIds, err := getResourceManagerPrivateEndpointIds(compartment)
+	privateEndpointIds, err := getResourcemanagerPrivateEndpointIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -309,14 +309,14 @@ func sweepResourcemanagerPrivateEndpointResource(compartment string) error {
 				fmt.Printf("Error deleting PrivateEndpoint %s %s, It is possible that the resource is already deleted. Please verify manually \n", privateEndpointId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &privateEndpointId, resourceManagerPrivateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
-				resourceManagerPrivateEndpointSweepResponseFetchOperation, "resourcemanager", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &privateEndpointId, ResourcemanagerPrivateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
+				ResourcemanagerPrivateEndpointSweepResponseFetchOperation, "resourcemanager", true)
 		}
 	}
 	return nil
 }
 
-func getResourceManagerPrivateEndpointIds(compartment string) ([]string, error) {
+func getResourcemanagerPrivateEndpointIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "PrivateEndpointId")
 	if ids != nil {
 		return ids, nil
@@ -340,7 +340,7 @@ func getResourceManagerPrivateEndpointIds(compartment string) ([]string, error) 
 	return resourceIds, nil
 }
 
-func resourceManagerPrivateEndpointSweepWaitCondition(response common.OCIOperationResponse) bool {
+func ResourcemanagerPrivateEndpointSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if privateEndpointResponse, ok := response.Response.(oci_resourcemanager.GetPrivateEndpointResponse); ok {
 		return privateEndpointResponse.LifecycleState != oci_resourcemanager.PrivateEndpointLifecycleStateDeleted
@@ -348,7 +348,7 @@ func resourceManagerPrivateEndpointSweepWaitCondition(response common.OCIOperati
 	return false
 }
 
-func resourceManagerPrivateEndpointSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func ResourcemanagerPrivateEndpointSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.ResourceManagerClient().GetPrivateEndpoint(context.Background(), oci_resourcemanager.GetPrivateEndpointRequest{
 		PrivateEndpointId: resourceId,
 		RequestMetadata: common.RequestMetadata{

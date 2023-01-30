@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -63,6 +63,9 @@ type DiscoveryJobResult struct {
 	// Indicates if the discovery result has been processed. You can update this attribute using the PatchDiscoveryJobResults
 	// operation to track whether the discovery result has already been processed and applied to the sensitive data model.
 	IsResultApplied *bool `mandatory:"true" json:"isResultApplied"`
+
+	// The OCID of the discovery job.
+	DiscoveryJobId *string `mandatory:"true" json:"discoveryJobId"`
 
 	// The unique key that identifies the sensitive column represented by the discovery result.
 	SensitiveColumnkey *string `mandatory:"false" json:"sensitiveColumnkey"`

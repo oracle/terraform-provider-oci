@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package ocvp
@@ -9,8 +9,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ocvp "github.com/oracle/oci-go-sdk/v65/ocvp"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func OcvpEsxiHostDataSource() *schema.Resource {
@@ -70,6 +70,10 @@ func (s *OcvpEsxiHostDataSourceCrud) SetData() error {
 		s.D.Set("billing_contract_end_date", s.Res.BillingContractEndDate.String())
 	}
 
+	if s.Res.CapacityReservationId != nil {
+		s.D.Set("capacity_reservation_id", *s.Res.CapacityReservationId)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -112,6 +116,10 @@ func (s *OcvpEsxiHostDataSourceCrud) SetData() error {
 
 	s.D.Set("next_sku", s.Res.NextSku)
 
+	if s.Res.NonUpgradedEsxiHostId != nil {
+		s.D.Set("non_upgraded_esxi_host_id", *s.Res.NonUpgradedEsxiHostId)
+	}
+
 	if s.Res.ReplacementEsxiHostId != nil {
 		s.D.Set("replacement_esxi_host_id", *s.Res.ReplacementEsxiHostId)
 	}
@@ -128,6 +136,14 @@ func (s *OcvpEsxiHostDataSourceCrud) SetData() error {
 
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	}
+
+	if s.Res.UpgradedReplacementEsxiHostId != nil {
+		s.D.Set("upgraded_replacement_esxi_host_id", *s.Res.UpgradedReplacementEsxiHostId)
+	}
+
+	if s.Res.VmwareSoftwareVersion != nil {
+		s.D.Set("vmware_software_version", *s.Res.VmwareSoftwareVersion)
 	}
 
 	return nil

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -8,14 +8,14 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -34,7 +34,7 @@ var (
 
 	waasPolicyWafConfigCachingRulesScenarioRepresentation = map[string]interface{}{
 		"action":                    acctest.Representation{RepType: acctest.Required, Create: `BYPASS_CACHE`},
-		"criteria":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: waasPolicyWafConfigCachingRulesCriteriaRepresentation},
+		"criteria":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: WaasWaasPolicyWafConfigCachingRulesCriteriaRepresentation},
 		"name":                      acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"is_client_caching_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"key":                       acctest.Representation{RepType: acctest.Optional, Create: `key`, Update: `key2`},
@@ -47,7 +47,7 @@ var (
 
 	waasPolicyWafConfigCachingRulesScenarioRepresentation2 = map[string]interface{}{
 		"action":                    acctest.Representation{RepType: acctest.Required, Create: `CACHE`},
-		"criteria":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: waasPolicyWafConfigCachingRulesCriteriaRepresentation},
+		"criteria":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: WaasWaasPolicyWafConfigCachingRulesCriteriaRepresentation},
 		"caching_duration":          acctest.Representation{RepType: acctest.Optional, Create: `PT1S`, Update: `PT2S`},
 		"client_caching_duration":   acctest.Representation{RepType: acctest.Optional, Create: `PT1S`, Update: `PT2S`},
 		"name":                      acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},

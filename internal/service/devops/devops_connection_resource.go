@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package devops
@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -39,8 +39,11 @@ func DevopsConnectionResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
 					"BITBUCKET_CLOUD_APP_PASSWORD",
+					"BITBUCKET_SERVER_ACCESS_TOKEN",
 					"GITHUB_ACCESS_TOKEN",
 					"GITLAB_ACCESS_TOKEN",
+					"GITLAB_SERVER_ACCESS_TOKEN",
+					"VBS_ACCESS_TOKEN",
 				}, true),
 			},
 			"project_id": {
@@ -60,6 +63,11 @@ func DevopsConnectionResource() *schema.Resource {
 				Optional:  true,
 				Computed:  true,
 				Sensitive: true,
+			},
+			"base_url": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -83,6 +91,34 @@ func DevopsConnectionResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"tls_verify_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"ca_certificate_bundle_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"tls_verify_mode": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"CA_CERTIFICATE_VERIFY",
+							}, true),
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
 			},
 			"username": {
 				Type:     schema.TypeString,
@@ -415,6 +451,62 @@ func (s *DevopsConnectionResourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_devops.BitbucketServerAccessTokenConnection:
+		s.D.Set("connection_type", "BITBUCKET_SERVER_ACCESS_TOKEN")
+
+		if v.AccessToken != nil {
+			s.D.Set("access_token", *v.AccessToken)
+		}
+
+		if v.BaseUrl != nil {
+			s.D.Set("base_url", *v.BaseUrl)
+		}
+
+		if v.TlsVerifyConfig != nil {
+			tlsVerifyConfigArray := []interface{}{}
+			if tlsVerifyConfigMap := TlsVerifyConfigToMap(&v.TlsVerifyConfig); tlsVerifyConfigMap != nil {
+				tlsVerifyConfigArray = append(tlsVerifyConfigArray, tlsVerifyConfigMap)
+			}
+			s.D.Set("tls_verify_config", tlsVerifyConfigArray)
+		} else {
+			s.D.Set("tls_verify_config", nil)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_devops.GithubAccessTokenConnection:
 		s.D.Set("connection_type", "GITHUB_ACCESS_TOKEN")
 
@@ -462,6 +554,108 @@ func (s *DevopsConnectionResourceCrud) SetData() error {
 
 		if v.AccessToken != nil {
 			s.D.Set("access_token", *v.AccessToken)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_devops.GitlabServerAccessTokenConnection:
+		s.D.Set("connection_type", "GITLAB_SERVER_ACCESS_TOKEN")
+
+		if v.AccessToken != nil {
+			s.D.Set("access_token", *v.AccessToken)
+		}
+
+		if v.BaseUrl != nil {
+			s.D.Set("base_url", *v.BaseUrl)
+		}
+
+		if v.TlsVerifyConfig != nil {
+			tlsVerifyConfigArray := []interface{}{}
+			if tlsVerifyConfigMap := TlsVerifyConfigToMap(&v.TlsVerifyConfig); tlsVerifyConfigMap != nil {
+				tlsVerifyConfigArray = append(tlsVerifyConfigArray, tlsVerifyConfigMap)
+			}
+			s.D.Set("tls_verify_config", tlsVerifyConfigArray)
+		} else {
+			s.D.Set("tls_verify_config", nil)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_devops.VbsAccessTokenConnection:
+		s.D.Set("connection_type", "VBS_ACCESS_TOKEN")
+
+		if v.AccessToken != nil {
+			s.D.Set("access_token", *v.AccessToken)
+		}
+
+		if v.BaseUrl != nil {
+			s.D.Set("base_url", *v.BaseUrl)
 		}
 
 		if v.CompartmentId != nil {
@@ -562,6 +756,24 @@ func devopsConnectionSummaryToMap(obj oci_devops.ConnectionSummary) map[string]i
 		if v.Username != nil {
 			result["username"] = string(*v.Username)
 		}
+	case oci_devops.BitbucketServerTokenConnectionSummary:
+		result["connection_type"] = "BITBUCKET_SERVER_ACCESS_TOKEN"
+
+		if v.AccessToken != nil {
+			result["access_token"] = string(*v.AccessToken)
+		}
+
+		if v.BaseUrl != nil {
+			result["base_url"] = string(*v.BaseUrl)
+		}
+
+		if v.TlsVerifyConfig != nil {
+			tlsVerifyConfigArray := []interface{}{}
+			if tlsVerifyConfigMap := TlsVerifyConfigToMap(&v.TlsVerifyConfig); tlsVerifyConfigMap != nil {
+				tlsVerifyConfigArray = append(tlsVerifyConfigArray, tlsVerifyConfigMap)
+			}
+			result["tls_verify_config"] = tlsVerifyConfigArray
+		}
 	case oci_devops.GithubAccessTokenConnectionSummary:
 		result["connection_type"] = "GITHUB_ACCESS_TOKEN"
 
@@ -574,8 +786,77 @@ func devopsConnectionSummaryToMap(obj oci_devops.ConnectionSummary) map[string]i
 		if v.AccessToken != nil {
 			result["access_token"] = string(*v.AccessToken)
 		}
+	case oci_devops.GitlabServerAccessTokenConnectionSummary:
+		result["connection_type"] = "GITLAB_SERVER_ACCESS_TOKEN"
+
+		if v.AccessToken != nil {
+			result["access_token"] = string(*v.AccessToken)
+		}
+
+		if v.BaseUrl != nil {
+			result["base_url"] = string(*v.BaseUrl)
+		}
+
+		if v.TlsVerifyConfig != nil {
+			tlsVerifyConfigArray := []interface{}{}
+			if tlsVerifyConfigMap := TlsVerifyConfigToMap(&v.TlsVerifyConfig); tlsVerifyConfigMap != nil {
+				tlsVerifyConfigArray = append(tlsVerifyConfigArray, tlsVerifyConfigMap)
+			}
+			result["tls_verify_config"] = tlsVerifyConfigArray
+		}
+	case oci_devops.VbsAccessTokenConnectionSummary:
+		result["connection_type"] = "VBS_ACCESS_TOKEN"
+
+		if v.AccessToken != nil {
+			result["access_token"] = string(*v.AccessToken)
+		}
+
+		if v.BaseUrl != nil {
+			result["base_url"] = string(*v.BaseUrl)
+		}
 	default:
 		log.Printf("[WARN] Received 'connection_type' of unknown type %v", obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *DevopsConnectionResourceCrud) mapToTlsVerifyConfig(fieldKeyFormat string) (oci_devops.TlsVerifyConfig, error) {
+	var baseObject oci_devops.TlsVerifyConfig
+	//discriminator
+	tlsVerifyModeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tls_verify_mode"))
+	var tlsVerifyMode string
+	if ok {
+		tlsVerifyMode = tlsVerifyModeRaw.(string)
+	} else {
+		tlsVerifyMode = "" // default value
+	}
+	switch strings.ToLower(tlsVerifyMode) {
+	case strings.ToLower("CA_CERTIFICATE_VERIFY"):
+		details := oci_devops.CaCertVerify{}
+		if caCertificateBundleId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ca_certificate_bundle_id")); ok {
+			tmp := caCertificateBundleId.(string)
+			details.CaCertificateBundleId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown tls_verify_mode '%v' was specified", tlsVerifyMode)
+	}
+	return baseObject, nil
+}
+
+func TlsVerifyConfigToMap(obj *oci_devops.TlsVerifyConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_devops.CaCertVerify:
+		result["tls_verify_mode"] = "CA_CERTIFICATE_VERIFY"
+
+		if v.CaCertificateBundleId != nil {
+			result["ca_certificate_bundle_id"] = string(*v.CaCertificateBundleId)
+		}
+	default:
+		log.Printf("[WARN] Received 'tls_verify_mode' of unknown type %v", *obj)
 		return nil
 	}
 
@@ -601,6 +882,49 @@ func (s *DevopsConnectionResourceCrud) populateTopLevelPolymorphicCreateConnecti
 		if username, ok := s.D.GetOkExists("username"); ok {
 			tmp := username.(string)
 			details.Username = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if projectId, ok := s.D.GetOkExists("project_id"); ok {
+			tmp := projectId.(string)
+			details.ProjectId = &tmp
+		}
+		request.CreateConnectionDetails = details
+	case strings.ToLower("BITBUCKET_SERVER_ACCESS_TOKEN"):
+		details := oci_devops.CreateBitbucketServerAccessTokenConnectionDetails{}
+		if accessToken, ok := s.D.GetOkExists("access_token"); ok {
+			tmp := accessToken.(string)
+			details.AccessToken = &tmp
+		}
+		if baseUrl, ok := s.D.GetOkExists("base_url"); ok {
+			tmp := baseUrl.(string)
+			details.BaseUrl = &tmp
+		}
+		if tlsVerifyConfig, ok := s.D.GetOkExists("tls_verify_config"); ok {
+			if tmpList := tlsVerifyConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "tls_verify_config", 0)
+				tmp, err := s.mapToTlsVerifyConfig(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.TlsVerifyConfig = tmp
+			}
 		}
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
@@ -683,6 +1007,82 @@ func (s *DevopsConnectionResourceCrud) populateTopLevelPolymorphicCreateConnecti
 			details.ProjectId = &tmp
 		}
 		request.CreateConnectionDetails = details
+	case strings.ToLower("GITLAB_SERVER_ACCESS_TOKEN"):
+		details := oci_devops.CreateGitlabServerAccessTokenConnectionDetails{}
+		if accessToken, ok := s.D.GetOkExists("access_token"); ok {
+			tmp := accessToken.(string)
+			details.AccessToken = &tmp
+		}
+		if baseUrl, ok := s.D.GetOkExists("base_url"); ok {
+			tmp := baseUrl.(string)
+			details.BaseUrl = &tmp
+		}
+		if tlsVerifyConfig, ok := s.D.GetOkExists("tls_verify_config"); ok {
+			if tmpList := tlsVerifyConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "tls_verify_config", 0)
+				tmp, err := s.mapToTlsVerifyConfig(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.TlsVerifyConfig = tmp
+			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if projectId, ok := s.D.GetOkExists("project_id"); ok {
+			tmp := projectId.(string)
+			details.ProjectId = &tmp
+		}
+		request.CreateConnectionDetails = details
+	case strings.ToLower("VBS_ACCESS_TOKEN"):
+		details := oci_devops.CreateVbsAccessTokenConnectionDetails{}
+		if accessToken, ok := s.D.GetOkExists("access_token"); ok {
+			tmp := accessToken.(string)
+			details.AccessToken = &tmp
+		}
+		if baseUrl, ok := s.D.GetOkExists("base_url"); ok {
+			tmp := baseUrl.(string)
+			details.BaseUrl = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if projectId, ok := s.D.GetOkExists("project_id"); ok {
+			tmp := projectId.(string)
+			details.ProjectId = &tmp
+		}
+		request.CreateConnectionDetails = details
 	default:
 		return fmt.Errorf("unknown connection_type '%v' was specified", connectionType)
 	}
@@ -708,6 +1108,47 @@ func (s *DevopsConnectionResourceCrud) populateTopLevelPolymorphicUpdateConnecti
 		if username, ok := s.D.GetOkExists("username"); ok {
 			tmp := username.(string)
 			details.Username = &tmp
+		}
+		tmp := s.D.Id()
+		request.ConnectionId = &tmp
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateConnectionDetails = details
+	case strings.ToLower("BITBUCKET_SERVER_ACCESS_TOKEN"):
+		details := oci_devops.UpdateBitbucketServerAccessTokenConnectionDetails{}
+		if accessToken, ok := s.D.GetOkExists("access_token"); ok {
+			tmp := accessToken.(string)
+			details.AccessToken = &tmp
+		}
+		if baseUrl, ok := s.D.GetOkExists("base_url"); ok {
+			tmp := baseUrl.(string)
+			details.BaseUrl = &tmp
+		}
+		if tlsVerifyConfig, ok := s.D.GetOkExists("tls_verify_config"); ok {
+			if tmpList := tlsVerifyConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "tls_verify_config", 0)
+				tmp, err := s.mapToTlsVerifyConfig(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.TlsVerifyConfig = tmp
+			}
 		}
 		tmp := s.D.Id()
 		request.ConnectionId = &tmp
@@ -762,6 +1203,78 @@ func (s *DevopsConnectionResourceCrud) populateTopLevelPolymorphicUpdateConnecti
 		if accessToken, ok := s.D.GetOkExists("access_token"); ok {
 			tmp := accessToken.(string)
 			details.AccessToken = &tmp
+		}
+		tmp := s.D.Id()
+		request.ConnectionId = &tmp
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateConnectionDetails = details
+	case strings.ToLower("GITLAB_SERVER_ACCESS_TOKEN"):
+		details := oci_devops.UpdateGitlabServerAccessTokenConnectionDetails{}
+		if accessToken, ok := s.D.GetOkExists("access_token"); ok {
+			tmp := accessToken.(string)
+			details.AccessToken = &tmp
+		}
+		if baseUrl, ok := s.D.GetOkExists("base_url"); ok {
+			tmp := baseUrl.(string)
+			details.BaseUrl = &tmp
+		}
+		if tlsVerifyConfig, ok := s.D.GetOkExists("tls_verify_config"); ok {
+			if tmpList := tlsVerifyConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "tls_verify_config", 0)
+				tmp, err := s.mapToTlsVerifyConfig(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.TlsVerifyConfig = tmp
+			}
+		}
+		tmp := s.D.Id()
+		request.ConnectionId = &tmp
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateConnectionDetails = details
+	case strings.ToLower("VBS_ACCESS_TOKEN"):
+		details := oci_devops.UpdateVbsAccessTokenConnectionDetails{}
+		if accessToken, ok := s.D.GetOkExists("access_token"); ok {
+			tmp := accessToken.(string)
+			details.AccessToken = &tmp
+		}
+		if baseUrl, ok := s.D.GetOkExists("base_url"); ok {
+			tmp := baseUrl.(string)
+			details.BaseUrl = &tmp
 		}
 		tmp := s.D.Id()
 		request.ConnectionId = &tmp

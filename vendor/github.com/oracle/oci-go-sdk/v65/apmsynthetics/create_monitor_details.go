@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -43,7 +43,8 @@ type CreateMonitorDetails struct {
 	// If runOnce is enabled, then the monitor will run once.
 	IsRunOnce *bool `mandatory:"false" json:"isRunOnce"`
 
-	// Timeout in seconds. Timeout cannot be more than 30% of repeatIntervalInSeconds time for monitors.
+	// Timeout in seconds. If isFailureRetried is true, then timeout cannot be more than 30% of repeatIntervalInSeconds time for monitors.
+	// If isFailureRetried is false, then timeout cannot be more than 50% of repeatIntervalInSeconds time for monitors.
 	// Also, timeoutInSeconds should be a multiple of 60 for Scripted REST, Scripted Browser and Browser monitors.
 	// Monitor will be allowed to run only for timeoutInSeconds time. It would be terminated after that.
 	TimeoutInSeconds *int `mandatory:"false" json:"timeoutInSeconds"`
@@ -61,6 +62,10 @@ type CreateMonitorDetails struct {
 
 	Configuration MonitorConfiguration `mandatory:"false" json:"configuration"`
 
+	AvailabilityConfiguration *AvailabilityConfiguration `mandatory:"false" json:"availabilityConfiguration"`
+
+	MaintenanceWindowSchedule *MaintenanceWindowSchedule `mandatory:"false" json:"maintenanceWindowSchedule"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -68,6 +73,15 @@ type CreateMonitorDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// If isRunNow is enabled, then the monitor will run now.
+	IsRunNow *bool `mandatory:"false" json:"isRunNow"`
+
+	// Scheduling policy on Vantage points.
+	SchedulingPolicy SchedulingPolicyEnum `mandatory:"false" json:"schedulingPolicy,omitempty"`
+
+	// Time interval between 2 runs in round robin batch mode (*SchedulingPolicy - BATCHED_ROUND_ROBIN).
+	BatchIntervalInSeconds *int `mandatory:"false" json:"batchIntervalInSeconds"`
 }
 
 func (m CreateMonitorDetails) String() string {
@@ -86,6 +100,9 @@ func (m CreateMonitorDetails) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingMonitorStatusEnum(string(m.Status)); !ok && m.Status != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetMonitorStatusEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingSchedulingPolicyEnum(string(m.SchedulingPolicy)); !ok && m.SchedulingPolicy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SchedulingPolicy: %s. Supported values are: %s.", m.SchedulingPolicy, strings.Join(GetSchedulingPolicyEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -95,19 +112,24 @@ func (m CreateMonitorDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateMonitorDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		ScriptId                *string                           `json:"scriptId"`
-		Status                  MonitorStatusEnum                 `json:"status"`
-		IsRunOnce               *bool                             `json:"isRunOnce"`
-		TimeoutInSeconds        *int                              `json:"timeoutInSeconds"`
-		Target                  *string                           `json:"target"`
-		ScriptParameters        []MonitorScriptParameter          `json:"scriptParameters"`
-		Configuration           monitorconfiguration              `json:"configuration"`
-		FreeformTags            map[string]string                 `json:"freeformTags"`
-		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
-		DisplayName             *string                           `json:"displayName"`
-		MonitorType             MonitorTypesEnum                  `json:"monitorType"`
-		VantagePoints           []string                          `json:"vantagePoints"`
-		RepeatIntervalInSeconds *int                              `json:"repeatIntervalInSeconds"`
+		ScriptId                  *string                           `json:"scriptId"`
+		Status                    MonitorStatusEnum                 `json:"status"`
+		IsRunOnce                 *bool                             `json:"isRunOnce"`
+		TimeoutInSeconds          *int                              `json:"timeoutInSeconds"`
+		Target                    *string                           `json:"target"`
+		ScriptParameters          []MonitorScriptParameter          `json:"scriptParameters"`
+		Configuration             monitorconfiguration              `json:"configuration"`
+		AvailabilityConfiguration *AvailabilityConfiguration        `json:"availabilityConfiguration"`
+		MaintenanceWindowSchedule *MaintenanceWindowSchedule        `json:"maintenanceWindowSchedule"`
+		FreeformTags              map[string]string                 `json:"freeformTags"`
+		DefinedTags               map[string]map[string]interface{} `json:"definedTags"`
+		IsRunNow                  *bool                             `json:"isRunNow"`
+		SchedulingPolicy          SchedulingPolicyEnum              `json:"schedulingPolicy"`
+		BatchIntervalInSeconds    *int                              `json:"batchIntervalInSeconds"`
+		DisplayName               *string                           `json:"displayName"`
+		MonitorType               MonitorTypesEnum                  `json:"monitorType"`
+		VantagePoints             []string                          `json:"vantagePoints"`
+		RepeatIntervalInSeconds   *int                              `json:"repeatIntervalInSeconds"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -140,9 +162,19 @@ func (m *CreateMonitorDetails) UnmarshalJSON(data []byte) (e error) {
 		m.Configuration = nil
 	}
 
+	m.AvailabilityConfiguration = model.AvailabilityConfiguration
+
+	m.MaintenanceWindowSchedule = model.MaintenanceWindowSchedule
+
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.IsRunNow = model.IsRunNow
+
+	m.SchedulingPolicy = model.SchedulingPolicy
+
+	m.BatchIntervalInSeconds = model.BatchIntervalInSeconds
 
 	m.DisplayName = model.DisplayName
 

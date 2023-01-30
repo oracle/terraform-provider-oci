@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -8,28 +8,28 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	vmClusterUpdateHistoryEntrySingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseVmClusterUpdateHistoryEntrySingularDataSourceRepresentation = map[string]interface{}{
 		"update_history_entry_id": acctest.Representation{RepType: acctest.Required, Create: `{}`},
 		"vm_cluster_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
 	}
 
-	vmClusterUpdateHistoryEntryDataSourceRepresentation = map[string]interface{}{
+	DatabaseDatabaseVmClusterUpdateHistoryEntryDataSourceRepresentation = map[string]interface{}{
 		"vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
 		"state":         acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 		"update_type":   acctest.Representation{RepType: acctest.Optional, Create: `GI_UPGRADE`},
 	}
 
-	VmClusterUpdateHistoryEntryResourceConfig = VmClusterNetworkValidatedResourceConfig +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Required, acctest.Create, vmClusterRepresentation)
+	DatabaseVmClusterUpdateHistoryEntryResourceConfig = VmClusterNetworkValidatedResourceConfig +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Required, acctest.Create, DatabaseCloudAutonomousVmClusterRepresentation)
 )
 
 // issue-routing-tag: database/default
@@ -53,8 +53,8 @@ func TestDatabaseVmClusterUpdateHistoryEntryResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_update_history_entries", "test_vm_cluster_update_history_entries", acctest.Required, acctest.Create, vmClusterUpdateHistoryEntryDataSourceRepresentation) +
-				compartmentIdVariableStr + VmClusterUpdateHistoryEntryResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_update_history_entries", "test_vm_cluster_update_history_entries", acctest.Required, acctest.Create, DatabaseDatabaseVmClusterUpdateHistoryEntryDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseVmClusterUpdateHistoryEntryResourceConfig,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 				resource.TestCheckResourceAttr(datasourceName, "update_type", "GI_UPGRADE"),
@@ -73,8 +73,8 @@ func TestDatabaseVmClusterUpdateHistoryEntryResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_update_history_entry", "test_vm_cluster_update_history_entry", acctest.Required, acctest.Create, vmClusterUpdateHistoryEntrySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + VmClusterUpdateHistoryEntryResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_update_history_entry", "test_vm_cluster_update_history_entry", acctest.Required, acctest.Create, DatabaseDatabaseVmClusterUpdateHistoryEntrySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseVmClusterUpdateHistoryEntryResourceConfig,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "update_history_entry_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vm_cluster_id"),

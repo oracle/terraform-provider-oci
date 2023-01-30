@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -16,16 +16,16 @@ import (
 	"strings"
 )
 
-// OracleRmStack DVP details of Oracle RM stack.
+// OracleRmStack Details of the Oracle Resource Manager stack, which is a subtype of the Dedicated Vantage Point stack.
 type OracleRmStack struct {
 
-	// Version of DVP.
+	// Version of the dedicated vantage point.
 	DvpVersion *string `mandatory:"true" json:"dvpVersion"`
 
-	// Stack OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of DVP RM stack.
+	// Stack OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Resource Manager stack for dedicated vantage point.
 	DvpStackId *string `mandatory:"true" json:"dvpStackId"`
 
-	// Stream OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of DVP RM stack.
+	// Stream OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Resource Manager stack for dedicated vantage point.
 	DvpStreamId *string `mandatory:"true" json:"dvpStreamId"`
 }
 

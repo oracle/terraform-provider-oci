@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -143,6 +143,9 @@ const (
 	ListWorkRequestsOperationTypeNotebookSessionDelete     ListWorkRequestsOperationTypeEnum = "NOTEBOOK_SESSION_DELETE"
 	ListWorkRequestsOperationTypeNotebookSessionActivate   ListWorkRequestsOperationTypeEnum = "NOTEBOOK_SESSION_ACTIVATE"
 	ListWorkRequestsOperationTypeNotebookSessionDeactivate ListWorkRequestsOperationTypeEnum = "NOTEBOOK_SESSION_DEACTIVATE"
+	ListWorkRequestsOperationTypeModelversionsetDelete     ListWorkRequestsOperationTypeEnum = "MODELVERSIONSET_DELETE"
+	ListWorkRequestsOperationTypeExportModelArtifact       ListWorkRequestsOperationTypeEnum = "EXPORT_MODEL_ARTIFACT"
+	ListWorkRequestsOperationTypeImportModelArtifact       ListWorkRequestsOperationTypeEnum = "IMPORT_MODEL_ARTIFACT"
 	ListWorkRequestsOperationTypeModelDeploymentCreate     ListWorkRequestsOperationTypeEnum = "MODEL_DEPLOYMENT_CREATE"
 	ListWorkRequestsOperationTypeModelDeploymentDelete     ListWorkRequestsOperationTypeEnum = "MODEL_DEPLOYMENT_DELETE"
 	ListWorkRequestsOperationTypeModelDeploymentActivate   ListWorkRequestsOperationTypeEnum = "MODEL_DEPLOYMENT_ACTIVATE"
@@ -151,6 +154,11 @@ const (
 	ListWorkRequestsOperationTypeProjectDelete             ListWorkRequestsOperationTypeEnum = "PROJECT_DELETE"
 	ListWorkRequestsOperationTypeWorkrequestCancel         ListWorkRequestsOperationTypeEnum = "WORKREQUEST_CANCEL"
 	ListWorkRequestsOperationTypeJobDelete                 ListWorkRequestsOperationTypeEnum = "JOB_DELETE"
+	ListWorkRequestsOperationTypePipelineCreate            ListWorkRequestsOperationTypeEnum = "PIPELINE_CREATE"
+	ListWorkRequestsOperationTypePipelineDelete            ListWorkRequestsOperationTypeEnum = "PIPELINE_DELETE"
+	ListWorkRequestsOperationTypePipelineRunCreate         ListWorkRequestsOperationTypeEnum = "PIPELINE_RUN_CREATE"
+	ListWorkRequestsOperationTypePipelineRunCancel         ListWorkRequestsOperationTypeEnum = "PIPELINE_RUN_CANCEL"
+	ListWorkRequestsOperationTypePipelineRunDelete         ListWorkRequestsOperationTypeEnum = "PIPELINE_RUN_DELETE"
 )
 
 var mappingListWorkRequestsOperationTypeEnum = map[string]ListWorkRequestsOperationTypeEnum{
@@ -158,6 +166,9 @@ var mappingListWorkRequestsOperationTypeEnum = map[string]ListWorkRequestsOperat
 	"NOTEBOOK_SESSION_DELETE":     ListWorkRequestsOperationTypeNotebookSessionDelete,
 	"NOTEBOOK_SESSION_ACTIVATE":   ListWorkRequestsOperationTypeNotebookSessionActivate,
 	"NOTEBOOK_SESSION_DEACTIVATE": ListWorkRequestsOperationTypeNotebookSessionDeactivate,
+	"MODELVERSIONSET_DELETE":      ListWorkRequestsOperationTypeModelversionsetDelete,
+	"EXPORT_MODEL_ARTIFACT":       ListWorkRequestsOperationTypeExportModelArtifact,
+	"IMPORT_MODEL_ARTIFACT":       ListWorkRequestsOperationTypeImportModelArtifact,
 	"MODEL_DEPLOYMENT_CREATE":     ListWorkRequestsOperationTypeModelDeploymentCreate,
 	"MODEL_DEPLOYMENT_DELETE":     ListWorkRequestsOperationTypeModelDeploymentDelete,
 	"MODEL_DEPLOYMENT_ACTIVATE":   ListWorkRequestsOperationTypeModelDeploymentActivate,
@@ -166,6 +177,11 @@ var mappingListWorkRequestsOperationTypeEnum = map[string]ListWorkRequestsOperat
 	"PROJECT_DELETE":              ListWorkRequestsOperationTypeProjectDelete,
 	"WORKREQUEST_CANCEL":          ListWorkRequestsOperationTypeWorkrequestCancel,
 	"JOB_DELETE":                  ListWorkRequestsOperationTypeJobDelete,
+	"PIPELINE_CREATE":             ListWorkRequestsOperationTypePipelineCreate,
+	"PIPELINE_DELETE":             ListWorkRequestsOperationTypePipelineDelete,
+	"PIPELINE_RUN_CREATE":         ListWorkRequestsOperationTypePipelineRunCreate,
+	"PIPELINE_RUN_CANCEL":         ListWorkRequestsOperationTypePipelineRunCancel,
+	"PIPELINE_RUN_DELETE":         ListWorkRequestsOperationTypePipelineRunDelete,
 }
 
 var mappingListWorkRequestsOperationTypeEnumLowerCase = map[string]ListWorkRequestsOperationTypeEnum{
@@ -173,6 +189,9 @@ var mappingListWorkRequestsOperationTypeEnumLowerCase = map[string]ListWorkReque
 	"notebook_session_delete":     ListWorkRequestsOperationTypeNotebookSessionDelete,
 	"notebook_session_activate":   ListWorkRequestsOperationTypeNotebookSessionActivate,
 	"notebook_session_deactivate": ListWorkRequestsOperationTypeNotebookSessionDeactivate,
+	"modelversionset_delete":      ListWorkRequestsOperationTypeModelversionsetDelete,
+	"export_model_artifact":       ListWorkRequestsOperationTypeExportModelArtifact,
+	"import_model_artifact":       ListWorkRequestsOperationTypeImportModelArtifact,
 	"model_deployment_create":     ListWorkRequestsOperationTypeModelDeploymentCreate,
 	"model_deployment_delete":     ListWorkRequestsOperationTypeModelDeploymentDelete,
 	"model_deployment_activate":   ListWorkRequestsOperationTypeModelDeploymentActivate,
@@ -181,6 +200,11 @@ var mappingListWorkRequestsOperationTypeEnumLowerCase = map[string]ListWorkReque
 	"project_delete":              ListWorkRequestsOperationTypeProjectDelete,
 	"workrequest_cancel":          ListWorkRequestsOperationTypeWorkrequestCancel,
 	"job_delete":                  ListWorkRequestsOperationTypeJobDelete,
+	"pipeline_create":             ListWorkRequestsOperationTypePipelineCreate,
+	"pipeline_delete":             ListWorkRequestsOperationTypePipelineDelete,
+	"pipeline_run_create":         ListWorkRequestsOperationTypePipelineRunCreate,
+	"pipeline_run_cancel":         ListWorkRequestsOperationTypePipelineRunCancel,
+	"pipeline_run_delete":         ListWorkRequestsOperationTypePipelineRunDelete,
 }
 
 // GetListWorkRequestsOperationTypeEnumValues Enumerates the set of values for ListWorkRequestsOperationTypeEnum
@@ -199,6 +223,9 @@ func GetListWorkRequestsOperationTypeEnumStringValues() []string {
 		"NOTEBOOK_SESSION_DELETE",
 		"NOTEBOOK_SESSION_ACTIVATE",
 		"NOTEBOOK_SESSION_DEACTIVATE",
+		"MODELVERSIONSET_DELETE",
+		"EXPORT_MODEL_ARTIFACT",
+		"IMPORT_MODEL_ARTIFACT",
 		"MODEL_DEPLOYMENT_CREATE",
 		"MODEL_DEPLOYMENT_DELETE",
 		"MODEL_DEPLOYMENT_ACTIVATE",
@@ -207,6 +234,11 @@ func GetListWorkRequestsOperationTypeEnumStringValues() []string {
 		"PROJECT_DELETE",
 		"WORKREQUEST_CANCEL",
 		"JOB_DELETE",
+		"PIPELINE_CREATE",
+		"PIPELINE_DELETE",
+		"PIPELINE_RUN_CREATE",
+		"PIPELINE_RUN_CANCEL",
+		"PIPELINE_RUN_DELETE",
 	}
 }
 

@@ -211,6 +211,36 @@
                 </li>
             </ul>
         </li>
+        <li<%= sidebar_current("docs-oci-announcements_service") %>>
+            <a href="#">Announcements Service</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-announcements_service-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/announcements_service_announcement_subscription.html">oci_announcements_service_announcement_subscription</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/announcements_service_announcement_subscriptions.html">oci_announcements_service_announcement_subscriptions</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-announcements_service-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/announcements_service_announcement_subscription.html">oci_announcements_service_announcement_subscription</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/announcements_service_announcement_subscriptions_actions_change_compartment.html">oci_announcements_service_announcement_subscriptions_actions_change_compartment</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/announcements_service_announcement_subscriptions_filter_group.html">oci_announcements_service_announcement_subscriptions_filter_group</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
         <li<%= sidebar_current("docs-oci-apigateway") %>>
             <a href="#">API Gateway</a>
             <ul class="nav">
@@ -250,6 +280,18 @@
                         <li>
                             <a href="/docs/providers/oci/d/apigateway_gateways.html">oci_apigateway_gateways</a>
                         </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/apigateway_subscriber.html">oci_apigateway_subscriber</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/apigateway_subscribers.html">oci_apigateway_subscribers</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/apigateway_usage_plan.html">oci_apigateway_usage_plan</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/apigateway_usage_plans.html">oci_apigateway_usage_plans</a>
+                        </li>
                     </ul>
                 </li>
                 <li<%= sidebar_current("docs-oci-apigateway-resources") %>>
@@ -266,6 +308,12 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/apigateway_gateway.html">oci_apigateway_gateway</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/apigateway_subscriber.html">oci_apigateway_subscriber</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/apigateway_usage_plan.html">oci_apigateway_usage_plan</a>
                         </li>
                     </ul>
                 </li>
@@ -593,6 +641,12 @@
                             <a href="/docs/providers/oci/d/bds_bds_instance_metastore_configs.html">oci_bds_bds_instance_metastore_configs</a>
                         </li>
                         <li>
+                            <a href="/docs/providers/oci/d/bds_bds_instance_patch_histories.html">oci_bds_bds_instance_patch_histories</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/bds_bds_instance_patches.html">oci_bds_bds_instance_patches</a>
+                        </li>
+                        <li>
                             <a href="/docs/providers/oci/d/bds_bds_instances.html">oci_bds_bds_instances</a>
                         </li>
                     </ul>
@@ -611,6 +665,9 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/bds_bds_instance_metastore_config.html">oci_bds_bds_instance_metastore_config</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/bds_bds_instance_patch_action.html">oci_bds_bds_instance_patch_action</a>
                         </li>
                     </ul>
                 </li>
@@ -760,6 +817,96 @@
                 </li>
             </ul>
         </li>
+        <li<%= sidebar_current("docs-oci-cloud_bridge") %>>
+            <a href="#">Cloud Bridge</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-cloud_bridge-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_bridge_agent.html">oci_cloud_bridge_agent</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_bridge_agent_dependencies.html">oci_cloud_bridge_agent_dependencies</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_bridge_agent_dependency.html">oci_cloud_bridge_agent_dependency</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_bridge_agent_plugin.html">oci_cloud_bridge_agent_plugin</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_bridge_agents.html">oci_cloud_bridge_agents</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_bridge_appliance_image.html">oci_cloud_bridge_appliance_image</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_bridge_appliance_images.html">oci_cloud_bridge_appliance_images</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_bridge_asset.html">oci_cloud_bridge_asset</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_bridge_asset_source.html">oci_cloud_bridge_asset_source</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_bridge_asset_sources.html">oci_cloud_bridge_asset_sources</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_bridge_assets.html">oci_cloud_bridge_assets</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_bridge_discovery_schedule.html">oci_cloud_bridge_discovery_schedule</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_bridge_discovery_schedules.html">oci_cloud_bridge_discovery_schedules</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_bridge_environment.html">oci_cloud_bridge_environment</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_bridge_environments.html">oci_cloud_bridge_environments</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_bridge_inventories.html">oci_cloud_bridge_inventories</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_bridge_inventory.html">oci_cloud_bridge_inventory</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-cloud_bridge-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/cloud_bridge_agent.html">oci_cloud_bridge_agent</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/cloud_bridge_agent_dependency.html">oci_cloud_bridge_agent_dependency</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/cloud_bridge_agent_plugin.html">oci_cloud_bridge_agent_plugin</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/cloud_bridge_asset.html">oci_cloud_bridge_asset</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/cloud_bridge_asset_source.html">oci_cloud_bridge_asset_source</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/cloud_bridge_discovery_schedule.html">oci_cloud_bridge_discovery_schedule</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/cloud_bridge_environment.html">oci_cloud_bridge_environment</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/cloud_bridge_inventory.html">oci_cloud_bridge_inventory</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
         <li<%= sidebar_current("docs-oci-cloud_guard") %>>
             <a href="#">Cloud Guard</a>
             <ul class="nav">
@@ -776,6 +923,18 @@
                             <a href="/docs/providers/oci/d/cloud_guard_data_mask_rules.html">oci_cloud_guard_data_mask_rules</a>
                         </li>
                         <li>
+                            <a href="/docs/providers/oci/d/cloud_guard_data_source.html">oci_cloud_guard_data_source</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_guard_data_source_event.html">oci_cloud_guard_data_source_event</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_guard_data_source_events.html">oci_cloud_guard_data_source_events</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_guard_data_sources.html">oci_cloud_guard_data_sources</a>
+                        </li>
+                        <li>
                             <a href="/docs/providers/oci/d/cloud_guard_detector_recipe.html">oci_cloud_guard_detector_recipe</a>
                         </li>
                         <li>
@@ -786,6 +945,12 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/cloud_guard_managed_lists.html">oci_cloud_guard_managed_lists</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_guard_problem_entities.html">oci_cloud_guard_problem_entities</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_guard_problem_entity.html">oci_cloud_guard_problem_entity</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/cloud_guard_responder_recipe.html">oci_cloud_guard_responder_recipe</a>
@@ -829,6 +994,9 @@
                             <a href="/docs/providers/oci/r/cloud_guard_data_mask_rule.html">oci_cloud_guard_data_mask_rule</a>
                         </li>
                         <li>
+                            <a href="/docs/providers/oci/r/cloud_guard_data_source.html">oci_cloud_guard_data_source</a>
+                        </li>
+                        <li>
                             <a href="/docs/providers/oci/r/cloud_guard_detector_recipe.html">oci_cloud_guard_detector_recipe</a>
                         </li>
                         <li>
@@ -845,6 +1013,72 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/cloud_guard_target.html">oci_cloud_guard_target</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li<%= sidebar_current("docs-oci-cloud_migrations") %>>
+            <a href="#">Cloud Migrations</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-cloud_migrations-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_migrations_migration.html">oci_cloud_migrations_migration</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_migrations_migration_asset.html">oci_cloud_migrations_migration_asset</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_migrations_migration_assets.html">oci_cloud_migrations_migration_assets</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_migrations_migration_plan.html">oci_cloud_migrations_migration_plan</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_migrations_migration_plan_available_shape.html">oci_cloud_migrations_migration_plan_available_shape</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_migrations_migration_plan_available_shapes.html">oci_cloud_migrations_migration_plan_available_shapes</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_migrations_migration_plans.html">oci_cloud_migrations_migration_plans</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_migrations_migrations.html">oci_cloud_migrations_migrations</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_migrations_replication_schedule.html">oci_cloud_migrations_replication_schedule</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_migrations_replication_schedules.html">oci_cloud_migrations_replication_schedules</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_migrations_target_asset.html">oci_cloud_migrations_target_asset</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/cloud_migrations_target_assets.html">oci_cloud_migrations_target_assets</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-cloud_migrations-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/cloud_migrations_migration.html">oci_cloud_migrations_migration</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/cloud_migrations_migration_asset.html">oci_cloud_migrations_migration_asset</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/cloud_migrations_migration_plan.html">oci_cloud_migrations_migration_plan</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/cloud_migrations_replication_schedule.html">oci_cloud_migrations_replication_schedule</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/cloud_migrations_target_asset.html">oci_cloud_migrations_target_asset</a>
                         </li>
                     </ul>
                 </li>
@@ -920,6 +1154,36 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/containerengine_node_pool.html">oci_containerengine_node_pool</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li<%= sidebar_current("docs-oci-container_instances") %>>
+            <a href="#">Container Instances</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-container_instances-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/container_instances_container_instance.html">oci_container_instances_container_instance</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/container_instances_container_instance_shape.html">oci_container_instances_container_instance_shape</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/container_instances_container_instance_shapes.html">oci_container_instances_container_instance_shapes</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/container_instances_container_instances.html">oci_container_instances_container_instances</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-container_instances-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/container_instances_container_instance.html">oci_container_instances_container_instance</a>
                         </li>
                     </ul>
                 </li>
@@ -1008,12 +1272,6 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/core_capture_filter.html">oci_core_capture_filter</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/core_capture_filter.html">oci_core_capture_filter</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/core_capture_filters.html">oci_core_capture_filters</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/core_capture_filters.html">oci_core_capture_filters</a>
@@ -1364,12 +1622,6 @@
                             <a href="/docs/providers/oci/d/core_vtap.html">oci_core_vtap</a>
                         </li>
                         <li>
-                            <a href="/docs/providers/oci/d/core_vtap.html">oci_core_vtap</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/core_vtaps.html">oci_core_vtaps</a>
-                        </li>
-                        <li>
                             <a href="/docs/providers/oci/d/core_vtaps.html">oci_core_vtaps</a>
                         </li>
                     </ul>
@@ -1388,9 +1640,6 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/core_boot_volume_backup.html">oci_core_boot_volume_backup</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/r/core_capture_filter.html">oci_core_capture_filter</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/core_capture_filter.html">oci_core_capture_filter</a>
@@ -1474,6 +1723,9 @@
                             <a href="/docs/providers/oci/r/core_ipsec_connection_tunnel_management.html">oci_core_ipsec_connection_tunnel_management</a>
                         </li>
                         <li>
+                            <a href="/docs/providers/oci/r/core_ipsec_connection_tunnel_management.html">oci_core_ipsec_connection_tunnel_management</a>
+                        </li>
+                        <li>
                             <a href="/docs/providers/oci/r/core_ipv6.html">oci_core_ipv6</a>
                         </li>
                         <li>
@@ -1550,9 +1802,6 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/core_volume_group_backup.html">oci_core_volume_group_backup</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/r/core_vtap.html">oci_core_vtap</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/core_vtap.html">oci_core_vtap</a>
@@ -1714,6 +1963,12 @@
                         <li>
                             <a href="/docs/providers/oci/d/dataflow_run_logs.html">oci_dataflow_run_logs</a>
                         </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/dataflow_run_statement.html">oci_dataflow_run_statement</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/dataflow_run_statements.html">oci_dataflow_run_statements</a>
+                        </li>
                     </ul>
                 </li>
                 <li<%= sidebar_current("docs-oci-dataflow-resources") %>>
@@ -1727,6 +1982,9 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/dataflow_private_endpoint.html">oci_dataflow_private_endpoint</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/dataflow_run_statement.html">oci_dataflow_run_statement</a>
                         </li>
                     </ul>
                 </li>
@@ -1742,6 +2000,18 @@
                             <a href="/docs/providers/oci/d/dataintegration_workspace.html">oci_dataintegration_workspace</a>
                         </li>
                         <li>
+                            <a href="/docs/providers/oci/d/dataintegration_workspace_folder.html">oci_dataintegration_workspace_folder</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/dataintegration_workspace_folders.html">oci_dataintegration_workspace_folders</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/dataintegration_workspace_project.html">oci_dataintegration_workspace_project</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/dataintegration_workspace_projects.html">oci_dataintegration_workspace_projects</a>
+                        </li>
+                        <li>
                             <a href="/docs/providers/oci/d/dataintegration_workspaces.html">oci_dataintegration_workspaces</a>
                         </li>
                     </ul>
@@ -1751,6 +2021,12 @@
                     <ul class="nav nav-auto-expand">
                         <li>
                             <a href="/docs/providers/oci/r/dataintegration_workspace.html">oci_dataintegration_workspace</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/dataintegration_workspace_folder.html">oci_dataintegration_workspace_folder</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/dataintegration_workspace_project.html">oci_dataintegration_workspace_project</a>
                         </li>
                     </ul>
                 </li>
@@ -2062,9 +2338,6 @@
                             <a href="/docs/providers/oci/r/data_safe_discovery_job.html">oci_data_safe_discovery_job</a>
                         </li>
                         <li>
-                            <a href="/docs/providers/oci/r/data_safe_discovery_jobs_result.html">oci_data_safe_discovery_jobs_result</a>
-                        </li>
-                        <li>
                             <a href="/docs/providers/oci/r/data_safe_library_masking_format.html">oci_data_safe_library_masking_format</a>
                         </li>
                         <li>
@@ -2093,12 +2366,6 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/data_safe_set_security_assessment_baseline.html">oci_data_safe_set_security_assessment_baseline</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/r/data_safe_set_security_assessment_baseline.html">oci_data_safe_set_security_assessment_baseline</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/r/data_safe_set_user_assessment_baseline.html">oci_data_safe_set_user_assessment_baseline</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/data_safe_set_user_assessment_baseline.html">oci_data_safe_set_user_assessment_baseline</a>
@@ -2162,6 +2429,12 @@
                             <a href="/docs/providers/oci/d/datascience_model_provenance.html">oci_datascience_model_provenance</a>
                         </li>
                         <li>
+                            <a href="/docs/providers/oci/d/datascience_model_version_set.html">oci_datascience_model_version_set</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/datascience_model_version_sets.html">oci_datascience_model_version_sets</a>
+                        </li>
+                        <li>
                             <a href="/docs/providers/oci/d/datascience_models.html">oci_datascience_models</a>
                         </li>
                         <li>
@@ -2172,6 +2445,18 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/datascience_notebook_sessions.html">oci_datascience_notebook_sessions</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/datascience_pipeline.html">oci_datascience_pipeline</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/datascience_pipeline_run.html">oci_datascience_pipeline_run</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/datascience_pipeline_runs.html">oci_datascience_pipeline_runs</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/datascience_pipelines.html">oci_datascience_pipelines</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/datascience_project.html">oci_datascience_project</a>
@@ -2200,7 +2485,16 @@
                             <a href="/docs/providers/oci/r/datascience_model_provenance.html">oci_datascience_model_provenance</a>
                         </li>
                         <li>
+                            <a href="/docs/providers/oci/r/datascience_model_version_set.html">oci_datascience_model_version_set</a>
+                        </li>
+                        <li>
                             <a href="/docs/providers/oci/r/datascience_notebook_session.html">oci_datascience_notebook_session</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/datascience_pipeline.html">oci_datascience_pipeline</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/datascience_pipeline_run.html">oci_datascience_pipeline_run</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/datascience_project.html">oci_datascience_project</a>
@@ -2250,6 +2544,12 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/database_autonomous_database_instance_wallet_management.html">oci_database_autonomous_database_instance_wallet_management</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/database_autonomous_database_refreshable_clone.html">oci_database_autonomous_database_refreshable_clone</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/database_autonomous_database_refreshable_clones.html">oci_database_autonomous_database_refreshable_clones</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/database_autonomous_database_regional_wallet_management.html">oci_database_autonomous_database_regional_wallet_management</a>
@@ -2307,6 +2607,9 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/database_cloud_exadata_infrastructure.html">oci_database_cloud_exadata_infrastructure</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/database_cloud_exadata_infrastructure_un_allocated_resource.html">oci_database_cloud_exadata_infrastructure_un_allocated_resource</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/database_cloud_exadata_infrastructures.html">oci_database_cloud_exadata_infrastructures</a>
@@ -2451,6 +2754,12 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/database_maintenance_run.html">oci_database_maintenance_run</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/database_maintenance_run_histories.html">oci_database_maintenance_run_histories</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/database_maintenance_run_history.html">oci_database_maintenance_run_history</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/database_maintenance_runs.html">oci_database_maintenance_runs</a>
@@ -2635,6 +2944,9 @@
                             <a href="/docs/providers/oci/r/database_pluggable_database.html">oci_database_pluggable_database</a>
                         </li>
                         <li>
+                            <a href="/docs/providers/oci/r/database_pluggable_database_pluggabledatabasemanagements_management.html">oci_database_pluggable_database_pluggabledatabasemanagements_management</a>
+                        </li>
+                        <li>
                             <a href="/docs/providers/oci/r/database_pluggable_databases_local_clone.html">oci_database_pluggable_databases_local_clone</a>
                         </li>
                         <li>
@@ -2675,7 +2987,7 @@
                             <a href="/docs/providers/oci/d/database_management_db_management_private_endpoints.html">oci_database_management_db_management_private_endpoints</a>
                         </li>
                         <li>
-                            <a href="/docs/providers/oci/d/database_management_job_executions_status.html">oci_database_management_job_executions_status</a>
+                            <a href="/docs/providers/oci/d/database_management_job_executions_statu.html">oci_database_management_job_executions_statu</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/database_management_job_executions_statuses.html">oci_database_management_job_executions_statuses</a>
@@ -2688,6 +3000,12 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/database_management_managed_database_groups.html">oci_database_management_managed_database_groups</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/database_management_managed_database_preferred_credential.html">oci_database_management_managed_database_preferred_credential</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/database_management_managed_database_preferred_credentials.html">oci_database_management_managed_database_preferred_credentials</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/database_management_managed_database_sql_tuning_advisor_task.html">oci_database_management_managed_database_sql_tuning_advisor_task</a>
@@ -2972,6 +3290,9 @@
                             <a href="/docs/providers/oci/d/devops_projects.html">oci_devops_projects</a>
                         </li>
                         <li>
+                            <a href="/docs/providers/oci/d/devops_repo_file_line.html">oci_devops_repo_file_line</a>
+                        </li>
+                        <li>
                             <a href="/docs/providers/oci/d/devops_repositories.html">oci_devops_repositories</a>
                         </li>
                         <li>
@@ -3112,6 +3433,48 @@
                 </li>
             </ul>
         </li>
+        <li<%= sidebar_current("docs-oci-disaster_recovery") %>>
+            <a href="#">Disaster Recovery</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-disaster_recovery-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/disaster_recovery_dr_plan.html">oci_disaster_recovery_dr_plan</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/disaster_recovery_dr_plan_execution.html">oci_disaster_recovery_dr_plan_execution</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/disaster_recovery_dr_plan_executions.html">oci_disaster_recovery_dr_plan_executions</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/disaster_recovery_dr_plans.html">oci_disaster_recovery_dr_plans</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/disaster_recovery_dr_protection_group.html">oci_disaster_recovery_dr_protection_group</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/disaster_recovery_dr_protection_groups.html">oci_disaster_recovery_dr_protection_groups</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-disaster_recovery-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/disaster_recovery_dr_plan.html">oci_disaster_recovery_dr_plan</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/disaster_recovery_dr_plan_execution.html">oci_disaster_recovery_dr_plan_execution</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/disaster_recovery_dr_protection_group.html">oci_disaster_recovery_dr_protection_group</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
         <li<%= sidebar_current("docs-oci-dns") %>>
             <a href="#">DNS</a>
             <ul class="nav">
@@ -3194,6 +3557,39 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/dns_zone.html">oci_dns_zone</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li<%= sidebar_current("docs-oci-em_warehouse") %>>
+            <a href="#">Em Warehouse</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-em_warehouse-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/em_warehouse_em_warehouse.html">oci_em_warehouse_em_warehouse</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/em_warehouse_em_warehouse_etl_run.html">oci_em_warehouse_em_warehouse_etl_run</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/em_warehouse_em_warehouse_etl_runs.html">oci_em_warehouse_em_warehouse_etl_runs</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/em_warehouse_em_warehouse_resource_usage.html">oci_em_warehouse_em_warehouse_resource_usage</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/em_warehouse_em_warehouses.html">oci_em_warehouse_em_warehouses</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-em_warehouse-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/em_warehouse_em_warehouse.html">oci_em_warehouse_em_warehouse</a>
                         </li>
                     </ul>
                 </li>
@@ -3293,6 +3689,18 @@
                             <a href="/docs/providers/oci/d/file_storage_mount_targets.html">oci_file_storage_mount_targets</a>
                         </li>
                         <li>
+                            <a href="/docs/providers/oci/d/file_storage_replication.html">oci_file_storage_replication</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/file_storage_replication_target.html">oci_file_storage_replication_target</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/file_storage_replication_targets.html">oci_file_storage_replication_targets</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/file_storage_replications.html">oci_file_storage_replications</a>
+                        </li>
+                        <li>
                             <a href="/docs/providers/oci/d/file_storage_snapshot.html">oci_file_storage_snapshot</a>
                         </li>
                         <li>
@@ -3314,6 +3722,9 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/file_storage_mount_target.html">oci_file_storage_mount_target</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/file_storage_replication.html">oci_file_storage_replication</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/file_storage_snapshot.html">oci_file_storage_snapshot</a>
@@ -3358,6 +3769,93 @@
                 </li>
             </ul>
         </li>
+        <li<%= sidebar_current("docs-oci-fusion_apps") %>>
+            <a href="#">Fusion Apps</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-fusion_apps-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/fusion_apps_fusion_environment.html">oci_fusion_apps_fusion_environment</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/fusion_apps_fusion_environment_admin_user.html">oci_fusion_apps_fusion_environment_admin_user</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/fusion_apps_fusion_environment_admin_users.html">oci_fusion_apps_fusion_environment_admin_users</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/fusion_apps_fusion_environment_data_masking_activities.html">oci_fusion_apps_fusion_environment_data_masking_activities</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/fusion_apps_fusion_environment_data_masking_activity.html">oci_fusion_apps_fusion_environment_data_masking_activity</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/fusion_apps_fusion_environment_families.html">oci_fusion_apps_fusion_environment_families</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/fusion_apps_fusion_environment_family.html">oci_fusion_apps_fusion_environment_family</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/fusion_apps_fusion_environment_family_limits_and_usage.html">oci_fusion_apps_fusion_environment_family_limits_and_usage</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/fusion_apps_fusion_environment_family_subscription_detail.html">oci_fusion_apps_fusion_environment_family_subscription_detail</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/fusion_apps_fusion_environment_refresh_activities.html">oci_fusion_apps_fusion_environment_refresh_activities</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/fusion_apps_fusion_environment_refresh_activity.html">oci_fusion_apps_fusion_environment_refresh_activity</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/fusion_apps_fusion_environment_scheduled_activities.html">oci_fusion_apps_fusion_environment_scheduled_activities</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/fusion_apps_fusion_environment_scheduled_activity.html">oci_fusion_apps_fusion_environment_scheduled_activity</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/fusion_apps_fusion_environment_service_attachment.html">oci_fusion_apps_fusion_environment_service_attachment</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/fusion_apps_fusion_environment_service_attachments.html">oci_fusion_apps_fusion_environment_service_attachments</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/fusion_apps_fusion_environment_status.html">oci_fusion_apps_fusion_environment_status</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/fusion_apps_fusion_environment_time_available_for_refresh.html">oci_fusion_apps_fusion_environment_time_available_for_refresh</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/fusion_apps_fusion_environment_time_available_for_refreshs.html">oci_fusion_apps_fusion_environment_time_available_for_refreshs</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/fusion_apps_fusion_environments.html">oci_fusion_apps_fusion_environments</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-fusion_apps-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/fusion_apps_fusion_environment.html">oci_fusion_apps_fusion_environment</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/fusion_apps_fusion_environment_admin_user.html">oci_fusion_apps_fusion_environment_admin_user</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/fusion_apps_fusion_environment_data_masking_activity.html">oci_fusion_apps_fusion_environment_data_masking_activity</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/fusion_apps_fusion_environment_family.html">oci_fusion_apps_fusion_environment_family</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/fusion_apps_fusion_environment_refresh_activity.html">oci_fusion_apps_fusion_environment_refresh_activity</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
         <li<%= sidebar_current("docs-oci-generic_artifacts_content") %>>
             <a href="#">Generic Artifacts Content</a>
             <ul class="nav">
@@ -3383,6 +3881,18 @@
                     <a href="#">Data Sources</a>
                     <ul class="nav nav-auto-expand">
                         <li>
+                            <a href="/docs/providers/oci/d/golden_gate_connection.html">oci_golden_gate_connection</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/golden_gate_connection_assignment.html">oci_golden_gate_connection_assignment</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/golden_gate_connection_assignments.html">oci_golden_gate_connection_assignments</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/golden_gate_connections.html">oci_golden_gate_connections</a>
+                        </li>
+                        <li>
                             <a href="/docs/providers/oci/d/golden_gate_database_registration.html">oci_golden_gate_database_registration</a>
                         </li>
                         <li>
@@ -3398,6 +3908,12 @@
                             <a href="/docs/providers/oci/d/golden_gate_deployment_backups.html">oci_golden_gate_deployment_backups</a>
                         </li>
                         <li>
+                            <a href="/docs/providers/oci/d/golden_gate_deployment_type.html">oci_golden_gate_deployment_type</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/golden_gate_deployment_types.html">oci_golden_gate_deployment_types</a>
+                        </li>
+                        <li>
                             <a href="/docs/providers/oci/d/golden_gate_deployment_upgrade.html">oci_golden_gate_deployment_upgrade</a>
                         </li>
                         <li>
@@ -3406,11 +3922,35 @@
                         <li>
                             <a href="/docs/providers/oci/d/golden_gate_deployments.html">oci_golden_gate_deployments</a>
                         </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/golden_gate_message.html">oci_golden_gate_message</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/golden_gate_messages.html">oci_golden_gate_messages</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/golden_gate_trail_file.html">oci_golden_gate_trail_file</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/golden_gate_trail_files.html">oci_golden_gate_trail_files</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/golden_gate_trail_sequence.html">oci_golden_gate_trail_sequence</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/golden_gate_trail_sequences.html">oci_golden_gate_trail_sequences</a>
+                        </li>
                     </ul>
                 </li>
                 <li<%= sidebar_current("docs-oci-golden_gate-resources") %>>
                     <a href="#">Resources</a>
                     <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/golden_gate_connection.html">oci_golden_gate_connection</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/golden_gate_connection_assignment.html">oci_golden_gate_connection_assignment</a>
+                        </li>
                         <li>
                             <a href="/docs/providers/oci/r/golden_gate_database_registration.html">oci_golden_gate_database_registration</a>
                         </li>
@@ -3531,9 +4071,6 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/identity_iam_work_request.html">oci_identity_iam_work_request</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/identity_iam_work_request_errors.html">oci_identity_iam_work_request_errors</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/identity_iam_work_request_errors.html">oci_identity_iam_work_request_errors</a>
@@ -3746,7 +4283,16 @@
                             <a href="/docs/providers/oci/d/jms_fleet.html">oci_jms_fleet</a>
                         </li>
                         <li>
+                            <a href="/docs/providers/oci/d/jms_fleet_advanced_feature_configuration.html">oci_jms_fleet_advanced_feature_configuration</a>
+                        </li>
+                        <li>
                             <a href="/docs/providers/oci/d/jms_fleet_blocklists.html">oci_jms_fleet_blocklists</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/jms_fleet_crypto_analysis_result.html">oci_jms_fleet_crypto_analysis_result</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/jms_fleet_crypto_analysis_results.html">oci_jms_fleet_crypto_analysis_results</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/jms_fleet_installation_site.html">oci_jms_fleet_installation_site</a>
@@ -3756,6 +4302,18 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/jms_fleets.html">oci_jms_fleets</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/jms_java_families.html">oci_jms_java_families</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/jms_java_family.html">oci_jms_java_family</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/jms_java_release.html">oci_jms_java_release</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/jms_java_releases.html">oci_jms_java_releases</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/jms_list_jre_usage.html">oci_jms_list_jre_usage</a>
@@ -3839,6 +4397,66 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/kms_verify.html">oci_kms_verify</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li<%= sidebar_current("docs-oci-license_manager") %>>
+            <a href="#">License Manager</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-license_manager-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/license_manager_configuration.html">oci_license_manager_configuration</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/license_manager_license_metric.html">oci_license_manager_license_metric</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/license_manager_license_record.html">oci_license_manager_license_record</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/license_manager_license_records.html">oci_license_manager_license_records</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/license_manager_product_license.html">oci_license_manager_product_license</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/license_manager_product_license_consumer.html">oci_license_manager_product_license_consumer</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/license_manager_product_license_consumers.html">oci_license_manager_product_license_consumers</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/license_manager_product_licenses.html">oci_license_manager_product_licenses</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/license_manager_top_utilized_product_license.html">oci_license_manager_top_utilized_product_license</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/license_manager_top_utilized_product_licenses.html">oci_license_manager_top_utilized_product_licenses</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/license_manager_top_utilized_resource.html">oci_license_manager_top_utilized_resource</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/license_manager_top_utilized_resources.html">oci_license_manager_top_utilized_resources</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-license_manager-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/license_manager_configuration.html">oci_license_manager_configuration</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/license_manager_license_record.html">oci_license_manager_license_record</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/license_manager_product_license.html">oci_license_manager_product_license</a>
                         </li>
                     </ul>
                 </li>
@@ -4040,6 +4658,15 @@
                             <a href="/docs/providers/oci/d/log_analytics_namespace.html">oci_log_analytics_namespace</a>
                         </li>
                         <li>
+                            <a href="/docs/providers/oci/d/log_analytics_namespace_ingest_time_rule.html">oci_log_analytics_namespace_ingest_time_rule</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/log_analytics_namespace_ingest_time_rules.html">oci_log_analytics_namespace_ingest_time_rules</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/log_analytics_namespace_rules.html">oci_log_analytics_namespace_rules</a>
+                        </li>
+                        <li>
                             <a href="/docs/providers/oci/d/log_analytics_namespace_scheduled_task.html">oci_log_analytics_namespace_scheduled_task</a>
                         </li>
                         <li>
@@ -4076,6 +4703,12 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/log_analytics_namespace.html">oci_log_analytics_namespace</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/log_analytics_namespace_ingest_time_rule.html">oci_log_analytics_namespace_ingest_time_rule</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/log_analytics_namespace_ingest_time_rules_management.html">oci_log_analytics_namespace_ingest_time_rules_management</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/log_analytics_namespace_scheduled_task.html">oci_log_analytics_namespace_scheduled_task</a>
@@ -4270,6 +4903,99 @@
                 </li>
             </ul>
         </li>
+        <li<%= sidebar_current("docs-oci-media_services") %>>
+            <a href="#">Media Services</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-media_services-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/media_services_media_asset.html">oci_media_services_media_asset</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/media_services_media_asset_distribution_channel_attachment.html">oci_media_services_media_asset_distribution_channel_attachment</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/media_services_media_assets.html">oci_media_services_media_assets</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/media_services_media_workflow.html">oci_media_services_media_workflow</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/media_services_media_workflow_configuration.html">oci_media_services_media_workflow_configuration</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/media_services_media_workflow_configurations.html">oci_media_services_media_workflow_configurations</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/media_services_media_workflow_job.html">oci_media_services_media_workflow_job</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/media_services_media_workflow_job_fact.html">oci_media_services_media_workflow_job_fact</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/media_services_media_workflow_job_facts.html">oci_media_services_media_workflow_job_facts</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/media_services_media_workflow_jobs.html">oci_media_services_media_workflow_jobs</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/media_services_media_workflow_task_declaration.html">oci_media_services_media_workflow_task_declaration</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/media_services_media_workflows.html">oci_media_services_media_workflows</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/media_services_stream_cdn_config.html">oci_media_services_stream_cdn_config</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/media_services_stream_cdn_configs.html">oci_media_services_stream_cdn_configs</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/media_services_stream_distribution_channel.html">oci_media_services_stream_distribution_channel</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/media_services_stream_distribution_channels.html">oci_media_services_stream_distribution_channels</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/media_services_stream_packaging_config.html">oci_media_services_stream_packaging_config</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/media_services_stream_packaging_configs.html">oci_media_services_stream_packaging_configs</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/media_services_system_media_workflow.html">oci_media_services_system_media_workflow</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-media_services-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/media_services_media_asset.html">oci_media_services_media_asset</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/media_services_media_workflow.html">oci_media_services_media_workflow</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/media_services_media_workflow_configuration.html">oci_media_services_media_workflow_configuration</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/media_services_media_workflow_job.html">oci_media_services_media_workflow_job</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/media_services_stream_cdn_config.html">oci_media_services_stream_cdn_config</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/media_services_stream_distribution_channel.html">oci_media_services_stream_distribution_channel</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/media_services_stream_packaging_config.html">oci_media_services_stream_packaging_config</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
         <li<%= sidebar_current("docs-oci-metering_computation") %>>
             <a href="#">Metering Computation</a>
             <ul class="nav">
@@ -4400,6 +5126,12 @@
                             <a href="/docs/providers/oci/d/mysql_mysql_versions.html">oci_mysql_mysql_versions</a>
                         </li>
                         <li>
+                            <a href="/docs/providers/oci/d/mysql_replica.html">oci_mysql_replica</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/mysql_replicas.html">oci_mysql_replicas</a>
+                        </li>
+                        <li>
                             <a href="/docs/providers/oci/d/mysql_shapes.html">oci_mysql_shapes</a>
                         </li>
                     </ul>
@@ -4420,7 +5152,46 @@
                             <a href="/docs/providers/oci/r/mysql_mysql_backup.html">oci_mysql_mysql_backup</a>
                         </li>
                         <li>
+                            <a href="/docs/providers/oci/r/mysql_mysql_configuration.html">oci_mysql_mysql_configuration</a>
+                        </li>
+                        <li>
                             <a href="/docs/providers/oci/r/mysql_mysql_db_system.html">oci_mysql_mysql_db_system</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/mysql_replica.html">oci_mysql_replica</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li<%= sidebar_current("docs-oci-network_firewall") %>>
+            <a href="#">Network Firewall</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-network_firewall-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/network_firewall_network_firewall.html">oci_network_firewall_network_firewall</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/network_firewall_network_firewall_policies.html">oci_network_firewall_network_firewall_policies</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/network_firewall_network_firewall_policy.html">oci_network_firewall_network_firewall_policy</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/network_firewall_network_firewalls.html">oci_network_firewall_network_firewalls</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-network_firewall-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/network_firewall_network_firewall.html">oci_network_firewall_network_firewall</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/network_firewall_network_firewall_policy.html">oci_network_firewall_network_firewall_policy</a>
                         </li>
                     </ul>
                 </li>
@@ -4484,6 +5255,9 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/network_load_balancer_network_load_balancer.html">oci_network_load_balancer_network_load_balancer</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/network_load_balancer_network_load_balancers_backend_sets_unified.html">oci_network_load_balancer_network_load_balancers_backend_sets_unified</a>
                         </li>
                     </ul>
                 </li>
@@ -4624,6 +5398,60 @@
                 </li>
             </ul>
         </li>
+        <li<%= sidebar_current("docs-oci-opa") %>>
+            <a href="#">Opa</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-opa-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/opa_opa_instance.html">oci_opa_opa_instance</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/opa_opa_instances.html">oci_opa_opa_instances</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-opa-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/opa_opa_instance.html">oci_opa_opa_instance</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li<%= sidebar_current("docs-oci-opensearch") %>>
+            <a href="#">Opensearch</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-opensearch-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/opensearch_opensearch_cluster.html">oci_opensearch_opensearch_cluster</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/opensearch_opensearch_clusters.html">oci_opensearch_opensearch_clusters</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/opensearch_opensearch_version.html">oci_opensearch_opensearch_version</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/opensearch_opensearch_versions.html">oci_opensearch_opensearch_versions</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-opensearch-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/opensearch_opensearch_cluster.html">oci_opensearch_opensearch_cluster</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
         <li<%= sidebar_current("docs-oci-operator_access_control") %>>
             <a href="#">Operator Access Control</a>
             <ul class="nav">
@@ -4724,6 +5552,18 @@
                             <a href="/docs/providers/oci/d/opsi_host_insights.html">oci_opsi_host_insights</a>
                         </li>
                         <li>
+                            <a href="/docs/providers/oci/d/opsi_importable_compute_entities.html">oci_opsi_importable_compute_entities</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/opsi_importable_compute_entity.html">oci_opsi_importable_compute_entity</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/opsi_operations_insights_private_endpoint.html">oci_opsi_operations_insights_private_endpoint</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/opsi_operations_insights_private_endpoints.html">oci_opsi_operations_insights_private_endpoints</a>
+                        </li>
+                        <li>
                             <a href="/docs/providers/oci/d/opsi_operations_insights_warehouse.html">oci_opsi_operations_insights_warehouse</a>
                         </li>
                         <li>
@@ -4757,6 +5597,9 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/opsi_host_insight.html">oci_opsi_host_insight</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/opsi_operations_insights_private_endpoint.html">oci_opsi_operations_insights_private_endpoint</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/opsi_operations_insights_warehouse.html">oci_opsi_operations_insights_warehouse</a>
@@ -4907,10 +5750,25 @@
                             <a href="/docs/providers/oci/d/osmanagement_managed_instance_groups.html">oci_osmanagement_managed_instance_groups</a>
                         </li>
                         <li>
+                            <a href="/docs/providers/oci/d/osmanagement_managed_instance_module_streams.html">oci_osmanagement_managed_instance_module_streams</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/osmanagement_managed_instance_stream_profiles.html">oci_osmanagement_managed_instance_stream_profiles</a>
+                        </li>
+                        <li>
                             <a href="/docs/providers/oci/d/osmanagement_managed_instances.html">oci_osmanagement_managed_instances</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/osmanagement_software_source.html">oci_osmanagement_software_source</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/osmanagement_software_source_module_stream.html">oci_osmanagement_software_source_module_stream</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/osmanagement_software_source_module_stream_profile.html">oci_osmanagement_software_source_module_stream_profile</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/osmanagement_software_source_stream_profiles.html">oci_osmanagement_software_source_stream_profiles</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/osmanagement_software_sources.html">oci_osmanagement_software_sources</a>
@@ -5059,6 +5917,30 @@
                 </li>
             </ul>
         </li>
+        <li<%= sidebar_current("docs-oci-queue") %>>
+            <a href="#">Queue</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-queue-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/queue_queue.html">oci_queue_queue</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/queue_queues.html">oci_queue_queues</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-queue-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/queue_queue.html">oci_queue_queue</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
         <li<%= sidebar_current("docs-oci-resourcemanager") %>>
             <a href="#">Resource Manager</a>
             <ul class="nav">
@@ -5066,7 +5948,13 @@
                     <a href="#">Data Sources</a>
                     <ul class="nav nav-auto-expand">
                         <li>
-                            <a href="/docs/providers/oci/d/resourcemanager_stacks.html">oci_resourcemanager_stacks</a>
+                            <a href="/docs/providers/oci/d/resourcemanager_private_endpoint.html">oci_resourcemanager_private_endpoint</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/resourcemanager_private_endpoint_reachable_ip.html">oci_resourcemanager_private_endpoint_reachable_ip</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/resourcemanager_private_endpoints.html">oci_resourcemanager_private_endpoints</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/resourcemanager_stack.html">oci_resourcemanager_stack</a>
@@ -5074,11 +5962,17 @@
                         <li>
                             <a href="/docs/providers/oci/d/resourcemanager_stack_tf_state.html">oci_resourcemanager_stack_tf_state</a>
                         </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/resourcemanager_stacks.html">oci_resourcemanager_stacks</a>
+                        </li>
                     </ul>
                 </li>
                 <li<%= sidebar_current("docs-oci-resourcemanager-resources") %>>
                     <a href="#">Resources</a>
                     <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/resourcemanager_private_endpoint.html">oci_resourcemanager_private_endpoint</a>
+                        </li>
                     </ul>
                 </li>
             </ul>
@@ -5384,6 +6278,9 @@
                             <a href="/docs/providers/oci/d/usage_proxy_subscription_redeemable_users.html">oci_usage_proxy_subscription_redeemable_users</a>
                         </li>
                         <li>
+                            <a href="/docs/providers/oci/d/usage_proxy_subscription_redemption.html">oci_usage_proxy_subscription_redemption</a>
+                        </li>
+                        <li>
                             <a href="/docs/providers/oci/d/usage_proxy_subscription_reward.html">oci_usage_proxy_subscription_reward</a>
                         </li>
                         <li>
@@ -5452,6 +6349,33 @@
                 </li>
             </ul>
         </li>
+        <li<%= sidebar_current("docs-oci-vn_monitoring") %>>
+            <a href="#">Vn Monitoring</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-vn_monitoring-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/vn_monitoring_path_analyzer_test.html">oci_vn_monitoring_path_analyzer_test</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/vn_monitoring_path_analyzer_tests.html">oci_vn_monitoring_path_analyzer_tests</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-vn_monitoring-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/vn_monitoring_path_analysi.html">oci_vn_monitoring_path_analysi</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/vn_monitoring_path_analyzer_test.html">oci_vn_monitoring_path_analyzer_test</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
         <li<%= sidebar_current("docs-oci-vulnerability_scanning") %>>
             <a href="#">Vulnerability Scanning</a>
             <ul class="nav">
@@ -5480,6 +6404,9 @@
                             <a href="/docs/providers/oci/d/vulnerability_scanning_host_scan_target.html">oci_vulnerability_scanning_host_scan_target</a>
                         </li>
                         <li>
+                            <a href="/docs/providers/oci/d/vulnerability_scanning_host_scan_target_errors.html">oci_vulnerability_scanning_host_scan_target_errors</a>
+                        </li>
+                        <li>
                             <a href="/docs/providers/oci/d/vulnerability_scanning_host_scan_targets.html">oci_vulnerability_scanning_host_scan_targets</a>
                         </li>
                     </ul>
@@ -5498,6 +6425,39 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/vulnerability_scanning_host_scan_target.html">oci_vulnerability_scanning_host_scan_target</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li<%= sidebar_current("docs-oci-waa") %>>
+            <a href="#">Waa</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-waa-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/waa_web_app_acceleration.html">oci_waa_web_app_acceleration</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/waa_web_app_acceleration_policies.html">oci_waa_web_app_acceleration_policies</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/waa_web_app_acceleration_policy.html">oci_waa_web_app_acceleration_policy</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/waa_web_app_accelerations.html">oci_waa_web_app_accelerations</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-waa-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/waa_web_app_acceleration.html">oci_waa_web_app_acceleration</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/waa_web_app_acceleration_policy.html">oci_waa_web_app_acceleration_policy</a>
                         </li>
                     </ul>
                 </li>

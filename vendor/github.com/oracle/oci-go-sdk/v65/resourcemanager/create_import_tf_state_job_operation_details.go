@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -24,6 +24,16 @@ type CreateImportTfStateJobOperationDetails struct {
 
 	// Base64-encoded state file
 	TfStateBase64Encoded []byte `mandatory:"true" json:"tfStateBase64Encoded"`
+
+	// Specifies whether or not to upgrade provider versions.
+	// Within the version constraints of your Terraform configuration, use the latest versions available from the source of Terraform providers.
+	// For more information about this option, see Dependency Lock File (terraform.io) (https://www.terraform.io/language/files/dependency-lock).
+	IsProviderUpgradeRequired *bool `mandatory:"false" json:"isProviderUpgradeRequired"`
+}
+
+//GetIsProviderUpgradeRequired returns IsProviderUpgradeRequired
+func (m CreateImportTfStateJobOperationDetails) GetIsProviderUpgradeRequired() *bool {
+	return m.IsProviderUpgradeRequired
 }
 
 func (m CreateImportTfStateJobOperationDetails) String() string {

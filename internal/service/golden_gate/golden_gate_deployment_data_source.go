@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package golden_gate
@@ -7,8 +7,8 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
@@ -81,6 +81,12 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 
 	if s.Res.DeploymentBackupId != nil {
 		s.D.Set("deployment_backup_id", *s.Res.DeploymentBackupId)
+	}
+
+	if s.Res.DeploymentDiagnosticData != nil {
+		s.D.Set("deployment_diagnostic_data", []interface{}{DeploymentDiagnosticDataToMap(s.Res.DeploymentDiagnosticData)})
+	} else {
+		s.D.Set("deployment_diagnostic_data", nil)
 	}
 
 	s.D.Set("deployment_type", s.Res.DeploymentType)

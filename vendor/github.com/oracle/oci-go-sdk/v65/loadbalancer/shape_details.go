@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -27,7 +27,7 @@ type ShapeDetails struct {
 	// Bandwidth in Mbps that determines the maximum bandwidth (ingress plus egress) that the load balancer can
 	// achieve. This bandwidth cannot be always guaranteed. For a guaranteed bandwidth use the minimumBandwidthInMbps
 	// parameter.
-	// The values must be between minimumBandwidthInMbps and 8192 (8Gbps).
+	// The values must be between minimumBandwidthInMbps and 8000 (8Gbps).
 	// Example: `1500`
 	MaximumBandwidthInMbps *int `mandatory:"true" json:"maximumBandwidthInMbps"`
 }

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -49,13 +49,25 @@ type OdaInstanceSummary struct {
 	// information about an instance that's in the `FAILED` state.
 	StateMessage *string `mandatory:"false" json:"stateMessage"`
 
-	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
+	// Simple key-value pair that is applied without any predefined name, type, or scope.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Usage of predefined tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Should this Digital Assistant instance use role-based authorization via an identity domain (true) or use the default policy-based authorization via IAM policies (false)
+	IsRoleBasedAccess *bool `mandatory:"false" json:"isRoleBasedAccess"`
+
+	// If isRoleBasedAccess is set to true, this property specifies the identity domain that is to be used to implement this type of authorzation. Digital Assistant will create an Identity Application instance and Application Roles within this identity domain. The caller may then perform and user roll mappings they like to grant access to users within the identity domain.
+	IdentityDomain *string `mandatory:"false" json:"identityDomain"`
+
+	// A list of package names imported into this instance (if any).
+	ImportedPackageNames []string `mandatory:"false" json:"importedPackageNames"`
+
+	// A list of attachment types for this instance (if any).
+	AttachmentTypes []string `mandatory:"false" json:"attachmentTypes"`
 }
 
 func (m OdaInstanceSummary) String() string {
@@ -192,39 +204,51 @@ type OdaInstanceSummaryLifecycleSubStateEnum string
 
 // Set of constants representing the allowable values for OdaInstanceSummaryLifecycleSubStateEnum
 const (
-	OdaInstanceSummaryLifecycleSubStateCreating            OdaInstanceSummaryLifecycleSubStateEnum = "CREATING"
-	OdaInstanceSummaryLifecycleSubStateStarting            OdaInstanceSummaryLifecycleSubStateEnum = "STARTING"
-	OdaInstanceSummaryLifecycleSubStateStopping            OdaInstanceSummaryLifecycleSubStateEnum = "STOPPING"
-	OdaInstanceSummaryLifecycleSubStateChangingCompartment OdaInstanceSummaryLifecycleSubStateEnum = "CHANGING_COMPARTMENT"
-	OdaInstanceSummaryLifecycleSubStateDeleting            OdaInstanceSummaryLifecycleSubStateEnum = "DELETING"
-	OdaInstanceSummaryLifecycleSubStateDeletePending       OdaInstanceSummaryLifecycleSubStateEnum = "DELETE_PENDING"
-	OdaInstanceSummaryLifecycleSubStateRecovering          OdaInstanceSummaryLifecycleSubStateEnum = "RECOVERING"
-	OdaInstanceSummaryLifecycleSubStatePurging             OdaInstanceSummaryLifecycleSubStateEnum = "PURGING"
-	OdaInstanceSummaryLifecycleSubStateQueued              OdaInstanceSummaryLifecycleSubStateEnum = "QUEUED"
+	OdaInstanceSummaryLifecycleSubStateCreating                          OdaInstanceSummaryLifecycleSubStateEnum = "CREATING"
+	OdaInstanceSummaryLifecycleSubStateStarting                          OdaInstanceSummaryLifecycleSubStateEnum = "STARTING"
+	OdaInstanceSummaryLifecycleSubStateStopping                          OdaInstanceSummaryLifecycleSubStateEnum = "STOPPING"
+	OdaInstanceSummaryLifecycleSubStateChangingCompartment               OdaInstanceSummaryLifecycleSubStateEnum = "CHANGING_COMPARTMENT"
+	OdaInstanceSummaryLifecycleSubStateActivatingCustomerEncryptionKey   OdaInstanceSummaryLifecycleSubStateEnum = "ACTIVATING_CUSTOMER_ENCRYPTION_KEY"
+	OdaInstanceSummaryLifecycleSubStateUpdatingCustomerEncryptionKey     OdaInstanceSummaryLifecycleSubStateEnum = "UPDATING_CUSTOMER_ENCRYPTION_KEY"
+	OdaInstanceSummaryLifecycleSubStateDeactivatingCustomerEncryptionKey OdaInstanceSummaryLifecycleSubStateEnum = "DEACTIVATING_CUSTOMER_ENCRYPTION_KEY"
+	OdaInstanceSummaryLifecycleSubStateDeleting                          OdaInstanceSummaryLifecycleSubStateEnum = "DELETING"
+	OdaInstanceSummaryLifecycleSubStateDeletePending                     OdaInstanceSummaryLifecycleSubStateEnum = "DELETE_PENDING"
+	OdaInstanceSummaryLifecycleSubStateRecovering                        OdaInstanceSummaryLifecycleSubStateEnum = "RECOVERING"
+	OdaInstanceSummaryLifecycleSubStateUpdating                          OdaInstanceSummaryLifecycleSubStateEnum = "UPDATING"
+	OdaInstanceSummaryLifecycleSubStatePurging                           OdaInstanceSummaryLifecycleSubStateEnum = "PURGING"
+	OdaInstanceSummaryLifecycleSubStateQueued                            OdaInstanceSummaryLifecycleSubStateEnum = "QUEUED"
 )
 
 var mappingOdaInstanceSummaryLifecycleSubStateEnum = map[string]OdaInstanceSummaryLifecycleSubStateEnum{
-	"CREATING":             OdaInstanceSummaryLifecycleSubStateCreating,
-	"STARTING":             OdaInstanceSummaryLifecycleSubStateStarting,
-	"STOPPING":             OdaInstanceSummaryLifecycleSubStateStopping,
-	"CHANGING_COMPARTMENT": OdaInstanceSummaryLifecycleSubStateChangingCompartment,
-	"DELETING":             OdaInstanceSummaryLifecycleSubStateDeleting,
-	"DELETE_PENDING":       OdaInstanceSummaryLifecycleSubStateDeletePending,
-	"RECOVERING":           OdaInstanceSummaryLifecycleSubStateRecovering,
-	"PURGING":              OdaInstanceSummaryLifecycleSubStatePurging,
-	"QUEUED":               OdaInstanceSummaryLifecycleSubStateQueued,
+	"CREATING":                             OdaInstanceSummaryLifecycleSubStateCreating,
+	"STARTING":                             OdaInstanceSummaryLifecycleSubStateStarting,
+	"STOPPING":                             OdaInstanceSummaryLifecycleSubStateStopping,
+	"CHANGING_COMPARTMENT":                 OdaInstanceSummaryLifecycleSubStateChangingCompartment,
+	"ACTIVATING_CUSTOMER_ENCRYPTION_KEY":   OdaInstanceSummaryLifecycleSubStateActivatingCustomerEncryptionKey,
+	"UPDATING_CUSTOMER_ENCRYPTION_KEY":     OdaInstanceSummaryLifecycleSubStateUpdatingCustomerEncryptionKey,
+	"DEACTIVATING_CUSTOMER_ENCRYPTION_KEY": OdaInstanceSummaryLifecycleSubStateDeactivatingCustomerEncryptionKey,
+	"DELETING":                             OdaInstanceSummaryLifecycleSubStateDeleting,
+	"DELETE_PENDING":                       OdaInstanceSummaryLifecycleSubStateDeletePending,
+	"RECOVERING":                           OdaInstanceSummaryLifecycleSubStateRecovering,
+	"UPDATING":                             OdaInstanceSummaryLifecycleSubStateUpdating,
+	"PURGING":                              OdaInstanceSummaryLifecycleSubStatePurging,
+	"QUEUED":                               OdaInstanceSummaryLifecycleSubStateQueued,
 }
 
 var mappingOdaInstanceSummaryLifecycleSubStateEnumLowerCase = map[string]OdaInstanceSummaryLifecycleSubStateEnum{
-	"creating":             OdaInstanceSummaryLifecycleSubStateCreating,
-	"starting":             OdaInstanceSummaryLifecycleSubStateStarting,
-	"stopping":             OdaInstanceSummaryLifecycleSubStateStopping,
-	"changing_compartment": OdaInstanceSummaryLifecycleSubStateChangingCompartment,
-	"deleting":             OdaInstanceSummaryLifecycleSubStateDeleting,
-	"delete_pending":       OdaInstanceSummaryLifecycleSubStateDeletePending,
-	"recovering":           OdaInstanceSummaryLifecycleSubStateRecovering,
-	"purging":              OdaInstanceSummaryLifecycleSubStatePurging,
-	"queued":               OdaInstanceSummaryLifecycleSubStateQueued,
+	"creating":                             OdaInstanceSummaryLifecycleSubStateCreating,
+	"starting":                             OdaInstanceSummaryLifecycleSubStateStarting,
+	"stopping":                             OdaInstanceSummaryLifecycleSubStateStopping,
+	"changing_compartment":                 OdaInstanceSummaryLifecycleSubStateChangingCompartment,
+	"activating_customer_encryption_key":   OdaInstanceSummaryLifecycleSubStateActivatingCustomerEncryptionKey,
+	"updating_customer_encryption_key":     OdaInstanceSummaryLifecycleSubStateUpdatingCustomerEncryptionKey,
+	"deactivating_customer_encryption_key": OdaInstanceSummaryLifecycleSubStateDeactivatingCustomerEncryptionKey,
+	"deleting":                             OdaInstanceSummaryLifecycleSubStateDeleting,
+	"delete_pending":                       OdaInstanceSummaryLifecycleSubStateDeletePending,
+	"recovering":                           OdaInstanceSummaryLifecycleSubStateRecovering,
+	"updating":                             OdaInstanceSummaryLifecycleSubStateUpdating,
+	"purging":                              OdaInstanceSummaryLifecycleSubStatePurging,
+	"queued":                               OdaInstanceSummaryLifecycleSubStateQueued,
 }
 
 // GetOdaInstanceSummaryLifecycleSubStateEnumValues Enumerates the set of values for OdaInstanceSummaryLifecycleSubStateEnum
@@ -243,9 +267,13 @@ func GetOdaInstanceSummaryLifecycleSubStateEnumStringValues() []string {
 		"STARTING",
 		"STOPPING",
 		"CHANGING_COMPARTMENT",
+		"ACTIVATING_CUSTOMER_ENCRYPTION_KEY",
+		"UPDATING_CUSTOMER_ENCRYPTION_KEY",
+		"DEACTIVATING_CUSTOMER_ENCRYPTION_KEY",
 		"DELETING",
 		"DELETE_PENDING",
 		"RECOVERING",
+		"UPDATING",
 		"PURGING",
 		"QUEUED",
 	}

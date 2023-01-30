@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,37 +16,37 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	BootVolumeBackupRequiredOnlyResource = BootVolumeBackupResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", acctest.Required, acctest.Create, bootVolumeBackupRepresentation)
+	CoreBootVolumeBackupRequiredOnlyResource = CoreBootVolumeBackupResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", acctest.Required, acctest.Create, CoreBootVolumeBackupRepresentation)
 
-	BootVolumeBackupResourceConfig = BootVolumeBackupResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", acctest.Optional, acctest.Update, bootVolumeBackupRepresentation)
+	CoreBootVolumeBackupResourceConfig = CoreBootVolumeBackupResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", acctest.Optional, acctest.Update, CoreBootVolumeBackupRepresentation)
 
-	bootVolumeBackupSingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreBootVolumeBackupSingularDataSourceRepresentation = map[string]interface{}{
 		"boot_volume_backup_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_boot_volume_backup.test_boot_volume_backup.id}`},
 	}
 
-	bootVolumeBackupDataSourceRepresentation = map[string]interface{}{
+	CoreCoreBootVolumeBackupDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"boot_volume_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_boot_volume.test_boot_volume.id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: bootVolumeBackupDataSourceFilterRepresentation}}
-	bootVolumeBackupDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreBootVolumeBackupDataSourceFilterRepresentation}}
+	CoreBootVolumeBackupDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_boot_volume_backup.test_boot_volume_backup.id}`}},
 	}
 
-	bootVolumeBackupRepresentation = map[string]interface{}{
+	CoreBootVolumeBackupRepresentation = map[string]interface{}{
 		"boot_volume_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_boot_volume.test_boot_volume.id}`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
@@ -54,7 +54,7 @@ var (
 		"type":           acctest.Representation{RepType: acctest.Optional, Create: `INCREMENTAL`},
 	}
 	bootVolumeBackupId, bootVolumeId, instanceId string
-	BootVolumeBackupResourceDependencies         = BootVolumeOptionalResource
+	CoreBootVolumeBackupResourceDependencies     = BootVolumeOptionalResource
 )
 
 // issue-routing-tag: core/blockStorage
@@ -80,17 +80,17 @@ func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+compartmentIdUVariableStr+BootVolumeBackupResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+compartmentIdUVariableStr+CoreBootVolumeBackupResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", acctest.Optional, acctest.Create,
-			acctest.RepresentationCopyWithNewProperties(bootVolumeBackupRepresentation, map[string]interface{}{
+			acctest.RepresentationCopyWithNewProperties(CoreBootVolumeBackupRepresentation, map[string]interface{}{
 				"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 			})), "core", "bootVolumeBackup", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreBootVolumeBackupDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + BootVolumeBackupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", acctest.Required, acctest.Create, bootVolumeBackupRepresentation),
+			Config: config + compartmentIdVariableStr + CoreBootVolumeBackupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", acctest.Required, acctest.Create, CoreBootVolumeBackupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "boot_volume_id"),
 
@@ -103,13 +103,13 @@ func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + BootVolumeBackupResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreBootVolumeBackupResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + BootVolumeBackupResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreBootVolumeBackupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(bootVolumeBackupRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CoreBootVolumeBackupRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -136,9 +136,9 @@ func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + BootVolumeBackupResourceDependencies +
+			Config: config + compartmentIdVariableStr + CoreBootVolumeBackupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", acctest.Optional, acctest.Update,
-					acctest.RepresentationCopyWithNewProperties(bootVolumeBackupRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CoreBootVolumeBackupRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -163,9 +163,9 @@ func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_boot_volume_backups", "test_boot_volume_backups", acctest.Optional, acctest.Update, bootVolumeBackupDataSourceRepresentation) +
-				compartmentIdVariableStr + BootVolumeBackupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", acctest.Optional, acctest.Update, bootVolumeBackupRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_boot_volume_backups", "test_boot_volume_backups", acctest.Optional, acctest.Update, CoreCoreBootVolumeBackupDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreBootVolumeBackupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", acctest.Optional, acctest.Update, CoreBootVolumeBackupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -192,8 +192,8 @@ func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", acctest.Required, acctest.Create, bootVolumeBackupSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + BootVolumeBackupResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", acctest.Required, acctest.Create, CoreCoreBootVolumeBackupSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreBootVolumeBackupResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "boot_volume_backup_id"),
 
@@ -214,7 +214,7 @@ func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + BootVolumeBackupRequiredOnlyResource,
+			Config:                  config + CoreBootVolumeBackupRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -282,7 +282,7 @@ func init() {
 
 func sweepCoreBootVolumeBackupResource(compartment string) error {
 	blockstorageClient := acctest.GetTestClients(&schema.ResourceData{}).BlockstorageClient()
-	bootVolumeBackupIds, err := getBootVolumeBackupIds(compartment)
+	bootVolumeBackupIds, err := getCoreBootVolumeBackupIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -298,14 +298,14 @@ func sweepCoreBootVolumeBackupResource(compartment string) error {
 				fmt.Printf("Error deleting BootVolumeBackup %s %s, It is possible that the resource is already deleted. Please verify manually \n", bootVolumeBackupId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &bootVolumeBackupId, bootVolumeBackupSweepWaitCondition, time.Duration(3*time.Minute),
-				bootVolumeBackupSweepResponseFetchOperation, "core", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &bootVolumeBackupId, CoreBootVolumeBackupSweepWaitCondition, time.Duration(3*time.Minute),
+				CoreBootVolumeBackupSweepResponseFetchOperation, "core", true)
 		}
 	}
 	return nil
 }
 
-func getBootVolumeBackupIds(compartment string) ([]string, error) {
+func getCoreBootVolumeBackupIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "BootVolumeBackupId")
 	if ids != nil {
 		return ids, nil
@@ -330,7 +330,7 @@ func getBootVolumeBackupIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func bootVolumeBackupSweepWaitCondition(response common.OCIOperationResponse) bool {
+func CoreBootVolumeBackupSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if bootVolumeBackupResponse, ok := response.Response.(oci_core.GetBootVolumeBackupResponse); ok {
 		return bootVolumeBackupResponse.LifecycleState != oci_core.BootVolumeBackupLifecycleStateTerminated
@@ -338,7 +338,7 @@ func bootVolumeBackupSweepWaitCondition(response common.OCIOperationResponse) bo
 	return false
 }
 
-func bootVolumeBackupSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CoreBootVolumeBackupSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.BlockstorageClient().GetBootVolumeBackup(context.Background(), oci_core.GetBootVolumeBackupRequest{
 		BootVolumeBackupId: resourceId,
 		RequestMetadata: common.RequestMetadata{

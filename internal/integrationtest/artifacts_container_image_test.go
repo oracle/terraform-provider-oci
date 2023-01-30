@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -15,11 +15,11 @@ import (
 	oci_artifacts "github.com/oracle/oci-go-sdk/v65/artifacts"
 	"github.com/oracle/oci-go-sdk/v65/common"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
@@ -31,11 +31,11 @@ var (
 	imageId       = utils.GetEnvSettingWithBlankDefault("container_image_ocid")
 	compartmentId = utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
 
-	containerImageSingularDataSourceRepresentation = map[string]interface{}{
+	ArtifactsArtifactscontainerImageSingularDataSourceRepresentation = map[string]interface{}{
 		"image_id": acctest.Representation{RepType: acctest.Required, Create: imageId},
 	}
 
-	containerImageDataSourceRepresentation = map[string]interface{}{
+	ArtifactsArtifactscontainerImageDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: compartmentId},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"image_id":                  acctest.Representation{RepType: acctest.Optional, Create: imageId},
@@ -43,7 +43,7 @@ var (
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 	}
 
-	ContainerImageResourceConfig = ""
+	ArtifactsContainerImageResourceConfig = ""
 )
 
 // issue-routing-tag: artifacts/default
@@ -62,8 +62,8 @@ func TestArtifactsContainerImageResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_artifacts_container_images", "test_container_images", acctest.Optional, acctest.Create, containerImageDataSourceRepresentation) +
-				ContainerImageResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_artifacts_container_images", "test_container_images", acctest.Optional, acctest.Create, ArtifactsArtifactscontainerImageDataSourceRepresentation) +
+				ArtifactsContainerImageResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
@@ -80,8 +80,8 @@ func TestArtifactsContainerImageResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_artifacts_container_image", "test_container_image", acctest.Required, acctest.Create, containerImageSingularDataSourceRepresentation) +
-				ContainerImageResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_artifacts_container_image", "test_container_image", acctest.Required, acctest.Create, ArtifactsArtifactscontainerImageSingularDataSourceRepresentation) +
+				ArtifactsContainerImageResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "image_id"),
 
@@ -118,7 +118,7 @@ func init() {
 
 func sweepArtifactsContainerImageResource(compartment string) error {
 	artifactsClient := acctest.GetTestClients(&schema.ResourceData{}).ArtifactsClient()
-	containerImageIds, err := getContainerImageIds(compartment)
+	containerImageIds, err := getArtifactsContainerImageIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -132,14 +132,14 @@ func sweepArtifactsContainerImageResource(compartment string) error {
 				fmt.Printf("Error deleting ContainerImage %s %s, It is possible that the resource is already deleted. Please verify manually \n", containerImageId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &containerImageId, containerImageSweepWaitCondition, time.Duration(3*time.Minute),
-				containerImageSweepResponseFetchOperation, "artifacts", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &containerImageId, ArtifactscontainerImagesSweepWaitCondition, time.Duration(3*time.Minute),
+				ArtifactscontainerImagesSweepResponseFetchOperation, "artifacts", true)
 		}
 	}
 	return nil
 }
 
-func getContainerImageIds(compartment string) ([]string, error) {
+func getArtifactsContainerImageIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ContainerImageId")
 	if ids != nil {
 		return ids, nil
@@ -165,7 +165,7 @@ func getContainerImageIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func containerImageSweepWaitCondition(response common.OCIOperationResponse) bool {
+func ArtifactscontainerImagesSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if containerImageResponse, ok := response.Response.(oci_artifacts.GetContainerImageResponse); ok {
 		return containerImageResponse.LifecycleState != oci_artifacts.ContainerImageLifecycleStateDeleted
@@ -173,7 +173,7 @@ func containerImageSweepWaitCondition(response common.OCIOperationResponse) bool
 	return false
 }
 
-func containerImageSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func ArtifactscontainerImagesSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.ArtifactsClient().GetContainerImage(context.Background(), oci_artifacts.GetContainerImageRequest{RequestMetadata: common.RequestMetadata{
 		RetryPolicy: retryPolicy,
 	},

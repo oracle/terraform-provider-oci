@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -14,36 +14,36 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_identity "github.com/oracle/oci-go-sdk/v65/identity"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	UserRequiredOnlyResource = UserResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, userRepresentation)
+	IdentityUserRequiredOnlyResource = IdentityUserResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation)
 
-	UserResourceConfig = UserResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Optional, acctest.Update, userRepresentation)
+	IdentityUserResourceConfig = IdentityUserResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Optional, acctest.Update, IdentityUserRepresentation)
 
-	userSingularDataSourceRepresentation = map[string]interface{}{
+	IdentityIdentityUserSingularDataSourceRepresentation = map[string]interface{}{
 		"user_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.id}`},
 	}
 
-	userDataSourceRepresentation = map[string]interface{}{
+	IdentityIdentityUserDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `JohnSmith@example.com`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: userDataSourceFilterRepresentation}}
-	userDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityUserDataSourceFilterRepresentation}}
+	IdentityUserDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_identity_user.test_user.id}`}},
 	}
 
-	userRepresentation = map[string]interface{}{
+	IdentityUserRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"description":    acctest.Representation{RepType: acctest.Required, Create: `John Smith`, Update: `description2`},
 		"name":           acctest.Representation{RepType: acctest.Required, Create: `JohnSmith@example.com`},
@@ -52,7 +52,7 @@ var (
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	UserResourceDependencies = DefinedTagsDependencies
+	IdentityUserResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: identity/default
@@ -72,14 +72,14 @@ func TestIdentityUserResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+UserResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Optional, acctest.Create, userRepresentation), "identity", "user", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+IdentityUserResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Optional, acctest.Create, IdentityUserRepresentation), "identity", "user", t)
 
 	acctest.ResourceTest(t, testAccCheckIdentityUserDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + UserResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, userRepresentation),
+			Config: config + compartmentIdVariableStr + IdentityUserResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "John Smith"),
@@ -94,12 +94,12 @@ func TestIdentityUserResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + UserResourceDependencies,
+			Config: config + compartmentIdVariableStr + IdentityUserResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + UserResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Optional, acctest.Create, userRepresentation),
+			Config: config + compartmentIdVariableStr + IdentityUserResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Optional, acctest.Create, IdentityUserRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "John Smith"),
@@ -125,8 +125,8 @@ func TestIdentityUserResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + UserResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Optional, acctest.Update, userRepresentation),
+			Config: config + compartmentIdVariableStr + IdentityUserResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Optional, acctest.Update, IdentityUserRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -150,9 +150,9 @@ func TestIdentityUserResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_users", "test_users", acctest.Optional, acctest.Update, userDataSourceRepresentation) +
-				compartmentIdVariableStr + UserResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Optional, acctest.Update, userRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_users", "test_users", acctest.Optional, acctest.Update, IdentityIdentityUserDataSourceRepresentation) +
+				compartmentIdVariableStr + IdentityUserResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Optional, acctest.Update, IdentityUserRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "JohnSmith@example.com"),
@@ -175,8 +175,8 @@ func TestIdentityUserResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, userSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + UserResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityIdentityUserSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + IdentityUserResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "user_id"),
 
@@ -195,7 +195,7 @@ func TestIdentityUserResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + UserRequiredOnlyResource,
+			Config:                  config + IdentityUserRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

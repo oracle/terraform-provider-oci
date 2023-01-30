@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,24 +7,24 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	alertPolicyRuleSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafealertPolicyRuleSingularDataSourceRepresentation = map[string]interface{}{
 		"alert_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${var.policy_id}`},
 	}
 
-	alertPolicyRuleDataSourceRepresentation = map[string]interface{}{
+	DataSafealertPolicyRuleDataSourceRepresentation = map[string]interface{}{
 		"alert_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${var.policy_id}`},
 	}
 
-	AlertPolicyRuleResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_alert_policies", "test_alert_policies", acctest.Required, acctest.Create, alertPolicyDataSourceRepresentation)
+	DataSafeAlertPolicyRuleResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_alert_policies", "test_alert_policies", acctest.Required, acctest.Create, DataSafealertPolicyRuleDataSourceRepresentation)
 )
 
 // issue-routing-tag: data_safe/default
@@ -50,8 +50,8 @@ func TestDataSafeAlertPolicyRuleResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_alert_policy_rules", "test_alert_policy_rules", acctest.Required, acctest.Create, alertPolicyRuleDataSourceRepresentation) +
-				compartmentIdVariableStr + policyIdVariableStr + AlertPolicyRuleResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_alert_policy_rules", "test_alert_policy_rules", acctest.Required, acctest.Create, DataSafealertPolicyRuleDataSourceRepresentation) +
+				compartmentIdVariableStr + policyIdVariableStr + DataSafeAlertPolicyRuleResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "alert_policy_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "alert_policy_rule_collection.#"),
@@ -62,8 +62,8 @@ func TestDataSafeAlertPolicyRuleResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_alert_policy_rule", "test_alert_policy_rule", acctest.Required, acctest.Create, alertPolicyRuleSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + policyIdVariableStr + AlertPolicyRuleResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_alert_policy_rule", "test_alert_policy_rule", acctest.Required, acctest.Create, DataSafealertPolicyRuleSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + policyIdVariableStr + DataSafeAlertPolicyRuleResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "alert_policy_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "items.0.key", "6"),

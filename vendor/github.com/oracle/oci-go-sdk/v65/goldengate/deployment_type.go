@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -18,15 +18,27 @@ type DeploymentTypeEnum string
 
 // Set of constants representing the allowable values for DeploymentTypeEnum
 const (
-	DeploymentTypeOgg DeploymentTypeEnum = "OGG"
+	DeploymentTypeOgg                DeploymentTypeEnum = "OGG"
+	DeploymentTypeDatabaseOracle     DeploymentTypeEnum = "DATABASE_ORACLE"
+	DeploymentTypeBigdata            DeploymentTypeEnum = "BIGDATA"
+	DeploymentTypeDatabaseMysql      DeploymentTypeEnum = "DATABASE_MYSQL"
+	DeploymentTypeDatabasePostgresql DeploymentTypeEnum = "DATABASE_POSTGRESQL"
 )
 
 var mappingDeploymentTypeEnum = map[string]DeploymentTypeEnum{
-	"OGG": DeploymentTypeOgg,
+	"OGG":                 DeploymentTypeOgg,
+	"DATABASE_ORACLE":     DeploymentTypeDatabaseOracle,
+	"BIGDATA":             DeploymentTypeBigdata,
+	"DATABASE_MYSQL":      DeploymentTypeDatabaseMysql,
+	"DATABASE_POSTGRESQL": DeploymentTypeDatabasePostgresql,
 }
 
 var mappingDeploymentTypeEnumLowerCase = map[string]DeploymentTypeEnum{
-	"ogg": DeploymentTypeOgg,
+	"ogg":                 DeploymentTypeOgg,
+	"database_oracle":     DeploymentTypeDatabaseOracle,
+	"bigdata":             DeploymentTypeBigdata,
+	"database_mysql":      DeploymentTypeDatabaseMysql,
+	"database_postgresql": DeploymentTypeDatabasePostgresql,
 }
 
 // GetDeploymentTypeEnumValues Enumerates the set of values for DeploymentTypeEnum
@@ -42,6 +54,10 @@ func GetDeploymentTypeEnumValues() []DeploymentTypeEnum {
 func GetDeploymentTypeEnumStringValues() []string {
 	return []string{
 		"OGG",
+		"DATABASE_ORACLE",
+		"BIGDATA",
+		"DATABASE_MYSQL",
+		"DATABASE_POSTGRESQL",
 	}
 }
 

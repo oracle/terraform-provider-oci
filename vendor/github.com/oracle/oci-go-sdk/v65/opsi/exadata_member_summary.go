@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -62,6 +62,7 @@ const (
 	ExadataMemberSummaryEntityTypeInfinibandSwitch ExadataMemberSummaryEntityTypeEnum = "INFINIBAND_SWITCH"
 	ExadataMemberSummaryEntityTypeEthernetSwitch   ExadataMemberSummaryEntityTypeEnum = "ETHERNET_SWITCH"
 	ExadataMemberSummaryEntityTypeHost             ExadataMemberSummaryEntityTypeEnum = "HOST"
+	ExadataMemberSummaryEntityTypeVmCluster        ExadataMemberSummaryEntityTypeEnum = "VM_CLUSTER"
 )
 
 var mappingExadataMemberSummaryEntityTypeEnum = map[string]ExadataMemberSummaryEntityTypeEnum{
@@ -73,6 +74,7 @@ var mappingExadataMemberSummaryEntityTypeEnum = map[string]ExadataMemberSummaryE
 	"INFINIBAND_SWITCH": ExadataMemberSummaryEntityTypeInfinibandSwitch,
 	"ETHERNET_SWITCH":   ExadataMemberSummaryEntityTypeEthernetSwitch,
 	"HOST":              ExadataMemberSummaryEntityTypeHost,
+	"VM_CLUSTER":        ExadataMemberSummaryEntityTypeVmCluster,
 }
 
 var mappingExadataMemberSummaryEntityTypeEnumLowerCase = map[string]ExadataMemberSummaryEntityTypeEnum{
@@ -84,6 +86,7 @@ var mappingExadataMemberSummaryEntityTypeEnumLowerCase = map[string]ExadataMembe
 	"infiniband_switch": ExadataMemberSummaryEntityTypeInfinibandSwitch,
 	"ethernet_switch":   ExadataMemberSummaryEntityTypeEthernetSwitch,
 	"host":              ExadataMemberSummaryEntityTypeHost,
+	"vm_cluster":        ExadataMemberSummaryEntityTypeVmCluster,
 }
 
 // GetExadataMemberSummaryEntityTypeEnumValues Enumerates the set of values for ExadataMemberSummaryEntityTypeEnum
@@ -106,6 +109,7 @@ func GetExadataMemberSummaryEntityTypeEnumStringValues() []string {
 		"INFINIBAND_SWITCH",
 		"ETHERNET_SWITCH",
 		"HOST",
+		"VM_CLUSTER",
 	}
 }
 

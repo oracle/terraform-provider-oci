@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package service_mesh
@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strconv"
 	"strings"
 	"time"
 
@@ -17,8 +18,8 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_service_mesh "github.com/oracle/oci-go-sdk/v65/servicemesh"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func ServiceMeshVirtualDeploymentResource() *schema.Resource {
@@ -37,58 +38,10 @@ func ServiceMeshVirtualDeploymentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"listeners": {
-				Type:     schema.TypeList,
-				Required: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-						"port": {
-							Type:     schema.TypeInt,
-							Required: true,
-						},
-						"protocol": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
-
-						// Optional
-
-						// Computed
-					},
-				},
-			},
 			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
-			},
-			"service_discovery": {
-				Type:     schema.TypeList,
-				Required: true,
-				MaxItems: 1,
-				MinItems: 1,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-						"hostname": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
-						"type": {
-							Type:             schema.TypeString,
-							Required:         true,
-							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
-							ValidateFunc: validation.StringInSlice([]string{
-								"DNS",
-							}, true),
-						},
-
-						// Optional
-
-						// Computed
-					},
-				},
 			},
 			"virtual_service_id": {
 				Type:     schema.TypeString,
@@ -135,6 +88,72 @@ func ServiceMeshVirtualDeploymentResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"listeners": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"port": {
+							Type:     schema.TypeInt,
+							Required: true,
+						},
+						"protocol": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"idle_timeout_in_ms": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
+						"request_timeout_in_ms": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"service_discovery": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"DISABLED",
+								"DNS",
+							}, true),
+						},
+
+						// Optional
+						"hostname": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
 			},
 
 			// Computed
@@ -324,6 +343,18 @@ func (s *ServiceMeshVirtualDeploymentResourceCrud) getVirtualDeploymentFromWorkR
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
+		// Try to cancel the work request
+		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, virtualDeploymentId)
+		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+			oci_service_mesh.CancelWorkRequestRequest{
+				WorkRequestId: workId,
+				RequestMetadata: oci_common.RequestMetadata{
+					RetryPolicy: retryPolicy,
+				},
+			})
+		if cancelErr != nil {
+			log.Printf("[DEBUG] cleanup cancelWorkRequest failed with the error: %v\n", cancelErr)
+		}
 		return err
 	}
 	s.D.SetId(*virtualDeploymentId)
@@ -638,6 +669,9 @@ func (s *ServiceMeshVirtualDeploymentResourceCrud) mapToServiceDiscoveryConfigur
 		type_ = "" // default value
 	}
 	switch strings.ToLower(type_) {
+	case strings.ToLower("DISABLED"):
+		details := oci_service_mesh.DisabledServiceDiscoveryConfiguration{}
+		baseObject = details
 	case strings.ToLower("DNS"):
 		details := oci_service_mesh.DnsServiceDiscoveryConfiguration{}
 		if hostname, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname")); ok {
@@ -654,6 +688,8 @@ func (s *ServiceMeshVirtualDeploymentResourceCrud) mapToServiceDiscoveryConfigur
 func ServiceDiscoveryConfigurationToMap(obj *oci_service_mesh.ServiceDiscoveryConfiguration) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
+	case oci_service_mesh.DisabledServiceDiscoveryConfiguration:
+		result["type"] = "DISABLED"
 	case oci_service_mesh.DnsServiceDiscoveryConfiguration:
 		result["type"] = "DNS"
 
@@ -671,6 +707,15 @@ func ServiceDiscoveryConfigurationToMap(obj *oci_service_mesh.ServiceDiscoveryCo
 func (s *ServiceMeshVirtualDeploymentResourceCrud) mapToVirtualDeploymentListener(fieldKeyFormat string) (oci_service_mesh.VirtualDeploymentListener, error) {
 	result := oci_service_mesh.VirtualDeploymentListener{}
 
+	if idleTimeoutInMs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "idle_timeout_in_ms")); ok {
+		tmp := idleTimeoutInMs.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return result, fmt.Errorf("unable to convert idleTimeoutInMs string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		result.IdleTimeoutInMs = &tmpInt64
+	}
+
 	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
 		tmp := port.(int)
 		result.Port = &tmp
@@ -680,17 +725,34 @@ func (s *ServiceMeshVirtualDeploymentResourceCrud) mapToVirtualDeploymentListene
 		result.Protocol = oci_service_mesh.VirtualDeploymentListenerProtocolEnum(protocol.(string))
 	}
 
+	if requestTimeoutInMs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "request_timeout_in_ms")); ok {
+		tmp := requestTimeoutInMs.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return result, fmt.Errorf("unable to convert requestTimeoutInMs string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		result.RequestTimeoutInMs = &tmpInt64
+	}
+
 	return result, nil
 }
 
 func VirtualDeploymentListenerToMap(obj oci_service_mesh.VirtualDeploymentListener) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.IdleTimeoutInMs != nil {
+		result["idle_timeout_in_ms"] = strconv.FormatInt(*obj.IdleTimeoutInMs, 10)
+	}
+
 	if obj.Port != nil {
 		result["port"] = int(*obj.Port)
 	}
 
 	result["protocol"] = string(obj.Protocol)
+
+	if obj.RequestTimeoutInMs != nil {
+		result["request_timeout_in_ms"] = strconv.FormatInt(*obj.RequestTimeoutInMs, 10)
+	}
 
 	return result
 }

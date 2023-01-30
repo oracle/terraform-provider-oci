@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -21,16 +21,19 @@ type ArchitectureTypesEnum string
 const (
 	ArchitectureTypesX8664 ArchitectureTypesEnum = "X86_64"
 	ArchitectureTypesSparc ArchitectureTypesEnum = "SPARC"
+	ArchitectureTypesX86   ArchitectureTypesEnum = "X86"
 )
 
 var mappingArchitectureTypesEnum = map[string]ArchitectureTypesEnum{
 	"X86_64": ArchitectureTypesX8664,
 	"SPARC":  ArchitectureTypesSparc,
+	"X86":    ArchitectureTypesX86,
 }
 
 var mappingArchitectureTypesEnumLowerCase = map[string]ArchitectureTypesEnum{
 	"x86_64": ArchitectureTypesX8664,
 	"sparc":  ArchitectureTypesSparc,
+	"x86":    ArchitectureTypesX86,
 }
 
 // GetArchitectureTypesEnumValues Enumerates the set of values for ArchitectureTypesEnum
@@ -47,6 +50,7 @@ func GetArchitectureTypesEnumStringValues() []string {
 	return []string{
 		"X86_64",
 		"SPARC",
+		"X86",
 	}
 }
 

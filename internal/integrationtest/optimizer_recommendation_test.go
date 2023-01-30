@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -11,46 +11,47 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	RecommendationRequiredOnlyResource = RecommendationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", acctest.Required, acctest.Create, recommendationRepresentation)
+	OptimizerRecommendationRequiredOnlyResource = OptimizerRecommendationResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", acctest.Required, acctest.Create, OptimizerRecommendationRepresentation)
 
-	RecommendationResourceConfig = RecommendationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", acctest.Optional, acctest.Update, recommendationRepresentation)
+	OptimizerRecommendationResourceConfig = OptimizerRecommendationResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", acctest.Optional, acctest.Update, OptimizerRecommendationRepresentation)
 
-	recommendationSingularDataSourceRepresentation = map[string]interface{}{
+	OptimizerOptimizerRecommendationSingularDataSourceRepresentation = map[string]interface{}{
 		"recommendation_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_optimizer_recommendations.test_recommendations.recommendation_collection.0.items.0.id}`},
 	}
 
-	recommendationDataSourceRepresentation = map[string]interface{}{
-		"category_id":               acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_optimizer_categories.test_categories.category_collection.0.items[0], "id")}`},
+	OptimizerOptimizerRecommendationDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"category_id":               acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_optimizer_categories.test_categories.category_collection.0.items[0], "id")}`},
+		"include_organization":      acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"name":                      acctest.Representation{RepType: acctest.Optional, Create: `name`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"status":                    acctest.Representation{RepType: acctest.Optional, Create: `PENDING`, Update: `DISMISSED`},
-		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: recommendationDataSourceFilterRepresentation}}
+		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: OptimizerRecommendationDataSourceFilterRepresentation}}
 
 	// to filter the list of recommendation and get one recommendation containing the supportlevels
 	// we will use the supportlevels to Create the optimizer profile
-	recommendationDataSourceFilterRepresentation = map[string]interface{}{
+	OptimizerRecommendationDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `name`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`cost-management-compute-host-underutilized-name`}},
 	}
 
-	recommendationRepresentation = map[string]interface{}{
+	OptimizerRecommendationRepresentation = map[string]interface{}{
 		"recommendation_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_optimizer_recommendations.test_recommendations.recommendation_collection.0.items.0.id}`},
 		"status":            acctest.Representation{RepType: acctest.Required, Create: `PENDING`, Update: `DISMISSED`},
 	}
 
-	RecommendationResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", acctest.Required, acctest.Create, optimizerCategoryDataSourceRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_recommendations", "test_recommendations", acctest.Required, acctest.Create, recommendationDataSourceRepresentation)
+	OptimizerRecommendationResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", acctest.Required, acctest.Create, OptimizerOptimizerCategoryDataSourceRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_recommendations", "test_recommendations", acctest.Required, acctest.Create, OptimizerOptimizerRecommendationDataSourceRepresentation)
 )
 
 // issue-routing-tag: optimizer/default
@@ -69,14 +70,14 @@ func TestOptimizerRecommendationResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+RecommendationResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", acctest.Optional, acctest.Create, recommendationRepresentation), "optimizer", "recommendation", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+OptimizerRecommendationResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", acctest.Optional, acctest.Create, OptimizerRecommendationRepresentation), "optimizer", "recommendation", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + RecommendationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", acctest.Required, acctest.Create, recommendationRepresentation),
+			Config: config + compartmentIdVariableStr + OptimizerRecommendationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", acctest.Required, acctest.Create, OptimizerRecommendationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "recommendation_id"),
 				resource.TestCheckResourceAttr(resourceName, "status", "PENDING"),
@@ -90,12 +91,12 @@ func TestOptimizerRecommendationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + RecommendationResourceDependencies,
+			Config: config + compartmentIdVariableStr + OptimizerRecommendationResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + RecommendationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", acctest.Optional, acctest.Create, recommendationRepresentation),
+			Config: config + compartmentIdVariableStr + OptimizerRecommendationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", acctest.Optional, acctest.Create, OptimizerRecommendationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "category_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -124,8 +125,8 @@ func TestOptimizerRecommendationResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + RecommendationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", acctest.Optional, acctest.Update, recommendationRepresentation),
+			Config: config + compartmentIdVariableStr + OptimizerRecommendationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", acctest.Optional, acctest.Update, OptimizerRecommendationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "category_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -152,8 +153,8 @@ func TestOptimizerRecommendationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + compartmentIdVariableStr +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", acctest.Required, acctest.Create, optimizerCategoryDataSourceRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_recommendations", "test_recommendations", acctest.Required, acctest.Create, recommendationDataSourceRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", acctest.Required, acctest.Create, OptimizerOptimizerCategoryDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_recommendations", "test_recommendations", acctest.Required, acctest.Create, OptimizerOptimizerRecommendationDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "category_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -161,7 +162,6 @@ func TestOptimizerRecommendationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "recommendation_collection.0.items.0.name"),
 				resource.TestCheckResourceAttr(datasourceName, "recommendation_collection.0.items.0.state", "ACTIVE"),
 				resource.TestCheckResourceAttr(datasourceName, "recommendation_collection.0.items.0.status", "DISMISSED"),
-
 				resource.TestCheckResourceAttrSet(datasourceName, "recommendation_collection.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "recommendation_collection.0.items.#"),
 			),
@@ -169,8 +169,8 @@ func TestOptimizerRecommendationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", acctest.Required, acctest.Create, recommendationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + RecommendationResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", acctest.Required, acctest.Create, OptimizerOptimizerRecommendationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + OptimizerRecommendationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "recommendation_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "category_id"),
@@ -191,7 +191,7 @@ func TestOptimizerRecommendationResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + RecommendationRequiredOnlyResource,
+			Config:            config + OptimizerRecommendationRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

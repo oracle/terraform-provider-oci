@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -101,6 +101,9 @@ type TaskRun struct {
 
 	// The type of task run.
 	TaskType TaskRunTaskTypeEnum `mandatory:"false" json:"taskType,omitempty"`
+
+	// This field tells the user if there is any logs being fetched in backend for failure. Applicable only for failed pipeline tasks.
+	IsLogProcessingInProgress *bool `mandatory:"false" json:"isLogProcessingInProgress"`
 
 	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`

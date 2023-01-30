@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package jms
@@ -9,8 +9,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_jms "github.com/oracle/oci-go-sdk/v65/jms"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func JmsFleetDataSource() *schema.Resource {
@@ -74,6 +74,10 @@ func (s *JmsFleetDataSourceCrud) SetData() error {
 		s.D.Set("approximate_installation_count", *s.Res.ApproximateInstallationCount)
 	}
 
+	if s.Res.ApproximateJavaServerCount != nil {
+		s.D.Set("approximate_java_server_count", *s.Res.ApproximateJavaServerCount)
+	}
+
 	if s.Res.ApproximateJreCount != nil {
 		s.D.Set("approximate_jre_count", *s.Res.ApproximateJreCount)
 	}
@@ -104,6 +108,10 @@ func (s *JmsFleetDataSourceCrud) SetData() error {
 		s.D.Set("inventory_log", []interface{}{CustomLogToMap(s.Res.InventoryLog)})
 	} else {
 		s.D.Set("inventory_log", nil)
+	}
+
+	if s.Res.IsAdvancedFeaturesEnabled != nil {
+		s.D.Set("is_advanced_features_enabled", *s.Res.IsAdvancedFeaturesEnabled)
 	}
 
 	if s.Res.OperationLog != nil {

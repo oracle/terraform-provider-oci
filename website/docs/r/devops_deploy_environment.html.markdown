@@ -108,6 +108,14 @@ The following attributes are exported:
 * `time_created` - Time the deployment environment was created. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
 * `time_updated` - Time the deployment environment was updated. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Deploy Environment
+	* `update` - (Defaults to 20 minutes), when updating the Deploy Environment
+	* `delete` - (Defaults to 20 minutes), when destroying the Deploy Environment
+
+
 ## Import
 
 DeployEnvironments can be imported using the `id`, e.g.

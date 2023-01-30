@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package datascience
@@ -6,8 +6,8 @@ package datascience
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
@@ -89,6 +89,22 @@ func (s *DatascienceModelDataSourceCrud) SetData() error {
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.ModelVersionSetId != nil {
+		s.D.Set("model_version_set_id", *s.Res.ModelVersionSetId)
+	}
+
+	if s.Res.VersionLabel != nil {
+		s.D.Set("version_label", *s.Res.VersionLabel)
+	}
+
+	if s.Res.VersionId != nil {
+		s.D.Set("version_id", *s.Res.VersionId)
+	}
+
+	if s.Res.ModelVersionSetName != nil {
+		s.D.Set("model_version_set_name", *s.Res.ModelVersionSetName)
 	}
 
 	if s.Res.CreatedBy != nil {

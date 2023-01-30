@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -25,6 +25,9 @@ type CategorySummary struct {
 
 	// The OCID of the tenancy. The tenancy is the root compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
+	// The name associated with the compartment.
+	CompartmentName *string `mandatory:"true" json:"compartmentName"`
 
 	// The name assigned to the category.
 	Name *string `mandatory:"true" json:"name"`

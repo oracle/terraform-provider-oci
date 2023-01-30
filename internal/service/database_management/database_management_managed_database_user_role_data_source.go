@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database_management
@@ -6,8 +6,8 @@ package database_management
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
@@ -68,6 +68,7 @@ func DatabaseManagementManagedDatabaseUserRoleDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_database_management_managed_database_user_role", "oci_database_management_managed_database_user_roles"),
 	}
 }
 
@@ -132,24 +133,4 @@ func (s *DatabaseManagementManagedDatabaseUserRoleDataSourceCrud) SetData() erro
 	s.D.Set("items", items)
 
 	return nil
-}
-
-func RoleSummaryToMap(obj oci_database_management.RoleSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	result["admin_option"] = string(obj.AdminOption)
-
-	result["common"] = string(obj.Common)
-
-	result["default_role"] = string(obj.DefaultRole)
-
-	result["delegate_option"] = string(obj.DelegateOption)
-
-	result["inherited"] = string(obj.Inherited)
-
-	if obj.Name != nil {
-		result["name"] = string(*obj.Name)
-	}
-
-	return result
 }

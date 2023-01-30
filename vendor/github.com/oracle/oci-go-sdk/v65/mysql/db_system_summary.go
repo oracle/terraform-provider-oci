@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -84,6 +84,15 @@ type DbSystemSummary struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	BackupPolicy *BackupPolicy `mandatory:"false" json:"backupPolicy"`
+
+	// The shape of the primary instances of the DB System. The shape
+	// determines resources allocated to a DB System - CPU cores
+	// and memory for VM shapes; CPU cores, memory and storage for non-VM
+	// (or bare metal) shapes. To get a list of shapes, use (the
+	// ListShapes operation.
+	ShapeName *string `mandatory:"false" json:"shapeName"`
 
 	// Whether to run the DB System with InnoDB Redo Logs and the Double Write Buffer enabled or disabled,
 	// and whether to enable or disable syncing of the Binary Logs.

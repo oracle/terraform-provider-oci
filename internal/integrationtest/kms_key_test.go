@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -15,50 +15,50 @@ import (
 
 	oci_kms "github.com/oracle/oci-go-sdk/v65/keymanagement"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	KeyRequiredOnlyResource = KeyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", acctest.Required, acctest.Create, keyRepresentation)
+	KmsKeyRequiredOnlyResource = KmsKeyResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", acctest.Required, acctest.Create, KmsKeyRepresentation)
 
-	KeyResourceConfig = KeyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", acctest.Optional, acctest.Update, keyRepresentation)
+	KmsKeyResourceConfig = KmsKeyResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", acctest.Optional, acctest.Update, KmsKeyRepresentation)
 
-	keySingularDataSourceRepresentation = map[string]interface{}{
+	KmsKmsKeySingularDataSourceRepresentation = map[string]interface{}{
 		"key_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_kms_key.test_key.id}`},
 		"management_endpoint": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
 	}
 
-	keyDataSourceRepresentation = map[string]interface{}{
+	KmsKmsKeyDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"management_endpoint": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
 		"protection_mode":     acctest.Representation{RepType: acctest.Optional, Create: `SOFTWARE`},
 		"algorithm":           acctest.Representation{RepType: acctest.Optional, Create: `AES`},
 		"length":              acctest.Representation{RepType: acctest.Optional, Create: `16`},
-		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: keyDataSourceFilterRepresentation}}
-	keyDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: KmsKeyDataSourceFilterRepresentation}}
+	KmsKeyDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_kms_key.test_key.id}`}},
 	}
 
 	deletionTime = time.Now().UTC().AddDate(0, 0, 8).Truncate(time.Millisecond)
 
-	keyRepresentation = map[string]interface{}{
+	KmsKeyRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":        acctest.Representation{RepType: acctest.Required, Create: `Key C`, Update: `displayName2`},
-		"key_shape":           acctest.RepresentationGroup{RepType: acctest.Required, Group: keyKeyShapeRepresentation},
+		"key_shape":           acctest.RepresentationGroup{RepType: acctest.Required, Group: KmsKeyKeyShapeRepresentation},
 		"management_endpoint": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
 		"desired_state":       acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"protection_mode":     acctest.Representation{RepType: acctest.Optional, Create: `SOFTWARE`},
 		"time_of_deletion":    acctest.Representation{RepType: acctest.Required, Create: deletionTime.Format(time.RFC3339Nano)},
 	}
-	keyKeyShapeRepresentation = map[string]interface{}{
+	KmsKeyKeyShapeRepresentation = map[string]interface{}{
 		"algorithm": acctest.Representation{RepType: acctest.Required, Create: `AES`},
 		"length":    acctest.Representation{RepType: acctest.Required, Create: `16`},
 	}
@@ -75,13 +75,13 @@ var (
 	kmsKeyCompartmentIdVariableStr = fmt.Sprintf("variable \"kms_key_compartment_id\" { default = \"%s\" }\n", kmsKeyCompartmentId)
 
 	// Should deprecate use of tenancy level resources
-	KeyResourceDependencies = KmsVaultIdVariableStr + `
+	KmsKeyResourceDependencies = KmsVaultIdVariableStr + `
 	data "oci_kms_vault" "test_vault" {
 		#Required
 		vault_id = "${var.kms_vault_id}"
 	}
 	`
-	KeyResourceDependencyConfig = KeyResourceDependencies + `
+	KeyResourceDependencyConfig = KmsKeyResourceDependencies + `
 	data "oci_kms_keys" "test_keys_dependency" {
 		#Required
 		compartment_id = "${var.tenancy_ocid}"
@@ -106,7 +106,7 @@ var (
 	}
 	`
 
-	KeyResourceDependencyConfig2 = KeyResourceDependencies + kmsKeyCompartmentIdVariableStr + `
+	KeyResourceDependencyConfig2 = KmsKeyResourceDependencies + kmsKeyCompartmentIdVariableStr + `
 	data "oci_kms_keys" "test_keys_dependency" {
 		#Required
 		compartment_id = "${var.kms_key_compartment_id}"
@@ -151,14 +151,14 @@ func TestKmsKeyResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+KeyResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", acctest.Optional, acctest.Create, keyRepresentation), "keymanagement", "key", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+KmsKeyResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", acctest.Optional, acctest.Create, KmsKeyRepresentation), "keymanagement", "key", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", acctest.Required, acctest.Create, keyRepresentation),
+			Config: config + compartmentIdVariableStr + KmsKeyResourceDependencies + DefinedTagsDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", acctest.Required, acctest.Create, KmsKeyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Key C"),
@@ -175,12 +175,12 @@ func TestKmsKeyResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + KeyResourceDependencies,
+			Config: config + compartmentIdVariableStr + KmsKeyResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", acctest.Optional, acctest.Create, keyRepresentation),
+			Config: config + compartmentIdVariableStr + KmsKeyResourceDependencies + DefinedTagsDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", acctest.Optional, acctest.Create, KmsKeyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "current_key_version"),
@@ -205,9 +205,9 @@ func TestKmsKeyResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + KmsKeyResourceDependencies + DefinedTagsDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(keyRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(KmsKeyRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -236,8 +236,8 @@ func TestKmsKeyResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", acctest.Optional, acctest.Update, keyRepresentation),
+			Config: config + compartmentIdVariableStr + KmsKeyResourceDependencies + DefinedTagsDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", acctest.Optional, acctest.Update, KmsKeyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "current_key_version"),
@@ -264,9 +264,9 @@ func TestKmsKeyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_kms_keys", "test_keys", acctest.Optional, acctest.Update, keyDataSourceRepresentation) +
-				compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", acctest.Optional, acctest.Update, keyRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_kms_keys", "test_keys", acctest.Optional, acctest.Update, KmsKmsKeyDataSourceRepresentation) +
+				compartmentIdVariableStr + KmsKeyResourceDependencies + DefinedTagsDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", acctest.Optional, acctest.Update, KmsKeyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "algorithm", "AES"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -288,8 +288,8 @@ func TestKmsKeyResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_kms_key", "test_key", acctest.Required, acctest.Create, keySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + KeyResourceConfig + DefinedTagsDependencies,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_kms_key", "test_key", acctest.Required, acctest.Create, KmsKmsKeySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + KmsKeyResourceConfig + DefinedTagsDependencies,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "key_id"),
 
@@ -310,8 +310,8 @@ func TestKmsKeyResource_basic(t *testing.T) {
 		},
 		// revert the updates
 		{
-			Config: config + compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", acctest.Optional, acctest.Create, keyRepresentation),
+			Config: config + compartmentIdVariableStr + KmsKeyResourceDependencies + DefinedTagsDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", acctest.Optional, acctest.Create, KmsKeyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Key C"),
 				resource.TestCheckResourceAttr(resourceName, "state", "ENABLED"),
@@ -326,7 +326,7 @@ func TestKmsKeyResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + KeyRequiredOnlyResource,
+			Config:            config + KmsKeyRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateIdFunc: keyImportId,

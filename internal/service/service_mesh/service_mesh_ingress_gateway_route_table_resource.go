@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package service_mesh
@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strconv"
 	"strings"
 	"time"
 
@@ -17,8 +18,8 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_service_mesh "github.com/oracle/oci-go-sdk/v65/servicemesh"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func ServiceMeshIngressGatewayRouteTableResource() *schema.Resource {
@@ -142,6 +143,13 @@ func ServiceMeshIngressGatewayRouteTableResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
+						},
+						"request_timeout_in_ms": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 						},
 
 						// Computed
@@ -311,11 +319,11 @@ func (s *ServiceMeshIngressGatewayRouteTableResourceCrud) Create() error {
 	if routeRules, ok := s.D.GetOkExists("route_rules"); ok {
 		set := routeRules.(*schema.Set)
 		interfaces := set.List()
-		tmp := make([]oci_service_mesh.IngressGatewayTrafficRouteRule, len(interfaces))
+		tmp := make([]oci_service_mesh.IngressGatewayTrafficRouteRuleDetails, len(interfaces))
 		for i := range interfaces {
 			stateDataIndex := routeRulesHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "route_rules", stateDataIndex)
-			converted, err := s.mapToIngressGatewayTrafficRouteRule(fieldKeyFormat)
+			converted, err := s.mapToIngressGatewayTrafficRouteRuleDetails(fieldKeyFormat)
 			if err != nil {
 				return err
 			}
@@ -345,6 +353,18 @@ func (s *ServiceMeshIngressGatewayRouteTableResourceCrud) getIngressGatewayRoute
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
+		// Try to cancel the work request
+		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, ingressGatewayRouteTableId)
+		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+			oci_service_mesh.CancelWorkRequestRequest{
+				WorkRequestId: workId,
+				RequestMetadata: oci_common.RequestMetadata{
+					RetryPolicy: retryPolicy,
+				},
+			})
+		if cancelErr != nil {
+			log.Printf("[DEBUG] cleanup cancelWorkRequest failed with the error: %v\n", cancelErr)
+		}
 		return err
 	}
 	s.D.SetId(*ingressGatewayRouteTableId)
@@ -509,11 +529,11 @@ func (s *ServiceMeshIngressGatewayRouteTableResourceCrud) Update() error {
 	if routeRules, ok := s.D.GetOkExists("route_rules"); ok {
 		set := routeRules.(*schema.Set)
 		interfaces := set.List()
-		tmp := make([]oci_service_mesh.IngressGatewayTrafficRouteRule, len(interfaces))
+		tmp := make([]oci_service_mesh.IngressGatewayTrafficRouteRuleDetails, len(interfaces))
 		for i := range interfaces {
 			stateDataIndex := routeRulesHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "route_rules", stateDataIndex)
-			converted, err := s.mapToIngressGatewayTrafficRouteRule(fieldKeyFormat)
+			converted, err := s.mapToIngressGatewayTrafficRouteRuleDetails(fieldKeyFormat)
 			if err != nil {
 				return err
 			}
@@ -693,8 +713,8 @@ func IngressGatewayRouteTableSummaryToMap(obj oci_service_mesh.IngressGatewayRou
 	return result
 }
 
-func (s *ServiceMeshIngressGatewayRouteTableResourceCrud) mapToIngressGatewayTrafficRouteRule(fieldKeyFormat string) (oci_service_mesh.IngressGatewayTrafficRouteRule, error) {
-	var baseObject oci_service_mesh.IngressGatewayTrafficRouteRule
+func (s *ServiceMeshIngressGatewayRouteTableResourceCrud) mapToIngressGatewayTrafficRouteRuleDetails(fieldKeyFormat string) (oci_service_mesh.IngressGatewayTrafficRouteRuleDetails, error) {
+	var baseObject oci_service_mesh.IngressGatewayTrafficRouteRuleDetails
 	//discriminator
 	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
 	var type_ string
@@ -705,7 +725,7 @@ func (s *ServiceMeshIngressGatewayRouteTableResourceCrud) mapToIngressGatewayTra
 	}
 	switch strings.ToLower(type_) {
 	case strings.ToLower("HTTP"):
-		details := oci_service_mesh.HttpIngressGatewayTrafficRouteRule{}
+		details := oci_service_mesh.HttpIngressGatewayTrafficRouteRuleDetails{}
 		if isGrpc, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_grpc")); ok {
 			tmp := isGrpc.(bool)
 			details.IsGrpc = &tmp
@@ -723,15 +743,23 @@ func (s *ServiceMeshIngressGatewayRouteTableResourceCrud) mapToIngressGatewayTra
 			details.Path = &tmp
 		}
 		if pathType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path_type")); ok {
-			details.PathType = oci_service_mesh.HttpIngressGatewayTrafficRouteRulePathTypeEnum(pathType.(string))
+			details.PathType = oci_service_mesh.HttpIngressGatewayTrafficRouteRuleDetailsPathTypeEnum(pathType.(string))
+		}
+		if requestTimeoutInMs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "request_timeout_in_ms")); ok {
+			tmp := requestTimeoutInMs.(string)
+			tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+			if err != nil {
+				return details, fmt.Errorf("unable to convert requestTimeoutInMs string: %s to an int64 and encountered error: %v", tmp, err)
+			}
+			details.RequestTimeoutInMs = &tmpInt64
 		}
 		if destinations, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destinations")); ok {
 			interfaces := destinations.([]interface{})
-			tmp := make([]oci_service_mesh.VirtualServiceTrafficRuleTarget, len(interfaces))
+			tmp := make([]oci_service_mesh.VirtualServiceTrafficRuleTargetDetails, len(interfaces))
 			for i := range interfaces {
 				stateDataIndex := i
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "destinations"), stateDataIndex)
-				converted, err := s.mapToVirtualServiceTrafficRuleTarget(fieldKeyFormatNextLevel)
+				converted, err := s.mapToVirtualServiceTrafficRuleTargetDetails(fieldKeyFormatNextLevel)
 				if err != nil {
 					return details, err
 				}
@@ -753,14 +781,14 @@ func (s *ServiceMeshIngressGatewayRouteTableResourceCrud) mapToIngressGatewayTra
 		}
 		baseObject = details
 	case strings.ToLower("TCP"):
-		details := oci_service_mesh.TcpIngressGatewayTrafficRouteRule{}
+		details := oci_service_mesh.TcpIngressGatewayTrafficRouteRuleDetails{}
 		if destinations, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destinations")); ok {
 			interfaces := destinations.([]interface{})
-			tmp := make([]oci_service_mesh.VirtualServiceTrafficRuleTarget, len(interfaces))
+			tmp := make([]oci_service_mesh.VirtualServiceTrafficRuleTargetDetails, len(interfaces))
 			for i := range interfaces {
 				stateDataIndex := i
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "destinations"), stateDataIndex)
-				converted, err := s.mapToVirtualServiceTrafficRuleTarget(fieldKeyFormatNextLevel)
+				converted, err := s.mapToVirtualServiceTrafficRuleTargetDetails(fieldKeyFormatNextLevel)
 				if err != nil {
 					return details, err
 				}
@@ -782,14 +810,14 @@ func (s *ServiceMeshIngressGatewayRouteTableResourceCrud) mapToIngressGatewayTra
 		}
 		baseObject = details
 	case strings.ToLower("TLS_PASSTHROUGH"):
-		details := oci_service_mesh.TlsPassthroughIngressGatewayTrafficRouteRule{}
+		details := oci_service_mesh.TlsPassthroughIngressGatewayTrafficRouteRuleDetails{}
 		if destinations, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destinations")); ok {
 			interfaces := destinations.([]interface{})
-			tmp := make([]oci_service_mesh.VirtualServiceTrafficRuleTarget, len(interfaces))
+			tmp := make([]oci_service_mesh.VirtualServiceTrafficRuleTargetDetails, len(interfaces))
 			for i := range interfaces {
 				stateDataIndex := i
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "destinations"), stateDataIndex)
-				converted, err := s.mapToVirtualServiceTrafficRuleTarget(fieldKeyFormatNextLevel)
+				converted, err := s.mapToVirtualServiceTrafficRuleTargetDetails(fieldKeyFormatNextLevel)
 				if err != nil {
 					return details, err
 				}
@@ -840,6 +868,10 @@ func IngressGatewayTrafficRouteRuleToMap(obj oci_service_mesh.IngressGatewayTraf
 
 		result["path_type"] = string(v.PathType)
 
+		if v.RequestTimeoutInMs != nil {
+			result["request_timeout_in_ms"] = strconv.FormatInt(*v.RequestTimeoutInMs, 10)
+		}
+
 		destinations := []interface{}{}
 		for _, item := range v.Destinations {
 			destinations = append(destinations, VirtualServiceTrafficRuleTargetToMap(item))
@@ -881,8 +913,8 @@ func IngressGatewayTrafficRouteRuleToMap(obj oci_service_mesh.IngressGatewayTraf
 	return result
 }
 
-func (s *ServiceMeshIngressGatewayRouteTableResourceCrud) mapToVirtualServiceTrafficRuleTarget(fieldKeyFormat string) (oci_service_mesh.VirtualServiceTrafficRuleTarget, error) {
-	result := oci_service_mesh.VirtualServiceTrafficRuleTarget{}
+func (s *ServiceMeshIngressGatewayRouteTableResourceCrud) mapToVirtualServiceTrafficRuleTargetDetails(fieldKeyFormat string) (oci_service_mesh.VirtualServiceTrafficRuleTargetDetails, error) {
+	result := oci_service_mesh.VirtualServiceTrafficRuleTargetDetails{}
 
 	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
 		tmp := port.(int)

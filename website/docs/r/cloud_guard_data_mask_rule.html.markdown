@@ -48,7 +48,7 @@ The following arguments are supported:
 * `data_mask_rule_status` - (Optional) (Updatable) The status of the dataMaskRule.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - (Optional) The data mask rule description. Avoid entering confidential information.
-* `display_name` - (Required) (Updatable) Data mask rule name. 
+* `display_name` - (Required) (Updatable) Data mask rule name.
 
 	Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
@@ -90,7 +90,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Data Mask Rule
 	* `update` - (Defaults to 20 minutes), when updating the Data Mask Rule
 	* `delete` - (Defaults to 20 minutes), when destroying the Data Mask Rule

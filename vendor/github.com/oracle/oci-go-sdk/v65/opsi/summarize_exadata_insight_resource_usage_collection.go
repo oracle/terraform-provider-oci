@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -32,8 +32,8 @@ type SummarizeExadataInsightResourceUsageCollection struct {
 	// Defines the resource type for an exadata  (example: DATABASE, STORAGE_SERVER, HOST, DISKGROUP)
 	ExadataResourceType SummarizeExadataInsightResourceUsageCollectionExadataResourceTypeEnum `mandatory:"true" json:"exadataResourceType"`
 
-	// Displays usage unit (CORES, GB)
-	UsageUnit UsageUnitEnum `mandatory:"true" json:"usageUnit"`
+	// Displays usage unit ( CORES, GB , PERCENT, MBPS)
+	UsageUnit SummarizeExadataInsightResourceUsageCollectionUsageUnitEnum `mandatory:"true" json:"usageUnit"`
 
 	// Collection of Resource Usage Summary items
 	Items []ResourceUsageSummary `mandatory:"true" json:"items"`
@@ -54,8 +54,8 @@ func (m SummarizeExadataInsightResourceUsageCollection) ValidateEnumValue() (boo
 	if _, ok := GetMappingSummarizeExadataInsightResourceUsageCollectionExadataResourceTypeEnum(string(m.ExadataResourceType)); !ok && m.ExadataResourceType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExadataResourceType: %s. Supported values are: %s.", m.ExadataResourceType, strings.Join(GetSummarizeExadataInsightResourceUsageCollectionExadataResourceTypeEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingUsageUnitEnum(string(m.UsageUnit)); !ok && m.UsageUnit != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UsageUnit: %s. Supported values are: %s.", m.UsageUnit, strings.Join(GetUsageUnitEnumStringValues(), ",")))
+	if _, ok := GetMappingSummarizeExadataInsightResourceUsageCollectionUsageUnitEnum(string(m.UsageUnit)); !ok && m.UsageUnit != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UsageUnit: %s. Supported values are: %s.", m.UsageUnit, strings.Join(GetSummarizeExadataInsightResourceUsageCollectionUsageUnitEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {
@@ -169,5 +169,59 @@ func GetSummarizeExadataInsightResourceUsageCollectionExadataResourceTypeEnumStr
 // GetMappingSummarizeExadataInsightResourceUsageCollectionExadataResourceTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingSummarizeExadataInsightResourceUsageCollectionExadataResourceTypeEnum(val string) (SummarizeExadataInsightResourceUsageCollectionExadataResourceTypeEnum, bool) {
 	enum, ok := mappingSummarizeExadataInsightResourceUsageCollectionExadataResourceTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// SummarizeExadataInsightResourceUsageCollectionUsageUnitEnum Enum with underlying type: string
+type SummarizeExadataInsightResourceUsageCollectionUsageUnitEnum string
+
+// Set of constants representing the allowable values for SummarizeExadataInsightResourceUsageCollectionUsageUnitEnum
+const (
+	SummarizeExadataInsightResourceUsageCollectionUsageUnitCores   SummarizeExadataInsightResourceUsageCollectionUsageUnitEnum = "CORES"
+	SummarizeExadataInsightResourceUsageCollectionUsageUnitGb      SummarizeExadataInsightResourceUsageCollectionUsageUnitEnum = "GB"
+	SummarizeExadataInsightResourceUsageCollectionUsageUnitMbps    SummarizeExadataInsightResourceUsageCollectionUsageUnitEnum = "MBPS"
+	SummarizeExadataInsightResourceUsageCollectionUsageUnitIops    SummarizeExadataInsightResourceUsageCollectionUsageUnitEnum = "IOPS"
+	SummarizeExadataInsightResourceUsageCollectionUsageUnitPercent SummarizeExadataInsightResourceUsageCollectionUsageUnitEnum = "PERCENT"
+)
+
+var mappingSummarizeExadataInsightResourceUsageCollectionUsageUnitEnum = map[string]SummarizeExadataInsightResourceUsageCollectionUsageUnitEnum{
+	"CORES":   SummarizeExadataInsightResourceUsageCollectionUsageUnitCores,
+	"GB":      SummarizeExadataInsightResourceUsageCollectionUsageUnitGb,
+	"MBPS":    SummarizeExadataInsightResourceUsageCollectionUsageUnitMbps,
+	"IOPS":    SummarizeExadataInsightResourceUsageCollectionUsageUnitIops,
+	"PERCENT": SummarizeExadataInsightResourceUsageCollectionUsageUnitPercent,
+}
+
+var mappingSummarizeExadataInsightResourceUsageCollectionUsageUnitEnumLowerCase = map[string]SummarizeExadataInsightResourceUsageCollectionUsageUnitEnum{
+	"cores":   SummarizeExadataInsightResourceUsageCollectionUsageUnitCores,
+	"gb":      SummarizeExadataInsightResourceUsageCollectionUsageUnitGb,
+	"mbps":    SummarizeExadataInsightResourceUsageCollectionUsageUnitMbps,
+	"iops":    SummarizeExadataInsightResourceUsageCollectionUsageUnitIops,
+	"percent": SummarizeExadataInsightResourceUsageCollectionUsageUnitPercent,
+}
+
+// GetSummarizeExadataInsightResourceUsageCollectionUsageUnitEnumValues Enumerates the set of values for SummarizeExadataInsightResourceUsageCollectionUsageUnitEnum
+func GetSummarizeExadataInsightResourceUsageCollectionUsageUnitEnumValues() []SummarizeExadataInsightResourceUsageCollectionUsageUnitEnum {
+	values := make([]SummarizeExadataInsightResourceUsageCollectionUsageUnitEnum, 0)
+	for _, v := range mappingSummarizeExadataInsightResourceUsageCollectionUsageUnitEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetSummarizeExadataInsightResourceUsageCollectionUsageUnitEnumStringValues Enumerates the set of values in String for SummarizeExadataInsightResourceUsageCollectionUsageUnitEnum
+func GetSummarizeExadataInsightResourceUsageCollectionUsageUnitEnumStringValues() []string {
+	return []string{
+		"CORES",
+		"GB",
+		"MBPS",
+		"IOPS",
+		"PERCENT",
+	}
+}
+
+// GetMappingSummarizeExadataInsightResourceUsageCollectionUsageUnitEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingSummarizeExadataInsightResourceUsageCollectionUsageUnitEnum(val string) (SummarizeExadataInsightResourceUsageCollectionUsageUnitEnum, bool) {
+	enum, ok := mappingSummarizeExadataInsightResourceUsageCollectionUsageUnitEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

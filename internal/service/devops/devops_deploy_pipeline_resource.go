@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package devops
@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -685,11 +685,15 @@ func (s *DevopsDeployPipelineResourceCrud) mapToDeployPipelineParameter(fieldKey
 	}
 	if defaultValue, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "default_value")); ok {
 		tmp := defaultValue.(string)
-		result.DefaultValue = &tmp
+		if len(tmp) > 0 {
+			result.DefaultValue = &tmp
+		}
 	}
 	if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
 		tmp := description.(string)
-		result.Description = &tmp
+		if len(tmp) > 0 {
+			result.Description = &tmp
+		}
 	}
 
 	return result, nil

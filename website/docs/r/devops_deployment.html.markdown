@@ -34,6 +34,17 @@ resource "oci_devops_deployment" "test_deployment" {
 		}
 	}
 	deploy_stage_id = oci_devops_deploy_stage.test_deploy_stage.id
+	deploy_stage_override_arguments {
+
+		#Optional
+		items {
+
+			#Optional
+			deploy_stage_id = oci_devops_deploy_stage.test_deploy_stage.id
+			name = var.deployment_deploy_stage_override_arguments_items_name
+			value = var.deployment_deploy_stage_override_arguments_items_value
+		}
+	}
 	deployment_arguments {
 
 		#Optional
@@ -47,6 +58,7 @@ resource "oci_devops_deployment" "test_deployment" {
 	display_name = var.deployment_display_name
 	freeform_tags = {"bar-key"= "value"}
 	previous_deployment_id = oci_devops_deployment.test_deployment.id
+	trigger_new_devops_deployment = var.deployment_trigger_new_devops_deployment_bool
 }
 ```
 
@@ -61,7 +73,12 @@ The following arguments are supported:
 		* `name` - (Required when deployment_type=PIPELINE_DEPLOYMENT | SINGLE_STAGE_DEPLOYMENT) Name of the parameter (case-sensitive).
 		* `value` - (Required when deployment_type=PIPELINE_DEPLOYMENT | SINGLE_STAGE_DEPLOYMENT) Value of the parameter.
 * `deploy_pipeline_id` - (Required) The OCID of a pipeline.
-* `deploy_stage_id` - (Applicable when deployment_type=SINGLE_STAGE_DEPLOYMENT | SINGLE_STAGE_REDEPLOYMENT) Specifies the OCID of the stage to be redeployed.
+* `deploy_stage_id` - (Required when deployment_type=SINGLE_STAGE_DEPLOYMENT | SINGLE_STAGE_REDEPLOYMENT) Specifies the OCID of the stage to be redeployed.
+* `deploy_stage_override_arguments` - (Applicable when deployment_type=PIPELINE_DEPLOYMENT | SINGLE_STAGE_DEPLOYMENT) Specifies the list of arguments to be overriden per Stage at the time of deployment.
+	* `items` - (Required when deployment_type=PIPELINE_DEPLOYMENT | SINGLE_STAGE_DEPLOYMENT) List of stage override arguments at the time of deployment.
+		* `deploy_stage_id` - (Required when deployment_type=PIPELINE_DEPLOYMENT | SINGLE_STAGE_DEPLOYMENT) The OCID of the stage.
+		* `name` - (Required when deployment_type=PIPELINE_DEPLOYMENT | SINGLE_STAGE_DEPLOYMENT) Name of the parameter (case-sensitive).
+		* `value` - (Required when deployment_type=PIPELINE_DEPLOYMENT | SINGLE_STAGE_DEPLOYMENT) Value of the parameter.
 * `deployment_arguments` - (Applicable when deployment_type=PIPELINE_DEPLOYMENT | SINGLE_STAGE_DEPLOYMENT) Specifies list of arguments passed along with the deployment.
 	* `items` - (Required when deployment_type=PIPELINE_DEPLOYMENT | SINGLE_STAGE_DEPLOYMENT) List of arguments provided at the time of deployment.
 		* `name` - (Required when deployment_type=PIPELINE_DEPLOYMENT | SINGLE_STAGE_DEPLOYMENT) Name of the parameter (case-sensitive).
@@ -69,11 +86,12 @@ The following arguments are supported:
 * `deployment_type` - (Required) (Updatable) Specifies type for this deployment.
 * `display_name` - (Optional) (Updatable) Deployment display name. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`
-* `previous_deployment_id` - (Applicable when deployment_type=PIPELINE_REDEPLOYMENT | SINGLE_STAGE_REDEPLOYMENT) Specifies the OCID of the previous deployment to be redeployed.
-
+* `previous_deployment_id` - (Required when deployment_type=PIPELINE_REDEPLOYMENT | SINGLE_STAGE_REDEPLOYMENT) Specifies the OCID of the previous deployment to be redeployed.
+* `trigger_new_devops_deployment` - (Optional) A boolean specifying if a new deployment should be created on every apply. As long as this value is set to true in the config, every apply will trigger a new deployment to be created. The existing deployment resource will be replaced with the new one in the state file (deployment resources are never deleted, they persist as a store of records, but your state file will only track the latest one created with this resource block). 
 
 ** IMPORTANT **
-Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values. Additionally, while `trigger_new_devops_deployment`
+is set true each apply will force the destruction and recreation of the resource with the new property values.
 
 ## Attributes Reference
 
@@ -104,6 +122,11 @@ The following attributes are exported:
 		* `display_name` - Display name of the environment. Avoid entering confidential information.
 * `deploy_pipeline_id` - The OCID of a pipeline.
 * `deploy_stage_id` - Specifies the OCID of the stage to be redeployed.
+* `deploy_stage_override_arguments` - Specifies the list of arguments to be overriden per Stage at the time of deployment.
+	* `items` - List of stage override arguments at the time of deployment.
+		* `deploy_stage_id` - The OCID of the stage.
+		* `name` - Name of the parameter (case-sensitive).
+		* `value` - Value of the parameter.
 * `deployment_arguments` - Specifies list of arguments passed along with the deployment.
 	* `items` - List of arguments provided at the time of deployment.
 		* `name` - Name of the parameter (case-sensitive).
@@ -154,6 +177,14 @@ The following attributes are exported:
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud.free-tier-retained": "true"}`
 * `time_created` - Time the deployment was created. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
 * `time_updated` - Time the deployment was updated. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
+
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Deployment
+	* `update` - (Defaults to 20 minutes), when updating the Deployment
+	* `delete` - (Defaults to 20 minutes), when destroying the Deployment
+
 
 ## Import
 

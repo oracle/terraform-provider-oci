@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -30,14 +30,17 @@ type SummarizeExadataInsightResourceStatisticsAggregationCollection struct {
 	// Collection of Resource Statistics items
 	Items []ExadataInsightResourceStatisticsAggregation `mandatory:"true" json:"items"`
 
-	// Displays usage unit ( CORES, GB)
-	UsageUnit UsageUnitEnum `mandatory:"true" json:"usageUnit"`
+	// Displays usage unit ( CORES, GB , PERCENT, MBPS)
+	UsageUnit SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnum `mandatory:"true" json:"usageUnit"`
 
 	// Defines the type of exadata resource metric (example: CPU, STORAGE)
 	ExadataResourceMetric SummarizeExadataInsightResourceStatisticsAggregationCollectionExadataResourceMetricEnum `mandatory:"true" json:"exadataResourceMetric"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata insight.
 	ExadataInsightId *string `mandatory:"true" json:"exadataInsightId"`
+
+	// The user-friendly name for the Exadata system. The name does not have to be unique.
+	ExadataDisplayName *string `mandatory:"false" json:"exadataDisplayName"`
 }
 
 func (m SummarizeExadataInsightResourceStatisticsAggregationCollection) String() string {
@@ -49,8 +52,8 @@ func (m SummarizeExadataInsightResourceStatisticsAggregationCollection) String()
 // Not recommended for calling this function directly
 func (m SummarizeExadataInsightResourceStatisticsAggregationCollection) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingUsageUnitEnum(string(m.UsageUnit)); !ok && m.UsageUnit != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UsageUnit: %s. Supported values are: %s.", m.UsageUnit, strings.Join(GetUsageUnitEnumStringValues(), ",")))
+	if _, ok := GetMappingSummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnum(string(m.UsageUnit)); !ok && m.UsageUnit != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UsageUnit: %s. Supported values are: %s.", m.UsageUnit, strings.Join(GetSummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingSummarizeExadataInsightResourceStatisticsAggregationCollectionExadataResourceMetricEnum(string(m.ExadataResourceMetric)); !ok && m.ExadataResourceMetric != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExadataResourceMetric: %s. Supported values are: %s.", m.ExadataResourceMetric, strings.Join(GetSummarizeExadataInsightResourceStatisticsAggregationCollectionExadataResourceMetricEnumStringValues(), ",")))
@@ -65,10 +68,11 @@ func (m SummarizeExadataInsightResourceStatisticsAggregationCollection) Validate
 // UnmarshalJSON unmarshals from json
 func (m *SummarizeExadataInsightResourceStatisticsAggregationCollection) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		ExadataDisplayName    *string                                                                                 `json:"exadataDisplayName"`
 		TimeIntervalStart     *common.SDKTime                                                                         `json:"timeIntervalStart"`
 		TimeIntervalEnd       *common.SDKTime                                                                         `json:"timeIntervalEnd"`
 		Items                 []exadatainsightresourcestatisticsaggregation                                           `json:"items"`
-		UsageUnit             UsageUnitEnum                                                                           `json:"usageUnit"`
+		UsageUnit             SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnum             `json:"usageUnit"`
 		ExadataResourceMetric SummarizeExadataInsightResourceStatisticsAggregationCollectionExadataResourceMetricEnum `json:"exadataResourceMetric"`
 		ExadataInsightId      *string                                                                                 `json:"exadataInsightId"`
 	}{}
@@ -78,6 +82,8 @@ func (m *SummarizeExadataInsightResourceStatisticsAggregationCollection) Unmarsh
 		return
 	}
 	var nn interface{}
+	m.ExadataDisplayName = model.ExadataDisplayName
+
 	m.TimeIntervalStart = model.TimeIntervalStart
 
 	m.TimeIntervalEnd = model.TimeIntervalEnd
@@ -102,6 +108,60 @@ func (m *SummarizeExadataInsightResourceStatisticsAggregationCollection) Unmarsh
 	m.ExadataInsightId = model.ExadataInsightId
 
 	return
+}
+
+// SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnum Enum with underlying type: string
+type SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnum string
+
+// Set of constants representing the allowable values for SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnum
+const (
+	SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitCores   SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnum = "CORES"
+	SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitGb      SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnum = "GB"
+	SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitMbps    SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnum = "MBPS"
+	SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitIops    SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnum = "IOPS"
+	SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitPercent SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnum = "PERCENT"
+)
+
+var mappingSummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnum = map[string]SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnum{
+	"CORES":   SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitCores,
+	"GB":      SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitGb,
+	"MBPS":    SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitMbps,
+	"IOPS":    SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitIops,
+	"PERCENT": SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitPercent,
+}
+
+var mappingSummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnumLowerCase = map[string]SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnum{
+	"cores":   SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitCores,
+	"gb":      SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitGb,
+	"mbps":    SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitMbps,
+	"iops":    SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitIops,
+	"percent": SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitPercent,
+}
+
+// GetSummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnumValues Enumerates the set of values for SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnum
+func GetSummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnumValues() []SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnum {
+	values := make([]SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnum, 0)
+	for _, v := range mappingSummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetSummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnumStringValues Enumerates the set of values in String for SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnum
+func GetSummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnumStringValues() []string {
+	return []string{
+		"CORES",
+		"GB",
+		"MBPS",
+		"IOPS",
+		"PERCENT",
+	}
+}
+
+// GetMappingSummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingSummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnum(val string) (SummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnum, bool) {
+	enum, ok := mappingSummarizeExadataInsightResourceStatisticsAggregationCollectionUsageUnitEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // SummarizeExadataInsightResourceStatisticsAggregationCollectionExadataResourceMetricEnum Enum with underlying type: string

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -60,19 +60,40 @@ type DiscoveryDetailsResourceTypeEnum string
 const (
 	DiscoveryDetailsResourceTypeWeblogicDomain DiscoveryDetailsResourceTypeEnum = "WEBLOGIC_DOMAIN"
 	DiscoveryDetailsResourceTypeEbsInstance    DiscoveryDetailsResourceTypeEnum = "EBS_INSTANCE"
+	DiscoveryDetailsResourceTypeSqlServer      DiscoveryDetailsResourceTypeEnum = "SQL_SERVER"
+	DiscoveryDetailsResourceTypeApacheTomcat   DiscoveryDetailsResourceTypeEnum = "APACHE_TOMCAT"
 	DiscoveryDetailsResourceTypeOracleDatabase DiscoveryDetailsResourceTypeEnum = "ORACLE_DATABASE"
+	DiscoveryDetailsResourceTypeOciOracleDb    DiscoveryDetailsResourceTypeEnum = "OCI_ORACLE_DB"
+	DiscoveryDetailsResourceTypeOciOracleCdb   DiscoveryDetailsResourceTypeEnum = "OCI_ORACLE_CDB"
+	DiscoveryDetailsResourceTypeOciOraclePdb   DiscoveryDetailsResourceTypeEnum = "OCI_ORACLE_PDB"
+	DiscoveryDetailsResourceTypeHost           DiscoveryDetailsResourceTypeEnum = "HOST"
+	DiscoveryDetailsResourceTypeOraclePsft     DiscoveryDetailsResourceTypeEnum = "ORACLE_PSFT"
 )
 
 var mappingDiscoveryDetailsResourceTypeEnum = map[string]DiscoveryDetailsResourceTypeEnum{
 	"WEBLOGIC_DOMAIN": DiscoveryDetailsResourceTypeWeblogicDomain,
 	"EBS_INSTANCE":    DiscoveryDetailsResourceTypeEbsInstance,
+	"SQL_SERVER":      DiscoveryDetailsResourceTypeSqlServer,
+	"APACHE_TOMCAT":   DiscoveryDetailsResourceTypeApacheTomcat,
 	"ORACLE_DATABASE": DiscoveryDetailsResourceTypeOracleDatabase,
+	"OCI_ORACLE_DB":   DiscoveryDetailsResourceTypeOciOracleDb,
+	"OCI_ORACLE_CDB":  DiscoveryDetailsResourceTypeOciOracleCdb,
+	"OCI_ORACLE_PDB":  DiscoveryDetailsResourceTypeOciOraclePdb,
+	"HOST":            DiscoveryDetailsResourceTypeHost,
+	"ORACLE_PSFT":     DiscoveryDetailsResourceTypeOraclePsft,
 }
 
 var mappingDiscoveryDetailsResourceTypeEnumLowerCase = map[string]DiscoveryDetailsResourceTypeEnum{
 	"weblogic_domain": DiscoveryDetailsResourceTypeWeblogicDomain,
 	"ebs_instance":    DiscoveryDetailsResourceTypeEbsInstance,
+	"sql_server":      DiscoveryDetailsResourceTypeSqlServer,
+	"apache_tomcat":   DiscoveryDetailsResourceTypeApacheTomcat,
 	"oracle_database": DiscoveryDetailsResourceTypeOracleDatabase,
+	"oci_oracle_db":   DiscoveryDetailsResourceTypeOciOracleDb,
+	"oci_oracle_cdb":  DiscoveryDetailsResourceTypeOciOracleCdb,
+	"oci_oracle_pdb":  DiscoveryDetailsResourceTypeOciOraclePdb,
+	"host":            DiscoveryDetailsResourceTypeHost,
+	"oracle_psft":     DiscoveryDetailsResourceTypeOraclePsft,
 }
 
 // GetDiscoveryDetailsResourceTypeEnumValues Enumerates the set of values for DiscoveryDetailsResourceTypeEnum
@@ -89,7 +110,14 @@ func GetDiscoveryDetailsResourceTypeEnumStringValues() []string {
 	return []string{
 		"WEBLOGIC_DOMAIN",
 		"EBS_INSTANCE",
+		"SQL_SERVER",
+		"APACHE_TOMCAT",
 		"ORACLE_DATABASE",
+		"OCI_ORACLE_DB",
+		"OCI_ORACLE_CDB",
+		"OCI_ORACLE_PDB",
+		"HOST",
+		"ORACLE_PSFT",
 	}
 }
 

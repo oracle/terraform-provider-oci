@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package datascience
@@ -8,8 +8,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -165,6 +165,62 @@ func DatascienceNotebookSessionResource() *schema.Resource {
 										Type:     schema.TypeFloat,
 										Optional: true,
 										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
+			"notebook_session_runtime_config_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"custom_environment_variables": {
+							Type:     schema.TypeMap,
+							Optional: true,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
+						"notebook_session_git_config_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"notebook_session_git_repo_config_collection": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"url": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+
+												// Optional
+
+												// Computed
+											},
+										},
 									},
 
 									// Computed
@@ -374,6 +430,17 @@ func (s *DatascienceNotebookSessionResourceCrud) Create() error {
 		}
 	}
 
+	if notebookSessionRuntimeConfigDetails, ok := s.D.GetOkExists("notebook_session_runtime_config_details"); ok {
+		if tmpList := notebookSessionRuntimeConfigDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "notebook_session_runtime_config_details", 0)
+			tmp, err := s.mapToNotebookSessionRuntimeConfigDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.NotebookSessionRuntimeConfigDetails = &tmp
+		}
+	}
+
 	if projectId, ok := s.D.GetOkExists("project_id"); ok {
 		tmp := projectId.(string)
 		request.ProjectId = &tmp
@@ -450,6 +517,17 @@ func (s *DatascienceNotebookSessionResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.NotebookSessionId = &tmp
 
+	if notebookSessionRuntimeConfigDetails, ok := s.D.GetOkExists("notebook_session_runtime_config_details"); ok {
+		if tmpList := notebookSessionRuntimeConfigDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "notebook_session_runtime_config_details", 0)
+			tmp, err := s.mapToNotebookSessionRuntimeConfigDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.NotebookSessionRuntimeConfigDetails = &tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	response, err := s.Client.UpdateNotebookSession(context.Background(), request)
@@ -506,6 +584,12 @@ func (s *DatascienceNotebookSessionResourceCrud) SetData() error {
 		s.D.Set("notebook_session_configuration_details", []interface{}{NotebookSessionConfigurationDetailsToMap(s.Res.NotebookSessionConfigurationDetails)})
 	} else {
 		s.D.Set("notebook_session_configuration_details", nil)
+	}
+
+	if s.Res.NotebookSessionRuntimeConfigDetails != nil {
+		s.D.Set("notebook_session_runtime_config_details", []interface{}{NotebookSessionRuntimeConfigDetailsToMap(s.Res.NotebookSessionRuntimeConfigDetails)})
+	} else {
+		s.D.Set("notebook_session_runtime_config_details", nil)
 	}
 
 	if s.Res.NotebookSessionUrl != nil {
@@ -628,6 +712,95 @@ func NotebookSessionConfigurationDetailsToMap(obj *oci_datascience.NotebookSessi
 
 	if obj.SubnetId != nil {
 		result["subnet_id"] = string(*obj.SubnetId)
+	}
+
+	return result
+}
+
+func (s *DatascienceNotebookSessionResourceCrud) mapToNotebookSessionGitConfigDetails(fieldKeyFormat string) (oci_datascience.NotebookSessionGitConfigDetails, error) {
+	result := oci_datascience.NotebookSessionGitConfigDetails{}
+
+	if notebookSessionGitRepoConfigCollection, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "notebook_session_git_repo_config_collection")); ok {
+		interfaces := notebookSessionGitRepoConfigCollection.([]interface{})
+		gitRepoConfigDetails := make([]oci_datascience.NotebookSessionGitRepoConfigDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "notebook_session_git_repo_config_collection"), stateDataIndex)
+			converted, err := s.mapToNotebookSessionGitRepoConfigDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			gitRepoConfigDetails[i] = converted
+		}
+		if len(gitRepoConfigDetails) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "notebook_session_git_repo_config_collection")) {
+			result.NotebookSessionGitRepoConfigCollection = gitRepoConfigDetails
+		}
+	}
+
+	return result, nil
+}
+
+func NotebookSessionGitConfigDetailsToMap(obj *oci_datascience.NotebookSessionGitConfigDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	notebookSessionGitRepoConfigCollection := []interface{}{}
+	for _, item := range obj.NotebookSessionGitRepoConfigCollection {
+		notebookSessionGitRepoConfigCollection = append(notebookSessionGitRepoConfigCollection, NotebookSessionGitRepoConfigDetailsToMap(item))
+	}
+	result["notebook_session_git_repo_config_collection"] = notebookSessionGitRepoConfigCollection
+
+	return result
+}
+
+func (s *DatascienceNotebookSessionResourceCrud) mapToNotebookSessionGitRepoConfigDetails(fieldKeyFormat string) (oci_datascience.NotebookSessionGitRepoConfigDetails, error) {
+	result := oci_datascience.NotebookSessionGitRepoConfigDetails{}
+
+	if url, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "url")); ok {
+		tmp := url.(string)
+		result.Url = &tmp
+	}
+
+	return result, nil
+}
+
+func NotebookSessionGitRepoConfigDetailsToMap(obj oci_datascience.NotebookSessionGitRepoConfigDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Url != nil {
+		result["url"] = string(*obj.Url)
+	}
+
+	return result
+}
+
+func (s *DatascienceNotebookSessionResourceCrud) mapToNotebookSessionRuntimeConfigDetails(fieldKeyFormat string) (oci_datascience.NotebookSessionRuntimeConfigDetails, error) {
+	result := oci_datascience.NotebookSessionRuntimeConfigDetails{}
+
+	if customEnvironmentVariables, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "custom_environment_variables")); ok {
+		result.CustomEnvironmentVariables = tfresource.ObjectMapToStringMap(customEnvironmentVariables.(map[string]interface{}))
+	}
+
+	if notebookSessionGitConfigDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "notebook_session_git_config_details")); ok {
+		if tmpList := notebookSessionGitConfigDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "notebook_session_git_config_details"), 0)
+			tmp, err := s.mapToNotebookSessionGitConfigDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert notebook_session_git_config_details, encountered error: %v", err)
+			}
+			result.NotebookSessionGitConfigDetails = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+func NotebookSessionRuntimeConfigDetailsToMap(obj *oci_datascience.NotebookSessionRuntimeConfigDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["custom_environment_variables"] = obj.CustomEnvironmentVariables
+
+	if obj.NotebookSessionGitConfigDetails != nil {
+		result["notebook_session_git_config_details"] = []interface{}{NotebookSessionGitConfigDetailsToMap(obj.NotebookSessionGitConfigDetails)}
 	}
 
 	return result

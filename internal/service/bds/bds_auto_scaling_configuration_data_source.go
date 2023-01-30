@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package bds
@@ -6,8 +6,8 @@ package bds
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_bds "github.com/oracle/oci-go-sdk/v65/bds"
@@ -85,6 +85,16 @@ func (s *BdsAutoScalingConfigurationDataSourceCrud) SetData() error {
 		s.D.Set("policy", []interface{}{AutoScalePolicyToMap(s.Res.Policy)})
 	} else {
 		s.D.Set("policy", nil)
+	}
+
+	if s.Res.PolicyDetails != nil {
+		policyDetailsArray := []interface{}{}
+		if policyDetailsMap := AutoScalePolicyDetailsToMap(&s.Res.PolicyDetails); policyDetailsMap != nil {
+			policyDetailsArray = append(policyDetailsArray, policyDetailsMap)
+		}
+		s.D.Set("policy_details", policyDetailsArray)
+	} else {
+		s.D.Set("policy_details", nil)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

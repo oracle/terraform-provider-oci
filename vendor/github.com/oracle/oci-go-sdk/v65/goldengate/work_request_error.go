@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -18,13 +18,15 @@ import (
 // WorkRequestError An error encountered while executing a work request.
 type WorkRequestError struct {
 
-	// A machine-usable code for the error that occured. Error codes are listed on (https://docs.cloud.oracle.com/Content/API/References/apierrors.htm).
+	// A machine-usable code for the error that occured. Error codes are listed on
+	// (https://docs.cloud.oracle.com/Content/API/References/apierrors.htm).
 	Code *string `mandatory:"true" json:"code"`
 
 	// A human-readable description of the issue encountered.
 	Message *string `mandatory:"true" json:"message"`
 
-	// The time the error occured.  The format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+	// The time the error occured.  The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
 }
 

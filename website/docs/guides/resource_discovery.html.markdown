@@ -102,6 +102,9 @@ terraform-provider-oci -command=export -compartment_id=<OCID of compartment to e
 This command will discover resources within your compartment and generates Terraform configuration files in the given `output_path`.
 The generated `.tf` files contain the Terraform configuration with the resources that the command has discovered.
 
+> **Note:**
+Make sure the `output_path` is empty before running resource discovery
+
 **Parameter Description**
 
 * `command` - Command to run. Supported commands include:
@@ -110,15 +113,20 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `list_export_services` - Lists the allowed values for services arguments along with scope in json format
 * `compartment_id` - OCID of a compartment to export. If `compartment_id`  or `compartment_name` is not specified, the root compartment will be used
 * `compartment_name` - The name of a compartment to export. Use this instead of `compartment_id` to provide a compartment name
+* `exclude_services` - Comma-separated list of service resources to exclude from export. If a service is present in both 'services' and 'exclude_services' argument, it will be excluded
 * `generate_state` - Provide this flag to import the discovered resources into a state file along with the Terraform configuration
-* `ids` - Comma-separated list of resource IDs to export. The ID could either be an OCID or a Terraform import ID. By default, all resources are exported
-* `list_export_services_path` - Path to output list of supported services in json format, must include json file name
+* `ids` - Comma-separated list of tuples `resource ID` or `resource Type:resource ID` e.g. `ocid.....` or `oci_core_instance:ocid.....`for resources to export. The ID could either be an OCID or a Terraform import ID. If `resource ID` format is used then sub-resources are also discovered and if `resource Type:resource ID` format is used, only resource id's given are discovered. By default, all resources are exported if ids is not added.
 * `output_path` - Absolute path to output generated configurations and state files of the exported compartment
+* `parallelism` - The number of threads to use for resource discovery. By default the value is 1
+* `variables_resource_level` - List of resource-level attributes to export as variables, following the format `resourceType.attribute`. Top-level attributes (see `variables_global_level`) are excluded from this list.
+* `variables_global_level` - List of top-level attributes to export as variables, following the format `attribute1,attribute2`. Resource-level attributes (see `variables_resource_level`) are excluded from this list.
+* `retry_timeout` - The time duration for which API calls will wait and retry operation in case of API errors. By default, the retry timeout duration is 15s
 * `services` - Comma-separated list of service resources to export. If not specified, all resources within the given compartment (which excludes identity resources) are exported. The following values can be specified:
     * `adm` - Discovers adm resources within the specified compartment
     * `ai_anomaly_detection` - Discovers ai_anomaly_detection resources within the specified compartment
     * `ai_vision` - Discovers ai_vision resources within the specified compartment
     * `analytics` - Discovers analytics resources within the specified compartment
+    * `announcements_service` - Discovers announcements_service resources within the specified compartment
     * `apigateway` - Discovers apigateway resources within the specified compartment
     * `apm` - Discovers apm resources within the specified compartment
     * `apm_config` - Discovers apm_config resources within the specified compartment
@@ -130,7 +138,10 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `blockchain` - Discovers blockchain resources within the specified compartment
     * `budget` - Discovers budget resources across the entire tenancy
     * `certificates_management` - Discovers certificates_management resources within the specified compartment
+    * `cloud_bridge` - Discovers cloud_bridge resources within the specified compartment
     * `cloud_guard` - Discovers cloud guard resources within the specified compartment
+    * `cloud_migrations` - Discovers cloud_migrations resources within the specified compartment
+    * `container_instances` - Discovers container_instances resources within the specified compartment
     * `containerengine` - Discovers containerengine resources within the specified compartment
     * `core` - Discovers compute, block storage, and networking resources within the specified compartment
     * `data_connectivity` - Discovers data_connectivity resources within the specified compartment
@@ -144,11 +155,14 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `dataintegration` - Discovers dataintegration resources within the specified compartment
     * `datascience` - Discovers datascience resources within the specified compartment
     * `devops` - Discovers devops resources within the specified compartment
+    * `disaster_recovery` - Discovers disaster_recovery resources within the specified compartment
     * `dns` - Discovers dns resources (except record) within the specified compartment
+    * `em_warehouse` - Discovers em_warehouse resources within the specified compartment
     * `email` - Discovers email_sender resources within the specified compartment
     * `events` - Discovers events resources within the specified compartment
     * `file_storage` - Discovers file_storage resources within the specified compartment
     * `functions` - Discovers functions resources within the specified compartment
+    * `fusion_apps` - Discovers fusion_apps resources within the specified compartment
     * `golden_gate` - Discovers golden_gate resources within the specified compartment
     * `health_checks` - Discovers health_checks resources within the specified compartment
     * `identity` - Discovers identity resources across the entire tenancy
@@ -156,27 +170,34 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `integration` - Discovers integration resources within the specified compartment
     * `jms` - Discovers jms resources within the specified compartment
     * `kms` - Discovers kms resources within the specified compartment
+    * `license_manager` - Discovers license_manager resources within the specified compartment
     * `limits` - Discovers limits resources across the entire tenancy
     * `load_balancer` - Discovers load balancer resources within the specified compartment
     * `log_analytics` - Discovers log_analytics resources within the specified compartment
     * `logging` - Discovers logging resources within the specified compartment
     * `management_agent` - Discovers management_agent resources within the specified compartment
     * `marketplace` - Discovers marketplace resources within the specified compartment
+    * `media_services` - Discovers media_services resources within the specified compartment
     * `metering_computation` - Discovers metering_computation resources across the entire tenancy
     * `monitoring` - Discovers monitoring resources within the specified compartment
     * `mysql` - Discovers mysql resources within the specified compartment
-    * `network_load_balancer` - Discovers network_load_balancer resources within the specified compartment
+    * `network_firewall` - Discovers network_firewall resources within the specified compartment
+    * `network_load_balancer` - Discovers network load balancer resources within the specified compartment
     * `nosql` - Discovers nosql resources within the specified compartment
     * `object_storage` - Discovers object storage resources within the specified compartment
     * `oce` - Discovers oce resources within the specified compartment
     * `ocvp` - Discovers ocvp resources within the specified compartment
     * `oda` - Discovers oda resources within the specified compartment
     * `ons` - Discovers ons resources within the specified compartment
+    * `opa` - Discovers opa resources within the specified compartment
+    * `opensearch` - Discovers opensearch resources within the specified compartment
     * `operator_access_control` - Discovers operator_access_control resources within the specified compartment
     * `opsi` - Discovers opsi resources within the specified compartment
     * `optimizer` - Discovers optimizer resources across the entire tenancy
     * `osmanagement` - Discovers osmanagement resources within the specified compartment
     * `osp_gateway` - Discovers osp_gateway resources within the specified compartment
+    * `queue` - Discovers queue resources within the specified compartment
+    * `resourcemanager` - Discovers resourcemanager resources within the specified compartment
     * `sch` - Discovers sch resources within the specified compartment
     *`service_mesh` - Discovers service_mesh resources within the specified compartment
     * `stack_monitoring` - Discovers stack_monitoring resources within the specified compartment
@@ -184,7 +205,9 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `usage_proxy` - Discovers usage_proxy resources within the specified compartment
     * `vault` - Discovers vault resources within the specified compartment
     * `visual_builder` - Discovers visual_builder resources within the specified compartment
+    * `vn_monitoring` - Discovers vn_monitoring resources within the specified compartment
     * `vulnerability_scanning` - Discovers vulnerability_scanning resources within the specified compartment
+    * `waa` - Discovers waa resources within the specified compartment
     * `waas` - Discovers waas resources within the specified compartment
     * `waf` - Discovers waf resources within the specified compartment
 * `tf_version` - The version of terraform syntax to generate for configurations. Default is v0.12. The state file will be written in v0.12 only. The allowed values are:
@@ -276,6 +299,32 @@ The results of this command are both the `.tf` files representing the Terraform 
 > **Note** The Terraform state file generated by this command is currently compatible with Terraform v0.12.4 and above
 
 
+### Filtering Resources discovered via Resource Discovery
+
+You can filter resources discovered by resource discovery by specifying filtering criteria. 
+* You can filter resources by terraform resource type or by attribute key values
+* You can pass multiple filters so that resources satisfying all of these filters will be discovered
+* You can pass a maximum of 10 filters
+
+Operator
+* `=` Equal to
+* `!=` Not Equal to
+
+Filter Types
+* Resource Type filter : `Type<Operator><Provider Resource Type>`
+* Attribute Filter : `AttrName=<attribute name>;Value<Operator><value>` Find all resources with matching attribute and value
+
+```
+--filter="Type=oci_core_vcn"                                                            // discover resources of type oci_core_vcn
+--filter="Type!=oci_core_vcn"                                                           // discover resources except resources of type oci_core_vcn
+--filter="AttrName=defined_tags.example-namespace.example-key;Value=example-value"      // discover resources of with defined tag example-namespace.example-key and value as example-value
+```
+
+Example for specifying multiple filters
+```
+--filter="Type=oci_core_vcn" --filter="AttrName=dns_label;Value=test"     // discover resources of type oci_core_vcn such that they have dns_label attribute value as test
+```
+
 ### Supported Resources
 As of this writing, the list of Terraform services and resources that can be discovered by the command is as follows.
 The list of supported resources can also be retrieved by running this command:
@@ -305,12 +354,20 @@ analytics
     
 * oci\_analytics\_analytics\_instance
 
+announcements_service
+    
+* oci\_announcements\_service\_announcement\_subscription
+* oci\_announcements\_service\_announcement\_subscriptions\_actions\_change\_compartment
+* oci\_announcements\_service\_announcement\_subscriptions\_filter\_group
+
 apigateway
     
 * oci\_apigateway\_api
 * oci\_apigateway\_gateway
 * oci\_apigateway\_deployment
 * oci\_apigateway\_certificate
+* oci\_apigateway\_subscriber
+* oci\_apigateway\_usage\_plan
 
 apm
     
@@ -328,9 +385,11 @@ apm_synthetics
 
 artifacts
     
+* oci\_artifacts\_container\_configuration
 * oci\_artifacts\_container\_repository
 * oci\_artifacts\_container\_image\_signature
 * oci\_artifacts\_repository
+* oci\_artifacts\_generic\_artifact
 
 auto_scaling
     
@@ -365,6 +424,17 @@ certificates_management
 * oci\_certificates\_management\_certificate\_authority
 * oci\_certificates\_management\_certificate
 
+cloud_bridge
+    
+* oci\_cloud\_bridge\_agent\_plugin
+* oci\_cloud\_bridge\_agent\_dependency
+* oci\_cloud\_bridge\_environment
+* oci\_cloud\_bridge\_agent
+* oci\_cloud\_bridge\_asset\_source
+* oci\_cloud\_bridge\_discovery\_schedule
+* oci\_cloud\_bridge\_asset
+* oci\_cloud\_bridge\_inventory
+
 cloud_guard
     
 * oci\_cloud\_guard\_target
@@ -374,6 +444,19 @@ cloud_guard
 * oci\_cloud\_guard\_detector\_recipe
 * oci\_cloud\_guard\_security\_recipe
 * oci\_cloud\_guard\_security\_zone
+* oci\_cloud\_guard\_data\_source
+
+cloud_migrations
+    
+* oci\_cloud\_migrations\_migration\_asset
+* oci\_cloud\_migrations\_migration\_plan
+* oci\_cloud\_migrations\_target\_asset
+* oci\_cloud\_migrations\_migration
+* oci\_cloud\_migrations\_replication\_schedule
+
+container_instances
+    
+* oci\_container\_instances\_container\_instance
 
 containerengine
     
@@ -517,6 +600,7 @@ dataflow
     
 * oci\_dataflow\_application
 * oci\_dataflow\_private\_endpoint
+* oci\_dataflow\_run\_statement
 
 dataintegration
     
@@ -531,6 +615,9 @@ datascience
 * oci\_datascience\_model\_deployment
 * oci\_datascience\_job
 * oci\_datascience\_job\_run
+* oci\_datascience\_pipeline\_run
+* oci\_datascience\_pipeline
+* oci\_datascience\_model\_version\_set
 
 devops
     
@@ -549,6 +636,12 @@ devops
 * oci\_devops\_trigger
 * oci\_devops\_repository\_mirror
 
+disaster_recovery
+
+* oci\_disaster\_recovery\_dr\_protection\_group
+* oci\_disaster\_recovery\_dr\_plan\_execution
+* oci\_disaster\_recovery\_dr\_plan
+
 dns
     
 * oci\_dns\_zone
@@ -556,6 +649,13 @@ dns
 * oci\_dns\_steering\_policy\_attachment
 * oci\_dns\_tsig\_key
 * oci\_dns\_rrset
+* oci\_dns\_resolver
+* oci\_dns\_resolver\_endpoint
+* oci\_dns\_view
+
+em_warehouse
+    
+* oci\_em\_warehouse\_em\_warehouse
 
 email
     
@@ -574,17 +674,28 @@ file_storage
 * oci\_file\_storage\_mount\_target
 * oci\_file\_storage\_export
 * oci\_file\_storage\_snapshot
+* oci\_file\_storage\_replication
 
 functions
     
 * oci\_functions\_application
 * oci\_functions\_function
 
+fusion_apps
+    
+* oci\_fusion\_apps\_fusion\_environment\_refresh\_activity
+* oci\_fusion\_apps\_fusion\_environment\_admin\_user
+* oci\_fusion\_apps\_fusion\_environment\_family
+* oci\_fusion\_apps\_fusion\_environment
+* oci\_fusion\_apps\_fusion\_environment\_data\_masking\_activity
+
 golden_gate
     
 * oci\_golden\_gate\_database\_registration
 * oci\_golden\_gate\_deployment
 * oci\_golden\_gate\_deployment\_backup
+* oci\_golden\_gate\_connection\_assignment
+* oci\_golden\_gate\_connection
 
 health_checks
     
@@ -636,6 +747,12 @@ kms
 * oci\_kms\_sign
 * oci\_kms\_verify
 
+license_manager
+    
+* oci\_license\_manager\_configuration
+* oci\_license\_manager\_product\_license
+* oci\_license\_manager\_license\_record
+
 limits
     
 * oci\_limits\_quota
@@ -660,11 +777,13 @@ log_analytics
 * oci\_log\_analytics\_log\_analytics\_preferences\_management
 * oci\_log\_analytics\_log\_analytics\_unprocessed\_data\_bucket\_management
 * oci\_log\_analytics\_log\_analytics\_resource\_categories\_management
+* oci\_log\_analytics\_namespace\_ingest\_time\_rule
 
 logging
     
 * oci\_logging\_log\_group
 * oci\_logging\_log
+* oci\_logging\_log\_saved\_search
 * oci\_logging\_unified\_agent\_configuration
 
 management_agent
@@ -677,6 +796,16 @@ marketplace
 * oci\_marketplace\_accepted\_agreement
 * oci\_marketplace\_publication
 
+media_services
+    
+* oci\_media\_services\_stream\_packaging\_config
+* oci\_media\_services\_media\_workflow
+* oci\_media\_services\_stream\_distribution\_channel
+* oci\_media\_services\_media\_workflow\_job
+* oci\_media\_services\_stream\_cdn\_config
+* oci\_media\_services\_media\_asset
+* oci\_media\_services\_media\_workflow\_configuration
+
 metering_computation
     
 * oci\_metering\_computation\_query
@@ -688,11 +817,18 @@ monitoring
 * oci\_monitoring\_alarm
 
 mysql
-    
+
+* oci\_mysql\_mysql\_configuration
 * oci\_mysql\_heat\_wave\_cluster
 * oci\_mysql\_mysql\_backup
 * oci\_mysql\_mysql\_db\_system
 * oci\_mysql\_channel
+* oci\_mysql\_replica
+
+network_firewall
+    
+* oci\_network\_firewall\_network\_firewall\_policy
+* oci\_network\_firewall\_network\_firewall
 
 network_load_balancer
     
@@ -733,6 +869,14 @@ ons
 * oci\_ons\_notification\_topic
 * oci\_ons\_subscription
 
+opa
+    
+* oci\_opa\_opa\_instance
+
+opensearch
+
+* oci\_opensearch\_opensearch\_cluster
+
 operator_access_control
     
 * oci\_operator\_access\_control\_operator\_control
@@ -764,6 +908,14 @@ osmanagement
 osp_gateway
     
 * oci\_osp\_gateway\_subscription
+
+queue
+    
+* oci\_queue\_queue
+
+resourcemanager
+    
+* oci\_resourcemanager\_private\_endpoint
 
 sch
     
@@ -806,12 +958,22 @@ visual_builder
     
 * oci\_visual\_builder\_vb\_instance
 
+vn_monitoring
+    
+* oci\_vn\_monitoring\_path\_analyzer\_test
+* oci\_vn\_monitoring\_path\_analysi
+
 vulnerability_scanning
     
 * oci\_vulnerability\_scanning\_host\_scan\_recipe
 * oci\_vulnerability\_scanning\_host\_scan\_target
 * oci\_vulnerability\_scanning\_container\_scan\_recipe
 * oci\_vulnerability\_scanning\_container\_scan\_target
+
+waa
+    
+* oci\_waa\_web\_app\_acceleration\_policy
+* oci\_waa\_web\_app\_acceleration
 
 waas
     

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -12,21 +12,21 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	startTime                               = time.Now()
-	httpProbeResultDataSourceRepresentation = map[string]interface{}{
+	startTime                                                       = time.Now()
+	HealthChecksHealthChecksHttpProbeResultDataSourceRepresentation = map[string]interface{}{
 		"probe_configuration_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_health_checks_http_monitor.test_http_monitor.id}`},
 		"start_time_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: strconv.FormatInt(startTime.UnixNano()/(int64(time.Millisecond)/int64(time.Nanosecond)), 10)},
 		"start_time_less_than_or_equal_to":    acctest.Representation{RepType: acctest.Optional, Create: strconv.FormatInt(startTime.Add(30*time.Minute).UnixNano()/(int64(time.Millisecond)/int64(time.Nanosecond)), 10)},
 		"target":                              acctest.Representation{RepType: acctest.Optional, Create: `www.oracle.com`},
 	}
 
-	HttpProbeResultResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", acctest.Required, acctest.Create, httpMonitorRepresentation)
+	HealthChecksHttpProbeResultResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", acctest.Required, acctest.Create, HealthChecksHttpMonitorRepresentation)
 )
 
 // issue-routing-tag: health_checks/default
@@ -46,7 +46,7 @@ func TestHealthChecksHttpProbeResultResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
-			Config: config + compartmentIdVariableStr + HttpProbeResultResourceConfig,
+			Config: config + compartmentIdVariableStr + HealthChecksHttpProbeResultResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				func(s *terraform.State) (err error) {
 					if httpreplay.ShouldRetryImmediately() {
@@ -60,8 +60,8 @@ func TestHealthChecksHttpProbeResultResource_basic(t *testing.T) {
 		},
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_health_checks_http_probe_results", "test_http_probe_results", acctest.Optional, acctest.Create, httpProbeResultDataSourceRepresentation) +
-				compartmentIdVariableStr + HttpProbeResultResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_health_checks_http_probe_results", "test_http_probe_results", acctest.Optional, acctest.Create, HealthChecksHealthChecksHttpProbeResultDataSourceRepresentation) +
+				compartmentIdVariableStr + HealthChecksHttpProbeResultResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "probe_configuration_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "start_time_greater_than_or_equal_to"),

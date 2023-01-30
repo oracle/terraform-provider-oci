@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -56,6 +56,12 @@ type DataFlowSummary struct {
 
 	// A key map. If provided, key is replaced with generated key. This structure provides mapping between user provided key and generated key.
 	KeyMap map[string]string `mandatory:"false" json:"keyMap"`
+
+	// A hash map that maps TypedObject keys to the object itself, for java sdk.
+	TypedObjectMap map[string]TypedObjectWrapper `mandatory:"false" json:"typedObjectMap"`
+
+	// A hash map that maps TypedObject keys to a field map that maps to the typed object as a target, for java sdk.
+	TargetFieldMapSummary map[string]FieldMapWrapper `mandatory:"false" json:"targetFieldMapSummary"`
 }
 
 func (m DataFlowSummary) String() string {

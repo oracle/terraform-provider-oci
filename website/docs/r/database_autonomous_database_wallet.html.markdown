@@ -13,7 +13,7 @@ This resource provides the Autonomous Database Wallet resource in Oracle Cloud I
 Creates and downloads a wallet for the specified Autonomous Database.
 
 If passing the base64 encoded content to a `local_file` resource, please use the `content_base64` attribute of the `local_file` resource.
-See this [example](https://github.com/terraform-providers/terraform-provider-oci/blob/master/examples/database/adb/autonomous_data_warehouse_wallet.tf) for more details.
+See this [example](https://github.com/oracle/terraform-provider-oci/blob/master/examples/database/adb/autonomous_data_warehouse_wallet.tf) for more details.
 
 Recreate the resource to create and download a new wallet.
 
@@ -58,7 +58,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Autonomous Database Wallet
 	* `update` - (Defaults to 20 minutes), when updating the Autonomous Database Wallet
 	* `delete` - (Defaults to 20 minutes), when destroying the Autonomous Database Wallet

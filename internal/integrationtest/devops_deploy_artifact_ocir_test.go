@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -8,21 +8,21 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	DeployOcirArtifactRequiredOnlyResource = DeployArtifactResourceDependencies +
+	DeployOcirArtifactRequiredOnlyResource = DevopsDeployArtifactResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Required, acctest.Create, deployOcirArtifactRepresentation)
 
-	DeployOcirArtifactResourceConfig = DeployArtifactResourceDependencies +
+	DeployOcirArtifactResourceConfig = DevopsDeployArtifactResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Optional, acctest.Update, deployOcirArtifactRepresentation)
 
 	deployOcirArtifactSingularDataSourceRepresentation = map[string]interface{}{
@@ -32,7 +32,7 @@ var (
 	deployOcirArtifactRepresentation = acctest.GetMultipleUpdatedRepresenationCopy(
 		[]string{"deploy_artifact_type", "deploy_artifact_source"},
 		[]interface{}{acctest.Representation{RepType: acctest.Required, Create: `DOCKER_IMAGE`}, acctest.RepresentationGroup{RepType: acctest.Required, Group: deployOcirArtifactDeployArtifactSourceRepresentation}},
-		deployArtifactRepresentation)
+		DevopsDeployArtifactRepresentation)
 	image_uri                                            = "iad.ocir.io/ax022wvgmjpq/fake/hello-java:0.0.2"
 	image_uri_updated                                    = "iad.ocir.io/ax022wvgmjpq/fake/hello-java:0.0.3"
 	image_digest                                         = "38598585.fakedigest1"
@@ -60,13 +60,13 @@ func TestDevopsDeployArtifactResource_ocir(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DeployArtifactResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DevopsDeployArtifactResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Optional, acctest.Create, deployOcirArtifactRepresentation), "devops", "deployArtifact", t)
 
 	acctest.ResourceTest(t, testAccCheckDevopsDeployArtifactDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DeployArtifactResourceDependencies +
+			Config: config + compartmentIdVariableStr + DevopsDeployArtifactResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Required, acctest.Create, deployOcirArtifactRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "argument_substitution_mode", "NONE"),
@@ -85,11 +85,11 @@ func TestDevopsDeployArtifactResource_ocir(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DeployArtifactResourceDependencies,
+			Config: config + compartmentIdVariableStr + DevopsDeployArtifactResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DeployArtifactResourceDependencies +
+			Config: config + compartmentIdVariableStr + DevopsDeployArtifactResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Optional, acctest.Create, deployOcirArtifactRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "argument_substitution_mode", "NONE"),
@@ -120,7 +120,7 @@ func TestDevopsDeployArtifactResource_ocir(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DeployArtifactResourceDependencies +
+			Config: config + compartmentIdVariableStr + DevopsDeployArtifactResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Optional, acctest.Update, deployOcirArtifactRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "argument_substitution_mode", "SUBSTITUTE_PLACEHOLDERS"),
@@ -149,8 +149,8 @@ func TestDevopsDeployArtifactResource_ocir(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_artifacts", "test_deploy_artifacts", acctest.Optional, acctest.Update, deployArtifactDataSourceRepresentation) +
-				compartmentIdVariableStr + DeployArtifactResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_artifacts", "test_deploy_artifacts", acctest.Optional, acctest.Update, DevopsDevopsDeployArtifactDataSourceRepresentation) +
+				compartmentIdVariableStr + DevopsDeployArtifactResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Optional, acctest.Update, deployOcirArtifactRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -190,7 +190,7 @@ func TestDevopsDeployArtifactResource_ocir(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + DeployArtifactRequiredOnlyResource,
+			Config:                  config + DevopsDeployArtifactRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

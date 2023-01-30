@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// NumericAttribute A summary of profiling results of a specefic attribute.
+// NumericAttribute A summary of profiling results of a specific attribute.
 type NumericAttribute struct {
 
-	// Name of attribute
+	// Name of the attribute
 	Name *string `mandatory:"false" json:"name"`
 
 	Min *ProfileStat `mandatory:"false" json:"min"`
@@ -34,7 +34,7 @@ type NumericAttribute struct {
 
 	DuplicateCount *ProfileStat `mandatory:"false" json:"duplicateCount"`
 
-	// Top N value frequencies for the column as described already in profile config topNValueFrequency property.
+	// Top N value frequencies for the column as described already in the topNValueFrequency profile config property.
 	ValueFrequencies []ObjectFreqStat `mandatory:"false" json:"valueFrequencies"`
 
 	Mean *ProfileStat `mandatory:"false" json:"mean"`

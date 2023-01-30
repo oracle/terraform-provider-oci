@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -15,36 +15,36 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_health_checks "github.com/oracle/oci-go-sdk/v65/healthchecks"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	PingMonitorRequiredOnlyResource = PingMonitorResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", acctest.Required, acctest.Create, pingMonitorRepresentation)
+	HealthChecksPingMonitorRequiredOnlyResource = HealthChecksPingMonitorResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", acctest.Required, acctest.Create, HealthChecksPingMonitorRepresentation)
 
-	PingMonitorResourceConfig = PingMonitorResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", acctest.Optional, acctest.Update, pingMonitorRepresentation)
+	HealthChecksPingMonitorResourceConfig = HealthChecksPingMonitorResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", acctest.Optional, acctest.Update, HealthChecksPingMonitorRepresentation)
 
-	pingMonitorSingularDataSourceRepresentation = map[string]interface{}{
+	HealthChecksHealthChecksPingMonitorSingularDataSourceRepresentation = map[string]interface{}{
 		"monitor_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_health_checks_ping_monitor.test_ping_monitor.id}`},
 	}
 
-	pingMonitorDataSourceRepresentation = map[string]interface{}{
+	HealthChecksHealthChecksPingMonitorDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"home_region":    acctest.Representation{RepType: acctest.Optional, Create: `${var.region}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: pingMonitorDataSourceFilterRepresentation}}
-	pingMonitorDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: HealthChecksPingMonitorDataSourceFilterRepresentation}}
+	HealthChecksPingMonitorDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_health_checks_ping_monitor.test_ping_monitor.id}`}},
 	}
 
-	pingMonitorRepresentation = map[string]interface{}{
+	HealthChecksPingMonitorRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":        acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"interval_in_seconds": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `30`},
@@ -58,7 +58,7 @@ var (
 		"vantage_point_names": acctest.Representation{RepType: acctest.Optional, Create: []string{`goo-chs`}},
 	}
 
-	PingMonitorResourceDependencies = DefinedTagsDependencies
+	HealthChecksPingMonitorResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: health_checks/default
@@ -80,14 +80,14 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+PingMonitorResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", acctest.Optional, acctest.Create, pingMonitorRepresentation), "healthchecks", "pingMonitor", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+HealthChecksPingMonitorResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", acctest.Optional, acctest.Create, HealthChecksPingMonitorRepresentation), "healthchecks", "pingMonitor", t)
 
 	acctest.ResourceTest(t, testAccCheckHealthChecksPingMonitorDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + PingMonitorResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", acctest.Required, acctest.Create, pingMonitorRepresentation),
+			Config: config + compartmentIdVariableStr + HealthChecksPingMonitorResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", acctest.Required, acctest.Create, HealthChecksPingMonitorRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -104,12 +104,12 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + PingMonitorResourceDependencies,
+			Config: config + compartmentIdVariableStr + HealthChecksPingMonitorResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + PingMonitorResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", acctest.Optional, acctest.Create, pingMonitorRepresentation),
+			Config: config + compartmentIdVariableStr + HealthChecksPingMonitorResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", acctest.Optional, acctest.Create, HealthChecksPingMonitorRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -136,9 +136,9 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + PingMonitorResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + HealthChecksPingMonitorResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(pingMonitorRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(HealthChecksPingMonitorRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -165,8 +165,8 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + PingMonitorResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", acctest.Optional, acctest.Update, pingMonitorRepresentation),
+			Config: config + compartmentIdVariableStr + HealthChecksPingMonitorResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", acctest.Optional, acctest.Update, HealthChecksPingMonitorRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -191,9 +191,9 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_health_checks_ping_monitors", "test_ping_monitors", acctest.Optional, acctest.Update, pingMonitorDataSourceRepresentation) +
-				compartmentIdVariableStr + PingMonitorResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", acctest.Optional, acctest.Update, pingMonitorRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_health_checks_ping_monitors", "test_ping_monitors", acctest.Optional, acctest.Update, HealthChecksHealthChecksPingMonitorDataSourceRepresentation) +
+				compartmentIdVariableStr + HealthChecksPingMonitorResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", acctest.Optional, acctest.Update, HealthChecksPingMonitorRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -215,8 +215,8 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", acctest.Required, acctest.Create, pingMonitorSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + PingMonitorResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", acctest.Required, acctest.Create, HealthChecksHealthChecksPingMonitorSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + HealthChecksPingMonitorResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "monitor_id"),
 
@@ -238,7 +238,7 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + PingMonitorRequiredOnlyResource,
+			Config:                  config + HealthChecksPingMonitorRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -294,7 +294,7 @@ func init() {
 
 func sweepHealthChecksPingMonitorResource(compartment string) error {
 	healthChecksClient := acctest.GetTestClients(&schema.ResourceData{}).HealthChecksClient()
-	pingMonitorIds, err := getPingMonitorIds(compartment)
+	pingMonitorIds, err := getHealthChecksPingMonitorIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -315,7 +315,7 @@ func sweepHealthChecksPingMonitorResource(compartment string) error {
 	return nil
 }
 
-func getPingMonitorIds(compartment string) ([]string, error) {
+func getHealthChecksPingMonitorIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "PingMonitorId")
 	if ids != nil {
 		return ids, nil

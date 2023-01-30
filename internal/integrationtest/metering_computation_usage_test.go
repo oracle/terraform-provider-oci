@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -12,10 +12,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
@@ -68,10 +68,10 @@ time_forecast_ended= "2021-03-21T00:00:00Z"
 }
 `
 
-	UsageRequiredOnlyResource = UsageResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", acctest.Required, acctest.Create, usageRepresentation)
+	UsageRequiredOnlyResource = MeteringComputationUsageResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", acctest.Required, acctest.Create, MeteringComputationUsageRepresentation)
 
-	usageRepresentation = map[string]interface{}{
+	MeteringComputationUsageRepresentation = map[string]interface{}{
 		"granularity":        acctest.Representation{RepType: acctest.Required, Create: `DAILY`},
 		"tenant_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_id}`},
 		"time_usage_ended":   acctest.Representation{RepType: acctest.Required, Create: `2021-03-19T00:00:00Z`},
@@ -79,24 +79,24 @@ time_forecast_ended= "2021-03-21T00:00:00Z"
 		"compartment_depth":  acctest.Representation{RepType: acctest.Optional, Create: `1`},
 		//"filter":               acctest.Representation{RepType: acctest.Optional, Create: },
 		"filter":   acctest.Representation{RepType: acctest.Optional, Create: `{\"operator\":\"OR\",\"dimensions\":[{\"key\":\"compartmentName\",\"value\":\"dxterraformtest\"}],\"tags\":[],\"filters\":[]}`, Update: `{\"operator\":\"OR\",\"dimensions\":[{\"key\":\"compartmentName\",\"value\":\"dxterraformtest\"}],\"tags\":[],\"filters\":[]}`},
-		"forecast": acctest.RepresentationGroup{RepType: acctest.Optional, Group: usageForecastRepresentation},
+		"forecast": acctest.RepresentationGroup{RepType: acctest.Optional, Group: MeteringComputationUsageForecastRepresentation},
 		"group_by": acctest.Representation{RepType: acctest.Optional, Create: []string{`service`}},
-		//"group_by_tag":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: usageGroupByTagRepresentation},
+		//"group_by_tag":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: MeteringComputationUsageGroupByTagRepresentation},
 		"is_aggregate_by_time": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"query_type":           acctest.Representation{RepType: acctest.Optional, Create: `COST`},
 	}
-	usageForecastRepresentation = map[string]interface{}{
+	MeteringComputationUsageForecastRepresentation = map[string]interface{}{
 		"time_forecast_ended":   acctest.Representation{RepType: acctest.Required, Create: `2021-03-20T00:00:00Z`},
 		"forecast_type":         acctest.Representation{RepType: acctest.Optional, Create: `BASIC`},
 		"time_forecast_started": acctest.Representation{RepType: acctest.Optional, Create: `2021-03-19T00:00:00Z`},
 	}
-	usageGroupByTagRepresentation = map[string]interface{}{
+	MeteringComputationUsageGroupByTagRepresentation = map[string]interface{}{
 		"key":       acctest.Representation{RepType: acctest.Optional, Create: `key`},
 		"namespace": acctest.Representation{RepType: acctest.Optional, Create: `namespace`},
 		"value":     acctest.Representation{RepType: acctest.Optional, Create: `value`},
 	}
 
-	UsageResourceDependencies = ""
+	MeteringComputationUsageResourceDependencies = ""
 )
 
 // issue-routing-tag: metering_computation/default
@@ -118,17 +118,17 @@ func TestMeteringComputationUsageResource_basic(t *testing.T) {
 
 	var resId string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+UsageResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", acctest.Optional, acctest.Create, usageRepresentation), "usageapi", "usage", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+MeteringComputationUsageResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", acctest.Optional, acctest.Create, MeteringComputationUsageRepresentation), "usageapi", "usage", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
 			PreConfig: func() {
-				fmt.Printf("config is : %s", acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", acctest.Optional, acctest.Create, usageRepresentation))
+				fmt.Printf("config is : %s", acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", acctest.Optional, acctest.Create, MeteringComputationUsageRepresentation))
 			},
-			Config: config + compartmentIdVariableStr + tenancyIdVariableStr + usgaeEndTimeVariableStr + usageStartTimeVariableStr + UsageResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", acctest.Required, acctest.Create, usageRepresentation),
+			Config: config + compartmentIdVariableStr + tenancyIdVariableStr + usgaeEndTimeVariableStr + usageStartTimeVariableStr + MeteringComputationUsageResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", acctest.Required, acctest.Create, MeteringComputationUsageRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "granularity", "DAILY"),
 				resource.TestCheckResourceAttrSet(resourceName, "tenant_id"),
@@ -139,12 +139,12 @@ func TestMeteringComputationUsageResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + tenancyIdVariableStr + usgaeEndTimeVariableStr + usageStartTimeVariableStr + UsageResourceDependencies,
+			Config: config + compartmentIdVariableStr + tenancyIdVariableStr + usgaeEndTimeVariableStr + usageStartTimeVariableStr + MeteringComputationUsageResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + tenancyIdVariableStr + usgaeEndTimeVariableStr + usageStartTimeVariableStr + UsageResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", acctest.Optional, acctest.Create, usageRepresentation),
+			Config: config + compartmentIdVariableStr + tenancyIdVariableStr + usgaeEndTimeVariableStr + usageStartTimeVariableStr + MeteringComputationUsageResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", acctest.Optional, acctest.Create, MeteringComputationUsageRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_depth", "1"),
 				resource.TestCheckResourceAttr(resourceName, "forecast.#", "1"),

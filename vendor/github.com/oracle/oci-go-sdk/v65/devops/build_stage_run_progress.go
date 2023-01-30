@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -52,6 +52,8 @@ type BuildStageRunProgress struct {
 	Steps []BuildStageRunStep `mandatory:"false" json:"steps"`
 
 	ExportedVariables *ExportedVariableCollection `mandatory:"false" json:"exportedVariables"`
+
+	PrivateAccessConfig NetworkChannel `mandatory:"false" json:"privateAccessConfig"`
 
 	// Image name for the Build Environment
 	Image BuildStageRunProgressImageEnum `mandatory:"true" json:"image"`
@@ -124,6 +126,78 @@ func (m BuildStageRunProgress) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *BuildStageRunProgress) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		StageDisplayName               *string                                  `json:"stageDisplayName"`
+		BuildPipelineStageId           *string                                  `json:"buildPipelineStageId"`
+		TimeStarted                    *common.SDKTime                          `json:"timeStarted"`
+		TimeFinished                   *common.SDKTime                          `json:"timeFinished"`
+		Status                         BuildPipelineStageRunProgressStatusEnum  `json:"status"`
+		BuildPipelineStagePredecessors *BuildPipelineStagePredecessorCollection `json:"buildPipelineStagePredecessors"`
+		ActualBuildRunnerShape         *string                                  `json:"actualBuildRunnerShape"`
+		ActualBuildRunnerShapeConfig   *ActualBuildRunnerShapeConfig            `json:"actualBuildRunnerShapeConfig"`
+		BuildSpecFile                  *string                                  `json:"buildSpecFile"`
+		StageExecutionTimeoutInSeconds *int                                     `json:"stageExecutionTimeoutInSeconds"`
+		PrimaryBuildSource             *string                                  `json:"primaryBuildSource"`
+		Steps                          []BuildStageRunStep                      `json:"steps"`
+		ExportedVariables              *ExportedVariableCollection              `json:"exportedVariables"`
+		PrivateAccessConfig            networkchannel                           `json:"privateAccessConfig"`
+		Image                          BuildStageRunProgressImageEnum           `json:"image"`
+		BuildSourceCollection          *BuildSourceCollection                   `json:"buildSourceCollection"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.StageDisplayName = model.StageDisplayName
+
+	m.BuildPipelineStageId = model.BuildPipelineStageId
+
+	m.TimeStarted = model.TimeStarted
+
+	m.TimeFinished = model.TimeFinished
+
+	m.Status = model.Status
+
+	m.BuildPipelineStagePredecessors = model.BuildPipelineStagePredecessors
+
+	m.ActualBuildRunnerShape = model.ActualBuildRunnerShape
+
+	m.ActualBuildRunnerShapeConfig = model.ActualBuildRunnerShapeConfig
+
+	m.BuildSpecFile = model.BuildSpecFile
+
+	m.StageExecutionTimeoutInSeconds = model.StageExecutionTimeoutInSeconds
+
+	m.PrimaryBuildSource = model.PrimaryBuildSource
+
+	m.Steps = make([]BuildStageRunStep, len(model.Steps))
+	for i, n := range model.Steps {
+		m.Steps[i] = n
+	}
+
+	m.ExportedVariables = model.ExportedVariables
+
+	nn, e = model.PrivateAccessConfig.UnmarshalPolymorphicJSON(model.PrivateAccessConfig.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.PrivateAccessConfig = nn.(NetworkChannel)
+	} else {
+		m.PrivateAccessConfig = nil
+	}
+
+	m.Image = model.Image
+
+	m.BuildSourceCollection = model.BuildSourceCollection
+
+	return
 }
 
 // BuildStageRunProgressImageEnum Enum with underlying type: string

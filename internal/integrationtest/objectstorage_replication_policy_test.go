@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,30 +22,30 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_object_storage "github.com/oracle/oci-go-sdk/v65/objectstorage"
 
-	tf_objectstorage "github.com/terraform-providers/terraform-provider-oci/internal/service/objectstorage"
+	tf_objectstorage "github.com/oracle/terraform-provider-oci/internal/service/objectstorage"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	ReplicationPolicyRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", acctest.Required, acctest.Create, replicationPolicyRepresentation)
+	ReplicationPolicyRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", acctest.Required, acctest.Create, ObjectStorageReplicationPolicyRepresentation)
 
 	replicationBucketName           = testBucketName + "_replication"
-	ReplicationPolicyResourceConfig = ReplicationPolicyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", acctest.Optional, acctest.Update, replicationPolicyRepresentation)
+	ReplicationPolicyResourceConfig = ObjectStorageReplicationPolicyResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", acctest.Optional, acctest.Update, ObjectStorageReplicationPolicyRepresentation)
 
-	replicationPolicySingularDataSourceRepresentation = map[string]interface{}{
+	ObjectStorageObjectStorageReplicationPolicySingularDataSourceRepresentation = map[string]interface{}{
 		"bucket":         acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
 		"namespace":      acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
 		"replication_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_replication_policies.test_replication_policies.replication_policies.0.id}`},
 	}
 
-	replicationPolicyDataSourceRepresentation = map[string]interface{}{
+	ObjectStorageObjectStorageReplicationPolicyDataSourceRepresentation = map[string]interface{}{
 		"bucket":    acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
 		"namespace": acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
 	}
 
-	replicationPolicyRepresentation = map[string]interface{}{
+	ObjectStorageReplicationPolicyRepresentation = map[string]interface{}{
 		"bucket":                  acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
 		"destination_bucket_name": acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.test_bucket_replication.name}`},
 		"destination_region_name": acctest.Representation{RepType: acctest.Required, Create: `${var.region}`},
@@ -53,12 +53,12 @@ var (
 		"namespace":               acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
 	}
 
-	ReplicationPolicyResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_identity_regions", "test_regions", acctest.Required, acctest.Create, regionDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, bucketRepresentation) +
+	ObjectStorageReplicationPolicyResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_identity_regions", "test_regions", acctest.Required, acctest.Create, IdentityIdentityRegionDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket_replication", acctest.Required, acctest.Create,
-			acctest.RepresentationCopyWithNewProperties(bucketRepresentation, map[string]interface{}{
+			acctest.RepresentationCopyWithNewProperties(ObjectStorageBucketRepresentation, map[string]interface{}{
 				"name": acctest.Representation{RepType: acctest.Required, Create: replicationBucketName},
-			})) + acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation)
+			})) + acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation)
 )
 
 // issue-routing-tag: object_storage/default
@@ -77,14 +77,14 @@ func TestObjectStorageReplicationPolicyResource_basic(t *testing.T) {
 
 	var resId string
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ReplicationPolicyResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", acctest.Required, acctest.Create, replicationPolicyRepresentation), "objectstorage", "replicationPolicy", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ObjectStorageReplicationPolicyResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", acctest.Required, acctest.Create, ObjectStorageReplicationPolicyRepresentation), "objectstorage", "replicationPolicy", t)
 
 	acctest.ResourceTest(t, testAccCheckObjectStorageReplicationPolicyDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ReplicationPolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", acctest.Required, acctest.Create, replicationPolicyRepresentation),
+			Config: config + compartmentIdVariableStr + ObjectStorageReplicationPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", acctest.Required, acctest.Create, ObjectStorageReplicationPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
 				resource.TestCheckResourceAttrSet(resourceName, "destination_bucket_name"),
@@ -107,9 +107,9 @@ func TestObjectStorageReplicationPolicyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_replication_policies", "test_replication_policies", acctest.Optional, acctest.Update, replicationPolicyDataSourceRepresentation) +
-				compartmentIdVariableStr + ReplicationPolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", acctest.Optional, acctest.Update, replicationPolicyRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_replication_policies", "test_replication_policies", acctest.Optional, acctest.Update, ObjectStorageObjectStorageReplicationPolicyDataSourceRepresentation) +
+				compartmentIdVariableStr + ObjectStorageReplicationPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", acctest.Optional, acctest.Update, ObjectStorageReplicationPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "bucket", testBucketName),
 
@@ -127,8 +127,8 @@ func TestObjectStorageReplicationPolicyResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_replication_policies", "test_replication_policies", acctest.Optional, acctest.Update, replicationPolicyDataSourceRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", acctest.Required, acctest.Create, replicationPolicySingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_replication_policies", "test_replication_policies", acctest.Optional, acctest.Update, ObjectStorageObjectStorageReplicationPolicyDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", acctest.Required, acctest.Create, ObjectStorageObjectStorageReplicationPolicySingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ReplicationPolicyResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "bucket", testBucketName),
@@ -207,7 +207,7 @@ func init() {
 
 func sweepObjectStorageReplicationPolicyResource(compartment string) error {
 	objectStorageClient := acctest.GetTestClients(&schema.ResourceData{}).ObjectStorageClient()
-	replicationPolicyIds, err := getReplicationPolicyIds(compartment)
+	replicationPolicyIds, err := getObjectStorageReplicationPolicyIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -226,7 +226,7 @@ func sweepObjectStorageReplicationPolicyResource(compartment string) error {
 	return nil
 }
 
-func getReplicationPolicyIds(compartment string) ([]string, error) {
+func getObjectStorageReplicationPolicyIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ReplicationPolicyId")
 	if ids != nil {
 		return ids, nil
@@ -237,7 +237,7 @@ func getReplicationPolicyIds(compartment string) ([]string, error) {
 
 	listReplicationPoliciesRequest := oci_object_storage.ListReplicationPoliciesRequest{}
 
-	buckets, error := getBucketIds(compartment)
+	buckets, error := getObjectStorageBucketIds(compartment)
 	if error != nil {
 		return resourceIds, fmt.Errorf("Error getting bucket required for ReplicationPolicy resource requests \n")
 	}

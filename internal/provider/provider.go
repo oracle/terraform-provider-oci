@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package provider
@@ -16,10 +16,10 @@ import (
 	"strings"
 	"time"
 
-	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
-	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
+	tf_core "github.com/oracle/terraform-provider-oci/internal/service/core"
+	tf_load_balancer "github.com/oracle/terraform-provider-oci/internal/service/load_balancer"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
+	"github.com/oracle/terraform-provider-oci/internal/globalvar"
 
 	"crypto/tls"
 	"crypto/x509"
@@ -34,10 +34,10 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_common_auth "github.com/oracle/oci-go-sdk/v65/common/auth"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	tf_resource "github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	tf_resource "github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var descriptions map[string]string
@@ -46,9 +46,6 @@ var ociProvider *schema.Provider
 
 var TerraformCLIVersion = globalvar.UnknownTerraformCLIVersion
 var AvoidWaitingForDeleteTarget bool
-
-var OciResources map[string]*schema.Resource
-var OciDatasources map[string]*schema.Resource
 
 // creating an interface to aid in unit tests
 type schemaResourceData interface {
@@ -153,7 +150,6 @@ func SchemaMap() map[string]*schema.Schema {
 		globalvar.PrivateKeyAttrName: {
 			Type:        schema.TypeString,
 			Optional:    true,
-			Default:     "",
 			Sensitive:   true,
 			Description: descriptions[globalvar.PrivateKeyAttrName],
 			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.PrivateKeyAttrName), ociVarName(globalvar.PrivateKeyAttrName)}, nil),
@@ -162,15 +158,14 @@ func SchemaMap() map[string]*schema.Schema {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Description: descriptions[globalvar.PrivateKeyPathAttrName],
-			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.PrivateKeyPathAttrName), ociVarName(globalvar.PrivateKeyPathAttrName)}, nil),
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.PrivateKeyPathAttrName), ociVarName(globalvar.PrivateKeyPathAttrName)}, ""),
 		},
 		globalvar.PrivateKeyPasswordAttrName: {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Sensitive:   true,
-			Default:     "",
 			Description: descriptions[globalvar.PrivateKeyPasswordAttrName],
-			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.PrivateKeyPasswordAttrName), ociVarName(globalvar.PrivateKeyPasswordAttrName)}, nil),
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.PrivateKeyPasswordAttrName), ociVarName(globalvar.PrivateKeyPasswordAttrName)}, ""),
 		},
 		globalvar.RegionAttrName: {
 			Type:        schema.TypeString,
@@ -207,41 +202,27 @@ func SchemaMap() map[string]*schema.Schema {
 	}
 }
 
-func RegisterResource(name string, resourceSchema *schema.Resource) {
-	if OciResources == nil {
-		OciResources = make(map[string]*schema.Resource)
-	}
-	OciResources[name] = resourceSchema
-}
-
-func RegisterDatasource(name string, datasourceSchema *schema.Resource) {
-	if OciDatasources == nil {
-		OciDatasources = make(map[string]*schema.Resource)
-	}
-	OciDatasources[name] = datasourceSchema
-}
-
 // This returns a map of all data sources to register with Terraform
 // The OciDatasources map is populated by each datasource's init function being invoked before it gets here
 func DataSourcesMap() map[string]*schema.Resource {
 	// Register some aliases of registered datasources. These are registered for convenience and legacy reasons.
-	RegisterDatasource("oci_core_listing_resource_version", tf_core.CoreAppCatalogListingResourceVersionDataSource())
-	RegisterDatasource("oci_core_listing_resource_versions", tf_core.CoreAppCatalogListingResourceVersionsDataSource())
-	RegisterDatasource("oci_core_shape", tf_core.CoreShapesDataSource())
-	RegisterDatasource("oci_core_virtual_networks", tf_core.CoreVcnsDataSource())
-	RegisterDatasource("oci_load_balancers", tf_load_balancer.LoadBalancerLoadBalancersDataSource())
-	RegisterDatasource("oci_load_balancer_backendsets", tf_load_balancer.LoadBalancerBackendSetsDataSource())
-	return OciDatasources
+	tf_resource.RegisterDatasource("oci_core_listing_resource_version", tf_core.CoreAppCatalogListingResourceVersionDataSource())
+	tf_resource.RegisterDatasource("oci_core_listing_resource_versions", tf_core.CoreAppCatalogListingResourceVersionsDataSource())
+	tf_resource.RegisterDatasource("oci_core_shape", tf_core.CoreShapesDataSource())
+	tf_resource.RegisterDatasource("oci_core_virtual_networks", tf_core.CoreVcnsDataSource())
+	tf_resource.RegisterDatasource("oci_load_balancers", tf_load_balancer.LoadBalancerLoadBalancersDataSource())
+	tf_resource.RegisterDatasource("oci_load_balancer_backendsets", tf_load_balancer.LoadBalancerBackendSetsDataSource())
+	return globalvar.OciDatasources
 }
 
 // This returns a map of all resources to register with Terraform
 // The OciResource map is populated by each resource's init function being invoked before it gets here
 func ResourcesMap() map[string]*schema.Resource {
 	// Register some aliases of registered resources. These are registered for convenience and legacy reasons.
-	RegisterResource("oci_core_virtual_network", tf_core.CoreVcnResource())
-	RegisterResource("oci_load_balancer", tf_load_balancer.LoadBalancerLoadBalancerResource())
-	RegisterResource("oci_load_balancer_backendset", tf_load_balancer.LoadBalancerBackendSetResource())
-	return OciResources
+	tf_resource.RegisterResource("oci_core_virtual_network", tf_core.CoreVcnResource())
+	tf_resource.RegisterResource("oci_load_balancer", tf_load_balancer.LoadBalancerLoadBalancerResource())
+	tf_resource.RegisterResource("oci_load_balancer_backendset", tf_load_balancer.LoadBalancerBackendSetResource())
+	return globalvar.OciResources
 }
 
 func ProviderConfig(d *schema.ResourceData) (interface{}, error) {
@@ -420,7 +401,7 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 
 		region, ok := d.GetOk(globalvar.RegionAttrName)
 		if !ok {
-			return nil, fmt.Errorf("can not get %s from Terraform configuration (InstancePrincipal)", globalvar.RegionAttrName)
+			return nil, fmt.Errorf("can not get %s from Terraform configuration (SecurityToken)", globalvar.RegionAttrName)
 		}
 		// if region is part of the provider block make sure it is part of the final configuration too, and overwrites the region in the profile. +
 		regionProvider := oci_common.NewRawConfigurationProvider("", "", region.(string), "", "", nil)

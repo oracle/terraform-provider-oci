@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database
@@ -6,8 +6,8 @@ package database
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -110,6 +110,14 @@ func (s *DatabaseCloudExadataInfrastructuresDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.ActivatedStorageCount != nil {
+			cloudExadataInfrastructure["activated_storage_count"] = *r.ActivatedStorageCount
+		}
+
+		if r.AdditionalStorageCount != nil {
+			cloudExadataInfrastructure["additional_storage_count"] = *r.AdditionalStorageCount
+		}
+
 		if r.AvailabilityDomain != nil {
 			cloudExadataInfrastructure["availability_domain"] = *r.AvailabilityDomain
 		}
@@ -122,11 +130,27 @@ func (s *DatabaseCloudExadataInfrastructuresDataSourceCrud) SetData() error {
 			cloudExadataInfrastructure["compute_count"] = *r.ComputeCount
 		}
 
+		if r.CpuCount != nil {
+			cloudExadataInfrastructure["cpu_count"] = *r.CpuCount
+		}
+
 		customerContacts := []interface{}{}
 		for _, item := range r.CustomerContacts {
 			customerContacts = append(customerContacts, CustomerContactToMap(item))
 		}
 		cloudExadataInfrastructure["customer_contacts"] = customerContacts
+
+		if r.DataStorageSizeInTBs != nil {
+			cloudExadataInfrastructure["data_storage_size_in_tbs"] = *r.DataStorageSizeInTBs
+		}
+
+		if r.DbNodeStorageSizeInGBs != nil {
+			cloudExadataInfrastructure["db_node_storage_size_in_gbs"] = *r.DbNodeStorageSizeInGBs
+		}
+
+		if r.DbServerVersion != nil {
+			cloudExadataInfrastructure["db_server_version"] = *r.DbServerVersion
+		}
 
 		if r.DefinedTags != nil {
 			cloudExadataInfrastructure["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
@@ -156,6 +180,34 @@ func (s *DatabaseCloudExadataInfrastructuresDataSourceCrud) SetData() error {
 			cloudExadataInfrastructure["maintenance_window"] = nil
 		}
 
+		if r.MaxCpuCount != nil {
+			cloudExadataInfrastructure["max_cpu_count"] = *r.MaxCpuCount
+		}
+
+		if r.MaxDataStorageInTBs != nil {
+			cloudExadataInfrastructure["max_data_storage_in_tbs"] = *r.MaxDataStorageInTBs
+		}
+
+		if r.MaxDbNodeStorageInGBs != nil {
+			cloudExadataInfrastructure["max_db_node_storage_in_gbs"] = *r.MaxDbNodeStorageInGBs
+		}
+
+		if r.MaxMemoryInGBs != nil {
+			cloudExadataInfrastructure["max_memory_in_gbs"] = *r.MaxMemoryInGBs
+		}
+
+		if r.MemorySizeInGBs != nil {
+			cloudExadataInfrastructure["memory_size_in_gbs"] = *r.MemorySizeInGBs
+		}
+
+		if r.MonthlyDbServerVersion != nil {
+			cloudExadataInfrastructure["monthly_db_server_version"] = *r.MonthlyDbServerVersion
+		}
+
+		if r.MonthlyStorageServerVersion != nil {
+			cloudExadataInfrastructure["monthly_storage_server_version"] = *r.MonthlyStorageServerVersion
+		}
+
 		if r.NextMaintenanceRunId != nil {
 			cloudExadataInfrastructure["next_maintenance_run_id"] = *r.NextMaintenanceRunId
 		}
@@ -168,6 +220,10 @@ func (s *DatabaseCloudExadataInfrastructuresDataSourceCrud) SetData() error {
 
 		if r.StorageCount != nil {
 			cloudExadataInfrastructure["storage_count"] = *r.StorageCount
+		}
+
+		if r.StorageServerVersion != nil {
+			cloudExadataInfrastructure["storage_server_version"] = *r.StorageServerVersion
 		}
 
 		if r.TimeCreated != nil {

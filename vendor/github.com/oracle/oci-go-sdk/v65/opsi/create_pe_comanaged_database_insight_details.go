@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// CreatePeComanagedDatabaseInsightDetails The information about database to be analyzed.
+// CreatePeComanagedDatabaseInsightDetails The information about database to be analyzed. Either an opsiPrivateEndpointId or dbmPrivateEndpointId must be specified. If the dbmPrivateEndpointId is specified, a new Operations Insights private endpoint will be created.
 type CreatePeComanagedDatabaseInsightDetails struct {
 
 	// Compartment Identifier of database
@@ -29,9 +29,6 @@ type CreatePeComanagedDatabaseInsightDetails struct {
 
 	// OCI database resource type
 	DatabaseResourceType *string `mandatory:"true" json:"databaseResourceType"`
-
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OPSI private endpoint
-	OpsiPrivateEndpointId *string `mandatory:"true" json:"opsiPrivateEndpointId"`
 
 	// Database service name used for connection requests.
 	ServiceName *string `mandatory:"true" json:"serviceName"`
@@ -45,6 +42,12 @@ type CreatePeComanagedDatabaseInsightDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OPSI private endpoint
+	OpsiPrivateEndpointId *string `mandatory:"false" json:"opsiPrivateEndpointId"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint
+	DbmPrivateEndpointId *string `mandatory:"false" json:"dbmPrivateEndpointId"`
 
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
@@ -107,11 +110,12 @@ func (m *CreatePeComanagedDatabaseInsightDetails) UnmarshalJSON(data []byte) (e 
 	model := struct {
 		FreeformTags          map[string]string                                         `json:"freeformTags"`
 		DefinedTags           map[string]map[string]interface{}                         `json:"definedTags"`
+		OpsiPrivateEndpointId *string                                                   `json:"opsiPrivateEndpointId"`
+		DbmPrivateEndpointId  *string                                                   `json:"dbmPrivateEndpointId"`
 		SystemTags            map[string]map[string]interface{}                         `json:"systemTags"`
 		CompartmentId         *string                                                   `json:"compartmentId"`
 		DatabaseId            *string                                                   `json:"databaseId"`
 		DatabaseResourceType  *string                                                   `json:"databaseResourceType"`
-		OpsiPrivateEndpointId *string                                                   `json:"opsiPrivateEndpointId"`
 		ServiceName           *string                                                   `json:"serviceName"`
 		CredentialDetails     credentialdetails                                         `json:"credentialDetails"`
 		DeploymentType        CreatePeComanagedDatabaseInsightDetailsDeploymentTypeEnum `json:"deploymentType"`
@@ -126,6 +130,10 @@ func (m *CreatePeComanagedDatabaseInsightDetails) UnmarshalJSON(data []byte) (e 
 
 	m.DefinedTags = model.DefinedTags
 
+	m.OpsiPrivateEndpointId = model.OpsiPrivateEndpointId
+
+	m.DbmPrivateEndpointId = model.DbmPrivateEndpointId
+
 	m.SystemTags = model.SystemTags
 
 	m.CompartmentId = model.CompartmentId
@@ -133,8 +141,6 @@ func (m *CreatePeComanagedDatabaseInsightDetails) UnmarshalJSON(data []byte) (e 
 	m.DatabaseId = model.DatabaseId
 
 	m.DatabaseResourceType = model.DatabaseResourceType
-
-	m.OpsiPrivateEndpointId = model.OpsiPrivateEndpointId
 
 	m.ServiceName = model.ServiceName
 

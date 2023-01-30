@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,44 +9,44 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	shapeDataSourceRepresentation = map[string]interface{}{
+	CoreCoreShapeDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"image_id":            acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_image.test_image.id}`},
 	}
 
-	shapeDataSourceRepresentationForFlexShape = acctest.RepresentationCopyWithNewProperties(shapeDataSourceRepresentation, map[string]interface{}{
-		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: shapeDataSourceFilterRepresentationForFlexShape},
+	CoreCoreShapeDataSourceRepresentationForFlexShape = acctest.RepresentationCopyWithNewProperties(CoreCoreShapeDataSourceRepresentation, map[string]interface{}{
+		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreCoreShapeDataSourceFilterRepresentationForFlexShape},
 	})
 
-	shapeDataSourceFilterRepresentationForFlexShape = map[string]interface{}{
+	CoreCoreShapeDataSourceFilterRepresentationForFlexShape = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `name`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`VM.Standard.E3.Flex`}},
 	}
 
-	shapeResourceRepresentation = map[string]interface{}{
+	CoreCoreShapeResourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"image_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_core_image.test_image.id}`},
 		"shape_name":     acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E2.1`},
 	}
 
-	shapeResourceRepresentationForFlexShape = acctest.GetUpdatedRepresentationCopy("shape_name", acctest.Representation{RepType: acctest.Required, Create: InstanceConfigurationVmShapeForFlex},
-		acctest.RepresentationCopyWithNewProperties(shapeResourceRepresentation, map[string]interface{}{"shape_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceShapeConfigRepresentationForFlexShape}}))
+	CoreCoreShapeResourceRepresentationForFlexShape = acctest.GetUpdatedRepresentationCopy("shape_name", acctest.Representation{RepType: acctest.Required, Create: InstanceConfigurationVmShapeForFlex},
+		acctest.RepresentationCopyWithNewProperties(CoreCoreShapeResourceRepresentation, map[string]interface{}{"shape_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceShapeConfigRepresentationForFlexShape}}))
 
-	commonShapeResourceConfig = AvailabilityDomainConfig +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+	CoreShapeResourceConfig = AvailabilityDomainConfig +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 		})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
 			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 		})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_image", "test_image", acctest.Required, acctest.Create, imageRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_core_image", "test_image", acctest.Required, acctest.Create, CoreImageRepresentation)
 )
 
 // issue-routing-tag: core/computeSharedOwnershipVmAndBm
@@ -67,9 +67,9 @@ func TestCoreShapeResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Add Compatible Image Shape
 		{
-			Config: config + compartmentIdVariableStr + commonShapeResourceConfig + utils.OciImageIdsVariable +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, instanceRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_shape_management", "test_shape", acctest.Required, acctest.Create, shapeResourceRepresentation),
+			Config: config + compartmentIdVariableStr + CoreShapeResourceConfig + utils.OciImageIdsVariable +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_shape_management", "test_shape", acctest.Required, acctest.Create, CoreCoreShapeResourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "image_id"),
 				resource.TestCheckResourceAttr(resourceName, "shape_name", "VM.Standard.E2.1"),
@@ -83,7 +83,7 @@ func TestCoreShapeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", acctest.Required, acctest.Create, shapeDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", acctest.Required, acctest.Create, CoreCoreShapeDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -118,9 +118,9 @@ func TestCoreShapeResource_basic(t *testing.T) {
 		// ------------------ tests for E3.flex shape -------------------
 		// verify Add Compatible Image Shape
 		{
-			Config: config + compartmentIdVariableStr + commonShapeResourceConfig + utils.FlexVmImageIdsVariable +
+			Config: config + compartmentIdVariableStr + CoreShapeResourceConfig + utils.FlexVmImageIdsVariable +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, instanceRepresentationForFlexShape) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_shape_management", "test_shape", acctest.Required, acctest.Create, shapeResourceRepresentationForFlexShape),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_shape_management", "test_shape", acctest.Required, acctest.Create, CoreCoreShapeResourceRepresentationForFlexShape),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "image_id"),
 				resource.TestCheckResourceAttr(resourceName, "shape_name", "VM.Standard.E3.Flex"),
@@ -135,7 +135,7 @@ func TestCoreShapeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", acctest.Required, acctest.Create, shapeDataSourceRepresentationForFlexShape) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", acctest.Required, acctest.Create, CoreCoreShapeDataSourceRepresentationForFlexShape) +
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package opsi
@@ -7,8 +7,8 @@ import (
 	"context"
 	"log"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_opsi "github.com/oracle/oci-go-sdk/v65/opsi"
@@ -34,7 +34,7 @@ func readSingularOpsiExadataInsight(d *schema.ResourceData, m interface{}) error
 type OpsiExadataInsightDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_opsi.OperationsInsightsClient
-	Res    *oci_opsi.ExadataInsight
+	Res    *oci_opsi.GetExadataInsightResponse
 }
 
 func (s *OpsiExadataInsightDataSourceCrud) VoidState() {
@@ -56,7 +56,7 @@ func (s *OpsiExadataInsightDataSourceCrud) Get() error {
 		return err
 	}
 
-	s.Res = &response.ExadataInsight
+	s.Res = &response
 	return nil
 }
 
@@ -66,18 +66,9 @@ func (s *OpsiExadataInsightDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(tfresource.GenerateDataSourceHashID("OpsiExadataInsightsSingularDataSource-", OpsiExadataInsightDataSource(), s.D))
-
-	switch v := (*s.Res).(type) {
+	switch v := (s.Res.ExadataInsight).(type) {
 	case oci_opsi.EmManagedExternalExadataInsight:
 		s.D.Set("entity_source", "EM_MANAGED_EXTERNAL_EXADATA")
-
-		if v.CompartmentId != nil {
-			s.D.Set("compartment_id", *v.CompartmentId)
-		}
-
-		if v.DefinedTags != nil {
-			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
-		}
 
 		if v.EnterpriseManagerBridgeId != nil {
 			s.D.Set("enterprise_manager_bridge_id", *v.EnterpriseManagerBridgeId)
@@ -103,6 +94,18 @@ func (s *OpsiExadataInsightDataSourceCrud) SetData() error {
 			s.D.Set("enterprise_manager_identifier", *v.EnterpriseManagerIdentifier)
 		}
 
+		if v.IsAutoSyncEnabled != nil {
+			s.D.Set("is_auto_sync_enabled", *v.IsAutoSyncEnabled)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
 		if v.ExadataDisplayName != nil {
 			s.D.Set("exadata_display_name", *v.ExadataDisplayName)
 		}
@@ -117,14 +120,6 @@ func (s *OpsiExadataInsightDataSourceCrud) SetData() error {
 
 		s.D.Set("freeform_tags", v.FreeformTags)
 
-		s.D.Set("state", v.LifecycleState)
-
-		s.D.Set("status", v.Status)
-
-		if v.IsAutoSyncEnabled != nil {
-			s.D.Set("is_auto_sync_enabled", *v.IsAutoSyncEnabled)
-		}
-
 		if v.IsVirtualizedExadata != nil {
 			s.D.Set("is_virtualized_exadata", *v.IsVirtualizedExadata)
 		}
@@ -132,6 +127,10 @@ func (s *OpsiExadataInsightDataSourceCrud) SetData() error {
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		s.D.Set("status", v.Status)
 
 		if v.SystemTags != nil {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
@@ -144,9 +143,68 @@ func (s *OpsiExadataInsightDataSourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_opsi.PeComanagedExadataInsight:
+		s.D.Set("entity_source", "PE_COMANAGED_EXADATA")
 
+		if v.ExadataInfraId != nil {
+			s.D.Set("exadata_infra_id", *v.ExadataInfraId)
+		}
+
+		s.D.Set("exadata_infra_resource_type", v.ExadataInfraResourceType)
+
+		if v.ExadataShape != nil {
+			s.D.Set("exadata_shape", *v.ExadataShape)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.ExadataDisplayName != nil {
+			s.D.Set("exadata_display_name", *v.ExadataDisplayName)
+		}
+
+		if v.ExadataName != nil {
+			s.D.Set("exadata_name", *v.ExadataName)
+		}
+
+		s.D.Set("exadata_rack_type", v.ExadataRackType)
+
+		s.D.Set("exadata_type", v.ExadataType)
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.IsVirtualizedExadata != nil {
+			s.D.Set("is_virtualized_exadata", *v.IsVirtualizedExadata)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		s.D.Set("status", v.Status)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	default:
-		log.Printf("[WARN] Received 'entity_source' of unknown type %v", *s.Res)
+		log.Printf("[WARN] Received 'entity_source' of unknown type %v", s.Res.ExadataInsight)
+		return nil
 	}
 
 	return nil

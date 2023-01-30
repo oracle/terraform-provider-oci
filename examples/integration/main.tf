@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {
@@ -58,6 +58,7 @@ resource "oci_integration_integration_instance" "test_integration_instance" {
 
   idcs_at                = var.integration_instance_idcs_access_token
   is_file_server_enabled = true
+  is_visual_builder_enabled = true
   state                  = "ACTIVE"
 
   network_endpoint_details {

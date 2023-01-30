@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -161,16 +161,19 @@ type ListWorkRequestErrorsSortByEnum string
 const (
 	ListWorkRequestErrorsSortByTimeCreated ListWorkRequestErrorsSortByEnum = "TIME_CREATED"
 	ListWorkRequestErrorsSortByDisplayName ListWorkRequestErrorsSortByEnum = "DISPLAY_NAME"
+	ListWorkRequestErrorsSortByTimeUpdated ListWorkRequestErrorsSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListWorkRequestErrorsSortByEnum = map[string]ListWorkRequestErrorsSortByEnum{
 	"TIME_CREATED": ListWorkRequestErrorsSortByTimeCreated,
 	"DISPLAY_NAME": ListWorkRequestErrorsSortByDisplayName,
+	"TIME_UPDATED": ListWorkRequestErrorsSortByTimeUpdated,
 }
 
 var mappingListWorkRequestErrorsSortByEnumLowerCase = map[string]ListWorkRequestErrorsSortByEnum{
 	"time_created": ListWorkRequestErrorsSortByTimeCreated,
 	"display_name": ListWorkRequestErrorsSortByDisplayName,
+	"time_updated": ListWorkRequestErrorsSortByTimeUpdated,
 }
 
 // GetListWorkRequestErrorsSortByEnumValues Enumerates the set of values for ListWorkRequestErrorsSortByEnum
@@ -187,6 +190,7 @@ func GetListWorkRequestErrorsSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 

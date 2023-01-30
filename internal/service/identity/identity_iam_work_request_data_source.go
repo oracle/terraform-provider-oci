@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package identity
@@ -9,8 +9,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v65/identity"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func IdentityIamWorkRequestDataSource() *schema.Resource {
@@ -158,24 +158,4 @@ func (s *IdentityIamWorkRequestDataSourceCrud) SetData() error {
 	}
 
 	return nil
-}
-
-func IamWorkRequestResourceToMap(obj oci_identity.IamWorkRequestResource) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	result["action_type"] = string(obj.ActionType)
-
-	if obj.EntityType != nil {
-		result["entity_type"] = string(*obj.EntityType)
-	}
-
-	if obj.EntityUri != nil {
-		result["entity_uri"] = string(*obj.EntityUri)
-	}
-
-	if obj.Identifier != nil {
-		result["identifier"] = string(*obj.Identifier)
-	}
-
-	return result
 }

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -8,14 +8,14 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -28,7 +28,7 @@ var (
 		"security_assessment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_security_assessment.test_security_assessment1.id}`},
 	}
 
-	SetSecurityAssessmentBaselineResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment1", acctest.Required, acctest.Create, securityAssessmentRepresentation) +
+	DataSafeSetSecurityAssessmentBaselineResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment1", acctest.Required, acctest.Create, securityAssessmentRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment2", acctest.Required, acctest.Create, securityAssessmentRepresentation)
 )
 
@@ -49,13 +49,13 @@ func TestDataSafeSetSecurityAssessmentBaselineResource_basic(t *testing.T) {
 
 	var resId string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+SetSecurityAssessmentBaselineResourceDependencies+targetIdVariableStr+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DataSafeSetSecurityAssessmentBaselineResourceDependencies+targetIdVariableStr+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_set_security_assessment_baseline", "test_set_security_assessment_baseline", acctest.Optional, acctest.Create, setSecurityAssessmentBaselineRepresentation), "datasafe", "setSecurityAssessmentBaseline", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + SetSecurityAssessmentBaselineResourceDependencies + targetIdVariableStr +
+			Config: config + compartmentIdVariableStr + DataSafeSetSecurityAssessmentBaselineResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_set_security_assessment_baseline", "test_set_security_assessment_baseline", acctest.Optional, acctest.Create, setSecurityAssessmentBaselineRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "security_assessment_id"),
@@ -64,11 +64,11 @@ func TestDataSafeSetSecurityAssessmentBaselineResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + SetSecurityAssessmentBaselineResourceDependencies + targetIdVariableStr,
+			Config: config + compartmentIdVariableStr + DataSafeSetSecurityAssessmentBaselineResourceDependencies + targetIdVariableStr,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + SetSecurityAssessmentBaselineResourceDependencies + targetIdVariableStr +
+			Config: config + compartmentIdVariableStr + DataSafeSetSecurityAssessmentBaselineResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_set_security_assessment_baseline", "test_set_security_assessment_baseline", acctest.Optional, acctest.Create, setSecurityAssessmentBaselineRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "assessment_ids.#", "1"),
@@ -86,7 +86,7 @@ func TestDataSafeSetSecurityAssessmentBaselineResource_basic(t *testing.T) {
 			),
 		},
 		{
-			Config: config + compartmentIdVariableStr + SetSecurityAssessmentBaselineResourceDependencies + targetIdVariableStr +
+			Config: config + compartmentIdVariableStr + DataSafeSetSecurityAssessmentBaselineResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_unset_security_assessment_baseline", "test_unset_security_assessment_baseline", acctest.Required, acctest.Create, unsetSecAssessmentBaselineRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				func(s *terraform.State) (err error) {

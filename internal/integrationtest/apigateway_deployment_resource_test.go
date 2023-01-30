@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -11,17 +11,17 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
 	deploymentRepresentationJwt = acctest.GetUpdatedRepresentationCopy(
 		"specification.request_policies.authentication.type",
 		acctest.Representation{RepType: acctest.Required, Create: `JWT_AUTHENTICATION`, Update: `JWT_AUTHENTICATION`},
-		deploymentRepresentation)
+		ApigatewayDeploymentRepresentation)
 	deploymentRepresentationWithMtlsDisabled = acctest.GetUpdatedRepresentationCopy(
 		"specification.request_policies.mutual_tls.is_verified_certificate_required",
 		acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
@@ -38,7 +38,7 @@ var (
 		"specification.request_policies.authentication.public_keys.keys.key",
 	}, deploymentRepresentationWithMtlsDisabled)
 
-	DeploymentResourceConfigCommon = DeploymentResourceDependenciesWithoutCABundle + acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Required, acctest.Create, gatewayRepresentation)
+	DeploymentResourceConfigCommon = DeploymentResourceDependenciesWithoutCABundle + acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Required, acctest.Create, ApigatewayRepresentation)
 
 	DeploymentResourceConfigJwt = DeploymentResourceConfigCommon +
 		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Update, deploymentRepresentationJwtStaticKeys)
@@ -132,12 +132,21 @@ func TestResourceApigatewayDeploymentResourceJwt_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.rate_limiting.0.rate_key", "CLIENT_IP"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "specification.0.routes.0.backend.0.connect_timeout_in_seconds"),
-				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.is_ssl_verify_disabled", "false"),
-				resource.TestCheckResourceAttrSet(resourceName, "specification.0.routes.0.backend.0.read_timeout_in_seconds"),
-				resource.TestCheckResourceAttrSet(resourceName, "specification.0.routes.0.backend.0.send_timeout_in_seconds"),
-				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.type", "HTTP_BACKEND"),
-				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.url", "https://api.weather.gov"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.0.type", "ANY_OF"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.0.values.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.0.name", "key1"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.backend.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.backend.0.type", "HTTP_BACKEND"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.backend.0.url", "https://api.weather.gov"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.backend.0.is_ssl_verify_disabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.backend.0.connect_timeout_in_seconds"),
+				resource.TestCheckResourceAttrSet(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.backend.0.read_timeout_in_seconds"),
+				resource.TestCheckResourceAttrSet(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.backend.0.send_timeout_in_seconds"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.selection_source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.selection_source.0.selector", "request.headers[route]"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.selection_source.0.type", "SINGLE"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.logging_policies.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.logging_policies.0.access_log.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.logging_policies.0.access_log.0.is_enabled", "false"),
@@ -220,12 +229,17 @@ func TestResourceApigatewayDeploymentResourceJwt_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.rate_limiting.0.rate_key", "TOTAL"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "specification.0.routes.0.backend.0.connect_timeout_in_seconds"),
-				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.is_ssl_verify_disabled", "false"),
-				resource.TestCheckResourceAttrSet(resourceName, "specification.0.routes.0.backend.0.read_timeout_in_seconds"),
-				resource.TestCheckResourceAttrSet(resourceName, "specification.0.routes.0.backend.0.send_timeout_in_seconds"),
-				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.type", "HTTP_BACKEND"),
-				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.url", "https://www.oracle.com"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.0.type", "ANY_OF"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.0.values.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.0.name", "key2"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.backend.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.backend.0.type", "HTTP_BACKEND"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.routing_backends.0.backend.0.url", "https://www.oracle.com"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.selection_source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.selection_source.0.selector", "request.subdomain[oracle.com]"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.backend.0.selection_source.0.type", "SINGLE"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.logging_policies.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.logging_policies.0.access_log.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.logging_policies.0.access_log.0.is_enabled", "true"),
@@ -260,7 +274,7 @@ func TestResourceApigatewayDeploymentResourceJwt_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + imageVariableStr +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_deployments", "test_deployments", acctest.Optional, acctest.Update, deploymentDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_deployments", "test_deployments", acctest.Optional, acctest.Update, ApigatewayDeploymentDataSourceRepresentation) +
 				compartmentIdVariableStr + DeploymentResourceConfigCommon +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Update, deploymentRepresentationJwtStaticKeys),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -278,7 +292,7 @@ func TestResourceApigatewayDeploymentResourceJwt_basic(t *testing.T) {
 		//verify singular datasource
 		{
 			Config: config + imageVariableStr +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Required, acctest.Create, deploymentSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Required, acctest.Create, ApigatewayDeploymentSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DeploymentResourceConfigJwt,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_id"),
@@ -331,12 +345,17 @@ func TestResourceApigatewayDeploymentResourceJwt_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.request_policies.0.rate_limiting.0.rate_key", "TOTAL"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.backend.#", "1"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "specification.0.routes.0.backend.0.connect_timeout_in_seconds"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.backend.0.is_ssl_verify_disabled", "false"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "specification.0.routes.0.backend.0.read_timeout_in_seconds"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "specification.0.routes.0.backend.0.send_timeout_in_seconds"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.backend.0.type", "HTTP_BACKEND"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.backend.0.url", "https://www.oracle.com"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.backend.0.routing_backends.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.0.type", "ANY_OF"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.0.values.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.backend.0.routing_backends.0.key.0.name", "key2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.backend.0.routing_backends.0.backend.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.backend.0.routing_backends.0.backend.0.type", "HTTP_BACKEND"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.backend.0.routing_backends.0.backend.0.url", "https://www.oracle.com"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.backend.0.selection_source.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.backend.0.selection_source.0.selector", "request.subdomain[oracle.com]"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.backend.0.selection_source.0.type", "SINGLE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.logging_policies.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.logging_policies.0.access_log.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.logging_policies.0.access_log.0.is_enabled", "true"),
@@ -360,7 +379,7 @@ func TestResourceApigatewayDeploymentResourceJwt_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + DeploymentRequiredOnlyResource,
+			Config:            config + ApigatewayDeploymentRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

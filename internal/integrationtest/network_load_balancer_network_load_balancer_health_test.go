@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,22 +7,22 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	networkLoadBalancerHealthSingularDataSourceRepresentation = map[string]interface{}{
+	NetworkLoadBalancerNetworkLoadBalancerNetworkLoadBalancerHealthSingularDataSourceRepresentation = map[string]interface{}{
 		"network_load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
 	}
 
-	NetworkLoadBalancerHealthResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Required, acctest.Create, networkLoadBalancerRepresentation)
+	NetworkLoadBalancerNetworkLoadBalancerHealthResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Required, acctest.Create, NetworkLoadBalancerNetworkLoadBalancerRepresentation)
 )
 
 // issue-routing-tag: network_load_balancer/default
@@ -41,8 +41,8 @@ func TestNetworkLoadBalancerNetworkLoadBalancerHealthResource_basic(t *testing.T
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer_health", "test_network_load_balancer_health", acctest.Required, acctest.Create, networkLoadBalancerHealthSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + NetworkLoadBalancerHealthResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer_health", "test_network_load_balancer_health", acctest.Required, acctest.Create, NetworkLoadBalancerNetworkLoadBalancerNetworkLoadBalancerHealthSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + NetworkLoadBalancerNetworkLoadBalancerHealthResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_load_balancer_id"),
 

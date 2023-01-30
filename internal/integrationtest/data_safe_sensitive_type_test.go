@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,12 +10,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -23,21 +23,21 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	SensitiveTypeRequiredOnlyResource = SensitiveTypeResourceDependencies +
+	DataSafeSensitiveTypeRequiredOnlyResource = DataSafeSensitiveTypeResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_type", "test_sensitive_type", acctest.Required, acctest.Create, sensitiveTypeRepresentation)
 
-	SensitiveTypeResourceConfig = SensitiveTypeResourceDependencies +
+	DataSafeSensitiveTypeResourceConfig = DataSafeSensitiveTypeResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_type", "test_sensitive_type", acctest.Optional, acctest.Update, sensitiveTypeRepresentation)
 
-	sensitiveTypeSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafesensitiveTypeSingularDataSourceRepresentation = map[string]interface{}{
 		"sensitive_type_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_sensitive_type.test_sensitive_type.id}`},
 	}
 
-	sensitiveTypeDataSourceRepresentation = map[string]interface{}{
+	DataSafesensitiveTypeDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `true`},
@@ -69,7 +69,7 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`system_tags`}},
 	}
 
-	SensitiveTypeResourceDependencies = DefinedTagsDependencies
+	DataSafeSensitiveTypeResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: data_safe/default
@@ -91,13 +91,13 @@ func TestDataSafeSensitiveTypeResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+SensitiveTypeResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DataSafeSensitiveTypeResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_type", "test_sensitive_type", acctest.Optional, acctest.Create, sensitiveTypeRepresentation), "datasafe", "sensitiveType", t)
 
 	acctest.ResourceTest(t, testAccCheckDataSafeSensitiveTypeDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + SensitiveTypeResourceDependencies +
+			Config: config + compartmentIdVariableStr + DataSafeSensitiveTypeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_type", "test_sensitive_type", acctest.Required, acctest.Create, sensitiveTypeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -112,11 +112,11 @@ func TestDataSafeSensitiveTypeResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + SensitiveTypeResourceDependencies,
+			Config: config + compartmentIdVariableStr + DataSafeSensitiveTypeResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + SensitiveTypeResourceDependencies +
+			Config: config + compartmentIdVariableStr + DataSafeSensitiveTypeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_type", "test_sensitive_type", acctest.Optional, acctest.Create, sensitiveTypeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "comment_pattern", "commentPattern"),
@@ -149,7 +149,7 @@ func TestDataSafeSensitiveTypeResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SensitiveTypeResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DataSafeSensitiveTypeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_type", "test_sensitive_type", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(sensitiveTypeRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -183,7 +183,7 @@ func TestDataSafeSensitiveTypeResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + SensitiveTypeResourceDependencies +
+			Config: config + compartmentIdVariableStr + DataSafeSensitiveTypeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_type", "test_sensitive_type", acctest.Optional, acctest.Update, sensitiveTypeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "comment_pattern", "commentPattern2"),
@@ -214,8 +214,8 @@ func TestDataSafeSensitiveTypeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_sensitive_types", "test_sensitive_types", acctest.Optional, acctest.Update, sensitiveTypeDataSourceRepresentation) +
-				compartmentIdVariableStr + SensitiveTypeResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_sensitive_types", "test_sensitive_types", acctest.Optional, acctest.Update, DataSafesensitiveTypeDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeSensitiveTypeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_type", "test_sensitive_type", acctest.Optional, acctest.Update, sensitiveTypeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
@@ -231,8 +231,8 @@ func TestDataSafeSensitiveTypeResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_sensitive_type", "test_sensitive_type", acctest.Required, acctest.Create, sensitiveTypeSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + SensitiveTypeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_sensitive_type", "test_sensitive_type", acctest.Required, acctest.Create, DataSafesensitiveTypeSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafeSensitiveTypeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "sensitive_type_id"),
 
@@ -250,7 +250,7 @@ func TestDataSafeSensitiveTypeResource_basic(t *testing.T) {
 		},
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
-			Config: config + compartmentIdVariableStr + SensitiveTypeResourceConfig,
+			Config: config + compartmentIdVariableStr + DataSafeSensitiveTypeResourceConfig,
 		},
 		// verify resource import
 		{
@@ -319,7 +319,7 @@ func init() {
 
 func sweepDataSafeSensitiveTypeResource(compartment string) error {
 	dataSafeClient := acctest.GetTestClients(&schema.ResourceData{}).DataSafeClient()
-	sensitiveTypeIds, err := getSensitiveTypeIds(compartment)
+	sensitiveTypeIds, err := getDataSafeSensitiveTypeIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -335,14 +335,14 @@ func sweepDataSafeSensitiveTypeResource(compartment string) error {
 				fmt.Printf("Error deleting SensitiveType %s %s, It is possible that the resource is already deleted. Please verify manually \n", sensitiveTypeId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &sensitiveTypeId, sensitiveTypeSweepWaitCondition, time.Duration(3*time.Minute),
-				sensitiveTypeSweepResponseFetchOperation, "data_safe", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &sensitiveTypeId, DataSafesensitiveTypesSweepWaitCondition, time.Duration(3*time.Minute),
+				DataSafesensitiveTypesSweepResponseFetchOperation, "data_safe", true)
 		}
 	}
 	return nil
 }
 
-func getSensitiveTypeIds(compartment string) ([]string, error) {
+func getDataSafeSensitiveTypeIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "SensitiveTypeId")
 	if ids != nil {
 		return ids, nil
@@ -369,7 +369,7 @@ func getSensitiveTypeIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func sensitiveTypeSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DataSafesensitiveTypesSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if sensitiveTypeResponse, ok := response.Response.(oci_data_safe.GetSensitiveTypeResponse); ok {
 		return sensitiveTypeResponse.GetLifecycleState() != oci_data_safe.DiscoveryLifecycleStateDeleted
@@ -377,7 +377,7 @@ func sensitiveTypeSweepWaitCondition(response common.OCIOperationResponse) bool 
 	return false
 }
 
-func sensitiveTypeSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DataSafesensitiveTypesSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DataSafeClient().GetSensitiveType(context.Background(), oci_data_safe.GetSensitiveTypeRequest{
 		SensitiveTypeId: resourceId,
 		RequestMetadata: common.RequestMetadata{

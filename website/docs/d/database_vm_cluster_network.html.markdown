@@ -51,7 +51,7 @@ The following attributes are exported:
 	* `port` - The SCAN TCPIP port. Default is 1521.
 	* `scan_listener_port_tcp` - The SCAN TCPIP port. Default is 1521.
 	* `scan_listener_port_tcp_ssl` - The SCAN TCPIP SSL port. Default is 2484.
-* `state` - The current state of the VM cluster network.
+* `state` - The current state of the VM cluster network. CREATING - The resource is being created REQUIRES_VALIDATION - The resource is created and may not be usable until it is validated. VALIDATING - The resource is being validated and not available to use. VALIDATED - The resource is validated and is available for consumption by VM cluster. VALIDATION_FAILED - The resource validation has failed and might require user input to be corrected. UPDATING - The resource is being updated and not available to use. ALLOCATED - The resource is is currently being used by VM cluster. TERMINATING - The resource is being deleted and not available to use. TERMINATED - The resource is deleted and unavailable. FAILED - The resource is in a failed state due to validation or other errors. NEEDS_ATTENTION - The resource is in needs attention state as some of it's child nodes are not validated and unusable by VM cluster. 
 * `time_created` - The date and time when the VM cluster network was created.
 * `vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated VM Cluster.
 * `vm_networks` - Details of the client and backup networks.
@@ -60,8 +60,10 @@ The following attributes are exported:
 	* `netmask` - The network netmask.
 	* `network_type` - The network type.
 	* `nodes` - The list of node details.
+		* `db_server_id` - The Db server associated with the node.
 		* `hostname` - The node host name.
 		* `ip` - The node IP address.
+		* `state` - The current state of the VM cluster network nodes. CREATING - The resource is being created REQUIRES_VALIDATION - The resource is created and may not be usable until it is validated. VALIDATING - The resource is being validated and not available to use. VALIDATED - The resource is validated and is available for consumption by VM cluster. VALIDATION_FAILED - The resource validation has failed and might require user input to be corrected. UPDATING - The resource is being updated and not available to use. ALLOCATED - The resource is currently being used by VM cluster. TERMINATING - The resource is being deleted and not available to use. TERMINATED - The resource is deleted and unavailable. FAILED - The resource is in a failed state due to validation or other errors. 
 		* `vip` - The node virtual IP (VIP) address.
 		* `vip_hostname` - The node virtual IP (VIP) host name.
 	* `vlan_id` - The network VLAN ID.

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,43 +16,43 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	PublicIpPoolRequiredOnlyResource = PublicIpPoolResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", acctest.Required, acctest.Create, publicIpPoolRepresentation)
+	CorePublicIpPoolRequiredOnlyResource = CorePublicIpPoolResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", acctest.Required, acctest.Create, CorePublicPoolRepresentation)
 
-	PublicIpPoolResourceConfig = PublicIpPoolResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", acctest.Optional, acctest.Update, publicIpPoolRepresentation)
+	CorePublicIpPoolResourceConfig = CorePublicIpPoolResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", acctest.Optional, acctest.Update, CorePublicPoolRepresentation)
 
-	publicIpPoolSingularDataSourceRepresentation = map[string]interface{}{
+	CoreCorePublicIpPoolSingularDataSourceRepresentation = map[string]interface{}{
 		"public_ip_pool_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_public_ip_pool.test_public_ip_pool.id}`},
 	}
 
-	publicIpPoolDataSourceRepresentation = map[string]interface{}{
+	CoreCorePublicIpPoolDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"byoip_range_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.byoip_range_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: publicIpPoolDataSourceFilterRepresentation}}
-	publicIpPoolDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CorePublicIpPoolDataSourceFilterRepresentation}}
+	CorePublicIpPoolDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_public_ip_pool.test_public_ip_pool.id}`}},
 	}
 
-	publicIpPoolRepresentation = map[string]interface{}{
+	CorePublicPoolRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	PublicIpPoolResourceDependencies = DefinedTagsDependencies + byoipRangeIdVariableStr + publicIpPoolCidrBlockVariableStr
+	CorePublicIpPoolResourceDependencies = DefinedTagsDependencies + byoipRangeIdVariableStr + publicIpPoolCidrBlockVariableStr
 )
 
 // issue-routing-tag: core/vcnip
@@ -74,15 +74,15 @@ func TestCorePublicIpPoolResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+PublicIpPoolResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", acctest.Optional, acctest.Create, publicIpPoolRepresentation), "core", "publicIpPool", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CorePublicIpPoolResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", acctest.Optional, acctest.Create, CorePublicPoolRepresentation), "core", "publicIpPool", t)
 
 	acctest.ResourceTest(t, testAccCheckCorePublicIpPoolDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + PublicIpPoolResourceDependencies +
+			Config: config + compartmentIdVariableStr + CorePublicIpPoolResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", acctest.Required, acctest.Create, publicIpPoolCapacityRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", acctest.Required, acctest.Create, publicIpPoolRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", acctest.Required, acctest.Create, CorePublicPoolRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
@@ -95,13 +95,13 @@ func TestCorePublicIpPoolResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + PublicIpPoolResourceDependencies,
+			Config: config + compartmentIdVariableStr + CorePublicIpPoolResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + PublicIpPoolResourceDependencies +
+			Config: config + compartmentIdVariableStr + CorePublicIpPoolResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", acctest.Required, acctest.Create, publicIpPoolCapacityRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", acctest.Optional, acctest.Create, publicIpPoolRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", acctest.Optional, acctest.Create, CorePublicPoolRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -123,10 +123,10 @@ func TestCorePublicIpPoolResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + PublicIpPoolResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CorePublicIpPoolResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", acctest.Required, acctest.Create, publicIpPoolCapacityRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(publicIpPoolRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CorePublicPoolRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -148,9 +148,9 @@ func TestCorePublicIpPoolResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + PublicIpPoolResourceDependencies +
+			Config: config + compartmentIdVariableStr + CorePublicIpPoolResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", acctest.Required, acctest.Create, publicIpPoolCapacityRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", acctest.Optional, acctest.Update, publicIpPoolRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", acctest.Optional, acctest.Update, CorePublicPoolRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -170,10 +170,10 @@ func TestCorePublicIpPoolResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_public_ip_pools", "test_public_ip_pools", acctest.Optional, acctest.Update, publicIpPoolDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_public_ip_pools", "test_public_ip_pools", acctest.Optional, acctest.Update, CoreCorePublicIpPoolDataSourceRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", acctest.Required, acctest.Create, publicIpPoolCapacityRepresentation) +
-				compartmentIdVariableStr + PublicIpPoolResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", acctest.Optional, acctest.Update, publicIpPoolRepresentation),
+				compartmentIdVariableStr + CorePublicIpPoolResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", acctest.Optional, acctest.Update, CorePublicPoolRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "byoip_range_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -186,9 +186,9 @@ func TestCorePublicIpPoolResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", acctest.Required, acctest.Create, publicIpPoolSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", acctest.Required, acctest.Create, CoreCorePublicIpPoolSingularDataSourceRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", acctest.Required, acctest.Create, publicIpPoolCapacityRepresentation) +
-				compartmentIdVariableStr + PublicIpPoolResourceConfig,
+				compartmentIdVariableStr + CorePublicIpPoolResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "public_ip_pool_id"),
 
@@ -203,7 +203,7 @@ func TestCorePublicIpPoolResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + PublicIpPoolRequiredOnlyResource,
+			Config:                  config + CorePublicIpPoolRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -267,7 +267,7 @@ func init() {
 
 func sweepCorePublicIpPoolResource(compartment string) error {
 	virtualNetworkClient := acctest.GetTestClients(&schema.ResourceData{}).VirtualNetworkClient()
-	publicIpPoolIds, err := getPublicIpPoolIds(compartment)
+	publicIpPoolIds, err := getCorePublicIpPoolIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -283,14 +283,14 @@ func sweepCorePublicIpPoolResource(compartment string) error {
 				fmt.Printf("Error deleting PublicIpPool %s %s, It is possible that the resource is already deleted. Please verify manually \n", publicIpPoolId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &publicIpPoolId, publicIpPoolSweepWaitCondition, time.Duration(3*time.Minute),
-				publicIpPoolSweepResponseFetchOperation, "core", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &publicIpPoolId, CorePublicIpPoolSweepWaitCondition, time.Duration(3*time.Minute),
+				CorePublicIpPoolSweepResponseFetchOperation, "core", true)
 		}
 	}
 	return nil
 }
 
-func getPublicIpPoolIds(compartment string) ([]string, error) {
+func getCorePublicIpPoolIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "PublicIpPoolId")
 	if ids != nil {
 		return ids, nil
@@ -314,7 +314,7 @@ func getPublicIpPoolIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func publicIpPoolSweepWaitCondition(response common.OCIOperationResponse) bool {
+func CorePublicIpPoolSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if publicIpPoolResponse, ok := response.Response.(oci_core.GetPublicIpPoolResponse); ok {
 		return publicIpPoolResponse.LifecycleState != oci_core.PublicIpPoolLifecycleStateDeleted
@@ -322,7 +322,7 @@ func publicIpPoolSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func publicIpPoolSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CorePublicIpPoolSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.VirtualNetworkClient().GetPublicIpPool(context.Background(), oci_core.GetPublicIpPoolRequest{
 		PublicIpPoolId: resourceId,
 		RequestMetadata: common.RequestMetadata{

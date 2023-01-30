@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -44,6 +44,9 @@ type AlarmStatusSummary struct {
 	TimestampTriggered *common.SDKTime `mandatory:"true" json:"timestampTriggered"`
 
 	// The status of this alarm.
+	// Status is collective, across all metric streams in the alarm.
+	// To list alarm status for each metric stream, use RetrieveDimensionStates.
+	// The alarm attribute `isNotificationsPerMetricDimensionEnabled` must be set to `true`.
 	// Example: `FIRING`
 	Status AlarmStatusSummaryStatusEnum `mandatory:"true" json:"status"`
 

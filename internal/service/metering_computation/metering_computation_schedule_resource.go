@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package metering_computation
@@ -17,8 +17,8 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_metering_computation "github.com/oracle/oci-go-sdk/v65/usageapi"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func MeteringComputationScheduleResource() *schema.Resource {
@@ -43,9 +43,81 @@ func MeteringComputationScheduleResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"query_properties": {
+			"result_location": {
 				Type:     schema.TypeList,
 				Required: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"bucket": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"location_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"OBJECT_STORAGE",
+							}, true),
+						},
+						"namespace": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"region": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
+			"schedule_recurrences": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"time_scheduled": {
+				Type:             schema.TypeString,
+				Required:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+			},
+
+			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
+			"description": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
+			"output_file_format": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"query_properties": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
 				ForceNew: true,
 				MaxItems: 1,
 				MinItems: 1,
@@ -176,71 +248,11 @@ func MeteringComputationScheduleResource() *schema.Resource {
 					},
 				},
 			},
-			"result_location": {
-				Type:     schema.TypeList,
-				Required: true,
-				ForceNew: true,
-				MaxItems: 1,
-				MinItems: 1,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-						"bucket": {
-							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
-						},
-						"location_type": {
-							Type:             schema.TypeString,
-							Required:         true,
-							ForceNew:         true,
-							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
-							ValidateFunc: validation.StringInSlice([]string{
-								"OBJECT_STORAGE",
-							}, true),
-						},
-						"namespace": {
-							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
-						},
-						"region": {
-							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
-						},
-
-						// Optional
-
-						// Computed
-					},
-				},
-			},
-			"schedule_recurrences": {
+			"saved_report_id": {
 				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
-			"time_scheduled": {
-				Type:             schema.TypeString,
-				Required:         true,
-				ForceNew:         true,
-				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
-			},
-
-			// Optional
-			"defined_tags": {
-				Type:             schema.TypeMap,
-				Optional:         true,
-				Computed:         true,
-				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
-				Elem:             schema.TypeString,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
 				Optional: true,
 				Computed: true,
-				Elem:     schema.TypeString,
+				ForceNew: true,
 			},
 
 			// Computed
@@ -254,6 +266,10 @@ func MeteringComputationScheduleResource() *schema.Resource {
 				Elem:     schema.TypeString,
 			},
 			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_next_run": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -339,6 +355,11 @@ func (s *MeteringComputationScheduleResourceCrud) Create() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
+	if description, ok := s.D.GetOkExists("description"); ok {
+		tmp := description.(string)
+		request.Description = &tmp
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -346,6 +367,10 @@ func (s *MeteringComputationScheduleResourceCrud) Create() error {
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
 		request.Name = &tmp
+	}
+
+	if outputFileFormat, ok := s.D.GetOkExists("output_file_format"); ok {
+		request.OutputFileFormat = oci_metering_computation.CreateScheduleDetailsOutputFileFormatEnum(outputFileFormat.(string))
 	}
 
 	if queryProperties, ok := s.D.GetOkExists("query_properties"); ok {
@@ -368,6 +393,11 @@ func (s *MeteringComputationScheduleResourceCrud) Create() error {
 			}
 			request.ResultLocation = tmp
 		}
+	}
+
+	if savedReportId, ok := s.D.GetOkExists("saved_report_id"); ok {
+		tmp := savedReportId.(string)
+		request.SavedReportId = &tmp
 	}
 
 	if scheduleRecurrences, ok := s.D.GetOkExists("schedule_recurrences"); ok {
@@ -422,8 +452,28 @@ func (s *MeteringComputationScheduleResourceCrud) Update() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
+	if description, ok := s.D.GetOkExists("description"); ok {
+		tmp := description.(string)
+		request.Description = &tmp
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if outputFileFormat, ok := s.D.GetOkExists("output_file_format"); ok {
+		request.OutputFileFormat = oci_metering_computation.UpdateScheduleDetailsOutputFileFormatEnum(outputFileFormat.(string))
+	}
+
+	if resultLocation, ok := s.D.GetOkExists("result_location"); ok {
+		if tmpList := resultLocation.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "result_location", 0)
+			tmp, err := s.mapToResultLocation(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ResultLocation = tmp
+		}
 	}
 
 	tmp := s.D.Id()
@@ -461,11 +511,17 @@ func (s *MeteringComputationScheduleResourceCrud) SetData() error {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
+	if s.Res.Description != nil {
+		s.D.Set("description", *s.Res.Description)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
+
+	s.D.Set("output_file_format", s.Res.OutputFileFormat)
 
 	if s.Res.QueryProperties != nil {
 		s.D.Set("query_properties", []interface{}{QueryPropertiesToMap(s.Res.QueryProperties)})
@@ -483,6 +539,10 @@ func (s *MeteringComputationScheduleResourceCrud) SetData() error {
 		s.D.Set("result_location", nil)
 	}
 
+	if s.Res.SavedReportId != nil {
+		s.D.Set("saved_report_id", *s.Res.SavedReportId)
+	}
+
 	if s.Res.ScheduleRecurrences != nil {
 		s.D.Set("schedule_recurrences", *s.Res.ScheduleRecurrences)
 	}
@@ -495,6 +555,10 @@ func (s *MeteringComputationScheduleResourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeNextRun != nil {
+		s.D.Set("time_next_run", s.Res.TimeNextRun.String())
 	}
 
 	if s.Res.TimeScheduled != nil {
@@ -746,6 +810,10 @@ func ScheduleSummaryToMap(obj oci_metering_computation.ScheduleSummary) map[stri
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
 	}
 
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
 	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
@@ -764,6 +832,10 @@ func ScheduleSummaryToMap(obj oci_metering_computation.ScheduleSummary) map[stri
 
 	if obj.SystemTags != nil {
 		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
+
+	if obj.TimeNextRun != nil {
+		result["time_next_run"] = obj.TimeNextRun.String()
 	}
 
 	if obj.TimeScheduled != nil {

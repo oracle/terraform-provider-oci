@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -20,18 +20,21 @@ type CreationSourceTypeEnum string
 const (
 	CreationSourceTypeEmBridge            CreationSourceTypeEnum = "EM_BRIDGE"
 	CreationSourceTypeServiceConnectorHub CreationSourceTypeEnum = "SERVICE_CONNECTOR_HUB"
+	CreationSourceTypeDiscovery           CreationSourceTypeEnum = "DISCOVERY"
 	CreationSourceTypeNone                CreationSourceTypeEnum = "NONE"
 )
 
 var mappingCreationSourceTypeEnum = map[string]CreationSourceTypeEnum{
 	"EM_BRIDGE":             CreationSourceTypeEmBridge,
 	"SERVICE_CONNECTOR_HUB": CreationSourceTypeServiceConnectorHub,
+	"DISCOVERY":             CreationSourceTypeDiscovery,
 	"NONE":                  CreationSourceTypeNone,
 }
 
 var mappingCreationSourceTypeEnumLowerCase = map[string]CreationSourceTypeEnum{
 	"em_bridge":             CreationSourceTypeEmBridge,
 	"service_connector_hub": CreationSourceTypeServiceConnectorHub,
+	"discovery":             CreationSourceTypeDiscovery,
 	"none":                  CreationSourceTypeNone,
 }
 
@@ -49,6 +52,7 @@ func GetCreationSourceTypeEnumStringValues() []string {
 	return []string{
 		"EM_BRIDGE",
 		"SERVICE_CONNECTOR_HUB",
+		"DISCOVERY",
 		"NONE",
 	}
 }

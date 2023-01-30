@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 package auth
@@ -23,7 +23,7 @@ func (ipe instancePrincipalDelegationTokenError) Error() string {
 	return fmt.Sprintf("%s\nInstance principals delegation token authentication can only be used on specific OCI services. Please confirm this code is running on the correct environment", ipe.err.Error())
 }
 
-//InstancePrincipalDelegationTokenConfigurationProvider returns a configuration for obo token instance principals
+// InstancePrincipalDelegationTokenConfigurationProvider returns a configuration for obo token instance principals
 func InstancePrincipalDelegationTokenConfigurationProvider(delegationToken *string) (common.ConfigurationProvider, error) {
 	if delegationToken == nil || len(*delegationToken) == 0 {
 		return nil, instancePrincipalDelegationTokenError{err: fmt.Errorf("failed to create a delagationTokenConfigurationProvider: token is a mandatory input parameter")}
@@ -31,7 +31,7 @@ func InstancePrincipalDelegationTokenConfigurationProvider(delegationToken *stri
 	return newInstancePrincipalDelegationTokenConfigurationProvider(delegationToken, "", nil)
 }
 
-//InstancePrincipalDelegationTokenConfigurationProviderForRegion returns a configuration for obo token instance principals with a given region
+// InstancePrincipalDelegationTokenConfigurationProviderForRegion returns a configuration for obo token instance principals with a given region
 func InstancePrincipalDelegationTokenConfigurationProviderForRegion(delegationToken *string, region common.Region) (common.ConfigurationProvider, error) {
 	if delegationToken == nil || len(*delegationToken) == 0 {
 		return nil, instancePrincipalDelegationTokenError{err: fmt.Errorf("failed to create a delagationTokenConfigurationProvider: token is a mandatory input parameter")}

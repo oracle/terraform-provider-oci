@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,24 +9,23 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	categorySingularDataSourceRepresentation = map[string]interface{}{
+	OptimizerOptimizerCategorySingularDataSourceRepresentation = map[string]interface{}{
 		"category_id": acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_optimizer_categories.test_categories.category_collection.0.items[0], "id")}`},
 	}
 
-	optimizerCategoryDataSourceRepresentation = map[string]interface{}{
+	OptimizerOptimizerCategoryDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Required, Create: `true`},
-		"name":                      acctest.Representation{RepType: acctest.Optional, Create: `name`},
-		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `CREATED`},
-		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: categoryDataSourceFilterRepresentation},
+		"include_organization":      acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: OptimizerOptimizerCategoryDataSourceFilterRepresentation},
 	}
-	categoryDataSourceFilterRepresentation = map[string]interface{}{
+	OptimizerOptimizerCategoryDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `name`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`cost-management-name`}},
 	}
@@ -44,6 +43,9 @@ func TestOptimizerCategoryResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	childTenancyId := utils.GetEnvSettingWithBlankDefault("child_tenancy_id")
+	childTenancyIdVarStr := fmt.Sprintf("variable \"child_tenancy_id\" { default = \"%s\" }\n", childTenancyId)
+
 	datasourceName := "data.oci_optimizer_categories.test_categories"
 	singularDatasourceName := "data.oci_optimizer_category.test_category"
 
@@ -53,22 +55,46 @@ func TestOptimizerCategoryResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", acctest.Required, acctest.Create, optimizerCategoryDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", acctest.Required, acctest.Create, OptimizerOptimizerCategoryDataSourceRepresentation) +
 				compartmentIdVariableStr + OptimizerCategoryResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
 				resource.TestCheckResourceAttrSet(datasourceName, "category_collection.0.items.0.name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "category_collection.0.items.0.state"),
-
+				resource.TestCheckResourceAttrSet(datasourceName, "category_collection.#"),
+			),
+		},
+		{
+			Config: config + compartmentIdVariableStr + OptimizerCategoryResourceConfig +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", acctest.Optional, acctest.Create, OptimizerOptimizerCategoryDataSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
+				resource.TestCheckResourceAttrSet(datasourceName, "category_collection.0.items.0.name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "category_collection.0.items.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "category_collection.#"),
+			),
+		},
+		{
+			Config: config + compartmentIdVariableStr + OptimizerCategoryResourceConfig + childTenancyIdVarStr +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", acctest.Required, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(OptimizerOptimizerCategoryDataSourceRepresentation, map[string]interface{}{
+						"child_tenancy_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${var.child_tenancy_id}`}},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
+				resource.TestCheckResourceAttrSet(datasourceName, "category_collection.0.items.0.name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "category_collection.0.items.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "category_collection.#"),
 			),
 		},
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", acctest.Required, acctest.Create, optimizerCategoryDataSourceRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_category", "test_category", acctest.Required, acctest.Create, categorySingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", acctest.Required, acctest.Create, OptimizerOptimizerCategoryDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_category", "test_category", acctest.Required, acctest.Create, OptimizerOptimizerCategorySingularDataSourceRepresentation) +
 				compartmentIdVariableStr + OptimizerCategoryResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "category_id"),

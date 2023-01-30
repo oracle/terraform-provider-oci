@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -109,6 +109,8 @@ const (
 	DataEntitySummaryModelTypeFileEntity      DataEntitySummaryModelTypeEnum = "FILE_ENTITY"
 	DataEntitySummaryModelTypeDataStoreEntity DataEntitySummaryModelTypeEnum = "DATA_STORE_ENTITY"
 	DataEntitySummaryModelTypeSqlEntity       DataEntitySummaryModelTypeEnum = "SQL_ENTITY"
+	DataEntitySummaryModelTypeDerivedEntity   DataEntitySummaryModelTypeEnum = "DERIVED_ENTITY"
+	DataEntitySummaryModelTypeMessageEntity   DataEntitySummaryModelTypeEnum = "MESSAGE_ENTITY"
 )
 
 var mappingDataEntitySummaryModelTypeEnum = map[string]DataEntitySummaryModelTypeEnum{
@@ -117,6 +119,8 @@ var mappingDataEntitySummaryModelTypeEnum = map[string]DataEntitySummaryModelTyp
 	"FILE_ENTITY":       DataEntitySummaryModelTypeFileEntity,
 	"DATA_STORE_ENTITY": DataEntitySummaryModelTypeDataStoreEntity,
 	"SQL_ENTITY":        DataEntitySummaryModelTypeSqlEntity,
+	"DERIVED_ENTITY":    DataEntitySummaryModelTypeDerivedEntity,
+	"MESSAGE_ENTITY":    DataEntitySummaryModelTypeMessageEntity,
 }
 
 var mappingDataEntitySummaryModelTypeEnumLowerCase = map[string]DataEntitySummaryModelTypeEnum{
@@ -125,6 +129,8 @@ var mappingDataEntitySummaryModelTypeEnumLowerCase = map[string]DataEntitySummar
 	"file_entity":       DataEntitySummaryModelTypeFileEntity,
 	"data_store_entity": DataEntitySummaryModelTypeDataStoreEntity,
 	"sql_entity":        DataEntitySummaryModelTypeSqlEntity,
+	"derived_entity":    DataEntitySummaryModelTypeDerivedEntity,
+	"message_entity":    DataEntitySummaryModelTypeMessageEntity,
 }
 
 // GetDataEntitySummaryModelTypeEnumValues Enumerates the set of values for DataEntitySummaryModelTypeEnum
@@ -144,6 +150,8 @@ func GetDataEntitySummaryModelTypeEnumStringValues() []string {
 		"FILE_ENTITY",
 		"DATA_STORE_ENTITY",
 		"SQL_ENTITY",
+		"DERIVED_ENTITY",
+		"MESSAGE_ENTITY",
 	}
 }
 

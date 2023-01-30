@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -18,13 +18,16 @@ import (
 
 // Operation The operation object.
 type Operation interface {
+	GetOperationAttributes() AbstractOperationAttributes
+
 	GetMetadata() *ObjectMetadata
 }
 
 type operation struct {
-	JsonData  []byte
-	Metadata  *ObjectMetadata `mandatory:"false" json:"metadata"`
-	ModelType string          `json:"modelType"`
+	JsonData            []byte
+	OperationAttributes AbstractOperationAttributes `mandatory:"false" json:"operationAttributes"`
+	Metadata            *ObjectMetadata             `mandatory:"false" json:"metadata"`
+	ModelType           string                      `json:"modelType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -38,6 +41,7 @@ func (m *operation) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	m.OperationAttributes = s.Model.OperationAttributes
 	m.Metadata = s.Model.Metadata
 	m.ModelType = s.Model.ModelType
 
@@ -57,9 +61,18 @@ func (m *operation) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := OperationFromProcedure{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "API":
+		mm := OperationFromApi{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}
+}
+
+//GetOperationAttributes returns OperationAttributes
+func (m operation) GetOperationAttributes() AbstractOperationAttributes {
+	return m.OperationAttributes
 }
 
 //GetMetadata returns Metadata
@@ -89,14 +102,17 @@ type OperationModelTypeEnum string
 // Set of constants representing the allowable values for OperationModelTypeEnum
 const (
 	OperationModelTypeProcedure OperationModelTypeEnum = "PROCEDURE"
+	OperationModelTypeApi       OperationModelTypeEnum = "API"
 )
 
 var mappingOperationModelTypeEnum = map[string]OperationModelTypeEnum{
 	"PROCEDURE": OperationModelTypeProcedure,
+	"API":       OperationModelTypeApi,
 }
 
 var mappingOperationModelTypeEnumLowerCase = map[string]OperationModelTypeEnum{
 	"procedure": OperationModelTypeProcedure,
+	"api":       OperationModelTypeApi,
 }
 
 // GetOperationModelTypeEnumValues Enumerates the set of values for OperationModelTypeEnum
@@ -112,6 +128,7 @@ func GetOperationModelTypeEnumValues() []OperationModelTypeEnum {
 func GetOperationModelTypeEnumStringValues() []string {
 	return []string{
 		"PROCEDURE",
+		"API",
 	}
 }
 

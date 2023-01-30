@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -33,6 +33,26 @@ type CreateCloudAutonomousVmClusterDetails struct {
 	// User defined description of the cloud Autonomous VM cluster.
 	Description *string `mandatory:"false" json:"description"`
 
+	// The total number of Autonomous Container Databases that can be created.
+	TotalContainerDatabases *int `mandatory:"false" json:"totalContainerDatabases"`
+
+	// The number of OCPU cores to be enabled per VM cluster node.
+	CpuCoreCountPerNode *int `mandatory:"false" json:"cpuCoreCountPerNode"`
+
+	// The amount of memory (in GBs) to be enabled per each OCPU core.
+	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
+
+	// The data disk group size to be allocated for Autonomous Databases, in TBs.
+	AutonomousDataStorageSizeInTBs *float64 `mandatory:"false" json:"autonomousDataStorageSizeInTBs"`
+
+	// The time zone to use for the Cloud Autonomous VM cluster. For details, see DB System Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
+	ClusterTimeZone *string `mandatory:"false" json:"clusterTimeZone"`
+
+	// The list of database servers.
+	DbServers []string `mandatory:"false" json:"dbServers"`
+
+	MaintenanceWindowDetails *MaintenanceWindow `mandatory:"false" json:"maintenanceWindowDetails"`
+
 	// The Oracle license model that applies to the Oracle Autonomous Database. Bring your own license (BYOL) allows you to apply your current on-premises Oracle software licenses to equivalent, highly automated Oracle PaaS and IaaS services in the cloud.
 	// License Included allows you to subscribe to new Oracle Database software licenses and the Database service.
 	// Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), this attribute must be null because the attribute is already set at the
@@ -41,7 +61,7 @@ type CreateCloudAutonomousVmClusterDetails struct {
 
 	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
 	// **NsgIds restrictions:**
-	// - Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds list cannot be empty.
+	// - A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

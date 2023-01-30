@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -179,16 +179,19 @@ type ListApplicationsSortByEnum string
 const (
 	ListApplicationsSortByTimeCreated ListApplicationsSortByEnum = "TIME_CREATED"
 	ListApplicationsSortByDisplayName ListApplicationsSortByEnum = "DISPLAY_NAME"
+	ListApplicationsSortByTimeUpdated ListApplicationsSortByEnum = "TIME_UPDATED"
 )
 
 var mappingListApplicationsSortByEnum = map[string]ListApplicationsSortByEnum{
 	"TIME_CREATED": ListApplicationsSortByTimeCreated,
 	"DISPLAY_NAME": ListApplicationsSortByDisplayName,
+	"TIME_UPDATED": ListApplicationsSortByTimeUpdated,
 }
 
 var mappingListApplicationsSortByEnumLowerCase = map[string]ListApplicationsSortByEnum{
 	"time_created": ListApplicationsSortByTimeCreated,
 	"display_name": ListApplicationsSortByDisplayName,
+	"time_updated": ListApplicationsSortByTimeUpdated,
 }
 
 // GetListApplicationsSortByEnumValues Enumerates the set of values for ListApplicationsSortByEnum
@@ -205,6 +208,7 @@ func GetListApplicationsSortByEnumStringValues() []string {
 	return []string{
 		"TIME_CREATED",
 		"DISPLAY_NAME",
+		"TIME_UPDATED",
 	}
 }
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,34 +16,34 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	Ipv6RequiredOnlyResource = Ipv6ResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", acctest.Required, acctest.Create, ipv6Representation)
+	CoreIpv6RequiredOnlyResource = CoreIpv6ResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", acctest.Required, acctest.Create, CoreIpv6Representation)
 
-	Ipv6ResourceConfig = Ipv6ResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", acctest.Optional, acctest.Update, ipv6Representation)
+	CoreIpv6ResourceConfig = CoreIpv6ResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", acctest.Optional, acctest.Update, CoreIpv6Representation)
 
-	ipv6SingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreIpv6SingularDataSourceRepresentation = map[string]interface{}{
 		"ipv6id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_ipv6.test_ipv6.id}`},
 	}
 
-	ipv6DataSourceRepresentation = map[string]interface{}{
+	CoreCoreIpv6DataSourceRepresentation = map[string]interface{}{
 		"vnic_id": acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}`},
-		"filter":  acctest.RepresentationGroup{RepType: acctest.Required, Group: ipv6DataSourceFilterRepresentation}}
-	ipv6DataSourceFilterRepresentation = map[string]interface{}{
+		"filter":  acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreIpv6DataSourceFilterRepresentation}}
+	CoreIpv6DataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_ipv6.test_ipv6.id}`}},
 	}
 
-	ipv6Representation = map[string]interface{}{
+	CoreIpv6Representation = map[string]interface{}{
 		"vnic_id":       acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}`},
 		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
@@ -51,13 +51,13 @@ var (
 		"ip_address":    acctest.Representation{RepType: acctest.Optional, Create: `${substr(oci_core_vcn.test_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_vcn.ipv6cidr_blocks[0]) - 4)}5901:cede:a617:8bba`},
 	}
 
-	Ipv6ResourceDependencies = utils.OciImageIdsVariable +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, instanceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+	CoreIpv6ResourceDependencies = utils.OciImageIdsVariable +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
 			"dns_label":      acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 			"ipv6cidr_block": acctest.Representation{RepType: acctest.Optional, Create: `${substr(oci_core_vcn.test_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_vcn.ipv6cidr_blocks[0]) - 2)}${64}`},
 		})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 			"dns_label":      acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 			"is_ipv6enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		})) +
@@ -88,14 +88,14 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+Ipv6ResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", acctest.Optional, acctest.Create, ipv6Representation), "core", "ipv6", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreIpv6ResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", acctest.Optional, acctest.Create, CoreIpv6Representation), "core", "ipv6", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreIpv6Destroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + Ipv6ResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", acctest.Required, acctest.Create, ipv6Representation),
+			Config: config + compartmentIdVariableStr + CoreIpv6ResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", acctest.Required, acctest.Create, CoreIpv6Representation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
@@ -108,12 +108,12 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + Ipv6ResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreIpv6ResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + Ipv6ResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", acctest.Optional, acctest.Create, ipv6Representation),
+			Config: config + compartmentIdVariableStr + CoreIpv6ResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", acctest.Optional, acctest.Create, CoreIpv6Representation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -139,8 +139,8 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + Ipv6ResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", acctest.Optional, acctest.Update, ipv6Representation),
+			Config: config + compartmentIdVariableStr + CoreIpv6ResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", acctest.Optional, acctest.Update, CoreIpv6Representation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -164,9 +164,9 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipv6s", "test_ipv6s", acctest.Optional, acctest.Update, ipv6DataSourceRepresentation) +
-				compartmentIdVariableStr + Ipv6ResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", acctest.Optional, acctest.Update, ipv6Representation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipv6s", "test_ipv6s", acctest.Optional, acctest.Update, CoreCoreIpv6DataSourceRepresentation) +
+				compartmentIdVariableStr + CoreIpv6ResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", acctest.Optional, acctest.Update, CoreIpv6Representation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "vnic_id"),
 
@@ -183,8 +183,8 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", acctest.Required, acctest.Create, ipv6SingularDataSourceRepresentation) +
-				compartmentIdVariableStr + Ipv6ResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", acctest.Required, acctest.Create, CoreCoreIpv6SingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreIpv6ResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ipv6id"),
 
@@ -197,7 +197,7 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + Ipv6RequiredOnlyResource,
+			Config:            config + CoreIpv6RequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -263,7 +263,7 @@ func init() {
 
 func sweepCoreIpv6Resource(compartment string) error {
 	virtualNetworkClient := acctest.GetTestClients(&schema.ResourceData{}).VirtualNetworkClient()
-	ipv6Ids, err := getIpv6Ids(compartment)
+	ipv6Ids, err := getCoreIpv6Ids(compartment)
 	if err != nil {
 		return err
 	}
@@ -279,14 +279,14 @@ func sweepCoreIpv6Resource(compartment string) error {
 				fmt.Printf("Error deleting Ipv6 %s %s, It is possible that the resource is already deleted. Please verify manually \n", ipv6Id, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &ipv6Id, ipv6SweepWaitCondition, time.Duration(3*time.Minute),
-				ipv6SweepResponseFetchOperation, "core", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &ipv6Id, CoreIpv6SweepWaitCondition, time.Duration(3*time.Minute),
+				CoreIpv6SweepResponseFetchOperation, "core", true)
 		}
 	}
 	return nil
 }
 
-func getIpv6Ids(compartment string) ([]string, error) {
+func getCoreIpv6Ids(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "Ipv6Id")
 	if ids != nil {
 		return ids, nil
@@ -309,7 +309,7 @@ func getIpv6Ids(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func ipv6SweepWaitCondition(response common.OCIOperationResponse) bool {
+func CoreIpv6SweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if ipv6Response, ok := response.Response.(oci_core.GetIpv6Response); ok {
 		return ipv6Response.LifecycleState != oci_core.Ipv6LifecycleStateTerminated
@@ -317,7 +317,7 @@ func ipv6SweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func ipv6SweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CoreIpv6SweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.VirtualNetworkClient().GetIpv6(context.Background(), oci_core.GetIpv6Request{
 		Ipv6Id: resourceId,
 		RequestMetadata: common.RequestMetadata{

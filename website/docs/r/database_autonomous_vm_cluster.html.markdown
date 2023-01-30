@@ -29,10 +29,11 @@ resource "oci_database_autonomous_vm_cluster" "test_autonomous_vm_cluster" {
 	defined_tags = var.autonomous_vm_cluster_defined_tags
 	freeform_tags = {"Department"= "Finance"}
 	is_local_backup_enabled = var.autonomous_vm_cluster_is_local_backup_enabled
+	is_mtls_enabled = var.autonomous_vm_cluster_is_mtls_enabled
 	license_model = var.autonomous_vm_cluster_license_model
 	maintenance_window_details {
-		#Required
-		preference = var.autonomous_vm_cluster_maintenance_window_details_preference
+        #Required
+        		preference = var.autonomous_vm_cluster_maintenance_window_details_preference
 
 		#Optional
 		days_of_week {
@@ -48,6 +49,8 @@ resource "oci_database_autonomous_vm_cluster" "test_autonomous_vm_cluster" {
 		weeks_of_month = var.autonomous_vm_cluster_maintenance_window_details_weeks_of_month
 	}
 	memory_per_oracle_compute_unit_in_gbs = var.autonomous_vm_cluster_memory_per_oracle_compute_unit_in_gbs
+	scan_listener_port_non_tls = var.autonomous_vm_cluster_scan_listener_port_non_tls
+	scan_listener_port_tls = var.autonomous_vm_cluster_scan_listener_port_tls
 	time_zone = var.autonomous_vm_cluster_time_zone
 	total_container_databases = var.autonomous_vm_cluster_total_container_databases
 }
@@ -59,12 +62,13 @@ The following arguments are supported:
 
 * `autonomous_data_storage_size_in_tbs` - (Optional) The data disk group size to be allocated for Autonomous Databases, in TBs.
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-* `cpu_core_count_per_node` - (Optional) The number of OCPU cores to enable per VM cluster node.
+* `cpu_core_count_per_node` - (Optional) The number of CPU cores to enable per VM cluster node.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - (Required) The user-friendly name for the Autonomous VM cluster. The name does not need to be unique.
 * `exadata_infrastructure_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `is_local_backup_enabled` - (Optional) If true, database backup on local Exadata storage is configured for the Autonomous VM cluster. If false, database backup on local Exadata storage is not available in the Autonomous VM cluster. 
+* `is_mtls_enabled` - (Optional) Enable mutual TLS(mTLS) authentication for database while provisioning a VMCluster. Default is TLS.
 * `license_model` - (Optional) (Updatable) The Oracle license model that applies to the Autonomous VM cluster. The default is BRING_YOUR_OWN_LICENSE. 
 * `maintenance_window_details` - (Optional) (Updatable) The scheduling details for the quarterly maintenance window. Patching and system updates take place during the maintenance window. 
 	* `days_of_week` - (Optional) (Updatable) Days during the week when maintenance should be performed.
@@ -77,6 +81,8 @@ The following arguments are supported:
 	* `preference` - (Required) (Updatable) The maintenance window scheduling preference.
 	* `weeks_of_month` - (Optional) (Updatable) Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `memory_per_oracle_compute_unit_in_gbs` - (Optional) The amount of memory (in GBs) to be enabled per each OCPU core.
+* `scan_listener_port_non_tls` - (Optional) The SCAN Listener Non TLS port number. Default value is 1521.
+* `scan_listener_port_tls` - (Optional) The SCAN Listener TLS port number. Default value is 2484.
 * `time_zone` - (Optional) The time zone to use for the Autonomous VM cluster. For details, see [DB System Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).
 * `total_container_databases` - (Optional) The total number of Autonomous Container Databases that can be created.
 * `vm_cluster_network_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster network.
@@ -93,9 +99,9 @@ The following attributes are exported:
 * `available_autonomous_data_storage_size_in_tbs` - The data disk group size available for Autonomous Databases, in TBs.
 * `available_container_databases` - The number of Autonomous Container Databases that can be created with the currently available local storage.
 * `available_cpus` - The numnber of CPU cores available.
-* `available_data_storage_size_in_tbs` - **Deprecated.** Use `availableAutonomousDataStorageSizeInTBs` for Autonomous Databases data storage available, in TBs. 
+* `available_data_storage_size_in_tbs` - **Deprecated.** Use `availableAutonomousDataStorageSizeInTBs` for Autonomous Databases' data storage availability in TBs. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-* `cpu_core_count_per_node` - The number of OCPU cores enabled per VM cluster node.
+* `cpu_core_count_per_node` - The number of CPU cores enabled per VM cluster node.
 * `cpus_enabled` - The number of enabled CPU cores.
 * `data_storage_size_in_tbs` - The total data storage allocated in TBs
 * `db_node_storage_size_in_gbs` - The local node storage allocated in GBs.
@@ -105,6 +111,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous VM cluster.
 * `is_local_backup_enabled` - If true, database backup on local Exadata storage is configured for the Autonomous VM cluster. If false, database backup on local Exadata storage is not available in the Autonomous VM cluster. 
+* `is_mtls_enabled` - Enable mutual TLS(mTLS) authentication for database while provisioning a VMCluster. Default is TLS.
 * `last_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last maintenance run.
 * `license_model` - The Oracle license model that applies to the Autonomous VM cluster. The default is LICENSE_INCLUDED. 
 * `lifecycle_details` - Additional information about the current lifecycle state.
@@ -122,7 +129,9 @@ The following attributes are exported:
 * `memory_size_in_gbs` - The memory allocated in GBs.
 * `next_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next maintenance run.
 * `ocpus_enabled` - The number of enabled OCPU cores.
-* `reclaimable_cpus` - CPU cores that are not released to available pool after an Autonomous Database is terminated (Requires Autonomous Container Database restart).
+* `reclaimable_cpus` - CPU cores that continue to be included in the count of OCPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available OCPUs at its parent AVMC level by restarting the Autonomous Container Database.
+* `scan_listener_port_non_tls` - The SCAN Listener Non TLS port number. Default value is 1521.
+* `scan_listener_port_tls` - The SCAN Listener TLS port number. Default value is 2484.
 * `state` - The current state of the Autonomous VM cluster.
 * `time_created` - The date and time that the Autonomous VM cluster was created.
 * `time_zone` - The time zone to use for the Autonomous VM cluster. For details, see [DB System Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).
@@ -131,7 +140,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Autonomous Vm Cluster
 	* `update` - (Defaults to 20 minutes), when updating the Autonomous Vm Cluster
 	* `delete` - (Defaults to 20 minutes), when destroying the Autonomous Vm Cluster

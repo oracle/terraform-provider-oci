@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package dns
@@ -7,8 +7,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -113,8 +113,15 @@ func (s *DnsZonesDataSourceCrud) Get() error {
 		request.NameContains = &tmp
 	}
 
+	allScope := false
+
 	if scope, ok := s.D.GetOkExists("scope"); ok {
-		request.Scope = oci_dns.ListZonesScopeEnum(scope.(string))
+		if scope == "ALL" {
+			allScope = true
+			request.Scope = oci_dns.ListZonesScopeGlobal
+		} else {
+			request.Scope = oci_dns.ListZonesScopeEnum(scope.(string))
+		}
 	}
 
 	if sortBy, ok := s.D.GetOkExists("sort_by"); ok {
@@ -179,6 +186,27 @@ func (s *DnsZonesDataSourceCrud) Get() error {
 
 		s.Res.Items = append(s.Res.Items, listResponse.Items...)
 		request.Page = listResponse.OpcNextPage
+	}
+
+	// Now search for private zones if scope is set to the special value 'ALL'
+	if allScope {
+		request.Scope = oci_dns.ListZonesScopePrivate
+		listResponse, err := s.Client.ListZones(context.Background(), request)
+		if err != nil {
+			return err
+		}
+
+		s.Res.Items = append(s.Res.Items, listResponse.Items...)
+		request.Page = s.Res.OpcNextPage
+
+		for request.Page != nil {
+			listResponse, err = s.Client.ListZones(context.Background(), request)
+			if err != nil {
+				return err
+			}
+			s.Res.Items = append(s.Res.Items, listResponse.Items...)
+			request.Page = listResponse.OpcNextPage
+		}
 	}
 
 	return nil

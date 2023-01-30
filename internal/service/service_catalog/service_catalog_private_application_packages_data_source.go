@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package service_catalog
@@ -9,8 +9,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_service_catalog "github.com/oracle/oci-go-sdk/v65/servicecatalog"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func ServiceCatalogPrivateApplicationPackagesDataSource() *schema.Resource {
@@ -195,6 +195,34 @@ func (s *ServiceCatalogPrivateApplicationPackagesDataSourceCrud) SetData() error
 }
 
 func PrivateApplicationPackagesSummaryToMap(obj oci_service_catalog.PrivateApplicationPackageSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	result["package_type"] = string(obj.PackageType)
+
+	if obj.PrivateApplicationId != nil {
+		result["private_application_id"] = string(*obj.PrivateApplicationId)
+	}
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.Version != nil {
+		result["version"] = string(*obj.Version)
+	}
+
+	return result
+}
+
+func PrivateApplicationPackageSummaryToMap(obj oci_service_catalog.PrivateApplicationPackageSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.DisplayName != nil {

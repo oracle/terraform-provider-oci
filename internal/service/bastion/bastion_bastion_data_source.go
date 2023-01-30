@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package bastion
@@ -6,8 +6,8 @@ package bastion
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_bastion "github.com/oracle/oci-go-sdk/v65/bastion"
@@ -79,6 +79,8 @@ func (s *BastionBastionDataSourceCrud) SetData() error {
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
+
+	s.D.Set("dns_proxy_status", s.Res.DnsProxyStatus)
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 

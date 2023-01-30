@@ -71,11 +71,12 @@ The following attributes are exported:
 	* `detector` - Type of detector
 	* `detector_recipe_id` - Unique identifier for Detector Recipe of which this is an extension
 	* `detector_rules` - List of detector rules for the detector type for recipe - user input
+		* `data_source_id` - The id of the attached DataSource.
 		* `description` - Description for TargetDetectorRecipeDetectorRule. information.
 		* `details` - Overriden settings of a Detector Rule applied on target
 			* `condition_groups` - Condition group corresponding to each compartment
 				* `compartment_id` - compartment associated with condition
-				* `condition` - 
+				* `condition` - Base condition object
 			* `configurations` - Configuration details
 				* `config_key` - Unique name of the configuration
 				* `data_type` - configuration data type
@@ -92,6 +93,10 @@ The following attributes are exported:
 		* `detector` - detector for the rule
 		* `detector_rule_id` - The unique identifier of the detector rule.
 		* `display_name` - Display name for TargetDetectorRecipeDetectorRule. information.
+		* `entities_mappings` - Data Source entities mapping for a Detector Rule
+			* `display_name` - The display name of entity
+			* `entity_type` - Possible type of entity
+			* `query_field` - The entity value mapped to a data source query
 		* `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 		* `managed_list_types` - List of cloudguard managed list types related to this rule
 		* `recommendation` - Recommendation for TargetDetectorRecipeDetectorRule
@@ -102,11 +107,12 @@ The following attributes are exported:
 		* `time_updated` - The date and time the target detector recipe rule was updated. Format defined by RFC3339.
 	* `display_name` - Display name of detector recipe.
 	* `effective_detector_rules` - List of effective detector rules for the detector type for recipe after applying defaults
+		* `data_source_id` - The id of the attached DataSource.
 		* `description` - Description for TargetDetectorRecipeDetectorRule. information.
 		* `details` - Overriden settings of a Detector Rule applied on target
 			* `condition_groups` - Condition group corresponding to each compartment
 				* `compartment_id` - compartment associated with condition
-				* `condition` - 
+				* `condition` - Base condition object
 			* `configurations` - Configuration details
 				* `config_key` - Unique name of the configuration
 				* `data_type` - configuration data type
@@ -123,6 +129,10 @@ The following attributes are exported:
 		* `detector` - detector for the rule
 		* `detector_rule_id` - The unique identifier of the detector rule.
 		* `display_name` - Display name for TargetDetectorRecipeDetectorRule. information.
+		* `entities_mappings` - Data Source entities mapping for a Detector Rule
+			* `display_name` - The display name of entity
+			* `entity_type` - Possible type of entity
+			* `query_field` - The entity value mapped to a data source query
 		* `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 		* `managed_list_types` - List of cloudguard managed list types related to this rule
 		* `recommendation` - Recommendation for TargetDetectorRecipeDetectorRule
@@ -146,7 +156,7 @@ The following attributes are exported:
 		* `compartment_id` - Compartment Identifier
 		* `description` - ResponderRule description.
 		* `details` - Details of ResponderRule.
-			* `condition` - 
+			* `condition` - Base condition object
 			* `configurations` - ResponderRule configurations
 				* `config_key` - Unique name of the configuration
 				* `name` - configuration name
@@ -169,7 +179,7 @@ The following attributes are exported:
 		* `compartment_id` - Compartment Identifier
 		* `description` - ResponderRule description.
 		* `details` - Details of ResponderRule.
-			* `condition` - 
+			* `condition` - Base condition object
 			* `configurations` - ResponderRule configurations
 				* `config_key` - Unique name of the configuration
 				* `name` - configuration name

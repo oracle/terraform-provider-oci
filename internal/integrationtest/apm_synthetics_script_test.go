@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,11 +9,11 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -21,47 +21,47 @@ import (
 	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v65/apmsynthetics"
 	"github.com/oracle/oci-go-sdk/v65/common"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	ScriptRequiredOnlyResource = ScriptResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", acctest.Required, acctest.Create, scriptRepresentation)
+	ApmSyntheticsScriptRequiredOnlyResource = ApmSyntheticsScriptResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", acctest.Required, acctest.Create, ApmSyntheticsscriptRepresentation)
 
-	ScriptResourceConfig = ScriptResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", acctest.Optional, acctest.Update, scriptRepresentation)
+	ApmSyntheticsScriptResourceConfig = ApmSyntheticsScriptResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", acctest.Optional, acctest.Update, ApmSyntheticsscriptRepresentation)
 
-	scriptSingularDataSourceRepresentation = map[string]interface{}{
+	ApmSyntheticsApmSyntheticsscriptSingularDataSourceRepresentation = map[string]interface{}{
 		"apm_domain_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
 		"script_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_synthetics_script.test_script.id}`},
 	}
 
-	scriptDataSourceRepresentation = map[string]interface{}{
+	ApmSyntheticsApmSyntheticsscriptDataSourceRepresentation = map[string]interface{}{
 		"apm_domain_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
 		"content_type":  acctest.Representation{RepType: acctest.Optional, Create: `SIDE`},
 		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"filter":        acctest.RepresentationGroup{RepType: acctest.Required, Group: scriptDataSourceFilterRepresentation}}
-	scriptDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ApmSyntheticsscriptDataSourceFilterRepresentation}}
+	ApmSyntheticsscriptDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `display_name`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_apm_synthetics_script.test_script.display_name}`}},
 	}
 
-	scriptRepresentation = map[string]interface{}{
+	ApmSyntheticsscriptRepresentation = map[string]interface{}{
 		"apm_domain_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
 		"content":       acctest.Representation{RepType: acctest.Required, Create: `{ \"id\":\"f672ea8c-9508-483e-a123-878920eee73c\", \"version\":\"2.0\", \"name\":\"Sample Project\", \"url\":\"https://console.us-ashburn-1.oraclecloud.com\", \"tests\": [  { \"id\":\"b4522766-e382-40c2-ab01-452cf62e1cec\", \"name\":\"<ORAP><ON>testName</ON><OV>myTest</OV><OS>false</OS></ORAP>\", \"commands\":[ { \"id\":\"d1bc2093-bb61-4919-a554-38ef2653ac02\", \"comment\":\"comment\", \"command\":\"open\", \"target\":\"/\", \"targets\":[[\"css=td.bodytext\",\"css\"]], \"value\":\"xyz\"  } ] } ], \"suites\": [ { \"id\":\"a86b2934-7aa3-4838-b389-93c8aea2af05\",  \"name\":\"Default Suite\",  \"persistSession\":false, \"parallel\":false, \"timeout\":600,  \"tests\":  [  \"b4522766-e382-40c2-ab01-452cf62e1cec\" ] } ], \"urls\": [ \"https://console.us-ashburn-1.oraclecloud.com/\"  ], \"plugins\":[\"xxx\"] }`, Update: `{ \"id\":\"f672ea8c-9508-483e-a123-878920eee73c\", \"version\":\"2.0\", \"name\":\"Sample Project 1\", \"url\":\"https://console.us-phoenix-1.oraclecloud.com\", \"tests\": [  { \"id\":\"b4522766-e382-40c2-ab01-452cf62e1cec\", \"name\":\"<ORAP><ON>testName</ON><OV>myTest1</OV><OS>false</OS></ORAP>\", \"commands\":[ { \"id\":\"d1bc2093-bb61-4919-a554-38ef2653ac02\", \"comment\":\"comment\", \"command\":\"open\", \"target\":\"/\", \"targets\":[[\"css=td.bodytext\",\"css\"]], \"value\":\"xyz\"  } ] } ], \"suites\": [ { \"id\":\"a86b2934-7aa3-4838-b389-93c8aea2af05\",  \"name\":\"Default Suite\",  \"persistSession\":false, \"parallel\":false, \"timeout\":600,  \"tests\":  [  \"b4522766-e382-40c2-ab01-452cf62e1cec\" ] } ], \"urls\": [ \"https://console.us-phoenix-1.oraclecloud.com//\"  ], \"plugins\":[\"xxx\"] }`},
 		"content_type":  acctest.Representation{RepType: acctest.Required, Create: `SIDE`},
 		"display_name":  acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"parameters":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: scriptParametersRepresentation},
+		"parameters":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsscriptParametersRepresentation},
 	}
 
-	scriptParametersRepresentation = map[string]interface{}{
+	ApmSyntheticsscriptParametersRepresentation = map[string]interface{}{
 		"param_name": acctest.Representation{RepType: acctest.Required, Create: `testName`},
 		"is_secret":  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
-	ScriptResourceDependencies = DefinedTagsDependencies +
+	ApmSyntheticsScriptResourceDependencies = DefinedTagsDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", acctest.Required, acctest.Create, apmDomainRepresentation)
 )
 
@@ -83,14 +83,14 @@ func TestApmSyntheticsScriptResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ScriptResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", acctest.Optional, acctest.Create, scriptRepresentation), "apmsynthetics", "script", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ApmSyntheticsScriptResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", acctest.Optional, acctest.Create, ApmSyntheticsscriptRepresentation), "apmsynthetics", "script", t)
 
 	acctest.ResourceTest(t, testAccCheckApmSyntheticsScriptDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ScriptResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", acctest.Required, acctest.Create, scriptRepresentation),
+			Config: config + compartmentIdVariableStr + ApmSyntheticsScriptResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", acctest.Required, acctest.Create, ApmSyntheticsscriptRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
 				resource.TestCheckResourceAttr(resourceName, "content", scriptContent),
@@ -106,12 +106,12 @@ func TestApmSyntheticsScriptResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ScriptResourceDependencies,
+			Config: config + compartmentIdVariableStr + ApmSyntheticsScriptResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ScriptResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", acctest.Optional, acctest.Create, scriptRepresentation),
+			Config: config + compartmentIdVariableStr + ApmSyntheticsScriptResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", acctest.Optional, acctest.Create, ApmSyntheticsscriptRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
 				resource.TestCheckResourceAttr(resourceName, "content", scriptContent),
@@ -141,8 +141,8 @@ func TestApmSyntheticsScriptResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ScriptResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", acctest.Optional, acctest.Update, scriptRepresentation),
+			Config: config + compartmentIdVariableStr + ApmSyntheticsScriptResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", acctest.Optional, acctest.Update, ApmSyntheticsscriptRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
 				resource.TestCheckResourceAttr(resourceName, "content", scriptContentUpdate),
@@ -169,9 +169,9 @@ func TestApmSyntheticsScriptResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_scripts", "test_scripts", acctest.Optional, acctest.Update, scriptDataSourceRepresentation) +
-				compartmentIdVariableStr + ScriptResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", acctest.Optional, acctest.Update, scriptRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_scripts", "test_scripts", acctest.Optional, acctest.Update, ApmSyntheticsApmSyntheticsscriptDataSourceRepresentation) +
+				compartmentIdVariableStr + ApmSyntheticsScriptResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", acctest.Optional, acctest.Update, ApmSyntheticsscriptRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(datasourceName, "apm_domain_id"),
 				resource.TestCheckResourceAttr(datasourceName, "content_type", "SIDE"),
@@ -184,8 +184,8 @@ func TestApmSyntheticsScriptResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", acctest.Required, acctest.Create, scriptSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ScriptResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", acctest.Required, acctest.Create, ApmSyntheticsApmSyntheticsscriptSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ApmSyntheticsScriptResourceConfig,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "script_id"),
@@ -204,7 +204,7 @@ func TestApmSyntheticsScriptResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + ScriptRequiredOnlyResource,
+			Config:            config + ApmSyntheticsScriptRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -266,7 +266,7 @@ func init() {
 
 func sweepApmSyntheticsScriptResource(compartment string) error {
 	apmSyntheticClient := acctest.GetTestClients(&schema.ResourceData{}).ApmSyntheticClient()
-	scriptIds, err := getScriptIds(compartment)
+	scriptIds, err := getApmSyntheticsScriptIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -287,7 +287,7 @@ func sweepApmSyntheticsScriptResource(compartment string) error {
 	return nil
 }
 
-func getScriptIds(compartment string) ([]string, error) {
+func getApmSyntheticsScriptIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ScriptId")
 	if ids != nil {
 		return ids, nil

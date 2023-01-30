@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,11 +9,11 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -21,22 +21,22 @@ import (
 	oci_blockchain "github.com/oracle/oci-go-sdk/v65/blockchain"
 	"github.com/oracle/oci-go-sdk/v65/common"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	OsnRequiredOnlyResource = OsnResourceDependencies +
+	BlockchainOsnRequiredOnlyResource = BlockchainOsnResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", acctest.Required, acctest.Create, osnRepresentation)
 
-	OsnResourceConfig = OsnResourceDependencies +
+	BlockchainOsnResourceConfig = BlockchainOsnResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", acctest.Optional, acctest.Update, osnRepresentation)
 
-	osnSingularDataSourceRepresentation = map[string]interface{}{
+	BlockchainosnSingularDataSourceRepresentation = map[string]interface{}{
 		"blockchain_platform_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_blockchain_blockchain_platform.test_blockchain_platform.id}`},
 		"osn_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_blockchain_osn.test_osn.id}`},
 	}
 
-	osnDataSourceRepresentation = map[string]interface{}{
+	BlockchainosnDataSourceRepresentation = map[string]interface{}{
 		"blockchain_platform_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_blockchain_blockchain_platform.test_blockchain_platform.id}`},
 		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 		"filter":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: osnDataSourceFilterRepresentation}}
@@ -54,7 +54,7 @@ var (
 		"ocpu_allocation_number": acctest.Representation{RepType: acctest.Required, Create: `0.0`, Update: `0.0`},
 	}
 
-	OsnResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", acctest.Required, acctest.Create, blockchainPlatformRepresentation)
+	BlockchainOsnResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", acctest.Required, acctest.Create, blockchainPlatformRepresentation)
 )
 
 // issue-routing-tag: blockchain/default
@@ -77,13 +77,13 @@ func TestBlockchainOsnResource_basic(t *testing.T) {
 	var resId, resId2, compositeId string
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+OsnResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+BlockchainOsnResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", acctest.Optional, acctest.Create, osnRepresentation), "blockchain", "osn", t)
 
 	acctest.ResourceTest(t, testAccCheckBlockchainOsnDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + OsnResourceDependencies + idcsAccessTokenVariableStr +
+			Config: config + compartmentIdVariableStr + BlockchainOsnResourceDependencies + idcsAccessTokenVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", acctest.Required, acctest.Create, osnRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
@@ -98,11 +98,11 @@ func TestBlockchainOsnResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + OsnResourceDependencies + idcsAccessTokenVariableStr,
+			Config: config + compartmentIdVariableStr + BlockchainOsnResourceDependencies + idcsAccessTokenVariableStr,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + OsnResourceDependencies + idcsAccessTokenVariableStr +
+			Config: config + compartmentIdVariableStr + BlockchainOsnResourceDependencies + idcsAccessTokenVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", acctest.Optional, acctest.Create, osnRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
@@ -127,7 +127,7 @@ func TestBlockchainOsnResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + OsnResourceDependencies + idcsAccessTokenVariableStr +
+			Config: config + compartmentIdVariableStr + BlockchainOsnResourceDependencies + idcsAccessTokenVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", acctest.Optional, acctest.Update, osnRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
@@ -148,8 +148,8 @@ func TestBlockchainOsnResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_blockchain_osns", "test_osns", acctest.Optional, acctest.Update, osnDataSourceRepresentation) +
-				compartmentIdVariableStr + OsnResourceDependencies + idcsAccessTokenVariableStr +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_blockchain_osns", "test_osns", acctest.Optional, acctest.Update, BlockchainosnDataSourceRepresentation) +
+				compartmentIdVariableStr + BlockchainOsnResourceDependencies + idcsAccessTokenVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", acctest.Optional, acctest.Update, osnRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "blockchain_platform_id"),
@@ -161,8 +161,8 @@ func TestBlockchainOsnResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_blockchain_osn", "test_osn", acctest.Required, acctest.Create, osnSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + idcsAccessTokenVariableStr + OsnResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_blockchain_osn", "test_osn", acctest.Required, acctest.Create, BlockchainosnSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainOsnResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "blockchain_platform_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "osn_id"),
@@ -176,7 +176,7 @@ func TestBlockchainOsnResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + OsnRequiredOnlyResource,
+			Config:                  config + BlockchainOsnRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateIdFunc:       getBlockchainOsnCompositeId(resourceName),
 			ImportStateVerify:       true,
@@ -248,7 +248,7 @@ func init() {
 
 func sweepBlockchainOsnResource(compartment string) error {
 	blockchainPlatformClient := acctest.GetTestClients(&schema.ResourceData{}).BlockchainPlatformClient()
-	osnIds, err := getOsnIds(compartment)
+	osnIds, err := getBlockchainOsnIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -269,7 +269,7 @@ func sweepBlockchainOsnResource(compartment string) error {
 	return nil
 }
 
-func getOsnIds(compartment string) ([]string, error) {
+func getBlockchainOsnIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "OsnId")
 	if ids != nil {
 		return ids, nil

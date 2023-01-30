@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,29 +7,29 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	OspSubscriptionResourceConfig = OspSubscriptionResourceDependencies
+	OspGatewaySubscriptionResourceConfig = OspGatewaySubscriptionResourceDependencies
 
-	ospSubscriptionSingularDataSourceRepresentation = map[string]interface{}{
+	OspGatewayOspGatewaySubscriptionSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"osp_home_region": acctest.Representation{RepType: acctest.Required, Create: `${var.home_region}`},
 		"subscription_id": acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_osp_gateway_subscriptions.test_subscriptions.subscription_collection.0.items[0], "id")}`},
 	}
 
-	ospSubscriptionDataSourceRepresentation = map[string]interface{}{
+	OspGatewayOspGatewaySubscriptionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"osp_home_region": acctest.Representation{RepType: acctest.Required, Create: `${var.home_region}`},
 	}
 
-	OspSubscriptionResourceDependencies = ""
+	OspGatewaySubscriptionResourceDependencies = ""
 )
 
 // issue-routing-tag: osp_gateway/default
@@ -54,8 +54,8 @@ func TestOspGatewaySubscriptionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_osp_gateway_subscriptions", "test_subscriptions", acctest.Required, acctest.Create, ospSubscriptionDataSourceRepresentation) +
-				compartmentIdVariableStr + regionVariableStr + OspSubscriptionResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_osp_gateway_subscriptions", "test_subscriptions", acctest.Required, acctest.Create, OspGatewayOspGatewaySubscriptionDataSourceRepresentation) +
+				compartmentIdVariableStr + regionVariableStr + OspGatewaySubscriptionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "osp_home_region", homeRegion),
@@ -67,9 +67,9 @@ func TestOspGatewaySubscriptionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_osp_gateway_subscriptions", "test_subscriptions", acctest.Required, acctest.Create, ospSubscriptionDataSourceRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_osp_gateway_subscription", "test_subscription", acctest.Required, acctest.Create, ospSubscriptionSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + regionVariableStr + OspSubscriptionResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_osp_gateway_subscriptions", "test_subscriptions", acctest.Required, acctest.Create, OspGatewayOspGatewaySubscriptionDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_osp_gateway_subscription", "test_subscription", acctest.Required, acctest.Create, OspGatewayOspGatewaySubscriptionSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + regionVariableStr + OspGatewaySubscriptionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "osp_home_region", homeRegion),

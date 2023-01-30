@@ -20,6 +20,21 @@ resource "oci_metering_computation_schedule" "test_schedule" {
 	#Required
 	compartment_id = var.compartment_id
 	name = var.schedule_name
+	result_location {
+		#Required
+		bucket = var.schedule_result_location_bucket
+		location_type = var.schedule_result_location_location_type
+		namespace = var.schedule_result_location_namespace
+		region = var.schedule_result_location_region
+	}
+	schedule_recurrences = var.schedule_schedule_recurrences
+	time_scheduled = var.schedule_time_scheduled
+
+	#Optional
+	defined_tags = {"foo-namespace.bar-key"= "value"}
+	description = var.schedule_description
+	freeform_tags = {"bar-key"= "value"}
+	output_file_format = var.schedule_output_file_format
 	query_properties {
 		#Required
 		date_range {
@@ -47,19 +62,7 @@ resource "oci_metering_computation_schedule" "test_schedule" {
 		is_aggregate_by_time = var.schedule_query_properties_is_aggregate_by_time
 		query_type = var.schedule_query_properties_query_type
 	}
-	result_location {
-		#Required
-		bucket = var.schedule_result_location_bucket
-		location_type = var.schedule_result_location_location_type
-		namespace = var.schedule_result_location_namespace
-		region = var.schedule_result_location_region
-	}
-	schedule_recurrences = var.schedule_schedule_recurrences
-	time_scheduled = var.schedule_time_scheduled
-
-	#Optional
-	defined_tags = {"foo-namespace.bar-key"= "value"}
-	freeform_tags = {"bar-key"= "value"}
+	saved_report_id = oci_data_safe_report.test_report.id
 }
 ```
 
@@ -67,33 +70,36 @@ resource "oci_metering_computation_schedule" "test_schedule" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The tenancy of the customer
+* `compartment_id` - (Required) The customer tenancy.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace.bar-key": "value"}` 
-* `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}` 
-* `name` - (Required) The unique name of the schedule created by the user
-* `query_properties` - (Required) The query properties.
+* `description` - (Optional) (Updatable) The description of the schedule.
+* `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}` 
+* `name` - (Required) The unique name of the user-created schedule.
+* `output_file_format` - (Optional) (Updatable) Specifies supported output file format.
+* `query_properties` - (Optional) The query properties.
 	* `compartment_depth` - (Optional) The depth level of the compartment.
 	* `date_range` - (Required) Static or dynamic date range `dateRangeType`, which corresponds with type-specific characteristics. 
-		* `date_range_type` - (Required) Defines whether the schedule date range is STATIC or DYNAMIC
+		* `date_range_type` - (Required) Defines whether the schedule date range is STATIC or DYNAMIC.
 		* `dynamic_date_range_type` - (Required when date_range_type=DYNAMIC) 
 		* `time_usage_ended` - (Required when date_range_type=STATIC) The usage end time.
 		* `time_usage_started` - (Required when date_range_type=STATIC) The usage start time.
-	* `filter` - (Optional) 
-	* `granularity` - (Required) The usage granularity. DAILY - Daily data aggregation. MONTHLY - Monthly data aggregation.   Allowed values are: DAILY MONTHLY 
+	* `filter` - (Optional) The filter object for query usage.
+	* `granularity` - (Required) The usage granularity. DAILY - Daily data aggregation. MONTHLY - Monthly data aggregation. Allowed values are: DAILY MONTHLY 
 	* `group_by` - (Optional) Aggregate the result by. For example: [ "tagNamespace", "tagKey", "tagValue", "service", "skuName", "skuPartNumber", "unit", "compartmentName", "compartmentPath", "compartmentId", "platform", "region", "logicalAd", "resourceId", "tenantId", "tenantName" ] 
 	* `group_by_tag` - (Optional) GroupBy a specific tagKey. Provide the tagNamespace and tagKey in the tag object. Only supports one tag in the list. For example: [ { "namespace": "oracle", "key": "createdBy" ] 
 		* `key` - (Optional) The tag key.
 		* `namespace` - (Optional) The tag namespace.
 		* `value` - (Optional) The tag value.
-	* `is_aggregate_by_time` - (Optional) Specifies whether aggregated by time. If isAggregateByTime is true, all usage/cost over the query time period will be added up.
-	* `query_type` - (Optional) The query usage type. COST by default if it is missing. Usage - Query the usage data. Cost - Query the cost/billing data.  Allowed values are: USAGE COST USAGE_AND_COST 
-* `result_location` - (Required) The location where usage/cost CSVs will be uploaded defined by `locationType`, which corresponds with type-specific characteristics. 
-	* `bucket` - (Required) The bucket name where usage/cost CSVs will be uploaded
-	* `location_type` - (Required) Defines the type of location where the usage/cost CSVs will be stored 
-	* `namespace` - (Required) The namespace needed to determine object storage bucket.
-	* `region` - (Required) The destination Object Store Region specified by customer
-* `schedule_recurrences` - (Required) In x-obmcs-recurring-time format shown here: https://datatracker.ietf.org/doc/html/rfc5545#section-3.3.10 Describes the frequency of when the schedule will be run 
-* `time_scheduled` - (Required) The date and time of the first time job execution
+	* `is_aggregate_by_time` - (Optional) Specifies whether aggregated by time. If isAggregateByTime is true, all usage or cost over the query time period will be added up.
+	* `query_type` - (Optional) The query usage type. COST by default if it is missing. Usage - Query the usage data. Cost - Query the cost/billing data. Allowed values are: USAGE COST USAGE_AND_COST 
+* `result_location` - (Required) (Updatable) The location where usage or cost CSVs will be uploaded defined by `locationType`, which corresponds with type-specific characteristics. 
+	* `bucket` - (Required) (Updatable) The bucket name where usage or cost CSVs will be uploaded.
+	* `location_type` - (Required) (Updatable) Defines the type of location where the usage or cost CSVs will be stored. 
+	* `namespace` - (Required) (Updatable) The namespace needed to determine the object storage bucket.
+	* `region` - (Required) (Updatable) The destination Object Store Region specified by the customer.
+* `saved_report_id` - (Optional) The saved report id which can also be used to generate query.
+* `schedule_recurrences` - (Required) Specifies the frequency according to when the schedule will be run,  in the x-obmcs-recurring-time format described in [RFC 5545 section 3.3.10](https://datatracker.ietf.org/doc/html/rfc5545#section-3.3.10). Supported values are : ONE_TIME, DAILY, WEEKLY and MONTHLY. 
+* `time_scheduled` - (Required) The date and time of the first time job execution.
 
 
 ** IMPORTANT **
@@ -103,41 +109,45 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `compartment_id` - The tenancy of the customer
+* `compartment_id` - The customer tenancy.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace.bar-key": "value"}` 
-* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}` 
-* `id` - The OCID representing unique shedule
-* `name` - The unique name of the schedule created by the user
+* `description` - The description of the schedule.
+* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}` 
+* `id` - The OCID representing a unique shedule.
+* `name` - The unique name of the schedule created by the user.
+* `output_file_format` - Specifies supported output file format.
 * `query_properties` - The query properties.
 	* `compartment_depth` - The depth level of the compartment.
 	* `date_range` - Static or dynamic date range `dateRangeType`, which corresponds with type-specific characteristics. 
-		* `date_range_type` - Defines whether the schedule date range is STATIC or DYNAMIC
+		* `date_range_type` - Defines whether the schedule date range is STATIC or DYNAMIC.
 		* `dynamic_date_range_type` - 
 		* `time_usage_ended` - The usage end time.
 		* `time_usage_started` - The usage start time.
-	* `filter` - 
-	* `granularity` - The usage granularity. DAILY - Daily data aggregation. MONTHLY - Monthly data aggregation.   Allowed values are: DAILY MONTHLY 
+	* `filter` - The filter object for query usage.
+	* `granularity` - The usage granularity. DAILY - Daily data aggregation. MONTHLY - Monthly data aggregation. Allowed values are: DAILY MONTHLY 
 	* `group_by` - Aggregate the result by. For example: [ "tagNamespace", "tagKey", "tagValue", "service", "skuName", "skuPartNumber", "unit", "compartmentName", "compartmentPath", "compartmentId", "platform", "region", "logicalAd", "resourceId", "tenantId", "tenantName" ] 
 	* `group_by_tag` - GroupBy a specific tagKey. Provide the tagNamespace and tagKey in the tag object. Only supports one tag in the list. For example: [ { "namespace": "oracle", "key": "createdBy" ] 
 		* `key` - The tag key.
 		* `namespace` - The tag namespace.
 		* `value` - The tag value.
-	* `is_aggregate_by_time` - Specifies whether aggregated by time. If isAggregateByTime is true, all usage/cost over the query time period will be added up.
-	* `query_type` - The query usage type. COST by default if it is missing. Usage - Query the usage data. Cost - Query the cost/billing data.  Allowed values are: USAGE COST USAGE_AND_COST 
-* `result_location` - The location where usage/cost CSVs will be uploaded defined by `locationType`, which corresponds with type-specific characteristics. 
-	* `bucket` - The bucket name where usage/cost CSVs will be uploaded
-	* `location_type` - Defines the type of location where the usage/cost CSVs will be stored 
-	* `namespace` - The namespace needed to determine object storage bucket.
-	* `region` - The destination Object Store Region specified by customer
-* `schedule_recurrences` - In x-obmcs-recurring-time format shown here: https://datatracker.ietf.org/doc/html/rfc5545#section-3.3.10 Describes the frequency of when the schedule will be run 
-* `state` - The lifecycle state of the schedule
+	* `is_aggregate_by_time` - Specifies whether aggregated by time. If isAggregateByTime is true, all usage or cost over the query time period will be added up.
+	* `query_type` - The query usage type. COST by default if it is missing. Usage - Query the usage data. Cost - Query the cost/billing data. Allowed values are: USAGE COST USAGE_AND_COST 
+* `result_location` - The location where usage or cost CSVs will be uploaded defined by `locationType`, which corresponds with type-specific characteristics. 
+	* `bucket` - The bucket name where usage or cost CSVs will be uploaded.
+	* `location_type` - Defines the type of location where the usage or cost CSVs will be stored. 
+	* `namespace` - The namespace needed to determine the object storage bucket.
+	* `region` - The destination Object Store Region specified by the customer.
+* `saved_report_id` - The saved report id which can also be used to generate query.
+* `schedule_recurrences` - Specifies the frequency according to when the schedule will be run,  in the x-obmcs-recurring-time format described in [RFC 5545 section 3.3.10](https://datatracker.ietf.org/doc/html/rfc5545#section-3.3.10). Supported values are : ONE_TIME, DAILY, WEEKLY and MONTHLY. 
+* `state` - The schedule lifecycle state.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-* `time_created` - The date and time of when the schedule was created
-* `time_scheduled` - The date and time of the first time job execution
+* `time_created` - The date and time the schedule was created.
+* `time_next_run` - The date and time of the next job execution.
+* `time_scheduled` - The date and time of the first time job execution.
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Schedule
 	* `update` - (Defaults to 20 minutes), when updating the Schedule
 	* `delete` - (Defaults to 20 minutes), when destroying the Schedule

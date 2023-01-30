@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {
@@ -42,11 +42,13 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
   infini_band_network_cidr    = "10.31.8.0/21"
   netmask                     = "255.255.255.0"
   ntp_server                  = ["10.231.225.76"]
-  shape                       = "ExadataCC.Quarter3.100"
+  shape                       = "ExadataCC.X7"
   time_zone                   = "US/Pacific"
   activation_file             = "activation.zip"
   storage_count               = 3
   compute_count               = 2
+  is_cps_offline_report_enabled = false
+  is_multi_rack_deployment      = false
 
   #Optional
   contacts {

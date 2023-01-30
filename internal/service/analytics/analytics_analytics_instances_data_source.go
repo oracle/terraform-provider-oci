@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package analytics
@@ -6,8 +6,8 @@ package analytics
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_analytics "github.com/oracle/oci-go-sdk/v65/analytics"
@@ -154,7 +154,7 @@ func (s *AnalyticsAnalyticsInstancesDataSourceCrud) SetData() error {
 
 		if r.NetworkEndpointDetails != nil {
 			networkEndpointDetailsArray := []interface{}{}
-			if networkEndpointDetailsMap := NetworkEndpointDetailsToMap(&r.NetworkEndpointDetails); networkEndpointDetailsMap != nil {
+			if networkEndpointDetailsMap := NetworkEndpointDetailsToMap(&r.NetworkEndpointDetails, true); networkEndpointDetailsMap != nil {
 				networkEndpointDetailsArray = append(networkEndpointDetailsArray, networkEndpointDetailsMap)
 			}
 			analyticsInstance["network_endpoint_details"] = networkEndpointDetailsArray

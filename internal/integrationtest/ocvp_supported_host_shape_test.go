@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -9,20 +9,20 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	supportedHostShapeDataSourceRepresentation = map[string]interface{}{
+	OcvpOcvpSupportedHostShapeDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `BM.DenseIO.E4.128`},
 		"sddc_type":      acctest.Representation{RepType: acctest.Optional, Create: `PRODUCTION`},
 	}
 
-	SupportedHostShapeResourceConfig = ""
+	OcvpSupportedHostShapeResourceConfig = ""
 )
 
 // issue-routing-tag: ocvp/default
@@ -43,8 +43,8 @@ func TestOcvpSupportedHostShapeResource_basic(t *testing.T) {
 		// verify datasource with required params
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_supported_host_shapes", "test_supported_host_shapes", acctest.Required, acctest.Create, supportedHostShapeDataSourceRepresentation) +
-				compartmentIdVariableStr + SupportedHostShapeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_supported_host_shapes", "test_supported_host_shapes", acctest.Required, acctest.Create, OcvpOcvpSupportedHostShapeDataSourceRepresentation) +
+				compartmentIdVariableStr + OcvpSupportedHostShapeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "items.#"),
@@ -54,8 +54,8 @@ func TestOcvpSupportedHostShapeResource_basic(t *testing.T) {
 		// verify datasource with optional params
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_supported_host_shapes", "test_supported_host_shapes", acctest.Optional, acctest.Create, supportedHostShapeDataSourceRepresentation) +
-				compartmentIdVariableStr + SupportedHostShapeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_supported_host_shapes", "test_supported_host_shapes", acctest.Optional, acctest.Create, OcvpOcvpSupportedHostShapeDataSourceRepresentation) +
+				compartmentIdVariableStr + OcvpSupportedHostShapeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "items.#"),

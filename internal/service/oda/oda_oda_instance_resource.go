@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package oda
@@ -17,8 +17,8 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_oda "github.com/oracle/oci-go-sdk/v65/oda"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func OdaOdaInstanceResource() *schema.Resource {
@@ -26,11 +26,15 @@ func OdaOdaInstanceResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOdaOdaInstance,
-		Read:     readOdaOdaInstance,
-		Update:   updateOdaOdaInstance,
-		Delete:   deleteOdaOdaInstance,
+		Timeouts: &schema.ResourceTimeout{
+			Create: schema.DefaultTimeout(40 * time.Minute),
+			Update: schema.DefaultTimeout(40 * time.Minute),
+			Delete: schema.DefaultTimeout(20 * time.Minute),
+		},
+		Create: createOdaOdaInstance,
+		Read:   readOdaOdaInstance,
+		Update: updateOdaOdaInstance,
+		Delete: deleteOdaOdaInstance,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -66,15 +70,84 @@ func OdaOdaInstanceResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"identity_domain": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"is_role_based_access": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
+			"attachment_ids": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"attachment_types": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"connector_url": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"identity_app_console_url": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"identity_app_guid": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"imported_package_ids": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"imported_package_names": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"lifecycle_sub_state": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"restricted_operations": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"operation_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"restricting_service": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"state": {
 				Type:             schema.TypeString,
@@ -276,6 +349,16 @@ func (s *OdaOdaInstanceResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if identityDomain, ok := s.D.GetOkExists("identity_domain"); ok {
+		tmp := identityDomain.(string)
+		request.IdentityDomain = &tmp
+	}
+
+	if isRoleBasedAccess, ok := s.D.GetOkExists("is_role_based_access"); ok {
+		tmp := isRoleBasedAccess.(bool)
+		request.IsRoleBasedAccess = &tmp
 	}
 
 	if shapeName, ok := s.D.GetOkExists("shape_name"); ok {
@@ -494,6 +577,10 @@ func (s *OdaOdaInstanceResourceCrud) Delete() error {
 }
 
 func (s *OdaOdaInstanceResourceCrud) SetData() error {
+	s.D.Set("attachment_ids", s.Res.AttachmentIds)
+
+	s.D.Set("attachment_types", s.Res.AttachmentTypes)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -516,7 +603,33 @@ func (s *OdaOdaInstanceResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IdentityAppConsoleUrl != nil {
+		s.D.Set("identity_app_console_url", *s.Res.IdentityAppConsoleUrl)
+	}
+
+	if s.Res.IdentityAppGuid != nil {
+		s.D.Set("identity_app_guid", *s.Res.IdentityAppGuid)
+	}
+
+	if s.Res.IdentityDomain != nil {
+		s.D.Set("identity_domain", *s.Res.IdentityDomain)
+	}
+
+	s.D.Set("imported_package_ids", s.Res.ImportedPackageIds)
+
+	s.D.Set("imported_package_names", s.Res.ImportedPackageNames)
+
+	if s.Res.IsRoleBasedAccess != nil {
+		s.D.Set("is_role_based_access", *s.Res.IsRoleBasedAccess)
+	}
+
 	s.D.Set("lifecycle_sub_state", s.Res.LifecycleSubState)
+
+	restrictedOperations := []interface{}{}
+	for _, item := range s.Res.RestrictedOperations {
+		restrictedOperations = append(restrictedOperations, RestrictedOperationToMap(item))
+	}
+	s.D.Set("restricted_operations", restrictedOperations)
 
 	s.D.Set("shape_name", s.Res.ShapeName)
 
@@ -539,6 +652,20 @@ func (s *OdaOdaInstanceResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func RestrictedOperationToMap(obj oci_oda.RestrictedOperation) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.OperationName != nil {
+		result["operation_name"] = string(*obj.OperationName)
+	}
+
+	if obj.RestrictingService != nil {
+		result["restricting_service"] = string(*obj.RestrictingService)
+	}
+
+	return result
 }
 
 func (s *OdaOdaInstanceResourceCrud) updateCompartment(compartment interface{}) error {

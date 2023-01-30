@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package dns
@@ -11,8 +11,8 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -33,11 +33,6 @@ func DnsResolverResource() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			// Required
 			"resolver_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
-			"scope": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
@@ -131,6 +126,11 @@ func DnsResolverResource() *schema.Resource {
 						// Computed
 					},
 				},
+			},
+			"scope": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
 			},
 
 			// Computed
@@ -275,7 +275,12 @@ func updateDnsResolver(d *schema.ResourceData, m interface{}) error {
 }
 
 func deleteDnsResolver(d *schema.ResourceData, m interface{}) error {
-	return nil
+	sync := &DnsResolverResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*client.OracleClients).DnsClient()
+	// This will call the Delete function which internally calls the updateResolver dns API operation in order to clear properties of the resolver.
+	// DeleteResolver is not a public facing dns operation. Resolvers are deleted when their corresponding VCN is deleted.
+	return sync.Delete()
 }
 
 type DnsResolverResourceCrud struct {
@@ -296,6 +301,18 @@ func (s *DnsResolverResourceCrud) CreatedPending() []string {
 }
 
 func (s *DnsResolverResourceCrud) CreatedTarget() []string {
+	return []string{
+		string(oci_dns.ResolverLifecycleStateActive),
+	}
+}
+
+func (s *DnsResolverResourceCrud) UpdatedPending() []string {
+	return []string{
+		string(oci_dns.ResolverLifecycleStateUpdating),
+	}
+}
+
+func (s *DnsResolverResourceCrud) UpdatedTarget() []string {
 	return []string{
 		string(oci_dns.ResolverLifecycleStateActive),
 	}
@@ -384,6 +401,12 @@ func (s *DnsResolverResourceCrud) Create() error {
 	}
 
 	s.Res = &response.Resolver
+	s.D.SetId(s.ID())
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
 
@@ -497,10 +520,86 @@ func (s *DnsResolverResourceCrud) Update() error {
 	}
 
 	s.Res = &response.Resolver
+
+	return nil
+}
+
+// The Delete function below checks if existing resolver has attachedViews, rules, defined tags and/or freeform tags. If any of these property is present then
+// the function calls dns updateResolver API and drops the AttachedViews and Rules and clears defined tags and freeform tags.
+func (s *DnsResolverResourceCrud) Delete() error {
+	var hasAttachedViews, hasRules, hasDefinedtags, hasFreeformTags bool
+
+	// ...check if the existing resolver has attachedViews
+	if attachedViews, ok := s.D.GetOkExists("attached_views"); ok {
+		interfaces := attachedViews.([]interface{})
+		if len(interfaces) != 0 {
+			hasAttachedViews = true
+		}
+	}
+
+	// ...check if the existing resolver has rules
+	if rules, ok := s.D.GetOkExists("rules"); ok {
+		interfaces := rules.([]interface{})
+		if len(interfaces) != 0 {
+			hasRules = true
+		}
+	}
+
+	// ...check if the existing resolver has defined tags
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		if len(definedTags.(map[string]interface{})) != 0 {
+			hasDefinedtags = true
+		}
+	}
+
+	// ...check if the existing resolver has freeform tags
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		if len(freeformTags.(map[string]interface{})) != 0 {
+			hasFreeformTags = true
+		}
+	}
+
+	// ...if any of the above property is present then make a call to updateResolver dns API
+	if hasAttachedViews || hasRules || hasDefinedtags || hasFreeformTags {
+		request := oci_dns.UpdateResolverRequest{}
+
+		// Setting AttachedViews to an empty list
+		tmpViewList := make([]oci_dns.AttachedViewDetails, 0)
+		request.AttachedViews = tmpViewList
+
+		// Setting Rules to an empty list
+		tmpRulesList := make([]oci_dns.ResolverRuleDetails, 0)
+		request.Rules = tmpRulesList
+
+		// Setting defined tags as empty
+		definedTags := make(map[string]map[string]interface{})
+		request.DefinedTags = definedTags
+
+		// Setting defined tags as empty
+		freeformTags := map[string]string{}
+		request.FreeformTags = freeformTags
+
+		tmp := s.D.Id()
+		request.ResolverId = &tmp
+
+		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dns")
+
+		response, err := s.Client.UpdateResolver(context.Background(), request)
+		if err != nil {
+			return err
+		}
+
+		s.Res = &response.Resolver
+		return nil
+	}
 	return nil
 }
 
 func (s *DnsResolverResourceCrud) SetData() error {
+	if s.Res.Id != nil {
+		s.D.Set("resolver_id", *s.Res.Id)
+	}
+
 	if s.Res.AttachedVcnId != nil {
 		s.D.Set("attached_vcn_id", *s.Res.AttachedVcnId)
 	}

@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -23,7 +23,7 @@ type ConfigParameterDefinition struct {
 	// This object represents the configurable properties for an object type.
 	ParameterName *string `mandatory:"false" json:"parameterName"`
 
-	// A user defined description for the object.
+	// A user-defined description for the object.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The default value for the parameter.
@@ -32,10 +32,10 @@ type ConfigParameterDefinition struct {
 	// The parameter class field name.
 	ClassFieldName *string `mandatory:"false" json:"classFieldName"`
 
-	// Specifies whether the parameter is static or not.
+	// Specifies whether the parameter is static.
 	IsStatic *bool `mandatory:"false" json:"isStatic"`
 
-	// Specifies whether the parameter is a class field or not.
+	// Specifies whether the parameter is a class field.
 	IsClassFieldValue *bool `mandatory:"false" json:"isClassFieldValue"`
 }
 

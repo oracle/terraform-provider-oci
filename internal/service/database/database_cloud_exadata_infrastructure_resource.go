@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database
@@ -6,13 +6,16 @@ package database
 import (
 	"context"
 	"fmt"
+	"log"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 )
 
 func DatabaseCloudExadataInfrastructureResource() *schema.Resource {
@@ -142,6 +145,11 @@ func DatabaseCloudExadataInfrastructureResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"is_monthly_patching_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"lead_time_in_weeks": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -192,8 +200,32 @@ func DatabaseCloudExadataInfrastructureResource() *schema.Resource {
 			},
 
 			// Computed
+			"activated_storage_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"additional_storage_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"available_storage_size_in_gbs": {
 				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"cpu_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"data_storage_size_in_tbs": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
+			"db_node_storage_size_in_gbs": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"db_server_version": {
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"last_maintenance_run_id": {
@@ -204,11 +236,43 @@ func DatabaseCloudExadataInfrastructureResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"max_cpu_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"max_data_storage_in_tbs": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
+			"max_db_node_storage_in_gbs": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"max_memory_in_gbs": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"memory_size_in_gbs": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"monthly_db_server_version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"monthly_storage_server_version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"next_maintenance_run_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"storage_server_version": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -244,6 +308,7 @@ func updateDatabaseCloudExadataInfrastructure(d *schema.ResourceData, m interfac
 	sync := &DatabaseCloudExadataInfrastructureResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
+	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
 	return tfresource.UpdateResource(d, sync)
 }
@@ -261,6 +326,7 @@ type DatabaseCloudExadataInfrastructureResourceCrud struct {
 	tfresource.BaseCrud
 	Client                 *oci_database.DatabaseClient
 	Res                    *oci_database.CloudExadataInfrastructure
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 	DisableNotFoundRetries bool
 }
 
@@ -484,6 +550,30 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) Update() error {
 	}
 
 	s.Res = &response.CloudExadataInfrastructure
+
+	retentionPolicyFunc := func() bool {
+		return s.Res.LifecycleState == oci_database.CloudExadataInfrastructureLifecycleStateAvailable
+	}
+	if err := tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate)); err != nil {
+		return err
+	}
+
+	if err := s.SetData(); err != nil {
+		log.Printf("[ERROR] unable to invoke setData() '%v'", err)
+	}
+
+	if storageCount, ok := s.D.GetOkExists("storage_count"); ok {
+		if s.Res.ActivatedStorageCount != nil {
+			userStorageCount := storageCount.(int)
+			activatedStorageCount := *s.Res.ActivatedStorageCount
+			if utils.IsMultiVm(*s.Res.Shape, s.Res.MaxDataStorageInTBs) && activatedStorageCount < userStorageCount {
+				err := s.addStorageMVM()
+				if err != nil {
+					return err
+				}
+			}
+		}
+	}
 	return nil
 }
 
@@ -505,6 +595,14 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) Delete() error {
 }
 
 func (s *DatabaseCloudExadataInfrastructureResourceCrud) SetData() error {
+	if s.Res.ActivatedStorageCount != nil {
+		s.D.Set("activated_storage_count", *s.Res.ActivatedStorageCount)
+	}
+
+	if s.Res.AdditionalStorageCount != nil {
+		s.D.Set("additional_storage_count", *s.Res.AdditionalStorageCount)
+	}
+
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -521,11 +619,27 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) SetData() error {
 		s.D.Set("compute_count", *s.Res.ComputeCount)
 	}
 
+	if s.Res.CpuCount != nil {
+		s.D.Set("cpu_count", *s.Res.CpuCount)
+	}
+
 	customerContacts := []interface{}{}
 	for _, item := range s.Res.CustomerContacts {
 		customerContacts = append(customerContacts, CustomerContactToMap(item))
 	}
 	s.D.Set("customer_contacts", customerContacts)
+
+	if s.Res.DataStorageSizeInTBs != nil {
+		s.D.Set("data_storage_size_in_tbs", *s.Res.DataStorageSizeInTBs)
+	}
+
+	if s.Res.DbNodeStorageSizeInGBs != nil {
+		s.D.Set("db_node_storage_size_in_gbs", *s.Res.DbNodeStorageSizeInGBs)
+	}
+
+	if s.Res.DbServerVersion != nil {
+		s.D.Set("db_server_version", *s.Res.DbServerVersion)
+	}
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
@@ -551,6 +665,34 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) SetData() error {
 		s.D.Set("maintenance_window", nil)
 	}
 
+	if s.Res.MaxCpuCount != nil {
+		s.D.Set("max_cpu_count", *s.Res.MaxCpuCount)
+	}
+
+	if s.Res.MaxDataStorageInTBs != nil {
+		s.D.Set("max_data_storage_in_tbs", *s.Res.MaxDataStorageInTBs)
+	}
+
+	if s.Res.MaxDbNodeStorageInGBs != nil {
+		s.D.Set("max_db_node_storage_in_gbs", *s.Res.MaxDbNodeStorageInGBs)
+	}
+
+	if s.Res.MaxMemoryInGBs != nil {
+		s.D.Set("max_memory_in_gbs", *s.Res.MaxMemoryInGBs)
+	}
+
+	if s.Res.MemorySizeInGBs != nil {
+		s.D.Set("memory_size_in_gbs", *s.Res.MemorySizeInGBs)
+	}
+
+	if s.Res.MonthlyDbServerVersion != nil {
+		s.D.Set("monthly_db_server_version", *s.Res.MonthlyDbServerVersion)
+	}
+
+	if s.Res.MonthlyStorageServerVersion != nil {
+		s.D.Set("monthly_storage_server_version", *s.Res.MonthlyStorageServerVersion)
+	}
+
 	if s.Res.NextMaintenanceRunId != nil {
 		s.D.Set("next_maintenance_run_id", *s.Res.NextMaintenanceRunId)
 	}
@@ -563,6 +705,10 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) SetData() error {
 
 	if s.Res.StorageCount != nil {
 		s.D.Set("storage_count", *s.Res.StorageCount)
+	}
+
+	if s.Res.StorageServerVersion != nil {
+		s.D.Set("storage_server_version", *s.Res.StorageServerVersion)
 	}
 
 	if s.Res.TimeCreated != nil {
@@ -648,6 +794,11 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) mapToMaintenanceWindow(
 		result.IsCustomActionTimeoutEnabled = &tmp
 	}
 
+	if isMonthlyPatchingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_monthly_patching_enabled")); ok {
+		tmp := isMonthlyPatchingEnabled.(bool)
+		result.IsMonthlyPatchingEnabled = &tmp
+	}
+
 	if leadTimeInWeeks, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lead_time_in_weeks")); ok {
 		tmp := leadTimeInWeeks.(int)
 		result.LeadTimeInWeeks = &tmp
@@ -716,6 +867,26 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) updateCompartment(compa
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	_, err := s.Client.ChangeCloudExadataInfrastructureCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	return nil
+}
+
+func (s *DatabaseCloudExadataInfrastructureResourceCrud) addStorageMVM() error {
+	addStorageRequest := oci_database.AddStorageCapacityCloudExadataInfrastructureRequest{}
+
+	idTmp := s.D.Id()
+	addStorageRequest.CloudExadataInfrastructureId = &idTmp
+
+	addStorageRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	_, err := s.Client.AddStorageCapacityCloudExadataInfrastructure(context.Background(), addStorageRequest)
 	if err != nil {
 		return err
 	}

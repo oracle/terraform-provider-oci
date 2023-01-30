@@ -91,6 +91,9 @@ The following attributes are exported:
 * `job_infrastructure_configuration_details` - The job infrastructure configuration details (shape, block storage, etc.) 
 	* `block_storage_size_in_gbs` - The size of the block storage volume to attach to the instance running the job 
 	* `job_infrastructure_type` - The infrastructure type used for job run.
+	* `job_shape_config_details` - Details for the job run shape configuration. Specify only when a flex shape is selected.
+		* `memory_in_gbs` - The total amount of memory available to the job run instance, in gigabytes. 
+		* `ocpus` - The total number of OCPUs available to the job run instance. 
 	* `shape_name` - The shape used to launch the job run instances.
 	* `subnet_id` - The subnet to create a secondary vnic in to attach to the instance running the job 
 * `job_log_configuration_override_details` - Logging configuration for resource. 
@@ -110,7 +113,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Job Run
 	* `update` - (Defaults to 20 minutes), when updating the Job Run
 	* `delete` - (Defaults to 20 minutes), when destroying the Job Run

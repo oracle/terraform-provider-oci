@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package artifacts
@@ -10,12 +10,15 @@ import (
 
 	oci_artifacts "github.com/oracle/oci-go-sdk/v65/artifacts"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func ArtifactsContainerConfigurationResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: tfresource.DefaultTimeout,
 		Create:   createArtifactsContainerConfiguration,
 		Read:     readArtifactsContainerConfiguration,
@@ -80,6 +83,7 @@ type ArtifactsContainerConfigurationResourceCrud struct {
 
 func (s *ArtifactsContainerConfigurationResourceCrud) ID() string {
 	return s.D.Get("compartment_id").(string)
+	//return GetContainerConfigurationCompositeId(s.D.Get("compartment_id").(string))
 }
 
 func (s *ArtifactsContainerConfigurationResourceCrud) Create() error {
@@ -111,6 +115,9 @@ func (s *ArtifactsContainerConfigurationResourceCrud) Get() error {
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	} else {
+		tmp := s.D.Id()
 		request.CompartmentId = &tmp
 	}
 

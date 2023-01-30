@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,14 +22,14 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_opsi "github.com/oracle/oci-go-sdk/v65/opsi"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	EmHostInsightRequiredOnlyResource = HostInsightResourceDependencies +
+	EmHostInsightRequiredOnlyResource = OpsiHostInsightResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", acctest.Required, acctest.Create, emHostInsightRepresentation)
 
-	EmHostInsightResourceConfig = HostInsightResourceDependencies +
+	EmHostInsightResourceConfig = OpsiHostInsightResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", acctest.Optional, acctest.Update, emHostInsightRepresentation)
 
 	emHostInsightSingularDataSourceRepresentation = map[string]interface{}{
@@ -259,7 +259,7 @@ func TestOpsiEmHostInsightResource_basic(t *testing.T) {
 
 		// verify resource import
 		{
-			Config:                  config + HostInsightRequiredOnlyResource,
+			Config:                  config + OpsiHostInsightRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

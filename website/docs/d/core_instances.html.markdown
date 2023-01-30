@@ -142,12 +142,17 @@ The following attributes are exported:
 		* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
 		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images. 
 * `metadata` - Custom metadata that you provide.
-* `platform_config` - The platform configuration for the instance. 
-	* `is_measured_boot_enabled` - Whether the Measured Boot is to be enabled on the instance 
-	* `is_secure_boot_enabled` - Whether the Secure Boot is to be enabled on the instance 
-	* `is_trusted_platform_module_enabled` - Whether the Trusted Platform Module (TPM) is to be enabled on the instance 
-	* `numa_nodes_per_socket` - The number of NUMA nodes per socket (NPS). 
-	* `type` - The type of platform being configured. (Supported types=[INTEL_VM, AMD_MILAN_BM, AMD_ROME_BM, INTEL_SKYLAKE_BM])
+* `platform_config` - The platform configuration for the instance.
+	* `are_virtual_instructions_enabled` - Whether virtualization instructions are available.
+	* `is_access_control_service_enabled` - Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device passthrough. 
+	* `is_input_output_memory_management_unit_enabled` - Whether the input-output memory management unit is enabled.
+	* `is_measured_boot_enabled` - Whether the Measured Boot is to be enabled on the instance.
+	* `is_secure_boot_enabled` - Whether the Secure Boot is to be enabled on the instance.
+	* `is_symmetric_multi_threading_enabled` - Whether symmetric multi-threading is enabled on the instance.
+	* `is_trusted_platform_module_enabled` - Whether the Trusted Platform Module (TPM) is to be enabled on the instance.
+	* `numa_nodes_per_socket` - The number of NUMA nodes per socket (NPS).
+	* `percentage_of_cores_enabled` - The percentage of cores enabled.
+	* `type` - The type of platform being configured. (Supported types=[INTEL_VM, AMD_MILAN_BM, AMD_ROME_BM, AMD_ROME_BM_GPU, INTEL_ICELAKE_BM, INTEL_SKYLAKE_BM])
 * `preemptible_instance_config` - (Optional) Configuration options for preemptible instances. 
 	* `preemption_action` - (Required) The action to run when the preemptible instance is interrupted for eviction. 
 		* `preserve_boot_volume` - (Optional) Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified. 
@@ -183,6 +188,14 @@ The following attributes are exported:
 	* `processor_description` - A short description of the instance's processor (CPU). 
 * `source_details` - 
 	* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 32,768 GB (32 TB). 
+	* `boot_volume_vpus_per_gb` - The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Performance Levels](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
+
+		Allowed values:
+		* `10`: Represents Balanced option.
+		* `20`: Represents Higher Performance option.
+		* `30`-`120`: Represents the Ultra High Performance option.
+
+		For volumes with the auto-tuned performance feature enabled, this is set to the default (minimum) VPUs/GB. 
 	* `kms_key_id` - The OCID of the Key Management key to assign as the master encryption key for the boot volume.
 	* `source_id` - The OCID of an image or a boot volume to use, depending on the value of `source_type`.
 	* `source_type` - The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 

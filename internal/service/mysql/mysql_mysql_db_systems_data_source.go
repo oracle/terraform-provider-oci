@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package mysql
@@ -9,8 +9,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_mysql "github.com/oracle/oci-go-sdk/v65/mysql"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func MysqlMysqlDbSystemsDataSource() *schema.Resource {
@@ -165,6 +165,12 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) SetData() error {
 			mysqlDbSystem["availability_domain"] = *r.AvailabilityDomain
 		}
 
+		if r.BackupPolicy != nil {
+			mysqlDbSystem["backup_policy"] = []interface{}{BackupPolicyToMap(r.BackupPolicy)}
+		} else {
+			mysqlDbSystem["backup_policy"] = nil
+		}
+
 		mysqlDbSystem["crash_recovery"] = r.CrashRecovery
 
 		if r.CurrentPlacement != nil {
@@ -227,6 +233,10 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) SetData() error {
 
 		if r.MysqlVersion != nil {
 			mysqlDbSystem["mysql_version"] = *r.MysqlVersion
+		}
+
+		if r.ShapeName != nil {
+			mysqlDbSystem["shape_name"] = *r.ShapeName
 		}
 
 		mysqlDbSystem["state"] = r.LifecycleState

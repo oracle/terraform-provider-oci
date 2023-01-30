@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -7,28 +7,28 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	managedDatabaseUserDataAccessContainerSingularDataSourceRepresentation = map[string]interface{}{
+	DatabaseManagementDatabaseManagementManagedDatabaseUserDataAccessContainerSingularDataSourceRepresentation = map[string]interface{}{
 		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_management_managed_database.test_managed_database.id}`},
 		"user_name":           acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.name}`},
 		"name":                acctest.Representation{RepType: acctest.Optional, Create: `name`},
 	}
 
-	managedDatabaseUserDataAccessContainerDataSourceRepresentation = map[string]interface{}{
+	DatabaseManagementDatabaseManagementManagedDatabaseUserDataAccessContainerDataSourceRepresentation = map[string]interface{}{
 		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_management_managed_database.test_managed_database.id}`},
 		"user_name":           acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.name}`},
 		"name":                acctest.Representation{RepType: acctest.Optional, Create: `name`},
 	}
 
-	ManagedDatabaseUserDataAccessContainerResourceConfig = ""
+	DatabaseManagementManagedDatabaseUserDataAccessContainerResourceConfig = ""
 )
 
 // issue-routing-tag: database_management/default
@@ -51,8 +51,8 @@ func TestDatabaseManagementManagedDatabaseUserDataAccessContainerResource_basic(
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_user_data_access_containers", "test_managed_database_user_data_access_containers", acctest.Required, acctest.Create, managedDatabaseUserDataAccessContainerDataSourceRepresentation) +
-				compartmentIdVariableStr + ManagedDatabaseUserDataAccessContainerResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_user_data_access_containers", "test_managed_database_user_data_access_containers", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseUserDataAccessContainerDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseManagementManagedDatabaseUserDataAccessContainerResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "managed_database_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "user_name"),
@@ -64,8 +64,8 @@ func TestDatabaseManagementManagedDatabaseUserDataAccessContainerResource_basic(
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_user_data_access_container", "test_managed_database_user_data_access_container", acctest.Required, acctest.Create, managedDatabaseUserDataAccessContainerSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ManagedDatabaseUserDataAccessContainerResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_user_data_access_container", "test_managed_database_user_data_access_container", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseUserDataAccessContainerSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseManagementManagedDatabaseUserDataAccessContainerResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_database_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "user_name"),

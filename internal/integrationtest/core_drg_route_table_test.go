@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,37 +16,37 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	DrgRouteTableRequiredOnlyResource = DrgRouteTableResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", acctest.Required, acctest.Create, drgRouteTableRepresentation)
+	CoreDrgRouteTableRequiredOnlyResource = CoreDrgRouteTableResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", acctest.Required, acctest.Create, CoreDrgRouteTableRepresentation)
 
-	DrgRouteTableResourceConfig = DrgRouteTableResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", acctest.Optional, acctest.Update, drgRouteTableRepresentation)
+	CoreDrgRouteTableResourceConfig = CoreDrgRouteTableResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", acctest.Optional, acctest.Update, CoreDrgRouteTableRepresentation)
 
-	drgRouteTableSingularDataSourceRepresentation = map[string]interface{}{
+	CoreCoreDrgRouteTableSingularDataSourceRepresentation = map[string]interface{}{
 		"drg_route_table_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_drg_route_table.test_drg_route_table.id}`},
 	}
 
-	drgRouteTableDataSourceRepresentation = map[string]interface{}{
+	CoreCoreDrgRouteTableDataSourceRepresentation = map[string]interface{}{
 		"drg_id":                           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_drg.test_drg.id}`},
 		"display_name":                     acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"import_drg_route_distribution_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_drg_route_distribution.test_drg_route_distribution.id}`},
 		"state":                            acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
-		"filter":                           acctest.RepresentationGroup{RepType: acctest.Required, Group: drgRouteTableDataSourceFilterRepresentation}}
-	drgRouteTableDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                           acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreDrgRouteTableDataSourceFilterRepresentation}}
+	CoreDrgRouteTableDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_drg_route_table.test_drg_route_table.id}`}},
 	}
 
-	drgRouteTableRepresentation = map[string]interface{}{
+	CoreDrgRouteTableRepresentation = map[string]interface{}{
 		"drg_id":                           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_drg.test_drg.id}`},
 		"defined_tags":                     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":                     acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
@@ -55,15 +55,15 @@ var (
 		"is_ecmp_enabled":                  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
-	drgRouteTableTriggerRepresentation = map[string]interface{}{
+	CoreDrgRouteTableTriggerRepresentation = map[string]interface{}{
 		"drg_id":                acctest.Representation{RepType: acctest.Required, Create: `${oci_core_drg.test_drg.id}`},
 		"display_name":          acctest.Representation{RepType: acctest.Optional, Create: `displayName3`, Update: `displayName4`},
 		"is_ecmp_enabled":       acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"remove_import_trigger": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
-	DrgRouteTableResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution", "test_drg_route_distribution", acctest.Required, acctest.Create, drgRouteDistributionRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", acctest.Required, acctest.Create, drgRepresentation) +
+	CoreDrgRouteTableResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution", "test_drg_route_distribution", acctest.Required, acctest.Create, CoreDrgRouteDistributionRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", acctest.Required, acctest.Create, CoreDrgRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -83,14 +83,14 @@ func TestCoreDrgRouteTableResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DrgRouteTableResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", acctest.Optional, acctest.Create, drgRouteTableRepresentation), "core", "drgRouteTable", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreDrgRouteTableResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", acctest.Optional, acctest.Create, CoreDrgRouteTableRepresentation), "core", "drgRouteTable", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreDrgRouteTableDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DrgRouteTableResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", acctest.Required, acctest.Create, drgRouteTableRepresentation),
+			Config: config + compartmentIdVariableStr + CoreDrgRouteTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", acctest.Required, acctest.Create, CoreDrgRouteTableRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 
@@ -103,12 +103,12 @@ func TestCoreDrgRouteTableResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DrgRouteTableResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreDrgRouteTableResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DrgRouteTableResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", acctest.Optional, acctest.Create, drgRouteTableRepresentation),
+			Config: config + compartmentIdVariableStr + CoreDrgRouteTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", acctest.Optional, acctest.Create, CoreDrgRouteTableRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -134,8 +134,8 @@ func TestCoreDrgRouteTableResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DrgRouteTableResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", acctest.Optional, acctest.Update, drgRouteTableRepresentation),
+			Config: config + compartmentIdVariableStr + CoreDrgRouteTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", acctest.Optional, acctest.Update, CoreDrgRouteTableRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -158,8 +158,8 @@ func TestCoreDrgRouteTableResource_basic(t *testing.T) {
 		},
 		// verify remove import trigger
 		{
-			Config: config + compartmentIdVariableStr + DrgRouteTableResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", acctest.Required, acctest.Create, drgRouteTableTriggerRepresentation),
+			Config: config + compartmentIdVariableStr + CoreDrgRouteTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", acctest.Required, acctest.Create, CoreDrgRouteTableTriggerRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "import_drg_route_distribution_id"),
@@ -167,8 +167,8 @@ func TestCoreDrgRouteTableResource_basic(t *testing.T) {
 		},
 		// verify updates with import trigger
 		{
-			Config: config + compartmentIdVariableStr + DrgRouteTableResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", acctest.Optional, acctest.Update, drgRouteTableTriggerRepresentation),
+			Config: config + compartmentIdVariableStr + CoreDrgRouteTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", acctest.Optional, acctest.Update, CoreDrgRouteTableTriggerRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -185,14 +185,14 @@ func TestCoreDrgRouteTableResource_basic(t *testing.T) {
 		},
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DrgRouteTableResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreDrgRouteTableResourceDependencies,
 		},
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_drg_route_tables", "test_drg_route_tables", acctest.Optional, acctest.Update, drgRouteTableDataSourceRepresentation) +
-				compartmentIdVariableStr + DrgRouteTableResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", acctest.Optional, acctest.Update, drgRouteTableRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_drg_route_tables", "test_drg_route_tables", acctest.Optional, acctest.Update, CoreCoreDrgRouteTableDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreDrgRouteTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", acctest.Optional, acctest.Update, CoreDrgRouteTableRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "drg_id"),
@@ -214,8 +214,8 @@ func TestCoreDrgRouteTableResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", acctest.Required, acctest.Create, drgRouteTableSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DrgRouteTableResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", acctest.Required, acctest.Create, CoreCoreDrgRouteTableSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreDrgRouteTableResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "drg_route_table_id"),
 
@@ -230,7 +230,7 @@ func TestCoreDrgRouteTableResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + DrgRouteTableRequiredOnlyResource,
+			Config:                  config + CoreDrgRouteTableRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -294,7 +294,7 @@ func init() {
 
 func sweepCoreDrgRouteTableResource(compartment string) error {
 	virtualNetworkClient := acctest.GetTestClients(&schema.ResourceData{}).VirtualNetworkClient()
-	drgRouteTableIds, err := getDrgRouteTableIds(compartment)
+	drgRouteTableIds, err := getCoreDrgRouteTableIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -310,14 +310,14 @@ func sweepCoreDrgRouteTableResource(compartment string) error {
 				fmt.Printf("Error deleting DrgRouteTable %s %s, It is possible that the resource is already deleted. Please verify manually \n", drgRouteTableId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &drgRouteTableId, drgRouteTableSweepWaitCondition, time.Duration(3*time.Minute),
-				drgRouteTableSweepResponseFetchOperation, "core", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &drgRouteTableId, CoreDrgRouteTableSweepWaitCondition, time.Duration(3*time.Minute),
+				CoreDrgRouteTableSweepResponseFetchOperation, "core", true)
 		}
 	}
 	return nil
 }
 
-func getDrgRouteTableIds(compartment string) ([]string, error) {
+func getCoreDrgRouteTableIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "DrgRouteTableId")
 	if ids != nil {
 		return ids, nil
@@ -329,7 +329,7 @@ func getDrgRouteTableIds(compartment string) ([]string, error) {
 	listDrgRouteTablesRequest := oci_core.ListDrgRouteTablesRequest{}
 	// listDrgRouteTablesRequest.CompartmentId = &compartmentId
 
-	drgIds, error := getDrgIds(compartment)
+	drgIds, error := getCoreDrgIds(compartment)
 	if error != nil {
 		return resourceIds, fmt.Errorf("Error getting drgId required for DrgRouteTable resource requests \n")
 	}
@@ -352,7 +352,7 @@ func getDrgRouteTableIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func drgRouteTableSweepWaitCondition(response common.OCIOperationResponse) bool {
+func CoreDrgRouteTableSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if drgRouteTableResponse, ok := response.Response.(oci_core.GetDrgRouteTableResponse); ok {
 		return drgRouteTableResponse.LifecycleState != oci_core.DrgRouteTableLifecycleStateTerminated
@@ -360,7 +360,7 @@ func drgRouteTableSweepWaitCondition(response common.OCIOperationResponse) bool 
 	return false
 }
 
-func drgRouteTableSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CoreDrgRouteTableSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.VirtualNetworkClient().GetDrgRouteTable(context.Background(), oci_core.GetDrgRouteTableRequest{
 		DrgRouteTableId: resourceId,
 		RequestMetadata: common.RequestMetadata{

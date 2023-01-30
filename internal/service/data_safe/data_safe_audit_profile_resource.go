@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package data_safe
@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
@@ -154,6 +154,10 @@ func DataSafeAuditProfileResource() *schema.Resource {
 							Computed: true,
 						},
 						"time_created": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_last_collected": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -788,6 +792,10 @@ func AuditTrailToMap(obj oci_data_safe.AuditTrail) map[string]interface{} {
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeLastCollected != nil {
+		result["time_last_collected"] = obj.TimeLastCollected.String()
 	}
 
 	if obj.TimeUpdated != nil {

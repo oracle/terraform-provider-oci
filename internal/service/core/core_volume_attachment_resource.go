@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package core
@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 )
@@ -66,6 +66,12 @@ func CoreVolumeAttachmentResource() *schema.Resource {
 			},
 			"encryption_in_transit_type": {
 				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"is_agent_auto_iscsi_login_enabled": {
+				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
@@ -353,6 +359,10 @@ func (s *CoreVolumeAttachmentResourceCrud) SetData() error {
 			s.D.Set("iqn", *v.Iqn)
 		}
 
+		if v.IsAgentAutoIscsiLoginEnabled != nil {
+			s.D.Set("is_agent_auto_iscsi_login_enabled", *v.IsAgentAutoIscsiLoginEnabled)
+		}
+
 		multipathDevices := []interface{}{}
 		for _, item := range v.MultipathDevices {
 			multipathDevices = append(multipathDevices, MultipathDeviceToMap(item))
@@ -550,6 +560,10 @@ func (s *CoreVolumeAttachmentResourceCrud) populateTopLevelPolymorphicAttachVolu
 		details := oci_core.AttachIScsiVolumeDetails{}
 		if encryptionInTransitType, ok := s.D.GetOkExists("encryption_in_transit_type"); ok {
 			details.EncryptionInTransitType = oci_core.EncryptionInTransitTypeEnum(encryptionInTransitType.(string))
+		}
+		if isAgentAutoIscsiLoginEnabled, ok := s.D.GetOkExists("is_agent_auto_iscsi_login_enabled"); ok {
+			tmp := isAgentAutoIscsiLoginEnabled.(bool)
+			details.IsAgentAutoIscsiLoginEnabled = &tmp
 		}
 		if useChap, ok := s.D.GetOkExists("use_chap"); ok {
 			tmp := useChap.(bool)

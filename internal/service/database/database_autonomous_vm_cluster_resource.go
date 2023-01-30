@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database
@@ -7,8 +7,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -79,6 +79,12 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"is_mtls_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"license_model": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -132,6 +138,11 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"is_monthly_patching_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"lead_time_in_weeks": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -174,6 +185,18 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 				},
 			},
 			"memory_per_oracle_compute_unit_in_gbs": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"scan_listener_port_non_tls": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"scan_listener_port_tls": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
@@ -272,6 +295,11 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 							},
 						},
 						"is_custom_action_timeout_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_monthly_patching_enabled": {
 							Type:     schema.TypeBool,
 							Optional: true,
 							Computed: true,
@@ -471,6 +499,11 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) Create() error {
 		request.IsLocalBackupEnabled = &tmp
 	}
 
+	if isMtlsEnabled, ok := s.D.GetOkExists("is_mtls_enabled"); ok {
+		tmp := isMtlsEnabled.(bool)
+		request.IsMtlsEnabled = &tmp
+	}
+
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 		request.LicenseModel = oci_database.CreateAutonomousVmClusterDetailsLicenseModelEnum(licenseModel.(string))
 	}
@@ -489,6 +522,16 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) Create() error {
 	if memoryPerOracleComputeUnitInGBs, ok := s.D.GetOkExists("memory_per_oracle_compute_unit_in_gbs"); ok {
 		tmp := memoryPerOracleComputeUnitInGBs.(int)
 		request.MemoryPerOracleComputeUnitInGBs = &tmp
+	}
+
+	if scanListenerPortNonTls, ok := s.D.GetOkExists("scan_listener_port_non_tls"); ok {
+		tmp := scanListenerPortNonTls.(int)
+		request.ScanListenerPortNonTls = &tmp
+	}
+
+	if scanListenerPortTls, ok := s.D.GetOkExists("scan_listener_port_tls"); ok {
+		tmp := scanListenerPortTls.(int)
+		request.ScanListenerPortTls = &tmp
 	}
 
 	if timeZone, ok := s.D.GetOkExists("time_zone"); ok {
@@ -662,6 +705,10 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) SetData() error {
 		s.D.Set("is_local_backup_enabled", *s.Res.IsLocalBackupEnabled)
 	}
 
+	if s.Res.IsMtlsEnabled != nil {
+		s.D.Set("is_mtls_enabled", *s.Res.IsMtlsEnabled)
+	}
+
 	if s.Res.LastMaintenanceRunId != nil {
 		s.D.Set("last_maintenance_run_id", *s.Res.LastMaintenanceRunId)
 	}
@@ -696,6 +743,14 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) SetData() error {
 
 	if s.Res.ReclaimableCpus != nil {
 		s.D.Set("reclaimable_cpus", *s.Res.ReclaimableCpus)
+	}
+
+	if s.Res.ScanListenerPortNonTls != nil {
+		s.D.Set("scan_listener_port_non_tls", *s.Res.ScanListenerPortNonTls)
+	}
+
+	if s.Res.ScanListenerPortTls != nil {
+		s.D.Set("scan_listener_port_tls", *s.Res.ScanListenerPortTls)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -778,6 +833,11 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) mapToMaintenanceWindow(fieldKe
 	if isCustomActionTimeoutEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_custom_action_timeout_enabled")); ok {
 		tmp := isCustomActionTimeoutEnabled.(bool)
 		result.IsCustomActionTimeoutEnabled = &tmp
+	}
+
+	if isMonthlyPatchingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_monthly_patching_enabled")); ok {
+		tmp := isMonthlyPatchingEnabled.(bool)
+		result.IsMonthlyPatchingEnabled = &tmp
 	}
 
 	if leadTimeInWeeks, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lead_time_in_weeks")); ok {

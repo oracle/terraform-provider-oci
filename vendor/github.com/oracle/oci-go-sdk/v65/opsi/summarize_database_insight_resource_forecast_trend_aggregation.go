@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -29,8 +29,8 @@ type SummarizeDatabaseInsightResourceForecastTrendAggregation struct {
 	// Defines the type of resource metric (example: CPU, STORAGE)
 	ResourceMetric SummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricEnum `mandatory:"true" json:"resourceMetric"`
 
-	// Displays usage unit ( CORES, GB)
-	UsageUnit UsageUnitEnum `mandatory:"true" json:"usageUnit"`
+	// Displays usage unit ( CORES, GB , PERCENT, MBPS)
+	UsageUnit SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnum `mandatory:"true" json:"usageUnit"`
 
 	// Time series patterns used in the forecasting.
 	Pattern SummarizeDatabaseInsightResourceForecastTrendAggregationPatternEnum `mandatory:"true" json:"pattern"`
@@ -57,8 +57,8 @@ func (m SummarizeDatabaseInsightResourceForecastTrendAggregation) ValidateEnumVa
 	if _, ok := GetMappingSummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricEnum(string(m.ResourceMetric)); !ok && m.ResourceMetric != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceMetric: %s. Supported values are: %s.", m.ResourceMetric, strings.Join(GetSummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingUsageUnitEnum(string(m.UsageUnit)); !ok && m.UsageUnit != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UsageUnit: %s. Supported values are: %s.", m.UsageUnit, strings.Join(GetUsageUnitEnumStringValues(), ",")))
+	if _, ok := GetMappingSummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnum(string(m.UsageUnit)); !ok && m.UsageUnit != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UsageUnit: %s. Supported values are: %s.", m.UsageUnit, strings.Join(GetSummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingSummarizeDatabaseInsightResourceForecastTrendAggregationPatternEnum(string(m.Pattern)); !ok && m.Pattern != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Pattern: %s. Supported values are: %s.", m.Pattern, strings.Join(GetSummarizeDatabaseInsightResourceForecastTrendAggregationPatternEnumStringValues(), ",")))
@@ -125,6 +125,60 @@ func GetSummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricEn
 // GetMappingSummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingSummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricEnum(val string) (SummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricEnum, bool) {
 	enum, ok := mappingSummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnum Enum with underlying type: string
+type SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnum string
+
+// Set of constants representing the allowable values for SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnum
+const (
+	SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitCores   SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnum = "CORES"
+	SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitGb      SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnum = "GB"
+	SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitMbps    SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnum = "MBPS"
+	SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitIops    SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnum = "IOPS"
+	SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitPercent SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnum = "PERCENT"
+)
+
+var mappingSummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnum = map[string]SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnum{
+	"CORES":   SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitCores,
+	"GB":      SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitGb,
+	"MBPS":    SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitMbps,
+	"IOPS":    SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitIops,
+	"PERCENT": SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitPercent,
+}
+
+var mappingSummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnumLowerCase = map[string]SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnum{
+	"cores":   SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitCores,
+	"gb":      SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitGb,
+	"mbps":    SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitMbps,
+	"iops":    SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitIops,
+	"percent": SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitPercent,
+}
+
+// GetSummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnum
+func GetSummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnumValues() []SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnum {
+	values := make([]SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnum, 0)
+	for _, v := range mappingSummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetSummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnumStringValues Enumerates the set of values in String for SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnum
+func GetSummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnumStringValues() []string {
+	return []string{
+		"CORES",
+		"GB",
+		"MBPS",
+		"IOPS",
+		"PERCENT",
+	}
+}
+
+// GetMappingSummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingSummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnum(val string) (SummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnum, bool) {
+	enum, ok := mappingSummarizeDatabaseInsightResourceForecastTrendAggregationUsageUnitEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

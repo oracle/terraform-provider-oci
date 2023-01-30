@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -85,6 +85,69 @@ func (client *ApmSyntheticClient) setConfigurationProvider(configProvider common
 // ConfigurationProvider the ConfigurationProvider used in this client, or null if none set
 func (client *ApmSyntheticClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
+}
+
+// AggregateNetworkData Gets aggregated network data for given executions.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/AggregateNetworkData.go.html to see an example of how to use AggregateNetworkData API.
+// A default retry strategy applies to this operation AggregateNetworkData()
+func (client ApmSyntheticClient) AggregateNetworkData(ctx context.Context, request AggregateNetworkDataRequest) (response AggregateNetworkDataResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.aggregateNetworkData, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AggregateNetworkDataResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AggregateNetworkDataResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AggregateNetworkDataResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AggregateNetworkDataResponse")
+	}
+	return
+}
+
+// aggregateNetworkData implements the OCIOperation interface (enables retrying operations)
+func (client ApmSyntheticClient) aggregateNetworkData(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/monitors/{monitorId}/actions/aggregateNetworkData", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AggregateNetworkDataResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/AggregatedNetworkDataResult/AggregateNetworkData"
+		err = common.PostProcessServiceError(err, "ApmSynthetic", "AggregateNetworkData", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // CreateDedicatedVantagePoint Registers a new dedicated vantage point.

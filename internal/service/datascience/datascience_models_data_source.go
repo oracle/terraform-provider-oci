@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package datascience
@@ -6,11 +6,10 @@ package datascience
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func DatascienceModelsDataSource() *schema.Resource {
@@ -19,6 +18,14 @@ func DatascienceModelsDataSource() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"model_version_set_name": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"version_label": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
@@ -85,6 +92,16 @@ func (s *DatascienceModelsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if model_version_set_name, ok := s.D.GetOkExists("model_version_set_name"); ok {
+		tmp := model_version_set_name.(string)
+		request.ModelVersionSetName = &tmp
+	}
+
+	if version_label, ok := s.D.GetOkExists("version_label"); ok {
+		tmp := version_label.(string)
+		request.VersionLabel = &tmp
 	}
 
 	if id, ok := s.D.GetOkExists("id"); ok {
@@ -157,6 +174,14 @@ func (s *DatascienceModelsDataSourceCrud) SetData() error {
 
 		if r.ProjectId != nil {
 			model["project_id"] = *r.ProjectId
+		}
+
+		if r.ModelVersionSetName != nil {
+			model["model_version_set_name"] = *r.ModelVersionSetName
+		}
+
+		if r.VersionLabel != nil {
+			model["version_label"] = *r.VersionLabel
 		}
 
 		model["state"] = r.LifecycleState

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -47,6 +47,34 @@ type ListConfigsRequest struct {
 	// The field to sort by. You can provide one "sortBy" value. The default order for displayName, timeCreated
 	// and timeUpdated is ascending. The displayName sort by is case-sensitive.
 	SortBy ListConfigsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
+
+	// A filter to return OPTIONS resources that match the given group.
+	OptionsGroup *string `mandatory:"false" contributesTo:"query" name:"optionsGroup"`
+
+	// A list of tag filters to apply.  Only resources with a defined tag matching the value will be returned.
+	// Each item in the list has the format "{namespace}.{tagName}.{value}".  All inputs are case-insensitive.
+	// Multiple values for the same key (i.e. same namespace and tag name) are interpreted as "OR".
+	// Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as "AND".
+	DefinedTagEquals []string `contributesTo:"query" name:"definedTagEquals" collectionFormat:"multi"`
+
+	// A list of tag filters to apply.  Only resources with a freeform tag matching the value will be returned.
+	// The key for each tag is "{tagName}.{value}".  All inputs are case-insensitive.
+	// Multiple values for the same tag name are interpreted as "OR".  Values for different tag names are interpreted as "AND".
+	FreeformTagEquals []string `contributesTo:"query" name:"freeformTagEquals" collectionFormat:"multi"`
+
+	// A list of tag existence filters to apply.  Only resources for which the specified defined tags exist will be returned.
+	// Each item in the list has the format "{namespace}.{tagName}.true" (for checking existence of a defined tag)
+	// or "{namespace}.true".  All inputs are case-insensitive.
+	// Currently, only existence ("true" at the end) is supported. Absence ("false" at the end) is not supported.
+	// Multiple values for the same key (i.e. same namespace and tag name) are interpreted as "OR".
+	// Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as "AND".
+	DefinedTagExists []string `contributesTo:"query" name:"definedTagExists" collectionFormat:"multi"`
+
+	// A list of tag existence filters to apply.  Only resources for which the specified freeform tags exist the value will be returned.
+	// The key for each tag is "{tagName}.true".  All inputs are case-insensitive.
+	// Currently, only existence ("true" at the end) is supported. Absence ("false" at the end) is not supported.
+	// Multiple values for different tag names are interpreted as "AND".
+	FreeformTagExists []string `contributesTo:"query" name:"freeformTagExists" collectionFormat:"multi"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

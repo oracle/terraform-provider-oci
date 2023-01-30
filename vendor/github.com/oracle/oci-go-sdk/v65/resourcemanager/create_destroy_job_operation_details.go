@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -21,12 +21,23 @@ import (
 
 // CreateDestroyJobOperationDetails Job details that are specific to destroy operations.
 type CreateDestroyJobOperationDetails struct {
+
+	// Specifies whether or not to upgrade provider versions.
+	// Within the version constraints of your Terraform configuration, use the latest versions available from the source of Terraform providers.
+	// For more information about this option, see Dependency Lock File (terraform.io) (https://www.terraform.io/language/files/dependency-lock).
+	IsProviderUpgradeRequired *bool `mandatory:"false" json:"isProviderUpgradeRequired"`
+
 	TerraformAdvancedOptions *TerraformAdvancedOptions `mandatory:"false" json:"terraformAdvancedOptions"`
 
 	// Specifies the source of the execution plan to apply.
 	// Currently, only `AUTO_APPROVED` is allowed, which indicates that the job
 	// will be run without an execution plan.
 	ExecutionPlanStrategy DestroyJobOperationDetailsExecutionPlanStrategyEnum `mandatory:"true" json:"executionPlanStrategy"`
+}
+
+//GetIsProviderUpgradeRequired returns IsProviderUpgradeRequired
+func (m CreateDestroyJobOperationDetails) GetIsProviderUpgradeRequired() *bool {
+	return m.IsProviderUpgradeRequired
 }
 
 func (m CreateDestroyJobOperationDetails) String() string {

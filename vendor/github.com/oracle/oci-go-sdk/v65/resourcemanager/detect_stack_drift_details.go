@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// DetectStackDriftDetails The details for detecting drift in a stack
+// DetectStackDriftDetails Details for detecting drift in a stack.
 type DetectStackDriftDetails struct {
 
 	// The list of resources in the specified stack to detect drift for. Each resource is identified by a resource address,
@@ -26,6 +26,11 @@ type DetectStackDriftDetails struct {
 	// For example, the resource address for the fourth Compute instance with the name "test_instance" is oci_core_instance.test_instance3.
 	// For more details and examples of resource addresses, see the Terraform documentation at Resource spec (https://www.terraform.io/docs/internals/resource-addressing.html#examples).
 	ResourceAddresses []string `mandatory:"false" json:"resourceAddresses"`
+
+	// Specifies whether or not to upgrade provider versions.
+	// Within the version constraints of your Terraform configuration, use the latest versions available from the source of Terraform providers.
+	// For more information about this option, see Dependency Lock File (terraform.io) (https://www.terraform.io/language/files/dependency-lock).
+	IsProviderUpgradeRequired *bool `mandatory:"false" json:"isProviderUpgradeRequired"`
 }
 
 func (m DetectStackDriftDetails) String() string {

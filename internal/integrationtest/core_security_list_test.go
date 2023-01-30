@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -16,44 +16,44 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	SecurityListRequiredOnlyResource = SecurityListResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", acctest.Required, acctest.Create, securityListRepresentation)
+	CoreSecurityListRequiredOnlyResource = CoreSecurityListResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", acctest.Required, acctest.Create, CoreSecurityListRepresentation)
 
-	securityListDataSourceRepresentation = map[string]interface{}{
+	CoreCoreSecurityListDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `MyPrivateSubnetSecurityList`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 		"vcn_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.id}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: securityListDataSourceFilterRepresentation}}
-	securityListDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreSecurityListDataSourceFilterRepresentation}}
+	CoreSecurityListDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_security_list.test_security_list.id}`}},
 	}
 
-	securityListRepresentation = map[string]interface{}{
+	CoreSecurityListRepresentation = map[string]interface{}{
 		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"vcn_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
 		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `MyPrivateSubnetSecurityList`, Update: `displayName2`},
-		"egress_security_rules":  []acctest.RepresentationGroup{{RepType: acctest.Required, Group: securityListEgressSecurityRulesICMPRepresentation}, {RepType: acctest.Optional, Group: securityListEgressSecurityRulesTCPRepresentation}, {RepType: acctest.Optional, Group: securityListEgressSecurityRulesUDPRepresentation}},
+		"egress_security_rules":  []acctest.RepresentationGroup{{RepType: acctest.Required, Group: CoreSecurityListEgressSecurityRulesRepresentation}, {RepType: acctest.Optional, Group: securityListEgressSecurityRulesTCPRepresentation}, {RepType: acctest.Optional, Group: securityListEgressSecurityRulesUDPRepresentation}},
 		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"ingress_security_rules": []acctest.RepresentationGroup{{RepType: acctest.Required, Group: securityListIngressSecurityRulesICMPRepresentation}, {RepType: acctest.Optional, Group: securityListIngressSecurityRulesTCPRepresentation}, {RepType: acctest.Optional, Group: securityListIngressSecurityRulesUDPRepresentation}},
+		"ingress_security_rules": []acctest.RepresentationGroup{{RepType: acctest.Required, Group: CoreSecurityListIngressSecurityRulesRepresentation}, {RepType: acctest.Optional, Group: securityListIngressSecurityRulesTCPRepresentation}, {RepType: acctest.Optional, Group: securityListIngressSecurityRulesUDPRepresentation}},
 	}
-	securityListEgressSecurityRulesICMPRepresentation = map[string]interface{}{
+	CoreSecurityListEgressSecurityRulesRepresentation = map[string]interface{}{
 		"destination":      acctest.Representation{RepType: acctest.Required, Create: `10.0.2.0/24`, Update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
 		"protocol":         acctest.Representation{RepType: acctest.Required, Create: `1`},
 		"description":      acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"destination_type": acctest.Representation{RepType: acctest.Optional, Create: `CIDR_BLOCK`, Update: `SERVICE_CIDR_BLOCK`},
-		"icmp_options":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: securityListEgressSecurityRulesIcmpOptionsRepresentation},
+		"icmp_options":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreSecurityListEgressSecurityRulesIcmpOptionsRepresentation},
 		"stateless":        acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 	securityListEgressSecurityRulesTCPRepresentation = map[string]interface{}{
@@ -61,20 +61,20 @@ var (
 		"protocol":         acctest.Representation{RepType: acctest.Required, Create: `6`},
 		"destination_type": acctest.Representation{RepType: acctest.Optional, Create: `CIDR_BLOCK`, Update: `SERVICE_CIDR_BLOCK`},
 		"stateless":        acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"tcp_options":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: securityListEgressSecurityRulesTcpOptionsRepresentation},
+		"tcp_options":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreSecurityListEgressSecurityRulesTcpOptionsRepresentation},
 	}
 	securityListEgressSecurityRulesUDPRepresentation = map[string]interface{}{
 		"destination":      acctest.Representation{RepType: acctest.Required, Create: `10.0.2.0/24`, Update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
 		"protocol":         acctest.Representation{RepType: acctest.Required, Create: `17`},
 		"destination_type": acctest.Representation{RepType: acctest.Optional, Create: `CIDR_BLOCK`, Update: `SERVICE_CIDR_BLOCK`},
 		"stateless":        acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"udp_options":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: securityListEgressSecurityRulesUdpOptionsRepresentation},
+		"udp_options":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreSecurityListEgressSecurityRulesUdpOptionsRepresentation},
 	}
-	securityListIngressSecurityRulesICMPRepresentation = map[string]interface{}{
+	CoreSecurityListIngressSecurityRulesRepresentation = map[string]interface{}{
 		"protocol":     acctest.Representation{RepType: acctest.Required, Create: `1`},
 		"description":  acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"source":       acctest.Representation{RepType: acctest.Required, Create: `10.0.1.0/24`, Update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
-		"icmp_options": acctest.RepresentationGroup{RepType: acctest.Optional, Group: securityListIngressSecurityRulesIcmpOptionsRepresentation},
+		"icmp_options": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreSecurityListIngressSecurityRulesIcmpOptionsRepresentation},
 		"source_type":  acctest.Representation{RepType: acctest.Optional, Create: `CIDR_BLOCK`, Update: `SERVICE_CIDR_BLOCK`},
 		"stateless":    acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
@@ -83,62 +83,62 @@ var (
 		"source":      acctest.Representation{RepType: acctest.Required, Create: `10.0.1.0/24`, Update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
 		"source_type": acctest.Representation{RepType: acctest.Optional, Create: `CIDR_BLOCK`, Update: `SERVICE_CIDR_BLOCK`},
 		"stateless":   acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"tcp_options": acctest.RepresentationGroup{RepType: acctest.Optional, Group: securityListIngressSecurityRulesTcpOptionsRepresentation},
+		"tcp_options": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreSecurityListIngressSecurityRulesTcpOptionsRepresentation},
 	}
 	securityListIngressSecurityRulesUDPRepresentation = map[string]interface{}{
 		"protocol":    acctest.Representation{RepType: acctest.Required, Create: `17`},
 		"source":      acctest.Representation{RepType: acctest.Required, Create: `10.0.1.0/24`, Update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
 		"source_type": acctest.Representation{RepType: acctest.Optional, Create: `CIDR_BLOCK`, Update: `SERVICE_CIDR_BLOCK`},
 		"stateless":   acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"udp_options": acctest.RepresentationGroup{RepType: acctest.Optional, Group: securityListIngressSecurityRulesUdpOptionsRepresentation},
+		"udp_options": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreSecurityListIngressSecurityRulesUdpOptionsRepresentation},
 	}
-	securityListEgressSecurityRulesIcmpOptionsRepresentation = map[string]interface{}{
+	CoreSecurityListEgressSecurityRulesIcmpOptionsRepresentation = map[string]interface{}{
 		"type": acctest.Representation{RepType: acctest.Required, Create: `3`},
 		"code": acctest.Representation{RepType: acctest.Optional, Create: `4`, Update: `0`},
 	}
-	securityListEgressSecurityRulesTcpOptionsRepresentation = map[string]interface{}{
+	CoreSecurityListEgressSecurityRulesTcpOptionsRepresentation = map[string]interface{}{
 		"max":               acctest.Representation{RepType: acctest.Optional, Create: `1521`, Update: `1522`},
 		"min":               acctest.Representation{RepType: acctest.Optional, Create: `1521`, Update: `1522`},
-		"source_port_range": acctest.RepresentationGroup{RepType: acctest.Optional, Group: securityListEgressSecurityRulesTcpOptionsSourcePortRangeRepresentation},
+		"source_port_range": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreSecurityListEgressSecurityRulesTcpOptionsSourcePortRangeRepresentation},
 	}
-	securityListEgressSecurityRulesUdpOptionsRepresentation = map[string]interface{}{
+	CoreSecurityListEgressSecurityRulesUdpOptionsRepresentation = map[string]interface{}{
 		"max":               acctest.Representation{RepType: acctest.Optional, Create: `1521`, Update: `1522`},
 		"min":               acctest.Representation{RepType: acctest.Optional, Create: `1521`, Update: `1522`},
-		"source_port_range": acctest.RepresentationGroup{RepType: acctest.Optional, Group: securityListEgressSecurityRulesUdpOptionsSourcePortRangeRepresentation},
+		"source_port_range": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreSecurityListEgressSecurityRulesUdpOptionsSourcePortRangeRepresentation},
 	}
-	securityListIngressSecurityRulesIcmpOptionsRepresentation = map[string]interface{}{
+	CoreSecurityListIngressSecurityRulesIcmpOptionsRepresentation = map[string]interface{}{
 		"type": acctest.Representation{RepType: acctest.Required, Create: `3`},
 		"code": acctest.Representation{RepType: acctest.Optional, Create: `4`, Update: `0`},
 	}
-	securityListIngressSecurityRulesTcpOptionsRepresentation = map[string]interface{}{
+	CoreSecurityListIngressSecurityRulesTcpOptionsRepresentation = map[string]interface{}{
 		"max":               acctest.Representation{RepType: acctest.Optional, Create: `1521`, Update: `1522`},
 		"min":               acctest.Representation{RepType: acctest.Optional, Create: `1521`, Update: `1522`},
-		"source_port_range": acctest.RepresentationGroup{RepType: acctest.Optional, Group: securityListIngressSecurityRulesTcpOptionsSourcePortRangeRepresentation},
+		"source_port_range": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreSecurityListIngressSecurityRulesTcpOptionsSourcePortRangeRepresentation},
 	}
-	securityListIngressSecurityRulesUdpOptionsRepresentation = map[string]interface{}{
+	CoreSecurityListIngressSecurityRulesUdpOptionsRepresentation = map[string]interface{}{
 		"max":               acctest.Representation{RepType: acctest.Optional, Create: `1521`, Update: `1522`},
 		"min":               acctest.Representation{RepType: acctest.Optional, Create: `1521`, Update: `1522`},
-		"source_port_range": acctest.RepresentationGroup{RepType: acctest.Optional, Group: securityListIngressSecurityRulesUdpOptionsSourcePortRangeRepresentation},
+		"source_port_range": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreSecurityListIngressSecurityRulesUdpOptionsSourcePortRangeRepresentation},
 	}
-	securityListEgressSecurityRulesTcpOptionsSourcePortRangeRepresentation = map[string]interface{}{
+	CoreSecurityListEgressSecurityRulesTcpOptionsSourcePortRangeRepresentation = map[string]interface{}{
 		"max": acctest.Representation{RepType: acctest.Required, Create: `1521`, Update: `1522`},
 		"min": acctest.Representation{RepType: acctest.Required, Create: `1521`, Update: `1522`},
 	}
-	securityListEgressSecurityRulesUdpOptionsSourcePortRangeRepresentation = map[string]interface{}{
+	CoreSecurityListEgressSecurityRulesUdpOptionsSourcePortRangeRepresentation = map[string]interface{}{
 		"max": acctest.Representation{RepType: acctest.Required, Create: `1521`, Update: `1522`},
 		"min": acctest.Representation{RepType: acctest.Required, Create: `1521`, Update: `1522`},
 	}
-	securityListIngressSecurityRulesTcpOptionsSourcePortRangeRepresentation = map[string]interface{}{
+	CoreSecurityListIngressSecurityRulesTcpOptionsSourcePortRangeRepresentation = map[string]interface{}{
 		"max": acctest.Representation{RepType: acctest.Required, Create: `1521`, Update: `1522`},
 		"min": acctest.Representation{RepType: acctest.Required, Create: `1521`, Update: `1522`},
 	}
-	securityListIngressSecurityRulesUdpOptionsSourcePortRangeRepresentation = map[string]interface{}{
+	CoreSecurityListIngressSecurityRulesUdpOptionsSourcePortRangeRepresentation = map[string]interface{}{
 		"max": acctest.Representation{RepType: acctest.Required, Create: `1521`, Update: `1522`},
 		"min": acctest.Representation{RepType: acctest.Required, Create: `1521`, Update: `1522`},
 	}
 
-	SecurityListResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", acctest.Required, acctest.Create, serviceDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	CoreSecurityListResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", acctest.Required, acctest.Create, CoreCoreServiceDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -160,14 +160,14 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+SecurityListResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", acctest.Optional, acctest.Create, securityListRepresentation), "core", "securityList", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreSecurityListResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", acctest.Optional, acctest.Create, CoreSecurityListRepresentation), "core", "securityList", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreSecurityListDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + SecurityListResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", acctest.Required, acctest.Create, securityListRepresentation),
+			Config: config + compartmentIdVariableStr + CoreSecurityListResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", acctest.Required, acctest.Create, CoreSecurityListRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "egress_security_rules.#", "1"),
@@ -193,12 +193,12 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + SecurityListResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreSecurityListResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + SecurityListResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", acctest.Optional, acctest.Create, securityListRepresentation),
+			Config: config + compartmentIdVariableStr + CoreSecurityListResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", acctest.Optional, acctest.Create, CoreSecurityListRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "MyPrivateSubnetSecurityList"),
@@ -298,9 +298,9 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SecurityListResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreSecurityListResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(securityListRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(CoreSecurityListRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -348,8 +348,8 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + SecurityListResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", acctest.Optional, acctest.Update, securityListRepresentation),
+			Config: config + compartmentIdVariableStr + CoreSecurityListResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", acctest.Optional, acctest.Update, CoreSecurityListRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -453,9 +453,9 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_security_lists", "test_security_lists", acctest.Optional, acctest.Update, securityListDataSourceRepresentation) +
-				compartmentIdVariableStr + SecurityListResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", acctest.Optional, acctest.Update, securityListRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_security_lists", "test_security_lists", acctest.Optional, acctest.Update, CoreCoreSecurityListDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreSecurityListResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", acctest.Optional, acctest.Update, CoreSecurityListRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -556,7 +556,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + SecurityListRequiredOnlyResource,
+			Config:                  config + CoreSecurityListRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -620,7 +620,7 @@ func init() {
 
 func sweepCoreSecurityListResource(compartment string) error {
 	virtualNetworkClient := acctest.GetTestClients(&schema.ResourceData{}).VirtualNetworkClient()
-	securityListIds, err := getSecurityListIds(compartment)
+	securityListIds, err := getCoreSecurityListIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -636,14 +636,14 @@ func sweepCoreSecurityListResource(compartment string) error {
 				fmt.Printf("Error deleting SecurityList %s %s, It is possible that the resource is already deleted. Please verify manually \n", securityListId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &securityListId, securityListSweepWaitCondition, time.Duration(3*time.Minute),
-				securityListSweepResponseFetchOperation, "core", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &securityListId, CoreSecurityListSweepWaitCondition, time.Duration(3*time.Minute),
+				CoreSecurityListSweepResponseFetchOperation, "core", true)
 		}
 	}
 	return nil
 }
 
-func getSecurityListIds(compartment string) ([]string, error) {
+func getCoreSecurityListIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "SecurityListId")
 	if ids != nil {
 		return ids, nil
@@ -668,7 +668,7 @@ func getSecurityListIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func securityListSweepWaitCondition(response common.OCIOperationResponse) bool {
+func CoreSecurityListSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if securityListResponse, ok := response.Response.(oci_core.GetSecurityListResponse); ok {
 		return securityListResponse.LifecycleState != oci_core.SecurityListLifecycleStateTerminated
@@ -676,7 +676,7 @@ func securityListSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func securityListSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func CoreSecurityListSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.VirtualNetworkClient().GetSecurityList(context.Background(), oci_core.GetSecurityListRequest{
 		SecurityListId: resourceId,
 		RequestMetadata: common.RequestMetadata{

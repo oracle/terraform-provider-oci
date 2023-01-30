@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database
@@ -7,8 +7,8 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -142,9 +142,26 @@ func (s *DatabaseCloudVmClustersDataSourceCrud) SetData() error {
 			cloudVmCluster["cpu_core_count"] = *r.CpuCoreCount
 		}
 
+		if r.DataCollectionOptions != nil {
+			cloudVmCluster["data_collection_options"] = []interface{}{DataCollectionOptionsToMap(r.DataCollectionOptions)}
+		} else {
+			cloudVmCluster["data_collection_options"] = nil
+		}
+
 		if r.DataStoragePercentage != nil {
 			cloudVmCluster["data_storage_percentage"] = *r.DataStoragePercentage
 		}
+
+		if r.DataStorageSizeInTBs != nil {
+			cloudVmCluster["data_storage_size_in_tbs"] = *r.DataStorageSizeInTBs
+		}
+
+		if r.DbNodeStorageSizeInGBs != nil {
+			cloudVmCluster["db_node_storage_size_in_gbs"] = *r.DbNodeStorageSizeInGBs
+		}
+
+		cloudVmCluster["db_servers"] = r.DbServers
+		cloudVmCluster["db_servers"] = r.DbServers
 
 		if r.DefinedTags != nil {
 			cloudVmCluster["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
@@ -194,6 +211,10 @@ func (s *DatabaseCloudVmClustersDataSourceCrud) SetData() error {
 
 		if r.ListenerPort != nil {
 			cloudVmCluster["listener_port"] = strconv.FormatInt(*r.ListenerPort, 10)
+		}
+
+		if r.MemorySizeInGBs != nil {
+			cloudVmCluster["memory_size_in_gbs"] = *r.MemorySizeInGBs
 		}
 
 		if r.NodeCount != nil {

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// StackSummary Returns a list of properties and the defining property values for the specified stack.
+// StackSummary Summary information for a stack.
 type StackSummary struct {
 
 	// Unique identifier of the specified stack.
@@ -51,9 +51,6 @@ type StackSummary struct {
 
 	// The version of Terraform specified for the stack. Example: `0.12.x`
 	TerraformVersion *string `mandatory:"false" json:"terraformVersion"`
-
-	// The OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of private endpoints associated with the stack.
-	PrivateEndpointIds []string `mandatory:"false" json:"privateEndpointIds"`
 
 	// Free-form tags associated with this resource. Each tag is a key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).

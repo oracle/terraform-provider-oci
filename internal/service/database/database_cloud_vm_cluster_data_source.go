@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database
@@ -7,8 +7,8 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -93,9 +93,26 @@ func (s *DatabaseCloudVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("cpu_core_count", *s.Res.CpuCoreCount)
 	}
 
+	if s.Res.DataCollectionOptions != nil {
+		s.D.Set("data_collection_options", []interface{}{DataCollectionOptionsToMap(s.Res.DataCollectionOptions)})
+	} else {
+		s.D.Set("data_collection_options", nil)
+	}
+
 	if s.Res.DataStoragePercentage != nil {
 		s.D.Set("data_storage_percentage", *s.Res.DataStoragePercentage)
 	}
+
+	if s.Res.DataStorageSizeInTBs != nil {
+		s.D.Set("data_storage_size_in_tbs", *s.Res.DataStorageSizeInTBs)
+	}
+
+	if s.Res.DbNodeStorageSizeInGBs != nil {
+		s.D.Set("db_node_storage_size_in_gbs", *s.Res.DbNodeStorageSizeInGBs)
+	}
+
+	s.D.Set("db_servers", s.Res.DbServers)
+	s.D.Set("db_servers", s.Res.DbServers)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
@@ -147,6 +164,10 @@ func (s *DatabaseCloudVmClusterDataSourceCrud) SetData() error {
 
 	if s.Res.ListenerPort != nil {
 		s.D.Set("listener_port", strconv.FormatInt(*s.Res.ListenerPort, 10))
+	}
+
+	if s.Res.MemorySizeInGBs != nil {
+		s.D.Set("memory_size_in_gbs", *s.Res.MemorySizeInGBs)
 	}
 
 	if s.Res.NodeCount != nil {

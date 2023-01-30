@@ -34,6 +34,7 @@ resource "oci_opsi_database_insight" "test_database_insight" {
 	}
 	database_id = oci_database_database.test_database.id
 	database_resource_type = var.database_insight_database_resource_type
+	dbm_private_endpoint_id = oci_dataflow_private_endpoint.test_private_endpoint.id
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	deployment_type = var.database_insight_deployment_type
 	enterprise_manager_bridge_id = oci_opsi_enterprise_manager_bridge.test_enterprise_manager_bridge.id
@@ -68,7 +69,8 @@ The following arguments are supported:
 * `entity_source` - (Required) (Updatable) Source of the database entity.
 * `exadata_insight_id` - (Applicable when entity_source=EM_MANAGED_EXTERNAL_DATABASE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata insight.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
-* `opsi_private_endpoint_id` - (Required when entity_source=PE_COMANAGED_DATABASE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OPSI private endpoint
+* `opsi_private_endpoint_id` - (Applicable when entity_source=PE_COMANAGED_DATABASE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OPSI private endpoint
+* `dbm_private_endpoint_id` - (Applicable when entity_source=PE_COMANAGED_DATABASE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint. This field and opsi_private_endpoint_id are mutually exclusive. If DBM private endpoint ID is provided, a new OPSI private endpoint ID will be created.
 * `service_name` - (Required when entity_source=PE_COMANAGED_DATABASE) Database service name used for connection requests.
 * `system_tags` - (Applicable when entity_source=PE_COMANAGED_DATABASE) System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `status` - (Optional) (Updatable) Status of the resource. Example: "ENABLED", "DISABLED". Resource can be either enabled or disabled by updating the value of status field to either "ENABLED" or "DISABLED"
@@ -120,7 +122,9 @@ The following attributes are exported:
 * `id` - Database insight identifier
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `opsi_private_endpoint_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OPSI private endpoint
+* `parent_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM Cluster or DB System ID, depending on which configuration the resource belongs to.
 * `processor_count` - Processor count. This is the OCPU count for Autonomous Database and CPU core count for other database types.
+* `root_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Infrastructure.
 * `state` - The current state of the database.
 * `status` - Indicates the status of a database insight in Operations Insights
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
@@ -129,7 +133,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Database Insight
 	* `update` - (Defaults to 20 minutes), when updating the Database Insight
 	* `delete` - (Defaults to 20 minutes), when destroying the Database Insight
@@ -142,4 +146,3 @@ DatabaseInsights can be imported using the `id`, e.g.
 ```
 $ terraform import oci_opsi_database_insight.test_database_insight "id"
 ```
-

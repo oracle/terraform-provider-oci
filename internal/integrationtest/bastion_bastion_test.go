@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,46 +22,47 @@ import (
 	oci_bastion "github.com/oracle/oci-go-sdk/v65/bastion"
 	"github.com/oracle/oci-go-sdk/v65/common"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	BastionRequiredOnlyResource = BastionResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", acctest.Required, acctest.Create, bastionRepresentation)
+	BastionBastionRequiredOnlyResource = BastionBastionResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", acctest.Required, acctest.Create, BastionbastionRepresentation)
 
-	BastionResourceConfig = BastionResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", acctest.Optional, acctest.Update, bastionRepresentation)
+	BastionBastionResourceConfig = BastionBastionResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", acctest.Optional, acctest.Update, BastionbastionRepresentation)
 
-	bastionSingularDataSourceRepresentation = map[string]interface{}{
+	BastionBastionbastionSingularDataSourceRepresentation = map[string]interface{}{
 		"bastion_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_bastion_bastion.test_bastion.id}`},
 	}
 
 	bastionName = utils.RandomString(15, utils.CharsetWithoutDigits)
 
-	bastionDataSourceRepresentation = map[string]interface{}{
+	BastionBastionbastionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"bastion_id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_bastion_bastion.test_bastion.id}`},
 		"bastion_lifecycle_state": acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"name":                    acctest.Representation{RepType: acctest.Optional, Create: bastionName},
-		"filter":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: bastionDataSourceFilterRepresentation}}
-	bastionDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: BastionbastionDataSourceFilterRepresentation}}
+	BastionbastionDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_bastion_bastion.test_bastion.id}`}},
 	}
 
-	bastionRepresentation = map[string]interface{}{
+	BastionbastionRepresentation = map[string]interface{}{
 		"bastion_type":                 acctest.Representation{RepType: acctest.Required, Create: `STANDARD`},
 		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"target_subnet_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"client_cidr_block_allow_list": acctest.Representation{RepType: acctest.Required, Create: []string{`0.0.0.0/0`}, Update: []string{`0.0.0.0/0`}},
 		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"dns_proxy_status":             acctest.Representation{RepType: acctest.Optional, Create: `DISABLED`},
 		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"max_session_ttl_in_seconds":   acctest.Representation{RepType: acctest.Optional, Create: `1800`, Update: `3600`},
 		"name":                         acctest.Representation{RepType: acctest.Required, Create: bastionName},
 	}
 
-	BastionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+	BastionBastionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -84,14 +85,14 @@ func TestBastionBastionResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+BastionResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", acctest.Optional, acctest.Create, bastionRepresentation), "bastion", "bastion", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+BastionBastionResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", acctest.Optional, acctest.Create, BastionbastionRepresentation), "bastion", "bastion", t)
 
 	acctest.ResourceTest(t, testAccCheckBastionBastionDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + BastionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", acctest.Required, acctest.Create, bastionRepresentation),
+			Config: config + compartmentIdVariableStr + BastionBastionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", acctest.Required, acctest.Create, BastionbastionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bastion_type", "STANDARD"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -106,16 +107,17 @@ func TestBastionBastionResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + BastionResourceDependencies,
+			Config: config + compartmentIdVariableStr + BastionBastionResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + BastionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", acctest.Optional, acctest.Create, bastionRepresentation),
+			Config: config + compartmentIdVariableStr + BastionBastionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", acctest.Optional, acctest.Create, BastionbastionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bastion_type", "STANDARD"),
 				resource.TestCheckResourceAttr(resourceName, "client_cidr_block_allow_list.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "dns_proxy_status", "DISABLED"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "max_session_ttl_in_seconds", "1800"),
@@ -139,15 +141,16 @@ func TestBastionBastionResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + BastionResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + BastionBastionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(bastionRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(BastionbastionRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bastion_type", "STANDARD"),
 				resource.TestCheckResourceAttr(resourceName, "client_cidr_block_allow_list.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "dns_proxy_status", "DISABLED"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "max_session_ttl_in_seconds", "1800"),
@@ -169,12 +172,13 @@ func TestBastionBastionResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + BastionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", acctest.Optional, acctest.Update, bastionRepresentation),
+			Config: config + compartmentIdVariableStr + BastionBastionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", acctest.Optional, acctest.Update, BastionbastionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bastion_type", "STANDARD"),
 				resource.TestCheckResourceAttr(resourceName, "client_cidr_block_allow_list.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "dns_proxy_status", "DISABLED"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "max_session_ttl_in_seconds", "3600"),
@@ -196,9 +200,9 @@ func TestBastionBastionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_bastion_bastions", "test_bastions", acctest.Optional, acctest.Update, bastionDataSourceRepresentation) +
-				compartmentIdVariableStr + BastionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", acctest.Optional, acctest.Update, bastionRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_bastion_bastions", "test_bastions", acctest.Optional, acctest.Update, BastionBastionbastionDataSourceRepresentation) +
+				compartmentIdVariableStr + BastionBastionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", acctest.Optional, acctest.Update, BastionbastionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "bastion_id"),
 				resource.TestCheckResourceAttr(datasourceName, "bastion_lifecycle_state", "ACTIVE"),
@@ -208,6 +212,7 @@ func TestBastionBastionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "bastions.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "bastions.0.bastion_type", "STANDARD"),
 				resource.TestCheckResourceAttr(datasourceName, "bastions.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "bastions.0.dns_proxy_status", "DISABLED"),
 				resource.TestCheckResourceAttr(datasourceName, "bastions.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "bastions.0.id"),
 				resource.TestCheckResourceAttr(datasourceName, "bastions.0.name", bastionName),
@@ -221,14 +226,15 @@ func TestBastionBastionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", acctest.Required, acctest.Create, bastionSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + BastionResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", acctest.Required, acctest.Create, BastionBastionbastionSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + BastionBastionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "bastion_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "bastion_type", "STANDARD"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "client_cidr_block_allow_list.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "dns_proxy_status", "DISABLED"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "max_session_ttl_in_seconds", "3600"),
@@ -243,7 +249,7 @@ func TestBastionBastionResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + BastionRequiredOnlyResource,
+			Config:                  config + BastionBastionRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -307,7 +313,7 @@ func init() {
 
 func sweepBastionBastionResource(compartment string) error {
 	bastionClient := acctest.GetTestClients(&schema.ResourceData{}).BastionClient()
-	bastionIds, err := getBastionIds(compartment)
+	bastionIds, err := getBastionBastionIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -323,14 +329,14 @@ func sweepBastionBastionResource(compartment string) error {
 				fmt.Printf("Error deleting Bastion %s %s, It is possible that the resource is already deleted. Please verify manually \n", bastionId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &bastionId, bastionSweepWaitCondition, time.Duration(3*time.Minute),
-				bastionSweepResponseFetchOperation, "bastion", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &bastionId, BastionbastionsSweepWaitCondition, time.Duration(3*time.Minute),
+				BastionbastionsSweepResponseFetchOperation, "bastion", true)
 		}
 	}
 	return nil
 }
 
-func getBastionIds(compartment string) ([]string, error) {
+func getBastionBastionIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "BastionId")
 	if ids != nil {
 		return ids, nil
@@ -354,7 +360,7 @@ func getBastionIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func bastionSweepWaitCondition(response common.OCIOperationResponse) bool {
+func BastionbastionsSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if bastionResponse, ok := response.Response.(oci_bastion.GetBastionResponse); ok {
 		return bastionResponse.LifecycleState != oci_bastion.BastionLifecycleStateDeleted
@@ -362,7 +368,7 @@ func bastionSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func bastionSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func BastionbastionsSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.BastionClient().GetBastion(context.Background(), oci_bastion.GetBastionRequest{
 		BastionId: resourceId,
 		RequestMetadata: common.RequestMetadata{

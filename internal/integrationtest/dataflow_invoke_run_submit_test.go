@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,17 +10,17 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	oci_dataflow "github.com/oracle/oci-go-sdk/v65/dataflow"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -33,7 +33,6 @@ var (
 	invokeRunSubmitSingularDataSourceRepresentation = map[string]interface{}{
 		"run_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_dataflow_invoke_run.test_invoke_run_submit.id}`},
 	}
-
 	invokeRunSubmitDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: invokeRunSubmitDataSourceFilterRepresentation}}
@@ -45,7 +44,6 @@ var (
 	invokeRunSubmitRepresentation = map[string]interface{}{
 		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"archive_uri":          acctest.Representation{RepType: acctest.Optional, Create: utils.GetEnvSettingWithBlankDefault("dataflow_archive_uri")},
-		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":         acctest.Representation{RepType: acctest.Optional, Create: `test_wordcount_runsubmit`},
 		"driver_shape":         acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard2.1`},
 		"execute":              acctest.Representation{RepType: acctest.Required, Create: `--conf spark.shuffle.io.maxRetries=10 ` + utils.GetEnvSettingWithBlankDefault("dataflow_file_uri") + ` arguments`},
@@ -56,11 +54,12 @@ var (
 		"num_executors":        acctest.Representation{RepType: acctest.Optional, Create: `1`},
 		"spark_version":        acctest.Representation{RepType: acctest.Optional, Create: `2.4.4`},
 		"warehouse_bucket_uri": acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_warehouse_bucket_uri}`},
+		"lifecycle":            acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForDataFlowResource},
 	}
 
-	InvokeRunSubmitResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, networkSecurityGroupRepresentation) +
+	InvokeRunSubmitResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -309,7 +308,7 @@ func init() {
 
 func sweepDataflowInvokeRunSubmitResource(compartment string) error {
 	dataFlowClient := acctest.GetTestClients(&schema.ResourceData{}).DataFlowClient()
-	invokeRunIds, err := getInvokeRunIds(compartment)
+	invokeRunIds, err := getDataflowInvokeRunIds(compartment)
 	if err != nil {
 		return err
 	}

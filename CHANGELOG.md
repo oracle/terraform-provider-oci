@@ -1,3 +1,421 @@
+## 4.105.0 (January 25, 2023)
+
+### Added
+- Support for ODSC - ML Pipelines
+- Support for ADB-S: Ability to Set Custom Private IP During PE Provisioning
+- Support for ExaCS | Infrastructure patching v2
+
+## 4.104.0 (January 18, 2023)
+
+### Added
+- Support for ExaCS Private DNS Integration
+- Support for Configurable timeouts to OCI Service Mesh
+- Support for ExaCC Multi-Rack storage expansion
+- Support for ODSC - Model Store - Model Versioning
+- Support for FSS : Support for cross region replication
+### Bug Fix
+- Fix for timeout urls
+- Fix for container repository resource discovery
+## 4.103.0 (January 11, 2023)
+
+### Added
+- DIS - support for workspace projects and folders
+- Support for FAaaS Self-service refresh scheduling
+- Support for Localization support and Announcements Customization Localization support and Announcements Customization
+- Support for GoldenGate Additional Connection Types R2.
+- Support for BDS - Cluster Profiles
+### Deprecation
+- Datasource oci_adm_vulnerability_audit_application_dependency_vulnerability is being deprecated use oci_adm_vulnerability_audit_application_dependency_vulnerabities instead
+- Datasource oci_apm_synthetics_public_vantage_point is being deprecated use oci_apm_synthetics_public_vantage_points instead  
+- Datasource oci_cloud_bridge_appliance_image is being deprecated use oci_cloud_bridge_appliance_images instead  
+- Datasource oci_cloud_guard_data_source_event is being deprecated use oci_cloud_guard_data_source_events instead  
+- Datasource oci_cloud_guard_problem_entity is being deprecated use oci_cloud_guard_problem_entities instead  
+- Datasource oci_cloud_migrations_migration_plan_available_shape is being deprecated use oci_cloud_migrations_migration_plan_available_shapes instead  
+- Datasource oci_data_labeling_service/data_labeling_service_annotation_format is being deprecated use oci_data_labeling_service_annotation_formats instead  
+- Datasource oci_data_safe_alert_policy_rule is being deprecated use oci_data_safe_alert_policy_rules instead  
+- Datasource oci_data_safe_audit_event_analytic is being deprecated use oci_data_safe_audit_event_analytics instead  
+- Datasource oci_data_safe_audit_profile_available_audit_volume is being deprecated use oci_data_safe_audit_profile_available_audit_volumes instead  
+- Datasource oci_data_safe_audit_profile_collected_audit_volume is being deprecated use oci_data_safe_audit_profile_collected_audit_volumes instead  
+- Datasource oci_data_safe_discovery_analytic is being deprecated use oci_data_safe_discovery_analytics instead  
+- Datasource oci_data_safe_masking_analytic is being deprecated use oci_data_safe_masking_analytics instead  
+- Datasource oci_data_safe_masking_reports_masked_column is being deprecated use oci_data_safe_masking_reports_masked_columns instead  
+- Datasource oci_database_management_db_management_private_endpoint_associated_database is being deprecated use oci_database_management_db_management_private_endpoint_associated_databases instead  
+- Datasource oci_database_management_job_executions_status is being deprecated use oci_database_management_job_executions_statuses instead  
+- Datasource oci_database_management_managed_database_sql_tuning_advisor_task is being deprecated use oci_database_management_managed_database_sql_tuning_advisor_tasks instead  
+- Datasource oci_database_management_managed_database_sql_tuning_advisor_tasks_finding is being deprecated use oci_database_management_managed_database_sql_tuning_advisor_tasks_findings instead  
+- Datasource oci_database_management_managed_database_sql_tuning_advisor_tasks_recommendation is being deprecated use oci_database_management_managed_database_sql_tuning_advisor_tasks_recommendations instead  
+- Datasource oci_database_management_managed_database_user_consumer_group_privilege is being deprecated use oci_database_management_managed_database_user_consumer_group_privileges instead  
+- Datasource oci_database_management_managed_database_user_data_access_container is being deprecated use oci_database_management_managed_database_user_data_access_containers instead  
+- Datasource oci_database_management_managed_database_user_object_privilege is being deprecated use oci_database_management_managed_database_user_object_privileges instead  
+- Datasource oci_database_management_managed_database_user_proxied_for_user is being deprecated use oci_database_management_managed_database_user_proxied_for_users instead  
+- Datasource oci_database_management_managed_database_user_role is being deprecated use oci_database_management_managed_database_user_roles instead  
+- Datasource oci_database_management_managed_databases_asm_property is being deprecated use oci_database_management_managed_databases_asm_properties instead  
+- Datasource oci_database_management_managed_databases_database_parameter is being deprecated use oci_database_management_managed_databases_database_parameters instead  
+- Datasource oci_database_management_managed_databases_user_proxy_user is being deprecated use oci_database_management_managed_databases_user_proxy_users instead  
+- Datasource oci_database_management_managed_databases_user_system_privilege is being deprecated use oci_database_management_managed_databases_user_system_privileges instead  
+- Datasource oci_devops_repository_author is being deprecated use oci_devops_repository_authors instead  
+- Datasource oci_devops_repository_path is being deprecated use oci_devops_repository_paths instead  
+- Datasource oci_em_warehouse_em_warehouse_etl_run is being deprecated use oci_em_warehouse_em_warehouse_etl_runs instead  
+- Datasource oci_fusion_apps_fusion_environment_time_available_for_refresh is being deprecated use oci_fusion_apps_fusion_environment_time_available_for_refreshs instead  
+- Datasource oci_golden_gate_message is being deprecated use oci_golden_gate_messages instead  
+- Datasource oci_golden_gate_trail_file is being deprecated use oci_golden_gate_trail_files instead  
+- Datasource oci_golden_gate_trail_sequence is being deprecated use oci_golden_gate_trail_sequences instead  
+- Datasource oci_jms_fleet_installation_site is being deprecated use oci_jms_fleet_installation_sites instead  
+- Datasource oci_opensearch_opensearch_version is being deprecated use oci_opensearch_opensearch_versions instead  
+- Datasource oci_opsi_awr_hub_awr_snapshot is being deprecated use oci_opsi_awr_hub_awr_snapshots instead  
+- Datasource oci_opsi_importable_compute_entity is being deprecated use oci_opsi_importable_compute_entities instead  
+- Datasource oci_optimizer_profile_level is being deprecated use oci_optimizer_profile_levels instead  
+- Datasource oci_optimizer_recommendation_strategy is being deprecated use oci_optimizer_recommendation_strategies instead  
+- Datasource oci_osp_gateway_invoices_invoice_line is being deprecated use oci_osp_gateway_invoices_invoice_lines instead  
+- Datasource oci_usage_proxy_subscription_product is being deprecated use oci_usage_proxy_subscription_products instead  
+- Datasource oci_usage_proxy_subscription_redemption is being deprecated use oci_usage_proxy_subscription_redemptions instead  
+- Datasource oci_usage_proxy_subscription_reward in favour of deprecated use usage_proxy_subscription_rewards instead
+### Bug Fix
+- Container Instances Tests and Example
+- filters fix for computed list/set type
+- fixed md conflicts
+
+## 4.102.0 (December 14, 2022)
+
+### Added
+- Poll for workrequest and not workrequest and resource state due to infrequent get requests
+- Support for OMA Integration with FAaaS
+- Support for Launch Queue Service in OCI
+- Support for Allow users to cancel work requests in Service Mesh
+- Support for Database Management Support for PDB for Metrics and Perfhub
+- Support for UDX Standards : Support egress only services
+- Support for availability_configuration, maintenance_window_schedule
+- Support for DBCS | Support X9 (Intel) for VM DB
+### Bug Fix
+- Appmgmt Control Service federated tests fix
+- Unified agent config provider
+- Autonomous Database Test Fixed
+
+## 4.101.0 (December 07, 2022)
+
+### Added
+- Support for Golden Gate Deployment and Connection Type.
+- Support for Token Authentication in API Gateway
+- Support for Container Instances
+- Support for Complete Terraform testing for Diagnostics using TFACTL feature
+- Support for Report Scheduling Support in Data Safe audit
+- Support for Devops Deployment Stage Level Parameters
+- Support for Add BackupSummary compartmentId in API
+- Support for Managed Read Replicas - Load Balancing
+- Support for Managed Read Replicas
+- Support for OPSI: ExaCS Support
+- Support for MySQL Inbound replication support for filters and sources without transaction identifiers
+- Support for ADBD multi-vm
+- Support for Java Management Service 6.0
+- Missing is_default field for API Gateway
+- Support for Update Service Override for Public Logging
+- Golang upgrade to 1.18.8
+### Bug Fix
+- Fix bug of not being able to update nodepool which uses quantityPerSubnet
+- Fixing incorrect state mappings in Operator Control
+- oci_datascience_model Terraform Code Documentation correction
+- Empty check for optional values
+- Delay in updating network firewall
+
+## 4.100.0 (November 16, 2022)
+
+### Added
+- Support for mTLS and Scan port configuration of AVM Clusters on ExaCC
+- Support for Dev and Deployment of Site Guard as Service in OCI
+### Bug Fix
+- auto_backup_window field is not updated for dbSystem / database resource
+
+## 4.99.0 (November 09, 2022)
+
+### Added
+- Edge Node Support for BDS
+- Support for ScanProxy in Data Flow
+- [ADM-Detect] UX/API improvements
+- Updated resource discovery document
+- Support for ADB-S: Cross-Region Refreshable Clones
+- multi vm support manual updates
+### Bug Fix
+- APMDomainGeneratedTests: replace deprecated map() function with tomap()
+
+## 4.98.0 (November 02, 2022)
+
+### Added
+- Support for Oracle Process Automation (OPA) - Customer Facing Release
+- Support for Logging Analytics Customer-Provided Encryption Keys
+- Support for ADB-S: Restore / Clone from backup from last available timestamp
+- Support for third-party scanner
+- Support for filtering in resource discovery
+### Bug Fix
+- Update failures with SCH terraform provider
+
+## 4.97.0 (October 28, 2022)
+
+### Added
+- Resource discovery find resources for individual step in parallel
+- FoundResource variable declaration
+- Concurrecy control for discovery
+- maxparallel variables based on number of available cores
+- Support for OCI Digital Media Services
+- Support for Dev and Deployment of Site Guard as Service in OCI
+- Support for Data Flow Studio support
+
+### Bug Fix
+- Document Category Fix
+- removed unused/duplicate resource files
+- Deprecate resource file for discoveryJobResults resource as it should not have been there
+- Documentaion fix for datascience modeldeployment
+- oci_mysql_mysql_configuration is missing resource discovery
+
+## 4.96.0 (October 05, 2022)
+
+### Added
+- resource discovery for private DNS zones and rrsets
+- Support for BDS - Start/Stop Cluster
+- Support for OPSI Windows/Solaris support
+- Support for OCI Bastions - DNS Support
+- Generate terraform config for services with non zero resource only
+- Id based RD without resourceType
+- Support for EXACC Elastic Compute
+### Bug Fix
+- Support for repeated Deployments on each apply
+- canaryStrategy code added to fix the issue
+
+## 4.95.0 (September 28, 2022)
+
+### Added
+- Support for NoSQL - Add functionality in OCI console
+- BDS - Support for New Compute Shapes
+- Information about required policy for OpenSearch operations.
+- Support for Stack Monitoring: Home page for OCI compute and Monitoring Support for TCPS
+### Bug Fix
+- [mysql] Terraform support DbSystem change shape without ForceNew
+- Removed Computed schema struct from field is_active_data_guard_enabled for database data guard association resource
+
+## 4.94.0 (September 21, 2022)
+
+### Added
+- Support for Data Integration Service (DIS) Feature/Enhancement Release - 22b removing one check in test
+- Improve Resource discovery error messaging
+- Support for Cost Management: Scheduled Reports 2.0
+- Terraform support for Activate and Deactivate actions of Model Deployment
+- Support for GoldenGate Display Trails and Size
+- Support for VBS integration in CDTS
+- Support for Oracle Cloud Bridge
+- Support for Ingest Time Rules and new optional attributes in Object Collection Rule
+- Support for Oracle Cloud Migrations
+### Bug Fix
+- update the load balancer ports
+- Resource discovery bug for export drg route distribution
+- Remove Rrset from resource discovery to fix duplicate resource in config
+
+## 4.93.0 (September 14, 2022)
+
+### Added
+- Support for API Gateway Dynamic Routing
+- Support for API Gateway Dynamic Authentication
+- Support for API Gateway Request Based Authorization
+- Import Export Artifact Datascience
+### Bug Fix
+- resource discovery deadlocks and improve error handling
+
+## 4.92.0 (September 07, 2022)
+
+### Added
+- Support for preferred credentials
+- Support for Exacc allow prior versions infra maintenance
+- Support for Notification Per Dimension
+- Support Message Entity for entity shape Support data preview for derived entity, Deprecated deleteConnectionValidation, listConnectionValidations, getConnectionValidation
+- Support for new Logging integration apis for Cloudguard
+- Support for resource discovery for private dns resources
+- Support for export attribute as variables in Resource Discovery
+
+## 4.91.0 (August 31, 2022)
+
+### Added
+- Support for FAAAS Service
+changed for per-based autotune for block volumes
+- Changes for Data Plane Events for VM/BM DBCS
+- Capability to Add a SCAN Data Source as a Private DataSource to PAC, Added - Support of Network Security Groups, Added - Support Public ACL to whitelist OCI Services, Added - OAC access to Github
+- Support for In-place Upgrade support
+
+## 4.90.0 (August 24, 2022)
+
+### Added
+- Support for EM Warehouse resourceUsage API Addendum
+- Support for File Filter Devops
+- Support for Cloud Advisor - Organizations Support
+- Changes for usage proxy service
+- Support for Add Configuration variables to MDS
+
+## 4.89.0 (August 17, 2022)
+
+### Added
+- OCI Connector Hub supports support for Logging Analytics as a target for Streaming Source
+- Customer Managed Encryption Key for BDS cluster
+- Data Flow - add applicationLogConfig support
+- Support for Single Node SDDC
+- support for E3, E4, Standard3, and Optimized3 flexible compute shapes for Data Science Jobs, Model Deployment, and Jobs
+
+## 4.88.1 (August 11, 2022)
+
+### Bug Fix
+Fix provider registry for oracle/oci 
+
+## 4.88.0 (August 10, 2022)
+
+### Added
+- Optimizer stats feature added
+- Support for Round Robin Alerting to monitors
+- ETags support for load balancer
+- Support for [Terraform] OCI ElasticSearch Service OCI ElasticSearch Service
+support for - ExaCC Historical MR
+- Support for OIC: Instance Migration with FAaaS
+- OCI Compute Support for OPSI service
+- Support for Java Management Service 5.0
+- Support for data science notebook session runtime configuration
+- Support of Announcements Service Subscriptions
+- support for rack SN as a system tag
+- Support for ExaCS - Monthly Security Patching
+- Support patch management
+- Support for Private Access Connection in Devops Build Service
+- Support for new data source TimeMaintenanceRebootDueMax
+- Support for Exacc Monthly Security Patching
+- support for Child Tables for NoSQL Database Cloud
+- Support for listing volumes/replicas by group/replica group id. Also support to view volume group membership status
+- Support for ExaCS in Opctl
+### Bug Fix
+supporting terraform version 0.12+ and ignoring systemTags for security zone and recipe
+- enabled preserve_data_volumes in oci_core_instance delete API and host_type in opsi_host_insights_data_source list api
+
+## 4.87.0 (August 10, 2022)
+
+### Added
+- Support of Announcements Service Subscriptions
+- support for rack SN as a system tag
+- Support for ExaCS - Monthly Security Patching
+- Support patch management
+- Support for Private Access Connection in Devops Build Service
+- Support for new data source TimeMaintenanceRebootDueMax
+- Support for Exacc Monthly Security Patching
+- support for Child Tables for NoSQL Database Cloud
+- Support for listing volumes/replicas by group/replica group id. Also support to view volume group membership status
+- Support for ExaCS in Opctl
+
+### Bug Fix
+- Enabled preserve_data_volumes in oci_core_instance delete API
+- Enabled host_type in opsi_host_insights_data_source list api
+
+## 4.86.1 (July 28, 2022)
+
+### Bug Fix
+- Fix module name in go.mod
+
+## 4.86.0 (July 26, 2022)
+
+### Added
+- Support for Standby lifecyclestate to created target for ADBS resource
+- Support for new fields port, protocol, role, and ssl secret id to enable/modify database management service
+- Support for Data Science - Model Deploy Omnivorous Compute/Flex shape support
+- management_agents compartment_id_in_subtree and agent in pluginlist
+### Bug Fix
+- fix for test error logging output
+
+## 4.85.0 (July 20, 2022)
+
+### Added
+- Support for Network Firewall
+- Support for Autonomous Shared Database service wallet with GracePeriod feature during wallet rotation. Added - Support for Autonomous Shared Database service wallet with GracePeriod feature during wallet rotation.
+- Support for Operations Insights VMBM API Updates
+- routeTable support for IVR
+- Automated default description for service examples
+- Fix for rm warning in create zips script
+### Bug Fix
+Fixed UpdateIpsecTunnel API Default Params
+
+## 4.84.0 (July 13, 2022)
+
+### Added
+- Support for Native Pod Networking
+- Support for Point-in-time Recovery for non-HA MySQL Database System
+- Support for database/db system tags, fault domains, license model, node count, private ip, and time-zone to creating data guard association (with new db system) service
+
+## 4.83.0 (July 07, 2022)
+
+### Added
+- Support for BackupPolicy to the DBSystemSummary
+
+## 4.82.0 (June 28, 2022)
+
+### Added
+- Data Plane Guest VM Events
+- Support for safe delete
+- Support for character sets for Autonomous Database on Shared Infrastructure
+- Support VSS app scan settings
+- Parameter `bootVolumeVpusPerGB` to Launch Instance API
+- VN Path Analyzer Resource
+- Operations Insights EM DataWarehouse
+
+## 4.81.0 (June 22, 2022)
+
+### Added
+- Support for APM Configuration Options
+- Support for DBM: Database Diagnostics - Alert & Attention Log, OnDemand Run ADDM
+Data Labeling Service [DLS] FY22Q4 v3 Release
+### Bug Fix
+: Regression introduced database server datasource
+- New Datasource DevopsRepoFileLineDataSource
+
+## 4.80.1 (June 16, 2022)
+### Bug Fix
+- Fixed terraform crash for oci_core_route_table resource
+
+## 4.80.0 (June 15, 2022)
+
+### Added
+- duplicate resource for backendSet with the support of list of backend
+- database tools - add mysql connection support
+- support for Web Application Acceleration service
+- Support for onesubscription service
+- quota resource locking
+- ADBD time zone for database service
+### Bug Fix
+- Mysql - Add return body to UpdateBackup api call
+
+## 4.79.0 (June 08, 2022)
+
+### Added
+- BM Platform Config Support
+- Support for private endpoint in resource manager
+### Bug Fix
+- Resolve terraform not dropping resolver rules and view and async polling
+
+## 4.78.0 (June 01, 2022)
+
+### Added
+- Support for License Manager service
+- Support for Customizable realm name
+- Support for ExaCC CPS offline diagnostic report
+- support for flexible shapes
+- support for optional Kubernetes version when creating a node pool
+- Support for OKE Fault domain placement
+- Changes for list dbusers and sql tuning recommendations
+- Support for Auto Attach iSCSI Volumes through OCA
+- Support for Capacity Reservation for OCVP
+### Bug Fix
+- Add nsgIds, tags and etc in updateNodePool request
+- Updated description for base64encoded_content in documentation for oci_devops_deploy_artifact
+
+## 4.77.0 (May 25, 2022)
+
+### Added
+- Support for customer managed encryption keys in Oracle Analytics Cloud
+- Increase lsInventory size when creating db software image for VMBM.
+- Support for Oracle Linux 8 Application Streams to the OS Management Service
+- Supporting Usage plan and Subscriber in API Gateway
+### Bug Fix
+- Fix defaults and backwards compatibility tests
+- Fix for configurationId and dataStorageSizeGB update in DbSystem
+
 ## 4.76.0 (May 19, 2022)
 
 ### Added
@@ -407,7 +825,7 @@ support for - Cluster Network: new optional parameter to Update API
 - Support for Email Authentication: DKIM API
 
 ### Fixed
-- Update issue in `oci_database_autonomous_database` - Issue [1417](https://github.com/terraform-providers/terraform-provider-oci/issues/1417)
+- Update issue in `oci_database_autonomous_database` - Issue [1417](https://github.com/oracle/terraform-provider-oci/issues/1417)
 
 ## 4.36.0 (July 21, 2021)
 
@@ -557,7 +975,7 @@ support for - Cluster Network: new optional parameter to Update API
 
 ### Fixed
 - Fixed functions resource to sync `image_digest` with `image` appropriately
-- Removed incorrect document for `oci_data_safe_on_prem_connectors_configuration`. Issue [1344](https://github.com/terraform-providers/terraform-provider-oci/issues/1344)
+- Removed incorrect document for `oci_data_safe_on_prem_connectors_configuration`. Issue [1344](https://github.com/oracle/terraform-provider-oci/issues/1344)
 - Property `ipv6cidr_block` and `ipv6public_cidr_block` are removed from `oci_core_vcn`
 - Property `ipv6public_cidr_block` is removed from `oci_core_subnet`
 
@@ -690,7 +1108,7 @@ support for - Cluster Network: new optional parameter to Update API
 ## 4.8.0 (January 06, 2021)
 
 ### Fixed
-- Fixed typo in load balancer shape. Issue [#1252](https://github.com/terraform-providers/terraform-provider-oci/issues/1252)
+- Fixed typo in load balancer shape. Issue [#1252](https://github.com/oracle/terraform-provider-oci/issues/1252)
 
 ## 4.7.0 (December 16, 2020)
 
@@ -707,7 +1125,7 @@ support for - Cluster Network: new optional parameter to Update API
 
 ### Fixed
 - Fix `idcs_access_token` as `required` now. Note that this will break current import scenario, user need to add `idcs_access_token` to Terraform config.
-[Github issue 1264](https://github.com/terraform-providers/terraform-provider-oci/issues/1264)
+[Github issue 1264](https://github.com/oracle/terraform-provider-oci/issues/1264)
 
 ## 4.6.0 (December 09, 2020)
 
@@ -755,7 +1173,7 @@ support for - Cluster Network: new optional parameter to Update API
 ### Fixed
 - Fix ExaCS cloud VM cluster as source of `oci_database_db_home` resource creation. ExaCS cloud VM clusters can be specified
 as source using `vm_cluster_id` and `SOURCE=VM_CLUSTER_NEW`.
-[Github issue 1218](https://github.com/terraform-providers/terraform-provider-oci/issues/1218)
+[Github issue 1218](https://github.com/oracle/terraform-provider-oci/issues/1218)
 
 ## 4.2.0 (November 04, 2020)
 
@@ -792,7 +1210,7 @@ as source using `vm_cluster_id` and `SOURCE=VM_CLUSTER_NEW`.
 
 ### Notes
 - Upgrade to Terraform Plugin SDK v1.15.0
-- Resource discovery now requires Terraform CLI. For more details on how to provide the CLI, refer to [resource discovery prerequisites](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/resource_discovery#prerequisites) 
+- Resource discovery now requires Terraform CLI. For more details on how to provide the CLI, refer to [resource discovery prerequisites](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/resource_discovery#prerequisites) 
 
 ## 3.97.0 (October 14, 2020)
 
@@ -1073,9 +1491,9 @@ importing such db_systems. New behavior will put an empty placeholder in the sta
 - Support resource discovery for functions resources
 
 ### Fixed
-- Add missing attributes for `oci_file_storage_mount_target` import [Github issue #1037](https://github.com/terraform-providers/terraform-provider-oci/issues/1037)
-- Fixed the diff for `whitelisted_ips` arguments order in `oci_database_autonomous_database` resource [Issue #1050](https://github.com/terraform-providers/terraform-provider-oci/issues/1050)
-- Fixed the `placement_configs` order mismatch in `oci_containerengine_node_pool` [GitHub issue #1045](https://github.com/terraform-providers/terraform-provider-oci/issues/1045)
+- Add missing attributes for `oci_file_storage_mount_target` import [Github issue #1037](https://github.com/oracle/terraform-provider-oci/issues/1037)
+- Fixed the diff for `whitelisted_ips` arguments order in `oci_database_autonomous_database` resource [Issue #1050](https://github.com/oracle/terraform-provider-oci/issues/1050)
+- Fixed the `placement_configs` order mismatch in `oci_containerengine_node_pool` [GitHub issue #1045](https://github.com/oracle/terraform-provider-oci/issues/1045)
 - Fixed Instance Metadata examples to use the Instance Metadata Service version 2
 
 ## 3.74.0 (May 06, 2020)
@@ -1107,7 +1525,7 @@ importing such db_systems. New behavior will put an empty placeholder in the sta
 - Support for `maintenance_window` in `oci_database_db_system` resource for ExaCS infrastructure
 
 ### Fixed
-- Update `cpu_core_count` with the other attributes in `oci_database_db_system` resource [Github issue #1026](https://github.com/terraform-providers/terraform-provider-oci/issues/1026)
+- Update `cpu_core_count` with the other attributes in `oci_database_db_system` resource [Github issue #1026](https://github.com/oracle/terraform-provider-oci/issues/1026)
 
 ### Notes
 `oci_streaming_stream_archiver` data source and resource were not supported by the service and removed from the provider since v3.72.0
@@ -1193,7 +1611,7 @@ importing such db_systems. New behavior will put an empty placeholder in the sta
 - Support for Data Flow Service
 
 ### Fixed
-- Address issue where budget resource `time_spend_computed` attribute results in error [Github issue #966](https://github.com/terraform-providers/terraform-provider-oci/issues/966)
+- Address issue where budget resource `time_spend_computed` attribute results in error [Github issue #966](https://github.com/oracle/terraform-provider-oci/issues/966)
 
 ## 3.60.0 (January 29, 2020)
 
@@ -1349,7 +1767,7 @@ Load balancer certificates created with previous versions and upgrading to this 
 
 ### Fixed
 
-- Fix compositeId parsing for pre-authenticated requests in object storage [Issue #867](https://github.com/terraform-providers/terraform-provider-oci/issues/867)
+- Fix compositeId parsing for pre-authenticated requests in object storage [Issue #867](https://github.com/oracle/terraform-provider-oci/issues/867)
 - Fixed ssl_configuration is optional only in `oci_load_balancer_backend_set` resource
 
 ## 3.45.0 (September 25, 2019)
@@ -1416,7 +1834,7 @@ Load balancer certificates created with previous versions and upgrading to this 
 - Support for ipv6 in `oci_core_virtual_circuit` resources.
 
 ### Fixed
-- Fixed the diff for `options` arguments order in `oci_core_dhcp_options` resource [Issue #829](https://github.com/terraform-providers/terraform-provider-oci/issues/829)
+- Fixed the diff for `options` arguments order in `oci_core_dhcp_options` resource [Issue #829](https://github.com/oracle/terraform-provider-oci/issues/829)
 - Fixed typo in docs for `source_type` in `oci_core_network_security_group_security_rule` and docs updated
 - Fixed `listing_id` reference in docs for App Catalog
 - Removing `compartment_id` from `oci_core_volume_attachment` as the service does not accept that parameter. The compartment_id of the volume is the one used by the service.
@@ -1443,7 +1861,7 @@ Load balancer certificates created with previous versions and upgrading to this 
 - Support for scheduling KMS vault deletion by specified time
 
 ### Fixed
-- Fixed `oci_load_balancer_backend_set` by explicitly making `session_persistence_configuration` and `lb_cookie_session_persistence_configuration` mutually exclusive [Issue #825](https://github.com/terraform-providers/terraform-provider-oci/issues/825)
+- Fixed `oci_load_balancer_backend_set` by explicitly making `session_persistence_configuration` and `lb_cookie_session_persistence_configuration` mutually exclusive [Issue #825](https://github.com/oracle/terraform-provider-oci/issues/825)
 - Fixed use case of `oci_load_balancer_backend_set` with `lb_cookie_session_persistence_configuration` update operation without setting optional parameters `max_age_in_seconds` and `domain`
 - Fixed `oci_identity_user_capabilities_management` to correctly set `can_use_auth_tokens` field
 
@@ -1479,7 +1897,7 @@ Load balancer certificates created with previous versions and upgrading to this 
 - Removing deprecated fields `content-length` and `content-type` from data source `oci_objectstorage_object_head`. `content_length` and `content_type` should be used instead
 - Removing `compartment_id` from resource `oci_core_drg_attachment` as an Optional field as the service does not accept it. The compartment of the VCN is the one used by the service. Keeping it as a computed field. 
 - Removing deprecated field `db_data_size_in_mbs` from resource `oci_database_backup`. `database_size_in_gbs` should be used instead
-- Fixed `extended_metadata` field in `oci_core_instance` to correctly handle JSON [Issue #817](https://github.com/terraform-providers/terraform-provider-oci/issues/817)
+- Fixed `extended_metadata` field in `oci_core_instance` to correctly handle JSON [Issue #817](https://github.com/oracle/terraform-provider-oci/issues/817)
 - Consistently use the new `oci_core_vcn` rather than the legacy `oci_core_virtual_network` resource for VCN in examples
 
 ## 3.33.0 (July 10, 2019)
@@ -1543,7 +1961,7 @@ Optional/Computed fields.
 ### Added
 - `oci_core_ipsec_connection_tunnel_management` resource to manage IPSec tunnel connection
 ### Fixed
-- `oci_core_ipsec` backward compatibility issue by removing `tunnel_configuration` property, which is reported by https://github.com/terraform-providers/terraform-provider-oci/issues/779
+- `oci_core_ipsec` backward compatibility issue by removing `tunnel_configuration` property, which is reported by https://github.com/oracle/terraform-provider-oci/issues/779
 
 ## 3.28.1 (June 05, 2019)
 
@@ -1700,7 +2118,7 @@ Optional/Computed fields.
 
 ### Fixed
 - Timeout should be updatable for the `oci_containerengine_cluster` and `oci_containerengine_node_pool` resources
-- Virtual Circuit `public_prefixes` to be updatable and importable. [Issue #700](https://github.com/terraform-providers/terraform-provider-oci/issues/700)
+- Virtual Circuit `public_prefixes` to be updatable and importable. [Issue #700](https://github.com/oracle/terraform-provider-oci/issues/700)
 
 ## 3.14.0 (January 29, 2019)
 
@@ -1714,8 +2132,8 @@ Optional/Computed fields.
 
 ### Fixed
 - Fixed an issue where the default retry timeout is zero seconds if `retry_duration_seconds` isn't specified
-- Modifying immutable `metadata` fields such as `ssh_authorized_keys` and `user_data` should result in new instances. [Issue #673](https://github.com/terraform-providers/terraform-provider-oci/issues/673)
-- Vendored Terraform helper/schema SDK to return matching data type for maps in case of empty state. [Issue #685](https://github.com/terraform-providers/terraform-provider-oci/issues/685)
+- Modifying immutable `metadata` fields such as `ssh_authorized_keys` and `user_data` should result in new instances. [Issue #673](https://github.com/oracle/terraform-provider-oci/issues/673)
+- Vendored Terraform helper/schema SDK to return matching data type for maps in case of empty state. [Issue #685](https://github.com/oracle/terraform-provider-oci/issues/685)
 
 ## 3.12.0 (January 15, 2019)
 
@@ -1764,7 +2182,7 @@ Optional/Computed fields.
 ## 3.10.0 (December 11, 2018)
 
 ### Added
-- Support for attaching Route Table to Subnet. Issue [#270](https://github.com/terraform-providers/terraform-provider-oci/issues/270)
+- Support for attaching Route Table to Subnet. Issue [#270](https://github.com/oracle/terraform-provider-oci/issues/270)
 
 ## 3.9.0 (December 04, 2018)
 
@@ -1836,7 +2254,7 @@ Optional/Computed fields.
 - Fields "assigned_entity_id" and "assigned_entity_type" to Public IPs to allow distinguishing Public IPs of the NAT Gateway.
 
 ### Fixed
-- Importing of volumes with backup policies. Issue [#590](https://github.com/terraform-providers/terraform-provider-oci/issues/590)
+- Importing of volumes with backup policies. Issue [#590](https://github.com/oracle/terraform-provider-oci/issues/590)
 - Updating of Virtual Circuits fails with field bgpMd5AuthKey is not supported
 
 ## 3.3.0 (October 04, 2018)
@@ -1845,7 +2263,7 @@ Optional/Computed fields.
 - Support for new Image launch mode: paravirtualization
 
 ### Fixed
-- Fix logic to prevent unexpected diffs related to numbers. Issue [#607](https://github.com/terraform-providers/terraform-provider-oci/issues/607)
+- Fix logic to prevent unexpected diffs related to numbers. Issue [#607](https://github.com/oracle/terraform-provider-oci/issues/607)
 
 ## 3.2.0 (September 28, 2018)
 
@@ -1853,8 +2271,8 @@ Optional/Computed fields.
 - Support updating size of offline volumes
 
 ### Fixed
-- Specifying lifecycle state in container engine cluster datasource properly filters. Issue [#600](https://github.com/terraform-providers/terraform-provider-oci/issues/600)
-- Importing the assign_public_ip attribute for instances has the correct default. Issue [#593](https://github.com/terraform-providers/terraform-provider-oci/issues/593)
+- Specifying lifecycle state in container engine cluster datasource properly filters. Issue [#600](https://github.com/oracle/terraform-provider-oci/issues/600)
+- Importing the assign_public_ip attribute for instances has the correct default. Issue [#593](https://github.com/oracle/terraform-provider-oci/issues/593)
 - ADW and ATP resources destruction still succeeds if the database lifecycle state becomes `Unavailable`
 
 ## 3.1.1 (September 21, 2018)

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {
@@ -41,7 +41,7 @@ resource "oci_nosql_table" "test_ondemand" {
     #Required
     max_read_units     = "0"
     max_write_units    = "0"
-    max_storage_in_gbs = "1"
+    max_storage_in_gbs = "25"
     capacity_mode      = "ON_DEMAND"
   }
 }

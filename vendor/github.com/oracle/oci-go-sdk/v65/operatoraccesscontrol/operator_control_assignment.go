@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -55,6 +55,9 @@ type OperatorControlAssignment struct {
 
 	// The current lifcycle state of the OperatorControl.
 	LifecycleState OperatorControlAssignmentLifecycleStatesEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// More in detail about the lifeCycleState.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// The OCID of the user who created this operator control assignment.
 	AssignerId *string `mandatory:"false" json:"assignerId"`

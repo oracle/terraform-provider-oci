@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,32 +22,32 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_email "github.com/oracle/oci-go-sdk/v65/email"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	DkimRequiredOnlyResource = DkimResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", acctest.Required, acctest.Create, dkimRepresentation)
+	EmailDkimRequiredOnlyResource = EmailDkimResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", acctest.Required, acctest.Create, EmailDkimRepresentation)
 
-	DkimResourceConfig = DkimResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", acctest.Optional, acctest.Update, dkimRepresentation)
+	EmailDkimResourceConfig = EmailDkimResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", acctest.Optional, acctest.Update, EmailDkimRepresentation)
 
-	dkimSingularDataSourceRepresentation = map[string]interface{}{
+	EmailEmailDkimSingularDataSourceRepresentation = map[string]interface{}{
 		"dkim_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_email_dkim.test_dkim.id}`},
 	}
 
-	dkimDataSourceRepresentation = map[string]interface{}{
+	EmailEmailDkimDataSourceRepresentation = map[string]interface{}{
 		"email_domain_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_email_email_domain.test_email_domain.id}`},
 		"id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_email_dkim.test_dkim.id}`},
 		"name":            acctest.Representation{RepType: acctest.Optional, Create: `testselector1`},
 		"state":           acctest.Representation{RepType: acctest.Optional, Create: `NEEDS_ATTENTION`},
-		"filter":          acctest.RepresentationGroup{RepType: acctest.Required, Group: dkimDataSourceFilterRepresentation}}
-	dkimDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":          acctest.RepresentationGroup{RepType: acctest.Required, Group: EmailDkimDataSourceFilterRepresentation}}
+	EmailDkimDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_email_dkim.test_dkim.id}`}},
 	}
 
-	dkimRepresentation = map[string]interface{}{
+	EmailDkimRepresentation = map[string]interface{}{
 		"email_domain_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_email_email_domain.test_email_domain.id}`},
 		"defined_tags":    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
 		"description":     acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description`},
@@ -55,7 +55,7 @@ var (
 		"name":            acctest.Representation{RepType: acctest.Optional, Create: `testselector1`},
 	}
 
-	DkimResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", acctest.Required, acctest.Create, emailDomainRepresentation) +
+	EmailDkimResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", acctest.Required, acctest.Create, EmailEmailDomainRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -74,14 +74,14 @@ func TestEmailDkimResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with acctest.Optional, properties. This has to be exactly the same as the config part in the "Create with acctest.Optional,s" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DkimResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", acctest.Optional, acctest.Create, dkimRepresentation), "email", "dkim", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+EmailDkimResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", acctest.Optional, acctest.Create, EmailDkimRepresentation), "email", "dkim", t)
 
 	acctest.ResourceTest(t, testAccCheckEmailDkimDestroy, []resource.TestStep{
 		//verify Create
 		{
-			Config: config + compartmentIdVariableStr + DkimResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", acctest.Required, acctest.Create, dkimRepresentation),
+			Config: config + compartmentIdVariableStr + EmailDkimResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", acctest.Required, acctest.Create, EmailDkimRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(resourceName, "email_domain_id"),
 
@@ -93,12 +93,12 @@ func TestEmailDkimResource_basic(t *testing.T) {
 		},
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DkimResourceDependencies,
+			Config: config + compartmentIdVariableStr + EmailDkimResourceDependencies,
 		},
 		// verify Create with acctest.Optional,s
 		{
-			Config: config + compartmentIdVariableStr + DkimResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", acctest.Optional, acctest.Create, dkimRepresentation),
+			Config: config + compartmentIdVariableStr + EmailDkimResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", acctest.Optional, acctest.Create, EmailDkimRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttrSet(resourceName, "email_domain_id"),
@@ -120,8 +120,8 @@ func TestEmailDkimResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DkimResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", acctest.Optional, acctest.Update, dkimRepresentation),
+			Config: config + compartmentIdVariableStr + EmailDkimResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", acctest.Optional, acctest.Update, EmailDkimRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttrSet(resourceName, "email_domain_id"),
@@ -141,9 +141,9 @@ func TestEmailDkimResource_basic(t *testing.T) {
 		//verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_email_dkims", "test_dkims", acctest.Optional, acctest.Update, dkimDataSourceRepresentation) +
-				compartmentIdVariableStr + DkimResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", acctest.Optional, acctest.Update, dkimRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_email_dkims", "test_dkims", acctest.Optional, acctest.Update, EmailEmailDkimDataSourceRepresentation) +
+				compartmentIdVariableStr + EmailDkimResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", acctest.Optional, acctest.Update, EmailDkimRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(datasourceName, "email_domain_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -157,8 +157,8 @@ func TestEmailDkimResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_email_dkim", "test_dkim", acctest.Required, acctest.Create, dkimSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DkimResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_email_dkim", "test_dkim", acctest.Required, acctest.Create, EmailEmailDkimSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + EmailDkimResourceConfig,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "dkim_id"),
 
@@ -177,7 +177,7 @@ func TestEmailDkimResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + DkimRequiredOnlyResource,
+			Config:                  config + EmailDkimRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -241,7 +241,7 @@ func init() {
 
 func sweepEmailDkimResource(compartment string) error {
 	emailClient := acctest.GetTestClients(&schema.ResourceData{}).EmailClient()
-	dkimIds, err := getDkimIds(compartment)
+	dkimIds, err := getEmailDkimIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -257,14 +257,14 @@ func sweepEmailDkimResource(compartment string) error {
 				fmt.Printf("Error deleting Dkim %s %s, It is possible that the resource is already deleted. Please verify manually \n", dkimId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &dkimId, dkimSweepWaitCondition, time.Duration(3*time.Minute),
-				dkimSweepResponseFetchOperation, "email", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &dkimId, EmailDkimSweepWaitCondition, time.Duration(3*time.Minute),
+				EmailDkimSweepResponseFetchOperation, "email", true)
 		}
 	}
 	return nil
 }
 
-func getDkimIds(compartment string) ([]string, error) {
+func getEmailDkimIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "DkimId")
 	if ids != nil {
 		return ids, nil
@@ -276,7 +276,7 @@ func getDkimIds(compartment string) ([]string, error) {
 	listDkimsRequest := oci_email.ListDkimsRequest{}
 	listDkimsRequest.Id = &compartmentId
 
-	emailDomainIds, error := getEmailDomainIds(compartment)
+	emailDomainIds, error := getEmailEmailDomainIds(compartment)
 	if error != nil {
 		return resourceIds, fmt.Errorf("Error getting emailDomainId required for Dkim resource requests \n")
 	}
@@ -299,7 +299,7 @@ func getDkimIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func dkimSweepWaitCondition(response common.OCIOperationResponse) bool {
+func EmailDkimSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if dkimResponse, ok := response.Response.(oci_email.GetDkimResponse); ok {
 		return dkimResponse.LifecycleState != oci_email.DkimLifecycleStateDeleted
@@ -307,7 +307,7 @@ func dkimSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func dkimSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func EmailDkimSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.EmailClient().GetDkim(context.Background(), oci_email.GetDkimRequest{
 		DkimId: resourceId,
 		RequestMetadata: common.RequestMetadata{

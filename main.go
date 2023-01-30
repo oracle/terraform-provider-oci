@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package main
@@ -9,28 +9,25 @@ import (
 	"os"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	"github.com/fatih/color"
-
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-
-	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
-
-	//	"strings"
-
-	//"github.com/terraform-providers/terraform-provider-oci/oci/resourcediscovery"
-
-	//	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
-
-	//	"github.com/fatih/color"
-
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/plugin"
-
-	"github.com/terraform-providers/terraform-provider-oci/internal/provider"
+	tf_export "github.com/oracle/terraform-provider-oci/internal/commonexport"
+	"github.com/oracle/terraform-provider-oci/internal/globalvar"
+	"github.com/oracle/terraform-provider-oci/internal/provider"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 )
 
+var filterFlag tf_export.Filter
+
+func init() {
+	// Tie the command-line flag to the intervalFlag variable and
+	// set a usage message.
+	flag.Var(&filterFlag, "filter", "pass a filter to filter resources discovered. Use the flag multiple times to pass multiple filters")
+}
+
 func main() {
+	// TODO: input for resource discovery from a config file
 	var command = flag.String("command", "", "Command to run. Supported commands include: 'export', 'list_export_resources' and 'list_export_services'. 'list_export_services' supports json format.")
 	var listExportServicesPath = flag.String("list_export_services_path", "", "[export] Path to output list of supported services in json format")
 	var compartmentId = flag.String("compartment_id", "", "[export] OCID of a compartment to export. If no compartment id nor name is specified, the root compartment will be used.")
@@ -45,6 +42,8 @@ func main() {
 	var tfVersion = flag.String("tf_version", "0.12", "The version of terraform syntax to generate for configurations. The state file will be written in v0.12 only. The allowed values are :\n * 0.11\n * 0.12")
 	var retryTimeout = flag.String("retry_timeout", "15s", "[export] The time duration for which API calls will wait and retry operation in case of API errors. By default, the retry timeout duration is 15s")
 	var parallelism = flag.Int("parallelism", 1, "The number of threads to use for resource discovery. By default the value is 1")
+	var varsResourceLevel = flag.String("variables_resource_level", "", "[export] List of top-level attributes to be export as variable following format resourceType.attribute, if attribute is present in variables_global_level, it will be excluded for this resourceType")
+	var varsGlobalLevel = flag.String("variables_global_level", "", "[export] List of top-level attributes to be export as variable following format attribute1,attribute2, if attribute present in variables_resource_level, it will be excluded for this resourceType")
 
 	flag.Parse()
 	globalvar.PrintVersion()
@@ -65,11 +64,11 @@ func main() {
 		switch *command {
 		case "export":
 
-			var terraformVersion resourcediscovery.TfHclVersion
-			if resourcediscovery.TfVersionEnum(*tfVersion) == resourcediscovery.TfVersion11 {
-				terraformVersion = &resourcediscovery.TfHclVersion11{Value: resourcediscovery.TfVersionEnum(*tfVersion)}
-			} else if *tfVersion == "" || resourcediscovery.TfVersionEnum(*tfVersion) == resourcediscovery.TfVersion12 {
-				terraformVersion = &resourcediscovery.TfHclVersion12{Value: resourcediscovery.TfVersionEnum(*tfVersion)}
+			var terraformVersion tf_export.TfHclVersion
+			if tf_export.TfVersionEnum(*tfVersion) == tf_export.TfVersion11 {
+				terraformVersion = &tf_export.TfHclVersion11{Value: tf_export.TfVersionEnum(*tfVersion)}
+			} else if *tfVersion == "" || tf_export.TfVersionEnum(*tfVersion) == tf_export.TfVersion12 {
+				terraformVersion = &tf_export.TfHclVersion12{Value: tf_export.TfVersionEnum(*tfVersion)}
 			} else {
 				color.Red("[ERROR]: Invalid tf_version '%s', supported values: 0.11, 0.12\n", *tfVersion)
 				os.Exit(1)
@@ -80,7 +79,7 @@ func main() {
 				os.Exit(1)
 			}
 
-			args := &resourcediscovery.ExportCommandArgs{
+			args := &tf_export.ExportCommandArgs{
 				CompartmentId:                compartmentId,
 				CompartmentName:              compartmentName,
 				OutputDir:                    outputPath,
@@ -95,6 +94,14 @@ func main() {
 				args.Services = strings.Split(*services, ",")
 			}
 
+			if varsResourceLevel != nil && *varsResourceLevel != "" {
+				args.VarsExportResourceLevel = strings.Split(*varsResourceLevel, ",")
+			}
+
+			if varsGlobalLevel != nil && *varsGlobalLevel != "" {
+				args.VarExportGlobalLevel = strings.Split(*varsGlobalLevel, ",")
+			}
+
 			if excludeServices != nil && *excludeServices != "" {
 				args.ExcludeServices = strings.Split(*excludeServices, ",")
 			}
@@ -102,6 +109,11 @@ func main() {
 			if ids != nil && *ids != "" {
 				args.IDs = strings.Split(*ids, ",")
 			}
+
+			if filterFlag != nil {
+				args.Filters = filterFlag
+			}
+
 			err, status := resourcediscovery.RunExportCommand(args)
 			if err != nil {
 				color.Red("%v", err)

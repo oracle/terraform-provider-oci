@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -12,9 +12,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
@@ -90,8 +90,8 @@ func TestGovSpecificCoreVirtualCircuitResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckCoreVirtualCircuitDestroy, []resource.TestStep{
 		// verify Create - PUBLIC Virtual Circuit
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Required, acctest.Create, virtualCircuitPublicRequiredOnlyRepresentation),
+			Config: config + compartmentIdVariableStr + CoreVirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Required, acctest.Create, CoreVirtualCircuitPublicRequiredOnlyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
@@ -113,8 +113,8 @@ func TestGovSpecificCoreVirtualCircuitResource_basic(t *testing.T) {
 		},
 		// verify Update - PUBLIC Virtual Circuit
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Required, acctest.Update, virtualCircuitPublicRequiredOnlyRepresentation),
+			Config: config + compartmentIdVariableStr + CoreVirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Required, acctest.Update, CoreVirtualCircuitPublicRequiredOnlyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
@@ -139,17 +139,17 @@ func TestGovSpecificCoreVirtualCircuitResource_basic(t *testing.T) {
 		},
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreVirtualCircuitResourceDependencies,
 		},
 		// verify Create - PRIVATE Virtual Circuit with Provider
 		{
 			PreConfig: func() {
-				log.Printf("%s", config+compartmentIdVariableStr+VirtualCircuitResourceDependencies+VirtualCircuitPrivatePropertyVariables+VirtualCircuitWithProviderResourceConfigFilter+
-					acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Create, acctest.GetUpdatedRepresentationCopy("cross_connect_mappings", govSpecificVirtualCircuitCrossConnectMappingsRepresentation, virtualCircuitWithProviderRepresentation)))
-				fmt.Printf("%s", config+compartmentIdVariableStr+VirtualCircuitResourceDependencies+VirtualCircuitPrivatePropertyVariables+VirtualCircuitWithProviderResourceConfigFilter+
-					acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Create, acctest.GetUpdatedRepresentationCopy("cross_connect_mappings", govSpecificVirtualCircuitCrossConnectMappingsRepresentation, virtualCircuitWithProviderRepresentation)))
+				log.Printf("%s", config+compartmentIdVariableStr+CoreVirtualCircuitResourceDependencies+VirtualCircuitPrivatePropertyVariables+VirtualCircuitWithProviderResourceConfigFilter+
+					acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Create, acctest.GetUpdatedRepresentationCopy("cross_connect_mappings", govSpecificVirtualCircuitCrossConnectMappingsRepresentation, CoreVirtualCircuitWithProviderRepresentation)))
+				fmt.Printf("%s", config+compartmentIdVariableStr+CoreVirtualCircuitResourceDependencies+VirtualCircuitPrivatePropertyVariables+VirtualCircuitWithProviderResourceConfigFilter+
+					acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Create, acctest.GetUpdatedRepresentationCopy("cross_connect_mappings", govSpecificVirtualCircuitCrossConnectMappingsRepresentation, CoreVirtualCircuitWithProviderRepresentation)))
 			},
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + VirtualCircuitWithProviderResourceConfigFilter +
+			Config: config + compartmentIdVariableStr + CoreVirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + VirtualCircuitWithProviderResourceConfigFilter +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Create, govSpecificVirtualCircuitWithProviderRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -172,7 +172,7 @@ func TestGovSpecificCoreVirtualCircuitResource_basic(t *testing.T) {
 		},
 		// verify Update - PRIVATE Virtual Circuit with Provider
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + VirtualCircuitWithProviderResourceConfigFilter +
+			Config: config + compartmentIdVariableStr + CoreVirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + VirtualCircuitWithProviderResourceConfigFilter +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Update, govSpecificVirtualCircuitWithProviderRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -198,12 +198,12 @@ func TestGovSpecificCoreVirtualCircuitResource_basic(t *testing.T) {
 		},
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreVirtualCircuitResourceDependencies,
 		},
 
 		// verify Create - PRIVATE Virtual Circuit
 		{
-			Config: config + VirtualCircuitPrivatePropertyVariables + compartmentIdVariableStr + VirtualCircuitResourceDependencies +
+			Config: config + VirtualCircuitPrivatePropertyVariables + compartmentIdVariableStr + CoreVirtualCircuitResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Required, acctest.Create, govSpecificVirtualCircuitRequiredOnlyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -227,12 +227,12 @@ func TestGovSpecificCoreVirtualCircuitResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies,
+			Config: config + compartmentIdVariableStr + CoreVirtualCircuitResourceDependencies,
 		},
 
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
+			Config: config + compartmentIdVariableStr + CoreVirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Create, govSpecificVirtualCircuitRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bandwidth_shape_name", "10 Gbps"),
@@ -259,7 +259,7 @@ func TestGovSpecificCoreVirtualCircuitResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
+			Config: config + compartmentIdVariableStr + CoreVirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Update, govSpecificVirtualCircuitRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bandwidth_shape_name", "20 Gbps"),
@@ -288,8 +288,8 @@ func TestGovSpecificCoreVirtualCircuitResource_basic(t *testing.T) {
 		},
 		// verify datasource
 		{
-			Config: config + acctest.GenerateDataSourceFromRepresentationMap("oci_core_virtual_circuits", "test_virtual_circuits", acctest.Optional, acctest.Update, virtualCircuitDataSourceRepresentation) +
-				compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
+			Config: config + acctest.GenerateDataSourceFromRepresentationMap("oci_core_virtual_circuits", "test_virtual_circuits", acctest.Optional, acctest.Update, CoreCoreVirtualCircuitDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreVirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Update, govSpecificVirtualCircuitRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -321,8 +321,8 @@ func TestGovSpecificCoreVirtualCircuitResource_basic(t *testing.T) {
 		},
 		// verify singular datasource
 		{
-			Config: config + acctest.GenerateDataSourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Required, acctest.Create, virtualCircuitSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
+			Config: config + acctest.GenerateDataSourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Required, acctest.Create, CoreCoreVirtualCircuitSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreVirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Update, govSpecificVirtualCircuitRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "gateway_id"),
@@ -353,7 +353,7 @@ func TestGovSpecificCoreVirtualCircuitResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + VirtualCircuitRequiredOnlyResource,
+			Config:            config + CoreVirtualCircuitRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -17,6 +17,9 @@ import (
 )
 
 // CreateIntegrationInstanceDetails The information about new IntegrationInstance.
+// Some properties may not be applicable to specific integration types,
+// see Differences in Instance Management (https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/application-integration&id=INTOO-GUID-931B5E33-4FE6-4997-93E5-8748516F46AA__GUID-176E43D5-4116-4828-8120-B929DF2A6B5E)
+// for details.
 type CreateIntegrationInstanceDetails struct {
 
 	// Integration Instance Identifier.
@@ -25,7 +28,9 @@ type CreateIntegrationInstanceDetails struct {
 	// Compartment Identifier.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Standard or Enterprise type
+	// Standard or Enterprise type,
+	// Oracle Integration Generation 2 uses ENTERPRISE and STANDARD,
+	// Oracle Integration 3 uses ENTERPRISEX and STANDARDX
 	IntegrationInstanceType CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum `mandatory:"true" json:"integrationInstanceType"`
 
 	// Bring your own license.
@@ -63,6 +68,9 @@ type CreateIntegrationInstanceDetails struct {
 	IsFileServerEnabled *bool `mandatory:"false" json:"isFileServerEnabled"`
 
 	NetworkEndpointDetails NetworkEndpointDetails `mandatory:"false" json:"networkEndpointDetails"`
+
+	// Shape
+	Shape CreateIntegrationInstanceDetailsShapeEnum `mandatory:"false" json:"shape,omitempty"`
 }
 
 func (m CreateIntegrationInstanceDetails) String() string {
@@ -80,6 +88,9 @@ func (m CreateIntegrationInstanceDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingCreateIntegrationInstanceDetailsConsumptionModelEnum(string(m.ConsumptionModel)); !ok && m.ConsumptionModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConsumptionModel: %s. Supported values are: %s.", m.ConsumptionModel, strings.Join(GetCreateIntegrationInstanceDetailsConsumptionModelEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingCreateIntegrationInstanceDetailsShapeEnum(string(m.Shape)); !ok && m.Shape != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Shape: %s. Supported values are: %s.", m.Shape, strings.Join(GetCreateIntegrationInstanceDetailsShapeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -99,6 +110,7 @@ func (m *CreateIntegrationInstanceDetails) UnmarshalJSON(data []byte) (e error) 
 		ConsumptionModel         CreateIntegrationInstanceDetailsConsumptionModelEnum        `json:"consumptionModel"`
 		IsFileServerEnabled      *bool                                                       `json:"isFileServerEnabled"`
 		NetworkEndpointDetails   networkendpointdetails                                      `json:"networkEndpointDetails"`
+		Shape                    CreateIntegrationInstanceDetailsShapeEnum                   `json:"shape"`
 		DisplayName              *string                                                     `json:"displayName"`
 		CompartmentId            *string                                                     `json:"compartmentId"`
 		IntegrationInstanceType  CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum `json:"integrationInstanceType"`
@@ -140,6 +152,8 @@ func (m *CreateIntegrationInstanceDetails) UnmarshalJSON(data []byte) (e error) 
 		m.NetworkEndpointDetails = nil
 	}
 
+	m.Shape = model.Shape
+
 	m.DisplayName = model.DisplayName
 
 	m.CompartmentId = model.CompartmentId
@@ -158,18 +172,24 @@ type CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum string
 
 // Set of constants representing the allowable values for CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum
 const (
-	CreateIntegrationInstanceDetailsIntegrationInstanceTypeStandard   CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = "STANDARD"
-	CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprise CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = "ENTERPRISE"
+	CreateIntegrationInstanceDetailsIntegrationInstanceTypeStandard    CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = "STANDARD"
+	CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprise  CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = "ENTERPRISE"
+	CreateIntegrationInstanceDetailsIntegrationInstanceTypeStandardx   CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = "STANDARDX"
+	CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprisex CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = "ENTERPRISEX"
 )
 
 var mappingCreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = map[string]CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum{
-	"STANDARD":   CreateIntegrationInstanceDetailsIntegrationInstanceTypeStandard,
-	"ENTERPRISE": CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprise,
+	"STANDARD":    CreateIntegrationInstanceDetailsIntegrationInstanceTypeStandard,
+	"ENTERPRISE":  CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprise,
+	"STANDARDX":   CreateIntegrationInstanceDetailsIntegrationInstanceTypeStandardx,
+	"ENTERPRISEX": CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprisex,
 }
 
 var mappingCreateIntegrationInstanceDetailsIntegrationInstanceTypeEnumLowerCase = map[string]CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum{
-	"standard":   CreateIntegrationInstanceDetailsIntegrationInstanceTypeStandard,
-	"enterprise": CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprise,
+	"standard":    CreateIntegrationInstanceDetailsIntegrationInstanceTypeStandard,
+	"enterprise":  CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprise,
+	"standardx":   CreateIntegrationInstanceDetailsIntegrationInstanceTypeStandardx,
+	"enterprisex": CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprisex,
 }
 
 // GetCreateIntegrationInstanceDetailsIntegrationInstanceTypeEnumValues Enumerates the set of values for CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum
@@ -186,6 +206,8 @@ func GetCreateIntegrationInstanceDetailsIntegrationInstanceTypeEnumStringValues(
 	return []string{
 		"STANDARD",
 		"ENTERPRISE",
+		"STANDARDX",
+		"ENTERPRISEX",
 	}
 }
 
@@ -238,5 +260,47 @@ func GetCreateIntegrationInstanceDetailsConsumptionModelEnumStringValues() []str
 // GetMappingCreateIntegrationInstanceDetailsConsumptionModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCreateIntegrationInstanceDetailsConsumptionModelEnum(val string) (CreateIntegrationInstanceDetailsConsumptionModelEnum, bool) {
 	enum, ok := mappingCreateIntegrationInstanceDetailsConsumptionModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CreateIntegrationInstanceDetailsShapeEnum Enum with underlying type: string
+type CreateIntegrationInstanceDetailsShapeEnum string
+
+// Set of constants representing the allowable values for CreateIntegrationInstanceDetailsShapeEnum
+const (
+	CreateIntegrationInstanceDetailsShapeDevelopment CreateIntegrationInstanceDetailsShapeEnum = "DEVELOPMENT"
+	CreateIntegrationInstanceDetailsShapeProduction  CreateIntegrationInstanceDetailsShapeEnum = "PRODUCTION"
+)
+
+var mappingCreateIntegrationInstanceDetailsShapeEnum = map[string]CreateIntegrationInstanceDetailsShapeEnum{
+	"DEVELOPMENT": CreateIntegrationInstanceDetailsShapeDevelopment,
+	"PRODUCTION":  CreateIntegrationInstanceDetailsShapeProduction,
+}
+
+var mappingCreateIntegrationInstanceDetailsShapeEnumLowerCase = map[string]CreateIntegrationInstanceDetailsShapeEnum{
+	"development": CreateIntegrationInstanceDetailsShapeDevelopment,
+	"production":  CreateIntegrationInstanceDetailsShapeProduction,
+}
+
+// GetCreateIntegrationInstanceDetailsShapeEnumValues Enumerates the set of values for CreateIntegrationInstanceDetailsShapeEnum
+func GetCreateIntegrationInstanceDetailsShapeEnumValues() []CreateIntegrationInstanceDetailsShapeEnum {
+	values := make([]CreateIntegrationInstanceDetailsShapeEnum, 0)
+	for _, v := range mappingCreateIntegrationInstanceDetailsShapeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateIntegrationInstanceDetailsShapeEnumStringValues Enumerates the set of values in String for CreateIntegrationInstanceDetailsShapeEnum
+func GetCreateIntegrationInstanceDetailsShapeEnumStringValues() []string {
+	return []string{
+		"DEVELOPMENT",
+		"PRODUCTION",
+	}
+}
+
+// GetMappingCreateIntegrationInstanceDetailsShapeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateIntegrationInstanceDetailsShapeEnum(val string) (CreateIntegrationInstanceDetailsShapeEnum, bool) {
+	enum, ok := mappingCreateIntegrationInstanceDetailsShapeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

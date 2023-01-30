@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -38,8 +38,15 @@ type ChangeShapeNodes struct {
 
 	UtilityShapeConfig *ShapeConfigDetails `mandatory:"false" json:"utilityShapeConfig"`
 
-	// Change shape of the Cloud SQL node to the desired target shape. Only VM_STANDARD shapes are allowed here.
+	// Change shape of the Cloud SQL node to the desired target shape. Both VM_STANDARD and E4 Flex shapes are allowed here.
 	Cloudsql *string `mandatory:"false" json:"cloudsql"`
+
+	CloudsqlShapeConfig *ShapeConfigDetails `mandatory:"false" json:"cloudsqlShapeConfig"`
+
+	// Change shape of edge nodes to the desired target shape. Both VM_STANDARD and E4 Flex shapes are allowed here.
+	Edge *string `mandatory:"false" json:"edge"`
+
+	EdgeShapeConfig *ShapeConfigDetails `mandatory:"false" json:"edgeShapeConfig"`
 }
 
 func (m ChangeShapeNodes) String() string {

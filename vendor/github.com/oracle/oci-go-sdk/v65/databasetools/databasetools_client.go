@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Database Tools
 //
-// Database Tools APIs to manage Connections and Private Endpoints.
+// Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
 //
 
 package databasetools
@@ -87,7 +87,7 @@ func (client *DatabaseToolsClient) ConfigurationProvider() *common.Configuration
 	return client.config
 }
 
-// ChangeDatabaseToolsConnectionCompartment Moves a DatabaseToolsConnection into a different compartment within the same tenancy.
+// ChangeDatabaseToolsConnectionCompartment Moves the specified Database Tools connection to a different compartment in the same tenancy.
 // For information about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
@@ -151,7 +151,7 @@ func (client DatabaseToolsClient) changeDatabaseToolsConnectionCompartment(ctx c
 	return response, err
 }
 
-// ChangeDatabaseToolsPrivateEndpointCompartment Moves a DatabaseToolsPrivateEndpoint into a different compartment within the same tenancy.
+// ChangeDatabaseToolsPrivateEndpointCompartment Moves a Database Tools private endpoint into a different compartment in the same tenancy.
 // For information about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
@@ -215,7 +215,7 @@ func (client DatabaseToolsClient) changeDatabaseToolsPrivateEndpointCompartment(
 	return response, err
 }
 
-// CreateDatabaseToolsConnection Creates a new DatabaseToolsConnection.
+// CreateDatabaseToolsConnection Creates a new Database Tools connection.
 //
 // See also
 //
@@ -277,7 +277,7 @@ func (client DatabaseToolsClient) createDatabaseToolsConnection(ctx context.Cont
 	return response, err
 }
 
-// CreateDatabaseToolsPrivateEndpoint Creates a new DatabaseToolsPrivateEndpoint.
+// CreateDatabaseToolsPrivateEndpoint Creates a new Database Tools private endpoint.
 //
 // See also
 //
@@ -339,7 +339,7 @@ func (client DatabaseToolsClient) createDatabaseToolsPrivateEndpoint(ctx context
 	return response, err
 }
 
-// DeleteDatabaseToolsConnection Deletes a DatabaseToolsConnection resource by identifier
+// DeleteDatabaseToolsConnection Deletes the specified Database Tools connection resource.
 //
 // See also
 //
@@ -396,7 +396,7 @@ func (client DatabaseToolsClient) deleteDatabaseToolsConnection(ctx context.Cont
 	return response, err
 }
 
-// DeleteDatabaseToolsPrivateEndpoint Deletes a DatabaseToolsPrivateEndpoint resource by identifier
+// DeleteDatabaseToolsPrivateEndpoint Deletes the specified Database Tools private endpoint.
 //
 // See also
 //
@@ -453,14 +453,15 @@ func (client DatabaseToolsClient) deleteDatabaseToolsPrivateEndpoint(ctx context
 	return response, err
 }
 
-// GetDatabaseToolsConnection Gets a DatabaseToolsConnection by identifier
+// GetDatabaseToolsConnection Gets details of the specified Database Tools connection.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/GetDatabaseToolsConnection.go.html to see an example of how to use GetDatabaseToolsConnection API.
+// A default retry strategy applies to this operation GetDatabaseToolsConnection()
 func (client DatabaseToolsClient) GetDatabaseToolsConnection(ctx context.Context, request GetDatabaseToolsConnectionRequest) (response GetDatabaseToolsConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -510,14 +511,15 @@ func (client DatabaseToolsClient) getDatabaseToolsConnection(ctx context.Context
 	return response, err
 }
 
-// GetDatabaseToolsEndpointService Gets a DatabaseToolsEndpointService by identifier
+// GetDatabaseToolsEndpointService Gets details for the specified Database Tools endpoint service.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/GetDatabaseToolsEndpointService.go.html to see an example of how to use GetDatabaseToolsEndpointService API.
+// A default retry strategy applies to this operation GetDatabaseToolsEndpointService()
 func (client DatabaseToolsClient) GetDatabaseToolsEndpointService(ctx context.Context, request GetDatabaseToolsEndpointServiceRequest) (response GetDatabaseToolsEndpointServiceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -567,14 +569,15 @@ func (client DatabaseToolsClient) getDatabaseToolsEndpointService(ctx context.Co
 	return response, err
 }
 
-// GetDatabaseToolsPrivateEndpoint Gets a DatabaseToolsPrivateEndpoint by identifier
+// GetDatabaseToolsPrivateEndpoint Gets details of a specified Database Tools private endpoint.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/GetDatabaseToolsPrivateEndpoint.go.html to see an example of how to use GetDatabaseToolsPrivateEndpoint API.
+// A default retry strategy applies to this operation GetDatabaseToolsPrivateEndpoint()
 func (client DatabaseToolsClient) GetDatabaseToolsPrivateEndpoint(ctx context.Context, request GetDatabaseToolsPrivateEndpointRequest) (response GetDatabaseToolsPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -624,14 +627,15 @@ func (client DatabaseToolsClient) getDatabaseToolsPrivateEndpoint(ctx context.Co
 	return response, err
 }
 
-// GetWorkRequest Gets the status of the work request with the given ID.
+// GetWorkRequest Gets the status of the specified work request.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client DatabaseToolsClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -681,14 +685,15 @@ func (client DatabaseToolsClient) getWorkRequest(ctx context.Context, request co
 	return response, err
 }
 
-// ListDatabaseToolsConnections Returns a list of DatabaseToolsConnections.
+// ListDatabaseToolsConnections Returns a list of Database Tools connections.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/ListDatabaseToolsConnections.go.html to see an example of how to use ListDatabaseToolsConnections API.
+// A default retry strategy applies to this operation ListDatabaseToolsConnections()
 func (client DatabaseToolsClient) ListDatabaseToolsConnections(ctx context.Context, request ListDatabaseToolsConnectionsRequest) (response ListDatabaseToolsConnectionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -738,14 +743,15 @@ func (client DatabaseToolsClient) listDatabaseToolsConnections(ctx context.Conte
 	return response, err
 }
 
-// ListDatabaseToolsEndpointServices Returns a list of DatabaseToolsEndpointServices.
+// ListDatabaseToolsEndpointServices Returns a list of Database Tools endpoint services.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/ListDatabaseToolsEndpointServices.go.html to see an example of how to use ListDatabaseToolsEndpointServices API.
+// A default retry strategy applies to this operation ListDatabaseToolsEndpointServices()
 func (client DatabaseToolsClient) ListDatabaseToolsEndpointServices(ctx context.Context, request ListDatabaseToolsEndpointServicesRequest) (response ListDatabaseToolsEndpointServicesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -795,14 +801,15 @@ func (client DatabaseToolsClient) listDatabaseToolsEndpointServices(ctx context.
 	return response, err
 }
 
-// ListDatabaseToolsPrivateEndpoints Returns a list of DatabaseToolsPrivateEndpoints.
+// ListDatabaseToolsPrivateEndpoints Returns a list of Database Tools private endpoints.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/ListDatabaseToolsPrivateEndpoints.go.html to see an example of how to use ListDatabaseToolsPrivateEndpoints API.
+// A default retry strategy applies to this operation ListDatabaseToolsPrivateEndpoints()
 func (client DatabaseToolsClient) ListDatabaseToolsPrivateEndpoints(ctx context.Context, request ListDatabaseToolsPrivateEndpointsRequest) (response ListDatabaseToolsPrivateEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -852,14 +859,15 @@ func (client DatabaseToolsClient) listDatabaseToolsPrivateEndpoints(ctx context.
 	return response, err
 }
 
-// ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+// ListWorkRequestErrors Returns a paginated list of errors for the specified work request.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client DatabaseToolsClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -909,14 +917,15 @@ func (client DatabaseToolsClient) listWorkRequestErrors(ctx context.Context, req
 	return response, err
 }
 
-// ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
+// ListWorkRequestLogs Returns a paginated list of logs for the specified work request.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client DatabaseToolsClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -971,9 +980,10 @@ func (client DatabaseToolsClient) listWorkRequestLogs(ctx context.Context, reque
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client DatabaseToolsClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1023,7 +1033,7 @@ func (client DatabaseToolsClient) listWorkRequests(ctx context.Context, request 
 	return response, err
 }
 
-// UpdateDatabaseToolsConnection Updates the DatabaseToolsConnection
+// UpdateDatabaseToolsConnection Updates the specified Database Tools connection.
 //
 // See also
 //
@@ -1080,7 +1090,7 @@ func (client DatabaseToolsClient) updateDatabaseToolsConnection(ctx context.Cont
 	return response, err
 }
 
-// UpdateDatabaseToolsPrivateEndpoint Updates the DatabaseToolsPrivateEndpoint
+// UpdateDatabaseToolsPrivateEndpoint Updates the specified Database Tools private endpoint.
 //
 // See also
 //
@@ -1137,7 +1147,7 @@ func (client DatabaseToolsClient) updateDatabaseToolsPrivateEndpoint(ctx context
 	return response, err
 }
 
-// ValidateDatabaseToolsConnection Validate the DatabaseToolsConnection information details by establishing a connection to the database.
+// ValidateDatabaseToolsConnection Validates the Database Tools connection details by establishing a connection to the database.
 //
 // See also
 //

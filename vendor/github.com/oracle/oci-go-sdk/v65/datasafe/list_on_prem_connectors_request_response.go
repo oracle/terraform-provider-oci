@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -141,33 +141,36 @@ type ListOnPremConnectorsOnPremConnectorLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ListOnPremConnectorsOnPremConnectorLifecycleStateEnum
 const (
-	ListOnPremConnectorsOnPremConnectorLifecycleStateCreating ListOnPremConnectorsOnPremConnectorLifecycleStateEnum = "CREATING"
-	ListOnPremConnectorsOnPremConnectorLifecycleStateUpdating ListOnPremConnectorsOnPremConnectorLifecycleStateEnum = "UPDATING"
-	ListOnPremConnectorsOnPremConnectorLifecycleStateActive   ListOnPremConnectorsOnPremConnectorLifecycleStateEnum = "ACTIVE"
-	ListOnPremConnectorsOnPremConnectorLifecycleStateInactive ListOnPremConnectorsOnPremConnectorLifecycleStateEnum = "INACTIVE"
-	ListOnPremConnectorsOnPremConnectorLifecycleStateDeleting ListOnPremConnectorsOnPremConnectorLifecycleStateEnum = "DELETING"
-	ListOnPremConnectorsOnPremConnectorLifecycleStateDeleted  ListOnPremConnectorsOnPremConnectorLifecycleStateEnum = "DELETED"
-	ListOnPremConnectorsOnPremConnectorLifecycleStateFailed   ListOnPremConnectorsOnPremConnectorLifecycleStateEnum = "FAILED"
+	ListOnPremConnectorsOnPremConnectorLifecycleStateCreating       ListOnPremConnectorsOnPremConnectorLifecycleStateEnum = "CREATING"
+	ListOnPremConnectorsOnPremConnectorLifecycleStateUpdating       ListOnPremConnectorsOnPremConnectorLifecycleStateEnum = "UPDATING"
+	ListOnPremConnectorsOnPremConnectorLifecycleStateActive         ListOnPremConnectorsOnPremConnectorLifecycleStateEnum = "ACTIVE"
+	ListOnPremConnectorsOnPremConnectorLifecycleStateInactive       ListOnPremConnectorsOnPremConnectorLifecycleStateEnum = "INACTIVE"
+	ListOnPremConnectorsOnPremConnectorLifecycleStateDeleting       ListOnPremConnectorsOnPremConnectorLifecycleStateEnum = "DELETING"
+	ListOnPremConnectorsOnPremConnectorLifecycleStateDeleted        ListOnPremConnectorsOnPremConnectorLifecycleStateEnum = "DELETED"
+	ListOnPremConnectorsOnPremConnectorLifecycleStateFailed         ListOnPremConnectorsOnPremConnectorLifecycleStateEnum = "FAILED"
+	ListOnPremConnectorsOnPremConnectorLifecycleStateNeedsAttention ListOnPremConnectorsOnPremConnectorLifecycleStateEnum = "NEEDS_ATTENTION"
 )
 
 var mappingListOnPremConnectorsOnPremConnectorLifecycleStateEnum = map[string]ListOnPremConnectorsOnPremConnectorLifecycleStateEnum{
-	"CREATING": ListOnPremConnectorsOnPremConnectorLifecycleStateCreating,
-	"UPDATING": ListOnPremConnectorsOnPremConnectorLifecycleStateUpdating,
-	"ACTIVE":   ListOnPremConnectorsOnPremConnectorLifecycleStateActive,
-	"INACTIVE": ListOnPremConnectorsOnPremConnectorLifecycleStateInactive,
-	"DELETING": ListOnPremConnectorsOnPremConnectorLifecycleStateDeleting,
-	"DELETED":  ListOnPremConnectorsOnPremConnectorLifecycleStateDeleted,
-	"FAILED":   ListOnPremConnectorsOnPremConnectorLifecycleStateFailed,
+	"CREATING":        ListOnPremConnectorsOnPremConnectorLifecycleStateCreating,
+	"UPDATING":        ListOnPremConnectorsOnPremConnectorLifecycleStateUpdating,
+	"ACTIVE":          ListOnPremConnectorsOnPremConnectorLifecycleStateActive,
+	"INACTIVE":        ListOnPremConnectorsOnPremConnectorLifecycleStateInactive,
+	"DELETING":        ListOnPremConnectorsOnPremConnectorLifecycleStateDeleting,
+	"DELETED":         ListOnPremConnectorsOnPremConnectorLifecycleStateDeleted,
+	"FAILED":          ListOnPremConnectorsOnPremConnectorLifecycleStateFailed,
+	"NEEDS_ATTENTION": ListOnPremConnectorsOnPremConnectorLifecycleStateNeedsAttention,
 }
 
 var mappingListOnPremConnectorsOnPremConnectorLifecycleStateEnumLowerCase = map[string]ListOnPremConnectorsOnPremConnectorLifecycleStateEnum{
-	"creating": ListOnPremConnectorsOnPremConnectorLifecycleStateCreating,
-	"updating": ListOnPremConnectorsOnPremConnectorLifecycleStateUpdating,
-	"active":   ListOnPremConnectorsOnPremConnectorLifecycleStateActive,
-	"inactive": ListOnPremConnectorsOnPremConnectorLifecycleStateInactive,
-	"deleting": ListOnPremConnectorsOnPremConnectorLifecycleStateDeleting,
-	"deleted":  ListOnPremConnectorsOnPremConnectorLifecycleStateDeleted,
-	"failed":   ListOnPremConnectorsOnPremConnectorLifecycleStateFailed,
+	"creating":        ListOnPremConnectorsOnPremConnectorLifecycleStateCreating,
+	"updating":        ListOnPremConnectorsOnPremConnectorLifecycleStateUpdating,
+	"active":          ListOnPremConnectorsOnPremConnectorLifecycleStateActive,
+	"inactive":        ListOnPremConnectorsOnPremConnectorLifecycleStateInactive,
+	"deleting":        ListOnPremConnectorsOnPremConnectorLifecycleStateDeleting,
+	"deleted":         ListOnPremConnectorsOnPremConnectorLifecycleStateDeleted,
+	"failed":          ListOnPremConnectorsOnPremConnectorLifecycleStateFailed,
+	"needs_attention": ListOnPremConnectorsOnPremConnectorLifecycleStateNeedsAttention,
 }
 
 // GetListOnPremConnectorsOnPremConnectorLifecycleStateEnumValues Enumerates the set of values for ListOnPremConnectorsOnPremConnectorLifecycleStateEnum
@@ -189,6 +192,7 @@ func GetListOnPremConnectorsOnPremConnectorLifecycleStateEnumStringValues() []st
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"NEEDS_ATTENTION",
 	}
 }
 

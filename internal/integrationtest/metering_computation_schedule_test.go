@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -15,51 +15,53 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_metering_computation "github.com/oracle/oci-go-sdk/v65/usageapi"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	ScheduleRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_schedule", "test_schedule", acctest.Required, acctest.Create, scheduleRepresentation)
+	MeteringComputationScheduleRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_schedule", "test_schedule", acctest.Required, acctest.Create, MeteringComputationScheduleRepresentation)
 
-	ScheduleResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_schedule", "test_schedule", acctest.Optional, acctest.Update, scheduleRepresentation)
+	MeteringComputationScheduleResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_schedule", "test_schedule", acctest.Optional, acctest.Update, MeteringComputationScheduleRepresentation)
 
-	scheduleSingularDataSourceRepresentation = map[string]interface{}{
+	MeteringComputationMeteringComputationScheduleSingularDataSourceRepresentation = map[string]interface{}{
 		"schedule_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_metering_computation_schedule.test_schedule.id}`},
 	}
 
-	scheduleDataSourceRepresentation = map[string]interface{}{
+	MeteringComputationMeteringComputationScheduleDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `name`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: scheduleDataSourceFilterRepresentation}}
-	scheduleDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: MeteringComputationScheduleDataSourceFilterRepresentation}}
+	MeteringComputationScheduleDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_metering_computation_schedule.test_schedule.id}`}},
 	}
 
-	scheduleRepresentation = map[string]interface{}{
+	MeteringComputationScheduleRepresentation = map[string]interface{}{
 		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_id}`},
 		"name":                 acctest.Representation{RepType: acctest.Required, Create: `name`},
-		"query_properties":     acctest.RepresentationGroup{RepType: acctest.Required, Group: scheduleQueryPropertiesRepresentation},
-		"result_location":      acctest.RepresentationGroup{RepType: acctest.Required, Group: scheduleResultLocationRepresentation},
+		"query_properties":     acctest.RepresentationGroup{RepType: acctest.Required, Group: MeteringComputationScheduleQueryPropertiesRepresentation},
+		"result_location":      acctest.RepresentationGroup{RepType: acctest.Required, Group: MeteringComputationScheduleResultLocationRepresentation},
 		"schedule_recurrences": acctest.Representation{RepType: acctest.Required, Create: `DAILY`},
-		"time_scheduled":       acctest.Representation{RepType: acctest.Required, Create: `2022-06-19T00:00:00Z`},
+		"time_scheduled":       acctest.Representation{RepType: acctest.Required, Create: `2022-10-19T00:00:00Z`},
+		"description":          acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"output_file_format":   acctest.Representation{RepType: acctest.Optional, Create: `CSV`, Update: `PDF`},
 	}
-	scheduleQueryPropertiesRepresentation = map[string]interface{}{
-		"date_range":  acctest.RepresentationGroup{RepType: acctest.Required, Group: scheduleQueryPropertiesDateRangeRepresentation},
+	MeteringComputationScheduleQueryPropertiesRepresentation = map[string]interface{}{
+		"date_range":  acctest.RepresentationGroup{RepType: acctest.Required, Group: MeteringComputationScheduleQueryPropertiesDateRangeRepresentation},
 		"granularity": acctest.Representation{RepType: acctest.Required, Create: `DAILY`},
 	}
-	scheduleResultLocationRepresentation = map[string]interface{}{
+	MeteringComputationScheduleResultLocationRepresentation = map[string]interface{}{
 		"bucket":        acctest.Representation{RepType: acctest.Required, Create: `usage-schedule-test-bucket`},
 		"location_type": acctest.Representation{RepType: acctest.Required, Create: `OBJECT_STORAGE`},
 		"namespace":     acctest.Representation{RepType: acctest.Required, Create: `idy3u7psgoxm`},
 		"region":        acctest.Representation{RepType: acctest.Required, Create: `us-ashburn-1`},
 	}
-	scheduleQueryPropertiesDateRangeRepresentation = map[string]interface{}{
+	MeteringComputationScheduleQueryPropertiesDateRangeRepresentation = map[string]interface{}{
 		"date_range_type":         acctest.Representation{RepType: acctest.Required, Create: `DYNAMIC`},
 		"dynamic_date_range_type": acctest.Representation{RepType: acctest.Required, Create: `LAST_7_DAYS`},
 	}
@@ -82,13 +84,13 @@ func TestMeteringComputationScheduleResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+tenancyIdVariableStr+
-		acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_schedule", "test_schedule", acctest.Optional, acctest.Create, scheduleRepresentation), "usageapi", "schedule", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_schedule", "test_schedule", acctest.Optional, acctest.Create, MeteringComputationScheduleRepresentation), "usageapi", "schedule", t)
 
 	acctest.ResourceTest(t, testAccCheckMeteringComputationScheduleDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + tenancyIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_schedule", "test_schedule", acctest.Required, acctest.Create, scheduleRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_schedule", "test_schedule", acctest.Required, acctest.Create, MeteringComputationScheduleRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "name", "name"),
@@ -103,7 +105,7 @@ func TestMeteringComputationScheduleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "result_location.0.namespace", "idy3u7psgoxm"),
 				resource.TestCheckResourceAttr(resourceName, "result_location.0.region", "us-ashburn-1"),
 				resource.TestCheckResourceAttr(resourceName, "schedule_recurrences", "DAILY"),
-				resource.TestCheckResourceAttr(resourceName, "time_scheduled", "2022-06-19T00:00:00Z"),
+				resource.TestCheckResourceAttr(resourceName, "time_scheduled", "2022-10-19T00:00:00Z"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -119,7 +121,7 @@ func TestMeteringComputationScheduleResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + tenancyIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_schedule", "test_schedule", acctest.Optional, acctest.Create, scheduleRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_schedule", "test_schedule", acctest.Optional, acctest.Create, MeteringComputationScheduleRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -135,6 +137,8 @@ func TestMeteringComputationScheduleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "result_location.0.namespace", "idy3u7psgoxm"),
 				resource.TestCheckResourceAttr(resourceName, "result_location.0.region", "us-ashburn-1"),
 				resource.TestCheckResourceAttr(resourceName, "schedule_recurrences", "DAILY"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "output_file_format", "CSV"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -151,7 +155,7 @@ func TestMeteringComputationScheduleResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + tenancyIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_schedule", "test_schedule", acctest.Optional, acctest.Update, scheduleRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_schedule", "test_schedule", acctest.Optional, acctest.Update, MeteringComputationScheduleRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -167,6 +171,8 @@ func TestMeteringComputationScheduleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "result_location.0.namespace", "idy3u7psgoxm"),
 				resource.TestCheckResourceAttr(resourceName, "result_location.0.region", "us-ashburn-1"),
 				resource.TestCheckResourceAttr(resourceName, "schedule_recurrences", "DAILY"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "output_file_format", "PDF"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -180,9 +186,9 @@ func TestMeteringComputationScheduleResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_metering_computation_schedules", "test_schedules", acctest.Optional, acctest.Update, scheduleDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_metering_computation_schedules", "test_schedules", acctest.Optional, acctest.Update, MeteringComputationMeteringComputationScheduleDataSourceRepresentation) +
 				tenancyIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_schedule", "test_schedule", acctest.Optional, acctest.Update, scheduleRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_schedule", "test_schedule", acctest.Optional, acctest.Update, MeteringComputationScheduleRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "name"),
@@ -194,8 +200,8 @@ func TestMeteringComputationScheduleResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_metering_computation_schedule", "test_schedule", acctest.Required, acctest.Create, scheduleSingularDataSourceRepresentation) +
-				tenancyIdVariableStr + ScheduleResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_metering_computation_schedule", "test_schedule", acctest.Required, acctest.Create, MeteringComputationMeteringComputationScheduleSingularDataSourceRepresentation) +
+				tenancyIdVariableStr + MeteringComputationScheduleResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "schedule_id"),
 
@@ -217,7 +223,7 @@ func TestMeteringComputationScheduleResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ScheduleRequiredOnlyResource,
+			Config:                  config + MeteringComputationScheduleRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -273,7 +279,7 @@ func init() {
 
 func sweepMeteringComputationScheduleResource(compartment string) error {
 	usageapiClient := acctest.GetTestClients(&schema.ResourceData{}).UsageapiClient()
-	scheduleIds, err := getScheduleIds(compartment)
+	scheduleIds, err := getMeteringComputationScheduleIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -294,7 +300,7 @@ func sweepMeteringComputationScheduleResource(compartment string) error {
 	return nil
 }
 
-func getScheduleIds(compartment string) ([]string, error) {
+func getMeteringComputationScheduleIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ScheduleId")
 	if ids != nil {
 		return ids, nil

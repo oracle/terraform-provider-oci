@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -27,6 +27,10 @@ type ApiSpecificationRequestPolicies struct {
 	Cors *CorsPolicy `mandatory:"false" json:"cors"`
 
 	MutualTls *MutualTlsDetails `mandatory:"false" json:"mutualTls"`
+
+	UsagePlans *UsagePlansPolicy `mandatory:"false" json:"usagePlans"`
+
+	DynamicAuthentication *DynamicAuthenticationPolicy `mandatory:"false" json:"dynamicAuthentication"`
 }
 
 func (m ApiSpecificationRequestPolicies) String() string {
@@ -48,10 +52,12 @@ func (m ApiSpecificationRequestPolicies) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *ApiSpecificationRequestPolicies) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Authentication authenticationpolicy `json:"authentication"`
-		RateLimiting   *RateLimitingPolicy  `json:"rateLimiting"`
-		Cors           *CorsPolicy          `json:"cors"`
-		MutualTls      *MutualTlsDetails    `json:"mutualTls"`
+		Authentication        authenticationpolicy         `json:"authentication"`
+		RateLimiting          *RateLimitingPolicy          `json:"rateLimiting"`
+		Cors                  *CorsPolicy                  `json:"cors"`
+		MutualTls             *MutualTlsDetails            `json:"mutualTls"`
+		UsagePlans            *UsagePlansPolicy            `json:"usagePlans"`
+		DynamicAuthentication *DynamicAuthenticationPolicy `json:"dynamicAuthentication"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -74,6 +80,10 @@ func (m *ApiSpecificationRequestPolicies) UnmarshalJSON(data []byte) (e error) {
 	m.Cors = model.Cors
 
 	m.MutualTls = model.MutualTls
+
+	m.UsagePlans = model.UsagePlans
+
+	m.DynamicAuthentication = model.DynamicAuthentication
 
 	return
 }

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package bastion
@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -61,6 +61,12 @@ func BastionBastionResource() *schema.Resource {
 				Computed:         true,
 				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
+			},
+			"dns_proxy_status": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
@@ -233,6 +239,10 @@ func (s *BastionBastionResourceCrud) Create() error {
 			return err
 		}
 		request.DefinedTags = convertedDefinedTags
+	}
+
+	if dnsProxyStatus, ok := s.D.GetOkExists("dns_proxy_status"); ok {
+		request.DnsProxyStatus = oci_bastion.BastionDnsProxyStatusEnum(dnsProxyStatus.(string))
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
@@ -517,6 +527,8 @@ func (s *BastionBastionResourceCrud) SetData() error {
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
+
+	s.D.Set("dns_proxy_status", s.Res.DnsProxyStatus)
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 

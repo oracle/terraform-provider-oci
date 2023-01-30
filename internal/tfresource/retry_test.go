@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package tfresource
@@ -11,11 +11,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
+	"github.com/oracle/terraform-provider-oci/internal/globalvar"
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 
 	"github.com/oracle/oci-go-sdk/v65/common"
 )

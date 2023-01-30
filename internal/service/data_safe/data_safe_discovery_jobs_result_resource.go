@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package data_safe
@@ -14,8 +14,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 )
@@ -32,9 +32,10 @@ func DataSafeDiscoveryJobsResultResource() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			// Required
 			"discovery_job_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+				Type:       schema.TypeString,
+				Required:   true,
+				ForceNew:   true,
+				Deprecated: tfresource.ResourceDeprecated("oci_data_safe_discovery_jobs_result"),
 			},
 			// Optional
 
@@ -66,8 +67,9 @@ func DataSafeDiscoveryJobsResultResource() *schema.Resource {
 				},
 			},
 			"discovery_type": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:       schema.TypeString,
+				Computed:   true,
+				Deprecated: tfresource.ResourceDeprecated("oci_data_safe_discovery_jobs_result"),
 			},
 			"estimated_data_value_count": {
 				Type:     schema.TypeString,
@@ -78,8 +80,9 @@ func DataSafeDiscoveryJobsResultResource() *schema.Resource {
 				Computed: true,
 			},
 			"key": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:       schema.TypeString,
+				Computed:   true,
+				Deprecated: tfresource.ResourceDeprecated("oci_data_safe_discovery_jobs_result"),
 			},
 			"modified_attributes": {
 				Type:     schema.TypeList,
@@ -291,6 +294,10 @@ func (s *DataSafeDiscoveryJobsResultResourceCrud) SetData() error {
 
 	s.D.Set("db_defined_child_column_keys", s.Res.DbDefinedChildColumnKeys)
 
+	if s.Res.DiscoveryJobId != nil {
+		s.D.Set("discovery_job_id", *s.Res.DiscoveryJobId)
+	}
+
 	s.D.Set("discovery_type", s.Res.DiscoveryType)
 
 	if s.Res.EstimatedDataValueCount != nil {
@@ -369,6 +376,10 @@ func DiscoveryJobResultSummaryToMap(obj oci_data_safe.DiscoveryJobResultSummary)
 
 	if obj.DataType != nil {
 		result["data_type"] = string(*obj.DataType)
+	}
+
+	if obj.DiscoveryJobId != nil {
+		result["discovery_job_id"] = string(*obj.DiscoveryJobId)
 	}
 
 	result["discovery_type"] = string(obj.DiscoveryType)

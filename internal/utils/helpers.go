@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package utils
@@ -20,8 +20,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/globalvar"
 )
 
 const (
@@ -79,7 +79,16 @@ const (
 		us-phoenix-1 = "ocid1.mysqlconfiguration.oc1..aaaaaaaalwzc2a22xqm56fwjwfymixnulmbq3v77p5v4lcbb6qhkftxf2trq"
 	  }
 	}
-    `
+ 	`
+	MysqlConfigurationIdVariableE3_2_32_OCID = `
+	variable "MysqlConfigurationE3_2_32_OCID" {
+	  type = "map"
+	  default = {
+		us-ashburn-1 = "ocid1.mysqlconfiguration.oc1..aaaaaaaakremacvh2fizcznnja5rdxry2q4nyn27afjblyrimzjmrqblhfwa"
+		us-phoenix-1 = "ocid1.mysqlconfiguration.oc1..aaaaaaaakremacvh2fizcznnja5rdxry2q4nyn27afjblyrimzjmrqblhfwa"
+	  }
+	}
+   `
 	MysqlHAConfigurationIdVariable = `
 	variable "MysqlHAConfigurationOCID" {
 		type = "map"
@@ -340,4 +349,9 @@ func GetStringsHashcode(strings []string) string {
 	}
 
 	return fmt.Sprintf("%d", GetStringHashcode(buf.String()))
+}
+
+func GetVarNameFromAttributeOfResources(attribute string, resourceType string, resourceName string) string {
+	// Following format resourceType--attribute-attribute-...–resourceName
+	return fmt.Sprintf(globalvar.VariableResourceLevelFormat, resourceType, strings.ReplaceAll(attribute, ".", "-"), resourceName)
 }

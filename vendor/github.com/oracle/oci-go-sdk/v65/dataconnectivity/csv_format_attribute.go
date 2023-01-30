@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Data Connectivity Management API
 //
-// Use the DCMS APIs to perform Metadata/Data operations.
+// Use the Data Connectivity Management Service APIs to perform common extract, load, and transform (ETL) tasks.
 //
 
 package dataconnectivity
@@ -39,6 +39,15 @@ type CsvFormatAttribute struct {
 
 	// Format for timestamp information.
 	TimestampFormat *string `mandatory:"false" json:"timestampFormat"`
+
+	// Defines whether the quote entire content while performing read/write.
+	IsQuoteAll *bool `mandatory:"false" json:"isQuoteAll"`
+
+	// Defines whether the file has a multiline content
+	IsMultiline *bool `mandatory:"false" json:"isMultiline"`
+
+	// Defines whether the file has a trailing delimiter
+	IsTrailingDelimiter *bool `mandatory:"false" json:"isTrailingDelimiter"`
 }
 
 func (m CsvFormatAttribute) String() string {

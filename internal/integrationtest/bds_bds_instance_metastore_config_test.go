@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -22,31 +22,31 @@ import (
 	oci_bds "github.com/oracle/oci-go-sdk/v65/bds"
 	"github.com/oracle/oci-go-sdk/v65/common"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	BdsInstanceMetastoreConfigRequiredOnlyResource = BdsInstanceMetastoreConfigResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_metastore_config", "test_bds_instance_metastore_config", acctest.Required, acctest.Create, bdsInstanceMetastoreConfigRepresentation)
+	BdsBdsInstanceMetastoreConfigRequiredOnlyResource = BdsBdsInstanceMetastoreConfigResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_metastore_config", "test_bds_instance_metastore_config", acctest.Required, acctest.Create, BdsbdsInstanceMetastoreConfigRepresentation)
 
-	BdsInstanceMetastoreConfigResourceConfig = BdsInstanceMetastoreConfigResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_metastore_config", "test_bds_instance_metastore_config", acctest.Optional, acctest.Update, bdsInstanceMetastoreConfigRepresentation)
+	BdsBdsInstanceMetastoreConfigResourceConfig = BdsBdsInstanceMetastoreConfigResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_metastore_config", "test_bds_instance_metastore_config", acctest.Optional, acctest.Update, BdsbdsInstanceMetastoreConfigRepresentation)
 
-	bdsInstanceMetastoreConfigSingularDataSourceRepresentation = map[string]interface{}{
+	BdsBdsbdsInstanceMetastoreConfigSingularDataSourceRepresentation = map[string]interface{}{
 		"bds_instance_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_bds_bds_instance.test_bds_instance.id}`},
 		"metastore_config_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_bds_bds_instance_metastore_config.test_bds_instance_metastore_config.id}`},
 	}
 
-	bdsInstanceMetastoreConfigDataSourceRepresentation = map[string]interface{}{
+	BdsBdsbdsInstanceMetastoreConfigDataSourceRepresentation = map[string]interface{}{
 		"bds_instance_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_bds_bds_instance.test_bds_instance.id}`},
 		"state":           acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":          acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceMetastoreConfigDataSourceFilterRepresentation}}
-	bdsInstanceMetastoreConfigDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":          acctest.RepresentationGroup{RepType: acctest.Required, Group: BdsbdsInstanceMetastoreConfigDataSourceFilterRepresentation}}
+	BdsbdsInstanceMetastoreConfigDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_bds_bds_instance_metastore_config.test_bds_instance_metastore_config.id}`}},
 	}
 
-	bdsInstanceMetastoreConfigRepresentation = map[string]interface{}{
+	BdsbdsInstanceMetastoreConfigRepresentation = map[string]interface{}{
 		"bds_api_key_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_bds_bds_instance_api_key.test_bds_instance_api_key.id}`},
 		"bds_api_key_passphrase": acctest.Representation{RepType: acctest.Required, Create: `V2VsY29tZTE=`, Update: `V2VsY29tZTE=`},
 		"bds_instance_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_bds_bds_instance.test_bds_instance.id}`},
@@ -55,11 +55,11 @@ var (
 		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 	}
 
-	BdsInstanceMetastoreConfigResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create, bdsInstanceOdhWithNatGatewayRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_api_key", "test_bds_instance_api_key", acctest.Required, acctest.Create, bdsInstanceApiKeyRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, userRepresentation) +
+	BdsBdsInstanceMetastoreConfigResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create, bdsInstanceOdhWithNatGatewayRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_api_key", "test_bds_instance_api_key", acctest.Required, acctest.Create, BdsbdsInstanceApiKeyRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", acctest.Required, acctest.Create, bdsDcatDynamicGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Required, acctest.Create, bdsApiKeyUserGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", acctest.Required, acctest.Create, bdsMetastoreConfigTestPolicyRepresentation) +
@@ -85,14 +85,14 @@ func TestBdsBdsInstanceMetastoreConfigResource_basic(t *testing.T) {
 
 	var resId, resId2, bdsId string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+BdsInstanceMetastoreConfigResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_metastore_config", "test_bds_instance_metastore_config", acctest.Optional, acctest.Create, bdsInstanceMetastoreConfigRepresentation), "bds", "bdsInstanceMetastoreConfig", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+BdsBdsInstanceMetastoreConfigResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_metastore_config", "test_bds_instance_metastore_config", acctest.Optional, acctest.Create, BdsbdsInstanceMetastoreConfigRepresentation), "bds", "bdsInstanceMetastoreConfig", t)
 
 	acctest.ResourceTest(t, testAccCheckBdsBdsInstanceMetastoreConfigDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + BdsInstanceMetastoreConfigResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_metastore_config", "test_bds_instance_metastore_config", acctest.Required, acctest.Create, bdsInstanceMetastoreConfigRepresentation) + metastoreIdVariableStr,
+			Config: config + compartmentIdVariableStr + BdsBdsInstanceMetastoreConfigResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_metastore_config", "test_bds_instance_metastore_config", acctest.Required, acctest.Create, BdsbdsInstanceMetastoreConfigRepresentation) + metastoreIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bds_api_key_id"),
 				resource.TestCheckResourceAttr(resourceName, "bds_api_key_passphrase", "V2VsY29tZTE="),
@@ -113,12 +113,12 @@ func TestBdsBdsInstanceMetastoreConfigResource_basic(t *testing.T) {
 			PreConfig: func() {
 				activateLocalMetastore(bdsId)
 			},
-			Config: config + compartmentIdVariableStr + BdsInstanceMetastoreConfigResourceDependencies + metastoreIdVariableStr,
+			Config: config + compartmentIdVariableStr + BdsBdsInstanceMetastoreConfigResourceDependencies + metastoreIdVariableStr,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + BdsInstanceMetastoreConfigResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_metastore_config", "test_bds_instance_metastore_config", acctest.Optional, acctest.Create, bdsInstanceMetastoreConfigRepresentation) + metastoreIdVariableStr,
+			Config: config + compartmentIdVariableStr + BdsBdsInstanceMetastoreConfigResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_metastore_config", "test_bds_instance_metastore_config", acctest.Optional, acctest.Create, BdsbdsInstanceMetastoreConfigRepresentation) + metastoreIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bds_api_key_id"),
 				resource.TestCheckResourceAttr(resourceName, "bds_api_key_passphrase", "V2VsY29tZTE="),
@@ -145,8 +145,8 @@ func TestBdsBdsInstanceMetastoreConfigResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + BdsInstanceMetastoreConfigResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_metastore_config", "test_bds_instance_metastore_config", acctest.Optional, acctest.Update, bdsInstanceMetastoreConfigRepresentation) + metastoreIdVariableStr,
+			Config: config + compartmentIdVariableStr + BdsBdsInstanceMetastoreConfigResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_metastore_config", "test_bds_instance_metastore_config", acctest.Optional, acctest.Update, BdsbdsInstanceMetastoreConfigRepresentation) + metastoreIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bds_api_key_id"),
 				resource.TestCheckResourceAttr(resourceName, "bds_api_key_passphrase", "V2VsY29tZTE="),
@@ -171,9 +171,9 @@ func TestBdsBdsInstanceMetastoreConfigResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_bds_bds_instance_metastore_configs", "test_bds_instance_metastore_configs", acctest.Optional, acctest.Update, bdsInstanceMetastoreConfigDataSourceRepresentation) +
-				compartmentIdVariableStr + BdsInstanceMetastoreConfigResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_metastore_config", "test_bds_instance_metastore_config", acctest.Optional, acctest.Update, bdsInstanceMetastoreConfigRepresentation) + metastoreIdVariableStr,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_bds_bds_instance_metastore_configs", "test_bds_instance_metastore_configs", acctest.Optional, acctest.Update, BdsBdsbdsInstanceMetastoreConfigDataSourceRepresentation) +
+				compartmentIdVariableStr + BdsBdsInstanceMetastoreConfigResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_metastore_config", "test_bds_instance_metastore_config", acctest.Optional, acctest.Update, BdsbdsInstanceMetastoreConfigRepresentation) + metastoreIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "bds_instance_id"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -192,8 +192,8 @@ func TestBdsBdsInstanceMetastoreConfigResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_bds_bds_instance_metastore_config", "test_bds_instance_metastore_config", acctest.Required, acctest.Create, bdsInstanceMetastoreConfigSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + BdsInstanceMetastoreConfigResourceConfig + metastoreIdVariableStr,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_bds_bds_instance_metastore_config", "test_bds_instance_metastore_config", acctest.Required, acctest.Create, BdsBdsbdsInstanceMetastoreConfigSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + BdsBdsInstanceMetastoreConfigResourceConfig + metastoreIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "bds_instance_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "metastore_id"),
@@ -208,7 +208,7 @@ func TestBdsBdsInstanceMetastoreConfigResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + BdsInstanceMetastoreConfigRequiredOnlyResource,
+			Config:            config + BdsBdsInstanceMetastoreConfigRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateIdFunc: getBdsMetastoreConfigCompositeId(resourceName),
@@ -281,7 +281,7 @@ func init() {
 
 func sweepBdsBdsInstanceMetastoreConfigResource(compartment string) error {
 	bdsClient := acctest.GetTestClients(&schema.ResourceData{}).BdsClient()
-	bdsInstanceMetastoreConfigIds, err := getBdsInstanceMetastoreConfigIds(compartment)
+	bdsInstanceMetastoreConfigIds, err := getBdsBdsInstanceMetastoreConfigIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -295,14 +295,14 @@ func sweepBdsBdsInstanceMetastoreConfigResource(compartment string) error {
 				fmt.Printf("Error deleting BdsInstanceMetastoreConfig %s %s, It is possible that the resource is already deleted. Please verify manually \n", bdsInstanceMetastoreConfigId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &bdsInstanceMetastoreConfigId, bdsInstanceMetastoreConfigSweepWaitCondition, time.Duration(3*time.Minute),
-				bdsInstanceMetastoreConfigSweepResponseFetchOperation, "bds", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &bdsInstanceMetastoreConfigId, BdsbdsInstanceMetastoreConfigsSweepWaitCondition, time.Duration(3*time.Minute),
+				BdsbdsInstanceMetastoreConfigsSweepResponseFetchOperation, "bds", true)
 		}
 	}
 	return nil
 }
 
-func getBdsInstanceMetastoreConfigIds(compartment string) ([]string, error) {
+func getBdsBdsInstanceMetastoreConfigIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "BdsInstanceMetastoreConfigId")
 	if ids != nil {
 		return ids, nil
@@ -336,7 +336,7 @@ func getBdsInstanceMetastoreConfigIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func bdsInstanceMetastoreConfigSweepWaitCondition(response common.OCIOperationResponse) bool {
+func BdsbdsInstanceMetastoreConfigsSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if bdsInstanceMetastoreConfigResponse, ok := response.Response.(oci_bds.GetBdsMetastoreConfigurationResponse); ok {
 		return bdsInstanceMetastoreConfigResponse.LifecycleState != oci_bds.BdsMetastoreConfigurationLifecycleStateDeleted
@@ -344,7 +344,7 @@ func bdsInstanceMetastoreConfigSweepWaitCondition(response common.OCIOperationRe
 	return false
 }
 
-func bdsInstanceMetastoreConfigSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func BdsbdsInstanceMetastoreConfigsSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.BdsClient().GetBdsMetastoreConfiguration(context.Background(), oci_bds.GetBdsMetastoreConfigurationRequest{RequestMetadata: common.RequestMetadata{
 		RetryPolicy: retryPolicy,
 	},

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -15,44 +15,44 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_service_catalog "github.com/oracle/oci-go-sdk/v65/servicecatalog"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	ServiceCatalogAssociationRequiredOnlyResource = ServiceCatalogAssociationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", acctest.Required, acctest.Create, serviceCatalogAssociationRepresentation)
+	ServiceCatalogServiceCatalogAssociationRequiredOnlyResource = ServiceCatalogServiceCatalogAssociationResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", acctest.Required, acctest.Create, ServiceCatalogServiceCatalogAssociationRepresentation)
 
-	ServiceCatalogAssociationResourceConfig = ServiceCatalogAssociationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", acctest.Optional, acctest.Update, serviceCatalogAssociationRepresentation)
+	ServiceCatalogServiceCatalogAssociationResourceConfig = ServiceCatalogServiceCatalogAssociationResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", acctest.Optional, acctest.Update, ServiceCatalogServiceCatalogAssociationRepresentation)
 
-	serviceCatalogAssociationSingularDataSourceRepresentation = map[string]interface{}{
+	ServiceCatalogServiceCatalogServiceCatalogAssociationSingularDataSourceRepresentation = map[string]interface{}{
 		"service_catalog_association_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_service_catalog_service_catalog_association.test_service_catalog_association.id}`},
 	}
 
-	serviceCatalogAssociationDataSourceRepresentation = map[string]interface{}{
+	ServiceCatalogServiceCatalogServiceCatalogAssociationDataSourceRepresentation = map[string]interface{}{
 		"entity_id":                      acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_catalog_service_catalog_association.test_service_catalog_association.entity_id}`},
 		"entity_type":                    acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_catalog_service_catalog_association.test_service_catalog_association.entity_type}`},
 		"service_catalog_association_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_catalog_service_catalog_association.test_service_catalog_association.id}`},
 		"service_catalog_id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_service_catalog_service_catalog.test_service_catalog.id}`},
-		"filter":                         acctest.RepresentationGroup{RepType: acctest.Required, Group: serviceCatalogAssociationDataSourceFilterRepresentation}}
-	serviceCatalogAssociationDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":                         acctest.RepresentationGroup{RepType: acctest.Required, Group: ServiceCatalogServiceCatalogAssociationDataSourceFilterRepresentation}}
+	ServiceCatalogServiceCatalogAssociationDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_service_catalog_service_catalog_association.test_service_catalog_association.id}`}},
 	}
 
-	serviceCatalogAssociationRepresentation = map[string]interface{}{
+	ServiceCatalogServiceCatalogAssociationRepresentation = map[string]interface{}{
 		"entity_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_service_catalog_private_application.test_private_application.id}`},
 		"service_catalog_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_service_catalog_service_catalog.test_service_catalog.id}`},
 		"entity_type":        acctest.Representation{RepType: acctest.Optional, Create: `privateapplication`},
 	}
 
-	ServiceCatalogAssociationResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", acctest.Required, acctest.Create, privateApplicationRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog", "test_service_catalog", acctest.Required, acctest.Create, serviceCatalogRepresentation)
+	ServiceCatalogServiceCatalogAssociationResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", acctest.Required, acctest.Create, ServiceCatalogPrivateApplicationRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog", "test_service_catalog", acctest.Required, acctest.Create, ServiceCatalogServiceCatalogRepresentation)
 )
 
 // issue-routing-tag: service_catalog/default
@@ -71,14 +71,14 @@ func TestServiceCatalogServiceCatalogAssociationResource_basic(t *testing.T) {
 
 	var resId string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ServiceCatalogAssociationResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", acctest.Optional, acctest.Create, serviceCatalogAssociationRepresentation), "servicecatalog", "serviceCatalogAssociation", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ServiceCatalogServiceCatalogAssociationResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", acctest.Optional, acctest.Create, ServiceCatalogServiceCatalogAssociationRepresentation), "servicecatalog", "serviceCatalogAssociation", t)
 
 	acctest.ResourceTest(t, testAccCheckServiceCatalogServiceCatalogAssociationDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + ServiceCatalogAssociationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", acctest.Required, acctest.Create, serviceCatalogAssociationRepresentation),
+			Config: config + compartmentIdVariableStr + ServiceCatalogServiceCatalogAssociationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", acctest.Required, acctest.Create, ServiceCatalogServiceCatalogAssociationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "entity_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "service_catalog_id"),
@@ -87,12 +87,12 @@ func TestServiceCatalogServiceCatalogAssociationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + ServiceCatalogAssociationResourceDependencies,
+			Config: config + compartmentIdVariableStr + ServiceCatalogServiceCatalogAssociationResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ServiceCatalogAssociationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", acctest.Optional, acctest.Create, serviceCatalogAssociationRepresentation),
+			Config: config + compartmentIdVariableStr + ServiceCatalogServiceCatalogAssociationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", acctest.Optional, acctest.Create, ServiceCatalogServiceCatalogAssociationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "entity_id"),
 				resource.TestCheckResourceAttr(resourceName, "entity_type", "privateapplication"),
@@ -115,9 +115,9 @@ func TestServiceCatalogServiceCatalogAssociationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_service_catalog_service_catalog_associations", "test_service_catalog_associations", acctest.Optional, acctest.Update, serviceCatalogAssociationDataSourceRepresentation) +
-				compartmentIdVariableStr + ServiceCatalogAssociationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", acctest.Optional, acctest.Update, serviceCatalogAssociationRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_service_catalog_service_catalog_associations", "test_service_catalog_associations", acctest.Optional, acctest.Update, ServiceCatalogServiceCatalogServiceCatalogAssociationDataSourceRepresentation) +
+				compartmentIdVariableStr + ServiceCatalogServiceCatalogAssociationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", acctest.Optional, acctest.Update, ServiceCatalogServiceCatalogAssociationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "entity_id"),
 				resource.TestCheckResourceAttr(datasourceName, "entity_type", "privateapplication"),
@@ -131,8 +131,8 @@ func TestServiceCatalogServiceCatalogAssociationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", acctest.Required, acctest.Create, serviceCatalogAssociationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ServiceCatalogAssociationResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", acctest.Required, acctest.Create, ServiceCatalogServiceCatalogServiceCatalogAssociationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ServiceCatalogServiceCatalogAssociationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "service_catalog_association_id"),
 
@@ -143,7 +143,7 @@ func TestServiceCatalogServiceCatalogAssociationResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + ServiceCatalogAssociationRequiredOnlyResource,
+			Config:                  config + ServiceCatalogServiceCatalogAssociationRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -199,7 +199,7 @@ func init() {
 
 func sweepServiceCatalogServiceCatalogAssociationResource(compartment string) error {
 	serviceCatalogClient := acctest.GetTestClients(&schema.ResourceData{}).ServiceCatalogClient()
-	serviceCatalogAssociationIds, err := getServiceCatalogAssociationIds(compartment)
+	serviceCatalogAssociationIds, err := getServiceCatalogServiceCatalogAssociationIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -220,7 +220,7 @@ func sweepServiceCatalogServiceCatalogAssociationResource(compartment string) er
 	return nil
 }
 
-func getServiceCatalogAssociationIds(compartment string) ([]string, error) {
+func getServiceCatalogServiceCatalogAssociationIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ServiceCatalogAssociationId")
 	if ids != nil {
 		return ids, nil

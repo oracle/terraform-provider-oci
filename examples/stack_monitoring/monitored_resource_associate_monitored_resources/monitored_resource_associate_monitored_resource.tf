@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2022, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
@@ -32,8 +32,12 @@ resource "oci_stack_monitoring_monitored_resource" "test_monitored_resource1" {
 	host_name = var.stack_mon_hostname_resource1
 	management_agent_id = var.stack_mon_management_agent_id_resource1
 	properties {
-		name = "OS"
+		name = "osName"
 		value = "Linux"
+	}
+	properties {
+		name = "osVersion"
+		value = "7.0"
 	}
 	resource_time_zone = "en"
 }
@@ -48,8 +52,12 @@ resource "oci_stack_monitoring_monitored_resource" "test_monitored_resource2" {
 	host_name = var.stack_mon_hostname_resource2
 	management_agent_id = var.stack_mon_management_agent_id_resource2
 	properties {
-		name = "OS"
+		name = "osName"
 		value = "Linux"
+	}
+	properties {
+		name = "osVersion"
+		value = "7.0"
 	}
 	resource_time_zone = "en"
 }

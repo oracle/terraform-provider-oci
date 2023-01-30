@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -10,12 +10,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -23,21 +23,21 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
 var (
-	ReportDefinitionRequiredOnlyResource = ReportDefinitionResourceDependencies +
+	DataSafeReportDefinitionRequiredOnlyResource = DataSafeReportDefinitionResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_report_definition", "test_report_definition", acctest.Required, acctest.Create, reportDefinitionRepresentation)
 
-	ReportDefinitionResourceConfig = ReportDefinitionResourceDependencies +
+	DataSafeReportDefinitionResourceConfig = DataSafeReportDefinitionResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_report_definition", "test_report_definition", acctest.Optional, acctest.Update, reportDefinitionRepresentation)
 
-	reportDefinitionSingularDataSourceRepresentation = map[string]interface{}{
+	DataSafereportDefinitionSingularDataSourceRepresentation = map[string]interface{}{
 		"report_definition_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_report_definition.test_report_definition.id}`},
 	}
 
-	reportDefinitionDataSourceRepresentation = map[string]interface{}{
+	DataSafereportDefinitionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
@@ -47,7 +47,7 @@ var (
 		"column_sortings": acctest.RepresentationGroup{RepType: acctest.Required, Group: reportDefinitionColumnSortingsRepresentation},
 		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":    acctest.Representation{RepType: acctest.Required, Create: `displayName18`, Update: `displayName19`},
-		"parent_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.report_id}`},
+		"parent_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.report_ocid}`},
 		"summary":         acctest.RepresentationGroup{RepType: acctest.Required, Group: reportDefinitionSummaryRepresentation},
 		"defined_tags":    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":     acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
@@ -61,10 +61,10 @@ var (
 		"operator":    acctest.Representation{RepType: acctest.Required, Create: `IN`, Update: `EQ`},
 	}
 	reportDefinitionColumnInfoRepresentation = map[string]interface{}{
-		"display_name":  acctest.Representation{RepType: acctest.Required, Create: `displayName18`, Update: `displayName18`},
-		"display_order": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
-		"field_name":    acctest.Representation{RepType: acctest.Required, Create: `operation`, Update: `operation`},
-		"is_hidden":     acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
+		"display_name":  acctest.Representation{RepType: acctest.Required, Create: `Target Id`, Update: `Target Id`},
+		"display_order": acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `1`},
+		"field_name":    acctest.Representation{RepType: acctest.Required, Create: `targetId`, Update: `targetId`},
+		"is_hidden":     acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
 		"data_type":     acctest.Representation{RepType: acctest.Optional, Create: `String`, Update: `String`},
 	}
 	reportDefinitionColumnSortingsRepresentation = map[string]interface{}{
@@ -81,10 +81,10 @@ var (
 		"scim_filter":         acctest.Representation{RepType: acctest.Optional, Create: `scimFilter`, Update: `scimFilter2`},
 	}
 	ignoreReportDefinitionSystemTagsChangesRep = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`system_tags`}},
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`system_tags`, `defined_tags`, `compliance_standards`}},
 	}
 
-	ReportDefinitionResourceDependencies = DefinedTagsDependencies
+	DataSafeReportDefinitionResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: data_safe/default
@@ -101,7 +101,7 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	reportDefId := utils.GetEnvSettingWithBlankDefault("report_ocid")
-	reportDefIdVariableStr := fmt.Sprintf("variable \"report_id\" { default = \"%s\" }\n", reportDefId)
+	reportDefIdVariableStr := fmt.Sprintf("variable \"report_ocid\" { default = \"%s\" }\n", reportDefId)
 
 	resourceName := "oci_data_safe_report_definition.test_report_definition"
 	datasourceName := "data.oci_data_safe_report_definitions.test_report_definitions"
@@ -109,13 +109,13 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+reportDefIdVariableStr+ReportDefinitionResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+reportDefIdVariableStr+DataSafeReportDefinitionResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_report_definition", "test_report_definition", acctest.Optional, acctest.Create, reportDefinitionRepresentation), "datasafe", "reportDefinition", t)
 
 	acctest.ResourceTest(t, testAccCheckDataSafeReportDefinitionDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + reportDefIdVariableStr + ReportDefinitionResourceDependencies +
+			Config: config + compartmentIdVariableStr + reportDefIdVariableStr + DataSafeReportDefinitionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_report_definition", "test_report_definition", acctest.Required, acctest.Create, reportDefinitionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "column_filters.#", "1"),
@@ -125,10 +125,10 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "column_filters.0.is_hidden", "false"),
 				resource.TestCheckResourceAttr(resourceName, "column_filters.0.operator", "IN"),
 				resource.TestCheckResourceAttr(resourceName, "column_info.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_name", "displayName18"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_order", "10"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.field_name", "operation"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.is_hidden", "false"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_name", "Target Id"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_order", "1"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.field_name", "targetId"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.is_hidden", "true"),
 				resource.TestCheckResourceAttr(resourceName, "column_sortings.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "column_sortings.0.field_name", "operation"),
 				resource.TestCheckResourceAttr(resourceName, "column_sortings.0.is_ascending", "false"),
@@ -149,11 +149,11 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + reportDefIdVariableStr + ReportDefinitionResourceDependencies,
+			Config: config + compartmentIdVariableStr + reportDefIdVariableStr + DataSafeReportDefinitionResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + reportDefIdVariableStr + ReportDefinitionResourceDependencies +
+			Config: config + compartmentIdVariableStr + reportDefIdVariableStr + DataSafeReportDefinitionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_report_definition", "test_report_definition", acctest.Optional, acctest.Create, reportDefinitionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "column_filters.#", "1"),
@@ -164,10 +164,10 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "column_filters.0.operator", "IN"),
 				resource.TestCheckResourceAttr(resourceName, "column_info.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "column_info.0.data_type", "String"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_name", "displayName18"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_order", "10"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.field_name", "operation"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.is_hidden", "false"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_name", "Target Id"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_order", "1"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.field_name", "targetId"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.is_hidden", "true"),
 				resource.TestCheckResourceAttr(resourceName, "column_sortings.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "column_sortings.0.field_name", "operation"),
 				resource.TestCheckResourceAttr(resourceName, "column_sortings.0.is_ascending", "false"),
@@ -200,7 +200,7 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + reportDefIdVariableStr + compartmentIdUVariableStr + ReportDefinitionResourceDependencies +
+			Config: config + compartmentIdVariableStr + reportDefIdVariableStr + compartmentIdUVariableStr + DataSafeReportDefinitionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_report_definition", "test_report_definition", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(reportDefinitionRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -214,10 +214,10 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "column_filters.0.operator", "IN"),
 				resource.TestCheckResourceAttr(resourceName, "column_info.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "column_info.0.data_type", "String"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_name", "displayName18"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_order", "10"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.field_name", "operation"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.is_hidden", "false"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_name", "Target Id"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_order", "1"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.field_name", "targetId"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.is_hidden", "true"),
 				resource.TestCheckResourceAttr(resourceName, "column_sortings.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "column_sortings.0.field_name", "operation"),
 				resource.TestCheckResourceAttr(resourceName, "column_sortings.0.is_ascending", "false"),
@@ -248,7 +248,7 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + reportDefIdVariableStr + ReportDefinitionResourceDependencies +
+			Config: config + compartmentIdVariableStr + reportDefIdVariableStr + DataSafeReportDefinitionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_report_definition", "test_report_definition", acctest.Optional, acctest.Update, reportDefinitionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "column_filters.#", "1"),
@@ -259,9 +259,9 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "column_filters.0.operator", "EQ"),
 				resource.TestCheckResourceAttr(resourceName, "column_info.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "column_info.0.data_type", "String"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_name", "displayName18"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_order", "11"),
-				resource.TestCheckResourceAttr(resourceName, "column_info.0.field_name", "operation"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_name", "Target Id"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.display_order", "1"),
+				resource.TestCheckResourceAttr(resourceName, "column_info.0.field_name", "targetId"),
 				resource.TestCheckResourceAttr(resourceName, "column_info.0.is_hidden", "true"),
 				resource.TestCheckResourceAttr(resourceName, "column_sortings.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "column_sortings.0.field_name", "operation"),
@@ -293,8 +293,8 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_report_definitions", "test_report_definitions", acctest.Optional, acctest.Update, reportDefinitionDataSourceRepresentation) +
-				compartmentIdVariableStr + reportDefIdVariableStr + ReportDefinitionResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_report_definitions", "test_report_definitions", acctest.Optional, acctest.Update, DataSafereportDefinitionDataSourceRepresentation) +
+				compartmentIdVariableStr + reportDefIdVariableStr + DataSafeReportDefinitionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_report_definition", "test_report_definition", acctest.Optional, acctest.Update, reportDefinitionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 
@@ -306,8 +306,8 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_report_definition", "test_report_definition", acctest.Required, acctest.Create, reportDefinitionSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + reportDefIdVariableStr + ReportDefinitionResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_report_definition", "test_report_definition", acctest.Required, acctest.Create, DataSafereportDefinitionSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + reportDefIdVariableStr + DataSafeReportDefinitionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "report_definition_id"),
 
@@ -319,9 +319,9 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "column_filters.0.operator", "EQ"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "column_info.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "column_info.0.data_type", "String"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "column_info.0.display_name", "displayName18"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "column_info.0.display_order", "11"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "column_info.0.field_name", "operation"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "column_info.0.display_name", "Target Id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "column_info.0.display_order", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "column_info.0.field_name", "targetId"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "column_info.0.is_hidden", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "column_sortings.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "column_sortings.0.field_name", "operation"),
@@ -331,6 +331,8 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_order"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_seeded"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "summary.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "summary.0.count_of", "creates"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "summary.0.display_order", "11"),
@@ -344,11 +346,11 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 		},
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
-			Config: config + compartmentIdVariableStr + reportDefIdVariableStr + ReportDefinitionResourceConfig,
+			Config: config + compartmentIdVariableStr + reportDefIdVariableStr + DataSafeReportDefinitionResourceConfig,
 		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + reportDefIdVariableStr + DataSafeReportDefinitionResourceConfig,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -412,7 +414,7 @@ func init() {
 
 func sweepDataSafeReportDefinitionResource(compartment string) error {
 	dataSafeClient := acctest.GetTestClients(&schema.ResourceData{}).DataSafeClient()
-	reportDefinitionIds, err := getReportDefinitionIds(compartment)
+	reportDefinitionIds, err := getDataSafeReportDefinitionIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -428,14 +430,14 @@ func sweepDataSafeReportDefinitionResource(compartment string) error {
 				fmt.Printf("Error deleting ReportDefinition %s %s, It is possible that the resource is already deleted. Please verify manually \n", reportDefinitionId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &reportDefinitionId, reportDefinitionSweepWaitCondition, time.Duration(3*time.Minute),
-				reportDefinitionSweepResponseFetchOperation, "data_safe", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &reportDefinitionId, DataSafereportDefinitionsSweepWaitCondition, time.Duration(3*time.Minute),
+				DataSafereportDefinitionsSweepResponseFetchOperation, "data_safe", true)
 		}
 	}
 	return nil
 }
 
-func getReportDefinitionIds(compartment string) ([]string, error) {
+func getDataSafeReportDefinitionIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ReportDefinitionId")
 	if ids != nil {
 		return ids, nil
@@ -460,7 +462,7 @@ func getReportDefinitionIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func reportDefinitionSweepWaitCondition(response common.OCIOperationResponse) bool {
+func DataSafereportDefinitionsSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if reportDefinitionResponse, ok := response.Response.(oci_data_safe.GetReportDefinitionResponse); ok {
 		return reportDefinitionResponse.LifecycleState != oci_data_safe.ReportDefinitionLifecycleStateDeleted
@@ -468,7 +470,7 @@ func reportDefinitionSweepWaitCondition(response common.OCIOperationResponse) bo
 	return false
 }
 
-func reportDefinitionSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func DataSafereportDefinitionsSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DataSafeClient().GetReportDefinition(context.Background(), oci_data_safe.GetReportDefinitionRequest{
 		ReportDefinitionId: resourceId,
 		RequestMetadata: common.RequestMetadata{

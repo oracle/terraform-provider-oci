@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package client
@@ -11,12 +11,12 @@ import (
 
 	oci_kms "github.com/oracle/oci-go-sdk/v65/keymanagement"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
+	"github.com/oracle/terraform-provider-oci/internal/globalvar"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 
-	utils "github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	utils "github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var OracleClientRegistrationsVar *OracleClientRegistrations // This is a global registration for all oracle clients. This is invariant information about all clients regardless of region

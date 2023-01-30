@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -902,7 +902,8 @@ func (client ManagementAgentClient) listManagementAgentPlugins(ctx context.Conte
 }
 
 // ListManagementAgents Returns a list of Management Agents.
-// If no explicit page size limit is specified, it will default to 5000.
+// If no explicit page size limit is specified, it will default to 1000 when compartmentIdInSubtree is true and 5000 otherwise.
+// The response is limited to maximum 1000 records when compartmentIdInSubtree is true.
 //
 // See also
 //

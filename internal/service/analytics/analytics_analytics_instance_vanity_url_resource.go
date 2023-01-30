@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package analytics
@@ -12,8 +12,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -476,8 +476,6 @@ func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) SetData() error {
 		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
 	}
 	s.D.Set("hosts", s.Res.Hosts)
-
-	s.D.Set("urls", s.Res.Urls)
 
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)

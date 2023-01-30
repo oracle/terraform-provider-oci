@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package mysql
@@ -7,14 +7,17 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strconv"
 	"strings"
+	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_mysql "github.com/oracle/oci-go-sdk/v65/mysql"
 )
 
@@ -48,7 +51,6 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 			"shape_name": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"subnet_id": {
 				Type:     schema.TypeString,
@@ -99,6 +101,22 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"pitr_policy": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"is_enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"retention_in_days": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -118,7 +136,6 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"crash_recovery": {
 				Type:     schema.TypeString,
@@ -129,7 +146,6 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -232,7 +248,6 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 				Computed:         true,
 				ForceNew:         true,
 				DiffSuppressFunc: tfresource.MySqlVersionDiffSuppress,
-				Deprecated:       tfresource.FieldDeprecatedAndAvoidReferences("mysql_version"),
 			},
 			"port": {
 				Type:     schema.TypeInt,
@@ -263,7 +278,9 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"BACKUP",
+								"IMPORTURL",
 								"NONE",
+								"PITR",
 							}, true),
 						},
 
@@ -273,6 +290,25 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
+						},
+						"db_system_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"recovery_point": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+						},
+						"source_url": {
+							Type:      schema.TypeString,
+							Optional:  true,
+							ForceNew:  true,
+							Sensitive: true,
 						},
 
 						// Computed
@@ -384,6 +420,35 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"anonymous_transactions_handling": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"last_configured_log_filename": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"last_configured_log_offset": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"policy": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"uuid": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
 									"hostname": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -453,6 +518,27 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 									"db_system_id": {
 										Type:     schema.TypeString,
 										Computed: true,
+									},
+									"filters": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"value": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
 									},
 									"target_type": {
 										Type:     schema.TypeString,
@@ -526,6 +612,14 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"resource_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"resource_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -581,6 +675,27 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"point_in_time_recovery_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"time_earliest_recovery_point": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_latest_recovery_point": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -921,6 +1036,16 @@ func (s *MysqlMysqlDbSystemResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.DbSystemId = &tmp
 
+	if configurationId, ok := s.D.GetOkExists("configuration_id"); ok && s.D.HasChange("configuration_id") {
+		tmp := configurationId.(string)
+		request.ConfigurationId = &tmp
+	}
+
+	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok && s.D.HasChange("data_storage_size_in_gb") {
+		tmp := dataStorageSizeInGB.(int)
+		request.DataStorageSizeInGBs = &tmp
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok && s.D.HasChange("defined_tags") {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -968,6 +1093,11 @@ func (s *MysqlMysqlDbSystemResourceCrud) Update() error {
 			}
 			request.Maintenance = &tmp
 		}
+	}
+
+	if shapeName, ok := s.D.GetOkExists("shape_name"); ok && s.D.HasChange("shape_name") {
+		tmp := shapeName.(string)
+		request.ShapeName = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
@@ -1105,6 +1235,12 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 		s.D.Set("mysql_version", *s.Res.MysqlVersion)
 	}
 
+	if s.Res.PointInTimeRecoveryDetails != nil {
+		s.D.Set("point_in_time_recovery_details", []interface{}{PointInTimeRecoveryDetailsToMap(s.Res.PointInTimeRecoveryDetails)})
+	} else {
+		s.D.Set("point_in_time_recovery_details", nil)
+	}
+
 	if s.Res.Port != nil {
 		s.D.Set("port", *s.Res.Port)
 	}
@@ -1172,6 +1308,97 @@ func AnalyticsClusterSummaryToMap(obj *oci_mysql.AnalyticsClusterSummary) map[st
 	return result
 }
 
+func (s *MysqlMysqlDbSystemResourceCrud) mapToAnonymousTransactionsHandling(fieldKeyFormat string) (oci_mysql.AnonymousTransactionsHandling, error) {
+	var baseObject oci_mysql.AnonymousTransactionsHandling
+	//discriminator
+	policyRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "policy"))
+	var policy string
+	if ok {
+		policy = policyRaw.(string)
+	} else {
+		policy = "" // default value
+	}
+	switch strings.ToLower(policy) {
+	case strings.ToLower("ASSIGN_MANUAL_UUID"):
+		details := oci_mysql.AssignManualUuidHandling{}
+		if lastConfiguredLogFilename, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "last_configured_log_filename")); ok {
+			tmp := lastConfiguredLogFilename.(string)
+			details.LastConfiguredLogFilename = &tmp
+		}
+		if lastConfiguredLogOffset, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "last_configured_log_offset")); ok {
+			tmp := lastConfiguredLogOffset.(string)
+			tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+			if err != nil {
+				return details, fmt.Errorf("unable to convert lastConfiguredLogOffset string: %s to an int64 and encountered error: %v", tmp, err)
+			}
+			details.LastConfiguredLogOffset = &tmpInt64
+		}
+		if uuid, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "uuid")); ok {
+			tmp := uuid.(string)
+			details.Uuid = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("ASSIGN_TARGET_UUID"):
+		details := oci_mysql.AssignTargetUuidHandling{}
+		if lastConfiguredLogFilename, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "last_configured_log_filename")); ok {
+			tmp := lastConfiguredLogFilename.(string)
+			details.LastConfiguredLogFilename = &tmp
+		}
+		if lastConfiguredLogOffset, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "last_configured_log_offset")); ok {
+			tmp := lastConfiguredLogOffset.(string)
+			tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+			if err != nil {
+				return details, fmt.Errorf("unable to convert lastConfiguredLogOffset string: %s to an int64 and encountered error: %v", tmp, err)
+			}
+			details.LastConfiguredLogOffset = &tmpInt64
+		}
+		baseObject = details
+	case strings.ToLower("ERROR_ON_ANONYMOUS"):
+		details := oci_mysql.ErrorOnAnonymousHandling{}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown policy '%v' was specified", policy)
+	}
+	return baseObject, nil
+}
+
+func AnonymousTransactionsHandlingToMap(obj *oci_mysql.AnonymousTransactionsHandling) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_mysql.AssignManualUuidHandling:
+		result["policy"] = "ASSIGN_MANUAL_UUID"
+
+		if v.LastConfiguredLogFilename != nil {
+			result["last_configured_log_filename"] = string(*v.LastConfiguredLogFilename)
+		}
+
+		if v.LastConfiguredLogOffset != nil {
+			result["last_configured_log_offset"] = strconv.FormatInt(*v.LastConfiguredLogOffset, 10)
+		}
+
+		if v.Uuid != nil {
+			result["uuid"] = string(*v.Uuid)
+		}
+	case oci_mysql.AssignTargetUuidHandling:
+		result["policy"] = "ASSIGN_TARGET_UUID"
+
+		if v.LastConfiguredLogFilename != nil {
+			result["last_configured_log_filename"] = string(*v.LastConfiguredLogFilename)
+		}
+
+		if v.LastConfiguredLogOffset != nil {
+			result["last_configured_log_offset"] = strconv.FormatInt(*v.LastConfiguredLogOffset, 10)
+		}
+	case oci_mysql.ErrorOnAnonymousHandling:
+		result["policy"] = "ERROR_ON_ANONYMOUS"
+	default:
+		log.Printf("[WARN] Received 'policy' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
 func (s *MysqlMysqlDbSystemResourceCrud) mapToCaCertificate(fieldKeyFormat string) (oci_mysql.CaCertificate, error) {
 	var baseObject oci_mysql.CaCertificate
 	//discriminator
@@ -1213,11 +1440,46 @@ func CaCertificateToMap(obj *oci_mysql.CaCertificate) map[string]interface{} {
 	return result
 }
 
+func (s *MysqlMysqlDbSystemResourceCrud) mapToChannelFilter(fieldKeyFormat string) (oci_mysql.ChannelFilter, error) {
+	result := oci_mysql.ChannelFilter{}
+
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
+		result.Type = oci_mysql.ChannelFilterTypeEnum(type_.(string))
+	}
+
+	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+		tmp := value.(string)
+		result.Value = &tmp
+	}
+
+	return result, nil
+}
+
+func ChannelFilterToMap(obj oci_mysql.ChannelFilter) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["type"] = string(obj.Type)
+
+	if obj.Value != nil {
+		result["value"] = string(*obj.Value)
+	}
+
+	return result
+}
+
 func ChannelSourceToMap(obj *oci_mysql.ChannelSource) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
 	case oci_mysql.ChannelSourceMysql:
 		result["source_type"] = "MYSQL"
+
+		if v.AnonymousTransactionsHandling != nil {
+			anonymousTransactionsHandlingArray := []interface{}{}
+			if anonymousTransactionsHandlingMap := AnonymousTransactionsHandlingToMap(&v.AnonymousTransactionsHandling); anonymousTransactionsHandlingMap != nil {
+				anonymousTransactionsHandlingArray = append(anonymousTransactionsHandlingArray, anonymousTransactionsHandlingMap)
+			}
+			result["anonymous_transactions_handling"] = anonymousTransactionsHandlingArray
+		}
 
 		if v.Hostname != nil {
 			result["hostname"] = string(*v.Hostname)
@@ -1323,6 +1585,12 @@ func ChannelTargetToMap(obj *oci_mysql.ChannelTarget) map[string]interface{} {
 		if v.DbSystemId != nil {
 			result["db_system_id"] = string(*v.DbSystemId)
 		}
+
+		filters := []interface{}{}
+		for _, item := range v.Filters {
+			filters = append(filters, ChannelFilterToMap(item))
+		}
+		result["filters"] = filters
 	default:
 		log.Printf("[WARN] Received 'target_type' of unknown type %v", *obj)
 		return nil
@@ -1349,6 +1617,17 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateBackupPolicyDetails(fieldKey
 	if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
 		tmp := isEnabled.(bool)
 		result.IsEnabled = &tmp
+	}
+
+	if pitrPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pitr_policy")); ok {
+		if tmpList := pitrPolicy.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "pitr_policy"), 0)
+			tmp, err := s.mapToPitrPolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert pitr_policy, encountered error: %v", err)
+			}
+			result.PitrPolicy = &tmp
+		}
 	}
 
 	if retentionInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "retention_in_days")); ok {
@@ -1382,8 +1661,29 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateDbSystemSourceDetails(fieldK
 			details.BackupId = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("IMPORTURL"):
+		details := oci_mysql.CreateDbSystemSourceImportFromUrlDetails{}
+		if sourceUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_url")); ok {
+			tmp := sourceUrl.(string)
+			details.SourceUrl = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("NONE"):
 		details := oci_mysql.CreateDbSystemSourceFromNoneDetails{}
+		baseObject = details
+	case strings.ToLower("PITR"):
+		details := oci_mysql.CreateDbSystemSourceFromPitrDetails{}
+		if dbSystemId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_system_id")); ok {
+			tmp := dbSystemId.(string)
+			details.DbSystemId = &tmp
+		}
+		if recoveryPoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_point")); ok {
+			tmp, err := time.Parse(time.RFC3339, recoveryPoint.(string))
+			if err != nil {
+				return details, err
+			}
+			details.RecoveryPoint = &oci_common.SDKTime{Time: tmp}
+		}
 		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown source_type '%v' was specified", sourceType)
@@ -1400,8 +1700,20 @@ func DbSystemSourceToMap(obj *oci_mysql.DbSystemSource) map[string]interface{} {
 		if v.BackupId != nil {
 			result["backup_id"] = string(*v.BackupId)
 		}
-	case oci_mysql.CreateDbSystemSourceFromNoneDetails:
+	case oci_mysql.DbSystemSourceImportFromUrl:
+		result["source_type"] = "IMPORTURL"
+	case oci_mysql.DbSystemSourceFromNone:
 		result["source_type"] = "NONE"
+	case oci_mysql.DbSystemSourceFromPitr:
+		result["source_type"] = "PITR"
+
+		if v.DbSystemId != nil {
+			result["db_system_id"] = string(*v.DbSystemId)
+		}
+
+		if v.RecoveryPoint != nil {
+			result["recovery_point"] = v.RecoveryPoint.Format(time.RFC3339Nano)
+		}
 	default:
 		log.Printf("[WARN] Received 'source_type' of unknown type %v", *obj)
 		return nil
@@ -1511,6 +1823,41 @@ func HeatWaveClusterSummaryToMap(obj *oci_mysql.HeatWaveClusterSummary) map[stri
 	return result
 }
 
+func (s *MysqlMysqlDbSystemResourceCrud) mapToPitrPolicy(fieldKeyFormat string) (oci_mysql.PitrPolicy, error) {
+	result := oci_mysql.PitrPolicy{}
+
+	if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
+		tmp := isEnabled.(bool)
+		result.IsEnabled = &tmp
+	}
+
+	return result, nil
+}
+
+func PitrPolicyToMap(obj *oci_mysql.PitrPolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsEnabled != nil {
+		result["is_enabled"] = bool(*obj.IsEnabled)
+	}
+
+	return result
+}
+
+func PointInTimeRecoveryDetailsToMap(obj *oci_mysql.PointInTimeRecoveryDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.TimeEarliestRecoveryPoint != nil {
+		result["time_earliest_recovery_point"] = obj.TimeEarliestRecoveryPoint.String()
+	}
+
+	if obj.TimeLatestRecoveryPoint != nil {
+		result["time_latest_recovery_point"] = obj.TimeLatestRecoveryPoint.String()
+	}
+
+	return result
+}
+
 func (s *MysqlMysqlDbSystemResourceCrud) mapToUpdateBackupPolicyDetails(fieldKeyFormat string) (oci_mysql.UpdateBackupPolicyDetails, error) {
 	result := oci_mysql.UpdateBackupPolicyDetails{}
 
@@ -1539,6 +1886,17 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToUpdateBackupPolicyDetails(fieldKey
 	if windowStartTime, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "window_start_time")); ok {
 		tmp := windowStartTime.(string)
 		result.WindowStartTime = &tmp
+	}
+
+	if pitrPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pitr_policy")); ok {
+		if tmpList := pitrPolicy.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "pitr_policy"), 0)
+			tmp, err := s.mapToPitrPolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert pitr_policy, encountered error: %v", err)
+			}
+			result.PitrPolicy = &tmp
+		}
 	}
 
 	return result, nil

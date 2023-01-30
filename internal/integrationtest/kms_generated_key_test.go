@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -11,30 +11,30 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	GeneratedKeyRequiredOnlyResource = GeneratedKeyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_kms_generated_key", "test_generated_key", acctest.Required, acctest.Create, generatedKeyRepresentation)
+	KmsGeneratedKeyRequiredOnlyResource = KmsGeneratedKeyResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_kms_generated_key", "test_generated_key", acctest.Required, acctest.Create, KmsGeneratedKeyRepresentation)
 
-	generatedKeyRepresentation = map[string]interface{}{
+	KmsGeneratedKeyRepresentation = map[string]interface{}{
 		"crypto_endpoint":       acctest.Representation{RepType: acctest.Required, Create: `${data.oci_kms_vault.test_vault.crypto_endpoint}`},
 		"include_plaintext_key": acctest.Representation{RepType: acctest.Required, Create: `false`},
 		"key_id":                acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
-		"key_shape":             acctest.RepresentationGroup{RepType: acctest.Required, Group: generatedKeyKeyShapeRepresentation},
+		"key_shape":             acctest.RepresentationGroup{RepType: acctest.Required, Group: KmsGeneratedKeyKeyShapeRepresentation},
 		"associated_data":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"associatedData": "associatedData"}, Update: map[string]string{"associatedData2": "associatedData2"}},
 		"logging_context":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"loggingContext": "loggingContext"}, Update: map[string]string{"loggingContext2": "loggingContext2"}},
 	}
-	generatedKeyKeyShapeRepresentation = map[string]interface{}{
+	KmsGeneratedKeyKeyShapeRepresentation = map[string]interface{}{
 		"algorithm": acctest.Representation{RepType: acctest.Required, Create: `AES`},
 		"length":    acctest.Representation{RepType: acctest.Required, Create: `16`},
 	}
 
-	GeneratedKeyResourceDependencies = KeyResourceDependencyConfig
+	KmsGeneratedKeyResourceDependencies = KeyResourceDependencyConfig
 )
 
 // issue-routing-tag: kms/default
@@ -51,14 +51,14 @@ func TestKmsGeneratedKeyResource_basic(t *testing.T) {
 
 	var resId string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+GeneratedKeyResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_kms_generated_key", "test_generated_key", acctest.Optional, acctest.Create, generatedKeyRepresentation), "keymanagement", "generatedKey", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+KmsGeneratedKeyResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_kms_generated_key", "test_generated_key", acctest.Optional, acctest.Create, KmsGeneratedKeyRepresentation), "keymanagement", "generatedKey", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + GeneratedKeyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_kms_generated_key", "test_generated_key", acctest.Required, acctest.Create, generatedKeyRepresentation),
+			Config: config + compartmentIdVariableStr + KmsGeneratedKeyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_kms_generated_key", "test_generated_key", acctest.Required, acctest.Create, KmsGeneratedKeyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
 				resource.TestCheckResourceAttr(resourceName, "include_plaintext_key", "false"),
@@ -71,12 +71,12 @@ func TestKmsGeneratedKeyResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + GeneratedKeyResourceDependencies,
+			Config: config + compartmentIdVariableStr + KmsGeneratedKeyResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + GeneratedKeyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_kms_generated_key", "test_generated_key", acctest.Optional, acctest.Create, generatedKeyRepresentation),
+			Config: config + compartmentIdVariableStr + KmsGeneratedKeyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_kms_generated_key", "test_generated_key", acctest.Optional, acctest.Create, KmsGeneratedKeyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "associated_data.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "ciphertext"),
