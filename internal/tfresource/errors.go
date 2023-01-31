@@ -4,12 +4,16 @@
 package tfresource
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"reflect"
 	"regexp"
+	"strconv"
 	"strings"
 	"time"
+
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
@@ -23,6 +27,7 @@ var serviceErrorCheck = func(err error) (failure oci_common.ServiceErrorLocaliza
 }
 
 const (
+	JsonErrorEnable                    = "PROVIDER_JSON_ERROR"
 	ServiceError         errorTypeEnum = "ServiceError"
 	TimeoutError         errorTypeEnum = "TimeoutError"
 	UnexpectedStateError errorTypeEnum = "UnexpectedStateError"
@@ -30,22 +35,23 @@ const (
 )
 
 type customError struct {
-	TypeOfError             errorTypeEnum
-	ErrorCode               int
-	ErrorCodeName           string
-	Service                 string
-	Message                 string
-	OriginalMessage         string
-	OriginalMessageTemplate string
-	MessageArgument         map[string]string
-	OpcRequestID            string
-	ResourceOCID            string
-	OperationName           string
-	RequestTarget           string
-	Suggestion              string
-	VersionError            string
-	ResourceDocs            string
-	SdkApiDocs              string
+	TypeOfError             errorTypeEnum     `json:"type_of_error"`
+	ErrorCode               int               `json:"error_code"`
+	ErrorCodeName           string            `json:"error_code_name"`
+	Service                 string            `json:"service"`
+	Message                 string            `json:"message"`
+	OriginalMessage         string            `json:"original_message"`
+	OriginalMessageTemplate string            `json:"original_message_template"`
+	MessageArgument         map[string]string `json:"message_argument"`
+	OpcRequestID            string            `json:"opc_request_id"`
+	ResourceOCID            string            `json:"resource_ocid"`
+	OperationName           string            `json:"operation_name"`
+	RequestTarget           string            `json:"request_target"`
+	Suggestion              string            `json:"suggestion"`
+	VersionError            string            `json:"version_error"`
+	ResourceDocs            string            `json:"resource_docs"`
+	SdkApiDocs              string            `json:"sdk_api_docs"`
+	JsonError               string            `json:"-"`
 }
 
 // Create new error format for Terraform output
@@ -102,10 +108,20 @@ func newCustomError(sync interface{}, err error) error {
 
 	tfError.VersionError = GetVersionAndDateError()
 	tfError.Suggestion = getSuggestionFromError(tfError)
+	tfError.JsonError = getJsonError(tfError)
+
 	return tfError.Error()
 }
-
+func getJsonError(tfError customError) string {
+	errByte, err := json.Marshal(tfError)
+	if err != nil {
+		log.Printf("[ERROR] Fail to marshal error: %v", err)
+		return ""
+	}
+	return string(errByte)
+}
 func (tfE customError) Error() error {
+	var finalError error
 	switch tfE.TypeOfError {
 	case ServiceError:
 		var serviceError string
@@ -129,16 +145,16 @@ func (tfE customError) Error() error {
 			// For compute out of host capacity error support
 			serviceError = shortErrorDescription + furtherInfo + detailedDescription
 		}
-		return fmt.Errorf(serviceError)
+		finalError = fmt.Errorf(serviceError)
 	case TimeoutError:
-		return fmt.Errorf("%s \n"+
+		finalError = fmt.Errorf("%s \n"+
 			"%s \n"+
 			"Service: %s \n"+
 			"Error Message: %s \n"+
 			"Suggestion: %s\n",
 			tfE.ErrorCodeName, tfE.VersionError, tfE.Service, tfE.Message, tfE.Suggestion)
 	case UnexpectedStateError:
-		return fmt.Errorf("%s \n"+
+		finalError = fmt.Errorf("%s \n"+
 			"%s \n"+
 			"Service: %s \n"+
 			"Error Message: %s \n"+
@@ -146,7 +162,7 @@ func (tfE customError) Error() error {
 			"Suggestion: %s\n",
 			tfE.ErrorCodeName, tfE.VersionError, tfE.Service, tfE.Message, tfE.ResourceOCID, tfE.Suggestion)
 	case WorkRequestError:
-		return fmt.Errorf("%s \n"+
+		finalError = fmt.Errorf("%s \n"+
 			"%s \n"+
 			"Service: %s \n"+
 			"Error Message: %s \n"+
@@ -154,8 +170,16 @@ func (tfE customError) Error() error {
 			"Suggestion: %s\n",
 			tfE.ErrorCodeName, tfE.VersionError, tfE.Service, tfE.Message, tfE.ResourceOCID, tfE.Suggestion)
 	default:
-		return fmt.Errorf(tfE.Message)
+		finalError = fmt.Errorf(tfE.Message)
 	}
+	if isJsonErrorEnable, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault(JsonErrorEnable, "false")); isJsonErrorEnable {
+		finalError = fmt.Errorf("%s \n"+
+			"JSON Error: %s \n",
+			finalError, tfE.JsonError)
+	}
+
+	return finalError
+
 }
 
 func handleMissingResourceError(sync ResourceVoider, err *error) {

@@ -206,6 +206,12 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["character_set"] = *r.CharacterSet
 		}
 
+		if r.ComputeCount != nil {
+			autonomousDatabase["compute_count"] = *r.ComputeCount
+		}
+
+		autonomousDatabase["compute_model"] = r.ComputeModel
+
 		if r.ConnectionStrings != nil {
 			autonomousDatabase["connection_strings"] = []interface{}{AutonomousDatabaseConnectionStringsToMap(r.ConnectionStrings)}
 		} else {

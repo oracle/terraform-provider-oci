@@ -85,6 +85,7 @@ func DevopsDeployStageResource() *schema.Resource {
 					"DEPLOY_FUNCTION",
 					"INVOKE_FUNCTION",
 					"LOAD_BALANCER_TRAFFIC_SHIFT",
+					"SHELL",
 					"MANUAL_APPROVAL",
 					"OKE_BLUE_GREEN_DEPLOYMENT",
 					"OKE_BLUE_GREEN_TRAFFIC_SHIFT",
@@ -227,6 +228,11 @@ func DevopsDeployStageResource() *schema.Resource {
 					},
 				},
 			},
+			"command_spec_deploy_artifact_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"compute_instance_group_blue_green_deployment_deploy_stage_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -254,6 +260,105 @@ func DevopsDeployStageResource() *schema.Resource {
 				Type:     schema.TypeMap,
 				Optional: true,
 				Elem:     schema.TypeString,
+			},
+			"container_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"container_config_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"CONTAINER_INSTANCE_CONFIG",
+							}, true),
+						},
+						"network_channel": {
+							Type:     schema.TypeList,
+							Required: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"network_channel_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"PRIVATE_ENDPOINT_CHANNEL",
+											"SERVICE_VNIC_CHANNEL",
+										}, true),
+									},
+									"subnet_id": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+									"nsg_ids": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
+						"shape_config": {
+							Type:     schema.TypeList,
+							Required: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"ocpus": {
+										Type:     schema.TypeFloat,
+										Required: true,
+									},
+
+									// Optional
+									"memory_in_gbs": {
+										Type:     schema.TypeFloat,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"shape_name": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"availability_domain": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+						},
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -1650,6 +1755,76 @@ func (s *DevopsDeployStageResourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_devops.ShellDeployStage:
+		s.D.Set("deploy_stage_type", "SHELL")
+
+		if v.CommandSpecDeployArtifactId != nil {
+			s.D.Set("command_spec_deploy_artifact_id", *v.CommandSpecDeployArtifactId)
+		}
+
+		if v.ContainerConfig != nil {
+			containerConfigArray := []interface{}{}
+			if containerConfigMap := ContainerConfigToMap(&v.ContainerConfig); containerConfigMap != nil {
+				containerConfigArray = append(containerConfigArray, containerConfigMap)
+			}
+			s.D.Set("container_config", containerConfigArray)
+		} else {
+			s.D.Set("container_config", nil)
+		}
+
+		if v.TimeoutInSeconds != nil {
+			s.D.Set("timeout_in_seconds", *v.TimeoutInSeconds)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DeployPipelineId != nil {
+			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+
+		if v.DeployStagePredecessorCollection != nil {
+			s.D.Set("deploy_stage_predecessor_collection", []interface{}{DeployStagePredecessorCollectionToMap(v.DeployStagePredecessorCollection)})
+		} else {
+			s.D.Set("deploy_stage_predecessor_collection", nil)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_devops.ManualApprovalDeployStage:
 		s.D.Set("deploy_stage_type", "MANUAL_APPROVAL")
 
@@ -2449,6 +2624,95 @@ func ComputeInstanceGroupRolloutPolicyToMap(obj *oci_devops.ComputeInstanceGroup
 	return result
 }
 
+func (s *DevopsDeployStageResourceCrud) mapToContainerConfig(fieldKeyFormat string) (oci_devops.ContainerConfig, error) {
+	var baseObject oci_devops.ContainerConfig
+	//discriminator
+	containerConfigTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "container_config_type"))
+	var containerConfigType string
+	if ok {
+		containerConfigType = containerConfigTypeRaw.(string)
+	} else {
+		containerConfigType = "" // default value
+	}
+	switch strings.ToLower(containerConfigType) {
+	case strings.ToLower("CONTAINER_INSTANCE_CONFIG"):
+		details := oci_devops.ContainerInstanceConfig{}
+		if availabilityDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "availability_domain")); ok {
+			tmp := availabilityDomain.(string)
+			details.AvailabilityDomain = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if networkChannel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_channel")); ok {
+			if tmpList := networkChannel.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "network_channel"), 0)
+				tmp, err := s.mapToNetworkChannel(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert network_channel, encountered error: %v", err)
+				}
+				details.NetworkChannel = tmp
+			}
+		}
+		if shapeConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape_config")); ok {
+			if tmpList := shapeConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "shape_config"), 0)
+				tmp, err := s.mapToShapeConfig(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert shape_config, encountered error: %v", err)
+				}
+				details.ShapeConfig = &tmp
+			}
+		}
+		if shapeName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape_name")); ok {
+			tmp := shapeName.(string)
+			details.ShapeName = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown container_config_type '%v' was specified", containerConfigType)
+	}
+	return baseObject, nil
+}
+
+func ContainerConfigToMap(obj *oci_devops.ContainerConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_devops.ContainerInstanceConfig:
+		result["container_config_type"] = "CONTAINER_INSTANCE_CONFIG"
+
+		if v.AvailabilityDomain != nil {
+			result["availability_domain"] = string(*v.AvailabilityDomain)
+		}
+
+		if v.CompartmentId != nil {
+			result["compartment_id"] = string(*v.CompartmentId)
+		}
+
+		if v.NetworkChannel != nil {
+			networkChannelArray := []interface{}{}
+			if networkChannelMap := NetworkChannelToMapForShellStage(&v.NetworkChannel, false); networkChannelMap != nil {
+				networkChannelArray = append(networkChannelArray, networkChannelMap)
+			}
+			result["network_channel"] = networkChannelArray
+		}
+
+		if v.ShapeConfig != nil {
+			result["shape_config"] = []interface{}{ShapeConfigToMap(v.ShapeConfig)}
+		}
+
+		if v.ShapeName != nil {
+			result["shape_name"] = string(*v.ShapeName)
+		}
+	default:
+		log.Printf("[WARN] Received 'container_config_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
 func DeployStagePredecessorToMap(obj oci_devops.DeployStagePredecessor) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -2750,6 +3014,24 @@ func DeployStageSummaryToMap(obj oci_devops.DeployStageSummary) map[string]inter
 		}
 
 		result["traffic_shift_target"] = string(v.TrafficShiftTarget)
+	case oci_devops.ShellDeployStageSummary:
+		result["deploy_stage_type"] = "SHELL"
+
+		if v.CommandSpecDeployArtifactId != nil {
+			result["command_spec_deploy_artifact_id"] = string(*v.CommandSpecDeployArtifactId)
+		}
+
+		if v.ContainerConfig != nil {
+			containerConfigArray := []interface{}{}
+			if containerConfigMap := ContainerConfigToMap(&v.ContainerConfig); containerConfigMap != nil {
+				containerConfigArray = append(containerConfigArray, containerConfigMap)
+			}
+			result["container_config"] = containerConfigArray
+		}
+
+		if v.TimeoutInSeconds != nil {
+			result["timeout_in_seconds"] = int(*v.TimeoutInSeconds)
+		}
 	case oci_devops.ManualApprovalDeployStageSummary:
 		result["deploy_stage_type"] = "MANUAL_APPROVAL"
 
@@ -3010,6 +3292,96 @@ func LoadBalancerTrafficShiftRolloutPolicyToMap(obj *oci_devops.LoadBalancerTraf
 	return result
 }
 
+func (s *DevopsDeployStageResourceCrud) mapToNetworkChannel(fieldKeyFormat string) (oci_devops.NetworkChannel, error) {
+	var baseObject oci_devops.NetworkChannel
+	//discriminator
+	networkChannelTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_channel_type"))
+	var networkChannelType string
+	if ok {
+		networkChannelType = networkChannelTypeRaw.(string)
+	} else {
+		networkChannelType = "" // default value
+	}
+	switch strings.ToLower(networkChannelType) {
+	case strings.ToLower("PRIVATE_ENDPOINT_CHANNEL"):
+		details := oci_devops.PrivateEndpointChannel{}
+		if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
+			interfaces := nsgIds.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "nsg_ids")) {
+				details.NsgIds = tmp
+			}
+		}
+		if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("SERVICE_VNIC_CHANNEL"):
+		details := oci_devops.ServiceVnicChannel{}
+		if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
+			interfaces := nsgIds.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "nsg_ids")) {
+				details.NsgIds = tmp
+			}
+		}
+		if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown network_channel_type '%v' was specified", networkChannelType)
+	}
+	return baseObject, nil
+}
+
+func NetworkChannelToMapForShellStage(obj *oci_devops.NetworkChannel, datasource bool) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_devops.PrivateEndpointChannel:
+		result["network_channel_type"] = "PRIVATE_ENDPOINT_CHANNEL"
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		result["nsg_ids"] = nsgIds
+
+		if v.SubnetId != nil {
+			result["subnet_id"] = string(*v.SubnetId)
+		}
+	case oci_devops.ServiceVnicChannel:
+		result["network_channel_type"] = "SERVICE_VNIC_CHANNEL"
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		result["nsg_ids"] = nsgIds
+
+		if v.SubnetId != nil {
+			result["subnet_id"] = string(*v.SubnetId)
+		}
+	default:
+		log.Printf("[WARN] Received 'network_channel_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
 func (s *DevopsDeployStageResourceCrud) mapToOkeBlueGreenStrategy(fieldKeyFormat string) (oci_devops.OkeBlueGreenStrategy, error) {
 	var baseObject oci_devops.OkeBlueGreenStrategy
 	//discriminator
@@ -3111,6 +3483,36 @@ func OkeCanaryStrategyToMap(obj *oci_devops.OkeCanaryStrategy) map[string]interf
 	default:
 		log.Printf("[WARN] Received 'strategy_type' of unknown type %v", *obj)
 		return nil
+	}
+
+	return result
+}
+
+func (s *DevopsDeployStageResourceCrud) mapToShapeConfig(fieldKeyFormat string) (oci_devops.ShapeConfig, error) {
+	result := oci_devops.ShapeConfig{}
+
+	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
+		tmp := float32(memoryInGBs.(float64))
+		result.MemoryInGBs = &tmp
+	}
+
+	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
+		tmp := float32(ocpus.(float64))
+		result.Ocpus = &tmp
+	}
+
+	return result, nil
+}
+
+func ShapeConfigToMap(obj *oci_devops.ShapeConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.MemoryInGBs != nil {
+		result["memory_in_gbs"] = float32(*obj.MemoryInGBs)
+	}
+
+	if obj.Ocpus != nil {
+		result["ocpus"] = float32(*obj.Ocpus)
 	}
 
 	return result
@@ -3770,6 +4172,59 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 		}
 		if trafficShiftTarget, ok := s.D.GetOkExists("traffic_shift_target"); ok {
 			details.TrafficShiftTarget = oci_devops.LoadBalancerTrafficShiftDeployStageTrafficShiftTargetEnum(trafficShiftTarget.(string))
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if deployPipelineId, ok := s.D.GetOkExists("deploy_pipeline_id"); ok {
+			tmp := deployPipelineId.(string)
+			details.DeployPipelineId = &tmp
+		}
+		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
+			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
+				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStagePredecessorCollection = &tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateDeployStageDetails = details
+	case strings.ToLower("SHELL"):
+		details := oci_devops.CreateShellDeployStageDetails{}
+		if commandSpecDeployArtifactId, ok := s.D.GetOkExists("command_spec_deploy_artifact_id"); ok {
+			tmp := commandSpecDeployArtifactId.(string)
+			details.CommandSpecDeployArtifactId = &tmp
+		}
+		if containerConfig, ok := s.D.GetOkExists("container_config"); ok {
+			if tmpList := containerConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "container_config", 0)
+				tmp, err := s.mapToContainerConfig(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ContainerConfig = tmp
+			}
+		}
+		if timeoutInSeconds, ok := s.D.GetOkExists("timeout_in_seconds"); ok {
+			tmp := timeoutInSeconds.(int)
+			details.TimeoutInSeconds = &tmp
 		}
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
@@ -4830,6 +5285,57 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicUpdateDeployS
 		}
 		if trafficShiftTarget, ok := s.D.GetOkExists("traffic_shift_target"); ok {
 			details.TrafficShiftTarget = oci_devops.LoadBalancerTrafficShiftDeployStageTrafficShiftTargetEnum(trafficShiftTarget.(string))
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		tmp := s.D.Id()
+		request.DeployStageId = &tmp
+		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
+			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
+				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStagePredecessorCollection = &tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateDeployStageDetails = details
+	case strings.ToLower("SHELL"):
+		details := oci_devops.UpdateShellDeployStageDetails{}
+		if commandSpecDeployArtifactId, ok := s.D.GetOkExists("command_spec_deploy_artifact_id"); ok {
+			tmp := commandSpecDeployArtifactId.(string)
+			details.CommandSpecDeployArtifactId = &tmp
+		}
+		if containerConfig, ok := s.D.GetOkExists("container_config"); ok {
+			if tmpList := containerConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "container_config", 0)
+				tmp, err := s.mapToContainerConfig(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ContainerConfig = tmp
+			}
+		}
+		if timeoutInSeconds, ok := s.D.GetOkExists("timeout_in_seconds"); ok {
+			tmp := timeoutInSeconds.(int)
+			details.TimeoutInSeconds = &tmp
 		}
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))

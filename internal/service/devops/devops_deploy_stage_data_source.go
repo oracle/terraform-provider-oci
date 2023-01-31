@@ -1296,6 +1296,76 @@ func (s *DevopsDeployStageDataSourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_devops.ShellDeployStage:
+		s.D.Set("deploy_stage_type", "SHELL")
+
+		if v.CommandSpecDeployArtifactId != nil {
+			s.D.Set("command_spec_deploy_artifact_id", *v.CommandSpecDeployArtifactId)
+		}
+
+		if v.ContainerConfig != nil {
+			containerConfigArray := []interface{}{}
+			if containerConfigMap := ContainerConfigToMap(&v.ContainerConfig); containerConfigMap != nil {
+				containerConfigArray = append(containerConfigArray, containerConfigMap)
+			}
+			s.D.Set("container_config", containerConfigArray)
+		} else {
+			s.D.Set("container_config", nil)
+		}
+
+		if v.TimeoutInSeconds != nil {
+			s.D.Set("timeout_in_seconds", *v.TimeoutInSeconds)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DeployPipelineId != nil {
+			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+
+		if v.DeployStagePredecessorCollection != nil {
+			s.D.Set("deploy_stage_predecessor_collection", []interface{}{DeployStagePredecessorCollectionToMap(v.DeployStagePredecessorCollection)})
+		} else {
+			s.D.Set("deploy_stage_predecessor_collection", nil)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_devops.WaitDeployStage:
 		s.D.Set("deploy_stage_type", "WAIT")
 

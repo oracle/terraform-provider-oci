@@ -36,7 +36,7 @@ type OkeBlueGreenDeployStageExecutionProgress struct {
 	// Details about stage execution for all the target environments.
 	DeployStageExecutionProgressDetails []DeployStageExecutionProgressDetails `mandatory:"false" json:"deployStageExecutionProgressDetails"`
 
-	// Namespace either environment A or environment B where artifacts are deployed.
+	// Namespace either environment A or environment B where artifacts are deployed. Example:  blue - Name of the namespace where blue artifacts were deployed. green - Name of the namespace where green artifacts were deployed.
 	Namespace *string `mandatory:"false" json:"namespace"`
 
 	// The current state of the stage.

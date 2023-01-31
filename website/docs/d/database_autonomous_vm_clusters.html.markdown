@@ -53,6 +53,7 @@ The following attributes are exported:
 * `available_cpus` - The numnber of CPU cores available.
 * `available_data_storage_size_in_tbs` - **Deprecated.** Use `availableAutonomousDataStorageSizeInTBs` for Autonomous Databases' data storage availability in TBs. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `compute_model` - The compute model of the Autonomous VM Cluster.
 * `cpu_core_count_per_node` - The number of CPU cores enabled per VM cluster node.
 * `cpus_enabled` - The number of enabled CPU cores.
 * `data_storage_size_in_gb` - The total data storage allocated in GBs.

@@ -36,6 +36,9 @@ type InstanceConfigurationLaunchInstancePlatformConfig interface {
 
 	// Whether the Measured Boot feature is enabled on the instance.
 	GetIsMeasuredBootEnabled() *bool
+
+	// Whether the instance is a confidential instance. If this value is `true`, the instance is a confidential instance. The default value is `false`.
+	GetIsMemoryEncryptionEnabled() *bool
 }
 
 type instanceconfigurationlaunchinstanceplatformconfig struct {
@@ -43,6 +46,7 @@ type instanceconfigurationlaunchinstanceplatformconfig struct {
 	IsSecureBootEnabled            *bool  `mandatory:"false" json:"isSecureBootEnabled"`
 	IsTrustedPlatformModuleEnabled *bool  `mandatory:"false" json:"isTrustedPlatformModuleEnabled"`
 	IsMeasuredBootEnabled          *bool  `mandatory:"false" json:"isMeasuredBootEnabled"`
+	IsMemoryEncryptionEnabled      *bool  `mandatory:"false" json:"isMemoryEncryptionEnabled"`
 	Type                           string `json:"type"`
 }
 
@@ -60,6 +64,7 @@ func (m *instanceconfigurationlaunchinstanceplatformconfig) UnmarshalJSON(data [
 	m.IsSecureBootEnabled = s.Model.IsSecureBootEnabled
 	m.IsTrustedPlatformModuleEnabled = s.Model.IsTrustedPlatformModuleEnabled
 	m.IsMeasuredBootEnabled = s.Model.IsMeasuredBootEnabled
+	m.IsMemoryEncryptionEnabled = s.Model.IsMemoryEncryptionEnabled
 	m.Type = s.Model.Type
 
 	return err
@@ -120,6 +125,11 @@ func (m instanceconfigurationlaunchinstanceplatformconfig) GetIsTrustedPlatformM
 //GetIsMeasuredBootEnabled returns IsMeasuredBootEnabled
 func (m instanceconfigurationlaunchinstanceplatformconfig) GetIsMeasuredBootEnabled() *bool {
 	return m.IsMeasuredBootEnabled
+}
+
+//GetIsMemoryEncryptionEnabled returns IsMemoryEncryptionEnabled
+func (m instanceconfigurationlaunchinstanceplatformconfig) GetIsMemoryEncryptionEnabled() *bool {
+	return m.IsMemoryEncryptionEnabled
 }
 
 func (m instanceconfigurationlaunchinstanceplatformconfig) String() string {

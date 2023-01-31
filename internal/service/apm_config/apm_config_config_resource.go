@@ -212,11 +212,53 @@ func ApmConfigConfigResource() *schema.Resource {
 			},
 
 			// Computed
+			"created_by": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"etag": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"in_use_by": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Optional: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"config_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"display_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"options_group": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"time_updated": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"updated_by": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -362,12 +404,20 @@ func (s *ApmConfigConfigResourceCrud) SetData() error {
 		}
 		s.D.Set("rules", rules)
 
+		if v.CreatedBy != nil {
+			s.D.Set("created_by", *v.CreatedBy)
+		}
+
 		if v.DefinedTags != nil {
 			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
 		}
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.Etag != nil {
+			s.D.Set("etag", *v.Etag)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -378,6 +428,10 @@ func (s *ApmConfigConfigResourceCrud) SetData() error {
 
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.UpdatedBy != nil {
+			s.D.Set("updated_by", *v.UpdatedBy)
 		}
 	case oci_apm_config.MetricGroup:
 		s.D.Set("config_type", "METRIC_GROUP")
@@ -406,12 +460,20 @@ func (s *ApmConfigConfigResourceCrud) SetData() error {
 			s.D.Set("namespace", *v.Namespace)
 		}
 
+		if v.CreatedBy != nil {
+			s.D.Set("created_by", *v.CreatedBy)
+		}
+
 		if v.DefinedTags != nil {
 			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
 		}
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.Etag != nil {
+			s.D.Set("etag", *v.Etag)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -422,6 +484,10 @@ func (s *ApmConfigConfigResourceCrud) SetData() error {
 
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.UpdatedBy != nil {
+			s.D.Set("updated_by", *v.UpdatedBy)
 		}
 	case oci_apm_config.Options:
 		s.D.Set("config_type", "OPTIONS")
@@ -444,12 +510,20 @@ func (s *ApmConfigConfigResourceCrud) SetData() error {
 			s.D.Set("options", nil)
 		}
 
+		if v.CreatedBy != nil {
+			s.D.Set("created_by", *v.CreatedBy)
+		}
+
 		if v.DefinedTags != nil {
 			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
 		}
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.Etag != nil {
+			s.D.Set("etag", *v.Etag)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -460,6 +534,10 @@ func (s *ApmConfigConfigResourceCrud) SetData() error {
 
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.UpdatedBy != nil {
+			s.D.Set("updated_by", *v.UpdatedBy)
 		}
 	case oci_apm_config.SpanFilter:
 		s.D.Set("config_type", "SPAN_FILTER")
@@ -476,12 +554,26 @@ func (s *ApmConfigConfigResourceCrud) SetData() error {
 			s.D.Set("filter_text", *v.FilterText)
 		}
 
+		inUseBy := []interface{}{}
+		for _, item := range v.InUseBy {
+			inUseBy = append(inUseBy, SpanFilterReferenceToMap(item))
+		}
+		s.D.Set("in_use_by", inUseBy)
+
+		if v.CreatedBy != nil {
+			s.D.Set("created_by", *v.CreatedBy)
+		}
+
 		if v.DefinedTags != nil {
 			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
 		}
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.Etag != nil {
+			s.D.Set("etag", *v.Etag)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -492,6 +584,10 @@ func (s *ApmConfigConfigResourceCrud) SetData() error {
 
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.UpdatedBy != nil {
+			s.D.Set("updated_by", *v.UpdatedBy)
 		}
 	default:
 		log.Printf("[WARN] Received 'config_type' of unknown type %v", *s.Res)
@@ -688,6 +784,12 @@ func ConfigSummaryToMap(obj oci_apm_config.ConfigSummary) map[string]interface{}
 		if v.FilterText != nil {
 			result["filter_text"] = string(*v.FilterText)
 		}
+
+		inUseBy := []interface{}{}
+		for _, item := range v.InUseBy {
+			inUseBy = append(inUseBy, SpanFilterReferenceToMap(item))
+		}
+		result["in_use_by"] = inUseBy
 	default:
 		log.Printf("[WARN] Received 'config_type' of unknown type %v", obj)
 		return nil
@@ -769,6 +871,26 @@ func MetricToMap(obj oci_apm_config.Metric) map[string]interface{} {
 
 	if obj.ValueSource != nil {
 		result["value_source"] = string(*obj.ValueSource)
+	}
+
+	return result
+}
+
+func SpanFilterReferenceToMap(obj oci_apm_config.SpanFilterReference) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["config_type"] = string(obj.ConfigType)
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.OptionsGroup != nil {
+		result["options_group"] = string(*obj.OptionsGroup)
 	}
 
 	return result

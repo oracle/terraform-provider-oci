@@ -31,6 +31,9 @@ type IntelVmLaunchInstancePlatformConfig struct {
 
 	// Whether the Measured Boot feature is enabled on the instance.
 	IsMeasuredBootEnabled *bool `mandatory:"false" json:"isMeasuredBootEnabled"`
+
+	// Whether the instance is a confidential instance. If this value is `true`, the instance is a confidential instance. The default value is `false`.
+	IsMemoryEncryptionEnabled *bool `mandatory:"false" json:"isMemoryEncryptionEnabled"`
 }
 
 //GetIsSecureBootEnabled returns IsSecureBootEnabled
@@ -46,6 +49,11 @@ func (m IntelVmLaunchInstancePlatformConfig) GetIsTrustedPlatformModuleEnabled()
 //GetIsMeasuredBootEnabled returns IsMeasuredBootEnabled
 func (m IntelVmLaunchInstancePlatformConfig) GetIsMeasuredBootEnabled() *bool {
 	return m.IsMeasuredBootEnabled
+}
+
+//GetIsMemoryEncryptionEnabled returns IsMemoryEncryptionEnabled
+func (m IntelVmLaunchInstancePlatformConfig) GetIsMemoryEncryptionEnabled() *bool {
+	return m.IsMemoryEncryptionEnabled
 }
 
 func (m IntelVmLaunchInstancePlatformConfig) String() string {

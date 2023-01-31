@@ -39,6 +39,9 @@ type CreateAutonomousDatabaseDetails struct {
 	// **Note:** This parameter cannot be used with the `ocpuCount` parameter.
 	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
 
+	// The compute amount available to the database. Minimum and maximum values depend on the compute model and whether the database is on Shared or Dedicated infrastructure. For an Autonomous Database on Shared infrastructure, the 'ECPU' compute model requires values in multiples of two. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value.
+	ComputeCount *float32 `mandatory:"false" json:"computeCount"`
+
 	// The number of OCPU cores to be made available to the database.
 	// The following points apply:
 	// - For Autonomous Databases on dedicated Exadata infrastructure, to provision less than 1 core, enter a fractional value in an increment of 0.1. For example, you can provision 0.3 or 0.4 cores, but not 0.35 cores. (Note that fractional OCPU values are not supported for Autonomous Databasese on shared Exadata infrastructure.)
@@ -171,8 +174,20 @@ type CreateAutonomousDatabaseDetails struct {
 	// The number of Max OCPU cores to be made available to the autonomous database with auto scaling of cpu enabled.
 	MaxCpuCoreCount *int `mandatory:"false" json:"maxCpuCoreCount"`
 
+	// List of database tools details.
+	DbToolsDetails []DatabaseTool `mandatory:"false" json:"dbToolsDetails"`
+
+	// The OCI vault secret [/Content/General/Concepts/identifiers.htm]OCID.
+	SecretId *string `mandatory:"false" json:"secretId"`
+
+	// The version of the vault secret. If no version is specified, the latest version will be used.
+	SecretVersionNumber *int `mandatory:"false" json:"secretVersionNumber"`
+
 	// The Oracle Database Edition that applies to the Autonomous databases.
 	DatabaseEdition AutonomousDatabaseSummaryDatabaseEditionEnum `mandatory:"false" json:"databaseEdition,omitempty"`
+
+	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value.
+	ComputeModel CreateAutonomousDatabaseBaseComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 
 	// The Autonomous Database workload type. The following values are valid:
 	// - OLTP - indicates an Autonomous Transaction Processing database
@@ -215,6 +230,16 @@ func (m CreateAutonomousDatabaseDetails) GetDbName() *string {
 //GetCpuCoreCount returns CpuCoreCount
 func (m CreateAutonomousDatabaseDetails) GetCpuCoreCount() *int {
 	return m.CpuCoreCount
+}
+
+//GetComputeModel returns ComputeModel
+func (m CreateAutonomousDatabaseDetails) GetComputeModel() CreateAutonomousDatabaseBaseComputeModelEnum {
+	return m.ComputeModel
+}
+
+//GetComputeCount returns ComputeCount
+func (m CreateAutonomousDatabaseDetails) GetComputeCount() *float32 {
+	return m.ComputeCount
 }
 
 //GetOcpuCount returns OcpuCount
@@ -387,6 +412,21 @@ func (m CreateAutonomousDatabaseDetails) GetDatabaseEdition() AutonomousDatabase
 	return m.DatabaseEdition
 }
 
+//GetDbToolsDetails returns DbToolsDetails
+func (m CreateAutonomousDatabaseDetails) GetDbToolsDetails() []DatabaseTool {
+	return m.DbToolsDetails
+}
+
+//GetSecretId returns SecretId
+func (m CreateAutonomousDatabaseDetails) GetSecretId() *string {
+	return m.SecretId
+}
+
+//GetSecretVersionNumber returns SecretVersionNumber
+func (m CreateAutonomousDatabaseDetails) GetSecretVersionNumber() *int {
+	return m.SecretVersionNumber
+}
+
 func (m CreateAutonomousDatabaseDetails) String() string {
 	return common.PointerString(m)
 }
@@ -399,6 +439,9 @@ func (m CreateAutonomousDatabaseDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingAutonomousDatabaseSummaryDatabaseEditionEnum(string(m.DatabaseEdition)); !ok && m.DatabaseEdition != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", m.DatabaseEdition, strings.Join(GetAutonomousDatabaseSummaryDatabaseEditionEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingCreateAutonomousDatabaseBaseComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetCreateAutonomousDatabaseBaseComputeModelEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingCreateAutonomousDatabaseBaseDbWorkloadEnum(string(m.DbWorkload)); !ok && m.DbWorkload != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbWorkload: %s. Supported values are: %s.", m.DbWorkload, strings.Join(GetCreateAutonomousDatabaseBaseDbWorkloadEnumStringValues(), ",")))

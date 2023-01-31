@@ -36,7 +36,7 @@ type OkeBlueGreenTrafficShiftDeployStageExecutionProgress struct {
 	// Details about stage execution for all the target environments.
 	DeployStageExecutionProgressDetails []DeployStageExecutionProgressDetails `mandatory:"false" json:"deployStageExecutionProgressDetails"`
 
-	// Namespace where traffic is going.
+	// Namespace where traffic is going. Example:  blue - Traffic is going to blue namespace. green - Traffic is going to green namespace.
 	Namespace *string `mandatory:"false" json:"namespace"`
 
 	// The current state of the stage.

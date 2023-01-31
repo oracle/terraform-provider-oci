@@ -106,6 +106,12 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.ComputeCount != nil {
+		s.D.Set("compute_count", *s.Res.ComputeCount)
+	}
+
+	s.D.Set("compute_model", s.Res.ComputeModel)
+
 	if s.Res.ConnectionStrings != nil {
 		s.D.Set("connection_strings", []interface{}{AutonomousDatabaseConnectionStringsToMap(s.Res.ConnectionStrings)})
 	} else {

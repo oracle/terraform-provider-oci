@@ -34,6 +34,15 @@ type SpanFilter struct {
 	// Example: `2020-02-13T22:47:12.613Z`
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a user.
+	CreatedBy *string `mandatory:"false" json:"createdBy"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a user.
+	UpdatedBy *string `mandatory:"false" json:"updatedBy"`
+
+	// For optimistic concurrency control. See `if-match`.
+	Etag *string `mandatory:"false" json:"etag"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -47,6 +56,9 @@ type SpanFilter struct {
 
 	// The string that defines the Span Filter expression.
 	FilterText *string `mandatory:"false" json:"filterText"`
+
+	// The list of configuration items that reference the span filter.
+	InUseBy []SpanFilterReference `mandatory:"false" json:"inUseBy"`
 
 	// An optional string that describes what the span filter is intended or used for.
 	Description *string `mandatory:"false" json:"description"`
@@ -65,6 +77,21 @@ func (m SpanFilter) GetTimeCreated() *common.SDKTime {
 //GetTimeUpdated returns TimeUpdated
 func (m SpanFilter) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
+}
+
+//GetCreatedBy returns CreatedBy
+func (m SpanFilter) GetCreatedBy() *string {
+	return m.CreatedBy
+}
+
+//GetUpdatedBy returns UpdatedBy
+func (m SpanFilter) GetUpdatedBy() *string {
+	return m.UpdatedBy
+}
+
+//GetEtag returns Etag
+func (m SpanFilter) GetEtag() *string {
+	return m.Etag
 }
 
 //GetFreeformTags returns FreeformTags

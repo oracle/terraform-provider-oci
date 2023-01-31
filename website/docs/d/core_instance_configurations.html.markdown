@@ -218,6 +218,7 @@ The following attributes are exported:
 			* `is_access_control_service_enabled` - Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device passthrough. 
 			* `is_input_output_memory_management_unit_enabled` - Whether the input-output memory management unit is enabled. 
 			* `is_measured_boot_enabled` - Whether the Measured Boot feature is enabled on the instance. 
+			* `is_memory_encryption_enabled` - Whether the instance is a confidential instance. If this value is `true`, the instance is a confidential instance. The default value is `false`. 
 			* `is_secure_boot_enabled` - Whether Secure Boot is enabled on the instance. 
 			* `is_symmetric_multi_threading_enabled` - Whether symmetric multi-threading is enabled on the instance. 
 			* `is_trusted_platform_module_enabled` - Whether the Trusted Platform Module (TPM) is enabled on the instance. 

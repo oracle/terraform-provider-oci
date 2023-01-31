@@ -51,7 +51,9 @@ var (
 	configOptionsRepresentation = map[string]interface{}{
 		"apm_domain_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
 		"config_type":   acctest.Representation{RepType: acctest.Required, Create: configTypeOptions, Update: configTypeOptions},
-		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags": acctest.Representation{RepType: acctest.Optional,
+			Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`,
+			Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"display_name":  acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"group":         acctest.Representation{RepType: acctest.Required, Create: `group`, Update: `group2`},
@@ -96,6 +98,9 @@ func TestApmConfigOptionsResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(optionsResourceName, "config_type", configTypeOptions),
 					resource.TestCheckResourceAttr(optionsResourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(optionsResourceName, "group", "group"),
+					resource.TestCheckResourceAttrSet(optionsResourceName, "created_by"),
+					resource.TestCheckResourceAttrSet(optionsResourceName, "updated_by"),
+					resource.TestCheckResourceAttrSet(optionsResourceName, "etag"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = acctest.FromInstanceState(s, optionsResourceName, "id")
@@ -120,6 +125,9 @@ func TestApmConfigOptionsResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(optionsResourceName, "options"),
 					resource.TestCheckResourceAttr(optionsResourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(optionsResourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(optionsResourceName, "created_by"),
+					resource.TestCheckResourceAttrSet(optionsResourceName, "updated_by"),
+					resource.TestCheckResourceAttrSet(optionsResourceName, "etag"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = acctest.FromInstanceState(s, optionsResourceName, "id")
@@ -161,14 +169,17 @@ func TestApmConfigOptionsResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularOptionsDatasourceName, "apm_domain_id"),
 					resource.TestCheckResourceAttrSet(singularOptionsDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularOptionsDatasourceName, "config_type", configTypeOptions),
+					resource.TestCheckResourceAttrSet(singularOptionsDatasourceName, "created_by"),
 					resource.TestCheckResourceAttr(singularOptionsDatasourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttrSet(singularOptionsDatasourceName, "etag"),
 					resource.TestCheckResourceAttr(singularOptionsDatasourceName, "group", "group2"),
 					resource.TestCheckResourceAttrSet(singularOptionsDatasourceName, "options"),
 					resource.TestCheckResourceAttr(singularOptionsDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularOptionsDatasourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(singularOptionsDatasourceName, "updated_by"),
 				),
 			},
-			// Step 8 verify resource import
+			// Step 7 verify resource import
 			{
 				Config:            config + ConfigOptionsRequiredOnlyResource,
 				ImportState:       true,

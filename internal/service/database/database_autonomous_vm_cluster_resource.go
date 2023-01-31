@@ -54,6 +54,12 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"compute_model": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"cpu_core_count_per_node": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -467,6 +473,10 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if computeModel, ok := s.D.GetOkExists("compute_model"); ok {
+		request.ComputeModel = oci_database.CreateAutonomousVmClusterDetailsComputeModelEnum(computeModel.(string))
+	}
+
 	if cpuCoreCountPerNode, ok := s.D.GetOkExists("cpu_core_count_per_node"); ok {
 		tmp := cpuCoreCountPerNode.(int)
 		request.CpuCoreCountPerNode = &tmp
@@ -666,6 +676,8 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
+
+	s.D.Set("compute_model", s.Res.ComputeModel)
 
 	if s.Res.CpuCoreCountPerNode != nil {
 		s.D.Set("cpu_core_count_per_node", *s.Res.CpuCoreCountPerNode)

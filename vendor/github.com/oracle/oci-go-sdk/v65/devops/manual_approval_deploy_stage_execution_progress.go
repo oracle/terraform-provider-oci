@@ -36,6 +36,7 @@ type ManualApprovalDeployStageExecutionProgress struct {
 	// Details about stage execution for all the target environments.
 	DeployStageExecutionProgressDetails []DeployStageExecutionProgressDetails `mandatory:"false" json:"deployStageExecutionProgressDetails"`
 
+	// Specifies the Canary approval actions.
 	ApprovalActions []ApprovalAction `mandatory:"false" json:"approvalActions"`
 
 	// The current state of the stage.
