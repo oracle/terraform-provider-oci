@@ -1,4 +1,4 @@
-## 4.106.0 (Unreleased)
+## 4.106.0 (January 31, 2023)
 
 ### Added
 - Support for ADB-D and ADB on ExaCC | ECPU Billing
