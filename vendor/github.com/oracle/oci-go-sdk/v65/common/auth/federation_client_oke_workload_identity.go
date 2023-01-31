@@ -12,6 +12,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
+	"github.com/oracle/oci-go-sdk/v65/common/utils"
 	"io"
 	"net/http"
 	"sync"
@@ -84,12 +85,15 @@ func (c *x509FederationClientForOkeWorkloadIdentity) getSecurityToken() (securit
 	}
 
 	request, err := http.NewRequest(http.MethodPost, c.proxymuxEndpoint, bytes.NewBuffer(payload))
+
 	if err != nil {
 		common.Logf("error %s", err)
 		return nil, fmt.Errorf("error getting security token %s", err)
 	}
 	request.Header.Add("Authorization", "Bearer "+c.kubernetesServiceAccountToken)
 	request.Header.Set("Content-Type", "application/json")
+	opcRequestID := utils.GenerateOpcRequestID()
+	request.Header.Set("opc-request-id", opcRequestID)
 
 	response, err := client.Do(request)
 	if err != nil {
