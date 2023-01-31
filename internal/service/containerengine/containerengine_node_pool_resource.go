@@ -145,6 +145,50 @@ func ContainerengineNodePoolResource() *schema.Resource {
 											Type: schema.TypeString,
 										},
 									},
+									"preemptible_node_config": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"preemption_action": {
+													Type:     schema.TypeList,
+													Required: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"type": {
+																Type:             schema.TypeString,
+																Required:         true,
+																DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																ValidateFunc: validation.StringInSlice([]string{
+																	"TERMINATE",
+																}, true),
+															},
+
+															// Optional
+															"is_preserve_boot_volume": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+
+												// Optional
+
+												// Computed
+											},
+										},
+									},
 
 									// Computed
 								},
@@ -1589,6 +1633,17 @@ func (s *ContainerengineNodePoolResourceCrud) mapToNodePoolPlacementConfigDetail
 		}
 	}
 
+	if preemptibleNodeConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preemptible_node_config")); ok {
+		if tmpList := preemptibleNodeConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "preemptible_node_config"), 0)
+			tmp, err := s.mapToPreemptibleNodeConfigDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert preemptible_node_config, encountered error: %v", err)
+			}
+			result.PreemptibleNodeConfig = &tmp
+		}
+	}
+
 	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
 		tmp := subnetId.(string)
 		result.SubnetId = &tmp
@@ -1609,6 +1664,10 @@ func NodePoolPlacementConfigDetailsToMap(obj oci_containerengine.NodePoolPlaceme
 	}
 
 	result["fault_domains"] = obj.FaultDomains
+
+	if obj.PreemptibleNodeConfig != nil {
+		result["preemptible_node_config"] = []interface{}{PreemptibleNodeConfigDetailsToMap(obj.PreemptibleNodeConfig)}
+	}
 
 	if obj.SubnetId != nil {
 		result["subnet_id"] = string(*obj.SubnetId)
@@ -1767,6 +1826,78 @@ func NodeSourceOptionToMap(obj *oci_containerengine.NodeSourceOption) map[string
 	return result
 }
 
+func (s *ContainerengineNodePoolResourceCrud) mapToPreemptibleNodeConfigDetails(fieldKeyFormat string) (oci_containerengine.PreemptibleNodeConfigDetails, error) {
+	result := oci_containerengine.PreemptibleNodeConfigDetails{}
+
+	if preemptionAction, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preemption_action")); ok {
+		if tmpList := preemptionAction.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "preemption_action"), 0)
+			tmp, err := s.mapToPreemptionAction(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert preemption_action, encountered error: %v", err)
+			}
+			result.PreemptionAction = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func PreemptibleNodeConfigDetailsToMap(obj *oci_containerengine.PreemptibleNodeConfigDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.PreemptionAction != nil {
+		preemptionActionArray := []interface{}{}
+		if preemptionActionMap := PreemptionActionToMap(&obj.PreemptionAction); preemptionActionMap != nil {
+			preemptionActionArray = append(preemptionActionArray, preemptionActionMap)
+		}
+		result["preemption_action"] = preemptionActionArray
+	}
+
+	return result
+}
+
+func (s *ContainerengineNodePoolResourceCrud) mapToPreemptionAction(fieldKeyFormat string) (oci_containerengine.PreemptionAction, error) {
+	var baseObject oci_containerengine.PreemptionAction
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("TERMINATE"):
+		details := oci_containerengine.TerminatePreemptionAction{}
+		if isPreserveBootVolume, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_preserve_boot_volume")); ok {
+			tmp := isPreserveBootVolume.(bool)
+			details.IsPreserveBootVolume = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func PreemptionActionToMap(obj *oci_containerengine.PreemptionAction) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_containerengine.TerminatePreemptionAction:
+		result["type"] = "TERMINATE"
+
+		if v.IsPreserveBootVolume != nil {
+			result["is_preserve_boot_volume"] = bool(*v.IsPreserveBootVolume)
+		}
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
 func placementConfigsHashCodeForSets(v interface{}) int {
 	var buf bytes.Buffer
 	m := v.(map[string]interface{})
@@ -1776,6 +1907,29 @@ func placementConfigsHashCodeForSets(v interface{}) int {
 	if capacityReservationId, ok := m["capacity_reservation_id"]; ok && capacityReservationId != "" {
 		buf.WriteString(fmt.Sprintf("%v-", capacityReservationId))
 	}
+<<<<<<< ours
+	if faultDomains, ok := m["fault_domains"]; ok && faultDomains != "" {
+	}
+	if preemptibleNodeConfig, ok := m["preemptible_node_config"]; ok {
+		if tmpList := preemptibleNodeConfig.([]interface{}); len(tmpList) > 0 {
+			buf.WriteString("preemptible_node_config-")
+			preemptibleNodeConfigRaw := tmpList[0].(map[string]interface{})
+			if preemptionAction, ok := preemptibleNodeConfigRaw["preemption_action"]; ok {
+				if tmpList := preemptionAction.([]interface{}); len(tmpList) > 0 {
+					buf.WriteString("preemption_action-")
+					preemptionActionRaw := tmpList[0].(map[string]interface{})
+					if isPreserveBootVolume, ok := preemptionActionRaw["is_preserve_boot_volume"]; ok {
+						buf.WriteString(fmt.Sprintf("%v-", isPreserveBootVolume))
+					}
+					if type_, ok := preemptionActionRaw["type"]; ok && type_ != "" {
+						buf.WriteString(fmt.Sprintf("%v-", type_))
+					}
+				}
+			}
+		}
+	}
+=======
+>>>>>>> theirs
 	if subnetId, ok := m["subnet_id"]; ok && subnetId != "" {
 		buf.WriteString(fmt.Sprintf("%v-", subnetId))
 	}

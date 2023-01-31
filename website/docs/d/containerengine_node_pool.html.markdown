@@ -60,6 +60,10 @@ The following attributes are exported:
 		* `availability_domain` - The availability domain in which to place nodes. Example: `Uocm:PHX-AD-1` 
 		* `capacity_reservation_id` - The OCID of the compute capacity reservation in which to place the compute instance.
 		* `fault_domains` - A list of fault domains in which to place nodes. 
+		* `preemptible_node_config` - Configuration options for preemptible nodes.
+			* `preemption_action` - The action to run when the preemptible node is interrupted for eviction.
+				* `is_preserve_boot_volume` - Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified. 
+				* `type` - The type of action to run when the instance is interrupted for eviction.
 		* `subnet_id` - The OCID of the subnet in which to place nodes.
 	* `size` - The number of nodes in the node pool. 
 * `node_eviction_node_pool_settings` - Node Eviction Details configuration
