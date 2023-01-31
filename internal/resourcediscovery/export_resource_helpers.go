@@ -519,14 +519,8 @@ func (r *resourceDiscoveryWithTargetIds) discover() error {
 		}
 
 		if ociResource.TerraformName, err = tf_export.GenerateTerraformNameFromResource(ociResource.SourceAttributes, resourceSchema.Schema); err != nil {
-			terraformName := fmt.Sprintf("export_%s", resourceHint.ResourceAbbreviation)
-			if count, resourceNameExists := tf_export.ResourceNameCount[terraformName]; resourceNameExists {
-				tf_export.ResourceNameCount[terraformName] = count + 1
-				terraformName = fmt.Sprintf("%s_%d", terraformName, count)
-			} else {
-				tf_export.ResourceNameCount[terraformName] = 1
-			}
-			ociResource.TerraformName = terraformName
+			ociResource.TerraformName = fmt.Sprintf("export_%s", resourceHint.ResourceAbbreviation)
+			ociResource.TerraformName = tf_export.CheckDuplicateResourceName(ociResource.TerraformName)
 		}
 
 		r.discoveredResources = append(r.discoveredResources, ociResource)

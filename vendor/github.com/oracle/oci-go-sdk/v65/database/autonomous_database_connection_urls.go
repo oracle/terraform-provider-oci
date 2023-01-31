@@ -30,6 +30,15 @@ type AutonomousDatabaseConnectionUrls struct {
 
 	// The URL of the Graph Studio for the Autonomous Database.
 	GraphStudioUrl *string `mandatory:"false" json:"graphStudioUrl"`
+
+	// The URL of the MongoDB API for the Autonomous Database.
+	MongoDbUrl *string `mandatory:"false" json:"mongoDbUrl"`
+
+	// The Oracle REST Data Services (ORDS) URL of the Web Access for the Autonomous Database.
+	OrdsUrl *string `mandatory:"false" json:"ordsUrl"`
+
+	// The URL of the Database Transforms for the Autonomous Database.
+	DatabaseTransformsUrl *string `mandatory:"false" json:"databaseTransformsUrl"`
 }
 
 func (m AutonomousDatabaseConnectionUrls) String() string {

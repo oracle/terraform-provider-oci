@@ -94,6 +94,17 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"compute_count": {
+				Type:     schema.TypeFloat,
+				Optional: true,
+				Computed: true,
+			},
+			"compute_model": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"cpu_core_count": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -323,6 +334,16 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 						// Computed
 					},
 				},
+			},
+			"secret_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"secret_version_number": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
 			},
 			"source": {
 				Type:             schema.TypeString,
@@ -1221,6 +1242,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.AutonomousDatabaseId = &tmp
 
+	if computeCount, ok := s.D.GetOkExists("compute_count"); ok {
+		tmp := float32(computeCount.(float64))
+		request.ComputeCount = &tmp
+	}
+
 	if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok && s.D.HasChange("cpu_core_count") {
 		tmp := cpuCoreCount.(int)
 		request.CpuCoreCount = &tmp
@@ -1400,6 +1426,22 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		}
 	}
 
+	if secretId, ok := s.D.GetOkExists("secret_id"); ok && s.D.HasChange("secret_version_number") {
+		tmp := secretId.(string)
+		request.SecretId = &tmp
+		if _, ok := s.D.GetOkExists("freeform_tags"); ok && !s.D.HasChange("freeform_tags") {
+			request.FreeformTags = nil
+		}
+		if _, ok := s.D.GetOkExists("defined_tags"); ok && !s.D.HasChange("defined_tags") {
+			request.DefinedTags = nil
+		}
+	}
+
+	if secretVersionNumber, ok := s.D.GetOkExists("secret_version_number"); ok && s.D.HasChange("secret_version_number") {
+		tmp := secretVersionNumber.(int)
+		request.SecretVersionNumber = &tmp
+	}
+
 	if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
 		interfaces := standbyWhitelistedIps.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -1500,6 +1542,12 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
+
+	if s.Res.ComputeCount != nil {
+		s.D.Set("compute_count", *s.Res.ComputeCount)
+	}
+
+	s.D.Set("compute_model", s.Res.ComputeModel)
 
 	if s.Res.ConnectionStrings != nil {
 		s.D.Set("connection_strings", []interface{}{AutonomousDatabaseConnectionStringsToMap(s.Res.ConnectionStrings)})
@@ -2079,6 +2127,13 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
 		}
+		if computeCount, ok := s.D.GetOkExists("compute_count"); ok {
+			tmp := float32(computeCount.(float64))
+			details.ComputeCount = &tmp
+		}
+		if computeModel, ok := s.D.GetOkExists("compute_model"); ok {
+			details.ComputeModel = oci_database.CreateAutonomousDatabaseBaseComputeModelEnum(computeModel.(string))
+		}
 		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
 			tmp := cpuCoreCount.(int)
 			details.CpuCoreCount = &tmp
@@ -2222,6 +2277,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			if len(tmp) != 0 || s.D.HasChange("scheduled_operations") {
 				details.ScheduledOperations = tmp
 			}
+		}
+		if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+			tmp := secretId.(string)
+			details.SecretId = &tmp
+		}
+		if secretVersionNumber, ok := s.D.GetOkExists("secret_version_number"); ok {
+			tmp := secretVersionNumber.(int)
+			details.SecretVersionNumber = &tmp
 		}
 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
 			interfaces := standbyWhitelistedIps.([]interface{})
@@ -2301,6 +2364,13 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
 		}
+		if computeCount, ok := s.D.GetOkExists("compute_count"); ok {
+			tmp := float32(computeCount.(float64))
+			details.ComputeCount = &tmp
+		}
+		if computeModel, ok := s.D.GetOkExists("compute_model"); ok {
+			details.ComputeModel = oci_database.CreateAutonomousDatabaseBaseComputeModelEnum(computeModel.(string))
+		}
 		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
 			tmp := cpuCoreCount.(int)
 			details.CpuCoreCount = &tmp
@@ -2444,6 +2514,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			if len(tmp) != 0 || s.D.HasChange("scheduled_operations") {
 				details.ScheduledOperations = tmp
 			}
+		}
+		if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+			tmp := secretId.(string)
+			details.SecretId = &tmp
+		}
+		if secretVersionNumber, ok := s.D.GetOkExists("secret_version_number"); ok {
+			tmp := secretVersionNumber.(int)
+			details.SecretVersionNumber = &tmp
 		}
 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
 			interfaces := standbyWhitelistedIps.([]interface{})
@@ -2512,6 +2590,13 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
 		}
+		if computeCount, ok := s.D.GetOkExists("compute_count"); ok {
+			tmp := float32(computeCount.(float64))
+			details.ComputeCount = &tmp
+		}
+		if computeModel, ok := s.D.GetOkExists("compute_model"); ok {
+			details.ComputeModel = oci_database.CreateAutonomousDatabaseBaseComputeModelEnum(computeModel.(string))
+		}
 		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
 			tmp := cpuCoreCount.(int)
 			details.CpuCoreCount = &tmp
@@ -2659,6 +2744,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 				details.ScheduledOperations = tmp
 			}
 		}
+		if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+			tmp := secretId.(string)
+			details.SecretId = &tmp
+		}
+		if secretVersionNumber, ok := s.D.GetOkExists("secret_version_number"); ok {
+			tmp := secretVersionNumber.(int)
+			details.SecretVersionNumber = &tmp
+		}
 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
 			interfaces := standbyWhitelistedIps.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -2718,6 +2811,13 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
+		}
+		if computeCount, ok := s.D.GetOkExists("compute_count"); ok {
+			tmp := float32(computeCount.(float64))
+			details.ComputeCount = &tmp
+		}
+		if computeModel, ok := s.D.GetOkExists("compute_model"); ok {
+			details.ComputeModel = oci_database.CreateAutonomousDatabaseBaseComputeModelEnum(computeModel.(string))
 		}
 		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
 			tmp := cpuCoreCount.(int)
@@ -2852,6 +2952,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 				details.ScheduledOperations = tmp
 			}
 		}
+		if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+			tmp := secretId.(string)
+			details.SecretId = &tmp
+		}
+		if secretVersionNumber, ok := s.D.GetOkExists("secret_version_number"); ok {
+			tmp := secretVersionNumber.(int)
+			details.SecretVersionNumber = &tmp
+		}
 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
 			interfaces := standbyWhitelistedIps.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -2918,6 +3026,13 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
 		}
+		if computeCount, ok := s.D.GetOkExists("compute_count"); ok {
+			tmp := float32(computeCount.(float64))
+			details.ComputeCount = &tmp
+		}
+		if computeModel, ok := s.D.GetOkExists("compute_model"); ok {
+			details.ComputeModel = oci_database.CreateAutonomousDatabaseBaseComputeModelEnum(computeModel.(string))
+		}
 		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
 			tmp := cpuCoreCount.(int)
 			details.CpuCoreCount = &tmp
@@ -3065,6 +3180,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			if len(tmp) != 0 || s.D.HasChange("scheduled_operations") {
 				details.ScheduledOperations = tmp
 			}
+		}
+		if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+			tmp := secretId.(string)
+			details.SecretId = &tmp
+		}
+		if secretVersionNumber, ok := s.D.GetOkExists("secret_version_number"); ok {
+			tmp := secretVersionNumber.(int)
+			details.SecretVersionNumber = &tmp
 		}
 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
 			interfaces := standbyWhitelistedIps.([]interface{})
@@ -3124,6 +3247,13 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
 		}
+		if computeCount, ok := s.D.GetOkExists("compute_count"); ok {
+			tmp := float32(computeCount.(float64))
+			details.ComputeCount = &tmp
+		}
+		if computeModel, ok := s.D.GetOkExists("compute_model"); ok {
+			details.ComputeModel = oci_database.CreateAutonomousDatabaseBaseComputeModelEnum(computeModel.(string))
+		}
 		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
 			tmp := cpuCoreCount.(int)
 			details.CpuCoreCount = &tmp
@@ -3271,6 +3401,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			if len(tmp) != 0 || s.D.HasChange("scheduled_operations") {
 				details.ScheduledOperations = tmp
 			}
+		}
+		if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+			tmp := secretId.(string)
+			details.SecretId = &tmp
+		}
+		if secretVersionNumber, ok := s.D.GetOkExists("secret_version_number"); ok {
+			tmp := secretVersionNumber.(int)
+			details.SecretVersionNumber = &tmp
 		}
 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
 			interfaces := standbyWhitelistedIps.([]interface{})

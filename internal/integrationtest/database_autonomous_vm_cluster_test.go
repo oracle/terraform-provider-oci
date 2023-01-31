@@ -52,6 +52,7 @@ var (
 		"display_name":                          acctest.Representation{RepType: acctest.Required, Create: `autonomousVmCluster`},
 		"exadata_infrastructure_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
 		"vm_cluster_network_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster_network.test_vm_cluster_network.id}`},
+		"compute_model":                         acctest.Representation{RepType: acctest.Optional, Create: `OCPU`},
 		"autonomous_data_storage_size_in_tbs":   acctest.Representation{RepType: acctest.Required, Create: `2.0`},
 		"cpu_core_count_per_node":               acctest.Representation{RepType: acctest.Required, Create: `10`},
 		"defined_tags":                          acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -66,6 +67,17 @@ var (
 		"time_zone":                             acctest.Representation{RepType: acctest.Optional, Create: `US/Pacific`},
 		"total_container_databases":             acctest.Representation{RepType: acctest.Required, Create: `2`},
 	}
+
+	DatabaseECPUAutonomousVmClusterRepresentation = acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousVmClusterRepresentation, map[string]interface{}{
+		"compute_model": acctest.Representation{RepType: acctest.Required, Create: `ECPU`},
+		"display_name":  acctest.Representation{RepType: acctest.Required, Create: `ecpuAutonomousVmCluster`},
+	})
+
+	DatabaseOCPUAutonomousVmClusterRepresentation = acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousVmClusterRepresentation, map[string]interface{}{
+		"compute_model": acctest.Representation{RepType: acctest.Required, Create: `OCPU`},
+		"display_name":  acctest.Representation{RepType: acctest.Required, Create: `ocpuAutonomousVmCluster`},
+	})
+
 	DatabaseAutonomousVmClusterMaintenanceWindowDetailsRepresentation = map[string]interface{}{
 		"preference":         acctest.Representation{RepType: acctest.Required, Create: `CUSTOM_PREFERENCE`, Update: `CUSTOM_PREFERENCE`},
 		"days_of_week":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousVmClusterMaintenanceWindowDetailsDaysOfWeekRepresentation},
@@ -91,14 +103,16 @@ var (
 		"name": acctest.Representation{RepType: acctest.Required, Create: `OCTOBER`, Update: `NOVEMBER`},
 	}
 
-	DatabaseAutonomousVmClusterResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Required, acctest.Create,
+	DatabaseAVMClusterWithSingleNetworkResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Required, acctest.Create,
 		acctest.RepresentationCopyWithNewProperties(exadataInfrastructureRepresentationWithContacts, map[string]interface{}{"activation_file": acctest.Representation{RepType: acctest.Required, Create: activationFilePath}})) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Required, acctest.Create,
 			acctest.RepresentationCopyWithNewProperties(DatabaseVmClusterNetworkRepresentation, map[string]interface{}{"validate_vm_cluster_network": acctest.Representation{RepType: acctest.Required, Create: "true"}})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network2", acctest.Required, acctest.Create,
-			acctest.RepresentationCopyWithNewProperties(vmClusterNetwork2Representation, map[string]interface{}{"validate_vm_cluster_network": acctest.Representation{RepType: acctest.Required, Create: "true"}})) +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Required, acctest.Create, DatabaseDatabaseDbServerDataSourceRepresentation) +
 		DefinedTagsDependencies
+
+	DatabaseAutonomousVmClusterResourceDependencies = DatabaseAVMClusterWithSingleNetworkResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network2", acctest.Required, acctest.Create,
+			acctest.RepresentationCopyWithNewProperties(vmClusterNetwork2Representation, map[string]interface{}{"validate_vm_cluster_network": acctest.Representation{RepType: acctest.Required, Create: "true"}}))
 )
 
 // issue-routing-tag: database/ExaCC
@@ -141,18 +155,20 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// create avm2
+		// create avm2 with ECPU
 		{
 			Config: config + compartmentIdVariableStr + DatabaseAutonomousVmClusterResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", acctest.Required, acctest.Create, DatabaseAutonomousVmClusterRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster1", acctest.Required, acctest.Create,
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", acctest.Optional, acctest.Create, DatabaseAutonomousVmClusterRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster1", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousVmClusterRepresentation, map[string]interface{}{
+						"compute_model":         acctest.Representation{RepType: acctest.Required, Create: `ECPU`},
 						"display_name":          acctest.Representation{RepType: acctest.Required, Create: "testAVM2"},
 						"vm_cluster_network_id": acctest.Representation{RepType: acctest.Required, Create: "${oci_database_vm_cluster_network.test_vm_cluster_network2.id}"},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName1, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName1, "display_name", "testAVM2"),
+				resource.TestCheckResourceAttr(resourceName1, "compute_model", "ECPU"),
 				resource.TestCheckResourceAttrSet(resourceName1, "exadata_infrastructure_id"),
 				resource.TestCheckResourceAttrSet(resourceName1, "vm_cluster_network_id"),
 
@@ -174,6 +190,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "autonomous_data_storage_size_in_tbs", "2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "OCPU"),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count_per_node", "10"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "autonomousVmCluster"),
 				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
@@ -221,6 +238,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "autonomous_data_storage_size_in_tbs", "2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "OCPU"),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count_per_node", "10"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "autonomousVmCluster"),
 				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
@@ -263,6 +281,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "autonomous_data_storage_size_in_tbs", "2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "OCPU"),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count_per_node", "10"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "autonomousVmCluster"),
 				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
@@ -317,6 +336,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_clusters.0.available_cpus"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_clusters.0.available_data_storage_size_in_tbs"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.compute_model", "OCPU"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.cpu_core_count_per_node", "10"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_clusters.0.cpus_enabled"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_clusters.0.data_storage_size_in_tbs"),
@@ -359,6 +379,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "available_cpus"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "available_data_storage_size_in_tbs"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compute_model", "OCPU"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "cpu_core_count_per_node", "10"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cpus_enabled"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_storage_size_in_tbs"),

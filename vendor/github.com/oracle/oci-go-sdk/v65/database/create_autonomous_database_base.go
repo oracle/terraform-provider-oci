@@ -44,6 +44,12 @@ type CreateAutonomousDatabaseBase interface {
 	// **Note:** This parameter cannot be used with the `ocpuCount` parameter.
 	GetCpuCoreCount() *int
 
+	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value.
+	GetComputeModel() CreateAutonomousDatabaseBaseComputeModelEnum
+
+	// The compute amount available to the database. Minimum and maximum values depend on the compute model and whether the database is on Shared or Dedicated infrastructure. For an Autonomous Database on Shared infrastructure, the 'ECPU' compute model requires values in multiples of two. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value.
+	GetComputeCount() *float32
+
 	// The number of OCPU cores to be made available to the database.
 	// The following points apply:
 	// - For Autonomous Databases on dedicated Exadata infrastructure, to provision less than 1 core, enter a fractional value in an increment of 0.1. For example, you can provision 0.3 or 0.4 cores, but not 0.35 cores. (Note that fractional OCPU values are not supported for Autonomous Databasese on shared Exadata infrastructure.)
@@ -195,6 +201,15 @@ type CreateAutonomousDatabaseBase interface {
 
 	// The Oracle Database Edition that applies to the Autonomous databases.
 	GetDatabaseEdition() AutonomousDatabaseSummaryDatabaseEditionEnum
+
+	// List of database tools details.
+	GetDbToolsDetails() []DatabaseTool
+
+	// The OCI vault secret [/Content/General/Concepts/identifiers.htm]OCID.
+	GetSecretId() *string
+
+	// The version of the vault secret. If no version is specified, the latest version will be used.
+	GetSecretVersionNumber() *int
 }
 
 type createautonomousdatabasebase struct {
@@ -204,6 +219,8 @@ type createautonomousdatabasebase struct {
 	NcharacterSet                            *string                                                           `mandatory:"false" json:"ncharacterSet"`
 	DbName                                   *string                                                           `mandatory:"false" json:"dbName"`
 	CpuCoreCount                             *int                                                              `mandatory:"false" json:"cpuCoreCount"`
+	ComputeModel                             CreateAutonomousDatabaseBaseComputeModelEnum                      `mandatory:"false" json:"computeModel,omitempty"`
+	ComputeCount                             *float32                                                          `mandatory:"false" json:"computeCount"`
 	OcpuCount                                *float32                                                          `mandatory:"false" json:"ocpuCount"`
 	DbWorkload                               CreateAutonomousDatabaseBaseDbWorkloadEnum                        `mandatory:"false" json:"dbWorkload,omitempty"`
 	DataStorageSizeInTBs                     *int                                                              `mandatory:"false" json:"dataStorageSizeInTBs"`
@@ -238,6 +255,9 @@ type createautonomousdatabasebase struct {
 	IsAutoScalingForStorageEnabled           *bool                                                             `mandatory:"false" json:"isAutoScalingForStorageEnabled"`
 	MaxCpuCoreCount                          *int                                                              `mandatory:"false" json:"maxCpuCoreCount"`
 	DatabaseEdition                          AutonomousDatabaseSummaryDatabaseEditionEnum                      `mandatory:"false" json:"databaseEdition,omitempty"`
+	DbToolsDetails                           []DatabaseTool                                                    `mandatory:"false" json:"dbToolsDetails"`
+	SecretId                                 *string                                                           `mandatory:"false" json:"secretId"`
+	SecretVersionNumber                      *int                                                              `mandatory:"false" json:"secretVersionNumber"`
 	Source                                   string                                                            `json:"source"`
 }
 
@@ -257,6 +277,8 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.NcharacterSet = s.Model.NcharacterSet
 	m.DbName = s.Model.DbName
 	m.CpuCoreCount = s.Model.CpuCoreCount
+	m.ComputeModel = s.Model.ComputeModel
+	m.ComputeCount = s.Model.ComputeCount
 	m.OcpuCount = s.Model.OcpuCount
 	m.DbWorkload = s.Model.DbWorkload
 	m.DataStorageSizeInTBs = s.Model.DataStorageSizeInTBs
@@ -291,6 +313,9 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.IsAutoScalingForStorageEnabled = s.Model.IsAutoScalingForStorageEnabled
 	m.MaxCpuCoreCount = s.Model.MaxCpuCoreCount
 	m.DatabaseEdition = s.Model.DatabaseEdition
+	m.DbToolsDetails = s.Model.DbToolsDetails
+	m.SecretId = s.Model.SecretId
+	m.SecretVersionNumber = s.Model.SecretVersionNumber
 	m.Source = s.Model.Source
 
 	return err
@@ -357,6 +382,16 @@ func (m createautonomousdatabasebase) GetDbName() *string {
 //GetCpuCoreCount returns CpuCoreCount
 func (m createautonomousdatabasebase) GetCpuCoreCount() *int {
 	return m.CpuCoreCount
+}
+
+//GetComputeModel returns ComputeModel
+func (m createautonomousdatabasebase) GetComputeModel() CreateAutonomousDatabaseBaseComputeModelEnum {
+	return m.ComputeModel
+}
+
+//GetComputeCount returns ComputeCount
+func (m createautonomousdatabasebase) GetComputeCount() *float32 {
+	return m.ComputeCount
 }
 
 //GetOcpuCount returns OcpuCount
@@ -529,6 +564,21 @@ func (m createautonomousdatabasebase) GetDatabaseEdition() AutonomousDatabaseSum
 	return m.DatabaseEdition
 }
 
+//GetDbToolsDetails returns DbToolsDetails
+func (m createautonomousdatabasebase) GetDbToolsDetails() []DatabaseTool {
+	return m.DbToolsDetails
+}
+
+//GetSecretId returns SecretId
+func (m createautonomousdatabasebase) GetSecretId() *string {
+	return m.SecretId
+}
+
+//GetSecretVersionNumber returns SecretVersionNumber
+func (m createautonomousdatabasebase) GetSecretVersionNumber() *int {
+	return m.SecretVersionNumber
+}
+
 func (m createautonomousdatabasebase) String() string {
 	return common.PointerString(m)
 }
@@ -539,6 +589,9 @@ func (m createautonomousdatabasebase) String() string {
 func (m createautonomousdatabasebase) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingCreateAutonomousDatabaseBaseComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetCreateAutonomousDatabaseBaseComputeModelEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingCreateAutonomousDatabaseBaseDbWorkloadEnum(string(m.DbWorkload)); !ok && m.DbWorkload != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbWorkload: %s. Supported values are: %s.", m.DbWorkload, strings.Join(GetCreateAutonomousDatabaseBaseDbWorkloadEnumStringValues(), ",")))
 	}
@@ -555,6 +608,48 @@ func (m createautonomousdatabasebase) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// CreateAutonomousDatabaseBaseComputeModelEnum Enum with underlying type: string
+type CreateAutonomousDatabaseBaseComputeModelEnum string
+
+// Set of constants representing the allowable values for CreateAutonomousDatabaseBaseComputeModelEnum
+const (
+	CreateAutonomousDatabaseBaseComputeModelEcpu CreateAutonomousDatabaseBaseComputeModelEnum = "ECPU"
+	CreateAutonomousDatabaseBaseComputeModelOcpu CreateAutonomousDatabaseBaseComputeModelEnum = "OCPU"
+)
+
+var mappingCreateAutonomousDatabaseBaseComputeModelEnum = map[string]CreateAutonomousDatabaseBaseComputeModelEnum{
+	"ECPU": CreateAutonomousDatabaseBaseComputeModelEcpu,
+	"OCPU": CreateAutonomousDatabaseBaseComputeModelOcpu,
+}
+
+var mappingCreateAutonomousDatabaseBaseComputeModelEnumLowerCase = map[string]CreateAutonomousDatabaseBaseComputeModelEnum{
+	"ecpu": CreateAutonomousDatabaseBaseComputeModelEcpu,
+	"ocpu": CreateAutonomousDatabaseBaseComputeModelOcpu,
+}
+
+// GetCreateAutonomousDatabaseBaseComputeModelEnumValues Enumerates the set of values for CreateAutonomousDatabaseBaseComputeModelEnum
+func GetCreateAutonomousDatabaseBaseComputeModelEnumValues() []CreateAutonomousDatabaseBaseComputeModelEnum {
+	values := make([]CreateAutonomousDatabaseBaseComputeModelEnum, 0)
+	for _, v := range mappingCreateAutonomousDatabaseBaseComputeModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateAutonomousDatabaseBaseComputeModelEnumStringValues Enumerates the set of values in String for CreateAutonomousDatabaseBaseComputeModelEnum
+func GetCreateAutonomousDatabaseBaseComputeModelEnumStringValues() []string {
+	return []string{
+		"ECPU",
+		"OCPU",
+	}
+}
+
+// GetMappingCreateAutonomousDatabaseBaseComputeModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateAutonomousDatabaseBaseComputeModelEnum(val string) (CreateAutonomousDatabaseBaseComputeModelEnum, bool) {
+	enum, ok := mappingCreateAutonomousDatabaseBaseComputeModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // CreateAutonomousDatabaseBaseDbWorkloadEnum Enum with underlying type: string

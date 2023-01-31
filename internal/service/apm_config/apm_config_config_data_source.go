@@ -97,12 +97,20 @@ func (s *ApmConfigConfigDataSourceCrud) SetData() error {
 		}
 		s.D.Set("rules", rules)
 
+		if v.CreatedBy != nil {
+			s.D.Set("created_by", *v.CreatedBy)
+		}
+
 		if v.DefinedTags != nil {
 			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
 		}
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.Etag != nil {
+			s.D.Set("etag", *v.Etag)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -113,6 +121,10 @@ func (s *ApmConfigConfigDataSourceCrud) SetData() error {
 
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.UpdatedBy != nil {
+			s.D.Set("updated_by", *v.UpdatedBy)
 		}
 	case oci_apm_config.MetricGroup:
 		s.D.Set("config_type", "METRIC_GROUP")
@@ -141,36 +153,8 @@ func (s *ApmConfigConfigDataSourceCrud) SetData() error {
 			s.D.Set("namespace", *v.Namespace)
 		}
 
-		if v.DefinedTags != nil {
-			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
-		}
-
-		if v.DisplayName != nil {
-			s.D.Set("display_name", *v.DisplayName)
-		}
-
-		s.D.Set("freeform_tags", v.FreeformTags)
-
-		if v.TimeCreated != nil {
-			s.D.Set("time_created", v.TimeCreated.String())
-		}
-
-		if v.TimeUpdated != nil {
-			s.D.Set("time_updated", v.TimeUpdated.String())
-		}
-	case oci_apm_config.SpanFilter:
-		s.D.Set("config_type", "SPAN_FILTER")
-
-		if v.Description != nil {
-			s.D.Set("description", *v.Description)
-		}
-
-		if v.DisplayName != nil {
-			s.D.Set("display_name", *v.DisplayName)
-		}
-
-		if v.FilterText != nil {
-			s.D.Set("filter_text", *v.FilterText)
+		if v.CreatedBy != nil {
+			s.D.Set("created_by", *v.CreatedBy)
 		}
 
 		if v.DefinedTags != nil {
@@ -179,6 +163,10 @@ func (s *ApmConfigConfigDataSourceCrud) SetData() error {
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.Etag != nil {
+			s.D.Set("etag", *v.Etag)
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
@@ -191,6 +179,9 @@ func (s *ApmConfigConfigDataSourceCrud) SetData() error {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
 
+		if v.UpdatedBy != nil {
+			s.D.Set("updated_by", *v.UpdatedBy)
+		}
 	case oci_apm_config.Options:
 		s.D.Set("config_type", "OPTIONS")
 
@@ -212,8 +203,8 @@ func (s *ApmConfigConfigDataSourceCrud) SetData() error {
 			s.D.Set("group", *v.Group)
 		}
 
-		if v.Group != nil {
-			s.D.Set("filter_text", *v.Group)
+		if v.CreatedBy != nil {
+			s.D.Set("created_by", *v.CreatedBy)
 		}
 
 		if v.DefinedTags != nil {
@@ -224,6 +215,10 @@ func (s *ApmConfigConfigDataSourceCrud) SetData() error {
 			s.D.Set("display_name", *v.DisplayName)
 		}
 
+		if v.Etag != nil {
+			s.D.Set("etag", *v.Etag)
+		}
+
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.TimeCreated != nil {
@@ -232,6 +227,60 @@ func (s *ApmConfigConfigDataSourceCrud) SetData() error {
 
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.UpdatedBy != nil {
+			s.D.Set("updated_by", *v.UpdatedBy)
+		}
+	case oci_apm_config.SpanFilter:
+		s.D.Set("config_type", "SPAN_FILTER")
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.FilterText != nil {
+			s.D.Set("filter_text", *v.FilterText)
+		}
+
+		if v.CreatedBy != nil {
+			s.D.Set("created_by", *v.CreatedBy)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.Etag != nil {
+			s.D.Set("etag", *v.Etag)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		inUseBy := []interface{}{}
+		for _, item := range v.InUseBy {
+			inUseBy = append(inUseBy, SpanFilterReferenceToMap(item))
+		}
+		s.D.Set("in_use_by", inUseBy)
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.UpdatedBy != nil {
+			s.D.Set("updated_by", *v.UpdatedBy)
 		}
 	default:
 		log.Printf("[WARN] Received 'config_type' of unknown type %v", s.Res.Config)

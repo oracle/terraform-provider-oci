@@ -75,6 +75,7 @@ resource "oci_database_cloud_autonomous_vm_cluster" "test_cloud_autonomous_vm_cl
   memory_per_oracle_compute_unit_in_gbs = 27
   cpu_core_count_per_node               = 50
   total_container_databases             = 12
+  compute_model                   = "ECPU"
 }
 
 resource "oci_core_network_security_group" "test_network_security_group" {

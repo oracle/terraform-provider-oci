@@ -301,6 +301,30 @@ func CoreShapesDataSource() *schema.Resource {
 											},
 										},
 									},
+									"memory_encryption_options": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"allowed_values": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeBool,
+													},
+												},
+												"is_default_enabled": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+											},
+										},
+									},
 									"numa_nodes_per_socket_platform_options": {
 										Type:     schema.TypeList,
 										Computed: true,
@@ -794,6 +818,19 @@ func ShapeMeasuredBootOptionsToMap(obj *oci_core.ShapeMeasuredBootOptions) map[s
 	return result
 }
 
+func ShapeMemoryEncryptionOptionsToMap(obj *oci_core.ShapeMemoryEncryptionOptions) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["allowed_values"] = obj.AllowedValues
+	result["allowed_values"] = obj.AllowedValues
+
+	if obj.IsDefaultEnabled != nil {
+		result["is_default_enabled"] = bool(*obj.IsDefaultEnabled)
+	}
+
+	return result
+}
+
 func ShapeMemoryOptionsToMap(obj *oci_core.ShapeMemoryOptions) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -877,6 +914,10 @@ func ShapePlatformConfigOptionsToMap(obj *oci_core.ShapePlatformConfigOptions) m
 
 	if obj.MeasuredBootOptions != nil {
 		result["measured_boot_options"] = []interface{}{ShapeMeasuredBootOptionsToMap(obj.MeasuredBootOptions)}
+	}
+
+	if obj.MemoryEncryptionOptions != nil {
+		result["memory_encryption_options"] = []interface{}{ShapeMemoryEncryptionOptionsToMap(obj.MemoryEncryptionOptions)}
 	}
 
 	if obj.NumaNodesPerSocketPlatformOptions != nil {

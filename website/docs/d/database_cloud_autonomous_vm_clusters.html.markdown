@@ -57,6 +57,7 @@ The following attributes are exported:
 * `cloud_exadata_infrastructure_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud Exadata infrastructure.
 * `cluster_time_zone` - The time zone of the Cloud Autonomous VM Cluster.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `compute_model` - The compute model of the Cloud Autonomous VM Cluster.
 * `cpu_core_count` - The number of CPU cores on the cloud Autonomous VM cluster.
 * `cpu_core_count_per_node` - The number of OCPU cores enabled per VM cluster node.
 * `data_storage_size_in_gb` - The total data storage allocated, in gigabytes (GB).

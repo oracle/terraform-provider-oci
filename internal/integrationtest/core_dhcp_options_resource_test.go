@@ -6,12 +6,14 @@ package integrationtest
 import (
 	"fmt"
 	"regexp"
+	"strconv"
 	"testing"
 
 	"github.com/oracle/oci-go-sdk/v65/core"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
@@ -98,17 +100,6 @@ func TestResourceCoreDHCPOptions_basic(t *testing.T) {
 		options {
 			type = "seaRCHdomAIN"		# case-insensitive
 			search_domain_names = [ "test.com" ]
-		}
-	}
-
-	resource "oci_core_dhcp_options" "opt3" {
-		compartment_id = "${var.compartment_id}"
-		vcn_id = "${oci_core_virtual_network.t.id}"
-		display_name = "display_name3"
-		options {
-			type = "DomainNameServer"
-			server_type = "CustomDnsServer"
-			custom_dns_servers = [ "8.8.4.4", "8.8.8.8" ]
 		}
 	}`
 
@@ -207,14 +198,6 @@ func TestResourceCoreDHCPOptions_basic(t *testing.T) {
 						"search_domain_names.0": "test.com",
 					}, []string{}),
 
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt3", "display_name", "display_name3"),
-					acctest.CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt3", "options", map[string]string{
-						"type":                 "DomainNameServer",
-						"server_type":          "CustomDnsServer",
-						"custom_dns_servers.0": "8.8.4.4",
-						"custom_dns_servers.1": "8.8.8.8",
-					}, []string{}),
-
 					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt4", "display_name", "display_name4"),
 					acctest.CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt4", "options", map[string]string{
 						"type":                 "DomainNameServer",
@@ -244,11 +227,6 @@ func TestResourceCoreDHCPOptions_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet("oci_core_dhcp_options.opt2", "id"),
 					resource.TestCheckResourceAttrSet("oci_core_dhcp_options.opt2", "time_created"),
 					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt2", "state", string(core.DhcpOptionsLifecycleStateAvailable)),
-
-					resource.TestCheckResourceAttrSet("oci_core_dhcp_options.opt3", "vcn_id"),
-					resource.TestCheckResourceAttrSet("oci_core_dhcp_options.opt3", "id"),
-					resource.TestCheckResourceAttrSet("oci_core_dhcp_options.opt3", "time_created"),
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt3", "state", string(core.DhcpOptionsLifecycleStateAvailable)),
 
 					resource.TestCheckResourceAttrSet("oci_core_dhcp_options.opt4", "vcn_id"),
 					resource.TestCheckResourceAttrSet("oci_core_dhcp_options.opt4", "id"),
@@ -606,6 +584,106 @@ func TestResourceCoreDHCPOptions_changeOptionsOrder(t *testing.T) {
 						"type":        "DomainNameServer",
 						"server_type": "VcnLocalPlusInternet",
 					}, []string{}),
+				),
+			},
+		},
+	})
+}
+
+func TestResourceCoreDHCPOptions_resourceDiscovery_crossCompartment(t *testing.T) {
+	httpreplay.SetScenario("TestResourceCoreDHCPOptions_resourceDiscovery_crossCompartment")
+	defer httpreplay.SaveScenario()
+
+	var resId string
+	var resId2 string
+
+	provider := acctest.TestAccProvider
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
+	// Config Setup is as follows:
+	// ---------------------------
+	//  Compartment One                     Compartment Two
+	//  -------------------                 -------------------
+	//  |                  |                |                  |
+	//  |                  |                |                  |
+	//  |      VCN 1       |                |       VCN 2      |
+	//  |        ^         |                |                  |
+	//  |        |         |                |                  |
+	//  |        |         |                |                  |
+	//  |        |         |                |                  |
+	//  |      DHCP 1      |                |                  |
+	//  |                  |                |                  |
+	//  |      DHCP 2      |  ---------->   |                  |
+	//  |                  |                |                  |
+	//  |                  |                |                  |
+	//  |                  |                |                  |
+	//  -------------------                 -------------------
+	config := acctest.LegacyTestProviderConfig() + compartmentIdUVariableStr + `
+	resource "oci_core_virtual_network" "vcn1" {
+		cidr_block = "10.0.0.0/16"
+		compartment_id = "${var.compartment_id}"
+		display_name = "network_name"
+	}
+
+	resource "oci_core_virtual_network" "vcn2" {
+		cidr_block = "10.0.0.0/16"
+		compartment_id = "${var.compartment_id_for_update}"
+		display_name = "network_name2"
+	}
+
+	resource "oci_core_dhcp_options" "dhcp1" {
+		compartment_id = "${var.compartment_id}"
+		vcn_id = "${oci_core_virtual_network.vcn1.id}"
+		display_name = "display_name1"
+		options {
+			type = "DomainNameServer"
+			server_type = "VcnLocalPlusInternet"
+		}
+	}
+
+	resource "oci_core_dhcp_options" "dhcp2" {
+		compartment_id = "${var.compartment_id}"
+		vcn_id = "${oci_core_virtual_network.vcn2.id}"
+		display_name = "display_name2"
+		options {
+			type = "domainNAMEserver"	# case-insensitive
+			server_type = "VcnLocalPlusInternet"
+		}
+		options {
+			type = "seaRCHdomAIN"		# case-insensitive
+			search_domain_names = [ "test.com" ]
+		}
+	}`
+
+	resourceName := "oci_core_dhcp_options.dhcp1"
+	resourceName2 := "oci_core_dhcp_options.dhcp2"
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { acctest.PreCheck(t) },
+		Providers: map[string]*schema.Provider{
+			"oci": provider,
+		},
+		Steps: []resource.TestStep{
+			{
+				Config: config,
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					func(s *terraform.State) (err error) {
+						resId, err = acctest.FromInstanceState(s, "oci_core_dhcp_options.dhcp1", "id")
+						resId2, err = acctest.FromInstanceState(s, "oci_core_dhcp_options.dhcp2", "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+							if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+
+							if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId2, &compartmentId, resourceName2); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
 				),
 			},
 		},

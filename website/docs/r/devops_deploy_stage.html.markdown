@@ -51,11 +51,36 @@ resource "oci_devops_deploy_stage" "test_deploy_stage" {
 		namespace = var.deploy_stage_canary_strategy_namespace
 		strategy_type = var.deploy_stage_canary_strategy_strategy_type
 	}
+	command_spec_deploy_artifact_id = oci_devops_deploy_artifact.test_deploy_artifact.id
 	compute_instance_group_blue_green_deployment_deploy_stage_id = oci_devops_deploy_stage.test_deploy_stage.id
 	compute_instance_group_canary_deploy_stage_id = oci_devops_deploy_stage.test_deploy_stage.id
 	compute_instance_group_canary_traffic_shift_deploy_stage_id = oci_devops_deploy_stage.test_deploy_stage.id
 	compute_instance_group_deploy_environment_id = oci_devops_deploy_environment.test_deploy_environment.id
 	config = var.deploy_stage_config
+	container_config {
+		#Required
+		container_config_type = var.deploy_stage_container_config_container_config_type
+		network_channel {
+			#Required
+			network_channel_type = var.deploy_stage_container_config_network_channel_network_channel_type
+			subnet_id = oci_core_subnet.test_subnet.id
+
+			#Optional
+			nsg_ids = var.deploy_stage_container_config_network_channel_nsg_ids
+		}
+		shape_config {
+			#Required
+			ocpus = var.deploy_stage_container_config_shape_config_ocpus
+
+			#Optional
+			memory_in_gbs = var.deploy_stage_container_config_shape_config_memory_in_gbs
+		}
+		shape_name = oci_core_shape.test_shape.name
+
+		#Optional
+		availability_domain = var.deploy_stage_container_config_availability_domain
+		compartment_id = var.compartment_id
+	}
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	deploy_artifact_id = oci_devops_deploy_artifact.test_deploy_artifact.id
 	deploy_artifact_ids = var.deploy_stage_deploy_artifact_ids
@@ -156,12 +181,25 @@ The following arguments are supported:
 * `canary_strategy` - (Required when deploy_stage_type=OKE_CANARY_DEPLOYMENT) Specifies the required canary release strategy for OKE deployment.
 	* `ingress_name` - (Required) Name of the Ingress resource.
 	* `namespace` - (Required) Canary namespace to be used for Kubernetes canary deployment.
-	* `strategy_type` - (Required) Canary strategy type
+	* `strategy_type` - (Required) Canary strategy type.
+* `command_spec_deploy_artifact_id` - (Required when deploy_stage_type=SHELL) (Updatable) The OCID of the artifact that contains the command specification.
 * `compute_instance_group_blue_green_deployment_deploy_stage_id` - (Required when deploy_stage_type=COMPUTE_INSTANCE_GROUP_BLUE_GREEN_TRAFFIC_SHIFT) The OCID of the upstream compute instance group blue-green deployment stage in this pipeline.
 * `compute_instance_group_canary_deploy_stage_id` - (Required when deploy_stage_type=COMPUTE_INSTANCE_GROUP_CANARY_TRAFFIC_SHIFT) A compute instance group canary stage OCID for load balancer.
 * `compute_instance_group_canary_traffic_shift_deploy_stage_id` - (Required when deploy_stage_type=COMPUTE_INSTANCE_GROUP_CANARY_APPROVAL) (Updatable) A compute instance group canary traffic shift stage OCID for load balancer.
 * `compute_instance_group_deploy_environment_id` - (Required when deploy_stage_type=COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT | COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT) (Updatable) A compute instance group environment OCID for rolling deployment.
 * `config` - (Applicable when deploy_stage_type=DEPLOY_FUNCTION) (Updatable) User provided key and value pair configuration, which is assigned through constants or parameter.
+* `container_config` - (Required when deploy_stage_type=SHELL) (Updatable) Specifies the container configuration.
+	* `availability_domain` - (Optional) (Updatable) Availability domain where the ContainerInstance will be created.
+	* `compartment_id` - (Optional) (Updatable) The OCID of the compartment where the ContainerInstance will be created.
+	* `container_config_type` - (Required) (Updatable) Container configuration type.
+	* `network_channel` - (Required) (Updatable) Specifies the configuration needed when the target Oracle Cloud Infrastructure resource, i.e., OKE cluster, resides in customer's private network. 
+		* `network_channel_type` - (Required) (Updatable) Network channel type.
+		* `nsg_ids` - (Optional) (Updatable) An array of network security group OCIDs.
+		* `subnet_id` - (Required) (Updatable) The OCID of the subnet where VNIC resources will be created for private endpoint.
+	* `shape_config` - (Required) (Updatable) Determines the size and amount of resources available to the instance.
+		* `memory_in_gbs` - (Optional) (Updatable) The total amount of memory available to the instance, in gigabytes.
+		* `ocpus` - (Required) (Updatable) The total number of OCPUs available to the instance.
+	* `shape_name` - (Required) (Updatable) The shape of the ContainerInstance. The shape determines the resources available to the ContainerInstance.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace.bar-key": "value"}`
 * `deploy_artifact_id` - (Applicable when deploy_stage_type=INVOKE_FUNCTION) (Updatable) Optional artifact OCID. The artifact will be included in the body for the function invocation during the stage's execution. If the DeployArtifact.argumentSubstituitionMode is set to SUBSTITUTE_PLACEHOLDERS, then the pipeline parameter values will be used to replace the placeholders in the artifact content. 
 * `deploy_artifact_ids` - (Applicable when deploy_stage_type=COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT | COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT | COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT) (Updatable) The list of file artifact OCIDs to deploy.
@@ -216,7 +254,7 @@ The following arguments are supported:
 	* `backend_port` - (Applicable when deploy_stage_type=COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT | COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT) (Updatable) Listen port for the backend server.
 	* `listener_name` - (Required when deploy_stage_type=COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT | COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT) (Updatable) Name of the load balancer listener.
 	* `load_balancer_id` - (Required when deploy_stage_type=COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT | COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT) (Updatable) The OCID of the load balancer.
-* `timeout_in_seconds` - (Applicable when deploy_stage_type=OKE_HELM_CHART_DEPLOYMENT) (Updatable) Time to wait for execution of a helm stage. Defaults to 300 seconds.
+* `timeout_in_seconds` - (Applicable when deploy_stage_type=SHELL | OKE_HELM_CHART_DEPLOYMENT) (Updatable) Time to wait for execution of a Shell/Helm stage. Defaults to 36000 seconds for Shell and 300 seconds for Helm Stage
 * `traffic_shift_target` - (Required when deploy_stage_type=LOAD_BALANCER_TRAFFIC_SHIFT) (Updatable) Specifies the target or destination backend set.
 * `values_artifact_ids` - (Applicable when deploy_stage_type=OKE_HELM_CHART_DEPLOYMENT) (Updatable) List of values.yaml file artifact OCIDs.
 * `wait_criteria` - (Required when deploy_stage_type=WAIT) (Updatable) Specifies wait criteria for the Wait stage.
@@ -244,13 +282,26 @@ The following attributes are exported:
 * `canary_strategy` - Specifies the required canary release strategy for OKE deployment.
 	* `ingress_name` - Name of the Ingress resource.
 	* `namespace` - Canary namespace to be used for Kubernetes canary deployment.
-	* `strategy_type` - Canary strategy type
+	* `strategy_type` - Canary strategy type.
+* `command_spec_deploy_artifact_id` - The OCID of the artifact that contains the command specification.
 * `compartment_id` - The OCID of a compartment.
 * `compute_instance_group_blue_green_deployment_deploy_stage_id` - The OCID of the upstream compute instance group blue-green deployment stage in this pipeline.
 * `compute_instance_group_canary_deploy_stage_id` - The OCID of an upstream compute instance group canary deployment stage ID in this pipeline.
 * `compute_instance_group_canary_traffic_shift_deploy_stage_id` - A compute instance group canary traffic shift stage OCID for load balancer.
 * `compute_instance_group_deploy_environment_id` - A compute instance group environment OCID for rolling deployment.
 * `config` - User provided key and value pair configuration, which is assigned through constants or parameter.
+* `container_config` - Specifies the container configuration.
+	* `availability_domain` - Availability domain where the ContainerInstance will be created.
+	* `compartment_id` - The OCID of the compartment where the ContainerInstance will be created.
+	* `container_config_type` - Container configuration type.
+	* `network_channel` - Specifies the configuration needed when the target Oracle Cloud Infrastructure resource, i.e., OKE cluster, resides in customer's private network. 
+		* `network_channel_type` - Network channel type.
+		* `nsg_ids` - An array of network security group OCIDs.
+		* `subnet_id` - The OCID of the subnet where VNIC resources will be created for private endpoint.
+	* `shape_config` - Determines the size and amount of resources available to the instance.
+		* `memory_in_gbs` - The total amount of memory available to the instance, in gigabytes.
+		* `ocpus` - The total number of OCPUs available to the instance.
+	* `shape_name` - The shape of the ContainerInstance. The shape determines the resources available to the ContainerInstance.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace.bar-key": "value"}`
 * `deploy_artifact_id` - Optional artifact OCID. The artifact will be included in the body for the function invocation during the stage's execution. If the DeployArtifact.argumentSubstituitionMode is set to SUBSTITUTE_PLACEHOLDERS, then the pipeline parameter values will be used to replace the placeholders in the artifact content. 
 * `deploy_artifact_ids` - The list of file artifact OCIDs to deploy.
@@ -312,7 +363,7 @@ The following attributes are exported:
 	* `load_balancer_id` - The OCID of the load balancer.
 * `time_created` - Time the deployment stage was created. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
 * `time_updated` - Time the deployment stage was updated. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
-* `timeout_in_seconds` - Time to wait for execution of a helm stage. Defaults to 300 seconds.
+* `timeout_in_seconds` - Time to wait for execution of a Shell/Helm stage. Defaults to 36000 seconds for Shell and 300 seconds for Helm Stage.
 * `traffic_shift_target` - Specifies the target or destination backend set.
 * `values_artifact_ids` - List of values.yaml file artifact OCIDs.
 * `wait_criteria` - Specifies wait criteria for the Wait stage.
@@ -334,4 +385,3 @@ DeployStages can be imported using the `id`, e.g.
 ```
 $ terraform import oci_devops_deploy_stage.test_deploy_stage "id"
 ```
-

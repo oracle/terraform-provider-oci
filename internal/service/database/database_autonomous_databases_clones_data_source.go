@@ -125,6 +125,14 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"compute_count": {
+							Type:     schema.TypeFloat,
+							Computed: true,
+						},
+						"compute_model": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"connection_strings": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -806,6 +814,12 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 		if r.CharacterSet != nil {
 			autonomousDatabasesClone["character_set"] = *r.CharacterSet
 		}
+
+		if r.ComputeCount != nil {
+			autonomousDatabasesClone["compute_count"] = *r.ComputeCount
+		}
+
+		autonomousDatabasesClone["compute_model"] = r.ComputeModel
 
 		if r.ConnectionStrings != nil {
 			autonomousDatabasesClone["connection_strings"] = []interface{}{AutonomousDatabaseConnectionStringsToMap(r.ConnectionStrings)}

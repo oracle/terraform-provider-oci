@@ -5,6 +5,7 @@ package integrationtest
 
 import (
 	"fmt"
+	"strconv"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
@@ -13,6 +14,7 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/oracle/oci-go-sdk/v65/core"
@@ -452,6 +454,91 @@ func TestResourceCoreRouteTable_defaultResource(t *testing.T) {
 							"network_entity_id",
 						}),
 					resource.TestCheckResourceAttr(defaultResourceName, "state", string(core.RouteTableLifecycleStateAvailable)),
+				),
+			},
+		},
+	})
+}
+
+func TestResourceCoreRouteTable_resourceDiscovery_crossCompartment(t *testing.T) {
+	httpreplay.SetScenario("TestResourceCoreDHCPOptions_resourceDiscovery_crossCompartment")
+	defer httpreplay.SaveScenario()
+
+	var resId string
+	var resId2 string
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
+	// Config Setup is as follows:
+	// ---------------------------
+	//  Compartment One                     Compartment Two
+	//  -------------------                 -------------------
+	//  |                  |                |                  |
+	//  |                  |                |                  |
+	//  |      VCN 1       |                |       VCN 2      |
+	//  |        ^         |                |                  |
+	//  |        |         |                |                  |
+	//  |        |         |                |                  |
+	//  |        |         |                |                  |
+	//  |      RT 1        |                |                  |
+	//  |                  |                |                  |
+	//  |      RT 2        |  ---------->   |                  |
+	//  |                  |                |                  |
+	//  |                  |                |                  |
+	//  |                  |                |                  |
+	//  -------------------                 -------------------
+	provider := acctest.TestAccProvider
+	config := acctest.ProviderTestConfig() + compartmentIdVariableStr + compartmentIdUVariableStr + `
+    	resource "oci_core_virtual_network" "vcn1" {
+    		cidr_block = "10.0.0.0/16"
+    		compartment_id = "${var.compartment_id}"
+    		display_name = "network_name"
+    	}
+
+    	resource "oci_core_virtual_network" "vcn2" {
+    		cidr_block = "10.0.0.0/16"
+    		compartment_id = "${var.compartment_id_for_update}"
+    		display_name = "network_name2"
+    	}
+
+    	resource "oci_core_route_table" "rt1" {
+            compartment_id = "${var.compartment_id}"
+            vcn_id = "${oci_core_virtual_network.vcn1.id}"
+        }
+
+    	resource "oci_core_route_table" "rt2" {
+            compartment_id = "${var.compartment_id}"
+            vcn_id = "${oci_core_virtual_network.vcn2.id}"
+        }`
+
+	resourceName := "oci_core_route_table.rt1"
+	resourceName2 := "oci_core_route_table.rt2"
+
+	resource.Test(t, resource.TestCase{
+		Providers: map[string]*schema.Provider{
+			"oci": provider,
+		},
+		Steps: []resource.TestStep{
+			{
+				Config: config,
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					func(s *terraform.State) (err error) {
+						resId, err = acctest.FromInstanceState(s, "oci_core_route_table.rt1", "id")
+						resId2, err = acctest.FromInstanceState(s, "oci_core_route_table.rt2", "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+							if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+
+							if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId2, &compartmentId, resourceName2); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
 				),
 			},
 		},
