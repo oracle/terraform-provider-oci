@@ -31,6 +31,9 @@ type InstanceConfigurationAmdVmLaunchInstancePlatformConfig struct {
 
 	// Whether the Measured Boot feature is enabled on the instance.
 	IsMeasuredBootEnabled *bool `mandatory:"false" json:"isMeasuredBootEnabled"`
+
+	// Whether the instance is a confidential instance. If this value is `true`, the instance is a confidential instance. The default value is `false`.
+	IsMemoryEncryptionEnabled *bool `mandatory:"false" json:"isMemoryEncryptionEnabled"`
 }
 
 //GetIsSecureBootEnabled returns IsSecureBootEnabled
@@ -46,6 +49,11 @@ func (m InstanceConfigurationAmdVmLaunchInstancePlatformConfig) GetIsTrustedPlat
 //GetIsMeasuredBootEnabled returns IsMeasuredBootEnabled
 func (m InstanceConfigurationAmdVmLaunchInstancePlatformConfig) GetIsMeasuredBootEnabled() *bool {
 	return m.IsMeasuredBootEnabled
+}
+
+//GetIsMemoryEncryptionEnabled returns IsMemoryEncryptionEnabled
+func (m InstanceConfigurationAmdVmLaunchInstancePlatformConfig) GetIsMemoryEncryptionEnabled() *bool {
+	return m.IsMemoryEncryptionEnabled
 }
 
 func (m InstanceConfigurationAmdVmLaunchInstancePlatformConfig) String() string {

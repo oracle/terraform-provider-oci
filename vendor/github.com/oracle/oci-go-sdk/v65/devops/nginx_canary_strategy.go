@@ -19,7 +19,7 @@ import (
 // NginxCanaryStrategy Specifies the NGINX canary release strategy.
 type NginxCanaryStrategy struct {
 
-	// Canary namespace to be used for Kubernetes canary deployment.
+	// Canary namespace to be used for Kubernetes canary deployment. Example: canary - Name of the Canary namespace.
 	Namespace *string `mandatory:"true" json:"namespace"`
 
 	// Name of the Ingress resource.

@@ -56,6 +56,9 @@ resource "oci_opensearch_opensearch_cluster" "test_opensearch_cluster" {
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	freeform_tags = {"bar-key"= "value"}
 	master_node_host_bare_metal_shape = var.opensearch_cluster_master_node_host_bare_metal_shape
+	security_master_user_name = oci_identity_user.test_user.name
+	security_master_user_password_hash = var.opensearch_cluster_security_master_user_password_hash
+	security_mode = var.opensearch_cluster_security_mode
 	system_tags = var.opensearch_cluster_system_tags
 }
 ```
@@ -82,6 +85,9 @@ The following arguments are supported:
 * `opendashboard_node_count` - (Required) The number of OpenSearch Dashboard nodes to configure for the cluster.
 * `opendashboard_node_host_memory_gb` - (Required) The amount of memory in GB, to configure for the cluster's OpenSearch Dashboard nodes.
 * `opendashboard_node_host_ocpu_count` - (Required) The number of OCPUs to configure for the cluster's OpenSearch Dashboard nodes.
+* `security_master_user_name` - (Optional) (Updatable) The name of the master user that are used to manage security config
+* `security_master_user_password_hash` - (Optional) (Updatable) The password hash of the master user that are used to manage security config
+* `security_mode` - (Optional) (Updatable) The security mode of the cluster.
 * `software_version` - (Required) (Updatable) The version of the software the cluster is running.
 * `subnet_compartment_id` - (Required) The OCID for the compartment where the cluster's subnet is located.
 * `subnet_id` - (Required) The OCID of the cluster's subnet.
@@ -123,6 +129,9 @@ The following attributes are exported:
 * `opendashboard_private_ip` - The private IP address for the cluster's OpenSearch Dashboard.
 * `opensearch_fqdn` - The fully qualified domain name (FQDN) for the cluster's API endpoint.
 * `opensearch_private_ip` - The cluster's private IP address.
+* `security_master_user_name` - The name of the master user that are used to manage security config
+* `security_master_user_password_hash` - The password hash of the master user that are used to manage security config
+* `security_mode` - The security mode of the cluster.
 * `software_version` - The software version the cluster is running.
 * `state` - The current state of the cluster.
 * `subnet_compartment_id` - The OCID for the compartment where the cluster's subnet is located.

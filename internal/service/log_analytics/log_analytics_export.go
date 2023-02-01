@@ -94,6 +94,7 @@ func findLogAnalyticsObjectCollectionRules(ctx *tf_export.ResourceDiscoveryConte
 
 		if resource.TerraformName, err = tf_export.GenerateTerraformNameFromResource(resource.SourceAttributes, logAnalyticsObjectCollectionRuleResource.Schema); err != nil {
 			resource.TerraformName = fmt.Sprintf("%s_%s", parent.Parent.TerraformName, *logAnalyticsObjectCollectionRule.Name)
+			resource.TerraformName = tf_export.CheckDuplicateResourceName(resource.TerraformName)
 		}
 
 		results = append(results, resource)

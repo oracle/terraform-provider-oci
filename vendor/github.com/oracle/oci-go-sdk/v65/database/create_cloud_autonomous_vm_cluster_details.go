@@ -48,6 +48,9 @@ type CreateCloudAutonomousVmClusterDetails struct {
 	// The time zone to use for the Cloud Autonomous VM cluster. For details, see DB System Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
 	ClusterTimeZone *string `mandatory:"false" json:"clusterTimeZone"`
 
+	// The compute model of the Cloud Autonomous VM Cluster.
+	ComputeModel CreateCloudAutonomousVmClusterDetailsComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
+
 	// The list of database servers.
 	DbServers []string `mandatory:"false" json:"dbServers"`
 
@@ -84,6 +87,9 @@ func (m CreateCloudAutonomousVmClusterDetails) String() string {
 func (m CreateCloudAutonomousVmClusterDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingCreateCloudAutonomousVmClusterDetailsComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetCreateCloudAutonomousVmClusterDetailsComputeModelEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingCreateCloudAutonomousVmClusterDetailsLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetCreateCloudAutonomousVmClusterDetailsLicenseModelEnumStringValues(), ",")))
 	}
@@ -91,6 +97,48 @@ func (m CreateCloudAutonomousVmClusterDetails) ValidateEnumValue() (bool, error)
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// CreateCloudAutonomousVmClusterDetailsComputeModelEnum Enum with underlying type: string
+type CreateCloudAutonomousVmClusterDetailsComputeModelEnum string
+
+// Set of constants representing the allowable values for CreateCloudAutonomousVmClusterDetailsComputeModelEnum
+const (
+	CreateCloudAutonomousVmClusterDetailsComputeModelEcpu CreateCloudAutonomousVmClusterDetailsComputeModelEnum = "ECPU"
+	CreateCloudAutonomousVmClusterDetailsComputeModelOcpu CreateCloudAutonomousVmClusterDetailsComputeModelEnum = "OCPU"
+)
+
+var mappingCreateCloudAutonomousVmClusterDetailsComputeModelEnum = map[string]CreateCloudAutonomousVmClusterDetailsComputeModelEnum{
+	"ECPU": CreateCloudAutonomousVmClusterDetailsComputeModelEcpu,
+	"OCPU": CreateCloudAutonomousVmClusterDetailsComputeModelOcpu,
+}
+
+var mappingCreateCloudAutonomousVmClusterDetailsComputeModelEnumLowerCase = map[string]CreateCloudAutonomousVmClusterDetailsComputeModelEnum{
+	"ecpu": CreateCloudAutonomousVmClusterDetailsComputeModelEcpu,
+	"ocpu": CreateCloudAutonomousVmClusterDetailsComputeModelOcpu,
+}
+
+// GetCreateCloudAutonomousVmClusterDetailsComputeModelEnumValues Enumerates the set of values for CreateCloudAutonomousVmClusterDetailsComputeModelEnum
+func GetCreateCloudAutonomousVmClusterDetailsComputeModelEnumValues() []CreateCloudAutonomousVmClusterDetailsComputeModelEnum {
+	values := make([]CreateCloudAutonomousVmClusterDetailsComputeModelEnum, 0)
+	for _, v := range mappingCreateCloudAutonomousVmClusterDetailsComputeModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateCloudAutonomousVmClusterDetailsComputeModelEnumStringValues Enumerates the set of values in String for CreateCloudAutonomousVmClusterDetailsComputeModelEnum
+func GetCreateCloudAutonomousVmClusterDetailsComputeModelEnumStringValues() []string {
+	return []string{
+		"ECPU",
+		"OCPU",
+	}
+}
+
+// GetMappingCreateCloudAutonomousVmClusterDetailsComputeModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateCloudAutonomousVmClusterDetailsComputeModelEnum(val string) (CreateCloudAutonomousVmClusterDetailsComputeModelEnum, bool) {
+	enum, ok := mappingCreateCloudAutonomousVmClusterDetailsComputeModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // CreateCloudAutonomousVmClusterDetailsLicenseModelEnum Enum with underlying type: string

@@ -35,6 +35,15 @@ type MetricGroupSummary struct {
 	// Example: `2020-02-13T22:47:12.613Z`
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a user.
+	CreatedBy *string `mandatory:"false" json:"createdBy"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a user.
+	UpdatedBy *string `mandatory:"false" json:"updatedBy"`
+
+	// For optimistic concurrency control. See `if-match`.
+	Etag *string `mandatory:"false" json:"etag"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -73,6 +82,21 @@ func (m MetricGroupSummary) GetTimeCreated() *common.SDKTime {
 //GetTimeUpdated returns TimeUpdated
 func (m MetricGroupSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
+}
+
+//GetCreatedBy returns CreatedBy
+func (m MetricGroupSummary) GetCreatedBy() *string {
+	return m.CreatedBy
+}
+
+//GetUpdatedBy returns UpdatedBy
+func (m MetricGroupSummary) GetUpdatedBy() *string {
+	return m.UpdatedBy
+}
+
+//GetEtag returns Etag
+func (m MetricGroupSummary) GetEtag() *string {
+	return m.Etag
 }
 
 //GetFreeformTags returns FreeformTags

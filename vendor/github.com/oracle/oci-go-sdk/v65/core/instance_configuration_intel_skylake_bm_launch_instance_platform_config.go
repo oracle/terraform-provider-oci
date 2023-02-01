@@ -32,6 +32,9 @@ type InstanceConfigurationIntelSkylakeBmLaunchInstancePlatformConfig struct {
 
 	// Whether the Measured Boot feature is enabled on the instance.
 	IsMeasuredBootEnabled *bool `mandatory:"false" json:"isMeasuredBootEnabled"`
+
+	// Whether the instance is a confidential instance. If this value is `true`, the instance is a confidential instance. The default value is `false`.
+	IsMemoryEncryptionEnabled *bool `mandatory:"false" json:"isMemoryEncryptionEnabled"`
 }
 
 //GetIsSecureBootEnabled returns IsSecureBootEnabled
@@ -47,6 +50,11 @@ func (m InstanceConfigurationIntelSkylakeBmLaunchInstancePlatformConfig) GetIsTr
 //GetIsMeasuredBootEnabled returns IsMeasuredBootEnabled
 func (m InstanceConfigurationIntelSkylakeBmLaunchInstancePlatformConfig) GetIsMeasuredBootEnabled() *bool {
 	return m.IsMeasuredBootEnabled
+}
+
+//GetIsMemoryEncryptionEnabled returns IsMemoryEncryptionEnabled
+func (m InstanceConfigurationIntelSkylakeBmLaunchInstancePlatformConfig) GetIsMemoryEncryptionEnabled() *bool {
+	return m.IsMemoryEncryptionEnabled
 }
 
 func (m InstanceConfigurationIntelSkylakeBmLaunchInstancePlatformConfig) String() string {

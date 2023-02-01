@@ -13,6 +13,7 @@ func init() {
 	exportDatabaseAutonomousContainerDatabaseDataguardAssociationHints.GetIdFn = getDatabaseAutonomousContainerDatabaseDataguardAssociationId
 	exportDatabaseVmClusterNetworkHints.GetIdFn = getDatabaseVmClusterNetworkId
 	exportDatabaseAutonomousContainerDatabaseHints.RequireResourceRefresh = true
+	exportDatabaseAutonomousContainerDatabaseHints.FindResourcesOverrideFn = findAllAutonomousContainerDatabases
 	exportDatabaseAutonomousDatabaseHints.RequireResourceRefresh = true
 	exportDatabaseAutonomousDatabaseHints.ProcessDiscoveredResourcesFn = processAutonomousDatabaseSource
 	exportDatabaseAutonomousExadataInfrastructureHints.RequireResourceRefresh = true
@@ -28,6 +29,22 @@ func init() {
 	exportDatabaseDatabaseHints.ProcessDiscoveredResourcesFn = processDatabases
 	exportDatabaseExadataInfrastructureHints.ProcessDiscoveredResourcesFn = processDatabaseExadataInfrastructures
 	tf_export.RegisterCompartmentGraphs("database", databaseResourceGraph)
+}
+
+func findAllAutonomousContainerDatabases(ctx *tf_export.ResourceDiscoveryContext, tfMeta *tf_export.TerraformResourceAssociation, parent *tf_export.OCIResource, resourceGraph *tf_export.TerraformResourceGraph) (resources []*tf_export.OCIResource, err error) {
+	results := []*tf_export.OCIResource{}
+	results, err = tf_export.FindResourcesGeneric(ctx, tfMeta, parent, resourceGraph)
+	if err != nil {
+		return results, err
+	}
+	exaccResults := []*tf_export.OCIResource{}
+	if tfMeta.DatasourceQueryParams == nil {
+		tfMeta.DatasourceQueryParams = map[string]string{}
+	}
+	// ACDs on ExaCC clusters can only be listed by setting below query parameter
+	tfMeta.DatasourceQueryParams["infrastructure_type"] = "'CLOUD_AT_CUSTOMER'"
+	exaccResults, err = tf_export.FindResourcesGeneric(ctx, tfMeta, parent, resourceGraph)
+	return append(results, exaccResults...), err
 }
 
 // Custom overrides for generating composite IDs within the resource discovery framework
@@ -407,6 +424,12 @@ var exportDatabasePluggableDatabaseHints = &tf_export.TerraformResourceHints{
 var databaseResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDatabaseAutonomousContainerDatabaseHints},
+		{
+			TerraformResourceHints: exportDatabaseAutonomousContainerDatabaseHints,
+			DatasourceQueryParams: map[string]string{
+				"infrastructure_type": "infrastructureType",
+			},
+		},
 		{TerraformResourceHints: exportDatabaseAutonomousDatabaseHints},
 		{TerraformResourceHints: exportDatabaseAutonomousExadataInfrastructureHints},
 		{TerraformResourceHints: exportDatabaseAutonomousVmClusterHints},

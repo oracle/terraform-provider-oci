@@ -28,7 +28,7 @@ variable "opensearch_cluster_data_node_host_bare_metal_shape" {
 }
 
 variable "opensearch_cluster_data_node_host_memory_gb" {
-  default = 10
+  default = 20
 }
 
 variable "opensearch_cluster_data_node_host_ocpu_count" {
@@ -99,7 +99,13 @@ variable "opensearch_cluster_system_tags" {
   default = { }
 }
 
+variable "security_mode" {
+  default = "ENFORCING"
+}
 
+variable "security_master_user_name" {}
+
+variable "security_master_user_password_hash" {}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -137,13 +143,17 @@ resource "oci_opensearch_opensearch_cluster" "test_opensearch_cluster" {
   freeform_tags                     = var.opensearch_cluster_freeform_tags
   master_node_host_bare_metal_shape = var.opensearch_cluster_master_node_host_bare_metal_shape
   #  system_tags                       = var.opensearch_cluster_system_tags
+  security_mode                     = var.security_mode
+  security_master_user_name         = var.security_master_user_name
+  security_master_user_password_hash = var.security_master_user_password_hash
 }
 
 data "oci_opensearch_opensearch_clusters" "test_opensearch_clusters" {
+
   #Required
   compartment_id = var.compartment_id
   #Optional
-  #  display_name = var.opensearch_cluster_display_name
+  display_name = var.opensearch_cluster_display_name
   #  id           = var.opensearch_cluster_id
   #  state        = var.opensearch_cluster_state
 }

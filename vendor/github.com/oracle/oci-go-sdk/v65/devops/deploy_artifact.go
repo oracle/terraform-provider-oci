@@ -166,6 +166,7 @@ const (
 	DeployArtifactDeployArtifactTypeGenericFile        DeployArtifactDeployArtifactTypeEnum = "GENERIC_FILE"
 	DeployArtifactDeployArtifactTypeDockerImage        DeployArtifactDeployArtifactTypeEnum = "DOCKER_IMAGE"
 	DeployArtifactDeployArtifactTypeHelmChart          DeployArtifactDeployArtifactTypeEnum = "HELM_CHART"
+	DeployArtifactDeployArtifactTypeCommandSpec        DeployArtifactDeployArtifactTypeEnum = "COMMAND_SPEC"
 )
 
 var mappingDeployArtifactDeployArtifactTypeEnum = map[string]DeployArtifactDeployArtifactTypeEnum{
@@ -175,6 +176,7 @@ var mappingDeployArtifactDeployArtifactTypeEnum = map[string]DeployArtifactDeplo
 	"GENERIC_FILE":        DeployArtifactDeployArtifactTypeGenericFile,
 	"DOCKER_IMAGE":        DeployArtifactDeployArtifactTypeDockerImage,
 	"HELM_CHART":          DeployArtifactDeployArtifactTypeHelmChart,
+	"COMMAND_SPEC":        DeployArtifactDeployArtifactTypeCommandSpec,
 }
 
 var mappingDeployArtifactDeployArtifactTypeEnumLowerCase = map[string]DeployArtifactDeployArtifactTypeEnum{
@@ -184,6 +186,7 @@ var mappingDeployArtifactDeployArtifactTypeEnumLowerCase = map[string]DeployArti
 	"generic_file":        DeployArtifactDeployArtifactTypeGenericFile,
 	"docker_image":        DeployArtifactDeployArtifactTypeDockerImage,
 	"helm_chart":          DeployArtifactDeployArtifactTypeHelmChart,
+	"command_spec":        DeployArtifactDeployArtifactTypeCommandSpec,
 }
 
 // GetDeployArtifactDeployArtifactTypeEnumValues Enumerates the set of values for DeployArtifactDeployArtifactTypeEnum
@@ -204,6 +207,7 @@ func GetDeployArtifactDeployArtifactTypeEnumStringValues() []string {
 		"GENERIC_FILE",
 		"DOCKER_IMAGE",
 		"HELM_CHART",
+		"COMMAND_SPEC",
 	}
 }
 

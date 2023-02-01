@@ -131,6 +131,7 @@ resource "oci_core_instance" "test_instance" {
 		is_access_control_service_enabled = var.instance_platform_config_is_access_control_service_enabled
 		is_input_output_memory_management_unit_enabled = var.instance_platform_config_is_input_output_memory_management_unit_enabled
 		is_measured_boot_enabled = var.instance_platform_config_is_measured_boot_enabled
+		is_memory_encryption_enabled = var.instance_platform_config_is_memory_encryption_enabled
 		is_secure_boot_enabled = var.instance_platform_config_is_secure_boot_enabled
 		is_symmetric_multi_threading_enabled = var.instance_platform_config_is_symmetric_multi_threading_enabled
 		is_trusted_platform_module_enabled = var.instance_platform_config_is_trusted_platform_module_enabled
@@ -359,6 +360,7 @@ The following arguments are supported:
 	* `is_access_control_service_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM | AMD_ROME_BM_GPU) Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device passthrough.
 	* `is_input_output_memory_management_unit_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) Whether the input-output memory management unit is enabled.
 	* `is_measured_boot_enabled` - (Optional) Whether the Measured Boot feature is enabled on the instance. 
+	* `is_memory_encryption_enabled` - (Optional) Whether the instance is a confidential instance. If this value is `true`, the instance is a confidential instance. The default value is `false`. 
 	* `is_secure_boot_enabled` - (Optional) Whether Secure Boot is enabled on the instance. 
 	* `is_symmetric_multi_threading_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) Whether symmetric multi-threading is enabled on the instance.
 	* `is_trusted_platform_module_enabled` - (Optional) Whether the Trusted Platform Module (TPM) is enabled on the instance.
@@ -501,6 +503,19 @@ The following attributes are exported:
 		* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
 		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images. 
 * `metadata` - Custom metadata that you provide.
+
+* `platform_config` - The platform configuration for the instance. 
+	* `are_virtual_instructions_enabled` - Whether virtualization instructions are available. For example, Secure Virtual Machine for AMD shapes or VT-x for Intel shapes. 
+	* `is_access_control_service_enabled` - Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device pass-through. 
+	* `is_input_output_memory_management_unit_enabled` - Whether the input-output memory management unit is enabled. 
+	* `is_measured_boot_enabled` - Whether the Measured Boot feature is enabled on the instance. 
+	* `is_memory_encryption_enabled` - Whether the instance is a confidential instance. If this value is `true`, the instance is a confidential instance. The default value is `false`. 
+	* `is_secure_boot_enabled` - Whether Secure Boot is enabled on the instance. 
+	* `is_symmetric_multi_threading_enabled` - Whether symmetric multithreading is enabled on the instance. Symmetric multithreading is also called simultaneous multithreading (SMT) or Intel Hyper-Threading.
+
+		Intel and AMD processors have two hardware execution threads per core (OCPU). SMT permits multiple independent threads of execution, to better use the resources and increase the efficiency of the CPU. When multithreading is disabled, only one thread is permitted to run on each core, which can provide higher or more predictable performance for some workloads. 
+	* `is_trusted_platform_module_enabled` - Whether the Trusted Platform Module (TPM) is enabled on the instance. 
+
 * `platform_config` - The platform configuration for the instance.
 	* `are_virtual_instructions_enabled` - Whether virtualization instructions are available.
 	* `is_access_control_service_enabled` - Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device passthrough.
