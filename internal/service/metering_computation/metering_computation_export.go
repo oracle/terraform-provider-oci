@@ -48,4 +48,12 @@ var meteringComputationResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportMeteringComputationQueryHints},
 		{TerraformResourceHints: exportMeteringComputationScheduleHints},
 	},
+	"oci_metering_computation_query": {
+		{
+			TerraformResourceHints: exportMeteringComputationCustomTableHints,
+			DatasourceQueryParams: map[string]string{
+				"saved_report_id": "id",
+			},
+		},
+	},
 }
