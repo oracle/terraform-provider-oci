@@ -14,7 +14,7 @@ import (
 // GenerateUserSecurityTokenRequest wrapper for the GenerateUserSecurityToken operation
 type GenerateUserSecurityTokenRequest struct {
 
-	// Key-value pair object storing the token exchange request parameters required to obtain a UPST for self.
+	// The key-value pair object storing the token exchange request parameters required to obtain a UPST for self.
 	GenerateUserSecurityTokenDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

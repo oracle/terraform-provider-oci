@@ -40,7 +40,7 @@ type EsxiHostSummary struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	BillingContractEndDate *common.SDKTime `mandatory:"true" json:"billingContractEndDate"`
 
-	// The version of VMware software that the Oracle Cloud VMware Solution installed on the ESXi hosts.
+	// The version of VMware software that Oracle Cloud VMware Solution installed on the ESXi hosts.
 	VmwareSoftwareVersion *string `mandatory:"true" json:"vmwareSoftwareVersion"`
 
 	// The availability domain of the ESXi host.

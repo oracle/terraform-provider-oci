@@ -23,9 +23,6 @@ type UpdateVirtualNodePoolDetails struct {
 	// Display name of the virtual node pool. This is a non-unique value.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The version of Kubernetes running on the nodes in the node pool.
-	KubernetesVersion *string `mandatory:"false" json:"kubernetesVersion"`
-
 	// Initial labels that will be added to the Kubernetes Virtual Node object when it registers.
 	InitialVirtualNodeLabels []InitialVirtualNodeLabel `mandatory:"false" json:"initialVirtualNodeLabels"`
 

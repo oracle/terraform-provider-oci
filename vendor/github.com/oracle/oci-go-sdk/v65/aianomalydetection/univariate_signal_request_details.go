@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Oracle Cloud AI Services API
+// Anomaly Detection API
 //
 // OCI AI Service solutions can help Enterprise customers integrate AI into their products immediately by using our proven,
 // pre-trained/custom models or containers, and without a need to set up in house team of AI and ML experts.
@@ -17,25 +17,25 @@ import (
 	"strings"
 )
 
-// UnivariateSignalRequestDetails This contains metadata for each signal of univariate model
+// UnivariateSignalRequestDetails Contains metadata for each signal of univariate models.
 type UnivariateSignalRequestDetails struct {
 
-	// Name of the signal
+	// The name of the signal.
 	SignalName *string `mandatory:"true" json:"signalName"`
 
-	// Names of associated categorical signal
+	// The names of associated categorical signals.
 	CategoricalSignalNames []string `mandatory:"false" json:"categoricalSignalNames"`
 
-	// Window of data to look at for each signal
+	// The window of data to look at for each signal.
 	WindowSize *int `mandatory:"false" json:"windowSize"`
 
-	// Estimate of anomalies in the dataset
+	// The estimate of anomalies in the dataset.
 	ContaminationRatio *float32 `mandatory:"false" json:"contaminationRatio"`
 
-	// Algorithm to be used for training
+	// The algorithm used for training.
 	AlgorithmHint *string `mandatory:"false" json:"algorithmHint"`
 
-	// Algorithm Parameters to be used for training
+	// The algorithm parameters used for training.
 	AlgorithmHintParameters *string `mandatory:"false" json:"algorithmHintParameters"`
 }
 

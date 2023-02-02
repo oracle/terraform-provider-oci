@@ -46,8 +46,7 @@ type UpdateDatabaseRegistrationDetails struct {
 	// sensitivity, and so on.
 	Password *string `mandatory:"false" json:"password"`
 
-	// Connect descriptor or Easy Connect Naming method that Oracle GoldenGate uses to connect to a
-	// database.
+	// Connect descriptor or Easy Connect Naming method used to connect to a database.
 	ConnectionString *string `mandatory:"false" json:"connectionString"`
 
 	// The mode of the database connection session to be established by the data client.

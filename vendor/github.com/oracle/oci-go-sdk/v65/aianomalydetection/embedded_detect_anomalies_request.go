@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Oracle Cloud AI Services API
+// Anomaly Detection API
 //
 // OCI AI Service solutions can help Enterprise customers integrate AI into their products immediately by using our proven,
 // pre-trained/custom models or containers, and without a need to set up in house team of AI and ML experts.
@@ -27,11 +27,8 @@ type EmbeddedDetectAnomaliesRequest struct {
 
 	Content []byte `mandatory:"true" json:"content"`
 
-	// The value estimated during training is used by default. You can choose to provide a custom value.
+	// Sensitivity of the algorithm to detect anomalies - higher the value, more anomalies get flagged. The value estimated during training is used by default. You can choose to provide a custom value.
 	Sensitivity *float32 `mandatory:"false" json:"sensitivity"`
-
-	// State of the asset's behaviour calculated based on current and previous inference requests.
-	InferenceState *string `mandatory:"false" json:"inferenceState"`
 
 	ContentType EmbeddedDetectAnomaliesRequestContentTypeEnum `mandatory:"false" json:"contentType,omitempty"`
 }
@@ -44,11 +41,6 @@ func (m EmbeddedDetectAnomaliesRequest) GetModelId() *string {
 //GetSensitivity returns Sensitivity
 func (m EmbeddedDetectAnomaliesRequest) GetSensitivity() *float32 {
 	return m.Sensitivity
-}
-
-//GetInferenceState returns InferenceState
-func (m EmbeddedDetectAnomaliesRequest) GetInferenceState() *string {
-	return m.InferenceState
 }
 
 func (m EmbeddedDetectAnomaliesRequest) String() string {

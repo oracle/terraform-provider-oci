@@ -45,6 +45,9 @@ type SupportedHostShapeSummary struct {
 
 	// Indicates whether the shape supports shielded instances.
 	IsSupportShieldedInstances *bool `mandatory:"false" json:"isSupportShieldedInstances"`
+
+	// Whether the shape supports "MONTH" SKU.
+	IsSupportMonthlySku *bool `mandatory:"false" json:"isSupportMonthlySku"`
 }
 
 func (m SupportedHostShapeSummary) String() string {

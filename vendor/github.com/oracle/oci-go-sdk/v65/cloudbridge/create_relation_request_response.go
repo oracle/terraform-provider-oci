@@ -14,11 +14,8 @@ import (
 // CreateRelationRequest wrapper for the CreateRelation operation
 type CreateRelationRequest struct {
 
-	// Create a relation from the asset to the target asset.
+	// Create a relation for the provided sourceId and targetId.
 	CreateRelationDetails `contributesTo:"body"`
-
-	// Unique asset identifier.
-	AssetId *string `mandatory:"true" contributesTo:"path" name:"assetId"`
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -80,6 +77,9 @@ type CreateRelationResponse struct {
 
 	// The Relation instance
 	Relation `presentIn:"body"`
+
+	// For optimistic concurrency control. See `if-match`.
+	Etag *string `presentIn:"header" name:"etag"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.

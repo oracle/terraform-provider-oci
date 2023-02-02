@@ -29,9 +29,6 @@ type DeleteVirtualNodeRequest struct {
 	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
-	// If the nodepool should be scaled down after the node is deleted.
-	IsDecrementSize *bool `mandatory:"false" contributesTo:"query" name:"isDecrementSize"`
-
 	// Duration after which Sk8s will give up eviction of the pods on the node.
 	// PT0M will indicate you want to delete the virtual node without cordon and drain. Default PT60M, Min PT0M, Max: PT60M. Format ISO 8601 e.g PT30M
 	OverrideEvictionGraceDurationVnp *string `mandatory:"false" contributesTo:"query" name:"overrideEvictionGraceDurationVnp"`

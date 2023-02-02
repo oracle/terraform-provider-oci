@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// AuditEventAggregationItems Details of audit events aggregation items.
+// AuditEventAggregationItems The details of audit events aggregation items.
 type AuditEventAggregationItems struct {
 
 	// Name of the aggregation.

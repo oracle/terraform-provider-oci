@@ -14,7 +14,10 @@ import (
 // ListDeploymentsRequest wrapper for the ListDeployments operation
 type ListDeploymentsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
+	// The OCID of the compartment that contains the work request. Work requests should be scoped
+	// to the same compartment as the resource the work request affects. If the work request concerns
+	// multiple resources, and those resources are not in the same compartment, it is up to the service team
+	// to pick the primary resource whose compartment should be used.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The connection type which the deployment must support.
@@ -23,7 +26,7 @@ type ListDeploymentsRequest struct {
 	// The OCID of the connection which for the deployment must be assigned.
 	AssignedConnectionId *string `mandatory:"false" contributesTo:"query" name:"assignedConnectionId"`
 
-	// Filters for compatible deployments which can be, but currently not assigned to the connection specified by its id.
+	// Return the deployments to which the specified connectionId may be assigned.
 	AssignableConnectionId *string `mandatory:"false" contributesTo:"query" name:"assignableConnectionId"`
 
 	// A filter to return only the resources that match the 'lifecycleState' given.
@@ -126,9 +129,8 @@ type ListDeploymentsResponse struct {
 	// particular request, please include the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For pagination of a list of items. When paging through a list, if this header appears in the
-	// response, then a partial list might have been returned. Include this value as the `page`
-	// parameter for the subsequent GET request to get the next batch of items.
+	// The page token represents the page to start retrieving results. This is usually retrieved
+	// from a previous list call.
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

@@ -15,26 +15,56 @@ import (
 	"strings"
 )
 
-// RelationSummary Description of Asset Relation Summary.
+// RelationSummary Description of Relation Summary.
 type RelationSummary struct {
 
-	// The unqiue relation identifier.
-	Key *string `mandatory:"true" json:"key"`
+	// Relation OCID that is immutable on creation.
+	Id *string `mandatory:"true" json:"id"`
 
-	// The asset ocid of the from-asset for relation.
-	FromAssetId *string `mandatory:"true" json:"fromAssetId"`
+	// The OCID of the compartment that the relation belongs to.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The asset ocid of the to-asset for relation.
-	ToAssetId *string `mandatory:"true" json:"toAssetId"`
+	// The source OCID of a relation.
+	SourceId *string `mandatory:"true" json:"sourceId"`
 
-	// The key of the relation from the external environment.
-	ExternalRelationKey *string `mandatory:"true" json:"externalRelationKey"`
+	// The target OCID of a relation.
+	TargetId *string `mandatory:"true" json:"targetId"`
 
 	// Type of relation.
-	RelationType RelationRelationTypeEnum `mandatory:"true" json:"relationType"`
+	RelationType RelationTypeEnum `mandatory:"true" json:"relationType"`
 
-	// The time the relation was created. An RFC3339 formatted datetime string
+	// The time the relation was created. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
+
+	// The time the relation was updated. An RFC3339 formatted datetime string.
+	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
+
+	// The current state of the relation.
+	LifecycleState RelationLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// Relation display name.
+	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// The key of the relation from the external environment.
+	ExternalRelationKey *string `mandatory:"false" json:"externalRelationKey"`
+
+	// List of asset source OCID.
+	AssetSourceIds []string `mandatory:"false" json:"assetSourceIds"`
+
+	// The freeform tags associated with this resource, if any. Each tag is a simple key-value pair with no
+	// predefined name, type, or namespace/scope. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// The defined tags associated with this resource, if any. Each key is predefined and scoped to namespaces.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The system tags associated with this resource, if any. The system tags are set by Oracle cloud infrastructure services. Each key is predefined and scoped to namespaces.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{orcl-cloud: {free-tier-retain: true}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m RelationSummary) String() string {
@@ -46,8 +76,11 @@ func (m RelationSummary) String() string {
 // Not recommended for calling this function directly
 func (m RelationSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingRelationRelationTypeEnum(string(m.RelationType)); !ok && m.RelationType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RelationType: %s. Supported values are: %s.", m.RelationType, strings.Join(GetRelationRelationTypeEnumStringValues(), ",")))
+	if _, ok := GetMappingRelationTypeEnum(string(m.RelationType)); !ok && m.RelationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RelationType: %s. Supported values are: %s.", m.RelationType, strings.Join(GetRelationTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingRelationLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetRelationLifecycleStateEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {

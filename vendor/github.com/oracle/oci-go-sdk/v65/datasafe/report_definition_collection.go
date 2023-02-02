@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ReportDefinitionCollection Collection of report definition summary.
+// ReportDefinitionCollection Collection of report definition objects.
 type ReportDefinitionCollection struct {
 
 	// Array of report definition summary.

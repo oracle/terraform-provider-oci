@@ -92,6 +92,9 @@ type UserAssessmentSummary struct {
 	// Array of database target OCIDs.
 	TargetIds []string `mandatory:"false" json:"targetIds"`
 
+	// The date and time the user assessment was last run, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	TimeLastAssessed *common.SDKTime `mandatory:"false" json:"timeLastAssessed"`
+
 	// Indicates whether the user assessment was created by system or user.
 	TriggeredBy UserAssessmentSummaryTriggeredByEnum `mandatory:"false" json:"triggeredBy,omitempty"`
 

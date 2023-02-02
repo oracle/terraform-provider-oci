@@ -140,7 +140,7 @@ func (client DataplaneClient) generateScopedAccessToken(ctx context.Context, req
 	return response, err
 }
 
-// GenerateUserSecurityToken Exchanges a valid user signature for a short-lived UPST of the authenticated user principal. The default token TTL is set to 1 hour in commercial realms and to 15 minutes in all other realms.
+// GenerateUserSecurityToken Exchanges a valid user signature for a short-lived UPST of the authenticated user principal. The default token time-to-live (TTL) is set to 1 hour in commercial realms and to 15 minutes in all other realms.
 func (client DataplaneClient) GenerateUserSecurityToken(ctx context.Context, request GenerateUserSecurityTokenRequest) (response GenerateUserSecurityTokenResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

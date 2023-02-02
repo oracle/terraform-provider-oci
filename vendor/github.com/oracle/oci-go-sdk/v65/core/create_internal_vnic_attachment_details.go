@@ -259,6 +259,86 @@ const (
 	CreateInternalVnicAttachmentDetailsVnicShapeFixed3900E450g                  CreateInternalVnicAttachmentDetailsVnicShapeEnum = "FIXED3900_E4_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeFixed4000E450g                  CreateInternalVnicAttachmentDetailsVnicShapeEnum = "FIXED4000_E4_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeEntirehostE450g                 CreateInternalVnicAttachmentDetailsVnicShapeEnum = "ENTIREHOST_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed01001E450g          CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED0100_1_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed02002E450g          CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED0200_2_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed03003E450g          CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED0300_3_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed04004E450g          CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED0400_4_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed05005E450g          CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED0500_5_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed06006E450g          CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED0600_6_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed07007E450g          CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED0700_7_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed08008E450g          CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED0800_8_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed09009E450g          CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED0900_9_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed100010E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED1000_10_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed110011E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED1100_11_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed120012E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED1200_12_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed130013E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED1300_13_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed140014E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED1400_14_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed150015E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED1500_15_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed160016E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED1600_16_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed170017E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED1700_17_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed180018E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED1800_18_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed190019E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED1900_19_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed200020E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED2000_20_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed210021E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED2100_21_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed220022E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED2200_22_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed230023E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED2300_23_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed240024E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED2400_24_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed250025E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED2500_25_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed260026E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED2600_26_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed270027E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED2700_27_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed280028E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED2800_28_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed290029E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED2900_29_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed300030E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3000_30_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed310031E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3100_31_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320032E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_32_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed330033E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3300_33_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed340034E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3400_34_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed350035E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3500_35_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed360036E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3600_36_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed370037E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3700_37_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed380038E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3800_38_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed390039E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3900_39_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400040E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_40_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400041E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_41_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400042E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_42_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400043E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_43_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400044E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_44_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400045E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_45_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400046E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_46_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400047E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_47_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400048E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_48_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400049E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_49_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400050E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_50_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400051E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_51_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400052E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_52_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400053E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_53_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400054E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_54_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400055E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_55_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400056E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_56_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400057E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_57_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400058E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_58_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400059E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_59_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400060E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_60_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400061E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_61_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400062E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_62_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400063E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_63_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400064E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_64_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400065E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_65_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400066E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_66_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400067E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_67_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400068E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_68_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400069E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_69_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400070E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_70_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400071E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_71_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400072E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_72_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400073E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_73_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400074E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_74_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400075E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_75_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400076E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_76_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400077E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_77_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400078E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_78_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400079E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_79_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400080E450g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED4000_80_E4_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeMicroVmFixed0050E350g           CreateInternalVnicAttachmentDetailsVnicShapeEnum = "Micro_VM_Fixed0050_E3_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeMicroVmFixed0050E450g           CreateInternalVnicAttachmentDetailsVnicShapeEnum = "Micro_VM_Fixed0050_E4_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeSubcoreVmFixed0025E350g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "SUBCORE_VM_FIXED0025_E3_50G"
@@ -1129,6 +1209,70 @@ const (
 	CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed5000X950g        CreateInternalVnicAttachmentDetailsVnicShapeEnum = "STANDARD_VM_FIXED5000_X9_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeA10GpuVmFixed2400X950g          CreateInternalVnicAttachmentDetailsVnicShapeEnum = "A10_GPU_VM_FIXED2400_X9_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeA10GpuVmFixed4800X950g          CreateInternalVnicAttachmentDetailsVnicShapeEnum = "A10_GPU_VM_FIXED4800_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed01001X950g          CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED0100_1_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed02002X950g          CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED0200_2_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed03003X950g          CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED0300_3_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed04004X950g          CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED0400_4_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed05005X950g          CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED0500_5_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed06006X950g          CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED0600_6_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed07007X950g          CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED0700_7_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed08008X950g          CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED0800_8_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed09009X950g          CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED0900_9_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed100010X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED1000_10_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed110011X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED1100_11_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed120012X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED1200_12_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed130013X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED1300_13_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed140014X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED1400_14_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed150015X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED1500_15_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed160016X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED1600_16_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed170017X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED1700_17_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed180018X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED1800_18_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed190019X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED1900_19_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed200020X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED2000_20_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed210021X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED2100_21_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed220022X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED2200_22_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed230023X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED2300_23_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed240024X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED2400_24_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed250025X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED2500_25_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed260026X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED2600_26_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed270027X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED2700_27_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed280028X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED2800_28_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed290029X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED2900_29_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed300030X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3000_30_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed310031X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3100_31_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320032X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_32_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320033X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_33_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320034X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_34_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320035X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_35_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320036X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_36_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320037X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_37_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320038X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_38_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320039X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_39_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320040X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_40_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320041X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_41_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320042X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_42_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320043X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_43_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320044X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_44_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320045X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_45_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320046X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_46_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320047X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_47_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320048X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_48_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320049X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_49_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320050X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_50_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320051X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_51_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320052X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_52_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320053X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_53_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320054X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_54_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320055X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_55_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320056X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_56_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320057X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_57_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320058X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_58_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320059X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_59_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320060X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_60_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320061X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_61_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320062X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_62_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320063X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_63_X9_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320064X950g         CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED3200_64_X9_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeSubcoreStandardVmFixed0025X950g CreateInternalVnicAttachmentDetailsVnicShapeEnum = "SUBCORE_STANDARD_VM_FIXED0025_X9_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeSubcoreStandardVmFixed0050X950g CreateInternalVnicAttachmentDetailsVnicShapeEnum = "SUBCORE_STANDARD_VM_FIXED0050_X9_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeSubcoreStandardVmFixed0075X950g CreateInternalVnicAttachmentDetailsVnicShapeEnum = "SUBCORE_STANDARD_VM_FIXED0075_X9_50G"
@@ -1448,6 +1592,86 @@ var mappingCreateInternalVnicAttachmentDetailsVnicShapeEnum = map[string]CreateI
 	"FIXED3900_E4_50G":                     CreateInternalVnicAttachmentDetailsVnicShapeFixed3900E450g,
 	"FIXED4000_E4_50G":                     CreateInternalVnicAttachmentDetailsVnicShapeFixed4000E450g,
 	"ENTIREHOST_E4_50G":                    CreateInternalVnicAttachmentDetailsVnicShapeEntirehostE450g,
+	"VNUMA_VM_FIXED0100_1_E4_50G":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed01001E450g,
+	"VNUMA_VM_FIXED0200_2_E4_50G":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed02002E450g,
+	"VNUMA_VM_FIXED0300_3_E4_50G":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed03003E450g,
+	"VNUMA_VM_FIXED0400_4_E4_50G":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed04004E450g,
+	"VNUMA_VM_FIXED0500_5_E4_50G":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed05005E450g,
+	"VNUMA_VM_FIXED0600_6_E4_50G":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed06006E450g,
+	"VNUMA_VM_FIXED0700_7_E4_50G":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed07007E450g,
+	"VNUMA_VM_FIXED0800_8_E4_50G":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed08008E450g,
+	"VNUMA_VM_FIXED0900_9_E4_50G":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed09009E450g,
+	"VNUMA_VM_FIXED1000_10_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed100010E450g,
+	"VNUMA_VM_FIXED1100_11_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed110011E450g,
+	"VNUMA_VM_FIXED1200_12_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed120012E450g,
+	"VNUMA_VM_FIXED1300_13_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed130013E450g,
+	"VNUMA_VM_FIXED1400_14_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed140014E450g,
+	"VNUMA_VM_FIXED1500_15_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed150015E450g,
+	"VNUMA_VM_FIXED1600_16_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed160016E450g,
+	"VNUMA_VM_FIXED1700_17_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed170017E450g,
+	"VNUMA_VM_FIXED1800_18_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed180018E450g,
+	"VNUMA_VM_FIXED1900_19_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed190019E450g,
+	"VNUMA_VM_FIXED2000_20_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed200020E450g,
+	"VNUMA_VM_FIXED2100_21_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed210021E450g,
+	"VNUMA_VM_FIXED2200_22_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed220022E450g,
+	"VNUMA_VM_FIXED2300_23_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed230023E450g,
+	"VNUMA_VM_FIXED2400_24_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed240024E450g,
+	"VNUMA_VM_FIXED2500_25_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed250025E450g,
+	"VNUMA_VM_FIXED2600_26_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed260026E450g,
+	"VNUMA_VM_FIXED2700_27_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed270027E450g,
+	"VNUMA_VM_FIXED2800_28_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed280028E450g,
+	"VNUMA_VM_FIXED2900_29_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed290029E450g,
+	"VNUMA_VM_FIXED3000_30_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed300030E450g,
+	"VNUMA_VM_FIXED3100_31_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed310031E450g,
+	"VNUMA_VM_FIXED3200_32_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320032E450g,
+	"VNUMA_VM_FIXED3300_33_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed330033E450g,
+	"VNUMA_VM_FIXED3400_34_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed340034E450g,
+	"VNUMA_VM_FIXED3500_35_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed350035E450g,
+	"VNUMA_VM_FIXED3600_36_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed360036E450g,
+	"VNUMA_VM_FIXED3700_37_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed370037E450g,
+	"VNUMA_VM_FIXED3800_38_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed380038E450g,
+	"VNUMA_VM_FIXED3900_39_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed390039E450g,
+	"VNUMA_VM_FIXED4000_40_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400040E450g,
+	"VNUMA_VM_FIXED4000_41_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400041E450g,
+	"VNUMA_VM_FIXED4000_42_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400042E450g,
+	"VNUMA_VM_FIXED4000_43_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400043E450g,
+	"VNUMA_VM_FIXED4000_44_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400044E450g,
+	"VNUMA_VM_FIXED4000_45_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400045E450g,
+	"VNUMA_VM_FIXED4000_46_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400046E450g,
+	"VNUMA_VM_FIXED4000_47_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400047E450g,
+	"VNUMA_VM_FIXED4000_48_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400048E450g,
+	"VNUMA_VM_FIXED4000_49_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400049E450g,
+	"VNUMA_VM_FIXED4000_50_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400050E450g,
+	"VNUMA_VM_FIXED4000_51_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400051E450g,
+	"VNUMA_VM_FIXED4000_52_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400052E450g,
+	"VNUMA_VM_FIXED4000_53_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400053E450g,
+	"VNUMA_VM_FIXED4000_54_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400054E450g,
+	"VNUMA_VM_FIXED4000_55_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400055E450g,
+	"VNUMA_VM_FIXED4000_56_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400056E450g,
+	"VNUMA_VM_FIXED4000_57_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400057E450g,
+	"VNUMA_VM_FIXED4000_58_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400058E450g,
+	"VNUMA_VM_FIXED4000_59_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400059E450g,
+	"VNUMA_VM_FIXED4000_60_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400060E450g,
+	"VNUMA_VM_FIXED4000_61_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400061E450g,
+	"VNUMA_VM_FIXED4000_62_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400062E450g,
+	"VNUMA_VM_FIXED4000_63_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400063E450g,
+	"VNUMA_VM_FIXED4000_64_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400064E450g,
+	"VNUMA_VM_FIXED4000_65_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400065E450g,
+	"VNUMA_VM_FIXED4000_66_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400066E450g,
+	"VNUMA_VM_FIXED4000_67_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400067E450g,
+	"VNUMA_VM_FIXED4000_68_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400068E450g,
+	"VNUMA_VM_FIXED4000_69_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400069E450g,
+	"VNUMA_VM_FIXED4000_70_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400070E450g,
+	"VNUMA_VM_FIXED4000_71_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400071E450g,
+	"VNUMA_VM_FIXED4000_72_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400072E450g,
+	"VNUMA_VM_FIXED4000_73_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400073E450g,
+	"VNUMA_VM_FIXED4000_74_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400074E450g,
+	"VNUMA_VM_FIXED4000_75_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400075E450g,
+	"VNUMA_VM_FIXED4000_76_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400076E450g,
+	"VNUMA_VM_FIXED4000_77_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400077E450g,
+	"VNUMA_VM_FIXED4000_78_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400078E450g,
+	"VNUMA_VM_FIXED4000_79_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400079E450g,
+	"VNUMA_VM_FIXED4000_80_E4_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400080E450g,
 	"Micro_VM_Fixed0050_E3_50G":            CreateInternalVnicAttachmentDetailsVnicShapeMicroVmFixed0050E350g,
 	"Micro_VM_Fixed0050_E4_50G":            CreateInternalVnicAttachmentDetailsVnicShapeMicroVmFixed0050E450g,
 	"SUBCORE_VM_FIXED0025_E3_50G":          CreateInternalVnicAttachmentDetailsVnicShapeSubcoreVmFixed0025E350g,
@@ -2318,6 +2542,70 @@ var mappingCreateInternalVnicAttachmentDetailsVnicShapeEnum = map[string]CreateI
 	"STANDARD_VM_FIXED5000_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed5000X950g,
 	"A10_GPU_VM_FIXED2400_X9_50G":          CreateInternalVnicAttachmentDetailsVnicShapeA10GpuVmFixed2400X950g,
 	"A10_GPU_VM_FIXED4800_X9_50G":          CreateInternalVnicAttachmentDetailsVnicShapeA10GpuVmFixed4800X950g,
+	"VNUMA_VM_FIXED0100_1_X9_50G":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed01001X950g,
+	"VNUMA_VM_FIXED0200_2_X9_50G":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed02002X950g,
+	"VNUMA_VM_FIXED0300_3_X9_50G":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed03003X950g,
+	"VNUMA_VM_FIXED0400_4_X9_50G":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed04004X950g,
+	"VNUMA_VM_FIXED0500_5_X9_50G":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed05005X950g,
+	"VNUMA_VM_FIXED0600_6_X9_50G":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed06006X950g,
+	"VNUMA_VM_FIXED0700_7_X9_50G":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed07007X950g,
+	"VNUMA_VM_FIXED0800_8_X9_50G":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed08008X950g,
+	"VNUMA_VM_FIXED0900_9_X9_50G":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed09009X950g,
+	"VNUMA_VM_FIXED1000_10_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed100010X950g,
+	"VNUMA_VM_FIXED1100_11_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed110011X950g,
+	"VNUMA_VM_FIXED1200_12_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed120012X950g,
+	"VNUMA_VM_FIXED1300_13_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed130013X950g,
+	"VNUMA_VM_FIXED1400_14_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed140014X950g,
+	"VNUMA_VM_FIXED1500_15_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed150015X950g,
+	"VNUMA_VM_FIXED1600_16_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed160016X950g,
+	"VNUMA_VM_FIXED1700_17_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed170017X950g,
+	"VNUMA_VM_FIXED1800_18_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed180018X950g,
+	"VNUMA_VM_FIXED1900_19_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed190019X950g,
+	"VNUMA_VM_FIXED2000_20_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed200020X950g,
+	"VNUMA_VM_FIXED2100_21_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed210021X950g,
+	"VNUMA_VM_FIXED2200_22_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed220022X950g,
+	"VNUMA_VM_FIXED2300_23_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed230023X950g,
+	"VNUMA_VM_FIXED2400_24_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed240024X950g,
+	"VNUMA_VM_FIXED2500_25_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed250025X950g,
+	"VNUMA_VM_FIXED2600_26_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed260026X950g,
+	"VNUMA_VM_FIXED2700_27_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed270027X950g,
+	"VNUMA_VM_FIXED2800_28_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed280028X950g,
+	"VNUMA_VM_FIXED2900_29_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed290029X950g,
+	"VNUMA_VM_FIXED3000_30_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed300030X950g,
+	"VNUMA_VM_FIXED3100_31_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed310031X950g,
+	"VNUMA_VM_FIXED3200_32_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320032X950g,
+	"VNUMA_VM_FIXED3200_33_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320033X950g,
+	"VNUMA_VM_FIXED3200_34_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320034X950g,
+	"VNUMA_VM_FIXED3200_35_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320035X950g,
+	"VNUMA_VM_FIXED3200_36_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320036X950g,
+	"VNUMA_VM_FIXED3200_37_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320037X950g,
+	"VNUMA_VM_FIXED3200_38_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320038X950g,
+	"VNUMA_VM_FIXED3200_39_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320039X950g,
+	"VNUMA_VM_FIXED3200_40_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320040X950g,
+	"VNUMA_VM_FIXED3200_41_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320041X950g,
+	"VNUMA_VM_FIXED3200_42_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320042X950g,
+	"VNUMA_VM_FIXED3200_43_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320043X950g,
+	"VNUMA_VM_FIXED3200_44_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320044X950g,
+	"VNUMA_VM_FIXED3200_45_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320045X950g,
+	"VNUMA_VM_FIXED3200_46_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320046X950g,
+	"VNUMA_VM_FIXED3200_47_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320047X950g,
+	"VNUMA_VM_FIXED3200_48_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320048X950g,
+	"VNUMA_VM_FIXED3200_49_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320049X950g,
+	"VNUMA_VM_FIXED3200_50_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320050X950g,
+	"VNUMA_VM_FIXED3200_51_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320051X950g,
+	"VNUMA_VM_FIXED3200_52_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320052X950g,
+	"VNUMA_VM_FIXED3200_53_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320053X950g,
+	"VNUMA_VM_FIXED3200_54_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320054X950g,
+	"VNUMA_VM_FIXED3200_55_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320055X950g,
+	"VNUMA_VM_FIXED3200_56_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320056X950g,
+	"VNUMA_VM_FIXED3200_57_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320057X950g,
+	"VNUMA_VM_FIXED3200_58_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320058X950g,
+	"VNUMA_VM_FIXED3200_59_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320059X950g,
+	"VNUMA_VM_FIXED3200_60_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320060X950g,
+	"VNUMA_VM_FIXED3200_61_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320061X950g,
+	"VNUMA_VM_FIXED3200_62_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320062X950g,
+	"VNUMA_VM_FIXED3200_63_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320063X950g,
+	"VNUMA_VM_FIXED3200_64_X9_50G":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320064X950g,
 	"SUBCORE_STANDARD_VM_FIXED0025_X9_50G": CreateInternalVnicAttachmentDetailsVnicShapeSubcoreStandardVmFixed0025X950g,
 	"SUBCORE_STANDARD_VM_FIXED0050_X9_50G": CreateInternalVnicAttachmentDetailsVnicShapeSubcoreStandardVmFixed0050X950g,
 	"SUBCORE_STANDARD_VM_FIXED0075_X9_50G": CreateInternalVnicAttachmentDetailsVnicShapeSubcoreStandardVmFixed0075X950g,
@@ -2637,6 +2925,86 @@ var mappingCreateInternalVnicAttachmentDetailsVnicShapeEnumLowerCase = map[strin
 	"fixed3900_e4_50g":                     CreateInternalVnicAttachmentDetailsVnicShapeFixed3900E450g,
 	"fixed4000_e4_50g":                     CreateInternalVnicAttachmentDetailsVnicShapeFixed4000E450g,
 	"entirehost_e4_50g":                    CreateInternalVnicAttachmentDetailsVnicShapeEntirehostE450g,
+	"vnuma_vm_fixed0100_1_e4_50g":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed01001E450g,
+	"vnuma_vm_fixed0200_2_e4_50g":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed02002E450g,
+	"vnuma_vm_fixed0300_3_e4_50g":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed03003E450g,
+	"vnuma_vm_fixed0400_4_e4_50g":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed04004E450g,
+	"vnuma_vm_fixed0500_5_e4_50g":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed05005E450g,
+	"vnuma_vm_fixed0600_6_e4_50g":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed06006E450g,
+	"vnuma_vm_fixed0700_7_e4_50g":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed07007E450g,
+	"vnuma_vm_fixed0800_8_e4_50g":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed08008E450g,
+	"vnuma_vm_fixed0900_9_e4_50g":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed09009E450g,
+	"vnuma_vm_fixed1000_10_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed100010E450g,
+	"vnuma_vm_fixed1100_11_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed110011E450g,
+	"vnuma_vm_fixed1200_12_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed120012E450g,
+	"vnuma_vm_fixed1300_13_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed130013E450g,
+	"vnuma_vm_fixed1400_14_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed140014E450g,
+	"vnuma_vm_fixed1500_15_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed150015E450g,
+	"vnuma_vm_fixed1600_16_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed160016E450g,
+	"vnuma_vm_fixed1700_17_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed170017E450g,
+	"vnuma_vm_fixed1800_18_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed180018E450g,
+	"vnuma_vm_fixed1900_19_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed190019E450g,
+	"vnuma_vm_fixed2000_20_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed200020E450g,
+	"vnuma_vm_fixed2100_21_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed210021E450g,
+	"vnuma_vm_fixed2200_22_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed220022E450g,
+	"vnuma_vm_fixed2300_23_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed230023E450g,
+	"vnuma_vm_fixed2400_24_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed240024E450g,
+	"vnuma_vm_fixed2500_25_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed250025E450g,
+	"vnuma_vm_fixed2600_26_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed260026E450g,
+	"vnuma_vm_fixed2700_27_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed270027E450g,
+	"vnuma_vm_fixed2800_28_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed280028E450g,
+	"vnuma_vm_fixed2900_29_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed290029E450g,
+	"vnuma_vm_fixed3000_30_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed300030E450g,
+	"vnuma_vm_fixed3100_31_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed310031E450g,
+	"vnuma_vm_fixed3200_32_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320032E450g,
+	"vnuma_vm_fixed3300_33_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed330033E450g,
+	"vnuma_vm_fixed3400_34_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed340034E450g,
+	"vnuma_vm_fixed3500_35_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed350035E450g,
+	"vnuma_vm_fixed3600_36_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed360036E450g,
+	"vnuma_vm_fixed3700_37_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed370037E450g,
+	"vnuma_vm_fixed3800_38_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed380038E450g,
+	"vnuma_vm_fixed3900_39_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed390039E450g,
+	"vnuma_vm_fixed4000_40_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400040E450g,
+	"vnuma_vm_fixed4000_41_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400041E450g,
+	"vnuma_vm_fixed4000_42_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400042E450g,
+	"vnuma_vm_fixed4000_43_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400043E450g,
+	"vnuma_vm_fixed4000_44_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400044E450g,
+	"vnuma_vm_fixed4000_45_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400045E450g,
+	"vnuma_vm_fixed4000_46_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400046E450g,
+	"vnuma_vm_fixed4000_47_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400047E450g,
+	"vnuma_vm_fixed4000_48_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400048E450g,
+	"vnuma_vm_fixed4000_49_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400049E450g,
+	"vnuma_vm_fixed4000_50_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400050E450g,
+	"vnuma_vm_fixed4000_51_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400051E450g,
+	"vnuma_vm_fixed4000_52_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400052E450g,
+	"vnuma_vm_fixed4000_53_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400053E450g,
+	"vnuma_vm_fixed4000_54_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400054E450g,
+	"vnuma_vm_fixed4000_55_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400055E450g,
+	"vnuma_vm_fixed4000_56_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400056E450g,
+	"vnuma_vm_fixed4000_57_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400057E450g,
+	"vnuma_vm_fixed4000_58_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400058E450g,
+	"vnuma_vm_fixed4000_59_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400059E450g,
+	"vnuma_vm_fixed4000_60_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400060E450g,
+	"vnuma_vm_fixed4000_61_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400061E450g,
+	"vnuma_vm_fixed4000_62_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400062E450g,
+	"vnuma_vm_fixed4000_63_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400063E450g,
+	"vnuma_vm_fixed4000_64_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400064E450g,
+	"vnuma_vm_fixed4000_65_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400065E450g,
+	"vnuma_vm_fixed4000_66_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400066E450g,
+	"vnuma_vm_fixed4000_67_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400067E450g,
+	"vnuma_vm_fixed4000_68_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400068E450g,
+	"vnuma_vm_fixed4000_69_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400069E450g,
+	"vnuma_vm_fixed4000_70_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400070E450g,
+	"vnuma_vm_fixed4000_71_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400071E450g,
+	"vnuma_vm_fixed4000_72_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400072E450g,
+	"vnuma_vm_fixed4000_73_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400073E450g,
+	"vnuma_vm_fixed4000_74_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400074E450g,
+	"vnuma_vm_fixed4000_75_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400075E450g,
+	"vnuma_vm_fixed4000_76_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400076E450g,
+	"vnuma_vm_fixed4000_77_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400077E450g,
+	"vnuma_vm_fixed4000_78_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400078E450g,
+	"vnuma_vm_fixed4000_79_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400079E450g,
+	"vnuma_vm_fixed4000_80_e4_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed400080E450g,
 	"micro_vm_fixed0050_e3_50g":            CreateInternalVnicAttachmentDetailsVnicShapeMicroVmFixed0050E350g,
 	"micro_vm_fixed0050_e4_50g":            CreateInternalVnicAttachmentDetailsVnicShapeMicroVmFixed0050E450g,
 	"subcore_vm_fixed0025_e3_50g":          CreateInternalVnicAttachmentDetailsVnicShapeSubcoreVmFixed0025E350g,
@@ -3507,6 +3875,70 @@ var mappingCreateInternalVnicAttachmentDetailsVnicShapeEnumLowerCase = map[strin
 	"standard_vm_fixed5000_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeStandardVmFixed5000X950g,
 	"a10_gpu_vm_fixed2400_x9_50g":          CreateInternalVnicAttachmentDetailsVnicShapeA10GpuVmFixed2400X950g,
 	"a10_gpu_vm_fixed4800_x9_50g":          CreateInternalVnicAttachmentDetailsVnicShapeA10GpuVmFixed4800X950g,
+	"vnuma_vm_fixed0100_1_x9_50g":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed01001X950g,
+	"vnuma_vm_fixed0200_2_x9_50g":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed02002X950g,
+	"vnuma_vm_fixed0300_3_x9_50g":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed03003X950g,
+	"vnuma_vm_fixed0400_4_x9_50g":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed04004X950g,
+	"vnuma_vm_fixed0500_5_x9_50g":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed05005X950g,
+	"vnuma_vm_fixed0600_6_x9_50g":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed06006X950g,
+	"vnuma_vm_fixed0700_7_x9_50g":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed07007X950g,
+	"vnuma_vm_fixed0800_8_x9_50g":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed08008X950g,
+	"vnuma_vm_fixed0900_9_x9_50g":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed09009X950g,
+	"vnuma_vm_fixed1000_10_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed100010X950g,
+	"vnuma_vm_fixed1100_11_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed110011X950g,
+	"vnuma_vm_fixed1200_12_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed120012X950g,
+	"vnuma_vm_fixed1300_13_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed130013X950g,
+	"vnuma_vm_fixed1400_14_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed140014X950g,
+	"vnuma_vm_fixed1500_15_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed150015X950g,
+	"vnuma_vm_fixed1600_16_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed160016X950g,
+	"vnuma_vm_fixed1700_17_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed170017X950g,
+	"vnuma_vm_fixed1800_18_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed180018X950g,
+	"vnuma_vm_fixed1900_19_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed190019X950g,
+	"vnuma_vm_fixed2000_20_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed200020X950g,
+	"vnuma_vm_fixed2100_21_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed210021X950g,
+	"vnuma_vm_fixed2200_22_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed220022X950g,
+	"vnuma_vm_fixed2300_23_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed230023X950g,
+	"vnuma_vm_fixed2400_24_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed240024X950g,
+	"vnuma_vm_fixed2500_25_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed250025X950g,
+	"vnuma_vm_fixed2600_26_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed260026X950g,
+	"vnuma_vm_fixed2700_27_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed270027X950g,
+	"vnuma_vm_fixed2800_28_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed280028X950g,
+	"vnuma_vm_fixed2900_29_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed290029X950g,
+	"vnuma_vm_fixed3000_30_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed300030X950g,
+	"vnuma_vm_fixed3100_31_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed310031X950g,
+	"vnuma_vm_fixed3200_32_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320032X950g,
+	"vnuma_vm_fixed3200_33_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320033X950g,
+	"vnuma_vm_fixed3200_34_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320034X950g,
+	"vnuma_vm_fixed3200_35_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320035X950g,
+	"vnuma_vm_fixed3200_36_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320036X950g,
+	"vnuma_vm_fixed3200_37_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320037X950g,
+	"vnuma_vm_fixed3200_38_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320038X950g,
+	"vnuma_vm_fixed3200_39_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320039X950g,
+	"vnuma_vm_fixed3200_40_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320040X950g,
+	"vnuma_vm_fixed3200_41_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320041X950g,
+	"vnuma_vm_fixed3200_42_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320042X950g,
+	"vnuma_vm_fixed3200_43_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320043X950g,
+	"vnuma_vm_fixed3200_44_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320044X950g,
+	"vnuma_vm_fixed3200_45_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320045X950g,
+	"vnuma_vm_fixed3200_46_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320046X950g,
+	"vnuma_vm_fixed3200_47_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320047X950g,
+	"vnuma_vm_fixed3200_48_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320048X950g,
+	"vnuma_vm_fixed3200_49_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320049X950g,
+	"vnuma_vm_fixed3200_50_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320050X950g,
+	"vnuma_vm_fixed3200_51_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320051X950g,
+	"vnuma_vm_fixed3200_52_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320052X950g,
+	"vnuma_vm_fixed3200_53_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320053X950g,
+	"vnuma_vm_fixed3200_54_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320054X950g,
+	"vnuma_vm_fixed3200_55_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320055X950g,
+	"vnuma_vm_fixed3200_56_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320056X950g,
+	"vnuma_vm_fixed3200_57_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320057X950g,
+	"vnuma_vm_fixed3200_58_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320058X950g,
+	"vnuma_vm_fixed3200_59_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320059X950g,
+	"vnuma_vm_fixed3200_60_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320060X950g,
+	"vnuma_vm_fixed3200_61_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320061X950g,
+	"vnuma_vm_fixed3200_62_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320062X950g,
+	"vnuma_vm_fixed3200_63_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320063X950g,
+	"vnuma_vm_fixed3200_64_x9_50g":         CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed320064X950g,
 	"subcore_standard_vm_fixed0025_x9_50g": CreateInternalVnicAttachmentDetailsVnicShapeSubcoreStandardVmFixed0025X950g,
 	"subcore_standard_vm_fixed0050_x9_50g": CreateInternalVnicAttachmentDetailsVnicShapeSubcoreStandardVmFixed0050X950g,
 	"subcore_standard_vm_fixed0075_x9_50g": CreateInternalVnicAttachmentDetailsVnicShapeSubcoreStandardVmFixed0075X950g,
@@ -3837,6 +4269,86 @@ func GetCreateInternalVnicAttachmentDetailsVnicShapeEnumStringValues() []string 
 		"FIXED3900_E4_50G",
 		"FIXED4000_E4_50G",
 		"ENTIREHOST_E4_50G",
+		"VNUMA_VM_FIXED0100_1_E4_50G",
+		"VNUMA_VM_FIXED0200_2_E4_50G",
+		"VNUMA_VM_FIXED0300_3_E4_50G",
+		"VNUMA_VM_FIXED0400_4_E4_50G",
+		"VNUMA_VM_FIXED0500_5_E4_50G",
+		"VNUMA_VM_FIXED0600_6_E4_50G",
+		"VNUMA_VM_FIXED0700_7_E4_50G",
+		"VNUMA_VM_FIXED0800_8_E4_50G",
+		"VNUMA_VM_FIXED0900_9_E4_50G",
+		"VNUMA_VM_FIXED1000_10_E4_50G",
+		"VNUMA_VM_FIXED1100_11_E4_50G",
+		"VNUMA_VM_FIXED1200_12_E4_50G",
+		"VNUMA_VM_FIXED1300_13_E4_50G",
+		"VNUMA_VM_FIXED1400_14_E4_50G",
+		"VNUMA_VM_FIXED1500_15_E4_50G",
+		"VNUMA_VM_FIXED1600_16_E4_50G",
+		"VNUMA_VM_FIXED1700_17_E4_50G",
+		"VNUMA_VM_FIXED1800_18_E4_50G",
+		"VNUMA_VM_FIXED1900_19_E4_50G",
+		"VNUMA_VM_FIXED2000_20_E4_50G",
+		"VNUMA_VM_FIXED2100_21_E4_50G",
+		"VNUMA_VM_FIXED2200_22_E4_50G",
+		"VNUMA_VM_FIXED2300_23_E4_50G",
+		"VNUMA_VM_FIXED2400_24_E4_50G",
+		"VNUMA_VM_FIXED2500_25_E4_50G",
+		"VNUMA_VM_FIXED2600_26_E4_50G",
+		"VNUMA_VM_FIXED2700_27_E4_50G",
+		"VNUMA_VM_FIXED2800_28_E4_50G",
+		"VNUMA_VM_FIXED2900_29_E4_50G",
+		"VNUMA_VM_FIXED3000_30_E4_50G",
+		"VNUMA_VM_FIXED3100_31_E4_50G",
+		"VNUMA_VM_FIXED3200_32_E4_50G",
+		"VNUMA_VM_FIXED3300_33_E4_50G",
+		"VNUMA_VM_FIXED3400_34_E4_50G",
+		"VNUMA_VM_FIXED3500_35_E4_50G",
+		"VNUMA_VM_FIXED3600_36_E4_50G",
+		"VNUMA_VM_FIXED3700_37_E4_50G",
+		"VNUMA_VM_FIXED3800_38_E4_50G",
+		"VNUMA_VM_FIXED3900_39_E4_50G",
+		"VNUMA_VM_FIXED4000_40_E4_50G",
+		"VNUMA_VM_FIXED4000_41_E4_50G",
+		"VNUMA_VM_FIXED4000_42_E4_50G",
+		"VNUMA_VM_FIXED4000_43_E4_50G",
+		"VNUMA_VM_FIXED4000_44_E4_50G",
+		"VNUMA_VM_FIXED4000_45_E4_50G",
+		"VNUMA_VM_FIXED4000_46_E4_50G",
+		"VNUMA_VM_FIXED4000_47_E4_50G",
+		"VNUMA_VM_FIXED4000_48_E4_50G",
+		"VNUMA_VM_FIXED4000_49_E4_50G",
+		"VNUMA_VM_FIXED4000_50_E4_50G",
+		"VNUMA_VM_FIXED4000_51_E4_50G",
+		"VNUMA_VM_FIXED4000_52_E4_50G",
+		"VNUMA_VM_FIXED4000_53_E4_50G",
+		"VNUMA_VM_FIXED4000_54_E4_50G",
+		"VNUMA_VM_FIXED4000_55_E4_50G",
+		"VNUMA_VM_FIXED4000_56_E4_50G",
+		"VNUMA_VM_FIXED4000_57_E4_50G",
+		"VNUMA_VM_FIXED4000_58_E4_50G",
+		"VNUMA_VM_FIXED4000_59_E4_50G",
+		"VNUMA_VM_FIXED4000_60_E4_50G",
+		"VNUMA_VM_FIXED4000_61_E4_50G",
+		"VNUMA_VM_FIXED4000_62_E4_50G",
+		"VNUMA_VM_FIXED4000_63_E4_50G",
+		"VNUMA_VM_FIXED4000_64_E4_50G",
+		"VNUMA_VM_FIXED4000_65_E4_50G",
+		"VNUMA_VM_FIXED4000_66_E4_50G",
+		"VNUMA_VM_FIXED4000_67_E4_50G",
+		"VNUMA_VM_FIXED4000_68_E4_50G",
+		"VNUMA_VM_FIXED4000_69_E4_50G",
+		"VNUMA_VM_FIXED4000_70_E4_50G",
+		"VNUMA_VM_FIXED4000_71_E4_50G",
+		"VNUMA_VM_FIXED4000_72_E4_50G",
+		"VNUMA_VM_FIXED4000_73_E4_50G",
+		"VNUMA_VM_FIXED4000_74_E4_50G",
+		"VNUMA_VM_FIXED4000_75_E4_50G",
+		"VNUMA_VM_FIXED4000_76_E4_50G",
+		"VNUMA_VM_FIXED4000_77_E4_50G",
+		"VNUMA_VM_FIXED4000_78_E4_50G",
+		"VNUMA_VM_FIXED4000_79_E4_50G",
+		"VNUMA_VM_FIXED4000_80_E4_50G",
 		"Micro_VM_Fixed0050_E3_50G",
 		"Micro_VM_Fixed0050_E4_50G",
 		"SUBCORE_VM_FIXED0025_E3_50G",
@@ -4707,6 +5219,70 @@ func GetCreateInternalVnicAttachmentDetailsVnicShapeEnumStringValues() []string 
 		"STANDARD_VM_FIXED5000_X9_50G",
 		"A10_GPU_VM_FIXED2400_X9_50G",
 		"A10_GPU_VM_FIXED4800_X9_50G",
+		"VNUMA_VM_FIXED0100_1_X9_50G",
+		"VNUMA_VM_FIXED0200_2_X9_50G",
+		"VNUMA_VM_FIXED0300_3_X9_50G",
+		"VNUMA_VM_FIXED0400_4_X9_50G",
+		"VNUMA_VM_FIXED0500_5_X9_50G",
+		"VNUMA_VM_FIXED0600_6_X9_50G",
+		"VNUMA_VM_FIXED0700_7_X9_50G",
+		"VNUMA_VM_FIXED0800_8_X9_50G",
+		"VNUMA_VM_FIXED0900_9_X9_50G",
+		"VNUMA_VM_FIXED1000_10_X9_50G",
+		"VNUMA_VM_FIXED1100_11_X9_50G",
+		"VNUMA_VM_FIXED1200_12_X9_50G",
+		"VNUMA_VM_FIXED1300_13_X9_50G",
+		"VNUMA_VM_FIXED1400_14_X9_50G",
+		"VNUMA_VM_FIXED1500_15_X9_50G",
+		"VNUMA_VM_FIXED1600_16_X9_50G",
+		"VNUMA_VM_FIXED1700_17_X9_50G",
+		"VNUMA_VM_FIXED1800_18_X9_50G",
+		"VNUMA_VM_FIXED1900_19_X9_50G",
+		"VNUMA_VM_FIXED2000_20_X9_50G",
+		"VNUMA_VM_FIXED2100_21_X9_50G",
+		"VNUMA_VM_FIXED2200_22_X9_50G",
+		"VNUMA_VM_FIXED2300_23_X9_50G",
+		"VNUMA_VM_FIXED2400_24_X9_50G",
+		"VNUMA_VM_FIXED2500_25_X9_50G",
+		"VNUMA_VM_FIXED2600_26_X9_50G",
+		"VNUMA_VM_FIXED2700_27_X9_50G",
+		"VNUMA_VM_FIXED2800_28_X9_50G",
+		"VNUMA_VM_FIXED2900_29_X9_50G",
+		"VNUMA_VM_FIXED3000_30_X9_50G",
+		"VNUMA_VM_FIXED3100_31_X9_50G",
+		"VNUMA_VM_FIXED3200_32_X9_50G",
+		"VNUMA_VM_FIXED3200_33_X9_50G",
+		"VNUMA_VM_FIXED3200_34_X9_50G",
+		"VNUMA_VM_FIXED3200_35_X9_50G",
+		"VNUMA_VM_FIXED3200_36_X9_50G",
+		"VNUMA_VM_FIXED3200_37_X9_50G",
+		"VNUMA_VM_FIXED3200_38_X9_50G",
+		"VNUMA_VM_FIXED3200_39_X9_50G",
+		"VNUMA_VM_FIXED3200_40_X9_50G",
+		"VNUMA_VM_FIXED3200_41_X9_50G",
+		"VNUMA_VM_FIXED3200_42_X9_50G",
+		"VNUMA_VM_FIXED3200_43_X9_50G",
+		"VNUMA_VM_FIXED3200_44_X9_50G",
+		"VNUMA_VM_FIXED3200_45_X9_50G",
+		"VNUMA_VM_FIXED3200_46_X9_50G",
+		"VNUMA_VM_FIXED3200_47_X9_50G",
+		"VNUMA_VM_FIXED3200_48_X9_50G",
+		"VNUMA_VM_FIXED3200_49_X9_50G",
+		"VNUMA_VM_FIXED3200_50_X9_50G",
+		"VNUMA_VM_FIXED3200_51_X9_50G",
+		"VNUMA_VM_FIXED3200_52_X9_50G",
+		"VNUMA_VM_FIXED3200_53_X9_50G",
+		"VNUMA_VM_FIXED3200_54_X9_50G",
+		"VNUMA_VM_FIXED3200_55_X9_50G",
+		"VNUMA_VM_FIXED3200_56_X9_50G",
+		"VNUMA_VM_FIXED3200_57_X9_50G",
+		"VNUMA_VM_FIXED3200_58_X9_50G",
+		"VNUMA_VM_FIXED3200_59_X9_50G",
+		"VNUMA_VM_FIXED3200_60_X9_50G",
+		"VNUMA_VM_FIXED3200_61_X9_50G",
+		"VNUMA_VM_FIXED3200_62_X9_50G",
+		"VNUMA_VM_FIXED3200_63_X9_50G",
+		"VNUMA_VM_FIXED3200_64_X9_50G",
 		"SUBCORE_STANDARD_VM_FIXED0025_X9_50G",
 		"SUBCORE_STANDARD_VM_FIXED0050_X9_50G",
 		"SUBCORE_STANDARD_VM_FIXED0075_X9_50G",

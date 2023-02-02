@@ -17,6 +17,10 @@ type DeleteInternalDrgRouteTableRequest struct {
 	// The label of the drg attachment.
 	DrgAttachmentLabel *int64 `mandatory:"true" contributesTo:"path" name:"drgAttachmentLabel"`
 
+	// The name of the availability domain.
+	// Example: `Uocm:PHX-AD-1`
+	AvailabilityDomain *string `mandatory:"false" contributesTo:"query" name:"availabilityDomain"`
+
 	// Unique identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

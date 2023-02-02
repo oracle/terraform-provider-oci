@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Oracle Cloud AI Services API
+// Anomaly Detection API
 //
 // OCI AI Service solutions can help Enterprise customers integrate AI into their products immediately by using our proven,
 // pre-trained/custom models or containers, and without a need to set up in house team of AI and ML experts.
@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// DetectAnomalyJob Anomaly Job contains information for asynchronous inference of anomalies.
+// DetectAnomalyJob Anomaly Job contains information for asynchronous detection of anomalies.
 type DetectAnomalyJob struct {
 
 	// Id of the job.
@@ -51,6 +51,9 @@ type DetectAnomalyJob struct {
 
 	// The value that customer can adjust to control the sensitivity of anomaly detection
 	Sensitivity *float32 `mandatory:"false" json:"sensitivity"`
+
+	// Flag to enable the service to return estimates for all data points rather than just the anomalous data points
+	AreAllEstimatesRequired *bool `mandatory:"false" json:"areAllEstimatesRequired"`
 
 	// Job started time
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
@@ -96,23 +99,24 @@ func (m DetectAnomalyJob) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *DetectAnomalyJob) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName           *string                            `json:"displayName"`
-		Description           *string                            `json:"description"`
-		ProjectId             *string                            `json:"projectId"`
-		Sensitivity           *float32                           `json:"sensitivity"`
-		TimeStarted           *common.SDKTime                    `json:"timeStarted"`
-		TimeFinished          *common.SDKTime                    `json:"timeFinished"`
-		LifecycleStateDetails *string                            `json:"lifecycleStateDetails"`
-		FreeformTags          map[string]string                  `json:"freeformTags"`
-		DefinedTags           map[string]map[string]interface{}  `json:"definedTags"`
-		SystemTags            map[string]interface{}             `json:"systemTags"`
-		Id                    *string                            `json:"id"`
-		CompartmentId         *string                            `json:"compartmentId"`
-		ModelId               *string                            `json:"modelId"`
-		InputDetails          inputjobdetails                    `json:"inputDetails"`
-		OutputDetails         outputjobdetails                   `json:"outputDetails"`
-		TimeAccepted          *common.SDKTime                    `json:"timeAccepted"`
-		LifecycleState        DetectAnomalyJobLifecycleStateEnum `json:"lifecycleState"`
+		DisplayName             *string                            `json:"displayName"`
+		Description             *string                            `json:"description"`
+		ProjectId               *string                            `json:"projectId"`
+		Sensitivity             *float32                           `json:"sensitivity"`
+		AreAllEstimatesRequired *bool                              `json:"areAllEstimatesRequired"`
+		TimeStarted             *common.SDKTime                    `json:"timeStarted"`
+		TimeFinished            *common.SDKTime                    `json:"timeFinished"`
+		LifecycleStateDetails   *string                            `json:"lifecycleStateDetails"`
+		FreeformTags            map[string]string                  `json:"freeformTags"`
+		DefinedTags             map[string]map[string]interface{}  `json:"definedTags"`
+		SystemTags              map[string]interface{}             `json:"systemTags"`
+		Id                      *string                            `json:"id"`
+		CompartmentId           *string                            `json:"compartmentId"`
+		ModelId                 *string                            `json:"modelId"`
+		InputDetails            inputjobdetails                    `json:"inputDetails"`
+		OutputDetails           outputjobdetails                   `json:"outputDetails"`
+		TimeAccepted            *common.SDKTime                    `json:"timeAccepted"`
+		LifecycleState          DetectAnomalyJobLifecycleStateEnum `json:"lifecycleState"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -127,6 +131,8 @@ func (m *DetectAnomalyJob) UnmarshalJSON(data []byte) (e error) {
 	m.ProjectId = model.ProjectId
 
 	m.Sensitivity = model.Sensitivity
+
+	m.AreAllEstimatesRequired = model.AreAllEstimatesRequired
 
 	m.TimeStarted = model.TimeStarted
 

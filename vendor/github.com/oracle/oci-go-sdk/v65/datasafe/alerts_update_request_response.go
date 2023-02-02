@@ -14,7 +14,7 @@ import (
 // AlertsUpdateRequest wrapper for the AlertsUpdate operation
 type AlertsUpdateRequest struct {
 
-	// Details to update alerts within a given compartment.
+	// The details to update the alerts in the specified compartment.
 	AlertsUpdateDetails `contributesTo:"body"`
 
 	// Unique identifier for the request.

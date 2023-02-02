@@ -121,16 +121,16 @@ func (m *asset) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 
 	var err error
 	switch m.AssetType {
-	case "ORACLE_DB":
-		mm := OracleDbAsset{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "VMWARE_VM":
 		mm := VmwareVmAsset{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "VM":
 		mm := VmAsset{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ORACLE_DB":
+		mm := OracleDbAsset{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

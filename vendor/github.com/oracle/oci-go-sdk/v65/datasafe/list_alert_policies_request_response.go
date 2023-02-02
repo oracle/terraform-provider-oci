@@ -41,7 +41,7 @@ type ListAlertPoliciesRequest struct {
 	// The sort order to use, either ascending (ASC) or descending (DESC).
 	SortOrder ListAlertPoliciesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field to sort by. Only one sort order may be provided.
+	// The field to sort by. Only one sort parameter may be provided.
 	SortBy ListAlertPoliciesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// Unique identifier for the request.

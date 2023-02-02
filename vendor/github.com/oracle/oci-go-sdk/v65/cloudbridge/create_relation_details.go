@@ -18,14 +18,36 @@ import (
 // CreateRelationDetails The information about relation to be created.
 type CreateRelationDetails struct {
 
-	// The asset ocid of the to-asset for relation.
-	ToAssetId *string `mandatory:"true" json:"toAssetId"`
+	// The OCID of the compartment that the relation belongs to.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The key of the relation from the external environment.
-	ExternalRelationKey *string `mandatory:"true" json:"externalRelationKey"`
+	// The source OCID of a relation.
+	SourceId *string `mandatory:"true" json:"sourceId"`
+
+	// The target OCID of a relation.
+	TargetId *string `mandatory:"true" json:"targetId"`
 
 	// Type of relation.
-	RelationType RelationRelationTypeEnum `mandatory:"true" json:"relationType"`
+	RelationType RelationTypeEnum `mandatory:"true" json:"relationType"`
+
+	// Relation display name.
+	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// The key of the relation from the external environment.
+	ExternalRelationKey *string `mandatory:"false" json:"externalRelationKey"`
+
+	// List of asset source OCID.
+	AssetSourceIds []string `mandatory:"false" json:"assetSourceIds"`
+
+	// The freeform tags associated with this resource, if any. Each tag is a simple key-value pair with no
+	// predefined name, type, or namespace/scope. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// The defined tags associated with this resource, if any. Each key is predefined and scoped to namespaces.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 func (m CreateRelationDetails) String() string {
@@ -37,8 +59,8 @@ func (m CreateRelationDetails) String() string {
 // Not recommended for calling this function directly
 func (m CreateRelationDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingRelationRelationTypeEnum(string(m.RelationType)); !ok && m.RelationType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RelationType: %s. Supported values are: %s.", m.RelationType, strings.Join(GetRelationRelationTypeEnumStringValues(), ",")))
+	if _, ok := GetMappingRelationTypeEnum(string(m.RelationType)); !ok && m.RelationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RelationType: %s. Supported values are: %s.", m.RelationType, strings.Join(GetRelationTypeEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {

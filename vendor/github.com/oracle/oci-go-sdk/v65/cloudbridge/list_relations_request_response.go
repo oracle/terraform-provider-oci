@@ -14,20 +14,29 @@ import (
 // ListRelationsRequest wrapper for the ListRelations operation
 type ListRelationsRequest struct {
 
-	// Unique asset identifier.
-	AssetId *string `mandatory:"true" contributesTo:"path" name:"assetId"`
+	// The ID of the compartment in which to list resources.
+	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// The asset id where the relation is ended to.
-	ToAssetId *string `mandatory:"false" contributesTo:"query" name:"toAssetId"`
+	// A filter to return only resources that match the entire display name given.
+	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// Unique relation key.
-	RelationKey *string `mandatory:"false" contributesTo:"query" name:"relationKey"`
+	// A filter to return only relation whose lifecycleState matches the given lifecycleState.
+	LifecycleState RelationLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+
+	// Unique relation identifier.
+	RelationId *string `mandatory:"false" contributesTo:"query" name:"relationId"`
+
+	// The source ocid where the relation is starting from.
+	SourceId *string `mandatory:"false" contributesTo:"query" name:"sourceId"`
+
+	// The target ocid where the relation is ended to.
+	TargetId *string `mandatory:"false" contributesTo:"query" name:"targetId"`
 
 	// External relation key.
 	ExternalRelationKey *string `mandatory:"false" contributesTo:"query" name:"externalRelationKey"`
 
-	// Relation type
-	RelationType RelationRelationTypeEnum `mandatory:"false" contributesTo:"query" name:"relationType" omitEmpty:"true"`
+	// Relation type.
+	RelationType ListRelationsRelationTypeEnum `mandatory:"false" contributesTo:"query" name:"relationType" omitEmpty:"true"`
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -41,7 +50,7 @@ type ListRelationsRequest struct {
 	// The sort order to use, either 'ASC' or 'DESC'.
 	SortOrder ListRelationsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending
+	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending. Default order for displayName is ascending.
 	SortBy ListRelationsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -80,8 +89,11 @@ func (request ListRelationsRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListRelationsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingRelationRelationTypeEnum(string(request.RelationType)); !ok && request.RelationType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RelationType: %s. Supported values are: %s.", request.RelationType, strings.Join(GetRelationRelationTypeEnumStringValues(), ",")))
+	if _, ok := GetMappingRelationLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetRelationLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListRelationsRelationTypeEnum(string(request.RelationType)); !ok && request.RelationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RelationType: %s. Supported values are: %s.", request.RelationType, strings.Join(GetListRelationsRelationTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListRelationsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListRelationsSortOrderEnumStringValues(), ",")))
@@ -121,6 +133,52 @@ func (response ListRelationsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListRelationsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListRelationsRelationTypeEnum Enum with underlying type: string
+type ListRelationsRelationTypeEnum string
+
+// Set of constants representing the allowable values for ListRelationsRelationTypeEnum
+const (
+	ListRelationsRelationTypeAssociation ListRelationsRelationTypeEnum = "ASSOCIATION"
+	ListRelationsRelationTypeDependency  ListRelationsRelationTypeEnum = "DEPENDENCY"
+	ListRelationsRelationTypeComposition ListRelationsRelationTypeEnum = "COMPOSITION"
+)
+
+var mappingListRelationsRelationTypeEnum = map[string]ListRelationsRelationTypeEnum{
+	"ASSOCIATION": ListRelationsRelationTypeAssociation,
+	"DEPENDENCY":  ListRelationsRelationTypeDependency,
+	"COMPOSITION": ListRelationsRelationTypeComposition,
+}
+
+var mappingListRelationsRelationTypeEnumLowerCase = map[string]ListRelationsRelationTypeEnum{
+	"association": ListRelationsRelationTypeAssociation,
+	"dependency":  ListRelationsRelationTypeDependency,
+	"composition": ListRelationsRelationTypeComposition,
+}
+
+// GetListRelationsRelationTypeEnumValues Enumerates the set of values for ListRelationsRelationTypeEnum
+func GetListRelationsRelationTypeEnumValues() []ListRelationsRelationTypeEnum {
+	values := make([]ListRelationsRelationTypeEnum, 0)
+	for _, v := range mappingListRelationsRelationTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListRelationsRelationTypeEnumStringValues Enumerates the set of values in String for ListRelationsRelationTypeEnum
+func GetListRelationsRelationTypeEnumStringValues() []string {
+	return []string{
+		"ASSOCIATION",
+		"DEPENDENCY",
+		"COMPOSITION",
+	}
+}
+
+// GetMappingListRelationsRelationTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListRelationsRelationTypeEnum(val string) (ListRelationsRelationTypeEnum, bool) {
+	enum, ok := mappingListRelationsRelationTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // ListRelationsSortOrderEnum Enum with underlying type: string
@@ -171,14 +229,20 @@ type ListRelationsSortByEnum string
 // Set of constants representing the allowable values for ListRelationsSortByEnum
 const (
 	ListRelationsSortByTimecreated ListRelationsSortByEnum = "timeCreated"
+	ListRelationsSortByTimeupdated ListRelationsSortByEnum = "timeUpdated"
+	ListRelationsSortByDisplayname ListRelationsSortByEnum = "displayName"
 )
 
 var mappingListRelationsSortByEnum = map[string]ListRelationsSortByEnum{
 	"timeCreated": ListRelationsSortByTimecreated,
+	"timeUpdated": ListRelationsSortByTimeupdated,
+	"displayName": ListRelationsSortByDisplayname,
 }
 
 var mappingListRelationsSortByEnumLowerCase = map[string]ListRelationsSortByEnum{
 	"timecreated": ListRelationsSortByTimecreated,
+	"timeupdated": ListRelationsSortByTimeupdated,
+	"displayname": ListRelationsSortByDisplayname,
 }
 
 // GetListRelationsSortByEnumValues Enumerates the set of values for ListRelationsSortByEnum
@@ -194,6 +258,8 @@ func GetListRelationsSortByEnumValues() []ListRelationsSortByEnum {
 func GetListRelationsSortByEnumStringValues() []string {
 	return []string{
 		"timeCreated",
+		"timeUpdated",
+		"displayName",
 	}
 }
 

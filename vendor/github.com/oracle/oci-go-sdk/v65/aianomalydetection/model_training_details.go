@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Oracle Cloud AI Services API
+// Anomaly Detection API
 //
 // OCI AI Service solutions can help Enterprise customers integrate AI into their products immediately by using our proven,
 // pre-trained/custom models or containers, and without a need to set up in house team of AI and ML experts.
@@ -24,7 +24,7 @@ type ModelTrainingDetails struct {
 	DataAssetIds []string `mandatory:"true" json:"dataAssetIds"`
 
 	// User can choose specific algorithm for training.
-	AlgorithmHint *string `mandatory:"false" json:"algorithmHint"`
+	AlgorithmHint ModelTrainingDetailsAlgorithmHintEnum `mandatory:"false" json:"algorithmHint,omitempty"`
 
 	// A target model accuracy metric user provides as their requirement
 	TargetFap *float32 `mandatory:"false" json:"targetFap"`
@@ -49,8 +49,65 @@ func (m ModelTrainingDetails) String() string {
 func (m ModelTrainingDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingModelTrainingDetailsAlgorithmHintEnum(string(m.AlgorithmHint)); !ok && m.AlgorithmHint != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AlgorithmHint: %s. Supported values are: %s.", m.AlgorithmHint, strings.Join(GetModelTrainingDetailsAlgorithmHintEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// ModelTrainingDetailsAlgorithmHintEnum Enum with underlying type: string
+type ModelTrainingDetailsAlgorithmHintEnum string
+
+// Set of constants representing the allowable values for ModelTrainingDetailsAlgorithmHintEnum
+const (
+	ModelTrainingDetailsAlgorithmHintMultivariateMadora               ModelTrainingDetailsAlgorithmHintEnum = "MULTIVARIATE_MADORA"
+	ModelTrainingDetailsAlgorithmHintMultivariateMadoraReconstruction ModelTrainingDetailsAlgorithmHintEnum = "MULTIVARIATE_MADORA_RECONSTRUCTION"
+	ModelTrainingDetailsAlgorithmHintMultivariateMadoraForecasting    ModelTrainingDetailsAlgorithmHintEnum = "MULTIVARIATE_MADORA_FORECASTING"
+	ModelTrainingDetailsAlgorithmHintMultivariateMset                 ModelTrainingDetailsAlgorithmHintEnum = "MULTIVARIATE_MSET"
+	ModelTrainingDetailsAlgorithmHintUnivariateOcsvm                  ModelTrainingDetailsAlgorithmHintEnum = "UNIVARIATE_OCSVM"
+)
+
+var mappingModelTrainingDetailsAlgorithmHintEnum = map[string]ModelTrainingDetailsAlgorithmHintEnum{
+	"MULTIVARIATE_MADORA":                ModelTrainingDetailsAlgorithmHintMultivariateMadora,
+	"MULTIVARIATE_MADORA_RECONSTRUCTION": ModelTrainingDetailsAlgorithmHintMultivariateMadoraReconstruction,
+	"MULTIVARIATE_MADORA_FORECASTING":    ModelTrainingDetailsAlgorithmHintMultivariateMadoraForecasting,
+	"MULTIVARIATE_MSET":                  ModelTrainingDetailsAlgorithmHintMultivariateMset,
+	"UNIVARIATE_OCSVM":                   ModelTrainingDetailsAlgorithmHintUnivariateOcsvm,
+}
+
+var mappingModelTrainingDetailsAlgorithmHintEnumLowerCase = map[string]ModelTrainingDetailsAlgorithmHintEnum{
+	"multivariate_madora":                ModelTrainingDetailsAlgorithmHintMultivariateMadora,
+	"multivariate_madora_reconstruction": ModelTrainingDetailsAlgorithmHintMultivariateMadoraReconstruction,
+	"multivariate_madora_forecasting":    ModelTrainingDetailsAlgorithmHintMultivariateMadoraForecasting,
+	"multivariate_mset":                  ModelTrainingDetailsAlgorithmHintMultivariateMset,
+	"univariate_ocsvm":                   ModelTrainingDetailsAlgorithmHintUnivariateOcsvm,
+}
+
+// GetModelTrainingDetailsAlgorithmHintEnumValues Enumerates the set of values for ModelTrainingDetailsAlgorithmHintEnum
+func GetModelTrainingDetailsAlgorithmHintEnumValues() []ModelTrainingDetailsAlgorithmHintEnum {
+	values := make([]ModelTrainingDetailsAlgorithmHintEnum, 0)
+	for _, v := range mappingModelTrainingDetailsAlgorithmHintEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetModelTrainingDetailsAlgorithmHintEnumStringValues Enumerates the set of values in String for ModelTrainingDetailsAlgorithmHintEnum
+func GetModelTrainingDetailsAlgorithmHintEnumStringValues() []string {
+	return []string{
+		"MULTIVARIATE_MADORA",
+		"MULTIVARIATE_MADORA_RECONSTRUCTION",
+		"MULTIVARIATE_MADORA_FORECASTING",
+		"MULTIVARIATE_MSET",
+		"UNIVARIATE_OCSVM",
+	}
+}
+
+// GetMappingModelTrainingDetailsAlgorithmHintEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingModelTrainingDetailsAlgorithmHintEnum(val string) (ModelTrainingDetailsAlgorithmHintEnum, bool) {
+	enum, ok := mappingModelTrainingDetailsAlgorithmHintEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

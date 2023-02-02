@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Oracle Cloud AI Services API
+// Anomaly Detection API
 //
 // OCI AI Service solutions can help Enterprise customers integrate AI into their products immediately by using our proven,
 // pre-trained/custom models or containers, and without a need to set up in house team of AI and ML experts.
@@ -17,16 +17,16 @@ import (
 	"strings"
 )
 
-// UnivariateInlineSignalValueRequestData Inline signal values for univariate detection
+// UnivariateInlineSignalValueRequestData The inline signal values for univariate detection.
 type UnivariateInlineSignalValueRequestData struct {
 
-	// value of time series
-	Value *float64 `mandatory:"true" json:"value"`
-
-	// timestamp of time series
+	// The timestamp of the time series.
 	Timestamp *common.SDKTime `mandatory:"false" json:"timestamp"`
 
-	// Additional categorical values for signal
+	// The value of the time series.
+	Value *float64 `mandatory:"false" json:"value"`
+
+	// Additional categorical values for the signal.
 	CategoricalValues []string `mandatory:"false" json:"categoricalValues"`
 }
 

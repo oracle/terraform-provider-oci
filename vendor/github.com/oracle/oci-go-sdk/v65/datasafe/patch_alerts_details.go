@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// PatchAlertsDetails Details for how to patch alerts.
+// PatchAlertsDetails The alert details to update the status of one or more alert specified by the alert IDs.
 type PatchAlertsDetails struct {
 
-	// Array of patch instructions.
+	// Array of alert detail to update the status of the alert specified by the alert ID.
 	Items []PatchInstruction `mandatory:"true" json:"items"`
 
 	// The OCID of the compartment that contains the alerts.

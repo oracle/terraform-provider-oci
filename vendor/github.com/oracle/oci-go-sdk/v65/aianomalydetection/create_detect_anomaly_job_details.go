@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Oracle Cloud AI Services API
+// Anomaly Detection API
 //
 // OCI AI Service solutions can help Enterprise customers integrate AI into their products immediately by using our proven,
 // pre-trained/custom models or containers, and without a need to set up in house team of AI and ML experts.
@@ -40,6 +40,9 @@ type CreateDetectAnomalyJobDetails struct {
 
 	// The value that customer can adjust to control the sensitivity of anomaly detection
 	Sensitivity *float32 `mandatory:"false" json:"sensitivity"`
+
+	// Flag to enable the service to return estimates for all data points rather than just the anomalous data points.
+	AreAllEstimatesRequired *bool `mandatory:"false" json:"areAllEstimatesRequired"`
 }
 
 func (m CreateDetectAnomalyJobDetails) String() string {
@@ -61,13 +64,14 @@ func (m CreateDetectAnomalyJobDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateDetectAnomalyJobDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description   *string       `json:"description"`
-		DisplayName   *string       `json:"displayName"`
-		Sensitivity   *float32      `json:"sensitivity"`
-		CompartmentId *string       `json:"compartmentId"`
-		ModelId       *string       `json:"modelId"`
-		InputDetails  inputdetails  `json:"inputDetails"`
-		OutputDetails outputdetails `json:"outputDetails"`
+		Description             *string       `json:"description"`
+		DisplayName             *string       `json:"displayName"`
+		Sensitivity             *float32      `json:"sensitivity"`
+		AreAllEstimatesRequired *bool         `json:"areAllEstimatesRequired"`
+		CompartmentId           *string       `json:"compartmentId"`
+		ModelId                 *string       `json:"modelId"`
+		InputDetails            inputdetails  `json:"inputDetails"`
+		OutputDetails           outputdetails `json:"outputDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -80,6 +84,8 @@ func (m *CreateDetectAnomalyJobDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DisplayName = model.DisplayName
 
 	m.Sensitivity = model.Sensitivity
+
+	m.AreAllEstimatesRequired = model.AreAllEstimatesRequired
 
 	m.CompartmentId = model.CompartmentId
 

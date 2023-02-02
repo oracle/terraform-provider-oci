@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// TargetAlertPolicyAssociation An association of target to alert policy
+// TargetAlertPolicyAssociation The association of the target database to an alert policy.
 type TargetAlertPolicyAssociation struct {
 
 	// The OCID of the target-alert policy association.

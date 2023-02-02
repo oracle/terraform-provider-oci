@@ -18,7 +18,7 @@ import (
 // RelationCollection List of relations.
 type RelationCollection struct {
 
-	// List of asset relations.
+	// List of relations.
 	Items []RelationSummary `mandatory:"true" json:"items"`
 }
 

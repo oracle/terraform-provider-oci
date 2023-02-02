@@ -14,7 +14,7 @@ import (
 // PatchTargetAlertPolicyAssociationRequest wrapper for the PatchTargetAlertPolicyAssociation operation
 type PatchTargetAlertPolicyAssociationRequest struct {
 
-	// The details used to patch target-alert policy associations.
+	// The details used to patch the target-alert policy associations.
 	PatchTargetAlertPolicyAssociationDetails `contributesTo:"body"`
 
 	// Unique identifier for the request.

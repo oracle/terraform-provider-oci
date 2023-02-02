@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Oracle Cloud AI Services API
+// Anomaly Detection API
 //
 // OCI AI Service solutions can help Enterprise customers integrate AI into their products immediately by using our proven,
 // pre-trained/custom models or containers, and without a need to set up in house team of AI and ML experts.
@@ -17,28 +17,28 @@ import (
 	"strings"
 )
 
-// UnivariateInlineSignalValueResultData Signal value of detection result
+// UnivariateInlineSignalValueResultData The signal value of the detection result.
 type UnivariateInlineSignalValueResultData struct {
 
-	// timestamp of timeseries
+	// The timestamp of the time series.
 	Timestamp *common.SDKTime `mandatory:"false" json:"timestamp"`
 
-	// index of timeseries
+	// The index of the time series.
 	RowIndex *int `mandatory:"false" json:"rowIndex"`
 
-	// severity of anomaly represented by score
+	// The score represents the severity of the anomaly.
 	AnomalyScore *float64 `mandatory:"false" json:"anomalyScore"`
 
-	// estimated value if there is an anomaly
+	// The estimated value if there is an anomaly.
 	EstimatedValue *float64 `mandatory:"false" json:"estimatedValue"`
 
-	// derived value after running preprocessing
+	// The derived value after running preprocessing.
 	ImputedValue *float64 `mandatory:"false" json:"imputedValue"`
 
-	// value provided by the user
+	// The value provided by the user.
 	ActualValue *float64 `mandatory:"false" json:"actualValue"`
 
-	// this flag indicates if this data point is anomalous
+	// This flag indicates if this data point is anomalous or not.
 	IsAnomaly *bool `mandatory:"false" json:"isAnomaly"`
 }
 

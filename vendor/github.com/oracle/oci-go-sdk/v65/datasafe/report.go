@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// Report Description of Report.
+// Report The description of the report.
 type Report struct {
 
 	// The OCID of the report.
@@ -27,10 +27,10 @@ type Report struct {
 	// The OCID of the compartment containing the report.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Specifies the time at which the report was generated.
+	// Specifies the date and time the report was generated.
 	TimeGenerated *common.SDKTime `mandatory:"true" json:"timeGenerated"`
 
-	// The current state of the report.
+	// The current state of the audit report.
 	LifecycleState ReportLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The OCID of the report definition.
@@ -42,7 +42,7 @@ type Report struct {
 	// Specifies the format of report to be excel or pdf
 	MimeType ReportMimeTypeEnum `mandatory:"false" json:"mimeType,omitempty"`
 
-	// The type of the report.
+	// The type of the audit report.
 	Type ReportTypeEnum `mandatory:"false" json:"type,omitempty"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)

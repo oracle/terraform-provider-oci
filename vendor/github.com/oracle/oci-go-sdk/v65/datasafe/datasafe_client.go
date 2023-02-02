@@ -203,7 +203,7 @@ func (client DataSafeClient) addMaskingColumnsFromSdm(ctx context.Context, reque
 	return response, err
 }
 
-// AlertsUpdate Update alerts within a given compartment.
+// AlertsUpdate Updates alerts in the specified compartment.
 // A default retry strategy applies to this operation AlertsUpdate()
 func (client DataSafeClient) AlertsUpdate(ctx context.Context, request AlertsUpdateRequest) (response AlertsUpdateResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -312,6 +312,70 @@ func (client DataSafeClient) applyDiscoveryJobResults(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveDataModel/ApplyDiscoveryJobResults"
 		err = common.PostProcessServiceError(err, "DataSafe", "ApplyDiscoveryJobResults", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ApplySdmMaskingPolicyDifference Applies the difference of a SDM Masking policy difference resource to the specified masking policy. Note that the plannedAction attribute
+// of difference columns is used for processing. You should first use PatchSdmMaskingPolicyDifferenceColumns to set the plannedAction
+// attribute of the difference columns you want to process. ApplySdmMaskingPolicyDifference automatically reads the plannedAction
+// attribute and updates the masking policy to reflect the actions you planned. If the sdmMaskingPolicydifferenceId is not passed, the
+// latest sdmMaskingPolicydifference is used. Note that if the masking policy associated with the SdmMaskingPolicyDifference used for this
+// operation is not associated with the original SDM anymore, this operation won't be allowed.
+// A default retry strategy applies to this operation ApplySdmMaskingPolicyDifference()
+func (client DataSafeClient) ApplySdmMaskingPolicyDifference(ctx context.Context, request ApplySdmMaskingPolicyDifferenceRequest) (response ApplySdmMaskingPolicyDifferenceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.applySdmMaskingPolicyDifference, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ApplySdmMaskingPolicyDifferenceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ApplySdmMaskingPolicyDifferenceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ApplySdmMaskingPolicyDifferenceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ApplySdmMaskingPolicyDifferenceResponse")
+	}
+	return
+}
+
+// applySdmMaskingPolicyDifference implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) applySdmMaskingPolicyDifference(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/maskingPolicies/{maskingPolicyId}/maskingColumns/actions/applyDifferenceToMaskingColumns", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ApplySdmMaskingPolicyDifferenceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicy/ApplySdmMaskingPolicyDifference"
+		err = common.PostProcessServiceError(err, "DataSafe", "ApplySdmMaskingPolicyDifference", apiReferenceLink)
 		return response, err
 	}
 
@@ -1192,6 +1256,65 @@ func (client DataSafeClient) changeRetention(ctx context.Context, request common
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditProfile/ChangeRetention"
 		err = common.PostProcessServiceError(err, "DataSafe", "ChangeRetention", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeSdmMaskingPolicyDifferenceCompartment Moves the specified SDM masking policy difference into a different compartment.
+// A default retry strategy applies to this operation ChangeSdmMaskingPolicyDifferenceCompartment()
+func (client DataSafeClient) ChangeSdmMaskingPolicyDifferenceCompartment(ctx context.Context, request ChangeSdmMaskingPolicyDifferenceCompartmentRequest) (response ChangeSdmMaskingPolicyDifferenceCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeSdmMaskingPolicyDifferenceCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeSdmMaskingPolicyDifferenceCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeSdmMaskingPolicyDifferenceCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeSdmMaskingPolicyDifferenceCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeSdmMaskingPolicyDifferenceCompartmentResponse")
+	}
+	return
+}
+
+// changeSdmMaskingPolicyDifferenceCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) changeSdmMaskingPolicyDifferenceCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sdmMaskingPolicyDifferences/{sdmMaskingPolicyDifferenceId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeSdmMaskingPolicyDifferenceCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SdmMaskingPolicyDifference/ChangeSdmMaskingPolicyDifferenceCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeSdmMaskingPolicyDifferenceCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2184,6 +2307,69 @@ func (client DataSafeClient) createReportDefinition(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/ReportDefinition/CreateReportDefinition"
 		err = common.PostProcessServiceError(err, "DataSafe", "CreateReportDefinition", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateSdmMaskingPolicyDifference Creates SDM masking policy difference for the specified masking policy. It finds the difference between
+// masking columns of the masking policy and sensitive columns of the SDM. After performing this operation,
+// you can use ListDifferenceColumns to view the difference columns, PatchSdmMaskingPolicyDifferenceColumns
+// to specify the action you want perform on these columns, and then ApplySdmMaskingPolicyDifference to process the
+// difference columns and apply them to the masking policy.
+// A default retry strategy applies to this operation CreateSdmMaskingPolicyDifference()
+func (client DataSafeClient) CreateSdmMaskingPolicyDifference(ctx context.Context, request CreateSdmMaskingPolicyDifferenceRequest) (response CreateSdmMaskingPolicyDifferenceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createSdmMaskingPolicyDifference, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateSdmMaskingPolicyDifferenceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateSdmMaskingPolicyDifferenceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateSdmMaskingPolicyDifferenceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateSdmMaskingPolicyDifferenceResponse")
+	}
+	return
+}
+
+// createSdmMaskingPolicyDifference implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) createSdmMaskingPolicyDifference(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sdmMaskingPolicyDifferences", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateSdmMaskingPolicyDifferenceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateSdmMaskingPolicyDifference", apiReferenceLink)
 		return response, err
 	}
 
@@ -3205,6 +3391,60 @@ func (client DataSafeClient) deleteReportDefinition(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/ReportDefinition/DeleteReportDefinition"
 		err = common.PostProcessServiceError(err, "DataSafe", "DeleteReportDefinition", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteSdmMaskingPolicyDifference Deletes the specified SDM Masking policy difference.
+// A default retry strategy applies to this operation DeleteSdmMaskingPolicyDifference()
+func (client DataSafeClient) DeleteSdmMaskingPolicyDifference(ctx context.Context, request DeleteSdmMaskingPolicyDifferenceRequest) (response DeleteSdmMaskingPolicyDifferenceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteSdmMaskingPolicyDifference, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteSdmMaskingPolicyDifferenceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteSdmMaskingPolicyDifferenceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteSdmMaskingPolicyDifferenceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteSdmMaskingPolicyDifferenceResponse")
+	}
+	return
+}
+
+// deleteSdmMaskingPolicyDifference implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) deleteSdmMaskingPolicyDifference(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/sdmMaskingPolicyDifferences/{sdmMaskingPolicyDifferenceId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteSdmMaskingPolicyDifferenceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SdmMaskingPolicyDifference/DeleteSdmMaskingPolicyDifference"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteSdmMaskingPolicyDifference", apiReferenceLink)
 		return response, err
 	}
 
@@ -4630,7 +4870,7 @@ func (client DataSafeClient) generateUserAssessmentReport(ctx context.Context, r
 	return response, err
 }
 
-// GetAlert Gets the details of alert by its ID.
+// GetAlert Gets the details of the specified alerts.
 // A default retry strategy applies to this operation GetAlert()
 func (client DataSafeClient) GetAlert(ctx context.Context, request GetAlertRequest) (response GetAlertResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5179,6 +5419,60 @@ func (client DataSafeClient) getDataSafePrivateEndpoint(ctx context.Context, req
 	return response, err
 }
 
+// GetDifferenceColumn Gets the details of the specified SDM Masking policy difference column.
+// A default retry strategy applies to this operation GetDifferenceColumn()
+func (client DataSafeClient) GetDifferenceColumn(ctx context.Context, request GetDifferenceColumnRequest) (response GetDifferenceColumnResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDifferenceColumn, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDifferenceColumnResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDifferenceColumnResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDifferenceColumnResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDifferenceColumnResponse")
+	}
+	return
+}
+
+// getDifferenceColumn implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getDifferenceColumn(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sdmMaskingPolicyDifferences/{sdmMaskingPolicyDifferenceId}/differenceColumns/{differenceColumnKey}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDifferenceColumnResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DifferenceColumn/GetDifferenceColumn"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetDifferenceColumn", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetDiscoveryJob Gets the details of the specified discovery job.
 // A default retry strategy applies to this operation GetDiscoveryJob()
 func (client DataSafeClient) GetDiscoveryJob(ctx context.Context, request GetDiscoveryJobRequest) (response GetDiscoveryJobResponse, err error) {
@@ -5557,6 +5851,62 @@ func (client DataSafeClient) getOnPremConnector(ctx context.Context, request com
 	return response, err
 }
 
+// GetProfile Lists the details of given profile available on the target.
+// The GetProfile operation returns only the profiles in the specified 'userAssessmentId'.
+// This does not include any subcompartments of the current compartment.
+// A default retry strategy applies to this operation GetProfile()
+func (client DataSafeClient) GetProfile(ctx context.Context, request GetProfileRequest) (response GetProfileResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getProfile, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetProfileResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetProfileResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetProfileResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetProfileResponse")
+	}
+	return
+}
+
+// getProfile implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getProfile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/userAssessments/{userAssessmentId}/profiles/{profileName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetProfileResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UserAssessment/GetProfile"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetProfile", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetReport Gets a report by identifier
 // A default retry strategy applies to this operation GetReport()
 func (client DataSafeClient) GetReport(ctx context.Context, request GetReportRequest) (response GetReportResponse, err error) {
@@ -5711,6 +6061,60 @@ func (client DataSafeClient) getReportDefinition(ctx context.Context, request co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/ReportDefinition/GetReportDefinition"
 		err = common.PostProcessServiceError(err, "DataSafe", "GetReportDefinition", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetSdmMaskingPolicyDifference Gets the details of the specified SDM Masking policy difference.
+// A default retry strategy applies to this operation GetSdmMaskingPolicyDifference()
+func (client DataSafeClient) GetSdmMaskingPolicyDifference(ctx context.Context, request GetSdmMaskingPolicyDifferenceRequest) (response GetSdmMaskingPolicyDifferenceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSdmMaskingPolicyDifference, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSdmMaskingPolicyDifferenceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSdmMaskingPolicyDifferenceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSdmMaskingPolicyDifferenceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSdmMaskingPolicyDifferenceResponse")
+	}
+	return
+}
+
+// getSdmMaskingPolicyDifference implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getSdmMaskingPolicyDifference(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sdmMaskingPolicyDifferences/{sdmMaskingPolicyDifferenceId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSdmMaskingPolicyDifferenceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SdmMaskingPolicyDifference/GetSdmMaskingPolicyDifference"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetSdmMaskingPolicyDifference", apiReferenceLink)
 		return response, err
 	}
 
@@ -6258,7 +6662,7 @@ func (client DataSafeClient) getWorkRequest(ctx context.Context, request common.
 	return response, err
 }
 
-// ListAlertAnalytics Returns aggregation details of alerts.
+// ListAlertAnalytics Returns the aggregation details of the alerts.
 // A default retry strategy applies to this operation ListAlertAnalytics()
 func (client DataSafeClient) ListAlertAnalytics(ctx context.Context, request ListAlertAnalyticsRequest) (response ListAlertAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6534,11 +6938,16 @@ func (client DataSafeClient) listAuditArchiveRetrievals(ctx context.Context, req
 	return response, err
 }
 
-// ListAuditEventAnalytics By default ListAuditEventAnalytics operation will return all of the summary columns. To filter desired summary columns, specify
-// it in the `summaryOf` query parameter.
-// **Example:** /ListAuditEventAnalytics?summaryField=targetName&summaryField=userName&summaryField=clientHostName&summaryField
-//              &summaryField=dmls&summaryField=privilege_changes&summaryField=ddls&summaryField=login_failure&summaryField=login_success
-//              &summaryField=eventcount&q=(operationTime ge '2021-06-13T23:49:14')&groupBy=targetName
+// ListAuditEventAnalytics By default the ListAuditEventAnalytics operation will return all of the summary columns. To filter for a specific summary column, specify
+// it in the `summaryField` query parameter.
+// **Example:**
+// /ListAuditEventAnalytics?summaryField=targetName&summaryField=userName&summaryField=clientHostname
+// &summaryField=dmls&summaryField=privilegeChanges&summaryField=ddls&summaryField=loginFailure&summaryField=loginSuccess
+// &summaryField=allRecord&q=(auditEventTime ge "2021-06-13T23:49:14")
+// /ListAuditEventAnalytics?timeStarted=2022-08-18T11:02:26.000Z&timeEnded=2022-08-24T11:02:26.000Z
+// This will give number of events grouped by periods. Period can be 1 day, 1 week, etc.
+// /ListAuditEventAnalytics?summaryField=targetName&groupBy=targetName
+// This will give the number of events group by targetName. Only targetName summary column would be returned.
 // A default retry strategy applies to this operation ListAuditEventAnalytics()
 func (client DataSafeClient) ListAuditEventAnalytics(ctx context.Context, request ListAuditEventAnalyticsRequest) (response ListAuditEventAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6719,6 +7128,72 @@ func (client DataSafeClient) listAuditPolicies(ctx context.Context, request comm
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditPolicyCollection/ListAuditPolicies"
 		err = common.PostProcessServiceError(err, "DataSafe", "ListAuditPolicies", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAuditPolicyAnalytics Gets a list of aggregated audit policy details on the target databases. A audit policy aggregation
+// helps understand the overall state of policies provisioned on targets.
+// It is especially useful to create dashboards or to support analytics.
+// The parameter `accessLevel` specifies whether to return only those compartments for which the
+// requestor has INSPECT permissions on at least one resource directly
+// or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
+// principal doesn't have access to even one of the child compartments. This is valid only when
+// `compartmentIdInSubtree` is set to `true`.
+// The parameter `compartmentIdInSubtree` applies when you perform SummarizedAuditPolicyInfo on the specified
+// `compartmentId` and when it is set to true, the entire hierarchy of compartments can be returned.
+// To get a full list of all compartments and subcompartments in the tenancy (root compartment),
+// set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+// **Example:** ListAuditPolicyAnalytics?groupBy=auditPolicyCategory
+// A default retry strategy applies to this operation ListAuditPolicyAnalytics()
+func (client DataSafeClient) ListAuditPolicyAnalytics(ctx context.Context, request ListAuditPolicyAnalyticsRequest) (response ListAuditPolicyAnalyticsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAuditPolicyAnalytics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAuditPolicyAnalyticsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAuditPolicyAnalyticsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAuditPolicyAnalyticsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAuditPolicyAnalyticsResponse")
+	}
+	return
+}
+
+// listAuditPolicyAnalytics implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listAuditPolicyAnalytics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/auditPolicyAnalytics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAuditPolicyAnalyticsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditPolicyAnalyticCollection/ListAuditPolicyAnalytics"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListAuditPolicyAnalytics", apiReferenceLink)
 		return response, err
 	}
 
@@ -7193,6 +7668,60 @@ func (client DataSafeClient) listDataSafePrivateEndpoints(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DataSafePrivateEndpointSummary/ListDataSafePrivateEndpoints"
 		err = common.PostProcessServiceError(err, "DataSafe", "ListDataSafePrivateEndpoints", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDifferenceColumns Gets a list of columns of a SDM masking policy difference resource based on the specified query parameters.
+// A default retry strategy applies to this operation ListDifferenceColumns()
+func (client DataSafeClient) ListDifferenceColumns(ctx context.Context, request ListDifferenceColumnsRequest) (response ListDifferenceColumnsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDifferenceColumns, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDifferenceColumnsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDifferenceColumnsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDifferenceColumnsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDifferenceColumnsResponse")
+	}
+	return
+}
+
+// listDifferenceColumns implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listDifferenceColumns(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sdmMaskingPolicyDifferences/{sdmMaskingPolicyDifferenceId}/differenceColumns", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDifferenceColumnsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SdmMaskingPolicyDifference/ListDifferenceColumns"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListDifferenceColumns", apiReferenceLink)
 		return response, err
 	}
 
@@ -7693,6 +8222,60 @@ func (client DataSafeClient) listMaskingColumns(ctx context.Context, request com
 	return response, err
 }
 
+// ListMaskingObjects Gets a list of masking objects present in the specified masking policy and based on the specified query parameters.
+// A default retry strategy applies to this operation ListMaskingObjects()
+func (client DataSafeClient) ListMaskingObjects(ctx context.Context, request ListMaskingObjectsRequest) (response ListMaskingObjectsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listMaskingObjects, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListMaskingObjectsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListMaskingObjectsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListMaskingObjectsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListMaskingObjectsResponse")
+	}
+	return
+}
+
+// listMaskingObjects implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listMaskingObjects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/maskingPolicies/{maskingPolicyId}/maskingObjects", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListMaskingObjectsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingObjectCollection/ListMaskingObjects"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListMaskingObjects", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListMaskingPolicies Gets a list of masking policies based on the specified query parameters.
 // A default retry strategy applies to this operation ListMaskingPolicies()
 func (client DataSafeClient) ListMaskingPolicies(ctx context.Context, request ListMaskingPoliciesRequest) (response ListMaskingPoliciesResponse, err error) {
@@ -7801,6 +8384,60 @@ func (client DataSafeClient) listMaskingReports(ctx context.Context, request com
 	return response, err
 }
 
+// ListMaskingSchemas Gets a list of masking schemas present in the specified masking policy and based on the specified query parameters.
+// A default retry strategy applies to this operation ListMaskingSchemas()
+func (client DataSafeClient) ListMaskingSchemas(ctx context.Context, request ListMaskingSchemasRequest) (response ListMaskingSchemasResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listMaskingSchemas, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListMaskingSchemasResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListMaskingSchemasResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListMaskingSchemasResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListMaskingSchemasResponse")
+	}
+	return
+}
+
+// listMaskingSchemas implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listMaskingSchemas(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/maskingPolicies/{maskingPolicyId}/maskingSchemas", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListMaskingSchemasResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingSchemaCollection/ListMaskingSchemas"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListMaskingSchemas", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListOnPremConnectors Gets a list of on-premises connectors.
 // A default retry strategy applies to this operation ListOnPremConnectors()
 func (client DataSafeClient) ListOnPremConnectors(ctx context.Context, request ListOnPremConnectorsRequest) (response ListOnPremConnectorsResponse, err error) {
@@ -7848,6 +8485,136 @@ func (client DataSafeClient) listOnPremConnectors(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/OnPremConnectorSummary/ListOnPremConnectors"
 		err = common.PostProcessServiceError(err, "DataSafe", "ListOnPremConnectors", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListProfileAnalytics Gets a list of aggregated user profile details in the specified compartment. This provides information about the
+// overall profiles available. For example, the user profile details include how many users have the profile assigned
+// and do how many use password verification function. This data is especially useful content for dashboards or to support analytics.
+// When you perform the ListProfileAnalytics operation, if the parameter compartmentIdInSubtree is set to "true," and if the
+// parameter accessLevel is set to ACCESSIBLE, then the operation returns compartments in which the requestor has INSPECT
+// permissions on at least one resource, directly or indirectly (in subcompartments). If the operation is performed at the
+// root compartment. If the requestor does not have access to at least one subcompartment of the compartment specified by
+// compartmentId, then "Not Authorized" is returned.
+// The parameter compartmentIdInSubtree applies when you perform ListProfileAnalytics on the compartmentId passed and when it is
+// set to true, the entire hierarchy of compartments can be returned.
+// To use ListProfileAnalytics to get a full list of all compartments and subcompartments in the tenancy from the root compartment,
+// set the parameter compartmentIdInSubtree to true and accessLevel to ACCESSIBLE.
+// A default retry strategy applies to this operation ListProfileAnalytics()
+func (client DataSafeClient) ListProfileAnalytics(ctx context.Context, request ListProfileAnalyticsRequest) (response ListProfileAnalyticsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listProfileAnalytics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListProfileAnalyticsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListProfileAnalyticsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListProfileAnalyticsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListProfileAnalyticsResponse")
+	}
+	return
+}
+
+// listProfileAnalytics implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listProfileAnalytics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/userAssessments/{userAssessmentId}/profileAnalytics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListProfileAnalyticsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/Profile/ListProfileAnalytics"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListProfileAnalytics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListProfileSummaries Gets a list of user profiles containing the profile details along with the target id and user counts.
+// The ListProfiles operation returns only the profiles belonging to a certain target. If compartment type user assessment
+// id is provided, then profile information for all the targets belonging to the pertaining compartment is returned.
+// The list does not include any subcompartments of the compartment under consideration.
+// The parameter 'accessLevel' specifies whether to return only those compartments for which the requestor has
+// INSPECT permissions on at least one resource directly or indirectly (ACCESSIBLE) (the resource can be in a
+// subcompartment) or to return Not Authorized if Principal doesn't have access to even one of the child compartments.
+// This is valid only when 'compartmentIdInSubtree' is set to 'true'.
+// The parameter 'compartmentIdInSubtree' applies when you perform ListUserProfiles on the 'compartmentId' belonging
+// to the assessmentId passed and when it is set to true, the entire hierarchy of compartments can be returned.
+// To get a full list of all compartments and subcompartments in the tenancy (root compartment), set the parameter
+// 'compartmentIdInSubtree' to true and 'accessLevel' to ACCESSIBLE.
+// A default retry strategy applies to this operation ListProfileSummaries()
+func (client DataSafeClient) ListProfileSummaries(ctx context.Context, request ListProfileSummariesRequest) (response ListProfileSummariesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listProfileSummaries, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListProfileSummariesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListProfileSummariesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListProfileSummariesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListProfileSummariesResponse")
+	}
+	return
+}
+
+// listProfileSummaries implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listProfileSummaries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/userAssessments/{userAssessmentId}/profiles", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListProfileSummariesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UserAssessment/ListProfileSummaries"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListProfileSummaries", apiReferenceLink)
 		return response, err
 	}
 
@@ -8073,6 +8840,60 @@ func (client DataSafeClient) listSchemas(ctx context.Context, request common.OCI
 	return response, err
 }
 
+// ListSdmMaskingPolicyDifferences Gets a list of SDM and masking policy difference resources based on the specified query parameters.
+// A default retry strategy applies to this operation ListSdmMaskingPolicyDifferences()
+func (client DataSafeClient) ListSdmMaskingPolicyDifferences(ctx context.Context, request ListSdmMaskingPolicyDifferencesRequest) (response ListSdmMaskingPolicyDifferencesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSdmMaskingPolicyDifferences, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSdmMaskingPolicyDifferencesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSdmMaskingPolicyDifferencesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSdmMaskingPolicyDifferencesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSdmMaskingPolicyDifferencesResponse")
+	}
+	return
+}
+
+// listSdmMaskingPolicyDifferences implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSdmMaskingPolicyDifferences(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sdmMaskingPolicyDifferences", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSdmMaskingPolicyDifferencesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SdmMaskingPolicyDifference/ListSdmMaskingPolicyDifferences"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSdmMaskingPolicyDifferences", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListSecurityAssessments Gets a list of security assessments.
 // The ListSecurityAssessments operation returns only the assessments in the specified `compartmentId`.
 // The list does not include any subcompartments of the compartmentId passed.
@@ -8239,6 +9060,114 @@ func (client DataSafeClient) listSensitiveDataModels(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveDataModel/ListSensitiveDataModels"
 		err = common.PostProcessServiceError(err, "DataSafe", "ListSensitiveDataModels", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSensitiveObjects Gets a list of sensitive objects present in the specified sensitive data model based on the specified query parameters.
+// A default retry strategy applies to this operation ListSensitiveObjects()
+func (client DataSafeClient) ListSensitiveObjects(ctx context.Context, request ListSensitiveObjectsRequest) (response ListSensitiveObjectsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSensitiveObjects, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSensitiveObjectsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSensitiveObjectsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSensitiveObjectsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSensitiveObjectsResponse")
+	}
+	return
+}
+
+// listSensitiveObjects implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSensitiveObjects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sensitiveDataModels/{sensitiveDataModelId}/sensitiveObjects", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSensitiveObjectsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveObjectCollection/ListSensitiveObjects"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSensitiveObjects", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSensitiveSchemas Gets a list of sensitive schemas present in the specified sensitive data model based on the specified query parameters.
+// A default retry strategy applies to this operation ListSensitiveSchemas()
+func (client DataSafeClient) ListSensitiveSchemas(ctx context.Context, request ListSensitiveSchemasRequest) (response ListSensitiveSchemasResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSensitiveSchemas, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSensitiveSchemasResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSensitiveSchemasResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSensitiveSchemasResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSensitiveSchemasResponse")
+	}
+	return
+}
+
+// listSensitiveSchemas implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSensitiveSchemas(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sensitiveDataModels/{sensitiveDataModelId}/sensitiveSchemas", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSensitiveSchemasResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveSchemaCollection/ListSensitiveSchemas"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSensitiveSchemas", apiReferenceLink)
 		return response, err
 	}
 
@@ -8924,7 +9853,7 @@ func (client DataSafeClient) modifyGlobalSettings(ctx context.Context, request c
 	return response, err
 }
 
-// PatchAlerts Patch alerts. Updates one or more alerts by specifying alert Ids.
+// PatchAlerts Updates the status of one or more alert specified by the alert IDs.
 // A default retry strategy applies to this operation PatchAlerts()
 func (client DataSafeClient) PatchAlerts(ctx context.Context, request PatchAlertsRequest) (response PatchAlertsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9089,6 +10018,61 @@ func (client DataSafeClient) patchMaskingColumns(ctx context.Context, request co
 	return response, err
 }
 
+// PatchSdmMaskingPolicyDifferenceColumns Patches one or more SDM masking policy difference columns. You can use this operation to set the plannedAction attribute before using
+// ApplySdmMaskingPolicyDifference to process the difference based on this attribute.
+// A default retry strategy applies to this operation PatchSdmMaskingPolicyDifferenceColumns()
+func (client DataSafeClient) PatchSdmMaskingPolicyDifferenceColumns(ctx context.Context, request PatchSdmMaskingPolicyDifferenceColumnsRequest) (response PatchSdmMaskingPolicyDifferenceColumnsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.patchSdmMaskingPolicyDifferenceColumns, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PatchSdmMaskingPolicyDifferenceColumnsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PatchSdmMaskingPolicyDifferenceColumnsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PatchSdmMaskingPolicyDifferenceColumnsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PatchSdmMaskingPolicyDifferenceColumnsResponse")
+	}
+	return
+}
+
+// patchSdmMaskingPolicyDifferenceColumns implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) patchSdmMaskingPolicyDifferenceColumns(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPatch, "/sdmMaskingPolicyDifferences/{sdmMaskingPolicyDifferenceId}/differenceColumns", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PatchSdmMaskingPolicyDifferenceColumnsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SdmMaskingPolicyDifference/PatchSdmMaskingPolicyDifferenceColumns"
+		err = common.PostProcessServiceError(err, "DataSafe", "PatchSdmMaskingPolicyDifferenceColumns", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // PatchSensitiveColumns Patches one or more columns in the specified sensitive data model. Use it to create, update, or delete sensitive columns.
 // To create sensitive columns, use CreateSensitiveColumnDetails as the patch value. And to update sensitive columns,
 // use UpdateSensitiveColumnDetails as the patch value.
@@ -9145,7 +10129,7 @@ func (client DataSafeClient) patchSensitiveColumns(ctx context.Context, request 
 	return response, err
 }
 
-// PatchTargetAlertPolicyAssociation Creates new target-alert policy associations that will be applied on target.
+// PatchTargetAlertPolicyAssociation Creates new target-alert policy associations that will be applied on the target database.
 // A default retry strategy applies to this operation PatchTargetAlertPolicyAssociation()
 func (client DataSafeClient) PatchTargetAlertPolicyAssociation(ctx context.Context, request PatchTargetAlertPolicyAssociationRequest) (response PatchTargetAlertPolicyAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9379,7 +10363,7 @@ func (client DataSafeClient) refreshUserAssessment(ctx context.Context, request 
 	return response, err
 }
 
-// RemoveScheduleReport Deletes schedule of a PDF or XLS report.
+// RemoveScheduleReport Deletes the schedule of a PDF or XLS report.
 // A default retry strategy applies to this operation RemoveScheduleReport()
 func (client DataSafeClient) RemoveScheduleReport(ctx context.Context, request RemoveScheduleReportRequest) (response RemoveScheduleReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10079,7 +11063,7 @@ func (client DataSafeClient) unsetUserAssessmentBaseline(ctx context.Context, re
 	return response, err
 }
 
-// UpdateAlert Updates alert status of the specified alert.
+// UpdateAlert Updates the status of the specified alert.
 // A default retry strategy applies to this operation UpdateAlert()
 func (client DataSafeClient) UpdateAlert(ctx context.Context, request UpdateAlertRequest) (response UpdateAlertResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10731,6 +11715,60 @@ func (client DataSafeClient) updateReportDefinition(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/ReportDefinition/UpdateReportDefinition"
 		err = common.PostProcessServiceError(err, "DataSafe", "UpdateReportDefinition", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateSdmMaskingPolicyDifference Updates one or more attributes of the specified sdm masking policy difference.
+// A default retry strategy applies to this operation UpdateSdmMaskingPolicyDifference()
+func (client DataSafeClient) UpdateSdmMaskingPolicyDifference(ctx context.Context, request UpdateSdmMaskingPolicyDifferenceRequest) (response UpdateSdmMaskingPolicyDifferenceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateSdmMaskingPolicyDifference, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateSdmMaskingPolicyDifferenceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateSdmMaskingPolicyDifferenceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateSdmMaskingPolicyDifferenceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateSdmMaskingPolicyDifferenceResponse")
+	}
+	return
+}
+
+// updateSdmMaskingPolicyDifference implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) updateSdmMaskingPolicyDifference(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/sdmMaskingPolicyDifferences/{sdmMaskingPolicyDifferenceId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateSdmMaskingPolicyDifferenceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SdmMaskingPolicyDifference/UpdateSdmMaskingPolicyDifference"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateSdmMaskingPolicyDifference", apiReferenceLink)
 		return response, err
 	}
 

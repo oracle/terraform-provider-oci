@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Oracle Cloud AI Services API
+// Anomaly Detection API
 //
 // OCI AI Service solutions can help Enterprise customers integrate AI into their products immediately by using our proven,
 // pre-trained/custom models or containers, and without a need to set up in house team of AI and ML experts.
@@ -22,9 +22,6 @@ type AnomalyDetectResult struct {
 
 	// A list to hold anomaly points grouped by timestamp/row.
 	DetectionResults []DetectionResultItem `mandatory:"true" json:"detectionResults"`
-
-	// State of the asset's behavior calculated based on current and previous inference requests.
-	InferenceState *string `mandatory:"false" json:"inferenceState"`
 }
 
 func (m AnomalyDetectResult) String() string {

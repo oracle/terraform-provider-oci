@@ -41,7 +41,6 @@ const (
 	TechnologyTypeConfluentSchemaRegistry  TechnologyTypeEnum = "CONFLUENT_SCHEMA_REGISTRY"
 	TechnologyTypeGoogleCloudSqlMysql      TechnologyTypeEnum = "GOOGLE_CLOUD_SQL_MYSQL"
 	TechnologyTypeGoogleCloudSqlPostgresql TechnologyTypeEnum = "GOOGLE_CLOUD_SQL_POSTGRESQL"
-	TechnologyTypeMariadb                  TechnologyTypeEnum = "MARIADB"
 	TechnologyTypeMysqlServer              TechnologyTypeEnum = "MYSQL_SERVER"
 	TechnologyTypePostgresqlServer         TechnologyTypeEnum = "POSTGRESQL_SERVER"
 )
@@ -70,7 +69,6 @@ var mappingTechnologyTypeEnum = map[string]TechnologyTypeEnum{
 	"CONFLUENT_SCHEMA_REGISTRY":   TechnologyTypeConfluentSchemaRegistry,
 	"GOOGLE_CLOUD_SQL_MYSQL":      TechnologyTypeGoogleCloudSqlMysql,
 	"GOOGLE_CLOUD_SQL_POSTGRESQL": TechnologyTypeGoogleCloudSqlPostgresql,
-	"MARIADB":                     TechnologyTypeMariadb,
 	"MYSQL_SERVER":                TechnologyTypeMysqlServer,
 	"POSTGRESQL_SERVER":           TechnologyTypePostgresqlServer,
 }
@@ -99,7 +97,6 @@ var mappingTechnologyTypeEnumLowerCase = map[string]TechnologyTypeEnum{
 	"confluent_schema_registry":   TechnologyTypeConfluentSchemaRegistry,
 	"google_cloud_sql_mysql":      TechnologyTypeGoogleCloudSqlMysql,
 	"google_cloud_sql_postgresql": TechnologyTypeGoogleCloudSqlPostgresql,
-	"mariadb":                     TechnologyTypeMariadb,
 	"mysql_server":                TechnologyTypeMysqlServer,
 	"postgresql_server":           TechnologyTypePostgresqlServer,
 }
@@ -139,7 +136,6 @@ func GetTechnologyTypeEnumStringValues() []string {
 		"CONFLUENT_SCHEMA_REGISTRY",
 		"GOOGLE_CLOUD_SQL_MYSQL",
 		"GOOGLE_CLOUD_SQL_POSTGRESQL",
-		"MARIADB",
 		"MYSQL_SERVER",
 		"POSTGRESQL_SERVER",
 	}

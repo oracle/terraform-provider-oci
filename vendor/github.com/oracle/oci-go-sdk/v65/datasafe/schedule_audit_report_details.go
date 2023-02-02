@@ -30,7 +30,7 @@ type ScheduleAuditReportDetails struct {
 	// 4. period = Y (The minimum period-value is 1)
 	RecordTimeSpan *string `mandatory:"true" json:"recordTimeSpan"`
 
-	// Specifies the limit on number of rows in report.
+	// Specifies the limit on the number of rows in the report.
 	RowLimit *int `mandatory:"false" json:"rowLimit"`
 }
 

@@ -75,8 +75,7 @@ type DatabaseRegistrationSummary struct {
 	// requirements implemented by the database including length, case sensitivity, and so on.
 	Username *string `mandatory:"false" json:"username"`
 
-	// Connect descriptor or Easy Connect Naming method that Oracle GoldenGate uses to connect to a
-	// database.
+	// Connect descriptor or Easy Connect Naming method used to connect to a database.
 	ConnectionString *string `mandatory:"false" json:"connectionString"`
 
 	// The mode of the database connection session to be established by the data client.
@@ -88,10 +87,9 @@ type DatabaseRegistrationSummary struct {
 	// Credential store alias.
 	AliasName *string `mandatory:"false" json:"aliasName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the customer GGS Secret being
-	// referenced.
-	// If provided, this will reference a key which the customer will be required to ensure
-	// the policies are established to permit the GoldenGate Service to utilize this Secret
+	// The OCID of the customer’s GoldenGate Service Secret.
+	// If provided, it references a key that customers will be required to ensure the policies are established
+	// to permit GoldenGate to use this Secret.
 	SecretId *string `mandatory:"false" json:"secretId"`
 }
 

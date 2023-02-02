@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Oracle Cloud AI Services API
+// Anomaly Detection API
 //
 // OCI AI Service solutions can help Enterprise customers integrate AI into their products immediately by using our proven,
 // pre-trained/custom models or containers, and without a need to set up in house team of AI and ML experts.
@@ -25,19 +25,15 @@ type DetectAnomaliesDetails interface {
 	// The OCID of the trained model.
 	GetModelId() *string
 
-	// The value estimated during training is used by default. You can choose to provide a custom value.
+	// Sensitivity of the algorithm to detect anomalies - higher the value, more anomalies get flagged. The value estimated during training is used by default. You can choose to provide a custom value.
 	GetSensitivity() *float32
-
-	// State of the asset's behaviour calculated based on current and previous inference requests.
-	GetInferenceState() *string
 }
 
 type detectanomaliesdetails struct {
-	JsonData       []byte
-	ModelId        *string  `mandatory:"true" json:"modelId"`
-	Sensitivity    *float32 `mandatory:"false" json:"sensitivity"`
-	InferenceState *string  `mandatory:"false" json:"inferenceState"`
-	RequestType    string   `json:"requestType"`
+	JsonData    []byte
+	ModelId     *string  `mandatory:"true" json:"modelId"`
+	Sensitivity *float32 `mandatory:"false" json:"sensitivity"`
+	RequestType string   `json:"requestType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -53,7 +49,6 @@ func (m *detectanomaliesdetails) UnmarshalJSON(data []byte) error {
 	}
 	m.ModelId = s.Model.ModelId
 	m.Sensitivity = s.Model.Sensitivity
-	m.InferenceState = s.Model.InferenceState
 	m.RequestType = s.Model.RequestType
 
 	return err
@@ -90,11 +85,6 @@ func (m detectanomaliesdetails) GetModelId() *string {
 //GetSensitivity returns Sensitivity
 func (m detectanomaliesdetails) GetSensitivity() *float32 {
 	return m.Sensitivity
-}
-
-//GetInferenceState returns InferenceState
-func (m detectanomaliesdetails) GetInferenceState() *string {
-	return m.InferenceState
 }
 
 func (m detectanomaliesdetails) String() string {

@@ -33,6 +33,21 @@ type ListUsersRequest struct {
 	// A filter to return only items that match the specified user category.
 	UserCategory *string `mandatory:"false" contributesTo:"query" name:"userCategory"`
 
+	// A filter to return only items that match the specified user role.
+	UserRole *string `mandatory:"false" contributesTo:"query" name:"userRole"`
+
+	// A filter to return only items that match the specified user profile.
+	UserProfile *string `mandatory:"false" contributesTo:"query" name:"userProfile"`
+
+	// A filter to return only items that match the specified user type. The possible values can be
+	//   - ADMIN_PRIVILEGED
+	//   - APPLICATION
+	//   - PRIVILEGED
+	//   - SCHEMA
+	//   - NON_PRIVILEGED
+	// as specified by '#/definitions/userTypes'.
+	UserType *string `mandatory:"false" contributesTo:"query" name:"userType"`
+
 	// A filter to return only items that match the specified user key.
 	UserKey *string `mandatory:"false" contributesTo:"query" name:"userKey"`
 

@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Oracle Cloud AI Services API
+// Anomaly Detection API
 //
 // OCI AI Service solutions can help Enterprise customers integrate AI into their products immediately by using our proven,
 // pre-trained/custom models or containers, and without a need to set up in house team of AI and ML experts.
@@ -18,19 +18,19 @@ import (
 	"strings"
 )
 
-// EmbeddedUnivariateInferenceWorkflowRequestDetails The request body when the user selects to provide byte data in detect call which is Base64 encoded.
-// The default type of the data is CSV and can be JSON by setting the 'contentType'.
+// EmbeddedUnivariateInferenceWorkflowRequestDetails The request body when a user selects to provide byte data in a detect call which is Base64 encoded.
+// The default data type is CSV. The type can be set to JSON by setting the 'contentType'.
 type EmbeddedUnivariateInferenceWorkflowRequestDetails struct {
 
-	// Choose whether you'd like the service to return all datapoints or just anomlies
+	// Choose whether you would like the service to return all data points or just anomalies.
 	AreAllDataPointsRequired *bool `mandatory:"false" json:"areAllDataPointsRequired"`
 
 	TrainingRequestDetails *UnivariateModelTrainingRequestDetails `mandatory:"false" json:"trainingRequestDetails"`
 
-	// tune between precision and recall
+	// Tune between precision and recall.
 	Sensitivity *float32 `mandatory:"false" json:"sensitivity"`
 
-	// List of byte encoded files.
+	// The list of base-64 encoded files.
 	Content [][]byte `mandatory:"false" json:"content"`
 
 	ContentType EmbeddedUnivariateInferenceWorkflowRequestDetailsContentTypeEnum `mandatory:"false" json:"contentType,omitempty"`

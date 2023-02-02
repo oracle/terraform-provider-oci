@@ -19,7 +19,7 @@ import (
 type UpdateDataSafePrivateEndpointDetails struct {
 
 	// The display name of the private endpoint.
-	DisplayName *string `mandatory:"true" json:"displayName"`
+	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// The description of the private endpoint.
 	Description *string `mandatory:"false" json:"description"`

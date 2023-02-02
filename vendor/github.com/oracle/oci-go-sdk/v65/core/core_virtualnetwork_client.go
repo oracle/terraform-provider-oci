@@ -11548,59 +11548,6 @@ func (client VirtualNetworkClient) getCaptureFilter(ctx context.Context, request
 	return response, err
 }
 
-// GetCdnCidr get cdn cidr ranges
-func (client VirtualNetworkClient) GetCdnCidr(ctx context.Context, request GetCdnCidrRequest) (response GetCdnCidrResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getCdnCidr, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetCdnCidrResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetCdnCidrResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetCdnCidrResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetCdnCidrResponse")
-	}
-	return
-}
-
-// getCdnCidr implements the OCIOperation interface (enables retrying operations)
-func (client VirtualNetworkClient) getCdnCidr(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internal/cdnCidrs", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetCdnCidrResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CdnCidr/GetCdnCidr"
-		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetCdnCidr", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetClientVpn Get the specific ClientVpn by given the id.
 // A default retry strategy applies to this operation GetClientVpn()
 func (client VirtualNetworkClient) GetClientVpn(ctx context.Context, request GetClientVpnRequest) (response GetClientVpnResponse, err error) {
@@ -23299,64 +23246,6 @@ func (client VirtualNetworkClient) updateCaptureFilter(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CaptureFilter/UpdateCaptureFilter"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateCaptureFilter", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UpdateCdnCidr Update cdn cidr ranges
-func (client VirtualNetworkClient) UpdateCdnCidr(ctx context.Context, request UpdateCdnCidrRequest) (response UpdateCdnCidrResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.updateCdnCidr, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateCdnCidrResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateCdnCidrResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateCdnCidrResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateCdnCidrResponse")
-	}
-	return
-}
-
-// updateCdnCidr implements the OCIOperation interface (enables retrying operations)
-func (client VirtualNetworkClient) updateCdnCidr(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/internal/cdnCidrs", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateCdnCidrResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CdnCidr/UpdateCdnCidr"
-		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateCdnCidr", apiReferenceLink)
 		return response, err
 	}
 

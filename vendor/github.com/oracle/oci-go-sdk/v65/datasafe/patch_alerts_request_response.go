@@ -14,7 +14,7 @@ import (
 // PatchAlertsRequest wrapper for the PatchAlerts operation
 type PatchAlertsRequest struct {
 
-	// Details to patch alerts.
+	// The alert details to update the status of one or more alert specified by the alert IDs.
 	PatchAlertsDetails `contributesTo:"body"`
 
 	// Unique identifier for the request.

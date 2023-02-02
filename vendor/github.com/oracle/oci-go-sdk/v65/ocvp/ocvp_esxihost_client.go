@@ -330,6 +330,65 @@ func (client EsxiHostClient) listEsxiHosts(ctx context.Context, request common.O
 	return response, err
 }
 
+// SwapBilling Swap billing between two Active ESXi hosts.
+// A default retry strategy applies to this operation SwapBilling()
+func (client EsxiHostClient) SwapBilling(ctx context.Context, request SwapBillingRequest) (response SwapBillingResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.swapBilling, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SwapBillingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SwapBillingResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SwapBillingResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SwapBillingResponse")
+	}
+	return
+}
+
+// swapBilling implements the OCIOperation interface (enables retrying operations)
+func (client EsxiHostClient) swapBilling(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/esxiHosts/{esxiHostId}/actions/swapBilling", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SwapBillingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/SwapBilling"
+		err = common.PostProcessServiceError(err, "EsxiHost", "SwapBilling", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateEsxiHost Updates the specified ESXi host.
 // A default retry strategy applies to this operation UpdateEsxiHost()
 func (client EsxiHostClient) UpdateEsxiHost(ctx context.Context, request UpdateEsxiHostRequest) (response UpdateEsxiHostResponse, err error) {

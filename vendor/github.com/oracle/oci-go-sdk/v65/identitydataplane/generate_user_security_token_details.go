@@ -18,7 +18,7 @@ import (
 // GenerateUserSecurityTokenDetails Request parameters in body for obtaining a user principal session token (UPST) for self.
 type GenerateUserSecurityTokenDetails struct {
 
-	// The user-owned public key in PEM format corresponding to the RSA key pair used for signing requests.
+	// The user-owned public key in PEM format that corresponds to the RSA key pair used for signing requests.
 	// The user also owns the corresponding private key. This public key will be put inside the user
 	// security token by the auth service after successful validation of the request.
 	PublicKey *string `mandatory:"true" json:"publicKey"`

@@ -304,6 +304,86 @@ const (
 	InternalVnicAttachmentVnicShapeFixed3900E450g                  InternalVnicAttachmentVnicShapeEnum = "FIXED3900_E4_50G"
 	InternalVnicAttachmentVnicShapeFixed4000E450g                  InternalVnicAttachmentVnicShapeEnum = "FIXED4000_E4_50G"
 	InternalVnicAttachmentVnicShapeEntirehostE450g                 InternalVnicAttachmentVnicShapeEnum = "ENTIREHOST_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed01001E450g          InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED0100_1_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed02002E450g          InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED0200_2_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed03003E450g          InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED0300_3_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed04004E450g          InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED0400_4_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed05005E450g          InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED0500_5_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed06006E450g          InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED0600_6_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed07007E450g          InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED0700_7_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed08008E450g          InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED0800_8_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed09009E450g          InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED0900_9_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed100010E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED1000_10_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed110011E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED1100_11_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed120012E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED1200_12_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed130013E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED1300_13_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed140014E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED1400_14_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed150015E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED1500_15_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed160016E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED1600_16_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed170017E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED1700_17_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed180018E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED1800_18_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed190019E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED1900_19_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed200020E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED2000_20_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed210021E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED2100_21_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed220022E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED2200_22_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed230023E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED2300_23_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed240024E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED2400_24_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed250025E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED2500_25_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed260026E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED2600_26_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed270027E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED2700_27_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed280028E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED2800_28_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed290029E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED2900_29_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed300030E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3000_30_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed310031E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3100_31_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320032E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_32_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed330033E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3300_33_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed340034E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3400_34_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed350035E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3500_35_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed360036E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3600_36_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed370037E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3700_37_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed380038E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3800_38_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed390039E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3900_39_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400040E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_40_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400041E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_41_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400042E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_42_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400043E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_43_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400044E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_44_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400045E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_45_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400046E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_46_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400047E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_47_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400048E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_48_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400049E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_49_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400050E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_50_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400051E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_51_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400052E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_52_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400053E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_53_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400054E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_54_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400055E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_55_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400056E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_56_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400057E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_57_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400058E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_58_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400059E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_59_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400060E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_60_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400061E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_61_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400062E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_62_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400063E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_63_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400064E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_64_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400065E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_65_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400066E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_66_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400067E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_67_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400068E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_68_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400069E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_69_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400070E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_70_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400071E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_71_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400072E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_72_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400073E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_73_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400074E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_74_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400075E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_75_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400076E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_76_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400077E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_77_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400078E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_78_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400079E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_79_E4_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed400080E450g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED4000_80_E4_50G"
 	InternalVnicAttachmentVnicShapeMicroVmFixed0050E350g           InternalVnicAttachmentVnicShapeEnum = "Micro_VM_Fixed0050_E3_50G"
 	InternalVnicAttachmentVnicShapeMicroVmFixed0050E450g           InternalVnicAttachmentVnicShapeEnum = "Micro_VM_Fixed0050_E4_50G"
 	InternalVnicAttachmentVnicShapeSubcoreVmFixed0025E350g         InternalVnicAttachmentVnicShapeEnum = "SUBCORE_VM_FIXED0025_E3_50G"
@@ -1174,6 +1254,70 @@ const (
 	InternalVnicAttachmentVnicShapeStandardVmFixed5000X950g        InternalVnicAttachmentVnicShapeEnum = "STANDARD_VM_FIXED5000_X9_50G"
 	InternalVnicAttachmentVnicShapeA10GpuVmFixed2400X950g          InternalVnicAttachmentVnicShapeEnum = "A10_GPU_VM_FIXED2400_X9_50G"
 	InternalVnicAttachmentVnicShapeA10GpuVmFixed4800X950g          InternalVnicAttachmentVnicShapeEnum = "A10_GPU_VM_FIXED4800_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed01001X950g          InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED0100_1_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed02002X950g          InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED0200_2_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed03003X950g          InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED0300_3_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed04004X950g          InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED0400_4_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed05005X950g          InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED0500_5_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed06006X950g          InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED0600_6_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed07007X950g          InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED0700_7_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed08008X950g          InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED0800_8_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed09009X950g          InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED0900_9_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed100010X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED1000_10_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed110011X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED1100_11_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed120012X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED1200_12_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed130013X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED1300_13_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed140014X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED1400_14_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed150015X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED1500_15_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed160016X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED1600_16_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed170017X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED1700_17_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed180018X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED1800_18_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed190019X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED1900_19_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed200020X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED2000_20_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed210021X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED2100_21_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed220022X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED2200_22_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed230023X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED2300_23_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed240024X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED2400_24_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed250025X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED2500_25_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed260026X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED2600_26_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed270027X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED2700_27_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed280028X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED2800_28_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed290029X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED2900_29_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed300030X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3000_30_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed310031X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3100_31_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320032X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_32_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320033X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_33_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320034X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_34_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320035X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_35_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320036X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_36_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320037X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_37_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320038X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_38_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320039X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_39_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320040X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_40_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320041X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_41_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320042X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_42_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320043X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_43_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320044X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_44_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320045X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_45_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320046X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_46_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320047X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_47_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320048X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_48_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320049X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_49_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320050X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_50_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320051X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_51_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320052X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_52_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320053X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_53_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320054X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_54_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320055X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_55_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320056X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_56_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320057X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_57_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320058X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_58_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320059X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_59_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320060X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_60_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320061X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_61_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320062X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_62_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320063X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_63_X9_50G"
+	InternalVnicAttachmentVnicShapeVnumaVmFixed320064X950g         InternalVnicAttachmentVnicShapeEnum = "VNUMA_VM_FIXED3200_64_X9_50G"
 	InternalVnicAttachmentVnicShapeSubcoreStandardVmFixed0025X950g InternalVnicAttachmentVnicShapeEnum = "SUBCORE_STANDARD_VM_FIXED0025_X9_50G"
 	InternalVnicAttachmentVnicShapeSubcoreStandardVmFixed0050X950g InternalVnicAttachmentVnicShapeEnum = "SUBCORE_STANDARD_VM_FIXED0050_X9_50G"
 	InternalVnicAttachmentVnicShapeSubcoreStandardVmFixed0075X950g InternalVnicAttachmentVnicShapeEnum = "SUBCORE_STANDARD_VM_FIXED0075_X9_50G"
@@ -1493,6 +1637,86 @@ var mappingInternalVnicAttachmentVnicShapeEnum = map[string]InternalVnicAttachme
 	"FIXED3900_E4_50G":                     InternalVnicAttachmentVnicShapeFixed3900E450g,
 	"FIXED4000_E4_50G":                     InternalVnicAttachmentVnicShapeFixed4000E450g,
 	"ENTIREHOST_E4_50G":                    InternalVnicAttachmentVnicShapeEntirehostE450g,
+	"VNUMA_VM_FIXED0100_1_E4_50G":          InternalVnicAttachmentVnicShapeVnumaVmFixed01001E450g,
+	"VNUMA_VM_FIXED0200_2_E4_50G":          InternalVnicAttachmentVnicShapeVnumaVmFixed02002E450g,
+	"VNUMA_VM_FIXED0300_3_E4_50G":          InternalVnicAttachmentVnicShapeVnumaVmFixed03003E450g,
+	"VNUMA_VM_FIXED0400_4_E4_50G":          InternalVnicAttachmentVnicShapeVnumaVmFixed04004E450g,
+	"VNUMA_VM_FIXED0500_5_E4_50G":          InternalVnicAttachmentVnicShapeVnumaVmFixed05005E450g,
+	"VNUMA_VM_FIXED0600_6_E4_50G":          InternalVnicAttachmentVnicShapeVnumaVmFixed06006E450g,
+	"VNUMA_VM_FIXED0700_7_E4_50G":          InternalVnicAttachmentVnicShapeVnumaVmFixed07007E450g,
+	"VNUMA_VM_FIXED0800_8_E4_50G":          InternalVnicAttachmentVnicShapeVnumaVmFixed08008E450g,
+	"VNUMA_VM_FIXED0900_9_E4_50G":          InternalVnicAttachmentVnicShapeVnumaVmFixed09009E450g,
+	"VNUMA_VM_FIXED1000_10_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed100010E450g,
+	"VNUMA_VM_FIXED1100_11_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed110011E450g,
+	"VNUMA_VM_FIXED1200_12_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed120012E450g,
+	"VNUMA_VM_FIXED1300_13_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed130013E450g,
+	"VNUMA_VM_FIXED1400_14_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed140014E450g,
+	"VNUMA_VM_FIXED1500_15_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed150015E450g,
+	"VNUMA_VM_FIXED1600_16_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed160016E450g,
+	"VNUMA_VM_FIXED1700_17_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed170017E450g,
+	"VNUMA_VM_FIXED1800_18_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed180018E450g,
+	"VNUMA_VM_FIXED1900_19_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed190019E450g,
+	"VNUMA_VM_FIXED2000_20_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed200020E450g,
+	"VNUMA_VM_FIXED2100_21_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed210021E450g,
+	"VNUMA_VM_FIXED2200_22_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed220022E450g,
+	"VNUMA_VM_FIXED2300_23_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed230023E450g,
+	"VNUMA_VM_FIXED2400_24_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed240024E450g,
+	"VNUMA_VM_FIXED2500_25_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed250025E450g,
+	"VNUMA_VM_FIXED2600_26_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed260026E450g,
+	"VNUMA_VM_FIXED2700_27_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed270027E450g,
+	"VNUMA_VM_FIXED2800_28_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed280028E450g,
+	"VNUMA_VM_FIXED2900_29_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed290029E450g,
+	"VNUMA_VM_FIXED3000_30_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed300030E450g,
+	"VNUMA_VM_FIXED3100_31_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed310031E450g,
+	"VNUMA_VM_FIXED3200_32_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320032E450g,
+	"VNUMA_VM_FIXED3300_33_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed330033E450g,
+	"VNUMA_VM_FIXED3400_34_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed340034E450g,
+	"VNUMA_VM_FIXED3500_35_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed350035E450g,
+	"VNUMA_VM_FIXED3600_36_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed360036E450g,
+	"VNUMA_VM_FIXED3700_37_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed370037E450g,
+	"VNUMA_VM_FIXED3800_38_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed380038E450g,
+	"VNUMA_VM_FIXED3900_39_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed390039E450g,
+	"VNUMA_VM_FIXED4000_40_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400040E450g,
+	"VNUMA_VM_FIXED4000_41_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400041E450g,
+	"VNUMA_VM_FIXED4000_42_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400042E450g,
+	"VNUMA_VM_FIXED4000_43_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400043E450g,
+	"VNUMA_VM_FIXED4000_44_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400044E450g,
+	"VNUMA_VM_FIXED4000_45_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400045E450g,
+	"VNUMA_VM_FIXED4000_46_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400046E450g,
+	"VNUMA_VM_FIXED4000_47_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400047E450g,
+	"VNUMA_VM_FIXED4000_48_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400048E450g,
+	"VNUMA_VM_FIXED4000_49_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400049E450g,
+	"VNUMA_VM_FIXED4000_50_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400050E450g,
+	"VNUMA_VM_FIXED4000_51_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400051E450g,
+	"VNUMA_VM_FIXED4000_52_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400052E450g,
+	"VNUMA_VM_FIXED4000_53_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400053E450g,
+	"VNUMA_VM_FIXED4000_54_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400054E450g,
+	"VNUMA_VM_FIXED4000_55_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400055E450g,
+	"VNUMA_VM_FIXED4000_56_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400056E450g,
+	"VNUMA_VM_FIXED4000_57_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400057E450g,
+	"VNUMA_VM_FIXED4000_58_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400058E450g,
+	"VNUMA_VM_FIXED4000_59_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400059E450g,
+	"VNUMA_VM_FIXED4000_60_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400060E450g,
+	"VNUMA_VM_FIXED4000_61_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400061E450g,
+	"VNUMA_VM_FIXED4000_62_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400062E450g,
+	"VNUMA_VM_FIXED4000_63_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400063E450g,
+	"VNUMA_VM_FIXED4000_64_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400064E450g,
+	"VNUMA_VM_FIXED4000_65_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400065E450g,
+	"VNUMA_VM_FIXED4000_66_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400066E450g,
+	"VNUMA_VM_FIXED4000_67_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400067E450g,
+	"VNUMA_VM_FIXED4000_68_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400068E450g,
+	"VNUMA_VM_FIXED4000_69_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400069E450g,
+	"VNUMA_VM_FIXED4000_70_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400070E450g,
+	"VNUMA_VM_FIXED4000_71_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400071E450g,
+	"VNUMA_VM_FIXED4000_72_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400072E450g,
+	"VNUMA_VM_FIXED4000_73_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400073E450g,
+	"VNUMA_VM_FIXED4000_74_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400074E450g,
+	"VNUMA_VM_FIXED4000_75_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400075E450g,
+	"VNUMA_VM_FIXED4000_76_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400076E450g,
+	"VNUMA_VM_FIXED4000_77_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400077E450g,
+	"VNUMA_VM_FIXED4000_78_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400078E450g,
+	"VNUMA_VM_FIXED4000_79_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400079E450g,
+	"VNUMA_VM_FIXED4000_80_E4_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed400080E450g,
 	"Micro_VM_Fixed0050_E3_50G":            InternalVnicAttachmentVnicShapeMicroVmFixed0050E350g,
 	"Micro_VM_Fixed0050_E4_50G":            InternalVnicAttachmentVnicShapeMicroVmFixed0050E450g,
 	"SUBCORE_VM_FIXED0025_E3_50G":          InternalVnicAttachmentVnicShapeSubcoreVmFixed0025E350g,
@@ -2363,6 +2587,70 @@ var mappingInternalVnicAttachmentVnicShapeEnum = map[string]InternalVnicAttachme
 	"STANDARD_VM_FIXED5000_X9_50G":         InternalVnicAttachmentVnicShapeStandardVmFixed5000X950g,
 	"A10_GPU_VM_FIXED2400_X9_50G":          InternalVnicAttachmentVnicShapeA10GpuVmFixed2400X950g,
 	"A10_GPU_VM_FIXED4800_X9_50G":          InternalVnicAttachmentVnicShapeA10GpuVmFixed4800X950g,
+	"VNUMA_VM_FIXED0100_1_X9_50G":          InternalVnicAttachmentVnicShapeVnumaVmFixed01001X950g,
+	"VNUMA_VM_FIXED0200_2_X9_50G":          InternalVnicAttachmentVnicShapeVnumaVmFixed02002X950g,
+	"VNUMA_VM_FIXED0300_3_X9_50G":          InternalVnicAttachmentVnicShapeVnumaVmFixed03003X950g,
+	"VNUMA_VM_FIXED0400_4_X9_50G":          InternalVnicAttachmentVnicShapeVnumaVmFixed04004X950g,
+	"VNUMA_VM_FIXED0500_5_X9_50G":          InternalVnicAttachmentVnicShapeVnumaVmFixed05005X950g,
+	"VNUMA_VM_FIXED0600_6_X9_50G":          InternalVnicAttachmentVnicShapeVnumaVmFixed06006X950g,
+	"VNUMA_VM_FIXED0700_7_X9_50G":          InternalVnicAttachmentVnicShapeVnumaVmFixed07007X950g,
+	"VNUMA_VM_FIXED0800_8_X9_50G":          InternalVnicAttachmentVnicShapeVnumaVmFixed08008X950g,
+	"VNUMA_VM_FIXED0900_9_X9_50G":          InternalVnicAttachmentVnicShapeVnumaVmFixed09009X950g,
+	"VNUMA_VM_FIXED1000_10_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed100010X950g,
+	"VNUMA_VM_FIXED1100_11_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed110011X950g,
+	"VNUMA_VM_FIXED1200_12_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed120012X950g,
+	"VNUMA_VM_FIXED1300_13_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed130013X950g,
+	"VNUMA_VM_FIXED1400_14_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed140014X950g,
+	"VNUMA_VM_FIXED1500_15_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed150015X950g,
+	"VNUMA_VM_FIXED1600_16_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed160016X950g,
+	"VNUMA_VM_FIXED1700_17_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed170017X950g,
+	"VNUMA_VM_FIXED1800_18_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed180018X950g,
+	"VNUMA_VM_FIXED1900_19_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed190019X950g,
+	"VNUMA_VM_FIXED2000_20_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed200020X950g,
+	"VNUMA_VM_FIXED2100_21_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed210021X950g,
+	"VNUMA_VM_FIXED2200_22_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed220022X950g,
+	"VNUMA_VM_FIXED2300_23_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed230023X950g,
+	"VNUMA_VM_FIXED2400_24_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed240024X950g,
+	"VNUMA_VM_FIXED2500_25_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed250025X950g,
+	"VNUMA_VM_FIXED2600_26_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed260026X950g,
+	"VNUMA_VM_FIXED2700_27_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed270027X950g,
+	"VNUMA_VM_FIXED2800_28_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed280028X950g,
+	"VNUMA_VM_FIXED2900_29_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed290029X950g,
+	"VNUMA_VM_FIXED3000_30_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed300030X950g,
+	"VNUMA_VM_FIXED3100_31_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed310031X950g,
+	"VNUMA_VM_FIXED3200_32_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320032X950g,
+	"VNUMA_VM_FIXED3200_33_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320033X950g,
+	"VNUMA_VM_FIXED3200_34_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320034X950g,
+	"VNUMA_VM_FIXED3200_35_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320035X950g,
+	"VNUMA_VM_FIXED3200_36_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320036X950g,
+	"VNUMA_VM_FIXED3200_37_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320037X950g,
+	"VNUMA_VM_FIXED3200_38_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320038X950g,
+	"VNUMA_VM_FIXED3200_39_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320039X950g,
+	"VNUMA_VM_FIXED3200_40_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320040X950g,
+	"VNUMA_VM_FIXED3200_41_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320041X950g,
+	"VNUMA_VM_FIXED3200_42_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320042X950g,
+	"VNUMA_VM_FIXED3200_43_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320043X950g,
+	"VNUMA_VM_FIXED3200_44_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320044X950g,
+	"VNUMA_VM_FIXED3200_45_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320045X950g,
+	"VNUMA_VM_FIXED3200_46_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320046X950g,
+	"VNUMA_VM_FIXED3200_47_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320047X950g,
+	"VNUMA_VM_FIXED3200_48_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320048X950g,
+	"VNUMA_VM_FIXED3200_49_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320049X950g,
+	"VNUMA_VM_FIXED3200_50_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320050X950g,
+	"VNUMA_VM_FIXED3200_51_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320051X950g,
+	"VNUMA_VM_FIXED3200_52_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320052X950g,
+	"VNUMA_VM_FIXED3200_53_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320053X950g,
+	"VNUMA_VM_FIXED3200_54_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320054X950g,
+	"VNUMA_VM_FIXED3200_55_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320055X950g,
+	"VNUMA_VM_FIXED3200_56_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320056X950g,
+	"VNUMA_VM_FIXED3200_57_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320057X950g,
+	"VNUMA_VM_FIXED3200_58_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320058X950g,
+	"VNUMA_VM_FIXED3200_59_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320059X950g,
+	"VNUMA_VM_FIXED3200_60_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320060X950g,
+	"VNUMA_VM_FIXED3200_61_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320061X950g,
+	"VNUMA_VM_FIXED3200_62_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320062X950g,
+	"VNUMA_VM_FIXED3200_63_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320063X950g,
+	"VNUMA_VM_FIXED3200_64_X9_50G":         InternalVnicAttachmentVnicShapeVnumaVmFixed320064X950g,
 	"SUBCORE_STANDARD_VM_FIXED0025_X9_50G": InternalVnicAttachmentVnicShapeSubcoreStandardVmFixed0025X950g,
 	"SUBCORE_STANDARD_VM_FIXED0050_X9_50G": InternalVnicAttachmentVnicShapeSubcoreStandardVmFixed0050X950g,
 	"SUBCORE_STANDARD_VM_FIXED0075_X9_50G": InternalVnicAttachmentVnicShapeSubcoreStandardVmFixed0075X950g,
@@ -2682,6 +2970,86 @@ var mappingInternalVnicAttachmentVnicShapeEnumLowerCase = map[string]InternalVni
 	"fixed3900_e4_50g":                     InternalVnicAttachmentVnicShapeFixed3900E450g,
 	"fixed4000_e4_50g":                     InternalVnicAttachmentVnicShapeFixed4000E450g,
 	"entirehost_e4_50g":                    InternalVnicAttachmentVnicShapeEntirehostE450g,
+	"vnuma_vm_fixed0100_1_e4_50g":          InternalVnicAttachmentVnicShapeVnumaVmFixed01001E450g,
+	"vnuma_vm_fixed0200_2_e4_50g":          InternalVnicAttachmentVnicShapeVnumaVmFixed02002E450g,
+	"vnuma_vm_fixed0300_3_e4_50g":          InternalVnicAttachmentVnicShapeVnumaVmFixed03003E450g,
+	"vnuma_vm_fixed0400_4_e4_50g":          InternalVnicAttachmentVnicShapeVnumaVmFixed04004E450g,
+	"vnuma_vm_fixed0500_5_e4_50g":          InternalVnicAttachmentVnicShapeVnumaVmFixed05005E450g,
+	"vnuma_vm_fixed0600_6_e4_50g":          InternalVnicAttachmentVnicShapeVnumaVmFixed06006E450g,
+	"vnuma_vm_fixed0700_7_e4_50g":          InternalVnicAttachmentVnicShapeVnumaVmFixed07007E450g,
+	"vnuma_vm_fixed0800_8_e4_50g":          InternalVnicAttachmentVnicShapeVnumaVmFixed08008E450g,
+	"vnuma_vm_fixed0900_9_e4_50g":          InternalVnicAttachmentVnicShapeVnumaVmFixed09009E450g,
+	"vnuma_vm_fixed1000_10_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed100010E450g,
+	"vnuma_vm_fixed1100_11_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed110011E450g,
+	"vnuma_vm_fixed1200_12_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed120012E450g,
+	"vnuma_vm_fixed1300_13_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed130013E450g,
+	"vnuma_vm_fixed1400_14_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed140014E450g,
+	"vnuma_vm_fixed1500_15_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed150015E450g,
+	"vnuma_vm_fixed1600_16_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed160016E450g,
+	"vnuma_vm_fixed1700_17_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed170017E450g,
+	"vnuma_vm_fixed1800_18_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed180018E450g,
+	"vnuma_vm_fixed1900_19_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed190019E450g,
+	"vnuma_vm_fixed2000_20_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed200020E450g,
+	"vnuma_vm_fixed2100_21_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed210021E450g,
+	"vnuma_vm_fixed2200_22_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed220022E450g,
+	"vnuma_vm_fixed2300_23_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed230023E450g,
+	"vnuma_vm_fixed2400_24_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed240024E450g,
+	"vnuma_vm_fixed2500_25_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed250025E450g,
+	"vnuma_vm_fixed2600_26_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed260026E450g,
+	"vnuma_vm_fixed2700_27_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed270027E450g,
+	"vnuma_vm_fixed2800_28_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed280028E450g,
+	"vnuma_vm_fixed2900_29_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed290029E450g,
+	"vnuma_vm_fixed3000_30_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed300030E450g,
+	"vnuma_vm_fixed3100_31_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed310031E450g,
+	"vnuma_vm_fixed3200_32_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320032E450g,
+	"vnuma_vm_fixed3300_33_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed330033E450g,
+	"vnuma_vm_fixed3400_34_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed340034E450g,
+	"vnuma_vm_fixed3500_35_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed350035E450g,
+	"vnuma_vm_fixed3600_36_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed360036E450g,
+	"vnuma_vm_fixed3700_37_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed370037E450g,
+	"vnuma_vm_fixed3800_38_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed380038E450g,
+	"vnuma_vm_fixed3900_39_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed390039E450g,
+	"vnuma_vm_fixed4000_40_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400040E450g,
+	"vnuma_vm_fixed4000_41_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400041E450g,
+	"vnuma_vm_fixed4000_42_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400042E450g,
+	"vnuma_vm_fixed4000_43_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400043E450g,
+	"vnuma_vm_fixed4000_44_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400044E450g,
+	"vnuma_vm_fixed4000_45_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400045E450g,
+	"vnuma_vm_fixed4000_46_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400046E450g,
+	"vnuma_vm_fixed4000_47_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400047E450g,
+	"vnuma_vm_fixed4000_48_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400048E450g,
+	"vnuma_vm_fixed4000_49_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400049E450g,
+	"vnuma_vm_fixed4000_50_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400050E450g,
+	"vnuma_vm_fixed4000_51_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400051E450g,
+	"vnuma_vm_fixed4000_52_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400052E450g,
+	"vnuma_vm_fixed4000_53_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400053E450g,
+	"vnuma_vm_fixed4000_54_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400054E450g,
+	"vnuma_vm_fixed4000_55_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400055E450g,
+	"vnuma_vm_fixed4000_56_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400056E450g,
+	"vnuma_vm_fixed4000_57_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400057E450g,
+	"vnuma_vm_fixed4000_58_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400058E450g,
+	"vnuma_vm_fixed4000_59_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400059E450g,
+	"vnuma_vm_fixed4000_60_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400060E450g,
+	"vnuma_vm_fixed4000_61_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400061E450g,
+	"vnuma_vm_fixed4000_62_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400062E450g,
+	"vnuma_vm_fixed4000_63_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400063E450g,
+	"vnuma_vm_fixed4000_64_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400064E450g,
+	"vnuma_vm_fixed4000_65_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400065E450g,
+	"vnuma_vm_fixed4000_66_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400066E450g,
+	"vnuma_vm_fixed4000_67_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400067E450g,
+	"vnuma_vm_fixed4000_68_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400068E450g,
+	"vnuma_vm_fixed4000_69_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400069E450g,
+	"vnuma_vm_fixed4000_70_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400070E450g,
+	"vnuma_vm_fixed4000_71_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400071E450g,
+	"vnuma_vm_fixed4000_72_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400072E450g,
+	"vnuma_vm_fixed4000_73_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400073E450g,
+	"vnuma_vm_fixed4000_74_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400074E450g,
+	"vnuma_vm_fixed4000_75_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400075E450g,
+	"vnuma_vm_fixed4000_76_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400076E450g,
+	"vnuma_vm_fixed4000_77_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400077E450g,
+	"vnuma_vm_fixed4000_78_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400078E450g,
+	"vnuma_vm_fixed4000_79_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400079E450g,
+	"vnuma_vm_fixed4000_80_e4_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed400080E450g,
 	"micro_vm_fixed0050_e3_50g":            InternalVnicAttachmentVnicShapeMicroVmFixed0050E350g,
 	"micro_vm_fixed0050_e4_50g":            InternalVnicAttachmentVnicShapeMicroVmFixed0050E450g,
 	"subcore_vm_fixed0025_e3_50g":          InternalVnicAttachmentVnicShapeSubcoreVmFixed0025E350g,
@@ -3552,6 +3920,70 @@ var mappingInternalVnicAttachmentVnicShapeEnumLowerCase = map[string]InternalVni
 	"standard_vm_fixed5000_x9_50g":         InternalVnicAttachmentVnicShapeStandardVmFixed5000X950g,
 	"a10_gpu_vm_fixed2400_x9_50g":          InternalVnicAttachmentVnicShapeA10GpuVmFixed2400X950g,
 	"a10_gpu_vm_fixed4800_x9_50g":          InternalVnicAttachmentVnicShapeA10GpuVmFixed4800X950g,
+	"vnuma_vm_fixed0100_1_x9_50g":          InternalVnicAttachmentVnicShapeVnumaVmFixed01001X950g,
+	"vnuma_vm_fixed0200_2_x9_50g":          InternalVnicAttachmentVnicShapeVnumaVmFixed02002X950g,
+	"vnuma_vm_fixed0300_3_x9_50g":          InternalVnicAttachmentVnicShapeVnumaVmFixed03003X950g,
+	"vnuma_vm_fixed0400_4_x9_50g":          InternalVnicAttachmentVnicShapeVnumaVmFixed04004X950g,
+	"vnuma_vm_fixed0500_5_x9_50g":          InternalVnicAttachmentVnicShapeVnumaVmFixed05005X950g,
+	"vnuma_vm_fixed0600_6_x9_50g":          InternalVnicAttachmentVnicShapeVnumaVmFixed06006X950g,
+	"vnuma_vm_fixed0700_7_x9_50g":          InternalVnicAttachmentVnicShapeVnumaVmFixed07007X950g,
+	"vnuma_vm_fixed0800_8_x9_50g":          InternalVnicAttachmentVnicShapeVnumaVmFixed08008X950g,
+	"vnuma_vm_fixed0900_9_x9_50g":          InternalVnicAttachmentVnicShapeVnumaVmFixed09009X950g,
+	"vnuma_vm_fixed1000_10_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed100010X950g,
+	"vnuma_vm_fixed1100_11_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed110011X950g,
+	"vnuma_vm_fixed1200_12_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed120012X950g,
+	"vnuma_vm_fixed1300_13_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed130013X950g,
+	"vnuma_vm_fixed1400_14_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed140014X950g,
+	"vnuma_vm_fixed1500_15_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed150015X950g,
+	"vnuma_vm_fixed1600_16_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed160016X950g,
+	"vnuma_vm_fixed1700_17_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed170017X950g,
+	"vnuma_vm_fixed1800_18_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed180018X950g,
+	"vnuma_vm_fixed1900_19_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed190019X950g,
+	"vnuma_vm_fixed2000_20_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed200020X950g,
+	"vnuma_vm_fixed2100_21_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed210021X950g,
+	"vnuma_vm_fixed2200_22_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed220022X950g,
+	"vnuma_vm_fixed2300_23_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed230023X950g,
+	"vnuma_vm_fixed2400_24_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed240024X950g,
+	"vnuma_vm_fixed2500_25_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed250025X950g,
+	"vnuma_vm_fixed2600_26_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed260026X950g,
+	"vnuma_vm_fixed2700_27_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed270027X950g,
+	"vnuma_vm_fixed2800_28_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed280028X950g,
+	"vnuma_vm_fixed2900_29_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed290029X950g,
+	"vnuma_vm_fixed3000_30_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed300030X950g,
+	"vnuma_vm_fixed3100_31_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed310031X950g,
+	"vnuma_vm_fixed3200_32_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320032X950g,
+	"vnuma_vm_fixed3200_33_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320033X950g,
+	"vnuma_vm_fixed3200_34_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320034X950g,
+	"vnuma_vm_fixed3200_35_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320035X950g,
+	"vnuma_vm_fixed3200_36_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320036X950g,
+	"vnuma_vm_fixed3200_37_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320037X950g,
+	"vnuma_vm_fixed3200_38_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320038X950g,
+	"vnuma_vm_fixed3200_39_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320039X950g,
+	"vnuma_vm_fixed3200_40_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320040X950g,
+	"vnuma_vm_fixed3200_41_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320041X950g,
+	"vnuma_vm_fixed3200_42_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320042X950g,
+	"vnuma_vm_fixed3200_43_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320043X950g,
+	"vnuma_vm_fixed3200_44_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320044X950g,
+	"vnuma_vm_fixed3200_45_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320045X950g,
+	"vnuma_vm_fixed3200_46_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320046X950g,
+	"vnuma_vm_fixed3200_47_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320047X950g,
+	"vnuma_vm_fixed3200_48_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320048X950g,
+	"vnuma_vm_fixed3200_49_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320049X950g,
+	"vnuma_vm_fixed3200_50_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320050X950g,
+	"vnuma_vm_fixed3200_51_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320051X950g,
+	"vnuma_vm_fixed3200_52_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320052X950g,
+	"vnuma_vm_fixed3200_53_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320053X950g,
+	"vnuma_vm_fixed3200_54_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320054X950g,
+	"vnuma_vm_fixed3200_55_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320055X950g,
+	"vnuma_vm_fixed3200_56_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320056X950g,
+	"vnuma_vm_fixed3200_57_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320057X950g,
+	"vnuma_vm_fixed3200_58_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320058X950g,
+	"vnuma_vm_fixed3200_59_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320059X950g,
+	"vnuma_vm_fixed3200_60_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320060X950g,
+	"vnuma_vm_fixed3200_61_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320061X950g,
+	"vnuma_vm_fixed3200_62_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320062X950g,
+	"vnuma_vm_fixed3200_63_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320063X950g,
+	"vnuma_vm_fixed3200_64_x9_50g":         InternalVnicAttachmentVnicShapeVnumaVmFixed320064X950g,
 	"subcore_standard_vm_fixed0025_x9_50g": InternalVnicAttachmentVnicShapeSubcoreStandardVmFixed0025X950g,
 	"subcore_standard_vm_fixed0050_x9_50g": InternalVnicAttachmentVnicShapeSubcoreStandardVmFixed0050X950g,
 	"subcore_standard_vm_fixed0075_x9_50g": InternalVnicAttachmentVnicShapeSubcoreStandardVmFixed0075X950g,
@@ -3882,6 +4314,86 @@ func GetInternalVnicAttachmentVnicShapeEnumStringValues() []string {
 		"FIXED3900_E4_50G",
 		"FIXED4000_E4_50G",
 		"ENTIREHOST_E4_50G",
+		"VNUMA_VM_FIXED0100_1_E4_50G",
+		"VNUMA_VM_FIXED0200_2_E4_50G",
+		"VNUMA_VM_FIXED0300_3_E4_50G",
+		"VNUMA_VM_FIXED0400_4_E4_50G",
+		"VNUMA_VM_FIXED0500_5_E4_50G",
+		"VNUMA_VM_FIXED0600_6_E4_50G",
+		"VNUMA_VM_FIXED0700_7_E4_50G",
+		"VNUMA_VM_FIXED0800_8_E4_50G",
+		"VNUMA_VM_FIXED0900_9_E4_50G",
+		"VNUMA_VM_FIXED1000_10_E4_50G",
+		"VNUMA_VM_FIXED1100_11_E4_50G",
+		"VNUMA_VM_FIXED1200_12_E4_50G",
+		"VNUMA_VM_FIXED1300_13_E4_50G",
+		"VNUMA_VM_FIXED1400_14_E4_50G",
+		"VNUMA_VM_FIXED1500_15_E4_50G",
+		"VNUMA_VM_FIXED1600_16_E4_50G",
+		"VNUMA_VM_FIXED1700_17_E4_50G",
+		"VNUMA_VM_FIXED1800_18_E4_50G",
+		"VNUMA_VM_FIXED1900_19_E4_50G",
+		"VNUMA_VM_FIXED2000_20_E4_50G",
+		"VNUMA_VM_FIXED2100_21_E4_50G",
+		"VNUMA_VM_FIXED2200_22_E4_50G",
+		"VNUMA_VM_FIXED2300_23_E4_50G",
+		"VNUMA_VM_FIXED2400_24_E4_50G",
+		"VNUMA_VM_FIXED2500_25_E4_50G",
+		"VNUMA_VM_FIXED2600_26_E4_50G",
+		"VNUMA_VM_FIXED2700_27_E4_50G",
+		"VNUMA_VM_FIXED2800_28_E4_50G",
+		"VNUMA_VM_FIXED2900_29_E4_50G",
+		"VNUMA_VM_FIXED3000_30_E4_50G",
+		"VNUMA_VM_FIXED3100_31_E4_50G",
+		"VNUMA_VM_FIXED3200_32_E4_50G",
+		"VNUMA_VM_FIXED3300_33_E4_50G",
+		"VNUMA_VM_FIXED3400_34_E4_50G",
+		"VNUMA_VM_FIXED3500_35_E4_50G",
+		"VNUMA_VM_FIXED3600_36_E4_50G",
+		"VNUMA_VM_FIXED3700_37_E4_50G",
+		"VNUMA_VM_FIXED3800_38_E4_50G",
+		"VNUMA_VM_FIXED3900_39_E4_50G",
+		"VNUMA_VM_FIXED4000_40_E4_50G",
+		"VNUMA_VM_FIXED4000_41_E4_50G",
+		"VNUMA_VM_FIXED4000_42_E4_50G",
+		"VNUMA_VM_FIXED4000_43_E4_50G",
+		"VNUMA_VM_FIXED4000_44_E4_50G",
+		"VNUMA_VM_FIXED4000_45_E4_50G",
+		"VNUMA_VM_FIXED4000_46_E4_50G",
+		"VNUMA_VM_FIXED4000_47_E4_50G",
+		"VNUMA_VM_FIXED4000_48_E4_50G",
+		"VNUMA_VM_FIXED4000_49_E4_50G",
+		"VNUMA_VM_FIXED4000_50_E4_50G",
+		"VNUMA_VM_FIXED4000_51_E4_50G",
+		"VNUMA_VM_FIXED4000_52_E4_50G",
+		"VNUMA_VM_FIXED4000_53_E4_50G",
+		"VNUMA_VM_FIXED4000_54_E4_50G",
+		"VNUMA_VM_FIXED4000_55_E4_50G",
+		"VNUMA_VM_FIXED4000_56_E4_50G",
+		"VNUMA_VM_FIXED4000_57_E4_50G",
+		"VNUMA_VM_FIXED4000_58_E4_50G",
+		"VNUMA_VM_FIXED4000_59_E4_50G",
+		"VNUMA_VM_FIXED4000_60_E4_50G",
+		"VNUMA_VM_FIXED4000_61_E4_50G",
+		"VNUMA_VM_FIXED4000_62_E4_50G",
+		"VNUMA_VM_FIXED4000_63_E4_50G",
+		"VNUMA_VM_FIXED4000_64_E4_50G",
+		"VNUMA_VM_FIXED4000_65_E4_50G",
+		"VNUMA_VM_FIXED4000_66_E4_50G",
+		"VNUMA_VM_FIXED4000_67_E4_50G",
+		"VNUMA_VM_FIXED4000_68_E4_50G",
+		"VNUMA_VM_FIXED4000_69_E4_50G",
+		"VNUMA_VM_FIXED4000_70_E4_50G",
+		"VNUMA_VM_FIXED4000_71_E4_50G",
+		"VNUMA_VM_FIXED4000_72_E4_50G",
+		"VNUMA_VM_FIXED4000_73_E4_50G",
+		"VNUMA_VM_FIXED4000_74_E4_50G",
+		"VNUMA_VM_FIXED4000_75_E4_50G",
+		"VNUMA_VM_FIXED4000_76_E4_50G",
+		"VNUMA_VM_FIXED4000_77_E4_50G",
+		"VNUMA_VM_FIXED4000_78_E4_50G",
+		"VNUMA_VM_FIXED4000_79_E4_50G",
+		"VNUMA_VM_FIXED4000_80_E4_50G",
 		"Micro_VM_Fixed0050_E3_50G",
 		"Micro_VM_Fixed0050_E4_50G",
 		"SUBCORE_VM_FIXED0025_E3_50G",
@@ -4752,6 +5264,70 @@ func GetInternalVnicAttachmentVnicShapeEnumStringValues() []string {
 		"STANDARD_VM_FIXED5000_X9_50G",
 		"A10_GPU_VM_FIXED2400_X9_50G",
 		"A10_GPU_VM_FIXED4800_X9_50G",
+		"VNUMA_VM_FIXED0100_1_X9_50G",
+		"VNUMA_VM_FIXED0200_2_X9_50G",
+		"VNUMA_VM_FIXED0300_3_X9_50G",
+		"VNUMA_VM_FIXED0400_4_X9_50G",
+		"VNUMA_VM_FIXED0500_5_X9_50G",
+		"VNUMA_VM_FIXED0600_6_X9_50G",
+		"VNUMA_VM_FIXED0700_7_X9_50G",
+		"VNUMA_VM_FIXED0800_8_X9_50G",
+		"VNUMA_VM_FIXED0900_9_X9_50G",
+		"VNUMA_VM_FIXED1000_10_X9_50G",
+		"VNUMA_VM_FIXED1100_11_X9_50G",
+		"VNUMA_VM_FIXED1200_12_X9_50G",
+		"VNUMA_VM_FIXED1300_13_X9_50G",
+		"VNUMA_VM_FIXED1400_14_X9_50G",
+		"VNUMA_VM_FIXED1500_15_X9_50G",
+		"VNUMA_VM_FIXED1600_16_X9_50G",
+		"VNUMA_VM_FIXED1700_17_X9_50G",
+		"VNUMA_VM_FIXED1800_18_X9_50G",
+		"VNUMA_VM_FIXED1900_19_X9_50G",
+		"VNUMA_VM_FIXED2000_20_X9_50G",
+		"VNUMA_VM_FIXED2100_21_X9_50G",
+		"VNUMA_VM_FIXED2200_22_X9_50G",
+		"VNUMA_VM_FIXED2300_23_X9_50G",
+		"VNUMA_VM_FIXED2400_24_X9_50G",
+		"VNUMA_VM_FIXED2500_25_X9_50G",
+		"VNUMA_VM_FIXED2600_26_X9_50G",
+		"VNUMA_VM_FIXED2700_27_X9_50G",
+		"VNUMA_VM_FIXED2800_28_X9_50G",
+		"VNUMA_VM_FIXED2900_29_X9_50G",
+		"VNUMA_VM_FIXED3000_30_X9_50G",
+		"VNUMA_VM_FIXED3100_31_X9_50G",
+		"VNUMA_VM_FIXED3200_32_X9_50G",
+		"VNUMA_VM_FIXED3200_33_X9_50G",
+		"VNUMA_VM_FIXED3200_34_X9_50G",
+		"VNUMA_VM_FIXED3200_35_X9_50G",
+		"VNUMA_VM_FIXED3200_36_X9_50G",
+		"VNUMA_VM_FIXED3200_37_X9_50G",
+		"VNUMA_VM_FIXED3200_38_X9_50G",
+		"VNUMA_VM_FIXED3200_39_X9_50G",
+		"VNUMA_VM_FIXED3200_40_X9_50G",
+		"VNUMA_VM_FIXED3200_41_X9_50G",
+		"VNUMA_VM_FIXED3200_42_X9_50G",
+		"VNUMA_VM_FIXED3200_43_X9_50G",
+		"VNUMA_VM_FIXED3200_44_X9_50G",
+		"VNUMA_VM_FIXED3200_45_X9_50G",
+		"VNUMA_VM_FIXED3200_46_X9_50G",
+		"VNUMA_VM_FIXED3200_47_X9_50G",
+		"VNUMA_VM_FIXED3200_48_X9_50G",
+		"VNUMA_VM_FIXED3200_49_X9_50G",
+		"VNUMA_VM_FIXED3200_50_X9_50G",
+		"VNUMA_VM_FIXED3200_51_X9_50G",
+		"VNUMA_VM_FIXED3200_52_X9_50G",
+		"VNUMA_VM_FIXED3200_53_X9_50G",
+		"VNUMA_VM_FIXED3200_54_X9_50G",
+		"VNUMA_VM_FIXED3200_55_X9_50G",
+		"VNUMA_VM_FIXED3200_56_X9_50G",
+		"VNUMA_VM_FIXED3200_57_X9_50G",
+		"VNUMA_VM_FIXED3200_58_X9_50G",
+		"VNUMA_VM_FIXED3200_59_X9_50G",
+		"VNUMA_VM_FIXED3200_60_X9_50G",
+		"VNUMA_VM_FIXED3200_61_X9_50G",
+		"VNUMA_VM_FIXED3200_62_X9_50G",
+		"VNUMA_VM_FIXED3200_63_X9_50G",
+		"VNUMA_VM_FIXED3200_64_X9_50G",
 		"SUBCORE_STANDARD_VM_FIXED0025_X9_50G",
 		"SUBCORE_STANDARD_VM_FIXED0050_X9_50G",
 		"SUBCORE_STANDARD_VM_FIXED0075_X9_50G",
