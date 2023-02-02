@@ -45,6 +45,7 @@ Using the Provider
 ----------------------
 If you're building the provider, follow the instructions to [install it as a plugin.](https://www.terraform.io/docs/plugins/basics.html#installing-a-plugin) 
 After placing it into your plugins directory,  run `terraform init` to initialize it and begin using Terraform with the Oracle Cloud Infrastructure provider.
+This is for testing.
 
 
 Troubleshooting the Provider
