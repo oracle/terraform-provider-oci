@@ -637,8 +637,6 @@ func CoreInstanceResource() *schema.Resource {
 						"kms_key_id": {
 							Type:     schema.TypeString,
 							Optional: true,
-							Computed: true,
-							ForceNew: true,
 						},
 
 						// Computed
@@ -1109,6 +1107,12 @@ func (s *CoreInstanceResourceCrud) Update() error {
 			if err != nil {
 				return err
 			}
+
+			err = s.mapToUpdateBootVolumeKmsKey(fieldKeyFormat)
+
+			if err != nil {
+				return err
+			}
 		}
 	}
 
@@ -1201,7 +1205,6 @@ func (s *CoreInstanceResourceCrud) Update() error {
 	s.Res = &response.Instance
 
 	// Check for changes in the create_vnic_details sub resource and separately Update the vnic
-
 	_, ok := s.D.GetOkExists("create_vnic_details")
 	if !s.D.HasChange("create_vnic_details") || !ok {
 		log.Printf("[DEBUG] No changes to primary VNIC. Instance ID: \"%v\"", s.Res.Id)
@@ -2777,6 +2780,42 @@ func (s *CoreInstanceResourceCrud) mapToUpdateInstanceBootVolumeSizeInGbs(fieldK
 		if err != nil {
 			return err
 		}
+	}
+	return nil
+}
+
+func (s *CoreInstanceResourceCrud) mapToUpdateBootVolumeKmsKey(fieldKeyFormat string) error {
+	if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "kms_key_id")) {
+		tmp := kmsKeyId.(string)
+		err := s.updateBootVolumeKmsKey(tmp)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (s *CoreInstanceResourceCrud) updateBootVolumeKmsKey(kmsKeyId interface{}) error {
+	updateBootVolumeKmsKeyRequest := oci_core.UpdateBootVolumeKmsKeyRequest{}
+
+	if bootVolumeId, ok := s.D.GetOkExists("boot_volume_id"); ok {
+		tmp := bootVolumeId.(string)
+		updateBootVolumeKmsKeyRequest.BootVolumeId = &tmp
+	}
+
+	kmsKeyIdTmp := kmsKeyId.(string)
+	updateBootVolumeKmsKeyRequest.KmsKeyId = &kmsKeyIdTmp
+
+	updateBootVolumeKmsKeyRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.BlockStorageClient.UpdateBootVolumeKmsKey(context.Background(), updateBootVolumeKmsKeyRequest)
+	if err != nil {
+		return err
+	}
+
+	_, err = waitForBootVolumeIfItIsUpdating(updateBootVolumeKmsKeyRequest.BootVolumeId, s.BlockStorageClient, s.D.Timeout(schema.TimeoutUpdate))
+	if err != nil {
+		return err
 	}
 	return nil
 }
