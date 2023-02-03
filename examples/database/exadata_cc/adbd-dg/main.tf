@@ -39,6 +39,8 @@ resource "oci_database_exadata_infrastructure" "primary_exadata_infrastructure" 
   cloud_control_plane_server1 = "10.32.88.1"
   cloud_control_plane_server2 = "10.32.88.3"
   compartment_id              = var.compartment_ocid
+  storage_count               = 3
+  compute_count               = 2
 
   contacts {
     email        = "shravan.thatikonda@oracle.com"
@@ -65,6 +67,8 @@ resource "oci_database_exadata_infrastructure" "standby_exadata_infrastructure" 
   cloud_control_plane_server1 = "10.32.88.1"
   cloud_control_plane_server2 = "10.32.88.3"
   compartment_id              = var.compartment_ocid
+  storage_count               = 3
+  compute_count               = 2
 
   contacts {
     email        = "johndoe@acme.com"
@@ -112,10 +116,13 @@ resource "oci_database_vm_cluster_network" "primary_vm_cluster_network" {
     nodes {
       hostname = "myprefix2-cghdm1"
       ip       = "192.169.19.18"
+      db_server_id = data.oci_database_db_servers.primary_db_servers.db_servers.0.id
     }
     nodes {
       hostname = "myprefix2-cghdm2"
       ip       = "192.169.19.20"
+      db_server_id = data.oci_database_db_servers.primary_db_servers.db_servers.1.id
+
     }
     vlan_id = "11"
   }
@@ -129,12 +136,14 @@ resource "oci_database_vm_cluster_network" "primary_vm_cluster_network" {
       ip           = "192.168.19.10"
       vip          = "192.168.19.11"
       vip_hostname = "myprefix1-r64zc1-vip"
+      db_server_id = data.oci_database_db_servers.primary_db_servers.db_servers.0.id
     }
     nodes {
       hostname     = "primaryprefix1-r64zc2"
       ip           = "192.168.19.14"
       vip          = "192.168.19.15"
       vip_hostname = "primaryprefix1-r64zc2-vip"
+      db_server_id = data.oci_database_db_servers.primary_db_servers.db_servers.1.id
     }
     vlan_id = "10"
   }
@@ -175,10 +184,12 @@ resource "oci_database_vm_cluster_network" "standby_vm_cluster_network" {
     nodes {
       hostname = "myprefix2-cghdm1"
       ip       = "192.169.19.18"
+      db_server_id = data.oci_database_db_servers.standby_db_servers.db_servers.0.id
     }
     nodes {
       hostname = "myprefix2-cghdm2"
       ip       = "192.169.19.20"
+      db_server_id = data.oci_database_db_servers.standby_db_servers.db_servers.1.id
     }
     vlan_id = "11"
   }
@@ -192,13 +203,18 @@ resource "oci_database_vm_cluster_network" "standby_vm_cluster_network" {
       ip           = "192.168.19.10"
       vip          = "192.168.19.11"
       vip_hostname = "standbyprefix1-r64zc1-vip"
-    }
+    db_server_id = data.oci_database_db_servers.standby_db_servers.db_servers.0.id
+
+        }
     nodes {
       hostname     = "standbyprefix1-r64zc2"
       ip           = "192.168.19.14"
       vip          = "192.168.19.15"
       vip_hostname = "standbyprefix1-r64zc2-vip"
-    }
+    db_server_id = data.oci_database_db_servers.standby_db_servers.db_servers.1.id
+
+        }
+
     vlan_id = "10"
   }
   #Optional
@@ -217,8 +233,8 @@ resource "oci_database_autonomous_vm_cluster" "primary_autonomous_vm_cluster" {
   display_name                          = "PrimaryVmCluster"
   exadata_infrastructure_id             = oci_database_exadata_infrastructure.primary_exadata_infrastructure.id
   vm_cluster_network_id                 = oci_database_vm_cluster_network.primary_vm_cluster_network.id
-  cpu_core_count_per_node               = "6"
-  autonomous_data_storage_size_in_tbs   = "1.0"
+  cpu_core_count_per_node   = "10"
+  autonomous_data_storage_size_in_tbs = "2.0"
   memory_per_oracle_compute_unit_in_gbs = "12"
   total_container_databases             = "2"
   #Optional
@@ -240,8 +256,8 @@ resource "oci_database_autonomous_vm_cluster" "standby_autonomous_vm_cluster" {
   display_name                          = "StandbyVmCluster"
   exadata_infrastructure_id             = oci_database_exadata_infrastructure.standby_exadata_infrastructure.id
   vm_cluster_network_id                 = oci_database_vm_cluster_network.standby_vm_cluster_network.id
-  cpu_core_count_per_node               = "6"
-  autonomous_data_storage_size_in_tbs   = "1.0"
+  cpu_core_count_per_node   = "10"
+  autonomous_data_storage_size_in_tbs = "2.0"
   memory_per_oracle_compute_unit_in_gbs = "12"
   total_container_databases             = "2"
   #Optional
@@ -339,6 +355,26 @@ resource "oci_database_autonomous_container_database_dataguard_association_opera
   autonomous_container_database_dataguard_association_id = data.oci_database_autonomous_container_database_dataguard_associations.primary_autonomous_dg_associations.autonomous_container_database_dataguard_associations[0].peer_autonomous_container_database_dataguard_association_id
   depends_on = [
   oci_database_autonomous_container_database_dataguard_association_operation.failover]
+}
+
+resource "oci_database_autonomous_container_database_dataguard_association" dgresource{
+  autonomous_container_database_id                       = oci_database_autonomous_container_database.dg_autonomous_container_database.id
+  autonomous_container_database_dataguard_association_id = data.oci_database_autonomous_container_database_dataguard_associations.primary_autonomous_dg_associations.autonomous_container_database_dataguard_associations[0].id
+  is_automatic_failover_enabled =   false
+  protection_mode               = "MAXIMUM_AVAILABILITY"
+  fast_start_fail_over_lag_limit_in_seconds = null
+}
+
+data "oci_database_db_servers" "primary_db_servers" {
+  #Required
+  compartment_id            = var.compartment_ocid
+  exadata_infrastructure_id = oci_database_exadata_infrastructure.primary_exadata_infrastructure.id
+}
+
+data "oci_database_db_servers" "standby_db_servers" {
+  #Required
+  compartment_id            = var.compartment_ocid
+  exadata_infrastructure_id = oci_database_exadata_infrastructure.standby_exadata_infrastructure.id
 }
 #### End Resources ####
 #######################

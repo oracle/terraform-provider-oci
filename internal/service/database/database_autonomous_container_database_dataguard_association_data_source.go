@@ -83,6 +83,10 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationDataSourceCrud) 
 		s.D.Set("apply_rate", *s.Res.ApplyRate)
 	}
 
+	if s.Res.FastStartFailOverLagLimitInSeconds != nil {
+		s.D.Set("fast_start_fail_over_lag_limit_in_seconds", *s.Res.FastStartFailOverLagLimitInSeconds)
+	}
+
 	if s.Res.IsAutomaticFailoverEnabled != nil {
 		s.D.Set("is_automatic_failover_enabled", *s.Res.IsAutomaticFailoverEnabled)
 	}
