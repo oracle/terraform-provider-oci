@@ -6,11 +6,13 @@ package integrationtest
 import (
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
@@ -30,9 +32,64 @@ var (
 		"autonomous_container_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
 	}
 
+	DatabaseAutonomousContainerDatabaseDataguardAssociationUpdateRepresentation = map[string]interface{}{
+		"autonomous_container_database_dataguard_association_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_autonomous_container_database_dataguard_associations.test_autonomous_container_database_dataguard_associations.autonomous_container_database_dataguard_associations[0]["id"]}`},
+		"autonomous_container_database_id":                       acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
+		"fast_start_fail_over_lag_limit_in_seconds":              acctest.Representation{RepType: acctest.Optional, Create: `30`, Update: `60`},
+		"is_automatic_failover_enabled":                          acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
+		"protection_mode":                                        acctest.Representation{RepType: acctest.Optional, Create: `MAXIMUM_PERFORMANCE`, Update: `MAXIMUM_AVAILABILITY`},
+	}
+
+	DatabaseAutonomousContainerDatabaseDataguardRoleChangeSnapshotResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_role_change", "test_oci_database_autonomous_container_database_dataguard_role_change", acctest.Optional, acctest.Create,
+		map[string]interface{}{
+			"autonomous_container_database_dataguard_association_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_autonomous_container_database_dataguard_associations.test_autonomous_container_database_dataguard_associations.autonomous_container_database_dataguard_associations[0]["peer_autonomous_container_database_dataguard_association_id"]}`},
+			"autonomous_container_database_id":                       acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_autonomous_container_database_dataguard_associations.test_autonomous_container_database_dataguard_associations.autonomous_container_database_dataguard_associations[0]["peer_autonomous_container_database_id"]}`},
+			"connection_strings_type":                                acctest.Representation{RepType: acctest.Optional, Create: `PRIMARY_SERVICES`},
+			"role":                                                   acctest.Representation{RepType: acctest.Optional, Create: `SNAPSHOT_STANDBY`},
+		})
+
+	DatabaseAutonomousContainerDatabaseDataguardRoleChangePhysicalResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_role_change", "test_oci_database_autonomous_container_database_dataguard_role_change", acctest.Optional, acctest.Create,
+		map[string]interface{}{
+			"autonomous_container_database_dataguard_association_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_autonomous_container_database_dataguard_associations.test_autonomous_container_database_dataguard_associations.autonomous_container_database_dataguard_associations[0]["peer_autonomous_container_database_dataguard_association_id"]}`},
+			"autonomous_container_database_id":                       acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_autonomous_container_database_dataguard_associations.test_autonomous_container_database_dataguard_associations.autonomous_container_database_dataguard_associations[0]["peer_autonomous_container_database_id"]}`},
+			"connection_strings_type":                                acctest.Representation{RepType: acctest.Optional, Create: `PRIMARY_SERVICES`},
+			"role":                                                   acctest.Representation{RepType: acctest.Optional, Create: `STANDBY`},
+		})
+
 	DatabaseExaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation = map[string]interface{}{
 		"autonomous_container_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_container_database.exacc_test_autonomous_container_database.id}`},
 	}
+
+	DatabaseExaccAutonomousContainerDatabaseDataguardAssociationUpdateRepresentation = map[string]interface{}{
+		"autonomous_container_database_dataguard_association_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_autonomous_container_database_dataguard_associations.exacc_test_autonomous_container_database_dataguard_associations.autonomous_container_database_dataguard_associations[0]["id"]}`},
+		"autonomous_container_database_id":                       acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_container_database.exacc_test_autonomous_container_database.id}`},
+		"fast_start_fail_over_lag_limit_in_seconds":              acctest.Representation{RepType: acctest.Optional, Create: `30`},
+		"is_automatic_failover_enabled":                          acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"protection_mode":                                        acctest.Representation{RepType: acctest.Optional, Create: `MAXIMUM_PERFORMANCE`},
+	}
+
+	DatabaseExaccAutonomousContainerDatabaseDataguardAssociationUpdate2Representation = map[string]interface{}{
+		"autonomous_container_database_dataguard_association_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_autonomous_container_database_dataguard_associations.exacc_test_autonomous_container_database_dataguard_associations.autonomous_container_database_dataguard_associations[0]["id"]}`},
+		"autonomous_container_database_id":                       acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_container_database.exacc_test_autonomous_container_database.id}`},
+		"is_automatic_failover_enabled":                          acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
+		"protection_mode":                                        acctest.Representation{RepType: acctest.Optional, Create: `MAXIMUM_PERFORMANCE`, Update: `MAXIMUM_AVAILABILITY`},
+	}
+
+	DatabaseExaccAutonomousContainerDatabaseDataguardRoleChangeSnapshotResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_role_change", "test_oci_database_autonomous_container_database_dataguard_role_change", acctest.Optional, acctest.Create,
+		map[string]interface{}{
+			"autonomous_container_database_dataguard_association_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_autonomous_container_database_dataguard_associations.exacc_test_autonomous_container_database_dataguard_associations.autonomous_container_database_dataguard_associations[0]["peer_autonomous_container_database_dataguard_association_id"]}`},
+			"autonomous_container_database_id":                       acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_autonomous_container_database_dataguard_associations.exacc_test_autonomous_container_database_dataguard_associations.autonomous_container_database_dataguard_associations[0]["peer_autonomous_container_database_id"]}`},
+			"connection_strings_type":                                acctest.Representation{RepType: acctest.Optional, Create: `PRIMARY_SERVICES`},
+			"role":                                                   acctest.Representation{RepType: acctest.Optional, Create: `SNAPSHOT_STANDBY`},
+		})
+
+	DatabaseExaccAutonomousContainerDatabaseDataguardRoleChangePhysicalResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_role_change", "test_oci_database_autonomous_container_database_dataguard_role_change", acctest.Optional, acctest.Create,
+		map[string]interface{}{
+			"autonomous_container_database_dataguard_association_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_autonomous_container_database_dataguard_associations.exacc_test_autonomous_container_database_dataguard_associations.autonomous_container_database_dataguard_associations[0]["peer_autonomous_container_database_dataguard_association_id"]}`},
+			"autonomous_container_database_id":                       acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_autonomous_container_database_dataguard_associations.exacc_test_autonomous_container_database_dataguard_associations.autonomous_container_database_dataguard_associations[0]["peer_autonomous_container_database_id"]}`},
+			"connection_strings_type":                                acctest.Representation{RepType: acctest.Optional, Create: `PRIMARY_SERVICES`},
+			"role":                                                   acctest.Representation{RepType: acctest.Optional, Create: `STANDBY`},
+		})
 
 	DatabaseAutonomousContainerDatabaseDataguardAssociationResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Create,
 		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousContainerDatabaseRepresentation, []string{"vault_id", "kms_key_id", "peer_autonomous_container_database_backup_config", "peer_autonomous_container_database_compartment_id", "peer_autonomous_vm_cluster_id"}), map[string]interface{}{
@@ -86,7 +143,8 @@ var (
 		"peer_autonomous_container_database_compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"peer_autonomous_vm_cluster_id":                     acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_autonomous_vm_cluster.peer_autonomous_vm_cluster.id}`},
 		"peer_autonomous_container_database_display_name":   acctest.Representation{RepType: acctest.Optional, Create: `PEER-ACD-DG`},
-		"protection_mode": acctest.Representation{RepType: acctest.Optional, Create: `MAXIMUM_PERFORMANCE`},
+		"protection_mode":               acctest.Representation{RepType: acctest.Optional, Create: `MAXIMUM_PERFORMANCE`},
+		"is_automatic_failover_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 	}
 
 	DatabaseAutonomousContainerExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig = ExaccACDWithDataGuardResourceDependencies +
@@ -112,6 +170,8 @@ func TestDatabaseAutonomousContainerDatabaseDataguardAssociationResource_basic(t
 
 	datasourceName := "data.oci_database_autonomous_container_database_dataguard_associations.test_autonomous_container_database_dataguard_associations"
 	singularDatasourceName := "data.oci_database_autonomous_container_database_dataguard_association.test_autonomous_container_database_dataguard_association"
+	resourceName := "oci_database_autonomous_container_database_dataguard_association.test_update_autonomous_container_database_dataguard_association"
+	acctest.SaveConfigContent("", "", "", t)
 
 	AutonomousContainerDatabaseDedicatedMaintenanceWindowDetailsRepresentation := acctest.RepresentationCopyWithRemovedProperties(
 		acctest.GetUpdatedRepresentationCopy("months",
@@ -140,7 +200,6 @@ func TestDatabaseAutonomousContainerDatabaseDataguardAssociationResource_basic(t
 				compartmentIdVariableStr + DatabaseAutonomousContainerDatabaseDataguardAssociationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_id"),
-
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_dataguard_associations.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_dataguard_associations.0.autonomous_container_database_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_dataguard_associations.0.id"),
@@ -164,7 +223,6 @@ func TestDatabaseAutonomousContainerDatabaseDataguardAssociationResource_basic(t
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_container_database_dataguard_association_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_container_database_id"),
-
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_automatic_failover_enabled", "false"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_autonomous_container_database_dataguard_association_id"),
@@ -175,6 +233,123 @@ func TestDatabaseAutonomousContainerDatabaseDataguardAssociationResource_basic(t
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "role"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+
+		// verify updates data guard association
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test_autonomous_container_database_dataguard_associations", acctest.Optional, acctest.Create, DatabaseautonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_association", "test_update_autonomous_container_database_dataguard_association", acctest.Optional, acctest.Create, DatabaseAutonomousContainerDatabaseDataguardAssociationUpdateRepresentation) +
+				compartmentIdVariableStr + DatabaseAutonomousContainerDatabaseDataguardAssociationResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_dataguard_association_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "fast_start_fail_over_lag_limit_in_seconds"),
+				resource.TestCheckResourceAttr(resourceName, "is_automatic_failover_enabled", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_autonomous_container_database_dataguard_association_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_autonomous_container_database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_lifecycle_state"),
+				resource.TestCheckResourceAttr(resourceName, "role", "PRIMARY"),
+				resource.TestCheckResourceAttr(resourceName, "peer_role", "STANDBY"),
+				resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+			),
+		},
+
+		// verify updates data guard association with optional parameters
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test_autonomous_container_database_dataguard_associations", acctest.Optional, acctest.Create, DatabaseautonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_association", "test_update_autonomous_container_database_dataguard_association", acctest.Optional, acctest.Update, DatabaseAutonomousContainerDatabaseDataguardAssociationUpdateRepresentation) +
+				compartmentIdVariableStr + DatabaseAutonomousContainerDatabaseDataguardAssociationResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_dataguard_association_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_automatic_failover_enabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_autonomous_container_database_dataguard_association_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_autonomous_container_database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_lifecycle_state"),
+				resource.TestCheckResourceAttr(resourceName, "role", "PRIMARY"),
+				resource.TestCheckResourceAttr(resourceName, "peer_role", "STANDBY"),
+				resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_AVAILABILITY"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+			),
+		},
+
+		// convert to snapshot standby
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test_autonomous_container_database_dataguard_associations", acctest.Optional, acctest.Create, DatabaseautonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_association", "test_update_autonomous_container_database_dataguard_association", acctest.Optional, acctest.Update, DatabaseAutonomousContainerDatabaseDataguardAssociationUpdateRepresentation) +
+				compartmentIdVariableStr + DatabaseAutonomousContainerDatabaseDataguardAssociationResourceConfig + DatabaseAutonomousContainerDatabaseDataguardRoleChangeSnapshotResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				func(s *terraform.State) (err error) {
+					time.Sleep(1 * time.Minute)
+					return nil
+				},
+			),
+		},
+
+		// verify convert to snapshot standby result
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test_autonomous_container_database_dataguard_associations", acctest.Optional, acctest.Create, DatabaseautonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_association", "test_update_autonomous_container_database_dataguard_association", acctest.Optional, acctest.Update, DatabaseAutonomousContainerDatabaseDataguardAssociationUpdateRepresentation) +
+				compartmentIdVariableStr + DatabaseAutonomousContainerDatabaseDataguardAssociationResourceConfig + DatabaseAutonomousContainerDatabaseDataguardRoleChangeSnapshotResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_dataguard_association_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_automatic_failover_enabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_autonomous_container_database_dataguard_association_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_autonomous_container_database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_lifecycle_state"),
+				resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_AVAILABILITY"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "role", "PRIMARY"),
+				resource.TestCheckResourceAttr(resourceName, "peer_role", "SNAPSHOT_STANDBY"),
+			),
+		},
+
+		// convert to physical standby
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test_autonomous_container_database_dataguard_associations", acctest.Optional, acctest.Create, DatabaseautonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_association", "test_update_autonomous_container_database_dataguard_association", acctest.Optional, acctest.Update, DatabaseAutonomousContainerDatabaseDataguardAssociationUpdateRepresentation) +
+				compartmentIdVariableStr + DatabaseAutonomousContainerDatabaseDataguardAssociationResourceConfig + DatabaseAutonomousContainerDatabaseDataguardRoleChangePhysicalResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				func(s *terraform.State) (err error) {
+					time.Sleep(1 * time.Minute)
+					return nil
+				},
+			),
+		},
+
+		// verify convert to physical standby result
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test_autonomous_container_database_dataguard_associations", acctest.Optional, acctest.Create, DatabaseautonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_association", "test_update_autonomous_container_database_dataguard_association", acctest.Optional, acctest.Update, DatabaseAutonomousContainerDatabaseDataguardAssociationUpdateRepresentation) +
+				compartmentIdVariableStr + DatabaseAutonomousContainerDatabaseDataguardAssociationResourceConfig + DatabaseAutonomousContainerDatabaseDataguardRoleChangePhysicalResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_dataguard_association_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_automatic_failover_enabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_autonomous_container_database_dataguard_association_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_autonomous_container_database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_lifecycle_state"),
+				resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_AVAILABILITY"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "role", "PRIMARY"),
+				resource.TestCheckResourceAttr(resourceName, "peer_role", "STANDBY"),
 			),
 		},
 	})
@@ -192,6 +367,7 @@ func TestDatabaseExaccAutonomousContainerDatabaseDataguardAssociationResource_ba
 
 	datasourceName := "data.oci_database_autonomous_container_database_dataguard_associations.exacc_test_autonomous_container_database_dataguard_associations"
 	singularDatasourceName := "data.oci_database_autonomous_container_database_dataguard_association.exacc_test_autonomous_container_database_dataguard_association"
+	resourceName := "oci_database_autonomous_container_database_dataguard_association.exacc_test_update_autonomous_container_database_dataguard_association"
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		//exacc dg ds
@@ -235,6 +411,122 @@ func TestDatabaseExaccAutonomousContainerDatabaseDataguardAssociationResource_ba
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "role"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+
+		// verify updates data guard association
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "exacc_test_autonomous_container_database_dataguard_associations", acctest.Optional, acctest.Create, DatabaseExaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_association", "exacc_test_update_autonomous_container_database_dataguard_association", acctest.Optional, acctest.Create, DatabaseExaccAutonomousContainerDatabaseDataguardAssociationUpdateRepresentation) +
+				compartmentIdVariableStr + DatabaseAutonomousContainerExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_dataguard_association_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_automatic_failover_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_autonomous_container_database_dataguard_association_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_autonomous_container_database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_lifecycle_state"),
+				resource.TestCheckResourceAttr(resourceName, "peer_role", "STANDBY"),
+				resource.TestCheckResourceAttr(resourceName, "role", "PRIMARY"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+			),
+		},
+
+		// verify updates data guard association with optional parameters
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "exacc_test_autonomous_container_database_dataguard_associations", acctest.Optional, acctest.Create, DatabaseExaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_association", "exacc_test_update_autonomous_container_database_dataguard_association", acctest.Optional, acctest.Update, DatabaseExaccAutonomousContainerDatabaseDataguardAssociationUpdate2Representation) +
+				compartmentIdVariableStr + DatabaseAutonomousContainerExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_dataguard_association_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_automatic_failover_enabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_autonomous_container_database_dataguard_association_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_autonomous_container_database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_lifecycle_state"),
+				resource.TestCheckResourceAttr(resourceName, "peer_role", "STANDBY"),
+				resource.TestCheckResourceAttr(resourceName, "role", "PRIMARY"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_AVAILABILITY"),
+			),
+		},
+
+		// convert to snapshot standby
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "exacc_test_autonomous_container_database_dataguard_associations", acctest.Optional, acctest.Create, DatabaseExaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_association", "exacc_test_update_autonomous_container_database_dataguard_association", acctest.Optional, acctest.Update, DatabaseExaccAutonomousContainerDatabaseDataguardAssociationUpdate2Representation) +
+				compartmentIdVariableStr + DatabaseAutonomousContainerExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig + DatabaseExaccAutonomousContainerDatabaseDataguardRoleChangeSnapshotResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				func(s *terraform.State) (err error) {
+					time.Sleep(1 * time.Minute)
+					return nil
+				},
+			),
+		},
+
+		// verify convert to snapshot standby result
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "exacc_test_autonomous_container_database_dataguard_associations", acctest.Optional, acctest.Create, DatabaseExaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_association", "exacc_test_update_autonomous_container_database_dataguard_association", acctest.Optional, acctest.Update, DatabaseExaccAutonomousContainerDatabaseDataguardAssociationUpdate2Representation) +
+				compartmentIdVariableStr + DatabaseAutonomousContainerExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig + DatabaseExaccAutonomousContainerDatabaseDataguardRoleChangeSnapshotResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_dataguard_association_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_automatic_failover_enabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_autonomous_container_database_dataguard_association_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_autonomous_container_database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_lifecycle_state"),
+				resource.TestCheckResourceAttr(resourceName, "peer_role", "SNAPSHOT_STANDBY"),
+				resource.TestCheckResourceAttr(resourceName, "role", "PRIMARY"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_AVAILABILITY"),
+			),
+		},
+
+		// convert to physical standby
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "exacc_test_autonomous_container_database_dataguard_associations", acctest.Optional, acctest.Create, DatabaseExaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_association", "exacc_test_update_autonomous_container_database_dataguard_association", acctest.Optional, acctest.Update, DatabaseExaccAutonomousContainerDatabaseDataguardAssociationUpdate2Representation) +
+				compartmentIdVariableStr + DatabaseAutonomousContainerExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig + DatabaseExaccAutonomousContainerDatabaseDataguardRoleChangePhysicalResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				func(s *terraform.State) (err error) {
+					time.Sleep(1 * time.Minute)
+					return nil
+				},
+			),
+		},
+
+		// verify convert to physical standby result
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "exacc_test_autonomous_container_database_dataguard_associations", acctest.Optional, acctest.Create, DatabaseExaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_association", "exacc_test_update_autonomous_container_database_dataguard_association", acctest.Optional, acctest.Update, DatabaseExaccAutonomousContainerDatabaseDataguardAssociationUpdate2Representation) +
+				compartmentIdVariableStr + DatabaseAutonomousContainerExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig + DatabaseExaccAutonomousContainerDatabaseDataguardRoleChangePhysicalResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_dataguard_association_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_automatic_failover_enabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_autonomous_container_database_dataguard_association_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_autonomous_container_database_id"),
+				resource.TestCheckResourceAttr(resourceName, "peer_role", "STANDBY"),
+				resource.TestCheckResourceAttr(resourceName, "role", "PRIMARY"),
+				resource.TestCheckResourceAttrSet(resourceName, "role"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_AVAILABILITY"),
 			),
 		},
 	})
