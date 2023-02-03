@@ -28,6 +28,9 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_opsi_operations_insights_warehouse_user", OpsiOperationsInsightsWarehouseUserDataSource())
 	tfresource.RegisterDatasource("oci_opsi_operations_insights_warehouse_users", OpsiOperationsInsightsWarehouseUsersDataSource())
 	tfresource.RegisterDatasource("oci_opsi_operations_insights_warehouses", OpsiOperationsInsightsWarehousesDataSource())
+	tfresource.RegisterDatasource("oci_opsi_opsi_configuration", OpsiOpsiConfigurationDataSource())
+	tfresource.RegisterDatasource("oci_opsi_opsi_configuration_configuration_item", OpsiOpsiConfigurationConfigurationItemDataSource())
+	tfresource.RegisterDatasource("oci_opsi_opsi_configurations", OpsiOpsiConfigurationsDataSource())
 	tfresource.RegisterDatasource("oci_opsi_importable_agent_entities", OpsiImportableAgentEntitiesDataSource())
 	tfresource.RegisterDatasource("oci_opsi_importable_agent_entity", OpsiImportableAgentEntityDataSource())
 }

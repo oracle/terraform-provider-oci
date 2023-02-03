@@ -121,6 +121,18 @@ var exportOpsiOperationsInsightsPrivateEndpointHints = &tf_export.TerraformResou
 	},
 }
 
+var exportOpsiOpsiConfigurationHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_opsi_opsi_configuration",
+	DatasourceClass:        "oci_opsi_opsi_configurations",
+	DatasourceItemsAttr:    "opsi_configurations_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "opsi_configuration",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_opsi.OpsiConfigurationLifecycleStateActive),
+	},
+}
+
 var opsiResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportOpsiEnterpriseManagerBridgeHints},
@@ -129,6 +141,7 @@ var opsiResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportOpsiExadataInsightHints},
 		{TerraformResourceHints: exportOpsiOperationsInsightsWarehouseHints},
 		{TerraformResourceHints: exportOpsiOperationsInsightsPrivateEndpointHints},
+		{TerraformResourceHints: exportOpsiOpsiConfigurationHints},
 	},
 	"oci_opsi_operations_insights_warehouse": {
 		{
