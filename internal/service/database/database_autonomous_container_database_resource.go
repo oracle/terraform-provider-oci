@@ -145,6 +145,12 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
+			"fast_start_fail_over_lag_limit_in_seconds": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -585,6 +591,10 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"time_snapshot_standby_revert": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"total_cpus": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -758,6 +768,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if fastStartFailOverLagLimitInSeconds, ok := s.D.GetOkExists("fast_start_fail_over_lag_limit_in_seconds"); ok && s.D.HasChange("fast_start_fail_over_lag_limit_in_seconds") {
+		tmp := fastStartFailOverLagLimitInSeconds.(int)
+		request.FastStartFailOverLagLimitInSeconds = &tmp
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
@@ -1112,6 +1127,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeSnapshotStandbyRevert != nil {
+		s.D.Set("time_snapshot_standby_revert", s.Res.TimeSnapshotStandbyRevert.String())
 	}
 
 	if s.Res.TotalCpus != nil {

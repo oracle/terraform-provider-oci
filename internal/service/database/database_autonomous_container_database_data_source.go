@@ -188,6 +188,10 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	if s.Res.TimeSnapshotStandbyRevert != nil {
+		s.D.Set("time_snapshot_standby_revert", s.Res.TimeSnapshotStandbyRevert.String())
+	}
+
 	if s.Res.TotalCpus != nil {
 		s.D.Set("total_cpus", *s.Res.TotalCpus)
 	}

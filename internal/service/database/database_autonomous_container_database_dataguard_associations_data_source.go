@@ -101,6 +101,10 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationsDataSourceCrud)
 			autonomousContainerDatabaseDataguardAssociation["apply_rate"] = *r.ApplyRate
 		}
 
+		if r.FastStartFailOverLagLimitInSeconds != nil {
+			autonomousContainerDatabaseDataguardAssociation["fast_start_fail_over_lag_limit_in_seconds"] = *r.FastStartFailOverLagLimitInSeconds
+		}
+
 		if r.Id != nil {
 			autonomousContainerDatabaseDataguardAssociation["id"] = *r.Id
 		}
