@@ -1,3 +1,14 @@
+## 4.107.0 (Unreleased)
+
+### Added
+- Support for ADB-S: New ECPU-based SKUs for ADW and ATP
+- Support for Operations Insights : Customizable configuration
+- Support for ADB-D & ADB-CC | Autonomous Data Guard v3
+- Support for ADB-D | Oracle Home Version Control
+### Bug Fix
+- Fix oci_core_instance to enable updating KMS Key id associated with the boot volume
+- Resource Discovery is not getting detected for Custom table resource in metering_computation service
+
 ## 4.106.0 (Unreleased)
 
 ### Added
