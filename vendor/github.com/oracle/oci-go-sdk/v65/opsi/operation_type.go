@@ -62,6 +62,10 @@ const (
 	OperationTypeMovePrivateEndpoint                     OperationTypeEnum = "MOVE_PRIVATE_ENDPOINT"
 	OperationTypeDeletePrivateEndpoint                   OperationTypeEnum = "DELETE_PRIVATE_ENDPOINT"
 	OperationTypeChangePeComanagedDatabaseInsightDetails OperationTypeEnum = "CHANGE_PE_COMANAGED_DATABASE_INSIGHT_DETAILS"
+	OperationTypeUpdateOpsiConfiguration                 OperationTypeEnum = "UPDATE_OPSI_CONFIGURATION"
+	OperationTypeCreateOpsiConfiguration                 OperationTypeEnum = "CREATE_OPSI_CONFIGURATION"
+	OperationTypeMoveOpsiConfiguration                   OperationTypeEnum = "MOVE_OPSI_CONFIGURATION"
+	OperationTypeDeleteOpsiConfiguration                 OperationTypeEnum = "DELETE_OPSI_CONFIGURATION"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -107,6 +111,10 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"MOVE_PRIVATE_ENDPOINT":                        OperationTypeMovePrivateEndpoint,
 	"DELETE_PRIVATE_ENDPOINT":                      OperationTypeDeletePrivateEndpoint,
 	"CHANGE_PE_COMANAGED_DATABASE_INSIGHT_DETAILS": OperationTypeChangePeComanagedDatabaseInsightDetails,
+	"UPDATE_OPSI_CONFIGURATION":                    OperationTypeUpdateOpsiConfiguration,
+	"CREATE_OPSI_CONFIGURATION":                    OperationTypeCreateOpsiConfiguration,
+	"MOVE_OPSI_CONFIGURATION":                      OperationTypeMoveOpsiConfiguration,
+	"DELETE_OPSI_CONFIGURATION":                    OperationTypeDeleteOpsiConfiguration,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -152,6 +160,10 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"move_private_endpoint":                        OperationTypeMovePrivateEndpoint,
 	"delete_private_endpoint":                      OperationTypeDeletePrivateEndpoint,
 	"change_pe_comanaged_database_insight_details": OperationTypeChangePeComanagedDatabaseInsightDetails,
+	"update_opsi_configuration":                    OperationTypeUpdateOpsiConfiguration,
+	"create_opsi_configuration":                    OperationTypeCreateOpsiConfiguration,
+	"move_opsi_configuration":                      OperationTypeMoveOpsiConfiguration,
+	"delete_opsi_configuration":                    OperationTypeDeleteOpsiConfiguration,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -208,6 +220,10 @@ func GetOperationTypeEnumStringValues() []string {
 		"MOVE_PRIVATE_ENDPOINT",
 		"DELETE_PRIVATE_ENDPOINT",
 		"CHANGE_PE_COMANAGED_DATABASE_INSIGHT_DETAILS",
+		"UPDATE_OPSI_CONFIGURATION",
+		"CREATE_OPSI_CONFIGURATION",
+		"MOVE_OPSI_CONFIGURATION",
+		"DELETE_OPSI_CONFIGURATION",
 	}
 }
 

@@ -34,6 +34,9 @@ type AutonomousDatabaseConnectionUrls struct {
 	// The URL of the MongoDB API for the Autonomous Database.
 	MongoDbUrl *string `mandatory:"false" json:"mongoDbUrl"`
 
+	// The URL of the Oracle Machine Learning (OML) Notebook for the Autonomous Database.
+	MachineLearningNotebookUrl *string `mandatory:"false" json:"machineLearningNotebookUrl"`
+
 	// The Oracle REST Data Services (ORDS) URL of the Web Access for the Autonomous Database.
 	OrdsUrl *string `mandatory:"false" json:"ordsUrl"`
 

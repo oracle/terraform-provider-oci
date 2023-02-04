@@ -55,6 +55,40 @@ type CreateOkeHelmChartDeployStageDetails struct {
 	TimeoutInSeconds *int `mandatory:"false" json:"timeoutInSeconds"`
 
 	RollbackPolicy DeployStageRollbackPolicy `mandatory:"false" json:"rollbackPolicy"`
+
+	SetValues *HelmSetValueCollection `mandatory:"false" json:"setValues"`
+
+	SetString *HelmSetValueCollection `mandatory:"false" json:"setString"`
+
+	// Disable pre/post upgrade hooks. Set to false by default.
+	AreHooksEnabled *bool `mandatory:"false" json:"areHooksEnabled"`
+
+	// During upgrade, reuse the values of the last release and merge overrides from the command line. Set to false by default.
+	ShouldReuseValues *bool `mandatory:"false" json:"shouldReuseValues"`
+
+	// During upgrade, reset the values to the ones built into the chart. It overrides shouldReuseValues. Set to false by default.
+	ShouldResetValues *bool `mandatory:"false" json:"shouldResetValues"`
+
+	// Force resource update through delete; or if required, recreate. Set to false by default.
+	IsForceEnabled *bool `mandatory:"false" json:"isForceEnabled"`
+
+	// Allow deletion of new resources created during when an upgrade fails. Set to false by default.
+	ShouldCleanupOnFail *bool `mandatory:"false" json:"shouldCleanupOnFail"`
+
+	// Limit the maximum number of revisions saved per release. Use 0 for no limit. Set to 10 by default
+	MaxHistory *int `mandatory:"false" json:"maxHistory"`
+
+	// If set, no CRDs are installed. By default, CRDs are installed only if they are not present already. Set to false by default.
+	ShouldSkipCrds *bool `mandatory:"false" json:"shouldSkipCrds"`
+
+	// If set, renders subchart notes along with the parent. Set to false by default.
+	ShouldSkipRenderSubchartNotes *bool `mandatory:"false" json:"shouldSkipRenderSubchartNotes"`
+
+	// Does not wait until all the resources are in a ready state to mark the release as successful if set to true. Set to false by default.
+	ShouldNotWait *bool `mandatory:"false" json:"shouldNotWait"`
+
+	// Enables helm --debug option to stream output to tf stdout. Set to false by default.
+	IsDebugEnabled *bool `mandatory:"false" json:"isDebugEnabled"`
 }
 
 //GetDescription returns Description
@@ -128,6 +162,18 @@ func (m *CreateOkeHelmChartDeployStageDetails) UnmarshalJSON(data []byte) (e err
 		Namespace                        *string                           `json:"namespace"`
 		TimeoutInSeconds                 *int                              `json:"timeoutInSeconds"`
 		RollbackPolicy                   deploystagerollbackpolicy         `json:"rollbackPolicy"`
+		SetValues                        *HelmSetValueCollection           `json:"setValues"`
+		SetString                        *HelmSetValueCollection           `json:"setString"`
+		AreHooksEnabled                  *bool                             `json:"areHooksEnabled"`
+		ShouldReuseValues                *bool                             `json:"shouldReuseValues"`
+		ShouldResetValues                *bool                             `json:"shouldResetValues"`
+		IsForceEnabled                   *bool                             `json:"isForceEnabled"`
+		ShouldCleanupOnFail              *bool                             `json:"shouldCleanupOnFail"`
+		MaxHistory                       *int                              `json:"maxHistory"`
+		ShouldSkipCrds                   *bool                             `json:"shouldSkipCrds"`
+		ShouldSkipRenderSubchartNotes    *bool                             `json:"shouldSkipRenderSubchartNotes"`
+		ShouldNotWait                    *bool                             `json:"shouldNotWait"`
+		IsDebugEnabled                   *bool                             `json:"isDebugEnabled"`
 		DeployPipelineId                 *string                           `json:"deployPipelineId"`
 		DeployStagePredecessorCollection *DeployStagePredecessorCollection `json:"deployStagePredecessorCollection"`
 		OkeClusterDeployEnvironmentId    *string                           `json:"okeClusterDeployEnvironmentId"`
@@ -166,6 +212,30 @@ func (m *CreateOkeHelmChartDeployStageDetails) UnmarshalJSON(data []byte) (e err
 	} else {
 		m.RollbackPolicy = nil
 	}
+
+	m.SetValues = model.SetValues
+
+	m.SetString = model.SetString
+
+	m.AreHooksEnabled = model.AreHooksEnabled
+
+	m.ShouldReuseValues = model.ShouldReuseValues
+
+	m.ShouldResetValues = model.ShouldResetValues
+
+	m.IsForceEnabled = model.IsForceEnabled
+
+	m.ShouldCleanupOnFail = model.ShouldCleanupOnFail
+
+	m.MaxHistory = model.MaxHistory
+
+	m.ShouldSkipCrds = model.ShouldSkipCrds
+
+	m.ShouldSkipRenderSubchartNotes = model.ShouldSkipRenderSubchartNotes
+
+	m.ShouldNotWait = model.ShouldNotWait
+
+	m.IsDebugEnabled = model.IsDebugEnabled
 
 	m.DeployPipelineId = model.DeployPipelineId
 
