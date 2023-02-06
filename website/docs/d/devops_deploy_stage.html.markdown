@@ -35,6 +35,7 @@ The following attributes are exported:
 * `approval_policy` - Specifies the approval policy.
 	* `approval_policy_type` - Approval policy type.
 	* `number_of_approvals_required` - A minimum number of approvals required for stage to proceed.
+* `are_hooks_enabled` - Disable pre/post upgrade hooks. Set to false by default.
 * `blue_backend_ips` - Collection of backend environment IP addresses.
 	* `items` - The IP address of the backend server. A server could be a compute instance or a load balancer.
 * `blue_green_strategy` - Specifies the required blue green release strategy for OKE deployment.
@@ -91,6 +92,8 @@ The following attributes are exported:
 * `helm_chart_deploy_artifact_id` - Helm chart artifact OCID. 
 * `id` - Unique identifier that is immutable on creation.
 * `is_async` - A boolean flag specifies whether this stage executes asynchronously.
+* `is_debug_enabled` - Enables helm --debug option to stream output to tf stdout. Set to false by default.
+* `is_force_enabled` - Force resource update through delete; or if required, recreate. Set to false by default.
 * `is_validation_enabled` - A boolean flag specifies whether the invoked function must be validated.
 * `kubernetes_manifest_deploy_artifact_ids` - List of Kubernetes manifest artifact OCIDs.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
@@ -98,6 +101,7 @@ The following attributes are exported:
 	* `backend_port` - Listen port for the backend server.
 	* `listener_name` - Name of the load balancer listener.
 	* `load_balancer_id` - The OCID of the load balancer.
+* `max_history` - Limit the maximum number of revisions saved per release. Use 0 for no limit. Set to 10 by default
 * `max_memory_in_mbs` - Maximum usable memory for the Function (in MB).
 * `namespace` - Default Namespace to be used for Kubernetes deployment when not specified in the manifest.
 * `oke_blue_green_deploy_stage_id` - The OCID of the upstream OKE blue-green deployment stage in this pipeline.
@@ -118,6 +122,20 @@ The following attributes are exported:
 	* `batch_percentage` - The percentage that will be used to determine how many instances will be deployed concurrently.
 	* `policy_type` - The type of policy used for rolling out a deployment stage.
 	* `ramp_limit_percent` - Indicates the criteria to stop.
+* `set_string` - Specifies the name and value pairs to set helm values.
+	* `items` - List of parameters defined to set helm value.
+		* `name` - Name of the parameter (case-sensitive).
+		* `value` - Value of the parameter.
+* `set_values` - Specifies the name and value pairs to set helm values.
+	* `items` - List of parameters defined to set helm value.
+		* `name` - Name of the parameter (case-sensitive).
+		* `value` - Value of the parameter.
+* `should_cleanup_on_fail` - Allow deletion of new resources created during when an upgrade fails. Set to false by default.
+* `should_not_wait` - Waits until all the resources are in a ready state to mark the release as successful. Set to false by default.
+* `should_reset_values` - During upgrade, reset the values to the ones built into the chart. It overrides shouldReuseValues. Set to false by default.
+* `should_reuse_values` - During upgrade, reuse the values of the last release and merge overrides from the command line. Set to false by default.
+* `should_skip_crds` - If set, no CRDs are installed. By default, CRDs are installed only if they are not present already. Set to false by default.
+* `should_skip_render_subchart_notes` - If set, renders subchart notes along with the parent. Set to false by default.
 * `state` - The current state of the deployment stage.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud.free-tier-retained": "true"}`
 * `test_load_balancer_config` - Specifies config for load balancer traffic shift stages. The Load Balancer specified here should be an Application Load Balancer type. Network Load Balancers are not supported. 

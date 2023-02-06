@@ -18,6 +18,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
+	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 )
@@ -126,6 +127,11 @@ func DevopsDeployStageResource() *schema.Resource {
 						// Computed
 					},
 				},
+			},
+			"are_hooks_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
 			},
 			"blue_backend_ips": {
 				Type:     schema.TypeList,
@@ -495,6 +501,16 @@ func DevopsDeployStageResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"is_debug_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"is_force_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"is_validation_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -542,6 +558,11 @@ func DevopsDeployStageResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"max_history": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
 			},
 			"max_memory_in_mbs": {
 				Type:             schema.TypeString,
@@ -688,6 +709,116 @@ func DevopsDeployStageResource() *schema.Resource {
 						// Computed
 					},
 				},
+			},
+			"set_string": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 0,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"items": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"value": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
+			"set_values": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 0,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"items": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"value": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
+			"should_cleanup_on_fail": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"should_not_wait": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"should_reset_values": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"should_reuse_values": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"should_skip_crds": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"should_skip_render_subchart_notes": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
 			},
 			"test_load_balancer_config": {
 				Type:     schema.TypeList,
@@ -2282,12 +2413,28 @@ func (s *DevopsDeployStageResourceCrud) SetData() error {
 	case oci_devops.OkeHelmChartDeployStage:
 		s.D.Set("deploy_stage_type", "OKE_HELM_CHART_DEPLOYMENT")
 
+		if v.AreHooksEnabled != nil {
+			s.D.Set("are_hooks_enabled", *v.AreHooksEnabled)
+		}
+
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		s.D.Set("state", v.LifecycleState)
 
 		if v.HelmChartDeployArtifactId != nil {
 			s.D.Set("helm_chart_deploy_artifact_id", *v.HelmChartDeployArtifactId)
+		}
+
+		if v.IsDebugEnabled != nil {
+			s.D.Set("is_debug_enabled", *v.IsDebugEnabled)
+		}
+
+		if v.IsForceEnabled != nil {
+			s.D.Set("is_force_enabled", *v.IsForceEnabled)
+		}
+
+		if v.MaxHistory != nil {
+			s.D.Set("max_history", *v.MaxHistory)
 		}
 
 		if v.Namespace != nil {
@@ -2310,6 +2457,56 @@ func (s *DevopsDeployStageResourceCrud) SetData() error {
 			s.D.Set("rollback_policy", rollbackPolicyArray)
 		} else {
 			s.D.Set("rollback_policy", nil)
+		}
+
+		if v.SetValues != nil {
+			setValues := []interface{}{HelmSetValueCollectionToMap(v.SetValues)}
+			common.Debugf("OkeHelmChartDeployStage: setValues= %v\n", setValues)
+			if len(setValues) > 0 {
+				common.Debugf("OkeHelmChartDeployStage: setValues= %v\n", setValues[0])
+				setValuesMap := setValues[0].(map[string]interface{})
+				items := setValuesMap["items"].([]interface{})
+				if len(items) > 0 {
+					s.D.Set("set_values", setValues)
+				}
+			}
+		}
+
+		if v.SetString != nil {
+			setString := []interface{}{HelmSetValueCollectionToMap(v.SetString)}
+			common.Debugf("OkeHelmChartDeployStage: SetString= %v\n", setString)
+			if len(setString) > 0 {
+				common.Debugf("OkeHelmChartDeployStage: SetString= %v\n", setString[0])
+				setStringMap := setString[0].(map[string]interface{})
+				items := setStringMap["items"].([]interface{})
+				if len(items) > 0 {
+					s.D.Set("set_string", setString)
+				}
+			}
+		}
+
+		if v.ShouldCleanupOnFail != nil {
+			s.D.Set("should_cleanup_on_fail", *v.ShouldCleanupOnFail)
+		}
+
+		if v.ShouldNotWait != nil {
+			s.D.Set("should_not_wait", *v.ShouldNotWait)
+		}
+
+		if v.ShouldResetValues != nil {
+			s.D.Set("should_reset_values", *v.ShouldResetValues)
+		}
+
+		if v.ShouldReuseValues != nil {
+			s.D.Set("should_reuse_values", *v.ShouldReuseValues)
+		}
+
+		if v.ShouldSkipCrds != nil {
+			s.D.Set("should_skip_crds", *v.ShouldSkipCrds)
+		}
+
+		if v.ShouldSkipRenderSubchartNotes != nil {
+			s.D.Set("should_skip_render_subchart_notes", *v.ShouldSkipRenderSubchartNotes)
 		}
 
 		if v.TimeoutInSeconds != nil {
@@ -3127,8 +3324,24 @@ func DeployStageSummaryToMap(obj oci_devops.DeployStageSummary) map[string]inter
 	case oci_devops.OkeHelmChartDeployStageSummary:
 		result["deploy_stage_type"] = "OKE_HELM_CHART_DEPLOYMENT"
 
+		if v.AreHooksEnabled != nil {
+			result["are_hooks_enabled"] = bool(*v.AreHooksEnabled)
+		}
+
 		if v.HelmChartDeployArtifactId != nil {
 			result["helm_chart_deploy_artifact_id"] = string(*v.HelmChartDeployArtifactId)
+		}
+
+		if v.IsDebugEnabled != nil {
+			result["is_debug_enabled"] = bool(*v.IsDebugEnabled)
+		}
+
+		if v.IsForceEnabled != nil {
+			result["is_force_enabled"] = bool(*v.IsForceEnabled)
+		}
+
+		if v.MaxHistory != nil {
+			result["max_history"] = int(*v.MaxHistory)
 		}
 
 		if v.Namespace != nil {
@@ -3149,6 +3362,52 @@ func DeployStageSummaryToMap(obj oci_devops.DeployStageSummary) map[string]inter
 				rollbackPolicyArray = append(rollbackPolicyArray, rollbackPolicyMap)
 			}
 			result["rollback_policy"] = rollbackPolicyArray
+		}
+
+		if v.SetString != nil {
+			setString := []interface{}{HelmSetValueCollectionToMap(v.SetString)}
+			if len(setString) > 0 {
+				setStringMap := setString[0].(map[string]interface{})
+				items := setStringMap["items"].([]interface{})
+				if len(items) > 0 {
+					result["set_string"] = setString
+				}
+			}
+		}
+
+		if v.SetValues != nil {
+			setValues := []interface{}{HelmSetValueCollectionToMap(v.SetValues)}
+			if len(setValues) > 0 {
+				setValuesMap := setValues[0].(map[string]interface{})
+				items := setValuesMap["items"].([]interface{})
+				if len(items) > 0 {
+					result["set_values"] = setValues
+				}
+			}
+		}
+
+		if v.ShouldCleanupOnFail != nil {
+			result["should_cleanup_on_fail"] = bool(*v.ShouldCleanupOnFail)
+		}
+
+		if v.ShouldNotWait != nil {
+			result["should_not_wait"] = bool(*v.ShouldNotWait)
+		}
+
+		if v.ShouldResetValues != nil {
+			result["should_reset_values"] = bool(*v.ShouldResetValues)
+		}
+
+		if v.ShouldReuseValues != nil {
+			result["should_reuse_values"] = bool(*v.ShouldReuseValues)
+		}
+
+		if v.ShouldSkipCrds != nil {
+			result["should_skip_crds"] = bool(*v.ShouldSkipCrds)
+		}
+
+		if v.ShouldSkipRenderSubchartNotes != nil {
+			result["should_skip_render_subchart_notes"] = bool(*v.ShouldSkipRenderSubchartNotes)
 		}
 
 		if v.TimeoutInSeconds != nil {
@@ -3210,6 +3469,71 @@ func DeployStageSummaryToMap(obj oci_devops.DeployStageSummary) map[string]inter
 	if obj.GetSystemTags() != nil {
 		result["system_tags"] = tfresource.SystemTagsToMap(obj.GetSystemTags())
 	}
+
+	return result
+}
+
+func (s *DevopsDeployStageResourceCrud) mapToHelmSetValue(fieldKeyFormat string) (oci_devops.HelmSetValue, error) {
+	result := oci_devops.HelmSetValue{}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+		tmp := value.(string)
+		result.Value = &tmp
+	}
+
+	return result, nil
+}
+
+func HelmSetValueToMap(obj oci_devops.HelmSetValue) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.Value != nil {
+		result["value"] = string(*obj.Value)
+	}
+
+	return result
+}
+
+func (s *DevopsDeployStageResourceCrud) mapToHelmSetValueCollection(fieldKeyFormat string) (oci_devops.HelmSetValueCollection, error) {
+	result := oci_devops.HelmSetValueCollection{}
+
+	if items, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "items")); ok {
+		interfaces := items.([]interface{})
+		tmp := make([]oci_devops.HelmSetValue, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "items"), stateDataIndex)
+			converted, err := s.mapToHelmSetValue(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "items")) {
+			result.Items = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func HelmSetValueCollectionToMap(obj *oci_devops.HelmSetValueCollection) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	items := []interface{}{}
+	for _, item := range obj.Items {
+		items = append(items, HelmSetValueToMap(item))
+	}
+	result["items"] = items
 
 	return result
 }
@@ -4630,9 +4954,25 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 		request.CreateDeployStageDetails = details
 	case strings.ToLower("OKE_HELM_CHART_DEPLOYMENT"):
 		details := oci_devops.CreateOkeHelmChartDeployStageDetails{}
+		if areHooksEnabled, ok := s.D.GetOkExists("are_hooks_enabled"); ok {
+			tmp := areHooksEnabled.(bool)
+			details.AreHooksEnabled = &tmp
+		}
 		if helmChartDeployArtifactId, ok := s.D.GetOkExists("helm_chart_deploy_artifact_id"); ok {
 			tmp := helmChartDeployArtifactId.(string)
 			details.HelmChartDeployArtifactId = &tmp
+		}
+		if isDebugEnabled, ok := s.D.GetOkExists("is_debug_enabled"); ok {
+			tmp := isDebugEnabled.(bool)
+			details.IsDebugEnabled = &tmp
+		}
+		if isForceEnabled, ok := s.D.GetOkExists("is_force_enabled"); ok {
+			tmp := isForceEnabled.(bool)
+			details.IsForceEnabled = &tmp
+		}
+		if maxHistory, ok := s.D.GetOkExists("max_history"); ok {
+			tmp := maxHistory.(int)
+			details.MaxHistory = &tmp
 		}
 		if namespace, ok := s.D.GetOkExists("namespace"); ok {
 			tmp := namespace.(string)
@@ -4655,6 +4995,54 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 				}
 				details.RollbackPolicy = tmp
 			}
+		}
+		if setString, ok := s.D.GetOkExists("set_string"); ok {
+			if tmpList := setString.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "set_string", 0)
+				tmp, err := s.mapToHelmSetValueCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				if tmp.Items != nil && len(tmp.Items) > 0 {
+					details.SetString = &tmp
+				}
+			}
+		}
+		if setValues, ok := s.D.GetOkExists("set_values"); ok {
+			if tmpList := setValues.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "set_values", 0)
+				tmp, err := s.mapToHelmSetValueCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				if tmp.Items != nil && len(tmp.Items) > 0 {
+					details.SetValues = &tmp
+				}
+			}
+		}
+		if shouldCleanupOnFail, ok := s.D.GetOkExists("should_cleanup_on_fail"); ok {
+			tmp := shouldCleanupOnFail.(bool)
+			details.ShouldCleanupOnFail = &tmp
+		}
+		if shouldNotWait, ok := s.D.GetOkExists("should_not_wait"); ok {
+			tmp := shouldNotWait.(bool)
+			details.ShouldNotWait = &tmp
+		}
+		if shouldResetValues, ok := s.D.GetOkExists("should_reset_values"); ok {
+			tmp := shouldResetValues.(bool)
+			details.ShouldResetValues = &tmp
+		}
+		if shouldReuseValues, ok := s.D.GetOkExists("should_reuse_values"); ok {
+			tmp := shouldReuseValues.(bool)
+			details.ShouldReuseValues = &tmp
+		}
+		if shouldSkipCrds, ok := s.D.GetOkExists("should_skip_crds"); ok {
+			tmp := shouldSkipCrds.(bool)
+			details.ShouldSkipCrds = &tmp
+		}
+		if shouldSkipRenderSubchartNotes, ok := s.D.GetOkExists("should_skip_render_subchart_notes"); ok {
+			tmp := shouldSkipRenderSubchartNotes.(bool)
+			details.ShouldSkipRenderSubchartNotes = &tmp
 		}
 		if timeoutInSeconds, ok := s.D.GetOkExists("timeout_in_seconds"); ok {
 			tmp := timeoutInSeconds.(int)
@@ -5685,9 +6073,25 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicUpdateDeployS
 		request.UpdateDeployStageDetails = details
 	case strings.ToLower("OKE_HELM_CHART_DEPLOYMENT"):
 		details := oci_devops.UpdateOkeHelmChartDeployStageDetails{}
+		if areHooksEnabled, ok := s.D.GetOkExists("are_hooks_enabled"); ok {
+			tmp := areHooksEnabled.(bool)
+			details.AreHooksEnabled = &tmp
+		}
 		if helmChartDeployArtifactId, ok := s.D.GetOkExists("helm_chart_deploy_artifact_id"); ok {
 			tmp := helmChartDeployArtifactId.(string)
 			details.HelmChartDeployArtifactId = &tmp
+		}
+		if isDebugEnabled, ok := s.D.GetOkExists("is_debug_enabled"); ok {
+			tmp := isDebugEnabled.(bool)
+			details.IsDebugEnabled = &tmp
+		}
+		if isForceEnabled, ok := s.D.GetOkExists("is_force_enabled"); ok {
+			tmp := isForceEnabled.(bool)
+			details.IsForceEnabled = &tmp
+		}
+		if maxHistory, ok := s.D.GetOkExists("max_history"); ok {
+			tmp := maxHistory.(int)
+			details.MaxHistory = &tmp
 		}
 		if namespace, ok := s.D.GetOkExists("namespace"); ok {
 			tmp := namespace.(string)
@@ -5710,6 +6114,54 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicUpdateDeployS
 				}
 				details.RollbackPolicy = tmp
 			}
+		}
+		if setString, ok := s.D.GetOkExists("set_string"); ok {
+			if tmpList := setString.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "set_string", 0)
+				tmp, err := s.mapToHelmSetValueCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				if tmp.Items != nil && len(tmp.Items) > 0 {
+					details.SetString = &tmp
+				}
+			}
+		}
+		if setValues, ok := s.D.GetOkExists("set_values"); ok {
+			if tmpList := setValues.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "set_values", 0)
+				tmp, err := s.mapToHelmSetValueCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				if tmp.Items != nil && len(tmp.Items) > 0 {
+					details.SetValues = &tmp
+				}
+			}
+		}
+		if shouldCleanupOnFail, ok := s.D.GetOkExists("should_cleanup_on_fail"); ok {
+			tmp := shouldCleanupOnFail.(bool)
+			details.ShouldCleanupOnFail = &tmp
+		}
+		if shouldNotWait, ok := s.D.GetOkExists("should_not_wait"); ok {
+			tmp := shouldNotWait.(bool)
+			details.ShouldNotWait = &tmp
+		}
+		if shouldResetValues, ok := s.D.GetOkExists("should_reset_values"); ok {
+			tmp := shouldResetValues.(bool)
+			details.ShouldResetValues = &tmp
+		}
+		if shouldReuseValues, ok := s.D.GetOkExists("should_reuse_values"); ok {
+			tmp := shouldReuseValues.(bool)
+			details.ShouldReuseValues = &tmp
+		}
+		if shouldSkipCrds, ok := s.D.GetOkExists("should_skip_crds"); ok {
+			tmp := shouldSkipCrds.(bool)
+			details.ShouldSkipCrds = &tmp
+		}
+		if shouldSkipRenderSubchartNotes, ok := s.D.GetOkExists("should_skip_render_subchart_notes"); ok {
+			tmp := shouldSkipRenderSubchartNotes.(bool)
+			details.ShouldSkipRenderSubchartNotes = &tmp
 		}
 		if timeoutInSeconds, ok := s.D.GetOkExists("timeout_in_seconds"); ok {
 			tmp := timeoutInSeconds.(int)
