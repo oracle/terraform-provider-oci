@@ -27,6 +27,15 @@ resource "oci_devops_deploy_artifact" "test_deploy_artifact" {
 		chart_url = var.deploy_artifact_deploy_artifact_source_chart_url
 		deploy_artifact_path = var.deploy_artifact_deploy_artifact_source_deploy_artifact_path
 		deploy_artifact_version = var.deploy_artifact_deploy_artifact_source_deploy_artifact_version
+		helm_verification_key_source {
+			#Required
+			verification_key_source_type = var.deploy_artifact_deploy_artifact_source_helm_verification_key_source_verification_key_source_type
+
+			#Optional
+			current_public_key = var.deploy_artifact_deploy_artifact_source_helm_verification_key_source_current_public_key
+			previous_public_key = var.deploy_artifact_deploy_artifact_source_helm_verification_key_source_previous_public_key
+			vault_secret_id = oci_vault_secret.test_secret.id
+		}
 		image_digest = var.deploy_artifact_deploy_artifact_source_image_digest
 		image_uri = var.deploy_artifact_deploy_artifact_source_image_uri
 		repository_id = oci_devops_repository.test_repository.id
@@ -54,6 +63,11 @@ The following arguments are supported:
 	* `deploy_artifact_path` - (Required when deploy_artifact_source_type=GENERIC_ARTIFACT) (Updatable) Specifies the artifact path in the repository.
 	* `deploy_artifact_source_type` - (Required) (Updatable) Specifies types of artifact sources.
 	* `deploy_artifact_version` - (Required when deploy_artifact_source_type=GENERIC_ARTIFACT | HELM_CHART) (Updatable) Users can set this as a placeholder value that refers to a pipeline parameter, for example, ${appVersion}.
+	* `helm_verification_key_source` - (Applicable when deploy_artifact_source_type=HELM_CHART) (Updatable) The source of the verification material.
+		* `current_public_key` - (Required when verification_key_source_type=INLINE_PUBLIC_KEY) (Updatable) Current version of Base64 encoding of the public key which is in binary GPG exported format.
+		* `previous_public_key` - (Applicable when verification_key_source_type=INLINE_PUBLIC_KEY) (Updatable) Previous version of Base64 encoding of the public key which is in binary GPG exported format. This would be used for key rotation scenarios.
+		* `vault_secret_id` - (Required when verification_key_source_type=VAULT_SECRET) (Updatable) The OCID of the Vault Secret containing the verification key versions.
+		* `verification_key_source_type` - (Required) (Updatable) Specifies type of verification material.
 	* `image_digest` - (Applicable when deploy_artifact_source_type=OCIR) (Updatable) Specifies image digest for the version of the image.
 	* `image_uri` - (Required when deploy_artifact_source_type=OCIR) (Updatable) Specifies OCIR Image Path - optionally include tag.
 	* `repository_id` - (Required when deploy_artifact_source_type=GENERIC_ARTIFACT) (Updatable) The OCID of a repository
@@ -80,6 +94,11 @@ The following attributes are exported:
 	* `deploy_artifact_path` - Specifies the artifact path in the repository.
 	* `deploy_artifact_source_type` - Specifies types of artifact sources.
 	* `deploy_artifact_version` - Users can set this as a placeholder value that refers to a pipeline parameter, for example, ${appVersion}.
+	* `helm_verification_key_source` - The source of the verification material.
+		* `current_public_key` - Current version of Base64 encoding of the public key which is in binary GPG exported format.
+		* `previous_public_key` - Previous version of Base64 encoding of the public key which is in binary GPG exported format. This would be used for key rotation scenarios.
+		* `vault_secret_id` - The OCID of the Vault Secret containing the verification key versions.
+		* `verification_key_source_type` - Specifies type of verification material.
 	* `image_digest` - Specifies image digest for the version of the image.
 	* `image_uri` - Specifies OCIR Image Path - optionally include tag.
 	* `repository_id` - The OCID of a repository

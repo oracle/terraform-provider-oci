@@ -78,6 +78,43 @@ func DevopsDeployArtifactResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"helm_verification_key_source": {
+							Type:     schema.TypeList,
+							Optional: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"verification_key_source_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"INLINE_PUBLIC_KEY",
+											"NONE",
+											"VAULT_SECRET",
+										}, true),
+									},
+
+									// Optional
+									"current_public_key": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+									"previous_public_key": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+									"vault_secret_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"image_digest": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -589,6 +626,16 @@ func (s *DevopsDeployArtifactResourceCrud) mapToDeployArtifactSource(fieldKeyFor
 				tmp := deployArtifactVersion.(string)
 				result.DeployArtifactVersion = &tmp
 			}
+			if helmVerificationKeySource, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "helm_verification_key_source")); ok {
+				if tmpList := helmVerificationKeySource.([]interface{}); len(tmpList) > 0 {
+					helmKeyFieldKeyFormat := fmt.Sprintf("%s.%d.%s.%d.%%s", "deploy_artifact_source", 0, "helm_verification_key_source", 0)
+					tmp, err := s.mapToVerificationKeySource(helmKeyFieldKeyFormat)
+					if err != nil {
+						return nil, err
+					}
+					result.HelmVerificationKeySource = tmp
+				}
+			}
 			return result, nil
 		case "INLINE":
 			result := oci_devops.InlineDeployArtifactSource{}
@@ -642,6 +689,14 @@ func DeployArtifactSourceToMap(obj *oci_devops.DeployArtifactSource) map[string]
 
 		if v.DeployArtifactVersion != nil {
 			result["deploy_artifact_version"] = string(*v.DeployArtifactVersion)
+		}
+
+		if v.HelmVerificationKeySource != nil {
+			helmVerificationKeySourceArray := []interface{}{}
+			if helmVerificationKeySourceMap := VerificationKeySourceToMap(&v.HelmVerificationKeySource); helmVerificationKeySourceMap != nil {
+				helmVerificationKeySourceArray = append(helmVerificationKeySourceArray, helmVerificationKeySourceMap)
+			}
+			result["helm_verification_key_source"] = helmVerificationKeySourceArray
 		}
 	case oci_devops.InlineDeployArtifactSource:
 		result["deploy_artifact_source_type"] = "INLINE"
@@ -725,6 +780,73 @@ func DeployArtifactSummaryToMap(obj oci_devops.DeployArtifactSummary) map[string
 
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
+	}
+
+	return result
+}
+
+func (s *DevopsDeployArtifactResourceCrud) mapToVerificationKeySource(fieldKeyFormat string) (oci_devops.VerificationKeySource, error) {
+	var baseObject oci_devops.VerificationKeySource
+	//discriminator
+	verificationKeySourceTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "verification_key_source_type"))
+	var verificationKeySourceType string
+	if ok {
+		verificationKeySourceType = verificationKeySourceTypeRaw.(string)
+	} else {
+		verificationKeySourceType = "" // default value
+	}
+	switch strings.ToLower(verificationKeySourceType) {
+	case strings.ToLower("INLINE_PUBLIC_KEY"):
+		details := oci_devops.InlinePublicKeyVerificationKeySource{}
+		if currentPublicKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "current_public_key")); ok {
+			tmp := currentPublicKey.(string)
+			details.CurrentPublicKey = &tmp
+		}
+		if previousPublicKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "previous_public_key")); ok {
+			tmp := previousPublicKey.(string)
+			details.PreviousPublicKey = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("NONE"):
+		details := oci_devops.NoneVerificationKeySource{}
+		baseObject = details
+	case strings.ToLower("VAULT_SECRET"):
+		details := oci_devops.VaultSecretVerificationKeySource{}
+		if vaultSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vault_secret_id")); ok {
+			tmp := vaultSecretId.(string)
+			details.VaultSecretId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown verification_key_source_type '%v' was specified", verificationKeySourceType)
+	}
+	return baseObject, nil
+}
+
+func VerificationKeySourceToMap(obj *oci_devops.VerificationKeySource) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_devops.InlinePublicKeyVerificationKeySource:
+		result["verification_key_source_type"] = "INLINE_PUBLIC_KEY"
+
+		if v.CurrentPublicKey != nil {
+			result["current_public_key"] = string(*v.CurrentPublicKey)
+		}
+
+		if v.PreviousPublicKey != nil {
+			result["previous_public_key"] = string(*v.PreviousPublicKey)
+		}
+	case oci_devops.NoneVerificationKeySource:
+		result["verification_key_source_type"] = "NONE"
+	case oci_devops.VaultSecretVerificationKeySource:
+		result["verification_key_source_type"] = "VAULT_SECRET"
+
+		if v.VaultSecretId != nil {
+			result["vault_secret_id"] = string(*v.VaultSecretId)
+		}
+	default:
+		log.Printf("[WARN] Received 'verification_key_source_type' of unknown type %v", *obj)
+		return nil
 	}
 
 	return result

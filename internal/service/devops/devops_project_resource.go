@@ -573,5 +573,5 @@ func (s *DevopsProjectResourceCrud) updateCompartment(compartment interface{}) e
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getProjectFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getProjectFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeCreated, s.D.Timeout(schema.TimeoutUpdate))
 }
