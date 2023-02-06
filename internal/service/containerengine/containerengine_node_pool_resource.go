@@ -1907,9 +1907,6 @@ func placementConfigsHashCodeForSets(v interface{}) int {
 	if capacityReservationId, ok := m["capacity_reservation_id"]; ok && capacityReservationId != "" {
 		buf.WriteString(fmt.Sprintf("%v-", capacityReservationId))
 	}
-<<<<<<< ours
-	if faultDomains, ok := m["fault_domains"]; ok && faultDomains != "" {
-	}
 	if preemptibleNodeConfig, ok := m["preemptible_node_config"]; ok {
 		if tmpList := preemptibleNodeConfig.([]interface{}); len(tmpList) > 0 {
 			buf.WriteString("preemptible_node_config-")
@@ -1928,8 +1925,6 @@ func placementConfigsHashCodeForSets(v interface{}) int {
 			}
 		}
 	}
-=======
->>>>>>> theirs
 	if subnetId, ok := m["subnet_id"]; ok && subnetId != "" {
 		buf.WriteString(fmt.Sprintf("%v-", subnetId))
 	}

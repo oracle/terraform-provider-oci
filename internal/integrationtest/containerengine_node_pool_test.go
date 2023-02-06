@@ -75,6 +75,14 @@ var (
 		"capacity_reservation_id": acctest.Representation{RepType: acctest.Optional, Update: `${oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id}`},
 	}
 
+	nodePreemptibleNodeConfigRepresentation = map[string]interface{}{
+		"preemption_action": acctest.RepresentationGroup{RepType: acctest.Required, Group: nodePreemptibleNodeConfigPreemptionActionRepresentation},
+	}
+	nodePreemptibleNodeConfigPreemptionActionRepresentation = map[string]interface{}{
+		"type":                    acctest.Representation{RepType: acctest.Required, Create: `TERMINATE`},
+		"is_preserve_boot_volume": acctest.Representation{RepType: acctest.Required, Create: `false`},
+	}
+
 	ContainerengineNodePoolInitialNodeLabelsRepresentation = map[string]interface{}{
 		"key":   acctest.Representation{RepType: acctest.Optional, Create: `key`, Update: `key2`},
 		"value": acctest.Representation{RepType: acctest.Optional, Create: `value`, Update: `value2`},
