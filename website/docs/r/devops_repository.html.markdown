@@ -59,7 +59,7 @@ The following arguments are supported:
 		* `schedule_type` - (Required) (Updatable) Different types of trigger schedule: NONE - No automated synchronization schedule. DEFAULT - Trigger schedule is every 30 minutes. CUSTOM - Custom triggering schedule. 
 * `name` - (Required) (Updatable) Unique name of a repository.
 * `project_id` - (Required) The OCID of the DevOps project containing the repository.
-* `repository_type` - (Required) (Updatable) Type of repository.
+* `repository_type` - (Required) (Updatable) Type of repository. Allowed values:  `MIRRORED`  `HOSTED` 
 
 
 ** IMPORTANT **

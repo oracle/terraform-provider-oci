@@ -1,6 +1,5 @@
 // Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
-
 package integrationtest
 
 import (
@@ -36,9 +35,12 @@ var (
 		"project_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_project.test_project.id}`},
 	}
 
-	devopsProjectName = utils.RandomString(10, utils.CharsetWithoutDigits)
-
+	devopsProjectName  = utils.RandomString(10, utils.CharsetWithoutDigits)
 	devopsLogGroupName = utils.RandomString(10, utils.CharsetWithoutDigits)
+
+	defaultRegionForOns    = utils.GetEnvSettingWithDefault("default_region_for_project_ons", "iad")
+	defaultTopicForProject = "ocid1." + "onstopic.oc1." + defaultRegionForOns + ".aaaaaaaadlp34edn4zeo3qaa2hdsxf6qd43itl5ph72mvpk6n44pvcylrk2q"
+	onsTopicForProject     = utils.GetEnvSettingWithDefault("oci_ons_notification_topic_for_project", defaultTopicForProject)
 
 	DevopsDevopsProjectDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -67,7 +69,7 @@ var (
 		"is_archiving_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 	DevopsProjectNotificationConfigRepresentation = map[string]interface{}{
-		"topic_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_ons_notification_topic.test_notification_topic.id}`},
+		"topic_id": acctest.Representation{RepType: acctest.Required, Create: onsTopicForProject},
 	}
 
 	DevopsLogGroupRepresentation = acctest.RepresentationCopyWithNewProperties(LoggingLogGroupRepresentation, map[string]interface{}{
@@ -75,8 +77,7 @@ var (
 	})
 
 	DevopsProjectResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_devops_log_group", acctest.Required, acctest.Create, DevopsLogGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_devops_log_group", acctest.Required, acctest.Create, DevopsLogGroupRepresentation)
 )
 
 // issue-routing-tag: devops/default

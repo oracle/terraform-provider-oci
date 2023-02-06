@@ -81,8 +81,9 @@ The following arguments are supported:
 		* `value` - (Required when deployment_type=PIPELINE_DEPLOYMENT | SINGLE_STAGE_DEPLOYMENT) Value of the parameter.
 * `deployment_arguments` - (Applicable when deployment_type=PIPELINE_DEPLOYMENT | SINGLE_STAGE_DEPLOYMENT) Specifies list of arguments passed along with the deployment.
 	* `items` - (Required when deployment_type=PIPELINE_DEPLOYMENT | SINGLE_STAGE_DEPLOYMENT) List of arguments provided at the time of deployment.
-		* `name` - (Required when deployment_type=PIPELINE_DEPLOYMENT | SINGLE_STAGE_DEPLOYMENT) Name of the parameter (case-sensitive).
-		* `value` - (Required when deployment_type=PIPELINE_DEPLOYMENT | SINGLE_STAGE_DEPLOYMENT) value of the argument.
+        * `name` - (Required when deployment_type=PIPELINE_DEPLOYMENT | SINGLE_STAGE_DEPLOYMENT) Name of the parameter (case-sensitive).
+        * `value` - (Required when deployment_type=PIPELINE_DEPLOYMENT | SINGLE_STAGE_DEPLOYMENT) value of the argument.
+        *  To retrieve Helm Diff for Helm stages in the pipeline add deployment_arguments with name=PLAN_DRY_RUN and value=true
 * `deployment_type` - (Required) (Updatable) Specifies type for this deployment.
 * `display_name` - (Optional) (Updatable) Deployment display name. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`
@@ -133,37 +134,41 @@ The following attributes are exported:
 		* `value` - value of the argument.
 * `deployment_execution_progress` - The execution progress details of a deployment.
 	* `deploy_stage_execution_progress` - Map of stage OCIDs to deploy stage execution progress model.
-		* `approval_actions` - 
-			* `action` - The action of the user on the DevOps deployment stage.
-			* `reason` - The reason for approving or rejecting the deployment.
-			* `subject_id` - The subject ID of the user who approves or disapproves a DevOps deployment stage.
-		* `chart_url` - The URL of an OCIR repository. 
-		* `deploy_stage_display_name` - Stage display name. Avoid entering confidential information.
-		* `deploy_stage_execution_progress_details` - Details about stage execution for all the target environments.
-			* `rollback_steps` - Details about all the rollback steps for one target environment.
-				* `name` - Name of the step.
-				* `state` - State of the step.
-				* `time_finished` - Time when the step finished.
-				* `time_started` - Time when the step started.
-			* `steps` - Details about all the steps for one target environment.
-				* `name` - Name of the step.
-				* `state` - State of the step.
-				* `time_finished` - Time when the step finished.
-				* `time_started` - Time when the step started.
-			* `target_group` - Group for the target environment for example, the batch number for an Instance Group deployment.
-			* `target_id` - The function ID, instance ID or the cluster ID. For Wait stage it will be the stage ID.
-		* `deploy_stage_id` - The OCID of the stage.
-		* `deploy_stage_predecessors` - Collection containing the predecessors of a stage.
-			* `items` - A list of stage predecessors for a stage.
-				* `id` - The OCID of the predecessor stage. If a stage is the first stage in the pipeline, then the ID is the pipeline's OCID.
-		* `deploy_stage_type` - Deployment stage type.
-		* `environment_id` - The OCID of the environment where the artifacts were deployed.
-		* `namespace` - Default namespace to be used for Kubernetes deployment when not specified in the manifest.
-		* `release_name` - Release name of the Helm chart.
-		* `status` - The current state of the stage.
-		* `time_finished` - Time the stage finished executing. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
-		* `time_started` - Time the stage started executing. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
-		* `version` - The version of the helm chart stored in OCIR repository.
+        * `approval_actions` - 
+            * `action` - The action of the user on the DevOps deployment stage.
+            * `reason` - The reason for approving or rejecting the deployment.
+            * `subject_id` - The subject ID of the user who approves or disapproves a DevOps deployment stage.
+        * `chart_url` - The URL of an OCIR repository. 
+        * `deploy_stage_display_name` - Stage display name. Avoid entering confidential information.
+        * `deploy_stage_execution_progress_details` - Details about stage execution for all the target environments.
+            * `rollback_steps` - Details about all the rollback steps for one target environment.
+                * `name` - Name of the step.
+                * `state` - State of the step.
+                * `time_finished` - Time when the step finished.
+                * `time_started` - Time when the step started.
+            * `steps` - Details about all the steps for one target environment.
+                * `name` - Name of the step.
+                * `state` - State of the step.
+                * `time_finished` - Time when the step finished.
+                * `time_started` - Time when the step started.
+            * `target_group` - Group for the target environment for example, the batch number for an Instance Group deployment.
+            * `target_id` - The function ID, instance ID or the cluster ID. For Wait stage it will be the stage ID.
+        * `deploy_stage_id` - The OCID of the stage.
+        * `deploy_stage_predecessors` - Collection containing the predecessors of a stage.
+            * `items` - A list of stage predecessors for a stage.
+                * `id` - The OCID of the predecessor stage. If a stage is the first stage in the pipeline, then the ID is the pipeline's OCID.
+        * `deploy_stage_type` - Deployment stage type.
+        * `environment_id` - The OCID of the environment where the artifacts were deployed.
+        * `helm_diff` - Helm Diff output Example: greeting: Version 1.0 + greeting: Version 1.1
+          - Helm Diff output shows a diff explaining what a helm upgrade would change during plan, if deployment_arguments PLAN_DRY_RUN with value true is added
+          - Helm Diff output is only supported for PIPELINE_DEPLOYMENT and SINGLE_STAGE_DEPLOYMENT deployment type
+          - This diff is rendered only for OKE_HELM_CHART_DEPLOYMENT Stage
+        * `namespace` - Default namespace to be used for Kubernetes deployment when not specified in the manifest.
+        * `release_name` - Release name of the Helm chart.
+        * `status` - The current state of the stage.
+        * `time_finished` - Time the stage finished executing. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
+        * `time_started` - Time the stage started executing. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
+        * `version` - The version of the helm chart stored in OCIR repository.
 	* `time_finished` - Time the deployment is finished. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
 	* `time_started` - Time the deployment is started. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
 * `deployment_type` - Specifies type of Deployment
