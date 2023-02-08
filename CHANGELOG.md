@@ -1,4 +1,4 @@
-## 4.107.0 (Unreleased)
+## 4.107.0 (February 08, 2023)
 
 ### Added
 - Support for ADB-S: New ECPU-based SKUs for ADW and ATP
