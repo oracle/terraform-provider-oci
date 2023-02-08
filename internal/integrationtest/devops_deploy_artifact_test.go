@@ -1,6 +1,5 @@
 // Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
-
 package integrationtest
 
 import (
@@ -68,8 +67,7 @@ var (
 
 	DevopsDeployArtifactResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation) +
 		DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_devops_log_group", acctest.Required, acctest.Create, DevopsLogGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_devops_log_group", acctest.Required, acctest.Create, DevopsLogGroupRepresentation)
 )
 
 // issue-routing-tag: devops/default
@@ -92,7 +90,7 @@ func TestDevopsDeployArtifactResource_basic(t *testing.T) {
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Optional, acctest.Create, DevopsDeployArtifactRepresentation), "devops", "deployArtifact", t)
 
 	acctest.ResourceTest(t, testAccCheckDevopsDeployArtifactDestroy, []resource.TestStep{
-		// verify Create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DevopsDeployArtifactResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Required, acctest.Create, DevopsDeployArtifactRepresentation),
@@ -110,7 +108,6 @@ func TestDevopsDeployArtifactResource_basic(t *testing.T) {
 				},
 			),
 		},
-
 		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DevopsDeployArtifactResourceDependencies,
@@ -144,7 +141,6 @@ func TestDevopsDeployArtifactResource_basic(t *testing.T) {
 				},
 			),
 		},
-
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DevopsDeployArtifactResourceDependencies +
@@ -172,7 +168,7 @@ func TestDevopsDeployArtifactResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify datasource
+		// verify singular datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_artifacts", "test_deploy_artifacts", acctest.Optional, acctest.Update, DevopsDevopsDeployArtifactDataSourceRepresentation) +

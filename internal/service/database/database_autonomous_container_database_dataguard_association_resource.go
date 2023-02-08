@@ -44,8 +44,18 @@ func DatabaseAutonomousContainerDatabaseDataguardAssociationResource() *schema.R
 			},
 
 			// Optional
+			"fast_start_fail_over_lag_limit_in_seconds": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"is_automatic_failover_enabled": {
 				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"protection_mode": {
+				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
@@ -76,10 +86,6 @@ func DatabaseAutonomousContainerDatabaseDataguardAssociationResource() *schema.R
 				Computed: true,
 			},
 			"peer_role": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"protection_mode": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -191,9 +197,18 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationResourceCrud) Cr
 		request.AutonomousContainerDatabaseId = &tmp
 	}
 
+	if fastStartFailOverLagLimitInSeconds, ok := s.D.GetOkExists("fast_start_fail_over_lag_limit_in_seconds"); ok {
+		tmp := fastStartFailOverLagLimitInSeconds.(int)
+		request.FastStartFailOverLagLimitInSeconds = &tmp
+	}
+
 	if isAutomaticFailoverEnabled, ok := s.D.GetOkExists("is_automatic_failover_enabled"); ok {
 		tmp := isAutomaticFailoverEnabled.(bool)
 		request.IsAutomaticFailoverEnabled = &tmp
+	}
+
+	if protectionMode, ok := s.D.GetOkExists("protection_mode"); ok {
+		request.ProtectionMode = oci_database.UpdateAutonomousContainerDatabaseDataGuardAssociationDetailsProtectionModeEnum(protectionMode.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -263,9 +278,18 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationResourceCrud) Up
 		request.AutonomousContainerDatabaseId = &tmp
 	}
 
+	if fastStartFailOverLagLimitInSeconds, ok := s.D.GetOkExists("fast_start_fail_over_lag_limit_in_seconds"); ok && s.D.HasChange("fast_start_fail_over_lag_limit_in_seconds") {
+		tmp := fastStartFailOverLagLimitInSeconds.(int)
+		request.FastStartFailOverLagLimitInSeconds = &tmp
+	}
+
 	if isAutomaticFailoverEnabled, ok := s.D.GetOkExists("is_automatic_failover_enabled"); ok {
 		tmp := isAutomaticFailoverEnabled.(bool)
 		request.IsAutomaticFailoverEnabled = &tmp
+	}
+
+	if protectionMode, ok := s.D.GetOkExists("protection_mode"); ok {
+		request.ProtectionMode = oci_database.UpdateAutonomousContainerDatabaseDataGuardAssociationDetailsProtectionModeEnum(protectionMode.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -306,6 +330,10 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationResourceCrud) Se
 
 	if s.Res.AutonomousContainerDatabaseId != nil {
 		s.D.Set("autonomous_container_database_id", *s.Res.AutonomousContainerDatabaseId)
+	}
+
+	if s.Res.FastStartFailOverLagLimitInSeconds != nil {
+		s.D.Set("fast_start_fail_over_lag_limit_in_seconds", *s.Res.FastStartFailOverLagLimitInSeconds)
 	}
 
 	if s.Res.IsAutomaticFailoverEnabled != nil {

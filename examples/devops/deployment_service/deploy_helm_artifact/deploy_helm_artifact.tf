@@ -61,7 +61,7 @@ resource "oci_devops_deploy_artifact" "test_deploy_helm_artifact" {
   argument_substitution_mode = "NONE"
   deploy_artifact_source {
     deploy_artifact_source_type = "HELM_CHART"
-    chart_url = "iad.ocir.io/ax022wvgmjpq/fake"
+    chart_url = "oci://iad.ocir.io/ax022wvgmjpq/fake"
     deploy_artifact_version = "0.1"
   }
 }

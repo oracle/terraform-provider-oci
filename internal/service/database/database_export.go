@@ -424,8 +424,7 @@ var exportDatabasePluggableDatabaseHints = &tf_export.TerraformResourceHints{
 var databaseResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDatabaseAutonomousContainerDatabaseHints},
-		{
-			TerraformResourceHints: exportDatabaseAutonomousContainerDatabaseHints,
+		{TerraformResourceHints: exportDatabaseAutonomousContainerDatabaseHints,
 			DatasourceQueryParams: map[string]string{
 				"infrastructure_type": "infrastructureType",
 			},

@@ -462,6 +462,69 @@ func (client OperationsInsightsClient) changeOperationsInsightsPrivateEndpointCo
 	return response, err
 }
 
+// ChangeOpsiConfigurationCompartment Moves an OpsiConfiguration resource from one compartment to another.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangeOpsiConfigurationCompartment.go.html to see an example of how to use ChangeOpsiConfigurationCompartment API.
+// A default retry strategy applies to this operation ChangeOpsiConfigurationCompartment()
+func (client OperationsInsightsClient) ChangeOpsiConfigurationCompartment(ctx context.Context, request ChangeOpsiConfigurationCompartmentRequest) (response ChangeOpsiConfigurationCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeOpsiConfigurationCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeOpsiConfigurationCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeOpsiConfigurationCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeOpsiConfigurationCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeOpsiConfigurationCompartmentResponse")
+	}
+	return
+}
+
+// changeOpsiConfigurationCompartment implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) changeOpsiConfigurationCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/opsiConfigurations/{opsiConfigurationId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeOpsiConfigurationCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OpsiConfigurations/ChangeOpsiConfigurationCompartment"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ChangeOpsiConfigurationCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangePeComanagedDatabaseInsight Change the connection details of a co-managed  database insight. When provided, If-Match is checked against ETag values of the resource.
 //
 // See also
@@ -1034,6 +1097,69 @@ func (client OperationsInsightsClient) createOperationsInsightsWarehouseUser(ctx
 	return response, err
 }
 
+// CreateOpsiConfiguration Create an OPSI configuration resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/CreateOpsiConfiguration.go.html to see an example of how to use CreateOpsiConfiguration API.
+// A default retry strategy applies to this operation CreateOpsiConfiguration()
+func (client OperationsInsightsClient) CreateOpsiConfiguration(ctx context.Context, request CreateOpsiConfigurationRequest) (response CreateOpsiConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createOpsiConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateOpsiConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateOpsiConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateOpsiConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateOpsiConfigurationResponse")
+	}
+	return
+}
+
+// createOpsiConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) createOpsiConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/opsiConfigurations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateOpsiConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OpsiConfigurations/CreateOpsiConfiguration"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "CreateOpsiConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &opsiconfiguration{})
+	return response, err
+}
+
 // DeleteAwrHub Deletes an AWR hub.
 //
 // See also
@@ -1494,6 +1620,64 @@ func (client OperationsInsightsClient) deleteOperationsInsightsWarehouseUser(ctx
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsWarehouseUsers/DeleteOperationsInsightsWarehouseUser"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "DeleteOperationsInsightsWarehouseUser", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteOpsiConfiguration Deletes an OPSI configuration resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DeleteOpsiConfiguration.go.html to see an example of how to use DeleteOpsiConfiguration API.
+// A default retry strategy applies to this operation DeleteOpsiConfiguration()
+func (client OperationsInsightsClient) DeleteOpsiConfiguration(ctx context.Context, request DeleteOpsiConfigurationRequest) (response DeleteOpsiConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteOpsiConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteOpsiConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteOpsiConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteOpsiConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteOpsiConfigurationResponse")
+	}
+	return
+}
+
+// deleteOpsiConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) deleteOpsiConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/opsiConfigurations/{opsiConfigurationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteOpsiConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OpsiConfigurations/DeleteOpsiConfiguration"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "DeleteOpsiConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -2578,6 +2762,66 @@ func (client OperationsInsightsClient) getOperationsInsightsWarehouseUser(ctx co
 	}
 
 	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetOpsiConfiguration Gets details of an OPSI configuration resource.
+// Values specified in configItemField and configItemCustomStatus query params will be considered, only if configItems field is requested as part of opsiConfigField query param.
+// Values specified in configItemCustomStatus will determine whether only customized configuration items or only non-customized configuration items or both have to be returned.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetOpsiConfiguration.go.html to see an example of how to use GetOpsiConfiguration API.
+// A default retry strategy applies to this operation GetOpsiConfiguration()
+func (client OperationsInsightsClient) GetOpsiConfiguration(ctx context.Context, request GetOpsiConfigurationRequest) (response GetOpsiConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getOpsiConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetOpsiConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetOpsiConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetOpsiConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetOpsiConfigurationResponse")
+	}
+	return
+}
+
+// getOpsiConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) getOpsiConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/opsiConfigurations/{opsiConfigurationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetOpsiConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OpsiConfigurations/GetOpsiConfiguration"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "GetOpsiConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &opsiconfiguration{})
 	return response, err
 }
 
@@ -4205,6 +4449,64 @@ func (client OperationsInsightsClient) listOperationsInsightsWarehouses(ctx cont
 	return response, err
 }
 
+// ListOpsiConfigurations Gets a list of OPSI configuration resources based on the query parameters specified.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListOpsiConfigurations.go.html to see an example of how to use ListOpsiConfigurations API.
+// A default retry strategy applies to this operation ListOpsiConfigurations()
+func (client OperationsInsightsClient) ListOpsiConfigurations(ctx context.Context, request ListOpsiConfigurationsRequest) (response ListOpsiConfigurationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listOpsiConfigurations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListOpsiConfigurationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListOpsiConfigurationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListOpsiConfigurationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListOpsiConfigurationsResponse")
+	}
+	return
+}
+
+// listOpsiConfigurations implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) listOpsiConfigurations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/opsiConfigurations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListOpsiConfigurationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OpsiConfigurations/ListOpsiConfigurations"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListOpsiConfigurations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListOpsiDataObjects Gets a list of OPSI data objects based on the query parameters specified. CompartmentId id query parameter must be specified.
 //
 // See also
@@ -5323,6 +5625,65 @@ func (client OperationsInsightsClient) summarizeAwrSourcesSummaries(ctx context.
 	}
 
 	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizeConfigurationItems Gets the applicable configuration items based on the query parameters specified. Configuration items for an opsiConfigType with respect to a compartmentId can be fetched.
+// Values specified in configItemField param will determine what fields for each configuration items have to be returned.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeConfigurationItems.go.html to see an example of how to use SummarizeConfigurationItems API.
+// A default retry strategy applies to this operation SummarizeConfigurationItems()
+func (client OperationsInsightsClient) SummarizeConfigurationItems(ctx context.Context, request SummarizeConfigurationItemsRequest) (response SummarizeConfigurationItemsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeConfigurationItems, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeConfigurationItemsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeConfigurationItemsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeConfigurationItemsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeConfigurationItemsResponse")
+	}
+	return
+}
+
+// summarizeConfigurationItems implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) summarizeConfigurationItems(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/opsiConfigurations/configurationItems", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeConfigurationItemsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OpsiConfigurations/SummarizeConfigurationItems"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeConfigurationItems", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &configurationitemscollection{})
 	return response, err
 }
 
@@ -7650,6 +8011,64 @@ func (client OperationsInsightsClient) updateOperationsInsightsWarehouseUser(ctx
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsWarehouseUsers/UpdateOperationsInsightsWarehouseUser"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "UpdateOperationsInsightsWarehouseUser", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateOpsiConfiguration Updates an OPSI configuration resource with the given ID.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/UpdateOpsiConfiguration.go.html to see an example of how to use UpdateOpsiConfiguration API.
+// A default retry strategy applies to this operation UpdateOpsiConfiguration()
+func (client OperationsInsightsClient) UpdateOpsiConfiguration(ctx context.Context, request UpdateOpsiConfigurationRequest) (response UpdateOpsiConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateOpsiConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateOpsiConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateOpsiConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateOpsiConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateOpsiConfigurationResponse")
+	}
+	return
+}
+
+// updateOpsiConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) updateOpsiConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/opsiConfigurations/{opsiConfigurationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateOpsiConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OpsiConfigurations/UpdateOpsiConfiguration"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "UpdateOpsiConfiguration", apiReferenceLink)
 		return response, err
 	}
 

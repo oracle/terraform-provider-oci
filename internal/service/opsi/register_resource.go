@@ -16,4 +16,5 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_opsi_operations_insights_warehouse_download_warehouse_wallet", OpsiOperationsInsightsWarehouseDownloadWarehouseWalletResource())
 	tfresource.RegisterResource("oci_opsi_operations_insights_warehouse_rotate_warehouse_wallet", OpsiOperationsInsightsWarehouseRotateWarehouseWalletResource())
 	tfresource.RegisterResource("oci_opsi_operations_insights_warehouse_user", OpsiOperationsInsightsWarehouseUserResource())
+	tfresource.RegisterResource("oci_opsi_opsi_configuration", OpsiOpsiConfigurationResource())
 }

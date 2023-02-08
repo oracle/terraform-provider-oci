@@ -50,6 +50,9 @@ type AutonomousContainerDatabaseDataguardAssociation struct {
 	// in the Oracle Data Guard documentation.
 	ProtectionMode AutonomousContainerDatabaseDataguardAssociationProtectionModeEnum `mandatory:"false" json:"protectionMode,omitempty"`
 
+	// The lag time for my preference based on data loss tolerance in seconds.
+	FastStartFailOverLagLimitInSeconds *int `mandatory:"false" json:"fastStartFailOverLagLimitInSeconds"`
+
 	// The lag time between updates to the primary Autonomous Container Database and application of the redo data on the standby Autonomous Container Database,
 	// as computed by the reporting database.
 	// Example: `9 seconds`
@@ -116,18 +119,21 @@ const (
 	AutonomousContainerDatabaseDataguardAssociationRolePrimary         AutonomousContainerDatabaseDataguardAssociationRoleEnum = "PRIMARY"
 	AutonomousContainerDatabaseDataguardAssociationRoleStandby         AutonomousContainerDatabaseDataguardAssociationRoleEnum = "STANDBY"
 	AutonomousContainerDatabaseDataguardAssociationRoleDisabledStandby AutonomousContainerDatabaseDataguardAssociationRoleEnum = "DISABLED_STANDBY"
+	AutonomousContainerDatabaseDataguardAssociationRoleSnapshotStandby AutonomousContainerDatabaseDataguardAssociationRoleEnum = "SNAPSHOT_STANDBY"
 )
 
 var mappingAutonomousContainerDatabaseDataguardAssociationRoleEnum = map[string]AutonomousContainerDatabaseDataguardAssociationRoleEnum{
 	"PRIMARY":          AutonomousContainerDatabaseDataguardAssociationRolePrimary,
 	"STANDBY":          AutonomousContainerDatabaseDataguardAssociationRoleStandby,
 	"DISABLED_STANDBY": AutonomousContainerDatabaseDataguardAssociationRoleDisabledStandby,
+	"SNAPSHOT_STANDBY": AutonomousContainerDatabaseDataguardAssociationRoleSnapshotStandby,
 }
 
 var mappingAutonomousContainerDatabaseDataguardAssociationRoleEnumLowerCase = map[string]AutonomousContainerDatabaseDataguardAssociationRoleEnum{
 	"primary":          AutonomousContainerDatabaseDataguardAssociationRolePrimary,
 	"standby":          AutonomousContainerDatabaseDataguardAssociationRoleStandby,
 	"disabled_standby": AutonomousContainerDatabaseDataguardAssociationRoleDisabledStandby,
+	"snapshot_standby": AutonomousContainerDatabaseDataguardAssociationRoleSnapshotStandby,
 }
 
 // GetAutonomousContainerDatabaseDataguardAssociationRoleEnumValues Enumerates the set of values for AutonomousContainerDatabaseDataguardAssociationRoleEnum
@@ -145,6 +151,7 @@ func GetAutonomousContainerDatabaseDataguardAssociationRoleEnumStringValues() []
 		"PRIMARY",
 		"STANDBY",
 		"DISABLED_STANDBY",
+		"SNAPSHOT_STANDBY",
 	}
 }
 
@@ -166,6 +173,7 @@ const (
 	AutonomousContainerDatabaseDataguardAssociationLifecycleStateTerminated           AutonomousContainerDatabaseDataguardAssociationLifecycleStateEnum = "TERMINATED"
 	AutonomousContainerDatabaseDataguardAssociationLifecycleStateFailed               AutonomousContainerDatabaseDataguardAssociationLifecycleStateEnum = "FAILED"
 	AutonomousContainerDatabaseDataguardAssociationLifecycleStateUnavailable          AutonomousContainerDatabaseDataguardAssociationLifecycleStateEnum = "UNAVAILABLE"
+	AutonomousContainerDatabaseDataguardAssociationLifecycleStateUpdating             AutonomousContainerDatabaseDataguardAssociationLifecycleStateEnum = "UPDATING"
 )
 
 var mappingAutonomousContainerDatabaseDataguardAssociationLifecycleStateEnum = map[string]AutonomousContainerDatabaseDataguardAssociationLifecycleStateEnum{
@@ -176,6 +184,7 @@ var mappingAutonomousContainerDatabaseDataguardAssociationLifecycleStateEnum = m
 	"TERMINATED":              AutonomousContainerDatabaseDataguardAssociationLifecycleStateTerminated,
 	"FAILED":                  AutonomousContainerDatabaseDataguardAssociationLifecycleStateFailed,
 	"UNAVAILABLE":             AutonomousContainerDatabaseDataguardAssociationLifecycleStateUnavailable,
+	"UPDATING":                AutonomousContainerDatabaseDataguardAssociationLifecycleStateUpdating,
 }
 
 var mappingAutonomousContainerDatabaseDataguardAssociationLifecycleStateEnumLowerCase = map[string]AutonomousContainerDatabaseDataguardAssociationLifecycleStateEnum{
@@ -186,6 +195,7 @@ var mappingAutonomousContainerDatabaseDataguardAssociationLifecycleStateEnumLowe
 	"terminated":              AutonomousContainerDatabaseDataguardAssociationLifecycleStateTerminated,
 	"failed":                  AutonomousContainerDatabaseDataguardAssociationLifecycleStateFailed,
 	"unavailable":             AutonomousContainerDatabaseDataguardAssociationLifecycleStateUnavailable,
+	"updating":                AutonomousContainerDatabaseDataguardAssociationLifecycleStateUpdating,
 }
 
 // GetAutonomousContainerDatabaseDataguardAssociationLifecycleStateEnumValues Enumerates the set of values for AutonomousContainerDatabaseDataguardAssociationLifecycleStateEnum
@@ -207,6 +217,7 @@ func GetAutonomousContainerDatabaseDataguardAssociationLifecycleStateEnumStringV
 		"TERMINATED",
 		"FAILED",
 		"UNAVAILABLE",
+		"UPDATING",
 	}
 }
 
@@ -224,18 +235,21 @@ const (
 	AutonomousContainerDatabaseDataguardAssociationPeerRolePrimary         AutonomousContainerDatabaseDataguardAssociationPeerRoleEnum = "PRIMARY"
 	AutonomousContainerDatabaseDataguardAssociationPeerRoleStandby         AutonomousContainerDatabaseDataguardAssociationPeerRoleEnum = "STANDBY"
 	AutonomousContainerDatabaseDataguardAssociationPeerRoleDisabledStandby AutonomousContainerDatabaseDataguardAssociationPeerRoleEnum = "DISABLED_STANDBY"
+	AutonomousContainerDatabaseDataguardAssociationPeerRoleSnapshotStandby AutonomousContainerDatabaseDataguardAssociationPeerRoleEnum = "SNAPSHOT_STANDBY"
 )
 
 var mappingAutonomousContainerDatabaseDataguardAssociationPeerRoleEnum = map[string]AutonomousContainerDatabaseDataguardAssociationPeerRoleEnum{
 	"PRIMARY":          AutonomousContainerDatabaseDataguardAssociationPeerRolePrimary,
 	"STANDBY":          AutonomousContainerDatabaseDataguardAssociationPeerRoleStandby,
 	"DISABLED_STANDBY": AutonomousContainerDatabaseDataguardAssociationPeerRoleDisabledStandby,
+	"SNAPSHOT_STANDBY": AutonomousContainerDatabaseDataguardAssociationPeerRoleSnapshotStandby,
 }
 
 var mappingAutonomousContainerDatabaseDataguardAssociationPeerRoleEnumLowerCase = map[string]AutonomousContainerDatabaseDataguardAssociationPeerRoleEnum{
 	"primary":          AutonomousContainerDatabaseDataguardAssociationPeerRolePrimary,
 	"standby":          AutonomousContainerDatabaseDataguardAssociationPeerRoleStandby,
 	"disabled_standby": AutonomousContainerDatabaseDataguardAssociationPeerRoleDisabledStandby,
+	"snapshot_standby": AutonomousContainerDatabaseDataguardAssociationPeerRoleSnapshotStandby,
 }
 
 // GetAutonomousContainerDatabaseDataguardAssociationPeerRoleEnumValues Enumerates the set of values for AutonomousContainerDatabaseDataguardAssociationPeerRoleEnum
@@ -253,6 +267,7 @@ func GetAutonomousContainerDatabaseDataguardAssociationPeerRoleEnumStringValues(
 		"PRIMARY",
 		"STANDBY",
 		"DISABLED_STANDBY",
+		"SNAPSHOT_STANDBY",
 	}
 }
 
@@ -274,6 +289,7 @@ const (
 	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateTerminated           AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "TERMINATED"
 	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateFailed               AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "FAILED"
 	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateUnavailable          AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "UNAVAILABLE"
+	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateUpdating             AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "UPDATING"
 )
 
 var mappingAutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = map[string]AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum{
@@ -284,6 +300,7 @@ var mappingAutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum
 	"TERMINATED":              AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateTerminated,
 	"FAILED":                  AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateFailed,
 	"UNAVAILABLE":             AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateUnavailable,
+	"UPDATING":                AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateUpdating,
 }
 
 var mappingAutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnumLowerCase = map[string]AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum{
@@ -294,6 +311,7 @@ var mappingAutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum
 	"terminated":              AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateTerminated,
 	"failed":                  AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateFailed,
 	"unavailable":             AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateUnavailable,
+	"updating":                AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateUpdating,
 }
 
 // GetAutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnumValues Enumerates the set of values for AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum
@@ -315,6 +333,7 @@ func GetAutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnumStr
 		"TERMINATED",
 		"FAILED",
 		"UNAVAILABLE",
+		"UPDATING",
 	}
 }
 

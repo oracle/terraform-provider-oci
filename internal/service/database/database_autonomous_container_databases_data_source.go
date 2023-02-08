@@ -285,6 +285,10 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 			autonomousContainerDatabase["time_created"] = r.TimeCreated.String()
 		}
 
+		if r.TimeSnapshotStandbyRevert != nil {
+			autonomousContainerDatabase["time_snapshot_standby_revert"] = r.TimeSnapshotStandbyRevert.String()
+		}
+
 		if r.TotalCpus != nil {
 			autonomousContainerDatabase["total_cpus"] = *r.TotalCpus
 		}
@@ -292,6 +296,8 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 		if r.VaultId != nil {
 			autonomousContainerDatabase["vault_id"] = *r.VaultId
 		}
+
+		autonomousContainerDatabase["version_preference"] = r.VersionPreference
 
 		resources = append(resources, autonomousContainerDatabase)
 	}

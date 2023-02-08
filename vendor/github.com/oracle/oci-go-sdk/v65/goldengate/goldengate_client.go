@@ -1080,6 +1080,132 @@ func (client GoldenGateClient) deleteDeploymentBackup(ctx context.Context, reque
 	return response, err
 }
 
+// DeploymentWalletExists Checks if a wallet is already present in the deployment. When provided, If-Match is checked against ETag values of the resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeploymentWalletExists.go.html to see an example of how to use DeploymentWalletExists API.
+// A default retry strategy applies to this operation DeploymentWalletExists()
+func (client GoldenGateClient) DeploymentWalletExists(ctx context.Context, request DeploymentWalletExistsRequest) (response DeploymentWalletExistsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deploymentWalletExists, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeploymentWalletExistsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeploymentWalletExistsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeploymentWalletExistsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeploymentWalletExistsResponse")
+	}
+	return
+}
+
+// deploymentWalletExists implements the OCIOperation interface (enables retrying operations)
+func (client GoldenGateClient) deploymentWalletExists(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deployments/{deploymentId}/actions/walletExists", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeploymentWalletExistsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Deployment/DeploymentWalletExists"
+		err = common.PostProcessServiceError(err, "GoldenGate", "DeploymentWalletExists", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ExportDeploymentWallet Export the OGG wallet from the deployment to OCI vault. When provided, If-Match is checked against ETag values of the resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ExportDeploymentWallet.go.html to see an example of how to use ExportDeploymentWallet API.
+// A default retry strategy applies to this operation ExportDeploymentWallet()
+func (client GoldenGateClient) ExportDeploymentWallet(ctx context.Context, request ExportDeploymentWalletRequest) (response ExportDeploymentWalletResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.exportDeploymentWallet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ExportDeploymentWalletResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ExportDeploymentWalletResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ExportDeploymentWalletResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ExportDeploymentWalletResponse")
+	}
+	return
+}
+
+// exportDeploymentWallet implements the OCIOperation interface (enables retrying operations)
+func (client GoldenGateClient) exportDeploymentWallet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deployments/{deploymentId}/actions/exportWallet", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ExportDeploymentWalletResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Deployment/ExportDeploymentWallet"
+		err = common.PostProcessServiceError(err, "GoldenGate", "ExportDeploymentWallet", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetConnection Retrieves a Connection.
 //
 // See also
@@ -1487,6 +1613,69 @@ func (client GoldenGateClient) getWorkRequest(ctx context.Context, request commo
 	return response, err
 }
 
+// ImportDeploymentWallet Imports an OGG wallet from the OCI Vault to the Deployment. When provided, If-Match is checked against ETag values of the resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ImportDeploymentWallet.go.html to see an example of how to use ImportDeploymentWallet API.
+// A default retry strategy applies to this operation ImportDeploymentWallet()
+func (client GoldenGateClient) ImportDeploymentWallet(ctx context.Context, request ImportDeploymentWalletRequest) (response ImportDeploymentWalletResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.importDeploymentWallet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ImportDeploymentWalletResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ImportDeploymentWalletResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ImportDeploymentWalletResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ImportDeploymentWalletResponse")
+	}
+	return
+}
+
+// importDeploymentWallet implements the OCIOperation interface (enables retrying operations)
+func (client GoldenGateClient) importDeploymentWallet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deployments/{deploymentId}/actions/importWallet", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ImportDeploymentWalletResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Deployment/ImportDeploymentWallet"
+		err = common.PostProcessServiceError(err, "GoldenGate", "ImportDeploymentWallet", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListConnectionAssignments Lists the Connection Assignments in the compartment.
 //
 // See also
@@ -1829,6 +2018,64 @@ func (client GoldenGateClient) listDeploymentUpgrades(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/DeploymentUpgrade/ListDeploymentUpgrades"
 		err = common.PostProcessServiceError(err, "GoldenGate", "ListDeploymentUpgrades", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDeploymentWalletsOperations Lists the wallets export/import operations to/from a deployment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeploymentWalletsOperations.go.html to see an example of how to use ListDeploymentWalletsOperations API.
+// A default retry strategy applies to this operation ListDeploymentWalletsOperations()
+func (client GoldenGateClient) ListDeploymentWalletsOperations(ctx context.Context, request ListDeploymentWalletsOperationsRequest) (response ListDeploymentWalletsOperationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDeploymentWalletsOperations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDeploymentWalletsOperationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDeploymentWalletsOperationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDeploymentWalletsOperationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDeploymentWalletsOperationsResponse")
+	}
+	return
+}
+
+// listDeploymentWalletsOperations implements the OCIOperation interface (enables retrying operations)
+func (client GoldenGateClient) listDeploymentWalletsOperations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/deployments/{deploymentId}/deploymentWalletsOperations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDeploymentWalletsOperationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/DeploymentWalletsOperationSummary/ListDeploymentWalletsOperations"
+		err = common.PostProcessServiceError(err, "GoldenGate", "ListDeploymentWalletsOperations", apiReferenceLink)
 		return response, err
 	}
 

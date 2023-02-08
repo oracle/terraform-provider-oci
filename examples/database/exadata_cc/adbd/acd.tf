@@ -23,4 +23,5 @@ resource "oci_database_autonomous_container_database" "autonomous_container_data
   }
   patch_model = "RELEASE_UPDATES"
   service_level_agreement_type = "STANDARD"
+  version_preference = "LATEST_RELEASE_UPDATE"
 }

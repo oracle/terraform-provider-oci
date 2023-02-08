@@ -53,6 +53,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
     weeks_of_month = ["2"]
   }
   rotate_key_trigger = "true"
+  version_preference = "LATEST_RELEASE_UPDATE"
 }
 
 resource "random_string" "autonomous_database_admin_password" {

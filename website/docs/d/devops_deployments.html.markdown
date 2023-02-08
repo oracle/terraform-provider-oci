@@ -114,6 +114,8 @@ The following attributes are exported:
 				* `id` - The OCID of the predecessor stage. If a stage is the first stage in the pipeline, then the ID is the pipeline's OCID.
 		* `deploy_stage_type` - Deployment stage type.
 		* `environment_id` - The OCID of the environment where the artifacts were deployed.
+		* `helm_diff` - Helm Diff output Example: Helm diff was successful data:
+			* greeting: Version 1.0 + greeting: Version 1.1 
 		* `namespace` - Default namespace to be used for Kubernetes deployment when not specified in the manifest.
 		* `release_name` - Release name of the Helm chart.
 		* `status` - The current state of the stage.
