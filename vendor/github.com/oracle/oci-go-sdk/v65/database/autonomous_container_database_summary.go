@@ -69,6 +69,9 @@ type AutonomousContainerDatabaseSummary struct {
 	// The date and time the Autonomous Container Database was created.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
+	// The date and time the Autonomous Container Database will be reverted to Standby from Snapshot Standby.
+	TimeSnapshotStandbyRevert *common.SDKTime `mandatory:"false" json:"timeSnapshotStandbyRevert"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the last patch applied on the system.
 	PatchId *string `mandatory:"false" json:"patchId"`
 
@@ -83,6 +86,9 @@ type AutonomousContainerDatabaseSummary struct {
 	// The scheduling detail for the quarterly maintenance window of the standby Autonomous Container Database.
 	// This value represents the number of days before scheduled maintenance of the primary database.
 	StandbyMaintenanceBufferInDays *int `mandatory:"false" json:"standbyMaintenanceBufferInDays"`
+
+	// The next maintenance version preference.
+	VersionPreference AutonomousContainerDatabaseSummaryVersionPreferenceEnum `mandatory:"false" json:"versionPreference,omitempty"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -150,6 +156,9 @@ func (m AutonomousContainerDatabaseSummary) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingAutonomousContainerDatabaseSummaryInfrastructureTypeEnum(string(m.InfrastructureType)); !ok && m.InfrastructureType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InfrastructureType: %s. Supported values are: %s.", m.InfrastructureType, strings.Join(GetAutonomousContainerDatabaseSummaryInfrastructureTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingAutonomousContainerDatabaseSummaryVersionPreferenceEnum(string(m.VersionPreference)); !ok && m.VersionPreference != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VersionPreference: %s. Supported values are: %s.", m.VersionPreference, strings.Join(GetAutonomousContainerDatabaseSummaryVersionPreferenceEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingAutonomousContainerDatabaseSummaryRoleEnum(string(m.Role)); !ok && m.Role != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Role: %s. Supported values are: %s.", m.Role, strings.Join(GetAutonomousContainerDatabaseSummaryRoleEnumStringValues(), ",")))
@@ -379,6 +388,48 @@ func GetMappingAutonomousContainerDatabaseSummaryPatchModelEnum(val string) (Aut
 	return enum, ok
 }
 
+// AutonomousContainerDatabaseSummaryVersionPreferenceEnum Enum with underlying type: string
+type AutonomousContainerDatabaseSummaryVersionPreferenceEnum string
+
+// Set of constants representing the allowable values for AutonomousContainerDatabaseSummaryVersionPreferenceEnum
+const (
+	AutonomousContainerDatabaseSummaryVersionPreferenceNextReleaseUpdate   AutonomousContainerDatabaseSummaryVersionPreferenceEnum = "NEXT_RELEASE_UPDATE"
+	AutonomousContainerDatabaseSummaryVersionPreferenceLatestReleaseUpdate AutonomousContainerDatabaseSummaryVersionPreferenceEnum = "LATEST_RELEASE_UPDATE"
+)
+
+var mappingAutonomousContainerDatabaseSummaryVersionPreferenceEnum = map[string]AutonomousContainerDatabaseSummaryVersionPreferenceEnum{
+	"NEXT_RELEASE_UPDATE":   AutonomousContainerDatabaseSummaryVersionPreferenceNextReleaseUpdate,
+	"LATEST_RELEASE_UPDATE": AutonomousContainerDatabaseSummaryVersionPreferenceLatestReleaseUpdate,
+}
+
+var mappingAutonomousContainerDatabaseSummaryVersionPreferenceEnumLowerCase = map[string]AutonomousContainerDatabaseSummaryVersionPreferenceEnum{
+	"next_release_update":   AutonomousContainerDatabaseSummaryVersionPreferenceNextReleaseUpdate,
+	"latest_release_update": AutonomousContainerDatabaseSummaryVersionPreferenceLatestReleaseUpdate,
+}
+
+// GetAutonomousContainerDatabaseSummaryVersionPreferenceEnumValues Enumerates the set of values for AutonomousContainerDatabaseSummaryVersionPreferenceEnum
+func GetAutonomousContainerDatabaseSummaryVersionPreferenceEnumValues() []AutonomousContainerDatabaseSummaryVersionPreferenceEnum {
+	values := make([]AutonomousContainerDatabaseSummaryVersionPreferenceEnum, 0)
+	for _, v := range mappingAutonomousContainerDatabaseSummaryVersionPreferenceEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAutonomousContainerDatabaseSummaryVersionPreferenceEnumStringValues Enumerates the set of values in String for AutonomousContainerDatabaseSummaryVersionPreferenceEnum
+func GetAutonomousContainerDatabaseSummaryVersionPreferenceEnumStringValues() []string {
+	return []string{
+		"NEXT_RELEASE_UPDATE",
+		"LATEST_RELEASE_UPDATE",
+	}
+}
+
+// GetMappingAutonomousContainerDatabaseSummaryVersionPreferenceEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAutonomousContainerDatabaseSummaryVersionPreferenceEnum(val string) (AutonomousContainerDatabaseSummaryVersionPreferenceEnum, bool) {
+	enum, ok := mappingAutonomousContainerDatabaseSummaryVersionPreferenceEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
 // AutonomousContainerDatabaseSummaryRoleEnum Enum with underlying type: string
 type AutonomousContainerDatabaseSummaryRoleEnum string
 
@@ -387,18 +438,21 @@ const (
 	AutonomousContainerDatabaseSummaryRolePrimary         AutonomousContainerDatabaseSummaryRoleEnum = "PRIMARY"
 	AutonomousContainerDatabaseSummaryRoleStandby         AutonomousContainerDatabaseSummaryRoleEnum = "STANDBY"
 	AutonomousContainerDatabaseSummaryRoleDisabledStandby AutonomousContainerDatabaseSummaryRoleEnum = "DISABLED_STANDBY"
+	AutonomousContainerDatabaseSummaryRoleSnapshotStandby AutonomousContainerDatabaseSummaryRoleEnum = "SNAPSHOT_STANDBY"
 )
 
 var mappingAutonomousContainerDatabaseSummaryRoleEnum = map[string]AutonomousContainerDatabaseSummaryRoleEnum{
 	"PRIMARY":          AutonomousContainerDatabaseSummaryRolePrimary,
 	"STANDBY":          AutonomousContainerDatabaseSummaryRoleStandby,
 	"DISABLED_STANDBY": AutonomousContainerDatabaseSummaryRoleDisabledStandby,
+	"SNAPSHOT_STANDBY": AutonomousContainerDatabaseSummaryRoleSnapshotStandby,
 }
 
 var mappingAutonomousContainerDatabaseSummaryRoleEnumLowerCase = map[string]AutonomousContainerDatabaseSummaryRoleEnum{
 	"primary":          AutonomousContainerDatabaseSummaryRolePrimary,
 	"standby":          AutonomousContainerDatabaseSummaryRoleStandby,
 	"disabled_standby": AutonomousContainerDatabaseSummaryRoleDisabledStandby,
+	"snapshot_standby": AutonomousContainerDatabaseSummaryRoleSnapshotStandby,
 }
 
 // GetAutonomousContainerDatabaseSummaryRoleEnumValues Enumerates the set of values for AutonomousContainerDatabaseSummaryRoleEnum
@@ -416,6 +470,7 @@ func GetAutonomousContainerDatabaseSummaryRoleEnumStringValues() []string {
 		"PRIMARY",
 		"STANDBY",
 		"DISABLED_STANDBY",
+		"SNAPSHOT_STANDBY",
 	}
 }
 

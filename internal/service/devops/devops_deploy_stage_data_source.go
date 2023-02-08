@@ -1215,8 +1215,24 @@ func (s *DevopsDeployStageDataSourceCrud) SetData() error {
 	case oci_devops.OkeHelmChartDeployStage:
 		s.D.Set("deploy_stage_type", "OKE_HELM_CHART_DEPLOYMENT")
 
+		if v.AreHooksEnabled != nil {
+			s.D.Set("are_hooks_enabled", *v.AreHooksEnabled)
+		}
+
 		if v.HelmChartDeployArtifactId != nil {
 			s.D.Set("helm_chart_deploy_artifact_id", *v.HelmChartDeployArtifactId)
+		}
+
+		if v.IsDebugEnabled != nil {
+			s.D.Set("is_debug_enabled", *v.IsDebugEnabled)
+		}
+
+		if v.IsForceEnabled != nil {
+			s.D.Set("is_force_enabled", *v.IsForceEnabled)
+		}
+
+		if v.MaxHistory != nil {
+			s.D.Set("max_history", *v.MaxHistory)
 		}
 
 		if v.Namespace != nil {
@@ -1239,6 +1255,42 @@ func (s *DevopsDeployStageDataSourceCrud) SetData() error {
 			s.D.Set("rollback_policy", rollbackPolicyArray)
 		} else {
 			s.D.Set("rollback_policy", nil)
+		}
+
+		if v.SetString != nil {
+			s.D.Set("set_string", []interface{}{HelmSetValueCollectionToMap(v.SetString)})
+		} else {
+			s.D.Set("set_string", nil)
+		}
+
+		if v.SetValues != nil {
+			s.D.Set("set_values", []interface{}{HelmSetValueCollectionToMap(v.SetValues)})
+		} else {
+			s.D.Set("set_values", nil)
+		}
+
+		if v.ShouldCleanupOnFail != nil {
+			s.D.Set("should_cleanup_on_fail", *v.ShouldCleanupOnFail)
+		}
+
+		if v.ShouldNotWait != nil {
+			s.D.Set("should_not_wait", *v.ShouldNotWait)
+		}
+
+		if v.ShouldResetValues != nil {
+			s.D.Set("should_reset_values", *v.ShouldResetValues)
+		}
+
+		if v.ShouldReuseValues != nil {
+			s.D.Set("should_reuse_values", *v.ShouldReuseValues)
+		}
+
+		if v.ShouldSkipCrds != nil {
+			s.D.Set("should_skip_crds", *v.ShouldSkipCrds)
+		}
+
+		if v.ShouldSkipRenderSubchartNotes != nil {
+			s.D.Set("should_skip_render_subchart_notes", *v.ShouldSkipRenderSubchartNotes)
 		}
 
 		if v.TimeoutInSeconds != nil {

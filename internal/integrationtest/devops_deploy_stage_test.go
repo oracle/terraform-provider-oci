@@ -1,6 +1,5 @@
 // Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
-
 package integrationtest
 
 import (
@@ -74,8 +73,7 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", acctest.Required, acctest.Create, DevopsdeployEnvironmentRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_pipeline", "test_deploy_pipeline", acctest.Required, acctest.Create, DevopsDeployPipelineRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation) +
-		DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation)
+		DefinedTagsDependencies
 )
 
 // issue-routing-tag: devops/default

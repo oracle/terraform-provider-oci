@@ -117,6 +117,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 								},
 							},
 						},
+						"backup_retention_period_in_days": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"character_set": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -677,6 +681,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"total_backup_storage_size_in_gbs": {
+							Type:     schema.TypeFloat,
+							Computed: true,
+						},
 						"used_data_storage_size_in_tbs": {
 							Type:     schema.TypeInt,
 							Computed: true,
@@ -809,6 +817,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			autonomousDatabasesClone["backup_config"] = []interface{}{AutonomousDatabaseBackupConfigToMap(r.BackupConfig)}
 		} else {
 			autonomousDatabasesClone["backup_config"] = nil
+		}
+
+		if r.BackupRetentionPeriodInDays != nil {
+			autonomousDatabasesClone["backup_retention_period_in_days"] = *r.BackupRetentionPeriodInDays
 		}
 
 		if r.CharacterSet != nil {
@@ -1101,6 +1113,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.TimeUntilReconnectCloneEnabled != nil {
 			autonomousDatabasesClone["time_until_reconnect_clone_enabled"] = r.TimeUntilReconnectCloneEnabled.String()
+		}
+
+		if r.TotalBackupStorageSizeInGBs != nil {
+			autonomousDatabasesClone["total_backup_storage_size_in_gbs"] = *r.TotalBackupStorageSizeInGBs
 		}
 
 		if r.UsedDataStorageSizeInTBs != nil {

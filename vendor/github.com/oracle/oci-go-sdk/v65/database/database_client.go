@@ -1027,6 +1027,70 @@ func (client DatabaseClient) changeDatabaseSoftwareImageCompartment(ctx context.
 	return response, err
 }
 
+// ChangeDataguardRole Switch the Autonomous Container Database role between Standby and Snapshot Standby.
+// For more information about changing Autonomous Container Databases Dataguard Role, see
+// Change Database Role to Snapshot Standby (https://docs.cloud.oracle.com/Content/Database/Concepts/databaseoverview.htm#changeRole).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeDataguardRole.go.html to see an example of how to use ChangeDataguardRole API.
+func (client DatabaseClient) ChangeDataguardRole(ctx context.Context, request ChangeDataguardRoleRequest) (response ChangeDataguardRoleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeDataguardRole, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeDataguardRoleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeDataguardRoleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeDataguardRoleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeDataguardRoleResponse")
+	}
+	return
+}
+
+// changeDataguardRole implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) changeDataguardRole(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/actions/changeDataguardRole", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeDataguardRoleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabase/ChangeDataguardRole"
+		err = common.PostProcessServiceError(err, "Database", "ChangeDataguardRole", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeDbSystemCompartment Moves the DB system and its dependent resources to the specified compartment.
 // For more information about moving DB systems, see
 // Moving Database Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Database/Concepts/databaseoverview.htm#moveRes).
@@ -9677,6 +9741,63 @@ func (client DatabaseClient) listAutonomousContainerDatabaseDataguardAssociation
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabaseDataguardAssociation/ListAutonomousContainerDatabaseDataguardAssociations"
 		err = common.PostProcessServiceError(err, "Database", "ListAutonomousContainerDatabaseDataguardAssociations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAutonomousContainerDatabaseVersions Gets a list of supported Autonomous Container Database versions.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListAutonomousContainerDatabaseVersions.go.html to see an example of how to use ListAutonomousContainerDatabaseVersions API.
+func (client DatabaseClient) ListAutonomousContainerDatabaseVersions(ctx context.Context, request ListAutonomousContainerDatabaseVersionsRequest) (response ListAutonomousContainerDatabaseVersionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAutonomousContainerDatabaseVersions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAutonomousContainerDatabaseVersionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAutonomousContainerDatabaseVersionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAutonomousContainerDatabaseVersionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAutonomousContainerDatabaseVersionsResponse")
+	}
+	return
+}
+
+// listAutonomousContainerDatabaseVersions implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listAutonomousContainerDatabaseVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousContainerDatabaseVersions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAutonomousContainerDatabaseVersionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabaseVersionSummary/ListAutonomousContainerDatabaseVersions"
+		err = common.PostProcessServiceError(err, "Database", "ListAutonomousContainerDatabaseVersions", apiReferenceLink)
 		return response, err
 	}
 

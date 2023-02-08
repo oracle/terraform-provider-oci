@@ -42,3 +42,4 @@ output "primary_autonomous_dg_role" {
 output "standby_autonomous_dg_role" {
   value = data.oci_database_autonomous_container_database_dataguard_association.standby_autonomous_dg_association.role
 }
+

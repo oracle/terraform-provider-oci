@@ -132,12 +132,24 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"db_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
 				Computed:         true,
 				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
+			},
+			"fast_start_fail_over_lag_limit_in_seconds": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
@@ -395,6 +407,11 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"version_preference": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"availability_domain": {
@@ -410,10 +427,6 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Computed: true,
 			},
 			"infrastructure_type": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"db_version": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -578,6 +591,10 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"time_snapshot_standby_revert": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"total_cpus": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -735,6 +752,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 		request.DbUniqueName = &tmp
 	}
 
+	if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
+		tmp := dbVersion.(string)
+		request.DbVersion = &tmp
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -746,6 +768,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if fastStartFailOverLagLimitInSeconds, ok := s.D.GetOkExists("fast_start_fail_over_lag_limit_in_seconds"); ok && s.D.HasChange("fast_start_fail_over_lag_limit_in_seconds") {
+		tmp := fastStartFailOverLagLimitInSeconds.(int)
+		request.FastStartFailOverLagLimitInSeconds = &tmp
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
@@ -836,9 +863,14 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 		request.VaultId = &tmp
 	}
 
+	if versionPreference, ok := s.D.GetOkExists("version_preference"); ok {
+		request.VersionPreference = oci_database.CreateAutonomousContainerDatabaseDetailsVersionPreferenceEnum(versionPreference.(string))
+	}
+
 	if standbyMaintenanceBufferInDays, ok := s.D.GetOkExists("standby_maintenance_buffer_in_days"); ok {
 		tmp := standbyMaintenanceBufferInDays.(int)
 		request.StandbyMaintenanceBufferInDays = &tmp
+
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -937,6 +969,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Update() error {
 	if standbyMaintenanceBufferInDays, ok := s.D.GetOkExists("standby_maintenance_buffer_in_days"); ok {
 		tmp := standbyMaintenanceBufferInDays.(int)
 		request.StandbyMaintenanceBufferInDays = &tmp
+	}
+
+	if versionPreference, ok := s.D.GetOkExists("version_preference"); ok {
+		request.VersionPreference = oci_database.UpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnum(versionPreference.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -1093,6 +1129,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	if s.Res.TimeSnapshotStandbyRevert != nil {
+		s.D.Set("time_snapshot_standby_revert", s.Res.TimeSnapshotStandbyRevert.String())
+	}
+
 	if s.Res.TotalCpus != nil {
 		s.D.Set("total_cpus", *s.Res.TotalCpus)
 	}
@@ -1100,6 +1140,8 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 	if s.Res.VaultId != nil {
 		s.D.Set("vault_id", *s.Res.VaultId)
 	}
+
+	s.D.Set("version_preference", s.Res.VersionPreference)
 
 	return nil
 }

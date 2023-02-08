@@ -48,6 +48,14 @@ type OkeHelmChartDeploymentStageExecutionProgress struct {
 	// Default namespace to be used for Kubernetes deployment when not specified in the manifest.
 	Namespace *string `mandatory:"false" json:"namespace"`
 
+	// Helm Diff output
+	// Example:
+	// Helm diff was successful
+	// data:
+	// - greeting: Version 1.0
+	// + greeting: Version 1.1
+	HelmDiff *string `mandatory:"false" json:"helmDiff"`
+
 	// The current state of the stage.
 	Status DeployStageExecutionProgressStatusEnum `mandatory:"false" json:"status,omitempty"`
 }

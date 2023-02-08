@@ -27,7 +27,7 @@ type UpdateAutonomousDatabaseDetails struct {
 	// **Note:** This parameter cannot be used with the `ocpuCount` or `computeCount` parameter.
 	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
 
-	// The compute amount available to the database. Minimum and maximum values depend on the compute model and whether the database is on Shared or Dedicated infrastructure. For an Autonomous Database on Shared infrastructure, the 'ECPU' compute model requires values in multiples of two. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value.
+	// The compute amount available to the database. Minimum and maximum values depend on the compute model and whether the database is on Shared or Dedicated infrastructure. For an Autonomous Database on Shared infrastructure, the 'ECPU' compute model requires values in multiples of two. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value.@endif
 	ComputeCount *float32 `mandatory:"false" json:"computeCount"`
 
 	// The number of OCPU cores to be made available to the Autonomous Database.

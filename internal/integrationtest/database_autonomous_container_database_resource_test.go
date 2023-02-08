@@ -33,6 +33,7 @@ var (
 	}
 
 	ACDatabaseRepresentation = map[string]interface{}{
+		"version_preference":           acctest.Representation{RepType: acctest.Optional, Create: `LATEST_RELEASE_UPDATE`, Update: `NEXT_RELEASE_UPDATE`},
 		"display_name":                 acctest.Representation{RepType: acctest.Required, Create: `containerdatabases2`},
 		"patch_model":                  acctest.Representation{RepType: acctest.Required, Create: `RELEASE_UPDATES`, Update: `RELEASE_UPDATE_REVISIONS`},
 		"autonomous_vm_cluster_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster.id}`},
@@ -71,11 +72,17 @@ var (
 		KmsVaultIdVariableStr + OkvSecretVariableStr
 
 	dgDbUniqueName = utils.RandomString(10, utils.CharsetWithoutDigits)
+
+	ExaccDatabaseAutonomousContainerDatabaseResourceDependencies = DatabaseAutonomousVmClusterRequiredOnlyResource +
+		KeyResourceDependencyConfig + kmsKeyIdCreateVariableStr + kmsKeyIdUpdateVariableStr +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Create, DatabaseBackupDestinationRepresentation) +
+		OkvSecretVariableStr +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Optional, acctest.Create, DatabaseKeyStoreRepresentation)
 )
 
 // issue-routing-tag: database/dbaas-atp-d
 func TestDatabaseExaccAutonomousContainerDatabase_basic(t *testing.T) {
-	httpreplay.SetScenario("TestDatabaseAutonomousContainerDatabase_basic")
+	httpreplay.SetScenario("TestDatabaseExaccAutonomousContainerDatabase_basic")
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()
@@ -92,7 +99,7 @@ func TestDatabaseExaccAutonomousContainerDatabase_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousContainerDatabaseDestroy, []resource.TestStep{
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DatabaseAutonomousContainerDatabaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + ExaccDatabaseAutonomousContainerDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Create,
 					acctest.GetUpdatedRepresentationCopy("maintenance_window_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, ACDatabaseRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -122,6 +129,8 @@ func TestDatabaseExaccAutonomousContainerDatabase_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATES"),
 				resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "version_preference", "LATEST_RELEASE_UPDATE"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -137,7 +146,7 @@ func TestDatabaseExaccAutonomousContainerDatabase_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DatabaseAutonomousContainerDatabaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + ExaccDatabaseAutonomousContainerDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, ACDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "autonomous_vm_cluster_id"),
@@ -166,6 +175,8 @@ func TestDatabaseExaccAutonomousContainerDatabase_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATE_REVISIONS"),
 				resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "version_preference", "NEXT_RELEASE_UPDATE"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -180,7 +191,7 @@ func TestDatabaseExaccAutonomousContainerDatabase_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_databases", "test_autonomous_container_databases", acctest.Optional, acctest.Create, ACDatabaseDataSourceRepresentation) +
-				compartmentIdVariableStr + DatabaseAutonomousContainerDatabaseResourceDependencies + ExaccAcdResourceConfig,
+				compartmentIdVariableStr + ExaccDatabaseAutonomousContainerDatabaseResourceDependencies + ExaccAcdResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_cluster_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -214,13 +225,15 @@ func TestDatabaseExaccAutonomousContainerDatabase_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.memory_per_oracle_compute_unit_in_gbs"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.version_preference", "NEXT_RELEASE_UPDATE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.db_version"),
 			),
 		},
 		// verify singular datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Required, acctest.Create, DatabaseDatabaseAutonomousContainerDatabaseSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DatabaseAutonomousContainerDatabaseResourceDependencies + ExaccAcdResourceConfig,
+				compartmentIdVariableStr + ExaccDatabaseAutonomousContainerDatabaseResourceDependencies + ExaccAcdResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_container_database_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.#", "1"),
@@ -248,6 +261,8 @@ func TestDatabaseExaccAutonomousContainerDatabase_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "memory_per_oracle_compute_unit_in_gbs"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "version_preference", "NEXT_RELEASE_UPDATE"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_version"),
 			),
 		},
 		// verify resource import

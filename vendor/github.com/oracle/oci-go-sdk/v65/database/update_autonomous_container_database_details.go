@@ -30,6 +30,9 @@ type UpdateAutonomousContainerDatabaseDetails struct {
 	// This value represents the number of days before schedlued maintenance of the primary database.
 	StandbyMaintenanceBufferInDays *int `mandatory:"false" json:"standbyMaintenanceBufferInDays"`
 
+	// The next maintenance version preference.
+	VersionPreference UpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnum `mandatory:"false" json:"versionPreference,omitempty"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -54,6 +57,9 @@ func (m UpdateAutonomousContainerDatabaseDetails) ValidateEnumValue() (bool, err
 
 	if _, ok := GetMappingUpdateAutonomousContainerDatabaseDetailsPatchModelEnum(string(m.PatchModel)); !ok && m.PatchModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PatchModel: %s. Supported values are: %s.", m.PatchModel, strings.Join(GetUpdateAutonomousContainerDatabaseDetailsPatchModelEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingUpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnum(string(m.VersionPreference)); !ok && m.VersionPreference != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VersionPreference: %s. Supported values are: %s.", m.VersionPreference, strings.Join(GetUpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -100,5 +106,47 @@ func GetUpdateAutonomousContainerDatabaseDetailsPatchModelEnumStringValues() []s
 // GetMappingUpdateAutonomousContainerDatabaseDetailsPatchModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingUpdateAutonomousContainerDatabaseDetailsPatchModelEnum(val string) (UpdateAutonomousContainerDatabaseDetailsPatchModelEnum, bool) {
 	enum, ok := mappingUpdateAutonomousContainerDatabaseDetailsPatchModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// UpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnum Enum with underlying type: string
+type UpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnum string
+
+// Set of constants representing the allowable values for UpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnum
+const (
+	UpdateAutonomousContainerDatabaseDetailsVersionPreferenceNextReleaseUpdate   UpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnum = "NEXT_RELEASE_UPDATE"
+	UpdateAutonomousContainerDatabaseDetailsVersionPreferenceLatestReleaseUpdate UpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnum = "LATEST_RELEASE_UPDATE"
+)
+
+var mappingUpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnum = map[string]UpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnum{
+	"NEXT_RELEASE_UPDATE":   UpdateAutonomousContainerDatabaseDetailsVersionPreferenceNextReleaseUpdate,
+	"LATEST_RELEASE_UPDATE": UpdateAutonomousContainerDatabaseDetailsVersionPreferenceLatestReleaseUpdate,
+}
+
+var mappingUpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnumLowerCase = map[string]UpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnum{
+	"next_release_update":   UpdateAutonomousContainerDatabaseDetailsVersionPreferenceNextReleaseUpdate,
+	"latest_release_update": UpdateAutonomousContainerDatabaseDetailsVersionPreferenceLatestReleaseUpdate,
+}
+
+// GetUpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnumValues Enumerates the set of values for UpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnum
+func GetUpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnumValues() []UpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnum {
+	values := make([]UpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnum, 0)
+	for _, v := range mappingUpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnumStringValues Enumerates the set of values in String for UpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnum
+func GetUpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnumStringValues() []string {
+	return []string{
+		"NEXT_RELEASE_UPDATE",
+		"LATEST_RELEASE_UPDATE",
+	}
+}
+
+// GetMappingUpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnum(val string) (UpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnum, bool) {
+	enum, ok := mappingUpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

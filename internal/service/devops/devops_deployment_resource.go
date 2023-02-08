@@ -15,7 +15,6 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
-
 	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 )
 
@@ -24,11 +23,12 @@ func DevopsDeploymentResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDevopsDeployment,
-		Read:     readDevopsDeployment,
-		Update:   updateDevopsDeployment,
-		Delete:   deleteDevopsDeployment,
+		Timeouts:      tfresource.DefaultTimeout,
+		Create:        createDevopsDeployment,
+		Read:          readDevopsDeployment,
+		Update:        updateDevopsDeployment,
+		Delete:        deleteDevopsDeployment,
+		CustomizeDiff: resourceOkeClusterHelmReleaseDiff,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"deploy_pipeline_id": {
@@ -430,7 +430,7 @@ func createDevopsDeployment(d *schema.ResourceData, m interface{}) error {
 	sync := &DevopsDeploymentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
-
+	checkForHydrationWorkRequest(d, m)
 	return tfresource.CreateResource(d, sync)
 }
 

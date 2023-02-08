@@ -31,10 +31,6 @@ type AutonomousDatabaseSummary struct {
 	// The database name.
 	DbName *string `mandatory:"true" json:"dbName"`
 
-	// The number of OCPU cores to be made available to the database. When the ECPU is selected, the value for cpuCoreCount is 0. For Autonomous Databases on dedicated Exadata infrastructure, the maximum number of cores is determined by the infrastructure shape. See Characteristics of Infrastructure Shapes (https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
-	// **Note:** This parameter cannot be used with the `ocpuCount` parameter.
-	CpuCoreCount *int `mandatory:"true" json:"cpuCoreCount"`
-
 	// The quantity of data in the database, in terabytes.
 	DataStorageSizeInTBs *int `mandatory:"true" json:"dataStorageSizeInTBs"`
 
@@ -79,11 +75,21 @@ type AutonomousDatabaseSummary struct {
 	// Key History Entry.
 	KeyHistoryEntry []AutonomousDatabaseKeyHistoryEntry `mandatory:"false" json:"keyHistoryEntry"`
 
+	// The number of OCPU cores to be made available to the database. When the ECPU is selected, the value for cpuCoreCount is 0. For Autonomous Databases on dedicated Exadata infrastructure, the maximum number of cores is determined by the infrastructure shape. See Characteristics of Infrastructure Shapes (https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
+	// **Note:** This parameter cannot be used with the `ocpuCount` parameter.
+	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
+
 	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value.
 	ComputeModel AutonomousDatabaseSummaryComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 
 	// The compute amount available to the database. Minimum and maximum values depend on the compute model and whether the database is on Shared or Dedicated infrastructure. For an Autonomous Database on Shared infrastructure, the 'ECPU' compute model requires values in multiples of two. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value.
 	ComputeCount *float32 `mandatory:"false" json:"computeCount"`
+
+	// Retention period, in days, for backups.
+	BackupRetentionPeriodInDays *int `mandatory:"false" json:"backupRetentionPeriodInDays"`
+
+	// The backup storage to the database.
+	TotalBackupStorageSizeInGBs *float64 `mandatory:"false" json:"totalBackupStorageSizeInGBs"`
 
 	// The number of OCPU cores to be made available to the database.
 	// The following points apply:
@@ -1054,18 +1060,21 @@ const (
 	AutonomousDatabaseSummaryRolePrimary         AutonomousDatabaseSummaryRoleEnum = "PRIMARY"
 	AutonomousDatabaseSummaryRoleStandby         AutonomousDatabaseSummaryRoleEnum = "STANDBY"
 	AutonomousDatabaseSummaryRoleDisabledStandby AutonomousDatabaseSummaryRoleEnum = "DISABLED_STANDBY"
+	AutonomousDatabaseSummaryRoleSnapshotStandby AutonomousDatabaseSummaryRoleEnum = "SNAPSHOT_STANDBY"
 )
 
 var mappingAutonomousDatabaseSummaryRoleEnum = map[string]AutonomousDatabaseSummaryRoleEnum{
 	"PRIMARY":          AutonomousDatabaseSummaryRolePrimary,
 	"STANDBY":          AutonomousDatabaseSummaryRoleStandby,
 	"DISABLED_STANDBY": AutonomousDatabaseSummaryRoleDisabledStandby,
+	"SNAPSHOT_STANDBY": AutonomousDatabaseSummaryRoleSnapshotStandby,
 }
 
 var mappingAutonomousDatabaseSummaryRoleEnumLowerCase = map[string]AutonomousDatabaseSummaryRoleEnum{
 	"primary":          AutonomousDatabaseSummaryRolePrimary,
 	"standby":          AutonomousDatabaseSummaryRoleStandby,
 	"disabled_standby": AutonomousDatabaseSummaryRoleDisabledStandby,
+	"snapshot_standby": AutonomousDatabaseSummaryRoleSnapshotStandby,
 }
 
 // GetAutonomousDatabaseSummaryRoleEnumValues Enumerates the set of values for AutonomousDatabaseSummaryRoleEnum
@@ -1083,6 +1092,7 @@ func GetAutonomousDatabaseSummaryRoleEnumStringValues() []string {
 		"PRIMARY",
 		"STANDBY",
 		"DISABLED_STANDBY",
+		"SNAPSHOT_STANDBY",
 	}
 }
 

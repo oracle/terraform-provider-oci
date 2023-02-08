@@ -41,7 +41,9 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 	}
 	compartment_id = var.compartment_id
 	db_unique_name = var.autonomous_container_database_db_unique_name
+	db_version = var.autonomous_container_database_db_version
 	defined_tags = {"Operations.CostCenter"= "42"}
+	fast_start_fail_over_lag_limit_in_seconds = var.autonomous_container_database_fast_start_fail_over_lag_limit_in_seconds
 	freeform_tags = {"Department"= "Finance"}
 	is_automatic_failover_enabled = var.autonomous_container_database_is_automatic_failover_enabled
 	key_store_id = oci_database_key_store.test_key_store.id
@@ -89,6 +91,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 	peer_db_unique_name = var.autonomous_container_database_peer_db_unique_name
 	service_level_agreement_type = var.autonomous_container_database_service_level_agreement_type
 	vault_id = oci_kms_vault.test_vault.id
+	version_preference = var.autonomous_container_database_version_preference
 	standby_maintenance_buffer_in_days = var.autonomous_container_database_standby_maintenance_buffer_in_days
 }
 ```
@@ -112,10 +115,12 @@ The following arguments are supported:
 	* `recovery_window_in_days` - (Optional) (Updatable) Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. 
 * `compartment_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the Autonomous Container Database.
 * `db_unique_name` - (Optional) **Deprecated.** The `DB_UNIQUE_NAME` value is set by Oracle Cloud Infrastructure.  Do not specify a value for this parameter. Specifying a value for this field will cause Terraform operations to fail. 
+* `db_version` - (Optional) The base version for the Autonomous Container Database.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - (Required) (Updatable) The display name for the Autonomous Container Database.
+* `fast_start_fail_over_lag_limit_in_seconds` - (Optional) The lag time for my preference based on data loss tolerance in seconds.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `is_automatic_failover_enabled` - (Optional) Indicates whether Automatic Failover is enabled for Autonomous Container Database Dataguard Association 
+* `is_automatic_failover_enabled` - (Optional) Indicates whether Automatic Failover is enabled for Autonomous Container Database Dataguard Association. Input DataType: boolean. Example : is_automatic_failover_enabled = true.
 * `key_store_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store.
 * `kms_key_id` - (Optional) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 * `maintenance_window_details` - (Optional) (Updatable) The scheduling details for the quarterly maintenance window. Patching and system updates take place during the maintenance window. 
@@ -156,8 +161,9 @@ The following arguments are supported:
 * `service_level_agreement_type` - (Optional) The service level agreement type of the Autonomous Container Database. The default is STANDARD. For an autonomous dataguard Autonomous Container Database, the specified Autonomous Exadata Infrastructure must be associated with a remote Autonomous Exadata Infrastructure.
 * `standby_maintenance_buffer_in_days` - (Optional) (Updatable) The scheduling detail for the quarterly maintenance window of the standby Autonomous Container Database. This value represents the number of days before scheduled maintenance of the primary database.  
 * `vault_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
+* `version_preference` - (Optional) (Updatable) The next maintenance version preference.
 * `rotate_key_trigger` - (Optional) (Updatable) An optional property when flipped triggers rotation of KMS key. It is only applicable on dedicated container databases i.e. where `cloud_autonomous_vm_cluster_id` is set.
-* `standby_maintenance_buffer_in_days` - (Optional) (Updatable) The scheduling detail for the quarterly maintenance window of standby Autonomous Container Database. This value represents the number of days before the primary database maintenance schedule. 
+* `standby_maintenance_buffer_in_days` - (Optional) (Updatable) The scheduling detail for the quarterly maintenance window of standby Autonomous Container Database. This value represents the number of days before the primary database maintenance schedule.
 
 
 ** IMPORTANT **
@@ -226,8 +232,10 @@ The following attributes are exported:
 * `standby_maintenance_buffer_in_days` - The scheduling detail for the quarterly maintenance window of the standby Autonomous Container Database. This value represents the number of days before scheduled maintenance of the primary database. 
 * `state` - The current state of the Autonomous Container Database.
 * `time_created` - The date and time the Autonomous Container Database was created.
+* `time_snapshot_standby_revert` - The date and time the Autonomous Container Database will be reverted to Standby from Snapshot Standby.
 * `total_cpus` - The number of CPU cores allocated to the Autonomous VM cluster.
 * `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
+* `version_preference` - The next maintenance version preference. 
 
 ## Timeouts
 

@@ -40,6 +40,8 @@ const (
 	OperationTypeGoldengateConnectionAssignmentCreate  OperationTypeEnum = "GOLDENGATE_CONNECTION_ASSIGNMENT_CREATE"
 	OperationTypeGoldengateConnectionAssigmnentDelete  OperationTypeEnum = "GOLDENGATE_CONNECTION_ASSIGMNENT_DELETE"
 	OperationTypeGoldengateDeploymentDiagnosticCollect OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_DIAGNOSTIC_COLLECT"
+	OperationTypeGoldengateDeploymentWalletExport      OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_WALLET_EXPORT"
+	OperationTypeGoldengateDeploymentWalletImport      OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_WALLET_IMPORT"
 	OperationTypeGoldengateDeploymentPatch             OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_PATCH"
 )
 
@@ -66,6 +68,8 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"GOLDENGATE_CONNECTION_ASSIGNMENT_CREATE":  OperationTypeGoldengateConnectionAssignmentCreate,
 	"GOLDENGATE_CONNECTION_ASSIGMNENT_DELETE":  OperationTypeGoldengateConnectionAssigmnentDelete,
 	"GOLDENGATE_DEPLOYMENT_DIAGNOSTIC_COLLECT": OperationTypeGoldengateDeploymentDiagnosticCollect,
+	"GOLDENGATE_DEPLOYMENT_WALLET_EXPORT":      OperationTypeGoldengateDeploymentWalletExport,
+	"GOLDENGATE_DEPLOYMENT_WALLET_IMPORT":      OperationTypeGoldengateDeploymentWalletImport,
 	"GOLDENGATE_DEPLOYMENT_PATCH":              OperationTypeGoldengateDeploymentPatch,
 }
 
@@ -92,6 +96,8 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"goldengate_connection_assignment_create":  OperationTypeGoldengateConnectionAssignmentCreate,
 	"goldengate_connection_assigmnent_delete":  OperationTypeGoldengateConnectionAssigmnentDelete,
 	"goldengate_deployment_diagnostic_collect": OperationTypeGoldengateDeploymentDiagnosticCollect,
+	"goldengate_deployment_wallet_export":      OperationTypeGoldengateDeploymentWalletExport,
+	"goldengate_deployment_wallet_import":      OperationTypeGoldengateDeploymentWalletImport,
 	"goldengate_deployment_patch":              OperationTypeGoldengateDeploymentPatch,
 }
 
@@ -129,6 +135,8 @@ func GetOperationTypeEnumStringValues() []string {
 		"GOLDENGATE_CONNECTION_ASSIGNMENT_CREATE",
 		"GOLDENGATE_CONNECTION_ASSIGMNENT_DELETE",
 		"GOLDENGATE_DEPLOYMENT_DIAGNOSTIC_COLLECT",
+		"GOLDENGATE_DEPLOYMENT_WALLET_EXPORT",
+		"GOLDENGATE_DEPLOYMENT_WALLET_IMPORT",
 		"GOLDENGATE_DEPLOYMENT_PATCH",
 	}
 }

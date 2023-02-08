@@ -41,6 +41,11 @@ The following attributes are exported:
 	* `deploy_artifact_path` - Specifies the artifact path in the repository.
 	* `deploy_artifact_source_type` - Specifies types of artifact sources.
 	* `deploy_artifact_version` - Users can set this as a placeholder value that refers to a pipeline parameter, for example, ${appVersion}.
+	* `helm_verification_key_source` - The source of the verification material.
+		* `current_public_key` - Current version of Base64 encoding of the public key which is in binary GPG exported format.
+		* `previous_public_key` - Previous version of Base64 encoding of the public key which is in binary GPG exported format. This would be used for key rotation scenarios.
+		* `vault_secret_id` - The OCID of the Vault Secret containing the verification key versions.
+		* `verification_key_source_type` - Specifies type of verification material.
 	* `image_digest` - Specifies image digest for the version of the image.
 	* `image_uri` - Specifies OCIR Image Path - optionally include tag.
 	* `repository_id` - The OCID of a repository
