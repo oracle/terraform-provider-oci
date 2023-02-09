@@ -8,16 +8,16 @@ description: |-
 ---
 
 # Data Source: oci_marketplace_listing_package_agreement_management
-This resource provides details about a specific Listing Package Agreement resource in Oracle Cloud Infrastructure Marketplace service.
+This data source provides details about a specific Listing Package Agreement resource in Oracle Cloud Infrastructure Marketplace service.
 
-This resource can be used to retrieve the time-based signature of terms of use agreement for a package that can be used to
+It can be used to retrieve the time-based signature of terms of use agreement for a package that can be used to
 accept the agreement.
 
 
 ## Example Usage
 
 ```hcl
-resource "oci_marketplace_listing_package_agreement" "test_listing_package_agreement" {
+data "oci_marketplace_listing_package_agreement" "test_listing_package_agreement" {
 	#Required
 	agreement_id = oci_marketplace_agreement.test_agreement.id
 	listing_id = oci_marketplace_listing.test_listing.id
