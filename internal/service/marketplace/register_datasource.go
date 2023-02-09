@@ -12,6 +12,7 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_marketplace_listing", MarketplaceListingDataSource())
 	tfresource.RegisterDatasource("oci_marketplace_listing_package", MarketplaceListingPackageDataSource())
 	tfresource.RegisterDatasource("oci_marketplace_listing_package_agreements", MarketplaceListingPackageAgreementsDataSource())
+	tfresource.RegisterDatasource("oci_marketplace_listing_package_agreement", MarketplaceListingPackageAgreementDataSource())
 	tfresource.RegisterDatasource("oci_marketplace_listing_packages", MarketplaceListingPackagesDataSource())
 	tfresource.RegisterDatasource("oci_marketplace_listing_taxes", MarketplaceListingTaxesDataSource())
 	tfresource.RegisterDatasource("oci_marketplace_listings", MarketplaceListingsDataSource())

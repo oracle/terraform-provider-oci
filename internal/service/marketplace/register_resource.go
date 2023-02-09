@@ -8,5 +8,4 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 func RegisterResource() {
 	tfresource.RegisterResource("oci_marketplace_accepted_agreement", MarketplaceAcceptedAgreementResource())
 	tfresource.RegisterResource("oci_marketplace_publication", MarketplacePublicationResource())
-	tfresource.RegisterResource("oci_marketplace_listing_package_agreement", MarketplaceListingPackageAgreementResource())
 }
