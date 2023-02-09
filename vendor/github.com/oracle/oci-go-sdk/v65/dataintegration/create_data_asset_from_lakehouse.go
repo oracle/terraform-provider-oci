@@ -26,7 +26,7 @@ type CreateDataAssetFromLakehouse struct {
 	Identifier *string `mandatory:"true" json:"identifier"`
 
 	// The Lakehouse Ocid.
-	LakehouseOcid *string `mandatory:"true" json:"lakehouseOcid"`
+	LakeId *string `mandatory:"true" json:"lakeId"`
 
 	DefaultConnection *CreateConnectionFromLakehouse `mandatory:"true" json:"defaultConnection"`
 
@@ -53,8 +53,8 @@ type CreateDataAssetFromLakehouse struct {
 	// The metastoreId for the specified Lakehouse Resource.
 	MetastoreId *string `mandatory:"false" json:"metastoreId"`
 
-	// The rangerEndpoint for the specified Lakehouse Resource.
-	RangerEndpoint *string `mandatory:"false" json:"rangerEndpoint"`
+	// The lakeProxyEndpoint for the specified Lakehouse Resource.
+	LakeProxyEndpoint *string `mandatory:"false" json:"lakeProxyEndpoint"`
 }
 
 //GetKey returns Key
@@ -125,7 +125,7 @@ func (m CreateDataAssetFromLakehouse) MarshalJSON() (buff []byte, e error) {
 		DiscriminatorParam string `json:"modelType"`
 		MarshalTypeCreateDataAssetFromLakehouse
 	}{
-		"LAKE_HOUSE_DATA_ASSET",
+		"LAKE_DATA_ASSET",
 		(MarshalTypeCreateDataAssetFromLakehouse)(m),
 	}
 

@@ -18,12 +18,12 @@ import (
 // ExportDeploymentWalletDetails Metadata required to export wallet from deployment
 type ExportDeploymentWalletDetails struct {
 
-	// Refers to the customer’s vault OCID.
+	// Refers to the customer's vault OCID.
 	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
 	// to manage secrets contained within this vault.
 	VaultId *string `mandatory:"true" json:"vaultId"`
 
-	// Refers to the customer’s master key OCID.
+	// Refers to the customer's master key OCID.
 	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 	MasterEncryptionKeyId *string `mandatory:"true" json:"masterEncryptionKeyId"`
 

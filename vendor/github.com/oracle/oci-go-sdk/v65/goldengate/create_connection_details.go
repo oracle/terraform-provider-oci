@@ -37,12 +37,12 @@ type CreateConnectionDetails interface {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	GetDefinedTags() map[string]map[string]interface{}
 
-	// Refers to the customer’s vault OCID.
+	// Refers to the customer's vault OCID.
 	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
 	// to manage secrets contained within this vault.
 	GetVaultId() *string
 
-	// Refers to the customer’s master key OCID.
+	// Refers to the customer's master key OCID.
 	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 	GetKeyId() *string
 
@@ -109,20 +109,40 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := CreateKafkaSchemaRegistryConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "AZURE_SYNAPSE_ANALYTICS":
-		mm := CreateAzureSynapseConnectionDetails{}
+	case "MICROSOFT_SQLSERVER":
+		mm := CreateMicrosoftSqlserverConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "SNOWFLAKE":
+		mm := CreateSnowflakeConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "AZURE_DATA_LAKE_STORAGE":
 		mm := CreateAzureDataLakeStorageConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "MYSQL":
-		mm := CreateMysqlConnectionDetails{}
+	case "MONGODB":
+		mm := CreateMongoDbConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AMAZON_S3":
+		mm := CreateAmazonS3ConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "HDFS":
+		mm := CreateHdfsConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "OCI_OBJECT_STORAGE":
 		mm := CreateOciObjectStorageConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AZURE_SYNAPSE_ANALYTICS":
+		mm := CreateAzureSynapseConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MYSQL":
+		mm := CreateMysqlConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "KAFKA":
@@ -135,6 +155,10 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		return mm, err
 	case "GOLDENGATE":
 		mm := CreateGoldenGateConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ORACLE_NOSQL":
+		mm := CreateOracleNosqlConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

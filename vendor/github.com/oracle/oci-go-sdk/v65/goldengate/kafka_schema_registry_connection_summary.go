@@ -63,12 +63,12 @@ type KafkaSchemaRegistryConnectionSummary struct {
 	// actionable information for a resource in a Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// Refers to the customer’s vault OCID.
+	// Refers to the customer's vault OCID.
 	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
 	// to manage secrets contained within this vault.
 	VaultId *string `mandatory:"false" json:"vaultId"`
 
-	// Refers to the customer’s master key OCID.
+	// Refers to the customer's master key OCID.
 	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 	KeyId *string `mandatory:"false" json:"keyId"`
 

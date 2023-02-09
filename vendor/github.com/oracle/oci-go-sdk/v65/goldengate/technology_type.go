@@ -18,87 +18,123 @@ type TechnologyTypeEnum string
 
 // Set of constants representing the allowable values for TechnologyTypeEnum
 const (
-	TechnologyTypeGoldengate               TechnologyTypeEnum = "GOLDENGATE"
-	TechnologyTypeOciAutonomousDatabase    TechnologyTypeEnum = "OCI_AUTONOMOUS_DATABASE"
-	TechnologyTypeOciMysql                 TechnologyTypeEnum = "OCI_MYSQL"
-	TechnologyTypeOciObjectStorage         TechnologyTypeEnum = "OCI_OBJECT_STORAGE"
-	TechnologyTypeOciStreaming             TechnologyTypeEnum = "OCI_STREAMING"
-	TechnologyTypeOracleDatabase           TechnologyTypeEnum = "ORACLE_DATABASE"
-	TechnologyTypeOracleExadata            TechnologyTypeEnum = "ORACLE_EXADATA"
-	TechnologyTypeAmazonRdsOracle          TechnologyTypeEnum = "AMAZON_RDS_ORACLE"
-	TechnologyTypeAmazonAuroraMysql        TechnologyTypeEnum = "AMAZON_AURORA_MYSQL"
-	TechnologyTypeAmazonAuroraPostgresql   TechnologyTypeEnum = "AMAZON_AURORA_POSTGRESQL"
-	TechnologyTypeAmazonRdsMariadb         TechnologyTypeEnum = "AMAZON_RDS_MARIADB"
-	TechnologyTypeAmazonRdsMysql           TechnologyTypeEnum = "AMAZON_RDS_MYSQL"
-	TechnologyTypeAmazonRdsPostgresql      TechnologyTypeEnum = "AMAZON_RDS_POSTGRESQL"
-	TechnologyTypeApacheKafka              TechnologyTypeEnum = "APACHE_KAFKA"
-	TechnologyTypeAzureDataLakeStorage     TechnologyTypeEnum = "AZURE_DATA_LAKE_STORAGE"
-	TechnologyTypeAzureEventHubs           TechnologyTypeEnum = "AZURE_EVENT_HUBS"
-	TechnologyTypeAzureMysql               TechnologyTypeEnum = "AZURE_MYSQL"
-	TechnologyTypeAzurePostgresql          TechnologyTypeEnum = "AZURE_POSTGRESQL"
-	TechnologyTypeAzureSynapseAnalytics    TechnologyTypeEnum = "AZURE_SYNAPSE_ANALYTICS"
-	TechnologyTypeConfluentKafka           TechnologyTypeEnum = "CONFLUENT_KAFKA"
-	TechnologyTypeConfluentSchemaRegistry  TechnologyTypeEnum = "CONFLUENT_SCHEMA_REGISTRY"
-	TechnologyTypeGoogleCloudSqlMysql      TechnologyTypeEnum = "GOOGLE_CLOUD_SQL_MYSQL"
-	TechnologyTypeGoogleCloudSqlPostgresql TechnologyTypeEnum = "GOOGLE_CLOUD_SQL_POSTGRESQL"
-	TechnologyTypeMysqlServer              TechnologyTypeEnum = "MYSQL_SERVER"
-	TechnologyTypePostgresqlServer         TechnologyTypeEnum = "POSTGRESQL_SERVER"
+	TechnologyTypeGoldengate                       TechnologyTypeEnum = "GOLDENGATE"
+	TechnologyTypeOciAutonomousDatabase            TechnologyTypeEnum = "OCI_AUTONOMOUS_DATABASE"
+	TechnologyTypeOciAutonomousJsonDatabase        TechnologyTypeEnum = "OCI_AUTONOMOUS_JSON_DATABASE"
+	TechnologyTypeOciMysql                         TechnologyTypeEnum = "OCI_MYSQL"
+	TechnologyTypeOciObjectStorage                 TechnologyTypeEnum = "OCI_OBJECT_STORAGE"
+	TechnologyTypeOciStreaming                     TechnologyTypeEnum = "OCI_STREAMING"
+	TechnologyTypeOracleDatabase                   TechnologyTypeEnum = "ORACLE_DATABASE"
+	TechnologyTypeOracleExadata                    TechnologyTypeEnum = "ORACLE_EXADATA"
+	TechnologyTypeOracleNosql                      TechnologyTypeEnum = "ORACLE_NOSQL"
+	TechnologyTypeAmazonRdsOracle                  TechnologyTypeEnum = "AMAZON_RDS_ORACLE"
+	TechnologyTypeAmazonRdsSqlserver               TechnologyTypeEnum = "AMAZON_RDS_SQLSERVER"
+	TechnologyTypeAmazonS3                         TechnologyTypeEnum = "AMAZON_S3"
+	TechnologyTypeAmazonAuroraMysql                TechnologyTypeEnum = "AMAZON_AURORA_MYSQL"
+	TechnologyTypeAmazonAuroraPostgresql           TechnologyTypeEnum = "AMAZON_AURORA_POSTGRESQL"
+	TechnologyTypeAmazonRdsMariadb                 TechnologyTypeEnum = "AMAZON_RDS_MARIADB"
+	TechnologyTypeAmazonRdsMysql                   TechnologyTypeEnum = "AMAZON_RDS_MYSQL"
+	TechnologyTypeAmazonRdsPostgresql              TechnologyTypeEnum = "AMAZON_RDS_POSTGRESQL"
+	TechnologyTypeApacheKafka                      TechnologyTypeEnum = "APACHE_KAFKA"
+	TechnologyTypeAzureCosmosDbForMongodb          TechnologyTypeEnum = "AZURE_COSMOS_DB_FOR_MONGODB"
+	TechnologyTypeAzureDataLakeStorage             TechnologyTypeEnum = "AZURE_DATA_LAKE_STORAGE"
+	TechnologyTypeAzureEventHubs                   TechnologyTypeEnum = "AZURE_EVENT_HUBS"
+	TechnologyTypeAzureMysql                       TechnologyTypeEnum = "AZURE_MYSQL"
+	TechnologyTypeAzurePostgresql                  TechnologyTypeEnum = "AZURE_POSTGRESQL"
+	TechnologyTypeAzureSqlserverManagedInstance    TechnologyTypeEnum = "AZURE_SQLSERVER_MANAGED_INSTANCE"
+	TechnologyTypeAzureSqlserverNonManagedInstance TechnologyTypeEnum = "AZURE_SQLSERVER_NON_MANAGED_INSTANCE"
+	TechnologyTypeAzureSynapseAnalytics            TechnologyTypeEnum = "AZURE_SYNAPSE_ANALYTICS"
+	TechnologyTypeConfluentKafka                   TechnologyTypeEnum = "CONFLUENT_KAFKA"
+	TechnologyTypeConfluentSchemaRegistry          TechnologyTypeEnum = "CONFLUENT_SCHEMA_REGISTRY"
+	TechnologyTypeGoogleCloudSqlMysql              TechnologyTypeEnum = "GOOGLE_CLOUD_SQL_MYSQL"
+	TechnologyTypeGoogleCloudSqlPostgresql         TechnologyTypeEnum = "GOOGLE_CLOUD_SQL_POSTGRESQL"
+	TechnologyTypeHdfs                             TechnologyTypeEnum = "HDFS"
+	TechnologyTypeMariadb                          TechnologyTypeEnum = "MARIADB"
+	TechnologyTypeMicrosoftSqlserver               TechnologyTypeEnum = "MICROSOFT_SQLSERVER"
+	TechnologyTypeMongodb                          TechnologyTypeEnum = "MONGODB"
+	TechnologyTypeMysqlServer                      TechnologyTypeEnum = "MYSQL_SERVER"
+	TechnologyTypePostgresqlServer                 TechnologyTypeEnum = "POSTGRESQL_SERVER"
+	TechnologyTypeSnowflake                        TechnologyTypeEnum = "SNOWFLAKE"
 )
 
 var mappingTechnologyTypeEnum = map[string]TechnologyTypeEnum{
-	"GOLDENGATE":                  TechnologyTypeGoldengate,
-	"OCI_AUTONOMOUS_DATABASE":     TechnologyTypeOciAutonomousDatabase,
-	"OCI_MYSQL":                   TechnologyTypeOciMysql,
-	"OCI_OBJECT_STORAGE":          TechnologyTypeOciObjectStorage,
-	"OCI_STREAMING":               TechnologyTypeOciStreaming,
-	"ORACLE_DATABASE":             TechnologyTypeOracleDatabase,
-	"ORACLE_EXADATA":              TechnologyTypeOracleExadata,
-	"AMAZON_RDS_ORACLE":           TechnologyTypeAmazonRdsOracle,
-	"AMAZON_AURORA_MYSQL":         TechnologyTypeAmazonAuroraMysql,
-	"AMAZON_AURORA_POSTGRESQL":    TechnologyTypeAmazonAuroraPostgresql,
-	"AMAZON_RDS_MARIADB":          TechnologyTypeAmazonRdsMariadb,
-	"AMAZON_RDS_MYSQL":            TechnologyTypeAmazonRdsMysql,
-	"AMAZON_RDS_POSTGRESQL":       TechnologyTypeAmazonRdsPostgresql,
-	"APACHE_KAFKA":                TechnologyTypeApacheKafka,
-	"AZURE_DATA_LAKE_STORAGE":     TechnologyTypeAzureDataLakeStorage,
-	"AZURE_EVENT_HUBS":            TechnologyTypeAzureEventHubs,
-	"AZURE_MYSQL":                 TechnologyTypeAzureMysql,
-	"AZURE_POSTGRESQL":            TechnologyTypeAzurePostgresql,
-	"AZURE_SYNAPSE_ANALYTICS":     TechnologyTypeAzureSynapseAnalytics,
-	"CONFLUENT_KAFKA":             TechnologyTypeConfluentKafka,
-	"CONFLUENT_SCHEMA_REGISTRY":   TechnologyTypeConfluentSchemaRegistry,
-	"GOOGLE_CLOUD_SQL_MYSQL":      TechnologyTypeGoogleCloudSqlMysql,
-	"GOOGLE_CLOUD_SQL_POSTGRESQL": TechnologyTypeGoogleCloudSqlPostgresql,
-	"MYSQL_SERVER":                TechnologyTypeMysqlServer,
-	"POSTGRESQL_SERVER":           TechnologyTypePostgresqlServer,
+	"GOLDENGATE":                           TechnologyTypeGoldengate,
+	"OCI_AUTONOMOUS_DATABASE":              TechnologyTypeOciAutonomousDatabase,
+	"OCI_AUTONOMOUS_JSON_DATABASE":         TechnologyTypeOciAutonomousJsonDatabase,
+	"OCI_MYSQL":                            TechnologyTypeOciMysql,
+	"OCI_OBJECT_STORAGE":                   TechnologyTypeOciObjectStorage,
+	"OCI_STREAMING":                        TechnologyTypeOciStreaming,
+	"ORACLE_DATABASE":                      TechnologyTypeOracleDatabase,
+	"ORACLE_EXADATA":                       TechnologyTypeOracleExadata,
+	"ORACLE_NOSQL":                         TechnologyTypeOracleNosql,
+	"AMAZON_RDS_ORACLE":                    TechnologyTypeAmazonRdsOracle,
+	"AMAZON_RDS_SQLSERVER":                 TechnologyTypeAmazonRdsSqlserver,
+	"AMAZON_S3":                            TechnologyTypeAmazonS3,
+	"AMAZON_AURORA_MYSQL":                  TechnologyTypeAmazonAuroraMysql,
+	"AMAZON_AURORA_POSTGRESQL":             TechnologyTypeAmazonAuroraPostgresql,
+	"AMAZON_RDS_MARIADB":                   TechnologyTypeAmazonRdsMariadb,
+	"AMAZON_RDS_MYSQL":                     TechnologyTypeAmazonRdsMysql,
+	"AMAZON_RDS_POSTGRESQL":                TechnologyTypeAmazonRdsPostgresql,
+	"APACHE_KAFKA":                         TechnologyTypeApacheKafka,
+	"AZURE_COSMOS_DB_FOR_MONGODB":          TechnologyTypeAzureCosmosDbForMongodb,
+	"AZURE_DATA_LAKE_STORAGE":              TechnologyTypeAzureDataLakeStorage,
+	"AZURE_EVENT_HUBS":                     TechnologyTypeAzureEventHubs,
+	"AZURE_MYSQL":                          TechnologyTypeAzureMysql,
+	"AZURE_POSTGRESQL":                     TechnologyTypeAzurePostgresql,
+	"AZURE_SQLSERVER_MANAGED_INSTANCE":     TechnologyTypeAzureSqlserverManagedInstance,
+	"AZURE_SQLSERVER_NON_MANAGED_INSTANCE": TechnologyTypeAzureSqlserverNonManagedInstance,
+	"AZURE_SYNAPSE_ANALYTICS":              TechnologyTypeAzureSynapseAnalytics,
+	"CONFLUENT_KAFKA":                      TechnologyTypeConfluentKafka,
+	"CONFLUENT_SCHEMA_REGISTRY":            TechnologyTypeConfluentSchemaRegistry,
+	"GOOGLE_CLOUD_SQL_MYSQL":               TechnologyTypeGoogleCloudSqlMysql,
+	"GOOGLE_CLOUD_SQL_POSTGRESQL":          TechnologyTypeGoogleCloudSqlPostgresql,
+	"HDFS":                                 TechnologyTypeHdfs,
+	"MARIADB":                              TechnologyTypeMariadb,
+	"MICROSOFT_SQLSERVER":                  TechnologyTypeMicrosoftSqlserver,
+	"MONGODB":                              TechnologyTypeMongodb,
+	"MYSQL_SERVER":                         TechnologyTypeMysqlServer,
+	"POSTGRESQL_SERVER":                    TechnologyTypePostgresqlServer,
+	"SNOWFLAKE":                            TechnologyTypeSnowflake,
 }
 
 var mappingTechnologyTypeEnumLowerCase = map[string]TechnologyTypeEnum{
-	"goldengate":                  TechnologyTypeGoldengate,
-	"oci_autonomous_database":     TechnologyTypeOciAutonomousDatabase,
-	"oci_mysql":                   TechnologyTypeOciMysql,
-	"oci_object_storage":          TechnologyTypeOciObjectStorage,
-	"oci_streaming":               TechnologyTypeOciStreaming,
-	"oracle_database":             TechnologyTypeOracleDatabase,
-	"oracle_exadata":              TechnologyTypeOracleExadata,
-	"amazon_rds_oracle":           TechnologyTypeAmazonRdsOracle,
-	"amazon_aurora_mysql":         TechnologyTypeAmazonAuroraMysql,
-	"amazon_aurora_postgresql":    TechnologyTypeAmazonAuroraPostgresql,
-	"amazon_rds_mariadb":          TechnologyTypeAmazonRdsMariadb,
-	"amazon_rds_mysql":            TechnologyTypeAmazonRdsMysql,
-	"amazon_rds_postgresql":       TechnologyTypeAmazonRdsPostgresql,
-	"apache_kafka":                TechnologyTypeApacheKafka,
-	"azure_data_lake_storage":     TechnologyTypeAzureDataLakeStorage,
-	"azure_event_hubs":            TechnologyTypeAzureEventHubs,
-	"azure_mysql":                 TechnologyTypeAzureMysql,
-	"azure_postgresql":            TechnologyTypeAzurePostgresql,
-	"azure_synapse_analytics":     TechnologyTypeAzureSynapseAnalytics,
-	"confluent_kafka":             TechnologyTypeConfluentKafka,
-	"confluent_schema_registry":   TechnologyTypeConfluentSchemaRegistry,
-	"google_cloud_sql_mysql":      TechnologyTypeGoogleCloudSqlMysql,
-	"google_cloud_sql_postgresql": TechnologyTypeGoogleCloudSqlPostgresql,
-	"mysql_server":                TechnologyTypeMysqlServer,
-	"postgresql_server":           TechnologyTypePostgresqlServer,
+	"goldengate":                           TechnologyTypeGoldengate,
+	"oci_autonomous_database":              TechnologyTypeOciAutonomousDatabase,
+	"oci_autonomous_json_database":         TechnologyTypeOciAutonomousJsonDatabase,
+	"oci_mysql":                            TechnologyTypeOciMysql,
+	"oci_object_storage":                   TechnologyTypeOciObjectStorage,
+	"oci_streaming":                        TechnologyTypeOciStreaming,
+	"oracle_database":                      TechnologyTypeOracleDatabase,
+	"oracle_exadata":                       TechnologyTypeOracleExadata,
+	"oracle_nosql":                         TechnologyTypeOracleNosql,
+	"amazon_rds_oracle":                    TechnologyTypeAmazonRdsOracle,
+	"amazon_rds_sqlserver":                 TechnologyTypeAmazonRdsSqlserver,
+	"amazon_s3":                            TechnologyTypeAmazonS3,
+	"amazon_aurora_mysql":                  TechnologyTypeAmazonAuroraMysql,
+	"amazon_aurora_postgresql":             TechnologyTypeAmazonAuroraPostgresql,
+	"amazon_rds_mariadb":                   TechnologyTypeAmazonRdsMariadb,
+	"amazon_rds_mysql":                     TechnologyTypeAmazonRdsMysql,
+	"amazon_rds_postgresql":                TechnologyTypeAmazonRdsPostgresql,
+	"apache_kafka":                         TechnologyTypeApacheKafka,
+	"azure_cosmos_db_for_mongodb":          TechnologyTypeAzureCosmosDbForMongodb,
+	"azure_data_lake_storage":              TechnologyTypeAzureDataLakeStorage,
+	"azure_event_hubs":                     TechnologyTypeAzureEventHubs,
+	"azure_mysql":                          TechnologyTypeAzureMysql,
+	"azure_postgresql":                     TechnologyTypeAzurePostgresql,
+	"azure_sqlserver_managed_instance":     TechnologyTypeAzureSqlserverManagedInstance,
+	"azure_sqlserver_non_managed_instance": TechnologyTypeAzureSqlserverNonManagedInstance,
+	"azure_synapse_analytics":              TechnologyTypeAzureSynapseAnalytics,
+	"confluent_kafka":                      TechnologyTypeConfluentKafka,
+	"confluent_schema_registry":            TechnologyTypeConfluentSchemaRegistry,
+	"google_cloud_sql_mysql":               TechnologyTypeGoogleCloudSqlMysql,
+	"google_cloud_sql_postgresql":          TechnologyTypeGoogleCloudSqlPostgresql,
+	"hdfs":                                 TechnologyTypeHdfs,
+	"mariadb":                              TechnologyTypeMariadb,
+	"microsoft_sqlserver":                  TechnologyTypeMicrosoftSqlserver,
+	"mongodb":                              TechnologyTypeMongodb,
+	"mysql_server":                         TechnologyTypeMysqlServer,
+	"postgresql_server":                    TechnologyTypePostgresqlServer,
+	"snowflake":                            TechnologyTypeSnowflake,
 }
 
 // GetTechnologyTypeEnumValues Enumerates the set of values for TechnologyTypeEnum
@@ -115,29 +151,41 @@ func GetTechnologyTypeEnumStringValues() []string {
 	return []string{
 		"GOLDENGATE",
 		"OCI_AUTONOMOUS_DATABASE",
+		"OCI_AUTONOMOUS_JSON_DATABASE",
 		"OCI_MYSQL",
 		"OCI_OBJECT_STORAGE",
 		"OCI_STREAMING",
 		"ORACLE_DATABASE",
 		"ORACLE_EXADATA",
+		"ORACLE_NOSQL",
 		"AMAZON_RDS_ORACLE",
+		"AMAZON_RDS_SQLSERVER",
+		"AMAZON_S3",
 		"AMAZON_AURORA_MYSQL",
 		"AMAZON_AURORA_POSTGRESQL",
 		"AMAZON_RDS_MARIADB",
 		"AMAZON_RDS_MYSQL",
 		"AMAZON_RDS_POSTGRESQL",
 		"APACHE_KAFKA",
+		"AZURE_COSMOS_DB_FOR_MONGODB",
 		"AZURE_DATA_LAKE_STORAGE",
 		"AZURE_EVENT_HUBS",
 		"AZURE_MYSQL",
 		"AZURE_POSTGRESQL",
+		"AZURE_SQLSERVER_MANAGED_INSTANCE",
+		"AZURE_SQLSERVER_NON_MANAGED_INSTANCE",
 		"AZURE_SYNAPSE_ANALYTICS",
 		"CONFLUENT_KAFKA",
 		"CONFLUENT_SCHEMA_REGISTRY",
 		"GOOGLE_CLOUD_SQL_MYSQL",
 		"GOOGLE_CLOUD_SQL_POSTGRESQL",
+		"HDFS",
+		"MARIADB",
+		"MICROSOFT_SQLSERVER",
+		"MONGODB",
 		"MYSQL_SERVER",
 		"POSTGRESQL_SERVER",
+		"SNOWFLAKE",
 	}
 }
 

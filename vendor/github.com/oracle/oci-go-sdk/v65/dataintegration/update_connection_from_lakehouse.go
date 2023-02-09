@@ -121,7 +121,7 @@ func (m UpdateConnectionFromLakehouse) MarshalJSON() (buff []byte, e error) {
 		DiscriminatorParam string `json:"modelType"`
 		MarshalTypeUpdateConnectionFromLakehouse
 	}{
-		"LAKE_HOUSE_CONNECTION",
+		"LAKE_CONNECTION",
 		(MarshalTypeUpdateConnectionFromLakehouse)(m),
 	}
 

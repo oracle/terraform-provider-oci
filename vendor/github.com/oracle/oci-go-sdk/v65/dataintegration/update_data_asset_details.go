@@ -107,7 +107,7 @@ func (m *updatedataassetdetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 		mm := UpdateDataAssetFromAtp{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "LAKE_HOUSE_DATA_ASSET":
+	case "LAKE_DATA_ASSET":
 		mm := UpdateDataAssetFromLakehouse{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
@@ -224,7 +224,7 @@ const (
 	UpdateDataAssetDetailsModelTypeGenericJdbcDataAsset         UpdateDataAssetDetailsModelTypeEnum = "GENERIC_JDBC_DATA_ASSET"
 	UpdateDataAssetDetailsModelTypeFusionAppDataAsset           UpdateDataAssetDetailsModelTypeEnum = "FUSION_APP_DATA_ASSET"
 	UpdateDataAssetDetailsModelTypeAmazonS3DataAsset            UpdateDataAssetDetailsModelTypeEnum = "AMAZON_S3_DATA_ASSET"
-	UpdateDataAssetDetailsModelTypeLakeHouseDataAsset           UpdateDataAssetDetailsModelTypeEnum = "LAKE_HOUSE_DATA_ASSET"
+	UpdateDataAssetDetailsModelTypeLakeDataAsset                UpdateDataAssetDetailsModelTypeEnum = "LAKE_DATA_ASSET"
 	UpdateDataAssetDetailsModelTypeRestDataAsset                UpdateDataAssetDetailsModelTypeEnum = "REST_DATA_ASSET"
 )
 
@@ -237,7 +237,7 @@ var mappingUpdateDataAssetDetailsModelTypeEnum = map[string]UpdateDataAssetDetai
 	"GENERIC_JDBC_DATA_ASSET":          UpdateDataAssetDetailsModelTypeGenericJdbcDataAsset,
 	"FUSION_APP_DATA_ASSET":            UpdateDataAssetDetailsModelTypeFusionAppDataAsset,
 	"AMAZON_S3_DATA_ASSET":             UpdateDataAssetDetailsModelTypeAmazonS3DataAsset,
-	"LAKE_HOUSE_DATA_ASSET":            UpdateDataAssetDetailsModelTypeLakeHouseDataAsset,
+	"LAKE_DATA_ASSET":                  UpdateDataAssetDetailsModelTypeLakeDataAsset,
 	"REST_DATA_ASSET":                  UpdateDataAssetDetailsModelTypeRestDataAsset,
 }
 
@@ -250,7 +250,7 @@ var mappingUpdateDataAssetDetailsModelTypeEnumLowerCase = map[string]UpdateDataA
 	"generic_jdbc_data_asset":          UpdateDataAssetDetailsModelTypeGenericJdbcDataAsset,
 	"fusion_app_data_asset":            UpdateDataAssetDetailsModelTypeFusionAppDataAsset,
 	"amazon_s3_data_asset":             UpdateDataAssetDetailsModelTypeAmazonS3DataAsset,
-	"lake_house_data_asset":            UpdateDataAssetDetailsModelTypeLakeHouseDataAsset,
+	"lake_data_asset":                  UpdateDataAssetDetailsModelTypeLakeDataAsset,
 	"rest_data_asset":                  UpdateDataAssetDetailsModelTypeRestDataAsset,
 }
 
@@ -274,7 +274,7 @@ func GetUpdateDataAssetDetailsModelTypeEnumStringValues() []string {
 		"GENERIC_JDBC_DATA_ASSET",
 		"FUSION_APP_DATA_ASSET",
 		"AMAZON_S3_DATA_ASSET",
-		"LAKE_HOUSE_DATA_ASSET",
+		"LAKE_DATA_ASSET",
 		"REST_DATA_ASSET",
 	}
 }

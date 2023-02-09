@@ -1498,60 +1498,6 @@ func (client MediaServicesClient) getMediaWorkflowJob(ctx context.Context, reque
 	return response, err
 }
 
-// GetMediaWorkflowJobFact Get the MediaWorkflowJobFact identified by the mediaWorkflowJobId and Fact ID.
-// A default retry strategy applies to this operation GetMediaWorkflowJobFact()
-func (client MediaServicesClient) GetMediaWorkflowJobFact(ctx context.Context, request GetMediaWorkflowJobFactRequest) (response GetMediaWorkflowJobFactResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getMediaWorkflowJobFact, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetMediaWorkflowJobFactResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetMediaWorkflowJobFactResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetMediaWorkflowJobFactResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetMediaWorkflowJobFactResponse")
-	}
-	return
-}
-
-// getMediaWorkflowJobFact implements the OCIOperation interface (enables retrying operations)
-func (client MediaServicesClient) getMediaWorkflowJobFact(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mediaWorkflowJobs/{mediaWorkflowJobId}/facts/{key}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetMediaWorkflowJobFactResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflowJobFact/GetMediaWorkflowJobFact"
-		err = common.PostProcessServiceError(err, "MediaServices", "GetMediaWorkflowJobFact", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetStreamCdnConfig Gets a StreamCdnConfig by identifier.
 // A default retry strategy applies to this operation GetStreamCdnConfig()
 func (client MediaServicesClient) GetStreamCdnConfig(ctx context.Context, request GetStreamCdnConfigRequest) (response GetStreamCdnConfigResponse, err error) {
@@ -1928,60 +1874,6 @@ func (client MediaServicesClient) listMediaWorkflowConfigurations(ctx context.Co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflowConfigurationCollection/ListMediaWorkflowConfigurations"
 		err = common.PostProcessServiceError(err, "MediaServices", "ListMediaWorkflowConfigurations", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListMediaWorkflowJobFacts Internal API to get a point-in-time snapshot of a MediaWorkflowJob.
-// A default retry strategy applies to this operation ListMediaWorkflowJobFacts()
-func (client MediaServicesClient) ListMediaWorkflowJobFacts(ctx context.Context, request ListMediaWorkflowJobFactsRequest) (response ListMediaWorkflowJobFactsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listMediaWorkflowJobFacts, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListMediaWorkflowJobFactsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListMediaWorkflowJobFactsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListMediaWorkflowJobFactsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListMediaWorkflowJobFactsResponse")
-	}
-	return
-}
-
-// listMediaWorkflowJobFacts implements the OCIOperation interface (enables retrying operations)
-func (client MediaServicesClient) listMediaWorkflowJobFacts(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mediaWorkflowJobs/{mediaWorkflowJobId}/facts", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListMediaWorkflowJobFactsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflowJobFact/ListMediaWorkflowJobFacts"
-		err = common.PostProcessServiceError(err, "MediaServices", "ListMediaWorkflowJobFacts", apiReferenceLink)
 		return response, err
 	}
 

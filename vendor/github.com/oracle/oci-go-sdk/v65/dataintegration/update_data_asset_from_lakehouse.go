@@ -26,7 +26,7 @@ type UpdateDataAssetFromLakehouse struct {
 	ObjectVersion *int `mandatory:"true" json:"objectVersion"`
 
 	// The Lakehouse Ocid.
-	LakehouseOcid *string `mandatory:"true" json:"lakehouseOcid"`
+	LakeId *string `mandatory:"true" json:"lakeId"`
 
 	DefaultConnection *UpdateConnectionFromLakehouse `mandatory:"true" json:"defaultConnection"`
 
@@ -56,8 +56,8 @@ type UpdateDataAssetFromLakehouse struct {
 	// The metastoreId for the specified Lakehouse Resource.
 	MetastoreId *string `mandatory:"false" json:"metastoreId"`
 
-	// The rangerEndpoint for the specified Lakehouse Resource.
-	RangerEndpoint *string `mandatory:"false" json:"rangerEndpoint"`
+	// The lakeProxyEndpoint for the specified Lakehouse Resource.
+	LakeProxyEndpoint *string `mandatory:"false" json:"lakeProxyEndpoint"`
 }
 
 //GetKey returns Key
@@ -133,7 +133,7 @@ func (m UpdateDataAssetFromLakehouse) MarshalJSON() (buff []byte, e error) {
 		DiscriminatorParam string `json:"modelType"`
 		MarshalTypeUpdateDataAssetFromLakehouse
 	}{
-		"LAKE_HOUSE_DATA_ASSET",
+		"LAKE_DATA_ASSET",
 		(MarshalTypeUpdateDataAssetFromLakehouse)(m),
 	}
 

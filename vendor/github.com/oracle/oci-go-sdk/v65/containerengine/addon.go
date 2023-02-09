@@ -35,7 +35,7 @@ type Addon struct {
 	// The time the cluster was created.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// Add On configuration details.
+	// Addon configuration details.
 	Configurations []AddonConfiguration `mandatory:"false" json:"configurations"`
 
 	// The error info of the addon.

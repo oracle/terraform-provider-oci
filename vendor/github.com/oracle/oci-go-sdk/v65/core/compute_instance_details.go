@@ -24,10 +24,13 @@ import (
 
 // ComputeInstanceDetails Compute Instance Configuration instance details.
 type ComputeInstanceDetails struct {
+
+	// Block volume parameters.
 	BlockVolumes []InstanceConfigurationBlockVolumeDetails `mandatory:"false" json:"blockVolumes"`
 
 	LaunchDetails *InstanceConfigurationLaunchInstanceDetails `mandatory:"false" json:"launchDetails"`
 
+	// Secondary VNIC parameters.
 	SecondaryVnics []InstanceConfigurationAttachVnicDetails `mandatory:"false" json:"secondaryVnics"`
 }
 

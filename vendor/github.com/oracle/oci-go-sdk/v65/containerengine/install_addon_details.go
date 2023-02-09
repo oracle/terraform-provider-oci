@@ -21,12 +21,12 @@ import (
 type InstallAddonDetails struct {
 
 	// The name of the addon.
-	Name *string `mandatory:"true" json:"name"`
+	AddonName *string `mandatory:"true" json:"addonName"`
 
 	// The version of addon to be installed.
 	Version *string `mandatory:"false" json:"version"`
 
-	// Add On configuration details.
+	// Addon configuration details.
 	Configurations []AddonConfiguration `mandatory:"false" json:"configurations"`
 }
 

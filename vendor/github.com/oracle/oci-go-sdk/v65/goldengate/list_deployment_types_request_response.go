@@ -130,30 +130,33 @@ type ListDeploymentTypesDeploymentTypeEnum string
 
 // Set of constants representing the allowable values for ListDeploymentTypesDeploymentTypeEnum
 const (
-	ListDeploymentTypesDeploymentTypeOgg                ListDeploymentTypesDeploymentTypeEnum = "OGG"
-	ListDeploymentTypesDeploymentTypeDatabaseOracle     ListDeploymentTypesDeploymentTypeEnum = "DATABASE_ORACLE"
-	ListDeploymentTypesDeploymentTypeBigdata            ListDeploymentTypesDeploymentTypeEnum = "BIGDATA"
-	ListDeploymentTypesDeploymentTypeDatabaseMysql      ListDeploymentTypesDeploymentTypeEnum = "DATABASE_MYSQL"
-	ListDeploymentTypesDeploymentTypeDatabasePostgresql ListDeploymentTypesDeploymentTypeEnum = "DATABASE_POSTGRESQL"
-	ListDeploymentTypesDeploymentTypeGgsa               ListDeploymentTypesDeploymentTypeEnum = "GGSA"
+	ListDeploymentTypesDeploymentTypeOgg                        ListDeploymentTypesDeploymentTypeEnum = "OGG"
+	ListDeploymentTypesDeploymentTypeDatabaseOracle             ListDeploymentTypesDeploymentTypeEnum = "DATABASE_ORACLE"
+	ListDeploymentTypesDeploymentTypeBigdata                    ListDeploymentTypesDeploymentTypeEnum = "BIGDATA"
+	ListDeploymentTypesDeploymentTypeDatabaseMicrosoftSqlserver ListDeploymentTypesDeploymentTypeEnum = "DATABASE_MICROSOFT_SQLSERVER"
+	ListDeploymentTypesDeploymentTypeDatabaseMysql              ListDeploymentTypesDeploymentTypeEnum = "DATABASE_MYSQL"
+	ListDeploymentTypesDeploymentTypeDatabasePostgresql         ListDeploymentTypesDeploymentTypeEnum = "DATABASE_POSTGRESQL"
+	ListDeploymentTypesDeploymentTypeGgsa                       ListDeploymentTypesDeploymentTypeEnum = "GGSA"
 )
 
 var mappingListDeploymentTypesDeploymentTypeEnum = map[string]ListDeploymentTypesDeploymentTypeEnum{
-	"OGG":                 ListDeploymentTypesDeploymentTypeOgg,
-	"DATABASE_ORACLE":     ListDeploymentTypesDeploymentTypeDatabaseOracle,
-	"BIGDATA":             ListDeploymentTypesDeploymentTypeBigdata,
-	"DATABASE_MYSQL":      ListDeploymentTypesDeploymentTypeDatabaseMysql,
-	"DATABASE_POSTGRESQL": ListDeploymentTypesDeploymentTypeDatabasePostgresql,
-	"GGSA":                ListDeploymentTypesDeploymentTypeGgsa,
+	"OGG":                          ListDeploymentTypesDeploymentTypeOgg,
+	"DATABASE_ORACLE":              ListDeploymentTypesDeploymentTypeDatabaseOracle,
+	"BIGDATA":                      ListDeploymentTypesDeploymentTypeBigdata,
+	"DATABASE_MICROSOFT_SQLSERVER": ListDeploymentTypesDeploymentTypeDatabaseMicrosoftSqlserver,
+	"DATABASE_MYSQL":               ListDeploymentTypesDeploymentTypeDatabaseMysql,
+	"DATABASE_POSTGRESQL":          ListDeploymentTypesDeploymentTypeDatabasePostgresql,
+	"GGSA":                         ListDeploymentTypesDeploymentTypeGgsa,
 }
 
 var mappingListDeploymentTypesDeploymentTypeEnumLowerCase = map[string]ListDeploymentTypesDeploymentTypeEnum{
-	"ogg":                 ListDeploymentTypesDeploymentTypeOgg,
-	"database_oracle":     ListDeploymentTypesDeploymentTypeDatabaseOracle,
-	"bigdata":             ListDeploymentTypesDeploymentTypeBigdata,
-	"database_mysql":      ListDeploymentTypesDeploymentTypeDatabaseMysql,
-	"database_postgresql": ListDeploymentTypesDeploymentTypeDatabasePostgresql,
-	"ggsa":                ListDeploymentTypesDeploymentTypeGgsa,
+	"ogg":                          ListDeploymentTypesDeploymentTypeOgg,
+	"database_oracle":              ListDeploymentTypesDeploymentTypeDatabaseOracle,
+	"bigdata":                      ListDeploymentTypesDeploymentTypeBigdata,
+	"database_microsoft_sqlserver": ListDeploymentTypesDeploymentTypeDatabaseMicrosoftSqlserver,
+	"database_mysql":               ListDeploymentTypesDeploymentTypeDatabaseMysql,
+	"database_postgresql":          ListDeploymentTypesDeploymentTypeDatabasePostgresql,
+	"ggsa":                         ListDeploymentTypesDeploymentTypeGgsa,
 }
 
 // GetListDeploymentTypesDeploymentTypeEnumValues Enumerates the set of values for ListDeploymentTypesDeploymentTypeEnum
@@ -171,6 +174,7 @@ func GetListDeploymentTypesDeploymentTypeEnumStringValues() []string {
 		"OGG",
 		"DATABASE_ORACLE",
 		"BIGDATA",
+		"DATABASE_MICROSOFT_SQLSERVER",
 		"DATABASE_MYSQL",
 		"DATABASE_POSTGRESQL",
 		"GGSA",

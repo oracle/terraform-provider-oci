@@ -27,14 +27,13 @@ type CreateDatabaseRegistrationDetails struct {
 	// A three-label Fully Qualified Domain Name (FQDN) for a resource.
 	Fqdn *string `mandatory:"true" json:"fqdn"`
 
-	// The username Oracle GoldenGate uses to connect the associated RDBMS.  This username must
-	// already exist and be available for use by the database.  It must conform to the security
-	// requirements implemented by the database including length, case sensitivity, and so on.
+	// The username Oracle GoldenGate uses to connect the associated system of the given technology.
+	// This username must already exist and be available by the system/application to be connected to
+	// and must conform to the case sensitivty requirments defined in it.
 	Username *string `mandatory:"true" json:"username"`
 
-	// The password Oracle GoldenGate uses to connect the associated RDBMS.  It must conform to the
-	// specific security requirements implemented by the database including length, case
-	// sensitivity, and so on.
+	// The password Oracle GoldenGate uses to connect the associated system of the given technology.
+	// It must conform to the specific security requirements including length, case sensitivity, and so on.
 	Password *string `mandatory:"true" json:"password"`
 
 	// Credential store alias.
@@ -75,12 +74,12 @@ type CreateDatabaseRegistrationDetails struct {
 	// attribute is expected to be base64 encoded.
 	Wallet *string `mandatory:"false" json:"wallet"`
 
-	// Refers to the customer’s vault OCID.
+	// Refers to the customer's vault OCID.
 	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
 	// to manage secrets contained within this vault.
 	VaultId *string `mandatory:"false" json:"vaultId"`
 
-	// Refers to the customer’s master key OCID.
+	// Refers to the customer's master key OCID.
 	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 	KeyId *string `mandatory:"false" json:"keyId"`
 

@@ -62,12 +62,12 @@ type ConnectionSummary interface {
 	// actionable information for a resource in a Failed state.
 	GetLifecycleDetails() *string
 
-	// Refers to the customer’s vault OCID.
+	// Refers to the customer's vault OCID.
 	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
 	// to manage secrets contained within this vault.
 	GetVaultId() *string
 
-	// Refers to the customer’s master key OCID.
+	// Refers to the customer's master key OCID.
 	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 	GetKeyId() *string
 
@@ -152,20 +152,20 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := KafkaSchemaRegistryConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "POSTGRESQL":
-		mm := PostgresqlConnectionSummary{}
+	case "MICROSOFT_SQLSERVER":
+		mm := MicrosoftSqlserverConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ORACLE_NOSQL":
+		mm := OracleNosqlConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE":
 		mm := OracleConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "MYSQL":
-		mm := MysqlConnectionSummary{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "KAFKA":
-		mm := KafkaConnectionSummary{}
+	case "SNOWFLAKE":
+		mm := SnowflakeConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "OCI_OBJECT_STORAGE":
@@ -178,6 +178,30 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		return mm, err
 	case "AZURE_SYNAPSE_ANALYTICS":
 		mm := AzureSynapseConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MONGODB":
+		mm := MongoDbConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AMAZON_S3":
+		mm := AmazonS3ConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "POSTGRESQL":
+		mm := PostgresqlConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MYSQL":
+		mm := MysqlConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "KAFKA":
+		mm := KafkaConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "HDFS":
+		mm := HdfsConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

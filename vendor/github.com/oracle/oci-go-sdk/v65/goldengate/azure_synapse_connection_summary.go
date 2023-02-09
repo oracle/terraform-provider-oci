@@ -41,9 +41,9 @@ type AzureSynapseConnectionSummary struct {
 	// e.g.: 'jdbc:sqlserver://<synapse-workspace>.sql.azuresynapse.net:1433;database=<db-name>;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.sql.azuresynapse.net;loginTimeout=300;'
 	ConnectionString *string `mandatory:"true" json:"connectionString"`
 
-	// The username Oracle GoldenGate uses to connect the associated RDBMS.  This username must
-	// already exist and be available for use by the database.  It must conform to the security
-	// requirements implemented by the database including length, case sensitivity, and so on.
+	// The username Oracle GoldenGate uses to connect the associated system of the given technology.
+	// This username must already exist and be available by the system/application to be connected to
+	// and must conform to the case sensitivty requirments defined in it.
 	Username *string `mandatory:"true" json:"username"`
 
 	// Metadata about this specific object.
@@ -68,12 +68,12 @@ type AzureSynapseConnectionSummary struct {
 	// actionable information for a resource in a Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// Refers to the customer’s vault OCID.
+	// Refers to the customer's vault OCID.
 	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
 	// to manage secrets contained within this vault.
 	VaultId *string `mandatory:"false" json:"vaultId"`
 
-	// Refers to the customer’s master key OCID.
+	// Refers to the customer's master key OCID.
 	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 	KeyId *string `mandatory:"false" json:"keyId"`
 

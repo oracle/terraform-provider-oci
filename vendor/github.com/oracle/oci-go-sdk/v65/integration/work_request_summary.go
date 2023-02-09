@@ -82,33 +82,27 @@ type WorkRequestSummaryOperationTypeEnum string
 
 // Set of constants representing the allowable values for WorkRequestSummaryOperationTypeEnum
 const (
-	WorkRequestSummaryOperationTypeCreateIntegrationInstance               WorkRequestSummaryOperationTypeEnum = "CREATE_INTEGRATION_INSTANCE"
-	WorkRequestSummaryOperationTypeUpdateIntegrationInstance               WorkRequestSummaryOperationTypeEnum = "UPDATE_INTEGRATION_INSTANCE"
-	WorkRequestSummaryOperationTypeStopIntegrationInstance                 WorkRequestSummaryOperationTypeEnum = "STOP_INTEGRATION_INSTANCE"
-	WorkRequestSummaryOperationTypeStartIntegrationInstance                WorkRequestSummaryOperationTypeEnum = "START_INTEGRATION_INSTANCE"
-	WorkRequestSummaryOperationTypeDeleteIntegrationInstance               WorkRequestSummaryOperationTypeEnum = "DELETE_INTEGRATION_INSTANCE"
-	WorkRequestSummaryOperationTypeChangePrivateEndpointOutboundConnection WorkRequestSummaryOperationTypeEnum = "CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION"
-	WorkRequestSummaryOperationTypeEnableProcessAutomation                 WorkRequestSummaryOperationTypeEnum = "ENABLE_PROCESS_AUTOMATION"
+	WorkRequestSummaryOperationTypeCreateIntegrationInstance WorkRequestSummaryOperationTypeEnum = "CREATE_INTEGRATION_INSTANCE"
+	WorkRequestSummaryOperationTypeUpdateIntegrationInstance WorkRequestSummaryOperationTypeEnum = "UPDATE_INTEGRATION_INSTANCE"
+	WorkRequestSummaryOperationTypeStopIntegrationInstance   WorkRequestSummaryOperationTypeEnum = "STOP_INTEGRATION_INSTANCE"
+	WorkRequestSummaryOperationTypeStartIntegrationInstance  WorkRequestSummaryOperationTypeEnum = "START_INTEGRATION_INSTANCE"
+	WorkRequestSummaryOperationTypeDeleteIntegrationInstance WorkRequestSummaryOperationTypeEnum = "DELETE_INTEGRATION_INSTANCE"
 )
 
 var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOperationTypeEnum{
-	"CREATE_INTEGRATION_INSTANCE":                 WorkRequestSummaryOperationTypeCreateIntegrationInstance,
-	"UPDATE_INTEGRATION_INSTANCE":                 WorkRequestSummaryOperationTypeUpdateIntegrationInstance,
-	"STOP_INTEGRATION_INSTANCE":                   WorkRequestSummaryOperationTypeStopIntegrationInstance,
-	"START_INTEGRATION_INSTANCE":                  WorkRequestSummaryOperationTypeStartIntegrationInstance,
-	"DELETE_INTEGRATION_INSTANCE":                 WorkRequestSummaryOperationTypeDeleteIntegrationInstance,
-	"CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION": WorkRequestSummaryOperationTypeChangePrivateEndpointOutboundConnection,
-	"ENABLE_PROCESS_AUTOMATION":                   WorkRequestSummaryOperationTypeEnableProcessAutomation,
+	"CREATE_INTEGRATION_INSTANCE": WorkRequestSummaryOperationTypeCreateIntegrationInstance,
+	"UPDATE_INTEGRATION_INSTANCE": WorkRequestSummaryOperationTypeUpdateIntegrationInstance,
+	"STOP_INTEGRATION_INSTANCE":   WorkRequestSummaryOperationTypeStopIntegrationInstance,
+	"START_INTEGRATION_INSTANCE":  WorkRequestSummaryOperationTypeStartIntegrationInstance,
+	"DELETE_INTEGRATION_INSTANCE": WorkRequestSummaryOperationTypeDeleteIntegrationInstance,
 }
 
 var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequestSummaryOperationTypeEnum{
-	"create_integration_instance":                 WorkRequestSummaryOperationTypeCreateIntegrationInstance,
-	"update_integration_instance":                 WorkRequestSummaryOperationTypeUpdateIntegrationInstance,
-	"stop_integration_instance":                   WorkRequestSummaryOperationTypeStopIntegrationInstance,
-	"start_integration_instance":                  WorkRequestSummaryOperationTypeStartIntegrationInstance,
-	"delete_integration_instance":                 WorkRequestSummaryOperationTypeDeleteIntegrationInstance,
-	"change_private_endpoint_outbound_connection": WorkRequestSummaryOperationTypeChangePrivateEndpointOutboundConnection,
-	"enable_process_automation":                   WorkRequestSummaryOperationTypeEnableProcessAutomation,
+	"create_integration_instance": WorkRequestSummaryOperationTypeCreateIntegrationInstance,
+	"update_integration_instance": WorkRequestSummaryOperationTypeUpdateIntegrationInstance,
+	"stop_integration_instance":   WorkRequestSummaryOperationTypeStopIntegrationInstance,
+	"start_integration_instance":  WorkRequestSummaryOperationTypeStartIntegrationInstance,
+	"delete_integration_instance": WorkRequestSummaryOperationTypeDeleteIntegrationInstance,
 }
 
 // GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestSummaryOperationTypeEnum
@@ -128,8 +122,6 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"STOP_INTEGRATION_INSTANCE",
 		"START_INTEGRATION_INSTANCE",
 		"DELETE_INTEGRATION_INSTANCE",
-		"CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION",
-		"ENABLE_PROCESS_AUTOMATION",
 	}
 }
 

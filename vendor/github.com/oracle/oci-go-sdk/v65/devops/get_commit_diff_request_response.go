@@ -17,7 +17,7 @@ type GetCommitDiffRequest struct {
 	// Unique repository identifier.
 	RepositoryId *string `mandatory:"true" contributesTo:"path" name:"repositoryId"`
 
-	// The commit or reference name where changes are coming from.
+	// The commit or reference name that represents the newer changes against the base version.
 	TargetVersion *string `mandatory:"true" contributesTo:"query" name:"targetVersion"`
 
 	// The commit or reference name to compare changes against. If base version is not provided, the difference goes against an empty tree.

@@ -88,7 +88,6 @@ const (
 	WorkRequestOperationTypeStartIntegrationInstance                WorkRequestOperationTypeEnum = "START_INTEGRATION_INSTANCE"
 	WorkRequestOperationTypeDeleteIntegrationInstance               WorkRequestOperationTypeEnum = "DELETE_INTEGRATION_INSTANCE"
 	WorkRequestOperationTypeChangePrivateEndpointOutboundConnection WorkRequestOperationTypeEnum = "CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION"
-	WorkRequestOperationTypeEnableProcessAutomation                 WorkRequestOperationTypeEnum = "ENABLE_PROCESS_AUTOMATION"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -98,7 +97,6 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"START_INTEGRATION_INSTANCE":                  WorkRequestOperationTypeStartIntegrationInstance,
 	"DELETE_INTEGRATION_INSTANCE":                 WorkRequestOperationTypeDeleteIntegrationInstance,
 	"CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION": WorkRequestOperationTypeChangePrivateEndpointOutboundConnection,
-	"ENABLE_PROCESS_AUTOMATION":                   WorkRequestOperationTypeEnableProcessAutomation,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -108,7 +106,6 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"start_integration_instance":                  WorkRequestOperationTypeStartIntegrationInstance,
 	"delete_integration_instance":                 WorkRequestOperationTypeDeleteIntegrationInstance,
 	"change_private_endpoint_outbound_connection": WorkRequestOperationTypeChangePrivateEndpointOutboundConnection,
-	"enable_process_automation":                   WorkRequestOperationTypeEnableProcessAutomation,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -129,7 +126,6 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"START_INTEGRATION_INSTANCE",
 		"DELETE_INTEGRATION_INSTANCE",
 		"CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION",
-		"ENABLE_PROCESS_AUTOMATION",
 	}
 }
 

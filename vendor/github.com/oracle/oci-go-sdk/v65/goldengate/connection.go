@@ -62,12 +62,12 @@ type Connection interface {
 	// actionable information for a resource in a Failed state.
 	GetLifecycleDetails() *string
 
-	// Refers to the customer’s vault OCID.
+	// Refers to the customer's vault OCID.
 	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
 	// to manage secrets contained within this vault.
 	GetVaultId() *string
 
-	// Refers to the customer’s master key OCID.
+	// Refers to the customer's master key OCID.
 	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 	GetKeyId() *string
 
@@ -152,12 +152,8 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := PostgresqlConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "OCI_OBJECT_STORAGE":
-		mm := OciObjectStorageConnection{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "KAFKA_SCHEMA_REGISTRY":
-		mm := KafkaSchemaRegistryConnection{}
+	case "SNOWFLAKE":
+		mm := SnowflakeConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "GOLDENGATE":
@@ -168,12 +164,40 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := MysqlConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AMAZON_S3":
+		mm := AmazonS3Connection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE":
 		mm := OracleConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "AZURE_DATA_LAKE_STORAGE":
 		mm := AzureDataLakeStorageConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MONGODB":
+		mm := MongoDbConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "HDFS":
+		mm := HdfsConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OCI_OBJECT_STORAGE":
+		mm := OciObjectStorageConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "KAFKA_SCHEMA_REGISTRY":
+		mm := KafkaSchemaRegistryConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MICROSOFT_SQLSERVER":
+		mm := MicrosoftSqlserverConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ORACLE_NOSQL":
+		mm := OracleNosqlConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "AZURE_SYNAPSE_ANALYTICS":

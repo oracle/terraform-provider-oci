@@ -31,6 +31,7 @@ type ImageSourceViaVolumeBackupDetails struct {
 
 	OperatingSystemVersion *string `mandatory:"false" json:"operatingSystemVersion"`
 
+	// Data volume backup source parameters.
 	DataVolumes []DataVolumeBackupSourceDetails `mandatory:"false" json:"dataVolumes"`
 
 	// The format of the image to be imported. Only monolithic

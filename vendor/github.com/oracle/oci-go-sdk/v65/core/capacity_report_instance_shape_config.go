@@ -21,7 +21,7 @@ import (
 	"strings"
 )
 
-// CapacityReportInstanceShapeConfig The shape configuration for a shape in compute capacity availability report.
+// CapacityReportInstanceShapeConfig The shape configuration for a shape in a capacity report.
 type CapacityReportInstanceShapeConfig struct {
 
 	// The total number of OCPUs available to the instance.

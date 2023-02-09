@@ -23,7 +23,7 @@ type UpdateAddonDetails struct {
 	// The version of the installed addon.
 	Version *string `mandatory:"false" json:"version"`
 
-	// Add On configuration details.
+	// Addon configuration details.
 	Configurations []AddonConfiguration `mandatory:"false" json:"configurations"`
 }
 

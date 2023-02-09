@@ -127,6 +127,9 @@ type CreateRunDetails struct {
 	// Example:  [ { name: "iterations", value: "10"}, { name: "input_file", value: "mydata.xml" }, { name: "variable_x", value: "${x}"} ]
 	Parameters []ApplicationParameter `mandatory:"false" json:"parameters"`
 
+	// The OCID of a pool. Unique Id to indentify a dataflow pool resource.
+	PoolId *string `mandatory:"false" json:"poolId"`
+
 	// The Spark version utilized to run the application. This value may be set if applicationId is not since the Spark version will be taken from the associated application.
 	SparkVersion *string `mandatory:"false" json:"sparkVersion"`
 

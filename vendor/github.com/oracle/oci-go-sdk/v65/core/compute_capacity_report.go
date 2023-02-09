@@ -21,21 +21,26 @@ import (
 	"strings"
 )
 
-// ComputeCapacityReport The availability domain for which the report was generated.
+// ComputeCapacityReport A report of the host capacity within an availability domain that is available for you
+// to create compute instances. Host capacity is the physical infrastructure that resources such as compute
+// instances run on.
+// Use the capacity report to determine whether sufficient capacity is available for a shape before
+// you create an instance or change the shape of an instance.
 type ComputeCapacityReport struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the compartment. This should always be the root
 	// compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The availability to generate a report of the capacity availability.
+	// The availability domain for the capacity report.
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
-	// The capacity availability details for the shapes customer provide, listed per shape.
+	// Information about the available capacity for each shape in a capacity report.
 	ShapeAvailabilities []CapacityReportShapeAvailability `mandatory:"true" json:"shapeAvailabilities"`
 
-	// The date and time the compute capacity report was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time the capacity report was created, in the format defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 }

@@ -24,6 +24,8 @@ import (
 
 // ComputeInstanceOptions Multi architecture Instance Configuration instance details.
 type ComputeInstanceOptions struct {
+
+	// The Compute Instance Configuration parameters.
 	Options []ComputeInstanceDetails `mandatory:"false" json:"options"`
 }
 

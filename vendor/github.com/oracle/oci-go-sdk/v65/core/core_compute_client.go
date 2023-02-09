@@ -872,8 +872,11 @@ func (client ComputeClient) createAppCatalogSubscription(ctx context.Context, re
 	return response, err
 }
 
-// CreateComputeCapacityReport Generates a new compute capacity availability report for the availability domain.
-// A compute capacity report lets you review capacity availability for the provided shapes.
+// CreateComputeCapacityReport Generates a report of the host capacity within an availability domain that is available for you
+// to create compute instances. Host capacity is the physical infrastructure that resources such as compute
+// instances run on.
+// Use the capacity report to determine whether sufficient capacity is available for a shape before
+// you create an instance or change the shape of an instance.
 // A default retry strategy applies to this operation CreateComputeCapacityReport()
 func (client ComputeClient) CreateComputeCapacityReport(ctx context.Context, request CreateComputeCapacityReportRequest) (response CreateComputeCapacityReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3567,6 +3570,9 @@ func (client ComputeClient) instanceAction(ctx context.Context, request common.O
 // Then, call CreateAppCatalogSubscription
 // with the signature. To get the image ID for the LaunchInstance operation, call
 // GetAppCatalogListingResourceVersion.
+// To determine whether capacity is available for a specific shape before you create an instance,
+// use the CreateComputeCapacityReport
+// operation.
 func (client ComputeClient) LaunchInstance(ctx context.Context, request LaunchInstanceRequest) (response LaunchInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

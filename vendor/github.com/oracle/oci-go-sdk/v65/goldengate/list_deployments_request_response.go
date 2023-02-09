@@ -152,11 +152,18 @@ const (
 	ListDeploymentsSupportedConnectionTypeKafka                 ListDeploymentsSupportedConnectionTypeEnum = "KAFKA"
 	ListDeploymentsSupportedConnectionTypeKafkaSchemaRegistry   ListDeploymentsSupportedConnectionTypeEnum = "KAFKA_SCHEMA_REGISTRY"
 	ListDeploymentsSupportedConnectionTypeMysql                 ListDeploymentsSupportedConnectionTypeEnum = "MYSQL"
+	ListDeploymentsSupportedConnectionTypeJavaMessageService    ListDeploymentsSupportedConnectionTypeEnum = "JAVA_MESSAGE_SERVICE"
+	ListDeploymentsSupportedConnectionTypeMicrosoftSqlserver    ListDeploymentsSupportedConnectionTypeEnum = "MICROSOFT_SQLSERVER"
 	ListDeploymentsSupportedConnectionTypeOciObjectStorage      ListDeploymentsSupportedConnectionTypeEnum = "OCI_OBJECT_STORAGE"
 	ListDeploymentsSupportedConnectionTypeOracle                ListDeploymentsSupportedConnectionTypeEnum = "ORACLE"
 	ListDeploymentsSupportedConnectionTypeAzureDataLakeStorage  ListDeploymentsSupportedConnectionTypeEnum = "AZURE_DATA_LAKE_STORAGE"
 	ListDeploymentsSupportedConnectionTypePostgresql            ListDeploymentsSupportedConnectionTypeEnum = "POSTGRESQL"
 	ListDeploymentsSupportedConnectionTypeAzureSynapseAnalytics ListDeploymentsSupportedConnectionTypeEnum = "AZURE_SYNAPSE_ANALYTICS"
+	ListDeploymentsSupportedConnectionTypeSnowflake             ListDeploymentsSupportedConnectionTypeEnum = "SNOWFLAKE"
+	ListDeploymentsSupportedConnectionTypeAmazonS3              ListDeploymentsSupportedConnectionTypeEnum = "AMAZON_S3"
+	ListDeploymentsSupportedConnectionTypeHdfs                  ListDeploymentsSupportedConnectionTypeEnum = "HDFS"
+	ListDeploymentsSupportedConnectionTypeOracleNosql           ListDeploymentsSupportedConnectionTypeEnum = "ORACLE_NOSQL"
+	ListDeploymentsSupportedConnectionTypeMongodb               ListDeploymentsSupportedConnectionTypeEnum = "MONGODB"
 )
 
 var mappingListDeploymentsSupportedConnectionTypeEnum = map[string]ListDeploymentsSupportedConnectionTypeEnum{
@@ -164,11 +171,18 @@ var mappingListDeploymentsSupportedConnectionTypeEnum = map[string]ListDeploymen
 	"KAFKA":                   ListDeploymentsSupportedConnectionTypeKafka,
 	"KAFKA_SCHEMA_REGISTRY":   ListDeploymentsSupportedConnectionTypeKafkaSchemaRegistry,
 	"MYSQL":                   ListDeploymentsSupportedConnectionTypeMysql,
+	"JAVA_MESSAGE_SERVICE":    ListDeploymentsSupportedConnectionTypeJavaMessageService,
+	"MICROSOFT_SQLSERVER":     ListDeploymentsSupportedConnectionTypeMicrosoftSqlserver,
 	"OCI_OBJECT_STORAGE":      ListDeploymentsSupportedConnectionTypeOciObjectStorage,
 	"ORACLE":                  ListDeploymentsSupportedConnectionTypeOracle,
 	"AZURE_DATA_LAKE_STORAGE": ListDeploymentsSupportedConnectionTypeAzureDataLakeStorage,
 	"POSTGRESQL":              ListDeploymentsSupportedConnectionTypePostgresql,
 	"AZURE_SYNAPSE_ANALYTICS": ListDeploymentsSupportedConnectionTypeAzureSynapseAnalytics,
+	"SNOWFLAKE":               ListDeploymentsSupportedConnectionTypeSnowflake,
+	"AMAZON_S3":               ListDeploymentsSupportedConnectionTypeAmazonS3,
+	"HDFS":                    ListDeploymentsSupportedConnectionTypeHdfs,
+	"ORACLE_NOSQL":            ListDeploymentsSupportedConnectionTypeOracleNosql,
+	"MONGODB":                 ListDeploymentsSupportedConnectionTypeMongodb,
 }
 
 var mappingListDeploymentsSupportedConnectionTypeEnumLowerCase = map[string]ListDeploymentsSupportedConnectionTypeEnum{
@@ -176,11 +190,18 @@ var mappingListDeploymentsSupportedConnectionTypeEnumLowerCase = map[string]List
 	"kafka":                   ListDeploymentsSupportedConnectionTypeKafka,
 	"kafka_schema_registry":   ListDeploymentsSupportedConnectionTypeKafkaSchemaRegistry,
 	"mysql":                   ListDeploymentsSupportedConnectionTypeMysql,
+	"java_message_service":    ListDeploymentsSupportedConnectionTypeJavaMessageService,
+	"microsoft_sqlserver":     ListDeploymentsSupportedConnectionTypeMicrosoftSqlserver,
 	"oci_object_storage":      ListDeploymentsSupportedConnectionTypeOciObjectStorage,
 	"oracle":                  ListDeploymentsSupportedConnectionTypeOracle,
 	"azure_data_lake_storage": ListDeploymentsSupportedConnectionTypeAzureDataLakeStorage,
 	"postgresql":              ListDeploymentsSupportedConnectionTypePostgresql,
 	"azure_synapse_analytics": ListDeploymentsSupportedConnectionTypeAzureSynapseAnalytics,
+	"snowflake":               ListDeploymentsSupportedConnectionTypeSnowflake,
+	"amazon_s3":               ListDeploymentsSupportedConnectionTypeAmazonS3,
+	"hdfs":                    ListDeploymentsSupportedConnectionTypeHdfs,
+	"oracle_nosql":            ListDeploymentsSupportedConnectionTypeOracleNosql,
+	"mongodb":                 ListDeploymentsSupportedConnectionTypeMongodb,
 }
 
 // GetListDeploymentsSupportedConnectionTypeEnumValues Enumerates the set of values for ListDeploymentsSupportedConnectionTypeEnum
@@ -199,11 +220,18 @@ func GetListDeploymentsSupportedConnectionTypeEnumStringValues() []string {
 		"KAFKA",
 		"KAFKA_SCHEMA_REGISTRY",
 		"MYSQL",
+		"JAVA_MESSAGE_SERVICE",
+		"MICROSOFT_SQLSERVER",
 		"OCI_OBJECT_STORAGE",
 		"ORACLE",
 		"AZURE_DATA_LAKE_STORAGE",
 		"POSTGRESQL",
 		"AZURE_SYNAPSE_ANALYTICS",
+		"SNOWFLAKE",
+		"AMAZON_S3",
+		"HDFS",
+		"ORACLE_NOSQL",
+		"MONGODB",
 	}
 }
 

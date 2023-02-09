@@ -20,7 +20,7 @@ import (
 type DataAssetFromLakehouseDetails struct {
 
 	// The Lakehouse Ocid.
-	LakehouseOcid *string `mandatory:"true" json:"lakehouseOcid"`
+	LakeId *string `mandatory:"true" json:"lakeId"`
 
 	DefaultConnection *ConnectionFromLakehouseDetails `mandatory:"true" json:"defaultConnection"`
 
@@ -63,8 +63,8 @@ type DataAssetFromLakehouseDetails struct {
 	// The metastoreId for the specified Lakehouse Resource.
 	MetastoreId *string `mandatory:"false" json:"metastoreId"`
 
-	// The rangerEndpoint for the specified Lakehouse Resource.
-	RangerEndpoint *string `mandatory:"false" json:"rangerEndpoint"`
+	// The lakeProxyEndpoint for the specified Lakehouse Resource.
+	LakeProxyEndpoint *string `mandatory:"false" json:"lakeProxyEndpoint"`
 }
 
 //GetKey returns Key
@@ -155,7 +155,7 @@ func (m DataAssetFromLakehouseDetails) MarshalJSON() (buff []byte, e error) {
 		DiscriminatorParam string `json:"modelType"`
 		MarshalTypeDataAssetFromLakehouseDetails
 	}{
-		"LAKE_HOUSE_DATA_ASSET",
+		"LAKE_DATA_ASSET",
 		(MarshalTypeDataAssetFromLakehouseDetails)(m),
 	}
 

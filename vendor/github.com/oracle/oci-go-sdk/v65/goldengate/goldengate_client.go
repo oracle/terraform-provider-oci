@@ -262,7 +262,7 @@ func (client GoldenGateClient) changeConnectionCompartment(ctx context.Context, 
 	return response, err
 }
 
-// ChangeDatabaseRegistrationCompartment Note: Deprecated. Use the new resource model APIs instead.
+// ChangeDatabaseRegistrationCompartment Note: Deprecated. Use the /connections API instead.
 // Moves the DatabaseRegistration into a different compartment within the same tenancy. When
 // provided, If-Match is checked against ETag values of the resource.  For information about
 // moving resources between compartments, see Moving Resources Between
@@ -685,7 +685,7 @@ func (client GoldenGateClient) createConnectionAssignment(ctx context.Context, r
 	return response, err
 }
 
-// CreateDatabaseRegistration Note: Deprecated. Use the new resource model APIs instead.
+// CreateDatabaseRegistration Note: Deprecated. Use the /connections API instead.
 // Creates a new DatabaseRegistration.
 // A default retry strategy applies to this operation CreateDatabaseRegistration()
 func (client GoldenGateClient) CreateDatabaseRegistration(ctx context.Context, request CreateDatabaseRegistrationRequest) (response CreateDatabaseRegistrationResponse, err error) {
@@ -971,7 +971,7 @@ func (client GoldenGateClient) deleteConnectionAssignment(ctx context.Context, r
 	return response, err
 }
 
-// DeleteDatabaseRegistration Note: Deprecated. Use the new resource model APIs instead.
+// DeleteDatabaseRegistration Note: Deprecated. Use the /connections API instead.
 // Deletes a DatabaseRegistration.
 // A default retry strategy applies to this operation DeleteDatabaseRegistration()
 func (client GoldenGateClient) DeleteDatabaseRegistration(ctx context.Context, request DeleteDatabaseRegistrationRequest) (response DeleteDatabaseRegistrationResponse, err error) {
@@ -1360,7 +1360,7 @@ func (client GoldenGateClient) getConnectionAssignment(ctx context.Context, requ
 	return response, err
 }
 
-// GetDatabaseRegistration Note: Deprecated. Use the new resource model APIs instead.
+// GetDatabaseRegistration Note: Deprecated. Use the /connections API instead.
 // Retrieves a DatabaseRegistration.
 // A default retry strategy applies to this operation GetDatabaseRegistration()
 func (client GoldenGateClient) GetDatabaseRegistration(ctx context.Context, request GetDatabaseRegistrationRequest) (response GetDatabaseRegistrationResponse, err error) {
@@ -1798,7 +1798,7 @@ func (client GoldenGateClient) listConnections(ctx context.Context, request comm
 	return response, err
 }
 
-// ListDatabaseRegistrations Note: Deprecated. Use the new resource model APIs instead.
+// ListDatabaseRegistrations Note: Deprecated. Use the /connections API instead.
 // Lists the DatabaseRegistrations in the compartment.
 // A default retry strategy applies to this operation ListDatabaseRegistrations()
 func (client GoldenGateClient) ListDatabaseRegistrations(ctx context.Context, request ListDatabaseRegistrationsRequest) (response ListDatabaseRegistrationsResponse, err error) {
@@ -2850,7 +2850,7 @@ func (client GoldenGateClient) updateConnection(ctx context.Context, request com
 	return response, err
 }
 
-// UpdateDatabaseRegistration Note: Deprecated. Use the new resource model APIs instead.
+// UpdateDatabaseRegistration Note: Deprecated. Use the /connections API instead.
 // Updates the DatabaseRegistration.
 // A default retry strategy applies to this operation UpdateDatabaseRegistration()
 func (client GoldenGateClient) UpdateDatabaseRegistration(ctx context.Context, request UpdateDatabaseRegistrationRequest) (response UpdateDatabaseRegistrationResponse, err error) {

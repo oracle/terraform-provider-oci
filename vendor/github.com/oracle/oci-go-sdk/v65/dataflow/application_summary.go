@@ -48,17 +48,20 @@ type ApplicationSummary struct {
 	// The Spark version utilized to run the application.
 	SparkVersion *string `mandatory:"true" json:"sparkVersion"`
 
-	// The date and time a application was created, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
+	// The date and time a resource was created, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
 	// Example: `2018-04-03T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The date and time a application was updated, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
+	// The date and time a resource was updated, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
 	// Example: `2018-04-03T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
 	// The username of the user who created the resource.  If the username of the owner does not exist,
 	// `null` will be returned and the caller should refer to the ownerPrincipalId value instead.
 	OwnerUserName *string `mandatory:"false" json:"ownerUserName"`
+
+	// The OCID of a pool. Unique Id to indentify a dataflow pool resource.
+	PoolId *string `mandatory:"false" json:"poolId"`
 
 	// The Spark application processing type.
 	Type ApplicationTypeEnum `mandatory:"false" json:"type,omitempty"`

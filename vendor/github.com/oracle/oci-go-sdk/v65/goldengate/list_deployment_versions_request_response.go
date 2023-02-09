@@ -127,30 +127,33 @@ type ListDeploymentVersionsDeploymentTypeEnum string
 
 // Set of constants representing the allowable values for ListDeploymentVersionsDeploymentTypeEnum
 const (
-	ListDeploymentVersionsDeploymentTypeOgg                ListDeploymentVersionsDeploymentTypeEnum = "OGG"
-	ListDeploymentVersionsDeploymentTypeDatabaseOracle     ListDeploymentVersionsDeploymentTypeEnum = "DATABASE_ORACLE"
-	ListDeploymentVersionsDeploymentTypeBigdata            ListDeploymentVersionsDeploymentTypeEnum = "BIGDATA"
-	ListDeploymentVersionsDeploymentTypeDatabaseMysql      ListDeploymentVersionsDeploymentTypeEnum = "DATABASE_MYSQL"
-	ListDeploymentVersionsDeploymentTypeDatabasePostgresql ListDeploymentVersionsDeploymentTypeEnum = "DATABASE_POSTGRESQL"
-	ListDeploymentVersionsDeploymentTypeGgsa               ListDeploymentVersionsDeploymentTypeEnum = "GGSA"
+	ListDeploymentVersionsDeploymentTypeOgg                        ListDeploymentVersionsDeploymentTypeEnum = "OGG"
+	ListDeploymentVersionsDeploymentTypeDatabaseOracle             ListDeploymentVersionsDeploymentTypeEnum = "DATABASE_ORACLE"
+	ListDeploymentVersionsDeploymentTypeBigdata                    ListDeploymentVersionsDeploymentTypeEnum = "BIGDATA"
+	ListDeploymentVersionsDeploymentTypeDatabaseMicrosoftSqlserver ListDeploymentVersionsDeploymentTypeEnum = "DATABASE_MICROSOFT_SQLSERVER"
+	ListDeploymentVersionsDeploymentTypeDatabaseMysql              ListDeploymentVersionsDeploymentTypeEnum = "DATABASE_MYSQL"
+	ListDeploymentVersionsDeploymentTypeDatabasePostgresql         ListDeploymentVersionsDeploymentTypeEnum = "DATABASE_POSTGRESQL"
+	ListDeploymentVersionsDeploymentTypeGgsa                       ListDeploymentVersionsDeploymentTypeEnum = "GGSA"
 )
 
 var mappingListDeploymentVersionsDeploymentTypeEnum = map[string]ListDeploymentVersionsDeploymentTypeEnum{
-	"OGG":                 ListDeploymentVersionsDeploymentTypeOgg,
-	"DATABASE_ORACLE":     ListDeploymentVersionsDeploymentTypeDatabaseOracle,
-	"BIGDATA":             ListDeploymentVersionsDeploymentTypeBigdata,
-	"DATABASE_MYSQL":      ListDeploymentVersionsDeploymentTypeDatabaseMysql,
-	"DATABASE_POSTGRESQL": ListDeploymentVersionsDeploymentTypeDatabasePostgresql,
-	"GGSA":                ListDeploymentVersionsDeploymentTypeGgsa,
+	"OGG":                          ListDeploymentVersionsDeploymentTypeOgg,
+	"DATABASE_ORACLE":              ListDeploymentVersionsDeploymentTypeDatabaseOracle,
+	"BIGDATA":                      ListDeploymentVersionsDeploymentTypeBigdata,
+	"DATABASE_MICROSOFT_SQLSERVER": ListDeploymentVersionsDeploymentTypeDatabaseMicrosoftSqlserver,
+	"DATABASE_MYSQL":               ListDeploymentVersionsDeploymentTypeDatabaseMysql,
+	"DATABASE_POSTGRESQL":          ListDeploymentVersionsDeploymentTypeDatabasePostgresql,
+	"GGSA":                         ListDeploymentVersionsDeploymentTypeGgsa,
 }
 
 var mappingListDeploymentVersionsDeploymentTypeEnumLowerCase = map[string]ListDeploymentVersionsDeploymentTypeEnum{
-	"ogg":                 ListDeploymentVersionsDeploymentTypeOgg,
-	"database_oracle":     ListDeploymentVersionsDeploymentTypeDatabaseOracle,
-	"bigdata":             ListDeploymentVersionsDeploymentTypeBigdata,
-	"database_mysql":      ListDeploymentVersionsDeploymentTypeDatabaseMysql,
-	"database_postgresql": ListDeploymentVersionsDeploymentTypeDatabasePostgresql,
-	"ggsa":                ListDeploymentVersionsDeploymentTypeGgsa,
+	"ogg":                          ListDeploymentVersionsDeploymentTypeOgg,
+	"database_oracle":              ListDeploymentVersionsDeploymentTypeDatabaseOracle,
+	"bigdata":                      ListDeploymentVersionsDeploymentTypeBigdata,
+	"database_microsoft_sqlserver": ListDeploymentVersionsDeploymentTypeDatabaseMicrosoftSqlserver,
+	"database_mysql":               ListDeploymentVersionsDeploymentTypeDatabaseMysql,
+	"database_postgresql":          ListDeploymentVersionsDeploymentTypeDatabasePostgresql,
+	"ggsa":                         ListDeploymentVersionsDeploymentTypeGgsa,
 }
 
 // GetListDeploymentVersionsDeploymentTypeEnumValues Enumerates the set of values for ListDeploymentVersionsDeploymentTypeEnum
@@ -168,6 +171,7 @@ func GetListDeploymentVersionsDeploymentTypeEnumStringValues() []string {
 		"OGG",
 		"DATABASE_ORACLE",
 		"BIGDATA",
+		"DATABASE_MICROSOFT_SQLSERVER",
 		"DATABASE_MYSQL",
 		"DATABASE_POSTGRESQL",
 		"GGSA",

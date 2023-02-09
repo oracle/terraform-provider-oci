@@ -34,12 +34,12 @@ type UpdateConnectionDetails interface {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	GetDefinedTags() map[string]map[string]interface{}
 
-	// Refers to the customer’s vault OCID.
+	// Refers to the customer's vault OCID.
 	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
 	// to manage secrets contained within this vault.
 	GetVaultId() *string
 
-	// Refers to the customer’s master key OCID.
+	// Refers to the customer's master key OCID.
 	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 	GetKeyId() *string
 
@@ -91,28 +91,16 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 
 	var err error
 	switch m.ConnectionType {
-	case "POSTGRESQL":
-		mm := UpdatePostgresqlConnectionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "ORACLE":
 		mm := UpdateOracleConnectionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "KAFKA_SCHEMA_REGISTRY":
-		mm := UpdateKafkaSchemaRegistryConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "OCI_OBJECT_STORAGE":
 		mm := UpdateOciObjectStorageConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "MYSQL":
-		mm := UpdateMysqlConnectionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "KAFKA":
-		mm := UpdateKafkaConnectionDetails{}
+	case "MONGODB":
+		mm := UpdateMongoDbConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "AZURE_DATA_LAKE_STORAGE":
@@ -121,6 +109,42 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		return mm, err
 	case "GOLDENGATE":
 		mm := UpdateGoldenGateConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "POSTGRESQL":
+		mm := UpdatePostgresqlConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MICROSOFT_SQLSERVER":
+		mm := UpdateMicrosoftSqlserverConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ORACLE_NOSQL":
+		mm := UpdateOracleNosqlConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "KAFKA_SCHEMA_REGISTRY":
+		mm := UpdateKafkaSchemaRegistryConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AMAZON_S3":
+		mm := UpdateAmazonS3ConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "SNOWFLAKE":
+		mm := UpdateSnowflakeConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "HDFS":
+		mm := UpdateHdfsConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MYSQL":
+		mm := UpdateMysqlConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "KAFKA":
+		mm := UpdateKafkaConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "AZURE_SYNAPSE_ANALYTICS":

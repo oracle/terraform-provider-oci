@@ -18,30 +18,33 @@ type DeploymentTypeEnum string
 
 // Set of constants representing the allowable values for DeploymentTypeEnum
 const (
-	DeploymentTypeOgg                DeploymentTypeEnum = "OGG"
-	DeploymentTypeDatabaseOracle     DeploymentTypeEnum = "DATABASE_ORACLE"
-	DeploymentTypeBigdata            DeploymentTypeEnum = "BIGDATA"
-	DeploymentTypeDatabaseMysql      DeploymentTypeEnum = "DATABASE_MYSQL"
-	DeploymentTypeDatabasePostgresql DeploymentTypeEnum = "DATABASE_POSTGRESQL"
-	DeploymentTypeGgsa               DeploymentTypeEnum = "GGSA"
+	DeploymentTypeOgg                        DeploymentTypeEnum = "OGG"
+	DeploymentTypeDatabaseOracle             DeploymentTypeEnum = "DATABASE_ORACLE"
+	DeploymentTypeBigdata                    DeploymentTypeEnum = "BIGDATA"
+	DeploymentTypeDatabaseMicrosoftSqlserver DeploymentTypeEnum = "DATABASE_MICROSOFT_SQLSERVER"
+	DeploymentTypeDatabaseMysql              DeploymentTypeEnum = "DATABASE_MYSQL"
+	DeploymentTypeDatabasePostgresql         DeploymentTypeEnum = "DATABASE_POSTGRESQL"
+	DeploymentTypeGgsa                       DeploymentTypeEnum = "GGSA"
 )
 
 var mappingDeploymentTypeEnum = map[string]DeploymentTypeEnum{
-	"OGG":                 DeploymentTypeOgg,
-	"DATABASE_ORACLE":     DeploymentTypeDatabaseOracle,
-	"BIGDATA":             DeploymentTypeBigdata,
-	"DATABASE_MYSQL":      DeploymentTypeDatabaseMysql,
-	"DATABASE_POSTGRESQL": DeploymentTypeDatabasePostgresql,
-	"GGSA":                DeploymentTypeGgsa,
+	"OGG":                          DeploymentTypeOgg,
+	"DATABASE_ORACLE":              DeploymentTypeDatabaseOracle,
+	"BIGDATA":                      DeploymentTypeBigdata,
+	"DATABASE_MICROSOFT_SQLSERVER": DeploymentTypeDatabaseMicrosoftSqlserver,
+	"DATABASE_MYSQL":               DeploymentTypeDatabaseMysql,
+	"DATABASE_POSTGRESQL":          DeploymentTypeDatabasePostgresql,
+	"GGSA":                         DeploymentTypeGgsa,
 }
 
 var mappingDeploymentTypeEnumLowerCase = map[string]DeploymentTypeEnum{
-	"ogg":                 DeploymentTypeOgg,
-	"database_oracle":     DeploymentTypeDatabaseOracle,
-	"bigdata":             DeploymentTypeBigdata,
-	"database_mysql":      DeploymentTypeDatabaseMysql,
-	"database_postgresql": DeploymentTypeDatabasePostgresql,
-	"ggsa":                DeploymentTypeGgsa,
+	"ogg":                          DeploymentTypeOgg,
+	"database_oracle":              DeploymentTypeDatabaseOracle,
+	"bigdata":                      DeploymentTypeBigdata,
+	"database_microsoft_sqlserver": DeploymentTypeDatabaseMicrosoftSqlserver,
+	"database_mysql":               DeploymentTypeDatabaseMysql,
+	"database_postgresql":          DeploymentTypeDatabasePostgresql,
+	"ggsa":                         DeploymentTypeGgsa,
 }
 
 // GetDeploymentTypeEnumValues Enumerates the set of values for DeploymentTypeEnum
@@ -59,6 +62,7 @@ func GetDeploymentTypeEnumStringValues() []string {
 		"OGG",
 		"DATABASE_ORACLE",
 		"BIGDATA",
+		"DATABASE_MICROSOFT_SQLSERVER",
 		"DATABASE_MYSQL",
 		"DATABASE_POSTGRESQL",
 		"GGSA",

@@ -21,18 +21,18 @@ import (
 	"strings"
 )
 
-// CreateComputeCapacityReportDetails The details for creating a new compute capacity availability report.
+// CreateComputeCapacityReportDetails The data to create a report of available Compute capacity.
 type CreateComputeCapacityReportDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the compartment. This should always be the root
 	// compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The availability domain of this compute capacity report.
+	// The availability domain for the capacity report.
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
-	// The capacity configurations for the capacity report.
+	// Information about the shapes in the capacity report.
 	ShapeAvailabilities []CreateCapacityReportShapeAvailabilityDetails `mandatory:"true" json:"shapeAvailabilities"`
 }
 

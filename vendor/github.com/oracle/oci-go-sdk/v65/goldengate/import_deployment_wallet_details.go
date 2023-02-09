@@ -18,12 +18,12 @@ import (
 // ImportDeploymentWalletDetails Metadata required to import wallet to deployment
 type ImportDeploymentWalletDetails struct {
 
-	// Refers to the customer’s vault OCID.
+	// Refers to the customer's vault OCID.
 	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
 	// to manage secrets contained within this vault.
 	VaultId *string `mandatory:"true" json:"vaultId"`
 
-	// The OCID of the customer’s GoldenGate Service Secret.
+	// The OCID of the customer's GoldenGate Service Secret.
 	// If provided, it references a key that customers will be required to ensure the policies are established
 	// to permit GoldenGate to use this Secret.
 	NewWalletSecretId *string `mandatory:"true" json:"newWalletSecretId"`
@@ -31,7 +31,7 @@ type ImportDeploymentWalletDetails struct {
 	// Name of the secret with which secret is shown in vault
 	WalletBackupSecretName *string `mandatory:"false" json:"walletBackupSecretName"`
 
-	// Refers to the customer’s master key OCID.
+	// Refers to the customer's master key OCID.
 	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 	MasterEncryptionKeyId *string `mandatory:"false" json:"masterEncryptionKeyId"`
 

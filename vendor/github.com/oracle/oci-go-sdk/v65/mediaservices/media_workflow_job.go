@@ -109,6 +109,7 @@ const (
 	MediaWorkflowJobLifecycleStateAccepted   MediaWorkflowJobLifecycleStateEnum = "ACCEPTED"
 	MediaWorkflowJobLifecycleStateInProgress MediaWorkflowJobLifecycleStateEnum = "IN_PROGRESS"
 	MediaWorkflowJobLifecycleStateWaiting    MediaWorkflowJobLifecycleStateEnum = "WAITING"
+	MediaWorkflowJobLifecycleStateRejected   MediaWorkflowJobLifecycleStateEnum = "REJECTED"
 	MediaWorkflowJobLifecycleStateFailed     MediaWorkflowJobLifecycleStateEnum = "FAILED"
 	MediaWorkflowJobLifecycleStateSucceeded  MediaWorkflowJobLifecycleStateEnum = "SUCCEEDED"
 	MediaWorkflowJobLifecycleStateCanceling  MediaWorkflowJobLifecycleStateEnum = "CANCELING"
@@ -119,6 +120,7 @@ var mappingMediaWorkflowJobLifecycleStateEnum = map[string]MediaWorkflowJobLifec
 	"ACCEPTED":    MediaWorkflowJobLifecycleStateAccepted,
 	"IN_PROGRESS": MediaWorkflowJobLifecycleStateInProgress,
 	"WAITING":     MediaWorkflowJobLifecycleStateWaiting,
+	"REJECTED":    MediaWorkflowJobLifecycleStateRejected,
 	"FAILED":      MediaWorkflowJobLifecycleStateFailed,
 	"SUCCEEDED":   MediaWorkflowJobLifecycleStateSucceeded,
 	"CANCELING":   MediaWorkflowJobLifecycleStateCanceling,
@@ -129,6 +131,7 @@ var mappingMediaWorkflowJobLifecycleStateEnumLowerCase = map[string]MediaWorkflo
 	"accepted":    MediaWorkflowJobLifecycleStateAccepted,
 	"in_progress": MediaWorkflowJobLifecycleStateInProgress,
 	"waiting":     MediaWorkflowJobLifecycleStateWaiting,
+	"rejected":    MediaWorkflowJobLifecycleStateRejected,
 	"failed":      MediaWorkflowJobLifecycleStateFailed,
 	"succeeded":   MediaWorkflowJobLifecycleStateSucceeded,
 	"canceling":   MediaWorkflowJobLifecycleStateCanceling,
@@ -150,6 +153,7 @@ func GetMediaWorkflowJobLifecycleStateEnumStringValues() []string {
 		"ACCEPTED",
 		"IN_PROGRESS",
 		"WAITING",
+		"REJECTED",
 		"FAILED",
 		"SUCCEEDED",
 		"CANCELING",

@@ -21,18 +21,15 @@ import (
 	"strings"
 )
 
-// CreateCapacityReportShapeAvailabilityDetails The capacity availability details for the requested shapes.
+// CreateCapacityReportShapeAvailabilityDetails Information about the shapes in a capacity report.
 type CreateCapacityReportShapeAvailabilityDetails struct {
 
-	// The shape for the compute capacity report availability details.
+	// The shape that you want to request a capacity report for. You can enumerate all available shapes by calling
+	// ListShapes.
 	InstanceShape *string `mandatory:"true" json:"instanceShape"`
 
-	// A fault domain is a grouping of hardware and infrastructure within an availability domain.
-	// Each availability domain contains three fault domains. Fault domains let you distribute your
-	// instances so that they are not on the same physical hardware within a single availability domain.
-	// A hardware failure or Compute hardware maintenance that affects one fault domain does not affect
-	// instances in other fault domains.
-	// If you do not specify the fault domain, the capacity report will be applicable to all fault domains.
+	// The fault domain for the capacity report.
+	// If you do not specify a fault domain, the capacity report includes information about all fault domains.
 	FaultDomain *string `mandatory:"false" json:"faultDomain"`
 
 	InstanceShapeConfig *CapacityReportInstanceShapeConfig `mandatory:"false" json:"instanceShapeConfig"`
