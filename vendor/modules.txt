@@ -351,6 +351,7 @@ github.com/oracle/oci-go-sdk/v65/streaming
 github.com/oracle/oci-go-sdk/v65/usage
 github.com/oracle/oci-go-sdk/v65/usageapi
 github.com/oracle/oci-go-sdk/v65/vault
+github.com/oracle/oci-go-sdk/v65/vbsinst
 github.com/oracle/oci-go-sdk/v65/visualbuilder
 github.com/oracle/oci-go-sdk/v65/vnmonitoring
 github.com/oracle/oci-go-sdk/v65/vulnerabilityscanning
