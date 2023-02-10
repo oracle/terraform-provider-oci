@@ -6,7 +6,7 @@ sidebar_current: "docs-oci-datasource-media_services-media_workflow_job_facts"
 description: |-
   Provides the list of Media Workflow Job Facts in Oracle Cloud Infrastructure Media Services service
 ---
-
+> **_NOTE:_** This data source has been deprecated and is no longer supported.
 # Data Source: oci_media_services_media_workflow_job_facts
 This data source provides the list of Media Workflow Job Facts in Oracle Cloud Infrastructure Media Services service.
 

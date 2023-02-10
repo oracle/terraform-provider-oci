@@ -4,9 +4,9 @@
 package media_services
 
 import (
-	"context"
-	"encoding/json"
-	"fmt"
+	//"context"
+	//"encoding/json"
+	//"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_media_services "github.com/oracle/oci-go-sdk/v65/mediaservices"
@@ -16,7 +16,8 @@ import (
 
 func MediaServicesMediaWorkflowJobFactDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularMediaServicesMediaWorkflowJobFact,
+		DeprecationMessage: "This data source has been deprecated and is no longer supported.",
+		Read:               readSingularMediaServicesMediaWorkflowJobFact,
 		Schema: map[string]*schema.Schema{
 			"key": {
 				Type:     schema.TypeString,
@@ -54,7 +55,7 @@ func readSingularMediaServicesMediaWorkflowJobFact(d *schema.ResourceData, m int
 type MediaServicesMediaWorkflowJobFactDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_media_services.MediaServicesClient
-	Res    *oci_media_services.GetMediaWorkflowJobFactResponse
+	//Res    *oci_media_services.GetMediaWorkflowJobFactResponse
 }
 
 func (s *MediaServicesMediaWorkflowJobFactDataSourceCrud) VoidState() {
@@ -62,52 +63,52 @@ func (s *MediaServicesMediaWorkflowJobFactDataSourceCrud) VoidState() {
 }
 
 func (s *MediaServicesMediaWorkflowJobFactDataSourceCrud) Get() error {
-	request := oci_media_services.GetMediaWorkflowJobFactRequest{}
-
-	if key, ok := s.D.GetOkExists("key"); ok {
-		intValue := 0
-		_, _ = fmt.Sscan(key.(string), &intValue)
-		request.Key = &intValue
-	}
-
-	if mediaWorkflowJobId, ok := s.D.GetOkExists("media_workflow_job_id"); ok {
-		tmp := mediaWorkflowJobId.(string)
-		request.MediaWorkflowJobId = &tmp
-	}
-
-	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "media_services")
-	request.RequestMetadata.RetryPolicy.MaximumNumberAttempts = 1
-
-	response, err := s.Client.GetMediaWorkflowJobFact(context.Background(), request)
-	if err != nil && response.RawResponse.StatusCode != 404 {
-		return err
-	}
-
-	s.Res = &response
+	//request := oci_media_services.GetMediaWorkflowJobFactRequest{}
+	//
+	//if key, ok := s.D.GetOkExists("key"); ok {
+	//	intValue := 0
+	//	_, _ = fmt.Sscan(key.(string), &intValue)
+	//	request.Key = &intValue
+	//}
+	//
+	//if mediaWorkflowJobId, ok := s.D.GetOkExists("media_workflow_job_id"); ok {
+	//	tmp := mediaWorkflowJobId.(string)
+	//	request.MediaWorkflowJobId = &tmp
+	//}
+	//
+	//request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "media_services")
+	//request.RequestMetadata.RetryPolicy.MaximumNumberAttempts = 1
+	//
+	//response, err := s.Client.GetMediaWorkflowJobFact(context.Background(), request)
+	//if err != nil && response.RawResponse.StatusCode != 404 {
+	//	return err
+	//}
+	//
+	//s.Res = &response
 	return nil
 }
 
 func (s *MediaServicesMediaWorkflowJobFactDataSourceCrud) SetData() error {
-	if s.Res == nil {
-		return nil
-	}
+	//if s.Res == nil {
+	//	return nil
+	//}
 
 	s.D.SetId(tfresource.GenerateDataSourceHashID("MediaServicesMediaWorkflowJobFactDataSource-", MediaServicesMediaWorkflowJobFactDataSource(), s.D))
 
-	if s.Res.Detail != nil {
-		jsonStr, err := json.Marshal(s.Res.Detail)
-		if err == nil {
-			s.D.Set("detail", string(jsonStr))
-		}
-	}
-
-	if s.Res.Name != nil {
-		s.D.Set("name", *s.Res.Name)
-	}
-
-	if s.Res.Type != nil {
-		s.D.Set("type", *s.Res.Type)
-	}
+	//if s.Res.Detail != nil {
+	//	jsonStr, err := json.Marshal(s.Res.Detail)
+	//	if err == nil {
+	//		s.D.Set("detail", string(jsonStr))
+	//	}
+	//}
+	//
+	//if s.Res.Name != nil {
+	//	s.D.Set("name", *s.Res.Name)
+	//}
+	//
+	//if s.Res.Type != nil {
+	//	s.D.Set("type", *s.Res.Type)
+	//}
 
 	return nil
 }
