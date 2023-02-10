@@ -9,6 +9,8 @@
 // documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
 // Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
+// The required permissions are documented in the
+// Details for the Core Services (https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
 //
 
 package core
@@ -1274,7 +1276,7 @@ func (client BlockstorageClient) deleteBootVolumeBackup(ctx context.Context, req
 	return response, err
 }
 
-// DeleteBootVolumeKmsKey Removes the specified boot volume's assigned Key Management encryption key.
+// DeleteBootVolumeKmsKey Removes the specified boot volume's assigned Vault Service encryption key.
 //
 // See also
 //
@@ -1681,7 +1683,7 @@ func (client BlockstorageClient) deleteVolumeGroupBackup(ctx context.Context, re
 	return response, err
 }
 
-// DeleteVolumeKmsKey Removes the specified volume's assigned Key Management encryption key.
+// DeleteVolumeKmsKey Removes the specified volume's assigned Vault service encryption key.
 //
 // See also
 //
@@ -1909,7 +1911,7 @@ func (client BlockstorageClient) getBootVolumeBackup(ctx context.Context, reques
 	return response, err
 }
 
-// GetBootVolumeKmsKey Gets the Key Management encryption key assigned to the specified boot volume.
+// GetBootVolumeKmsKey Gets the Vault service encryption key assigned to the specified boot volume.
 //
 // See also
 //
@@ -2481,7 +2483,7 @@ func (client BlockstorageClient) getVolumeGroupReplica(ctx context.Context, requ
 	return response, err
 }
 
-// GetVolumeKmsKey Gets the Key Management encryption key assigned to the specified volume.
+// GetVolumeKmsKey Gets the Vault service encryption key assigned to the specified volume.
 //
 // See also
 //
@@ -3223,7 +3225,7 @@ func (client BlockstorageClient) updateBootVolumeBackup(ctx context.Context, req
 	return response, err
 }
 
-// UpdateBootVolumeKmsKey Updates the specified volume with a new Key Management master encryption key.
+// UpdateBootVolumeKmsKey Updates the specified volume with a new Vault service master encryption key.
 //
 // See also
 //

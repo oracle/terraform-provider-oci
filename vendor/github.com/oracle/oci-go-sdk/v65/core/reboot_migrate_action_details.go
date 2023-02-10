@@ -9,6 +9,8 @@
 // documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
 // Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
+// The required permissions are documented in the
+// Details for the Core Services (https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
 //
 
 package core
@@ -20,16 +22,16 @@ import (
 	"strings"
 )
 
-// RebootMigrateActionDetails Parameters for the rebootMigrate InstanceAction.
+// RebootMigrateActionDetails Parameters for the `rebootMigrate` InstanceAction.
 type RebootMigrateActionDetails struct {
 
 	// For bare metal instances that have local storage, this must be set to true to verify that the local storage
 	// will be deleted during the migration.  For instances without, this parameter has no effect.
 	DeleteLocalStorage *bool `mandatory:"false" json:"deleteLocalStorage"`
 
-	// If present, this parameter will set (or re-set) the scheduled time that the instance will be reboot
+	// If present, this parameter will set (or reset) the scheduled time that the instance will be reboot
 	// migrated in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).  This will also change
-	// the timeRebootMigrationDue field on the instance.
+	// the `timeMaintenanceRebootDue` field on the instance.
 	// If not present, the reboot migration will be triggered immediately.
 	TimeScheduled *common.SDKTime `mandatory:"false" json:"timeScheduled"`
 }

@@ -9,6 +9,8 @@
 // documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
 // Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
+// The required permissions are documented in the
+// Details for the Core Services (https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
 //
 
 package core
@@ -19,10 +21,10 @@ import (
 	"strings"
 )
 
-// BootVolumeKmsKey The Key Management master encryption key associated with this volume.
+// BootVolumeKmsKey The Vault service master encryption key associated with this volume.
 type BootVolumeKmsKey struct {
 
-	// The OCID of the Key Management key assigned to this volume. If the volume is not using Key Management, then the `kmsKeyId` will be a null string.
+	// The OCID of the Vault service key assigned to this volume. If the volume is not using Vault service, then the `kmsKeyId` will be a null string.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 }
 
