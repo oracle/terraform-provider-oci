@@ -205,6 +205,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `streaming` - Discovers streaming resources within the specified compartment
     * `usage_proxy` - Discovers usage_proxy resources within the specified compartment
     * `vault` - Discovers vault resources within the specified compartment
+    * `vbs_inst` - Discovers vbs_inst resources across the entire tenancy
     * `visual_builder` - Discovers visual_builder resources within the specified compartment
     * `vn_monitoring` - Discovers vn_monitoring resources within the specified compartment
     * `vulnerability_scanning` - Discovers vulnerability_scanning resources within the specified compartment
@@ -961,6 +962,10 @@ usage_proxy
 vault
     
 * oci\_vault\_secret
+
+vbs_inst
+    
+* oci\_vbs\_inst\_vbs\_instance
 
 visual_builder
     

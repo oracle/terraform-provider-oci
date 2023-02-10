@@ -102,6 +102,7 @@ import (
 	tf_streaming "github.com/oracle/terraform-provider-oci/internal/service/streaming"
 	tf_usage_proxy "github.com/oracle/terraform-provider-oci/internal/service/usage_proxy"
 	tf_vault "github.com/oracle/terraform-provider-oci/internal/service/vault"
+	tf_vbs_inst "github.com/oracle/terraform-provider-oci/internal/service/vbs_inst"
 	tf_visual_builder "github.com/oracle/terraform-provider-oci/internal/service/visual_builder"
 	tf_vn_monitoring "github.com/oracle/terraform-provider-oci/internal/service/vn_monitoring"
 	tf_vulnerability_scanning "github.com/oracle/terraform-provider-oci/internal/service/vulnerability_scanning"
@@ -209,6 +210,7 @@ func init() {
 	tf_streaming.RegisterResource()
 	tf_usage_proxy.RegisterResource()
 	tf_vault.RegisterResource()
+	tf_vbs_inst.RegisterResource()
 	tf_visual_builder.RegisterResource()
 	tf_vn_monitoring.RegisterResource()
 	tf_vulnerability_scanning.RegisterResource()
