@@ -59,6 +59,7 @@ The following attributes are exported:
 * `data_storage_size_in_gb` - The total data storage allocated in GBs.
 * `data_storage_size_in_tbs` - The total data storage allocated in TBs
 * `db_node_storage_size_in_gbs` - The local node storage allocated in GBs.
+* `db_servers` - The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Db servers.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-friendly name for the Autonomous VM cluster. The name does not need to be unique.
 * `exadata_infrastructure_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
@@ -82,6 +83,7 @@ The following attributes are exported:
 * `memory_per_oracle_compute_unit_in_gbs` - The amount of memory (in GBs) enabled per each OCPU core.
 * `memory_size_in_gbs` - The memory allocated in GBs.
 * `next_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next maintenance run.
+* `node_count` - The number of nodes in the Autonomous VM Cluster. 
 * `ocpus_enabled` - The number of enabled OCPU cores.
 * `reclaimable_cpus` - CPU cores that continue to be included in the count of OCPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available OCPUs at its parent AVMC level by restarting the Autonomous Container Database.
 * `scan_listener_port_non_tls` - The SCAN Listener Non TLS port number. Default value is 1521.

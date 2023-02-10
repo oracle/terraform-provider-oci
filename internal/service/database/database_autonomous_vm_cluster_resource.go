@@ -66,6 +66,15 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"db_servers": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -358,6 +367,10 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"node_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"ocpus_enabled": {
 				Type:     schema.TypeFloat,
 				Computed: true,
@@ -480,6 +493,19 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) Create() error {
 	if cpuCoreCountPerNode, ok := s.D.GetOkExists("cpu_core_count_per_node"); ok {
 		tmp := cpuCoreCountPerNode.(int)
 		request.CpuCoreCountPerNode = &tmp
+	}
+
+	if dbServers, ok := s.D.GetOkExists("db_servers"); ok {
+		interfaces := dbServers.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("db_servers") {
+			request.DbServers = tmp
+		}
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -699,6 +725,8 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) SetData() error {
 		s.D.Set("db_node_storage_size_in_gbs", *s.Res.DbNodeStorageSizeInGBs)
 	}
 
+	s.D.Set("db_servers", s.Res.DbServers)
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
@@ -747,6 +775,10 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) SetData() error {
 
 	if s.Res.NextMaintenanceRunId != nil {
 		s.D.Set("next_maintenance_run_id", *s.Res.NextMaintenanceRunId)
+	}
+
+	if s.Res.NodeCount != nil {
+		s.D.Set("node_count", *s.Res.NodeCount)
 	}
 
 	if s.Res.OcpusEnabled != nil {

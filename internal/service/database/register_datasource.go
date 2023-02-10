@@ -30,6 +30,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_database_autonomous_exadata_infrastructure_shapes", DatabaseAutonomousExadataInfrastructureShapesDataSource())
 	tfresource.RegisterDatasource("oci_database_autonomous_exadata_infrastructures", DatabaseAutonomousExadataInfrastructuresDataSource())
 	tfresource.RegisterDatasource("oci_database_autonomous_patch", DatabaseAutonomousPatchDataSource())
+	tfresource.RegisterDatasource("oci_database_autonomous_virtual_machine", DatabaseAutonomousVirtualMachineDataSource())
+	tfresource.RegisterDatasource("oci_database_autonomous_virtual_machines", DatabaseAutonomousVirtualMachinesDataSource())
 	tfresource.RegisterDatasource("oci_database_autonomous_vm_cluster", DatabaseAutonomousVmClusterDataSource())
 	tfresource.RegisterDatasource("oci_database_autonomous_vm_clusters", DatabaseAutonomousVmClustersDataSource())
 	tfresource.RegisterDatasource("oci_database_backup_destination", DatabaseBackupDestinationDataSource())
