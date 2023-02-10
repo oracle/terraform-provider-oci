@@ -161,6 +161,8 @@ func (s *DatabaseAutonomousVmClustersDataSourceCrud) SetData() error {
 			autonomousVmCluster["db_node_storage_size_in_gbs"] = *r.DbNodeStorageSizeInGBs
 		}
 
+		autonomousVmCluster["db_servers"] = r.DbServers
+
 		if r.DefinedTags != nil {
 			autonomousVmCluster["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
 		}
@@ -213,6 +215,10 @@ func (s *DatabaseAutonomousVmClustersDataSourceCrud) SetData() error {
 
 		if r.NextMaintenanceRunId != nil {
 			autonomousVmCluster["next_maintenance_run_id"] = *r.NextMaintenanceRunId
+		}
+
+		if r.NodeCount != nil {
+			autonomousVmCluster["node_count"] = *r.NodeCount
 		}
 
 		if r.OcpusEnabled != nil {

@@ -44,6 +44,20 @@ func DatabaseDbServersDataSource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"autonomous_virtual_machine_ids": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"autonomous_vm_cluster_ids": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"compartment_id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -236,6 +250,10 @@ func (s *DatabaseDbServersDataSourceCrud) SetData() error {
 			"compartment_id":            *r.CompartmentId,
 			"exadata_infrastructure_id": *r.ExadataInfrastructureId,
 		}
+
+		dbServer["autonomous_virtual_machine_ids"] = r.AutonomousVirtualMachineIds
+
+		dbServer["autonomous_vm_cluster_ids"] = r.AutonomousVmClusterIds
 
 		if r.CpuCoreCount != nil {
 			dbServer["cpu_core_count"] = *r.CpuCoreCount
