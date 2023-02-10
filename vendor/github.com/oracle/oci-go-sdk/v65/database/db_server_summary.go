@@ -42,6 +42,12 @@ type DbServerSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VM Clusters associated with the Db server.
 	VmClusterIds []string `mandatory:"false" json:"vmClusterIds"`
 
+	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Autonomous VM Clusters associated with the Db server.
+	AutonomousVmClusterIds []string `mandatory:"false" json:"autonomousVmClusterIds"`
+
+	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Autonomous Virtual Machines associated with the Db server.
+	AutonomousVirtualMachineIds []string `mandatory:"false" json:"autonomousVirtualMachineIds"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Db nodes associated with the Db server.
 	DbNodeIds []string `mandatory:"false" json:"dbNodeIds"`
 

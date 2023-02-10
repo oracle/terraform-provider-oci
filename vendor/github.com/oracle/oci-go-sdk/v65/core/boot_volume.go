@@ -9,6 +9,8 @@
 // documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
 // Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
+// The required permissions are documented in the
+// Details for the Core Services (https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
 //
 
 package core
@@ -93,7 +95,7 @@ type BootVolume struct {
 	// The OCID of the source volume group.
 	VolumeGroupId *string `mandatory:"false" json:"volumeGroupId"`
 
-	// The OCID of the Key Management master encryption key assigned to the boot volume.
+	// The OCID of the Vault service master encryption key assigned to the boot volume.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
 	// Specifies whether the auto-tune performance is enabled for this boot volume. This field is deprecated.

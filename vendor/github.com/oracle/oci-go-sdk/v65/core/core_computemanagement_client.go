@@ -9,6 +9,8 @@
 // documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
 // Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
+// The required permissions are documented in the
+// Details for the Core Services (https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
 //
 
 package core
@@ -547,7 +549,7 @@ func (client ComputeManagementClient) createInstanceConfiguration(ctx context.Co
 	return response, err
 }
 
-// CreateInstancePool Create an instance pool.
+// CreateInstancePool Creates an instance pool.
 //
 // See also
 //
@@ -1075,10 +1077,10 @@ func (client ComputeManagementClient) getInstancePoolLoadBalancerAttachment(ctx 
 	return response, err
 }
 
-// LaunchInstanceConfiguration Launches an instance from an instance configuration.
+// LaunchInstanceConfiguration Creates an instance from an instance configuration.
 // If the instance configuration does not include all of the parameters that are
-// required to launch an instance, such as the availability domain and subnet ID, you must
-// provide these parameters when you launch an instance from the instance configuration.
+// required to create an instance, such as the availability domain and subnet ID, you must
+// provide these parameters when you create an instance from the instance configuration.
 // For more information, see the InstanceConfiguration
 // resource.
 //

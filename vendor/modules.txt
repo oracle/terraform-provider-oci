@@ -248,7 +248,7 @@ github.com/mitchellh/reflectwalk
 # github.com/oklog/run v1.0.0
 ## explicit
 github.com/oklog/run
-# github.com/oracle/oci-go-sdk/v65 v65.29.0
+# github.com/oracle/oci-go-sdk/v65 v65.29.0 => ./vendor/github.com/oracle/oci-go-sdk
 ## explicit; go 1.13
 github.com/oracle/oci-go-sdk/v65/adm
 github.com/oracle/oci-go-sdk/v65/aianomalydetection
@@ -338,6 +338,7 @@ github.com/oracle/oci-go-sdk/v65/osuborganizationsubscription
 github.com/oracle/oci-go-sdk/v65/osubsubscription
 github.com/oracle/oci-go-sdk/v65/osubusage
 github.com/oracle/oci-go-sdk/v65/queue
+github.com/oracle/oci-go-sdk/v65/recovery
 github.com/oracle/oci-go-sdk/v65/resourcemanager
 github.com/oracle/oci-go-sdk/v65/sch
 github.com/oracle/oci-go-sdk/v65/secrets
@@ -349,6 +350,7 @@ github.com/oracle/oci-go-sdk/v65/streaming
 github.com/oracle/oci-go-sdk/v65/usage
 github.com/oracle/oci-go-sdk/v65/usageapi
 github.com/oracle/oci-go-sdk/v65/vault
+github.com/oracle/oci-go-sdk/v65/vbsinst
 github.com/oracle/oci-go-sdk/v65/visualbuilder
 github.com/oracle/oci-go-sdk/v65/vnmonitoring
 github.com/oracle/oci-go-sdk/v65/vulnerabilityscanning
