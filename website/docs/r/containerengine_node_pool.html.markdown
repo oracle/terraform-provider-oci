@@ -17,75 +17,146 @@ Create a new node pool.
 ```hcl
 resource "oci_containerengine_node_pool" "test_node_pool" {
 	#Required
-	cluster_id = oci_containerengine_cluster.test_cluster.id
-	compartment_id = var.compartment_id
-	name = var.node_pool_name
-	node_shape = var.node_pool_node_shape
+	cluster_id = "ocid1.cluster.oc1.phx.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+
+	#Required
+	compartment_id = "ocid1.compartment.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+
+	#Required
+	name = "example_name"
+
+	#Required
+	node_shape = "VM.Standard.E4.Flex"
 
 	#Optional
-	defined_tags = {"Operations.CostCenter"= "42"}
-	freeform_tags = {"Department"= "Finance"}
-	initial_node_labels {
-
-		#Optional
-		key = var.node_pool_initial_node_labels_key
-		value = var.node_pool_initial_node_labels_value
+	defined_tags = {
+		"tag_key" = "tag_key_value"
+		"tag_key.subtag_key" = "subtag_key_value"
 	}
-	kubernetes_version = var.node_pool_kubernetes_version
+
+	#Optional
+	freeform_tags = {
+		"tag_key" = "tag_key_value"
+	}
+
+	#Optional
+	kubernetes_version = "v1.25.4"
+
+	#Optional
+	initial_node_labels {
+    key = "key_name"
+    value = "key_value"
+  }
+
+	#Required
 	node_config_details {
+
 		#Required
 		placement_configs {
+
 			#Required
-			availability_domain = var.node_pool_node_config_details_placement_configs_availability_domain
-			subnet_id = oci_core_subnet.test_subnet.id
+			availability_domain = ["aaa:PHX-AD-1"]
+			subnet_id = "ocid1.subnet.oc1.phx.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 
 			#Optional
-			capacity_reservation_id = oci_containerengine_capacity_reservation.test_capacity_reservation.id
-			fault_domains = var.node_pool_node_config_details_placement_configs_fault_domains
+			capacity_reservation_id = "ocid1.capacityreservation.oc1.phx.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+			fault_domains = [
+				"FAULT-DOMAIN-1",
+				"FAULT-DOMAIN-2",
+				"FAULT-DOMAIN-3",
+			]
 		}
-		size = var.node_pool_node_config_details_size
+
+		#Required
+		size = 13
 
 		#Optional
-		is_pv_encryption_in_transit_enabled = var.node_pool_node_config_details_is_pv_encryption_in_transit_enabled
-		kms_key_id = oci_kms_key.test_key.id
+		is_pv_encryption_in_transit_enabled = false
+		kms_key_id = "ocid1.key.oc1.phx.aaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+
+		#Optional
 		node_pool_pod_network_option_details {
+
 			#Required
-			cni_type = var.node_pool_node_config_details_node_pool_pod_network_option_details_cni_type
+			cni_type = "OCI_VCN_IP_NATIVE"
 
 			#Optional
-			max_pods_per_node = var.node_pool_node_config_details_node_pool_pod_network_option_details_max_pods_per_node
-			pod_nsg_ids = var.node_pool_node_config_details_node_pool_pod_network_option_details_pod_nsg_ids
-			pod_subnet_ids = var.node_pool_node_config_details_node_pool_pod_network_option_details_pod_subnet_ids
+			max_pods_per_node = 30
+			pod_nsg_ids = [
+				"ocid1.networksecuritygroup.oc1.phx.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+			]
+			pod_subnet_ids = [
+				"ocid1.subnet.oc1.phx.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+			]
 		}
-		defined_tags = {"Operations.CostCenter"= "42"}
-		freeform_tags = {"Department"= "Finance"}
-		nsg_ids = var.node_pool_node_config_details_nsg_ids
+
+		#Optional
+		defined_tags = {
+			"tag_key" = "tag_key_value"
+			"tag_key.subtag_key" = "subtag_key_value"
+		}
+
+		#Optional
+		freeform_tags = {
+			"tag_key" = "tag_key_value"
+		}
+
+		#Optional
+		nsg_ids = [
+			"ocid1.networksecuritygroup.oc1.phx.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+		]
 	}
+
+	#Optional
 	node_eviction_node_pool_settings {
 
 		#Optional
-		eviction_grace_duration = var.node_pool_node_eviction_node_pool_settings_eviction_grace_duration
-		is_force_delete_after_grace_duration = var.node_pool_node_eviction_node_pool_settings_is_force_delete_after_grace_duration
+		eviction_grace_duration = "PT60M"
+		is_force_delete_after_grace_duration = false
 	}
-	node_image_name = oci_core_image.test_image.name
-	node_metadata = var.node_pool_node_metadata
+
+	#Optional
+	node_metadata = {
+		# cloud-init script file
+		user_data = base64encode(<<EOF
+#!/bin/bash
+
+# Run the default start-up script
+curl \
+    --fail -H "Authorization: Bearer Oracle" \
+    -L0 http://169.254.169.254/opc/v2/instance/metadata/oke_init_script \
+    | base64 --decode > /var/run/oke-init.sh
+bash /var/run/oke-init.sh
+
+# Expand the root filesystem of the instance to its configured size.
+sudo /usr/libexec/oci-growfs -y
+EOF
+		)
+	}
+
+	#Optional
 	node_shape_config {
 
 		#Optional
-		memory_in_gbs = var.node_pool_node_shape_config_memory_in_gbs
-		ocpus = var.node_pool_node_shape_config_ocpus
+		memory_in_gbs = 16
+		ocpus = 1
 	}
+
+	#Required
 	node_source_details {
+
 		#Required
-		image_id = oci_core_image.test_image.id
-		source_type = var.node_pool_node_source_details_source_type
+		image_id = "IMAGE"
+		source_type = "ocid1.image.oc1.phx.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 
 		#Optional
-		boot_volume_size_in_gbs = var.node_pool_node_source_details_boot_volume_size_in_gbs
+		boot_volume_size_in_gbs = 50
 	}
-	quantity_per_subnet = var.node_pool_quantity_per_subnet
-	ssh_public_key = var.node_pool_ssh_public_key
-	subnet_ids = var.node_pool_subnet_ids
+
+	#Optional
+	ssh_public_key = <<EOF
+example for SSH public key as string
+EOF
 }
 ```
 
@@ -132,10 +203,10 @@ The following arguments are supported:
 	* `ocpus` - (Optional) (Updatable) The total number of OCPUs available to each node in the node pool. See [here](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Shape/) for details. 
 * `node_source_details` - (Optional) (Updatable) Specify the source to use to launch nodes in the node pool. Currently, image is the only supported source. 
 	* `boot_volume_size_in_gbs` - (Optional) (Updatable) The size of the boot volume in GBs. Minimum value is 50 GB. See [here](https://docs.cloud.oracle.com/en-us/iaas/Content/Block/Concepts/bootvolumes.htm) for max custom boot volume sizing and OS-specific requirements.
-	* `image_id` - (Required) (Updatable) The OCID of the image used to boot the node.
-	* `source_type` - (Required) (Updatable) The source type for the node. Use `IMAGE` when specifying an OCID of an image. 
+	* `image_id` - (Required) (Updatable) The OCID of the image used to boot the node. You can use [custom image](https://docs.oracle.com/en-us/iaas/Content/Compute/Tasks/managingcustomimages.htm) or [OCI image](https://docs.oracle.com/en-us/iaas/images/).
+	* `source_type` - (Required) (Updatable) The source type for the node. Use `IMAGE` when specifying an OCID of an image.
 * `quantity_per_subnet` - (Optional) (Updatable) Optional, default to 1. The number of nodes to create in each subnet specified in subnetIds property. When used, subnetIds is required. This property is deprecated, use nodeConfigDetails instead. 
-* `ssh_public_key` - (Optional) (Updatable) The SSH public key on each node in the node pool on launch.
+* `ssh_public_key` - (Optional) (Updatable) The SSH public key content (string) that will be added on each node in the node pool on launch.
 * `subnet_ids` - (Optional) (Updatable) The OCIDs of the subnets in which to place nodes for this node pool. When used, quantityPerSubnet can be provided. This property is deprecated, use nodeConfigDetails. Exactly one of the subnetIds or nodeConfigDetails properties must be specified. 
 
 
