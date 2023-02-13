@@ -156,6 +156,73 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 						},
 
 						// Optional
+						"environment_configuration_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"environment_configuration_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"DEFAULT",
+											"OCIR_CONTAINER",
+										}, true),
+									},
+
+									// Optional
+									"cmd": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"entrypoint": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"environment_variables": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"health_check_port": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"image": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"image_digest": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"server_port": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 
 						// Computed
 					},
@@ -1028,6 +1095,56 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToModelDeploymentConfigurati
 	switch strings.ToLower(deploymentType) {
 	case strings.ToLower("SINGLE_MODEL"):
 		details := oci_datascience.UpdateSingleModelDeploymentConfigurationDetails{}
+		if environmentConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "environment_configuration_details")); ok {
+			if tmpList := environmentConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "environment_configuration_details"), 0)
+				tmp, err := s.mapToUpdateModelDeploymentEnvironmentConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert environment_configuration_details, encountered error: %v", err)
+				}
+				details.EnvironmentConfigurationDetails = tmp
+			}
+		}
+		if modelConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_configuration_details")); ok {
+			if tmpList := modelConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "model_configuration_details"), 0)
+				tmp, err := s.mapToUpdateModelConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert model_configuration_details, encountered error: %v", err)
+				}
+				details.ModelConfigurationDetails = &tmp
+			}
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown deployment_type '%v' was specified", deploymentType)
+	}
+	return baseObject, nil
+}
+
+func (s *DatascienceModelDeploymentResourceCrud) mapToUpdateModelDeploymentConfigurationDetails(fieldKeyFormat string) (oci_datascience.UpdateModelDeploymentConfigurationDetails, error) {
+	var baseObject oci_datascience.UpdateModelDeploymentConfigurationDetails
+	//discriminator
+	deploymentTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "deployment_type"))
+	var deploymentType string
+	if ok {
+		deploymentType = deploymentTypeRaw.(string)
+	} else {
+		deploymentType = "" // default value
+	}
+	switch strings.ToLower(deploymentType) {
+	case strings.ToLower("SINGLE_MODEL"):
+		details := oci_datascience.UpdateSingleModelDeploymentConfigurationDetails{}
+		if environmentConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "environment_configuration_details")); ok {
+			if tmpList := environmentConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "environment_configuration_details"), 0)
+				tmp, err := s.mapToUpdateModelDeploymentEnvironmentConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert environment_configuration_details, encountered error: %v", err)
+				}
+				details.EnvironmentConfigurationDetails = tmp
+			}
+		}
 		if modelConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_configuration_details")); ok {
 			if tmpList := modelConfigurationDetails.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "model_configuration_details"), 0)
@@ -1051,11 +1168,200 @@ func ModelDeploymentConfigurationDetailsToMap(obj *oci_datascience.ModelDeployme
 	case oci_datascience.SingleModelDeploymentConfigurationDetails:
 		result["deployment_type"] = "SINGLE_MODEL"
 
+		if v.EnvironmentConfigurationDetails != nil {
+			environmentConfigurationDetailsArray := []interface{}{}
+			if environmentConfigurationDetailsMap := ModelDeploymentEnvironmentConfigurationDetailsToMap(&v.EnvironmentConfigurationDetails); environmentConfigurationDetailsMap != nil {
+				environmentConfigurationDetailsArray = append(environmentConfigurationDetailsArray, environmentConfigurationDetailsMap)
+			}
+			result["environment_configuration_details"] = environmentConfigurationDetailsArray
+		}
+
 		if v.ModelConfigurationDetails != nil {
 			result["model_configuration_details"] = []interface{}{UpdateModelConfigurationDetailsToMap(v.ModelConfigurationDetails)}
 		}
 	default:
 		log.Printf("[WARN] Received 'deployment_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *DatascienceModelDeploymentResourceCrud) mapToModelDeploymentEnvironmentConfigurationDetails(fieldKeyFormat string) (oci_datascience.ModelDeploymentEnvironmentConfigurationDetails, error) {
+	var baseObject oci_datascience.ModelDeploymentEnvironmentConfigurationDetails
+	//discriminator
+	environmentConfigurationTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "environment_configuration_type"))
+	var environmentConfigurationType string
+	if ok {
+		environmentConfigurationType = environmentConfigurationTypeRaw.(string)
+	} else {
+		environmentConfigurationType = "" // default value
+	}
+	switch strings.ToLower(environmentConfigurationType) {
+	case strings.ToLower("DEFAULT"):
+		details := oci_datascience.UpdateDefaultModelDeploymentEnvironmentConfigurationDetails{}
+		if environmentVariables, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "environment_variables")); ok {
+			details.EnvironmentVariables = tfresource.ObjectMapToStringMap(environmentVariables.(map[string]interface{}))
+		}
+		baseObject = details
+	case strings.ToLower("OCIR_CONTAINER"):
+		details := oci_datascience.UpdateOcirModelDeploymentEnvironmentConfigurationDetails{}
+		if cmd, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cmd")); ok {
+			interfaces := cmd.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "cmd")) {
+				details.Cmd = tmp
+			}
+		}
+		if entrypoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "entrypoint")); ok {
+			interfaces := entrypoint.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "entrypoint")) {
+				details.Entrypoint = tmp
+			}
+		}
+		if environmentVariables, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "environment_variables")); ok {
+			details.EnvironmentVariables = tfresource.ObjectMapToStringMap(environmentVariables.(map[string]interface{}))
+		}
+		if healthCheckPort, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "health_check_port")); ok {
+			tmp := healthCheckPort.(int)
+			details.HealthCheckPort = &tmp
+		}
+		if image, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image")); ok {
+			tmp := image.(string)
+			details.Image = &tmp
+		}
+		if imageDigest, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image_digest")); ok {
+			tmp := imageDigest.(string)
+			details.ImageDigest = &tmp
+		}
+		if serverPort, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "server_port")); ok {
+			tmp := serverPort.(int)
+			details.ServerPort = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown environment_configuration_type '%v' was specified", environmentConfigurationType)
+	}
+	return baseObject, nil
+}
+
+func (s *DatascienceModelDeploymentResourceCrud) mapToUpdateModelDeploymentEnvironmentConfigurationDetails(fieldKeyFormat string) (oci_datascience.UpdateModelDeploymentEnvironmentConfigurationDetails, error) {
+	var baseObject oci_datascience.UpdateModelDeploymentEnvironmentConfigurationDetails
+	//discriminator
+	environmentConfigurationTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "environment_configuration_type"))
+	var environmentConfigurationType string
+	if ok {
+		environmentConfigurationType = environmentConfigurationTypeRaw.(string)
+	} else {
+		environmentConfigurationType = "" // default value
+	}
+	switch strings.ToLower(environmentConfigurationType) {
+	case strings.ToLower("DEFAULT"):
+		details := oci_datascience.UpdateDefaultModelDeploymentEnvironmentConfigurationDetails{}
+		if environmentVariables, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "environment_variables")); ok {
+			details.EnvironmentVariables = tfresource.ObjectMapToStringMap(environmentVariables.(map[string]interface{}))
+		}
+		baseObject = details
+	case strings.ToLower("OCIR_CONTAINER"):
+		details := oci_datascience.UpdateOcirModelDeploymentEnvironmentConfigurationDetails{}
+		if cmd, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cmd")); ok {
+			interfaces := cmd.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "cmd")) {
+				details.Cmd = tmp
+			}
+		}
+		if entrypoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "entrypoint")); ok {
+			interfaces := entrypoint.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "entrypoint")) {
+				details.Entrypoint = tmp
+			}
+		}
+		if environmentVariables, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "environment_variables")); ok {
+			details.EnvironmentVariables = tfresource.ObjectMapToStringMap(environmentVariables.(map[string]interface{}))
+		}
+		if healthCheckPort, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "health_check_port")); ok {
+			tmp := healthCheckPort.(int)
+			details.HealthCheckPort = &tmp
+		}
+		if image, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image")); ok {
+			tmp := image.(string)
+			details.Image = &tmp
+		}
+		if imageDigest, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image_digest")); ok {
+			tmp := imageDigest.(string)
+			details.ImageDigest = &tmp
+		}
+		if serverPort, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "server_port")); ok {
+			tmp := serverPort.(int)
+			details.ServerPort = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown environment_configuration_type '%v' was specified", environmentConfigurationType)
+	}
+	return baseObject, nil
+}
+
+func ModelDeploymentEnvironmentConfigurationDetailsToMap(obj *oci_datascience.ModelDeploymentEnvironmentConfigurationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_datascience.DefaultModelDeploymentEnvironmentConfigurationDetails:
+		result["environment_configuration_type"] = "DEFAULT"
+
+		result["environment_variables"] = v.EnvironmentVariables
+		result["environment_variables"] = v.EnvironmentVariables
+	case oci_datascience.OcirModelDeploymentEnvironmentConfigurationDetails:
+		result["environment_configuration_type"] = "OCIR_CONTAINER"
+
+		result["cmd"] = v.Cmd
+		result["cmd"] = v.Cmd
+
+		result["entrypoint"] = v.Entrypoint
+		result["entrypoint"] = v.Entrypoint
+
+		result["environment_variables"] = v.EnvironmentVariables
+		result["environment_variables"] = v.EnvironmentVariables
+
+		if v.HealthCheckPort != nil {
+			result["health_check_port"] = int(*v.HealthCheckPort)
+		}
+
+		if v.Image != nil {
+			result["image"] = string(*v.Image)
+		}
+
+		if v.ImageDigest != nil {
+			result["image_digest"] = string(*v.ImageDigest)
+		}
+
+		if v.ServerPort != nil {
+			result["server_port"] = int(*v.ServerPort)
+		}
+	default:
+		log.Printf("[WARN] Received 'environment_configuration_type' of unknown type %v", *obj)
 		return nil
 	}
 
@@ -1198,6 +1504,49 @@ func UpdateModelConfigurationDetailsToMap(obj *oci_datascience.ModelConfiguratio
 			scalingPolicyArray = append(scalingPolicyArray, scalingPolicyMap)
 		}
 		result["scaling_policy"] = scalingPolicyArray
+	}
+
+	return result
+}
+
+func UpdateModelDeploymentEnvironmentConfigurationDetailsToMap(obj *oci_datascience.UpdateModelDeploymentEnvironmentConfigurationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_datascience.UpdateDefaultModelDeploymentEnvironmentConfigurationDetails:
+		result["environment_configuration_type"] = "DEFAULT"
+
+		result["environment_variables"] = v.EnvironmentVariables
+		result["environment_variables"] = v.EnvironmentVariables
+	case oci_datascience.UpdateOcirModelDeploymentEnvironmentConfigurationDetails:
+		result["environment_configuration_type"] = "OCIR_CONTAINER"
+
+		result["cmd"] = v.Cmd
+		result["cmd"] = v.Cmd
+
+		result["entrypoint"] = v.Entrypoint
+		result["entrypoint"] = v.Entrypoint
+
+		result["environment_variables"] = v.EnvironmentVariables
+		result["environment_variables"] = v.EnvironmentVariables
+
+		if v.HealthCheckPort != nil {
+			result["health_check_port"] = int(*v.HealthCheckPort)
+		}
+
+		if v.Image != nil {
+			result["image"] = string(*v.Image)
+		}
+
+		if v.ImageDigest != nil {
+			result["image_digest"] = string(*v.ImageDigest)
+		}
+
+		if v.ServerPort != nil {
+			result["server_port"] = int(*v.ServerPort)
+		}
+	default:
+		log.Printf("[WARN] Received 'environment_configuration_type' of unknown type %v", *obj)
+		return nil
 	}
 
 	return result
