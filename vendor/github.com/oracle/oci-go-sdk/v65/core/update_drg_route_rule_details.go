@@ -9,6 +9,8 @@
 // documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
 // Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
+// The required permissions are documented in the
+// Details for the Core Services (https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
 //
 
 package core
@@ -31,7 +33,7 @@ type UpdateDrgRouteRuleDetails struct {
 	//   or `2001:0db8:0123:45::/56`.
 	Destination *string `mandatory:"false" json:"destination"`
 
-	// Type of destination for the rule. Required if `direction` = `EGRESS`.
+	// Type of destination for the rule.
 	// Allowed values:
 	//   * `CIDR_BLOCK`: If the rule's `destination` is an IP address range in CIDR notation.
 	DestinationType UpdateDrgRouteRuleDetailsDestinationTypeEnum `mandatory:"false" json:"destinationType,omitempty"`

@@ -47,21 +47,25 @@ var (
 	}
 
 	MarketplaceAcceptedAgreementRepresentation = map[string]interface{}{
-		"agreement_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_marketplace_listing_package_agreement.test_listing_package_agreement.agreement_id}`},
+		"agreement_id":    acctest.Representation{RepType: acctest.Required, Create: `${data.oci_marketplace_listing_package_agreement.test_listing_package_agreement.agreement_id}`},
 		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"listing_id":      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_marketplace_listing.test_listing.id}`},
 		"package_version": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_marketplace_listing.test_listing.default_package_version}`},
-		"defined_tags":    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":    acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"signature":       acctest.Representation{RepType: acctest.Required, Create: `${oci_marketplace_listing_package_agreement.test_listing_package_agreement.signature}`},
+		"signature":       acctest.Representation{RepType: acctest.Required, Create: `${data.oci_marketplace_listing_package_agreement.test_listing_package_agreement.signature}`},
+		"lifecycle":       acctest.RepresentationGroup{RepType: acctest.Required, Group: MarketplaceAcceptedAgreementIgnoreChangesRepresentation},
+	}
+
+	MarketplaceAcceptedAgreementIgnoreChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`signature`}},
 	}
 
 	MarketplaceAcceptedAgreementResourceDependencies = DefinedTagsDependencies +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listings", "test_listings", acctest.Required, acctest.Create, MarketplaceMarketplaceListingDataSourceRepresentation) +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listing", "test_listing", acctest.Required, acctest.Create, MarketplaceMarketplaceListingSingularDataSourceRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listing_package_agreements", "test_listing_package_agreements", acctest.Required, acctest.Create, MarketplaceMarketplaceListingPackageAgreementDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_marketplace_listing_package_agreement", "test_listing_package_agreement", acctest.Required, acctest.Create, MarketplaceListingPackageAgreementManagementRepresentation)
+		acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listing_package_agreements", "test_listing_package_agreements", acctest.Required, acctest.Create, MarketplaceMarketplaceListingPackageAgreementsDataSourceRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listing_package_agreement", "test_listing_package_agreement", acctest.Required, acctest.Create, MarketplaceMarketplaceListingPackageAgreementDataSourceRepresentation)
 )
 
 // issue-routing-tag: marketplace/default

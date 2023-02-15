@@ -15,14 +15,14 @@ import (
 )
 
 var (
-	MarketplaceListingPackageAgreementManagementRepresentation = map[string]interface{}{
+	MarketplaceMarketplaceListingPackageAgreementDataSourceRepresentation = map[string]interface{}{
 		"agreement_id":    acctest.Representation{RepType: acctest.Required, Create: `${data.oci_marketplace_listing_package_agreements.test_listing_package_agreements.agreements.0.id}`},
 		"listing_id":      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_marketplace_listing.test_listing.id}`},
 		"package_version": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_marketplace_listing.test_listing.default_package_version}`},
 		"compartment_id":  acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 	}
 
-	MarketplaceMarketplaceListingPackageAgreementDataSourceRepresentation = map[string]interface{}{
+	MarketplaceMarketplaceListingPackageAgreementsDataSourceRepresentation = map[string]interface{}{
 		"listing_id":      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_marketplace_listing.test_listing.id}`},
 		"package_version": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_marketplace_listing.test_listing.default_package_version}`},
 		"compartment_id":  acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
@@ -42,42 +42,42 @@ func TestMarketplaceListingPackageAgreementResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	datasourceName := "data.oci_marketplace_listing_package_agreements.test_listing_package_agreements"
-	resourceName := "oci_marketplace_listing_package_agreement.test_listing_package_agreement"
+	listDatasourceName := "data.oci_marketplace_listing_package_agreements.test_listing_package_agreements"
+	getDatasourceName := "data.oci_marketplace_listing_package_agreement.test_listing_package_agreement"
 
 	acctest.SaveConfigContent("", "", "", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
-		// verify resource
+		// verify get datasource
 		{
 			Config: config +
-				acctest.GenerateResourceFromRepresentationMap("oci_marketplace_listing_package_agreement", "test_listing_package_agreement", acctest.Required, acctest.Create, MarketplaceListingPackageAgreementManagementRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listing_package_agreements", "test_listing_package_agreements", acctest.Required, acctest.Create, MarketplaceMarketplaceListingPackageAgreementDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listing_package_agreement", "test_listing_package_agreement", acctest.Required, acctest.Create, MarketplaceMarketplaceListingPackageAgreementDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listing_package_agreements", "test_listing_package_agreements", acctest.Required, acctest.Create, MarketplaceMarketplaceListingPackageAgreementsDataSourceRepresentation) +
 				compartmentIdVariableStr + MarketplaceListingPackageAgreementResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "agreement_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "listing_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "package_version"),
+				resource.TestCheckResourceAttrSet(getDatasourceName, "agreement_id"),
+				resource.TestCheckResourceAttrSet(getDatasourceName, "listing_id"),
+				resource.TestCheckResourceAttrSet(getDatasourceName, "package_version"),
 
-				resource.TestCheckResourceAttrSet(resourceName, "content_url"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttrSet(resourceName, "prompt"),
-				resource.TestCheckResourceAttrSet(resourceName, "signature"),
+				resource.TestCheckResourceAttrSet(getDatasourceName, "content_url"),
+				resource.TestCheckResourceAttrSet(getDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(getDatasourceName, "prompt"),
+				resource.TestCheckResourceAttrSet(getDatasourceName, "signature"),
 			),
 		},
-		// verify datasource
+		// verify list datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listing_package_agreements", "test_listing_package_agreements", acctest.Required, acctest.Create, MarketplaceMarketplaceListingPackageAgreementDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_marketplace_listing_package_agreements", "test_listing_package_agreements", acctest.Required, acctest.Create, MarketplaceMarketplaceListingPackageAgreementsDataSourceRepresentation) +
 				compartmentIdVariableStr + MarketplaceListingPackageAgreementResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(datasourceName, "listing_id"),
+				resource.TestCheckResourceAttrSet(listDatasourceName, "listing_id"),
 
-				resource.TestCheckResourceAttrSet(datasourceName, "agreements.#"),
-				resource.TestCheckResourceAttrSet(datasourceName, "agreements.0.author"),
-				resource.TestCheckResourceAttrSet(datasourceName, "agreements.0.content_url"),
-				resource.TestCheckResourceAttrSet(datasourceName, "agreements.0.id"),
-				resource.TestCheckResourceAttrSet(datasourceName, "agreements.0.prompt"),
+				resource.TestCheckResourceAttrSet(listDatasourceName, "agreements.#"),
+				resource.TestCheckResourceAttrSet(listDatasourceName, "agreements.0.author"),
+				resource.TestCheckResourceAttrSet(listDatasourceName, "agreements.0.content_url"),
+				resource.TestCheckResourceAttrSet(listDatasourceName, "agreements.0.id"),
+				resource.TestCheckResourceAttrSet(listDatasourceName, "agreements.0.prompt"),
 			),
 		},
 	})

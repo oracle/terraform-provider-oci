@@ -26,6 +26,20 @@ func DatabaseDbServerDataSource() *schema.Resource {
 				Required: true,
 			},
 			// Computed
+			"autonomous_virtual_machine_ids": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"autonomous_vm_cluster_ids": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -179,6 +193,10 @@ func (s *DatabaseDbServerDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(*s.Res.Id)
+
+	s.D.Set("autonomous_virtual_machine_ids", s.Res.AutonomousVirtualMachineIds)
+
+	s.D.Set("autonomous_vm_cluster_ids", s.Res.AutonomousVmClusterIds)
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)

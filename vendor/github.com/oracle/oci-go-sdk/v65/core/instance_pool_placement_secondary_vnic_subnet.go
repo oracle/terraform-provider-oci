@@ -9,6 +9,8 @@
 // documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
 // Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
+// The required permissions are documented in the
+// Details for the Core Services (https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
 //
 
 package core
@@ -25,7 +27,7 @@ type InstancePoolPlacementSecondaryVnicSubnet struct {
 	// The subnet OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the secondary VNIC.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
-	// The display name of the VNIC. This is also use to match against the instance configuration defined
+	// The display name of the VNIC. This is also used to match against the instance configuration defined
 	// secondary VNIC.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 }
