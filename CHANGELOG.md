@@ -1,4 +1,4 @@
-## 4.108.0 (Unreleased)
+## 4.108.0 (February 15, 2023)
 
 ### Added
 - Support for Visual Builder Studio
