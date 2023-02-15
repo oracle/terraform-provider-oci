@@ -197,6 +197,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `osmanagement` - Discovers osmanagement resources within the specified compartment
     * `osp_gateway` - Discovers osp_gateway resources within the specified compartment
     * `queue` - Discovers queue resources within the specified compartment
+    * `recovery` - Discovers recovery resources within the specified compartment
     * `resourcemanager` - Discovers resourcemanager resources within the specified compartment
     * `sch` - Discovers sch resources within the specified compartment
     *`service_mesh` - Discovers service_mesh resources within the specified compartment
@@ -204,6 +205,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `streaming` - Discovers streaming resources within the specified compartment
     * `usage_proxy` - Discovers usage_proxy resources within the specified compartment
     * `vault` - Discovers vault resources within the specified compartment
+    * `vbs_inst` - Discovers vbs_inst resources across the entire tenancy
     * `visual_builder` - Discovers visual_builder resources within the specified compartment
     * `vn_monitoring` - Discovers vn_monitoring resources within the specified compartment
     * `vulnerability_scanning` - Discovers vulnerability_scanning resources within the specified compartment
@@ -914,6 +916,12 @@ queue
     
 * oci\_queue\_queue
 
+recovery
+    
+* oci\_recovery\_recovery\_service\_subnet
+* oci\_recovery\_protected\_database
+* oci\_recovery\_protection\_policy
+
 resourcemanager
     
 * oci\_resourcemanager\_private\_endpoint
@@ -954,6 +962,10 @@ usage_proxy
 vault
     
 * oci\_vault\_secret
+
+vbs_inst
+    
+* oci\_vbs\_inst\_vbs\_instance
 
 visual_builder
     

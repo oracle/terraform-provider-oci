@@ -95,6 +95,9 @@ type AutonomousVmClusterSummary struct {
 	// **Deprecated.** Use `availableAutonomousDataStorageSizeInTBs` for Autonomous Databases' data storage availability in TBs.
 	AvailableDataStorageSizeInTBs *float64 `mandatory:"false" json:"availableDataStorageSizeInTBs"`
 
+	// The number of nodes in the Autonomous VM Cluster.
+	NodeCount *int `mandatory:"false" json:"nodeCount"`
+
 	// The Oracle license model that applies to the Autonomous VM cluster. The default is LICENSE_INCLUDED.
 	LicenseModel AutonomousVmClusterSummaryLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
@@ -106,6 +109,9 @@ type AutonomousVmClusterSummary struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Db servers.
+	DbServers []string `mandatory:"false" json:"dbServers"`
 
 	// CPU cores that continue to be included in the count of OCPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available OCPUs at its parent AVMC level by restarting the Autonomous Container Database.
 	ReclaimableCpus *int `mandatory:"false" json:"reclaimableCpus"`

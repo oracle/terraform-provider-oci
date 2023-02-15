@@ -9,6 +9,8 @@
 // documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
 // Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
+// The required permissions are documented in the
+// Details for the Core Services (https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
 //
 
 package core
@@ -22,7 +24,16 @@ import (
 
 // Instance A compute host. The image used to launch the instance determines its operating system and other
 // software. The shape specified during the launch process determines the number of CPUs and memory
-// allocated to the instance. For more information, see
+// allocated to the instance.
+// When you launch an instance, it is automatically attached to a virtual
+// network interface card (VNIC), called the *primary VNIC*. The VNIC
+// has a private IP address from the subnet's CIDR. You can either assign a
+// private IP address of your choice or let Oracle automatically assign one.
+// You can choose whether the instance has a public IP address. To retrieve the
+// addresses, use the ListVnicAttachments
+// operation to get the VNIC ID for the instance, and then call
+// GetVnic with the VNIC ID.
+// For more information, see
 // Overview of the Compute Service (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access, see
@@ -64,7 +75,7 @@ type Instance struct {
 	// For more information, see Capacity Reservations (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default).
 	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
 
-	// The OCID of dedicated VM host.
+	// The OCID of the dedicated virtual machine host that the instance is placed on.
 	DedicatedVmHostId *string `mandatory:"false" json:"dedicatedVmHostId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a

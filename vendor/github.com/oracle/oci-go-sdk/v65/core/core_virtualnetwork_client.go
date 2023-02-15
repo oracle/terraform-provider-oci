@@ -9,6 +9,8 @@
 // documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
 // Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
+// The required permissions are documented in the
+// Details for the Core Services (https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
 //
 
 package core
@@ -5777,9 +5779,11 @@ func (client VirtualNetworkClient) deleteSubnet(ctx context.Context, request com
 	return response, err
 }
 
-// DeleteVcn Deletes the specified VCN. The VCN must be empty and have no attached gateways. This is an asynchronous
-// operation. The VCN's `lifecycleState` will change to TERMINATING temporarily until the VCN is completely
-// removed.
+// DeleteVcn Deletes the specified VCN. The VCN must be completely empty and have no attached gateways. This is an asynchronous
+// operation.
+// A deleted VCN's `lifecycleState` changes to TERMINATING and then TERMINATED temporarily until the VCN is completely
+// removed. A completely removed VCN does not appear in the results of a `ListVcns` operation and can't be used in a
+// `GetVcn` operation.
 //
 // See also
 //

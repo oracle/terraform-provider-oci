@@ -7,12 +7,12 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
@@ -68,6 +68,8 @@ func TestDatabaseDbServerResource_basic(t *testing.T) {
 					compartmentIdVariableStr + DatabaseDbServerResourceConfig,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "db_servers.#"),
+					resource.TestCheckResourceAttr(datasourceName, "db_servers.0.autonomous_virtual_machine_ids.#", "0"),
+					resource.TestCheckResourceAttr(datasourceName, "db_servers.0.autonomous_vm_cluster_ids.#", "0"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_servers.0.compartment_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_servers.0.cpu_core_count"),
 					resource.TestCheckResourceAttr(datasourceName, "db_servers.0.db_node_ids.#", "0"),
@@ -94,6 +96,8 @@ func TestDatabaseDbServerResource_basic(t *testing.T) {
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_server_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_infrastructure_id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "autonomous_virtual_machine_ids.#", "0"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "autonomous_vm_cluster_ids.#", "0"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cpu_core_count"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "db_node_ids.#", "0"),

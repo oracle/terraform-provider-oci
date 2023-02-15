@@ -91,6 +91,7 @@ import (
 	tf_osub_subscription "github.com/oracle/terraform-provider-oci/internal/service/osub_subscription"
 	tf_osub_usage "github.com/oracle/terraform-provider-oci/internal/service/osub_usage"
 	tf_queue "github.com/oracle/terraform-provider-oci/internal/service/queue"
+	tf_recovery "github.com/oracle/terraform-provider-oci/internal/service/recovery"
 	tf_resourcemanager "github.com/oracle/terraform-provider-oci/internal/service/resourcemanager"
 	tf_sch "github.com/oracle/terraform-provider-oci/internal/service/sch"
 	tf_secrets "github.com/oracle/terraform-provider-oci/internal/service/secrets"
@@ -101,6 +102,7 @@ import (
 	tf_streaming "github.com/oracle/terraform-provider-oci/internal/service/streaming"
 	tf_usage_proxy "github.com/oracle/terraform-provider-oci/internal/service/usage_proxy"
 	tf_vault "github.com/oracle/terraform-provider-oci/internal/service/vault"
+	tf_vbs_inst "github.com/oracle/terraform-provider-oci/internal/service/vbs_inst"
 	tf_visual_builder "github.com/oracle/terraform-provider-oci/internal/service/visual_builder"
 	tf_vn_monitoring "github.com/oracle/terraform-provider-oci/internal/service/vn_monitoring"
 	tf_vulnerability_scanning "github.com/oracle/terraform-provider-oci/internal/service/vulnerability_scanning"
@@ -197,6 +199,7 @@ func init() {
 	tf_osub_subscription.RegisterDatasource()
 	tf_osub_usage.RegisterDatasource()
 	tf_queue.RegisterDatasource()
+	tf_recovery.RegisterDatasource()
 	tf_resourcemanager.RegisterDatasource()
 	tf_sch.RegisterDatasource()
 	tf_secrets.RegisterDatasource()
@@ -207,6 +210,7 @@ func init() {
 	tf_streaming.RegisterDatasource()
 	tf_usage_proxy.RegisterDatasource()
 	tf_vault.RegisterDatasource()
+	tf_vbs_inst.RegisterDatasource()
 	tf_visual_builder.RegisterDatasource()
 	tf_vn_monitoring.RegisterDatasource()
 	tf_vulnerability_scanning.RegisterDatasource()
