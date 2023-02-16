@@ -7,7 +7,7 @@ description: |-
   Provides details about a specific Listing Package Agreement in Oracle Cloud Infrastructure Marketplace service
 ---
 
-# Data Source: oci_marketplace_listing_package_agreement_management
+# Data Source: oci_marketplace_listing_package_agreement
 This data source provides details about a specific Listing Package Agreement resource in Oracle Cloud Infrastructure Marketplace service.
 
 It can be used to retrieve the time-based signature of terms of use agreement for a package that can be used to
