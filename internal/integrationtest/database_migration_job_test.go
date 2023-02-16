@@ -6,13 +6,11 @@ package integrationtest
 import (
 	"context"
 	"fmt"
-	"strconv"
 	"testing"
 	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
@@ -26,168 +24,41 @@ import (
 )
 
 var (
-	DatabaseMigrationJobRequiredOnlyResource = DatabaseMigrationJobResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_job", "test_job", acctest.Required, acctest.Create, jobRepresentation)
-
-	DatabaseMigrationJobResourceConfig = //DatabaseMigrationJobResourceDependencies +
-	acctest.GenerateResourceFromRepresentationMap("oci_database_migration_job", "test_job", acctest.Optional, acctest.Update, jobRepresentation2)
-
 	DatabaseMigrationjobSingularDataSourceRepresentation = map[string]interface{}{
-		"job_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_migration_job.test_job.id}`},
-	}
-
-	DatabaseMigrationjobDataSourceRepresentation = map[string]interface{}{
-		"migration_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_migration_migration.test_migration.id}`},
-		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `TF_displayName`, Update: `TF_displayName2`},
-		"state":        acctest.Representation{RepType: acctest.Optional, Create: `Succeeded`},
-		"filter":       acctest.RepresentationGroup{RepType: acctest.Required, Group: jobDataSourceFilterRepresentation}}
-	jobDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   acctest.Representation{RepType: acctest.Required, Create: `TF_id`},
-		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_migration_job.test_job.id}`}},
+		"job_id": acctest.Representation{RepType: acctest.Required, Create: `${var.oci_job_id}`},
 	}
 
 	jobRepresentation = map[string]interface{}{
-		"job_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_database_migration_job.test_job.id}`},
-		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `TF_displayName`, Update: `TF_displayName2`},
+		"job_id": acctest.Representation{RepType: acctest.Required, Create: `${var.oci_job_id}`},
 	}
-
-	jobRepresentation2 = map[string]interface{}{
-		"job_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_database_migration_job.test_job.id}`},
-		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `TF_displayName`, Update: `TF_displayName2`},
-	}
-
-	DatabaseMigrationJobResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Required, acctest.Create, ApigatewayDeploymentRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", acctest.Required, acctest.Create, ApigatewayRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Required, acctest.Create, connectionRepresentationCon) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_job", "test_job", acctest.Required, acctest.Create, jobRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Required, acctest.Create, migrationRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsApplicationRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionRepresentation) +
-		DefinedTagsDependencies +
-		KeyResourceDependencyConfig +
-		acctest.GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", acctest.Required, acctest.Create, KmsVaultRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation)
 )
 
 // issue-routing-tag: database_migration/default
 func TestDatabaseMigrationJobResource_basic(t *testing.T) {
-	t.Skip("Skip this job creation is an independent operation after validating the migration")
 	httpreplay.SetScenario("TestDatabaseMigrationJobResource_basic")
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	jobId := utils.GetEnvSettingWithBlankDefault("job_ocid")
+	jobIdVariableStr := fmt.Sprintf("variable \"oci_job_id\" { default = \"%s\" }\n", jobId)
 
-	resourceName := "oci_database_migration_job.test_job"
-	datasourceName := "data.oci_database_migration_jobs.test_jobs"
 	singularDatasourceName := "data.oci_database_migration_job.test_job"
 
-	var resId, resId2 string
-	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_job", "test_job", acctest.Optional, acctest.Create, jobRepresentation), "databasemigration", "job", t)
-
 	acctest.ResourceTest(t, testAccCheckDatabaseMigrationJobDestroy, []resource.TestStep{
-		// verify Create
-		{
-			Config: config + compartmentIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_job", "test_job", acctest.Required, acctest.Create, jobRepresentation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "job_id"),
-
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, resourceName, "job_id")
-					return err
-				},
-			),
-		},
-
-		// delete before next Create
-		{
-			Config: config + compartmentIdVariableStr,
-		},
-		// verify Create with optionals
-		{
-			Config: config + compartmentIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_job", "test_job", acctest.Optional, acctest.Create, jobRepresentation2),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "display_name", "TF_displayName"),
-				resource.TestCheckResourceAttrSet(resourceName, "job_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "migration_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-				resource.TestCheckResourceAttrSet(resourceName, "type"),
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, resourceName, "job_id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-							return errExport
-						}
-					}
-					return err
-				},
-			),
-		},
-
-		// verify updates to updatable parameters
-		{
-			Config: config + compartmentIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_job", "test_job", acctest.Optional, acctest.Update, jobRepresentation2),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "display_name", "TF_displayName2"),
-				resource.TestCheckResourceAttrSet(resourceName, "job_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "migration_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-				resource.TestCheckResourceAttrSet(resourceName, "type"),
-				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, resourceName, "job_id")
-					if resId != resId2 {
-						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-					}
-					return err
-				},
-			),
-		},
-		// verify datasource
-		{
-			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_jobs", "test_jobs", acctest.Optional, acctest.Update, DatabaseMigrationjobDataSourceRepresentation) +
-				compartmentIdVariableStr + //DatabaseMigrationJobResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_job", "test_job", acctest.Optional, acctest.Update, jobRepresentation2),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "display_name", "TF_displayName2"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "Succeeded"),
-				resource.TestCheckResourceAttr(datasourceName, "job_collection.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "job_collection.0.items.#", "0"),
-			),
-		},
 		// verify singular datasource
 		{
-			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_job", "test_job", acctest.Required, acctest.Create, DatabaseMigrationjobSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DatabaseMigrationJobResourceConfig,
+			Config: config + jobIdVariableStr +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_job", "test_job", acctest.Required, acctest.Create, DatabaseMigrationjobSingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "job_id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "TF_displayName2"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "progress.0.phases.0.status", "COMPLETED"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "progress.0.phases.0.issue", ""),
+				resource.TestCheckResourceAttr(singularDatasourceName, "progress.0.phases.0.action", ""),
+				resource.TestCheckResourceAttr(singularDatasourceName, "progress.0.phases.1.status", "FAILED"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "progress.0.phases.1.issue"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "progress.0.phases.1.action"),
 			),
-		},
-		// verify resource import
-		{
-			Config:                  config + DatabaseMigrationJobRequiredOnlyResource,
-			ImportState:             true,
-			ImportStateVerify:       false,
-			ImportStateVerifyIgnore: []string{},
-			ResourceName:            resourceName,
 		},
 	})
 }
@@ -209,7 +80,8 @@ func testAccCheckDatabaseMigrationJobDestroy(s *terraform.State) error {
 
 			if err == nil {
 				deletedLifecycleStates := map[string]bool{
-					string(oci_database_migration.JobLifecycleStatesTerminated): true,
+					// Because of the nature of this test, the Job is expected to finish in a Failed State
+					string(oci_database_migration.JobLifecycleStatesFailed): true,
 				}
 				if _, ok := deletedLifecycleStates[string(response.LifecycleState)]; !ok {
 					//resource lifecycle state is not in expected deleted lifecycle states.
