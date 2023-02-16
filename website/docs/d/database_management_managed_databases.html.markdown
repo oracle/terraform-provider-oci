@@ -59,6 +59,7 @@ The following attributes are exported:
 * `database_status` - The status of the Oracle Database. Indicates whether the status of the database is UP, DOWN, or UNKNOWN at the current time. 
 * `database_sub_type` - The subtype of the Oracle Database. Indicates whether the database is a Container Database, Pluggable Database, Non-container Database, Autonomous Database, or Autonomous Container Database. 
 * `database_type` - The type of Oracle Database installation.
+* `db_system_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external DB system that this Managed Database is part of. 
 * `deployment_type` - The infrastructure used to deploy the Oracle Database.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 * `is_cluster` - Indicates whether the Oracle Database is part of a cluster.
@@ -69,6 +70,7 @@ The following attributes are exported:
 * `management_option` - The management option used when enabling Database Management.
 * `name` - The name of the Managed Database.
 * `parent_container_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the parent Container Database if Managed Database is a Pluggable Database. 
+* `storage_system_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the storage DB system.
 * `time_created` - The date and time the Managed Database was created.
 * `workload_type` - The workload type of the Autonomous Database.
 
