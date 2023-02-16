@@ -266,9 +266,9 @@ func (s *IdentityIdentityProviderResourceCrud) SetData() error {
 			s.D.Set("redirect_url", *v.RedirectUrl)
 		}
 
-		if v.SigningCertificate != nil {
-			s.D.Set("signing_certificate", *v.SigningCertificate)
-		}
+		//if v.SigningCertificate != nil {
+		//	s.D.Set("signing_certificate", *v.SigningCertificate)
+		//}
 
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)

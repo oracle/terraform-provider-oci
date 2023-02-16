@@ -135,9 +135,9 @@ func (s *IdentityIdentityProvidersDataSourceCrud) SetData() error {
 				result["redirect_url"] = string(*v.RedirectUrl)
 			}
 
-			if v.SigningCertificate != nil {
-				result["signing_certificate"] = string(*v.SigningCertificate)
-			}
+			//if v.SigningCertificate != nil {
+			//	result["signing_certificate"] = string(*v.SigningCertificate)
+			//}
 
 			if v.CompartmentId != nil {
 				result["compartment_id"] = string(*v.CompartmentId)
