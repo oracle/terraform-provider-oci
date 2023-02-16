@@ -19,6 +19,10 @@ import (
 	"time"
 )
 
+const (
+	rpstValidForRatio float64 = 0.5
+)
+
 // Workload RPST Issuance Service (WRIS)
 // x509FederationClientForOkeWorkloadIdentity retrieves a security token from Auth service.
 type x509FederationClientForOkeWorkloadIdentity struct {
@@ -169,6 +173,24 @@ func (c *x509FederationClientForOkeWorkloadIdentity) renewSecurityTokenIfNotVali
 		}
 	}
 	return nil
+}
+
+type workloadIdentityPrincipalToken struct {
+	principalToken
+}
+
+func (t *workloadIdentityPrincipalToken) Valid() bool {
+	// TODO: read rpstValidForRatio from rpst token
+	issuedAt := int64(t.jwtToken.payload["iat"].(float64))
+	expiredAt := int64(t.jwtToken.payload["exp"].(float64))
+	softExpiredAt := issuedAt + int64(float64(expiredAt-issuedAt)*rpstValidForRatio)
+	softExpiredAtTime := time.Unix(softExpiredAt, 0)
+	now := time.Now().Unix() + int64(bufferTimeBeforeTokenExpiration.Seconds())
+	expired := softExpiredAt <= now
+	if expired {
+		common.Debugf("Token expired at: %v", softExpiredAtTime.Format("15:04:05.000"))
+	}
+	return !expired
 }
 
 func (c *x509FederationClientForOkeWorkloadIdentity) GetClaim(key string) (interface{}, error) {

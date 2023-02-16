@@ -47,6 +47,11 @@ type ChangeShapeNodes struct {
 	Edge *string `mandatory:"false" json:"edge"`
 
 	EdgeShapeConfig *ShapeConfigDetails `mandatory:"false" json:"edgeShapeConfig"`
+
+	// Change shape of Kafka Broker nodes to the desired target shape. Both VM_STANDARD and E4 Flex shapes are allowed here.
+	KafkaBroker *string `mandatory:"false" json:"kafkaBroker"`
+
+	KafkaBrokerShapeConfig *ShapeConfigDetails `mandatory:"false" json:"kafkaBrokerShapeConfig"`
 }
 
 func (m ChangeShapeNodes) String() string {

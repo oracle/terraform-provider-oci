@@ -84,6 +84,9 @@ type CreateCrossRegionAutonomousDatabaseDataGuardDetails struct {
 	// **Note:** This parameter cannot be used with the `ocpuCount` parameter.
 	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
 
+	// Retention period, in days, for long-term backups
+	BackupRetentionPeriodInDays *int `mandatory:"false" json:"backupRetentionPeriodInDays"`
+
 	// The compute amount available to the database. Minimum and maximum values depend on the compute model and whether the database is on Shared or Dedicated infrastructure. For an Autonomous Database on Shared infrastructure, the 'ECPU' compute model requires values in multiples of two. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value.
 	ComputeCount *float32 `mandatory:"false" json:"computeCount"`
 
@@ -278,6 +281,11 @@ func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetDbName() *string
 //GetCpuCoreCount returns CpuCoreCount
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetCpuCoreCount() *int {
 	return m.CpuCoreCount
+}
+
+//GetBackupRetentionPeriodInDays returns BackupRetentionPeriodInDays
+func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetBackupRetentionPeriodInDays() *int {
+	return m.BackupRetentionPeriodInDays
 }
 
 //GetComputeModel returns ComputeModel

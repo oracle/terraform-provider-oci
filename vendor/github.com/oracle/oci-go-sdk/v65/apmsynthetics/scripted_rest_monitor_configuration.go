@@ -24,7 +24,13 @@ type ScriptedRestMonitorConfiguration struct {
 
 	DnsConfiguration *DnsConfiguration `mandatory:"false" json:"dnsConfiguration"`
 
+	// Expected HTTP response codes. For status code range, set values such as 2xx, 3xx.
+	VerifyResponseCodes []string `mandatory:"false" json:"verifyResponseCodes"`
+
 	NetworkConfiguration *NetworkConfiguration `mandatory:"false" json:"networkConfiguration"`
+
+	// Request HTTP authentication scheme.
+	ReqAuthenticationScheme RequestAuthenticationSchemesForScriptedRestEnum `mandatory:"false" json:"reqAuthenticationScheme,omitempty"`
 }
 
 //GetIsFailureRetried returns IsFailureRetried
@@ -47,6 +53,9 @@ func (m ScriptedRestMonitorConfiguration) String() string {
 func (m ScriptedRestMonitorConfiguration) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingRequestAuthenticationSchemesForScriptedRestEnum(string(m.ReqAuthenticationScheme)); !ok && m.ReqAuthenticationScheme != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ReqAuthenticationScheme: %s. Supported values are: %s.", m.ReqAuthenticationScheme, strings.Join(GetRequestAuthenticationSchemesForScriptedRestEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

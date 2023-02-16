@@ -31,6 +31,16 @@ type DbBackupConfig struct {
 	// Example: `SLOT_TWO`
 	AutoBackupWindow DbBackupConfigAutoBackupWindowEnum `mandatory:"false" json:"autoBackupWindow,omitempty"`
 
+	// Time window selected for initiating full backup for the database system. There are twelve available two-hour time windows. If no option is selected, the value is null and a start time between 12:00 AM to 7:00 AM in the region of the database is automatically chosen. For example, if the user selects SLOT_TWO from the enum list, the automatic backup job will start in between 2:00 AM (inclusive) to 4:00 AM (exclusive).
+	// Example: `SLOT_TWO`
+	AutoFullBackupWindow DbBackupConfigAutoFullBackupWindowEnum `mandatory:"false" json:"autoFullBackupWindow,omitempty"`
+
+	// Day of the week the full backup should be applied on the database system. If no option is selected, the value is null and we will default to Sunday.
+	AutoFullBackupDay DbBackupConfigAutoFullBackupDayEnum `mandatory:"false" json:"autoFullBackupDay,omitempty"`
+
+	// If set to true, configures automatic full backups in the local region (the region of the DB system) for the first backup run immediately.
+	RunImmediateFullBackup *bool `mandatory:"false" json:"runImmediateFullBackup"`
+
 	// If set to true, configures automatic incremental backups in the local region (the region of the DB system) and the remote region with a default frequency of 1 hour.
 	// If you previously used RMAN or dbcli to configure backups, using the Console or the API for manged backups creates a new backup configuration for your database. The new configuration replaces the configuration created with RMAN or dbcli.
 	// This means that you can no longer rely on your previously configured unmanaged backups to work.
@@ -60,6 +70,12 @@ func (m DbBackupConfig) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingDbBackupConfigAutoBackupWindowEnum(string(m.AutoBackupWindow)); !ok && m.AutoBackupWindow != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutoBackupWindow: %s. Supported values are: %s.", m.AutoBackupWindow, strings.Join(GetDbBackupConfigAutoBackupWindowEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDbBackupConfigAutoFullBackupWindowEnum(string(m.AutoFullBackupWindow)); !ok && m.AutoFullBackupWindow != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutoFullBackupWindow: %s. Supported values are: %s.", m.AutoFullBackupWindow, strings.Join(GetDbBackupConfigAutoFullBackupWindowEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDbBackupConfigAutoFullBackupDayEnum(string(m.AutoFullBackupDay)); !ok && m.AutoFullBackupDay != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutoFullBackupDay: %s. Supported values are: %s.", m.AutoFullBackupDay, strings.Join(GetDbBackupConfigAutoFullBackupDayEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingDbBackupConfigBackupDeletionPolicyEnum(string(m.BackupDeletionPolicy)); !ok && m.BackupDeletionPolicy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackupDeletionPolicy: %s. Supported values are: %s.", m.BackupDeletionPolicy, strings.Join(GetDbBackupConfigBackupDeletionPolicyEnumStringValues(), ",")))
@@ -149,6 +165,150 @@ func GetDbBackupConfigAutoBackupWindowEnumStringValues() []string {
 // GetMappingDbBackupConfigAutoBackupWindowEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDbBackupConfigAutoBackupWindowEnum(val string) (DbBackupConfigAutoBackupWindowEnum, bool) {
 	enum, ok := mappingDbBackupConfigAutoBackupWindowEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DbBackupConfigAutoFullBackupWindowEnum Enum with underlying type: string
+type DbBackupConfigAutoFullBackupWindowEnum string
+
+// Set of constants representing the allowable values for DbBackupConfigAutoFullBackupWindowEnum
+const (
+	DbBackupConfigAutoFullBackupWindowOne    DbBackupConfigAutoFullBackupWindowEnum = "SLOT_ONE"
+	DbBackupConfigAutoFullBackupWindowTwo    DbBackupConfigAutoFullBackupWindowEnum = "SLOT_TWO"
+	DbBackupConfigAutoFullBackupWindowThree  DbBackupConfigAutoFullBackupWindowEnum = "SLOT_THREE"
+	DbBackupConfigAutoFullBackupWindowFour   DbBackupConfigAutoFullBackupWindowEnum = "SLOT_FOUR"
+	DbBackupConfigAutoFullBackupWindowFive   DbBackupConfigAutoFullBackupWindowEnum = "SLOT_FIVE"
+	DbBackupConfigAutoFullBackupWindowSix    DbBackupConfigAutoFullBackupWindowEnum = "SLOT_SIX"
+	DbBackupConfigAutoFullBackupWindowSeven  DbBackupConfigAutoFullBackupWindowEnum = "SLOT_SEVEN"
+	DbBackupConfigAutoFullBackupWindowEight  DbBackupConfigAutoFullBackupWindowEnum = "SLOT_EIGHT"
+	DbBackupConfigAutoFullBackupWindowNine   DbBackupConfigAutoFullBackupWindowEnum = "SLOT_NINE"
+	DbBackupConfigAutoFullBackupWindowTen    DbBackupConfigAutoFullBackupWindowEnum = "SLOT_TEN"
+	DbBackupConfigAutoFullBackupWindowEleven DbBackupConfigAutoFullBackupWindowEnum = "SLOT_ELEVEN"
+	DbBackupConfigAutoFullBackupWindowTwelve DbBackupConfigAutoFullBackupWindowEnum = "SLOT_TWELVE"
+)
+
+var mappingDbBackupConfigAutoFullBackupWindowEnum = map[string]DbBackupConfigAutoFullBackupWindowEnum{
+	"SLOT_ONE":    DbBackupConfigAutoFullBackupWindowOne,
+	"SLOT_TWO":    DbBackupConfigAutoFullBackupWindowTwo,
+	"SLOT_THREE":  DbBackupConfigAutoFullBackupWindowThree,
+	"SLOT_FOUR":   DbBackupConfigAutoFullBackupWindowFour,
+	"SLOT_FIVE":   DbBackupConfigAutoFullBackupWindowFive,
+	"SLOT_SIX":    DbBackupConfigAutoFullBackupWindowSix,
+	"SLOT_SEVEN":  DbBackupConfigAutoFullBackupWindowSeven,
+	"SLOT_EIGHT":  DbBackupConfigAutoFullBackupWindowEight,
+	"SLOT_NINE":   DbBackupConfigAutoFullBackupWindowNine,
+	"SLOT_TEN":    DbBackupConfigAutoFullBackupWindowTen,
+	"SLOT_ELEVEN": DbBackupConfigAutoFullBackupWindowEleven,
+	"SLOT_TWELVE": DbBackupConfigAutoFullBackupWindowTwelve,
+}
+
+var mappingDbBackupConfigAutoFullBackupWindowEnumLowerCase = map[string]DbBackupConfigAutoFullBackupWindowEnum{
+	"slot_one":    DbBackupConfigAutoFullBackupWindowOne,
+	"slot_two":    DbBackupConfigAutoFullBackupWindowTwo,
+	"slot_three":  DbBackupConfigAutoFullBackupWindowThree,
+	"slot_four":   DbBackupConfigAutoFullBackupWindowFour,
+	"slot_five":   DbBackupConfigAutoFullBackupWindowFive,
+	"slot_six":    DbBackupConfigAutoFullBackupWindowSix,
+	"slot_seven":  DbBackupConfigAutoFullBackupWindowSeven,
+	"slot_eight":  DbBackupConfigAutoFullBackupWindowEight,
+	"slot_nine":   DbBackupConfigAutoFullBackupWindowNine,
+	"slot_ten":    DbBackupConfigAutoFullBackupWindowTen,
+	"slot_eleven": DbBackupConfigAutoFullBackupWindowEleven,
+	"slot_twelve": DbBackupConfigAutoFullBackupWindowTwelve,
+}
+
+// GetDbBackupConfigAutoFullBackupWindowEnumValues Enumerates the set of values for DbBackupConfigAutoFullBackupWindowEnum
+func GetDbBackupConfigAutoFullBackupWindowEnumValues() []DbBackupConfigAutoFullBackupWindowEnum {
+	values := make([]DbBackupConfigAutoFullBackupWindowEnum, 0)
+	for _, v := range mappingDbBackupConfigAutoFullBackupWindowEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDbBackupConfigAutoFullBackupWindowEnumStringValues Enumerates the set of values in String for DbBackupConfigAutoFullBackupWindowEnum
+func GetDbBackupConfigAutoFullBackupWindowEnumStringValues() []string {
+	return []string{
+		"SLOT_ONE",
+		"SLOT_TWO",
+		"SLOT_THREE",
+		"SLOT_FOUR",
+		"SLOT_FIVE",
+		"SLOT_SIX",
+		"SLOT_SEVEN",
+		"SLOT_EIGHT",
+		"SLOT_NINE",
+		"SLOT_TEN",
+		"SLOT_ELEVEN",
+		"SLOT_TWELVE",
+	}
+}
+
+// GetMappingDbBackupConfigAutoFullBackupWindowEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDbBackupConfigAutoFullBackupWindowEnum(val string) (DbBackupConfigAutoFullBackupWindowEnum, bool) {
+	enum, ok := mappingDbBackupConfigAutoFullBackupWindowEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DbBackupConfigAutoFullBackupDayEnum Enum with underlying type: string
+type DbBackupConfigAutoFullBackupDayEnum string
+
+// Set of constants representing the allowable values for DbBackupConfigAutoFullBackupDayEnum
+const (
+	DbBackupConfigAutoFullBackupDaySunday    DbBackupConfigAutoFullBackupDayEnum = "SUNDAY"
+	DbBackupConfigAutoFullBackupDayMonday    DbBackupConfigAutoFullBackupDayEnum = "MONDAY"
+	DbBackupConfigAutoFullBackupDayTuesday   DbBackupConfigAutoFullBackupDayEnum = "TUESDAY"
+	DbBackupConfigAutoFullBackupDayWednesday DbBackupConfigAutoFullBackupDayEnum = "WEDNESDAY"
+	DbBackupConfigAutoFullBackupDayThursday  DbBackupConfigAutoFullBackupDayEnum = "THURSDAY"
+	DbBackupConfigAutoFullBackupDayFriday    DbBackupConfigAutoFullBackupDayEnum = "FRIDAY"
+	DbBackupConfigAutoFullBackupDaySaturday  DbBackupConfigAutoFullBackupDayEnum = "SATURDAY"
+)
+
+var mappingDbBackupConfigAutoFullBackupDayEnum = map[string]DbBackupConfigAutoFullBackupDayEnum{
+	"SUNDAY":    DbBackupConfigAutoFullBackupDaySunday,
+	"MONDAY":    DbBackupConfigAutoFullBackupDayMonday,
+	"TUESDAY":   DbBackupConfigAutoFullBackupDayTuesday,
+	"WEDNESDAY": DbBackupConfigAutoFullBackupDayWednesday,
+	"THURSDAY":  DbBackupConfigAutoFullBackupDayThursday,
+	"FRIDAY":    DbBackupConfigAutoFullBackupDayFriday,
+	"SATURDAY":  DbBackupConfigAutoFullBackupDaySaturday,
+}
+
+var mappingDbBackupConfigAutoFullBackupDayEnumLowerCase = map[string]DbBackupConfigAutoFullBackupDayEnum{
+	"sunday":    DbBackupConfigAutoFullBackupDaySunday,
+	"monday":    DbBackupConfigAutoFullBackupDayMonday,
+	"tuesday":   DbBackupConfigAutoFullBackupDayTuesday,
+	"wednesday": DbBackupConfigAutoFullBackupDayWednesday,
+	"thursday":  DbBackupConfigAutoFullBackupDayThursday,
+	"friday":    DbBackupConfigAutoFullBackupDayFriday,
+	"saturday":  DbBackupConfigAutoFullBackupDaySaturday,
+}
+
+// GetDbBackupConfigAutoFullBackupDayEnumValues Enumerates the set of values for DbBackupConfigAutoFullBackupDayEnum
+func GetDbBackupConfigAutoFullBackupDayEnumValues() []DbBackupConfigAutoFullBackupDayEnum {
+	values := make([]DbBackupConfigAutoFullBackupDayEnum, 0)
+	for _, v := range mappingDbBackupConfigAutoFullBackupDayEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDbBackupConfigAutoFullBackupDayEnumStringValues Enumerates the set of values in String for DbBackupConfigAutoFullBackupDayEnum
+func GetDbBackupConfigAutoFullBackupDayEnumStringValues() []string {
+	return []string{
+		"SUNDAY",
+		"MONDAY",
+		"TUESDAY",
+		"WEDNESDAY",
+		"THURSDAY",
+		"FRIDAY",
+		"SATURDAY",
+	}
+}
+
+// GetMappingDbBackupConfigAutoFullBackupDayEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDbBackupConfigAutoFullBackupDayEnum(val string) (DbBackupConfigAutoFullBackupDayEnum, bool) {
+	enum, ok := mappingDbBackupConfigAutoFullBackupDayEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

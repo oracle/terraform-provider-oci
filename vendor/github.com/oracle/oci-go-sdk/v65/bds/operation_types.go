@@ -53,6 +53,8 @@ const (
 	OperationTypesPatchOdh                  OperationTypesEnum = "PATCH_ODH"
 	OperationTypesStopBds                   OperationTypesEnum = "STOP_BDS"
 	OperationTypesStartBds                  OperationTypesEnum = "START_BDS"
+	OperationTypesAddKafka                  OperationTypesEnum = "ADD_KAFKA"
+	OperationTypesRemoveKafka               OperationTypesEnum = "REMOVE_KAFKA"
 )
 
 var mappingOperationTypesEnum = map[string]OperationTypesEnum{
@@ -91,6 +93,8 @@ var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"PATCH_ODH":                    OperationTypesPatchOdh,
 	"STOP_BDS":                     OperationTypesStopBds,
 	"START_BDS":                    OperationTypesStartBds,
+	"ADD_KAFKA":                    OperationTypesAddKafka,
+	"REMOVE_KAFKA":                 OperationTypesRemoveKafka,
 }
 
 var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
@@ -129,6 +133,8 @@ var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
 	"patch_odh":                    OperationTypesPatchOdh,
 	"stop_bds":                     OperationTypesStopBds,
 	"start_bds":                    OperationTypesStartBds,
+	"add_kafka":                    OperationTypesAddKafka,
+	"remove_kafka":                 OperationTypesRemoveKafka,
 }
 
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum
@@ -178,6 +184,8 @@ func GetOperationTypesEnumStringValues() []string {
 		"PATCH_ODH",
 		"STOP_BDS",
 		"START_BDS",
+		"ADD_KAFKA",
+		"REMOVE_KAFKA",
 	}
 }
 

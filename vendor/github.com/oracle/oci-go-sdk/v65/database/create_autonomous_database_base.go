@@ -44,6 +44,9 @@ type CreateAutonomousDatabaseBase interface {
 	// **Note:** This parameter cannot be used with the `ocpuCount` parameter.
 	GetCpuCoreCount() *int
 
+	// Retention period, in days, for long-term backups
+	GetBackupRetentionPeriodInDays() *int
+
 	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value.
 	GetComputeModel() CreateAutonomousDatabaseBaseComputeModelEnum
 
@@ -222,6 +225,7 @@ type createautonomousdatabasebase struct {
 	NcharacterSet                            *string                                                           `mandatory:"false" json:"ncharacterSet"`
 	DbName                                   *string                                                           `mandatory:"false" json:"dbName"`
 	CpuCoreCount                             *int                                                              `mandatory:"false" json:"cpuCoreCount"`
+	BackupRetentionPeriodInDays              *int                                                              `mandatory:"false" json:"backupRetentionPeriodInDays"`
 	ComputeModel                             CreateAutonomousDatabaseBaseComputeModelEnum                      `mandatory:"false" json:"computeModel,omitempty"`
 	ComputeCount                             *float32                                                          `mandatory:"false" json:"computeCount"`
 	OcpuCount                                *float32                                                          `mandatory:"false" json:"ocpuCount"`
@@ -281,6 +285,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.NcharacterSet = s.Model.NcharacterSet
 	m.DbName = s.Model.DbName
 	m.CpuCoreCount = s.Model.CpuCoreCount
+	m.BackupRetentionPeriodInDays = s.Model.BackupRetentionPeriodInDays
 	m.ComputeModel = s.Model.ComputeModel
 	m.ComputeCount = s.Model.ComputeCount
 	m.OcpuCount = s.Model.OcpuCount
@@ -396,6 +401,11 @@ func (m createautonomousdatabasebase) GetDbName() *string {
 //GetCpuCoreCount returns CpuCoreCount
 func (m createautonomousdatabasebase) GetCpuCoreCount() *int {
 	return m.CpuCoreCount
+}
+
+//GetBackupRetentionPeriodInDays returns BackupRetentionPeriodInDays
+func (m createautonomousdatabasebase) GetBackupRetentionPeriodInDays() *int {
+	return m.BackupRetentionPeriodInDays
 }
 
 //GetComputeModel returns ComputeModel

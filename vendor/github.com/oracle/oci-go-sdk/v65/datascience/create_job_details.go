@@ -35,6 +35,8 @@ type CreateJobDetails struct {
 	// A short description of the job.
 	Description *string `mandatory:"false" json:"description"`
 
+	JobEnvironmentConfigurationDetails JobEnvironmentConfigurationDetails `mandatory:"false" json:"jobEnvironmentConfigurationDetails"`
+
 	JobLogConfigurationDetails *JobLogConfigurationDetails `mandatory:"false" json:"jobLogConfigurationDetails"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -67,6 +69,7 @@ func (m *CreateJobDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		DisplayName                           *string                               `json:"displayName"`
 		Description                           *string                               `json:"description"`
+		JobEnvironmentConfigurationDetails    jobenvironmentconfigurationdetails    `json:"jobEnvironmentConfigurationDetails"`
 		JobLogConfigurationDetails            *JobLogConfigurationDetails           `json:"jobLogConfigurationDetails"`
 		FreeformTags                          map[string]string                     `json:"freeformTags"`
 		DefinedTags                           map[string]map[string]interface{}     `json:"definedTags"`
@@ -84,6 +87,16 @@ func (m *CreateJobDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DisplayName = model.DisplayName
 
 	m.Description = model.Description
+
+	nn, e = model.JobEnvironmentConfigurationDetails.UnmarshalPolymorphicJSON(model.JobEnvironmentConfigurationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.JobEnvironmentConfigurationDetails = nn.(JobEnvironmentConfigurationDetails)
+	} else {
+		m.JobEnvironmentConfigurationDetails = nil
+	}
 
 	m.JobLogConfigurationDetails = model.JobLogConfigurationDetails
 

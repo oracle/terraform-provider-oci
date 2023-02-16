@@ -198,7 +198,7 @@ type resourcePrincipalKeyProvider struct {
 func newResourcePrincipalKeyProvider22(sessionTokenLocation, privatePemLocation string,
 	passphraseLocation *string, region string) (*resourcePrincipalKeyProvider, error) {
 
-	//Check both the the passphrase and the key are paths
+	//Check both the passphrase and the key are paths
 	if passphraseLocation != nil && (!isPath(privatePemLocation) && isPath(*passphraseLocation) ||
 		isPath(privatePemLocation) && !isPath(*passphraseLocation)) {
 		err := fmt.Errorf("cant not create resource principal: both key and passphrase need to be path or none needs to be path")

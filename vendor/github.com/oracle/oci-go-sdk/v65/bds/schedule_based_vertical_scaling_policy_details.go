@@ -23,6 +23,7 @@ type ScheduleBasedVerticalScalingPolicyDetails struct {
 	// The time zone of the execution schedule, in IANA time zone database name format
 	Timezone *string `mandatory:"false" json:"timezone"`
 
+	// Details of a vertical scaling schedule.
 	ScheduleDetails []VerticalScalingScheduleDetails `mandatory:"false" json:"scheduleDetails"`
 
 	// The type of autoscaling trigger.

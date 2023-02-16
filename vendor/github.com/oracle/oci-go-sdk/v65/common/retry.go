@@ -12,6 +12,7 @@ import (
 	"math/rand"
 	"runtime"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -806,7 +807,9 @@ func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperat
 
 	var response OCIResponse
 	var err error
-	retrierChannel := make(chan retrierResult)
+	retrierChannel := make(chan retrierResult, 1)
+	var wg sync.WaitGroup
+	wg.Add(1)
 
 	validated, validateError := policy.validate()
 	if !validated {
@@ -816,9 +819,9 @@ func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperat
 	initialAttemptTime := time.Now()
 
 	go func() {
-
 		// Deal with panics more graciously
 		defer func() {
+			wg.Done()
 			if r := recover(); r != nil {
 				stackBuffer := make([]byte, 1024)
 				bytesWritten := runtime.Stack(stackBuffer, false)
@@ -828,7 +831,6 @@ func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperat
 				retrierChannel <- retrierResult{nil, error}
 			}
 		}()
-
 		// if request body is binary request body and seekable, save the current position
 		var curPos int64 = 0
 		isSeekable := false
@@ -898,6 +900,7 @@ func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperat
 		retrierChannel <- retrierResult{response, err}
 	}()
 
+	wg.Wait()
 	select {
 	case <-ctx.Done():
 		return response, ctx.Err()

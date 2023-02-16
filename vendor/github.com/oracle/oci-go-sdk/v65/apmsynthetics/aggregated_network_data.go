@@ -15,22 +15,22 @@ import (
 	"strings"
 )
 
-// AggregatedNetworkData aggregated network data.
+// AggregatedNetworkData Details of the aggregated network data.
 type AggregatedNetworkData struct {
 
-	// state of the result
+	// Status of the aggregated network data result.
 	ResultState AggregatedNetworkDataResultStateEnum `mandatory:"true" json:"resultState"`
 
-	// List of VantagePointNode items.
+	// List of vantage point nodes.
 	VantagePointNodes []VantagePointNode `mandatory:"false" json:"vantagePointNodes"`
 
-	// 2d array of nodes where each internal array corresponds to 1 level
+	// An array of node arrays where each internal array corresponds to nodes at one level.
 	NodesByLevel [][]Node `mandatory:"false" json:"nodesByLevel"`
 
-	// map of Link objects
+	// Map of link objects.
 	Links map[string]Link `mandatory:"false" json:"links"`
 
-	// string contaiing error details
+	// String containing error details.
 	ErrorDetails *string `mandatory:"false" json:"errorDetails"`
 }
 

@@ -18,10 +18,10 @@ import (
 // AvailabilityConfiguration Monitor availability configuration details.
 type AvailabilityConfiguration struct {
 
-	// Intervals with failed runs more than this value will be classified as UNAVAILABLE.
+	// Maximum number of failed runs allowed in an interval. If an interval has more failed runs than the specified value, then the interval will be classified as UNAVAILABLE.
 	MaxAllowedFailuresPerInterval *int `mandatory:"false" json:"maxAllowedFailuresPerInterval"`
 
-	// Intervals with runs less than this value will be classified as UNKNOWN and excluded from the availability calculations.
+	// Minimum number of runs allowed in an interval. If an interval has fewer runs than the specified value, then the interval will be classified as UNKNOWN and will be excluded from the availability calculations.
 	MinAllowedRunsPerInterval *int `mandatory:"false" json:"minAllowedRunsPerInterval"`
 }
 

@@ -15,32 +15,35 @@ import (
 	"strings"
 )
 
-// Link link between 2 nodes
+// Link Details of the link between two nodes.
 type Link struct {
 
-	// id of Link
+	// ID of the link.
 	Id *string `mandatory:"true" json:"id"`
 
-	// source node id
+	// ID of the source node.
 	Source *string `mandatory:"false" json:"source"`
 
-	// destination node id
+	// ID of the destination node.
 	Destination *string `mandatory:"false" json:"destination"`
 
-	// number of times this link is repeated
+	// Number of times the link is repeated.
 	RepeatCount *int `mandatory:"false" json:"repeatCount"`
 
-	// average packet loss
+	// Average packet loss.
 	ForwardingLoss *float64 `mandatory:"false" json:"forwardingLoss"`
 
-	// difference of packet response time between source and destination in milliseconds
+	// Difference of the packet response time between source and destination nodes, in milliseconds.
 	DelayInMilliseconds *float64 `mandatory:"false" json:"delayInMilliseconds"`
 
-	// minimum delay in milliseconds
+	// Minimum delay in milliseconds.
 	MinDelayInMilliseconds *float64 `mandatory:"false" json:"minDelayInMilliseconds"`
 
-	// maximum delay in milliseconds
+	// Maximum delay in milliseconds.
 	MaxDelayInMilliseconds *float64 `mandatory:"false" json:"maxDelayInMilliseconds"`
+
+	// List of all path ids of which this link is part of.
+	Paths []string `mandatory:"false" json:"paths"`
 }
 
 func (m Link) String() string {

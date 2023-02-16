@@ -24,13 +24,18 @@ type RestMonitorConfiguration struct {
 
 	DnsConfiguration *DnsConfiguration `mandatory:"false" json:"dnsConfiguration"`
 
-	// If redirection enabled, then redirects will be allowed while accessing target URL.
+	// If redirection is enabled, then redirects will be allowed while accessing target URL.
 	IsRedirectionEnabled *bool `mandatory:"false" json:"isRedirectionEnabled"`
 
-	// If certificate validation enabled, then call will fail for certificate errors.
+	// If certificate validation is enabled, then call will fail for certificate errors.
 	IsCertificateValidationEnabled *bool `mandatory:"false" json:"isCertificateValidationEnabled"`
 
 	ReqAuthenticationDetails *RequestAuthenticationDetails `mandatory:"false" json:"reqAuthenticationDetails"`
+
+	ClientCertificateDetails *ClientCertificateDetails `mandatory:"false" json:"clientCertificateDetails"`
+
+	// If accept self-signed certificate is enabled, it will skip errors related to self-signed certificates.
+	IsSelfSignedCertificateAccepted *bool `mandatory:"false" json:"isSelfSignedCertificateAccepted"`
 
 	// List of request headers. Example: `[{"headerName": "content-type", "headerValue":"json"}]`
 	RequestHeaders []Header `mandatory:"false" json:"requestHeaders"`
@@ -53,7 +58,7 @@ type RestMonitorConfiguration struct {
 	// Request HTTP method.
 	RequestMethod RequestMethodsEnum `mandatory:"false" json:"requestMethod,omitempty"`
 
-	// Request http authentication scheme.
+	// Request HTTP authentication scheme.
 	ReqAuthenticationScheme RequestAuthenticationSchemesEnum `mandatory:"false" json:"reqAuthenticationScheme,omitempty"`
 }
 

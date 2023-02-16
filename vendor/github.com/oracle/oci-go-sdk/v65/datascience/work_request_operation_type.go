@@ -40,12 +40,15 @@ const (
 	WorkRequestOperationTypePipelineRunDelete                         WorkRequestOperationTypeEnum = "PIPELINE_RUN_DELETE"
 	WorkRequestOperationTypeInstanceComponentTemplateArtifactValidate WorkRequestOperationTypeEnum = "INSTANCE_COMPONENT_TEMPLATE_ARTIFACT_VALIDATE"
 	WorkRequestOperationTypeMlApplicationDelete                       WorkRequestOperationTypeEnum = "ML_APPLICATION_DELETE"
+	WorkRequestOperationTypeMlApplicationPackageUpload                WorkRequestOperationTypeEnum = "ML_APPLICATION_PACKAGE_UPLOAD"
+	WorkRequestOperationTypeMlApplicationImplementationDelete         WorkRequestOperationTypeEnum = "ML_APPLICATION_IMPLEMENTATION_DELETE"
 	WorkRequestOperationTypeMlApplicationInstanceCreate               WorkRequestOperationTypeEnum = "ML_APPLICATION_INSTANCE_CREATE"
 	WorkRequestOperationTypeMlApplicationInstanceUpdate               WorkRequestOperationTypeEnum = "ML_APPLICATION_INSTANCE_UPDATE"
 	WorkRequestOperationTypeMlApplicationInstanceDelete               WorkRequestOperationTypeEnum = "ML_APPLICATION_INSTANCE_DELETE"
 	WorkRequestOperationTypeMlApplicationInstanceViewCreate           WorkRequestOperationTypeEnum = "ML_APPLICATION_INSTANCE_VIEW_CREATE"
 	WorkRequestOperationTypeMlApplicationInstanceViewUpdate           WorkRequestOperationTypeEnum = "ML_APPLICATION_INSTANCE_VIEW_UPDATE"
 	WorkRequestOperationTypeMlApplicationInstanceViewDelete           WorkRequestOperationTypeEnum = "ML_APPLICATION_INSTANCE_VIEW_DELETE"
+	WorkRequestOperationTypeMlApplicationInstanceViewUpgrade          WorkRequestOperationTypeEnum = "ML_APPLICATION_INSTANCE_VIEW_UPGRADE"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -71,12 +74,15 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"PIPELINE_RUN_DELETE":                           WorkRequestOperationTypePipelineRunDelete,
 	"INSTANCE_COMPONENT_TEMPLATE_ARTIFACT_VALIDATE": WorkRequestOperationTypeInstanceComponentTemplateArtifactValidate,
 	"ML_APPLICATION_DELETE":                         WorkRequestOperationTypeMlApplicationDelete,
+	"ML_APPLICATION_PACKAGE_UPLOAD":                 WorkRequestOperationTypeMlApplicationPackageUpload,
+	"ML_APPLICATION_IMPLEMENTATION_DELETE":          WorkRequestOperationTypeMlApplicationImplementationDelete,
 	"ML_APPLICATION_INSTANCE_CREATE":                WorkRequestOperationTypeMlApplicationInstanceCreate,
 	"ML_APPLICATION_INSTANCE_UPDATE":                WorkRequestOperationTypeMlApplicationInstanceUpdate,
 	"ML_APPLICATION_INSTANCE_DELETE":                WorkRequestOperationTypeMlApplicationInstanceDelete,
 	"ML_APPLICATION_INSTANCE_VIEW_CREATE":           WorkRequestOperationTypeMlApplicationInstanceViewCreate,
 	"ML_APPLICATION_INSTANCE_VIEW_UPDATE":           WorkRequestOperationTypeMlApplicationInstanceViewUpdate,
 	"ML_APPLICATION_INSTANCE_VIEW_DELETE":           WorkRequestOperationTypeMlApplicationInstanceViewDelete,
+	"ML_APPLICATION_INSTANCE_VIEW_UPGRADE":          WorkRequestOperationTypeMlApplicationInstanceViewUpgrade,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -102,12 +108,15 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"pipeline_run_delete":                           WorkRequestOperationTypePipelineRunDelete,
 	"instance_component_template_artifact_validate": WorkRequestOperationTypeInstanceComponentTemplateArtifactValidate,
 	"ml_application_delete":                         WorkRequestOperationTypeMlApplicationDelete,
+	"ml_application_package_upload":                 WorkRequestOperationTypeMlApplicationPackageUpload,
+	"ml_application_implementation_delete":          WorkRequestOperationTypeMlApplicationImplementationDelete,
 	"ml_application_instance_create":                WorkRequestOperationTypeMlApplicationInstanceCreate,
 	"ml_application_instance_update":                WorkRequestOperationTypeMlApplicationInstanceUpdate,
 	"ml_application_instance_delete":                WorkRequestOperationTypeMlApplicationInstanceDelete,
 	"ml_application_instance_view_create":           WorkRequestOperationTypeMlApplicationInstanceViewCreate,
 	"ml_application_instance_view_update":           WorkRequestOperationTypeMlApplicationInstanceViewUpdate,
 	"ml_application_instance_view_delete":           WorkRequestOperationTypeMlApplicationInstanceViewDelete,
+	"ml_application_instance_view_upgrade":          WorkRequestOperationTypeMlApplicationInstanceViewUpgrade,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -144,12 +153,15 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"PIPELINE_RUN_DELETE",
 		"INSTANCE_COMPONENT_TEMPLATE_ARTIFACT_VALIDATE",
 		"ML_APPLICATION_DELETE",
+		"ML_APPLICATION_PACKAGE_UPLOAD",
+		"ML_APPLICATION_IMPLEMENTATION_DELETE",
 		"ML_APPLICATION_INSTANCE_CREATE",
 		"ML_APPLICATION_INSTANCE_UPDATE",
 		"ML_APPLICATION_INSTANCE_DELETE",
 		"ML_APPLICATION_INSTANCE_VIEW_CREATE",
 		"ML_APPLICATION_INSTANCE_VIEW_UPDATE",
 		"ML_APPLICATION_INSTANCE_VIEW_DELETE",
+		"ML_APPLICATION_INSTANCE_VIEW_UPGRADE",
 	}
 }
 

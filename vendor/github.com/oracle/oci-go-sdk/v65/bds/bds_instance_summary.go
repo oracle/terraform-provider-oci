@@ -42,6 +42,9 @@ type BdsInstanceSummary struct {
 	// Boolean flag specifying whether Cloud SQL is configured or not.
 	IsCloudSqlConfigured *bool `mandatory:"true" json:"isCloudSqlConfigured"`
 
+	// Boolean flag specifying whether Kafka is configured or not.
+	IsKafkaConfigured *bool `mandatory:"true" json:"isKafkaConfigured"`
+
 	// The time the cluster was created, shown as an RFC 3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 

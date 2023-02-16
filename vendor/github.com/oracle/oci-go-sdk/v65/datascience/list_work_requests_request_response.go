@@ -157,12 +157,15 @@ const (
 	ListWorkRequestsOperationTypePipelineRunDelete                         ListWorkRequestsOperationTypeEnum = "PIPELINE_RUN_DELETE"
 	ListWorkRequestsOperationTypeInstanceComponentTemplateArtifactValidate ListWorkRequestsOperationTypeEnum = "INSTANCE_COMPONENT_TEMPLATE_ARTIFACT_VALIDATE"
 	ListWorkRequestsOperationTypeMlApplicationDelete                       ListWorkRequestsOperationTypeEnum = "ML_APPLICATION_DELETE"
+	ListWorkRequestsOperationTypeMlApplicationPackageUpload                ListWorkRequestsOperationTypeEnum = "ML_APPLICATION_PACKAGE_UPLOAD"
+	ListWorkRequestsOperationTypeMlApplicationImplementationDelete         ListWorkRequestsOperationTypeEnum = "ML_APPLICATION_IMPLEMENTATION_DELETE"
 	ListWorkRequestsOperationTypeMlApplicationInstanceCreate               ListWorkRequestsOperationTypeEnum = "ML_APPLICATION_INSTANCE_CREATE"
 	ListWorkRequestsOperationTypeMlApplicationInstanceUpdate               ListWorkRequestsOperationTypeEnum = "ML_APPLICATION_INSTANCE_UPDATE"
 	ListWorkRequestsOperationTypeMlApplicationInstanceDelete               ListWorkRequestsOperationTypeEnum = "ML_APPLICATION_INSTANCE_DELETE"
 	ListWorkRequestsOperationTypeMlApplicationInstanceViewCreate           ListWorkRequestsOperationTypeEnum = "ML_APPLICATION_INSTANCE_VIEW_CREATE"
 	ListWorkRequestsOperationTypeMlApplicationInstanceViewUpdate           ListWorkRequestsOperationTypeEnum = "ML_APPLICATION_INSTANCE_VIEW_UPDATE"
 	ListWorkRequestsOperationTypeMlApplicationInstanceViewDelete           ListWorkRequestsOperationTypeEnum = "ML_APPLICATION_INSTANCE_VIEW_DELETE"
+	ListWorkRequestsOperationTypeMlApplicationInstanceViewUpgrade          ListWorkRequestsOperationTypeEnum = "ML_APPLICATION_INSTANCE_VIEW_UPGRADE"
 )
 
 var mappingListWorkRequestsOperationTypeEnum = map[string]ListWorkRequestsOperationTypeEnum{
@@ -188,12 +191,15 @@ var mappingListWorkRequestsOperationTypeEnum = map[string]ListWorkRequestsOperat
 	"PIPELINE_RUN_DELETE":                           ListWorkRequestsOperationTypePipelineRunDelete,
 	"INSTANCE_COMPONENT_TEMPLATE_ARTIFACT_VALIDATE": ListWorkRequestsOperationTypeInstanceComponentTemplateArtifactValidate,
 	"ML_APPLICATION_DELETE":                         ListWorkRequestsOperationTypeMlApplicationDelete,
+	"ML_APPLICATION_PACKAGE_UPLOAD":                 ListWorkRequestsOperationTypeMlApplicationPackageUpload,
+	"ML_APPLICATION_IMPLEMENTATION_DELETE":          ListWorkRequestsOperationTypeMlApplicationImplementationDelete,
 	"ML_APPLICATION_INSTANCE_CREATE":                ListWorkRequestsOperationTypeMlApplicationInstanceCreate,
 	"ML_APPLICATION_INSTANCE_UPDATE":                ListWorkRequestsOperationTypeMlApplicationInstanceUpdate,
 	"ML_APPLICATION_INSTANCE_DELETE":                ListWorkRequestsOperationTypeMlApplicationInstanceDelete,
 	"ML_APPLICATION_INSTANCE_VIEW_CREATE":           ListWorkRequestsOperationTypeMlApplicationInstanceViewCreate,
 	"ML_APPLICATION_INSTANCE_VIEW_UPDATE":           ListWorkRequestsOperationTypeMlApplicationInstanceViewUpdate,
 	"ML_APPLICATION_INSTANCE_VIEW_DELETE":           ListWorkRequestsOperationTypeMlApplicationInstanceViewDelete,
+	"ML_APPLICATION_INSTANCE_VIEW_UPGRADE":          ListWorkRequestsOperationTypeMlApplicationInstanceViewUpgrade,
 }
 
 var mappingListWorkRequestsOperationTypeEnumLowerCase = map[string]ListWorkRequestsOperationTypeEnum{
@@ -219,12 +225,15 @@ var mappingListWorkRequestsOperationTypeEnumLowerCase = map[string]ListWorkReque
 	"pipeline_run_delete":                           ListWorkRequestsOperationTypePipelineRunDelete,
 	"instance_component_template_artifact_validate": ListWorkRequestsOperationTypeInstanceComponentTemplateArtifactValidate,
 	"ml_application_delete":                         ListWorkRequestsOperationTypeMlApplicationDelete,
+	"ml_application_package_upload":                 ListWorkRequestsOperationTypeMlApplicationPackageUpload,
+	"ml_application_implementation_delete":          ListWorkRequestsOperationTypeMlApplicationImplementationDelete,
 	"ml_application_instance_create":                ListWorkRequestsOperationTypeMlApplicationInstanceCreate,
 	"ml_application_instance_update":                ListWorkRequestsOperationTypeMlApplicationInstanceUpdate,
 	"ml_application_instance_delete":                ListWorkRequestsOperationTypeMlApplicationInstanceDelete,
 	"ml_application_instance_view_create":           ListWorkRequestsOperationTypeMlApplicationInstanceViewCreate,
 	"ml_application_instance_view_update":           ListWorkRequestsOperationTypeMlApplicationInstanceViewUpdate,
 	"ml_application_instance_view_delete":           ListWorkRequestsOperationTypeMlApplicationInstanceViewDelete,
+	"ml_application_instance_view_upgrade":          ListWorkRequestsOperationTypeMlApplicationInstanceViewUpgrade,
 }
 
 // GetListWorkRequestsOperationTypeEnumValues Enumerates the set of values for ListWorkRequestsOperationTypeEnum
@@ -261,12 +270,15 @@ func GetListWorkRequestsOperationTypeEnumStringValues() []string {
 		"PIPELINE_RUN_DELETE",
 		"INSTANCE_COMPONENT_TEMPLATE_ARTIFACT_VALIDATE",
 		"ML_APPLICATION_DELETE",
+		"ML_APPLICATION_PACKAGE_UPLOAD",
+		"ML_APPLICATION_IMPLEMENTATION_DELETE",
 		"ML_APPLICATION_INSTANCE_CREATE",
 		"ML_APPLICATION_INSTANCE_UPDATE",
 		"ML_APPLICATION_INSTANCE_DELETE",
 		"ML_APPLICATION_INSTANCE_VIEW_CREATE",
 		"ML_APPLICATION_INSTANCE_VIEW_UPDATE",
 		"ML_APPLICATION_INSTANCE_VIEW_DELETE",
+		"ML_APPLICATION_INSTANCE_VIEW_UPGRADE",
 	}
 }
 
