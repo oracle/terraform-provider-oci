@@ -162,6 +162,15 @@ func DatabaseMigrationConnectionResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"nsg_ids": {
+				Type:     schema.TypeSet,
+				Optional: true,
+				Computed: true,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"private_endpoint": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -395,6 +404,20 @@ func (s *DatabaseMigrationConnectionResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+			request.NsgIds = tmp
+		}
 	}
 
 	if privateEndpoint, ok := s.D.GetOkExists("private_endpoint"); ok {
@@ -648,6 +671,20 @@ func (s *DatabaseMigrationConnectionResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+			request.NsgIds = tmp
+		}
+	}
+
 	if privateEndpoint, ok := s.D.GetOkExists("private_endpoint"); ok {
 		if tmpList := privateEndpoint.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "private_endpoint", 0)
@@ -768,6 +805,12 @@ func (s *DatabaseMigrationConnectionResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	nsgIds := []interface{}{}
+	for _, item := range s.Res.NsgIds {
+		nsgIds = append(nsgIds, item)
+	}
+	s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
+
 	if s.Res.PrivateEndpoint != nil {
 		s.D.Set("private_endpoint", []interface{}{PrivateEndpointDetailsToMap(s.Res.PrivateEndpoint)})
 	} else {
@@ -832,6 +875,11 @@ func ConnectionSummaryToMapMig(obj oci_database_migration.ConnectionSummary) map
 
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
+	}
+
+	nsgIds := []interface{}{}
+	for _, item := range obj.NsgIds {
+		nsgIds = append(nsgIds, item)
 	}
 
 	result["state"] = string(obj.LifecycleState)
