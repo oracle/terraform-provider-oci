@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_database_autonomous_database"
 sidebar_current: "docs-oci-resource-database-autonomous_database"
 description: |-
-Provides the Autonomous Database resource in Oracle Cloud Infrastructure Database service
+  Provides the Autonomous Database resource in Oracle Cloud Infrastructure Database service
 ---
 
 # oci_database_autonomous_database
