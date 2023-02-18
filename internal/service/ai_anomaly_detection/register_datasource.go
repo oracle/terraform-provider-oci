@@ -10,6 +10,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_ai_anomaly_detection_ai_private_endpoints", AiAnomalyDetectionAiPrivateEndpointsDataSource())
 	tfresource.RegisterDatasource("oci_ai_anomaly_detection_data_asset", AiAnomalyDetectionDataAssetDataSource())
 	tfresource.RegisterDatasource("oci_ai_anomaly_detection_data_assets", AiAnomalyDetectionDataAssetsDataSource())
+	tfresource.RegisterDatasource("oci_ai_anomaly_detection_detect_anomaly_job", AiAnomalyDetectionDetectAnomalyJobDataSource())
+	tfresource.RegisterDatasource("oci_ai_anomaly_detection_detect_anomaly_jobs", AiAnomalyDetectionDetectAnomalyJobsDataSource())
 	tfresource.RegisterDatasource("oci_ai_anomaly_detection_model", AiAnomalyDetectionModelDataSource())
 	tfresource.RegisterDatasource("oci_ai_anomaly_detection_models", AiAnomalyDetectionModelsDataSource())
 	tfresource.RegisterDatasource("oci_ai_anomaly_detection_project", AiAnomalyDetectionProjectDataSource())

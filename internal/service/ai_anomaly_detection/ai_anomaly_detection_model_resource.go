@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package ai_anomaly_detection
@@ -56,6 +56,12 @@ func AiAnomalyDetectionModelResource() *schema.Resource {
 						},
 
 						// Optional
+						"algorithm_hint": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"target_fap": {
 							Type:             schema.TypeFloat,
 							Optional:         true,
@@ -69,6 +75,12 @@ func AiAnomalyDetectionModelResource() *schema.Resource {
 							Computed:         true,
 							ForceNew:         true,
 							DiffSuppressFunc: tfresource.AdDiffSuppress,
+						},
+						"window_size": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
 						},
 
 						// Computed
@@ -129,7 +141,19 @@ func AiAnomalyDetectionModelResource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"mae": {
+							Type:     schema.TypeFloat,
+							Computed: true,
+						},
+						"max_inference_sync_rows": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"multivariate_fap": {
+							Type:     schema.TypeFloat,
+							Computed: true,
+						},
+						"rmse": {
 							Type:     schema.TypeFloat,
 							Computed: true,
 						},
@@ -209,6 +233,10 @@ func AiAnomalyDetectionModelResource() *schema.Resource {
 						},
 						"warning": {
 							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"window_size": {
+							Type:     schema.TypeInt,
 							Computed: true,
 						},
 					},
@@ -682,6 +710,10 @@ func ModelSummaryToMap(obj oci_ai_anomaly_detection.ModelSummary) map[string]int
 func (s *AiAnomalyDetectionModelResourceCrud) mapToModelTrainingDetails(fieldKeyFormat string) (oci_ai_anomaly_detection.ModelTrainingDetails, error) {
 	result := oci_ai_anomaly_detection.ModelTrainingDetails{}
 
+	if algorithmHint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "algorithm_hint")); ok {
+		result.AlgorithmHint = oci_ai_anomaly_detection.ModelTrainingDetailsAlgorithmHintEnum(algorithmHint.(string))
+	}
+
 	if dataAssetIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "data_asset_ids")); ok {
 		interfaces := dataAssetIds.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -709,11 +741,18 @@ func (s *AiAnomalyDetectionModelResourceCrud) mapToModelTrainingDetails(fieldKey
 		result.TrainingFraction = &f32
 	}
 
+	if windowSize, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "window_size")); ok {
+		tmp := windowSize.(int)
+		result.WindowSize = &tmp
+	}
+
 	return result, nil
 }
 
 func ModelTrainingDetailsToMap(obj *oci_ai_anomaly_detection.ModelTrainingDetails) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	result["algorithm_hint"] = string(obj.AlgorithmHint)
 
 	result["data_asset_ids"] = obj.DataAssetIds
 
@@ -723,6 +762,10 @@ func ModelTrainingDetailsToMap(obj *oci_ai_anomaly_detection.ModelTrainingDetail
 
 	if obj.TrainingFraction != nil {
 		result["training_fraction"] = float32(*obj.TrainingFraction)
+	}
+
+	if obj.WindowSize != nil {
+		result["window_size"] = int(*obj.WindowSize)
 	}
 
 	return result
@@ -755,6 +798,10 @@ func ModelTrainingResultsToMap(obj *oci_ai_anomaly_detection.ModelTrainingResult
 
 	if obj.Warning != nil {
 		result["warning"] = string(*obj.Warning)
+	}
+
+	if obj.WindowSize != nil {
+		result["window_size"] = int(*obj.WindowSize)
 	}
 
 	return result
