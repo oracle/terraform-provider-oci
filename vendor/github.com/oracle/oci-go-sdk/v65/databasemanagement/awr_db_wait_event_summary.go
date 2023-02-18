@@ -35,6 +35,9 @@ type AwrDbWaitEventSummary struct {
 	// The average wait time per second.
 	AvgWaitTimePerSec *float64 `mandatory:"false" json:"avgWaitTimePerSec"`
 
+	// The average wait time in milliseconds per wait.
+	AvgWaitTimePerWait *float64 `mandatory:"false" json:"avgWaitTimePerWait"`
+
 	// The ID of the snapshot. The snapshot ID is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	// It can be retrieved from the following endpoint:
 	// /managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbSnapshots
