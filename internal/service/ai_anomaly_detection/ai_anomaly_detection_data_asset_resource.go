@@ -524,9 +524,9 @@ func (s *AiAnomalyDetectionDataAssetResourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
-	if s.Res.SystemTags != nil {
-		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
-	}
+	// if s.Res.SystemTags != nil {
+	// 	s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	// }
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
@@ -582,9 +582,9 @@ func AiDataAssetSummaryToMap(obj oci_ai_anomaly_detection.DataAssetSummary) map[
 
 	result["state"] = string(obj.LifecycleState)
 
-	if obj.SystemTags != nil {
-		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
-	}
+	// if obj.SystemTags != nil {
+	// 	result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	// }
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
