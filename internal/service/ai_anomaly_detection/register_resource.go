@@ -8,6 +8,7 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 func RegisterResource() {
 	tfresource.RegisterResource("oci_ai_anomaly_detection_ai_private_endpoint", AiAnomalyDetectionAiPrivateEndpointResource())
 	tfresource.RegisterResource("oci_ai_anomaly_detection_data_asset", AiAnomalyDetectionDataAssetResource())
+	tfresource.RegisterResource("oci_ai_anomaly_detection_detect_anomaly_job", AiAnomalyDetectionDetectAnomalyJobResource())
 	tfresource.RegisterResource("oci_ai_anomaly_detection_model", AiAnomalyDetectionModelResource())
 	tfresource.RegisterResource("oci_ai_anomaly_detection_project", AiAnomalyDetectionProjectResource())
 }
