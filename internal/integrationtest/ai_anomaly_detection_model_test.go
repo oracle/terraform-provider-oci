@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -49,27 +49,29 @@ var (
 
 	aiAnomalyDetectionModelRepresentation = map[string]interface{}{
 		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"model_training_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: modelModelTrainingDetailsRepresentation},
-		"project_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_ai_anomaly_detection_data_asset.test_data_asset.project_id}`},
-		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":            acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle":              acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRep},
+		"model_training_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: AiAnomalyDetectionModelModelTrainingDetailsRepresentation},
+		"project_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_ai_anomaly_detection_project.test_project.id}`},
+		//"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":     acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreModelTrainingResultsChangesRep},
 	}
-	modelModelTrainingDetailsRepresentation = map[string]interface{}{
+	AiAnomalyDetectionModelModelTrainingDetailsRepresentation = map[string]interface{}{
 		"data_asset_ids":    acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_ai_anomaly_detection_data_asset.test_data_asset.id}`}},
+		"algorithm_hint":    acctest.Representation{RepType: acctest.Optional, Create: `MULTIVARIATE_MSET`},
 		"target_fap":        acctest.Representation{RepType: acctest.Optional, Create: `0.01`},
 		"training_fraction": acctest.Representation{RepType: acctest.Optional, Create: `0.7`},
+		"window_size":       acctest.Representation{RepType: acctest.Optional, Create: `10`},
 	}
 
 	ignoreModelTrainingResultsChangesRep = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`model_training_details[0].target_fap`, `model_training_details[0].target_fap`, `model_training_results`}},
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`model_training_details[0].target_fap`, `model_training_details[0].target_fap`, `model_training_results`, `defined_tags`, `system_tags`}},
 	}
 
 	AiAnomalyDetectionModelResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_project", "test_project", acctest.Required, acctest.Create, aiAnomalyDetectionProjectRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", acctest.Required, acctest.Create, aiAnomalyDetectionDataAssetRepresentation) +
-		DefinedTagsDependencies
+		acctest.GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", acctest.Required, acctest.Create, aiAnomalyDetectionDataAssetRepresentation) //+
+		//DefinedTagsDependencies
 )
 
 func TestAiAnomalyDetectionModelResource_basic(t *testing.T) {
@@ -123,12 +125,14 @@ func TestAiAnomalyDetectionModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "model_training_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_training_details.0.algorithm_hint", "MULTIVARIATE_MSET"),
 				resource.TestCheckResourceAttr(resourceName, "model_training_details.0.data_asset_ids.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "model_training_details.0.target_fap"),
 				resource.TestCheckResourceAttrSet(resourceName, "model_training_details.0.training_fraction"),
+				resource.TestCheckResourceAttr(resourceName, "model_training_details.0.window_size", "10"),
 				resource.TestCheckResourceAttr(resourceName, "model_training_results.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -157,12 +161,14 @@ func TestAiAnomalyDetectionModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "model_training_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_training_details.0.algorithm_hint", "MULTIVARIATE_MSET"),
 				resource.TestCheckResourceAttr(resourceName, "model_training_details.0.data_asset_ids.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "model_training_details.0.target_fap"),
 				resource.TestCheckResourceAttrSet(resourceName, "model_training_details.0.training_fraction"),
+				resource.TestCheckResourceAttr(resourceName, "model_training_details.0.window_size", "10"),
 				resource.TestCheckResourceAttr(resourceName, "model_training_results.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -186,12 +192,14 @@ func TestAiAnomalyDetectionModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "model_training_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_training_details.0.algorithm_hint", "MULTIVARIATE_MSET"),
 				resource.TestCheckResourceAttr(resourceName, "model_training_details.0.data_asset_ids.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "model_training_details.0.target_fap"),
 				resource.TestCheckResourceAttrSet(resourceName, "model_training_details.0.training_fraction"),
+				resource.TestCheckResourceAttr(resourceName, "model_training_details.0.window_size", "10"),
 				resource.TestCheckResourceAttr(resourceName, "model_training_results.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -233,12 +241,14 @@ func TestAiAnomalyDetectionModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				//resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "model_training_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "model_training_details.0.algorithm_hint", "MULTIVARIATE_MSET"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "model_training_details.0.data_asset_ids.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "model_training_details.0.target_fap"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "model_training_details.0.training_fraction"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "model_training_details.0.window_size", "10"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "model_training_results.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

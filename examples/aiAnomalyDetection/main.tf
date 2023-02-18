@@ -147,6 +147,75 @@ variable "model_state" {
   default = "ACTIVE"
 }
 
+variable "detect_anomaly_job_description" {
+  default = "description"
+}
+
+variable "detect_anomaly_job_display_name" {
+  default = "displayName"
+}
+
+variable "detect_anomaly_job_input_details_content" {
+  default = "content"
+}
+
+variable "detect_anomaly_job_input_details_content_type" {
+  default = "CSV"
+}
+
+variable "detect_anomaly_job_input_details_data_timestamp" {
+  default = "timestamp"
+}
+
+variable "detect_anomaly_job_input_details_data_values" {
+  default = []
+}
+
+variable "detect_anomaly_job_input_details_input_type" {
+  default = "INLINE"
+}
+
+variable "detect_anomaly_job_input_details_object_locations_bucket" {
+  default = "bucket"
+}
+
+variable "detect_anomaly_job_input_details_object_locations_namespace" {
+  default = "namespace"
+}
+
+variable "detect_anomaly_job_input_details_object_locations_object" {
+  default = "object"
+}
+
+variable "detect_anomaly_job_input_details_signal_names" {
+  default = []
+}
+
+variable "detect_anomaly_job_output_details_bucket" {
+  default = "bucket"
+}
+
+variable "detect_anomaly_job_output_details_namespace" {
+  default = "namespace"
+}
+
+variable "detect_anomaly_job_output_details_output_type" {
+  default = "OBJECT_STORAGE"
+}
+
+variable "detect_anomaly_job_output_details_prefix" {
+  default = "prefix"
+}
+
+variable "detect_anomaly_job_sensitivity" {
+  default = 1.0
+}
+
+variable "detect_anomaly_job_state" {
+  default = "AVAILABLE"
+}
+
+
 
 provider "oci" {
   tenancy_ocid = var.tenancy_ocid
@@ -325,4 +394,56 @@ data "oci_ai_anomaly_detection_models" "test_models" {
   state = var.model_state
 }
 
+resource "oci_ai_anomaly_detection_detect_anomaly_job" "test_detect_anomaly_job" {
+  #Required
+  compartment_id = var.compartment_id
+  input_details {
+    #Required
+    input_type = var.detect_anomaly_job_input_details_input_type
 
+    #Optional
+    content      = var.detect_anomaly_job_input_details_content
+    content_type = var.detect_anomaly_job_input_details_content_type
+    data {
+
+      #Optional
+      timestamp = var.detect_anomaly_job_input_details_data_timestamp
+      values    = var.detect_anomaly_job_input_details_data_values
+    }
+    object_locations {
+
+      #Optional
+      bucket    = var.detect_anomaly_job_input_details_object_locations_bucket
+      namespace = var.detect_anomaly_job_input_details_object_locations_namespace
+      object    = var.detect_anomaly_job_input_details_object_locations_object
+    }
+    signal_names = var.detect_anomaly_job_input_details_signal_names
+  }
+  model_id = oci_ai_anomaly_detection_model.test_model.id
+  output_details {
+    #Required
+    bucket      = var.detect_anomaly_job_output_details_bucket
+    namespace   = var.detect_anomaly_job_output_details_namespace
+    output_type = var.detect_anomaly_job_output_details_output_type
+
+    #Optional
+    prefix = var.detect_anomaly_job_output_details_prefix
+  }
+
+  #Optional
+  description  = var.detect_anomaly_job_description
+  display_name = var.detect_anomaly_job_display_name
+  sensitivity  = var.detect_anomaly_job_sensitivity
+}
+
+data "oci_ai_anomaly_detection_detect_anomaly_jobs" "test_detect_anomaly_jobs" {
+  #Required
+  compartment_id = var.compartment_id
+
+  #Optional
+  detect_anomaly_job_id = oci_ai_anomaly_detection_detect_anomaly_job.test_detect_anomaly_job.id
+  display_name          = var.detect_anomaly_job_display_name
+  model_id              = oci_ai_anomaly_detection_model.test_model.id
+  project_id            = oci_ai_anomaly_detection_project.test_project.id
+  state                 = var.detect_anomaly_job_state
+}

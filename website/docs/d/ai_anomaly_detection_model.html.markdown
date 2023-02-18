@@ -40,10 +40,13 @@ The following attributes are exported:
 * `id` - The OCID of the model that is immutable on creation.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `model_training_details` - Specifies the details of the MSET model during the create call.
+	* `algorithm_hint` - User can choose specific algorithm for training.
 	* `data_asset_ids` - The list of OCIDs of the data assets to train the model. The dataAssets have to be in the same project where the ai model would reside.
 	* `target_fap` - A target model accuracy metric user provides as their requirement
 	* `training_fraction` - Fraction of total data that is used for training the model. The remaining is used for validation of the model.
+	* `window_size` - This value would determine the window size of the training algorithm.
 * `model_training_results` - Specifies the details for an Anomaly Detection model trained with MSET.
+	* `algorithm` - Actual algorithm used to train the model
 	* `fap` - The final-achieved model accuracy metric on individual value level
 	* `is_training_goal_achieved` - A boolean value to indicate if train goal/targetFap is achieved for trained model
 	* `multivariate_fap` - The model accuracy metric on timestamp level.
@@ -67,6 +70,7 @@ The following attributes are exported:
 			* OTHER - placeholder for other status 
 		* `std` - Standard deviation of values within a signal.
 	* `warning` - A warning message to explain the reason when targetFap cannot be achieved for trained model
+	* `window_size` - Window size defined during training or deduced by the algorithm.
 * `project_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate with the model.
 * `state` - The state of the model.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
