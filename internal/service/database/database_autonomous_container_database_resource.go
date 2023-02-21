@@ -126,6 +126,12 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"db_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"db_unique_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -748,6 +754,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if dbName, ok := s.D.GetOkExists("db_name"); ok {
+		tmp := dbName.(string)
+		request.DbName = &tmp
+	}
+
 	if dbUniqueName, ok := s.D.GetOkExists("db_unique_name"); ok {
 		tmp := dbUniqueName.(string)
 		request.DbUniqueName = &tmp
@@ -1039,6 +1050,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 	}
 
 	s.D.Set("compute_model", s.Res.ComputeModel)
+
+	if s.Res.DbName != nil {
+		s.D.Set("db_name", *s.Res.DbName)
+	}
 
 	if s.Res.DbVersion != nil {
 		s.D.Set("db_version", *s.Res.DbVersion)

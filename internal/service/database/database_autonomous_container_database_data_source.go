@@ -98,6 +98,10 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 
 	s.D.Set("compute_model", s.Res.ComputeModel)
 
+	if s.Res.DbName != nil {
+		s.D.Set("db_name", *s.Res.DbName)
+	}
+
 	if s.Res.DbUniqueName != nil {
 		s.D.Set("db_unique_name", *s.Res.DbUniqueName)
 	}
