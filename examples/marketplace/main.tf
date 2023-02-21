@@ -30,14 +30,14 @@ provider "oci" {
 
 resource "oci_marketplace_accepted_agreement" "test_accepted_agreement" {
   #Required
-  agreement_id    = data.oci_marketplace_listing_package_agreement.test_listing_package_agreement.agreement_id
+  agreement_id    = oci_marketplace_listing_package_agreement.test_listing_package_agreement.agreement_id
   compartment_id  = var.compartment_ocid
   listing_id      = data.oci_marketplace_listing.test_listing.id
   package_version = data.oci_marketplace_listing.test_listing.default_package_version
-  signature       = data.oci_marketplace_listing_package_agreement.test_listing_package_agreement.signature
+  signature       = oci_marketplace_listing_package_agreement.test_listing_package_agreement.signature
 }
 
-data "oci_marketplace_listing_package_agreement" "test_listing_package_agreement" {
+resource "oci_marketplace_listing_package_agreement" "test_listing_package_agreement" {
   #Required
   agreement_id    = data.oci_marketplace_listing_package_agreements.test_listing_package_agreements.agreements[0].id
   listing_id      = data.oci_marketplace_listing.test_listing.id
