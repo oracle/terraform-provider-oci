@@ -23,6 +23,7 @@ var (
 		"finding_key":               acctest.Representation{RepType: acctest.Optional, Create: `findingKey`},
 		"severity":                  acctest.Representation{RepType: acctest.Optional, Create: `HIGH`},
 	}
+	DataSafeSecurityAssessmentFindingReferencesDataSourceRepresentation = map[string]interface{}{}
 
 	DataSafeSecurityAssessmentFindingResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment_findings", acctest.Required, acctest.Create, securityAssessmentRepresentation)
 )
@@ -51,14 +52,14 @@ func TestDataSafeSecurityAssessmentFindingResource_basic(t *testing.T) {
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_security_assessment_findings", "test_security_assessment_findings", acctest.Required, acctest.Create, DataSafesecurityAssessmentFindingDataSourceRepresentation) +
 				compartmentIdVariableStr + DataSafeSecurityAssessmentFindingResourceConfig + targetIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "security_assessment_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "findings.#"),
-				resource.TestCheckResourceAttrSet(datasourceName, "findings.1.key"),
-				resource.TestCheckResourceAttr(datasourceName, "findings.1.references.#", "1"),
-				resource.TestCheckResourceAttrSet(datasourceName, "findings.1.remarks"),
-				resource.TestCheckResourceAttrSet(datasourceName, "findings.1.severity"),
-				resource.TestCheckResourceAttrSet(datasourceName, "findings.1.summary"),
-				resource.TestCheckResourceAttrSet(datasourceName, "findings.1.target_id"),
-				resource.TestCheckResourceAttrSet(datasourceName, "findings.1.title"),
+				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.key"),
+				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.remarks"),
+				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.severity"),
+				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.summary"),
+				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.target_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.title"),
 			),
 		},
 	})

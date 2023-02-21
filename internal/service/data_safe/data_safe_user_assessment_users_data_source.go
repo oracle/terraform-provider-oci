@@ -80,6 +80,18 @@ func DataSafeUserAssessmentUsersDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"user_profile": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"user_role": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"user_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"users": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -262,6 +274,21 @@ func (s *DataSafeUserAssessmentUsersDataSourceCrud) Get() error {
 	if userName, ok := s.D.GetOkExists("user_name"); ok {
 		tmp := userName.(string)
 		request.UserName = &tmp
+	}
+
+	if userProfile, ok := s.D.GetOkExists("user_profile"); ok {
+		tmp := userProfile.(string)
+		request.UserProfile = &tmp
+	}
+
+	if userRole, ok := s.D.GetOkExists("user_role"); ok {
+		tmp := userRole.(string)
+		request.UserRole = &tmp
+	}
+
+	if userType, ok := s.D.GetOkExists("user_type"); ok {
+		tmp := userType.(string)
+		request.UserType = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")

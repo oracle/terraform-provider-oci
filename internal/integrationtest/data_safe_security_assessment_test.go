@@ -117,7 +117,7 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DataSafeSecurityAssessmentResourceDependencies,
+			Config: config + compartmentIdVariableStr + DataSafeSecurityAssessmentResourceDependencies + targetIdVariableStr,
 		},
 		// verify Create with optionals
 		{
@@ -217,6 +217,7 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "security_assessments.0.state"),
 				resource.TestCheckResourceAttr(datasourceName, "security_assessments.0.statistics.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "security_assessments.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "security_assessments.0.time_last_assessed"),
 				resource.TestCheckResourceAttrSet(datasourceName, "security_assessments.0.time_updated"),
 				resource.TestCheckResourceAttrSet(datasourceName, "security_assessments.0.triggered_by"),
 				resource.TestCheckResourceAttrSet(datasourceName, "security_assessments.0.type"),
@@ -241,6 +242,7 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "target_ids.#", "1"),
 				// resource.TestCheckResourceAttrSet(singularDatasourceName, "target_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_last_assessed"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "triggered_by"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
@@ -252,7 +254,7 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + targetIdVariableStr + autonomousDbIdVariableStr,
+			Config:            config + DataSafeSecurityAssessmentRequiredOnlyResource + targetIdVariableStr + autonomousDbIdVariableStr,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -276,10 +278,16 @@ func testAccCheckDataSafeSecurityAssessmentDestroy(s *terraform.State) error {
 
 			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "data_safe")
 
-			_, err := client.GetSecurityAssessment(context.Background(), request)
+			response, err := client.GetSecurityAssessment(context.Background(), request)
 
 			if err == nil {
-				return fmt.Errorf("resource still exists")
+				deletedLifecycleStates := map[string]bool{
+					string(oci_data_safe.SecurityAssessmentLifecycleStateDeleted): true,
+				}
+				if _, ok := deletedLifecycleStates[string(response.LifecycleState)]; !ok {
+					//resource lifecycle state is expected to be in deleted lifecycle states.
+					return fmt.Errorf("resource lifecycle state: %s is not in expected deleted lifecycle states", response.LifecycleState)
+				}
 			}
 
 			//Verify that exception is for '404 not found'.

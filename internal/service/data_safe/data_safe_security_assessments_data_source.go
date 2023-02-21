@@ -271,6 +271,10 @@ func (s *DataSafeSecurityAssessmentsDataSourceCrud) SetData() error {
 			securityAssessment["time_created"] = r.TimeCreated.String()
 		}
 
+		if r.TimeLastAssessed != nil {
+			securityAssessment["time_last_assessed"] = r.TimeLastAssessed.String()
+		}
+
 		if r.TimeUpdated != nil {
 			securityAssessment["time_updated"] = r.TimeUpdated.String()
 		}

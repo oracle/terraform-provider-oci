@@ -141,6 +141,10 @@ func (s *DataSafeUserAssessmentDataSourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	if s.Res.TimeLastAssessed != nil {
+		s.D.Set("time_last_assessed", s.Res.TimeLastAssessed.String())
+	}
+
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}

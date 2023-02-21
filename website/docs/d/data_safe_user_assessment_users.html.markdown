@@ -38,6 +38,9 @@ data "oci_data_safe_user_assessment_users" "test_user_assessment_users" {
 	user_category = var.user_assessment_user_user_category
 	user_key = var.user_assessment_user_user_key
 	user_name = oci_identity_user.test_user.name
+	user_profile = var.user_assessment_user_user_profile
+	user_role = var.user_assessment_user_user_role
+	user_type = var.user_assessment_user_user_type
 }
 ```
 
@@ -66,6 +69,14 @@ The following arguments are supported:
 * `user_category` - (Optional) A filter to return only items that match the specified user category.
 * `user_key` - (Optional) A filter to return only items that match the specified user key.
 * `user_name` - (Optional) A filter to return only items that match the specified user name.
+* `user_profile` - (Optional) A filter to return only items that match the specified user profile.
+* `user_role` - (Optional) A filter to return only items that match the specified user role.
+* `user_type` - (Optional) A filter to return only items that match the specified user type. The possible values can be
+	* ADMIN_PRIVILEGED
+	* APPLICATION
+	* PRIVILEGED
+	* SCHEMA
+	* NON_PRIVILEGED as specified by '#/definitions/userTypes'. 
 
 
 ## Attributes Reference

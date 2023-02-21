@@ -549,6 +549,7 @@ data_safe
 * oci\_data\_safe\_sensitive\_data\_models\_sensitive\_column
 * oci\_data\_safe\_discovery\_jobs\_result
 * oci\_data\_safe\_discovery\_job
+* oci\_data\_safe\_sdm\_masking\_policy\_difference
 
 database
 

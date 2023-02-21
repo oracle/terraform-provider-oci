@@ -21,6 +21,7 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_data_safe_masking_policy", DataSafeMaskingPolicyResource())
 	tfresource.RegisterResource("oci_data_safe_on_prem_connector", DataSafeOnPremConnectorResource())
 	tfresource.RegisterResource("oci_data_safe_report_definition", DataSafeReportDefinitionResource())
+	tfresource.RegisterResource("oci_data_safe_sdm_masking_policy_difference", DataSafeSdmMaskingPolicyDifferenceResource())
 	tfresource.RegisterResource("oci_data_safe_security_assessment", DataSafeSecurityAssessmentResource())
 	tfresource.RegisterResource("oci_data_safe_sensitive_data_model", DataSafeSensitiveDataModelResource())
 	tfresource.RegisterResource("oci_data_safe_sensitive_data_models_sensitive_column", DataSafeSensitiveDataModelsSensitiveColumnResource())
@@ -35,5 +36,6 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_data_safe_mask_data", DataSafeMaskDataResource())
 	tfresource.RegisterResource("oci_data_safe_add_sdm_columns", DataSafeAddColumnsFromSdmResource())
 	tfresource.RegisterResource("oci_data_safe_sensitive_data_models_apply_discovery_job_results", DataSafeSensitiveDataModelsApplyDiscoveryJobResultsResource())
+	tfresource.RegisterResource("oci_data_safe_masking_policies_apply_difference_to_masking_columns", DataSafeMaskingPolicyApplyDifferenceToMaskingColumnsResource())
 	tfresource.RegisterResource("oci_data_safe_discovery_jobs_result", DataSafeDiscoveryJobsResultResource())
 }

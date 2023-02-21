@@ -216,6 +216,7 @@ func TestDataSafeUserAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "user_assessments.0.is_baseline"),
 				resource.TestCheckResourceAttrSet(datasourceName, "user_assessments.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "user_assessments.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "user_assessments.0.time_last_assessed"),
 				resource.TestCheckResourceAttrSet(datasourceName, "user_assessments.0.time_updated"),
 				resource.TestCheckResourceAttrSet(datasourceName, "user_assessments.0.triggered_by"),
 				resource.TestCheckResourceAttrSet(datasourceName, "user_assessments.0.type"),
@@ -238,6 +239,7 @@ func TestDataSafeUserAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "target_ids.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_last_assessed"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "triggered_by"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
@@ -269,10 +271,16 @@ func testAccCheckDataSafeUserAssessmentDestroy(s *terraform.State) error {
 
 			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "data_safe")
 
-			_, err := client.GetUserAssessment(context.Background(), request)
+			response, err := client.GetUserAssessment(context.Background(), request)
 
 			if err == nil {
-				return fmt.Errorf("resource still exists")
+				deletedLifecycleStates := map[string]bool{
+					string(oci_data_safe.UserAssessmentLifecycleStateDeleted): true,
+				}
+				if _, ok := deletedLifecycleStates[string(response.LifecycleState)]; !ok {
+					//resource lifecycle state is expected to be in deleted lifecycle states.
+					return fmt.Errorf("resource lifecycle state: %s is not in expected deleted lifecycle states", response.LifecycleState)
+				}
 			}
 
 			//Verify that exception is for '404 not found'.

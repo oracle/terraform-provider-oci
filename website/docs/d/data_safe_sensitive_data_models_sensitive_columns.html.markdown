@@ -24,6 +24,7 @@ data "oci_data_safe_sensitive_data_models_sensitive_columns" "test_sensitive_dat
 	column_group = var.sensitive_data_models_sensitive_column_column_group
 	column_name = var.sensitive_data_models_sensitive_column_column_name
 	data_type = var.sensitive_data_models_sensitive_column_data_type
+	is_case_in_sensitive = var.sensitive_data_models_sensitive_column_is_case_in_sensitive
 	object = var.sensitive_data_models_sensitive_column_object
 	object_type = var.sensitive_data_models_sensitive_column_object_type
 	parent_column_key = var.sensitive_data_models_sensitive_column_parent_column_key
@@ -46,6 +47,7 @@ The following arguments are supported:
 * `column_group` - (Optional) A filter to return only the sensitive columns that belong to the specified column group.
 * `column_name` - (Optional) A filter to return only a specific column based on column name.
 * `data_type` - (Optional) A filter to return only the resources that match the specified data types.
+* `is_case_in_sensitive` - (Optional) A boolean flag indicating whether the search should be case-insensitive. The search is case-sensitive by default. Set this parameter to true to do case-insensitive search. 
 * `object` - (Optional) A filter to return only items related to a specific object name.
 * `object_type` - (Optional) A filter to return only items related to a specific object type.
 * `parent_column_key` - (Optional) A filter to return only the sensitive columns that are children of one of the columns identified by the specified keys.

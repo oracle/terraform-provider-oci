@@ -33,7 +33,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `associated_resource_ids` - The OCIDs of associated resources like Database, Data Safe private endpoint etc.
+* `associated_resource_ids` - The OCIDs of associated resources like database, Data Safe private endpoint etc.
 * `compartment_id` - The OCID of the compartment which contains the Data Safe target database.
 * `connection_option` - Types of connection supported by Data Safe.
 	* `connection_type` - The connection type used to connect to the database. Allowed values:
@@ -44,10 +44,10 @@ The following attributes are exported:
 * `credentials` - The database credentials required for Data Safe to connect to the database.
 	* `password` - The password of the database user.
 	* `user_name` - The database user name.
-* `database_details` - Details of the database for the registration in Data Safe. To choose applicable database type and infrastructure type refer to  https://confluence.oci.oraclecorp.com/display/DATASAFE/Target+V2+Design 
-	* `autonomous_database_id` - The OCID of the autonomous database registered as a target database in Data Safe.
+* `database_details` - Details of the database for the registration in Data Safe. 
+	* `autonomous_database_id` - The OCID of the Autonomous Database registered as a target database in Data Safe.
 	* `database_type` - The database type.
-	* `db_system_id` - The OCID of the cloud database system registered as a target database in Data Safe.
+	* `db_system_id` - The OCID of the cloud database registered as a target database in Data Safe.
 	* `infrastructure_type` - The infrastructure type the database is running on.
 	* `instance_id` - The OCID of the compute instance on which the database is running.
 	* `ip_addresses` - The list of database host IP Addresses. Fully qualified domain names can be used if connectionType is 'ONPREM_CONNECTOR'. 
