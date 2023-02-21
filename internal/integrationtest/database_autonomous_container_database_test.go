@@ -65,6 +65,7 @@ var (
 		"maintenance_window_details":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsRepresentation},
 		"service_level_agreement_type":   acctest.Representation{RepType: acctest.Optional, Create: `STANDARD`},
 		"vault_id":                       acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_kms_vault.test_vault.id}`},
+		"db_name":                        acctest.Representation{RepType: acctest.Optional, Create: `DBNAME`},
 	}
 
 	DatabaseAutonomousContainerDatabaseBackupConfigRepresentation = map[string]interface{}{
@@ -209,6 +210,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
 				resource.TestCheckResourceAttr(resourceName, "version_preference", "LATEST_RELEASE_UPDATE"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", "DBNAME"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -269,6 +271,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
 				resource.TestCheckResourceAttr(resourceName, "version_preference", "LATEST_RELEASE_UPDATE"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", "DBNAME"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -324,6 +327,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
 				resource.TestCheckResourceAttr(resourceName, "version_preference", "NEXT_RELEASE_UPDATE"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", "DBNAME"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -379,6 +383,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.total_cpus"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.vault_id"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.version_preference", "NEXT_RELEASE_UPDATE"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.db_name", "DBNAME"),
 			),
 		},
 		// verify singular datasource
@@ -417,6 +422,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "total_cpus"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "version_preference", "NEXT_RELEASE_UPDATE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "db_name", "DBNAME"),
 			),
 		},
 
