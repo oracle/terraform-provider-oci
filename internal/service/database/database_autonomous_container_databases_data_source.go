@@ -191,6 +191,10 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 
 		autonomousContainerDatabase["compute_model"] = r.ComputeModel
 
+		if r.DbName != nil {
+			autonomousContainerDatabase["db_name"] = *r.DbName
+		}
+
 		if r.DbUniqueName != nil {
 			autonomousContainerDatabase["db_unique_name"] = *r.DbUniqueName
 		}

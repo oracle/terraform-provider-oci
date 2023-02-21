@@ -14,6 +14,8 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
   cloud_autonomous_vm_cluster_id       = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
   display_name                         = "example-container-database"
   patch_model                          = "RELEASE_UPDATES"
+  db_version                           = "19.18.0.1.0"
+  db_name                              = "acdname"
 
   #Optional
   backup_config {
