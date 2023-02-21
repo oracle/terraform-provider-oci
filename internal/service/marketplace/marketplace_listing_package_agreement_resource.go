@@ -13,27 +13,33 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
-func MarketplaceListingPackageAgreementDataSource() *schema.Resource {
+func MarketplaceListingPackageAgreementResource() *schema.Resource {
 	return &schema.Resource{
-		Read: readMarketplaceListingPackageAgreement,
+		Create: createMarketplaceListingPackageAgreement,
+		Read:   readMarketplaceListingPackageAgreement,
+		Delete: deleteMarketplaceListingPackageAgreement,
 		Schema: map[string]*schema.Schema{
 			"agreement_id": {
 				Type:     schema.TypeString,
 				Required: true,
+				ForceNew: true,
 			},
 			"listing_id": {
 				Type:     schema.TypeString,
 				Required: true,
+				ForceNew: true,
 			},
 			"package_version": {
 				Type:     schema.TypeString,
 				Required: true,
+				ForceNew: true,
 			},
 			// Optional
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+				ForceNew: true,
 			},
 			// Computed
 			"author": {
@@ -56,24 +62,39 @@ func MarketplaceListingPackageAgreementDataSource() *schema.Resource {
 	}
 }
 
+func createMarketplaceListingPackageAgreement(d *schema.ResourceData, m interface{}) error {
+	sync := &MarketplaceListingPackageAgreementResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*client.OracleClients).MarketplaceClient()
+	return tfresource.CreateResource(d, sync)
+}
+
 func readMarketplaceListingPackageAgreement(d *schema.ResourceData, m interface{}) error {
-	sync := &MarketplaceListingPackageAgreementDataSourceCrud{}
+	sync := &MarketplaceListingPackageAgreementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).MarketplaceClient()
 	return tfresource.ReadResource(sync)
 }
 
-type MarketplaceListingPackageAgreementDataSourceCrud struct {
-	D      *schema.ResourceData
-	Client *oci_marketplace.MarketplaceClient
-	Res    *oci_marketplace.GetAgreementResponse
+func deleteMarketplaceListingPackageAgreement(d *schema.ResourceData, m interface{}) error {
+	sync := &MarketplaceListingPackageAgreementResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*client.OracleClients).MarketplaceClient()
+	return tfresource.DeleteResource(d, sync)
 }
 
-func (s *MarketplaceListingPackageAgreementDataSourceCrud) VoidState() {
-	s.D.SetId("")
+type MarketplaceListingPackageAgreementResourceCrud struct {
+	tfresource.BaseCrud
+	Client                 *oci_marketplace.MarketplaceClient
+	Res                    *oci_marketplace.GetAgreementResponse
+	DisableNotFoundRetries bool
 }
 
-func (s *MarketplaceListingPackageAgreementDataSourceCrud) Get() error {
+func (s *MarketplaceListingPackageAgreementResourceCrud) ID() string {
+	return *s.Res.Id
+}
+
+func (s *MarketplaceListingPackageAgreementResourceCrud) Create() error {
 	request := oci_marketplace.GetAgreementRequest{}
 
 	if agreementId, ok := s.D.GetOkExists("agreement_id"); ok {
@@ -107,7 +128,15 @@ func (s *MarketplaceListingPackageAgreementDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *MarketplaceListingPackageAgreementDataSourceCrud) SetData() error {
+func (s *MarketplaceListingPackageAgreementResourceCrud) Get() error {
+	return nil
+}
+
+func (s *MarketplaceListingPackageAgreementResourceCrud) Delete() error {
+	return nil
+}
+
+func (s *MarketplaceListingPackageAgreementResourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
