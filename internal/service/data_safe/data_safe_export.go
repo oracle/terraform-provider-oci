@@ -281,6 +281,17 @@ var exportDataSafeDiscoveryJobHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportDataSafeSdmMaskingPolicyDifferenceHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_data_safe_sdm_masking_policy_difference",
+	DatasourceClass:        "oci_data_safe_sdm_masking_policy_differences",
+	DatasourceItemsAttr:    "sdm_masking_policy_difference_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "sdm_masking_policy_difference",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_data_safe.SdmMaskingPolicyDifferenceLifecycleStateActive),
+	},
+}
 var exportDataSafeDiscoveryJobsResultHints = &tf_export.TerraformResourceHints{
 	ResourceClass:          "oci_data_safe_discovery_jobs_result",
 	DatasourceClass:        "oci_data_safe_discovery_jobs_results",
@@ -308,6 +319,7 @@ var dataSafeResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportDataSafeLibraryMaskingFormatHints},
 		{TerraformResourceHints: exportDataSafeSensitiveDataModelHints},
 		{TerraformResourceHints: exportDataSafeDiscoveryJobHints},
+		{TerraformResourceHints: exportDataSafeSdmMaskingPolicyDifferenceHints},
 	},
 	"oci_data_safe_masking_policy": {
 		{

@@ -55,5 +55,5 @@ The following attributes are exported:
 * `is_inherited` - Is the role inherited.
 * `is_oracle_maintained` - Is the role oracle maintained.
 * `is_password_required` - Is password required.
-* `role_name` - Name of the role.
+* `role_name` - The name of the role.
 

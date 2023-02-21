@@ -40,9 +40,9 @@ var (
 	DataSafemaskingPoliciesMaskingColumnDataSourceRepresentation = map[string]interface{}{
 		"masking_policy_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_masking_policy.test_masking_policy.id}`},
 		"is_masking_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
-		"schema_name":        acctest.Representation{RepType: acctest.Optional, Create: []string{`ADMIN`}},
-		"object":             acctest.Representation{RepType: acctest.Optional, Create: []string{`LOCATIONS`}},
-		"column_name":        acctest.Representation{RepType: acctest.Optional, Create: []string{`STREET_ADDRESS`}},
+		"schema_name":        acctest.Representation{RepType: acctest.Optional, Create: []string{`HCM`}},
+		"object":             acctest.Representation{RepType: acctest.Optional, Create: []string{`EMPLOYEES`}},
+		"column_name":        acctest.Representation{RepType: acctest.Optional, Create: []string{`FIRST_NAME`}},
 		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: maskingPoliciesMaskingColumnDataSourceFilterRepresentation}}
 	maskingPoliciesMaskingColumnDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `key`},
@@ -50,19 +50,18 @@ var (
 	}
 
 	maskingPoliciesMaskingColumnRepresentation = map[string]interface{}{
-		"column_name":       acctest.Representation{RepType: acctest.Required, Create: `STREET_ADDRESS`},
+		"column_name":       acctest.Representation{RepType: acctest.Required, Create: `FIRST_NAME`},
 		"masking_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_masking_policy.test_masking_policy.id}`},
-		"object":            acctest.Representation{RepType: acctest.Required, Create: `LOCATIONS`},
-		"schema_name":       acctest.Representation{RepType: acctest.Required, Create: `ADMIN`},
+		"object":            acctest.Representation{RepType: acctest.Required, Create: `EMPLOYEES`},
+		"schema_name":       acctest.Representation{RepType: acctest.Required, Create: `HCM`},
 		"masking_formats":   acctest.RepresentationGroup{RepType: acctest.Required, Group: maskingPoliciesMaskingColumnMaskingFormatsRepresentation},
 	}
 	maskingPoliciesMaskingColumnMaskingFormatsRepresentation = map[string]interface{}{
 		"format_entries": acctest.RepresentationGroup{RepType: acctest.Required, Group: maskingPoliciesMaskingColumnMaskingFormatsFormatEntriesRepresentation},
 	}
 	maskingPoliciesMaskingColumnMaskingFormatsFormatEntriesRepresentation = map[string]interface{}{
-		"type":         acctest.Representation{RepType: acctest.Required, Create: `RANDOM_STRING`, Update: `RANDOM_STRING`},
-		"end_length":   acctest.Representation{RepType: acctest.Required, Create: `50`, Update: `60`},
-		"start_length": acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `20`},
+		"type":         acctest.Representation{RepType: acctest.Required, Create: `FIXED_STRING`, Update: `FIXED_STRING`},
+		"fixed_string": acctest.Representation{RepType: acctest.Required, Create: `FixedStringName`, Update: `FixedStringUpdate`},
 	}
 
 	DataSafeMaskingPoliciesMaskingColumnResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_masking_policy", "test_masking_policy", acctest.Required, acctest.Create, maskingPolicyRepresentation) +
@@ -97,10 +96,10 @@ func TestDataSafeMaskingPoliciesMaskingColumnResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + DataSafeMaskingPoliciesMaskingColumnResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_masking_policies_masking_column", "test_masking_policies_masking_column", acctest.Required, acctest.Create, maskingPoliciesMaskingColumnRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "column_name", "STREET_ADDRESS"),
+				resource.TestCheckResourceAttr(resourceName, "column_name", "FIRST_NAME"),
 				resource.TestCheckResourceAttrSet(resourceName, "masking_policy_id"),
-				resource.TestCheckResourceAttr(resourceName, "object", "LOCATIONS"),
-				resource.TestCheckResourceAttr(resourceName, "schema_name", "ADMIN"),
+				resource.TestCheckResourceAttr(resourceName, "object", "EMPLOYEES"),
+				resource.TestCheckResourceAttr(resourceName, "schema_name", "HCM"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "key")
@@ -118,18 +117,17 @@ func TestDataSafeMaskingPoliciesMaskingColumnResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + DataSafeMaskingPoliciesMaskingColumnResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_masking_policies_masking_column", "test_masking_policies_masking_column", acctest.Optional, acctest.Create, maskingPoliciesMaskingColumnRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "column_name", "STREET_ADDRESS"),
+				resource.TestCheckResourceAttr(resourceName, "column_name", "FIRST_NAME"),
 				resource.TestCheckResourceAttr(resourceName, "is_masking_enabled", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "key"),
 				resource.TestCheckResourceAttr(resourceName, "masking_formats.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "masking_formats.0.condition", "1=1"),
 				resource.TestCheckResourceAttr(resourceName, "masking_formats.0.format_entries.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "masking_formats.0.format_entries.0.end_length", "50"),
-				resource.TestCheckResourceAttr(resourceName, "masking_formats.0.format_entries.0.start_length", "1"),
-				resource.TestCheckResourceAttr(resourceName, "masking_formats.0.format_entries.0.type", "RANDOM_STRING"),
-				resource.TestCheckResourceAttr(resourceName, "object", "LOCATIONS"),
+				resource.TestCheckResourceAttr(resourceName, "masking_formats.0.format_entries.0.fixed_string", "FixedStringName"),
+				resource.TestCheckResourceAttr(resourceName, "masking_formats.0.format_entries.0.type", "FIXED_STRING"),
+				resource.TestCheckResourceAttr(resourceName, "object", "EMPLOYEES"),
 				resource.TestCheckResourceAttr(resourceName, "object_type", "TABLE"),
-				resource.TestCheckResourceAttr(resourceName, "schema_name", "ADMIN"),
+				resource.TestCheckResourceAttr(resourceName, "schema_name", "HCM"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -155,20 +153,18 @@ func TestDataSafeMaskingPoliciesMaskingColumnResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + DataSafeMaskingPoliciesMaskingColumnResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_masking_policies_masking_column", "test_masking_policies_masking_column", acctest.Optional, acctest.Update, maskingPoliciesMaskingColumnRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "column_name", "STREET_ADDRESS"),
+				resource.TestCheckResourceAttr(resourceName, "column_name", "FIRST_NAME"),
 				resource.TestCheckResourceAttr(resourceName, "is_masking_enabled", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "key"),
 				resource.TestCheckResourceAttr(resourceName, "masking_formats.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "masking_formats.0.condition", "1=1"),
 				resource.TestCheckResourceAttr(resourceName, "masking_formats.0.format_entries.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "masking_formats.0.format_entries.0.end_length", "60"),
-				resource.TestCheckResourceAttr(resourceName, "masking_formats.0.format_entries.0.grouping_columns.#", "0"),
-				resource.TestCheckResourceAttr(resourceName, "masking_formats.0.format_entries.0.start_length", "20"),
-				resource.TestCheckResourceAttr(resourceName, "masking_formats.0.format_entries.0.type", "RANDOM_STRING"),
+				resource.TestCheckResourceAttr(resourceName, "masking_formats.0.format_entries.0.fixed_string", "FixedStringUpdate"),
+				resource.TestCheckResourceAttr(resourceName, "masking_formats.0.format_entries.0.type", "FIXED_STRING"),
 				resource.TestCheckResourceAttrSet(resourceName, "masking_policy_id"),
-				resource.TestCheckResourceAttr(resourceName, "object", "LOCATIONS"),
+				resource.TestCheckResourceAttr(resourceName, "object", "EMPLOYEES"),
 				resource.TestCheckResourceAttr(resourceName, "object_type", "TABLE"),
-				resource.TestCheckResourceAttr(resourceName, "schema_name", "ADMIN"),
+				resource.TestCheckResourceAttr(resourceName, "schema_name", "HCM"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -208,33 +204,26 @@ func TestDataSafeMaskingPoliciesMaskingColumnResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "masking_column_key"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "masking_policy_id"),
 
-				resource.TestCheckResourceAttr(singularDatasourceName, "column_name", "STREET_ADDRESS"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "column_name", "FIRST_NAME"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_type"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_masking_enabled", "true"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "key"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "masking_formats.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "masking_formats.0.condition", "1=1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "masking_formats.0.format_entries.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "masking_formats.0.format_entries.0.end_length", "60"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "masking_formats.0.format_entries.0.grouping_columns.#", "0"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "masking_formats.0.format_entries.0.length", "0"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "masking_formats.0.format_entries.0.start_length", "20"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "masking_formats.0.format_entries.0.type", "RANDOM_STRING"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "object", "LOCATIONS"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "masking_formats.0.format_entries.0.fixed_string", "FixedStringUpdate"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "masking_formats.0.format_entries.0.type", "FIXED_STRING"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "object", "EMPLOYEES"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "object_type", "TABLE"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "schema_name", "ADMIN"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "schema_name", "HCM"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + DataSafeMaskingPoliciesMaskingColumnResourceConfig + targetIdVariableStr,
-		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + DataSafeMaskingPoliciesMaskingColumnResourceConfig + targetIdVariableStr,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

@@ -30,6 +30,10 @@ func DataSafeSecurityAssessmentFindingsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"references": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"security_assessment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -148,6 +152,10 @@ func (s *DataSafeSecurityAssessmentFindingsDataSourceCrud) Get() error {
 	if findingKey, ok := s.D.GetOkExists("finding_key"); ok {
 		tmp := findingKey.(string)
 		request.FindingKey = &tmp
+	}
+
+	if references, ok := s.D.GetOkExists("references"); ok {
+		request.References = oci_data_safe.ListFindingsReferencesEnum(references.(string))
 	}
 
 	if securityAssessmentId, ok := s.D.GetOkExists("security_assessment_id"); ok {

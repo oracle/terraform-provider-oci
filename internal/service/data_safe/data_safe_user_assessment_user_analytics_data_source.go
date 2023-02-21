@@ -256,7 +256,7 @@ func (s *DataSafeUserAssessmentUserAnalyticsDataSourceCrud) SetData() error {
 
 	for _, r := range s.Res.Items {
 		for _, item := range r.Items {
-			items = append(items, objectToMap(item))
+			items = append(items, profileAggregationToMap(item))
 		}
 		userAssessmentUserAnalytic["items"] = items
 
@@ -275,7 +275,7 @@ func (s *DataSafeUserAssessmentUserAnalyticsDataSourceCrud) SetData() error {
 	return nil
 }
 
-func objectToMap(obj map[string]interface{}) map[string]interface{} {
+func profileAggregationToMap(obj map[string]interface{}) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	return result

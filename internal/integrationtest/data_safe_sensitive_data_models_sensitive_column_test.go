@@ -194,7 +194,6 @@ func TestDataSafeSensitiveDataModelsSensitiveColumnResource_basic(t *testing.T) 
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_sensitive_data_models_sensitive_column", "test_sensitive_data_models_sensitive_column", acctest.Required, acctest.Create, DataSafesensitiveDataModelsSensitiveColumnSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + targetIdVariableStr + DataSafeSensitiveDataModelsSensitiveColumnResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "sensitive_column_key"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "sensitive_data_model_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "column_name", "FIRST_NAME"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "db_defined_child_column_keys.#", "0"),
@@ -210,13 +209,9 @@ func TestDataSafeSensitiveDataModelsSensitiveColumnResource_basic(t *testing.T) 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + targetIdVariableStr + DataSafeSensitiveDataModelsSensitiveColumnResourceConfig,
-		},
 		// verify resource import
 		{
-			Config:                  config + targetIdVariableStr,
+			Config:                  config + targetIdVariableStr + DataSafeSensitiveDataModelsSensitiveColumnRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
