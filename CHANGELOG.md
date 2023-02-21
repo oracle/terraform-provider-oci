@@ -1,12 +1,8 @@
-## 4.109.0 (Unreleased)
+## 4.108.1 (February 21, 2023)
 
-### Added
-- changes to systemtags in anomaly detection
-- Support for Async Inferencing Support for Anomaly Detection
-- Support for DBM: Database Eco System For External Databases
-- Changes on test and resource files for DMS Validation and Migration error cause and resolution. Reviewer comments addressed.
 ### Bug Fix
-Removed ForceNew: true from database db system resource
+- Bug fix Reverted oci_marketplace_listing_package_agreement back to resource from data source
+
 
 ## 4.108.0 (February 15, 2023)
 
