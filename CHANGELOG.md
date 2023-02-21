@@ -7,7 +7,14 @@
 ### Bug Fix
 Removed ForceNew: true from database db system resource
 
-## 4.108.0 (Unreleased)
+
+## 4.108.1 (February 21, 2023)
+
+### Bug Fix
+- Bug fix Reverted oci_marketplace_listing_package_agreement back to resource from data source
+
+
+## 4.108.0 (February 15, 2023)
 
 ### Added
 - Support for Visual Builder Studio
