@@ -319,6 +319,10 @@ func (s *DataSafeUserAssessmentsDataSourceCrud) SetData() error {
 			userAssessment["time_created"] = r.TimeCreated.String()
 		}
 
+		if r.TimeLastAssessed != nil {
+			userAssessment["time_last_assessed"] = r.TimeLastAssessed.String()
+		}
+
 		if r.TimeUpdated != nil {
 			userAssessment["time_updated"] = r.TimeUpdated.String()
 		}

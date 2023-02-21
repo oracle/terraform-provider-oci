@@ -435,7 +435,7 @@ func (s *DataSafeMaskingPoliciesMaskingColumnResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getMaskingPoliciesMaskingColumnFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getMaskingPoliciesMaskingColumnFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *DataSafeMaskingPoliciesMaskingColumnResourceCrud) getMaskingPoliciesMaskingColumnFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -506,6 +506,7 @@ func maskingPoliciesMaskingColumnWaitForWorkRequest(wId *string, entityType stri
 			string(oci_data_safe.WorkRequestStatusFailed),
 			string(oci_data_safe.WorkRequestStatusCanceled),
 			string(oci_data_safe.WorkRequestResourceActionTypeUpdated),
+			string(oci_data_safe.WorkRequestResourceActionTypeCreated),
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
@@ -682,7 +683,7 @@ func (s *DataSafeMaskingPoliciesMaskingColumnResourceCrud) SetData() error {
 
 	maskingColumnKey, maskingPolicyId, err := parseMaskingPoliciesMaskingColumnCompositeId(s.D.Id())
 	if err == nil {
-		s.D.Set("masking_column_key", &maskingColumnKey)
+		s.D.Set("key", &maskingColumnKey)
 		s.D.Set("masking_policy_id", &maskingPolicyId)
 	} else {
 		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())

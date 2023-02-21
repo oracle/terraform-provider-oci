@@ -38,6 +38,10 @@ func DataSafeSensitiveDataModelsSensitiveColumnsDataSource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"is_case_in_sensitive": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"object": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -175,6 +179,11 @@ func (s *DataSafeSensitiveDataModelsSensitiveColumnsDataSourceCrud) Get() error 
 			}
 		}
 		request.DataType = tmp
+	}
+
+	if isCaseInSensitive, ok := s.D.GetOkExists("is_case_in_sensitive"); ok {
+		tmp := isCaseInSensitive.(bool)
+		request.IsCaseInSensitive = &tmp
 	}
 
 	if object, ok := s.D.GetOkExists("object"); ok {

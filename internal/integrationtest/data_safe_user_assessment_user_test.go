@@ -28,6 +28,9 @@ var (
 		"time_user_created_greater_than_or_equal_to":          acctest.Representation{RepType: acctest.Optional, Create: `timeUserCreatedGreaterThanOrEqualTo`},
 		"time_user_created_less_than":                         acctest.Representation{RepType: acctest.Optional, Create: `timeUserCreatedLessThan`},
 		"user_name":                                           acctest.Representation{RepType: acctest.Optional, Create: `${oci_identity_user.test_user.name}`},
+		"user_profile":                                        acctest.Representation{RepType: acctest.Optional, Create: `userProfile`},
+		"user_role":                                           acctest.Representation{RepType: acctest.Optional, Create: `userRole`},
+		"user_type":                                           acctest.Representation{RepType: acctest.Optional, Create: `userType`},
 	}
 
 	DataSafeUserAssessmentUserResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", acctest.Required, acctest.Create, userAssessmentRepresentation)
@@ -58,7 +61,6 @@ func TestDataSafeUserAssessmentUserResource_basic(t *testing.T) {
 				compartmentIdVariableStr + DataSafeUserAssessmentUserResourceConfig + targetIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "user_assessment_id"),
-
 				resource.TestCheckResourceAttrSet(datasourceName, "users.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "users.0.account_status"),
 				resource.TestCheckResourceAttrSet(datasourceName, "users.0.admin_roles.#"),
