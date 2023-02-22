@@ -242,12 +242,13 @@ func DatabaseMigrationMigrationResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Required: true,
 									},
-									"path": {
-										Type:     schema.TypeString,
-										Required: true,
-									},
 
 									// Optional
+									"path": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 
 									// Computed
 								},
@@ -266,12 +267,13 @@ func DatabaseMigrationMigrationResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Required: true,
 									},
-									"path": {
-										Type:     schema.TypeString,
-										Required: true,
-									},
 
 									// Optional
+									"path": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 
 									// Computed
 								},

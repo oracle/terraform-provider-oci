@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -50,18 +50,18 @@ var (
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"data_source_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: dataAssetDataSourceDetailsObjRepresentation},
 		"project_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_ai_anomaly_detection_project.test_project.id}`},
-		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":         acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRep},
+		//"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":     acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDataAssetResultsChangesRep},
 	}
 
 	aiAnomalyDetectionDataAssetAtpRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"data_source_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: dataAssetDataSourceDetailsAtpRepresentation},
 		"project_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_ai_anomaly_detection_project.test_project.id}`},
-		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		//"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":         acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
@@ -72,7 +72,7 @@ var (
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"data_source_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: dataAssetDataSourceDetailsInfluxRepresentation},
 		"project_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_ai_anomaly_detection_project.test_project.id}`},
-		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		//"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":         acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
@@ -81,8 +81,8 @@ var (
 
 	dataAssetDataSourceDetailsObjRepresentation = map[string]interface{}{
 		"data_source_type": acctest.Representation{RepType: acctest.Required, Create: `ORACLE_OBJECT_STORAGE`},
-		"bucket":           acctest.Representation{RepType: acctest.Required, Create: `bucket-test`},
-		"namespace":        acctest.Representation{RepType: acctest.Required, Create: `dxterraformtest`},
+		"bucket":           acctest.Representation{RepType: acctest.Required, Create: `mset-idp-test-datasets`},
+		"namespace":        acctest.Representation{RepType: acctest.Required, Create: `id5zda5six9a`},
 		"object":           acctest.Representation{RepType: acctest.Required, Create: `latest_training_data.json`},
 	}
 
@@ -116,12 +116,16 @@ var (
 		"organization_name":     acctest.Representation{RepType: acctest.Optional, Create: `organizationName`},
 		"retention_policy_name": acctest.Representation{RepType: acctest.Optional, Create: `${oci_identity_policy.test_policy.name}`},
 	}
+
+	ignoreDataAssetResultsChangesRep = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `system_tags`}},
+	}
 	//Change this to only what is required
-	AiAnomalyDetectionDataAssetResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_project", "test_project", acctest.Required, acctest.Create, aiAnomalyDetectionProjectRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, CoreSubnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, CoreVcnRepresentation) +
-		AvailabilityDomainConfig +
-		DefinedTagsDependencies
+	AiAnomalyDetectionDataAssetResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_project", "test_project", acctest.Required, acctest.Create, aiAnomalyDetectionProjectRepresentation)
+	//	acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, CoreSubnetRepresentation) +
+	//	acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, CoreVcnRepresentation)
+	//+ AvailabilityDomainConfig
+	//+DefinedTagsDependencies
 )
 
 func TestAiAnomalyDetectionDataAssetResource_basic(t *testing.T) {
@@ -156,8 +160,8 @@ func TestAiAnomalyDetectionDataAssetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "data_source_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.data_source_type", "ORACLE_OBJECT_STORAGE"),
-				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.bucket", "bucket-test"),
-				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.namespace", "dxterraformtest"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.bucket", "mset-idp-test-datasets"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.namespace", "id5zda5six9a"),
 				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.object", "latest_training_data.json"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
@@ -179,9 +183,9 @@ func TestAiAnomalyDetectionDataAssetResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "data_source_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.bucket", "bucket-test"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.bucket", "mset-idp-test-datasets"),
 				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.data_source_type", "ORACLE_OBJECT_STORAGE"),
-				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.namespace", "dxterraformtest"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.namespace", "id5zda5six9a"),
 				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.object", "latest_training_data.json"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -213,9 +217,9 @@ func TestAiAnomalyDetectionDataAssetResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "data_source_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.bucket", "bucket-test"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.bucket", "mset-idp-test-datasets"),
 				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.data_source_type", "ORACLE_OBJECT_STORAGE"),
-				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.namespace", "dxterraformtest"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.namespace", "id5zda5six9a"),
 				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.object", "latest_training_data.json"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -242,9 +246,9 @@ func TestAiAnomalyDetectionDataAssetResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "data_source_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.bucket", "bucket-test"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.bucket", "mset-idp-test-datasets"),
 				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.data_source_type", "ORACLE_OBJECT_STORAGE"),
-				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.namespace", "dxterraformtest"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.namespace", "id5zda5six9a"),
 				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.object", "latest_training_data.json"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),

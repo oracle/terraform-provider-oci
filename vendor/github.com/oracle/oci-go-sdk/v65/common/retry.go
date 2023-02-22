@@ -806,7 +806,7 @@ func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperat
 
 	var response OCIResponse
 	var err error
-	retrierChannel := make(chan retrierResult)
+	retrierChannel := make(chan retrierResult, 1)
 
 	validated, validateError := policy.validate()
 	if !validated {
@@ -816,7 +816,6 @@ func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperat
 	initialAttemptTime := time.Now()
 
 	go func() {
-
 		// Deal with panics more graciously
 		defer func() {
 			if r := recover(); r != nil {
@@ -828,7 +827,6 @@ func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperat
 				retrierChannel <- retrierResult{nil, error}
 			}
 		}()
-
 		// if request body is binary request body and seekable, save the current position
 		var curPos int64 = 0
 		isSeekable := false

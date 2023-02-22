@@ -304,7 +304,8 @@ resource "oci_database_db_system" "test_db_system" {
       }
     }
 
-    db_version   = "21.7.0.0"
+    // Supported db version needs to be up-to-date to avoid the backward compatibility failures (Ref: TERSI-2479)
+    db_version   = "21.8.0.0"
     display_name = "MyTFDBHomeVm"
   }
 
