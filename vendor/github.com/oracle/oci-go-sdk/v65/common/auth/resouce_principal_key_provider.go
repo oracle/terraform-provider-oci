@@ -93,7 +93,7 @@ func ResourcePrincipalConfigurationProvider() (ConfigurationProviderWithClaimAcc
 	}
 }
 
-// OkeWorkloadIdentityConfigurationProvider returns a resource principal configuration provider by OKE Work Identity
+// OkeWorkloadIdentityConfigurationProvider returns a resource principal configuration provider by OKE Workload Identity
 func OkeWorkloadIdentityConfigurationProvider() (ConfigurationProviderWithClaimAccess, error) {
 	var version string
 	var ok bool
@@ -247,13 +247,6 @@ func newResourcePrincipalKeyProvider22(sessionTokenLocation, privatePemLocation 
 
 	return &rs, nil
 }
-
-// resourcePrincipalKeyProvider22 is key provider that reads from specified the specified environment variables
-// the environment variables can host the material keys/passphrases or they can be paths to files that need to be read
-//type resourcePrincipalKeyProviderForOkeWorkloadIdentity struct {
-//	FederationClient  federationClient
-//	KeyProviderRegion common.Region
-//}
 
 func newOkeWorkloadIdentityProvider(proxymuxEndpoint string, kubernetesServiceAccountToken string,
 	kubernetesServiceAccountCert *x509.CertPool, region string) (*resourcePrincipalKeyProvider, error) {
