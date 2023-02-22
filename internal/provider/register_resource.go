@@ -30,7 +30,6 @@ import (
 	tf_container_instances "github.com/oracle/terraform-provider-oci/internal/service/container_instances"
 	tf_containerengine "github.com/oracle/terraform-provider-oci/internal/service/containerengine"
 	tf_core "github.com/oracle/terraform-provider-oci/internal/service/core"
-	tf_data_connectivity "github.com/oracle/terraform-provider-oci/internal/service/data_connectivity"
 	tf_data_labeling_service "github.com/oracle/terraform-provider-oci/internal/service/data_labeling_service"
 	tf_data_safe "github.com/oracle/terraform-provider-oci/internal/service/data_safe"
 	tf_database "github.com/oracle/terraform-provider-oci/internal/service/database"
@@ -139,7 +138,6 @@ func init() {
 	tf_container_instances.RegisterResource()
 	tf_containerengine.RegisterResource()
 	tf_core.RegisterResource()
-	tf_data_connectivity.RegisterResource()
 	tf_data_labeling_service.RegisterResource()
 	tf_data_safe.RegisterResource()
 	tf_database.RegisterResource()
