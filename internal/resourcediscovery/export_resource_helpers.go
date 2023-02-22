@@ -269,6 +269,7 @@ func (r *resourceDiscoveryBaseStep) writeTmpConfigurationForImport() error {
 	builder := &strings.Builder{}
 	builder.WriteString("## This is tmp config to run import for resources\n\n")
 	for _, resource := range r.discoveredResources {
+		resource.TerraformName = tf_export.GetNormalizedTerraformName(resource.TerraformName)
 		if resource.TerraformTypeInfo != nil && resource.TerraformTypeInfo.IsDataSource {
 			builder.WriteString(fmt.Sprintf("data %s %s {}\n\n", resource.TerraformClass, resource.TerraformName))
 		} else {
@@ -320,6 +321,7 @@ func (r *resourceDiscoveryBaseStep) writeConfiguration() error {
 	exportedResourceCount := 0
 	for _, resource := range r.discoveredResources {
 
+		resource.TerraformName = tf_export.GetNormalizedTerraformName(resource.TerraformName)
 		// Skip writing the config for resources for which import command failed
 		if !resource.IsErrorResource {
 			utils.Logf("[INFO] ===> Generating resource '%s'", resource.GetTerraformReference())

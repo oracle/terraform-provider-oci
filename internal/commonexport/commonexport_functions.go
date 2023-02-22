@@ -827,7 +827,7 @@ var GenerateTerraformNameFromResource = func(resourceAttributes map[string]inter
 	for _, nameAttribute := range possibleNameAttributes {
 		if nameSchema, hasNameAttr := resourceSchema[nameAttribute]; hasNameAttr && nameSchema.Type == schema.TypeString {
 			if value, exists := resourceAttributes[nameAttribute]; exists {
-				terraformName := getNormalizedTerraformName(value.(string))
+				terraformName := GetNormalizedTerraformName(value.(string))
 				terraformName = CheckDuplicateResourceName(terraformName)
 				return terraformName, nil
 			}
@@ -849,7 +849,7 @@ var CheckDuplicateResourceName = func(terraformName string) string {
 	return terraformName
 }
 
-func getNormalizedTerraformName(source string) string {
+func GetNormalizedTerraformName(source string) string {
 	// Only alphanumeric, underscore, and hyphens are allowed. Strip out anything else.
 	reg, err := regexp.Compile(`[^a-zA-Z0-9\-\_]+`)
 	if err != nil {
@@ -857,6 +857,8 @@ func getNormalizedTerraformName(source string) string {
 	}
 
 	result := reg.ReplaceAllString(source, "-")
-	result = fmt.Sprintf("export_%s", result)
+	if !strings.HasPrefix(result, "export_") {
+		result = fmt.Sprintf("export_%s", result)
+	}
 	return result
 }
