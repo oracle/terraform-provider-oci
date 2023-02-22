@@ -144,7 +144,6 @@ Make sure the `output_path` is empty before running resource discovery
     * `container_instances` - Discovers container_instances resources within the specified compartment
     * `containerengine` - Discovers containerengine resources within the specified compartment
     * `core` - Discovers compute, block storage, and networking resources within the specified compartment
-    * `data_connectivity` - Discovers data_connectivity resources within the specified compartment
     * `data_labeling_service` - Discovers data_labeling_service resources within the specified compartment
     * `data_safe` - Discovers data_safe resources within the specified compartment
     * `database` - Discovers database resources within the specified compartment
@@ -522,13 +521,6 @@ core
 * oci\_core\_capture\_filter
 * oci\_core\_vtap
 * oci\_core\_compute\_cluster
-
-data_connectivity
-
-* oci\_data\_connectivity\_registry
-* oci\_data\_connectivity\_registry\_connection
-* oci\_data\_connectivity\_registry\_data\_asset
-* oci\_data\_connectivity\_registry\_folder
 
 data_labeling_service
 
